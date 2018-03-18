@@ -332,6 +332,7 @@
 				842394061FF4C7FF00827C7D /* User.swift */,
 				8476C6A52053714400B55C8F /* SignInHandler.swift */,
 				84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */,
+				8426A16A2055BC3200EAF1A8 /* Constants.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -497,7 +498,6 @@
 				8426A1602055B31F00EAF1A8 /* Resources */,
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
-				8426A16A2055BC3200EAF1A8 /* Constants.swift */,
 				84681F912049F30A00F45DFC /* LocationServices.swift */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
 				842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */,

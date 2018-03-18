@@ -36,12 +36,12 @@ class Stripe {
 		print("Stripe initialized.")
 	}
 	
-	func connect() {
+	func createConnectAcccount() {
 		//makes a call to heroku<->stripe to return the new connected account Id.
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/connect.php"
 		
 		let params : [String : Any] = [
-			"country" : TutorRegistration.country,
+			"country" : "US",
 			"type": "custom",
 			"address_city" : TutorRegistration.city ,
 			"address_line1" : TutorRegistration.address_line1,
@@ -64,13 +64,9 @@ class Stripe {
 				let result = responseString[0]
 				let value = responseString[1]
 				if result == "success" {
-					let newNode = ["stripeAccount": value]
-					if (Tutor.sharedManager.updateValue(value: newNode)) {
-						return
-					}else{
-						//show firebase error message
-					}
-				}else {
+					let stripeToken = ["stripeAccount": value]
+					Tutor.shared.updateValue(value: stripeToken)
+				} else {
 					//show error message.
 					print(value)
 				}
@@ -182,3 +178,4 @@ class Stripe {
 		print("StripeClass has De-initialized")
 	}
 }
+

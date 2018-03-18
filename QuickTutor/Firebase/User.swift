@@ -49,7 +49,7 @@ class LocalImageCache {
 		print("set image4")
 		return getImage(number: "4")
 	}
-
+	
 	func getDocumentsDirectory() -> URL{
 		let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
 		return paths[0]
@@ -93,7 +93,7 @@ class LocalImageCache {
 			return UIImage(imageLiteralResourceName: "registration-image-placeholder")
 		}
 	}
-
+	
 	func removeImage(number : String) {
 		if let data = UIImagePNGRepresentation(#imageLiteral(resourceName: "registration-image-placeholder")) {
 			let filename = getDocumentsDirectory().appendingPathComponent("image\(number).png")
@@ -174,7 +174,7 @@ class FirebaseData {
 			}
 		}
 	}
-
+	
 	public func linkEmail(email: String) {
 		let password: String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
 		let credential = EmailAuthProvider.credential(withEmail: email, password: password!)
@@ -185,7 +185,7 @@ class FirebaseData {
 		})
 	}
 	
-	public func initUser(completion: @escaping (Bool) -> ()) {
+	public func initLearner(completion: @escaping (Bool) -> ()) {
 		let post : [String : Any] =
 			["fname" : Registration.firstName!,
 			 "lname" : Registration.lastName!,
@@ -276,3 +276,4 @@ class FirebaseData {
 		print("FirebaseData has De-initialized")
 	}
 }
+

@@ -16,57 +16,43 @@ class Tutor {
 	private var storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 	private var user = Auth.auth().currentUser!
 	
-	class var sharedManager : Tutor {
-		struct Static {
-			static let instance = Tutor()
-		}
-		return Static.instance
-	}
+	static let shared = Tutor()
 	
-	public func uploadTutor(userId: String!) -> Bool {
-		var uploadSuccess = true
-		//check all the values.
-		if (userId == nil) || (userId == "") {
-			return false
-		}
+	
+	public func initTutor(completion: @escaping (Bool) -> Void) {
+		let data = UserData.userData
 		
 		let post : [String:Any] =
 			[
-					"name" : "\(Registration.firstName!) \(Registration.lastName!)",
-					"birthday" : "\(Registration.dob!)",
-					"age" : Registration.age,
-					"email": Registration.email,
-					"phoneNumber" : Registration.phone,
-					"bio" : TutorRegistration.tutorBio,
-					"subjects" : "Subjects",
-					"geohash" : "1231sdc12",
-					"location" : "latitude, longitude",
-					"filers" : "Filters",
-					"stripeToken" : "token"
+				"name" : "\(data.firstName) \(data.lastName)",
+				"birthday" : "\(data.birthday)",
+				"age" : data.age,
+				"email": data.email,
+				"phoneNumber" : data.phone,
+				"bio" : TutorRegistration.tutorBio,
+				"subjects" : "Subjects",
+				"geohash" : "1231sdc12",
+				"address" : "address",
+				"location" : ["latitude, longitude"],
+				"stripeToken" : "token"
 		]
 		
-		ref.child("tutor").child(userId).setValue(post) { (error, databaseRef) in
-			if let error = error {
-				print("Error: ", error.localizedDescription)
-				uploadSuccess = false
-			}else{
-				print("User is in the database!")
-			}
-		}
-		return uploadSuccess
-	}
-	
-	public func updateValue(value: [String: Any]) -> Bool {
-		var success = true
-		ref.child("tutor").child("specific location").child(self.user.uid).updateChildValues(value) { (error, reference) in
+		ref.child("tutor").child(user.uid).setValue(post) { (error, databaseRef) in
 			if let error = error {
 				print(error.localizedDescription)
-				success = false
-			}else{
-				print(reference)
+				completion(false)
+			} else {
+				print("User is in the database!")
+				completion(true)
 			}
 		}
-		return success
+	}
+	public func updateValue(value: [String : Any]) {
+		self.ref.child("tutor").child(user.uid).updateChildValues(value) { (error, reference) in
+			if let error = error {
+				print(error.localizedDescription)
+			}
+		}
 	}
 }
 
