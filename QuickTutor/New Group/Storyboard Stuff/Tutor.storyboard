@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Tutor Main Page-->
+        <scene sceneID="iDW-Sz-V4n">
+            <objects>
+                <viewController storyboardIdentifier="tutormainpage" id="RDf-gF-Abv" customClass="TutorMainPage" customModule="QuickTutor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gfy-og-Ags" customClass="RegistrationGradientView" customModule="QuickTutor" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="CuP-XF-PJq"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="YKN-mv-fIa"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QDB-2X-eLk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="9600.7999999999993" y="-1782.4587706146929"/>
+        </scene>
+        <!--Tutor Navigation-->
+        <scene sceneID="XVF-MZ-W0Z">
+            <objects>
+                <navigationController storyboardIdentifier="tutornavigation" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="fqQ-N7-fwd" customClass="TutorNavigation" customModule="QuickTutor" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iw6-hb-Wa1">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="RDf-gF-Abv" kind="relationship" relationship="rootViewController" id="kVb-1k-av7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hny-0Y-lsD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8927" y="-1782"/>
+        </scene>
+    </scenes>
+</document>
