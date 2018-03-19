@@ -11,9 +11,9 @@ import Firebase
 import Stripe
 import SwiftKeychainWrapper
 
-class UserData {
+class LearnerData {
 	
-	static let userData = UserData()
+	static let userData = LearnerData()
 	
 	var firstName : String!
 	var lastName : String!
@@ -56,6 +56,7 @@ class LocalImageCache {
 	}
 	func storeImageLocally(image: UIImage, number: String) {
 		if let data = UIImagePNGRepresentation(image) {
+			
 			let filename = getDocumentsDirectory().appendingPathComponent("image\(number).png")
 			do {
 				try data.write(to: filename)
@@ -71,8 +72,8 @@ class LocalImageCache {
 				try data.write(to: filename)
 				FirebaseData.manager.uploadUserImage(image: image.circleMasked!, number: number, completion: { (imageUrl) in
 					if let imageUrl = imageUrl {
-						UserData.userData.images["image\(number)"] = imageUrl
-						FirebaseData.manager.updateValue(value: ["images" : UserData.userData.images])
+						LearnerData.userData.images["image\(number)"] = imageUrl
+						FirebaseData.manager.updateValue(value: ["img" : LearnerData.userData.images])
 					} else {
 						print("error")
 					}
@@ -99,8 +100,8 @@ class LocalImageCache {
 			let filename = getDocumentsDirectory().appendingPathComponent("image\(number).png")
 			do {
 				try data.write(to: filename)
-				UserData.userData.images["image\(number)"] = ""
-				FirebaseData.manager.updateValue(value: ["images" : UserData.userData.images])
+				LearnerData.userData.images["image\(number)"] = ""
+				FirebaseData.manager.updateValue(value: ["image" : LearnerData.userData.images])
 				FirebaseData.manager.removeUserImage(number)
 			} catch {
 				print("error with image")
@@ -187,19 +188,19 @@ class FirebaseData {
 	
 	public func initLearner(completion: @escaping (Bool) -> ()) {
 		let post : [String : Any] =
-			["fname" : Registration.firstName!,
-			 "lname" : Registration.lastName!,
-			 "birthday" : Registration.dob!,
+			["fn" : Registration.firstName!,
+			 "ln" : Registration.lastName!,
+			 "bd" : Registration.dob!,
 			 "age" : Registration.age,
-			 "email": Registration.email,
-			 "phone" : Registration.phone,
+			 "em": Registration.email,
+			 "phn" : Registration.phone,
 			 "bio" : "",
-			 "school" : "",
-			 "languages" : [""],
-			 "address" : "",
+			 "sch" : "",
+			 "lng" : [""],
+			 "addr" : "",
 			 "lat" : 0.0,
 			 "long" : 0.0,
-			 "images": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]]
+			 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]]
 		
 		self.ref.child("student").child(user.uid).setValue(post) { (error, databaseRef) in
 			if let error = error {

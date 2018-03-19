@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             })
         } else {
-            let controller = TutorHarassment()
+            let controller = SignIn()
             navigationController = UINavigationController(rootViewController: controller)
             navigationController.navigationBar.isHidden = true
             self.window?.makeKeyAndVisible()

@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import CoreLocation
 
 class TutorAddSubjectsView : MainLayoutOneButton {
 	
@@ -95,8 +95,26 @@ class TutorAddSubjects : BaseViewController {
 	}
 	override func handleNavigation() {
 		if touchStartView is RegistrationNextButton {
+			TutorRegistration.location = CLLocationCoordinate2D(latitude: 43.5965030, longitude: -84.7788380)
 			
+			geocode(latitude: 43.5965030, longitude: -84.7788380, completion: { (placemark, error) in
+				guard let placemark = placemark, error == nil else { return }
+				
+				let address : String = (placemark.thoroughfare! + placemark.administrativeArea! + placemark.country!)
+				TutorRegistration.address = address
+				Tutor.shared.initTutor(completion: { (error) in
+					if let error = error {
+						print(error.localizedDescription)
+					} else {
+						Tutor.shared.geoFire(location: CLLocationCoordinate2D(latitude: 43.5965030, longitude: -84.7788380))
+					}
+				})
+			})
 		}
+	}
+	
+	func geocode(latitude: Double, longitude: Double, completion: @escaping (CLPlacemark?, Error?) -> ())  {
+		CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) { completion($0?.first, $1) }
 	}
 }
 

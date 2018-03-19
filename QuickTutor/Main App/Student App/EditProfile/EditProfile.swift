@@ -70,7 +70,7 @@ class EditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 		scrollView.addSubview(connectInsta)
 		super.configureView()
 		
-		let user = UserData.userData
+		let user = LearnerData.userData
 		
 		title.label.text = "Edit Profile"
 		
@@ -777,9 +777,9 @@ class EditProfile : BaseViewController {
 		
 		contentView.schoolItem.textField.attributedPlaceholder = NSAttributedString(string: getSchool(), attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		
-		contentView.emailItem.textField.attributedPlaceholder = NSAttributedString(string: UserData.userData.email!, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		contentView.emailItem.textField.attributedPlaceholder = NSAttributedString(string: LearnerData.userData.email!, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		
-		contentView.mobileNumberItem.textField.attributedPlaceholder = NSAttributedString(string: UserData.userData.phone.formatPhoneNumber(), attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		contentView.mobileNumberItem.textField.attributedPlaceholder = NSAttributedString(string: LearnerData.userData.phone.formatPhoneNumber(), attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		
 	}
 	
@@ -797,7 +797,7 @@ class EditProfile : BaseViewController {
 	}
 	
 	private func getSchool() -> String {
-		let school = UserData.userData.school
+		let school = LearnerData.userData.school
 		if school != "" {
 			return school!
 		}
@@ -805,7 +805,7 @@ class EditProfile : BaseViewController {
 	}
 	
 	private func saveButtonPressed() {
-		let user = UserData.userData
+		let user = LearnerData.userData
 		guard
 			let firstName = contentView.firstNameItem.textField.text, firstName.count > 1,
 			let lastName = contentView.lastNameItem.textField.text, lastName.count > 1 else {
@@ -821,7 +821,7 @@ class EditProfile : BaseViewController {
 		user.lastName = lastName
 		user.email = email
 		
-		FirebaseData.manager.updateValue(value: ["fname" : user.firstName, "lname" : user.lastName, "email" : user.email])
+		FirebaseData.manager.updateValue(value: ["fn" : user.firstName, "ln" : user.lastName, "em" : user.email])
 		
 	}
 }

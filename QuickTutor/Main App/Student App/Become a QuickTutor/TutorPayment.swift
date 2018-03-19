@@ -5,12 +5,9 @@
 //  Created by QuickTutor on 12/7/17.
 //  Copyright © 2017 QuickTutor. All rights reserved.
 //
-// 	BUG: -- Apple Developer docs state that keyboard type .NamePhonePad does not support Auto capitalization.
-// 	So we may have to change it to a .default keyboard.
 
 import UIKit
 import SnapKit
-
 
 class AddBankButton : InteractableView, Interactable {
     
@@ -109,7 +106,7 @@ class TutorPaymentView : MainLayoutTitleBackButton, Keyboardable {
         accountNumberTitle.label.text = "Account Number"
 		
         nameTextfield.attributedPlaceholder = NSAttributedString(string: "Enter bank holder's name", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-        nameTextfield.keyboardType = .namePhonePad
+        nameTextfield.keyboardType = .default
 		
         routingNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Routing Number", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         routingNumberTextfield.keyboardType = .decimalPad
@@ -117,7 +114,8 @@ class TutorPaymentView : MainLayoutTitleBackButton, Keyboardable {
         accountNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Account Number", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         accountNumberTextfield.keyboardType = .decimalPad
 		
-		
+		addBankButton.isUserInteractionEnabled = false
+
 	}
     
 	override func applyConstraints() {
@@ -178,8 +176,6 @@ class TutorPaymentView : MainLayoutTitleBackButton, Keyboardable {
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
         }
-        
-        
 	}
 }
 
@@ -200,13 +196,13 @@ class TutorPayment: BaseViewController {
 			textField.returnKeyType = .next
 			textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 		}
-		
     }
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		contentView.nameTextfield.becomeFirstResponder()
 	}
+	
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 		contentView.resignFirstResponder()
@@ -214,7 +210,16 @@ class TutorPayment: BaseViewController {
 	
     override func handleNavigation() {
         if (touchStartView is AddBankButton) {
-            navigationController?.pushViewController(TutorSSN(), animated: true)
+			contentView.addBankButton.isUserInteractionEnabled = false
+			Stripe.stripeManager.initConnectAccount(completion: { (error) in
+				if let error = error {
+					print(error)
+					self.contentView.addBankButton.isUserInteractionEnabled = true
+				} else {
+					self.navigationController?.pushViewController(TutorAddSubjects(), animated: true)
+					self.contentView.addBankButton.isUserInteractionEnabled = true
+				}
+			})
         }
     }
 	

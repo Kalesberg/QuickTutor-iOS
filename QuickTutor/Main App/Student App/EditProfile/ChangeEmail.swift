@@ -180,7 +180,7 @@ class ChangeEmail : BaseViewController {
 			return
 		}
 		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
-		Auth.auth().signIn(withEmail: UserData.userData.email!, password: password!) { (user, error) in
+		Auth.auth().signIn(withEmail: LearnerData.userData.email!, password: password!) { (user, error) in
 			if let error = error {
 				print(error)
 			} else {
@@ -188,7 +188,7 @@ class ChangeEmail : BaseViewController {
 					if let error = error {
 						print(error)
 					} else {
-						UserData.userData.email = emailText!
+						LearnerData.userData.email = emailText!
 						FirebaseData.manager.updateValue(value: ["email" : emailText!])
 						self.navigationController?.popViewController(animated: true)
 					}

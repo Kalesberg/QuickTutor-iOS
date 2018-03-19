@@ -156,8 +156,8 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 		
 		if shouldUpdateSearchResults {
 			school = filteredSchools[indexPath.row] as! String
-			FirebaseData.manager.updateValue(value: ["school" : school])
-			UserData.userData.school = school
+			FirebaseData.manager.updateValue(value: ["sch" : school])
+			LearnerData.userData.school = school
 			navigationController?.popViewController(animated: true)
 		}
 	}

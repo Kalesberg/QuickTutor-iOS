@@ -57,6 +57,7 @@ class Sidebar : BaseView {
 		} else {
 			//set to some arbitrary image.
 		}
+		
         applyConstraints()
     }
     
@@ -165,8 +166,8 @@ class PurpleView : InteractableBackgroundView {
 	
 	override func configureView() {
         super.configureView()
-		 print("configure view purpleView")
-//		let user = UserData.userData
+
+		let user = LearnerData.userData
 
         addSubview(profileView)
         
@@ -182,8 +183,10 @@ class PurpleView : InteractableBackgroundView {
         
         profileNameView.label.font = Fonts.createBoldSize(14)
         profileSchoolView.label.font = Fonts.createLightSize(14)
-
-        profileSchoolView.label.adjustsFontSizeToFitWidth = true
+		profileNameView.label.text = ("\(user.firstName!) \(user.lastName!)")
+		profileSchoolView.label.text = user.school!
+		
+		profileSchoolView.label.adjustsFontSizeToFitWidth = true
         profileSchoolView.label.numberOfLines = 0
         
         applyConstraints()

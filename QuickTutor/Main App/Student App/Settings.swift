@@ -327,7 +327,7 @@ fileprivate class ProfileView : ArrowItem {
         super.configureView()
         
         isUserInteractionEnabled = true
-		let user = UserData.userData
+		let user = LearnerData.userData
 		
 		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
 			imageView.image = image

@@ -204,7 +204,7 @@ class MainPage : BaseViewController {
 	private var hasPaymentMethod : Bool!
 	private var hasStudentBio : Bool!
 	
-	let user = UserData.userData
+	let user = LearnerData.userData
 	let image = LocalImageCache.localImageManager
 	
 	var parentPageViewController : PageViewController!

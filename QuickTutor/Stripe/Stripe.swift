@@ -36,53 +36,54 @@ class Stripe {
 		print("Stripe initialized.")
 	}
 	
-	func createConnectAcccount() {
+	func initConnectAccount(completion: @escaping (Error?) -> Void) {
 		//makes a call to heroku<->stripe to return the new connected account Id.
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/connect.php"
+		
+		let data = LearnerData.userData
+		let dob = data.birthday.split(separator: "/")
 		
 		let params : [String : Any] = [
 			"country" : "US",
 			"type": "custom",
-			"address_city" : TutorRegistration.city ,
-			"address_line1" : TutorRegistration.address_line1,
-			"address_postal_code" : TutorRegistration.zipcode,
-			"address_state" : TutorRegistration.state,
-			"dob_day" : Registration.dob,
-			"first_name" : Registration.firstName,
-			"last_name" : Registration.lastName,
+			"dob_day" : dob[0],
+			"dob_month" : dob[1],
+			"dob_year" : dob[2],
+			"first_name" : data.firstName,
+			"last_name" : data.lastName,
 			"ssn_last_4" : TutorRegistration.last4SSN,
 			"currency" : "usd",
-			"entity_type" : "individual" ,
+			"entity_type" : "individual",
+			"bank_holder_name" : TutorRegistration.bankholderName,
 			"routing_number" : TutorRegistration.routingNumber,
 			"account_number" : TutorRegistration.accountNumber,
+			
 			]
 		
-		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
-			.responseString(completionHandler: { (response) in
-				print(response.value!)
-				var responseString = (response.value!).components(separatedBy: "/")
-				let result = responseString[0]
-				let value = responseString[1]
-				if result == "success" {
-					let stripeToken = ["stripeAccount": value]
-					Tutor.shared.updateValue(value: stripeToken)
-				} else {
-					//show error message.
-					print(value)
-				}
-			})
-	}
-	
-	func createCustomer(_ completion: @escaping STPErrorBlock) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/createcustomer.php"
-		let params : [String : Any] = ["email" : "UserDefaultData.localDataManager.email", "description" : "Student Account"]
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseString(completionHandler: { (response) in
 				switch response.result {
 				case .success(var value):
 					value = String(value.filter{ !" \n\t\r".contains($0)})
-					let newNode = ["customer" : value]
+					TutorRegistration.stripeToken = value
+					completion(nil)
+				case .failure(let error):
+					completion(error)
+				}
+			})
+	}
+	
+	func createCustomer(_ completion: @escaping STPErrorBlock) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/createcustomer.php"
+		let params : [String : Any] = ["email" : LearnerData.userData.email!, "description" : "Student Account"]
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success(var value):
+					value = String(value.filter{ !" \n\t\r".contains($0)})
+					let newNode = ["cust" : value]
 					FirebaseData.manager.updateValue(value: newNode)
 					Registration.customerId = value
 					completion(nil)
@@ -94,7 +95,7 @@ class Stripe {
 	
 	func retrieveCustomer(_ completion: @escaping STPErrorBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievecustomer.php"
-		let params : [String : Any] = ["customer" : UserData.userData.customer]
+		let params : [String : Any] = ["customer" : LearnerData.userData.customer]
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseJSON(completionHandler: { (response) in
@@ -125,7 +126,7 @@ class Stripe {
 			}
 			if let token = token {
 				let requestString = "https://aqueous-taiga-32557.herokuapp.com/AttachSource.php"
-				let params : [String : Any] = ["customer" : UserData.userData.customer!, "token" :  token]
+				let params : [String : Any] = ["customer" : LearnerData.userData.customer!, "token" :  token]
 				Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 					.validate(statusCode: 200..<300)
 					.responseJSON(completionHandler: { (response) in

@@ -166,7 +166,7 @@ class MyProfileView : MainLayoutTitleBackTwoButton {
         scrollView.addSubview(divider2)
         super.configureView()
         
-        let user = UserData.userData
+        let user = LearnerData.userData
         
         title.label.text = "My Profile"
         
@@ -597,7 +597,7 @@ class MyProfile : BaseViewController {
 	
 	var pageCount : Int {
 		var count = 0
-		UserData.userData.images.forEach { (_,value) in
+		LearnerData.userData.images.forEach { (_,value) in
 			if value != "" {
 				count += 1
 			}
@@ -606,13 +606,13 @@ class MyProfile : BaseViewController {
 	}
 	
 	var languages : String! {
-		let languages = UserData.userData.languages.map({ (language) -> String in
+		let languages = LearnerData.userData.languages.map({ (language) -> String in
 			return language
 		}).joined(separator: ", ")
 		return "Speaks: \(languages)"
 	}
 	var bio : String! {
-		return UserData.userData.bio
+		return LearnerData.userData.bio
 	}
 	
     override var contentView: MyProfileView {
@@ -640,7 +640,7 @@ class MyProfile : BaseViewController {
 	}
 	private func setUpLabels (){
 		contentView.speakItem.label.text = languages
-		contentView.studysItem.label.text = UserData.userData.school
+		contentView.studysItem.label.text = LearnerData.userData.school
 		contentView.imageContainer.profilePicImageView.image = LocalImageCache.localImageManager.image1
 		contentView.aboutMe.bioLabel.text = bio
 	}
@@ -649,7 +649,7 @@ class MyProfile : BaseViewController {
 		var count = 0
 		
 		for number in 1..<5 {
-			if UserData.userData.images["image\(number)"] == "" {
+			if LearnerData.userData.images["image\(number)"] == "" {
 				print("nothing")
 				continue
 			}

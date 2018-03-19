@@ -136,11 +136,11 @@ class CountryZipcode: BaseViewController {
         
         if validateTextFields(){
             
-            TutorRegistration.address_line1 = contentView.addressTextField.textField.text!
-            TutorRegistration.city = contentView.cityTextField.textField.text!
-            TutorRegistration.state = contentView.stateTextField.textField.text!
-            TutorRegistration.zipcode = contentView.zipcodeTextField.textField.text!
-            
+//            TutorRegistration.address_line1 = contentView.addressTextField.textField.text!
+//            TutorRegistration.city = contentView.cityTextField.textField.text!
+//            TutorRegistration.state = contentView.stateTextField.textField.text!
+//            TutorRegistration.zipcode = contentView.zipcodeTextField.textField.text!
+//
             let geocoder = CLGeocoder()
             geocoder.geocodeAddressString(address, completionHandler: { (placemarks, error) in
                 
@@ -154,8 +154,8 @@ class CountryZipcode: BaseViewController {
                         print("could not find address")
                         return
                 }
-                TutorRegistration.location = [location.coordinate.latitude, location.coordinate.longitude]
-                TutorRegistration.geohash = Geohash.encode(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, 8)
+//                TutorRegistration.location = [location.coordinate.latitude, location.coordinate.longitude]
+//                TutorRegistration.geohash = Geohash.encode(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, 8)
             })
             //go somewhere from here...
             

@@ -24,7 +24,7 @@ class EditBioTextView : BaseView {
         textView.autocorrectionType = .no
         textView.isSecureTextEntry = true
 		
-        let user = UserData.userData
+        let user = LearnerData.userData
         textView.text = user.bio!
         
         applyConstraints()
@@ -187,7 +187,7 @@ class EditBio : BaseViewController {
         if (touchStartView is NavbarButtonSave) {
 			saveChanges()
 		} else if (touchStartView is NavbarButtonBack) {
-			if UserData.userData.bio != contentView.textView.textView.text {
+			if LearnerData.userData.bio != contentView.textView.textView.text {
 				changedEditBioAlert()
 			} else {
 				navigationController?.popViewController(animated: true)
@@ -213,7 +213,7 @@ class EditBio : BaseViewController {
     
 	private func saveChanges() {
 		FirebaseData.manager.updateValue(value: ["bio" : contentView.textView.textView.text!])
-		UserData.userData.bio = contentView.textView.textView.text!
+		LearnerData.userData.bio = contentView.textView.textView.text!
 		navigationController?.popViewController(animated: true)
 	}
 	

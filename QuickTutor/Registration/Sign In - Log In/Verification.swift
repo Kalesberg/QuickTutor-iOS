@@ -54,7 +54,9 @@ class VerificationView: RegistrationNavBarKeyboardView {
         resendVCButton.titleLabel?.font = Fonts.createSize(18)
         resendVCButton.setTitleColor(.white, for: .normal)
 		
-        applyConstraints()
+		nextButton.isUserInteractionEnabled = false
+
+		applyConstraints()
     }
     
     override func applyConstraints() {
@@ -110,7 +112,9 @@ class VerificationView: RegistrationNavBarKeyboardView {
 }
 
 class Verification : BaseViewController {
-    
+	
+	private var ref: DatabaseReference!
+	
     override var contentView: VerificationView {
         return view as! VerificationView
     }
@@ -118,38 +122,76 @@ class Verification : BaseViewController {
     override func loadView() {
         view = VerificationView()
     }
-    
-    private var ref: DatabaseReference!
-    private var verificationCode = ""
-    
+	
+	var verificationCode : String = ""
+	var index : Int = 0
+	var textFields : [UITextField] = []
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         ref = Database.database().reference(fromURL: Constants.DATABASE_URL)
         
-        let textFields = [contentView.vcDigit1.textField, contentView.vcDigit2.textField, contentView.vcDigit3.textField, contentView.vcDigit4.textField, contentView.vcDigit5.textField, contentView.vcDigit6.textField]
-        
-        for textField in textFields {
-            textField.isEnabled = false
-            textField.tintColor = .clear
-            textField.delegate = self
-            textField.addTarget(self, action: #selector(buildVerificationCode(_:)), for: .editingChanged)
-        }
-		contentView.vcDigit1.textField.isEnabled = true
+		textFields = [contentView.vcDigit1.textField, contentView.vcDigit2.textField, contentView.vcDigit3.textField, contentView.vcDigit4.textField, contentView.vcDigit5.textField, contentView.vcDigit6.textField]
+		
+		configureTextFields()
     }
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		contentView.nextButton.isUserInteractionEnabled = false
+	}
     override func viewDidAppear(_ animated: Bool) {
-        contentView.vcDigit1.textField.becomeFirstResponder()
+		textFields[0].becomeFirstResponder()
     }
-	override func viewWillDisappear(_ animated: Bool) {
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
 		contentView.resignFirstResponder()
 	}
-    
+	
+	private func configureTextFields() {
+		for textField in textFields {
+			textField.delegate = self
+			textField.isEnabled = false
+			textField.addTarget(self, action: #selector(buildLast4SSN(_:)), for: .editingChanged)
+		}
+		textFields[0].isEnabled = true
+	}
+	
+	@objc private func buildLast4SSN(_ textField: UITextField) {
+		guard let first = textFields[0].text, first != "" else {
+			print("not valid")
+			return
+		}
+		guard let second = textFields[1].text, second != "" else {
+			print("not valid")
+			return
+		}
+		guard let third = textFields[2].text, third != "" else {
+			print("not valid")
+			return
+		}
+		guard let forth = textFields[3].text, forth != "" else {
+			print("not valid")
+			return
+		}
+		guard let fifth = textFields[4].text, fifth != "" else {
+			print("not valid")
+			return
+		}
+		guard let sixth = textFields[5].text, sixth != "" else {
+			print("not valid")
+			return
+		}
+		verificationCode = first + second + third + forth + fifth + sixth
+		contentView.nextButton.isUserInteractionEnabled = true
+	}
+	
     override func handleNavigation() {
         if(touchStartView == contentView.backButton) {
 			navigationController!.view.layer.add(contentView.backButton.transition, forKey: nil)
 			navigationController!.popViewController(animated: false)
-		}
-        if (touchStartView == contentView.resendVCButton){
+		} else if (touchStartView == contentView.nextButton){
+			createCredential(verificationCode)
+		} else if (touchStartView == contentView.resendVCButton){
             resendVCAction()
         }
     }
@@ -158,16 +200,7 @@ class Verification : BaseViewController {
         current.isEnabled = false
         textFieldToChange.isEnabled = true
     }
-    
-    //going to fix this...
-    @objc
-    private func buildVerificationCode(_ textField: UITextField) {
-        verificationCode.append(textField.text!)
-        if (verificationCode.count == 6) {
-            createCredential(verificationCode)
-        }
-    }
-    
+	
     private func createCredential(_ verificationCode: String) {
         let verificationId = UserDefaults.standard.value(forKey: Constants.VRFCTN_ID)
         let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId! as! String, verificationCode: verificationCode)
@@ -203,7 +236,6 @@ class Verification : BaseViewController {
             }
         }
     }
-
     
     private func resendVCAction() {
         PhoneAuthProvider.provider().verifyPhoneNumber(Registration.phone, uiDelegate: nil) { (verificationId, error) in
@@ -220,91 +252,43 @@ class Verification : BaseViewController {
 
 extension Verification : UITextFieldDelegate {
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        let char = string.cString(using: String.Encoding.utf8)!
-        let isBackSpace = strcmp(char, "\\b")
-        
-        let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
-        let components = string.components(separatedBy: inverseSet)
-        let filtered = components.joined(separator: "")
-        
-        if textField.text!.count == 1 {
-            
-            switch(textField) {
-            case contentView.vcDigit1.textField:
-                if (isBackSpace == Constants.BCK_SPACE){
-                    contentView.vcDigit1.textField.text = ""
-                    self.verificationCode.removeLast()
-                    return false
-                }else{
-                    textFieldController(current: contentView.vcDigit1.textField, textFieldToChange: contentView.vcDigit2.textField)
-                    contentView.vcDigit2.textField.becomeFirstResponder()
-                    return true
-                }
-            case contentView.vcDigit2.textField:
-                if(isBackSpace == Constants.BCK_SPACE){
-                    contentView.vcDigit2.textField.text = ""
-                    textFieldController(current: contentView.vcDigit2.textField, textFieldToChange: contentView.vcDigit1.textField)
-                    contentView.vcDigit1.textField.becomeFirstResponder()
-                    self.verificationCode.removeLast()
-                    return false
-                }else{
-                    textFieldController(current: contentView.vcDigit2.textField, textFieldToChange: contentView.vcDigit3.textField)
-                    contentView.vcDigit3.textField.becomeFirstResponder()
-                    return true
-                }
-            case contentView.vcDigit3.textField:
-                if(isBackSpace == Constants.BCK_SPACE) {
-                    contentView.vcDigit3.textField.text = ""
-                    textFieldController(current: contentView.vcDigit3.textField, textFieldToChange: contentView.vcDigit2.textField)
-                    contentView.vcDigit2.textField.becomeFirstResponder()
-                    self.verificationCode.removeLast()
-                    return false
-                }else{
-                    textFieldController(current: contentView.vcDigit3.textField, textFieldToChange: contentView.vcDigit4.textField)
-                    contentView.vcDigit4.textField.becomeFirstResponder()
-                    return true
-                }
-            case contentView.vcDigit4.textField:
-                if (isBackSpace == Constants.BCK_SPACE){
-                    contentView.vcDigit4.textField.text = ""
-                    textFieldController(current: contentView.vcDigit4.textField, textFieldToChange: contentView.vcDigit3.textField)
-                    contentView.vcDigit3.textField.becomeFirstResponder()
-                    self.verificationCode.removeLast()
-                    return false
-                }else{
-                    textFieldController(current: contentView.vcDigit4.textField, textFieldToChange: contentView.vcDigit5.textField)
-                    contentView.vcDigit5.textField.becomeFirstResponder()
-                    return true
-                }
-            case contentView.vcDigit5.textField:
-                if (isBackSpace == Constants.BCK_SPACE){
-                    contentView.vcDigit5.textField.text = ""
-                    textFieldController(current: contentView.vcDigit5.textField, textFieldToChange: contentView.vcDigit4.textField)
-                    contentView.vcDigit4.textField.becomeFirstResponder()
-                    self.verificationCode.removeLast()
-                    return false
-                }else{
-                    textFieldController(current: contentView.vcDigit5.textField, textFieldToChange: contentView.vcDigit6.textField)
-                    contentView.vcDigit6.textField.becomeFirstResponder()
-                    return true
-                }
-            case contentView.vcDigit6.textField:
-                if (isBackSpace == Constants.BCK_SPACE){
-                    contentView.vcDigit6.textField.text = ""
-                    textFieldController(current: contentView.vcDigit6.textField, textFieldToChange: contentView.vcDigit5.textField)
-                    contentView.vcDigit5.textField.becomeFirstResponder()
-                    self.verificationCode.removeLast()
-                    return false
-                } else {
-                    return false
-                }
-            default:
-                contentView.vcDigit6.textField.becomeFirstResponder()
-                return false
-            }
-        }
-        return string == filtered
-    }
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		
+		let char = string.cString(using: String.Encoding.utf8)!
+		let isBackSpace = strcmp(char, "\\b")
+		
+		let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
+		let components = string.components(separatedBy: inverseSet)
+		let filtered = components.joined(separator: "")
+		
+		guard let text = textField.text else { return true }
+		let newLength = text.count + string.count - range.length
+		
+		if (index == 0) && (isBackSpace == Constants.BCK_SPACE) {
+			textFields[index].text = ""
+			return true
+		}
+		
+		if isBackSpace == Constants.BCK_SPACE {
+			textFields[index].text = ""
+			textFieldController(current: textFields[index], textFieldToChange: textFields[index - 1])
+			textFields[index - 1].becomeFirstResponder()
+			index -= 1
+			contentView.nextButton.isUserInteractionEnabled = false
+			return false
+		}
+		
+		if (index == 5) {
+			return false
+		}
+		
+		if newLength > 1 {
+			textFieldController(current: textFields[index], textFieldToChange: textFields[index + 1])
+			index += 1
+			textFields[index].becomeFirstResponder()
+			return string == filtered
+		} else {
+			return string == filtered
+		}
+	}
 }
