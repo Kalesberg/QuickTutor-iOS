@@ -21,21 +21,20 @@ class SignInHandler {
 	public func getUserData(completion: @escaping (_ error: Error?) -> Void) {
 		print("Referencing Database...")
 		self.ref.child("student").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
-//			self.ref.child("student").child(user.uid).observeSingleEvent(of: .value) { (snapshot) in
 				let value = snapshot.value as? NSDictionary
-				let user = UserData.userData
+				let user = LearnerData.userData
 				
-				user.firstName     	= value?["fname"        ]   as? String ?? ""
-				user.lastName       = value?["lname"        ]   as? String ?? ""
+				user.firstName     	= value?["fn"        	]   as? String ?? ""
+				user.lastName       = value?["ln"        	]   as? String ?? ""
 				user.age            = value?["age"          ]   as? String ?? ""
 				user.bio          	= value?["bio"          ]   as? String ?? ""
-				user.birthday       = value?["birthday"     ]   as? String ?? ""
-				user.school         = value?["school"       ]   as? String ?? ""
-				user.email         	= value?["email"        ]   as? String ?? ""
-				user.phone         	= value?["phone"        ]   as? String ?? ""
-				user.address       	= value?["address"      ]   as? String ?? ""
-				user.languages     	= value?["languages"    ]   as? [String] ?? [""]
-				user.customer 		= value?["customer" 	]	as?	String ?? ""
+				user.birthday       = value?["bd"     		]   as? String ?? ""
+				user.school         = value?["sch"       	]   as? String ?? ""
+				user.email         	= value?["em"        	]   as? String ?? ""
+				user.phone         	= value?["phn"        	]   as? String ?? ""
+				user.address       	= value?["adr"      	]   as? String ?? ""
+				user.languages     	= value?["lng"   		]   as? [String] ?? [""]
+				user.customer 		= value?["cus" 			]	as?	String ?? ""
 				
 				print("Grabbing image urls...")
 				self.grabImageUrls {
@@ -45,33 +44,10 @@ class SignInHandler {
 		}) { (error) in
 			completion(error)
 		}
-//
-//		self.ref.child("student").child(user.uid).observeSingleEvent(of: .value) { (snapshot) in
-//			let value = snapshot.value as? NSDictionary
-//			let user = UserData.userData
-//
-//			user.firstName     	= value?["fname"        ]   as? String ?? ""
-//			user.lastName       = value?["lname"        ]   as? String ?? ""
-//			user.age            = value?["age"          ]   as? String ?? ""
-//			user.bio          	= value?["bio"          ]   as? String ?? ""
-//			user.birthday       = value?["birthday"     ]   as? String ?? ""
-//			user.school         = value?["school"       ]   as? String ?? ""
-//			user.email         	= value?["email"        ]   as? String ?? ""
-//			user.phone         	= value?["phone"        ]   as? String ?? ""
-//			user.address       	= value?["address"      ]   as? String ?? ""
-//			user.languages     	= value?["languages"    ]   as? [String] ?? [""]
-//			user.customer 		= value?["customer" 	]	as?	String ?? ""
-//
-//			print("Grabbing image urls...")
-//			self.grabImageUrls {
-//				print("Done grabbing image urls.")
-//				completion()
-//			}
-//		}
 	}
 	
 	private func grabImageUrls(completion: @escaping () -> Void) {
-		self.ref.child("student").child(user.uid).child("images").observeSingleEvent(of: .value) { (snapshot) in
+		self.ref.child("student").child(user.uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
 			
 			let value = snapshot.value as? NSDictionary
 			
@@ -98,7 +74,7 @@ class SignInHandler {
 			} else {
 				let image : UIImage! = UIImage(data: data!)
 				LocalImageCache.localImageManager.storeImageLocally(image: image.circleMasked!, number: number)
-				UserData.userData.images["image\(number)"] = imageUrl
+				LearnerData.userData.images["image\(number)"] = imageUrl
 			}
 		}
 		print("image\(number) downloaded.")
@@ -106,6 +82,6 @@ class SignInHandler {
 	
 	private func inputDefaultImage(number: String) {
 		LocalImageCache.localImageManager.storeImageLocally(image: #imageLiteral(resourceName: "registration-image-placeholder"), number: number)
-		UserData.userData.images["image\(number)"] = ""
+		LearnerData.userData.images["image\(number)"] = ""
 	}
 }

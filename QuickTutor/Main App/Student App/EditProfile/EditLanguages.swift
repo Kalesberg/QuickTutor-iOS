@@ -82,7 +82,7 @@ class EditLanguage : BaseViewController {
 	
 	var languages : NSArray = []
 	var filteredLanguages : NSArray = []
-	let currentLanguges = UserData.userData.languages
+	let currentLanguges = LearnerData.userData.languages
 	var selectedCells : [String]!
 	var shouldUpdateSearchResults = false
 	
@@ -119,8 +119,8 @@ class EditLanguage : BaseViewController {
 		}
 	}
 	private func saveLanguages() {
-		UserData.userData.languages = selectedCells
-		FirebaseData.manager.updateValue(value: ["languages" : selectedCells])
+		LearnerData.userData.languages = selectedCells
+		FirebaseData.manager.updateValue(value: ["lng" : selectedCells])
 		navigationController?.popViewController(animated: true)
 	}
 	

@@ -9,6 +9,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseStorage
 import FirebaseAuth
+import GeoFire
 
 class Tutor {
 	
@@ -18,41 +19,44 @@ class Tutor {
 	
 	static let shared = Tutor()
 	
-	
-	public func initTutor(completion: @escaping (Bool) -> Void) {
-		let data = UserData.userData
+	public func initTutor(completion: @escaping (Error?) -> Void) {
 		
+		let data = LearnerData.userData
+
 		let post : [String:Any] =
 			[
-				"name" : "\(data.firstName) \(data.lastName)",
-				"birthday" : "\(data.birthday)",
+				"nm" : "\(data.firstName!) \(data.lastName!)",
+				"bd" : "\(data.birthday!)",
 				"age" : data.age,
-				"email": data.email,
-				"phoneNumber" : data.phone,
+				"em": data.email,
+				"phn" : data.phone,
 				"bio" : TutorRegistration.tutorBio,
-				"subjects" : "Subjects",
-				"geohash" : "1231sdc12",
-				"address" : "address",
-				"location" : ["latitude, longitude"],
-				"stripeToken" : "token"
+				"subj" : "subjects",
+				"adr" : TutorRegistration.address,
+				"tok" : TutorRegistration.stripeToken
 		]
 		
 		ref.child("tutor").child(user.uid).setValue(post) { (error, databaseRef) in
 			if let error = error {
 				print(error.localizedDescription)
-				completion(false)
+				completion(error)
 			} else {
 				print("User is in the database!")
-				completion(true)
+				completion(nil)
 			}
 		}
 	}
+	
 	public func updateValue(value: [String : Any]) {
 		self.ref.child("tutor").child(user.uid).updateChildValues(value) { (error, reference) in
 			if let error = error {
 				print(error.localizedDescription)
 			}
 		}
+	}
+	public func geoFire(location: CLLocationCoordinate2D) {
+		let geoFire = GeoFire(firebaseRef: ref.child("tutor_loc"))
+		geoFire.setLocation(CLLocation(latitude: 43.5965030, longitude: -84.7788380), forKey: user.uid)
 	}
 }
 

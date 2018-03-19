@@ -452,9 +452,9 @@
 		848E64392059EDAF000CD921 /* Become a QuickTutor */ = {
 			isa = PBXGroup;
 			children = (
+				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
 				848E643A2059EE0A000CD921 /* BecomeTutor.swift */,
 				84F245171FDA1127006447A8 /* TutorBio.swift */,
-				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
 				84F2451B1FDA1183006447A8 /* TutorPayment.swift */,
 				84F245191FDA1143006447A8 /* TutorSSN.swift */,
 				848E643C205A228C000CD921 /* TutorAddSubjects.swift */,

@@ -13,21 +13,17 @@ struct TutorRegistration {
 
     static var tutorBio    : String!
     static var subjects : [String]!
-    static var filters : [String]!
 	
 	//stripe - connect
-	
 	static var bankholderName : String!
-	static var country    : String!
-	static var city : String!
-	static var zipcode : String!
-	static var address_line1 : String!
-	static var state : String!
 	static var last4SSN : String!
 	static var routingNumber : String!
 	static var accountNumber : String!
-	static var location : [CLLocationDegrees]!
-	static var geohash : String!
-	
+	static var stripeToken : String!
+	static var address : String!
+	static var location : CLLocationCoordinate2D!
+
 }
+
+
 
