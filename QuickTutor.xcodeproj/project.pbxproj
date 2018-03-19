@@ -181,6 +181,7 @@
 		CF6F58F0205EE6B300ACBD32 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58EC205EE6B300ACBD32 /* DataService.swift */; };
 		CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58ED205EE6B300ACBD32 /* DynamicLinkFactory.swift */; };
 		CF6F58F3205EE6D100ACBD32 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58F2205EE6D100ACBD32 /* Extensions.swift */; };
+		CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */; };
 		CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */; };
 		CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */; };
 /* End PBXBuildFile section */
@@ -367,6 +368,7 @@
 		CF6F58EC205EE6B300ACBD32 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		CF6F58ED205EE6B300ACBD32 /* DynamicLinkFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicLinkFactory.swift; sourceTree = "<group>"; };
 		CF6F58F2205EE6D100ACBD32 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMessagesBackground.swift; sourceTree = "<group>"; };
 		CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemToggleCell.swift; sourceTree = "<group>"; };
 		CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSystemToggle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -795,6 +797,7 @@
 				CF6F58A2205EE68800ACBD32 /* NewMessageHeader.swift */,
 				CF6F58A3205EE68800ACBD32 /* Keyboard */,
 				CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */,
+				CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1227,6 +1230,7 @@
 				84E4C7D4204E8317009C2FC4 /* QTGuide.swift in Sources */,
 				CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */,
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
+				CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */,
 				CF6F58E5205EE68800ACBD32 /* UserMessage.swift in Sources */,
 				840E75C6201E8500006FC580 /* Help.swift in Sources */,
 				CF6F58C3205EE68800ACBD32 /* BaseMessageCell.swift in Sources */,

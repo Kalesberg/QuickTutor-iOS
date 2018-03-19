@@ -24,6 +24,12 @@ class MessagesVC: UIViewController {
         return cv
     }()
     
+    let emptyBackround: EmptyMessagesBackground = {
+        let bg = EmptyMessagesBackground()
+        bg.isHidden = true
+        return bg
+    }()
+    
     let messageSessionControl: MessagingSystemToggle = {
         let control = MessagingSystemToggle()
         return control
@@ -44,6 +50,7 @@ class MessagesVC: UIViewController {
         setupMainView()
         setupMessageSessionControl()
         setupCollectionView()
+        setupEmptyBackground()
         setupNavBar()
         setupRefreshControl()
     }
@@ -58,6 +65,12 @@ class MessagesVC: UIViewController {
         messagesCV.dataSource = self
         view.addSubview(messagesCV)
         messagesCV.anchor(top: messageSessionControl.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 29, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    private func setupEmptyBackground() {
+        view.addSubview(emptyBackround)
+        emptyBackround.anchor(top: messagesCV.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
+        emptyBackround.setupForTutor()
     }
     
     private func setupNavBar() {
