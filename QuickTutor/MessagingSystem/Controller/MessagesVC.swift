@@ -80,7 +80,7 @@ class MessagesVC: UIViewController {
     
     private func setupMessageSessionControl() {
         view.addSubview(messageSessionControl)
-        messageSessionControl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 200, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
+        messageSessionControl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 50, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
     }
     
     @objc func showContacts() {
