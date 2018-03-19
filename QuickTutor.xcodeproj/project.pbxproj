@@ -458,6 +458,7 @@
 				84F2451B1FDA1183006447A8 /* TutorPayment.swift */,
 				84F245191FDA1143006447A8 /* TutorSSN.swift */,
 				848E643C205A228C000CD921 /* TutorAddSubjects.swift */,
+				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
 			);
 			path = "Become a QuickTutor";
 			sourceTree = "<group>";

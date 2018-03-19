@@ -51,11 +51,11 @@ class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
 	var ssnInfo           = LeftTextLabel()
 	
 	override func configureView() {
-		addSubview(keyboardView)
 		addSubview(titleLabel)
 		addSubview(digitView)
 		addSubview(ssnInfo)
 		addSubview(nextButton)
+        addKeyboardView()
 		digitView.addSubview(digit1)
 		digitView.addSubview(digit2)
 		digitView.addSubview(digit3)
@@ -105,13 +105,56 @@ class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
 			make.centerX.equalToSuperview()
 		}
 		
-		nextButton.snp.makeConstraints { (make) in
-			make.top.equalTo(ssnInfo.snp.bottom).inset(-20)
-			make.width.equalToSuperview()
-			make.height.equalTo(60)
-			make.centerX.equalToSuperview()
-		}
+        nextButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
+            make.width.equalToSuperview()
+            make.height.equalTo(60)
+            make.centerX.equalToSuperview()
+        }
 	}
+    
+    func keyboardWillAppear() {
+        if (digit1.textField.isFirstResponder) {
+            if (UIScreen.main.bounds.height == 568) {
+                ssnInfo.alpha = 0.0
+            }
+        
+            nextButton.snp.removeConstraints()
+            nextButton.snp.makeConstraints { (make) in
+                make.bottom.equalTo(keyboardView.snp.top)
+                make.width.equalToSuperview()
+                make.height.equalTo(60)
+                make.centerX.equalToSuperview()
+            }
+        
+            needsUpdateConstraints()
+            layoutIfNeeded()
+        }
+    }
+    
+    func keyboardWillDisappear() {
+        if (digit4.textField.isFirstResponder) {
+            if (UIScreen.main.bounds.height == 568) {
+                UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
+                    self.ssnInfo.alpha = 1.0
+                })
+            }
+            
+            nextButton.snp.removeConstraints()
+            nextButton.snp.makeConstraints { (make) in
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
+                make.width.equalToSuperview()
+                make.height.equalTo(60)
+                make.centerX.equalToSuperview()
+            }
+            
+            needsUpdateConstraints()
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.layoutIfNeeded()
+            })
+        }
+    }
 }
 
 
@@ -130,8 +173,15 @@ class TutorSSN : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		textFields = [contentView.digit1.textField, contentView.digit2.textField, contentView.digit3.textField, contentView.digit4.textField]
-		configureTextFields()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        
+		let textFields = [contentView.digit1.textField, contentView.digit2.textField, contentView.digit3.textField, contentView.digit4.textField]
+		for textField in textFields {
+			textField.delegate = self
+			textField.addTarget(self, action: #selector(buildVerificationCode(_:)), for: .editingChanged)
+		}
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -146,7 +196,6 @@ class TutorSSN : BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		textFields[0].becomeFirstResponder()
 	}
 	
 	override func viewDidDisappear(_ animated: Bool) {
@@ -158,6 +207,14 @@ class TutorSSN : BaseViewController {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
+    
+    @objc func keyboardWillAppear() {
+        (self.view as! TutorSSNView).keyboardWillAppear()
+    }
+    
+    @objc func keyboardWillDisappear() {
+        (self.view as! TutorSSNView).keyboardWillDisappear()
+    }
 	
 	private func configureTextFields() {
 		for textField in textFields {
@@ -221,28 +278,7 @@ extension TutorSSN : UITextFieldDelegate {
 			last4SSN.removeLast()
 			return true
 		}
-
-		if isBackSpace == Constants.BCK_SPACE {
-			textFields[index].text = ""
-			textFieldController(current: textFields[index], textFieldToChange: textFields[index - 1])
-			textFields[index - 1].becomeFirstResponder()
-			index -= 1
-			contentView.nextButton.isUserInteractionEnabled = false
-			return false
-		}
-		
-		if (index == 3) {
-			return false
-		}
-		
-		if newLength > 1 {
-			textFieldController(current: textFields[index], textFieldToChange: textFields[index + 1])
-			index += 1
-			textFields[index].becomeFirstResponder()
-			return string == filtered
-		} else {
-			return string == filtered
-		}
+		return string == filtered
 	}
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {

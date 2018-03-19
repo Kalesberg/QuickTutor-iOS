@@ -25,6 +25,8 @@ class AddBankButton : InteractableView, Interactable {
         label.text = "Add Bank"
         label.textAlignment = .center
         label.font = Fonts.createSize(18)
+        
+        alpha = 0.5
 		
 		isUserInteractionEnabled = false
 		
@@ -106,16 +108,13 @@ class TutorPaymentView : MainLayoutTitleBackButton, Keyboardable {
         accountNumberTitle.label.text = "Account Number"
 		
         nameTextfield.attributedPlaceholder = NSAttributedString(string: "Enter bank holder's name", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-        nameTextfield.keyboardType = .default
+        nameTextfield.keyboardType = .asciiCapable
 		
         routingNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Routing Number", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         routingNumberTextfield.keyboardType = .decimalPad
         
         accountNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Account Number", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         accountNumberTextfield.keyboardType = .decimalPad
-		
-		addBankButton.isUserInteractionEnabled = false
-
 	}
     
 	override func applyConstraints() {
@@ -234,20 +233,25 @@ class TutorPayment: BaseViewController {
 		
 		guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
 			print("invalid name")
+            contentView.addBankButton.alpha = 0.5
 			return
 		}
 		print("Good Name")
 		guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
 			print("invalid routing")
+            contentView.addBankButton.alpha = 0.5
 			return
 		}
 		
 		print("Good routing")
 		guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
 			print("invalid account")
+            contentView.addBankButton.alpha = 0.5
 			return
 		}
 		print("Good account.")
+        
+        contentView.addBankButton.alpha = 1.0
 		contentView.addBankButton.isUserInteractionEnabled = true
 		
 		TutorRegistration.bankholderName = name
