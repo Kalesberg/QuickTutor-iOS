@@ -29,6 +29,14 @@ struct Colors {
     static let sidebarPurple = UIColor(hex:"544177")
     static let tutorBlue = UIColor(hex:"3E5486")
     static let yellow = UIColor(hex:"FADA4A")
+    static let lightGrey = UIColor(hex: "0D0925").withAlphaComponent(0.2)
+    static let purple = UIColor(hex: "544177")
+    static let darkBackground = UIColor(hex: "272731")
+    static let receivedMessage = UIColor(hex:"4C5E8D")
+    static let sentMessage = UIColor(hex: "544177")
+    static let border = UIColor(hex: "818186")
+    static let navBarColor = UIColor(hex: "1E1E26")
+
 }
 
 struct Fonts {

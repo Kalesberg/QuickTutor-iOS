@@ -10,7 +10,9 @@ target 'QuickTutor' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
-  pod 'Firebase/Storage'  
+  pod 'Firebase/Storage'
+  pod 'Firebase/DynamicLinks'
+  pod 'Firebase/Messaging'
   
   # Pods for backend
   pod 'Alamofire', '~>4.5'
