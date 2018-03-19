@@ -6,12 +6,12 @@ class TutorBioView : EditBioView {
 	var nextButton = RegistrationNextButton()
 	
 	override func configureView() {
-		contentView.addSubview(nextButton)
+		keyboardView.addSubview(nextButton)
+        
 		super.configureView()
-		
+		keyboardView.isUserInteractionEnabled = true
 		rightButton.isHidden = true
 		contentView.isUserInteractionEnabled = true
-		
 		
 		title.label.text = "Biography"
 		textView.textView.text = ""
@@ -26,14 +26,13 @@ class TutorBioView : EditBioView {
 		infoLabel.label.font = Fonts.createSize(14)
 		infoLabel.isUserInteractionEnabled = true
 		
-		applyConstraints()
 	}
 	
 	override func applyConstraints() {
 		super.applyConstraints()
 		
 		nextButton.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview()
+			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
 			make.width.equalToSuperview()
 			make.height.equalTo(60)
 			make.centerX.equalToSuperview()
@@ -42,11 +41,47 @@ class TutorBioView : EditBioView {
 	}
 	
 	override func keyboardWillAppear() {
-		infoLabel.fadeOut(withDuration: 0.3)
-	}
+        if (UIScreen.main.bounds.height == 568) {
+            infoLabel.alpha = 0.0
+            nextButton.alpha = 0.0
+            return
+        }
+    
+        nextButton.snp.removeConstraints()
+        nextButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(keyboardView.snp.top)
+            make.width.equalToSuperview()
+            make.height.equalTo(60)
+            make.centerX.equalToSuperview()
+        }
+        
+        needsUpdateConstraints()
+        layoutIfNeeded()
+    }
 	
-	override func keyboardDidDisappear() {
-		infoLabel.fadeIn(withDuration: 0.3, alpha: 1.0)
+	override func keyboardWillDisappear() {
+        if (UIScreen.main.bounds.height == 568) {
+            UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
+                self.infoLabel.alpha = 1.0
+                self.nextButton.alpha = 1.0
+            })
+            
+            return
+        }
+            
+        nextButton.snp.removeConstraints()
+        nextButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
+            make.width.equalToSuperview()
+            make.height.equalTo(60)
+            make.centerX.equalToSuperview()
+        }
+        
+        needsUpdateConstraints()
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.layoutIfNeeded()
+        })
 	}
 }
 
@@ -68,13 +103,13 @@ class TutorBio: BaseViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidDisappear), name: Notification.Name.UIKeyboardDidHide, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardWillHide, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		contentView.textView.textView.becomeFirstResponder()
+		//contentView.textView.textView.becomeFirstResponder()
 	}
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
@@ -94,15 +129,11 @@ class TutorBio: BaseViewController {
 	}
 	
 	@objc func keyboardWillAppear() {
-		if (UIScreen.main.bounds.height == 568) {
-			(self.view as! EditBioView).keyboardWillAppear()
-		}
+        (self.view as! EditBioView).keyboardWillAppear()
 	}
 	
-	@objc func keyboardDidDisappear() {
-		if (UIScreen.main.bounds.height == 568) {
-			(self.view as! EditBioView).keyboardDidDisappear()
-		}
+	@objc func keyboardWillDisappear() {
+        (self.view as! EditBioView).keyboardWillDisappear()
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {

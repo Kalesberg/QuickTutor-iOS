@@ -51,11 +51,11 @@ class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
 	var ssnInfo           = LeftTextLabel()
 	
 	override func configureView() {
-		addSubview(keyboardView)
 		addSubview(titleLabel)
 		addSubview(digitView)
 		addSubview(ssnInfo)
 		addSubview(nextButton)
+        addKeyboardView()
 		digitView.addSubview(digit1)
 		digitView.addSubview(digit2)
 		digitView.addSubview(digit3)
@@ -105,13 +105,56 @@ class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
 			make.centerX.equalToSuperview()
 		}
 		
-		nextButton.snp.makeConstraints { (make) in
-			make.top.equalTo(ssnInfo.snp.bottom).inset(-20)
-			make.width.equalToSuperview()
-			make.height.equalTo(60)
-			make.centerX.equalToSuperview()
-		}
+        nextButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
+            make.width.equalToSuperview()
+            make.height.equalTo(60)
+            make.centerX.equalToSuperview()
+        }
 	}
+    
+    func keyboardWillAppear() {
+        if (digit1.textField.isFirstResponder) {
+            if (UIScreen.main.bounds.height == 568) {
+                ssnInfo.alpha = 0.0
+            }
+        
+            nextButton.snp.removeConstraints()
+            nextButton.snp.makeConstraints { (make) in
+                make.bottom.equalTo(keyboardView.snp.top)
+                make.width.equalToSuperview()
+                make.height.equalTo(60)
+                make.centerX.equalToSuperview()
+            }
+        
+            needsUpdateConstraints()
+            layoutIfNeeded()
+        }
+    }
+    
+    func keyboardWillDisappear() {
+        if (digit4.textField.isFirstResponder) {
+            if (UIScreen.main.bounds.height == 568) {
+                UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
+                    self.ssnInfo.alpha = 1.0
+                })
+            }
+            
+            nextButton.snp.removeConstraints()
+            nextButton.snp.makeConstraints { (make) in
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
+                make.width.equalToSuperview()
+                make.height.equalTo(60)
+                make.centerX.equalToSuperview()
+            }
+            
+            needsUpdateConstraints()
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.layoutIfNeeded()
+            })
+        }
+    }
 }
 
 
@@ -126,6 +169,10 @@ class TutorSSN : BaseViewController {
 	var last4SSN : String = ""
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        
 		let textFields = [contentView.digit1.textField, contentView.digit2.textField, contentView.digit3.textField, contentView.digit4.textField]
 		for textField in textFields {
 			textField.delegate = self
@@ -139,7 +186,6 @@ class TutorSSN : BaseViewController {
 	}
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		contentView.digit1.textField.becomeFirstResponder()
 	}
 	
 	override func viewDidDisappear(_ animated: Bool) {
@@ -150,6 +196,14 @@ class TutorSSN : BaseViewController {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
+    
+    @objc func keyboardWillAppear() {
+        (self.view as! TutorSSNView).keyboardWillAppear()
+    }
+    
+    @objc func keyboardWillDisappear() {
+        (self.view as! TutorSSNView).keyboardWillDisappear()
+    }
 	
 	override func handleNavigation() {
 		if(touchStartView is RegistrationNextButton) {

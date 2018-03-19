@@ -25,7 +25,7 @@ class EditBioTextView : BaseView {
         textView.isSecureTextEntry = true
 		
         let user = UserData.userData
-        textView.text = user.bio!
+        textView.text = (user.bio ?? "")
         
         applyConstraints()
     }
@@ -87,7 +87,7 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
         infoLabel.label.attributedText = attributedString;
         infoLabel.label.font = Fonts.createSize(14)
 
-        applyConstraints()
+        //applyConstraints()
     }
     
     override func applyConstraints() {
@@ -134,14 +134,17 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
     }
     
     func keyboardWillAppear() {
-        UIView.animate(withDuration: 0.3) {
-            self.infoLabel.isHidden = true
+        if (UIScreen.main.bounds.height == 568) {
+            infoLabel.alpha = 0.0
+            return
         }
     }
     
-    func keyboardDidDisappear() {
-        UIView.animate(withDuration: 0.3) {
-            self.infoLabel.isHidden = false
+    func keyboardWillDisappear() {
+        if (UIScreen.main.bounds.height == 568) {
+            UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
+                self.infoLabel.alpha = 1.0
+            })
         }
     }
 }
@@ -174,7 +177,7 @@ class EditBio : BaseViewController {
 	}
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidDisappear), name: Notification.Name.UIKeyboardDidHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardDidHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
     }
     
@@ -201,9 +204,9 @@ class EditBio : BaseViewController {
         }
     }
     
-    @objc func keyboardDidDisappear() {
+    @objc func keyboardWillDisappear() {
         if (UIScreen.main.bounds.height == 568) {
-            (self.view as! EditBioView).keyboardDidDisappear()
+            (self.view as! EditBioView).keyboardWillDisappear()
         }
     }
     

@@ -66,7 +66,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - SnapKit (4.0.0)
-  - Stripe (12.1.1)
+  - Stripe (12.1.2)
   - SwiftKeychainWrapper (3.0.1)
 
 DEPENDENCIES:
@@ -90,7 +90,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   GeoFire:
-    :commit: d79f8323efce29d780fc62df39485c50ffd0e6f4
+    :commit: dc408bcd4268cc5ec8831cda0000c23863767d42
     :git: https://github.com/firebase/geofire-objc.git
 
 SPEC CHECKSUMS:
@@ -113,7 +113,7 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
-  Stripe: f8e8feff38ba5caf7b2568c64eab96b0440ecb95
+  Stripe: 3230cdf8a8b0c04902e45e86f222fb82a926239c
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
 
 PODFILE CHECKSUM: f19b3e39d751693f23bc428c2e3bfe830d312bef
