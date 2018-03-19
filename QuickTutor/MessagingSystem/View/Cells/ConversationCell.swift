@@ -16,6 +16,7 @@ class ConversationCell: UICollectionViewCell {
     let profileImageView: UserImageView = {
         let iv = UserImageView(frame: CGRect.zero)
         iv.imageView.backgroundColor = .yellow
+        iv.onlineStatusIndicator.backgroundColor = .green
         return iv
     }()
     
@@ -60,7 +61,20 @@ class ConversationCell: UICollectionViewCell {
         return label
     }()
     
-    let starRating
+    let starLabel: UILabel = {
+        let label = UILabel()
+        label.text = "4.71"
+        label.textAlignment = .right
+        label.font = Fonts.createBoldSize(9)
+        label.textColor = UIColor(hex: "FFDA02")
+        return label
+    }()
+    
+    let starIcon: UIImageView = {
+        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
     
     let pastSessionsLabel: UILabel = {
         let label = UILabel()
@@ -77,6 +91,27 @@ class ConversationCell: UICollectionViewCell {
         return view
     }()
     
+    let newMessageGradientLayer: CAGradientLayer = {
+        let firstColor = Colors.learnerPurple.cgColor
+        let secondColor = UIColor(hex: "1E1E26").cgColor
+
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.cornerRadius = 1
+        gradientLayer.colors = [firstColor, secondColor]
+        
+        
+        let x: Double! = 90 / 360.0
+        let a = pow(sinf(Float(2.0 * .pi * ((x + 0.75) / 2.0))),2.0);
+        let b = pow(sinf(Float(2 * .pi * ((x+0.0)/2))),2);
+        let c = pow(sinf(Float(2 * .pi * ((x+0.25)/2))),2);
+        let d = pow(sinf(Float(2 * .pi * ((x+0.5)/2))),2);
+        
+        gradientLayer.endPoint = CGPoint(x: CGFloat(c),y: CGFloat(d))
+        gradientLayer.startPoint = CGPoint(x: CGFloat(a),y:CGFloat(b))
+        gradientLayer.locations = [0, 0.7, 0.9, 1]
+        return gradientLayer
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -90,8 +125,11 @@ class ConversationCell: UICollectionViewCell {
         setupLocationLabel()
         setupLastMessageLabel()
         setupLastSessionLabel()
+        setupStarIcon()
+        setupStarLabel()
         setupPastSessionsLabel()
         setupLine()
+        setupNewMessageGradientLayer()
     }
     
     private func setupProfilePic() {
@@ -125,6 +163,18 @@ class ConversationCell: UICollectionViewCell {
         lastSessionLabel.anchor(top: lastMessageLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 0, paddingBottom: 8, paddingRight: 0, width: 300, height: 7)
     }
     
+    private func setupStarIcon() {
+        addSubview(starIcon)
+        starIcon.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 12, height: 12)
+        addConstraint(NSLayoutConstraint(item: starIcon, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+    }
+    
+    private func setupStarLabel() {
+        addSubview(starLabel)
+        starLabel.anchor(top: nil, left: nil, bottom: nil, right: starIcon.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 60, height: 15)
+        addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+    }
+    
     private func setupPastSessionsLabel() {
         addSubview(pastSessionsLabel)
         pastSessionsLabel.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 8, width: 150, height: 8)
@@ -133,6 +183,11 @@ class ConversationCell: UICollectionViewCell {
     private func setupLine() {
         addSubview(separatorLine)
         separatorLine.anchor(top: nil, left: profileImageView.leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
+    }
+    
+    func setupNewMessageGradientLayer() {
+        layer.insertSublayer(newMessageGradientLayer, at: 0)
+        newMessageGradientLayer.frame = CGRect(x: 0, y: 0, width: 100, height: bounds.height)
     }
     
     func updateUI(message: UserMessage) {
