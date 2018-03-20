@@ -29,7 +29,7 @@ extension Interactable {
     func draggingOff() {}
     func didDragOn() { touchStart() }
     func touchEndOnStart() { didDragOff() }
-    func touchEndOffStart() {}
+    func touchEndOffStart() { didDragOff() }
     func touchCancelled() { didDragOff() }
 }
 
