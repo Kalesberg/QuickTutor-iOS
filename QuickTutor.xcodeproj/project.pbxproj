@@ -182,6 +182,9 @@
 		CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58ED205EE6B300ACBD32 /* DynamicLinkFactory.swift */; };
 		CF6F58F3205EE6D100ACBD32 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58F2205EE6D100ACBD32 /* Extensions.swift */; };
 		CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */; };
+		CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */; };
+		CF8578C62060AB230089B6F0 /* MessagesContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */; };
+		CF8578C82060AB470089B6F0 /* SessionsContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C72060AB470089B6F0 /* SessionsContentCell.swift */; };
 		CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */; };
 		CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */; };
 /* End PBXBuildFile section */
@@ -369,6 +372,9 @@
 		CF6F58ED205EE6B300ACBD32 /* DynamicLinkFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicLinkFactory.swift; sourceTree = "<group>"; };
 		CF6F58F2205EE6D100ACBD32 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMessagesBackground.swift; sourceTree = "<group>"; };
+		CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseContentCell.swift; sourceTree = "<group>"; };
+		CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesContentCell.swift; sourceTree = "<group>"; };
+		CF8578C72060AB470089B6F0 /* SessionsContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsContentCell.swift; sourceTree = "<group>"; };
 		CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemToggleCell.swift; sourceTree = "<group>"; };
 		CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSystemToggle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -811,6 +817,9 @@
 				CF6F5892205EE68800ACBD32 /* ContactCell.swift */,
 				CF6F5893205EE68800ACBD32 /* KeyboardActionViewCell.swift */,
 				CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */,
+				CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */,
+				CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */,
+				CF8578C72060AB470089B6F0 /* SessionsContentCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1077,6 +1086,7 @@
 				848809F92057827F00F204A0 /* TutorUnsafe.swift in Sources */,
 				84F2451C1FDA1183006447A8 /* TutorPayment.swift in Sources */,
 				8423941D1FF4D5E800827C7D /* RegistrationTitleLabel.swift in Sources */,
+				CF8578C82060AB470089B6F0 /* SessionsContentCell.swift in Sources */,
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
 				CF6F58DC205EE68800ACBD32 /* CustomNavVC.swift in Sources */,
 				CF6F58D1205EE68800ACBD32 /* UserImageView.swift in Sources */,
@@ -1093,6 +1103,7 @@
 				84E4C7DF204E9342009C2FC4 /* ForgotPassword.swift in Sources */,
 				8476C6A62053714400B55C8F /* SignInHandler.swift in Sources */,
 				CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */,
+				CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */,
 				CF6F58DD205EE68800ACBD32 /* LoginVC.swift in Sources */,
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestion.swift in Sources */,
 				842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */,
@@ -1159,6 +1170,7 @@
 				CF6F58E4205EE68800ACBD32 /* SystemMessage.swift in Sources */,
 				845A39FF1FFC22CF00226B25 /* GeoHash.swift in Sources */,
 				CF6F58CA205EE68800ACBD32 /* CustomDatePicker.swift in Sources */,
+				CF8578C62060AB230089B6F0 /* MessagesContentCell.swift in Sources */,
 				CF6F58CB205EE68800ACBD32 /* SubjectPicker.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
 				CF6F58CF205EE68800ACBD32 /* CustomNavBar.swift in Sources */,

@@ -11,23 +11,19 @@ import Firebase
 
 class MessagesVC: UIViewController {
     
-    var messages = [UserMessage]()
-    var conversationsDictionary = [String: UserMessage]()
-    let refreshControl = UIRefreshControl()
-    
-    let messagesCV: UICollectionView = {
+    let mainCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.darkBackground
-        cv.register(ConversationCell.self, forCellWithReuseIdentifier: "cellId")
+        cv.register(MessagesContentCell.self, forCellWithReuseIdentifier: "messagesContentCell")
+        cv.register(SessionsContentCell.self, forCellWithReuseIdentifier: "sessionsContentCell")
+        cv.alwaysBounceHorizontal = false
+        cv.alwaysBounceHorizontal = false
+        cv.isPagingEnabled = true
+        cv.allowsSelection = false
+        cv.isScrollEnabled = false
         return cv
-    }()
-    
-    let emptyBackround: EmptyMessagesBackground = {
-        let bg = EmptyMessagesBackground()
-        bg.isHidden = true
-        return bg
     }()
     
     let messageSessionControl: MessagingSystemToggle = {
@@ -38,7 +34,6 @@ class MessagesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        fetchConversations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,9 +45,7 @@ class MessagesVC: UIViewController {
         setupMainView()
         setupMessageSessionControl()
         setupCollectionView()
-        setupEmptyBackground()
         setupNavBar()
-        setupRefreshControl()
     }
     
     private func setupMainView() {
@@ -61,16 +54,10 @@ class MessagesVC: UIViewController {
     }
     
     private func setupCollectionView() {
-        messagesCV.delegate = self
-        messagesCV.dataSource = self
-        view.addSubview(messagesCV)
-        messagesCV.anchor(top: messageSessionControl.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 29, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    }
-    
-    private func setupEmptyBackground() {
-        view.addSubview(emptyBackround)
-        emptyBackround.anchor(top: messagesCV.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
-        emptyBackround.setupForTutor()
+        mainCollectionView.delegate = self
+        mainCollectionView.dataSource = self
+        view.addSubview(mainCollectionView)
+        mainCollectionView.anchor(top: messageSessionControl.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 29, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     private func setupNavBar() {
@@ -86,14 +73,10 @@ class MessagesVC: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settingsIcon"), style: .plain, target: self, action: #selector(showSettings))
     }
     
-    private func setupRefreshControl() {
-        refreshControl.addTarget(self, action: #selector(fetchConversations), for: .valueChanged)
-        messagesCV.refreshControl = refreshControl
-    }
-    
     private func setupMessageSessionControl() {
         view.addSubview(messageSessionControl)
         messageSessionControl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 50, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
+        messageSessionControl.delegate = self
     }
     
     @objc func showContacts() {
@@ -108,62 +91,28 @@ class MessagesVC: UIViewController {
         let navVC = CustomNavVC(rootViewController: vc)
         present(navVC, animated: true, completion: nil)
     }
-    
-    @objc func fetchConversations() {
-        conversationsDictionary.removeAll()
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("conversations").child(uid).observe(.childAdded) { snapshot in
-            let userId = snapshot.key
-            Database.database().reference().child("conversations").child(uid).child(userId).observe(.childAdded, with: { snapshot in
-                let messageId = snapshot.key
-                self.getMessageById(messageId)
-            })
-            self.refreshControl.endRefreshing()
-        }
-    }
-    
-    func getMessageById(_ messageId: String) {
-        Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? [String: Any] else { return }
-            let message = UserMessage(dictionary: value)
-            message.uid = snapshot.key
-            self.conversationsDictionary[message.partnerId()] = message
-            self.messages = Array(self.conversationsDictionary.values)
-            self.messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
-            self.messagesCV.reloadData()
-        }
-    }
 }
 
-extension MessagesVC: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-        vc.receiverId = messages[indexPath.item].partnerId()
-        let tappedCell = collectionView.cellForItem(at: indexPath) as! ConversationCell
-        vc.navigationItem.title = tappedCell.usernameLabel.text
-        vc.chatPartner = tappedCell.chatPartner
-        navigationController?.pushViewController(vc, animated: true)
-    }
-}
 
 extension MessagesVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
-        return conversationsDictionary.count
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as? ConversationCell else {
-            fatalError("Couldn't get cell for collectionView")
+        if indexPath.item == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messagesContentCell", for: indexPath) as! MessagesContentCell
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionsContentCell", for: indexPath) as! SessionsContentCell
+            return cell
         }
-        //        cell.updateUI(message: messages[indexPath.item])
-        return cell
     }
 }
 
 extension MessagesVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 80)
+        return CGSize(width: UIScreen.main.bounds.width, height: collectionView.bounds.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -173,6 +122,7 @@ extension MessagesVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+
 }
 
 extension MessagesVC: NewMessageDelegate {
@@ -185,11 +135,15 @@ extension MessagesVC: NewMessageDelegate {
     }
 }
 
+extension MessagesVC: SegmentedViewDelegate {
+    func scrollTo(index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        mainCollectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+    }
+}
+
 extension MessagesVC: PageObservation {
     func getParentPageViewController(parentRef: PageViewController) {
         
     }
-    
-    
 }
-
