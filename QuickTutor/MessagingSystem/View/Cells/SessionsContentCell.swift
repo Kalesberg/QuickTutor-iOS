@@ -112,6 +112,7 @@ class BaseSessionCell: UICollectionViewCell {
         setupDayLabel()
         setupWeekdayLabel()
         setupProfileImage()
+        print("Tesing bitbucket slack integration")
     }
     
     private func setupMonthLabel() {
