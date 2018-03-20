@@ -33,7 +33,7 @@ class Tutor {
 				"subj" : "subjects",
 				"adr" : TutorRegistration.address,
 				"tok" : TutorRegistration.stripeToken
-		]
+            ]
 		
 		ref.child("tutor").child(user.uid).setValue(post) { (error, databaseRef) in
 			if let error = error {

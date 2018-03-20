@@ -398,7 +398,7 @@ class SocialMediaIcon : InteractableView, Interactable {
     
     override func applyConstraints() {
         imageView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview().inset(5)
+            make.edges.equalToSuperview().inset(7)
         }
     }
     
@@ -574,7 +574,7 @@ class Settings : BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        contentView.applyGradient(firstColor: Colors.tutorBlue.cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.bounds)
+        //contentView.applyGradient(firstColor: Colors.tutorBlue.cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.bounds)
     }
     
     override func didReceiveMemoryWarning() {
