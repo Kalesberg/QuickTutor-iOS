@@ -20,7 +20,6 @@ class Tutor {
 	static let shared = Tutor()
 	
 	public func initTutor(completion: @escaping (Error?) -> Void) {
-		
 		let data = LearnerData.userData
 
 		let post : [String:Any] =
@@ -45,6 +44,7 @@ class Tutor {
 				completion(nil)
 			}
 		}
+		geoFire(location: TutorRegistration.location)
 	}
 	
 	public func updateValue(value: [String : Any]) {

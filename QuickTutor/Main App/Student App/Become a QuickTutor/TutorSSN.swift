@@ -75,7 +75,6 @@ class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
 		
 		lockImageView.image = UIImage(named: "registration-ssn-lock")
 		
-		nextButton.isUserInteractionEnabled = false
 	}
 	
 	override func applyConstraints() {
@@ -177,11 +176,8 @@ class TutorSSN : BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
         
-		let textFields = [contentView.digit1.textField, contentView.digit2.textField, contentView.digit3.textField, contentView.digit4.textField]
-		for textField in textFields {
-			textField.delegate = self
-			textField.addTarget(self, action: #selector(buildVerificationCode(_:)), for: .editingChanged)
-		}
+		textFields = [contentView.digit1.textField, contentView.digit2.textField, contentView.digit3.textField, contentView.digit4.textField]
+		configureTextFields()
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -278,7 +274,28 @@ extension TutorSSN : UITextFieldDelegate {
 			last4SSN.removeLast()
 			return true
 		}
-		return string == filtered
+
+		if isBackSpace == Constants.BCK_SPACE {
+			textFields[index].text = ""
+			textFieldController(current: textFields[index], textFieldToChange: textFields[index - 1])
+			textFields[index - 1].becomeFirstResponder()
+			index -= 1
+			contentView.nextButton.isUserInteractionEnabled = false
+			return false
+		}
+		
+		if (index == 3) {
+			return false
+		}
+		
+		if newLength > 1 {
+			textFieldController(current: textFields[index], textFieldToChange: textFields[index + 1])
+			index += 1
+			textFields[index].becomeFirstResponder()
+			return string == filtered
+		} else {
+			return string == filtered
+		}
 	}
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {

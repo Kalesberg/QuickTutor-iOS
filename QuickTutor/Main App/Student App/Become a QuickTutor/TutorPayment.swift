@@ -215,6 +215,8 @@ class TutorPayment: BaseViewController {
 					print(error)
 					self.contentView.addBankButton.isUserInteractionEnabled = true
 				} else {
+					_ = TutorLocation.init(addressString: "816 Douglas St. Mt. Pleasant Mi, 48357")
+
 					self.navigationController?.pushViewController(TutorAddSubjects(), animated: true)
 					self.contentView.addBankButton.isUserInteractionEnabled = true
 				}

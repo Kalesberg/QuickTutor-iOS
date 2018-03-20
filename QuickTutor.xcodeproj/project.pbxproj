@@ -81,6 +81,7 @@
 		8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8491C2A11FBE62350036FC12 /* QuickTutor.xcdatamodeld */; };
 		8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8491C2A61FBE62350036FC12 /* LaunchScreen.storyboard */; };
 		84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */; };
+		849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AAEA92060846800B9CFD7 /* TutorLocation.swift */; };
 		84A37B78200447C800C19397 /* UserPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A37B77200447C800C19397 /* UserPolicy.swift */; };
 		84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */; };
 		84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */; };
@@ -213,6 +214,7 @@
 		8491C2A71FBE62350036FC12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8491C2A91FBE62350036FC12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResizingExtensions.swift; sourceTree = "<group>"; };
+		849AAEA92060846800B9CFD7 /* TutorLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLocation.swift; sourceTree = "<group>"; };
 		84A37B77200447C800C19397 /* UserPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPolicy.swift; sourceTree = "<group>"; };
 		84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDatePicker.swift; sourceTree = "<group>"; };
 		84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTextView.swift; sourceTree = "<group>"; };
@@ -452,10 +454,10 @@
 		848E64392059EDAF000CD921 /* Become a QuickTutor */ = {
 			isa = PBXGroup;
 			children = (
-				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
 				848E643A2059EE0A000CD921 /* BecomeTutor.swift */,
 				84F245171FDA1127006447A8 /* TutorBio.swift */,
 				84F2451B1FDA1183006447A8 /* TutorPayment.swift */,
+				849AAEA92060846800B9CFD7 /* TutorLocation.swift */,
 				84F245191FDA1143006447A8 /* TutorSSN.swift */,
 				848E643C205A228C000CD921 /* TutorAddSubjects.swift */,
 				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
@@ -900,6 +902,7 @@
 				844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,
 				845A39FF1FFC22CF00226B25 /* GeoHash.swift in Sources */,
+				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
 				843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
