@@ -25,9 +25,6 @@ class PageViewController : UIPageViewController {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	var navbar = UIView()
-	var statusbar = UIView()
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -36,16 +33,7 @@ class PageViewController : UIPageViewController {
 		configureView()
 	}
 	
-	private func configureViewControllers() {
-		
-		let mainPage = MainPage() as PageObservation
-		mainPage.getParentPageViewController(parentRef: self)
-		orderedViewControllers.append(mainPage as! UIViewController)
-	
-		let messaging = Message() as PageObservation
-		messaging.getParentPageViewController(parentRef: self)
-		orderedViewControllers.append(messaging as! UIViewController)
-	}
+    func configureViewControllers() { }
 	
 	private func configureDelegates() {
 		delegate = self
@@ -60,26 +48,34 @@ class PageViewController : UIPageViewController {
 	}
 	private func configureView() {
 		self.view.backgroundColor = Colors.backgroundDark
-		self.view.insertSubview(statusbar, at: 0)
-		self.view.insertSubview(navbar, at: 0)
-		
-		statusbar.backgroundColor = Colors.registrationDark
-
-		navbar.backgroundColor = Colors.registrationDark
-		navbar.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: CGSize(width: 0, height: 3.0), radius: 1.0)
-		
-		statusbar.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalTo(DeviceInfo.statusbarHeight)
-		}
-		
-		navbar.snp.makeConstraints { (make) in
-			make.top.equalTo(statusbar.snp.bottom)
-			make.width.equalToSuperview()
-			make.height.equalTo(70)
-		}
+        
 	}
+}
+
+class LearnerPageViewController : PageViewController {
+    
+    override func configureViewControllers() {
+        let mainPage = LearnerMainPage() as PageObservation
+        mainPage.getParentPageViewController(parentRef: self)
+        orderedViewControllers.append(mainPage as! UIViewController)
+        
+        let messaging = Message() as PageObservation
+        messaging.getParentPageViewController(parentRef: self)
+        orderedViewControllers.append(messaging as! UIViewController)
+    }
+}
+
+class TutorPageViewController : PageViewController {
+    
+    override func configureViewControllers() {
+        let mainPage = TutorMainPage() as PageObservation
+        mainPage.getParentPageViewController(parentRef: self)
+        orderedViewControllers.append(mainPage as! UIViewController)
+        
+        let messaging = Message() as PageObservation
+        messaging.getParentPageViewController(parentRef: self)
+        orderedViewControllers.append(messaging as! UIViewController)
+    }
 }
 
 extension PageViewController : UIPageViewControllerDataSource, UIPageViewControllerDelegate {

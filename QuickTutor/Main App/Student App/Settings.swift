@@ -21,7 +21,7 @@ import FirebaseAuth
 class SettingsView : MainLayoutTitleBackButton {
     
     var scrollView = SettingsScrollView()
-    fileprivate var profileView = ProfileView()
+    fileprivate var profileView = SettingsProfileView()
     var spreadLoveHeader = ItemHeader()
     var rateUs = RateUs()
     var followUs = FollowUs()
@@ -316,7 +316,7 @@ class ItemToggle : SettingsItem {
     }
 }
 
-fileprivate class ProfileView : ArrowItem {
+fileprivate class SettingsProfileView : ArrowItem {
     
     var imageContainer = BaseView()
     var imageView = UIImageView()

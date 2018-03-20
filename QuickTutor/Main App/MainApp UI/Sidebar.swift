@@ -10,9 +10,19 @@ import Foundation
 import UIKit
 import SnapKit
 
+class TutorSideBar : Sidebar {
+    
+    
+}
+
+class LearnerSideBar : Sidebar {
+    
+    
+}
+
 class Sidebar : BaseView {
     
-    var purpleView        = PurpleView()
+    var profileView       = ProfileView()
     var divider           = UIView()
     var ratingView        = RatingView()
     var divider1          = BaseView()
@@ -31,7 +41,7 @@ class Sidebar : BaseView {
 	
     override func configureView() {
         super.configureView()
-        addSubview(purpleView)
+        addSubview(profileView)
         addSubview(divider)
         addSubview(ratingView)
         addSubview(divider1)
@@ -43,8 +53,6 @@ class Sidebar : BaseView {
         itemContainer.addSubview(divider2)
         itemContainer.addSubview(legalItem)
         itemContainer.addSubview(helpItem)
-    
-        //backgroundColor = Colors.backgroundDark
         
         layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1.5), radius: 3.0)
         
@@ -53,7 +61,7 @@ class Sidebar : BaseView {
         divider2.backgroundColor = Colors.divider
 		
 		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			purpleView.profilePicView.image = image
+			profileView.profilePicView.image = image
 		} else {
 			//set to some arbitrary image.
 		}
@@ -63,7 +71,7 @@ class Sidebar : BaseView {
     
     override func applyConstraints() {
         
-        purpleView.snp.makeConstraints { (make) in
+        profileView.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.top.equalToSuperview()
@@ -71,14 +79,14 @@ class Sidebar : BaseView {
         }
         
         divider.snp.makeConstraints { (make) in
-            make.top.equalTo(purpleView.snp.bottom)
+            make.top.equalTo(profileView.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(0.5)
         }
         
         ratingView.snp.makeConstraints { (make) in
-            make.top.equalTo(purpleView.snp.bottom)
+            make.top.equalTo(profileView.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.08)
@@ -153,7 +161,7 @@ class Sidebar : BaseView {
 	}
 }
 
-class PurpleView : InteractableBackgroundView {
+class ProfileView : InteractableBackgroundView {
     
     var profileView       = BaseView()
 	var profilePicView    = UIImageView() {
@@ -177,7 +185,6 @@ class PurpleView : InteractableBackgroundView {
         profileView.addSubview(profileNameView)
         profileView.addSubview(profileSchoolView)
         
-        //backgroundColor = Colors.sidebarPurple
         backgroundView.isUserInteractionEnabled = false
         profilePicView.scaleImage()
         
@@ -361,16 +368,6 @@ class SettingsSidebarItem : SidebarItemIcon {
         label.label.text = "Settings"
     }
 }
-
-
-//class CalendarSidebarItem : SidebarItemIcon {
-//    override func configureView() {
-//        super.configureView()
-//
-//        icon.image = UIImage(named: "sidebar-calendar")
-//        label.label.text = "Calendar"
-//    }
-//}
 
 
 class ReportSidebarItem : SidebarItemIcon {

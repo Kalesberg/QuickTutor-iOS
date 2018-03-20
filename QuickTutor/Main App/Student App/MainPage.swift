@@ -9,6 +9,69 @@
 import Firebase
 import UIKit
 
+class LearnerMainPageView : MainPageView {
+    
+    var search  = SearchBar()
+    var learnerSidebar = LearnerSideBar()
+    
+    override var sidebar: Sidebar {
+        get {
+            return learnerSidebar
+        } set {
+            if newValue is LearnerSideBar {
+                learnerSidebar = newValue as! LearnerSideBar
+            } else {
+                print("incorrect sidebar type for LearnerMainPage")
+            }
+        }
+    }
+    
+    override func configureView() {
+        navbar.addSubview(search)
+        super.configureView()
+        
+    }
+    
+    override func applyConstraints() {
+        super.applyConstraints()
+        
+        search.snp.makeConstraints { (make) in
+            make.height.equalTo(35)
+            make.width.equalToSuperview().multipliedBy(0.65)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().inset(5)
+        }
+    }
+}
+
+class TutorMainPageView : MainPageView {
+    
+    var tutorSidebar = TutorSideBar()
+    
+    override var sidebar: Sidebar {
+        get {
+            return tutorSidebar
+        } set {
+            if newValue is TutorSideBar {
+                 tutorSidebar = newValue as! TutorSideBar
+            } else {
+                print("incorrect sidebar type for TutorMainPage")
+            }
+        }
+    }
+    
+    override func configureView() {
+
+        super.configureView()
+        
+    }
+    
+    override func applyConstraints() {
+        super.applyConstraints()
+        
+    }
+}
+
 class MainPageView : MainLayoutTwoButton {
     
     var sidebarButton  = NavbarButtonLines()
@@ -16,9 +79,6 @@ class MainPageView : MainLayoutTwoButton {
     var backgroundView = InteractableObject()
 	
 	var label = UILabel()
-	
-    var messagesView = BaseView()
-    var messagesSessionsControl = UISegmentedControl()
 	
     override var leftButton: NavbarButton {
         get {
@@ -36,7 +96,6 @@ class MainPageView : MainLayoutTwoButton {
         }
     }
     
-    var search         = SearchBar()
     var sidebar        = Sidebar()
     
     override func configureView() {
@@ -44,63 +103,39 @@ class MainPageView : MainLayoutTwoButton {
   
         navbar.addSubview(sidebarButton)
         navbar.addSubview(messagesButton)
-        navbar.addSubview(search)
         
         insertSubview(sidebar, aboveSubview: navbar)
         
-        messagesView.addSubview(messagesSessionsControl)
-        addSubview(messagesView)
 		addSubview(label)
         super.configureView()
         
         backgroundView.backgroundColor = .black
         backgroundView.alpha = 0.0
         
-        messagesView.alpha = 0.0
-        
-        messagesSessionsControl.insertSegment(withTitle: "Messages", at: 0, animated: true)
-        messagesSessionsControl.insertSegment(withTitle: "Sessions", at: 1, animated: true)
-        
-        let rightView = messagesSessionsControl.subviews[0]
-        let leftView = messagesSessionsControl.subviews[1]
-        
-        messagesSessionsControl.layer.cornerRadius = 6
-        let font = Fonts.createLightSize(18)
-        messagesSessionsControl.setTitleTextAttributes([NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: UIColor.white],
-                                                for: .selected)
-        messagesSessionsControl.setTitleTextAttributes([NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: UIColor.white],
-                                                    for: .normal)
-        messagesSessionsControl.layer.borderWidth = 1.5
-        messagesSessionsControl.layer.borderColor = UIColor.white.cgColor
-        messagesSessionsControl.setDividerImage(UIImage(color: .white, size: CGSize(width: 0.75, height: messagesSessionsControl.frame.height)), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
-        messagesSessionsControl.selectedSegmentIndex = 0
-        messagesSessionsControl.tintColor = .clear
-        
-        rightView.layer.cornerRadius = 6
-        leftView.layer.cornerRadius = 6
-        
-        let firstColor = Colors.tutorBlue.cgColor
-        let secondColor = Colors.learnerPurple.cgColor
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: leftView.frame.minX + 1.5, y: leftView.frame.minY + 1.5, width: leftView.frame.width - 7, height: leftView.frame.height - 3)
-        gradientLayer.cornerRadius = 1
-        gradientLayer.colors = [ firstColor, secondColor ]
-        
-        let x: Double! = 90 / 360.0
-        let a = pow(sinf(Float(2.0 * .pi * ((x + 0.75) / 2.0))),2.0);
-        let b = pow(sinf(Float(2 * .pi * ((x+0.0)/2))),2);
-        let c = pow(sinf(Float(2 * .pi * ((x+0.25)/2))),2);
-        let d = pow(sinf(Float(2 * .pi * ((x+0.5)/2))),2);
-        
-        gradientLayer.endPoint = CGPoint(x: CGFloat(c),y: CGFloat(d))
-        gradientLayer.startPoint = CGPoint(x: CGFloat(a),y:CGFloat(b))
-        
-        gradientLayer.locations = [0, 0.7, 0.9, 1]
-        
-        messagesSessionsControl.layer.insertSublayer(gradientLayer, at: 0)
-        
         sidebar.alpha = 0.0
-		
+        
+//        messagesSessionsControl.insertSegment(withTitle: "Messages", at: 0, animated: true)
+//        messagesSessionsControl.insertSegment(withTitle: "Sessions", at: 1, animated: true)
+//
+//        let rightView = messagesSessionsControl.subviews[0]
+//        let leftView = messagesSessionsControl.subviews[1]
+//
+//        messagesSessionsControl.layer.cornerRadius = 6
+//        let font = Fonts.createLightSize(18)
+//        messagesSessionsControl.setTitleTextAttributes([NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: UIColor.white],
+//                                                for: .selected)
+//        messagesSessionsControl.setTitleTextAttributes([NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: UIColor.white],
+//                                                    for: .normal)
+//        messagesSessionsControl.layer.borderWidth = 1.5
+//        messagesSessionsControl.layer.borderColor = UIColor.white.cgColor
+//        messagesSessionsControl.setDividerImage(UIImage(color: .white, size: CGSize(width: 0.75, height: messagesSessionsControl.frame.height)), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+//        messagesSessionsControl.selectedSegmentIndex = 0
+//        messagesSessionsControl.tintColor = .clear
+//
+//        rightView.layer.cornerRadius = 6
+//        leftView.layer.cornerRadius = 6
+        
+        
 		label.text = "Here is MainPage"
 		label.font = Fonts.createSize(40)
 		label.textAlignment = .center
@@ -111,13 +146,6 @@ class MainPageView : MainLayoutTwoButton {
     
     override func applyConstraints() {
         super.applyConstraints()
-        
-        search.snp.makeConstraints { (make) in
-            make.height.equalTo(35) //(1 - (DeviceInfo.multiplier - 1)) *
-            make.width.equalToSuperview().multipliedBy(0.65)
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().inset(5)
-        }
         
         sidebarButton.allignLeft()
         
@@ -134,19 +162,6 @@ class MainPageView : MainLayoutTwoButton {
             make.width.equalToSuperview().multipliedBy(0.72)
         }
         
-        messagesView.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom)
-            make.left.equalTo(layoutMarginsGuide.snp.left)
-            make.right.equalTo(layoutMarginsGuide.snp.right)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-        }
-        
-        messagesSessionsControl.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.height.equalTo(30)
-            make.width.equalToSuperview().multipliedBy(0.75)
-            make.centerX.equalToSuperview()
-		}
 		label.snp.makeConstraints { (make) in
 			make.centerY.equalToSuperview()
 			make.width.equalToSuperview()
@@ -192,6 +207,127 @@ class SearchBar: BaseView, Interactable {
 
 }
 
+class LearnerMainPage : MainPage {
+    override var contentView: LearnerMainPageView {
+        return view as! LearnerMainPageView
+    }
+    override func loadView() {
+        view = LearnerMainPageView()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+            contentView.sidebar.profileView.profilePicView.image = image
+        } else {
+        }
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        print("khj")
+        contentView.sidebar.applyGradient(firstColor: Colors.tutorBlue.cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.sidebar.bounds)
+    }
+    override func updateSideBar() {
+        contentView.sidebar.profileView.profileNameView.label.text = "\(user.firstName!) \(user.lastName!)"
+        contentView.sidebar.profileView.profileSchoolView.label.text = user.school
+        contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
+    }
+    override func handleNavigation() {
+        super.handleNavigation()
+        
+        if(touchStartView == contentView.sidebar.paymentItem) {
+            navigationController?.pushViewController(hasPaymentMethod ? CardManager() : Payment(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.settingsItem) {
+            navigationController?.pushViewController(Settings(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.profileView) {
+            navigationController?.pushViewController(MyProfile(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.reportItem) {
+            navigationController?.pushViewController(FileReport(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.legalItem) {
+            hideSidebar()
+            hideBackground()
+            //take user to legal on our website
+        } else if(touchStartView == contentView.sidebar.helpItem) {
+            navigationController?.pushViewController(Help(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.becomeQTItem) {
+            navigationController?.pushViewController(BecomeTutor(), animated: true)
+            hideSidebar()
+            hideBackground()
+        }
+    }
+}
+
+class TutorMainPage : MainPage {
+    override var contentView: TutorMainPageView {
+        return view as! TutorMainPageView
+    }
+    override func loadView() {
+        view = TutorMainPageView()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+            contentView.sidebar.profileView.profilePicView.image = image
+        } else {
+        }
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        contentView.sidebar.applyGradient(firstColor: Colors.sidebarPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
+    }
+    override func updateSideBar() {
+        contentView.sidebar.profileView.profileNameView.label.text = "\(user.firstName!) \(user.lastName!)"
+        contentView.sidebar.profileView.profileSchoolView.label.text = user.school
+        contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
+    }
+    override func handleNavigation() {
+        super.handleNavigation()
+        
+        if(touchStartView == contentView.sidebar.paymentItem) {
+            navigationController?.pushViewController(hasPaymentMethod ? CardManager() : Payment(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.settingsItem) {
+            navigationController?.pushViewController(Settings(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.profileView) {
+            navigationController?.pushViewController(MyProfile(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.reportItem) {
+            navigationController?.pushViewController(FileReport(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.legalItem) {
+            hideSidebar()
+            hideBackground()
+            //take user to legal on our website
+        } else if(touchStartView == contentView.sidebar.helpItem) {
+            navigationController?.pushViewController(Help(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.becomeQTItem) {
+            navigationController?.pushViewController(BecomeTutor(), animated: true)
+            hideSidebar()
+            hideBackground()
+        }
+    }
+}
+
 class MainPage : BaseViewController {
 	
     override var contentView: MainPageView {
@@ -201,39 +337,21 @@ class MainPage : BaseViewController {
         view = MainPageView()
     }
 	
-	private var hasPaymentMethod : Bool!
-	private var hasStudentBio : Bool!
+	var hasPaymentMethod : Bool!
+	var hasStudentBio : Bool!
 	
 	let user = LearnerData.userData
 	let image = LocalImageCache.localImageManager
 	
 	var parentPageViewController : PageViewController!
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		
-		
-		contentView.messagesSessionsControl.addTarget(self, action: #selector(controlChanged), for: .valueChanged)
-		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			contentView.sidebar.purpleView.profilePicView.image = image
-		} else {
-			//set to some arbitrary image.
-		}
-	}
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		//temporary
+
         hasPaymentMethod = UserDefaultData.localDataManager.hasPaymentMethod
         hasStudentBio = UserDefaultData.localDataManager.hasBio
-		
 	}
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        contentView.sidebar.applyGradient(firstColor: Colors.tutorBlue.cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.sidebar.bounds)
-    }
-	
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 	}
@@ -248,16 +366,12 @@ class MainPage : BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-	private func updateSideBar() {
-		contentView.sidebar.purpleView.profileNameView.label.text = "\(user.firstName!) \(user.lastName!)"
-		contentView.sidebar.purpleView.profileSchoolView.label.text = user.school
-		contentView.sidebar.purpleView.profilePicView.image = image.getImage(number: "1")
-	}
+    func updateSideBar() { }
 	
-    @objc internal func controlChanged() {
-        let _ = contentView.messagesSessionsControl.subviews[0]
-        let _ = contentView.messagesSessionsControl.subviews[1]
-
+//    @objc internal func controlChanged() {
+//        let _ = contentView.messagesSessionsControl.subviews[0]
+//        let _ = contentView.messagesSessionsControl.subviews[1]
+//
 //        switch contentView.messagesSessionsControl.selectedSegmentIndex
 //        {
 //        case 0:
@@ -267,7 +381,7 @@ class MainPage : BaseViewController {
 //        default:
 //            break
 //        }
-    }
+//    }
     
     override func handleNavigation() {
         if (touchStartView == nil) {
@@ -292,44 +406,7 @@ class MainPage : BaseViewController {
             })
             hideBackground()
         } else if(touchStartView == contentView.messagesButton) {
-			
 			parentPageViewController.goToNextPage()
-			
-//            let startX = self.contentView.messagesView.center.x
-//            self.contentView.messagesView.center.x = (startX * 3)
-//            contentView.messagesView.fadeIn(withDuration: 0.5, alpha: 1.0)
-//            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
-//                self.contentView.messagesView.center.x = startX
-//            })
-//            contentView.messagesView.isUserInteractionEnabled = true
-        } else if(touchStartView == contentView.sidebar.paymentItem) {
-			navigationController?.pushViewController(hasPaymentMethod ? CardManager() : Payment(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.settingsItem) {
-            navigationController?.pushViewController(Settings(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.purpleView) {
-            navigationController?.pushViewController(MyProfile(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.reportItem) {
-            navigationController?.pushViewController(FileReport(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.legalItem) {
-            hideSidebar()
-            hideBackground()
-            //take user to legal on our website
-        } else if(touchStartView == contentView.sidebar.helpItem) {
-            navigationController?.pushViewController(Help(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.becomeQTItem) {
-            navigationController?.pushViewController(BecomeTutor(), animated: true)
-            hideSidebar()
-            hideBackground()
         }
     }
     
