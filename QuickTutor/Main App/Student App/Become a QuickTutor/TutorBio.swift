@@ -109,7 +109,7 @@ class TutorBio: BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		//contentView.textView.textView.becomeFirstResponder()
+		contentView.textView.textView.becomeFirstResponder()
 	}
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)

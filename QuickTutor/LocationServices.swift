@@ -38,7 +38,7 @@ class LocationServices {
 				else {
 					return
 			}
-			FirebaseData.manager.updateValue(value: ["address" : "\(address.city), \(address.state)"])
+			FirebaseData.manager.updateValue(value: ["adr" : "\(address.city), \(address.state)"])
 		})
 	}
 }
