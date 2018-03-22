@@ -13,12 +13,12 @@ class TutorLocation {
 	
 	let geoCoder = CLGeocoder()
 	
-	init(addressString: String) {
+	init(addressString: String, completion: @escaping (Error?) -> Void) {
 		convertAddressToLatLong(addressString: addressString) { (error) in
 			if let error = error {
-				print(error.localizedDescription)
+				completion(error)
 			} else {
-				print("Success")
+				completion(nil)
 			}
 		}
 	}
@@ -35,6 +35,7 @@ class TutorLocation {
 			}
 		}
 	}
+	
 	func formatAddressStringFromLatLong(location: CLLocation) {
 		geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
 			if let error = error {
@@ -49,23 +50,24 @@ class TutorLocation {
 			let pm = placemark[0]
 			var addressString : String = ""
 
-			if pm.subThoroughfare != nil {
-				addressString = addressString + pm.subThoroughfare! + " "
+			if let streetNumber = pm.subThoroughfare {
+				addressString = addressString + streetNumber + " "
 			}
-			if pm.subLocality != nil {
-				addressString = addressString + pm.subLocality! + ", "
+			if let street = pm.thoroughfare {
+				TutorRegistration.line1 = addressString + street
+				addressString = addressString + street + ", "
 			}
-			if pm.thoroughfare != nil {
-				addressString = addressString + pm.thoroughfare! + ", "
+			if let city = pm.locality {
+				addressString = addressString + city + ", "
+				TutorRegistration.city = city
 			}
-			if pm.locality != nil {
-				addressString = addressString + pm.locality! + ", "
+			if let state = pm.administrativeArea {
+				addressString = addressString + state + " "
+				TutorRegistration.state = state
 			}
-			if pm.administrativeArea != nil {
-				addressString = addressString + pm.administrativeArea! + " "
-			}
-			if pm.postalCode != nil {
-				addressString = addressString + pm.postalCode! + " "
+			if let zipcode = pm.postalCode {
+				addressString = addressString + zipcode + " "
+				TutorRegistration.zipcode = zipcode
 			}
 			TutorRegistration.address = addressString
 		}

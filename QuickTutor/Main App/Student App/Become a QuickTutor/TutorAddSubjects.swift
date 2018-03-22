@@ -94,15 +94,7 @@ class TutorAddSubjects : BaseViewController {
 	}
 	override func handleNavigation() {
 		if touchStartView is RegistrationNextButton {
-			
-			
-			Tutor.shared.initTutor(completion: { (error) in
-				if let error = error {
-					print(error.localizedDescription)
-				} else {
-					print("Tutor in DB")
-				}
-			})
+			self.navigationController?.pushViewController(TutorBio(), animated: true)
 		}
 	}
 }

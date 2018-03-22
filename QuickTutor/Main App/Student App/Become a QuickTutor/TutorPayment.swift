@@ -210,17 +210,7 @@ class TutorPayment: BaseViewController {
     override func handleNavigation() {
         if (touchStartView is AddBankButton) {
 			contentView.addBankButton.isUserInteractionEnabled = false
-			Stripe.stripeManager.initConnectAccount(completion: { (error) in
-				if let error = error {
-					print(error)
-					self.contentView.addBankButton.isUserInteractionEnabled = true
-				} else {
-					_ = TutorLocation.init(addressString: "816 Douglas St. Mt. Pleasant Mi, 48357")
-
-					self.navigationController?.pushViewController(TutorAddSubjects(), animated: true)
-					self.contentView.addBankButton.isUserInteractionEnabled = true
-				}
-			})
+			self.navigationController?.pushViewController(TutorAddress(), animated: true)
         }
     }
 	

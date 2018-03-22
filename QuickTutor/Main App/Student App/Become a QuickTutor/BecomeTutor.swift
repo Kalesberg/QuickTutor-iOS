@@ -171,7 +171,7 @@ class BecomeTutor : BaseViewController {
         if(touchStartView is RegistrationBackButton) {
             navigationController?.popViewController(animated: true)
         } else if(touchStartView is StartButton) {
-            navigationController?.pushViewController(TutorBio(), animated: true)
+            navigationController?.pushViewController(TutorAddSubjects(), animated: true)
         }
     }
 }

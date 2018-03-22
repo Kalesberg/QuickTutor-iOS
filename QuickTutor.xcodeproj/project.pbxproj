@@ -38,9 +38,11 @@
 		8430A8E61FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8430A8E51FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift */; };
 		8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431A38D1FF8A0F20090AEF2 /* RegistrationCheckbox.swift */; };
 		8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434B82A20468D6F00E16170 /* EditLanguages.swift */; };
+		8438B2DC2062FEC4005CD589 /* TutorPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8438B2DB2062FEC4005CD589 /* TutorPolicy.swift */; };
 		843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A1D182047C5BF00299D27 /* EditSchool.swift */; };
 		843BA3222055088B000C7054 /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA3212055088B000C7054 /* Reviews.swift */; };
 		843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA323205513F4000C7054 /* UIColorExtensions.swift */; };
+		843F14C82061760C0092F591 /* TutorAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F14C72061760C0092F591 /* TutorAddress.swift */; };
 		8445F25020425D0D006A65E2 /* EnterPhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8445F24F20425D0D006A65E2 /* EnterPhoneNumber.swift */; };
 		8448C574204BC87100C3247D /* EditPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8448C573204BC87100C3247D /* EditPhone.swift */; };
 		8449DDEA1FFDD40600FC38CB /* CALayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449DDE91FFDD40600FC38CB /* CALayerExtensions.swift */; };
@@ -168,9 +170,11 @@
 		8430A8E51FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationNavBarKeyboardView.swift; sourceTree = "<group>"; };
 		8431A38D1FF8A0F20090AEF2 /* RegistrationCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCheckbox.swift; sourceTree = "<group>"; };
 		8434B82A20468D6F00E16170 /* EditLanguages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLanguages.swift; sourceTree = "<group>"; };
+		8438B2DB2062FEC4005CD589 /* TutorPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPolicy.swift; sourceTree = "<group>"; };
 		843A1D182047C5BF00299D27 /* EditSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSchool.swift; sourceTree = "<group>"; };
 		843BA3212055088B000C7054 /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
 		843BA323205513F4000C7054 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		843F14C72061760C0092F591 /* TutorAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddress.swift; sourceTree = "<group>"; };
 		8445F24F20425D0D006A65E2 /* EnterPhoneNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumber.swift; sourceTree = "<group>"; };
 		84472EAB1FC0DDED007DCD71 /* QuickTutor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuickTutor.entitlements; sourceTree = "<group>"; };
 		8448C573204BC87100C3247D /* EditPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhone.swift; sourceTree = "<group>"; };
@@ -455,12 +459,14 @@
 			isa = PBXGroup;
 			children = (
 				848E643A2059EE0A000CD921 /* BecomeTutor.swift */,
-				84F245171FDA1127006447A8 /* TutorBio.swift */,
-				84F2451B1FDA1183006447A8 /* TutorPayment.swift */,
-				849AAEA92060846800B9CFD7 /* TutorLocation.swift */,
-				84F245191FDA1143006447A8 /* TutorSSN.swift */,
 				848E643C205A228C000CD921 /* TutorAddSubjects.swift */,
+				84F245171FDA1127006447A8 /* TutorBio.swift */,
+				84F245191FDA1143006447A8 /* TutorSSN.swift */,
+				84F2451B1FDA1183006447A8 /* TutorPayment.swift */,
+				843F14C72061760C0092F591 /* TutorAddress.swift */,
+				8438B2DB2062FEC4005CD589 /* TutorPolicy.swift */,
 				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
+				849AAEA92060846800B9CFD7 /* TutorLocation.swift */,
 			);
 			path = "Become a QuickTutor";
 			sourceTree = "<group>";
@@ -849,6 +855,7 @@
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
 				8422F2F3205AC6390061ACE4 /* Messaging.swift in Sources */,
 				84F2450F1FDA0F59006447A8 /* UploadImage.swift in Sources */,
+				843F14C82061760C0092F591 /* TutorAddress.swift in Sources */,
 				84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
 				84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */,
@@ -900,6 +907,7 @@
 				848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBio.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */,
+				8438B2DC2062FEC4005CD589 /* TutorPolicy.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,
 				845A39FF1FFC22CF00226B25 /* GeoHash.swift in Sources */,
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
