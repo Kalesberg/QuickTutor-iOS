@@ -12,11 +12,153 @@ import SnapKit
 
 class TutorSideBar : Sidebar {
     
+    var taxItem = TaxSidebarItem()
+    
+    override func configureView() {
+        itemContainer.addSubview(taxItem)
+        super.configureView()
+        
+        becomeQTItem.label.label.text = "Start Learning"
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        super.applyConstraints()
+        
+        itemContainer.snp.remakeConstraints { (make) in
+            make.top.equalTo(divider1.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.525)
+        }
+        
+        paymentItem.snp.makeConstraints { (make) in
+            make.top.equalTo(ratingView.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        settingsItem.snp.makeConstraints { (make) in
+            make.top.equalTo(paymentItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        reportItem.snp.makeConstraints { (make) in
+            make.top.equalTo(settingsItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        becomeQTItem.snp.makeConstraints { (make) in
+            make.top.equalTo(reportItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        divider2.snp.makeConstraints { (make) in
+            make.top.equalTo(becomeQTItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(0.5)
+        }
+        
+        legalItem.snp.makeConstraints { (make) in
+            make.top.equalTo(divider2.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        helpItem.snp.makeConstraints { (make) in
+            make.top.equalTo(legalItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        taxItem.snp.makeConstraints { (make) in
+            make.top.equalTo(helpItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+    }
     
 }
 
+
 class LearnerSideBar : Sidebar {
     
+    override func configureView() {
+        super.configureView()
+    
+    }
+    
+    override func applyConstraints() {
+        super.applyConstraints()
+        
+        itemContainer.snp.makeConstraints { (make) in
+            make.top.equalTo(divider1.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.46)
+        }
+        
+        paymentItem.snp.makeConstraints { (make) in
+            make.top.equalTo(ratingView.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.14285)
+        }
+        
+        settingsItem.snp.makeConstraints { (make) in
+            make.top.equalTo(paymentItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.14285)
+        }
+        
+        reportItem.snp.makeConstraints { (make) in
+            make.top.equalTo(settingsItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.14285)
+        }
+        
+        becomeQTItem.snp.makeConstraints { (make) in
+            make.top.equalTo(reportItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.14285)
+        }
+        
+        divider2.snp.makeConstraints { (make) in
+            make.top.equalTo(becomeQTItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(0.5)
+        }
+        
+        legalItem.snp.makeConstraints { (make) in
+            make.top.equalTo(divider2.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.14285)
+        }
+        
+        helpItem.snp.makeConstraints { (make) in
+            make.top.equalTo(legalItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.14285)
+        }
+    }
     
 }
 
@@ -97,62 +239,6 @@ class Sidebar : BaseView {
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(0.5)
-        }
-        
-        itemContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(divider1.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.48)
-        }
-        
-        paymentItem.snp.makeConstraints { (make) in
-            make.top.equalTo(ratingView.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
-        }
-        
-        settingsItem.snp.makeConstraints { (make) in
-            make.top.equalTo(paymentItem.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
-        }
-        
-        reportItem.snp.makeConstraints { (make) in
-            make.top.equalTo(settingsItem.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
-        }
-        
-        becomeQTItem.snp.makeConstraints { (make) in
-            make.top.equalTo(reportItem.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
-        }
-        
-        divider2.snp.makeConstraints { (make) in
-            make.top.equalTo(becomeQTItem.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(0.5)
-        }
-        
-        legalItem.snp.makeConstraints { (make) in
-            make.top.equalTo(divider2.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
-        }
-        
-        helpItem.snp.makeConstraints { (make) in
-            make.top.equalTo(legalItem.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
         }
     }
 
@@ -386,5 +472,13 @@ class BecomeQTSidebarItem : SidebarItemIcon {
         
         icon.image = UIImage(named: "sidebar-qt")
         label.label.text = "Become a QuickTutor"
+    }
+}
+
+class TaxSidebarItem : SidebarItem {
+    override func configureView() {
+        super.configureView()
+    
+        label.label.text = "Tax Information"
     }
 }

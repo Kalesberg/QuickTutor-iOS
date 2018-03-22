@@ -106,7 +106,7 @@ class TheChoice : BaseViewController {
 	
 	override func handleNavigation() {
 		if(touchStartView == contentView.continueButton) {
-			let next = MainPage()
+			let next = LearnerPageViewController()
 			navigationController?.pushViewController(next, animated: true)
 			let endIndex = navigationController?.viewControllers.endIndex
 			navigationController?.viewControllers.removeFirst(endIndex! - 1)
