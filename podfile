@@ -14,10 +14,10 @@ target 'QuickTutor' do
   
   # Pods for backend
   pod 'Alamofire', '~>4.5'
-  pod 'Stripe'
   pod 'SwiftKeychainWrapper'
   pod 'AAPhotoCircleCrop'
   pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'
+  pod 'Stripe'
 
   # Pods for Facebook
   pod "FBSDKLoginKit", "4.24.0"

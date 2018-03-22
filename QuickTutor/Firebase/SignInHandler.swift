@@ -35,7 +35,8 @@ class SignInHandler {
 				user.address       	= value?["adr"      	]   as? String ?? ""
 				user.languages     	= value?["lng"   		]   as? [String] ?? [""]
 				user.customer 		= value?["cus" 			]	as?	String ?? ""
-				
+			
+				self.checkIsTutor()
 				print("Grabbing image urls...")
 				self.grabImageUrls {
 					print("Done grabbing image urls.")
@@ -83,5 +84,15 @@ class SignInHandler {
 	private func inputDefaultImage(number: String) {
 		LocalImageCache.localImageManager.storeImageLocally(image: #imageLiteral(resourceName: "registration-image-placeholder"), number: number)
 		LearnerData.userData.images["image\(number)"] = ""
+	}
+	private func checkIsTutor() {
+		self.ref.child("tutor").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+			if snapshot.exists() {
+				//do things related to being a tutor
+				UserDefaultData.localDataManager.isTutor = true
+			} else {
+				//do things related to not being a tutor
+			}
+		})
 	}
 }

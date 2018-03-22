@@ -132,8 +132,16 @@ class UserDefaultData {
 			return defaults.integer(forKey: "numberOfCards")
 		}
 	}
+	var isTutor : Bool {
+		get {
+			return defaults.bool(forKey: "isTutor")
+		}
+		set {
+			defaults.set(newValue, forKey: "isTutor")
+		}
+	}
 	deinit {
-		print("Gone with the wind")
+		print("UserData Deninit")
 	}
 }
 
@@ -215,7 +223,7 @@ class FirebaseData {
 	
 	public func uploadUserImage(image: UIImage, number: String, completion: @escaping (_ imageUrl: String?) -> Void) {
 		let path = "student/\(user.uid)/student-profile-pic\(number)"
-		if let uploadData = UIImageJPEGRepresentation(image, 0.8) {
+		if let uploadData = UIImageJPEGRepresentation(image, 0.5) {
 			storageRef.child(path).putData(uploadData, metadata: nil, completion: { (meta, error) in
 				if let error = error {
 					print(error.localizedDescription)
