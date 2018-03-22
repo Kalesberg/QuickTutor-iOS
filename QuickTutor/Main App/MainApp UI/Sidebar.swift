@@ -178,9 +178,9 @@ class Sidebar : BaseView {
     
     var legalItem         = LegalSidebarItem()
     var helpItem          = HelpSidebarItem()
-	
-	static var manager = Sidebar()
-	
+    
+    static var manager = Sidebar()
+    
     override func configureView() {
         super.configureView()
         addSubview(profileView)
@@ -201,13 +201,13 @@ class Sidebar : BaseView {
         divider.backgroundColor = Colors.divider
         divider1.backgroundColor = Colors.divider
         divider2.backgroundColor = Colors.divider
-		
-		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			profileView.profilePicView.image = image
-		} else {
-			//set to some arbitrary image.
-		}
-		
+        
+        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+            profileView.profilePicView.image = image
+        } else {
+            //set to some arbitrary image.
+        }
+        
         applyConstraints()
     }
     
@@ -242,26 +242,26 @@ class Sidebar : BaseView {
         }
     }
 
-	deinit {
-		print("SideBar Deinit")
-	}
+    deinit {
+        print("SideBar Deinit")
+    }
 }
 
 class ProfileView : InteractableBackgroundView {
     
     var profileView       = BaseView()
-	var profilePicView    = UIImageView() {
-		didSet {
-			print("set profile pic")
-		}
-	}
+    var profilePicView    = UIImageView() {
+        didSet {
+            print("set profile pic")
+        }
+    }
     var profileNameView   = LeftTextLabel()
     var profileSchoolView = LeftTextLabel()
-	
-	override func configureView() {
+    
+    override func configureView() {
         super.configureView()
 
-		let user = LearnerData.userData
+        let user = LearnerData.userData
 
         addSubview(profileView)
         
@@ -276,10 +276,10 @@ class ProfileView : InteractableBackgroundView {
         
         profileNameView.label.font = Fonts.createBoldSize(14)
         profileSchoolView.label.font = Fonts.createLightSize(14)
-		profileNameView.label.text = ("\(user.firstName!) \(user.lastName!)")
-		profileSchoolView.label.text = user.school!
-		
-		profileSchoolView.label.adjustsFontSizeToFitWidth = true
+        profileNameView.label.text = ("\(user.firstName!) \(user.lastName!)")
+        profileSchoolView.label.text = user.school!
+        
+        profileSchoolView.label.adjustsFontSizeToFitWidth = true
         profileSchoolView.label.numberOfLines = 0
         
         applyConstraints()
@@ -298,7 +298,7 @@ class ProfileView : InteractableBackgroundView {
             make.left.equalToSuperview()
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.27)
+            make.width.equalToSuperview().multipliedBy(0.27)
         }
         
         profileNameView.snp.makeConstraints { (make) in
