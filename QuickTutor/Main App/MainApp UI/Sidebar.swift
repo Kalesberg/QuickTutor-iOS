@@ -10,92 +10,104 @@ import Foundation
 import UIKit
 import SnapKit
 
-class Sidebar : BaseView {
+class TutorSideBar : Sidebar {
     
-    var purpleView        = PurpleView()
-    var divider           = UIView()
-    var ratingView        = RatingView()
-    var divider1          = BaseView()
+    var taxItem = TaxSidebarItem()
     
-    var itemContainer     = UIView()
-    var paymentItem       = PaymentSidebarItem()
-    var settingsItem      = SettingsSidebarItem()
-    var reportItem        = ReportSidebarItem()
-    var becomeQTItem      = BecomeQTSidebarItem()
-    var divider2          = BaseView()
-    
-    var legalItem         = LegalSidebarItem()
-    var helpItem          = HelpSidebarItem()
-	
-	static var manager = Sidebar()
-	
     override func configureView() {
+        itemContainer.addSubview(taxItem)
         super.configureView()
-        addSubview(purpleView)
-        addSubview(divider)
-        addSubview(ratingView)
-        addSubview(divider1)
-        addSubview(itemContainer)
-        itemContainer.addSubview(paymentItem)
-        itemContainer.addSubview(settingsItem)
-        itemContainer.addSubview(reportItem)
-        itemContainer.addSubview(becomeQTItem)
-        itemContainer.addSubview(divider2)
-        itemContainer.addSubview(legalItem)
-        itemContainer.addSubview(helpItem)
-    
-        //backgroundColor = Colors.backgroundDark
         
-        layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1.5), radius: 3.0)
+        becomeQTItem.label.label.text = "Start Learning"
         
-        divider.backgroundColor = Colors.divider
-        divider1.backgroundColor = Colors.divider
-        divider2.backgroundColor = Colors.divider
-		
-		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			purpleView.profilePicView.image = image
-		} else {
-			//set to some arbitrary image.
-		}
-		
         applyConstraints()
     }
     
     override func applyConstraints() {
+        super.applyConstraints()
         
-        purpleView.snp.makeConstraints { (make) in
+        itemContainer.snp.remakeConstraints { (make) in
+            make.top.equalTo(divider1.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.17)
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.525)
         }
         
-        divider.snp.makeConstraints { (make) in
-            make.top.equalTo(purpleView.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(0.5)
-        }
-        
-        ratingView.snp.makeConstraints { (make) in
-            make.top.equalTo(purpleView.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.08)
-        }
-        
-        divider1.snp.makeConstraints { (make) in
+        paymentItem.snp.makeConstraints { (make) in
             make.top.equalTo(ratingView.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        settingsItem.snp.makeConstraints { (make) in
+            make.top.equalTo(paymentItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        reportItem.snp.makeConstraints { (make) in
+            make.top.equalTo(settingsItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        becomeQTItem.snp.makeConstraints { (make) in
+            make.top.equalTo(reportItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        divider2.snp.makeConstraints { (make) in
+            make.top.equalTo(becomeQTItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
             make.height.equalTo(0.5)
         }
+        
+        legalItem.snp.makeConstraints { (make) in
+            make.top.equalTo(divider2.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        helpItem.snp.makeConstraints { (make) in
+            make.top.equalTo(legalItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+        
+        taxItem.snp.makeConstraints { (make) in
+            make.top.equalTo(helpItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.125)
+        }
+    }
+    
+}
+
+
+class LearnerSideBar : Sidebar {
+    
+    override func configureView() {
+        super.configureView()
+    
+    }
+    
+    override func applyConstraints() {
+        super.applyConstraints()
         
         itemContainer.snp.makeConstraints { (make) in
             make.top.equalTo(divider1.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.48)
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.46)
         }
         
         paymentItem.snp.makeConstraints { (make) in
@@ -147,13 +159,95 @@ class Sidebar : BaseView {
             make.height.equalToSuperview().multipliedBy(0.14285)
         }
     }
+    
+}
+
+class Sidebar : BaseView {
+    
+    var profileView       = ProfileView()
+    var divider           = UIView()
+    var ratingView        = RatingView()
+    var divider1          = BaseView()
+    
+    var itemContainer     = UIView()
+    var paymentItem       = PaymentSidebarItem()
+    var settingsItem      = SettingsSidebarItem()
+    var reportItem        = ReportSidebarItem()
+    var becomeQTItem      = BecomeQTSidebarItem()
+    var divider2          = BaseView()
+    
+    var legalItem         = LegalSidebarItem()
+    var helpItem          = HelpSidebarItem()
+	
+	static var manager = Sidebar()
+	
+    override func configureView() {
+        super.configureView()
+        addSubview(profileView)
+        addSubview(divider)
+        addSubview(ratingView)
+        addSubview(divider1)
+        addSubview(itemContainer)
+        itemContainer.addSubview(paymentItem)
+        itemContainer.addSubview(settingsItem)
+        itemContainer.addSubview(reportItem)
+        itemContainer.addSubview(becomeQTItem)
+        itemContainer.addSubview(divider2)
+        itemContainer.addSubview(legalItem)
+        itemContainer.addSubview(helpItem)
+        
+        layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1.5), radius: 3.0)
+        
+        divider.backgroundColor = Colors.divider
+        divider1.backgroundColor = Colors.divider
+        divider2.backgroundColor = Colors.divider
+		
+		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+			profileView.profilePicView.image = image
+		} else {
+			//set to some arbitrary image.
+		}
+		
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        
+        profileView.snp.makeConstraints { (make) in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.top.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.17)
+        }
+        
+        divider.snp.makeConstraints { (make) in
+            make.top.equalTo(profileView.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(0.5)
+        }
+        
+        ratingView.snp.makeConstraints { (make) in
+            make.top.equalTo(profileView.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.08)
+        }
+        
+        divider1.snp.makeConstraints { (make) in
+            make.top.equalTo(ratingView.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(0.5)
+        }
+    }
 
 	deinit {
 		print("SideBar Deinit")
 	}
 }
 
-class PurpleView : InteractableBackgroundView {
+class ProfileView : InteractableBackgroundView {
     
     var profileView       = BaseView()
 	var profilePicView    = UIImageView() {
@@ -177,7 +271,6 @@ class PurpleView : InteractableBackgroundView {
         profileView.addSubview(profileNameView)
         profileView.addSubview(profileSchoolView)
         
-        //backgroundColor = Colors.sidebarPurple
         backgroundView.isUserInteractionEnabled = false
         profilePicView.scaleImage()
         
@@ -363,16 +456,6 @@ class SettingsSidebarItem : SidebarItemIcon {
 }
 
 
-//class CalendarSidebarItem : SidebarItemIcon {
-//    override func configureView() {
-//        super.configureView()
-//
-//        icon.image = UIImage(named: "sidebar-calendar")
-//        label.label.text = "Calendar"
-//    }
-//}
-
-
 class ReportSidebarItem : SidebarItemIcon {
     override func configureView() {
         super.configureView()
@@ -389,5 +472,13 @@ class BecomeQTSidebarItem : SidebarItemIcon {
         
         icon.image = UIImage(named: "sidebar-qt")
         label.label.text = "Become a QuickTutor"
+    }
+}
+
+class TaxSidebarItem : SidebarItem {
+    override func configureView() {
+        super.configureView()
+    
+        label.label.text = "Tax Information"
     }
 }
