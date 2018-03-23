@@ -20,6 +20,11 @@ class MessagesContentCell: BaseContentCell {
         return bg
     }()
     
+    override func setupViews() {
+        super.setupViews()
+        setupEmptyBackground()
+    }
+    
     override func setupCollectionView() {
         super.setupCollectionView()
         collectionView.register(ConversationCell.self, forCellWithReuseIdentifier: "cellId")
@@ -63,18 +68,24 @@ class MessagesContentCell: BaseContentCell {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
-        //        cell.updateUI(message: messages[indexPath.item])
+        cell.updateUI(message: messages[indexPath.item])
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        emptyBackround.isHidden = !messages.isEmpty
+        return messages.count
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .red
+        fetchConversations()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
 }
 

@@ -131,6 +131,7 @@
 		84F36ED61FC346F800E71589 /* CountryZipcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F36ED51FC346F800E71589 /* CountryZipcode.swift */; };
 		84F36ED81FC3603F00E71589 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F36ED71FC3603F00E71589 /* Name.swift */; };
 		84F9CC00204D3F8F009A2851 /* languages.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84F9CBFF204D3F8F009A2851 /* languages.txt */; };
+		CF12D93B20642236004BE148 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12D93A20642236004BE148 /* Session.swift */; };
 		CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */; };
 		CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5889205EE68800ACBD32 /* ConversationCell.swift */; };
 		CF6F58BE205EE68800ACBD32 /* ConnectionRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F588B205EE68800ACBD32 /* ConnectionRequestCell.swift */; };
@@ -184,7 +185,7 @@
 		CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */; };
 		CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */; };
 		CF8578C62060AB230089B6F0 /* MessagesContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */; };
-		CF8578C82060AB470089B6F0 /* SessionsContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C72060AB470089B6F0 /* SessionsContentCell.swift */; };
+		CF8578C82060AB470089B6F0 /* BaseSessionsContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C72060AB470089B6F0 /* BaseSessionsContentCell.swift */; };
 		CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */; };
 		CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */; };
 /* End PBXBuildFile section */
@@ -321,6 +322,7 @@
 		84F9CBFF204D3F8F009A2851 /* languages.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = languages.txt; path = ../../../Resources/languages.txt; sourceTree = "<group>"; };
 		98A3B0EC84A5F4A56226BC1D /* Pods_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C777B3ED14C155B5B40069C5 /* Pods-QuickTutor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor.release.xcconfig"; sourceTree = "<group>"; };
+		CF12D93A20642236004BE148 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		CF6F5889205EE68800ACBD32 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		CF6F588B205EE68800ACBD32 /* ConnectionRequestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRequestCell.swift; sourceTree = "<group>"; };
@@ -374,7 +376,7 @@
 		CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMessagesBackground.swift; sourceTree = "<group>"; };
 		CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseContentCell.swift; sourceTree = "<group>"; };
 		CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesContentCell.swift; sourceTree = "<group>"; };
-		CF8578C72060AB470089B6F0 /* SessionsContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsContentCell.swift; sourceTree = "<group>"; };
+		CF8578C72060AB470089B6F0 /* BaseSessionsContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionsContentCell.swift; sourceTree = "<group>"; };
 		CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemToggleCell.swift; sourceTree = "<group>"; };
 		CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSystemToggle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -819,7 +821,7 @@
 				CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */,
 				CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */,
 				CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */,
-				CF8578C72060AB470089B6F0 /* SessionsContentCell.swift */,
+				CF8578C72060AB470089B6F0 /* BaseSessionsContentCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -901,6 +903,7 @@
 				CF6F58B9205EE68800ACBD32 /* KeyboardAccessoryViewDelegate.swift */,
 				CF6F58BA205EE68800ACBD32 /* MeetupRequest.swift */,
 				CF6F58BB205EE68800ACBD32 /* BaseMessage.swift */,
+				CF12D93A20642236004BE148 /* Session.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1086,7 +1089,7 @@
 				848809F92057827F00F204A0 /* TutorUnsafe.swift in Sources */,
 				84F2451C1FDA1183006447A8 /* TutorPayment.swift in Sources */,
 				8423941D1FF4D5E800827C7D /* RegistrationTitleLabel.swift in Sources */,
-				CF8578C82060AB470089B6F0 /* SessionsContentCell.swift in Sources */,
+				CF8578C82060AB470089B6F0 /* BaseSessionsContentCell.swift in Sources */,
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
 				CF6F58DC205EE68800ACBD32 /* CustomNavVC.swift in Sources */,
 				CF6F58D1205EE68800ACBD32 /* UserImageView.swift in Sources */,
@@ -1198,6 +1201,7 @@
 				84D433B3204EF2DB00A3EAD2 /* AlertController.swift in Sources */,
 				84E91B5C20573E5100D1F613 /* SessionDetails.swift in Sources */,
 				842394271FF4DCF400827C7D /* RegistrationBackButton.swift in Sources */,
+				CF12D93B20642236004BE148 /* Session.swift in Sources */,
 				840613251FD8BE29003F6547 /* BioView.swift in Sources */,
 				8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */,
 				848809FB2057835E00F204A0 /* TutorDidNotHelp.swift in Sources */,

@@ -17,7 +17,8 @@ class MessagesVC: UIViewController {
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.darkBackground
         cv.register(MessagesContentCell.self, forCellWithReuseIdentifier: "messagesContentCell")
-        cv.register(SessionsContentCell.self, forCellWithReuseIdentifier: "sessionsContentCell")
+        cv.register(LearnerSessionsContentCell.self, forCellWithReuseIdentifier: "learnerSessionsContentCell")
+        cv.register(TutorSessionContentCell.self, forCellWithReuseIdentifier: "tutorSessionsContentCell")
         cv.alwaysBounceHorizontal = false
         cv.alwaysBounceHorizontal = false
         cv.isPagingEnabled = true
@@ -104,8 +105,14 @@ extension MessagesVC: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messagesContentCell", for: indexPath) as! MessagesContentCell
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionsContentCell", for: indexPath) as! SessionsContentCell
-            return cell
+            
+            if userType == "tutor" {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorSessionsContentCell", for: indexPath) as! TutorSessionContentCell
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "learnerSessionsContentCell", for: indexPath) as! LearnerSessionsContentCell
+                return cell
+            }
         }
     }
 }
