@@ -66,7 +66,7 @@ class TutorMainPage : MainPage {
         contentView.sidebar.applyGradient(firstColor: Colors.sidebarPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
     }
     override func updateSideBar() {
-        contentView.sidebar.profileView.profileNameView.label.text = "\(user.firstName!) \(user.lastName!)"
+        contentView.sidebar.profileView.profileNameView.label.text = user.name!
         contentView.sidebar.profileView.profileSchoolView.label.text = user.school
         contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
     }

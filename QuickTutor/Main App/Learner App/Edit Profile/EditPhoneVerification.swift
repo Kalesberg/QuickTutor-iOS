@@ -249,7 +249,7 @@ class EditPhoneVerification : BaseViewController {
 				print(error.localizedDescription)
 			} else{
 				LearnerData.userData.phone = EditPhoneVerification.phoneNumber
-				FirebaseData.manager.updateValue(value: ["phn": LearnerData.userData.phone.cleanPhoneNumber()])
+				FirebaseData.manager.updateValue(node: "account",value: ["phn": LearnerData.userData.phone.cleanPhoneNumber()])
 				self.navigationController?.popToViewController(LearnerEditProfile(), animated: true)
 			}
 		})

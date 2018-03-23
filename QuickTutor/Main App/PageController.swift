@@ -55,6 +55,7 @@ class PageViewController : UIPageViewController {
 class LearnerPageViewController : PageViewController {
     
     override func configureViewControllers() {
+		
         let mainPage = LearnerMainPage() as PageObservation
         mainPage.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(mainPage as! UIViewController)
@@ -62,6 +63,7 @@ class LearnerPageViewController : PageViewController {
         let messaging = Message() as PageObservation
         messaging.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(messaging as! UIViewController)
+		
     }
 }
 

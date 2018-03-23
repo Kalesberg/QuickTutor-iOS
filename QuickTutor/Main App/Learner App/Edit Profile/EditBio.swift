@@ -214,7 +214,7 @@ class EditBio : BaseViewController {
     }
     
 	private func saveChanges() {
-		FirebaseData.manager.updateValue(value: ["bio" : contentView.textView.textView.text!])
+		FirebaseData.manager.updateValue(node: "student-info", value: ["bio" : contentView.textView.textView.text!])
 		LearnerData.userData.bio = contentView.textView.textView.text!
 		navigationController?.popViewController(animated: true)
 	}
