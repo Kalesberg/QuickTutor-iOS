@@ -276,7 +276,7 @@ class ProfileView : InteractableBackgroundView {
         
         profileNameView.label.font = Fonts.createBoldSize(14)
         profileSchoolView.label.font = Fonts.createLightSize(14)
-        profileNameView.label.text = ("\(user.firstName!) \(user.lastName!)")
+        profileNameView.label.text = user.name!
         profileSchoolView.label.text = user.school!
         
         profileSchoolView.label.adjustsFontSizeToFitWidth = true

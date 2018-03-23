@@ -106,7 +106,7 @@ class TheChoice : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView == contentView.continueButton) {
-			navigationController?.pushViewController(MainPage(), animated: true)
+			navigationController?.pushViewController(LearnerPageViewController(), animated: true)
             let endIndex = navigationController?.viewControllers.endIndex
             navigationController?.viewControllers.removeFirst(endIndex! - 1)
             UserDefaultData.localDataManager.isTutor = false

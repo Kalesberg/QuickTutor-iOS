@@ -15,7 +15,6 @@ class NameView : RegistrationNavBarKeyboardView {
 	
 	override func configureView() {
 		super.configureView()
-		print("name")
 		contentView.addSubview(firstNameTextField)
 		contentView.addSubview(lastNameTextField)
 		
@@ -80,8 +79,7 @@ class Name : BaseViewController {
 			navigationController!.popToRootViewController(animated: false)
 		} else if(touchStartView == contentView.nextButton) {
 			if checkNameValidity() {
-				Registration.firstName = contentView.firstNameTextField.textField.text!
-				Registration.lastName = contentView.lastNameTextField.textField.text!
+				Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
 				navigationController?.pushViewController(Email(), animated: true)
 			} else {
 				print("Name Error")
@@ -91,8 +89,7 @@ class Name : BaseViewController {
 	
 	private func keyboardNextWasPressed() {
 		if checkNameValidity() {
-			Registration.firstName = contentView.firstNameTextField.textField.text!
-			Registration.lastName = contentView.lastNameTextField.textField.text!
+			Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
 			navigationController?.pushViewController(Email(), animated: true)
 		} else {
 			print("Name Error")

@@ -189,7 +189,7 @@ class ChangeEmail : BaseViewController {
 						print(error)
 					} else {
 						LearnerData.userData.email = emailText!
-						FirebaseData.manager.updateValue(value: ["email" : emailText!])
+						FirebaseData.manager.updateValue(node : "account", value: ["email" : emailText!])
 						self.navigationController?.popViewController(animated: true)
 					}
 				})

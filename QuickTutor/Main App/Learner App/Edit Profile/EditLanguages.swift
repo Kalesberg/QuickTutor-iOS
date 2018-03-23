@@ -90,7 +90,7 @@ class EditLanguage : BaseViewController {
 		super.viewDidLoad()
 		configure()
 		loadListOfLanguages()
-		selectedCells = currentLanguges!.filter{ ($0 != "") }
+		selectedCells = currentLanguges!
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -120,7 +120,7 @@ class EditLanguage : BaseViewController {
 	}
 	private func saveLanguages() {
 		LearnerData.userData.languages = selectedCells
-		FirebaseData.manager.updateValue(value: ["lng" : selectedCells])
+		FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedCells])
 		navigationController?.popViewController(animated: true)
 	}
 	
