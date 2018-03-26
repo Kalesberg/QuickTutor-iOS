@@ -9,10 +9,6 @@
 import Firebase
 import UIKit
 
-
-
-
-
 class MainPageView : MainLayoutTwoButton {
     
     var sidebarButton  = NavbarButtonLines()
@@ -77,7 +73,7 @@ class MainPageView : MainLayoutTwoButton {
 //        leftView.layer.cornerRadius = 6
         
         
-		label.text = "Here is MainPage"
+		label.text = ""
 		label.font = Fonts.createSize(20)
 		label.textAlignment = .center
 		label.adjustsFontSizeToFitWidth = true

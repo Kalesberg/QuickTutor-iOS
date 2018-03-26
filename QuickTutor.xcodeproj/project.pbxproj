@@ -15,6 +15,9 @@
 		840E75BE201E8245006FC580 /* LearnerMyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BD201E8245006FC580 /* LearnerMyProfile.swift */; };
 		840E75C2201E8419006FC580 /* LeanerFileReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C1201E8419006FC580 /* LeanerFileReport.swift */; };
 		840E75C6201E8500006FC580 /* LearnerHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C5201E8500006FC580 /* LearnerHelp.swift */; };
+		841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */; };
+		841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */; };
+		841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */; };
 		8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422F2F0205AB6480061ACE4 /* PageController.swift */; };
 		8422F2F3205AC6390061ACE4 /* LeanerMessaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422F2F2205AC6390061ACE4 /* LeanerMessaging.swift */; };
 		842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */; };
@@ -154,6 +157,9 @@
 		840E75C5201E8500006FC580 /* LearnerHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerHelp.swift; sourceTree = "<group>"; };
 		840FC67A20040B2E002525D1 /* CropImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropImage.swift; sourceTree = "<group>"; };
 		8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QuickTutor-Bridging-Header.h"; sourceTree = "<group>"; };
+		841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAccountPayments.swift; sourceTree = "<group>"; };
+		841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorUpdatePayment.swift; sourceTree = "<group>"; };
+		841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPaymentEarnings.swift; sourceTree = "<group>"; };
 		8422F2F0205AB6480061ACE4 /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		8422F2F2205AC6390061ACE4 /* LeanerMessaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeanerMessaging.swift; sourceTree = "<group>"; };
 		842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfo.swift; sourceTree = "<group>"; };
@@ -306,6 +312,16 @@
 				C777B3ED14C155B5B40069C5 /* Pods-QuickTutor.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		841DD5B820654FC800A70D65 /* Account & Payment */ = {
+			isa = PBXGroup;
+			children = (
+				841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */,
+				841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */,
+				841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */,
+			);
+			path = "Account & Payment";
 			sourceTree = "<group>";
 		};
 		841E635A20046A03009A512A /* Recovered References */ = {
@@ -464,6 +480,7 @@
 			isa = PBXGroup;
 			children = (
 				846252F620637FC5001DD330 /* TutorHelp.swift */,
+				841DD5B820654FC800A70D65 /* Account & Payment */,
 			);
 			path = Help;
 			sourceTree = "<group>";
@@ -919,6 +936,7 @@
 			files = (
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
 				848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */,
+				841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */,
 				84E4C7DD204E92AD009C2FC4 /* PaymentOptions.swift in Sources */,
 				842394151FF4CF6E00827C7D /* RegistrationNavBar.swift in Sources */,
 				848809F92057827F00F204A0 /* TutorUnsafe.swift in Sources */,
@@ -946,12 +964,14 @@
 				84F245161FDA103B006447A8 /* TutorSubjects.swift in Sources */,
 				84681F922049F30A00F45DFC /* LocationServices.swift in Sources */,
 				84880A022058603800F204A0 /* TutorHarassment.swift in Sources */,
+				841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */,
 				84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfo.swift in Sources */,
 				848E04EA205C8CF10094A6E9 /* BecomeTutorData.swift in Sources */,
 				84DFD899204C5AE600BA8A3F /* UIViewControllerExtensions.swift in Sources */,
 				8482AFE3203A9E1300F6F805 /* UIImageViewExtensions.swift in Sources */,
 				840E75C2201E8419006FC580 /* LeanerFileReport.swift in Sources */,
+				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
 				848809FF20585C3A00F204A0 /* TutorProfilePics.swift in Sources */,
 				846252F320637FA7001DD330 /* TutorPayment.swift in Sources */,

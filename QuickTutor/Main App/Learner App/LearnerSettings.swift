@@ -190,7 +190,7 @@ class ItemHeader : SettingsItem {
     override func configureView() {
         super.configureView()
         
-        label.font = Fonts.createSize(19)
+        label.font = Fonts.createBoldSize(18)
         
         applyConstraints()
     }

@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Facebook init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame: UIScreen.main.bounds)
-
+        
         //Firebase check
         if Auth.auth().currentUser != nil {
             //create SignInClass to handle everything before user is able to sign in.
