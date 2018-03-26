@@ -9,17 +9,11 @@
 import Firebase
 import UIKit
 
-
-
-
-
 class MainPageView : MainLayoutTwoButton {
     
     var sidebarButton  = NavbarButtonLines()
     var messagesButton = NavbarButtonMessages()
     var backgroundView = InteractableObject()
-	
-	var label = UILabel()
 	
     override var leftButton: NavbarButton {
         get {
@@ -46,9 +40,7 @@ class MainPageView : MainLayoutTwoButton {
         navbar.addSubview(messagesButton)
         
         insertSubview(sidebar, aboveSubview: navbar)
-        
-		addSubview(label)
-        super.configureView()
+		super.configureView()
         
         backgroundView.backgroundColor = .black
         backgroundView.alpha = 0.0
@@ -76,13 +68,7 @@ class MainPageView : MainLayoutTwoButton {
 //        rightView.layer.cornerRadius = 6
 //        leftView.layer.cornerRadius = 6
         
-        
-		label.text = "Here is MainPage"
-		label.font = Fonts.createSize(20)
-		label.textAlignment = .center
-		label.adjustsFontSizeToFitWidth = true
-		label.textColor = .white
-		
+
     }
     
     override func applyConstraints() {
@@ -102,12 +88,6 @@ class MainPageView : MainLayoutTwoButton {
             make.height.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.72)
         }
-        
-		label.snp.makeConstraints { (make) in
-			make.centerY.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().dividedBy(2)
-		}
     }
 }
 
@@ -147,67 +127,6 @@ class SearchBar: BaseView, Interactable {
     }
 
 }
-
-class LearnerMainPage : MainPage {
-    override var contentView: LearnerMainPageView {
-        return view as! LearnerMainPageView
-    }
-    override func loadView() {
-        view = LearnerMainPageView()
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-            contentView.sidebar.profileView.profilePicView.image = image
-        } else {
-        }
-    }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
- 
-        contentView.sidebar.applyGradient(firstColor: Colors.tutorBlue.cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.sidebar.bounds)
-    }
-    override func updateSideBar() {
-        contentView.sidebar.profileView.profileNameView.label.text = user.name
-        contentView.sidebar.profileView.profileSchoolView.label.text = user.school
-        contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
-    }
-    override func handleNavigation() {
-        super.handleNavigation()
-        
-        if(touchStartView == contentView.sidebar.paymentItem) {
-            navigationController?.pushViewController(hasPaymentMethod ? CardManager() : LearnerPayment(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.settingsItem) {
-            navigationController?.pushViewController(LearnerSettings(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.profileView) {
-            navigationController?.pushViewController(LearnerMyProfile(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.reportItem) {
-            navigationController?.pushViewController(LearnerFileReport(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.legalItem) {
-            hideSidebar()
-            hideBackground()
-            //take user to legal on our website
-        } else if(touchStartView == contentView.sidebar.helpItem) {
-            navigationController?.pushViewController(LearnerHelp(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if(touchStartView == contentView.sidebar.becomeQTItem) {
-            navigationController?.pushViewController(BecomeTutor(), animated: true)
-            hideSidebar()
-            hideBackground()
-        }
-    }
-}
-
 
 
 class MainPage : BaseViewController {

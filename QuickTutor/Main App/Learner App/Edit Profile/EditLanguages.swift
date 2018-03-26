@@ -211,6 +211,7 @@ extension EditLanguage : UISearchBarDelegate {
 		contentView.tableView.reloadData()
 	}
 }
+
 class CustomLanguageCell : UITableViewCell {
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -221,7 +222,7 @@ class CustomLanguageCell : UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	var checkbox = RegistrationCheckbox()
+	let checkbox = RegistrationCheckbox()
 
 	func configureTableViewCell() {
 		addSubview(checkbox)

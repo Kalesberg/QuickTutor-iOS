@@ -96,17 +96,6 @@ class TutorSubjects : BaseViewController {
 	
 	var searchActive : Bool = false
 	
-	var subjects = [
-		
-		Subject(category: "Academics", subcategory: "MTH", parents: ["calculus 4", "calculus 3", "advanced calculus", "calculus 2"], subject: "calculus", children: ["precalculus"]),
-		Subject(category: "Academics", subcategory: "STA", parents: ["statistics 4", "statistics 3", "advanced statistics", "statistics 2"], subject: "statistics", children: ["intro to statitics"]),
-		Subject(category: "Outdoor", subcategory: "HNT", parents: ["hunting 2"], subject: "hunting 1", children: ["learn to shoot"]),
-		Subject(category: "Arts", subcategory: "DNC", parents: ["dance 3" , "dance 2"], subject: "dance", children: ["ballet", "tap"]),
-		Subject(category: "Academics", subcategory: "MTH", parents: ["calculus 4", "calculus 3", "advanced calculus", "calculus 2"], subject: "Alegbra", children: ["precalculus"]),
-		Subject(category: "Academics", subcategory: "STA", parents: ["statistics 4", "statistics 3", "advanced statistics", "statistics 2"], subject: "statistics", children: ["intro to statitics"]),
-		Subject(category: "Outdoor", subcategory: "THS", parents: ["hunting 2"], subject: "This 1", children: ["learn to shoot"]),
-		Subject(category: "Arts", subcategory: "DNC", parents: ["dance 3" , "dance 2"], subject: "hip hop", children: ["ballet", "tap"])
-	]
 	var filtered : [String] = ["Hello", "this", "why"]
 
 	override func viewDidLoad() {
@@ -167,79 +156,79 @@ extension TutorSubjects : UITableViewDataSource, UITableViewDelegate {
 	}
 }
 
-struct Subject {
-	var category : String
-	var subcategory : String
-	var parents : [String]
-	var subject : String
-	var children : [String]
-}
-
-
-class SubjectTableViewCell : UITableViewCell {
-	
-	var background : UIView!
-	var subjectLabel : UILabel!
-	var globalTutors : UILabel!
-	var localTutors : UILabel!
-	
-	var subject : Subject? {
-		didSet {
-			if let subject = subject {
-				subjectLabel.text = subject.subject
-				globalTutors.text = "1005 Global Tutors"
-				localTutors.text = "132 Local Tutors"
-				setNeedsLayout()
-			}
-		}
-	}
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		configureView()
-	}
-	
-	public required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
-		configureView()
-	}
-	internal func configureView() {
-		isUserInteractionEnabled = true
-		backgroundColor = UIColor.clear
-		selectionStyle = .none
-		
-		background = UIView(frame: .zero)
-		background.alpha = 0.6
-		contentView.addSubview(background)
-		
-		subjectLabel = UILabel(frame: .zero)
-		subjectLabel.textAlignment = .left
-		subjectLabel.textColor = .white
-		subjectLabel.adjustsFontForContentSizeCategory = true
-		subjectLabel.adjustsFontSizeToFitWidth = true
-		subjectLabel.font = Fonts.createLightSize(15)
-		
-		globalTutors = UILabel(frame: .zero)
-		globalTutors.textAlignment = .right
-		globalTutors.textColor = .white
-		globalTutors.adjustsFontForContentSizeCategory = true
-		globalTutors.adjustsFontSizeToFitWidth = true
-		globalTutors.font = Fonts.createLightSize(15)
-		
-		localTutors = UILabel(frame: .zero)
-		localTutors.textAlignment = .left
-		localTutors.textColor = .white
-		localTutors.adjustsFontForContentSizeCategory = true
-		localTutors.adjustsFontSizeToFitWidth = true
-		localTutors.font = Fonts.createLightSize(15)
-		
-	}
-	override func prepareForReuse() {
-		super.prepareForReuse()
-	}
-	
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		background.frame = CGRect(x: 0, y: 5, width: frame.width, height: frame.height)
+//struct Subject {
+//	var category : String
+//	var subcategory : String
+//	var parents : [String]
+//	var subject : String
+//	var children : [String]
+//}
+//
+//
+//class SubjectTableViewCell : UITableViewCell {
+//
+//	var background : UIView!
+//	var subjectLabel : UILabel!
+//	var globalTutors : UILabel!
+//	var localTutors : UILabel!
+//
+//	var subject : Subject? {
+//		didSet {
+//			if let subject = subject {
+//				subjectLabel.text = subject.subject
+//				globalTutors.text = "1005 Global Tutors"
+//				localTutors.text = "132 Local Tutors"
+//				setNeedsLayout()
+//			}
+//		}
+//	}
+//	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+//		super.init(style: style, reuseIdentifier: reuseIdentifier)
+//		configureView()
+//	}
+//
+//	public required init?(coder aDecoder: NSCoder) {
+//		super.init(coder: aDecoder)
+//		configureView()
+//	}
+//	internal func configureView() {
+//		isUserInteractionEnabled = true
+//		backgroundColor = UIColor.clear
+//		selectionStyle = .none
+//
+//		background = UIView(frame: .zero)
+//		background.alpha = 0.6
+//		contentView.addSubview(background)
+//
+//		subjectLabel = UILabel(frame: .zero)
+//		subjectLabel.textAlignment = .left
+//		subjectLabel.textColor = .white
+//		subjectLabel.adjustsFontForContentSizeCategory = true
+//		subjectLabel.adjustsFontSizeToFitWidth = true
+//		subjectLabel.font = Fonts.createLightSize(15)
+//
+//		globalTutors = UILabel(frame: .zero)
+//		globalTutors.textAlignment = .right
+//		globalTutors.textColor = .white
+//		globalTutors.adjustsFontForContentSizeCategory = true
+//		globalTutors.adjustsFontSizeToFitWidth = true
+//		globalTutors.font = Fonts.createLightSize(15)
+//
+//		localTutors = UILabel(frame: .zero)
+//		localTutors.textAlignment = .left
+//		localTutors.textColor = .white
+//		localTutors.adjustsFontForContentSizeCategory = true
+//		localTutors.adjustsFontSizeToFitWidth = true
+//		localTutors.font = Fonts.createLightSize(15)
+//
+//	}
+//	override func prepareForReuse() {
+//		super.prepareForReuse()
+//	}
+//
+//	override func layoutSubviews() {
+//		super.layoutSubviews()
+//		background.frame = CGRect(x: 0, y: 5, width: frame.width, height: frame.height)
 //		subjectLabel.snp.makeConstraints { (make) in
 //			make.left.equalToSuperview().multipliedBy(1.3)
 //			make.centerY.equalToSuperview()
@@ -259,8 +248,8 @@ class SubjectTableViewCell : UITableViewCell {
 //			make.width.equalToSuperview().multipliedBy(0.5)
 //			make.height.equalToSuperview().multipliedBy(0.5)
 //		}
-	}
-	internal func applyConstraints() {
-		fatalError("Override this method")
-	}
-}
+//	}
+//	internal func applyConstraints() {
+//		fatalError("Override this method")
+//	}
+//}
