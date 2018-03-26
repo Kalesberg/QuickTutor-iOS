@@ -61,8 +61,6 @@ extension TutorAccountPayments : UITableViewDataSource, UITableViewDelegate {
         case 3:
             self.navigationController?.pushViewController(ForgotPassword(), animated: true)
         case 4:
-            self.navigationController?.pushViewController(PaymentDeclined(), animated: true)
-        case 5:
             self.navigationController?.pushViewController(AnotherQuestion(), animated: true)
         default:
             break

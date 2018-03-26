@@ -1,49 +1,48 @@
 //
-//  Help.swift
+//  TutorQTGuide.swift
 //  QuickTutor
 //
-//  Created by QuickTutor on 3/22/18.
+//  Created by QuickTutor on 3/26/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-
+//
 
 import Foundation
 import UIKit
 
-
-class TutorHelp : BaseViewController {
+class TutorQTGuide : BaseViewController {
     
-    override var contentView: LearnerHelpView {
-        return view as! LearnerHelpView
+    override var contentView: QTGuideView {
+        return view as! QTGuideView
     }
+    
+    var options = ["Connections","Sessions"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
-        contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "helpCell" )
+        contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "accountPaymentsCell")
     }
+    
     override func loadView() {
-        view = LearnerHelpView()
-    }
-    var options = ["Account & Payments","QuickTutor Guide","Tutor Handbook"]
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        view = QTGuideView()
     }
     
-    override func handleNavigation() {
-        
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 }
 
-extension TutorHelp : UITableViewDataSource, UITableViewDelegate {
+
+extension TutorQTGuide : UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return options.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : CustomHelpTableViewCell = tableView.dequeueReusableCell(withIdentifier: "helpCell") as! CustomHelpTableViewCell
+        let cell : CustomHelpTableViewCell = tableView.dequeueReusableCell(withIdentifier: "accountPaymentsCell") as! CustomHelpTableViewCell
         insertBorder(cell: cell)
         
         cell.textLabel?.text = options[indexPath.row]
@@ -53,11 +52,9 @@ extension TutorHelp : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            self.navigationController?.pushViewController(TutorAccountPayments(), animated: true)
+            self.navigationController?.pushViewController(TutorConnections(), animated: true)
         case 1:
-            self.navigationController?.pushViewController(TutorQTGuide(), animated: true)
-        case 2:
-            self.navigationController?.pushViewController(TutorHandook(), animated: true)
+            self.navigationController?.pushViewController(TutorSessions(), animated: true)
         default:
             break
         }

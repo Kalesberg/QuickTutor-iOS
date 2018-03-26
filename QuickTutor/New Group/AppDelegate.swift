@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.window?.makeKeyAndVisible()
                     })
 					
-					let controller = TutorPageViewController()
+					let controller = TutorHelp()
                     navigationController = UINavigationController(rootViewController: controller)
                     navigationController.navigationBar.isHidden = true
                     self.window?.rootViewController = navigationController
