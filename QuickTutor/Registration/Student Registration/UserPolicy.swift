@@ -165,9 +165,25 @@ class UserPolicy : BaseViewController {
 		}
 	}
 	private func accepted() {
-		uploadUser()
-		
-		SignInHandler.manager.getUserData { (error) in
+		FirebaseData.manager.uploadUser { (error) in
+			if let error = error {
+				print(error)
+			} else {
+				Stripe.stripeManager.createCustomer ({ (error) in
+					if let error = error {
+						print(error.localizedDescription)
+						self.contentView.acceptButton.isUserInteractionEnabled = true
+					} else {
+						Registration.registrationManager.setRegistrationDefaults()
+						self.getUserData()
+					}
+				})
+			}
+		}
+	}
+
+	private func getUserData() {
+		_ = SignInHandler.init({ (error) in
 			if error != nil {
 				self.navigationController?.pushViewController(SignIn(), animated: true)
 			} else {
@@ -175,32 +191,9 @@ class UserPolicy : BaseViewController {
 					if let error = error {
 						print(error)
 					} else {
-						self.navigationController?.pushViewController(MainPage(), animated: true)
+						self.navigationController?.pushViewController(TheChoice(), animated: true)
 					}
 				})
-			}
-		}
-		//Do next steps.
-	}
-	
-	private func uploadUser() {
-		FirebaseData.manager.initLearner(completion: { (finished) in
-			if finished {
-				self.createCustomer()
-			} else {
-				print("Error uploading ")
-				self.contentView.acceptButton.isUserInteractionEnabled = true
-			}
-		})
-	}
-	private func createCustomer() {
-		Stripe.stripeManager.createCustomer ({ (error) in
-			if let error = error {
-				print(error.localizedDescription)
-				self.contentView.acceptButton.isUserInteractionEnabled = true
-			} else {
-				Registration.registrationManager.setRegistrationDefaults()
-				self.navigationController!.pushViewController(TheChoice(), animated: true)
 			}
 		})
 	}

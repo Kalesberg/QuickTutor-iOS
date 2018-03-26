@@ -42,15 +42,20 @@ class Stripe {
 		
 		let data = LearnerData.userData
 		let dob = data.birthday.split(separator: "/")
+		let name = data.name.split(separator: " ")
 		
 		let params : [String : Any] = [
 			"country" : "US",
 			"type": "custom",
+			"city": TutorRegistration.city,
+			"line1": TutorRegistration.line1,
+			"zipcode": TutorRegistration.zipcode,
+			"state": TutorRegistration.state,
 			"dob_day" : dob[0],
 			"dob_month" : dob[1],
 			"dob_year" : dob[2],
-			"first_name" : data.firstName,
-			"last_name" : data.lastName,
+			"first_name" : name[0],
+			"last_name" : name[1],
 			"ssn_last_4" : TutorRegistration.last4SSN,
 			"currency" : "usd",
 			"entity_type" : "individual",
@@ -76,16 +81,15 @@ class Stripe {
 	
 	func createCustomer(_ completion: @escaping STPErrorBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/createcustomer.php"
-		let params : [String : Any] = ["email" : LearnerData.userData.email!, "description" : "Student Account"]
+		let params : [String : Any] = ["email" : Registration.email, "description" : "Student Account"]
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseString(completionHandler: { (response) in
 				switch response.result {
 				case .success(var value):
 					value = String(value.filter{ !" \n\t\r".contains($0)})
-					let newNode = ["cust" : value]
-					FirebaseData.manager.updateValue(value: newNode)
-					Registration.customerId = value
+					let newNode = ["cus" : value]
+					FirebaseData.manager.updateValue(node: "student-info", value: newNode)
 					completion(nil)
 				case .failure(let error):
 					completion(error)

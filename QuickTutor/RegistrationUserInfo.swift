@@ -20,8 +20,7 @@ struct Registration {
 	
 	static let registrationManager = Registration()
 	
-    static var firstName : String!
-    static var lastName : String!
+	static var name : String!
     static var age : String!
     static var email : String!
     static var phone : String!
@@ -30,14 +29,12 @@ struct Registration {
 	static var dob : String!
 	static var emailCredential : AuthCredential!
     static var filters : [String]!
-	static var customerId : String!
 	
 	func setRegistrationDefaults(){
 		
 		let defaults = UserDefaults.standard
 		
 		defaults.set(Registration.email, 			forKey: "email")
-		defaults.set(Registration.customerId, 		forKey: "customerId")
 		defaults.set(false, 						forKey: "hasPaymentMethod")
 		defaults.set(true,							forKey: "showTutorial")
 		defaults.set(0, 							forKey: "numberOfCards")
