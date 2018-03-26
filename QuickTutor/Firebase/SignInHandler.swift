@@ -10,32 +10,46 @@ import Firebase
 
 class SignInHandler {
 	
-	static let manager = SignInHandler()
-	
 	private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
-	
 	private let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
-	
 	private let user = Auth.auth().currentUser!
 	
-	public func getUserData(completion: @escaping (_ error: Error?) -> Void) {
-		print("Referencing Database...")
-		self.ref.child("student").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+	init(_ completion: @escaping (Error?) -> Void) {
+		getAccountData()
+		getLearnerData { (error) in
+			if let error = error {
+				completion(error)
+			} else {
+				completion(nil)
+			}
+		}
+	}
+	
+	public func getAccountData() {
+		self.ref.child("account").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+			let value = snapshot.value as? NSDictionary
+			let user = LearnerData.userData
+			
+			user.phone			= value?["phn"	] as? String ?? ""
+			user.email          = value?["em"   ] as? String ?? ""
+			user.birthday	    = value?["bd"	] as? String ?? ""
+			
+		})
+	}
+	
+	public func getLearnerData(completion: @escaping (Error?) -> Void) {
+		self.ref.child("student-info").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
 				let value = snapshot.value as? NSDictionary
 				let user = LearnerData.userData
 				
-				user.firstName     	= value?["fn"        	]   as? String ?? ""
-				user.lastName       = value?["ln"        	]   as? String ?? ""
+				user.name			= value?["nm"			]   as? String ?? ""
 				user.age            = value?["age"          ]   as? String ?? ""
 				user.bio          	= value?["bio"          ]   as? String ?? ""
 				user.birthday       = value?["bd"     		]   as? String ?? ""
 				user.school         = value?["sch"       	]   as? String ?? ""
-				user.email         	= value?["em"        	]   as? String ?? ""
-				user.phone         	= value?["phn"        	]   as? String ?? ""
-				user.address       	= value?["adr"      	]   as? String ?? ""
-				user.languages     	= value?["lng"   		]   as? [String] ?? [""]
+				user.languages     	= value?["lng"   		]   as? [String] ?? []
 				user.customer 		= value?["cus" 			]	as?	String ?? ""
-				
+			
 				print("Grabbing image urls...")
 				self.grabImageUrls {
 					print("Done grabbing image urls.")
@@ -47,7 +61,7 @@ class SignInHandler {
 	}
 	
 	private func grabImageUrls(completion: @escaping () -> Void) {
-		self.ref.child("student").child(user.uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
+		self.ref.child("student-info").child(user.uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
 			
 			let value = snapshot.value as? NSDictionary
 			
@@ -83,5 +97,15 @@ class SignInHandler {
 	private func inputDefaultImage(number: String) {
 		LocalImageCache.localImageManager.storeImageLocally(image: #imageLiteral(resourceName: "registration-image-placeholder"), number: number)
 		LearnerData.userData.images["image\(number)"] = ""
+	}
+	private func checkIsTutor() {
+		self.ref.child("tutor").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+			if snapshot.exists() {
+				//do things related to being a tutor
+				UserDefaultData.localDataManager.isTutor = true
+			} else {
+				//do things related to not being a tutor
+			}
+		})
 	}
 }

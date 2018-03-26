@@ -20,23 +20,19 @@ class Tutor {
 	static let shared = Tutor()
 	
 	public func initTutor(completion: @escaping (Error?) -> Void) {
-		
 		let data = LearnerData.userData
 
 		let post : [String:Any] =
 			[
-				"nm" : "\(data.firstName!) \(data.lastName!)",
-				"bd" : "\(data.birthday!)",
+				"nm" : data.name,
 				"age" : data.age,
-				"em": data.email,
-				"phn" : data.phone,
 				"bio" : TutorRegistration.tutorBio,
 				"subj" : "subjects",
-				"adr" : TutorRegistration.address,
-				"tok" : TutorRegistration.stripeToken
-		]
+				"rg" : TutorRegistration.address,
+				"tok" : TutorRegistration.stripeToken,
+            ]
 		
-		ref.child("tutor").child(user.uid).setValue(post) { (error, databaseRef) in
+		ref.child("tutor-info").child(user.uid).setValue(post) { (error, databaseRef) in
 			if let error = error {
 				print(error.localizedDescription)
 				completion(error)
@@ -45,6 +41,7 @@ class Tutor {
 				completion(nil)
 			}
 		}
+		geoFire(location: TutorRegistration.location)
 	}
 	
 	public func updateValue(value: [String : Any]) {
@@ -54,9 +51,9 @@ class Tutor {
 			}
 		}
 	}
-	public func geoFire(location: CLLocationCoordinate2D) {
+	public func geoFire(location: CLLocation) {
 		let geoFire = GeoFire(firebaseRef: ref.child("tutor_loc"))
-		geoFire.setLocation(CLLocation(latitude: 43.5965030, longitude: -84.7788380), forKey: user.uid)
+		geoFire.setLocation(location, forKey: user.uid)
 	}
 }
 

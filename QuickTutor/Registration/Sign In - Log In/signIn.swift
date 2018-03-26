@@ -226,18 +226,6 @@ class SignIn: BaseViewController {
 	}
 	
 	override func handleNavigation() {
-//		if(touchStartView == contentView.signInButton) {
-//			if phoneRegex(contentView.phoneNumberTextField.textField.text!.cleanPhoneNumber()) {
-//				signIn()
-//				contentView.signInButton.isUserInteractionEnabled = false
-//			} else {
-//				print("invalid phone number")
-//			}
-//		}
-//		if (touchStartView == contentView.facebookButton){
-//			facebookSignIn()
-//		}
-		
 		if (touchStartView is PhoneTextField) {
 			contentView.quicktutorText.fadeOut(withDuration: 0.2)
 			contentView.learnAnythingLabel.fadeOut(withDuration: 0.2)
