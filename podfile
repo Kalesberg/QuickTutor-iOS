@@ -9,8 +9,8 @@ target 'QuickTutor' do
   # Pods for Firebase
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
-  pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'Firebase/Database'
   pod 'Firebase/DynamicLinks'
   pod 'Firebase/Messaging'
   
@@ -23,9 +23,8 @@ target 'QuickTutor' do
 
   # Pods for Facebook
   pod "FBSDKLoginKit", "4.24.0"
-  pod "FBSDKCoreKit", "4.24.0"
   pod "FBSDKShareKit", "4.24.0"
-  
+  pod "FBSDKCoreKit", "4.24.0"
   pod 'SnapKit'
 
 end

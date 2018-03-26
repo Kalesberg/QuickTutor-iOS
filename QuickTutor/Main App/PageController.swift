@@ -60,7 +60,7 @@ class LearnerPageViewController : PageViewController {
         mainPage.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(mainPage as! UIViewController)
         
-        let messaging = Message() as PageObservation
+        let messaging = MessagesVC() as PageObservation
         messaging.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(messaging as! UIViewController)
 		
@@ -74,7 +74,7 @@ class TutorPageViewController : PageViewController {
         mainPage.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(mainPage as! UIViewController)
         
-        let messaging = Message() as PageObservation
+        let messaging = MessagesVC() as PageObservation
         messaging.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(messaging as! UIViewController)
     }
