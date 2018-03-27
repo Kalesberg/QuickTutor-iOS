@@ -79,8 +79,8 @@ class EditSchool : BaseViewController {
 		return view as! EditSchoolView
 	}
 	
-	var schoolArray : NSArray = []
-	var filteredSchools : NSArray = []
+	var schoolArray : [String] = []
+	var filteredSchools : [String] = []
 	var shouldUpdateSearchResults = false
 	
 	override func viewDidLoad() {
@@ -119,7 +119,7 @@ class EditSchool : BaseViewController {
 		if let path = pathToFile {
 			do {
 				let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-				schoolArray = school.components(separatedBy: "\n") as NSArray
+				schoolArray = school.components(separatedBy: "\n") as [String]
 			} catch {
 				schoolArray = [""]
 				print("Try-catch error")
@@ -156,7 +156,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 		var school : String
 		
 		if shouldUpdateSearchResults {
-			school = filteredSchools[indexPath.row] as! String
+			school = filteredSchools[indexPath.row]
 			FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
 			LearnerData.userData.school = school
 			navigationController?.popViewController(animated: true)
@@ -195,10 +195,7 @@ extension EditSchool : UISearchBarDelegate, UIScrollViewDelegate {
 		
 		shouldUpdateSearchResults = true
 		if let searchString = contentView.searchBar.text {
-			let predicate = NSPredicate(format: "SELF contains[c] %@", searchString)
-			
-			filteredSchools = schoolArray.filtered(using: predicate) as NSArray
-			
+			filteredSchools = schoolArray.filter{($0.contains(searchString))}
 			if filteredSchools.count > 0 {
 				scrollToTop()
 			}

@@ -26,7 +26,6 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 		
 		label.textColor = .white
 		label.textAlignment = .center
-		label.text = "Hello"
 		label.font = Fonts.createSize(15)
 		label.alpha = 0.6
 		
@@ -36,7 +35,7 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 	let dot : UIView = {
 		let view = UIView()
 		
-		view.layer.cornerRadius = view.frame.size.width / 2
+		view.layer.cornerRadius = view.frame.size.height / 2
 		view.clipsToBounds = true
 		view.layer.borderColor = UIColor.white.cgColor
 		view.layer.borderWidth = 5.0
@@ -47,13 +46,15 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 	override var isSelected : Bool {
 		didSet {
 			category.alpha = isSelected ? 1.0 : 0.6
-			dot.isHidden = isSelected ? false : true
+			dot.isHidden   = isSelected ? false : true
+			isUserInteractionEnabled = isSelected ? false : true
 		}
 	}
 	
 	func configureView() {
 		addSubview(category)
 		addSubview(dot)
+		
 		dot.isHidden = true
 		
 		applyConstraints()

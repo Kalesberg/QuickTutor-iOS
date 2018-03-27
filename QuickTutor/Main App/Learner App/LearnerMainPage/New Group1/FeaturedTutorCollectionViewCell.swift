@@ -13,16 +13,23 @@ import SnapKit
 class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 	
 	let featuredTutor = FeaturedTutorView()
-	
+	let view : UIView = {
+		let view = UIView()
+		view.backgroundColor = Colors.learnerPurple
+		view.layer.cornerRadius = 10
+		view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width:2,height:2), radius: 5)
+		return view
+	}()
 	let price : UILabel = {
 		let label = UILabel()
+		
 		label.textAlignment = .center
 		label.textColor = .white
 		label.text = "$45/hr"
-		label.font = Fonts.createSize(14)
+		label.font = Fonts.createSize(13)
 		label.adjustsFontSizeToFitWidth = true
-		//label.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width:2,height:2), radius: 5)
-		label.backgroundColor = Colors.learnerPurple
+		label.backgroundColor = .clear
+		
 		return label
 	}()
 	
@@ -30,7 +37,8 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		let view = UIView()
 		
 		view.backgroundColor = Colors.registrationDark
-		//view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5)
+		view.layer.cornerRadius = 5
+		view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5)
 		
 		return view
 	}()
@@ -46,16 +54,18 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 	func configureView() {
 		addSubview(background)
 		background.addSubview(featuredTutor)
-		addSubview(price)
-
+		addSubview(view)
+		view.addSubview(price)
+		
 		featuredTutor.backgroundColor = .clear
+		
 		applyConstraints()
 	}
 	func applyConstraints(){
 		background.snp.makeConstraints { (make) in
 			make.bottom.equalToSuperview().inset(10)
-			make.width.equalToSuperview().multipliedBy(0.9)
-			make.height.equalToSuperview().multipliedBy(0.9)
+			make.width.equalToSuperview().multipliedBy(0.95)
+			make.height.equalToSuperview().multipliedBy(0.95)
 			make.centerX.equalToSuperview()
 		}
 		featuredTutor.snp.makeConstraints { (make) in
@@ -63,14 +73,18 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 			make.centerX.equalToSuperview()
 			make.height.equalToSuperview()
 		}
-		price.snp.makeConstraints { (make) in
+		view.snp.makeConstraints { (make) in
 			make.top.equalToSuperview().inset(-10)
-			make.left.equalToSuperview().inset(-10)
+			make.left.equalToSuperview().inset(-5)
 			make.width.equalTo(50)
 			make.height.equalTo(20)
 		}
-		layoutIfNeeded()
-		price.layer.cornerRadius = 10
+		price.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.left.equalToSuperview()
+			make.width.equalToSuperview()
+			make.height.equalToSuperview()
+		}
 	}
 }
 

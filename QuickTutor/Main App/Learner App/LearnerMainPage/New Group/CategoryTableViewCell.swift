@@ -15,7 +15,6 @@ class CategoryTableViewCell : UITableViewCell  {
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		configureTableViewCell()
-		
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -27,7 +26,7 @@ class CategoryTableViewCell : UITableViewCell  {
 		
 		let layout = UICollectionViewFlowLayout()
 		
-		layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+		layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 0)
 		layout.scrollDirection = .horizontal
 		layout.minimumInteritemSpacing = 0
 
@@ -39,13 +38,14 @@ class CategoryTableViewCell : UITableViewCell  {
 		return collectionView
 	}()
 	
-	let categories : [Category] = [.experiences, .academics, .outdoors, .remedial, .health, .trades, .sports,.tech , .auto, .language, .arts, .business]
+	var categories : [Category] = [.experiences, .academics, .outdoors, .remedial, .health, .trades, .sports,.tech , .auto, .language, .arts, .business]
 	
-
 	
 	func configureTableViewCell() {
 		addSubview(collectionView)
-	
+		
+		categories.shuffle()
+		
 		backgroundColor = .clear
 		
 		collectionView.delegate = self
@@ -54,6 +54,7 @@ class CategoryTableViewCell : UITableViewCell  {
 
 		applyConstraints()
 	}
+	
 	func applyConstraints() {
 		collectionView.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
@@ -72,6 +73,7 @@ extension CategoryTableViewCell : UIPopoverPresentationControllerDelegate {
 
 
 extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return 12
 	}
@@ -85,15 +87,16 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 		return cell
 	}
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		print("item: ", indexPath.row)
-		
+		CategorySelected.title = categories[indexPath.item].mainPageData.displayName
+
 		if let current = UIApplication.getPresentedViewController() {
 			current.present(CategorySearch(), animated: true, completion: nil)
 		}
 	}
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
 		let screenWidth = UIScreen.main.bounds.width
-		let width = (screenWidth / 3) - 6
+		let width = (screenWidth / 3) - 10
 		
 		return CGSize(width: width, height: contentView.frame.height)
 	}

@@ -17,7 +17,6 @@ class SubjectCollectionViewCell : UICollectionViewCell {
 		
 		label.textColor = .white
 		label.textAlignment = .center
-		label.text = "Mathematics"
 		label.font = Fonts.createSize(15)
 		label.adjustsFontSizeToFitWidth = true
 		label.adjustsFontForContentSizeCategory = true

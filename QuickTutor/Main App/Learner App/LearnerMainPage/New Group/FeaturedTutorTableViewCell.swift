@@ -13,8 +13,23 @@ import SnapKit
 
 class FeaturedTutorTableViewCell : UITableViewCell  {
 	
-	let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-	let layout = UICollectionViewFlowLayout()
+	let collectionView : UICollectionView =  {
+		
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+		let layout = UICollectionViewFlowLayout()
+		
+		layout.sectionInset = UIEdgeInsets(top: 15, left: 10, bottom: 0, right: 0)
+		layout.scrollDirection = .horizontal
+		layout.minimumInteritemSpacing = 0.0
+		
+		collectionView.collectionViewLayout = layout
+		collectionView.backgroundColor = .clear
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.showsHorizontalScrollIndicator = false
+		
+		return collectionView
+	}()
+	
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,15 +44,6 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		addSubview(collectionView)
 		
 		backgroundColor = .clear
-		
-		layout.sectionInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
-		layout.scrollDirection = .horizontal
-		layout.minimumInteritemSpacing = 0.0
-		
-		collectionView.collectionViewLayout = layout
-		collectionView.backgroundColor = .clear
-		collectionView.showsVerticalScrollIndicator = false
-		collectionView.showsHorizontalScrollIndicator = false
 		
 		collectionView.delegate = self
 		collectionView.dataSource = self
@@ -71,8 +77,10 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		}
 	}
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		
-		return CGSize(width: (UIScreen.main.bounds.width * 0.33), height: collectionView.frame.height)
+		let screen = UIScreen.main.bounds
+		let width = (screen.width / 3) - 13
+		let height = collectionView.frame.height - 10
+		return CGSize(width: width, height: height)
 	}
 }
 

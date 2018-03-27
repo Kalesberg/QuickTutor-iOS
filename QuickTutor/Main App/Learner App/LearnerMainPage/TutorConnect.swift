@@ -11,10 +11,28 @@ import UIKit
 
 class TutorConnectView : MainLayoutTwoButton {
 	
-	let searchBar = UISearchBar()
 	var back = NavbarButtonBack()
 	var filters = NavbarButtonLines()
 	
+	let searchBar : UISearchBar = {
+		let searchBar = UISearchBar()
+		
+		searchBar.sizeToFit()
+		searchBar.searchBarStyle = .minimal
+		searchBar.backgroundImage = UIImage(color: UIColor.clear)
+		
+		let textField = searchBar.value(forKey: "searchField") as? UITextField
+		textField?.font = Fonts.createSize(18)
+		textField?.textColor = .white
+		textField?.adjustsFontSizeToFitWidth = true
+		textField?.autocapitalizationType = .words
+		textField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		textField?.keyboardAppearance = .dark
+		
+		return searchBar
+	}()
+	
+
 	override var leftButton : NavbarButton {
 		get {
 			return back
@@ -35,18 +53,7 @@ class TutorConnectView : MainLayoutTwoButton {
 		navbar.addSubview(searchBar)
 		super.configureView()
 		
-		searchBar.sizeToFit()
-		searchBar.searchBarStyle = .minimal
-		searchBar.backgroundImage = UIImage(color: UIColor.clear)
-		
-		let textField = searchBar.value(forKey: "searchField") as? UITextField
-		textField?.font = Fonts.createSize(18)
-		textField?.textColor = .white
-		textField?.adjustsFontSizeToFitWidth = true
-		textField?.autocapitalizationType = .words
-		textField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		textField?.keyboardAppearance = .dark
-		
+
 		applyConstraints()
 	}
 	

@@ -23,13 +23,20 @@ class CategoryCollectionViewCell : UICollectionViewCell {
 		
 		return label
 	}()
-	
+	let view : UIView = {
+		let view = UIView()
+		
+		view.clipsToBounds = false
+		view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 1, offset: CGSize(width: 2, height:3), radius: 5)
+		
+		return view
+	}()
 	let imageView : UIImageView = {
 		let imageView = UIImageView()
-		
+	
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
-        
+        imageView.clipsToBounds = true
 		return imageView
 	}()
 	
@@ -42,15 +49,23 @@ class CategoryCollectionViewCell : UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	func configureView() {
-		addSubview(imageView)
+		addSubview(view)
+		view.addSubview(imageView)
 		addSubview(label)
+		
 		applyConstraints()
 	}
 	func applyConstraints(){
-		imageView.snp.makeConstraints { (make) in
+		view.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
 			make.width.equalToSuperview()
 			make.height.equalToSuperview().multipliedBy(0.8)
+			make.centerX.equalToSuperview()
+		}
+		imageView.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.width.equalToSuperview()
+			make.height.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
 		label.snp.makeConstraints { (make) in
