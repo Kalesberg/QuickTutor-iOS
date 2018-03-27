@@ -68,13 +68,7 @@ class MainPageView : MainLayoutTwoButton {
 //        rightView.layer.cornerRadius = 6
 //        leftView.layer.cornerRadius = 6
         
-        
-		label.text = ""
-		label.font = Fonts.createSize(20)
-		label.textAlignment = .center
-		label.adjustsFontSizeToFitWidth = true
-		label.textColor = .white
-		
+	
     }
     
     override func applyConstraints() {
