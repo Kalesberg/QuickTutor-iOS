@@ -10,12 +10,22 @@ import Foundation
 import UIKit
 
 
-class TutorSettingsView : MainLayoutTitleBackButton {
+class TutorSettingsView : LearnerSettingsView {
+    
+    //var tutorScrollView = TutorSettingsScrollView()
+    
+//    override var scrollView: SettingsScrollView {
+//        get {
+//            return tutorScrollView
+//        } set {
+//            
+//        }
+//    }
     
     override func configureView() {
         super.configureView()
         
-        title.label.text = "Settings"
+        
     }
     
     override func applyConstraints() {

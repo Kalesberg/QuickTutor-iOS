@@ -76,7 +76,7 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(TutorSessionDetails(), animated: true)
+        //self.navigationController?.pushViewController(TutorSessionDetails(), animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -510,13 +510,23 @@ class SignOut : SettingsInteractableItem {
     }
 }
 
+class TutorSettingsScrollView : SettingsScrollView { }
 
 class SettingsScrollView : BaseScrollView {
+    
+    func myProfileNavigation() {
+        if (self is TutorSettingsScrollView) {
+            navigationController.pushViewController(TutorMyProfile(), animated: true)
+        } else {
+            navigationController.pushViewController(LearnerMyProfile(), animated: true)
+        }
+    }
+    
     override func handleNavigation() {
         if (touchStartView == nil) {
             return
         } else if(touchStartView is SettingsProfileView) {
-            navigationController.pushViewController(LearnerMyProfile(), animated: true)
+            myProfileNavigation()
         } else if (touchStartView is CommunityGuidelines) {
             print("Go to Community Guidelines")
         } else if (touchStartView is UserSafety) {

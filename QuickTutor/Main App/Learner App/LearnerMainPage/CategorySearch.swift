@@ -6,7 +6,6 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-
 import UIKit
 
 class CategorySearchView : MainLayoutTwoButton {
