@@ -17,11 +17,9 @@ class LearnerMainPageView : MainPageView {
 	let tableView : UITableView = {
 		let tableView = UITableView(frame: .zero, style: .grouped)
 	
-		
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-		
 		tableView.estimatedSectionHeaderHeight = 30
 		
 		return tableView
@@ -74,17 +72,16 @@ class LearnerMainPage : MainPage {
 	override func loadView() {
 		view = LearnerMainPageView()
 	}
-	let categories = ["Categories","Experiences", "Academics", "Outdoors", "Remedial","Health","Trades","Sports","Tech","Auto","Language","The Arts","Business"]
+	
+	var categories = ["Categories","Experiences", "Academics", "Outdoors", "Remedial","Health","Trades","Sports","Tech","Auto","Language","The Arts","Business"]
+	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		configureView()
-		
 		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
 			contentView.sidebar.profileView.profilePicView.image = image
-		} else {
-			
 		}
 	}
 	override func viewDidLayoutSubviews() {
@@ -99,11 +96,12 @@ class LearnerMainPage : MainPage {
 		contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
 	}
 	private func configureView() {
+		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
+		
 		contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "featuredCell")
 		contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
-		
 	}
 	
 	override func handleNavigation() {
@@ -151,19 +149,17 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return tableView.estimatedRowHeight
-		
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
-			//tableView.estimatedRowHeight = 250
-			tableView.rowHeight = 250
+			tableView.estimatedRowHeight = 225
 			return cell
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
-			//tableView.estimatedRowHeight = 200
-			tableView.rowHeight = 200
+			
+			tableView.estimatedRowHeight = 200
 			return cell
 		}
 	}
@@ -174,16 +170,17 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = SectionHeader()
 		view.category.text = categories[section]
-        
 		return view
 	}
 	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 		return tableView.estimatedSectionHeaderHeight
 	}
+	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
+
 }
 
 

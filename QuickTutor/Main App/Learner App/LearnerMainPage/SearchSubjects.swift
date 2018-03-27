@@ -29,7 +29,7 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
 		
 		let textField = searchBar.value(forKey: "searchField") as? UITextField
-		textField?.font = Fonts.createSize(18)
+		textField?.font = Fonts.createSize(15)
 		textField?.textColor = .white
 		textField?.adjustsFontSizeToFitWidth = true
 		textField?.autocapitalizationType = .words
@@ -124,7 +124,7 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 		}
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom)
-			make.height.equalToSuperview()
+			make.bottom.equalTo(safeAreaLayoutGuide)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
@@ -146,9 +146,10 @@ class SearchSubjects: BaseViewController {
 	var initialSetup : Bool = false
 	var initialIndex : IndexPath! = IndexPath(item: 0, section: 0)
 	
-	var subjects : NSArray = []
-	var filteredSubjects : NSArray = []
+	var subjects : [String] = []
+	var filteredSubjects : [String] = []
 	var shouldUpdateSearchResults = false
+	var shouldDeleteTag = false
 	
 	var selectedCategory : Int = 0 {
 		didSet {
@@ -171,7 +172,7 @@ class SearchSubjects: BaseViewController {
 		
 		if !initialSetup && initialIndex != nil{
 			contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
-			contentView.textField.attributedPlaceholder = NSAttributedString(string: self.categories[self.selectedCategory].subcategory.phrase, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			contentView.textField.attributedPlaceholder = NSAttributedString(string: categories[selectedCategory].subcategory.phrase, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 			loadListOfSubjects()
 			initialSetup = true
 		}
@@ -201,16 +202,15 @@ class SearchSubjects: BaseViewController {
 	
 	private func loadListOfSubjects() {
 		let pathToFile = Bundle.main.path(forResource: categories[selectedCategory].subcategory.fileToRead, ofType: "txt")
+		print(categories[selectedCategory].subcategory.fileToRead)
 		if let path = pathToFile {
 			do {
 				let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-				subjects = school.components(separatedBy: ",") as NSArray
+				subjects = school.components(separatedBy: ",") as [String]
 			} catch {
 				subjects = []
-				print("Try-catch error")
 			}
 		}
-		print("1", subjects.count)
 	}
 	
 	override func handleNavigation() {
@@ -232,12 +232,15 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		if collectionView.tag == 0 {
+			
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionViewCell", for: indexPath) as! SubjectCollectionViewCell
 			cell.imageView.image = categories[selectedCategory].subcategory.icon[indexPath.item]
 			cell.label.text = categories[selectedCategory].subcategory.subcategories[indexPath.item]
+			
 			return cell
 			
 		} else {
+			
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCollectionViewCell", for: indexPath) as! CategorySelectionCollectionViewCell
 			
 			cell.category.text = categories[indexPath.item].subcategory.displayName
@@ -247,22 +250,42 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		if collectionView.tag == 1 && (collectionView.cellForItem(at: indexPath)?.isSelected)! {
-			print("YO")
+		
+		if collectionView.tag == 1  {
+			newCategorySelected(indexPath.item)
+		} else {
+			//fade collectionView, bring up tableview, update searchBar with topics selected.
+			//on backspace once, mathematics becomes highlighted. then deleted, then subjects popup, tablview disappears and searbar is updated to the previous subject.
+			
+			// clicking tablviewCell will case the tableview to disapear and a list of tutors to show up.
 			UIView.animate(withDuration: 0.5, animations: {
 				self.contentView.collectionView.alpha = 0.0
 				return
 			})
-			selectedCategory = indexPath.item
 			UIView.animate(withDuration: 0.5, animations: {
-				self.contentView.collectionView.alpha = 1.0
-				self.contentView.textField.attributedPlaceholder =  NSAttributedString(string: self.categories[self.selectedCategory].subcategory.phrase, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-				return
+				self.contentView.tableView.alpha = 1.0
 			})
-			loadListOfSubjects()
-		} else {
-			print("Oops")
+			//update searchbar.
+			
+			contentView.searchBar.text = "\(categories[selectedCategory].subcategory.displayName.lowercased()); \(categories[selectedCategory].subcategory.subcategories[indexPath.item].lowercased()); "
+			
 		}
+	}
+	
+	func newCategorySelected(_ indexPath : Int) {
+		loadListOfSubjects()
+		UIView.animate(withDuration: 0.5, animations: {
+			self.contentView.collectionView.alpha = 0.0
+			return
+		})
+		
+		selectedCategory = indexPath
+		
+		UIView.animate(withDuration: 0.5, animations: {
+			self.contentView.collectionView.alpha = 1.0
+			self.contentView.textField.attributedPlaceholder =  NSAttributedString(string: self.categories[self.selectedCategory].subcategory.phrase, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			return
+		})
 	}
 }
 
@@ -284,7 +307,7 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "subjectTableViewCell", for: indexPath) as! SubjectTableViewCell
 		if shouldUpdateSearchResults {
-			cell.subject.text = (filteredSubjects[indexPath.row] as! String)
+			cell.subject.text = (filteredSubjects[indexPath.row])
 		}
 		return cell
 	}
@@ -311,18 +334,12 @@ extension SearchSubjects : UISearchBarDelegate {
 			self.contentView.tableView.alpha = 1.0
 		})
 	}
-	
 	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+		
 		shouldUpdateSearchResults = true
-		if contentView.searchBar.text == "" {
-			scrollToTop()
-		}
 		
 		if let searchString = contentView.searchBar.text {
-			let predicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchString)
-			filteredSubjects = subjects.filtered(using: predicate) as NSArray
-			print("3", filteredSubjects.count)
-			
+			filteredSubjects = subjects.filter({$0.contains(searchString.lowercased())})
 			if filteredSubjects.count > 0 {
 				scrollToTop()
 			}

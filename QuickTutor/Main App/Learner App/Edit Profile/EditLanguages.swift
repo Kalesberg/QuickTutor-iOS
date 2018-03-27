@@ -80,8 +80,8 @@ class EditLanguage : BaseViewController {
 		view = EditLanguageView()
 	}
 	
-	var languages : NSArray = []
-	var filteredLanguages : NSArray = []
+	var languages : [String] = []
+	var filteredLanguages : [String] = []
 	let currentLanguges = LearnerData.userData.languages
 	var selectedCells : [String]!
 	var shouldUpdateSearchResults = false
@@ -129,7 +129,7 @@ class EditLanguage : BaseViewController {
         if let path = pathToFile {
             do {
                 let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-                languages = school.components(separatedBy: ",") as NSArray
+                languages = school.components(separatedBy: ",") as [String]
             } catch {
                 languages = [""]
                 print("Try-catch error")
@@ -200,8 +200,7 @@ extension EditLanguage : UISearchBarDelegate {
 		shouldUpdateSearchResults = true
 		
 		if let searchString = contentView.searchBar.text {
-			let predicate = NSPredicate(format: "SELF contains[c] %@", searchString)
-			filteredLanguages = languages.filtered(using: predicate) as NSArray
+			filteredLanguages = languages.filter{($0.contains(searchString))}
 			if filteredLanguages.count > 0 {
 				scrollToTop()
 			} else {

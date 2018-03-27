@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1C82977B331519FA0EC418E5 /* Pods_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A3B0EC84A5F4A56226BC1D /* Pods_QuickTutor.framework */; };
 		8400F0181FDA178000ADE09A /* TutorInformationPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8400F0171FDA178000ADE09A /* TutorInformationPacket.swift */; };
+		8404F001206A9CA800797020 /* academics.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FDD206A993900E1598A /* academics.txt */; };
 		840613251FD8BE29003F6547 /* BioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840613241FD8BE29003F6547 /* BioView.swift */; };
 		840E75BA201E7DF6006FC580 /* LearnerPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75B9201E7DF6006FC580 /* LearnerPayment.swift */; };
 		840E75BC201E818C006FC580 /* LearnerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BB201E818C006FC580 /* LearnerSettings.swift */; };
@@ -69,7 +70,6 @@
 		846252FB206381BD001DD330 /* TaxInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252FA206381BD001DD330 /* TaxInformation.swift */; };
 		84681F922049F30A00F45DFC /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84681F912049F30A00F45DFC /* LocationServices.swift */; };
 		84681FA0204B63DC00F45DFC /* schools.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84681F9F204B63DC00F45DFC /* schools.txt */; };
-		846D9B462069E3B700302773 /* SearchContent in Resources */ = {isa = PBXBuildFile; fileRef = 846D9B452069E3B700302773 /* SearchContent */; };
 		846D9B4E2069E57000302773 /* CategorySelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */; };
 		846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */; };
 		846D9B522069E57400302773 /* SubjectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B512069E57400302773 /* SubjectCollectionViewCell.swift */; };
@@ -110,6 +110,17 @@
 		8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8491C2A61FBE62350036FC12 /* LaunchScreen.storyboard */; };
 		84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */; };
 		849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AAEA92060846800B9CFD7 /* TutorLocation.swift */; };
+		849B7FE2206A997200E1598A /* sports.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FDF206A997100E1598A /* sports.txt */; };
+		849B7FE3206A997200E1598A /* tech.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FE0206A997100E1598A /* tech.txt */; };
+		849B7FE4206A997200E1598A /* trades.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FE1206A997100E1598A /* trades.txt */; };
+		849B7FED206A99BF00E1598A /* language.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FE5206A99BE00E1598A /* language.txt */; };
+		849B7FEE206A99BF00E1598A /* remedial.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FE6206A99BE00E1598A /* remedial.txt */; };
+		849B7FEF206A99BF00E1598A /* health.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FE7206A99BE00E1598A /* health.txt */; };
+		849B7FF0206A99BF00E1598A /* outdoors.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FE8206A99BF00E1598A /* outdoors.txt */; };
+		849B7FF1206A99BF00E1598A /* business.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FE9206A99BF00E1598A /* business.txt */; };
+		849B7FF2206A99BF00E1598A /* arts.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FEA206A99BF00E1598A /* arts.txt */; };
+		849B7FF3206A99BF00E1598A /* auto.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FEB206A99BF00E1598A /* auto.txt */; };
+		849B7FF4206A99BF00E1598A /* experiences.txt in Resources */ = {isa = PBXBuildFile; fileRef = 849B7FEC206A99BF00E1598A /* experiences.txt */; };
 		84A37B78200447C800C19397 /* UserPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A37B77200447C800C19397 /* UserPolicy.swift */; };
 		84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */; };
 		84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */; };
@@ -229,7 +240,6 @@
 		84681F9F204B63DC00F45DFC /* schools.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schools.txt; sourceTree = "<group>"; };
 		846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchCollectionViewLayout.swift; sourceTree = "<group>"; };
 		846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchCollectionViewLayout.swift; sourceTree = "<group>"; };
-		846D9B452069E3B700302773 /* SearchContent */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SearchContent; sourceTree = "<group>"; };
 		846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTutorCollectionViewCell.swift; sourceTree = "<group>"; };
 		846D9B512069E57400302773 /* SubjectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -272,6 +282,18 @@
 		8491C2A91FBE62350036FC12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResizingExtensions.swift; sourceTree = "<group>"; };
 		849AAEA92060846800B9CFD7 /* TutorLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLocation.swift; sourceTree = "<group>"; };
+		849B7FDD206A993900E1598A /* academics.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = academics.txt; sourceTree = "<group>"; };
+		849B7FDF206A997100E1598A /* sports.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sports.txt; sourceTree = "<group>"; };
+		849B7FE0206A997100E1598A /* tech.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = tech.txt; sourceTree = "<group>"; };
+		849B7FE1206A997100E1598A /* trades.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = trades.txt; sourceTree = "<group>"; };
+		849B7FE5206A99BE00E1598A /* language.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = language.txt; sourceTree = "<group>"; };
+		849B7FE6206A99BE00E1598A /* remedial.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = remedial.txt; sourceTree = "<group>"; };
+		849B7FE7206A99BE00E1598A /* health.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = health.txt; sourceTree = "<group>"; };
+		849B7FE8206A99BF00E1598A /* outdoors.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = outdoors.txt; sourceTree = "<group>"; };
+		849B7FE9206A99BF00E1598A /* business.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = business.txt; sourceTree = "<group>"; };
+		849B7FEA206A99BF00E1598A /* arts.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = arts.txt; sourceTree = "<group>"; };
+		849B7FEB206A99BF00E1598A /* auto.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = auto.txt; sourceTree = "<group>"; };
+		849B7FEC206A99BF00E1598A /* experiences.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = experiences.txt; sourceTree = "<group>"; };
 		84A37B77200447C800C19397 /* UserPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPolicy.swift; sourceTree = "<group>"; };
 		84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDatePicker.swift; sourceTree = "<group>"; };
 		84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTextView.swift; sourceTree = "<group>"; };
@@ -535,12 +557,6 @@
 			isa = PBXGroup;
 			children = (
 				846252F420637FBA001DD330 /* TutorFileReport.swift */,
-				847463292069909600B70AD9 /* TutorSessionDetails.swift */,
-				8474632B2069937700B70AD9 /* Learner Unprofessional */,
-				8474632E206995A100B70AD9 /* LearnerCancelled.swift */,
-				8474633020699AD800B70AD9 /* LearnerLate.swift */,
-				8474633220699CB300B70AD9 /* LearnerHarassment.swift */,
-				8474633420699E5800B70AD9 /* LearnerOther.swift */,
 			);
 			path = "File Report";
 			sourceTree = "<group>";
@@ -688,6 +704,26 @@
 			path = QuickTutor;
 			sourceTree = "<group>";
 		};
+		849B7FF5206A99CA00E1598A /* SearchContent */ = {
+			isa = PBXGroup;
+			children = (
+				849B7FDF206A997100E1598A /* sports.txt */,
+				849B7FEA206A99BF00E1598A /* arts.txt */,
+				849B7FEB206A99BF00E1598A /* auto.txt */,
+				849B7FE9206A99BF00E1598A /* business.txt */,
+				849B7FEC206A99BF00E1598A /* experiences.txt */,
+				849B7FE7206A99BE00E1598A /* health.txt */,
+				849B7FE5206A99BE00E1598A /* language.txt */,
+				849B7FE8206A99BF00E1598A /* outdoors.txt */,
+				849B7FE6206A99BE00E1598A /* remedial.txt */,
+				849B7FE0206A997100E1598A /* tech.txt */,
+				849B7FE1206A997100E1598A /* trades.txt */,
+				849B7FDD206A993900E1598A /* academics.txt */,
+			);
+			name = SearchContent;
+			path = ../SearchContent;
+			sourceTree = "<group>";
+		};
 		84A37B75200445C600C19397 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
@@ -735,8 +771,8 @@
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
 				845B3BA22069E8D1009F8E04 /* CollectionViewCells */,
 				845B3BA12069E8C3009F8E04 /* TableViewCells */,
-				846D9B452069E3B700302773 /* SearchContent */,
 				846D9B422069E3A500302773 /* CustomLayouts */,
+				849B7FF5206A99CA00E1598A /* SearchContent */,
 			);
 			path = LearnerMainPage;
 			sourceTree = "<group>";
@@ -937,9 +973,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849B7FED206A99BF00E1598A /* language.txt in Resources */,
+				849B7FEE206A99BF00E1598A /* remedial.txt in Resources */,
+				849B7FEF206A99BF00E1598A /* health.txt in Resources */,
+				849B7FF0206A99BF00E1598A /* outdoors.txt in Resources */,
+				849B7FF1206A99BF00E1598A /* business.txt in Resources */,
+				849B7FF2206A99BF00E1598A /* arts.txt in Resources */,
+				849B7FF3206A99BF00E1598A /* auto.txt in Resources */,
+				849B7FF4206A99BF00E1598A /* experiences.txt in Resources */,
+				849B7FE2206A997200E1598A /* sports.txt in Resources */,
+				849B7FE3206A997200E1598A /* tech.txt in Resources */,
+				849B7FE4206A997200E1598A /* trades.txt in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
+				8404F001206A9CA800797020 /* academics.txt in Resources */,
 				8454FB561FDCB968007FFAA7 /* Student.storyboard in Resources */,
-				846D9B462069E3B700302773 /* SearchContent in Resources */,
 				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8454FB5A1FDCBB4F007FFAA7 /* TutorRegistration.storyboard in Resources */,
@@ -1056,7 +1103,6 @@
 				8423941D1FF4D5E800827C7D /* RegistrationTitleLabel.swift in Sources */,
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
 				8422F2F3205AC6390061ACE4 /* LeanerMessaging.swift in Sources */,
-				847463392069C58000B70AD9 /* LearnerUnsafe.swift in Sources */,
 				84F2450F1FDA0F59006447A8 /* UploadImage.swift in Sources */,
 				84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
@@ -1097,7 +1143,6 @@
 				8423940F1FF4CA1D00827C7D /* NoPasteTextField.swift in Sources */,
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
 				84E91B60205740ED00D1F613 /* Labels.swift in Sources */,
-				8474632D2069947B00B70AD9 /* LearnerUnprofessional.swift in Sources */,
 				84E4C7DB204E91F6009C2FC4 /* UpdatePayment.swift in Sources */,
 				8470995A20082DA5000DCFD0 /* Sidebar.swift in Sources */,
 				84F36ED81FC3603F00E71589 /* Name.swift in Sources */,
@@ -1132,14 +1177,11 @@
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
 				843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
-				847463372069C51500B70AD9 /* LearnerRude.swift in Sources */,
 				84D55E9A204F638D00BB899C /* EditPhoneVerification.swift in Sources */,
 				8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */,
 				84C255691FC2563A0012C0AA /* Birthday.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBio.swift in Sources */,
-				8474633120699AD800B70AD9 /* LearnerLate.swift in Sources */,
-				8474633320699CB300B70AD9 /* LearnerHarassment.swift in Sources */,
 				8423942B1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift in Sources */,
 				84F2451A1FDA1143006447A8 /* TutorSSN.swift in Sources */,
 				8430A8E41FFED70D002FD8A3 /* RegistrationNavBarView.swift in Sources */,
@@ -1151,7 +1193,6 @@
 				84D433B3204EF2DB00A3EAD2 /* AlertController.swift in Sources */,
 				84E91B5C20573E5100D1F613 /* SessionDetails.swift in Sources */,
 				842394271FF4DCF400827C7D /* RegistrationBackButton.swift in Sources */,
-				8474632F206995A100B70AD9 /* LearnerCancelled.swift in Sources */,
 				840613251FD8BE29003F6547 /* BioView.swift in Sources */,
 				8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */,
 				84D8C9342067116C003C3AEA /* TutorConnect.swift in Sources */,
@@ -1160,7 +1201,6 @@
 				84C96C0D1FCE34A900DBD3A6 /* Email.swift in Sources */,
 				847463222068B97900B70AD9 /* TutorQTGuide.swift in Sources */,
 				84F245241FDA16C9006447A8 /* TutorFilters.swift in Sources */,
-				8474632A2069909600B70AD9 /* TutorSessionDetails.swift in Sources */,
 				84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */,
 				84E4C7E8204E9774009C2FC4 /* SearchTutor.swift in Sources */,
 				8448C574204BC87100C3247D /* EditPhone.swift in Sources */,
@@ -1168,7 +1208,6 @@
 				8470995C20083AA5000DCFD0 /* MainPage.swift in Sources */,
 				84E283572004874300B004E7 /* RegistrationBigButton.swift in Sources */,
 				84E4C7D2204E80E4009C2FC4 /* AccountPayments.swift in Sources */,
-				8474633520699E5800B70AD9 /* LearnerOther.swift in Sources */,
 				842394131FF4CAC600827C7D /* RegistrationTextField.swift in Sources */,
 				84E1E4381FBE630200678531 /* signIn.swift in Sources */,
 				8430A8E61FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift in Sources */,
@@ -1176,7 +1215,6 @@
 				8423940B1FF4C97200827C7D /* RegistrationGradientView.swift in Sources */,
 				84A7E5D01FCE4FDE002EABD5 /* Tutor.swift in Sources */,
 				848809F52057692600F204A0 /* TutorRude.swift in Sources */,
-				8474633B2069C60200B70AD9 /* LearnerProfilePics.swift in Sources */,
 				84DA9F242019138100D53D78 /* NavbarButtons.swift in Sources */,
 				84880A042058643800F204A0 /* TutorOther.swift in Sources */,
 				84D8C92C2066A965003C3AEA /* Helper.swift in Sources */,

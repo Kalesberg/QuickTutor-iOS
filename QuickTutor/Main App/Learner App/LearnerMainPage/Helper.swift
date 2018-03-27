@@ -38,29 +38,28 @@ class SectionHeader : BaseView {
 
 class FeaturedTutorView : BaseView {
 	
-	let imageView = UIImageView()
-	let subject = UILabel()
-	let region = UILabel()
-	let namePrice = UILabel()
-	let stars = UILabel()
-	
-	override func configureView() {
-		addSubview(imageView)
-		addSubview(subject)
-		addSubview(region)
-		addSubview(namePrice)
-		addSubview(stars)
-		
-		super.configureView()
-		
-		backgroundColor = Colors.backgroundDark
+	let imageView  : UIImageView = {
+		let imageView = UIImageView()
 		
 		imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+		
+		return imageView
+	}()
+	
+	let subject : UILabel = {
+		let subject = UILabel()
+		
 		subject.textAlignment = .left
 		subject.textColor = .white
 		subject.text = "German Tutoring"
 		subject.font = Fonts.createSize(17)
 		subject.adjustsFontSizeToFitWidth = true
+		
+		return subject
+	}()
+	
+	let region : UILabel = {
+		let region = UILabel()
 		
 		region.textAlignment = .left
 		region.textColor = .white
@@ -68,11 +67,23 @@ class FeaturedTutorView : BaseView {
 		region.font = Fonts.createSize(14)
 		region.adjustsFontSizeToFitWidth = true
 		
+		return region
+	}()
+	
+	let namePrice : UILabel = {
+		let namePrice = UILabel()
+		
 		namePrice.textAlignment = .left
 		namePrice.textColor = Colors.grayText
 		namePrice.text = "Garry, M | $195/hr"
 		namePrice.font = Fonts.createSize(14)
 		namePrice.adjustsFontSizeToFitWidth = true
+		
+		return namePrice
+	}()
+	
+	let stars : UILabel = {
+		let stars = UILabel()
 		
 		stars.textAlignment = .left
 		stars.textColor = Colors.grayText
@@ -80,39 +91,53 @@ class FeaturedTutorView : BaseView {
 		stars.font = Fonts.createSize(14)
 		stars.adjustsFontSizeToFitWidth = true
 		
+		return stars
+	}()
+	
+	override func configureView() {
+		addSubview(imageView)
+		addSubview(subject)
+		addSubview(region)
+		addSubview(namePrice)
+		addSubview(stars)
+		super.configureView()
+		
+		backgroundColor = Colors.backgroundDark
+		
 		applyConstraints()
 	}
 	override func applyConstraints() {
 		imageView.snp.makeConstraints { (make) in
-			make.bottom.equalTo(subject.snp.top)
+			make.centerY.equalToSuperview().multipliedBy(0.6)
 			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().dividedBy(2.5)
-			make.width.equalToSuperview().multipliedBy(0.6)
+			make.height.equalToSuperview().multipliedBy(0.5)
+			make.width.equalToSuperview().multipliedBy(0.7)
 		}
-		stars.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.1)
-			make.centerX.equalToSuperview()
-		}
-		namePrice.snp.makeConstraints { (make) in
-			make.bottom.equalTo(stars.snp.top)
+		subject.snp.makeConstraints { (make) in
+			make.top.equalTo(imageView.snp.bottom)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 			make.height.equalToSuperview().multipliedBy(0.1)
 		}
 		region.snp.makeConstraints { (make) in
-			make.bottom.equalTo(namePrice.snp.top)
+			make.top.equalTo(subject.snp.bottom)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 			make.height.equalToSuperview().multipliedBy(0.1)
 		}
-		subject.snp.makeConstraints { (make) in
-			make.bottom.equalTo(region.snp.top)
+		namePrice.snp.makeConstraints { (make) in
+			make.top.equalTo(region.snp.bottom)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 			make.height.equalToSuperview().multipliedBy(0.1)
 		}
+		stars.snp.makeConstraints { (make) in
+			make.top.equalTo(namePrice.snp.bottom)
+			make.width.equalToSuperview()
+			make.height.equalToSuperview().multipliedBy(0.1)
+			make.centerX.equalToSuperview()
+		}
+
 	}
 }
 
@@ -147,7 +172,7 @@ enum Category {
 										searchBarPhrases = ["Enter Any 'Academic' Subject"]
 										subcategories = ["Mathematics", "Language Arts", "History", "The Sciences", "Extracurricular","Test Preparation"]
 										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "back-button"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "Academics"
+										fileToRead = "academics"
 
 		case .arts:						displayName = "THE ARTS"
 										searchBarPhrases = ["Enter Any 'The Arts' Subject"]

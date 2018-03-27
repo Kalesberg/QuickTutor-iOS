@@ -26,7 +26,7 @@ class CategorySearchView : MainLayoutTwoButton {
 		textField?.textColor = .white
 		textField?.adjustsFontSizeToFitWidth = true
 		textField?.autocapitalizationType = .words
-		textField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		textField?.attributedPlaceholder = NSAttributedString(string: CategorySelected.title, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		textField?.keyboardAppearance = .dark
 		
 		return searchBar
@@ -36,7 +36,7 @@ class CategorySearchView : MainLayoutTwoButton {
 		
 		let collectionView  = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		
-		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 5, minimumLineSpacing: 5, sectionInset: UIEdgeInsets(top: 1, left: 5, bottom: 1, right: 5))
+		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 5, minimumLineSpacing: 5, sectionInset: UIEdgeInsets(top: 10, left: 5, bottom: 1, right: 5))
 		
 		collectionView.collectionViewLayout = customLayout
 		collectionView.backgroundColor = .clear
@@ -80,7 +80,7 @@ class CategorySearchView : MainLayoutTwoButton {
 			make.center.equalToSuperview()
 		}
 		collectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom)
+			make.top.equalTo(navbar.snp.bottom).inset(-100)
 			make.centerX.equalToSuperview()
 			make.height.equalToSuperview()
 			make.width.equalToSuperview()
@@ -99,6 +99,7 @@ class CategorySearch: BaseViewController {
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
 		contentView.collectionView.delegate = self
 		contentView.collectionView.dataSource = self
 		contentView.collectionView.register(FeaturedTutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
@@ -136,3 +137,6 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 }
 
+struct CategorySelected {
+	static var title : String!
+}
