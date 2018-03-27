@@ -15,6 +15,7 @@ class MainPageView : MainLayoutTwoButton {
     var messagesButton = NavbarButtonMessages()
     var backgroundView = InteractableObject()
 	
+	
     override var leftButton: NavbarButton {
         get {
             return sidebarButton
@@ -35,53 +36,32 @@ class MainPageView : MainLayoutTwoButton {
     
     override func configureView() {
         addSubview(backgroundView)
-  
+
+		
         navbar.addSubview(sidebarButton)
         navbar.addSubview(messagesButton)
-        
+
         insertSubview(sidebar, aboveSubview: navbar)
-		super.configureView()
-        
+        super.configureView()
+		
+		
         backgroundView.backgroundColor = .black
         backgroundView.alpha = 0.0
-        
-        sidebar.alpha = 0.0
-        
-//        messagesSessionsControl.insertSegment(withTitle: "Messages", at: 0, animated: true)
-//        messagesSessionsControl.insertSegment(withTitle: "Sessions", at: 1, animated: true)
-//
-//        let rightView = messagesSessionsControl.subviews[0]
-//        let leftView = messagesSessionsControl.subviews[1]
-//
-//        messagesSessionsControl.layer.cornerRadius = 6
-//        let font = Fonts.createLightSize(18)
-//        messagesSessionsControl.setTitleTextAttributes([NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: UIColor.white],
-//                                                for: .selected)
-//        messagesSessionsControl.setTitleTextAttributes([NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: UIColor.white],
-//                                                    for: .normal)
-//        messagesSessionsControl.layer.borderWidth = 1.5
-//        messagesSessionsControl.layer.borderColor = UIColor.white.cgColor
-//        messagesSessionsControl.setDividerImage(UIImage(color: .white, size: CGSize(width: 0.75, height: messagesSessionsControl.frame.height)), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
-//        messagesSessionsControl.selectedSegmentIndex = 0
-//        messagesSessionsControl.tintColor = .clear
-//
-//        rightView.layer.cornerRadius = 6
-//        leftView.layer.cornerRadius = 6
-        
+		
 	
+		
+		sidebar.alpha = 0.0
     }
     
     override func applyConstraints() {
         super.applyConstraints()
         
         sidebarButton.allignLeft()
-        
         messagesButton.allignRight()
         
         backgroundView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        
         sidebar.snp.remakeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.equalToSuperview()
@@ -91,43 +71,67 @@ class MainPageView : MainLayoutTwoButton {
     }
 }
 
-class SearchBar: BaseView, Interactable {
-    
-    var searchIcon  = UIImageView()
-    var searchLabel = CenterTextLabel()
 
-    override func configureView() {
-        addSubview(searchIcon)
-        addSubview(searchLabel)
-        
-        backgroundColor = .white
-        layer.cornerRadius = 12
-        
-        searchIcon.image = UIImage(named: "navbar-search")
-        searchIcon.scaleImage()
-        
-        searchLabel.label.text = "Search"
-        searchLabel.label.font = Fonts.createSize(18)
-        searchLabel.label.textColor = UIColor(red: 128/255, green: 128/255, blue: 128/255, alpha: 1.0)
-        searchLabel.applyConstraints()
-        
-        applyConstraints()
+
+class LearnerMainPage : MainPage {
+    override var contentView: LearnerMainPageView {
+        return view as! LearnerMainPageView
     }
-    
-    override func applyConstraints() {
-        searchIcon.snp.makeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.18)
-            make.height.equalToSuperview().multipliedBy(0.6)
-            make.centerY.equalToSuperview()
-        }
-        searchLabel.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+    override func loadView() {
+        view = LearnerMainPageView()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+            contentView.sidebar.profileView.profilePicView.image = image
+        } else {
         }
     }
-
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+ 
+        contentView.sidebar.applyGradient(firstColor: Colors.tutorBlue.cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.sidebar.bounds)
+    }
+    override func updateSideBar() {
+        contentView.sidebar.profileView.profileNameView.label.text = user.name
+        contentView.sidebar.profileView.profileSchoolView.label.text = user.school
+        contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
+    }
+    override func handleNavigation() {
+        super.handleNavigation()
+        
+        if(touchStartView == contentView.sidebar.paymentItem) {
+            navigationController?.pushViewController(hasPaymentMethod ? CardManager() : LearnerPayment(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.settingsItem) {
+            navigationController?.pushViewController(LearnerSettings(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.profileView) {
+            navigationController?.pushViewController(LearnerMyProfile(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.reportItem) {
+            navigationController?.pushViewController(LearnerFileReport(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.legalItem) {
+            hideSidebar()
+            hideBackground()
+            //take user to legal on our website
+        } else if(touchStartView == contentView.sidebar.helpItem) {
+            navigationController?.pushViewController(LearnerHelp(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.becomeQTItem) {
+            navigationController?.pushViewController(BecomeTutor(), animated: true)
+            hideSidebar()
+            hideBackground()
+        }
+    }
 }
-
 
 class MainPage : BaseViewController {
 	
@@ -159,7 +163,6 @@ class MainPage : BaseViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		print("view will appear")
 		updateSideBar()
 	}
 	
@@ -169,21 +172,6 @@ class MainPage : BaseViewController {
     }
     func updateSideBar() { }
 	
-//    @objc internal func controlChanged() {
-//        let _ = contentView.messagesSessionsControl.subviews[0]
-//        let _ = contentView.messagesSessionsControl.subviews[1]
-//
-//        switch contentView.messagesSessionsControl.selectedSegmentIndex
-//        {
-//        case 0:
-//            contentView.messagesSessionsControl.layer.sublayers![0].frame = CGRect(x: leftView.frame.minX + 1.5, y: leftView.frame.minY + 1.5, width: leftView.frame.width - 7, height: leftView.frame.height - 3)
-//        case 1:
-//            contentView.messagesSessionsControl.layer.sublayers![0].frame = CGRect(x: rightView.frame.minX + 1.5, y: rightView.frame.minY + 1.5, width: rightView.frame.width - 7, height: rightView.frame.height - 3)
-//        default:
-//            break
-//        }
-//    }
-    
     override func handleNavigation() {
         if (touchStartView == nil) {
             return

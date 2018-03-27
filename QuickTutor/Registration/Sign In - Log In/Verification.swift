@@ -215,7 +215,7 @@ class Verification : BaseViewController {
                 self.contentView.vcDigit6.textField.isEnabled = true
             } else {
                 self.view.endEditing(true)
-                self.ref.child("student").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
                     if snapshot.exists() {
 						self.signIn()
                     } else {

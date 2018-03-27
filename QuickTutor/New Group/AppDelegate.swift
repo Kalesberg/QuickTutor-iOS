@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Facebook init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame: UIScreen.main.bounds)
-		
+        
         //Firebase check
         if Auth.auth().currentUser != nil {
             //create SignInClass to handle everything before user is able to sign in.
@@ -82,12 +82,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 						self.window?.makeKeyAndVisible()
 					})
 					
-					let controller = LearnerPageViewController()
-					navigationController = UINavigationController(rootViewController: controller)
-					navigationController.navigationBar.isHidden = true
-					self.window?.rootViewController = navigationController
-				}
-			})
+					let controller = TutorHelp()
+                    navigationController = UINavigationController(rootViewController: controller)
+                    navigationController.navigationBar.isHidden = true
+                    self.window?.rootViewController = navigationController
+                }
+            })
         } else {
             let controller = SignIn()
             navigationController = UINavigationController(rootViewController: controller)

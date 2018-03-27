@@ -8,6 +8,8 @@
 // TODO: add didSet functions and init() methods to classes to update the UI
 
 import Firebase
+import FirebaseDatabase
+import FirebaseStorage
 import Stripe
 import SwiftKeychainWrapper
 import FirebaseDatabase

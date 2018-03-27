@@ -127,6 +127,7 @@ class EditSchool : BaseViewController {
 		}
 	}
 }
+
 extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
