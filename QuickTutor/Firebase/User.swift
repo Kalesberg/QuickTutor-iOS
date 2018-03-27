@@ -10,6 +10,8 @@
 import Firebase
 import Stripe
 import SwiftKeychainWrapper
+import FirebaseDatabase
+import FirebaseStorage
 
 class LearnerData {
 	

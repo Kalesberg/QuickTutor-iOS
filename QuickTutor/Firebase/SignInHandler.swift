@@ -7,6 +7,8 @@
 //
 
 import Firebase
+import FirebaseStorage
+import FirebaseDatabase
 
 class SignInHandler {
 	

@@ -183,7 +183,7 @@ class MainLayoutHeader : MainLayoutTitleBackButton {
         addSubview(header)
         super.configureView()
         
-        header.label.font = Fonts.createSize(22)
+        header.label.font = Fonts.createSize(21.5)
     }
     
     override func applyConstraints() {
