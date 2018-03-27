@@ -14,7 +14,7 @@ struct TutorRegistration {
     static var tutorBio    : String!
     static var subjects : [String]!
 	static var address : String!
-	static var location : CLLocationCoordinate2D!
+	static var location : CLLocation!
 	
 	//stripe - connect
 	static var bankholderName : String!

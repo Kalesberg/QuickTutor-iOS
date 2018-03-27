@@ -340,7 +340,7 @@ fileprivate class SettingsProfileView : ArrowItem {
         
         label.font = Fonts.createSize(14)
         
-        label.text = "\(user.firstName!) \(user.lastName!)\n\(user.phone.formatPhoneNumber())\n\(user.email!)"
+        label.text = "\(user.name!)\n\(user.phone.formatPhoneNumber())\n\(user.email!)"
         
         applyConstraints()
     }
@@ -515,8 +515,7 @@ class SettingsScrollView : BaseScrollView {
     override func handleNavigation() {
         if (touchStartView == nil) {
             return
-        } else if(touchStartView is LearnerMyProfileView) {
-            print("lol")
+        } else if(touchStartView is SettingsProfileView) {
             navigationController.pushViewController(LearnerMyProfile(), animated: true)
         } else if (touchStartView is CommunityGuidelines) {
             print("Go to Community Guidelines")
@@ -584,44 +583,6 @@ class LearnerSettings : BaseViewController {
     }
     
     override func handleNavigation() {
-//        if (touchStartView == nil) {
-//            return
-//        } else if(touchStartView == contentView.profileView) {
-//            navigationController?.pushViewController(MyProfile(), animated: true)
-//        } else if (touchStartView == contentView.communityGuidelines) {
-//            print("Go to Community Guidelines")
-//        } else if (touchStartView == contentView.userSafety) {
-//            print("Go to user Safety")
-//        } else if(touchStartView == contentView.rateUs) {
-//            //take user to app store to rate the app
-//            SocialMedia.socialMediaManager.rateApp(appUrl: "itms-apps://itunes.apple.com/", webUrl: "", completion: { (success) in
-//                print("Rated appstore? \(success)")
-//            })
-//        }  else if(touchStartView == contentView.followUs.twitterImage) {
-//            //take user to our twitter
-//            SocialMedia.socialMediaManager.rateApp(appUrl:  "twitter://user?screen_name=QuickTutorApp", webUrl: "https://twitter.com/QuickTutorApp", completion: { (success) in
-//                print("Rated Twitter? \(success)")
-//            })
-//        } else if(touchStartView == contentView.followUs.instagramImage) {
-//            //take user to our in instagram
-//            SocialMedia.socialMediaManager.rateApp(appUrl:  "instagram://user?username=QuickTutor", webUrl: "https://www.instagram.com/quicktutor/", completion: { (success) in
-//                print("Rated instagram? \(success)")
-//            })
-//        } else if(touchStartView == contentView.followUs.facebookImage) {
-//            //take user to our facebook
-//            SocialMedia.socialMediaManager.rateApp(appUrl:  "fb://profile/QuickTutor", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { (success) in
-//                print("Rated facebook? \(success)")
-//            })
-//        } else if(touchStartView == contentView.signOut) {
-//            //Are you sure? error message should be added.
-//            do {
-//                try Auth.auth().signOut()
-//                navigationController!.pushViewController(SignIn(), animated: false)
-//                navigationController!.viewControllers.removeFirst(navigationController!.viewControllers.endIndex - 1)
-//            } catch {
-//                print("Error signing out")
-//            }
-//        }
     }
 }
 

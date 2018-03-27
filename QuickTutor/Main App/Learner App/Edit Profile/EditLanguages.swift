@@ -90,7 +90,7 @@ class EditLanguage : BaseViewController {
 		super.viewDidLoad()
 		configure()
 		loadListOfLanguages()
-		selectedCells = currentLanguges!.filter{ ($0 != "") }
+		selectedCells = currentLanguges!
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -120,7 +120,7 @@ class EditLanguage : BaseViewController {
 	}
 	private func saveLanguages() {
 		LearnerData.userData.languages = selectedCells
-		FirebaseData.manager.updateValue(value: ["lng" : selectedCells])
+		FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedCells])
 		navigationController?.popViewController(animated: true)
 	}
 	
@@ -211,6 +211,7 @@ extension EditLanguage : UISearchBarDelegate {
 		contentView.tableView.reloadData()
 	}
 }
+
 class CustomLanguageCell : UITableViewCell {
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -221,7 +222,7 @@ class CustomLanguageCell : UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	var checkbox = RegistrationCheckbox()
+	let checkbox = RegistrationCheckbox()
 
 	func configureTableViewCell() {
 		addSubview(checkbox)

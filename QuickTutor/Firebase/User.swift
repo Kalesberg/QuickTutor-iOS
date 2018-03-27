@@ -17,17 +17,16 @@ class LearnerData {
 	
 	static let userData = LearnerData()
 	
-	var firstName : String!
-	var lastName : String!
-	var bio : String!
-	var birthday : String!
-	var email : String!
-	var school : String!
-	var phone : String!
-	var age : String!
+	var name	  : String!
+	var bio 	  : String!
+	var birthday  : String!
+	var email 	  : String!
+	var school    : String!
+	var phone     : String!
+	var age       : String!
 	var languages : [String]!
-	var address : String!
-	var customer : String!
+	var address   : String!
+	var customer  : String!
 	var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
 	
 }
@@ -75,7 +74,7 @@ class LocalImageCache {
 				FirebaseData.manager.uploadUserImage(image: image.circleMasked!, number: number, completion: { (imageUrl) in
 					if let imageUrl = imageUrl {
 						LearnerData.userData.images["image\(number)"] = imageUrl
-						FirebaseData.manager.updateValue(value: ["img" : LearnerData.userData.images])
+						FirebaseData.manager.updateValue(node: "student-info", value: ["img" : LearnerData.userData.images])
 					} else {
 						print("error")
 					}
@@ -103,7 +102,7 @@ class LocalImageCache {
 			do {
 				try data.write(to: filename)
 				LearnerData.userData.images["image\(number)"] = ""
-				FirebaseData.manager.updateValue(value: ["image" : LearnerData.userData.images])
+				FirebaseData.manager.updateValue(node: "student-info", value: ["image" : LearnerData.userData.images])
 				FirebaseData.manager.removeUserImage(number)
 			} catch {
 				print("error with image")
@@ -178,8 +177,8 @@ class FirebaseData {
 		print("firebaser has been initialized")
 	}
 	
-	public func updateValue(value: [String : Any]) {
-		self.ref.child("student").child(user.uid).updateChildValues(value) { (error, reference) in
+	public func updateValue(node: String, value: [String : Any]) {
+		self.ref.child(node).child(user.uid).updateChildValues(value) { (error, reference) in
 			if let error = error {
 				print(error.localizedDescription)
 			}
@@ -196,29 +195,24 @@ class FirebaseData {
 		})
 	}
 	
-	public func initLearner(completion: @escaping (Bool) -> ()) {
-		let post : [String : Any] =
-			["fn" : Registration.firstName!,
-			 "ln" : Registration.lastName!,
-			 "bd" : Registration.dob!,
-			 "age" : Registration.age,
-			 "em": Registration.email,
-			 "phn" : Registration.phone,
-			 "bio" : "",
-			 "sch" : "",
-			 "lng" : [""],
-			 "addr" : "",
-			 "lat" : 0.0,
-			 "long" : 0.0,
-			 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]]
+	public func uploadUser(_ completion: @escaping (Error?) -> Void) {
 		
-		self.ref.child("student").child(user.uid).setValue(post) { (error, databaseRef) in
+		let account : [String : Any] =
+			["phn" : Registration.phone, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
+		let studentInfo : [String : Any] =
+			["nm" : Registration.name,
+			 "age" : Registration.age,
+			 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]
+		]
+		
+		let newUser = ["/account/\(user.uid)/" : account, "/student-info/\(user.uid)/" : studentInfo]
+	
+		self.ref.root.updateChildValues(newUser) { (error, reference) in
 			if let error = error {
-				print(error.localizedDescription)
-				completion(false)
+				completion(error)
 			} else {
-				print("User is in the database!")
-				completion(true)
+				//do something with reference
+				completion(nil)
 			}
 		}
 	}
@@ -273,7 +267,6 @@ class FirebaseData {
 		var values = value
 		
 		values["timestamp"] = NSDate().timeIntervalSince1970
-		
 		self.ref.child("filereport").child(user.uid).child(sessionId).child(reportClass).updateChildValues(values) { (error, reference) in
 			if let error = error {
 				completion(error)

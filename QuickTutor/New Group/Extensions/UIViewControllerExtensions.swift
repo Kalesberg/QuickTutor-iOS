@@ -43,7 +43,7 @@ extension UIViewController {
 extension UINavigationController {
 	func popBackToMain() {
 		for controller in self.viewControllers {
-			if controller is PageViewController {
+			if controller is LearnerPageViewController {
 				self.popToViewController(controller, animated: true)
 				break
 			} else {

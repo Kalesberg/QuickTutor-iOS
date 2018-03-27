@@ -215,20 +215,9 @@ class Verification : BaseViewController {
                 self.contentView.vcDigit6.textField.isEnabled = true
             } else {
                 self.view.endEditing(true)
-                self.ref.child("student").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
                     if snapshot.exists() {
-						SignInHandler.manager.getUserData(completion: { (error) in
-							if error != nil {
-								print(error ?? "Sign In Error")
-							} else {
-								Stripe.stripeManager.retrieveCustomer({ (error) in
-									if let error = error {
-										print(error.localizedDescription)
-									}
-									self.navigationController!.pushViewController(MainPage(), animated: true)
-								})
-							}
-						})
+						self.signIn()
                     } else {
                         self.navigationController!.pushViewController(Name(), animated: true)
                     }
@@ -236,7 +225,20 @@ class Verification : BaseViewController {
             }
         }
     }
-    
+	private func signIn() {
+		_ = SignInHandler.init({ (error) in
+			if error != nil {
+				print(error ?? "Sign In Error")
+			} else {
+				Stripe.stripeManager.retrieveCustomer({ (error) in
+					if let error = error {
+						print(error.localizedDescription)
+					}
+					self.navigationController!.pushViewController(LearnerPageViewController(), animated: true)
+				})
+			}
+		})
+	}
     private func resendVCAction() {
         PhoneAuthProvider.provider().verifyPhoneNumber(Registration.phone, uiDelegate: nil) { (verificationId, error) in
             if let error = error {

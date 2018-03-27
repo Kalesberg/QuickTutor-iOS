@@ -71,7 +71,7 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 		super.configureView()
 		
 		let user = LearnerData.userData
-		
+		let name = user.name.split(separator: " ")
 		title.label.text = "Edit Profile"
 		
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -81,11 +81,11 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 		aboutMeLabel.label.font = Fonts.createSize(18)
 		
 		firstNameItem.infoLabel.label.text = "First Name"
-		firstNameItem.textField.attributedText = NSAttributedString(string: user.firstName,
+		firstNameItem.textField.attributedText = NSAttributedString(string: "\(name[0])",
 																	attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		
 		lastNameItem.infoLabel.label.text = "Last Name"
-		lastNameItem.textField.attributedText = NSAttributedString(string: user.lastName,
+		lastNameItem.textField.attributedText = NSAttributedString(string: "\(name[1])",
 																   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		
 		personalInfoHeader.label.text = "Personal Information"
@@ -817,11 +817,9 @@ class LearnerEditProfile : BaseViewController {
 			return
 		}
 		
-		user.firstName = firstName
-		user.lastName = lastName
-		user.email = email
+		user.name = "\(firstName.filter{ !" \n\t\r".contains($0)}) \(lastName.filter{ !" \n\t\r".contains($0) })"
 		
-		FirebaseData.manager.updateValue(value: ["fn" : user.firstName, "ln" : user.lastName, "em" : user.email])
+		FirebaseData.manager.updateValue(node: "student-info", value: ["nm" : user.name])
 		
 	}
 }

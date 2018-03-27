@@ -178,7 +178,7 @@ class LearnerMyProfileView : MainLayoutTitleBackTwoButton {
         xButton.alpha = 0.0
         
         nameLabel.label.font = Fonts.createBoldSize(22)
-        nameLabel.label.text = user.firstName + " " + user.lastName
+        nameLabel.label.text = user.name!
 
 		
 		speakItem.label.text = "Speaks: "

@@ -63,24 +63,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Firebase check
         if Auth.auth().currentUser != nil {
             //create SignInClass to handle everything before user is able to sign in.
-            SignInHandler.manager.getUserData(completion: { (error) in
-                if error != nil {
-                    print(error!)
-                    self.window?.makeKeyAndVisible()
-                    let controller = SignIn()
-                    navigationController = UINavigationController(rootViewController: controller)
-                    navigationController.navigationBar.isHidden = true
-                    self.window?.rootViewController = navigationController
-                } else {
-                    print("Sign In Handler Completed.")
-                    print("Grabbing customer data...")
-                    Stripe.stripeManager.retrieveCustomer({ (error) in
-                        if let error = error {
-                            print(error.localizedDescription)
-                        }
-                        print("Retrieved customer.")
-                        self.window?.makeKeyAndVisible()
-                    })
+			_ = SignInHandler.init({ (error) in
+				if error != nil {
+					print(error!)
+					self.window?.makeKeyAndVisible()
+					let controller = SignIn()
+					navigationController = UINavigationController(rootViewController: controller)
+					navigationController.navigationBar.isHidden = true
+					self.window?.rootViewController = navigationController
+				} else {
+					print("Sign In Handler Completed.")
+					print("Grabbing customer data...")
+					Stripe.stripeManager.retrieveCustomer({ (error) in
+						if let error = error {
+							print(error.localizedDescription)
+						}
+						print("Retrieved customer.")
+						self.window?.makeKeyAndVisible()
+					})
 					
 					let controller = TutorHelp()
                     navigationController = UINavigationController(rootViewController: controller)

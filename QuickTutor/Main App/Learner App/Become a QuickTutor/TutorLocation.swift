@@ -29,7 +29,7 @@ class TutorLocation {
 				completion(error)
 			}
 			if let placemark = placemark?.first {
-				TutorRegistration.location = placemark.location?.coordinate
+				TutorRegistration.location = placemark.location
 				self.formatAddressStringFromLatLong(location: placemark.location!)
 				completion(nil)
 			}
@@ -48,15 +48,16 @@ class TutorLocation {
 			}
 			
 			let pm = placemark[0]
-			var addressString : String = ""
-
+			var line1 : String = ""
+			
 			if let streetNumber = pm.subThoroughfare {
-				addressString = addressString + streetNumber + " "
+				line1 = line1 + streetNumber + " "
 			}
 			if let street = pm.thoroughfare {
-				TutorRegistration.line1 = addressString + street
-				addressString = addressString + street + ", "
+				TutorRegistration.line1 = line1 + street
 			}
+			
+			var addressString : String = ""
 			if let city = pm.locality {
 				addressString = addressString + city + ", "
 				TutorRegistration.city = city

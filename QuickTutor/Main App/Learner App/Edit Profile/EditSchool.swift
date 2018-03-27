@@ -127,6 +127,7 @@ class EditSchool : BaseViewController {
 		}
 	}
 }
+
 extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
@@ -156,7 +157,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 		
 		if shouldUpdateSearchResults {
 			school = filteredSchools[indexPath.row] as! String
-			FirebaseData.manager.updateValue(value: ["sch" : school])
+			FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
 			LearnerData.userData.school = school
 			navigationController?.popViewController(animated: true)
 		}

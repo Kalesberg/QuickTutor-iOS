@@ -603,7 +603,7 @@ class LearnerPayment : BaseViewController {
                     self.contentView.nextButton.isUserInteractionEnabled = true
                 } else {
                     UserDefaultData.localDataManager.addCard()
-                    self.navigationController?.pushViewController(MainPage(), animated: true)
+                    self.navigationController?.popBackToMain()
                 }
             })
         }
