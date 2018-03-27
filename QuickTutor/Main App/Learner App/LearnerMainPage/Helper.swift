@@ -218,10 +218,56 @@ enum Category {
 		
 		return Subcategory(subcategories: subcategories, icon: icon, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], displayName: displayName, fileToRead: fileToRead)
 	}
+	
+	var mainPageData : MainPageData {
+		let displayName : String
+		let image : UIImage
+		
+		switch self {
+		case .academics:				displayName = "Academics"
+										image = #imageLiteral(resourceName: "social-twitter")
+			
+		case .arts:						displayName = "The Arts"
+										image = #imageLiteral(resourceName: "social-twitter")
+		case .auto: 					displayName = "Auto"
+										image = #imageLiteral(resourceName: "social-twitter")
+			
+		case .business:					displayName = "Business"
+										image = #imageLiteral(resourceName: "social-twitter")
+			
+		case .experiences:				displayName = "Experiences"
+										image = #imageLiteral(resourceName: "social-twitter")
+			
+		case .health:					displayName = "Health"
+										image = #imageLiteral(resourceName: "social-twitter")
+		case .language:					displayName = "Language"
+										image = #imageLiteral(resourceName: "social-twitter")
+			
+		case .outdoors: 				displayName = "Outdoors"
+										image = #imageLiteral(resourceName: "social-twitter")
+			
+		case .remedial: 				displayName = "Remedial"
+										image = #imageLiteral(resourceName: "social-twitter")
+			
+		case .sports: 					displayName = "Sports"
+										image = #imageLiteral(resourceName: "social-twitter")
+			
+		case .tech:						displayName = "Tech"
+										image = #imageLiteral(resourceName: "social-twitter")
+		case .trades:					displayName = "Trades"
+										image = #imageLiteral(resourceName: "social-twitter")
+		}
+		return MainPageData(displayName: displayName, image: image)
+	}
 }
 
 extension Category {
-
+	
+	struct MainPageData {
+		let displayName : String
+		let image : UIImage
+	}
+	
 	struct Subcategory {
 		let subcategories : [String]
 		let icon : [UIImage]

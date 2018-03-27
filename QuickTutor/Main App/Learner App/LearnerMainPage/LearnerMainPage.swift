@@ -14,7 +14,18 @@ class LearnerMainPageView : MainPageView {
 	var search  = SearchBar()
 	var learnerSidebar = LearnerSideBar()
 	
-	let tableView = UITableView(frame: .zero, style: .grouped)
+	let tableView : UITableView = {
+		let tableView = UITableView(frame: .zero, style: .grouped)
+	
+		
+		tableView.separatorInset.left = 0
+		tableView.separatorStyle = .none
+		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		
+		tableView.estimatedSectionHeaderHeight = 30
+		
+		return tableView
+	}()
 	
 	override var sidebar: Sidebar {
 		get {
@@ -33,14 +44,7 @@ class LearnerMainPageView : MainPageView {
 		addSubview(tableView)
 		super.configureView()
 		
-		tableView.estimatedRowHeight = 150
-		tableView.rowHeight = UITableViewAutomaticDimension
-		tableView.separatorInset.left = 0
-		tableView.separatorStyle = .none
-		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-		
-		tableView.estimatedSectionHeaderHeight = 30
-		
+		applyConstraints()
 	}
 	
 	override func applyConstraints() {
@@ -55,8 +59,8 @@ class LearnerMainPageView : MainPageView {
 		
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).multipliedBy(1.05)
+			make.bottom.equalTo(safeAreaLayoutGuide)
 			make.width.equalToSuperview()
-			make.height.equalTo(safeAreaLayoutGuide)
 			make.centerX.equalToSuperview()
 		}
 	}
@@ -147,21 +151,26 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return tableView.estimatedRowHeight
+		
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
+			tableView.estimatedRowHeight = 250
+			tableView.rowHeight = UITableViewAutomaticDimension
 			return cell
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
+			tableView.estimatedRowHeight = 200
+			tableView.rowHeight = UITableViewAutomaticDimension
 			return cell
 		}
 	}
+	
 	func numberOfSections(in tableView: UITableView) -> Int {
 		return 12
 	}
-	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = SectionHeader()
 		view.category.text = categories[section]

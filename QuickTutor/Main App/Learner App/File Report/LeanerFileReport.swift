@@ -25,14 +25,8 @@ enum FileReportClass : String {
 
 class LearnerFileReportView : MainLayoutHeader {
     
-    var tableView = UITableView.init(frame: .zero, style: .grouped)
-
-	override func configureView() {
-        addSubview(tableView)
-        super.configureView()
-        
-        title.label.text = "File Report"
-        header.label.text = "Your Past Sessions"
+	let tableView : UITableView = {
+		let tableView = UITableView.init(frame: .zero, style: .grouped)
 		
 		tableView.estimatedRowHeight = 44
 		tableView.rowHeight = UITableViewAutomaticDimension
@@ -40,6 +34,16 @@ class LearnerFileReportView : MainLayoutHeader {
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
 		tableView.estimatedSectionHeaderHeight = 100
+		
+		return tableView
+	}()
+
+	override func configureView() {
+        addSubview(tableView)
+        super.configureView()
+        
+        title.label.text = "File Report"
+        header.label.text = "Your Past Sessions"
 		
 		applyConstraints()
     }
