@@ -149,7 +149,7 @@ extension SessionDetails : UITableViewDelegate, UITableViewDataSource {
 	}
 }
 
-fileprivate class SessionDetailsTableViewCell : UITableViewCell {
+class SessionDetailsTableViewCell : UITableViewCell {
 	
 	var rightLabel = UILabel()
 	
