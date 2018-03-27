@@ -26,8 +26,10 @@ class CategoryCollectionViewCell : UICollectionViewCell {
 	
 	let imageView : UIImageView = {
 		let imageView = UIImageView()
-		imageView.backgroundColor = .red
 		
+        imageView.layer.cornerRadius = 12
+        imageView.layer.masksToBounds = true
+        
 		return imageView
 	}()
 	
@@ -42,7 +44,6 @@ class CategoryCollectionViewCell : UICollectionViewCell {
 	func configureView() {
 		addSubview(imageView)
 		addSubview(label)
-		
 		applyConstraints()
 	}
 	func applyConstraints(){

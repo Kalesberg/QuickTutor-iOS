@@ -21,7 +21,7 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		label.text = "$45/hr"
 		label.font = Fonts.createSize(14)
 		label.adjustsFontSizeToFitWidth = true
-		label.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width:2,height:2), radius: 5)
+		//label.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width:2,height:2), radius: 5)
 		label.backgroundColor = Colors.learnerPurple
 		return label
 	}()
@@ -29,8 +29,8 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 	let background : UIView = {
 		let view = UIView()
 		
-		view.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-		view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5)
+		view.backgroundColor = Colors.registrationDark
+		//view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5)
 		
 		return view
 	}()
@@ -48,7 +48,6 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		background.addSubview(featuredTutor)
 		addSubview(price)
 
-		
 		featuredTutor.backgroundColor = .clear
 		applyConstraints()
 	}
@@ -67,11 +66,11 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		price.snp.makeConstraints { (make) in
 			make.top.equalToSuperview().inset(-10)
 			make.left.equalToSuperview().inset(-10)
-			make.width.equalToSuperview().multipliedBy(0.3)
-			make.height.equalToSuperview().multipliedBy(0.3)
+			make.width.equalTo(50)
+			make.height.equalTo(20)
 		}
 		layoutIfNeeded()
-		price.layer.cornerRadius = price.frame.height / 2
+		price.layer.cornerRadius = 10
 	}
 }
 

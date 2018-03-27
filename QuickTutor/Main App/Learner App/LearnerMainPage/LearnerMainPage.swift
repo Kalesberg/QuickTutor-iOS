@@ -157,13 +157,13 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
-			tableView.estimatedRowHeight = 250
-			tableView.rowHeight = UITableViewAutomaticDimension
+			//tableView.estimatedRowHeight = 250
+			tableView.rowHeight = 250
 			return cell
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
-			tableView.estimatedRowHeight = 200
-			tableView.rowHeight = UITableViewAutomaticDimension
+			//tableView.estimatedRowHeight = 200
+			tableView.rowHeight = 200
 			return cell
 		}
 	}
@@ -174,6 +174,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = SectionHeader()
 		view.category.text = categories[section]
+        
 		return view
 	}
 	

@@ -19,7 +19,7 @@ class SectionHeader : BaseView {
 		super.configureView()
 		
 		category.textAlignment = .left
-		category.font = Fonts.createSize(20)
+		category.font = Fonts.createBoldSize(20)
 		category.textColor = .white
 		category.adjustsFontSizeToFitWidth = true
 		
@@ -28,7 +28,7 @@ class SectionHeader : BaseView {
 	
 	override func applyConstraints() {
 		category.snp.makeConstraints { (make) in
-			make.left.equalToSuperview()
+			make.left.equalToSuperview().inset(15)
 			make.centerY.equalToSuperview()
 			make.height.equalToSuperview()
 			make.width.equalToSuperview()
@@ -225,37 +225,37 @@ enum Category {
 		
 		switch self {
 		case .academics:				displayName = "Academics"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "academics")
 			
 		case .arts:						displayName = "The Arts"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "arts")
 		case .auto: 					displayName = "Auto"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "auto")
 			
 		case .business:					displayName = "Business"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "business")
 			
 		case .experiences:				displayName = "Experiences"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "experiences")
 			
 		case .health:					displayName = "Health"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "health")
 		case .language:					displayName = "Language"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "languages")
 			
 		case .outdoors: 				displayName = "Outdoors"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "outdoors")
 			
 		case .remedial: 				displayName = "Remedial"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "remedial")
 			
 		case .sports: 					displayName = "Sports"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "sports")
 			
 		case .tech:						displayName = "Tech"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "tech")
 		case .trades:					displayName = "Trades"
-										image = #imageLiteral(resourceName: "social-twitter")
+										image = #imageLiteral(resourceName: "trades")
 		}
 		return MainPageData(displayName: displayName, image: image)
 	}
