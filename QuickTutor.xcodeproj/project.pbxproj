@@ -114,11 +114,8 @@
 		84D433B3204EF2DB00A3EAD2 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D433B2204EF2DB00A3EAD2 /* AlertController.swift */; };
 		84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D433B6204F409F00A3EAD2 /* UIApplicationExtenstions.swift */; };
 		84D55E9A204F638D00BB899C /* EditPhoneVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D55E99204F638D00BB899C /* EditPhoneVerification.swift */; };
-		84D8C9282066A8E8003C3AEA /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C9272066A8E8003C3AEA /* CategoryTableViewCell.swift */; };
-		84D8C92A2066A93B003C3AEA /* FeaturedTutorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C9292066A93B003C3AEA /* FeaturedTutorTableViewCell.swift */; };
 		84D8C92C2066A965003C3AEA /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C92B2066A965003C3AEA /* Helper.swift */; };
 		84D8C9302066E8CC003C3AEA /* SearchSubjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C92F2066E8CC003C3AEA /* SearchSubjects.swift */; };
-		84D8C93220670EC0003C3AEA /* CategorySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C93120670EC0003C3AEA /* CategorySearch.swift */; };
 		84D8C9342067116C003C3AEA /* TutorConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C9332067116C003C3AEA /* TutorConnect.swift */; };
 		84DA9F242019138100D53D78 /* NavbarButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DA9F232019138100D53D78 /* NavbarButtons.swift */; };
 		84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DAF6FB2044615A005687F6 /* SocialMedia.swift */; };
@@ -348,6 +345,8 @@
 			isa = PBXGroup;
 			children = (
 				840FC67A20040B2E002525D1 /* CropImage.swift */,
+				84D8C9292066A93B003C3AEA /* FeaturedTutorTableViewCell.swift */,
+				84D8C9272066A8E8003C3AEA /* CategoryTableViewCell.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -675,10 +674,6 @@
 				84D8C93120670EC0003C3AEA /* CategorySearch.swift */,
 				84D8C9332067116C003C3AEA /* TutorConnect.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
-				841AF08720687E1200D2FFC0 /* SearchContent */,
-				841AF0842067FDB800D2FFC0 /* TableViewCells */,
-				841AF07B2067FB8000D2FFC0 /* CollectionViewCells */,
-				841AF0762067FAFD00D2FFC0 /* CustomLayouts */,
 			);
 			path = LearnerMainPage;
 			sourceTree = "<group>";
@@ -883,24 +878,12 @@
 				8454FB561FDCB968007FFAA7 /* Student.storyboard in Resources */,
 				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
-				841AF09B20687EB200D2FFC0 /* arts.txt in Resources */,
 				8454FB5A1FDCBB4F007FFAA7 /* TutorRegistration.storyboard in Resources */,
 				8454FB581FDCB980007FFAA7 /* Tutor.storyboard in Resources */,
-				841AF09120687E5300D2FFC0 /* outdoors.txt in Resources */,
-				841AF08920687E2600D2FFC0 /* trades.txt in Resources */,
-				841AF09720687E9300D2FFC0 /* experiences.txt in Resources */,
 				845980511FD4FD4B007E9339 /* Lato in Resources */,
 				8426A1692055B8DD00EAF1A8 /* GoogleService-Info.plist in Resources */,
-				841AF08F20687E4B00D2FFC0 /* remedial.txt in Resources */,
 				84D3A8AD201149DF000C2031 /* Assets.xcassets in Resources */,
-				841AF09D20687EBE00D2FFC0 /* Academics.txt in Resources */,
-				841AF08B20687E2F00D2FFC0 /* tech.txt in Resources */,
 				845714911FF4EE3E00740C58 /* StudentRegistration.storyboard in Resources */,
-				841AF09920687E9B00D2FFC0 /* business.txt in Resources */,
-				841AF09520687E7600D2FFC0 /* health.txt in Resources */,
-				841AF09320687E6900D2FFC0 /* language.txt in Resources */,
-				841AF08D20687E4000D2FFC0 /* sports.txt in Resources */,
-				841AF09F20687F2700D2FFC0 /* auto.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -994,7 +977,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D8C92A2066A93B003C3AEA /* FeaturedTutorTableViewCell.swift in Sources */,
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
 				848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */,
 				841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */,
@@ -1053,13 +1035,11 @@
 				848809F7205770D000F204A0 /* TutorUnprofessional.swift in Sources */,
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
 				846252F720637FC5001DD330 /* TutorHelp.swift in Sources */,
-				841AF07D2067FBA200D2FFC0 /* CategoryCollectViewCell.swift in Sources */,
 				84B2F02820354E4700F921C9 /* LearnerEditProfile.swift in Sources */,
 				847D77A91FBE6B69009F4D42 /* Verification.swift in Sources */,
 				848E643B2059EE0A000CD921 /* BecomeTutor.swift in Sources */,
 				8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */,
 				8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */,
-				841AF0812067FC0500D2FFC0 /* CategorySelectionCollectionViewCell.swift in Sources */,
 				8445F25020425D0D006A65E2 /* EnterPhoneNumber.swift in Sources */,
 				846252EC20637F22001DD330 /* TutorSettings.swift in Sources */,
 				847463262069425C00B70AD9 /* TutorSessions.swift in Sources */,
@@ -1076,18 +1056,14 @@
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
 				843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */,
-				841AF0832067FCCE00D2FFC0 /* FeaturedTutorCollectionViewCell.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
-				841AF07F2067FBD400D2FFC0 /* SubjectCollectionViewCell.swift in Sources */,
 				84D55E9A204F638D00BB899C /* EditPhoneVerification.swift in Sources */,
 				8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */,
 				84C255691FC2563A0012C0AA /* Birthday.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBio.swift in Sources */,
 				8423942B1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift in Sources */,
-				84D8C9282066A8E8003C3AEA /* CategoryTableViewCell.swift in Sources */,
 				84F2451A1FDA1143006447A8 /* TutorSSN.swift in Sources */,
-				841AF0862068447800D2FFC0 /* SubjectTableViewCell.swift in Sources */,
 				8430A8E41FFED70D002FD8A3 /* RegistrationNavBarView.swift in Sources */,
 				846252F120637F9D001DD330 /* TutorMyProfile.swift in Sources */,
 				846252F520637FBA001DD330 /* TutorFileReport.swift in Sources */,
@@ -1130,11 +1106,9 @@
 				842394091FF4C94F00827C7D /* BaseViews.swift in Sources */,
 				84A37B78200447C800C19397 /* UserPolicy.swift in Sources */,
 				842394031FF4C56700827C7D /* StoryboardSwitch.swift in Sources */,
-				841AF07A2067FB3A00D2FFC0 /* SubjectSearchCollectionViewLayout.swift in Sources */,
 				84E4C7D4204E8317009C2FC4 /* QTGuide.swift in Sources */,
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
 				840E75C6201E8500006FC580 /* LearnerHelp.swift in Sources */,
-				841AF0782067FB2D00D2FFC0 /* CategorySearchCollectionViewLayout.swift in Sources */,
 				84E4C7D6204E8434009C2FC4 /* LearnerHandbook.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
