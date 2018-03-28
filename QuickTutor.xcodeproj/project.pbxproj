@@ -64,7 +64,6 @@
 		846252EC20637F22001DD330 /* TutorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252EB20637F22001DD330 /* TutorSettings.swift */; };
 		846252F120637F9D001DD330 /* TutorMyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F020637F9D001DD330 /* TutorMyProfile.swift */; };
 		846252F320637FA7001DD330 /* TutorPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F220637FA7001DD330 /* TutorPayment.swift */; };
-		846252F520637FBA001DD330 /* TutorFileReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F420637FBA001DD330 /* TutorFileReport.swift */; };
 		846252F720637FC5001DD330 /* TutorHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F620637FC5001DD330 /* TutorHelp.swift */; };
 		846252F920637FEC001DD330 /* TutorEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F820637FEC001DD330 /* TutorEditProfile.swift */; };
 		846252FB206381BD001DD330 /* TaxInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252FA206381BD001DD330 /* TaxInformation.swift */; };
@@ -128,6 +127,16 @@
 		84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B09D40205050E000BC8F80 /* ChangeEmail.swift */; };
 		84B2F02820354E4700F921C9 /* LearnerEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2F02720354E4700F921C9 /* LearnerEditProfile.swift */; };
 		84C255691FC2563A0012C0AA /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C255681FC2563A0012C0AA /* Birthday.swift */; };
+		84C4E932206B61A6000C7A2F /* TutorSessionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E92C206B61A5000C7A2F /* TutorSessionDetails.swift */; };
+		84C4E933206B61A6000C7A2F /* LearnerHarassment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E92D206B61A5000C7A2F /* LearnerHarassment.swift */; };
+		84C4E934206B61A6000C7A2F /* LearnerOther.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E92E206B61A5000C7A2F /* LearnerOther.swift */; };
+		84C4E935206B61A6000C7A2F /* LearnerCancelled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E92F206B61A5000C7A2F /* LearnerCancelled.swift */; };
+		84C4E936206B61A6000C7A2F /* LearnerLate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E930206B61A5000C7A2F /* LearnerLate.swift */; };
+		84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E931206B61A6000C7A2F /* TutorFileReport.swift */; };
+		84C4E93D206B61C2000C7A2F /* LearnerRude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E939206B61C1000C7A2F /* LearnerRude.swift */; };
+		84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */; };
+		84C4E93F206B61C2000C7A2F /* LearnerProfilePics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */; };
+		84C4E940206B61C2000C7A2F /* LearnerUnsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */; };
 		84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */; };
 		84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E31FF8997400737A59 /* TextLabel.swift */; };
 		84C96C0D1FCE34A900DBD3A6 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C96C0C1FCE34A900DBD3A6 /* Email.swift */; };
@@ -232,7 +241,6 @@
 		846252EB20637F22001DD330 /* TutorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSettings.swift; sourceTree = "<group>"; };
 		846252F020637F9D001DD330 /* TutorMyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMyProfile.swift; sourceTree = "<group>"; };
 		846252F220637FA7001DD330 /* TutorPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPayment.swift; sourceTree = "<group>"; };
-		846252F420637FBA001DD330 /* TutorFileReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorFileReport.swift; sourceTree = "<group>"; };
 		846252F620637FC5001DD330 /* TutorHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHelp.swift; sourceTree = "<group>"; };
 		846252F820637FEC001DD330 /* TutorEditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorEditProfile.swift; sourceTree = "<group>"; };
 		846252FA206381BD001DD330 /* TaxInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxInformation.swift; sourceTree = "<group>"; };
@@ -301,6 +309,16 @@
 		84B09D40205050E000BC8F80 /* ChangeEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmail.swift; sourceTree = "<group>"; };
 		84B2F02720354E4700F921C9 /* LearnerEditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerEditProfile.swift; sourceTree = "<group>"; };
 		84C255681FC2563A0012C0AA /* Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
+		84C4E92C206B61A5000C7A2F /* TutorSessionDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TutorSessionDetails.swift; path = ../../../../../Desktop/sdv/TutorSessionDetails.swift; sourceTree = "<group>"; };
+		84C4E92D206B61A5000C7A2F /* LearnerHarassment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LearnerHarassment.swift; path = ../../../../../Desktop/sdv/LearnerHarassment.swift; sourceTree = "<group>"; };
+		84C4E92E206B61A5000C7A2F /* LearnerOther.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LearnerOther.swift; path = ../../../../../Desktop/sdv/LearnerOther.swift; sourceTree = "<group>"; };
+		84C4E92F206B61A5000C7A2F /* LearnerCancelled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LearnerCancelled.swift; path = ../../../../../Desktop/sdv/LearnerCancelled.swift; sourceTree = "<group>"; };
+		84C4E930206B61A5000C7A2F /* LearnerLate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LearnerLate.swift; path = ../../../../../Desktop/sdv/LearnerLate.swift; sourceTree = "<group>"; };
+		84C4E931206B61A6000C7A2F /* TutorFileReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorFileReport.swift; sourceTree = "<group>"; };
+		84C4E939206B61C1000C7A2F /* LearnerRude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerRude.swift; sourceTree = "<group>"; };
+		84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerUnprofessional.swift; sourceTree = "<group>"; };
+		84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerProfilePics.swift; sourceTree = "<group>"; };
+		84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerUnsafe.swift; sourceTree = "<group>"; };
 		84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDigitTextField.swift; sourceTree = "<group>"; };
 		84C8F5E31FF8997400737A59 /* TextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
 		84C96C0C1FCE34A900DBD3A6 /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
@@ -556,7 +574,13 @@
 		846252ED20637F26001DD330 /* File Report */ = {
 			isa = PBXGroup;
 			children = (
-				846252F420637FBA001DD330 /* TutorFileReport.swift */,
+				84C4E938206B61AC000C7A2F /* LearnerUnprofessional */,
+				84C4E92F206B61A5000C7A2F /* LearnerCancelled.swift */,
+				84C4E92D206B61A5000C7A2F /* LearnerHarassment.swift */,
+				84C4E930206B61A5000C7A2F /* LearnerLate.swift */,
+				84C4E92E206B61A5000C7A2F /* LearnerOther.swift */,
+				84C4E931206B61A6000C7A2F /* TutorFileReport.swift */,
+				84C4E92C206B61A5000C7A2F /* TutorSessionDetails.swift */,
 			);
 			path = "File Report";
 			sourceTree = "<group>";
@@ -742,6 +766,18 @@
 				840613241FD8BE29003F6547 /* BioView.swift */,
 			);
 			path = Deprecated;
+			sourceTree = "<group>";
+		};
+		84C4E938206B61AC000C7A2F /* LearnerUnprofessional */ = {
+			isa = PBXGroup;
+			children = (
+				84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */,
+				84C4E939206B61C1000C7A2F /* LearnerRude.swift */,
+				84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */,
+				84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */,
+			);
+			name = LearnerUnprofessional;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		84CC341C1FCE298C008E7A0B /* Extensions */ = {
@@ -1090,6 +1126,7 @@
 			files = (
 				845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */,
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
+				84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */,
 				845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */,
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
 				848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */,
@@ -1104,8 +1141,10 @@
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
 				8422F2F3205AC6390061ACE4 /* LeanerMessaging.swift in Sources */,
 				84F2450F1FDA0F59006447A8 /* UploadImage.swift in Sources */,
+				84C4E940206B61C2000C7A2F /* LearnerUnsafe.swift in Sources */,
 				84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
+				84C4E93F206B61C2000C7A2F /* LearnerProfilePics.swift in Sources */,
 				8479EA652063E66400C5113E /* TutorPolicy.swift in Sources */,
 				84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */,
 				84E4C7E3204E9425009C2FC4 /* PaymentDeclined.swift in Sources */,
@@ -1129,11 +1168,13 @@
 				84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfo.swift in Sources */,
 				848E04EA205C8CF10094A6E9 /* BecomeTutorData.swift in Sources */,
+				84C4E934206B61A6000C7A2F /* LearnerOther.swift in Sources */,
 				84DFD899204C5AE600BA8A3F /* UIViewControllerExtensions.swift in Sources */,
 				8482AFE3203A9E1300F6F805 /* UIImageViewExtensions.swift in Sources */,
 				840E75C2201E8419006FC580 /* LeanerFileReport.swift in Sources */,
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
+				84C4E936206B61A6000C7A2F /* LearnerLate.swift in Sources */,
 				848809FF20585C3A00F204A0 /* TutorProfilePics.swift in Sources */,
 				846252F320637FA7001DD330 /* TutorPayment.swift in Sources */,
 				846F08212005AD7B00248D29 /* StudentBio.swift in Sources */,
@@ -1180,13 +1221,14 @@
 				84D55E9A204F638D00BB899C /* EditPhoneVerification.swift in Sources */,
 				8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */,
 				84C255691FC2563A0012C0AA /* Birthday.swift in Sources */,
+				84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBio.swift in Sources */,
 				8423942B1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift in Sources */,
 				84F2451A1FDA1143006447A8 /* TutorSSN.swift in Sources */,
 				8430A8E41FFED70D002FD8A3 /* RegistrationNavBarView.swift in Sources */,
+				84C4E933206B61A6000C7A2F /* LearnerHarassment.swift in Sources */,
 				846252F120637F9D001DD330 /* TutorMyProfile.swift in Sources */,
-				846252F520637FBA001DD330 /* TutorFileReport.swift in Sources */,
 				8425BA08202E1BB100B2C5A7 /* CardManager.swift in Sources */,
 				84E283592004940600B004E7 /* TheChoice.swift in Sources */,
 				846252F920637FEC001DD330 /* TutorEditProfile.swift in Sources */,
@@ -1198,6 +1240,7 @@
 				84D8C9342067116C003C3AEA /* TutorConnect.swift in Sources */,
 				848809FB2057835E00F204A0 /* TutorDidNotHelp.swift in Sources */,
 				84DE261620530EB700375ABD /* EditCourses.swift in Sources */,
+				84C4E932206B61A6000C7A2F /* TutorSessionDetails.swift in Sources */,
 				84C96C0D1FCE34A900DBD3A6 /* Email.swift in Sources */,
 				847463222068B97900B70AD9 /* TutorQTGuide.swift in Sources */,
 				84F245241FDA16C9006447A8 /* TutorFilters.swift in Sources */,
@@ -1211,8 +1254,10 @@
 				842394131FF4CAC600827C7D /* RegistrationTextField.swift in Sources */,
 				84E1E4381FBE630200678531 /* signIn.swift in Sources */,
 				8430A8E61FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift in Sources */,
+				84C4E93D206B61C2000C7A2F /* LearnerRude.swift in Sources */,
 				848E87E22043DC75007935BE /* BaseScrollView.swift in Sources */,
 				8423940B1FF4C97200827C7D /* RegistrationGradientView.swift in Sources */,
+				84C4E935206B61A6000C7A2F /* LearnerCancelled.swift in Sources */,
 				84A7E5D01FCE4FDE002EABD5 /* Tutor.swift in Sources */,
 				848809F52057692600F204A0 /* TutorRude.swift in Sources */,
 				84DA9F242019138100D53D78 /* NavbarButtons.swift in Sources */,

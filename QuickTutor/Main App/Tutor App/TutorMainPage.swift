@@ -63,7 +63,7 @@ class TutorMainPage : MainPage {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        contentView.sidebar.applyGradient(firstColor: Colors.sidebarPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
+        contentView.sidebar.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
     }
     override func updateSideBar() {
         contentView.sidebar.profileView.profileNameView.label.text = user.name!

@@ -59,7 +59,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
 		view.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
 			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.8)
+			make.height.equalToSuperview().multipliedBy(0.85)
 			make.centerX.equalToSuperview()
 		}
 		imageView.snp.makeConstraints { (make) in
@@ -69,8 +69,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
 			make.centerX.equalToSuperview()
 		}
 		label.snp.makeConstraints { (make) in
-			make.top.equalTo(imageView.snp.bottom)
-			make.bottom.equalToSuperview()
+			make.top.equalTo(imageView.snp.bottom).inset(-8)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}

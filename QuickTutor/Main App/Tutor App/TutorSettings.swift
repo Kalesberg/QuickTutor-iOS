@@ -12,25 +12,55 @@ import UIKit
 
 class TutorSettingsView : LearnerSettingsView {
     
-    //var tutorScrollView = TutorSettingsScrollView()
-    
-//    override var scrollView: SettingsScrollView {
-//        get {
-//            return tutorScrollView
-//        } set {
-//            
-//        }
-//    }
+    var visibleOnQT = ItemToggle()
+    var visibleInfoLabel = SettingsItem()
     
     override func configureView() {
+        scrollView.addSubview(visibleOnQT)
+        scrollView.addSubview(visibleInfoLabel)
         super.configureView()
         
+        visibleOnQT.label.text = "Show me on QuickTutor"
+        visibleOnQT.toggle.isOn = true
         
+        visibleInfoLabel.label.text = "With this enabled, learners will see your profile in their search results."
+        visibleInfoLabel.label.font = Fonts.createSize(14)
+        visibleInfoLabel.label.textColor = Colors.grayText
     }
     
     override func applyConstraints() {
         super.applyConstraints()
         
+        visibleOnQT.snp.remakeConstraints { (make) in
+            make.top.equalTo(accountHeader.snp.bottom)
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        
+        visibleOnQT.divider.snp.remakeConstraints { (make) in
+            make.height.equalTo(0.25)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalTo(signOut.snp.top)
+        }
+        
+        visibleInfoLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(visibleOnQT.snp.bottom)
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        
+        visibleInfoLabel.label.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(15)
+            make.width.equalToSuperview().multipliedBy(0.85)
+            make.centerY.equalToSuperview()
+        }
+        
+        signOut.snp.remakeConstraints { (make) in
+            make.top.equalTo(visibleInfoLabel.snp.bottom)
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
+        }
     }
     
 }
@@ -44,6 +74,8 @@ class TutorSettings : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        contentView.layoutIfNeeded()
+        contentView.scrollView.setContentSize()
     }
     override func loadView() {
         view = TutorSettingsView()

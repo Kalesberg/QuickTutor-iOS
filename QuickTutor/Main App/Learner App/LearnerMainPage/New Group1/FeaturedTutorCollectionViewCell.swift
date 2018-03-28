@@ -17,7 +17,7 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		let view = UIView()
 		view.backgroundColor = Colors.learnerPurple
 		view.layer.cornerRadius = 10
-		view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width:2,height:2), radius: 5)
+		//view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width:2,height:2), radius: 5)
 		return view
 	}()
 	let price : UILabel = {
@@ -37,8 +37,8 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		let view = UIView()
 		
 		view.backgroundColor = Colors.registrationDark
-		view.layer.cornerRadius = 5
-		view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5)
+		view.layer.cornerRadius = 8
+		//view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5)
 		
 		return view
 	}()
@@ -58,32 +58,28 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		view.addSubview(price)
 		
 		featuredTutor.backgroundColor = .clear
-		
+		//backgroundColor = .yellow
 		applyConstraints()
 	}
 	func applyConstraints(){
 		background.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview().inset(10)
-			make.width.equalToSuperview().multipliedBy(0.95)
-			make.height.equalToSuperview().multipliedBy(0.95)
-			make.centerX.equalToSuperview()
+			make.top.equalToSuperview()
+			make.width.equalToSuperview()
+			make.center.equalToSuperview()
 		}
 		featuredTutor.snp.makeConstraints { (make) in
 			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
+			make.center.equalToSuperview()
 			make.height.equalToSuperview()
 		}
 		view.snp.makeConstraints { (make) in
 			make.top.equalToSuperview().inset(-10)
 			make.left.equalToSuperview().inset(-5)
-			make.width.equalTo(50)
+			make.width.equalTo(60)
 			make.height.equalTo(20)
 		}
 		price.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.left.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview()
+			make.edges.equalToSuperview()
 		}
 	}
 }

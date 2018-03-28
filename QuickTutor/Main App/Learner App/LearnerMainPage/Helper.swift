@@ -26,13 +26,14 @@ class SectionHeader : BaseView {
 		applyConstraints()
 	}
 	
-	override func applyConstraints() {
-		category.snp.makeConstraints { (make) in
-			make.left.equalToSuperview().inset(15)
-			make.centerY.equalToSuperview()
-			make.height.equalToSuperview()
-			make.width.equalToSuperview()
-		}
+    override func applyConstraints() {
+        
+        category.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(15)
+            make.centerY.equalToSuperview().inset(5)
+            make.height.equalToSuperview()
+            make.width.equalToSuperview()
+        }
 	}
 }
 
@@ -41,7 +42,14 @@ class FeaturedTutorView : BaseView {
 	let imageView  : UIImageView = {
 		let imageView = UIImageView()
 		
-		imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+            imageView.image = image
+        } else {
+            //set to some arbitrary image.
+        }
+		//imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+        imageView.scaleImage()
+        imageView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 3, height: 2), radius: 5)
 		
 		return imageView
 	}()
@@ -62,9 +70,9 @@ class FeaturedTutorView : BaseView {
 		let region = UILabel()
 		
 		region.textAlignment = .left
-		region.textColor = .white
+		region.textColor = Colors.grayText
 		region.text = "Wyandotte, MI"
-		region.font = Fonts.createSize(14)
+		region.font = Fonts.createSize(13)
 		region.adjustsFontSizeToFitWidth = true
 		
 		return region
@@ -75,8 +83,8 @@ class FeaturedTutorView : BaseView {
 		
 		namePrice.textAlignment = .left
 		namePrice.textColor = Colors.grayText
-		namePrice.text = "Garry, M | $195/hr"
-		namePrice.font = Fonts.createSize(14)
+		namePrice.text = "Garry, M"
+		namePrice.font = Fonts.createSize(13)
 		namePrice.adjustsFontSizeToFitWidth = true
 		
 		return namePrice
@@ -103,40 +111,37 @@ class FeaturedTutorView : BaseView {
 		super.configureView()
 		
 		backgroundColor = Colors.backgroundDark
-		
+
 		applyConstraints()
 	}
 	override func applyConstraints() {
 		imageView.snp.makeConstraints { (make) in
-			make.centerY.equalToSuperview().multipliedBy(0.6)
+			make.top.equalToSuperview().inset(14)
 			make.centerX.equalToSuperview()
 			make.height.equalToSuperview().multipliedBy(0.5)
-			make.width.equalToSuperview().multipliedBy(0.7)
+			make.width.equalToSuperview().multipliedBy(0.8)
 		}
 		subject.snp.makeConstraints { (make) in
 			make.top.equalTo(imageView.snp.bottom)
 			make.centerX.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.1)
+			make.width.equalToSuperview().multipliedBy(0.92)
 		}
 		region.snp.makeConstraints { (make) in
 			make.top.equalTo(subject.snp.bottom)
 			make.centerX.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.1)
+			make.width.equalToSuperview().multipliedBy(0.92)
 		}
 		namePrice.snp.makeConstraints { (make) in
-			make.top.equalTo(region.snp.bottom)
+			make.bottom.equalToSuperview().inset(8)
 			make.centerX.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.1)
+			make.width.equalToSuperview().multipliedBy(0.92)
 		}
-		stars.snp.makeConstraints { (make) in
-			make.top.equalTo(namePrice.snp.bottom)
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.1)
-			make.centerX.equalToSuperview()
-		}
+//        stars.snp.makeConstraints { (make) in
+//            make.top.equalTo(namePrice.snp.bottom)
+//            make.width.equalToSuperview()
+//            make.height.equalToSuperview().multipliedBy(0.1)
+//            make.centerX.equalToSuperview()
+//        }
 
 	}
 }
