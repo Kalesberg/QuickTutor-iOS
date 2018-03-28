@@ -57,7 +57,7 @@ class BaseSessionsContentCell: BaseContentCell {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BaseSessionCell
-            cell.updateUI(session: pendingSessions[indexPath.item])
+//            cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
         
@@ -76,11 +76,11 @@ class BaseSessionsContentCell: BaseContentCell {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            return pendingSessions.count
+            return 3
         } else if section == 1 {
-            return upcomingSessions.count
+            return 3
         } else {
-            return pastSessions.count
+            return 3
         }
     }
     
@@ -270,6 +270,22 @@ class BaseSessionCell: UICollectionViewCell {
         addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
+    func updateMonthLabel() {
+        let month = Calendar.current.component(.month, from: Date(timeIntervalSince1970: session.date))
+        let dateFormatter = DateFormatter()
+        let monthString = dateFormatter.shortMonthSymbols[month]
+        monthLabel.text = monthString
+    }
+    
+    func updateDayLabel() {
+        let day = Calendar.current.component(.day, from: Date(timeIntervalSince1970: session.date))
+        dayLabel.text = "\(day)"
+    }
+    
+    func updateWeekdayLabel() {
+        
+    }
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -314,18 +330,47 @@ class BasePastSessionCell: BaseSessionCell {
         return view
     }()
     
+    let starView: StarView = {
+        let sv = StarView()
+        return sv
+    }()
+    
     override func setupViews() {
         super.setupViews()
         setupDarkenView()
+        setupStarView()
+        starIcon.removeFromSuperview()
+        starLabel.removeFromSuperview()
     }
     
     override func setupMainView() {
         backgroundColor = Colors.darkBackground
+        
+        let subjects = [String]()
+        var filteredSubjects = [String]()
+//        if let searchString = contentView.searchBar.text {
+        let searchString = "Eg"
+            filteredSubjects = subjects.filter({$0.contains(searchString)})
+            let predicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchString)
+            filteredSubjects = subjects.filtered(using: predicate) as NSArray
+            print("3", filteredSubjects.count)
+            
+            if filteredSubjects.count > 0 {
+                scrollToTop()
+            }
+//        }
     }
+    
+    
     
     private func setupDarkenView() {
         addSubview(darkenView)
         darkenView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    private func setupStarView() {
+        addSubview(starView)
+        starView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 12, width: 100, height: 12)
     }
 }
 
@@ -375,11 +420,80 @@ class SessionHeaderCell: UICollectionReusableView {
     }
 }
 
-
-
-
-
-
-
+class StarView: UIView {
+    
+    let star1: UIImageView = {
+        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    let star2: UIImageView = {
+        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    let star3: UIImageView = {
+        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    let star4: UIImageView = {
+        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    let star5: UIImageView = {
+        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    func setupViews() {
+        setupStar1()
+        setupStar2()
+        setupStar3()
+        setupStar4()
+        setupStar5()
+    }
+    
+    let rightPadding: CGFloat = 4
+    private func setupStar1() {
+        addSubview(star1)
+        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 12, height: 12)
+    }
+    
+    private func setupStar2() {
+        addSubview(star2)
+        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star1.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 12, height: 12)
+    }
+    
+    private func setupStar3() {
+        addSubview(star3)
+        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star2.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 12, height: 12)
+    }
+    
+    private func setupStar4() {
+        addSubview(star4)
+        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star3.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 12, height: 12)
+    }
+    
+    private func setupStar5() {
+        addSubview(star5)
+        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star4.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 12, height: 12)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 
 

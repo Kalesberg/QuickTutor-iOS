@@ -191,7 +191,7 @@ class ConversationCell: UICollectionViewCell {
     }
     
     func updateUI(message: UserMessage) {
-        DataService.shared.getUserWithUid(message.partnerId()) { (userIn) in
+        DataService.shared.getTutorWithId(message.partnerId()) { (userIn) in
             guard let user = userIn else { return }
             self.chatPartner = user
             
@@ -201,6 +201,7 @@ class ConversationCell: UICollectionViewCell {
             self.updateTimestampLabel(message: message)
             self.updateProfileImage()
             self.updateLastMessageLabel(message: message)
+            self.updateRegion()
         }
     }
     
@@ -231,6 +232,14 @@ class ConversationCell: UICollectionViewCell {
         if message.meetupRequestId != nil {
             self.lastMessageLabel.text = "Meetup Request"
         }
+    }
+    
+    private func updateRegion() {
+        guard let tutor = chatPartner as? ZFTutor else {
+            fatalError("Couldn't convert to tutor")
+        }
+        
+        self.locationLabel.text = tutor.region!
     }
     
     required init?(coder aDecoder: NSCoder) {
