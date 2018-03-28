@@ -64,7 +64,6 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
         calendarInfo.label.text = "Connecting your Calendar to QuickTutor will sync your upcoming tutoring sessions with your everyday schedule"
         calendarInfo.label.font = Fonts.createSize(14)
         calendarInfo.label.textColor = Colors.grayText
-        //calendarInfo.divider.isHidden = true
         
         communityHeader.label.text = "Community"
         
@@ -510,23 +509,13 @@ class SignOut : SettingsInteractableItem {
     }
 }
 
-class TutorSettingsScrollView : SettingsScrollView { }
-
 class SettingsScrollView : BaseScrollView {
-    
-    func myProfileNavigation() {
-        if (self is TutorSettingsScrollView) {
-            navigationController.pushViewController(TutorMyProfile(), animated: true)
-        } else {
-            navigationController.pushViewController(LearnerMyProfile(), animated: true)
-        }
-    }
     
     override func handleNavigation() {
         if (touchStartView == nil) {
             return
         } else if(touchStartView is SettingsProfileView) {
-            myProfileNavigation()
+            navigationController.pushViewController(LearnerMyProfile(), animated: true)
         } else if (touchStartView is CommunityGuidelines) {
             print("Go to Community Guidelines")
         } else if (touchStartView is UserSafety) {

@@ -56,8 +56,8 @@ class LearnerMainPageView : MainPageView {
 		}
 		
 		tableView.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).multipliedBy(1.05)
-			make.bottom.equalTo(safeAreaLayoutGuide)
+			make.top.equalTo(navbar.snp.bottom).inset(-2)
+			make.bottom.equalToSuperview()
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
@@ -87,7 +87,7 @@ class LearnerMainPage : MainPage {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		
-		contentView.sidebar.applyGradient(firstColor: Colors.tutorBlue.cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.sidebar.bounds)
+		contentView.sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.sidebar.bounds)
 		contentView.tableView.reloadData()
 	}
 	override func updateSideBar() {
@@ -154,12 +154,12 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
-			tableView.estimatedRowHeight = 225
+			tableView.estimatedRowHeight = 205
 			return cell
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
-			
-			tableView.estimatedRowHeight = 200
+            
+			tableView.estimatedRowHeight = 170
 			return cell
 		}
 	}
@@ -170,11 +170,12 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = SectionHeader()
 		view.category.text = categories[section]
+        
 		return view
 	}
 	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return tableView.estimatedSectionHeaderHeight
+		return 50
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
