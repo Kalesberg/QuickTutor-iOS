@@ -5,6 +5,9 @@
 //  Created by QuickTutor on 3/22/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
+// BUG :: Tableview 'Jumps' when switching sizing from the Category cell to the featuredTutor cell.
+	// only happens when scrolling back up to top.
+
 
 import Foundation
 import UIKit
@@ -16,12 +19,12 @@ class LearnerMainPageView : MainPageView {
 	
 	let tableView : UITableView = {
 		let tableView = UITableView(frame: .zero, style: .grouped)
-	
+		
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
 		tableView.estimatedSectionHeaderHeight = 30
-		
+
 		return tableView
 	}()
 	
@@ -74,7 +77,6 @@ class LearnerMainPage : MainPage {
 	}
 	
 	var categories = ["Categories","Experiences", "Academics", "Outdoors", "Remedial","Health","Trades","Sports","Tech","Auto","Language","The Arts","Business"]
-	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -148,25 +150,27 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return tableView.estimatedRowHeight
+		return indexPath.section == 0 ? 205.0 : 170.0
 	}
 	
+	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+		return indexPath.section == 0 ? 205.0 : 170.0
+	}
+
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
-			tableView.estimatedRowHeight = 205
 			return cell
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
-            
-			tableView.estimatedRowHeight = 170
 			return cell
 		}
 	}
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return 12
+		return 13
 	}
+	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = SectionHeader()
 		view.category.text = categories[section]
@@ -183,5 +187,4 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	}
 
 }
-
 

@@ -24,6 +24,7 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
+		
 		searchBar.sizeToFit()
 		searchBar.searchBarStyle = .minimal
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
@@ -128,6 +129,76 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
+	}
+}
+
+class SearchSubjectsView2 : MainLayoutView {
+	
+	var keyboardComponent = ViewComponent()
+	var filters = NavbarButtonLines()
+
+	let collectionView : UICollectionView = {
+		
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+		
+		let customLayout = SubjectSearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 15, minimumLineSpacing: 15, sectionInset: UIEdgeInsets(top: 1, left: 10, bottom: 1, right: 10))
+		
+		collectionView.collectionViewLayout = customLayout
+		collectionView.backgroundColor = .clear
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.tag = 0
+		
+		return collectionView
+	}()
+	
+	let categoryCollectionView : UICollectionView = {
+		
+		let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+		let layout = UICollectionViewFlowLayout()
+		
+		layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 1)
+		layout.scrollDirection = .horizontal
+		layout.minimumInteritemSpacing = 0.0
+		layout.itemSize.width = 100
+		
+		collectionView.collectionViewLayout = layout
+		collectionView.backgroundColor = .clear
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.tag = 1
+		
+		return collectionView
+	}()
+	
+	let tableView : UITableView = {
+		let tblView = UITableView()
+		
+		tblView.rowHeight = UITableViewAutomaticDimension
+		tblView.estimatedRowHeight = 44
+		tblView.separatorInset.left = 0
+		tblView.separatorStyle = .none
+		tblView.showsVerticalScrollIndicator = false
+		tblView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		
+		tblView.alpha = 0.0
+		
+		return tblView
+	}()
+	
+	override func configureView() {
+		addSubview(collectionView)
+		addSubview(categoryCollectionView)
+		addSubview(tableView)
+		super.configureView()
+		
+		applyConstraints()
+	}
+	
+	override func applyConstraints() {
+		super.applyConstraints()
+		
+		
 	}
 }
 

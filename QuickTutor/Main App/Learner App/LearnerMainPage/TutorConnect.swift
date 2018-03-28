@@ -32,7 +32,25 @@ class TutorConnectView : MainLayoutTwoButton {
 		return searchBar
 	}()
 	
-
+	let collectionView : UICollectionView = {
+		
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+		
+		let layout = UICollectionViewFlowLayout()
+		
+		layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+		layout.scrollDirection = .horizontal
+		layout.minimumInteritemSpacing = 0
+		
+		collectionView.collectionViewLayout = layout
+		collectionView.backgroundColor = .clear
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.tag = 0
+		
+		return collectionView
+	}()
+	
 	override var leftButton : NavbarButton {
 		get {
 			return back
@@ -51,6 +69,7 @@ class TutorConnectView : MainLayoutTwoButton {
 	
 	override func configureView() {
 		navbar.addSubview(searchBar)
+		addSubview(collectionView)
 		super.configureView()
 		
 
@@ -66,6 +85,12 @@ class TutorConnectView : MainLayoutTwoButton {
 			make.height.equalToSuperview()
 			make.center.equalToSuperview()
 		}
+		collectionView.snp.makeConstraints { (make) in
+			make.top.equalTo(navbar.snp.bottom)
+			make.bottom.equalTo(safeAreaLayoutGuide)
+			make.width.equalToSuperview().multipliedBy(0.9)
+			make.centerX.equalToSuperview()
+		}
 	}
 }
 
@@ -78,9 +103,14 @@ class TutorConnect : BaseViewController {
 	override func loadView() {
 		view = TutorConnectView()
 	}
+	
+	var categories = ["Experiences", "Academics", "Outdoors", "Remedial","Health","Trades","Sports","Tech","Auto","Language","The Arts","Business"]
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+		contentView.collectionView.dataSource = self
+		contentView.collectionView.delegate = self
+		contentView.collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
 		// Do any additional setup after loading the view.
 	}
 	
@@ -92,5 +122,27 @@ class TutorConnect : BaseViewController {
 		if touchStartView is NavbarButtonBack {
 			self.dismiss(animated: true, completion: nil)
 		}
+	}
+}
+
+extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return 20
+	}
+
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CategoryCollectionViewCell
+		cell.backgroundColor = .blue
+		
+		return cell
+	}
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
+		let width = UIScreen.main.bounds.width - 20
+		
+		return CGSize(width: width, height: collectionView.frame.height - 50)
+	}
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+		return 20
 	}
 }
