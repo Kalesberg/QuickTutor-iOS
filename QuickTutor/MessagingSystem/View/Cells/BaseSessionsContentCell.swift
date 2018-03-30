@@ -332,6 +332,7 @@ class BasePastSessionCell: BaseSessionCell {
     
     let starView: StarView = {
         let sv = StarView()
+        sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
     
@@ -347,8 +348,6 @@ class BasePastSessionCell: BaseSessionCell {
         backgroundColor = Colors.darkBackground
     }
     
-    
-    
     private func setupDarkenView() {
         addSubview(darkenView)
         darkenView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -356,7 +355,7 @@ class BasePastSessionCell: BaseSessionCell {
     
     private func setupStarView() {
         addSubview(starView)
-        starView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 12, width: 100, height: 12)
+        starView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 12, width: 40, height: 7)
     }
 }
 
@@ -446,30 +445,30 @@ class StarView: UIView {
         setupStar5()
     }
     
-    let rightPadding: CGFloat = 4
+    let rightPadding: CGFloat = 1
     private func setupStar1() {
         addSubview(star1)
-        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 12, height: 12)
+        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 7, height: 7)
     }
     
     private func setupStar2() {
         addSubview(star2)
-        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star1.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 12, height: 12)
+        star2.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star1.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 7, height: 7)
     }
     
     private func setupStar3() {
         addSubview(star3)
-        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star2.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 12, height: 12)
+        star3.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star2.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 7, height: 7)
     }
     
     private func setupStar4() {
         addSubview(star4)
-        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star3.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 12, height: 12)
+        star4.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star3.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 7, height: 7)
     }
     
     private func setupStar5() {
         addSubview(star5)
-        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star4.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 12, height: 12)
+        star5.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star4.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 7, height: 7)
     }
     
     override init(frame: CGRect) {
