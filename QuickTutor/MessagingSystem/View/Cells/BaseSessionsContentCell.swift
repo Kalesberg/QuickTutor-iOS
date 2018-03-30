@@ -386,7 +386,7 @@ class LearnerPendingSessionCell: BasePendingSessionCell {
     }
     
     @objc func postMessageNotification() {
-        let userInfo = ["uid": "testing"]
+        let userInfo = ["uid": "gCoBPk6oFda95PuPJlkFEEUJlLC2"]
         let notification = Notification(name: NSNotification.Name(rawValue: "sendMessage"), object: nil, userInfo: userInfo)
         NotificationCenter.default.post(notification)
     }

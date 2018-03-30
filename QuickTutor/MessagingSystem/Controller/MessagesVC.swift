@@ -104,8 +104,13 @@ class MessagesVC: UIViewController {
     
     @objc func showConversation(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        print("Attempting to show conversation....")
-    }
+        DataService.shared.getTutorWithId(uid) { (tutor) in
+            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            vc.receiverId = uid
+            vc.chatPartner = tutor!
+            vc.connectionRequestAccepted = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        }    }
     
     @objc func showCancelModal() {
         addBlackView()
