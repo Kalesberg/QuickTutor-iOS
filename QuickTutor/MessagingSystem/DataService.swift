@@ -14,16 +14,36 @@ class DataService {
     static let shared = DataService()
     private init() {}
     
+    typealias UserCompletion = (User?) -> ()
+    typealias TutorCompletion = (ZFTutor?) -> ()
+    
     func getUserWithUid(_ uid: String, completion: @escaping (User?) -> ()) {
-        Database.database().reference().child("accounts").child(uid).observeSingleEvent(of: .value) { snapshot in
+        Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
-                print("Snapshot was empty")
                 completion(nil)
                 return
             }
             let user = User(dictionary: value)
             user.uid = uid
             completion(user)
+        }
+    }
+    
+    func getTutorWithId(_ uid: String, completion: @escaping TutorCompletion) {
+        Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String: Any] else { return }
+            Database.database().reference().child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot2) in
+                guard let value2 = snapshot2.value as? [String: Any] else { return }
+                let finalDict = value.merging(value2, uniquingKeysWith: { (dict1Value, dict2Value) -> Any in
+                    return dict2Value
+                })
+                let tutor = ZFTutor(dictionary: finalDict)
+                guard let img = finalDict["img"] as? [String: Any], let profilePicUrl = img["image1"] as? String else {
+                    return }
+                tutor.profilePicUrl = profilePicUrl
+                tutor.username = finalDict["nm"] as? String
+                completion(tutor)
+            })
         }
     }
     
@@ -99,7 +119,7 @@ class DataService {
         
         guard let expiration = Calendar.current.date(byAdding: .day, value: 7, to: Date())?.timeIntervalSince1970 else { return }
         
-        let values: [String: Any] = ["expiration": expiration, "status": "pending"]
+        let _: [String: Any] = ["expiration": expiration, "status": "pending"]
         
         let timestamp = Date().timeIntervalSince1970
         Database.database().reference().child("meetupRequests").childByAutoId().setValue(meetupRequest.dictionaryRepresentation) { (error, ref) in

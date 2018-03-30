@@ -63,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Firebase check
         if Auth.auth().currentUser != nil {
             //create SignInClass to handle everything before user is able to sign in.
+            AccountService.shared.loadUser()
 			_ = SignInHandler.init({ (error) in
 				if error != nil {
 					print(error!)
