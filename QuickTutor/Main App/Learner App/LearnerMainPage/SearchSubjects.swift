@@ -384,7 +384,13 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		
+		self.present(TutorConnect(), animated: true, completion: nil)
+	}
+}
+
+extension SearchSubjects : UIPopoverPresentationControllerDelegate {
+	func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+		return .overCurrentContext
 	}
 }
 

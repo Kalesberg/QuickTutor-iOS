@@ -38,7 +38,7 @@ class CategorySearchView : MainLayoutTwoButton {
 		
 		let collectionView  = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		
-		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 5, minimumLineSpacing: 40, sectionInset: UIEdgeInsets(top: 10, left: 5, bottom: 1, right: 5))
+		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 2, minimumInteritemSpacing: 5, minimumLineSpacing: 40, sectionInset: UIEdgeInsets(top: 10, left: 5, bottom: 1, right: 5))
 		
 		collectionView.collectionViewLayout = customLayout
 		collectionView.backgroundColor = .clear
@@ -149,7 +149,9 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		self.present(TutorConnect(), animated: true, completion: nil)
+		if let current = UIApplication.getPresentedViewController() {
+			current.present(TutorConnect(), animated: true, completion: nil)
+		}
 	}
 }
 extension CategorySearch : UISearchBarDelegate {

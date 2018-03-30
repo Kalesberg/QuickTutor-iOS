@@ -23,6 +23,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
 		
 		return label
 	}()
+	
 	let view : UIView = {
 		let view = UIView()
 		
@@ -37,6 +38,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
+		
 		return imageView
 	}()
 	
