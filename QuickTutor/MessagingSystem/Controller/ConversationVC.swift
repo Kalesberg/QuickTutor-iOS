@@ -137,7 +137,6 @@ class ConversationVC: UICollectionViewController {
         setupKeyboardObservers()
         studentKeyboardAccessory.chatView.delegate = self
         checkForConnection()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {

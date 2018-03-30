@@ -345,20 +345,6 @@ class BasePastSessionCell: BaseSessionCell {
     
     override func setupMainView() {
         backgroundColor = Colors.darkBackground
-        
-        let subjects = [String]()
-        var filteredSubjects = [String]()
-//        if let searchString = contentView.searchBar.text {
-        let searchString = "Eg"
-            filteredSubjects = subjects.filter({$0.contains(searchString)})
-            let predicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchString)
-            filteredSubjects = subjects.filtered(using: predicate) as NSArray
-            print("3", filteredSubjects.count)
-            
-            if filteredSubjects.count > 0 {
-                scrollToTop()
-            }
-//        }
     }
     
     

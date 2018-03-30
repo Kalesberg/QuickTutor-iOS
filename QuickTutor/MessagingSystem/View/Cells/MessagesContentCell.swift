@@ -13,6 +13,7 @@ class MessagesContentCell: BaseContentCell {
     
     var messages = [UserMessage]()
     var conversationsDictionary = [String: UserMessage]()
+    var parentViewController: UIViewController?
     
     let emptyBackround: EmptyMessagesBackground = {
         let bg = EmptyMessagesBackground()
@@ -33,7 +34,7 @@ class MessagesContentCell: BaseContentCell {
     private func setupEmptyBackground() {
         addSubview(emptyBackround)
         emptyBackround.anchor(top: collectionView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
-        emptyBackround.setupForTutor()
+        emptyBackround.setupForLearner()
     }
     
     override func setupRefreshControl() {
@@ -79,7 +80,7 @@ class MessagesContentCell: BaseContentCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        fetchConversations()
+        //fetchConversations()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -92,10 +93,11 @@ class MessagesContentCell: BaseContentCell {
 extension MessagesContentCell {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let navVC = CustomNavVC(rootViewController: vc)
         vc.receiverId = messages[indexPath.item].partnerId()
         let tappedCell = collectionView.cellForItem(at: indexPath) as! ConversationCell
         vc.navigationItem.title = tappedCell.usernameLabel.text
         vc.chatPartner = tappedCell.chatPartner
-        navigationController.pushViewController(vc, animated: true)
+        parentViewController?.present(navVC, animated: true, completion: nil)
     }
 }
