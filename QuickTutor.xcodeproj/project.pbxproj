@@ -136,6 +136,7 @@
 		84F36ED61FC346F800E71589 /* CountryZipcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F36ED51FC346F800E71589 /* CountryZipcode.swift */; };
 		84F36ED81FC3603F00E71589 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F36ED71FC3603F00E71589 /* Name.swift */; };
 		84F9CC00204D3F8F009A2851 /* languages.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84F9CBFF204D3F8F009A2851 /* languages.txt */; };
+		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
 		CF12D93B20642236004BE148 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12D93A20642236004BE148 /* Session.swift */; };
 		CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */; };
 		CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5889205EE68800ACBD32 /* ConversationCell.swift */; };
@@ -342,6 +343,7 @@
 		84F9CBFF204D3F8F009A2851 /* languages.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = languages.txt; path = ../../../Resources/languages.txt; sourceTree = "<group>"; };
 		98A3B0EC84A5F4A56226BC1D /* Pods_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C777B3ED14C155B5B40069C5 /* Pods-QuickTutor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor.release.xcconfig"; sourceTree = "<group>"; };
+		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
 		CF12D93A20642236004BE148 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		CF6F5889205EE68800ACBD32 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
@@ -900,6 +902,7 @@
 				CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */,
 				CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */,
 				CF8578C72060AB470089B6F0 /* BaseSessionsContentCell.swift */,
+				CF046420206ED3D000BFE898 /* EmptySessionCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1266,6 +1269,7 @@
 				CF6F58CA205EE68800ACBD32 /* CustomDatePicker.swift in Sources */,
 				CF8578C62060AB230089B6F0 /* MessagesContentCell.swift in Sources */,
 				CF6F58CB205EE68800ACBD32 /* SubjectPicker.swift in Sources */,
+				CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */,
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
 				CF6F58CF205EE68800ACBD32 /* CustomNavBar.swift in Sources */,
