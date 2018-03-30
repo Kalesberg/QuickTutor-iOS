@@ -39,6 +39,7 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+	var view : UIView!
 	
 	func configureTableViewCell() {
 		addSubview(collectionView)
@@ -59,6 +60,7 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 			make.width.equalToSuperview()
 		}
 	}
+
 }
 
 extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

@@ -40,6 +40,7 @@ class CategoryTableViewCell : UITableViewCell  {
 	
 	var categories : [Category] = [.experiences, .academics, .outdoors, .remedial, .health, .trades, .sports,.tech , .auto, .language, .arts, .business]
 	
+	var view : UIView!
 	
 	func configureTableViewCell() {
 		addSubview(collectionView)
@@ -47,6 +48,8 @@ class CategoryTableViewCell : UITableViewCell  {
 		categories.shuffle()
 		
 		backgroundColor = .clear
+		
+		view = self
 		
 		collectionView.delegate = self
 		collectionView.dataSource = self
@@ -62,6 +65,12 @@ class CategoryTableViewCell : UITableViewCell  {
 			make.height.equalToSuperview()
 			make.width.equalToSuperview()
 		}
+	}
+	
+	func snapToCenter() {
+		let centerPoint = view.convert(view.center, to: collectionView)
+		guard let centerIndexPath = collectionView.indexPathForItem(at: centerPoint) else { return }
+		collectionView.scrollToItem(at: centerIndexPath, at: .centeredHorizontally, animated: true)
 	}
 }
 
@@ -88,10 +97,7 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 	}
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		CategorySelected.title = categories[indexPath.item].mainPageData.displayName
-
-		if let current = UIApplication.getPresentedViewController() {
-			current.present(CategorySearch(), animated: true, completion: nil)
-		}
+		navigationController.pushViewController(CategorySearch(), animated: true)
 	}
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
@@ -99,5 +105,16 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 		let width = (screenWidth / 3) - 10
 		
 		return CGSize(width: width, height: contentView.frame.height)
+	}
+}
+extension CategoryTableViewCell : UIScrollViewDelegate {
+
+	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		if !decelerate {
+			snapToCenter()
+		}
+	}
+	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+		snapToCenter()
 	}
 }

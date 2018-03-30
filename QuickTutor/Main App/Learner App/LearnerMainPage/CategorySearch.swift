@@ -13,6 +13,8 @@ class CategorySearchView : MainLayoutTwoButton {
 	var back =  NavbarButtonBack()
 	var filters = NavbarButtonLines()
 	
+	let subtitle = SectionHeader()
+	
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
 		
@@ -36,7 +38,7 @@ class CategorySearchView : MainLayoutTwoButton {
 		
 		let collectionView  = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		
-		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 5, minimumLineSpacing: 5, sectionInset: UIEdgeInsets(top: 10, left: 5, bottom: 1, right: 5))
+		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 2, minimumInteritemSpacing: 5, minimumLineSpacing: 40, sectionInset: UIEdgeInsets(top: 10, left: 5, bottom: 1, right: 5))
 		
 		collectionView.collectionViewLayout = customLayout
 		collectionView.backgroundColor = .clear
@@ -64,6 +66,7 @@ class CategorySearchView : MainLayoutTwoButton {
 	
 	override func configureView() {
 		navbar.addSubview(searchBar)
+		addSubview(subtitle)
 		addSubview(collectionView)
 		super.configureView()
 		
@@ -79,10 +82,16 @@ class CategorySearchView : MainLayoutTwoButton {
 			make.height.equalToSuperview()
 			make.center.equalToSuperview()
 		}
-		collectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).inset(-100)
+		subtitle.snp.makeConstraints { (make) in
+			make.top.equalTo(navbar.snp.bottom)
 			make.centerX.equalToSuperview()
-			make.height.equalToSuperview()
+			make.height.equalTo(44)
+			make.width.equalToSuperview()
+		}
+		collectionView.snp.makeConstraints { (make) in
+			make.top.equalTo(subtitle.snp.bottom).inset(-20)
+			make.bottom.equalTo(safeAreaLayoutGuide)
+			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
 	}
@@ -100,10 +109,17 @@ class CategorySearch: BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		contentView.subtitle.category.text = CategorySelected.title
+		
 		contentView.collectionView.delegate = self
 		contentView.collectionView.dataSource = self
 		contentView.collectionView.register(FeaturedTutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
-		// Do any additional setup after loading the view.
+
+		contentView.searchBar.delegate = self
+	}
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		contentView.searchBar.resignFirstResponder()
 	}
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
@@ -133,7 +149,14 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		self.present(TutorConnect(), animated: true, completion: nil)
+		if let current = UIApplication.getPresentedViewController() {
+			current.present(TutorConnect(), animated: true, completion: nil)
+		}
+	}
+}
+extension CategorySearch : UISearchBarDelegate {
+	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+		navigationController?.pushViewController(SearchSubjects(), animated: true)
 	}
 }
 

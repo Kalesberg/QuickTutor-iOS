@@ -11,9 +11,9 @@ import UIKit
 
 class TutorConnectView : MainLayoutTwoButton {
 	
-	var back = NavbarButtonBack()
+	var back = NavbarButtonX()
 	var filters = NavbarButtonLines()
-	
+
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
 		
@@ -32,12 +32,32 @@ class TutorConnectView : MainLayoutTwoButton {
 		return searchBar
 	}()
 	
-
+	let collectionView : UICollectionView = {
+		
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+		
+		let layout = UICollectionViewFlowLayout()
+		
+		layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 0)
+		layout.scrollDirection = .horizontal
+		layout.minimumInteritemSpacing = 0
+		
+		collectionView.backgroundColor = Colors.backgroundDark
+		collectionView.collectionViewLayout = layout
+		collectionView.backgroundColor = .clear
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.isPagingEnabled = true
+		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+		
+		return collectionView
+	}()
+	
 	override var leftButton : NavbarButton {
 		get {
 			return back
 		} set {
-			back = newValue as! NavbarButtonBack
+			back = newValue as! NavbarButtonX
 		}
 	}
 	
@@ -51,9 +71,9 @@ class TutorConnectView : MainLayoutTwoButton {
 	
 	override func configureView() {
 		navbar.addSubview(searchBar)
+		addSubview(collectionView)
 		super.configureView()
 		
-
 		applyConstraints()
 	}
 	
@@ -65,6 +85,12 @@ class TutorConnectView : MainLayoutTwoButton {
 			make.right.equalTo(rightButton.snp.left)
 			make.height.equalToSuperview()
 			make.center.equalToSuperview()
+		}
+		collectionView.snp.makeConstraints { (make) in
+			make.top.equalTo(navbar.snp.bottom)
+			make.bottom.equalTo(safeAreaLayoutGuide)
+			make.width.equalToSuperview()
+			make.centerX.equalToSuperview()
 		}
 	}
 }
@@ -78,19 +104,56 @@ class TutorConnect : BaseViewController {
 	override func loadView() {
 		view = TutorConnectView()
 	}
+	
+	var categories = ["Experiences", "Academics", "Outdoors", "Remedial","Health","Trades","Sports","Tech","Auto","Language","The Arts","Business"]
+	
+	private var startingScrollingOffset = CGPoint.zero
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		// Do any additional setup after loading the view.
+		contentView.collectionView.dataSource = self
+		contentView.collectionView.delegate = self
+		contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
 	}
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
 	
+		contentView.collectionView.reloadData()
+	}
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonBack {
-			self.dismiss(animated: true, completion: nil)
+		if touchStartView is NavbarButtonX{
+			dismiss(animated: true, completion: nil)
 		}
+	}
+}
+extension TutorConnect : UIPopoverPresentationControllerDelegate {
+	func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+		return .none
+	}
+}
+
+extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return 20
+	}
+
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
+
+		return cell
+	}
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
+		let width = UIScreen.main.bounds.width - 20
+		
+		return CGSize(width: width, height: collectionView.frame.height - 50)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+		return 20
 	}
 }
