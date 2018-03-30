@@ -31,7 +31,7 @@ class BaseSessionsContentCell: BaseContentCell {
     
     override func setupCollectionView() {
         super.setupCollectionView()
-        collectionView.register(BaseSessionCell.self, forCellWithReuseIdentifier: "cellId")
+        collectionView.register(LearnerPendingSessionCell.self, forCellWithReuseIdentifier: "cellId")
         collectionView.register(BasePastSessionCell.self, forCellWithReuseIdentifier: "pastSessionCell")
         collectionView.register(EmptySessionCell.self, forCellWithReuseIdentifier: "emptyCell")
         collectionView.register(SessionHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
@@ -58,12 +58,12 @@ class BaseSessionsContentCell: BaseContentCell {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.section == 0 {
-            guard !upcomingSessions.isEmpty else {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-                cell.setLabelToPending()
-                return cell
-            }
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BaseSessionCell
+//            guard !upcomingSessions.isEmpty else {
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+//                cell.setLabelToPending()
+//                return cell
+//            }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! LearnerPendingSessionCell
 //            cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
@@ -116,6 +116,11 @@ class BaseSessionsContentCell: BaseContentCell {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as! SessionHeaderCell
         header.titleLabel.text = headerTitles[indexPath.section]
         return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
+        cell.showActionContainerView()
     }
 }
 
@@ -217,6 +222,13 @@ class BaseSessionCell: UICollectionViewCell {
         return iv
     }()
     
+    let cellActionContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+        view.isHidden = true
+        return view
+    }()
+    
     func updateUI(session: Session) {
         self.session = session
         subjectLabel.text = session.subject
@@ -234,6 +246,7 @@ class BaseSessionCell: UICollectionViewCell {
         setupTimeAndPriceLabel()
         setupStarIcon()
         setupStarLabel()
+        setupActionContainerView()
     }
     
     func setupMainView() {
@@ -289,6 +302,13 @@ class BaseSessionCell: UICollectionViewCell {
         addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
+    func setupActionContainerView() {
+        addSubview(cellActionContainerView)
+        cellActionContainerView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(hideActionContainerView))
+        cellActionContainerView.addGestureRecognizer(dismissTap)
+    }
+    
     func updateMonthLabel() {
         let month = Calendar.current.component(.month, from: Date(timeIntervalSince1970: session.date))
         let dateFormatter = DateFormatter()
@@ -305,6 +325,13 @@ class BaseSessionCell: UICollectionViewCell {
         
     }
     
+    func showActionContainerView() {
+        cellActionContainerView.isHidden = false
+    }
+    
+    @objc func hideActionContainerView() {
+        cellActionContainerView.isHidden = true
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -319,9 +346,55 @@ class BaseSessionCell: UICollectionViewCell {
 
 class BasePendingSessionCell: BaseSessionCell {
     
+    
 }
 
 class LearnerPendingSessionCell: BasePendingSessionCell {
+    
+    let messageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    let cancelButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "cancelSessionButton"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    override func setupViews() {
+        super.setupViews()
+        setupCancelButton()
+        setupMessageButton()
+    }
+    
+    func setupCancelButton() {
+        cellActionContainerView.addSubview(cancelButton)
+        cancelButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 60, height: 50)
+        addConstraint(NSLayoutConstraint(item: cancelButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
+        cancelButton.addTarget(self, action: #selector(postCancelButtonNofitication), for: .touchUpInside)
+    }
+    
+    func setupMessageButton() {
+        cellActionContainerView.addSubview(messageButton)
+        messageButton.anchor(top: nil, left: nil, bottom: nil, right: cancelButton.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
+        addConstraint(NSLayoutConstraint(item: messageButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
+        messageButton.addTarget(self, action: #selector(postMessageNotification), for: .touchUpInside)
+    }
+    
+    @objc func postMessageNotification() {
+        let userInfo = ["uid": "testing"]
+        let notification = Notification(name: NSNotification.Name(rawValue: "sendMessage"), object: nil, userInfo: userInfo)
+        NotificationCenter.default.post(notification)
+    }
+    
+    @objc func postCancelButtonNofitication() {
+        let notification = Notification(name: NSNotification.Name(rawValue: "cancelSession"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(notification)
+    }
     
 }
 
@@ -345,7 +418,7 @@ class BasePastSessionCell: BaseSessionCell {
     
     let darkenView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.25)
         return view
     }()
     

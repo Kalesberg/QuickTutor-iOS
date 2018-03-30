@@ -32,6 +32,9 @@ class MessagesVC: UIViewController {
         return control
     }()
     
+    let alert = CancelSessionModal()
+    let blackView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -47,6 +50,7 @@ class MessagesVC: UIViewController {
         setupMessageSessionControl()
         setupCollectionView()
         setupNavBar()
+        setupObservers()
     }
     
     private func setupMainView() {
@@ -92,6 +96,40 @@ class MessagesVC: UIViewController {
         let navVC = CustomNavVC(rootViewController: vc)
         present(navVC, animated: true, completion: nil)
     }
+    
+    func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showConversation(notification:)), name: Notification.Name(rawValue: "sendMessage"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showCancelModal), name: Notification.Name(rawValue: "cancelSession"), object: nil)
+    }
+    
+    @objc func showConversation(notification: Notification) {
+        guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
+        print("Attempting to show conversation....")
+    }
+    
+    @objc func showCancelModal() {
+        addBlackView()
+        guard let window = UIApplication.shared.keyWindow else { return }
+        window.addSubview(alert)
+        alert.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 207)
+        window.addConstraint(NSLayoutConstraint(item: alert, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
+    }
+    
+    func addBlackView() {
+        blackView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        guard let window = UIApplication.shared.keyWindow else { return }
+        window.addSubview(blackView)
+        blackView.anchor(top: window.topAnchor, left: window.leftAnchor, bottom: window.bottomAnchor, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        let dismiss = UITapGestureRecognizer(target: self, action: #selector(removeAlert))
+        blackView.addGestureRecognizer(dismiss)
+    }
+    
+    @objc func removeAlert() {
+        alert.removeFromSuperview()
+        blackView.removeFromSuperview()
+    }
+    
+    
 }
 
 

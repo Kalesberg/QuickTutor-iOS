@@ -137,6 +137,7 @@
 		84F36ED81FC3603F00E71589 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F36ED71FC3603F00E71589 /* Name.swift */; };
 		84F9CC00204D3F8F009A2851 /* languages.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84F9CBFF204D3F8F009A2851 /* languages.txt */; };
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
+		CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046422206EE3D800BFE898 /* CancelSessionModal.swift */; };
 		CF12D93B20642236004BE148 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12D93A20642236004BE148 /* Session.swift */; };
 		CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */; };
 		CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5889205EE68800ACBD32 /* ConversationCell.swift */; };
@@ -344,6 +345,7 @@
 		98A3B0EC84A5F4A56226BC1D /* Pods_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C777B3ED14C155B5B40069C5 /* Pods-QuickTutor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor.release.xcconfig"; sourceTree = "<group>"; };
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
+		CF046422206EE3D800BFE898 /* CancelSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSessionModal.swift; sourceTree = "<group>"; };
 		CF12D93A20642236004BE148 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		CF6F5889205EE68800ACBD32 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
@@ -886,6 +888,7 @@
 				CF6F58A3205EE68800ACBD32 /* Keyboard */,
 				CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */,
 				CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */,
+				CF046422206EE3D800BFE898 /* CancelSessionModal.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1315,6 +1318,7 @@
 				CF6F58C1205EE68800ACBD32 /* ImageMessageCell.swift in Sources */,
 				8470995C20083AA5000DCFD0 /* MainPage.swift in Sources */,
 				84E283572004874300B004E7 /* RegistrationBigButton.swift in Sources */,
+				CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */,
 				CF6F58CE205EE68800ACBD32 /* ConnectionRequestView.swift in Sources */,
 				84E4C7D2204E80E4009C2FC4 /* AccountPayments.swift in Sources */,
 				CF6F58C8205EE68800ACBD32 /* PriceInputView.swift in Sources */,
