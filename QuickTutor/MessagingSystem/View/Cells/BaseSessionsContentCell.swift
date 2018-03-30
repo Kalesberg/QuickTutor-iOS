@@ -33,6 +33,7 @@ class BaseSessionsContentCell: BaseContentCell {
         super.setupCollectionView()
         collectionView.register(BaseSessionCell.self, forCellWithReuseIdentifier: "cellId")
         collectionView.register(BasePastSessionCell.self, forCellWithReuseIdentifier: "pastSessionCell")
+        collectionView.register(EmptySessionCell.self, forCellWithReuseIdentifier: "emptyCell")
         collectionView.register(SessionHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
     }
     
@@ -55,14 +56,32 @@ class BaseSessionsContentCell: BaseContentCell {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         if indexPath.section == 0 {
+            guard !upcomingSessions.isEmpty else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                cell.setLabelToPending()
+                return cell
+            }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BaseSessionCell
 //            cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
         
         if indexPath.section == 1 {
+            guard !upcomingSessions.isEmpty else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                cell.setLabelToUpcoming()
+                return cell
+            }
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BaseSessionCell
+            return cell
+        }
+        
+        guard !upcomingSessions.isEmpty else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+            cell.setLabelToPast()
             return cell
         }
         
@@ -76,11 +95,11 @@ class BaseSessionsContentCell: BaseContentCell {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            return 3
+            return pendingSessions.isEmpty ? 1 : pendingSessions.count
         } else if section == 1 {
-            return 3
+            return upcomingSessions.isEmpty ? 1 : upcomingSessions.count
         } else {
-            return 3
+            return pastSessions.isEmpty ? 1 : pastSessions.count
         }
     }
     
