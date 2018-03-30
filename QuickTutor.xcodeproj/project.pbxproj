@@ -68,7 +68,7 @@
 		846252E720637CF8001DD330 /* LearnerMainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252E620637CF8001DD330 /* LearnerMainPage.swift */; };
 		846252EC20637F22001DD330 /* TutorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252EB20637F22001DD330 /* TutorSettings.swift */; };
 		846252F120637F9D001DD330 /* TutorMyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F020637F9D001DD330 /* TutorMyProfile.swift */; };
-		846252F320637FA7001DD330 /* TutorPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F220637FA7001DD330 /* TutorPayment.swift */; };
+		846252F320637FA7001DD330 /* BankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F220637FA7001DD330 /* BankManager.swift */; };
 		846252F720637FC5001DD330 /* TutorHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F620637FC5001DD330 /* TutorHelp.swift */; };
 		846252F920637FEC001DD330 /* TutorEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F820637FEC001DD330 /* TutorEditProfile.swift */; };
 		846252FB206381BD001DD330 /* TaxInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252FA206381BD001DD330 /* TaxInformation.swift */; };
@@ -174,6 +174,7 @@
 		84E91B60205740ED00D1F613 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B5F205740ED00D1F613 /* Labels.swift */; };
 		84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B612057421900D1F613 /* TutorCancelled.swift */; };
 		84E91B64205761A600D1F613 /* TutorLate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B63205761A600D1F613 /* TutorLate.swift */; };
+		84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */; };
 		84F2450F1FDA0F59006447A8 /* UploadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2450E1FDA0F59006447A8 /* UploadImage.swift */; };
 		84F245161FDA103B006447A8 /* TutorSubjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F245151FDA103B006447A8 /* TutorSubjects.swift */; };
 		84F245181FDA1127006447A8 /* TutorBio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F245171FDA1127006447A8 /* TutorBio.swift */; };
@@ -247,7 +248,7 @@
 		846252E620637CF8001DD330 /* LearnerMainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPage.swift; sourceTree = "<group>"; };
 		846252EB20637F22001DD330 /* TutorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSettings.swift; sourceTree = "<group>"; };
 		846252F020637F9D001DD330 /* TutorMyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMyProfile.swift; sourceTree = "<group>"; };
-		846252F220637FA7001DD330 /* TutorPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPayment.swift; sourceTree = "<group>"; };
+		846252F220637FA7001DD330 /* BankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankManager.swift; sourceTree = "<group>"; };
 		846252F620637FC5001DD330 /* TutorHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHelp.swift; sourceTree = "<group>"; };
 		846252F820637FEC001DD330 /* TutorEditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorEditProfile.swift; sourceTree = "<group>"; };
 		846252FA206381BD001DD330 /* TaxInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxInformation.swift; sourceTree = "<group>"; };
@@ -361,6 +362,7 @@
 		84E91B5F205740ED00D1F613 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		84E91B612057421900D1F613 /* TutorCancelled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCancelled.swift; sourceTree = "<group>"; };
 		84E91B63205761A600D1F613 /* TutorLate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLate.swift; sourceTree = "<group>"; };
+		84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPayment.swift; sourceTree = "<group>"; };
 		84F2450E1FDA0F59006447A8 /* UploadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImage.swift; sourceTree = "<group>"; };
 		84F245151FDA103B006447A8 /* TutorSubjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSubjects.swift; sourceTree = "<group>"; };
 		84F245171FDA1127006447A8 /* TutorBio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorBio.swift; sourceTree = "<group>"; };
@@ -571,7 +573,8 @@
 		846252EA20637EF3001DD330 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
-				846252F220637FA7001DD330 /* TutorPayment.swift */,
+				846252F220637FA7001DD330 /* BankManager.swift */,
+				84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -1174,6 +1177,7 @@
 				841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */,
 				84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfo.swift in Sources */,
+				84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */,
 				848E04EA205C8CF10094A6E9 /* BecomeTutorData.swift in Sources */,
 				84DFD899204C5AE600BA8A3F /* UIViewControllerExtensions.swift in Sources */,
 				84052F14206BCCB8007B1248 /* LearnerOther.swift in Sources */,
@@ -1182,7 +1186,7 @@
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
 				848809FF20585C3A00F204A0 /* TutorProfilePics.swift in Sources */,
-				846252F320637FA7001DD330 /* TutorPayment.swift in Sources */,
+				846252F320637FA7001DD330 /* BankManager.swift in Sources */,
 				846F08212005AD7B00248D29 /* StudentBio.swift in Sources */,
 				840E75BA201E7DF6006FC580 /* LearnerPayment.swift in Sources */,
 				842394071FF4C7FF00827C7D /* User.swift in Sources */,

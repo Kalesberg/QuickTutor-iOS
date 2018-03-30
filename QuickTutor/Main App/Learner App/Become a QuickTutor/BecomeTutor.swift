@@ -4,7 +4,6 @@
 //
 //  Created by QuickTutor on 3/14/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-//
 
 import Foundation
 import UIKit
@@ -37,9 +36,10 @@ class StartButton : InteractableBackgroundView {
 }
 
 
-class BecomeTutorView : RegistrationGradientView {
+class BecomeTutorView : BaseLayoutView {
     
     var backButton = RegistrationBackButton()
+    var becomeQTLabel = UILabel()
     var container = UIView()
     var bottom = UIView()
     var startButton = StartButton()
@@ -54,6 +54,7 @@ class BecomeTutorView : RegistrationGradientView {
     
     override func configureView() {
         addSubview(backButton)
+        addSubview(becomeQTLabel)
         addSubview(bottom)
         addSubview(container)
         container.addSubview(startButton)
@@ -70,6 +71,10 @@ class BecomeTutorView : RegistrationGradientView {
         bottom.backgroundColor = Colors.registrationDark
         container.backgroundColor = Colors.registrationDark
         
+        becomeQTLabel.textColor = .white
+        becomeQTLabel.text = "Become a QuickTutor"
+        becomeQTLabel.font = Fonts.createBoldItalicSize(26)
+        
         makeMoneyLabel.text = "Make money teaching the things you're good at!"
         makeMoneyLabel.textColor = .white
         makeMoneyLabel.font = Fonts.createSize(16)
@@ -77,13 +82,13 @@ class BecomeTutorView : RegistrationGradientView {
         
         earnMoneyTitle.label.text = "Earn money as a QuickTutor"
         
-        earnMoneyBody.text = "No matter who you are, QuickTutor enables you to simply run a freelance tutoring business. QuickTutor makes it simple and safe to earn money and teach people around the world - either in-person with people near you or video call globally.\n"
+        earnMoneyBody.text = "No matter who you are, QuickTutor enables you to simply run a freelance tutoring business. QuickTutor makes it simple and safe to earn money and teach people around the world - either in-person with people near you or video call globally."
         
         userFreedomTitle.label.text = "User Freedom"
-        userFreedomBody.text = "With QuickTutor, you are in complete control of your schedule, hourly rate, preferences, policies, and how you communicate with learners.\n"
+        userFreedomBody.text = "With QuickTutor, you are in complete control of your schedule, hourly rate, preferences, policies, and how you communicate with learners."
         
         safetyMattersTitle.label.text = "Your Safety Matters"
-        safetyMattersBody.text = "QuickTutor has a rating and review system, social media connectivity option, and reporting system to ensure your safety as a tutor. Remember to fully analyze a learner's profile before meeting up with them in-person.\n"
+        safetyMattersBody.text = "QuickTutor has a rating and review system, social media connectivity option, and reporting system to ensure your safety as a tutor. Remember to fully analyze a learner's profile before meeting up with them in-person."
         
         applyConstraints()
     }
@@ -94,6 +99,13 @@ class BecomeTutorView : RegistrationGradientView {
             make.left.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.1)
             make.width.equalToSuperview().multipliedBy(0.2)
+        }
+        
+        becomeQTLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(backButton.snp.bottom)
+            make.height.equalTo(30)
+            make.left.equalTo(backButton.button.snp.left).inset(5)
+            make.right.equalToSuperview()
         }
         
         bottom.snp.makeConstraints { (make) in
@@ -125,9 +137,9 @@ class BecomeTutorView : RegistrationGradientView {
         
         scrollView.snp.makeConstraints { (make) in
             make.bottom.equalTo(container.snp.top)
-            make.left.equalToSuperview()
+            make.left.equalToSuperview().inset(15)
             make.right.equalToSuperview()
-            make.top.equalTo(safeAreaLayoutGuide).inset(150)
+            make.top.equalTo(becomeQTLabel.snp.bottom)
         }
         
         earnMoneyTitle.constrainSelf(top: scrollView.snp.top)
@@ -160,6 +172,7 @@ class BecomeTutor : BaseViewController {
         
         contentView.layoutIfNeeded()
         contentView.scrollView.contentSize = CGSize(width: 280, height: contentView.safetyMattersBody.frame.maxY - contentView.earnMoneyTitle.frame.minY)
+        contentView.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.bounds)
     }
     
     override func didReceiveMemoryWarning() {

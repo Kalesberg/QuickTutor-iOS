@@ -9,92 +9,171 @@
 import UIKit
 import FirebaseAuth
 
-class TutorPolicyView : RegistrationGradientView {
+class TutorPolicyView : BaseLayoutView {
 	
-	var titleLabel      = RegistrationTitleLabel()
-	var textLabel       = LeftTextLabel()
-	var buttonView      = UIView()
-	var learnMoreButton = LearnMoreButton()
-	var acceptButton    = RegistrationBigButton()
-	var declineButton   = RegistrationBigButton()
+    let qtTitle : UILabel = {
+        var label = UILabel()
+        
+        label.font = Fonts.createBoldItalicSize(26)
+        label.text = "QuickTutor Agreement"
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    let scrollView : UIScrollView = {
+        var scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        
+        return scrollView
+    }()
+    
+    let scrollViewLabel : UILabel = {
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .header("Your relationship with QuickTutor\n\n")
+            .normal("On QuickTutor, you're an independent tutor in full control of your business. You have the freedom to choose which opportunities to pursue, when you want to tutor, and how much you charge.\n\n")
+            .header("Communicate through the app\n\n")
+            .normal("The QuickTutor messaging system allows you to communicate and set up tutoring sessions, without having to give away any personal or private information like your phone number or email. Keep your conversations in the messaging system to protect yourself.\n\n")
+            .header("The ultimate biz management tool\n\n")
+            .normal("With QuickTutor, you'll be able to schedule and facilitate your in-person and online sessions through the app, and recieve instant payments for tutoring. Make sure to keep your sessions through the app to avoid not being paid on time, not being paid at all, or not revieving a rating.")
+        
+        var label = UILabel()
+        label.sizeToFit()
+        label.numberOfLines = 0
+        label.attributedText = formattedString
+        
+        return label
+    }()
+    
+    let bottomView : UIView = {
+        var view = UIView()
+        
+        view.backgroundColor = Colors.registrationDark
+        
+        return view
+    }()
+    
+    let agreementView : UIView = {
+        var view = UIView()
+        view.backgroundColor = Colors.registrationDark
+        
+        var label = UILabel()
+        view.addSubview(label)
+        label.font = Fonts.createSize(14)
+        label.adjustsFontSizeToFitWidth = true
+        label.textColor = Colors.grayText
+        label.text = "By checking the box, you confirm that you have reviewed the document above and you agree to its terms."
+        label.numberOfLines = 0
+        label.snp.makeConstraints({ (make) in
+            make.left.equalToSuperview().inset(15)
+            make.right.equalToSuperview().inset(80)
+            make.centerY.equalToSuperview()
+            make.height.equalToSuperview()
+        })
+        
+        return view
+    }()
+    
+    let checkBox : RegistrationCheckbox = {
+        var check = RegistrationCheckbox()
+        
+        check.isSelected = false
+        
+        return check
+    }()
+    
+    let tutorAgreementButton : ArrowItem = {
+        var item = ArrowItem()
+        
+        item.label.text = "Independent Tutor Agreement"
+        item.divider.isHidden = true
+        item.backgroundColor = Colors.registrationDark
+        
+        return item
+    }()
+    
+    let pleaseReviewLabel : UILabel = {
+        var label = UILabel()
+        
+        label.textColor = .white
+        label.text = "Please review and agree to the document below:"
+        label.font = Fonts.createSize(13)
+        
+        return label
+    }()
 	
 	override func configureView() {
+        addSubview(qtTitle)
+        addSubview(bottomView)
+        addSubview(agreementView)
+        addSubview(pleaseReviewLabel)
+        agreementView.addSubview(checkBox)
+        addSubview(scrollView)
+        scrollView.addSubview(scrollViewLabel)
+        addSubview(tutorAgreementButton)
 		super.configureView()
-		
-		addSubview(titleLabel)
-		addSubview(textLabel)
-		addSubview(buttonView)
-		addSubview(learnMoreButton)
-		
-		buttonView.addSubview(acceptButton)
-		buttonView.addSubview(declineButton)
-		
-		titleLabel.label.text = "Before you join"
-		
-		textLabel.label.font = Fonts.createLightSize(17)
-		textLabel.label.numberOfLines = 0
-		textLabel.label.textColor = .white
-		textLabel.label.text = "Whether it's your first time on QuickTutor or you've been with us from the very beginning, please commit to respecting and loving everyone in the QuickTutor community.\n\nI agree to treat everyone on QuickTutor regardless of their race, physical features, national origin, ethnicity, religion, sex, disability, gender identity, sexual orientation or age with respect and love, without judgement or bias."
-		
-		acceptButton.label.label.text = "Accept"
-		
-		declineButton.label.label.text = "Decline"
-		
-		textLabel.sizeToFit()
-		
+
 		applyConstraints()
 	}
 	
 	override func applyConstraints() {
 		super.applyConstraints()
 		
-		titleLabel.snp.makeConstraints { (make) in
-			make.top.equalTo(safeAreaLayoutGuide.snp.top)
-			make.bottom.equalTo(textLabel.snp.top)
-			make.width.equalToSuperview().multipliedBy(0.8)
-			make.centerX.equalToSuperview()
-		}
-		
-		titleLabel.label.snp.remakeConstraints { (make) in
-			make.centerY.equalToSuperview().multipliedBy(1.5)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-		}
-		
-		textLabel.snp.makeConstraints { (make) in
-			make.bottom.equalTo(learnMoreButton.snp.top)
-			make.height.equalTo(320)
-			make.left.equalTo(titleLabel)
-			make.right.equalTo(titleLabel)
-		}
-		
-		learnMoreButton.snp.makeConstraints { (make) in
-			make.bottom.equalTo(buttonView.snp.top)
-			make.top.equalTo(textLabel.snp.bottom)
-			make.width.equalToSuperview().multipliedBy(0.8)
-			make.centerX.equalToSuperview()
-		}
-		
-		buttonView.snp.makeConstraints { (make) in
-			make.height.equalToSuperview().multipliedBy(0.3)
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-			make.left.equalToSuperview()
-			make.right.equalToSuperview()
-		}
-		
-		acceptButton.snp.makeConstraints { (make) in
-			make.height.equalTo(60)
-			make.width.equalTo(270)
-			make.centerX.equalToSuperview()
-			make.centerY.equalToSuperview().multipliedBy(0.6)
-		}
-		
-		declineButton.snp.makeConstraints { (make) in
-			make.height.equalTo(60)
-			make.width.equalTo(270)
-			make.centerX.equalToSuperview()
-			make.centerY.equalToSuperview().multipliedBy(1.4)
-		}
+        qtTitle.snp.makeConstraints { (make) in
+            make.top.equalTo(safeAreaLayoutGuide).inset(35)
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(60)
+        }
+
+        bottomView.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide.snp.bottom)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        
+        agreementView.snp.makeConstraints { (make) in
+            make.height.equalTo(80)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(bottomView.snp.top)
+        }
+        
+        checkBox.snp.makeConstraints { (make) in
+            make.height.equalToSuperview()
+            make.right.equalToSuperview()
+            make.left.equalTo(agreementView.snp.right).inset(80)
+            make.centerY.equalToSuperview()
+        }
+        
+        tutorAgreementButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(agreementView.snp.top).inset(-1)
+            make.height.equalTo(40)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        
+        pleaseReviewLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(tutorAgreementButton.snp.top)
+            make.width.equalToSuperview()
+            make.left.equalToSuperview().inset(15)
+            make.height.equalTo(50)
+        }
+        
+        scrollView.snp.makeConstraints { (make) in
+            make.top.equalTo(qtTitle.snp.bottom).inset(-10)
+            make.bottom.equalTo(pleaseReviewLabel.snp.top)
+            make.width.equalToSuperview().multipliedBy(0.8)
+            make.centerX.equalToSuperview()
+        }
+        
+        scrollViewLabel.snp.makeConstraints({ (make) in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+        })
 	}
 }
 
@@ -106,16 +185,17 @@ class TutorPolicy : BaseViewController {
 	
 	override func loadView() {
 		view = TutorPolicyView()
-	}
-	
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+        contentView.layoutIfNeeded()
+        contentView.scrollView.contentSize = CGSize(width: contentView.scrollView.frame.width, height: contentView.scrollViewLabel.frame.height)
+        contentView.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.bounds)
 	}
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		contentView.acceptButton.isUserInteractionEnabled = true
 	}
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
@@ -144,15 +224,30 @@ class TutorPolicy : BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if(touchStartView == contentView.acceptButton) {
-			accepted()
-			contentView.acceptButton.isUserInteractionEnabled = false
-		} else if (touchStartView == contentView.declineButton) {
-			declined()
-			print("decline")
-		} else if (touchStartView == contentView.learnMoreButton) {
-			print("learn more")
-		}
+        if (touchStartView == contentView.tutorAgreementButton) {
+            //to website
+        } else if (touchStartView == contentView.checkBox) {
+            //after press, disable check box, show loading modal of some sort
+            print("checkbox pressed")
+        }
 	}
 }
 
+extension NSMutableAttributedString {
+    @discardableResult func header(_ text: String) -> NSMutableAttributedString {
+        let attrs: [NSAttributedStringKey: Any] = [.font: UIFont(name: "Lato-Regular", size: 15)!, .foregroundColor : UIColor.white]
+        let string = NSMutableAttributedString(string:text, attributes: attrs)
+        
+        append(string)
+        
+        return self
+    }
+    
+    @discardableResult func normal(_ text: String) -> NSMutableAttributedString {
+        let attrs: [NSAttributedStringKey: Any] = [.font: UIFont(name: "Lato-Regular", size: 13)!, .foregroundColor : Colors.grayText]
+        let string = NSAttributedString(string: text, attributes: attrs)
+        append(string)
+        
+        return self
+    }
+}

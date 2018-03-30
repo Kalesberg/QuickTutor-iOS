@@ -74,7 +74,7 @@ class TutorMainPage : MainPage {
         super.handleNavigation()
         
         if(touchStartView == contentView.sidebar.paymentItem) {
-            navigationController?.pushViewController(hasPaymentMethod ? CardManager() : TutorPayment(), animated: true)
+            navigationController?.pushViewController(hasPaymentMethod ? BankManager() : TutorPayment(), animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.settingsItem) {
