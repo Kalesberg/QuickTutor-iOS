@@ -44,6 +44,10 @@ struct Fonts {
         return UIFont(name: "Lato-Italic", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
+    static func createBoldItalicSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "Lato-BoldItalic", size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+    
     static func createLightSize(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Lato-Light", size: size) ?? UIFont.systemFont(ofSize: size)
     }

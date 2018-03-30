@@ -1,8 +1,8 @@
 //
-//  Payment.swift
+//  TutorPayment.swift
 //  QuickTutor
 //
-//  Created by QuickTutor on 3/22/18.
+//  Created by QuickTutor on 3/29/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
@@ -10,39 +10,19 @@ import Foundation
 import UIKit
 
 
-class TutorPaymentView : MainLayoutTitleBackButton {
-    
-    override func configureView() {
-        super.configureView()
-        
-        title.label.text = "Payment"
-    }
-    
-    override func applyConstraints() {
-        super.applyConstraints()
-        
-    }
-    
-}
-
 class TutorPayment : BaseViewController {
     
-    override var contentView: TutorPaymentView {
-        return view as! TutorPaymentView
+    override var contentView: TutorRegPaymentView {
+        return view as! TutorRegPaymentView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
     override func loadView() {
-        view = TutorPaymentView()
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        view = TutorRegPaymentView()
     }
     
     override func handleNavigation() {
-        
+        if (touchStartView is AddBankButton) {
+            
+        }
     }
 }
