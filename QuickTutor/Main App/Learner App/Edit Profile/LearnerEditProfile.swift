@@ -37,14 +37,11 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 	
 	fileprivate var personalInfoHeader = EditProfileHeader()
 	fileprivate var mobileNumberItem = EditProfilePhoneItem()
-	//fileprivate var currentLocationItem = EditProfileDotItem()
-	//fileprivate var locationImage = UIImageView()
 	fileprivate var emailItem = EditProfileEmailItem()
 	
 	fileprivate var optionalInfoHeader = EditProfileHeader()
 	fileprivate var languagesItem = EditProfileLanguageItem()
 	fileprivate var schoolItem = EditProfileSchoolItem()
-	fileprivate var courseCodeItem = EditProfileCourseCodeItem()
 	
 	fileprivate var connectionsHeader = EditProfileHeader()
 	var connectInsta = EditProfileConnectInsta()
@@ -59,13 +56,10 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 		scrollView.addSubview(bioItem)
 		scrollView.addSubview(personalInfoHeader)
 		scrollView.addSubview(mobileNumberItem)
-		//scrollView.addSubview(currentLocationItem)
-		//currentLocationItem.textField.addSubview(locationImage)
 		scrollView.addSubview(emailItem)
 		scrollView.addSubview(optionalInfoHeader)
 		scrollView.addSubview(languagesItem)
 		scrollView.addSubview(schoolItem)
-		scrollView.addSubview(courseCodeItem)
 		scrollView.addSubview(connectionsHeader)
 		scrollView.addSubview(connectInsta)
 		super.configureView()
@@ -92,14 +86,6 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 		
 		mobileNumberItem.textField.attributedPlaceholder = NSAttributedString(string: user.phone.formatPhoneNumber(),
 																			  attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		
-		//        currentLocationItem.infoLabel.label.text = "Current Location"
-		//        currentLocationItem.textField.attributedPlaceholder = NSAttributedString(string: "        \(user.address!)",
-		//            attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		//        currentLocationItem.textField.isEnabled = false
-		//
-		//        locationImage.image = UIImage(named: "location")
-		//        locationImage.scaleImage()
 		
 		emailItem.infoLabel.label.text = "Email"
 		emailItem.textField.attributedPlaceholder = NSAttributedString(string: user.email,
@@ -169,27 +155,6 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 			make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.12)
 		}
 		
-		//        currentLocationItem.snp.makeConstraints { (make) in
-		//            make.top.equalTo(mobileNumberItem.snp.bottom)
-		//            make.width.equalToSuperview()
-		//            make.centerX.equalToSuperview()
-		//            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.12)
-		//        }
-		//
-		//        locationImage.snp.makeConstraints { (make) in
-		//            make.height.equalToSuperview().multipliedBy(0.4)
-		//            make.width.equalTo(25)
-		//            make.centerY.equalToSuperview()
-		//            make.left.equalToSuperview()
-		//        }
-		//
-		//        currentLocationItem.infoLabel.snp.remakeConstraints { (make) in
-		//            make.left.equalTo(locationImage).inset(3)
-		//            make.top.equalToSuperview()
-		//            make.right.equalToSuperview()
-		//            make.height.equalToSuperview().multipliedBy(0.3)
-		//        }
-		
 		emailItem.snp.makeConstraints { (make) in
 			make.top.equalTo(mobileNumberItem.snp.bottom)
 			make.width.equalToSuperview()
@@ -218,15 +183,8 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 			make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.12)
 		}
 		
-		courseCodeItem.snp.makeConstraints { (make) in
-			make.top.equalTo(schoolItem.snp.bottom)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.12)
-		}
-		
 		connectionsHeader.snp.makeConstraints { (make) in
-			make.top.equalTo(courseCodeItem.snp.bottom)
+			make.top.equalTo(schoolItem.snp.bottom)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 			make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.1)
@@ -273,14 +231,14 @@ class ProfilePicImageView : InteractableView, Interactable {
 	}
 }
 
-fileprivate class ProfileImage1 : ProfilePicImageView {
+class ProfileImage1 : ProfilePicImageView {
 	override func configureView() {
 		super.configureView()
 		picView.image = LocalImageCache.localImageManager.image1
 	}
 }
 
-fileprivate class ProfileImage2 : ProfilePicImageView {
+class ProfileImage2 : ProfilePicImageView {
 	
 	var number : String = "2"
 	let current = UIApplication.getPresentedViewController()
@@ -303,7 +261,7 @@ fileprivate class ProfileImage2 : ProfilePicImageView {
 	}
 }
 
-fileprivate class ProfileImage3 : ProfilePicImageView {
+class ProfileImage3 : ProfilePicImageView {
 	
 	var number : String = "3"
 	let current = UIApplication.getPresentedViewController()
@@ -326,7 +284,7 @@ fileprivate class ProfileImage3 : ProfilePicImageView {
 	}
 }
 
-fileprivate class ProfileImage4 : ProfilePicImageView {
+class ProfileImage4 : ProfilePicImageView {
 	
 	var number : String = "4"
 	let current = UIApplication.getPresentedViewController()
@@ -929,7 +887,6 @@ extension LearnerEditProfile : UITextFieldDelegate {
 		default:
 			break
 		}
-		
 	}
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textField.resignFirstResponder()

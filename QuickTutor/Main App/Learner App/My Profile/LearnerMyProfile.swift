@@ -180,7 +180,6 @@ class LearnerMyProfileView : MainLayoutTitleBackTwoButton {
         nameLabel.label.font = Fonts.createBoldSize(22)
         nameLabel.label.text = user.name!
 
-		
 		speakItem.label.text = "Speaks: "
         speakItem.imageView.image = UIImage(named: "speaks")
         
@@ -430,7 +429,7 @@ class AboutMeView : BaseView {
         }
         
         bioLabel.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.95)
             make.centerX.equalToSuperview()
             make.top.equalTo(aboutMeLabel.snp.bottom)
         }
@@ -467,23 +466,22 @@ class ProfileItem : BaseView {
         label.textAlignment = .left
         label.sizeToFit()
         label.numberOfLines = 0
-        label.font = Fonts.createSize(14)
+        label.font = Fonts.createSize(12)
+        label.adjustsFontSizeToFitWidth = true
         
         applyConstraints()
     }
     
     override func applyConstraints() {
         label.snp.makeConstraints { (make) in
-            make.left.equalTo(imageView.snp.right).offset(7)
-            make.height.equalToSuperview()
-            make.right.equalToSuperview()
-            make.top.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.left.equalTo(imageView.snp.right).inset(-5)
         }
         
         imageView.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview()
-            make.height.equalTo(20)
+            make.height.equalTo(16)
             make.width.equalTo(25)
         }
     }
@@ -554,22 +552,16 @@ class LocationItem : ProfileItem {
         
         label.text = "Mount Pleasant, Michigan"
         label.textAlignment = .center
-        label.font = Fonts.createSize(12)
         imageView.image = UIImage(named: "location")
     }
     
-    override func applyConstraints() {
-        label.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(0.5)
-        }
-        
-        imageView.snp.makeConstraints { (make) in
-            make.right.equalTo(label.snp.left).inset(-7)
-            make.height.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(0.5)
-        }
-    }
+//    override func applyConstraints() {
+
+//
+//        imageView.snp.makeConstraints { (make) in
+//
+//        }
+//    }
 }
 
 class MyProfileScrollView : BaseScrollView {
