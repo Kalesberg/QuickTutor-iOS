@@ -31,12 +31,12 @@ class TutorPolicyView : BaseLayoutView {
     let scrollViewLabel : UILabel = {
         let formattedString = NSMutableAttributedString()
         formattedString
-            .header("Your relationship with QuickTutor\n\n")
-            .normal("On QuickTutor, you're an independent tutor in full control of your business. You have the freedom to choose which opportunities to pursue, when you want to tutor, and how much you charge.\n\n")
-            .header("Communicate through the app\n\n")
-            .normal("The QuickTutor messaging system allows you to communicate and set up tutoring sessions, without having to give away any personal or private information like your phone number or email. Keep your conversations in the messaging system to protect yourself.\n\n")
-            .header("The ultimate biz management tool\n\n")
-            .normal("With QuickTutor, you'll be able to schedule and facilitate your in-person and online sessions through the app, and recieve instant payments for tutoring. Make sure to keep your sessions through the app to avoid not being paid on time, not being paid at all, or not revieving a rating.")
+            .regular("Your relationship with QuickTutor\n\n", 15, .white)
+            .regular("On QuickTutor, you're an independent tutor in full control of your business. You have the freedom to choose which opportunities to pursue, when you want to tutor, and how much you charge.\n\n", 13, Colors.grayText)
+            .regular("Communicate through the app\n\n", 15, .white)
+            .regular("The QuickTutor messaging system allows you to communicate and set up tutoring sessions, without having to give away any personal or private information like your phone number or email. Keep your conversations in the messaging system to protect yourself.\n\n", 13, Colors.grayText)
+            .regular("The ultimate biz management tool\n\n", 15, .white)
+            .regular("With QuickTutor, you'll be able to schedule and facilitate your in-person and online sessions through the app, and recieve instant payments for tutoring. Make sure to keep your sessions through the app to avoid not being paid on time, not being paid at all, or not revieving a rating.", 13, Colors.grayText)
         
         var label = UILabel()
         label.sizeToFit()
@@ -234,18 +234,17 @@ class TutorPolicy : BaseViewController {
 }
 
 extension NSMutableAttributedString {
-    @discardableResult func header(_ text: String) -> NSMutableAttributedString {
-        let attrs: [NSAttributedStringKey: Any] = [.font: UIFont(name: "Lato-Regular", size: 15)!, .foregroundColor : UIColor.white]
+    @discardableResult func regular(_ text: String, _ size: CGFloat, _ color: UIColor) -> NSMutableAttributedString {
+        let attrs: [NSAttributedStringKey: Any] = [.font: UIFont(name: "Lato-Regular", size: size)!, .foregroundColor : color]
         let string = NSMutableAttributedString(string:text, attributes: attrs)
-        
         append(string)
         
         return self
     }
     
-    @discardableResult func normal(_ text: String) -> NSMutableAttributedString {
-        let attrs: [NSAttributedStringKey: Any] = [.font: UIFont(name: "Lato-Regular", size: 13)!, .foregroundColor : Colors.grayText]
-        let string = NSAttributedString(string: text, attributes: attrs)
+    @discardableResult func bold(_ text: String, _ size: CGFloat, _ color: UIColor) -> NSMutableAttributedString {
+        let attrs: [NSAttributedStringKey: Any] = [.font: UIFont(name: "Lato-Bold", size: size)!, .foregroundColor : color]
+        let string = NSMutableAttributedString(string:text, attributes: attrs)
         append(string)
         
         return self
