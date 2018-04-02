@@ -82,9 +82,7 @@ class BaseTableViewCell : UITableViewCell {
         
         if let firstTouch = touches.first {
             let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event)
-            
-            print(hitView!)
-            
+            print(hitView)
             if (hitView is Interactable) {
                 print("BEGAN: INTERACTABLE")
                 touchStartView = hitView as? (UIView & Interactable)!
@@ -163,6 +161,9 @@ class BaseTableViewCell : UITableViewCell {
 }
 
 
+class InteractableUIImageView : UIImageView, Interactable {}
+
+
 class ProfilePicTableViewCell : BaseTableViewCell {
     
     let mainContainer : UIView = {
@@ -174,14 +175,16 @@ class ProfilePicTableViewCell : BaseTableViewCell {
         return view
     }()
     
-    let profilePicView : UIImageView = {
-        let imageView = UIImageView()
+    let profilePicView : InteractableUIImageView = {
+        let imageView = InteractableUIImageView()
         
         if let image = LocalImageCache.localImageManager.getImage(number: "1") {
             imageView.image = image
         } else {
             
         }
+        
+        imageView.isUserInteractionEnabled = true
         
         imageView.scaleImage()
         imageView.sizeToFit()
@@ -289,6 +292,19 @@ class ProfilePicTableViewCell : BaseTableViewCell {
             make.height.equalToSuperview().multipliedBy(0.25)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
+        }
+    }
+    
+    override func handleNavigation() {
+        if (touchStartView is InteractableUIImageView) {
+            
+            let vc = (next?.next?.next as! TutorMyProfile)
+    
+            vc.contentView.backgroundView.alpha = 0.65
+            vc.contentView.xButton.alpha = 1.0
+            vc.horizontalScrollView.isUserInteractionEnabled = true
+            vc.horizontalScrollView.isHidden = false
+            vc.contentView.leftButton.isHidden = true
         }
     }
 }
