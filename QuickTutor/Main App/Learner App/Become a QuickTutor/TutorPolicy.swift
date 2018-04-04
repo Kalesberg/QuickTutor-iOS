@@ -227,7 +227,7 @@ class TutorPolicy : BaseViewController {
         if (touchStartView == contentView.tutorAgreementButton) {
             //to website
         } else if (touchStartView == contentView.checkBox) {
-            //after press, disable check box, show loading modal of some sort
+            accepted()
             print("checkbox pressed")
         }
 	}

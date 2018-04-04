@@ -138,7 +138,7 @@ class LearnerMainPage : MainPage {
 			hideSidebar()
 			hideBackground()
 		} else if (touchStartView is SearchBar) {
-			self.present(SearchSubjects(), animated: true, completion: nil)
+			navigationController?.pushViewController(SearchSubjects(), animated: true)
 		}
 	}
 }

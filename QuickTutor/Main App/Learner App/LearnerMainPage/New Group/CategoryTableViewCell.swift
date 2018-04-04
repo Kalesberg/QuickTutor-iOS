@@ -29,7 +29,7 @@ class CategoryTableViewCell : UITableViewCell  {
 		layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 0)
 		layout.scrollDirection = .horizontal
 		layout.minimumInteritemSpacing = 0
-
+		
 		collectionView.collectionViewLayout = layout
 		collectionView.backgroundColor = .clear
 		collectionView.showsVerticalScrollIndicator = false
@@ -48,7 +48,7 @@ class CategoryTableViewCell : UITableViewCell  {
 		categories.shuffle()
 		
 		backgroundColor = .clear
-		
+
 		view = self
 		
 		collectionView.delegate = self
@@ -95,6 +95,7 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 		
 		return cell
 	}
+
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		CategorySelected.title = categories[indexPath.item].mainPageData.displayName
 		navigationController.pushViewController(CategorySearch(), animated: true)

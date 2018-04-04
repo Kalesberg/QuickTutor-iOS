@@ -70,6 +70,7 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 		
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
 		scrollView.showsVerticalScrollIndicator = false
+		scrollView.delaysContentTouches = false
 		
 		aboutMeLabel.label.text = "About Me"
 		aboutMeLabel.label.font = Fonts.createSize(18)

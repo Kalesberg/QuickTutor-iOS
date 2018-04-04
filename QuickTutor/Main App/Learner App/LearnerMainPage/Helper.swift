@@ -146,6 +146,27 @@ class FeaturedTutorView : BaseView {
 	}
 }
 
+struct SubjectStore {
+	static func readJson(resource: String, subjectString: String, completion: @escaping ([String]) -> Void) {
+		do {
+			if let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") {
+				let data = try Data(contentsOf: file)
+				let json = try JSONSerialization.jsonObject(with: data, options: [])
+				if let object = json as? [String : [String]] {
+					if let subjectArray = object[subjectString] {
+						completion(subjectArray)
+					}
+				} else {
+					print("Invalid Json")
+				}
+			} else {
+				print("No File")
+			}
+		} catch {
+			print(error.localizedDescription)
+		}
+	}
+}
 
 enum Category {
 	
@@ -173,6 +194,7 @@ enum Category {
 		let fileToRead : String
 		
 		switch self {
+			
 		case .academics:				displayName = "ACADEMICS"
 										searchBarPhrases = ["search any academic subject"]
 										subcategories = ["Mathematics", "Language Arts", "History", "The Sciences", "Extracurricular","Test Preparation"]
@@ -187,7 +209,7 @@ enum Category {
 			
 		case .auto: 					displayName = "AUTO"
 										searchBarPhrases = ["search anything auto-related"]
-										subcategories = ["Automobiles", "Motor vehicles", "Maintenance", "Repairs", "Upgrades","Design"]
+										subcategories = ["Automobiles", "Motor vehicles", "Maintenance", "Repairs", "Upgrades", "Design"]
 										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
 										fileToRead = "auto"
 			
@@ -205,7 +227,7 @@ enum Category {
 			
 		case .health:					displayName = "HEALTH"
 										searchBarPhrases = ["search health and wellness"]
-										subcategories = ["General", "Illness", "Medicines", "Nutrition", "Physical Exercise","Self Care"]
+										subcategories = ["General", "Illness", "Medicines", "Nutrition", "Physical Exercise","Self-Care"]
 										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
 										fileToRead = "health"
 			
@@ -250,6 +272,7 @@ enum Category {
 	}
 	
 	var mainPageData : MainPageData {
+		
 		let displayName : String
 		let image : UIImage
 		
@@ -270,6 +293,7 @@ enum Category {
 			
 		case .health:					displayName = "Health"
 										image = #imageLiteral(resourceName: "health")
+		
 		case .language:					displayName = "Language"
 										image = #imageLiteral(resourceName: "languages")
 			
@@ -284,6 +308,7 @@ enum Category {
 			
 		case .tech:						displayName = "Tech"
 										image = #imageLiteral(resourceName: "tech")
+		
 		case .trades:					displayName = "Trades"
 										image = #imageLiteral(resourceName: "trades")
 		}

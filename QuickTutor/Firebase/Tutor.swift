@@ -42,10 +42,28 @@ class Tutor {
 			}
 		}
 		geoFire(location: TutorRegistration.location)
+		placeTutor()
+	}
+	
+	public func placeTutor() {
+		
+		var paths : [String] = []
+		var updateValues : [String : Any] = [:]
+		
+		if let subjects = TutorRegistration.subjects {
+			for (_, value) in subjects.enumerated() {
+				print(value)
+				paths.append(value.path)
+			}
+		}
+		for path in paths {
+			updateValues["subcategory/\(path)/\(Auth.auth().currentUser!.uid)"] = ["r" : 5]
+		}
+	    self.ref.root.updateChildValues(updateValues)
 	}
 	
 	public func updateValue(value: [String : Any]) {
-		self.ref.child("tutor").child(user.uid).updateChildValues(value) { (error, reference) in
+		self.ref.child("tutor-info").child(user.uid).updateChildValues(value) { (error, reference) in
 			if let error = error {
 				print(error.localizedDescription)
 			}
@@ -54,6 +72,11 @@ class Tutor {
 	public func geoFire(location: CLLocation) {
 		let geoFire = GeoFire(firebaseRef: ref.child("tutor_loc"))
 		geoFire.setLocation(location, forKey: user.uid)
+	}
+}
+extension Array where Element : Hashable {
+	var unique: [Element] {
+		return Array(Set(self))
 	}
 }
 

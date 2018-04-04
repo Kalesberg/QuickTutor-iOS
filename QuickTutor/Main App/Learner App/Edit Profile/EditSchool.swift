@@ -39,7 +39,6 @@ class EditSchoolView : EditProfileMainLayout {
 		searchBar.searchBarStyle = .minimal
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
 		
-		
 		let textField = searchBar.value(forKey: "searchField") as? UITextField
 		textField?.font = Fonts.createSize(18)
 		textField?.textColor = .white

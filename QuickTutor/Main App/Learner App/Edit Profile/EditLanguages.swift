@@ -153,7 +153,7 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell : CustomLanguageCell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath) as! CustomLanguageCell
 		if shouldUpdateSearchResults {
-			cell.textLabel?.text = (filteredLanguages[indexPath.row] as! String)
+			cell.textLabel?.text = (filteredLanguages[indexPath.row])
 			if selectedCells.contains((cell.textLabel?.text)!) || (currentLanguges?.contains((cell.textLabel?.text)!))! {
 				cell.checkbox.isSelected = true
 			} else{
@@ -161,7 +161,7 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 			}
 		}
 		else {
-			cell.textLabel?.text = (languages[indexPath.row] as! String)
+			cell.textLabel?.text = (languages[indexPath.row])
 			if selectedCells.contains((cell.textLabel?.text)!) || (currentLanguges?.contains((cell.textLabel?.text)!))! {
 				cell.checkbox.isSelected = true
 			} else{
@@ -178,12 +178,13 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 		if self.selectedCells.contains((cell.textLabel?.text)!) {
 			self.selectedCells.remove(at: selectedCells.index(of:(cell.textLabel?.text)!)!)
 			cell.checkbox.isSelected = false
-			tableView.deselectRow(at: indexPath, animated: true)
 		} else {
 			self.selectedCells.append((cell.textLabel?.text)!)
 			cell.checkbox.isSelected = true
-			tableView.deselectRow(at: indexPath, animated: true)
 		}
+		
+		tableView.deselectRow(at: indexPath, animated: true)
+
 		print(self.selectedCells)
 	}
 }

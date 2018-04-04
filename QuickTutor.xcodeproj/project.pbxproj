@@ -39,6 +39,20 @@
 		842394271FF4DCF400827C7D /* RegistrationBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394261FF4DCF400827C7D /* RegistrationBackButton.swift */; };
 		842394291FF4DDAB00827C7D /* RegistrationNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394281FF4DDAB00827C7D /* RegistrationNextButton.swift */; };
 		8423942B1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423942A1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift */; };
+		842576602070295C00FD295B /* AddSubjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425765F2070295C00FD295B /* AddSubjectTableViewCell.swift */; };
+		84257662207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84257661207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift */; };
+		842576642070773D00FD295B /* academics.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576632070773D00FD295B /* academics.json */; };
+		8425766620712B2A00FD295B /* arts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766520712B2A00FD295B /* arts.json */; };
+		8425766820712C3600FD295B /* auto.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766720712C3600FD295B /* auto.json */; };
+		8425766A20712D0300FD295B /* business.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766920712D0300FD295B /* business.json */; };
+		8425766C20712D9E00FD295B /* experiences.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766B20712D9E00FD295B /* experiences.json */; };
+		8425766E20712E6C00FD295B /* health.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766D20712E6C00FD295B /* health.json */; };
+		842576702071309000FD295B /* language.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766F2071309000FD295B /* language.json */; };
+		842576722071310A00FD295B /* outdoors.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576712071310A00FD295B /* outdoors.json */; };
+		84257674207131C800FD295B /* remedial.json in Resources */ = {isa = PBXBuildFile; fileRef = 84257673207131C800FD295B /* remedial.json */; };
+		842576762071325400FD295B /* sports.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576752071325400FD295B /* sports.json */; };
+		84257678207132DD00FD295B /* tech.json in Resources */ = {isa = PBXBuildFile; fileRef = 84257677207132DD00FD295B /* tech.json */; };
+		8425767A2071339500FD295B /* trades.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576792071339500FD295B /* trades.json */; };
 		8425BA08202E1BB100B2C5A7 /* CardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425BA07202E1BB100B2C5A7 /* CardManager.swift */; };
 		8426A1692055B8DD00EAF1A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8426A1682055B8DD00EAF1A8 /* GoogleService-Info.plist */; };
 		8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426A16A2055BC3200EAF1A8 /* Constants.swift */; };
@@ -224,6 +238,20 @@
 		842394261FF4DCF400827C7D /* RegistrationBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationBackButton.swift; sourceTree = "<group>"; };
 		842394281FF4DDAB00827C7D /* RegistrationNextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationNextButton.swift; sourceTree = "<group>"; };
 		8423942A1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldDelegateExtensions.swift; sourceTree = "<group>"; };
+		8425765F2070295C00FD295B /* AddSubjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSubjectTableViewCell.swift; sourceTree = "<group>"; };
+		84257661207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickedSubjectsCollectionViewCell.swift; sourceTree = "<group>"; };
+		842576632070773D00FD295B /* academics.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = academics.json; sourceTree = "<group>"; };
+		8425766520712B2A00FD295B /* arts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = arts.json; sourceTree = "<group>"; };
+		8425766720712C3600FD295B /* auto.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auto.json; sourceTree = "<group>"; };
+		8425766920712D0300FD295B /* business.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = business.json; sourceTree = "<group>"; };
+		8425766B20712D9E00FD295B /* experiences.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = experiences.json; sourceTree = "<group>"; };
+		8425766D20712E6C00FD295B /* health.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = health.json; sourceTree = "<group>"; };
+		8425766F2071309000FD295B /* language.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = language.json; sourceTree = "<group>"; };
+		842576712071310A00FD295B /* outdoors.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = outdoors.json; sourceTree = "<group>"; };
+		84257673207131C800FD295B /* remedial.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = remedial.json; sourceTree = "<group>"; };
+		842576752071325400FD295B /* sports.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sports.json; sourceTree = "<group>"; };
+		84257677207132DD00FD295B /* tech.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tech.json; sourceTree = "<group>"; };
+		842576792071339500FD295B /* trades.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trades.json; sourceTree = "<group>"; };
 		8425BA07202E1BB100B2C5A7 /* CardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManager.swift; sourceTree = "<group>"; };
 		8426A1682055B8DD00EAF1A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8426A16A2055BC3200EAF1A8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -478,9 +506,40 @@
 			path = "Base Classes";
 			sourceTree = "<group>";
 		};
+		8425765E2070292300FD295B /* TutorAddSubjects */ = {
+			isa = PBXGroup;
+			children = (
+				848E643C205A228C000CD921 /* TutorAddSubjects.swift */,
+				8425765F2070295C00FD295B /* AddSubjectTableViewCell.swift */,
+				84257661207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift */,
+				84F245171FDA1127006447A8 /* TutorBio.swift */,
+			);
+			path = TutorAddSubjects;
+			sourceTree = "<group>";
+		};
+		8425767B207133CE00FD295B /* SearchContent */ = {
+			isa = PBXGroup;
+			children = (
+				8425766D20712E6C00FD295B /* health.json */,
+				8425766B20712D9E00FD295B /* experiences.json */,
+				8425766920712D0300FD295B /* business.json */,
+				8425766720712C3600FD295B /* auto.json */,
+				8425766F2071309000FD295B /* language.json */,
+				842576712071310A00FD295B /* outdoors.json */,
+				84257673207131C800FD295B /* remedial.json */,
+				842576752071325400FD295B /* sports.json */,
+				842576632070773D00FD295B /* academics.json */,
+				842576792071339500FD295B /* trades.json */,
+				84257677207132DD00FD295B /* tech.json */,
+				8425766520712B2A00FD295B /* arts.json */,
+			);
+			path = SearchContent;
+			sourceTree = "<group>";
+		};
 		8426A1602055B31F00EAF1A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8425767B207133CE00FD295B /* SearchContent */,
 				8491C29A1FBE62350036FC12 /* AppDelegate.swift */,
 				8491C2A91FBE62350036FC12 /* Info.plist */,
 				8426A1682055B8DD00EAF1A8 /* GoogleService-Info.plist */,
@@ -687,8 +746,7 @@
 			isa = PBXGroup;
 			children = (
 				848E643A2059EE0A000CD921 /* BecomeTutor.swift */,
-				848E643C205A228C000CD921 /* TutorAddSubjects.swift */,
-				84F245171FDA1127006447A8 /* TutorBio.swift */,
+				8425765E2070292300FD295B /* TutorAddSubjects */,
 				84F245191FDA1143006447A8 /* TutorSSN.swift */,
 				8479EA622063E63100C5113E /* TutorAddress.swift */,
 				84F2451B1FDA1183006447A8 /* TutorRegPayment.swift */,
@@ -1031,24 +1089,36 @@
 				849B7FEE206A99BF00E1598A /* remedial.txt in Resources */,
 				849B7FEF206A99BF00E1598A /* health.txt in Resources */,
 				849B7FF0206A99BF00E1598A /* outdoors.txt in Resources */,
+				8425767A2071339500FD295B /* trades.json in Resources */,
+				842576702071309000FD295B /* language.json in Resources */,
 				849B7FF1206A99BF00E1598A /* business.txt in Resources */,
 				849B7FF2206A99BF00E1598A /* arts.txt in Resources */,
 				849B7FF3206A99BF00E1598A /* auto.txt in Resources */,
 				849B7FF4206A99BF00E1598A /* experiences.txt in Resources */,
+				842576642070773D00FD295B /* academics.json in Resources */,
+				8425766E20712E6C00FD295B /* health.json in Resources */,
 				849B7FE2206A997200E1598A /* sports.txt in Resources */,
 				849B7FE3206A997200E1598A /* tech.txt in Resources */,
 				849B7FE4206A997200E1598A /* trades.txt in Resources */,
+				84257678207132DD00FD295B /* tech.json in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
 				8404F001206A9CA800797020 /* academics.txt in Resources */,
 				8454FB561FDCB968007FFAA7 /* Student.storyboard in Resources */,
 				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
+				8425766A20712D0300FD295B /* business.json in Resources */,
+				8425766C20712D9E00FD295B /* experiences.json in Resources */,
+				8425766820712C3600FD295B /* auto.json in Resources */,
 				8454FB5A1FDCBB4F007FFAA7 /* TutorRegistration.storyboard in Resources */,
 				8454FB581FDCB980007FFAA7 /* Tutor.storyboard in Resources */,
+				8425766620712B2A00FD295B /* arts.json in Resources */,
 				845980511FD4FD4B007E9339 /* Lato in Resources */,
 				8426A1692055B8DD00EAF1A8 /* GoogleService-Info.plist in Resources */,
 				84D3A8AD201149DF000C2031 /* Assets.xcassets in Resources */,
+				842576722071310A00FD295B /* outdoors.json in Resources */,
 				845714911FF4EE3E00740C58 /* StudentRegistration.storyboard in Resources */,
+				842576762071325400FD295B /* sports.json in Resources */,
+				84257674207131C800FD295B /* remedial.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1146,6 +1216,7 @@
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
 				84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */,
 				845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */,
+				842576602070295C00FD295B /* AddSubjectTableViewCell.swift in Sources */,
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
@@ -1194,6 +1265,7 @@
 				84052F14206BCCB8007B1248 /* LearnerOther.swift in Sources */,
 				8482AFE3203A9E1300F6F805 /* UIImageViewExtensions.swift in Sources */,
 				840E75C2201E8419006FC580 /* LeanerFileReport.swift in Sources */,
+				84257662207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift in Sources */,
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
 				848809FF20585C3A00F204A0 /* TutorProfilePics.swift in Sources */,
