@@ -94,15 +94,15 @@ class TutorEditProfile : BaseViewController {
     
     @objc
     func rateSliderValueDidChange(_ sender: UISlider!) {
-        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 7, section: 0)) as! EditProfileSliderTableViewCell)
+        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 8, section: 0)) as! EditProfileSliderTableViewCell)
         
         cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
     }
     
     @objc
     func distanceSliderValueDidChange(_ sender: UISlider!) {
-        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 8, section: 0)) as! EditProfileSliderTableViewCell)
-        
+        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 9, section: 0)) as! EditProfileSliderTableViewCell)
+        print("dfgdfg")
         let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
         
         if(value % 5 == 0) {
@@ -220,26 +220,6 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         case 8:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
             
-            cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
-            
-            //set users current value to slider.value and valueLabel.text
-            //cell.slider.value = CGFloat(user.distance)
-            //cell.valueLabel.text = user.distance + " mi"
-            
-            cell.slider.minimumValue = 0
-            cell.slider.maximumValue = 150
-            
-            let formattedString = NSMutableAttributedString()
-            formattedString
-                .bold("Travel Distance  ", 15, .white)
-                .regular("  [0-150 mi]", 15, Colors.grayText)
-            
-            cell.header.attributedText = formattedString
-            
-            return cell
-        case 9:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
-            
             cell.slider.addTarget(self, action: #selector(rateSliderValueDidChange), for: .valueChanged)
             
             //set users current value to slider.value and valueLabel.text
@@ -253,6 +233,26 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             formattedString
                 .bold("Hourly Rate  ", 15, .white)
                 .regular("  [$5-$100]", 15, Colors.grayText)
+            
+            cell.header.attributedText = formattedString
+            
+            return cell
+        case 9:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
+            
+            cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
+            
+            //set users current value to slider.value and valueLabel.text
+            //cell.slider.value = CGFloat(user.distance)
+            //cell.valueLabel.text = user.distance + " mi"
+            
+            cell.slider.minimumValue = 0
+            cell.slider.maximumValue = 150
+            
+            let formattedString = NSMutableAttributedString()
+            formattedString
+                .bold("Travel Distance  ", 15, .white)
+                .regular("  [0-150 mi]", 15, Colors.grayText)
             
             cell.header.attributedText = formattedString
             
