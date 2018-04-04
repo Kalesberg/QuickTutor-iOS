@@ -30,29 +30,38 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
     }
     
     override func applyConstraints() {
+        
+        var height : Int
+        
+        if (UIScreen.main.bounds.height == 568) {
+            height = 67
+        } else {
+            height = 75
+        }
+        
         image1.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.75)
+            make.height.equalTo(height)
             make.width.equalToSuperview().multipliedBy(0.25)
             make.left.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
         image2.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.75)
+            make.height.equalTo(height)
             make.width.equalToSuperview().multipliedBy(0.25)
             make.left.equalTo(image1.snp.right)
             make.centerY.equalToSuperview()
         }
         
         image3.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.75)
+            make.height.equalTo(height)
             make.width.equalToSuperview().multipliedBy(0.25)
             make.left.equalTo(image2.snp.right)
             make.centerY.equalToSuperview()
         }
         
         image4.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.75)
+            make.height.equalTo(height)
             make.width.equalToSuperview().multipliedBy(0.25)
             make.right.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -304,7 +313,16 @@ class EditProfilePreferencesTableViewCell : BaseTableViewCell {
 
 class BaseSlider : UISlider {
     override func trackRect(forBounds bounds: CGRect) -> CGRect {
-        let rect:CGRect = CGRect(x: 0, y: 0, width: 280, height: 12)
+        
+        var width : Int
+        
+        if (UIScreen.main.bounds.height == 568) {
+            width = 240
+        } else {
+            width = 290
+        }
+        
+        let rect:CGRect = CGRect(x: 0, y: 0, width: width, height: 12)
         return rect
     }
 }
@@ -349,6 +367,15 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
     }
     
     override func applyConstraints() {
+        
+        var width : Int
+        
+        if (UIScreen.main.bounds.height == 568) {
+            width = 240
+        } else {
+            width = 290
+        }
+        
         header.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.right.equalToSuperview()
@@ -364,7 +391,7 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
         slider.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(4)
             make.top.equalTo(header.snp.bottom).inset(-20)
-            make.width.equalTo(280)
+            make.width.equalTo(width)
             make.height.equalTo(40)
             make.bottom.equalToSuperview()
         }

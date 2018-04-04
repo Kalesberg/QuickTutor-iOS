@@ -29,6 +29,7 @@ struct Colors {
     static let sidebarPurple = UIColor(hex:"544177")
     static let tutorBlue = UIColor(hex:"3E5486")
     static let yellow = UIColor(hex:"FADA4A")
+    static let lightBlue = UIColor(hex: "6882BC")
 }
 
 struct Fonts {
