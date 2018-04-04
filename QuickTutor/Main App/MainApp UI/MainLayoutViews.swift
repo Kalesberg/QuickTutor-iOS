@@ -12,6 +12,73 @@ import Foundation
 import UIKit
 
 
+class SearchLayoutView : BaseLayoutView {
+	
+	let statusbarView : UIView = {
+		let view = UIView()
+		
+		view.backgroundColor = Colors.registrationDark
+		
+		return view
+	}()
+	
+	
+	let navbar : UIView = {
+		let view = UIView()
+		
+		view.backgroundColor = Colors.registrationDark
+		view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: CGSize(width: 0, height: 3.0), radius: 1.0)
+
+		return view
+	}()
+	
+	let searchTextField = AddSubjectSearchField()
+	
+	var leftButton = NavbarButton()
+	
+	override func configureView() {
+		super.configureView()
+		
+		insertSubview(statusbarView, at: 0)
+		insertSubview(navbar, at: 1)
+		
+		navbar.addSubview(searchTextField)
+		navbar.addSubview(leftButton)
+		
+		backgroundColor = Colors.backgroundDark
+		
+		applyConstraints()
+	}
+	
+	override func applyConstraints() {
+		statusbarView.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.width.equalToSuperview()
+			make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+		}
+		
+		navbar.snp.makeConstraints { (make) in
+			make.top.equalTo(statusbarView.snp.bottom)
+			make.width.equalToSuperview()
+			make.height.equalTo(120)
+		}
+		
+		leftButton.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.left.equalToSuperview()
+			make.height.equalToSuperview().dividedBy(2.6)
+			make.width.equalToSuperview().multipliedBy(0.175)
+		}
+
+		searchTextField.snp.makeConstraints { (make) in
+			make.bottom.equalToSuperview()
+			make.width.equalToSuperview()
+			make.height.equalToSuperview().dividedBy(2)
+			make.centerX.equalToSuperview()
+		}
+	}
+}
+
 class MainLayoutView: BaseLayoutView {
 
     var statusbarView = UIView()

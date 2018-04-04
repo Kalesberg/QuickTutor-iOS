@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TutorCardCollectionViewCell : BaseCollectionCellView {
+class TutorCardCollectionViewCell : BaseCollectionViewCell {
 	
 	required override init(frame: CGRect) {
 		super.init(frame: .zero)
@@ -457,6 +457,12 @@ class ConnectButton : InteractableView, Interactable {
 			make.width.equalToSuperview()
 			make.center.equalToSuperview()
 		}
+	}
+	func touchStart() {
+		alpha = 0.5
+	}
+	func touchEndOnStart() {
+		alpha = 1.0
 	}
 }
 class FullProfile : InteractableView, Interactable {

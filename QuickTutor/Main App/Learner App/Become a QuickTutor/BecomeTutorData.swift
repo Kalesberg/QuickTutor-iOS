@@ -12,7 +12,7 @@ import CoreLocation
 struct TutorRegistration {
 
     static var tutorBio    : String!
-    static var subjects : [String]!
+	static var subjects : [Selected]!
 	static var address : String!
 	static var location : CLLocation!
 	
@@ -26,7 +26,6 @@ struct TutorRegistration {
 	static var line1 : String!
 	static var zipcode : String!
 	static var state : String!
-	
 }
 
 

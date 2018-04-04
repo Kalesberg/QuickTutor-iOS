@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class BaseCollectionCellView : UICollectionViewCell {
+class BaseCollectionViewCell : UICollectionViewCell {
 	public var touchStartView : (UIView & Interactable)? = nil
 	
 	override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -75,7 +75,6 @@ class BaseCollectionCellView : UICollectionViewCell {
 				}
 			}
 		}
-		
 		handleNavigation()
 	}
 	
@@ -96,7 +95,7 @@ class BaseCollectionCellView : UICollectionViewCell {
 }
 
 class BaseScrollView : UIScrollView {
-    
+	
     public var touchStartView : (UIView & Interactable)? = nil
     
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
