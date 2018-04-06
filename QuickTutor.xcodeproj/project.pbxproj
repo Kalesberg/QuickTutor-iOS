@@ -139,6 +139,9 @@
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
 		CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046422206EE3D800BFE898 /* CancelSessionModal.swift */; };
 		CF12D93B20642236004BE148 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12D93A20642236004BE148 /* Session.swift */; };
+		CF1E43C520705F8D0033F845 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C420705F8D0033F845 /* StarView.swift */; };
+		CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */; };
+		CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C8207067860033F845 /* BaseSessionCell.swift */; };
 		CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */; };
 		CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5889205EE68800ACBD32 /* ConversationCell.swift */; };
 		CF6F58BE205EE68800ACBD32 /* ConnectionRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F588B205EE68800ACBD32 /* ConnectionRequestCell.swift */; };
@@ -347,6 +350,9 @@
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
 		CF046422206EE3D800BFE898 /* CancelSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSessionModal.swift; sourceTree = "<group>"; };
 		CF12D93A20642236004BE148 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		CF1E43C420705F8D0033F845 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
+		CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderCell.swift; sourceTree = "<group>"; };
+		CF1E43C8207067860033F845 /* BaseSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionCell.swift; sourceTree = "<group>"; };
 		CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		CF6F5889205EE68800ACBD32 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		CF6F588B205EE68800ACBD32 /* ConnectionRequestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRequestCell.swift; sourceTree = "<group>"; };
@@ -889,6 +895,7 @@
 				CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */,
 				CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */,
 				CF046422206EE3D800BFE898 /* CancelSessionModal.swift */,
+				CF1E43C420705F8D0033F845 /* StarView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -906,6 +913,8 @@
 				CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */,
 				CF8578C72060AB470089B6F0 /* BaseSessionsContentCell.swift */,
 				CF046420206ED3D000BFE898 /* EmptySessionCell.swift */,
+				CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */,
+				CF1E43C8207067860033F845 /* BaseSessionCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1190,6 +1199,7 @@
 				84F2450F1FDA0F59006447A8 /* UploadImage.swift in Sources */,
 				CF6F58EE205EE6B300ACBD32 /* AccountService.swift in Sources */,
 				84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */,
+				CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
 				8479EA652063E66400C5113E /* TutorPolicy.swift in Sources */,
 				84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */,
@@ -1212,6 +1222,7 @@
 				84681F922049F30A00F45DFC /* LocationServices.swift in Sources */,
 				CF6F58BF205EE68800ACBD32 /* SystemMessageCell.swift in Sources */,
 				84880A022058603800F204A0 /* TutorHarassment.swift in Sources */,
+				CF1E43C520705F8D0033F845 /* StarView.swift in Sources */,
 				84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */,
 				CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */,
 				CF6F58C4205EE68800ACBD32 /* QuickChatViewCell.swift in Sources */,
@@ -1352,6 +1363,7 @@
 				CF6F58E5205EE68800ACBD32 /* UserMessage.swift in Sources */,
 				CF6F58C3205EE68800ACBD32 /* BaseMessageCell.swift in Sources */,
 				84E4C7D6204E8434009C2FC4 /* LearnerHandbook.swift in Sources */,
+				CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -63,6 +63,8 @@ class LearnerPageViewController : PageViewController {
         let messaging = MessagesVC() as PageObservation
         messaging.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(messaging as! UIViewController)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
 		
     }
 }

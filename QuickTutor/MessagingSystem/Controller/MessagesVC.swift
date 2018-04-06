@@ -109,13 +109,16 @@ class MessagesVC: UIViewController {
             vc.receiverId = uid
             vc.chatPartner = tutor!
             vc.connectionRequestAccepted = true
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
             self.navigationController?.pushViewController(vc, animated: true)
-        }    }
+        }
+    }
     
     @objc func showCancelModal() {
         addBlackView()
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(alert)
+        alert.delegate = self
         alert.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 207)
         window.addConstraint(NSLayoutConstraint(item: alert, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
     }
@@ -196,5 +199,12 @@ extension MessagesVC: SegmentedViewDelegate {
 extension MessagesVC: PageObservation {
     func getParentPageViewController(parentRef: PageViewController) {
         
+    }
+}
+
+extension MessagesVC: CancelModalDelegate {
+    func handleNevermind() {
+        blackView.removeFromSuperview()
+        alert.removeFromSuperview()
     }
 }

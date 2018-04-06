@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol CancelModalDelegate {
+    func handleNevermind()
+}
+
 class CancelSessionModal: UIView {
+    
+    var delegate: CancelModalDelegate?
     
     let titleBackground: UIView = {
         let view = UIView()
@@ -120,7 +126,7 @@ class CancelSessionModal: UIView {
     }
     
     @objc func handleNevermindButton() {
-        
+        delegate?.handleNevermind()
     }
     
     @objc func handleConfirmButton() {
