@@ -14,6 +14,7 @@ class SearchSubjectsView : SearchLayoutView, Keyboardable {
 	var filters = NavbarButtonLines()
 	var backButton = NavbarButtonX()
 	
+	let headerView = SectionHeader()
 	override var leftButton : NavbarButton {
 		get {
 			return backButton
@@ -77,7 +78,7 @@ class SearchSubjectsView : SearchLayoutView, Keyboardable {
 		addSubview(tableView)
 		addSubview(keyboardView)
 		super.configureView()
-		
+		headerView.backgroundColor = Colors.backgroundDark
 		applyConstraints()
 	}
 	
@@ -103,6 +104,9 @@ class SearchSubjectsView : SearchLayoutView, Keyboardable {
 			make.centerX.equalToSuperview()
 		}
 	}
+	override func layoutSubviews() {
+		layoutIfNeeded()
+	}
 }
 
 class SearchSubjects: BaseViewController {
@@ -118,15 +122,16 @@ class SearchSubjects: BaseViewController {
 	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
 	var initialSetup : Bool = false
-	var initialIndex : IndexPath! = IndexPath(item: 0, section: 0)
-	
+
 	var subjects : [String] = []
-	var subIndex : Int?
+	
 	var automaticScroll : Bool = false
+	
 	var filteredSubjects : [String] = []
+	
 	var shouldUpdateSearchResults = false
 	
-	var selectedCategory : Int = 0 {
+	var selectedCategory : Int = 6 {
 		didSet {
 			DispatchQueue.main.async {
 				self.contentView.collectionView.reloadData()
@@ -136,23 +141,28 @@ class SearchSubjects: BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		categories.shuffle()
-		
+
 		hideKeyboardWhenTappedAround()
-		
 		configureDelegates()
 		
-		// Do any additional setup after loading the view.
+		SubjectStore.readCategory(resource: categories[selectedCategory].subcategory.fileToRead) { (subjects) in
+			self.subjects = subjects
+		}
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
 	}
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		
+		let initialIndex : IndexPath! = IndexPath(item: categories.count / 2, section: 0)
+		
 		if !initialSetup && initialIndex != nil{
 			contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
 			contentView.searchTextField.textField.attributedPlaceholder = NSAttributedString(string: categories[selectedCategory].subcategory.phrase, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-			loadListOfSubjects()
 			initialSetup = true
 		}
 		contentView.collectionView.reloadData()
@@ -171,7 +181,6 @@ class SearchSubjects: BaseViewController {
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(SubjectTableViewCell.self, forCellReuseIdentifier: "subjectTableViewCell")
 		
-		//contentView.searchBar.delegate   = self
 		contentView.searchTextField.textField.delegate = self
 		contentView.searchTextField.textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 		
@@ -181,41 +190,61 @@ class SearchSubjects: BaseViewController {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-	
-	private func loadListOfSubjects() {
-		let pathToFile = Bundle.main.path(forResource: categories[selectedCategory].subcategory.fileToRead, ofType: "txt")
-		if let path = pathToFile {
-			do {
-				let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-				subjects = school.components(separatedBy: ",") as [String]
-			} catch {
-				subjects = []
-			}
-		}
-	}
-	
+
 	@objc private func textFieldDidChange(_ textField: UITextField) {
-		guard let searchString = contentView.searchTextField.textField.text else {
+		automaticScroll = true
+		
+		if textField.text == "" {
+			scrollToTop()
+			filteredSubjects = subjects
+			contentView.tableView.reloadData()
+			automaticScroll = false
 			return
 		}
 
 		shouldUpdateSearchResults = true
-		filteredSubjects = subjects.filter({$0.contains(searchString.lowercased())})
+		filteredSubjects = subjects.filter({$0.contains(textField.text!.lowercased())})
 		contentView.tableView.reloadData()
+		
+		if filteredSubjects.count > 0 {
+			scrollToTop()
+		}
 	}
 	private func tableView(shouldDisplay bool: Bool) {
 		contentView.searchTextField.textField.text = ""
+		
 		UIView.animate(withDuration: 0.5, animations: {
 			self.contentView.collectionView.alpha = bool ? 0.0 : 1.0
 			return
 		})
+		
 		UIView.animate(withDuration: 0.5, animations: {
 			self.contentView.tableView.alpha = bool ? 1.0 : 0.0
 		})
 	}
+	
+	func newCategorySelected(_ indexPath : Int) {
+		
+		UIView.animate(withDuration: 0.5, animations: {
+			self.contentView.collectionView.alpha = 0.0
+			return
+		})
+		
+		selectedCategory = indexPath
+		filteredSubjects = []
+		contentView.tableView.reloadData()
+		
+		UIView.animate(withDuration: 0.5, animations: {
+			self.contentView.collectionView.alpha = 1.0
+			self.contentView.searchTextField.textField.attributedPlaceholder =  NSAttributedString(string: self.categories[self.selectedCategory].subcategory.phrase, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			return
+		})
+	}
+
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX {
 			if shouldUpdateSearchResults {
+				
 				tableView(shouldDisplay: false)
 				shouldUpdateSearchResults = false
 				filteredSubjects = []
@@ -259,30 +288,20 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		
 		if collectionView.tag == 1  {
+			shouldUpdateSearchResults = true
 			newCategorySelected(indexPath.item)
+			SubjectStore.readCategory(resource: categories[selectedCategory].subcategory.fileToRead) { (subjects) in
+				self.subjects = subjects
+			}
+			filteredSubjects = subjects
+			contentView.tableView.reloadData()
+			
 		} else {
-			self.present(TutorConnect(), animated: true, completion: nil)
+			let next = TutorConnect()
+			next.subcategory = categories[selectedCategory].subcategory.subcategories[indexPath.item]
+			self.present(next, animated: true, completion: nil)
 		}
-	}
-	
-	func newCategorySelected(_ indexPath : Int) {
-		
-		loadListOfSubjects()
-		
-		UIView.animate(withDuration: 0.5, animations: {
-			self.contentView.collectionView.alpha = 0.0
-			return
-		})
-		
-		selectedCategory = indexPath
-		
-		UIView.animate(withDuration: 0.5, animations: {
-			self.contentView.collectionView.alpha = 1.0
-			self.contentView.searchTextField.textField.attributedPlaceholder =  NSAttributedString(string: self.categories[self.selectedCategory].subcategory.phrase, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-			return
-		})
 	}
 }
 extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
@@ -295,7 +314,7 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 		if shouldUpdateSearchResults {
 			return filteredSubjects.count
 		}
-		return 0
+		return subjects.count
 	}
 	
 	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -307,7 +326,21 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		self.present(TutorConnect(), animated: true, completion: nil)
+		let subject = tableView.cellForRow(at: indexPath) as! SubjectTableViewCell
+		
+		SubjectStore.findSubCategory(resource: categories[selectedCategory].mainPageData.displayName.lowercased(), subject: subject.subject.text!) { (key) in
+			let next = TutorConnect()
+			next.subject = (key, subject.subject.text!)
+			self.present(next, animated: true, completion: nil)
+		}
+	}
+	
+	internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		return contentView.headerView
+	}
+	
+	internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+		return 50
 	}
 }
 
@@ -318,6 +351,7 @@ extension SearchSubjects : UIPopoverPresentationControllerDelegate {
 }
 
 extension SearchSubjects : UITextFieldDelegate {
+	
 	private func scrollToTop() {
 		contentView.tableView.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)
@@ -330,30 +364,9 @@ extension SearchSubjects : UITextFieldDelegate {
 			self.view.endEditing(true)
 		}
 	}
-	
-	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+
+	internal func textFieldDidBeginEditing(_ textField: UITextField) {
 		shouldUpdateSearchResults = true
 		tableView(shouldDisplay: true)
-//		if subIndex == nil {
-//			contentView.headerView.category.text = categories[selectedCategory].mainPageData.displayName
-//		}
-	}
-	
-	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-		automaticScroll = true
-		
-		if searchText == "" {
-			scrollToTop()
-			filteredSubjects = subjects
-			contentView.tableView.reloadData()
-			automaticScroll = false
-			return
-		}
-		shouldUpdateSearchResults = true
-		filteredSubjects = subjects.filter({$0.contains(searchText.lowercased())})
-		contentView.tableView.reloadData()
-		if filteredSubjects.count > 0 {
-			scrollToTop()
-		}
 	}
 }

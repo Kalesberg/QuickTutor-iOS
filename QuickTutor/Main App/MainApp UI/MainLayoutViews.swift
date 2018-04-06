@@ -11,6 +11,53 @@
 import Foundation
 import UIKit
 
+class AddSubjectSearchField : BaseView {
+	
+	let textField : NoPasteTextField = {
+		let textField = NoPasteTextField()
+		
+		textField.font = Fonts.createSize(16)
+		textField.keyboardAppearance = .dark
+		textField.textColor = .white
+		textField.tintColor = Colors.tutorBlue
+		textField.adjustsFontSizeToFitWidth = true
+		textField.adjustsFontForContentSizeCategory = true
+		textField.attributedPlaceholder = NSAttributedString(string: "What would you like to teach?", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		
+		return textField
+	}()
+	
+	let line : UIView = {
+		let view = UIView()
+		
+		view.backgroundColor = .black
+		
+		return view
+	}()
+	
+	override func configureView() {
+		addSubview(textField)
+		addSubview(line)
+		
+		applyConstraints()
+	}
+	
+	override func applyConstraints() {
+		
+		textField.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.left.equalToSuperview().inset(20)
+			make.right.equalToSuperview().inset(50)
+			make.height.equalToSuperview()
+		}
+		line.snp.makeConstraints { (make) in
+			make.bottom.equalToSuperview()
+			make.height.equalTo(1)
+			make.width.equalToSuperview()
+			make.centerX.equalToSuperview()
+		}
+	}
+}
 
 class SearchLayoutView : BaseLayoutView {
 	

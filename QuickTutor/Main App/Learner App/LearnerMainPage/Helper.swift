@@ -26,14 +26,14 @@ class SectionHeader : BaseView {
 		applyConstraints()
 	}
 	
-    override func applyConstraints() {
-        
-        category.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(15)
-            make.centerY.equalToSuperview().inset(5)
-            make.height.equalToSuperview()
-            make.width.equalToSuperview()
-        }
+	override func applyConstraints() {
+		
+		category.snp.makeConstraints { (make) in
+			make.left.equalToSuperview().inset(15)
+			make.centerY.equalToSuperview().inset(5)
+			make.height.equalToSuperview()
+			make.width.equalToSuperview()
+		}
 	}
 }
 
@@ -42,14 +42,14 @@ class FeaturedTutorView : BaseView {
 	let imageView  : UIImageView = {
 		let imageView = UIImageView()
 		
-        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-            imageView.image = image
-        } else {
-            //set to some arbitrary image.
-        }
+		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+			imageView.image = image
+		} else {
+			//set to some arbitrary image.
+		}
 		//imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
-        imageView.scaleImage()
-        imageView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 3, height: 2), radius: 5)
+		imageView.scaleImage()
+		imageView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 3, height: 2), radius: 5)
 		
 		return imageView
 	}()
@@ -111,7 +111,7 @@ class FeaturedTutorView : BaseView {
 		super.configureView()
 		
 		backgroundColor = Colors.backgroundDark
-
+		
 		applyConstraints()
 	}
 	override func applyConstraints() {
@@ -136,18 +136,18 @@ class FeaturedTutorView : BaseView {
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview().multipliedBy(0.92)
 		}
-//        stars.snp.makeConstraints { (make) in
-//            make.top.equalTo(namePrice.snp.bottom)
-//            make.width.equalToSuperview()
-//            make.height.equalToSuperview().multipliedBy(0.1)
-//            make.centerX.equalToSuperview()
-//        }
-
+		//        stars.snp.makeConstraints { (make) in
+		//            make.top.equalTo(namePrice.snp.bottom)
+		//            make.width.equalToSuperview()
+		//            make.height.equalToSuperview().multipliedBy(0.1)
+		//            make.centerX.equalToSuperview()
+		//        }
+		
 	}
 }
 
 struct SubjectStore {
-	static func readJson(resource: String, subjectString: String, completion: @escaping ([String]) -> Void) {
+	static func readSubcategory(resource: String, subjectString: String, completion: @escaping ([String]) -> Void) {
 		do {
 			if let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") {
 				let data = try Data(contentsOf: file)
@@ -158,6 +158,52 @@ struct SubjectStore {
 					}
 				} else {
 					print("Invalid Json")
+				}
+			} else {
+				print("No File")
+			}
+		} catch {
+			print(error.localizedDescription)
+		}
+	}
+	static func readCategory(resource: String, completion: @escaping ([String]) -> Void) {
+		var category : [String] = []
+		do {
+			if let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") {
+				let data = try Data(contentsOf: file)
+				let json = try JSONSerialization.jsonObject(with: data, options: [])
+				for key in Category.category(for: resource)!.subcategory.subcategories {
+					if let object = json as? [String : [String]] {
+						if let subjectArray = object[key] {
+							category.append(contentsOf: subjectArray)
+						}
+					} else {
+						print("Invalid Json")
+					}
+				}
+				completion(category)
+			} else {
+				print("No File")
+			}
+		} catch {
+			print(error.localizedDescription)
+		}
+	}
+	static func findSubCategory(resource: String, subject: String, completion: @escaping (String) -> Void) {
+		do {
+			if let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") {
+				let data = try Data(contentsOf: file)
+				let json = try JSONSerialization.jsonObject(with: data, options: [])
+				for key in Category.category(for: resource)!.subcategory.subcategories {
+					if let object = json as? [String : [String]] {
+						if let subjectArray = object[key] {
+							if subjectArray.contains(subject) {
+								completion(key)
+							}
+						}
+					} else {
+						print("Invalid Json")
+					}
 				}
 			} else {
 				print("No File")
@@ -196,76 +242,76 @@ enum Category {
 		switch self {
 			
 		case .academics:				displayName = "ACADEMICS"
-										searchBarPhrases = ["search any academic subject"]
-										subcategories = ["Mathematics", "Language Arts", "History", "The Sciences", "Extracurricular","Test Preparation"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "back-button"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "academics"
-
+		searchBarPhrases = ["search any academic subject"]
+		subcategories = ["Mathematics", "Language Arts", "History", "The Sciences", "Extracurricular","Test Preparation"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "back-button"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "academics"
+			
 		case .arts:						displayName = "THE ARTS"
-										searchBarPhrases = ["search for any art"]
-										subcategories = ["Applied Arts", "Art History", "Performing Arts", "Arts Critism", "Visual Arts","Literary Arts"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "arts"
+		searchBarPhrases = ["search for any art"]
+		subcategories = ["Applied Arts", "Art History", "Performing Arts", "Arts Critism", "Visual Arts","Literary Arts"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "arts"
 			
 		case .auto: 					displayName = "AUTO"
-										searchBarPhrases = ["search anything auto-related"]
-										subcategories = ["Automobiles", "Motor vehicles", "Maintenance", "Repairs", "Upgrades", "Design"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "auto"
+		searchBarPhrases = ["search anything auto-related"]
+		subcategories = ["Automobiles", "Motor vehicles", "Maintenance", "Repairs", "Upgrades", "Design"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "auto"
 			
 		case .business:					displayName = "BUSINESS"
-										searchBarPhrases = ["search any business topic"]
-										subcategories = ["Entrepreneurship", "Finance | Law", "Economics | Accounting", "Management", "Information Systems","Marketing | Hospitality"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "business"
+		searchBarPhrases = ["search any business topic"]
+		subcategories = ["Entrepreneurship", "Finance | Law", "Economics | Accounting", "Management", "Information Systems","Marketing | Hospitality"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "business"
 			
 		case .experiences:				displayName = "EXPERIENCES"
-										searchBarPhrases = ["search for any experience"]
-										subcategories = ["Career", "Cooking | Baking", "Creations", "Motivation | Consulting", "Travel Destinations","Fitness"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "experiences"
+		searchBarPhrases = ["search for any experience"]
+		subcategories = ["Career", "Cooking | Baking", "Creations", "Motivation | Consulting", "Travel Destinations","Fitness"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "experiences"
 			
 		case .health:					displayName = "HEALTH"
-										searchBarPhrases = ["search health and wellness"]
-										subcategories = ["General", "Illness", "Medicines", "Nutrition", "Physical Exercise","Self-Care"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "health"
+		searchBarPhrases = ["search health and wellness"]
+		subcategories = ["General", "Illness", "Medicines", "Nutrition", "Physical Exercise","Self-Care"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "health"
 			
 		case .language:					displayName = "LANGUAGE"
-										searchBarPhrases = ["search for any language skill"]
-										subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speech","Writing"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "language"
+		searchBarPhrases = ["search for any language skill"]
+		subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speech","Writing"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "language"
 			
 		case .outdoors: 				displayName = "OUTDOORS"
-										searchBarPhrases = ["discover the outdoors"]
-										subcategories = ["Activities", "Land | Water", "Life Identification", "Survival", "Preparation", "Seasonal"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "outdoors"
+		searchBarPhrases = ["discover the outdoors"]
+		subcategories = ["Activities", "Land | Water", "Life Identification", "Survival", "Preparation", "Seasonal"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "outdoors"
 			
 		case .remedial: 				displayName = "REMEDIAL"
-										searchBarPhrases = ["search for help in anything"]
-										subcategories = ["Conditions", "Development", "Disabilities", "Impairments", "Injuries","Special Education"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "remedial"
+		searchBarPhrases = ["search for help in anything"]
+		subcategories = ["Conditions", "Development", "Disabilities", "Impairments", "Injuries","Special Education"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "remedial"
 			
 		case .sports: 					displayName = "SPORTS"
-										searchBarPhrases = ["search sports and games"]
-										subcategories = ["E-Sports", "Extreme Sports", "Fantasy Sports", "Mind Sports", "Physical Sports","Skills Training"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "sports"
+		searchBarPhrases = ["search sports and games"]
+		subcategories = ["E-Sports", "Extreme Sports", "Fantasy Sports", "Mind Sports", "Physical Sports","Skills Training"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "sports"
 			
 		case .tech:						displayName = "TECH"
-										searchBarPhrases = ["search technological topics"]
-										subcategories = ["Gaming", "Hardware", "IT", "Programming", "Repairs", "Software"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "tech"
+		searchBarPhrases = ["search technological topics"]
+		subcategories = ["Gaming", "Hardware", "IT", "Programming", "Repairs", "Software"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "tech"
 			
 		case .trades:					displayName = "TRADES"
-										searchBarPhrases = ["search for any trade"]
-										subcategories = ["Construction", "General", "Home", "Industrial", "Motive Power", "Services"]
-										icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
-										fileToRead = "trades"
+		searchBarPhrases = ["search for any trade"]
+		subcategories = ["Construction", "General", "Home", "Industrial", "Motive Power", "Services"]
+		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		fileToRead = "trades"
 		}
 		
 		return Subcategory(subcategories: subcategories, icon: icon, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], displayName: displayName, fileToRead: fileToRead)
@@ -278,41 +324,73 @@ enum Category {
 		
 		switch self {
 		case .academics:				displayName = "Academics"
-										image = #imageLiteral(resourceName: "academics")
+		image = #imageLiteral(resourceName: "academics")
 			
 		case .arts:						displayName = "The Arts"
-										image = #imageLiteral(resourceName: "arts")
+		image = #imageLiteral(resourceName: "arts")
 		case .auto: 					displayName = "Auto"
-										image = #imageLiteral(resourceName: "auto")
+		image = #imageLiteral(resourceName: "auto")
 			
 		case .business:					displayName = "Business"
-										image = #imageLiteral(resourceName: "business")
+		image = #imageLiteral(resourceName: "business")
 			
 		case .experiences:				displayName = "Experiences"
-										image = #imageLiteral(resourceName: "experiences")
+		image = #imageLiteral(resourceName: "experiences")
 			
 		case .health:					displayName = "Health"
-										image = #imageLiteral(resourceName: "health")
-		
+		image = #imageLiteral(resourceName: "health")
+			
 		case .language:					displayName = "Language"
-										image = #imageLiteral(resourceName: "languages")
+		image = #imageLiteral(resourceName: "languages")
 			
 		case .outdoors: 				displayName = "Outdoors"
-										image = #imageLiteral(resourceName: "outdoors")
+		image = #imageLiteral(resourceName: "outdoors")
 			
 		case .remedial: 				displayName = "Remedial"
-										image = #imageLiteral(resourceName: "remedial")
+		image = #imageLiteral(resourceName: "remedial")
 			
 		case .sports: 					displayName = "Sports"
-										image = #imageLiteral(resourceName: "sports")
+		image = #imageLiteral(resourceName: "sports")
 			
 		case .tech:						displayName = "Tech"
-										image = #imageLiteral(resourceName: "tech")
-		
+		image = #imageLiteral(resourceName: "tech")
+			
 		case .trades:					displayName = "Trades"
-										image = #imageLiteral(resourceName: "trades")
+		image = #imageLiteral(resourceName: "trades")
 		}
 		return MainPageData(displayName: displayName, image: image)
+	}
+	static func category(for string: String) -> Category? {
+		
+		switch string {
+			
+		case "academics":
+			return .academics
+		case "the arts":
+			return .arts
+		case "auto":
+			return .auto
+		case "business":
+			return .business
+		case "experiences":
+			return .experiences
+		case "health":
+			return .health
+		case "language":
+			return .language
+		case "outdoors":
+			return .outdoors
+		case "remedial":
+			return .remedial
+		case "sports":
+			return .sports
+		case "tech":
+			return .tech
+		case "trades":
+			return .trades
+		default:
+			return nil
+		}
 	}
 }
 

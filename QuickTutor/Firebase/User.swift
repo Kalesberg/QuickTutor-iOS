@@ -68,6 +68,7 @@ class LocalImageCache {
 			}
 		}
 	}
+	
 	func updateImageStored(image: UIImage, number: String) {
 		if let data = UIImagePNGRepresentation(image) {
 			let filename = getDocumentsDirectory().appendingPathComponent("image\(number).png")
@@ -277,7 +278,6 @@ class FirebaseData {
 			}
 		}
 	}
-	
 	deinit {
 		print("FirebaseData has De-initialized")
 	}

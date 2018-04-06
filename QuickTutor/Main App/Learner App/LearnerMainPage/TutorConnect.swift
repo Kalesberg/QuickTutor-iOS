@@ -105,8 +105,31 @@ class TutorConnect : BaseViewController {
 		view = TutorConnectView()
 	}
 	
-	var categories = ["Experiences", "Academics", "Outdoors", "Remedial","Health","Trades","Sports","Tech","Auto","Language","The Arts","Business"]
+	var dataSource : [SpotlightTutor] = [] {
+		didSet {
+			contentView.collectionView.reloadData()
+		}
+	}
 	
+	var subcategory : String! {
+		didSet {
+//			SpotlightTutor.shared.queryBySubcategory(subcategory: subcategory) { (tutors) in
+//				if let tutors = tutors {
+//					self.dataSource = tutors
+//				}
+//			}
+		}
+	}
+	var subject : (String, String)! {
+		didSet {
+			SpotlightTutor.shared.queryBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
+				if let tutors = tutors {
+					self.dataSource = tutors
+				}
+			}
+		}
+	}
+
 	private var startingScrollingOffset = CGPoint.zero
 
 	override func viewDidLoad() {
@@ -130,6 +153,7 @@ class TutorConnect : BaseViewController {
 		}
 	}
 }
+
 extension TutorConnect : UIPopoverPresentationControllerDelegate {
 	func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
 		return .none
@@ -138,7 +162,7 @@ extension TutorConnect : UIPopoverPresentationControllerDelegate {
 
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 20
+		return dataSource.count
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
