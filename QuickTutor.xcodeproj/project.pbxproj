@@ -103,6 +103,7 @@
 		8476C6A62053714400B55C8F /* SignInHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8476C6A52053714400B55C8F /* SignInHandler.swift */; };
 		8479EA632063E63100C5113E /* TutorAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA622063E63100C5113E /* TutorAddress.swift */; };
 		8479EA652063E66400C5113E /* TutorPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA642063E66400C5113E /* TutorPolicy.swift */; };
+		847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */; };
 		847CF8E8202A7738003BB4FA /* UIScrollViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847CF8E7202A7738003BB4FA /* UIScrollViewExtensions.swift */; };
 		847D77A91FBE6B69009F4D42 /* Verification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D77A81FBE6B69009F4D42 /* Verification.swift */; };
 		8482AFE12038C27000F6F805 /* EditBio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8482AFE02038C27000F6F805 /* EditBio.swift */; };
@@ -305,6 +306,7 @@
 		8476C6A52053714400B55C8F /* SignInHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInHandler.swift; sourceTree = "<group>"; };
 		8479EA622063E63100C5113E /* TutorAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddress.swift; sourceTree = "<group>"; };
 		8479EA642063E66400C5113E /* TutorPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPolicy.swift; sourceTree = "<group>"; };
+		847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCells.swift; sourceTree = "<group>"; };
 		847CF8E7202A7738003BB4FA /* UIScrollViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewExtensions.swift; sourceTree = "<group>"; };
 		847D77A81FBE6B69009F4D42 /* Verification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verification.swift; sourceTree = "<group>"; };
 		8482AFE02038C27000F6F805 /* EditBio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBio.swift; sourceTree = "<group>"; };
@@ -885,6 +887,7 @@
 				84CFDDEF207357AB001CA9BF /* TutorRatings.swift */,
 				84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */,
 				84CFDDF3207357C1001CA9BF /* TutorLeaderboards.swift */,
+				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
 			);
 			path = "Tutor Main Page";
 			sourceTree = "<group>";
@@ -1325,6 +1328,7 @@
 				848809FD2057875700F204A0 /* TutorTips.swift in Sources */,
 				848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBio.swift in Sources */,
+				847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,
 				845A39FF1FFC22CF00226B25 /* GeoHash.swift in Sources */,

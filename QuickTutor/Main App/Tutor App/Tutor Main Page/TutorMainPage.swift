@@ -151,14 +151,14 @@ class TutorMainPageView : MainPageView {
         improveItem.snp.makeConstraints { (make) in
             make.top.equalTo(earningsButton.snp.bottom).inset(-50)
             make.height.equalTo(height)
-            make.width.equalToSuperview().inset(-2)
+            make.width.equalToSuperview().inset(-4)
             make.centerX.equalToSuperview()
         }
         
         usernameItem.snp.makeConstraints { (make) in
             make.top.equalTo(improveItem.snp.bottom).inset(1)
             make.height.equalTo(height)
-            make.width.equalToSuperview().inset(-2)
+            make.width.equalToSuperview().inset(-4)
             make.centerX.equalToSuperview()
         }
         
@@ -637,6 +637,75 @@ class TutorMainPage : MainPage {
             
         } else if (touchStartView == contentView.shareUsernameModal.emailImage) {
             
+        }
+    }
+}
+
+class TutorHeaderLayoutView : TutorLayoutView {
+    
+    let headerLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(38)
+        
+        return label
+    }()
+    
+    let subHeaderLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createSize(14)
+        
+        return label
+    }()
+    
+    let imageView = UIImageView()
+    let headerContainer = UIView()
+    let infoContainer : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = Colors.registrationDark
+        view.layer.borderWidth = 1
+        view.layer.borderColor = Colors.divider.cgColor
+        
+        return view
+    }()
+    
+    override func configureView() {
+        addSubview(headerContainer)
+        headerContainer.addSubview(headerLabel)
+        headerContainer.addSubview(imageView)
+        addSubview(subHeaderLabel)
+        addSubview(infoContainer)
+        super.configureView()
+    }
+    
+    override func applyConstraints() {
+        super.applyConstraints()
+        
+        headerContainer.snp.makeConstraints { (make) in
+            make.top.equalTo(navbar.snp.bottom).inset(-40)
+            make.height.equalTo(50)
+            make.left.equalTo(imageView)
+            make.right.equalTo(headerLabel)
+            make.centerX.equalToSuperview()
+        }
+        
+        headerLabel.snp.makeConstraints { (make) in
+            make.right.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        imageView.snp.makeConstraints { (make) in
+            make.right.equalTo(headerLabel.snp.left).inset(-15)
+            make.centerY.equalToSuperview()
+        }
+        
+        subHeaderLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(headerContainer.snp.bottom).inset(-15)
+            make.centerX.equalToSuperview()
         }
     }
 }
