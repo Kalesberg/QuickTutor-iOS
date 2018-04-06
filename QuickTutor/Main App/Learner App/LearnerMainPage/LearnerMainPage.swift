@@ -8,9 +8,126 @@
 // BUG :: Tableview 'Jumps' when switching sizing from the Category cell to the featuredTutor cell.
 	// only happens when scrolling back up to top.
 
-
 import Foundation
 import UIKit
+import Firebase
+
+var spotlights = [Category : [SpotlightTutor]]()
+var category = [Category]()
+
+struct SpotlightTutor {
+
+	var ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
+
+	static let shared = SpotlightTutor()
+	
+	var name   : String!
+	var image  : String!
+	var region : String!
+	var topic  : String!
+	var price  : String!
+
+	public func queryFeaturedTutor(_ completion: @escaping (Error?) -> Void) {
+		
+		let dispatch = DispatchGroup()
+		
+		for category in Category.categories {
+			
+			var tutors : [SpotlightTutor] = []
+			let categoryString = category.mainPageData.displayName.lowercased()
+			
+			dispatch.enter()
+			
+			self.ref.child("spotlight").queryOrdered(byChild: "t").queryEqual(toValue: categoryString).queryLimited(toFirst: 20).observeSingleEvent(of: .value) { (snapshot) in
+				
+				for snap in snapshot.children {
+					
+					let child = snap as! DataSnapshot
+					let value = child.value as? NSDictionary
+					var tutor = SpotlightTutor.shared
+					
+					tutor.name   = value?["name"  ] as! String
+					tutor.image  = value?["image" ] as! String
+					tutor.price  = value?["price" ] as! String
+					tutor.region = value?["region"] as! String
+					tutor.topic  = value?["t"     ] as! String
+					
+					tutors.append(tutor)
+				}
+				spotlights[Category.category(for: categoryString)!] = tutors
+				dispatch.leave()
+			}
+		}
+		dispatch.notify(queue: .main) {
+			category = Category.categories.shuffled()
+			completion(nil)
+		}
+	}
+	func queryByCategory(category: Category, _ completion: @escaping ([SpotlightTutor]?) -> Void) {
+		
+		var tutors : [SpotlightTutor] = []
+		
+		self.ref.child("spotlight").queryOrdered(byChild: "t").queryEqual(toValue: category.mainPageData.displayName.lowercased()).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
+			
+			for snap in snapshot.children {
+				
+				let child = snap as! DataSnapshot
+				let value = child.value as? NSDictionary
+				
+				var tutor = SpotlightTutor.shared
+				
+				tutor.name   = value?["name"  ] as! String
+				tutor.image  = value?["image" ] as! String
+				tutor.price  = value?["price" ] as! String
+				tutor.region = value?["region"] as! String
+				tutor.topic  = value?["t"     ] as! String
+				
+				tutors.append(tutor)
+				
+				completion(tutors)
+			}
+		}
+	}
+	func queryBySubject(subcategory: String, subject: String, _ completion: @escaping ([SpotlightTutor]?) -> Void) {
+		
+		var uids : [String]
+		//we will need to create codes for every subject so that we can query a range of similar subjects...
+		self.ref.child(subcategory).queryOrdered(byChild: "r").queryEqual(toValue: 5).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
+			
+			for snap in snapshot.children {
+				let child = snap as! DataSnapshot
+				print(child.key)
+				
+			}
+		}
+	}
+//	func queryBySubcategory(subcategory: String, _ completion: @escaping ([SpotlightTutor]?) -> Void) {
+//
+//		var tutors : [String] = []
+//		//pull people from the subcategory selected.
+//		self.ref.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "t").queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
+//
+//			for snap in snapshot.children {
+//				let child = snap as! DataSnapshot
+//				self.ref.child("tutor-info").child(child.key).observeSingleEvent(of: .value, with: { (snapshot) in
+//					var tutor = SpotlightTutor.shared
+//					let value = child.value as? NSDictionary
+//
+//					tutor.name   = value?["nm"  ] as! String
+//					tutor.image  = value?["img" ] as! String
+//					tutor.price  = value?["" ] as! String
+//					tutor.region = value?["region"] as! String
+//					tutor.topic  = value?["t"     ] as! String
+//
+//					tutors.append(tutor)
+//
+//					completion(tutors)
+//
+//				})
+//			}
+//		}
+//	}
+}
 
 class LearnerMainPageView : MainPageView {
 	
@@ -24,7 +141,7 @@ class LearnerMainPageView : MainPageView {
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
 		tableView.estimatedSectionHeaderHeight = 30
-
+		tableView.translatesAutoresizingMaskIntoConstraints = true
 		return tableView
 	}()
 	
@@ -76,11 +193,9 @@ class LearnerMainPage : MainPage {
 		view = LearnerMainPageView()
 	}
 	
-	var categories = ["Categories","Experiences", "Academics", "Outdoors", "Remedial","Health","Trades","Sports","Tech","Auto","Language","The Arts","Business"]
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+
 		configureView()
 		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
 			contentView.sidebar.profileView.profilePicView.image = image
@@ -90,13 +205,17 @@ class LearnerMainPage : MainPage {
 		super.viewDidLayoutSubviews()
 		
 		contentView.sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.sidebar.bounds)
+		contentView.tableView.layoutSubviews()
+		contentView.tableView.layoutIfNeeded()
 		contentView.tableView.reloadData()
 	}
+	
 	override func updateSideBar() {
 		contentView.sidebar.profileView.profileNameView.label.text = user.name
 		contentView.sidebar.profileView.profileSchoolView.label.text = user.school
 		contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
 	}
+	
 	private func configureView() {
 		
 		contentView.tableView.delegate = self
@@ -105,7 +224,7 @@ class LearnerMainPage : MainPage {
 		contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "featuredCell")
 		contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
 	}
-	
+
 	override func handleNavigation() {
 		super.handleNavigation()
 		
@@ -160,9 +279,11 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
+			
 			return cell
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
+			cell.sectionIndex = indexPath.section
 			return cell
 		}
 	}
@@ -173,8 +294,11 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = SectionHeader()
-		view.category.text = categories[section]
-        
+		if section == 0 {
+			view.category.text = "Category"
+		} else {
+			view.category.text = category[section - 1].mainPageData.displayName
+		}
 		return view
 	}
 	
@@ -185,6 +309,4 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
-
 }
-

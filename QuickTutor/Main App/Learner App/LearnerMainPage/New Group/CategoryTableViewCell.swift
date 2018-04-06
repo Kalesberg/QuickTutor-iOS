@@ -38,14 +38,10 @@ class CategoryTableViewCell : UITableViewCell  {
 		return collectionView
 	}()
 	
-	var categories : [Category] = [.experiences, .academics, .outdoors, .remedial, .health, .trades, .sports,.tech , .auto, .language, .arts, .business]
-	
 	var view : UIView!
 	
 	func configureTableViewCell() {
 		addSubview(collectionView)
-		
-		categories.shuffle()
 		
 		backgroundColor = .clear
 
@@ -90,15 +86,17 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoryCollectionViewCell
 		
-		cell.label.text = categories[indexPath.row].mainPageData.displayName
-		cell.imageView.image = categories[indexPath.row].mainPageData.image
+		cell.label.text = category[indexPath.row].mainPageData.displayName
+		cell.imageView.image = category[indexPath.row].mainPageData.image
 		
 		return cell
 	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		CategorySelected.title = categories[indexPath.item].mainPageData.displayName
-		navigationController.pushViewController(CategorySearch(), animated: true)
+		CategorySelected.title = category[indexPath.item].mainPageData.displayName
+		let next = CategorySearch()
+		next.category = category[indexPath.item]
+		navigationController.pushViewController(next, animated: true)
 	}
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		

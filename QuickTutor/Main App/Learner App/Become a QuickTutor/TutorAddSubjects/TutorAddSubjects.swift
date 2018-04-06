@@ -220,6 +220,7 @@ class TutorAddSubjects : BaseViewController {
 	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
 	var selectedSubjects : [String] = []
+	
 	var automaticScroll : Bool = false
 	
 	var initialSetup : Bool = false
@@ -229,6 +230,7 @@ class TutorAddSubjects : BaseViewController {
 	var index : Int = 0
 	
 	var subjects : [String] = []
+	
 	var filteredSubjects : [String] = []
 	
 	var selected : [Selected] = []
@@ -245,7 +247,6 @@ class TutorAddSubjects : BaseViewController {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
-		contentView.searchBar.delegate = self
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -353,8 +354,7 @@ class TutorAddSubjects : BaseViewController {
 				subIndex = nil
 				contentView.tableView.reloadData()
 				self.dismissKeyboard()
-			}
-			else{
+			} else{
 				self.dismissKeyboard()
 				navigationController?.popViewController(animated: true)
 			}
@@ -418,12 +418,12 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
 			
 			shouldUpdateSearchResults = true
 			
-			SubjectStore.readJson(resource: categories[selectedCategory].subcategory.fileToRead, subjectString: categories[selectedCategory].subcategory.subcategories[indexPath.item]) { (subjects) in
+			SubjectStore.readSubcategory(resource: categories[selectedCategory].subcategory.fileToRead, subjectString: categories[selectedCategory].subcategory.subcategories[indexPath.item]) { (subjects) in
 				self.subjects = subjects
 			}
 			
-			self.filteredSubjects = subjects
-			self.contentView.tableView.reloadData()
+			filteredSubjects = subjects
+			contentView.tableView.reloadData()
 			
 			contentView.searchBar.isHidden = false
 			tableView(shouldDisplay: true)
@@ -566,50 +566,4 @@ extension TutorAddSubjects : UISearchBarDelegate, UIScrollViewDelegate {
 	}
 }
 
-class AddSubjectSearchField : BaseView {
-	
-	let textField : NoPasteTextField = {
-		let textField = NoPasteTextField()
-		
-		textField.font = Fonts.createSize(16)
-		textField.keyboardAppearance = .dark
-		textField.textColor = .white
-		textField.tintColor = Colors.tutorBlue
-		textField.adjustsFontSizeToFitWidth = true
-		textField.adjustsFontForContentSizeCategory = true
-		textField.attributedPlaceholder = NSAttributedString(string: "What would you like to teach?", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		
-		return textField
-	}()
-	
-	let line : UIView = {
-		let view = UIView()
-		
-		view.backgroundColor = .black
-		
-		return view
-	}()
-	
-	override func configureView() {
-		addSubview(textField)
-		addSubview(line)
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		
-		textField.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.left.equalToSuperview().inset(20)
-			make.right.equalToSuperview().inset(50)
-			make.height.equalToSuperview()
-		}
-		line.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview()
-			make.height.equalTo(1)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-		}
-	}
-}
+
