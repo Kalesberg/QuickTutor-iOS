@@ -42,19 +42,18 @@ class SubjectCollectionViewCell : UICollectionViewCell {
 		addSubview(imageView)
 		addSubview(label)
 		
-		contentView.backgroundColor = .blue
+		contentView.backgroundColor = Colors.tutorBlue
 		contentView.layer.cornerRadius = 5
-		contentView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5.0)
+		//contentView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5.0)
 		
 		applyConstraints()
 	}
 	
 	func applyConstraints(){
 		imageView.snp.makeConstraints { (make) in
-			make.top.equalToSuperview().inset(10)
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.8)
 			make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().inset(-10)
+            make.height.width.equalToSuperview().multipliedBy(0.7)
 		}
 		label.snp.makeConstraints { (make) in
 			make.top.equalTo(imageView.snp.bottom)

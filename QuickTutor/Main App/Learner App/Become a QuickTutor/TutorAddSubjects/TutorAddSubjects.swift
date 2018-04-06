@@ -21,11 +21,9 @@ struct Selected {
 	let subject : String
 }
 
-class TutorAddSubjectsView : MainLayoutOneButton, Keyboardable {
+class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
-	var backButton = NavbarButtonX()
-	var nextButton = RegistrationNextButton()
 	
 	let headerView = SectionHeader()
 	
@@ -99,7 +97,6 @@ class TutorAddSubjectsView : MainLayoutOneButton, Keyboardable {
 		layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 1)
 		layout.scrollDirection = .horizontal
 		layout.minimumInteritemSpacing = 0.0
-		layout.itemSize.width = 100
 		
 		collectionView.collectionViewLayout = layout
 		collectionView.backgroundColor = .clear
@@ -126,19 +123,27 @@ class TutorAddSubjectsView : MainLayoutOneButton, Keyboardable {
 		return tblView
 	}()
 	
+    var backButton = NavbarButtonBack()
+    var doneButton = NavbarButtonDone()
+    
 	override var leftButton : NavbarButton {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonX
+			backButton = newValue as! NavbarButtonBack
 		}
 	}
+    
+    override var rightButton : NavbarButton {
+        get {
+            return doneButton
+        } set {
+            doneButton = newValue as! NavbarButtonDone
+        }
+    }
 	
 	override func configureView() {
-		navbar.addSubview(backButton)
-		navbar.addSubview(searchBar)
 		addSubview(noSelectedItemsLabel)
-		addSubview(nextButton)
 		addSubview(collectionView)
 		addSubview(categoryCollectionView)
 		addSubview(pickedCollectionView)
@@ -163,13 +168,13 @@ class TutorAddSubjectsView : MainLayoutOneButton, Keyboardable {
 		}
 		noSelectedItemsLabel.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-10)
-			make.height.equalTo(50)
+			make.height.equalTo(45)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
 		pickedCollectionView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-10)
-			make.height.equalTo(50)
+			make.height.equalTo(45)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
@@ -184,18 +189,12 @@ class TutorAddSubjectsView : MainLayoutOneButton, Keyboardable {
 			make.top.equalTo(collectionView.snp.bottom).inset(-10)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-			make.height.equalTo(30)
+			make.height.equalTo(35)
 		}
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-10)
 			make.bottom.equalTo(safeAreaLayoutGuide)
 			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-		}
-		nextButton.snp.makeConstraints { (make) in
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
-			make.width.equalToSuperview()
-			make.height.equalTo(60)
 			make.centerX.equalToSuperview()
 		}
 	}
@@ -363,7 +362,6 @@ class TutorAddSubjects : BaseViewController {
 			navigationController?.pushViewController(TutorBio(), animated: true)
 		}
 	}
-
 }
 
 extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -382,10 +380,10 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
 		if collectionView.tag == 0 {
 			return contentView.customLayout.itemSize
 		} else if collectionView.tag == 1 {
-			return CGSize(width: 100, height: 30)
+			return CGSize(width: (categories[indexPath.item].subcategory.displayName as NSString).size(withAttributes: nil).width + 30, height: 35)
 		} else {
 			if selectedSubjects.count > 0 {
-				return CGSize(width: (selectedSubjects[indexPath.row] as NSString).size(withAttributes: nil).width + 30, height: 30)
+				return CGSize(width: (selectedSubjects[indexPath.row] as NSString).size(withAttributes: nil).width + 35, height: 30)
 			} else {
 				return CGSize(width: 60, height: 30)
 			}

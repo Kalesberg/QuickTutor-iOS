@@ -26,7 +26,7 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 		
 		label.textColor = .white
 		label.textAlignment = .center
-		label.font = Fonts.createSize(15)
+		label.font = Fonts.createSize(14)
 		label.alpha = 0.6
 		
 		return label
@@ -35,10 +35,9 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 	let dot : UIView = {
 		let view = UIView()
 		
-		view.layer.cornerRadius = view.frame.size.height / 2
 		view.clipsToBounds = true
-		view.layer.borderColor = UIColor.white.cgColor
-		view.layer.borderWidth = 5.0
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 3
 		
 		return view
 	}()
@@ -62,14 +61,12 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 	
 	func applyConstraints(){
 		category.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.9)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            make.centerY.equalToSuperview()
 		}
 		dot.snp.makeConstraints { (make) in
-			make.top.equalTo(category.snp.bottom)
-			make.height.width.equalToSuperview().multipliedBy(0.1)
+			make.top.equalTo(category.snp.bottom).inset(-3)
+			make.height.width.equalTo(6)
 			make.centerX.equalToSuperview()
 		}
 	}

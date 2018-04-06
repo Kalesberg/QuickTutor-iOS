@@ -160,3 +160,12 @@ class NavbarButtonSave: NavbarButtonText {
         label.label.text = "Save"
     }
 }
+
+class NavbarButtonDone: NavbarButtonText {
+    
+    override func configureView() {
+        super.configureView()
+        
+        label.label.text = "Done"
+    }
+}
