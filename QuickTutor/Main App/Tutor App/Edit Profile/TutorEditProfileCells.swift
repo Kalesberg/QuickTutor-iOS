@@ -319,7 +319,7 @@ class BaseSlider : UISlider {
         if (UIScreen.main.bounds.height == 568) {
             width = 240
         } else {
-            width = 290
+            width = 280
         }
         
         let rect:CGRect = CGRect(x: 0, y: 0, width: width, height: 12)

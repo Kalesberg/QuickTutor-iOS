@@ -628,6 +628,7 @@ class RatingTableViewCell : BaseTableViewCell {
         applyConstraints()
         
         backgroundColor = .clear
+        selectionStyle = .none
     }
     
     override func applyConstraints() {
