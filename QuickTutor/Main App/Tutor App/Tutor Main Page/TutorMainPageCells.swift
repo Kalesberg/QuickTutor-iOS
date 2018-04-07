@@ -206,13 +206,18 @@ class TutorMainPageTopSubjectCell : BaseTableViewCell {
         return label
     }()
     
+    let icon = UIImageView()
+    
     override func configureView() {
         addSubview(topSubjectsLabel)
         addSubview(subjectLabel)
+        addSubview(icon)
         super.configureView()
 
         backgroundColor = Colors.registrationDark
         selectionStyle = .none
+        
+        icon.image = #imageLiteral(resourceName: "mathematics")
         
         applyConstraints()
     }
@@ -225,6 +230,12 @@ class TutorMainPageTopSubjectCell : BaseTableViewCell {
         
         subjectLabel.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().inset(8)
+            make.centerX.equalToSuperview()
+        }
+        
+        icon.snp.makeConstraints { (make) in
+            make.width.height.equalTo(70)
+            make.centerY.equalToSuperview().inset(-5)
             make.centerX.equalToSuperview()
         }
     }
