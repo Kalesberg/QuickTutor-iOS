@@ -243,74 +243,74 @@ enum Category {
 			
 		case .academics:				displayName = "ACADEMICS"
 		searchBarPhrases = ["search any academic subject"]
-		subcategories = ["Mathematics", "Language Arts", "History", "The Sciences", "Extracurricular","Test Preparation"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "back-button"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular","Test Preparation"]
+		icon = [#imageLiteral(resourceName: "mathematics") ,#imageLiteral(resourceName: "language-arts"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "extracurricular"),#imageLiteral(resourceName: "test-prep")]
 		fileToRead = "academics"
 			
 		case .arts:						displayName = "THE ARTS"
 		searchBarPhrases = ["search for any art"]
 		subcategories = ["Applied Arts", "Art History", "Performing Arts", "Arts Critism", "Visual Arts","Literary Arts"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "applied-arts"),#imageLiteral(resourceName: "history"),#imageLiteral(resourceName: "performing"),#imageLiteral(resourceName: "art-criticism"),#imageLiteral(resourceName: "visual-arts"),#imageLiteral(resourceName: "literacy")]
 		fileToRead = "arts"
 			
 		case .auto: 					displayName = "AUTO"
 		searchBarPhrases = ["search anything auto-related"]
 		subcategories = ["Automobiles", "Motor vehicles", "Maintenance", "Repairs", "Upgrades", "Design"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "automobiles"),#imageLiteral(resourceName: "motor-vehicles"),#imageLiteral(resourceName: "maintenance"),#imageLiteral(resourceName: "repairs"),#imageLiteral(resourceName: "upgrades"),#imageLiteral(resourceName: "design")]
 		fileToRead = "auto"
 			
 		case .business:					displayName = "BUSINESS"
 		searchBarPhrases = ["search any business topic"]
 		subcategories = ["Entrepreneurship", "Finance | Law", "Economics | Accounting", "Management", "Information Systems","Marketing | Hospitality"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "entrepreneurship"),#imageLiteral(resourceName: "finance-law"),#imageLiteral(resourceName: "economics-accounting"),#imageLiteral(resourceName: "management"),#imageLiteral(resourceName: "it"),#imageLiteral(resourceName: "marketing-hospitality")]
 		fileToRead = "business"
 			
 		case .experiences:				displayName = "EXPERIENCES"
 		searchBarPhrases = ["search for any experience"]
-		subcategories = ["Career", "Cooking | Baking", "Creations", "Motivation | Consulting", "Travel Destinations","Fitness"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		subcategories = ["Career", "Cooking | Baking", "Volunteering", "Motivation | Consulting", "Travel Destinations","Fitness"]
+		icon = [#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "volunteering"),#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "fitness")]
 		fileToRead = "experiences"
 			
 		case .health:					displayName = "HEALTH"
 		searchBarPhrases = ["search health and wellness"]
 		subcategories = ["General", "Illness", "Medicines", "Nutrition", "Physical Exercise","Self-Care"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "general"),#imageLiteral(resourceName: "illness"),#imageLiteral(resourceName: "medicine"),#imageLiteral(resourceName: "nutrition"),#imageLiteral(resourceName: "physical-sports"),#imageLiteral(resourceName: "selfcare")]
 		fileToRead = "health"
 			
 		case .language:					displayName = "LANGUAGE"
 		searchBarPhrases = ["search for any language skill"]
 		subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speech","Writing"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "esl"),#imageLiteral(resourceName: "listening"),#imageLiteral(resourceName: "reading"),#imageLiteral(resourceName: "sign-language"),#imageLiteral(resourceName: "speech"),#imageLiteral(resourceName: "writing")]
 		fileToRead = "language"
 			
 		case .outdoors: 				displayName = "OUTDOORS"
 		searchBarPhrases = ["discover the outdoors"]
 		subcategories = ["Activities", "Land | Water", "Life Identification", "Survival", "Preparation", "Seasonal"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "activities"),#imageLiteral(resourceName: "land-water"),#imageLiteral(resourceName: "life-identity"),#imageLiteral(resourceName: "survival"),#imageLiteral(resourceName: "preperation"),#imageLiteral(resourceName: "seasonal")]
 		fileToRead = "outdoors"
 			
 		case .remedial: 				displayName = "REMEDIAL"
 		searchBarPhrases = ["search for help in anything"]
 		subcategories = ["Conditions", "Development", "Disabilities", "Impairments", "Injuries","Special Education"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "conditions"),#imageLiteral(resourceName: "development"),#imageLiteral(resourceName: "disabilities"),#imageLiteral(resourceName: "impairments"),#imageLiteral(resourceName: "injuries"),#imageLiteral(resourceName: "special-education")]
 		fileToRead = "remedial"
 			
 		case .sports: 					displayName = "SPORTS"
 		searchBarPhrases = ["search sports and games"]
 		subcategories = ["E-Sports", "Extreme Sports", "Fantasy Sports", "Mind Sports", "Physical Sports","Skills Training"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "esports"),#imageLiteral(resourceName: "extreme-sports"),#imageLiteral(resourceName: "fantasy-sports"),#imageLiteral(resourceName: "mind-sports"),#imageLiteral(resourceName: "physical-sports"),#imageLiteral(resourceName: "skill-training")]
 		fileToRead = "sports"
 			
 		case .tech:						displayName = "TECH"
 		searchBarPhrases = ["search technological topics"]
 		subcategories = ["Gaming", "Hardware", "IT", "Programming", "Repairs", "Software"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "gaming"),#imageLiteral(resourceName: "hardware"),#imageLiteral(resourceName: "it"),#imageLiteral(resourceName: "programming"),#imageLiteral(resourceName: "repairs"),#imageLiteral(resourceName: "software")]
 		fileToRead = "tech"
 			
 		case .trades:					displayName = "TRADES"
 		searchBarPhrases = ["search for any trade"]
 		subcategories = ["Construction", "General", "Home", "Industrial", "Motive Power", "Services"]
-		icon = [#imageLiteral(resourceName: "registration-add-image"),#imageLiteral(resourceName: "sidebar-payment"),#imageLiteral(resourceName: "yellow-star"),#imageLiteral(resourceName: "navbar-search"),#imageLiteral(resourceName: "fb-signin"),#imageLiteral(resourceName: "navbar-x")]
+		icon = [#imageLiteral(resourceName: "construction"),#imageLiteral(resourceName: "general"),#imageLiteral(resourceName: "home"),#imageLiteral(resourceName: "industry"),#imageLiteral(resourceName: "motive-power"),#imageLiteral(resourceName: "services")]
 		fileToRead = "trades"
 		}
 		
