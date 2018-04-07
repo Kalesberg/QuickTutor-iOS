@@ -42,26 +42,26 @@ class Stripe {
 		
 		let data = LearnerData.userData
 		let dob = data.birthday.split(separator: "/")
-		let name = data.name.split(separator: " ")
+		let name = data.name!.split(separator: " ")
 		
 		let params : [String : Any] = [
 			"country" : "US",
 			"type": "custom",
-			"city": TutorRegistration.city,
-			"line1": TutorRegistration.line1,
-			"zipcode": TutorRegistration.zipcode,
-			"state": TutorRegistration.state,
+			"city": TutorRegistration.city!,
+			"line1": TutorRegistration.line1!,
+			"zipcode": TutorRegistration.zipcode!,
+			"state": TutorRegistration.state!,
 			"dob_day" : dob[0],
 			"dob_month" : dob[1],
 			"dob_year" : dob[2],
 			"first_name" : name[0],
 			"last_name" : name[1],
-			"ssn_last_4" : TutorRegistration.last4SSN,
+			"ssn_last_4" : TutorRegistration.last4SSN!,
 			"currency" : "usd",
 			"entity_type" : "individual",
 			"bank_holder_name" : TutorRegistration.bankholderName,
-			"routing_number" : TutorRegistration.routingNumber,
-			"account_number" : TutorRegistration.accountNumber,
+			"routing_number" : TutorRegistration.routingNumber!,
+			"account_number" : TutorRegistration.accountNumber!,
 			
 			]
 		

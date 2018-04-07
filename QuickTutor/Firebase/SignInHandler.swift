@@ -45,9 +45,7 @@ class SignInHandler {
 				let user = LearnerData.userData
 				
 				user.name			= value?["nm"			]   as? String ?? ""
-				user.age            = value?["age"          ]   as? String ?? ""
 				user.bio          	= value?["bio"          ]   as? String ?? ""
-				user.birthday       = value?["bd"     		]   as? String ?? ""
 				user.school         = value?["sch"       	]   as? String ?? ""
 				user.languages     	= value?["lng"   		]   as? [String] ?? []
 				user.customer 		= value?["cus" 			]	as?	String ?? ""

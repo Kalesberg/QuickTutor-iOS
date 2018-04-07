@@ -20,19 +20,31 @@ class Tutor {
 	static let shared = Tutor()
 	
 	public func initTutor(completion: @escaping (Error?) -> Void) {
+		
 		let data = LearnerData.userData
-
+		var paths : [String] = []
+		var updateValues : [String : Any] = [:]
+		
+		
+		if let subjects = TutorRegistration.subjects {
+			for (_, value) in subjects.enumerated() {
+				paths.append(value.path)
+			}
+		}
+		for path in paths.unique {
+			updateValues["tutor-info/\(Auth.auth().currentUser!.uid)\(path)/"] = []
+		}
+		
 		let post : [String:Any] =
 			[
 				"nm" : data.name,
-				"age" : data.age,
 				"bio" : TutorRegistration.tutorBio,
-				"subj" : "subjects",
+				"sub" : "subjects",
 				"rg" : TutorRegistration.address,
 				"tok" : TutorRegistration.stripeToken,
             ]
 		
-		ref.child("tutor-info").child(user.uid).setValue(post) { (error, databaseRef) in
+		ref.child("tutor-info").child(user.uid).updateChildValues(post) { (error, databaseRef) in
 			if let error = error {
 				print(error.localizedDescription)
 				completion(error)
@@ -52,11 +64,10 @@ class Tutor {
 		
 		if let subjects = TutorRegistration.subjects {
 			for (_, value) in subjects.enumerated() {
-				print(value)
 				paths.append(value.path)
 			}
 		}
-		for path in paths {
+		for path in paths.unique {
 			updateValues["subcategory/\(path)/\(Auth.auth().currentUser!.uid)"] = ["r" : 5]
 		}
 	    self.ref.root.updateChildValues(updateValues)
