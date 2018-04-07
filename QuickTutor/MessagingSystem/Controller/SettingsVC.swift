@@ -24,9 +24,9 @@ class SettingsVC: UIViewController {
         return control
     }()
     
-    let meetupRequestSwitch: UISwitch = {
+    let sessionRequestSwitch: UISwitch = {
         let control = UISwitch()
-        control.accessibilityIdentifier = "meetupRequests"
+        control.accessibilityIdentifier = "sessionRequests"
         return control
     }()
     
@@ -46,11 +46,11 @@ class SettingsVC: UIViewController {
         return label
     }()
     
-    let meetupRequestsLabel: UILabel = {
+    let sessionRequestsLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.textColor = .white
-        label.text = "Meetup Requests"
+        label.text = "Session Requests"
         return label
     }()
     
@@ -80,8 +80,8 @@ class SettingsVC: UIViewController {
         setupConnectionLabel()
         setupNewMessageSwitch()
         setupMessageLabel()
-        setupMeetupRequestSwitch()
-        setupMeetupLabel()
+        setupSessionRequestSwitch()
+        setupSessionLabel()
         setupLogoutButton()
     }
     
@@ -122,16 +122,16 @@ class SettingsVC: UIViewController {
         messagesLabel.anchor(top: newMessageSwitch.topAnchor, left: newMessageSwitch.rightAnchor, bottom: newMessageSwitch.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 4, paddingRight: 0, width: 200, height: 0)
     }
     
-    func setupMeetupRequestSwitch() {
-        view.addSubview(meetupRequestSwitch)
-        meetupRequestSwitch.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 150, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 60, height: 40)
-        meetupRequestSwitch.addTarget(self, action: #selector(updateNotificationPreferenceForSwitch(sender:)), for: .valueChanged)
+    func setupSessionRequestSwitch() {
+        view.addSubview(sessionRequestSwitch)
+        sessionRequestSwitch.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 150, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 60, height: 40)
+        sessionRequestSwitch.addTarget(self, action: #selector(updateNotificationPreferenceForSwitch(sender:)), for: .valueChanged)
 
     }
     
-    func setupMeetupLabel() {
-        view.addSubview(meetupRequestsLabel)
-        meetupRequestsLabel.anchor(top: meetupRequestSwitch.topAnchor, left: meetupRequestSwitch.rightAnchor, bottom: meetupRequestSwitch.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 4, paddingRight: 0, width: 200, height: 0)
+    func setupSessionLabel() {
+        view.addSubview(sessionRequestsLabel)
+        sessionRequestsLabel.anchor(top: sessionRequestSwitch.topAnchor, left: sessionRequestSwitch.rightAnchor, bottom: sessionRequestSwitch.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 4, paddingRight: 0, width: 200, height: 0)
     }
     
     func setupLogoutButton() {
@@ -157,11 +157,11 @@ class SettingsVC: UIViewController {
         Database.database().reference().child("notificationPreferences").child(uid).observeSingleEvent(of: .value) { (snapshot) in
             guard let preferenceDictionary = snapshot.value as? [String: Any] else { return }
             let connectionRequests = preferenceDictionary["connectionRequests"] as? Bool ?? false
-            let meetupRequests = preferenceDictionary["meetupRequests"] as? Bool ?? false
+            let sessionRequests = preferenceDictionary["sessionRequests"] as? Bool ?? false
             let messages = preferenceDictionary["messages"] as? Bool ?? false
             
             self.connectionRequestSwitch.setOn(connectionRequests, animated: false)
-            self.meetupRequestSwitch.setOn(meetupRequests, animated: false)
+            self.sessionRequestSwitch.setOn(sessionRequests, animated: false)
             self.newMessageSwitch.setOn(messages, animated: false)
         }
     }

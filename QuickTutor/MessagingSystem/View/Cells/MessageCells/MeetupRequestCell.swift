@@ -1,5 +1,5 @@
 //
-//  MeetupRequestCell.swift
+//  SessionRequestCell.swift
 //  QuickTutorMessaging
 //
 //  Created by Zach Fuller on 2/27/18.
@@ -9,9 +9,9 @@
 import UIKit
 import Firebase
 
-class MeetupRequestCell: UserMessageCell {
+class SessionRequestCell: UserMessageCell {
     
-    var meetupRequest: MeetupRequest?
+    var sessionRequest: SessionRequest?
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -79,7 +79,7 @@ class MeetupRequestCell: UserMessageCell {
     
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
-        getMeetupRequestWithId(message.meetupRequestId!)
+        getSessionRequestWithId(message.sessionRequestId!)
         
         if message.senderId != AccountService.shared.currentUser.uid! {
             setupAsTeacherView()
@@ -90,25 +90,25 @@ class MeetupRequestCell: UserMessageCell {
         }.fire()
     }
     
-    func getMeetupRequestWithId(_ id: String) {
-        guard meetupCache[id] == nil else {
+    func getSessionRequestWithId(_ id: String) {
+        guard sessionCache[id] == nil else {
             print("this one has already be loaded")
-            meetupRequest = meetupCache[id]
+            sessionRequest = sessionCache[id]
             loadFromRequest()
             return
         }
-        Database.database().reference().child("meetupRequests").child(id).observeSingleEvent(of: .value) { snapshot in
+        Database.database().reference().child("sessionRequests").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
-            let meetupRequest = MeetupRequest(data: value)
-            meetupRequest.id = id
-            self.meetupRequest = meetupRequest
+            let sessionRequest = SessionRequest(data: value)
+            sessionRequest.id = id
+            self.sessionRequest = sessionRequest
             self.loadFromRequest()
-            meetupCache[id] = meetupRequest
+            sessionCache[id] = sessionRequest
         }
     }
     
     func loadFromRequest() {
-        guard let subject = meetupRequest?.subject, let price = meetupRequest?.price, let date = meetupRequest?.formattedDate(), let startTime = meetupRequest?.formattedStartTime() else { return }
+        guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime() else { return }
         subjectLabel.text = subject
         priceLabel.text = "$\(price)0"
         dateTimeLabel.text = "\(date) @ \(startTime)"
@@ -116,7 +116,7 @@ class MeetupRequestCell: UserMessageCell {
     }
     
     func setStatusLabel() {
-        guard let status = self.meetupRequest?.status else { return }
+        guard let status = self.sessionRequest?.status else { return }
         switch status {
         case "pending":
             statusLabel.text = "REQUEST PENDING"
@@ -173,8 +173,8 @@ class MeetupRequestCell: UserMessageCell {
     }
     
     func setupAsTeacherView() {
-        titleLabel.text = "You received a meetup request"
-        guard meetupRequest?.status == "pending" else {
+        titleLabel.text = "You received a session request"
+        guard sessionRequest?.status == "pending" else {
             return
         }
         addSubview(acceptButton)
@@ -188,10 +188,10 @@ class MeetupRequestCell: UserMessageCell {
     }
     
     @objc func handleButtonAction(sender: UIButton) {
-        guard let meetupRequestId = self.meetupRequest?.id, meetupRequest?.status == "pending" else { return }
+        guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
         let valueToSet = sender.tag == 0 ? "accepted" : "declined"
-        Database.database().reference().child("meetupRequests").child(meetupRequestId).child("status").setValue(valueToSet)
-        meetupCache.removeValue(forKey: meetupRequestId)
+        Database.database().reference().child("sessionRequests").child(sessionRequestId).child("status").setValue(valueToSet)
+        sessionCache.removeValue(forKey: sessionRequestId)
         
         acceptButton.isHidden = true
         declineButton.isHidden = true

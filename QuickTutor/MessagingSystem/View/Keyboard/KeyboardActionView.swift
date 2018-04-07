@@ -78,7 +78,7 @@ extension KeyboardActionView: UICollectionViewDelegate, UICollectionViewDelegate
         if indexPath.item == 0 {
             delegate?.handleSendingImage()
         } else if indexPath.item == 1 {
-            delegate?.handleMeetupRequest()
+            delegate?.handleSessionRequest()
         } else {
             delegate?.shareUsernameForUserId()
         }

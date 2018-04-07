@@ -1,5 +1,5 @@
 //
-//  MeetupTimePicker.swift
+//  SessionTimePicker.swift
 //  QuickTutorMessaging
 //
 //  Created by Zach Fuller on 3/4/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MeetupTimePicker: UIDatePicker {
+class SessionTimePicker: UIDatePicker {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

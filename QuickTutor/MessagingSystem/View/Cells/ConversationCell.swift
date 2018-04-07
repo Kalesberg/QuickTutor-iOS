@@ -229,8 +229,8 @@ class ConversationCell: UICollectionViewCell {
         if message.imageUrl != nil {
             self.lastMessageLabel.text = "Attachment: 1 image"
         }
-        if message.meetupRequestId != nil {
-            self.lastMessageLabel.text = "Meetup Request"
+        if message.sessionRequestId != nil {
+            self.lastMessageLabel.text = "Session Request"
         }
     }
     

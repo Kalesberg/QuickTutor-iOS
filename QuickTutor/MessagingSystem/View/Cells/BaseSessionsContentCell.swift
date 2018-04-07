@@ -40,51 +40,55 @@ class BaseSessionsContentCell: BaseContentCell {
     
     func fetchSessions() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("sessions").child(uid).observeSingleEvent(of: .childAdded) { (snapshot) in
-            guard let value = snapshot.value as? [String: Any] else { return }
-            let session = Session(dictionary: value, id: snapshot.key)
-            if session.status != "pending" && session.date > Date().timeIntervalSince1970 {
-                self.pendingSessions.append(session)
-            }
-            
-            if session.date < Date().timeIntervalSince1970 {
-                self.pastSessions.append(session)
-            }
-            
-            self.upcomingSessions.append(session)
-            self.collectionView.reloadData()
+        Database.database().reference().child("userSessions").child(uid).child(uid).observeSingleEvent(of: .childAdded) { (snapshot) in
+            DataService.shared.getSessionById(snapshot.key, completion: { (session) in
+                if session.status != "pending" && session.date > Date().timeIntervalSince1970 {
+                    self.pendingSessions.append(session)
+                    self.collectionView.reloadData()
+                    return
+                }
+                
+                if session.date < Date().timeIntervalSince1970 {
+                    self.pastSessions.append(session)
+                    self.collectionView.reloadData()
+                    return
+                }
+                
+                self.upcomingSessions.append(session)
+                self.collectionView.reloadData()
+            })
         }
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.section == 0 {
-//            guard !upcomingSessions.isEmpty else {
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-//                cell.setLabelToPending()
-//                return cell
-//            }
+            guard !pendingSessions.isEmpty else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                cell.setLabelToPending()
+                return cell
+            }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pendingSessionCell", for: indexPath) as! BasePendingSessionCell
 //            cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
         
         if indexPath.section == 1 {
-//            guard !upcomingSessions.isEmpty else {
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-//                cell.setLabelToUpcoming()
-//                return cell
-//            }
+            guard !upcomingSessions.isEmpty else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                cell.setLabelToUpcoming()
+                return cell
+            }
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! BaseUpcomingSessionCell
             return cell
         }
-//        
-//        guard !upcomingSessions.isEmpty else {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-//            cell.setLabelToPast()
-//            return cell
-//        }
+        
+        guard !pastSessions.isEmpty else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+            cell.setLabelToPast()
+            return cell
+        }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pastSessionCell", for: indexPath) as! BasePastSessionCell
         return cell
@@ -148,32 +152,32 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            //            guard !upcomingSessions.isEmpty else {
-            //                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-            //                cell.setLabelToPending()
-            //                return cell
-            //            }
+                        guard !pendingSessions.isEmpty else {
+                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                            cell.setLabelToPending()
+                            return cell
+                        }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pendingSessionCell", for: indexPath) as! LearnerPendingSessionCell
             //            cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
         
         if indexPath.section == 1 {
-            //            guard !upcomingSessions.isEmpty else {
-            //                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-            //                cell.setLabelToUpcoming()
-            //                return cell
-            //            }
+                        guard !upcomingSessions.isEmpty else {
+                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                            cell.setLabelToUpcoming()
+                            return cell
+                        }
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! LearnerUpcomingSessionCell
             return cell
         }
-        //
-        //        guard !upcomingSessions.isEmpty else {
-        //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-        //            cell.setLabelToPast()
-        //            return cell
-        //        }
+        
+                guard !pastSessions.isEmpty else {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                    cell.setLabelToPast()
+                    return cell
+                }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pastSessionCell", for: indexPath) as! LearnerPastSessionCell
         return cell

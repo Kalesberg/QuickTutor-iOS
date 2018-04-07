@@ -1,5 +1,5 @@
 //
-//  ViewMeetupRequestVC.swift
+//  ViewSessionRequestVC.swift
 //  QuickTutorMessaging
 //
 //  Created by Zach Fuller on 2/28/18.
@@ -9,10 +9,10 @@
 import UIKit
 import Firebase
 
-class ViewMeetupRequestVC: UIViewController {
+class ViewSessionRequestVC: UIViewController {
     
-    var meetupRequestId: String!
-    var meetupRequest: MeetupRequest?
+    var sessionRequestId: String!
+    var sessionRequest: SessionRequest?
     var senderId: String!
     
     let infoLabel: UILabel = {
@@ -83,50 +83,50 @@ class ViewMeetupRequestVC: UIViewController {
     
     @objc func handleButtonAction(sender: UIButton) {
         let valueToSet = sender.tag == 0 ? "accepted" : "declined"
-        Database.database().reference().child("meetupRequests").child(meetupRequestId).child("status").setValue(valueToSet)
+        Database.database().reference().child("sessionRequests").child(sessionRequestId).child("status").setValue(valueToSet)
         navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        loadMeetupRequestFromId(meetupRequestId)
+        loadSessionRequestFromId(sessionRequestId)
     }
     
-    func loadMeetupRequestFromId(_ id: String) {
-        Database.database().reference().child("meetupRequests").child(id).observeSingleEvent(of: .value) { (snapshot) in
+    func loadSessionRequestFromId(_ id: String) {
+        Database.database().reference().child("sessionRequests").child(id).observeSingleEvent(of: .value) { (snapshot) in
             guard let value = snapshot.value as? [String: Any] else { return }
-            let meetupRequest = MeetupRequest(data: value)
-            self.meetupRequest = meetupRequest
-            self.checkExpirationFor(meetupRequest)
-            self.showStatusForMeetupRequest(self.meetupRequest!)
+            let sessionRequest = SessionRequest(data: value)
+            self.sessionRequest = sessionRequest
+            self.checkExpirationFor(sessionRequest)
+            self.showStatusForSessionRequest(self.sessionRequest!)
         }
     }
     
-    func showStatusForMeetupRequest(_ meetupRequest: MeetupRequest) {
-        guard meetupRequest.status != "pending" else {
-            infoLabel.text = "This meetup request is pending"
+    func showStatusForSessionRequest(_ sessionRequest: SessionRequest) {
+        guard sessionRequest.status != "pending" else {
+            infoLabel.text = "This session request is pending"
             return
         }
-        if meetupRequest.status == "declined" {
-            infoLabel.text = "This meetup request was declined"
+        if sessionRequest.status == "declined" {
+            infoLabel.text = "This session request was declined"
         }
         
-        if meetupRequest.status == "accepted" {
-            infoLabel.text = "This meetup request was accepted"
+        if sessionRequest.status == "accepted" {
+            infoLabel.text = "This session request was accepted"
         }
         
-        if meetupRequest.status == "expired" {
-            infoLabel.text = "This meetup request has expired"
+        if sessionRequest.status == "expired" {
+            infoLabel.text = "This session request has expired"
         }
         acceptButton.removeFromSuperview()
         declineButton.removeFromSuperview()
     }
     
-    func checkExpirationFor(_ meetupRequest: MeetupRequest) {
-        guard let expiration = meetupRequest.expiration, expiration < Date().timeIntervalSince1970 else {
+    func checkExpirationFor(_ sessionRequest: SessionRequest) {
+        guard let expiration = sessionRequest.expiration, expiration < Date().timeIntervalSince1970 else {
             return
         }
-        self.meetupRequest?.status = "expired"
+        self.sessionRequest?.status = "expired"
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class MessagesVC: UIViewController {
+class MessagesVC: MainPage, CustomNavBarDisplay {
     
     let mainCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -38,11 +38,15 @@ class MessagesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        updateNavBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.isOpaque = false
+        navigationController?.navigationBar.isTranslucent = false
+        edgesForExtendedLayout = []
     }
     
     func setupViews() {
@@ -66,8 +70,6 @@ class MessagesVC: UIViewController {
     }
     
     private func setupNavBar() {
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationItem.title = "Messages"
         let backItem = UIBarButtonItem()
         backItem.title = ""
         navigationItem.backBarButtonItem = backItem
@@ -80,7 +82,7 @@ class MessagesVC: UIViewController {
     
     private func setupMessageSessionControl() {
         view.addSubview(messageSessionControl)
-        messageSessionControl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 50, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
+        messageSessionControl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 130, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
         messageSessionControl.delegate = self
     }
     
@@ -109,6 +111,7 @@ class MessagesVC: UIViewController {
             vc.receiverId = uid
             vc.chatPartner = tutor!
             vc.connectionRequestAccepted = true
+            vc.shouldRequestSession = true
             self.navigationController?.setNavigationBarHidden(false, animated: false)
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -193,12 +196,6 @@ extension MessagesVC: SegmentedViewDelegate {
     func scrollTo(index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
         mainCollectionView.scrollToItem(at: indexPath, at: .left, animated: true)
-    }
-}
-
-extension MessagesVC: PageObservation {
-    func getParentPageViewController(parentRef: PageViewController) {
-        
     }
 }
 

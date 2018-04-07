@@ -1,5 +1,5 @@
 //
-//  MeetupTypeCell.swift
+//  SessionTypeCell.swift
 //  QuickTutorMessaging
 //
 //  Created by Zach Fuller on 3/4/18.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol MeetupTypeCellDelegate {
+protocol SessionTypeCellDelegate {
     func didSelect(option: String)
 }
 
-class MeetupTypeCell: UIView {
+class SessionTypeCell: UIView {
     
     var isSelected = false 
-    var delegate: MeetupTypeCellDelegate?
+    var delegate: SessionTypeCellDelegate?
     
     let titleLabel: UILabel = {
         let label = UILabel()

@@ -12,5 +12,5 @@ protocol KeyboardAccessoryViewDelegate {
     func handleMessageSend(message: UserMessage)
     func handleSendingImage()
     func shareUsernameForUserId()
-    func handleMeetupRequest()
+    func handleSessionRequest()
 }

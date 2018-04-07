@@ -188,7 +188,7 @@ class CreateAccountVC: UIViewController {
     
     func addNotificationSettingsToFirebase() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let data = ["connectionRequests": true, "messages": true, "meetupRequests": true]
+        let data = ["connectionRequests": true, "messages": true, "sessionRequests": true]
         Database.database().reference().child("notificationPreferences").child(uid).updateChildValues(data)
     }
     

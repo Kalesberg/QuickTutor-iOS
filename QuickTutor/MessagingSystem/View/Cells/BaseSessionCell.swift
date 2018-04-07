@@ -322,14 +322,17 @@ class SessionCellActionView: UIView {
     }
     
     @objc func handleButton1() {
+        hideActionContainerView()
         delegate?.handleButton1()
     }
     
     @objc func handleButton2() {
+        hideActionContainerView()
         delegate?.handleButton2()
     }
     
     @objc func handleButton3() {
+        hideActionContainerView()
         delegate?.handleButton3()
     }
     

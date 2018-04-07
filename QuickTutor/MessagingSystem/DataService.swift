@@ -60,6 +60,14 @@ class DataService {
         }
     }
     
+    func getSessionById(_ sessionId: String, completion: @escaping(Session) -> ()) {
+        Database.database().reference().child("sessionRequests").child(sessionId).observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String: Any] else { return }
+            let session = Session(dictionary: value, id: sessionId)
+            completion(session)
+        }
+    }
+    
     func sendTextMessage(text: String, receiverId: String, completion: @escaping () -> ()) {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         let timestamp = Date().timeIntervalSince1970
@@ -114,7 +122,7 @@ class DataService {
         }
     }
     
-    func sendMeetupRequestToId(meetupRequest: MeetupRequest, _ id: String) {
+    func sendSessionRequestToId(sessionRequest: SessionRequest, _ id: String) {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         
         guard let expiration = Calendar.current.date(byAdding: .day, value: 7, to: Date())?.timeIntervalSince1970 else { return }
@@ -122,17 +130,23 @@ class DataService {
         let _: [String: Any] = ["expiration": expiration, "status": "pending"]
         
         let timestamp = Date().timeIntervalSince1970
-        Database.database().reference().child("meetupRequests").childByAutoId().setValue(meetupRequest.dictionaryRepresentation) { (error, ref) in
-            let message = UserMessage(dictionary: ["timestamp": timestamp, "senderId": uid, "receiverId": id, "meetupRequestId": ref.key])
+        Database.database().reference().child("sessionRequests").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { (error, ref1) in
+            let message = UserMessage(dictionary: ["timestamp": timestamp, "senderId": uid, "receiverId": id, "sessionRequestId": ref1.key])
             Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
                 let senderRef = Database.database().reference().child("conversations").child(uid).child(id)
                 let receiverRef = Database.database().reference().child("conversations").child(id).child(uid)
                 
+                let senderSessionRef = Database.database().reference().child("userSessions").child(uid).child(id)
+                let receiverSessionRef = Database.database().reference().child("userSessions").child(id).child(uid)
                 
                 let messageId = ref.key
                 ref.updateChildValues(["uid": ref.key])
                 senderRef.updateChildValues([messageId: 1])
                 receiverRef.updateChildValues([messageId: 1])
+                
+                senderSessionRef.updateChildValues([ref1.key: 1])
+                receiverSessionRef.updateChildValues([ref1.key: 1])
+                
             }
         }
     }

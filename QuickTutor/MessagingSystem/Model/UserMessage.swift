@@ -17,7 +17,7 @@ class UserMessage: BaseMessage {
     var senderId: String
     var receiverId: String
     var imageUrl: String?
-    var meetupRequestId: String?
+    var sessionRequestId: String?
     var connectionRequestId: String?
 
     init(dictionary: [String: Any]) {
@@ -27,7 +27,7 @@ class UserMessage: BaseMessage {
         senderId = dictionary["senderId"] as! String
         receiverId = dictionary["receiverId"] as? String ?? ""
         imageUrl = dictionary["imageUrl"] as? String
-        meetupRequestId = dictionary["meetupRequestId"] as? String
+        sessionRequestId = dictionary["sessionRequestId"] as? String
         connectionRequestId = dictionary["connectionRequestId"] as? String
     }
 

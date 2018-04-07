@@ -1,5 +1,5 @@
 //
-//  MeetupTableCell.swift
+//  SessionTableCell.swift
 //  QuickTutorMessaging
 //
 //  Created by Zach Fuller on 3/4/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MeetupTableCell: UITableViewCell {
+class SessionTableCell: UITableViewCell {
     
     func setupViews() {
         setupMainView()

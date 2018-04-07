@@ -1,5 +1,5 @@
 //
-//  MeetupRequestView.swift
+//  SessionRequestView.swift
 //  QuickTutorMessaging
 //
 //  Created by Zach Fuller on 3/3/18.
@@ -9,20 +9,20 @@
 import UIKit
 import Firebase
 
-protocol MeetupRequestViewDelegate {
+protocol SessionRequestViewDelegate {
     func didDismiss()
 }
 
-class MeetupRequestView: UIView {
+class SessionRequestView: UIView {
     
     var chatPartnerId: String!
-    var delegate: MeetupRequestViewDelegate?
+    var delegate: SessionRequestViewDelegate?
     var subject: String?
     var date: Date?
     var startTime: Date?
     var endTime: Date?
     var price: Double?
-    var meetupData = [String: Any]()
+    var sessionData = [String: Any]()
     var titles = ["Mathematics", "3/20/17", "3:05pm", "5:05pm", "Price"]
     
     let titleView: UIView = {
@@ -52,18 +52,18 @@ class MeetupRequestView: UIView {
         table.separatorColor = Colors.sentMessage
         table.allowsMultipleSelection = false
         table.isScrollEnabled = false
-        table.register(MeetupTableCell.self, forCellReuseIdentifier: "cellId")
+        table.register(SessionTableCell.self, forCellReuseIdentifier: "cellId")
         return table
     }()
     
-    let inPersonToggle: MeetupTypeCell = {
-        let toggle = MeetupTypeCell()
+    let inPersonToggle: SessionTypeCell = {
+        let toggle = SessionTypeCell()
         toggle.titleLabel.text = "In-Person"
         return toggle
     }()
     
-    let onlineToggle: MeetupTypeCell = {
-        let toggle = MeetupTypeCell()
+    let onlineToggle: SessionTypeCell = {
+        let toggle = SessionTypeCell()
         toggle.titleLabel.text = "Video Call"
         return toggle
     }()
@@ -114,14 +114,14 @@ class MeetupRequestView: UIView {
         return picker
     }()
     
-    lazy var startTimePicker: MeetupTimePicker = {
-        let picker = MeetupTimePicker()
+    lazy var startTimePicker: SessionTimePicker = {
+        let picker = SessionTimePicker()
         picker.tag = 0
         return picker
     }()
     
-    lazy var endTimePicker: MeetupTimePicker = {
-        let picker = MeetupTimePicker()
+    lazy var endTimePicker: SessionTimePicker = {
+        let picker = SessionTimePicker()
         picker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         datePickerValueChanged(picker)
         picker.tag = 1
@@ -146,7 +146,7 @@ class MeetupRequestView: UIView {
         setupMainView()
         setupTitleView()
         setupInputTable()
-        setupMeetupTypeStackView()
+        setupSessionTypeStackView()
         setupCanceButton()
         setupResetButton()
         setupConfirmButton()
@@ -184,7 +184,7 @@ class MeetupRequestView: UIView {
         inputTable.anchor(top: titleView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
     }
     
-    private func setupMeetupTypeStackView() {
+    private func setupSessionTypeStackView() {
         addSubview(inPersonToggle)
         inPersonToggle.anchor(top: inputTable.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 60)
         addConstraint(NSLayoutConstraint(item: inPersonToggle, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: -85))
@@ -233,14 +233,14 @@ class MeetupRequestView: UIView {
     }
     
     private func setupSubjectPicker() {
-        meetupData["subject"] = "Mathematics"
+        sessionData["subject"] = "Mathematics"
         subjectPicker.subjectDelegate = self
     }
     
     private func setupDatePicker() {
         datePicker.customDelegate = self
         datePicker.date = Date()
-        meetupData["date"] = Date().timeIntervalSince1970
+        sessionData["date"] = Date().timeIntervalSince1970
         setDateTo(Date())
     }
     
@@ -276,7 +276,7 @@ extension UIButton {
     }
 }
 
-extension MeetupRequestView: UITableViewDelegate, UITableViewDataSource {
+extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -291,7 +291,7 @@ extension MeetupRequestView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MeetupTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SessionTableCell
         cell.textLabel?.text = titles[indexPath.row]
         return cell
     }
@@ -329,16 +329,16 @@ extension MeetupRequestView: UITableViewDelegate, UITableViewDataSource {
     
     @objc func sendRequest() {
         
-        meetupData["status"] = "pending"
-        meetupData["type"] = "online"
-        meetupData["expiration"] = getExpiration()
+        sessionData["status"] = "pending"
+        sessionData["type"] = "online"
+        sessionData["expiration"] = getExpiration()
         
-        guard let _ = meetupData["subject"], let _ = meetupData["date"], let _ = meetupData["startTime"], let _ = meetupData["endTime"], let _ = meetupData["status"], let _ = meetupData["type"], let _ = meetupData["price"] else {
+        guard let _ = sessionData["subject"], let _ = sessionData["date"], let _ = sessionData["startTime"], let _ = sessionData["endTime"], let _ = sessionData["status"], let _ = sessionData["type"], let _ = sessionData["price"] else {
             return
         }
 
-        let meetupRequest = MeetupRequest(data: meetupData)
-        DataService.shared.sendMeetupRequestToId(meetupRequest: meetupRequest, chatPartnerId)
+        let sessionRequest = SessionRequest(data: sessionData)
+        DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, (Auth.auth().currentUser?.uid)!)
         dismiss()
     }
     
@@ -351,17 +351,17 @@ extension MeetupRequestView: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: Subject -
-extension MeetupRequestView: SubjectPickerDelegate {
+extension SessionRequestView: SubjectPickerDelegate {
     func didSelectSubject(title: String) {
         titles[0] = title
         let indexPath = IndexPath(row: 0, section: 0)
         inputTable.reloadRows(at: [indexPath], with: .automatic)
-        meetupData["subject"] = title
+        sessionData["subject"] = title
     }
 }
 
 // MARK: Date -
-extension MeetupRequestView: CustomDatePickerDelegate {
+extension SessionRequestView: CustomDatePickerDelegate {
     func didSelectDate(_ date: Date) {
         setDateTo(date)
     }
@@ -373,12 +373,12 @@ extension MeetupRequestView: CustomDatePickerDelegate {
         titles[1] = formattedDate
         let dateTitleIndex = IndexPath(row: 1, section: 0)
         inputTable.reloadRows(at: [dateTitleIndex], with: .automatic)
-        meetupData["date"] = date.timeIntervalSince1970
+        sessionData["date"] = date.timeIntervalSince1970
     }
 }
 
 // MARK: Start & End Time -
-extension MeetupRequestView {
+extension SessionRequestView {
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         if sender.tag == 0 {
             setStartTime()
@@ -397,7 +397,7 @@ extension MeetupRequestView {
     func reloadTitleForStartTime() {
         titles[2] = startTimePicker.date.formatRelativeString()
         inputTable.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .automatic)
-        meetupData["startTime"] = startTimePicker.date.timeIntervalSince1970
+        sessionData["startTime"] = startTimePicker.date.timeIntervalSince1970
     }
     
     func setEndTime() {
@@ -408,12 +408,12 @@ extension MeetupRequestView {
     func reloadTitleForEndTime() {
         titles[3] = endTimePicker.date.formatRelativeString()
         inputTable.reloadRows(at: [IndexPath(row: 3, section: 0)], with: .automatic)
-        meetupData["endTime"] = endTimePicker.date.timeIntervalSince1970
+        sessionData["endTime"] = endTimePicker.date.timeIntervalSince1970
     }
 }
 
-// MARK: Meetup Type -
-extension MeetupRequestView: MeetupTypeCellDelegate {
+// MARK: Session Type -
+extension SessionRequestView: SessionTypeCellDelegate {
     func didSelect(option: String) {
         if option == "in-person" {
             inPersonToggle.setSelected()
@@ -426,8 +426,8 @@ extension MeetupRequestView: MeetupTypeCellDelegate {
 }
 
 // MARK: Price -
-extension MeetupRequestView: PriceInputViewDelegate {
+extension SessionRequestView: PriceInputViewDelegate {
     func priceDidChange(_ price: Double) {
-        meetupData["price"] = price
+        sessionData["price"] = price
     }
 }

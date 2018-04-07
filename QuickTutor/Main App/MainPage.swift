@@ -81,8 +81,7 @@ class MainPageView : MainLayoutTwoButton {
 		label.font = Fonts.createSize(20)
 		label.textAlignment = .center
 		label.adjustsFontSizeToFitWidth = true
-		label.textColor = .white
-		
+		label.textColor = .white		
     }
     
     override func applyConstraints() {

@@ -17,6 +17,7 @@ class ConversationVC: UICollectionViewController {
     var statusMessageIndex = -1
     var connectionRequestAccepted = true
     var conversationRead = false
+    var shouldRequestSession = false
     
     // MARK: Layout Views -
     let messagesCollection: UICollectionView = {
@@ -31,7 +32,7 @@ class ConversationVC: UICollectionViewController {
         cv.showsVerticalScrollIndicator = false
         cv.register(UserMessageCell.self, forCellWithReuseIdentifier: "textMessage")
         cv.register(SystemMessageCell.self, forCellWithReuseIdentifier: "systemMessage")
-        cv.register(MeetupRequestCell.self, forCellWithReuseIdentifier: "meetupMessage")
+        cv.register(SessionRequestCell.self, forCellWithReuseIdentifier: "sessionMessage")
         cv.register(ImageMessageCell.self, forCellWithReuseIdentifier: "imageMessage")
         cv.register(ConnectionRequestCell.self, forCellWithReuseIdentifier: "connectionRequest")
         return cv
@@ -113,6 +114,7 @@ class ConversationVC: UICollectionViewController {
     }
     
     private func setupNavBar() {
+        navigationController?.navigationBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.navigationBar.prefersLargeTitles = false
         setupTitleView()
@@ -144,6 +146,10 @@ class ConversationVC: UICollectionViewController {
         becomeFirstResponder()
         if !connectionRequestAccepted {
             studentKeyboardAccessory.showQuickChatView()
+        }
+        
+        if shouldRequestSession {
+            handleSessionRequest()
         }
     }
     
@@ -252,8 +258,8 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             return cell
         }
         
-        if message.meetupRequestId != nil {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "meetupMessage", for: indexPath) as! MeetupRequestCell
+        if message.sessionRequestId != nil {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestCell
             cell.updateUI(message: message)
             cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
             return cell
@@ -291,7 +297,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             height = CGFloat(imageHeight / imageWidth * 200)
         }
         
-        if message.meetupRequestId != nil {
+        if message.sessionRequestId != nil {
             height = 145
         }
         
@@ -310,11 +316,11 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let message = messages[indexPath.item] as? UserMessage, let meetupRequestId = message.meetupRequestId else {
+        guard let message = messages[indexPath.item] as? UserMessage, let sessionRequestId = message.sessionRequestId else {
             return
         }
-        let vc = ViewMeetupRequestVC()
-        vc.meetupRequestId = meetupRequestId
+        let vc = ViewSessionRequestVC()
+        vc.sessionRequestId = sessionRequestId
         vc.senderId = message.senderId
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -323,21 +329,21 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
 
 // MARK: Plus button actions -
 extension ConversationVC: KeyboardAccessoryViewDelegate {
-    func handleMeetupRequest() {
+    func handleSessionRequest() {
         studentKeyboardAccessory.messageTextview.resignFirstResponder()
-        studentKeyboardAccessory.toggleActionView()
-        showMeetupRequestView()
+        studentKeyboardAccessory.hideActionView()
+        showSessionRequestView()
     }
     
-    func showMeetupRequestView() {
+    func showSessionRequestView() {
         guard let window = UIApplication.shared.keyWindow else { return }
-        let meetupView = MeetupRequestView()
-        meetupView.delegate = self
-        meetupView.chatPartnerId = receiverId
-        window.addSubview(meetupView)
+        let sessionView = SessionRequestView()
+        sessionView.delegate = self
+        sessionView.chatPartnerId = receiverId
+        window.addSubview(sessionView)
         resignFirstResponder()
-        meetupView.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 600)
-        window.addConstraint(NSLayoutConstraint(item: meetupView, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
+        sessionView.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 600)
+        window.addConstraint(NSLayoutConstraint(item: sessionView, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func shareUsernameForUserId() {
@@ -381,7 +387,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
     
 }
 
-extension ConversationVC: MeetupRequestViewDelegate {
+extension ConversationVC: SessionRequestViewDelegate {
     func didDismiss() {
         becomeFirstResponder()
     }

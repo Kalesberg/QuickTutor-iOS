@@ -1,5 +1,5 @@
 //
-//  MeetupRequest.swift
+//  SessionRequest.swift
 //  QuickTutorMessaging
 //
 //  Created by Zach Fuller on 3/6/18.
@@ -8,9 +8,9 @@
 
 import Foundation
 
-var meetupCache = [String: MeetupRequest]()
+var sessionCache = [String: SessionRequest]()
 
-class MeetupRequest {
+class SessionRequest {
     var subject: String?
     var date: Double?
     var startTime: Double?
