@@ -9,14 +9,13 @@
 import Foundation
 import UIKit
 
-
 class ProfileImagesTableViewCell : BaseTableViewCell {
     
     var image1 = ProfileImage1()
     var image2 = ProfileImage2()
     var image3 = ProfileImage3()
     var image4 = ProfileImage4()
-    
+	
     override func configureView() {
         contentView.addSubview(image1)
         contentView.addSubview(image2)
@@ -24,8 +23,8 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
         contentView.addSubview(image4)
         
         selectionStyle = .none
-        backgroundColor = .clear
-        
+        backgroundColor = .clear		
+		
         applyConstraints()
     }
     
@@ -67,8 +66,25 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
             make.centerY.equalToSuperview()
         }
     }
+	override func handleNavigation() {
+		guard let current = UIApplication.getPresentedViewController() else {
+			return
+		}
+		if touchStartView == image1 {
+			AlertController.cropImageAlert(current, imagePicker: imagePicker)
+			imageToChange = 1
+		} else if touchStartView == image2 {
+			AlertController.cropImageAlert(current, imagePicker: imagePicker)
+			imageToChange = 2
+		} else if touchStartView == image3 {
+			AlertController.cropImageAlert(current, imagePicker: imagePicker)
+			imageToChange = 3
+		} else if touchStartView == image4 {
+			AlertController.cropImageAlert(current, imagePicker: imagePicker)
+			imageToChange = 4
+		}
+	}
 }
-
 
 class EditProfileItemTableViewCell : BaseTableViewCell {
     

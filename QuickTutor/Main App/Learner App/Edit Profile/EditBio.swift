@@ -49,8 +49,8 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
     var textView = EditBioTextView()
     var characterCount = LeftTextLabel()
     var infoLabel = LeftTextLabel()
-    
-    override func configureView() {
+	
+	override func configureView() {
         addKeyboardView()
         addSubview(contentView)
         contentView.addSubview(textView)

@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import AAPhotoCircleCrop
 
 class TutorEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
     
@@ -73,9 +73,11 @@ class TutorEditProfile : BaseViewController {
         hideKeyboardWhenTappedAround()
         
         name = user.name.split(separator: " ")
-        
-        contentView.tableView.delegate = self
+        imagePicker.delegate = self
+		
+		contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
+		
         contentView.tableView.register(ProfileImagesTableViewCell.self, forCellReuseIdentifier: "profileImagesTableViewCell")
         contentView.tableView.register(EditProfileDotItemTableViewCell.self, forCellReuseIdentifier: "editProfileDotItemTableViewCell")
         contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
@@ -87,22 +89,22 @@ class TutorEditProfile : BaseViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+		
     }
     override func handleNavigation() {
         
     }
     
     @objc
-    func rateSliderValueDidChange(_ sender: UISlider!) {
+    private func rateSliderValueDidChange(_ sender: UISlider!) {
         let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 8, section: 0)) as! EditProfileSliderTableViewCell)
         
         cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
     }
     
     @objc
-    func distanceSliderValueDidChange(_ sender: UISlider!) {
+    private func distanceSliderValueDidChange(_ sender: UISlider!) {
         let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 9, section: 0)) as! EditProfileSliderTableViewCell)
-        print("dfgdfg")
         let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
         
         if(value % 5 == 0) {
@@ -221,7 +223,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
             
             cell.slider.addTarget(self, action: #selector(rateSliderValueDidChange), for: .valueChanged)
-            
+			
             //set users current value to slider.value and valueLabel.text
             //cell.slider.value = CGFloat(user.rate)
             //cell.valueLabel.text = "$" + user.rate
@@ -241,8 +243,6 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
             
             cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
-            
-            //set users current value to slider.value and valueLabel.text
             //cell.slider.value = CGFloat(user.distance)
             //cell.valueLabel.text = user.distance + " mi"
             
@@ -313,4 +313,70 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         
         return UITableViewCell()
     }
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		switch indexPath.row {
+		case 4:
+			navigationController?.pushViewController(EditBio(), animated: true)
+		case 6:
+			print("manage subjects")
+		case 7:
+			navigationController?.pushViewController(TutorManagePolicies(), animated: true)
+		case 11:
+			navigationController?.pushViewController(EditPhone(), animated: true)
+		case 12:
+			navigationController?.pushViewController(ChangeEmail(), animated: true)
+		case 14:
+			navigationController?.pushViewController(EditLanguage(), animated: true)
+		case 15:
+			navigationController?.pushViewController(EditSchool(), animated: true)
+		default:
+			break
+		
+		}
+	}
+}
+
+extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
+	
+	func circleCropDidCropImage(_ image: UIImage) {
+		let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
+		let imageCache = LocalImageCache.localImageManager
+		//fix the animation when the cropper dismisses
+		switch imageToChange {
+		case 1:
+			imageCache.updateImageStored(image: image, number: "1")
+			cell.image1.picView.image = image
+		case 2:
+			imageCache.updateImageStored(image: image, number: "2")
+			cell.image2.picView.image = image
+		case 3:
+			imageCache.updateImageStored(image: image, number: "3")
+			cell.image3.picView.image = image
+		case 4:
+			imageCache.updateImageStored(image: image, number: "4")
+			cell.image4.picView.image = image
+		default:
+			break
+		}
+	}
+	
+	func circleCropDidCancel() {
+		print("cancelled")
+	}
+	
+	internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+		if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+			
+			let circleCropController = AACircleCropViewController()
+			circleCropController.image = image
+			circleCropController.delegate = self
+			
+			self.navigationController?.pushViewController(circleCropController, animated: true)
+			imagePicker.dismiss(animated: true, completion: nil)
+		}
+	}
+	
+	func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+		dismiss(animated: true, completion: nil)
+	}
 }
