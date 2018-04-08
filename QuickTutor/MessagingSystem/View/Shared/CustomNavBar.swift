@@ -48,9 +48,9 @@ extension CustomNavBarDisplay where Self: UIViewController {
             searchBar.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4),
             searchBar.centerXAnchor.constraint(equalTo: container.centerXAnchor, constant: 0),
             searchBar.widthAnchor.constraint(equalToConstant: width)
-            ])
+        ])
         
-        
+        navigationController?.navigationBar.isHidden = false
         self.navigationItem.titleView = container
     }
 }

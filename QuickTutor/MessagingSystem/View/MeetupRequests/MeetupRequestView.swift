@@ -328,17 +328,19 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func sendRequest() {
-        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         sessionData["status"] = "pending"
         sessionData["type"] = "online"
         sessionData["expiration"] = getExpiration()
+        sessionData["senderId"] = uid
+        sessionData["receiverId"] = chatPartnerId
         
         guard let _ = sessionData["subject"], let _ = sessionData["date"], let _ = sessionData["startTime"], let _ = sessionData["endTime"], let _ = sessionData["status"], let _ = sessionData["type"], let _ = sessionData["price"] else {
             return
         }
 
         let sessionRequest = SessionRequest(data: sessionData)
-        DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, (Auth.auth().currentUser?.uid)!)
+        DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, chatPartnerId)
         dismiss()
     }
     

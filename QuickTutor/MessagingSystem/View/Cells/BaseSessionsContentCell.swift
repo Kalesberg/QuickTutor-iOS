@@ -40,8 +40,8 @@ class BaseSessionsContentCell: BaseContentCell {
     
     func fetchSessions() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("userSessions").child(uid).child(uid).observeSingleEvent(of: .childAdded) { (snapshot) in
-            DataService.shared.getSessionById(snapshot.key, completion: { (session) in
+        Database.database().reference().child("userSessions").child(uid).child(uid).observeSingleEvent(of: .childAdded) { snapshot in
+            DataService.shared.getSessionById(snapshot.key, completion: { session in
                 if session.status != "pending" && session.date > Date().timeIntervalSince1970 {
                     self.pendingSessions.append(session)
                     self.collectionView.reloadData()
@@ -69,7 +69,7 @@ class BaseSessionsContentCell: BaseContentCell {
                 return cell
             }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pendingSessionCell", for: indexPath) as! BasePendingSessionCell
-//            cell.updateUI(session: pendingSessions[indexPath.item])
+            //            cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
         
@@ -152,32 +152,32 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-                        guard !pendingSessions.isEmpty else {
-                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-                            cell.setLabelToPending()
-                            return cell
-                        }
+//            guard !pendingSessions.isEmpty else {
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+//                cell.setLabelToPending()
+//                return cell
+//            }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pendingSessionCell", for: indexPath) as! LearnerPendingSessionCell
             //            cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
         
         if indexPath.section == 1 {
-                        guard !upcomingSessions.isEmpty else {
-                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-                            cell.setLabelToUpcoming()
-                            return cell
-                        }
+//            guard !upcomingSessions.isEmpty else {
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+//                cell.setLabelToUpcoming()
+//                return cell
+//            }
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! LearnerUpcomingSessionCell
             return cell
         }
         
-                guard !pastSessions.isEmpty else {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-                    cell.setLabelToPast()
-                    return cell
-                }
+//        guard !pastSessions.isEmpty else {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+//            cell.setLabelToPast()
+//            return cell
+//        }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pastSessionCell", for: indexPath) as! LearnerPastSessionCell
         return cell
@@ -185,7 +185,7 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
 }
 
 class TutorSessionContentCell: BaseSessionsContentCell {
-
+    
     override func setupCollectionView() {
         super.setupCollectionView()
         collectionView.register(TutorPendingSessionCell.self, forCellWithReuseIdentifier: "pendingSessionCell")
@@ -239,8 +239,8 @@ class BasePendingSessionCell: BaseSessionCell {
     
     override func setupViews() {
         super.setupViews()
-//        actionView.setupActionButton2()
-//        actionView.updateButtonImages([#imageLiteral(resourceName: "messageButton"), #imageLiteral(resourceName: "cancelSessionButton")])
+        //        actionView.setupActionButton2()
+        //        actionView.updateButtonImages([#imageLiteral(resourceName: "messageButton"), #imageLiteral(resourceName: "cancelSessionButton")])
     }
 }
 
@@ -258,7 +258,7 @@ class LearnerPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate, 
     }
     
     override func handleButton2() {
-        showConversationWithUID("gCoBPk6oFda95PuPJlkFEEUJlLC2")
+        showConversationWithUID(session.partnerId())
     }
     
 }
@@ -294,10 +294,8 @@ class LearnerUpcomingSessionCell: BaseUpcomingSessionCell, MessageButtonDelegate
     }
     
     override func handleButton2() {
-        showConversationWithUID("gCoBPk6oFda95PuPJlkFEEUJlLC2")
+        showConversationWithUID(session.partnerId())
     }
-
-
     
 }
 
@@ -325,6 +323,10 @@ class BasePastSessionCell: BaseSessionCell {
         return sv
     }()
     
+    func updateUI(_ session: Session) {
+        self.session = session
+    }
+    
     override func setupViews() {
         super.setupViews()
         setupDarkenView()
@@ -348,13 +350,18 @@ class BasePastSessionCell: BaseSessionCell {
     }
 }
 
-class LearnerPastSessionCell: BasePastSessionCell {
+class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate {
     override func setupViews() {
         super.setupViews()
         actionView.setupAsTripleButton()
         actionView.actionButton3.setImage(#imageLiteral(resourceName: "viewProfileButton"), for: .normal)
         actionView.actionButton2.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
         actionView.actionButton1.setImage(#imageLiteral(resourceName: "requestSessionButton"), for: .normal)
+    }
+    
+    override func handleButton2() {
+        print(session.receiverId)
+        print(session.senderId)
     }
 }
 
@@ -419,7 +426,6 @@ protocol ViewProfileHandler {
     func viewProfile()
 }
 
-
 protocol SessionCellCreator {
     associatedtype cellType
     func cellForItemAtIndexPath(cv: UICollectionView, indexPath: IndexPath)
@@ -432,4 +438,3 @@ extension SessionCellCreator {
         
     }
 }
-

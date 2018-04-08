@@ -20,6 +20,8 @@ class SessionRequest {
     var status: String?
     var expiration: Double?
     var id: String?
+    var senderId: String?
+    var receiverId: String?
     
     var dictionaryRepresentation: [String: Any] {
         var dictionary = [String: Any]()
@@ -31,6 +33,8 @@ class SessionRequest {
         dictionary["choice"] = choice
         dictionary["status"] = status
         dictionary["expiration"] = expiration
+        dictionary["senderId"] = senderId
+        dictionary["receiverId"] = receiverId
         return dictionary
     }
     
@@ -43,6 +47,8 @@ class SessionRequest {
         choice = data["choice"] as? String
         status = data["status"] as? String
         expiration = data["expiration"] as? Double
+        senderId = data["tutorId"] as? String
+        receiverId = data["learnerId"] as? String
     }
     
     func formattedDate() -> String? {

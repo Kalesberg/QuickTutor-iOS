@@ -92,7 +92,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     func updateUI(session: Session) {
         self.session = session
         subjectLabel.text = session.subject
-        tutorLabel.text = "with \(session.tutorId)"
+        tutorLabel.text = "with \(session.senderId)"
     }
     
     func setupViews() {

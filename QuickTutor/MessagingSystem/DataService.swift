@@ -136,8 +136,8 @@ class DataService {
                 let senderRef = Database.database().reference().child("conversations").child(uid).child(id)
                 let receiverRef = Database.database().reference().child("conversations").child(id).child(uid)
                 
-                let senderSessionRef = Database.database().reference().child("userSessions").child(uid).child(id)
-                let receiverSessionRef = Database.database().reference().child("userSessions").child(id).child(uid)
+                let senderSessionRef = Database.database().reference().child("userSessions").child(uid)
+                let receiverSessionRef = Database.database().reference().child("userSessions").child(id)
                 
                 let messageId = ref.key
                 ref.updateChildValues(["uid": ref.key])

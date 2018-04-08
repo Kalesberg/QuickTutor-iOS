@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import Firebase
 
 class Session {
     
-    var tutorId: String
-    var learnerId: String
+    var senderId: String
+    var receiverId: String
     var id: String
     var startTime: Double
     var subject: String
@@ -20,10 +21,10 @@ class Session {
     var price: Double
     var type: String
     var status: String
-    
+
     init(dictionary: [String: Any], id: String) {
-        tutorId = dictionary["tutorId"] as? String ?? ""
-        learnerId = dictionary["learnerId"] as? String ?? ""
+        senderId = dictionary["senderId"] as? String ?? ""
+        receiverId = dictionary["receiverId"] as? String ?? ""
         startTime = dictionary["startTime"] as? Double ?? 0
         endTime = dictionary["endTime"] as? Double ?? 0
         date = dictionary["date"] as? Double ?? 0
@@ -33,4 +34,9 @@ class Session {
         subject = dictionary["subject"] as? String ?? ""
         self.id = id
      }
+    
+    func partnerId() -> String {
+        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
+        return receiverId == uid ? senderId : receiverId
+    }
 }
