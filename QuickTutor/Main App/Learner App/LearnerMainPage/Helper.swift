@@ -267,8 +267,8 @@ enum Category {
 			
 		case .experiences:				displayName = "EXPERIENCES"
 		searchBarPhrases = ["search for any experience"]
-		subcategories = ["Career", "Cooking | Baking", "Volunteering", "Motivation | Consulting", "Travel Destinations","Fitness"]
-		icon = [#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "volunteering"),#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "fitness")]
+		subcategories = ["Careers", "Cooking & Baking", "Creations", "Motivation & Consulting", "Travel Destinations","Fitness"]
+		icon = [#imageLiteral(resourceName: "volunteering"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "fitness")]
 		fileToRead = "experiences"
 			
 		case .health:					displayName = "HEALTH"
