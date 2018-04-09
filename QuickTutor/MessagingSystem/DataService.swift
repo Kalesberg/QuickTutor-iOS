@@ -38,10 +38,11 @@ class DataService {
                     return dict2Value
                 })
                 let tutor = ZFTutor(dictionary: finalDict)
-                if let img = finalDict["img"] as? [String: Any], let profilePicUrl = img["image1"] as? String {
-                    tutor.profilePicUrl = profilePicUrl
-                    tutor.username = finalDict["nm"] as? String
-                }
+                tutor.uid = uid
+                guard let img = finalDict["img"] as? [String: Any], let profilePicUrl = img["image1"] as? String else {
+                    return }
+                tutor.profilePicUrl = profilePicUrl
+                tutor.username = finalDict["nm"] as? String
                 completion(tutor)
             })
         }
