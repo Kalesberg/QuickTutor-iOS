@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 					print(error!)
 					self.window?.makeKeyAndVisible()
 					let controller = SignIn()
-					navigationController = UINavigationController(rootViewController: controller)
+					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
 					self.window?.rootViewController = navigationController
 				} else {
@@ -84,14 +84,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 					})
 					
 					let controller = LearnerPageViewController()
-					navigationController = UINavigationController(rootViewController: controller)
+					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
 					self.window?.rootViewController = navigationController
 				}
 			})
         } else {
             let controller = SignIn()
-            navigationController = UINavigationController(rootViewController: controller)
+            navigationController = CustomNavVC(rootViewController: controller)
             navigationController.navigationBar.isHidden = true
             self.window?.makeKeyAndVisible()
             self.window?.rootViewController = navigationController

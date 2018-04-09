@@ -15,8 +15,10 @@ class ConversationVC: UICollectionViewController {
     var receiverId: String!
     var chatPartner: User!
     var statusMessageIndex = -1
-    var connectionRequestAccepted = true
+    var connectionRequestAccepted = false
+    var shouldSetupForConnectionRequest = false
     var conversationRead = false
+    var canSendMessages = true
     
     // MARK: Layout Views -
     let messagesCollection: UICollectionView = {
@@ -88,10 +90,7 @@ class ConversationVC: UICollectionViewController {
         setupMainView()
         setupMessagesCollection()
         setupNavBar()
-        if !connectionRequestAccepted {
-            setupEmptyBackground()
-            studentKeyboardAccessory.toggleQuickChatView()
-        }
+        setupEmptyBackground()
     }
     
     private func setupMainView() {
@@ -115,16 +114,28 @@ class ConversationVC: UICollectionViewController {
     private func setupNavBar() {
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "backButton")
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"backButton")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(pop))
         setupTitleView()
     }
     
     private func setupTitleView() {
         let frame = CGRect(x: 0, y: 0, width: 100, height: 50)
         let titleView = CustomTitleView(frame: frame)
-        titleView.updateUI(user: chatPartner)
+//        titleView.updateUI(user: chatPartner)
         navigationItem.titleView = titleView
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.loadImage(urlString: profilePicUrl)
+    }
+    
+    func teardownConnectionRequest() {
+        self.studentKeyboardAccessory.hideQuickChatView()
+        self.emptyCellBackground.removeFromSuperview()
+    }
+    
+    @objc func pop() {
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: Lifecycle -
@@ -136,15 +147,11 @@ class ConversationVC: UICollectionViewController {
         listenForReadReceipts()
         setupKeyboardObservers()
         studentKeyboardAccessory.chatView.delegate = self
-        checkForConnection()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         becomeFirstResponder()
-        if !connectionRequestAccepted {
-            studentKeyboardAccessory.showQuickChatView()
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -154,6 +161,7 @@ class ConversationVC: UICollectionViewController {
     func loadMessages() {
         let uid = AccountService.shared.currentUser.uid!
         Database.database().reference().child("conversations").child(uid).child(receiverId).observe(.childAdded) { snapshot in
+            self.teardownConnectionRequest()
             let messageId = snapshot.key
             DataService.shared.getMessageById(messageId, completion: { message in
                 self.messages.append(message)
@@ -173,14 +181,16 @@ class ConversationVC: UICollectionViewController {
         }
     }
     
-    func checkForConnection() {
+    func checkForConnection(completion: @escaping (Bool) ->() ) {
         let uid = AccountService.shared.currentUser.uid!
         Database.database().reference().child("connections").child(uid).child(receiverId).observeSingleEvent(of: .value) { snapshot in
             guard (snapshot.value as? Int) != nil else {
                 self.connectionRequestAccepted = false
+                completion(false)
                 return
             }
             self.connectionRequestAccepted = true
+            completion(true)
         }
     }
     
@@ -264,14 +274,14 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.bubbleWidthAnchor?.constant = 200
             cell.chatPartner = chatPartner
             cell.updateUI(message: message)
-            cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
+//            cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
             return cell
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "textMessage", for: indexPath) as! UserMessageCell
         cell.updateUI(message: message)
         cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 20
-        cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
+//        cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
         return cell
     }
     
