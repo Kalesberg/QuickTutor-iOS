@@ -364,8 +364,8 @@ extension SessionRequestView: SubjectPickerDelegate {
 
 // MARK: Date -
 extension SessionRequestView: CustomDatePickerDelegate {
-    func didSelectDate(_ date: Date) {
-        setDateTo(date)
+    func didSelectDate(_ date: Double) {
+        setDateTo(Date(timeIntervalSince1970: date))
     }
     
     func setDateTo(_ date: Date) {

@@ -81,6 +81,7 @@ class MainLayoutTwoButton: MainLayoutOneButton {
 }
 
 
+
 struct TitleComponent {
     var title = CenterTextLabel()
 }

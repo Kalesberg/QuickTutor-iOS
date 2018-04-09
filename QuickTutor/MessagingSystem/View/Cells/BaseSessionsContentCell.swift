@@ -40,7 +40,7 @@ class BaseSessionsContentCell: BaseContentCell {
     
     func fetchSessions() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("userSessions").child(uid).child(uid).observeSingleEvent(of: .childAdded) { snapshot in
+        Database.database().reference().child("userSessions").child(uid).observeSingleEvent(of: .childAdded) { snapshot in
             DataService.shared.getSessionById(snapshot.key, completion: { session in
                 if session.status != "pending" && session.date > Date().timeIntervalSince1970 {
                     self.pendingSessions.append(session)
@@ -152,32 +152,32 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-//            guard !pendingSessions.isEmpty else {
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-//                cell.setLabelToPending()
-//                return cell
-//            }
+            guard !pendingSessions.isEmpty else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                cell.setLabelToPending()
+                return cell
+            }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pendingSessionCell", for: indexPath) as! LearnerPendingSessionCell
             //            cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
         
         if indexPath.section == 1 {
-//            guard !upcomingSessions.isEmpty else {
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-//                cell.setLabelToUpcoming()
-//                return cell
-//            }
+            guard !upcomingSessions.isEmpty else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                cell.setLabelToUpcoming()
+                return cell
+            }
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! LearnerUpcomingSessionCell
             return cell
         }
         
-//        guard !pastSessions.isEmpty else {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-//            cell.setLabelToPast()
-//            return cell
-//        }
+        guard !pastSessions.isEmpty else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+            cell.setLabelToPast()
+            return cell
+        }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pastSessionCell", for: indexPath) as! LearnerPastSessionCell
         return cell
@@ -202,32 +202,32 @@ class TutorSessionContentCell: BaseSessionsContentCell {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            //            guard !upcomingSessions.isEmpty else {
-            //                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-            //                cell.setLabelToPending()
-            //                return cell
-            //            }
+            guard !upcomingSessions.isEmpty else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                cell.setLabelToPending()
+                return cell
+            }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pendingSessionCell", for: indexPath) as! TutorPendingSessionCell
             //            cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
         
         if indexPath.section == 1 {
-            //            guard !upcomingSessions.isEmpty else {
-            //                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-            //                cell.setLabelToUpcoming()
-            //                return cell
-            //            }
+            guard !upcomingSessions.isEmpty else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+                cell.setLabelToUpcoming()
+                return cell
+            }
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! TutorUpcomingSessionCell
             return cell
         }
-        //
-        //        guard !upcomingSessions.isEmpty else {
-        //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-        //            cell.setLabelToPast()
-        //            return cell
-        //        }
+        
+        guard !upcomingSessions.isEmpty else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
+            cell.setLabelToPast()
+            return cell
+        }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pastSessionCell", for: indexPath) as! TutorPastSessionCell
         return cell
@@ -415,26 +415,5 @@ extension MessageButtonDelegate {
         let userInfo = ["uid": uid]
         let notification = Notification(name: NSNotification.Name(rawValue: "sendMessage"), object: nil, userInfo: userInfo)
         NotificationCenter.default.post(notification)
-    }
-}
-
-protocol CancelButtonHandler {
-    func cancelSession()
-}
-
-protocol ViewProfileHandler {
-    func viewProfile()
-}
-
-protocol SessionCellCreator {
-    associatedtype cellType
-    func cellForItemAtIndexPath(cv: UICollectionView, indexPath: IndexPath)
-}
-
-extension SessionCellCreator {
-    func cellForItemAtIndexPath(cv: UICollectionView, indexPath: IndexPath) {
-        
-        _ = cv.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as? cellType
-        
     }
 }

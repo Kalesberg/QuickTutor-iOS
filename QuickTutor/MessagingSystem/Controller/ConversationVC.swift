@@ -154,10 +154,6 @@ class ConversationVC: UICollectionViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         becomeFirstResponder()
-        if !connectionRequestAccepted {
-            studentKeyboardAccessory.showQuickChatView()
-        }
-        
         if shouldRequestSession {
             handleSessionRequest()
         }

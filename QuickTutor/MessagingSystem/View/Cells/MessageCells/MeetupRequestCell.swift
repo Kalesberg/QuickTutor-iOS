@@ -84,10 +84,6 @@ class SessionRequestCell: UserMessageCell {
         if message.senderId != AccountService.shared.currentUser.uid! {
             setupAsTeacherView()
         }
-        
-        Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in
-            self.statusLabel.text = "ACCEPTED"
-        }.fire()
     }
     
     func getSessionRequestWithId(_ id: String) {

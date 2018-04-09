@@ -42,10 +42,11 @@ class AddTutorVC: UIViewController, ShowsConversation {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isOpaque = false
+        navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = "Add Tutor By Username"
         
         let backButtonImage = UIImage(named: "backButton")?.withRenderingMode(.alwaysOriginal)
-        let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: nil, action: nil)
+        let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(popVC))
         navigationItem.leftBarButtonItem = backButton
         navigationItem.backBarButtonItem = backButton
         view.backgroundColor = Colors.darkBackground
@@ -62,6 +63,10 @@ class AddTutorVC: UIViewController, ShowsConversation {
         collectionView.dataSource = self
         view.addSubview(collectionView)
         collectionView.anchor(top: searchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    @objc func popVC() {
+        navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLoad() {

@@ -96,7 +96,7 @@ class AddTutorCell: UICollectionViewCell {
     
     private func setupStatsLabel() {
         addSubview(statsLabel)
-        statsLabel.anchor(top: locationLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 10)
+        statsLabel.anchor(top: locationLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
     }
     
     func updateUI(_ uid: String) {

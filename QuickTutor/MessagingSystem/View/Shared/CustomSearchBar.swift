@@ -27,6 +27,7 @@ class CustomSearchBar: PaddedTextField {
     func setupViews() {
         setupSearchIcon()
         font = Fonts.createSize(14)
+        clearButtonMode = .whileEditing
     }
     
     func setupSearchIcon() {

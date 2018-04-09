@@ -15,7 +15,6 @@ class ConversationCell: UICollectionViewCell {
     
     let profileImageView: UserImageView = {
         let iv = UserImageView(frame: CGRect.zero)
-        iv.imageView.backgroundColor = .yellow
         iv.onlineStatusIndicator.backgroundColor = .green
         return iv
     }()
@@ -24,7 +23,6 @@ class ConversationCell: UICollectionViewCell {
         let label = UILabel()
         label.font = Fonts.createBoldSize(13)
         label.textColor = .white
-        label.text = "Alex Zoltowski"
         return label
     }()
     
@@ -32,7 +30,6 @@ class ConversationCell: UICollectionViewCell {
         let label = UILabel()
         label.font = Fonts.createSize(11)
         label.textColor = UIColor(hex: "999999")
-        label.text = "Central Michigan University"
         return label
     }()
     
@@ -40,7 +37,6 @@ class ConversationCell: UICollectionViewCell {
         let label = UILabel()
         label.font = Fonts.createSize(11)
         label.textColor = .white
-        label.text = "I'll be busy this week so..."
         return label
     }()
     
@@ -48,7 +44,6 @@ class ConversationCell: UICollectionViewCell {
         let label = UILabel()
         label.font = Fonts.createSize(7)
         label.textColor = UIColor(hex: "999999")
-        label.text = "Last session: October 11th, 2017"
         return label
     }()
     
@@ -57,13 +52,11 @@ class ConversationCell: UICollectionViewCell {
         label.font = Fonts.createSize(8)
         label.textColor = .white
         label.textAlignment = .right
-        label.text = "2:08pm"
         return label
     }()
     
     let starLabel: UILabel = {
         let label = UILabel()
-        label.text = "4.71"
         label.textAlignment = .right
         label.font = Fonts.createBoldSize(9)
         label.textColor = UIColor(hex: "FFDA02")
@@ -80,7 +73,6 @@ class ConversationCell: UICollectionViewCell {
         let label = UILabel()
         label.font = Fonts.createSize(7)
         label.textColor = UIColor(hex: "999999")
-        label.text = "Past sessions: 2"
         label.textAlignment = .right
         return label
     }()
@@ -206,7 +198,7 @@ class ConversationCell: UICollectionViewCell {
     }
     
     private func updateUsernameLabel() {
-        self.usernameLabel.text = chatPartner.username
+        self.usernameLabel.text = chatPartner.username.capitalized
     }
     
     private func updateOnlineStatusIndicator() {

@@ -80,24 +80,22 @@ class MessagesContentCell: BaseContentCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //fetchConversations()
+        fetchConversations()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
 }
 
 extension MessagesContentCell {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-        let navVC = CustomNavVC(rootViewController: vc)
         vc.receiverId = messages[indexPath.item].partnerId()
         let tappedCell = collectionView.cellForItem(at: indexPath) as! ConversationCell
         vc.navigationItem.title = tappedCell.usernameLabel.text
         vc.chatPartner = tappedCell.chatPartner
-        parentViewController?.present(navVC, animated: true, completion: nil)
+        navigationController.pushViewController(vc, animated: true)
     }
 }

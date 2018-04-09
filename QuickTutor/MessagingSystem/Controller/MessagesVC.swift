@@ -43,7 +43,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.isOpaque = false
         navigationController?.navigationBar.isTranslucent = false
         edgesForExtendedLayout = []
@@ -139,7 +139,6 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
         alert.removeFromSuperview()
         blackView.removeFromSuperview()
     }
-    
     
 }
 

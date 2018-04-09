@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CustomDatePickerDelegate {
-    func didSelectDate(_ date: Date)
+    func didSelectDate(_ date: Double)
 }
 
 class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -52,8 +52,13 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         
         self.selectRow(currentMonth - 1, inComponent: 0, animated: true)
         self.selectRow(currentDay - 1, inComponent: 1, animated: true)
-        self.date = Date()
-        customDelegate?.didSelectDate(self.date!)
+        updateDate()
+        print(date - Date().timeIntervalSince1970)
+        print(date - Date().timeIntervalSince1970)
+        print(date - Date().timeIntervalSince1970)
+
+
+        customDelegate?.didSelectDate((self.date?.timeIntervalSince1970)!)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -80,13 +85,16 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         if component == 0 && row == currentMonth - 1 && pickerView.selectedRow(inComponent: 1) < currentDay - 1 {
             pickerView.selectRow(currentDay - 1, inComponent: 1, animated: true)
         }
-        
-        let monthsToAdd = pickerView.selectedRow(inComponent: 0) - (currentMonth - 1)
+        updateDate()
+    }
+    
+    func updateDate() {
+        let monthsToAdd = selectedRow(inComponent: 0) - (currentMonth - 1)
         guard let dateWithMonthsAdded = Calendar.current.date(byAdding: .month, value: monthsToAdd, to: Date()) else { return }
-        let daysToAdd = pickerView.selectedRow(inComponent: 1) - (currentDay - 1)
+        let daysToAdd = selectedRow(inComponent: 1) - (currentDay - 1)
         guard let dateWithDaysAdded = Calendar.current.date(byAdding: .day, value: daysToAdd, to: dateWithMonthsAdded) else { return }
         self.date = dateWithDaysAdded
-        customDelegate?.didSelectDate(dateWithDaysAdded)
+        customDelegate?.didSelectDate(dateWithDaysAdded.timeIntervalSince1970)
     }
     
     required init?(coder aDecoder: NSCoder) {
