@@ -79,6 +79,8 @@
 		845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */; };
 		845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */; };
 		845B3BA02069E81B009F8E04 /* CategoryCollectViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B3B9F2069E81B009F8E04 /* CategoryCollectViewCell.swift */; };
+		845D403B20796E4F00EFFC6C /* TutorPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D403A20796E4F00EFFC6C /* TutorPreferences.swift */; };
+		845D403D2079A30F00EFFC6C /* TutorAddUsername.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D403C2079A30F00EFFC6C /* TutorAddUsername.swift */; };
 		846252E720637CF8001DD330 /* LearnerMainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252E620637CF8001DD330 /* LearnerMainPage.swift */; };
 		846252EC20637F22001DD330 /* TutorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252EB20637F22001DD330 /* TutorSettings.swift */; };
 		846252F120637F9D001DD330 /* TutorMyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F020637F9D001DD330 /* TutorMyProfile.swift */; };
@@ -280,6 +282,8 @@
 		845A39FE1FFC22CF00226B25 /* GeoHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoHash.swift; sourceTree = "<group>"; };
 		845A3A001FFC267100226B25 /* GeohashBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeohashBox.swift; sourceTree = "<group>"; };
 		845B3B9F2069E81B009F8E04 /* CategoryCollectViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCollectViewCell.swift; sourceTree = "<group>"; };
+		845D403A20796E4F00EFFC6C /* TutorPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPreferences.swift; sourceTree = "<group>"; };
+		845D403C2079A30F00EFFC6C /* TutorAddUsername.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddUsername.swift; sourceTree = "<group>"; };
 		846252E620637CF8001DD330 /* LearnerMainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPage.swift; sourceTree = "<group>"; };
 		846252EB20637F22001DD330 /* TutorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSettings.swift; sourceTree = "<group>"; };
 		846252F020637F9D001DD330 /* TutorMyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMyProfile.swift; sourceTree = "<group>"; };
@@ -625,6 +629,15 @@
 			);
 			name = CollectionViewCells;
 			path = "New Group1";
+			sourceTree = "<group>";
+		};
+		845D403920796D5000EFFC6C /* Additional Info */ = {
+			isa = PBXGroup;
+			children = (
+				845D403A20796E4F00EFFC6C /* TutorPreferences.swift */,
+				845D403C2079A30F00EFFC6C /* TutorAddUsername.swift */,
+			);
+			path = "Additional Info";
 			sourceTree = "<group>";
 		};
 		846252E820637ED6001DD330 /* My Profile */ = {
@@ -1022,6 +1035,7 @@
 				846252ED20637F26001DD330 /* File Report */,
 				846252EE20637F38001DD330 /* Help */,
 				846252EF20637F44001DD330 /* Tax Information */,
+				845D403920796D5000EFFC6C /* Additional Info */,
 			);
 			path = "Tutor App";
 			sourceTree = "<group>";
@@ -1284,6 +1298,7 @@
 				848E04EA205C8CF10094A6E9 /* BecomeTutorData.swift in Sources */,
 				84DFD899204C5AE600BA8A3F /* UIViewControllerExtensions.swift in Sources */,
 				84052F14206BCCB8007B1248 /* LearnerOther.swift in Sources */,
+				845D403D2079A30F00EFFC6C /* TutorAddUsername.swift in Sources */,
 				8482AFE3203A9E1300F6F805 /* UIImageViewExtensions.swift in Sources */,
 				840E75C2201E8419006FC580 /* LeanerFileReport.swift in Sources */,
 				84257662207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift in Sources */,
@@ -1300,6 +1315,7 @@
 				84E91B60205740ED00D1F613 /* Labels.swift in Sources */,
 				84E4C7DB204E91F6009C2FC4 /* UpdatePayment.swift in Sources */,
 				8470995A20082DA5000DCFD0 /* Sidebar.swift in Sources */,
+				845D403B20796E4F00EFFC6C /* TutorPreferences.swift in Sources */,
 				84F36ED81FC3603F00E71589 /* Name.swift in Sources */,
 				847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */,
 				84E4C7EC204E9829009C2FC4 /* Sessions.swift in Sources */,
