@@ -33,7 +33,7 @@ class MeetupRequestView: UIView {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Request Meet-up"
+        label.text = "Request Session"
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 20)
