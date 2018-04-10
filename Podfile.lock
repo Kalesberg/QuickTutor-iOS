@@ -22,6 +22,12 @@ PODS:
   - Firebase/Database (4.11.0):
     - Firebase/Core
     - FirebaseDatabase (= 4.1.5)
+  - Firebase/DynamicLinks (4.11.0):
+    - Firebase/Core
+    - FirebaseDynamicLinks (= 2.3.2)
+  - Firebase/Messaging (4.11.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 2.1.1)
   - Firebase/Storage (4.11.0):
     - Firebase/Core
     - FirebaseStorage (= 2.1.3)
@@ -40,8 +46,16 @@ PODS:
     - FirebaseAnalytics (~> 4.1)
     - FirebaseCore (~> 4.0)
     - leveldb-library (~> 1.18)
+  - FirebaseDynamicLinks (2.3.2):
+    - FirebaseAnalytics (~> 4.0)
   - FirebaseInstanceID (2.0.10):
     - FirebaseCore (~> 4.0)
+  - FirebaseMessaging (2.1.1):
+    - FirebaseAnalytics (~> 4.1)
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.5)
   - FirebaseStorage (2.1.3):
     - FirebaseAnalytics (~> 4.1)
     - FirebaseCore (~> 4.0)
@@ -51,6 +65,8 @@ PODS:
   - GoogleToolboxForMac/DebugUtils (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
   - GoogleToolboxForMac/Defines (2.1.3)
+  - GoogleToolboxForMac/Logger (2.1.3):
+    - GoogleToolboxForMac/Defines (= 2.1.3)
   - GoogleToolboxForMac/NSData+zlib (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
   - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.3):
@@ -65,6 +81,8 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - Protobuf (3.5.0)
+  - Reveal-SDK (13)
   - SnapKit (4.0.0)
   - Stripe (12.1.2)
   - SwiftKeychainWrapper (3.0.1)
@@ -78,8 +96,11 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
+  - Firebase/DynamicLinks
+  - Firebase/Messaging
   - Firebase/Storage
   - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
+  - Reveal-SDK
   - SnapKit
   - Stripe
   - SwiftKeychainWrapper
@@ -105,17 +126,21 @@ SPEC CHECKSUMS:
   FirebaseAuth: 147bf340a0706b44ca1753d6b41ebafd9687cfe6
   FirebaseCore: b981f47e5254cbcfdeb483355300d743f6fcab2c
   FirebaseDatabase: 5f0bc6134c5c237cf55f9e1249d406770a75eafd
+  FirebaseDynamicLinks: 38b68641d24e78d0277a9205d988ce22875d5a25
   FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
+  FirebaseMessaging: db0e01c52ef7e1f42846431273558107d084ede4
   FirebaseStorage: 9a863a2bb96c406958eeff7c2f1dfa9f44c44a13
   GeoFire: 3e70a24019dc16816190f533c9cac0d1321c4a71
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMSessionFetcher: 390ea358e5a0d0133153806f744662dad933d06b
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
+  Reveal-SDK: ccc2b0f8014965ea448b7534a7c2c8da232b75e8
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Stripe: 3230cdf8a8b0c04902e45e86f222fb82a926239c
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
 
-PODFILE CHECKSUM: 7b93333493a9a0f94461b8c5b0bc21e185128255
+PODFILE CHECKSUM: e88cecb3c03e633ecca7654e0281a504f220dc83
 
 COCOAPODS: 1.4.0

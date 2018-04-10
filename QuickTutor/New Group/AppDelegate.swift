@@ -63,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Firebase check
         if Auth.auth().currentUser != nil {
             //create SignInClass to handle everything before user is able to sign in.
+            AccountService.shared.loadUser()
 
 			SpotlightTutor.shared.queryFeaturedTutor { (error) in
 				if let error = error {
@@ -75,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 					print(error!)
 					self.window?.makeKeyAndVisible()
 					let controller = SignIn()
-					navigationController = UINavigationController(rootViewController: controller)
+					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
 					self.window?.rootViewController = navigationController
 				} else {
@@ -89,15 +90,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 						self.window?.makeKeyAndVisible()
 					})
 					
-					let controller = TutorPageViewController()
-                    navigationController = UINavigationController(rootViewController: controller)
-                    navigationController.navigationBar.isHidden = true
-                    self.window?.rootViewController = navigationController
-                }
-            })
+					let controller = LearnerPageViewController()
+					navigationController = CustomNavVC(rootViewController: controller)
+					navigationController.navigationBar.isHidden = true
+					self.window?.rootViewController = navigationController
+				}
+			})
         } else {
             let controller = SignIn()
-            navigationController = UINavigationController(rootViewController: controller)
+            navigationController = CustomNavVC(rootViewController: controller)
             navigationController.navigationBar.isHidden = true
             self.window?.makeKeyAndVisible()
             self.window?.rootViewController = navigationController
