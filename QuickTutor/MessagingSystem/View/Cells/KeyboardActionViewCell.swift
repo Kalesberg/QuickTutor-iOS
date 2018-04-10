@@ -21,7 +21,7 @@ class KeyboardActionViewCell: UICollectionViewCell {
         label.text = "Meet up"
         label.textAlignment = .center
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = Fonts.createSize(12)
         return label
     }()
 

@@ -183,7 +183,7 @@ class ConversationCell: UICollectionViewCell {
     }
     
     func updateUI(message: UserMessage) {
-        DataService.shared.getTutorWithId(message.partnerId()) { (userIn) in
+        DataService.shared.getStudentWithId(message.partnerId()) { (userIn) in
             guard let user = userIn else { return }
             self.chatPartner = user
             
@@ -231,7 +231,7 @@ class ConversationCell: UICollectionViewCell {
             fatalError("Couldn't convert to tutor")
         }
         
-        self.locationLabel.text = tutor.region!
+            self.locationLabel.text = tutor.region!
     }
     
     required init?(coder aDecoder: NSCoder) {

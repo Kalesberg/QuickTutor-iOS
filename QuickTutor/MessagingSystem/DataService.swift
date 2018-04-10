@@ -48,6 +48,25 @@ class DataService {
         }
     }
     
+    func getStudentWithId(_ uid: String, completion: @escaping TutorCompletion) {
+        Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String: Any] else { return }
+            Database.database().reference().child("student-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot2) in
+                guard let value2 = snapshot2.value as? [String: Any] else { return }
+                let finalDict = value.merging(value2, uniquingKeysWith: { (dict1Value, dict2Value) -> Any in
+                    return dict2Value
+                })
+                let tutor = ZFTutor(dictionary: finalDict)
+                tutor.uid = uid
+                guard let img = finalDict["img"] as? [String: Any], let profilePicUrl = img["image1"] as? String else {
+                    return }
+                tutor.profilePicUrl = profilePicUrl
+                tutor.username = finalDict["nm"] as? String
+                completion(tutor)
+            })
+        }
+    }
+    
     func sendMessage(message: UserMessage, toUserId userId: String) {
         
     }
@@ -68,6 +87,7 @@ class DataService {
             completion(session)
         }
     }
+    
     
     func sendTextMessage(text: String, receiverId: String, completion: @escaping () -> ()) {
         guard let uid = AccountService.shared.currentUser.uid else { return }

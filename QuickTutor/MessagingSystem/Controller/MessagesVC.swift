@@ -102,11 +102,24 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(showConversation(notification:)), name: Notification.Name(rawValue: "sendMessage"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showCancelModal), name: Notification.Name(rawValue: "cancelSession"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(requestSession(notification:)), name: Notification.Name(rawValue: "requestSession"), object: nil)
     }
     
     @objc func showConversation(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        DataService.shared.getTutorWithId(uid) { (tutor) in
+        DataService.shared.getStudentWithId(uid) { (tutor) in
+            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            vc.receiverId = uid
+            vc.chatPartner = tutor!
+            vc.connectionRequestAccepted = true
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    @objc func requestSession(notification: Notification) {
+        guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
+        DataService.shared.getStudentWithId(uid) { (tutor) in
             let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
             vc.receiverId = uid
             vc.chatPartner = tutor!
@@ -116,6 +129,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+
     
     @objc func showCancelModal() {
         addBlackView()

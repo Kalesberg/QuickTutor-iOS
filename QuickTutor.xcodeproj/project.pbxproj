@@ -195,6 +195,18 @@
 		CF6F58F0205EE6B300ACBD32 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58EC205EE6B300ACBD32 /* DataService.swift */; };
 		CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58ED205EE6B300ACBD32 /* DynamicLinkFactory.swift */; };
 		CF6F58F3205EE6D100ACBD32 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58F2205EE6D100ACBD32 /* Extensions.swift */; };
+		CF833B6E207C4AE800323242 /* TutorSessionContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B6D207C4AE800323242 /* TutorSessionContentCell.swift */; };
+		CF833B70207C4B1500323242 /* LearnerSessionContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B6F207C4B1500323242 /* LearnerSessionContentCell.swift */; };
+		CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B72207C4B5400323242 /* BasePendingSessionCell.swift */; };
+		CF833B75207C4B6E00323242 /* LearnerPendingSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B74207C4B6E00323242 /* LearnerPendingSessionCell.swift */; };
+		CF833B77207C4B7C00323242 /* TutorPendingSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B76207C4B7C00323242 /* TutorPendingSessionCell.swift */; };
+		CF833B7A207C4B9D00323242 /* BaseUpcomingSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B79207C4B9D00323242 /* BaseUpcomingSessionCell.swift */; };
+		CF833B7C207C4BB300323242 /* LearnerUpcomingSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B7B207C4BB300323242 /* LearnerUpcomingSessionCell.swift */; };
+		CF833B7E207C4BCB00323242 /* TutorUpcomingSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B7D207C4BCB00323242 /* TutorUpcomingSessionCell.swift */; };
+		CF833B81207C4C0100323242 /* BasePastSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B80207C4C0100323242 /* BasePastSessionCell.swift */; };
+		CF833B83207C4C2600323242 /* LearnerPastSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B82207C4C2600323242 /* LearnerPastSessionCell.swift */; };
+		CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B84207C4C4200323242 /* TutorPastSessionCell.swift */; };
+		CF833B87207C4D3000323242 /* SessionCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B86207C4D3000323242 /* SessionCellActionView.swift */; };
 		CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */; };
 		CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */; };
 		CF8578C62060AB230089B6F0 /* MessagesContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */; };
@@ -409,6 +421,18 @@
 		CF6F58EC205EE6B300ACBD32 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		CF6F58ED205EE6B300ACBD32 /* DynamicLinkFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicLinkFactory.swift; sourceTree = "<group>"; };
 		CF6F58F2205EE6D100ACBD32 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		CF833B6D207C4AE800323242 /* TutorSessionContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSessionContentCell.swift; sourceTree = "<group>"; };
+		CF833B6F207C4B1500323242 /* LearnerSessionContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerSessionContentCell.swift; sourceTree = "<group>"; };
+		CF833B72207C4B5400323242 /* BasePendingSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePendingSessionCell.swift; sourceTree = "<group>"; };
+		CF833B74207C4B6E00323242 /* LearnerPendingSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerPendingSessionCell.swift; sourceTree = "<group>"; };
+		CF833B76207C4B7C00323242 /* TutorPendingSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPendingSessionCell.swift; sourceTree = "<group>"; };
+		CF833B79207C4B9D00323242 /* BaseUpcomingSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUpcomingSessionCell.swift; sourceTree = "<group>"; };
+		CF833B7B207C4BB300323242 /* LearnerUpcomingSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerUpcomingSessionCell.swift; sourceTree = "<group>"; };
+		CF833B7D207C4BCB00323242 /* TutorUpcomingSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorUpcomingSessionCell.swift; sourceTree = "<group>"; };
+		CF833B80207C4C0100323242 /* BasePastSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePastSessionCell.swift; sourceTree = "<group>"; };
+		CF833B82207C4C2600323242 /* LearnerPastSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerPastSessionCell.swift; sourceTree = "<group>"; };
+		CF833B84207C4C4200323242 /* TutorPastSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPastSessionCell.swift; sourceTree = "<group>"; };
+		CF833B86207C4D3000323242 /* SessionCellActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCellActionView.swift; sourceTree = "<group>"; };
 		CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMessagesBackground.swift; sourceTree = "<group>"; };
 		CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseContentCell.swift; sourceTree = "<group>"; };
 		CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesContentCell.swift; sourceTree = "<group>"; };
@@ -902,6 +926,7 @@
 				CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */,
 				CF046422206EE3D800BFE898 /* CancelSessionModal.swift */,
 				CF1E43C420705F8D0033F845 /* StarView.swift */,
+				CF833B86207C4D3000323242 /* SessionCellActionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -909,6 +934,7 @@
 		CF6F5888205EE68800ACBD32 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				CF833B6C207C4AC700323242 /* Sessions */,
 				CF6F5889205EE68800ACBD32 /* ConversationCell.swift */,
 				CF6F588A205EE68800ACBD32 /* MessageCells */,
 				CF6F5891205EE68800ACBD32 /* QuickChatViewCell.swift */,
@@ -1008,6 +1034,48 @@
 				CF12D93A20642236004BE148 /* Session.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		CF833B6C207C4AC700323242 /* Sessions */ = {
+			isa = PBXGroup;
+			children = (
+				CF833B7F207C4BEA00323242 /* PastCells */,
+				CF833B78207C4B8D00323242 /* UpcomingCells */,
+				CF833B71207C4B4700323242 /* PendingCells */,
+				CF833B6D207C4AE800323242 /* TutorSessionContentCell.swift */,
+				CF833B6F207C4B1500323242 /* LearnerSessionContentCell.swift */,
+			);
+			path = Sessions;
+			sourceTree = "<group>";
+		};
+		CF833B71207C4B4700323242 /* PendingCells */ = {
+			isa = PBXGroup;
+			children = (
+				CF833B72207C4B5400323242 /* BasePendingSessionCell.swift */,
+				CF833B74207C4B6E00323242 /* LearnerPendingSessionCell.swift */,
+				CF833B76207C4B7C00323242 /* TutorPendingSessionCell.swift */,
+			);
+			path = PendingCells;
+			sourceTree = "<group>";
+		};
+		CF833B78207C4B8D00323242 /* UpcomingCells */ = {
+			isa = PBXGroup;
+			children = (
+				CF833B79207C4B9D00323242 /* BaseUpcomingSessionCell.swift */,
+				CF833B7B207C4BB300323242 /* LearnerUpcomingSessionCell.swift */,
+				CF833B7D207C4BCB00323242 /* TutorUpcomingSessionCell.swift */,
+			);
+			path = UpcomingCells;
+			sourceTree = "<group>";
+		};
+		CF833B7F207C4BEA00323242 /* PastCells */ = {
+			isa = PBXGroup;
+			children = (
+				CF833B80207C4C0100323242 /* BasePastSessionCell.swift */,
+				CF833B82207C4C2600323242 /* LearnerPastSessionCell.swift */,
+				CF833B84207C4C4200323242 /* TutorPastSessionCell.swift */,
+			);
+			path = PastCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1194,6 +1262,7 @@
 				CFF50178206990060085B0E9 /* LearnerEditProfile.swift in Sources */,
 				CFF5017720698F620085B0E9 /* LearnerHelp.swift in Sources */,
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
+				CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */,
 				848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */,
 				84E4C7DD204E92AD009C2FC4 /* PaymentOptions.swift in Sources */,
 				CF6F58C7205EE68800ACBD32 /* MeetupTableCell.swift in Sources */,
@@ -1205,6 +1274,7 @@
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
 				CF6F58DC205EE68800ACBD32 /* CustomNavVC.swift in Sources */,
 				CF6F58D1205EE68800ACBD32 /* UserImageView.swift in Sources */,
+				CF833B77207C4B7C00323242 /* TutorPendingSessionCell.swift in Sources */,
 				84F2450F1FDA0F59006447A8 /* UploadImage.swift in Sources */,
 				CF6F58EE205EE6B300ACBD32 /* AccountService.swift in Sources */,
 				84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */,
@@ -1219,7 +1289,9 @@
 				846252E720637CF8001DD330 /* LearnerMainPage.swift in Sources */,
 				84E4C7DF204E9342009C2FC4 /* ForgotPassword.swift in Sources */,
 				8476C6A62053714400B55C8F /* SignInHandler.swift in Sources */,
+				CF833B7E207C4BCB00323242 /* TutorUpcomingSessionCell.swift in Sources */,
 				CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */,
+				CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */,
 				CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */,
 				CF6F58DD205EE68800ACBD32 /* LoginVC.swift in Sources */,
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestion.swift in Sources */,
@@ -1253,6 +1325,7 @@
 				CF6F58E7205EE68800ACBD32 /* KeyboardAccessoryViewDelegate.swift in Sources */,
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
 				CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */,
+				CF833B6E207C4AE800323242 /* TutorSessionContentCell.swift in Sources */,
 				84E91B60205740ED00D1F613 /* Labels.swift in Sources */,
 				CF6F58E9205EE68800ACBD32 /* BaseMessage.swift in Sources */,
 				84E4C7DB204E91F6009C2FC4 /* UpdatePayment.swift in Sources */,
@@ -1298,6 +1371,7 @@
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
 				CF6F58CF205EE68800ACBD32 /* CustomNavBar.swift in Sources */,
+				CF833B87207C4D3000323242 /* SessionCellActionView.swift in Sources */,
 				843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
 				CF6F58DA205EE68800ACBD32 /* ProfileVC.swift in Sources */,
@@ -1305,6 +1379,7 @@
 				CF6F58D8205EE68800ACBD32 /* KeyboardAccessory.swift in Sources */,
 				8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */,
 				84C255691FC2563A0012C0AA /* Birthday.swift in Sources */,
+				CF833B7C207C4BB300323242 /* LearnerUpcomingSessionCell.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
@@ -1325,18 +1400,21 @@
 				84E91B5C20573E5100D1F613 /* SessionDetails.swift in Sources */,
 				842394271FF4DCF400827C7D /* RegistrationBackButton.swift in Sources */,
 				CF12D93B20642236004BE148 /* Session.swift in Sources */,
+				CF833B70207C4B1500323242 /* LearnerSessionContentCell.swift in Sources */,
 				840613251FD8BE29003F6547 /* BioView.swift in Sources */,
 				8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */,
 				848809FB2057835E00F204A0 /* TutorDidNotHelp.swift in Sources */,
 				84DE261620530EB700375ABD /* EditCourses.swift in Sources */,
 				84C96C0D1FCE34A900DBD3A6 /* Email.swift in Sources */,
 				84F245241FDA16C9006447A8 /* TutorFilters.swift in Sources */,
+				CF833B7A207C4B9D00323242 /* BaseUpcomingSessionCell.swift in Sources */,
 				84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */,
 				CF6F58D9205EE68800ACBD32 /* StudentKeyboardAccessory.swift in Sources */,
 				CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */,
 				84E4C7E8204E9774009C2FC4 /* SearchTutor.swift in Sources */,
 				CF6F58E1205EE68800ACBD32 /* CreateAccountVC.swift in Sources */,
 				8448C574204BC87100C3247D /* EditPhone.swift in Sources */,
+				CF833B81207C4C0100323242 /* BasePastSessionCell.swift in Sources */,
 				CF6F58C1205EE68800ACBD32 /* ImageMessageCell.swift in Sources */,
 				8470995C20083AA5000DCFD0 /* MainPage.swift in Sources */,
 				84E283572004874300B004E7 /* RegistrationBigButton.swift in Sources */,
@@ -1357,6 +1435,7 @@
 				CF6F58CC205EE68800ACBD32 /* MeetupRequestView.swift in Sources */,
 				CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */,
 				84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */,
+				CF833B75207C4B6E00323242 /* LearnerPendingSessionCell.swift in Sources */,
 				CF6F58E8205EE68800ACBD32 /* MeetupRequest.swift in Sources */,
 				CF6F58F3205EE6D100ACBD32 /* Extensions.swift in Sources */,
 				8449DDEA1FFDD40600FC38CB /* CALayerExtensions.swift in Sources */,
@@ -1371,6 +1450,7 @@
 				84E4C7D4204E8317009C2FC4 /* QTGuide.swift in Sources */,
 				CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */,
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
+				CF833B83207C4C2600323242 /* LearnerPastSessionCell.swift in Sources */,
 				CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */,
 				CF6F58E5205EE68800ACBD32 /* UserMessage.swift in Sources */,
 				CF6F58C3205EE68800ACBD32 /* BaseMessageCell.swift in Sources */,

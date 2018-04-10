@@ -47,8 +47,8 @@ class SessionRequest {
         choice = data["choice"] as? String
         status = data["status"] as? String
         expiration = data["expiration"] as? Double
-        senderId = data["tutorId"] as? String
-        receiverId = data["learnerId"] as? String
+        senderId = data["senderId"] as? String
+        receiverId = data["receiverId"] as? String
     }
     
     func formattedDate() -> String? {

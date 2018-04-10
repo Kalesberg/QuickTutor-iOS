@@ -80,8 +80,8 @@ class SessionRequestCell: UserMessageCell {
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         getSessionRequestWithId(message.sessionRequestId!)
-        
-        if message.senderId != AccountService.shared.currentUser.uid! {
+        guard let id = Auth.auth().currentUser?.uid else { return }
+        if message.senderId != id {
             setupAsTeacherView()
         }
     }

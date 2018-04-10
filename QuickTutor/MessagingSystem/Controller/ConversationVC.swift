@@ -157,6 +157,10 @@ class ConversationVC: UICollectionViewController {
         if shouldRequestSession {
             handleSessionRequest()
         }
+        
+        if shouldSetupForConnectionRequest {
+            self.studentKeyboardAccessory.showQuickChatView()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -176,7 +180,18 @@ class ConversationVC: UICollectionViewController {
                     self.addMessageStatusLabel(atIndex: self.messages.endIndex)
                 }
                 
-                if message.connectionRequestId == nil {
+                if message.connectionRequestId != nil {
+                    self.canSendMessages = false
+                    Database.database().reference().child("connections").child(uid).child(message.partnerId()).observeSingleEvent(of: .value, with: { (snapshot) in
+                        guard let value = snapshot.value as? Bool else {
+                            return
+                        }
+                        if value {
+                            self.canSendMessages = true
+                        } else {
+                            self.canSendMessages = false
+                        }
+                    })
                     self.connectionRequestAccepted = true
                 }
                 self.studentKeyboardAccessory.hideQuickChatView()
