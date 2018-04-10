@@ -37,7 +37,9 @@ class Tutor {
 					  "p"	: 5,
 					  "bio" : TutorRegistration.tutorBio,
 					  "rg"  : TutorRegistration.address,
-					  "tok" : TutorRegistration.stripeToken,],
+					  "tok" : TutorRegistration.stripeToken,
+					  "pol" : "5_5_5_5",
+					  "tp"  : "Math"],
 				
 				"/subject/\(user.uid)" : subjectNode,
 				

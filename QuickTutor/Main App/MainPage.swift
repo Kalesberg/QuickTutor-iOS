@@ -67,10 +67,6 @@ class MainPageView : MainLayoutTwoButton {
             make.width.equalToSuperview().multipliedBy(0.72)
         }
     }
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: sidebar.bounds)
-	}
 }
 
 class SearchBar: BaseView, Interactable {

@@ -72,6 +72,7 @@ class LearnerMainPageView : MainPageView {
 	}
 	override func layoutSubviews() {
 		super.layoutSubviews()
+		sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: sidebar.bounds)
 		tableView.layoutSubviews()
 		tableView.layoutIfNeeded()
 	}
