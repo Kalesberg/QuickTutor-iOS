@@ -30,7 +30,6 @@ class LearnerData {
 	var address   : String!
 	var customer  : String!
 	var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
-	
 }
 
 class LocalImageCache {

@@ -46,28 +46,6 @@ class MainPageView : MainLayoutTwoButton {
         backgroundView.alpha = 0.0
         
         sidebar.alpha = 0.0
-        
-//        messagesSessionsControl.insertSegment(withTitle: "Messages", at: 0, animated: true)
-//        messagesSessionsControl.insertSegment(withTitle: "Sessions", at: 1, animated: true)
-//
-//        let rightView = messagesSessionsControl.subviews[0]
-//        let leftView = messagesSessionsControl.subviews[1]
-//
-//        messagesSessionsControl.layer.cornerRadius = 6
-//        let font = Fonts.createLightSize(18)
-//        messagesSessionsControl.setTitleTextAttributes([NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: UIColor.white],
-//                                                for: .selected)
-//        messagesSessionsControl.setTitleTextAttributes([NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: UIColor.white],
-//                                                    for: .normal)
-//        messagesSessionsControl.layer.borderWidth = 1.5
-//        messagesSessionsControl.layer.borderColor = UIColor.white.cgColor
-//        messagesSessionsControl.setDividerImage(UIImage(color: .white, size: CGSize(width: 0.75, height: messagesSessionsControl.frame.height)), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
-//        messagesSessionsControl.selectedSegmentIndex = 0
-//        messagesSessionsControl.tintColor = .clear
-//
-//        rightView.layer.cornerRadius = 6
-//        leftView.layer.cornerRadius = 6
-        
 	
     }
     
@@ -125,7 +103,6 @@ class SearchBar: BaseView, Interactable {
             make.edges.equalToSuperview()
         }
     }
-
 }
 
 
@@ -168,21 +145,6 @@ class MainPage : BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     func updateSideBar() { }
-	
-//    @objc internal func controlChanged() {
-//        let _ = contentView.messagesSessionsControl.subviews[0]
-//        let _ = contentView.messagesSessionsControl.subviews[1]
-//
-//        switch contentView.messagesSessionsControl.selectedSegmentIndex
-//        {
-//        case 0:
-//            contentView.messagesSessionsControl.layer.sublayers![0].frame = CGRect(x: leftView.frame.minX + 1.5, y: leftView.frame.minY + 1.5, width: leftView.frame.width - 7, height: leftView.frame.height - 3)
-//        case 1:
-//            contentView.messagesSessionsControl.layer.sublayers![0].frame = CGRect(x: rightView.frame.minX + 1.5, y: rightView.frame.minY + 1.5, width: rightView.frame.width - 7, height: rightView.frame.height - 3)
-//        default:
-//            break
-//        }
-//    }
     
     override func handleNavigation() {
         if (touchStartView == nil) {

@@ -29,7 +29,6 @@ func setDeviceInfo() -> (Double, Double, Double, Double) {
     default:
         return (0, 0, 0, 0)
     }
-    
 }
 
 @UIApplicationMain
@@ -63,13 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Firebase check
         if Auth.auth().currentUser != nil {
             //create SignInClass to handle everything before user is able to sign in.
-            AccountService.shared.loadUser()
-
-			SpotlightTutor.shared.queryFeaturedTutor { (error) in
-				if let error = error {
-					print(error.localizedDescription)
-				}
-			}
 			
 			_ = SignInHandler.init({ (error) in
 				if error != nil {

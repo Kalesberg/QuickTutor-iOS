@@ -84,7 +84,7 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoryCollectionViewCell
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoryCollectionViewCell		
 		
 		cell.label.text = category[indexPath.row].mainPageData.displayName
 		cell.imageView.image = category[indexPath.row].mainPageData.image
@@ -94,6 +94,7 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		CategorySelected.title = category[indexPath.item].mainPageData.displayName
+		
 		let next = CategorySearch()
 		next.category = category[indexPath.item]
 		navigationController.pushViewController(next, animated: true)

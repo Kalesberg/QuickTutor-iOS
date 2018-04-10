@@ -12,13 +12,7 @@ import SnapKit
 
 class FeaturedTutorTableViewCell : UITableViewCell  {
 	
-	var sectionIndex : Int! {
-		didSet {
-			print(sectionIndex)
-			
-			collectionView.reloadData()
-		}
-	}
+	var datasource : [FeaturedTutor]?
 	
 	let collectionView : UICollectionView =  {
 		
@@ -76,17 +70,17 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return spotlights[category[sectionIndex - 1]]!.count
+		return datasource?.count ?? 0
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 
-		cell.price.text = spotlights[category[sectionIndex - 1]]![indexPath.item].price
-		cell.featuredTutor.namePrice.text = spotlights[category[sectionIndex - 1]]![indexPath.item].name
-		cell.featuredTutor.region.text = spotlights[category[sectionIndex - 1]]![indexPath.item].region
-		cell.featuredTutor.subject.text = spotlights[category[sectionIndex - 1]]![indexPath.item].topic
+		cell.price.text = String(datasource![indexPath.item].price)
+		cell.featuredTutor.namePrice.text = datasource![indexPath.item].name
+		cell.featuredTutor.region.text = datasource![indexPath.item].region
+		cell.featuredTutor.subject.text = datasource![indexPath.item].topSubject
 		
 		return cell
 	}
@@ -96,10 +90,13 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 			current.present(TutorConnect(), animated: true, completion: nil)
 		}
 	}
+	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
 		let screen = UIScreen.main.bounds
 		let width = (screen.width / 3) - 13
 		let height = collectionView.frame.height - 15
+		
 		return CGSize(width: width, height: height)
 	}
 }
