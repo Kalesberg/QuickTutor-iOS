@@ -152,6 +152,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		super.configureView()
 	
 		headerView.backgroundColor = Colors.backgroundDark
+		backButton.image.image = #imageLiteral(resourceName: "back-button")
 		collectionView.collectionViewLayout = customLayout
 
 		applyConstraints()
@@ -233,6 +234,12 @@ class TutorAddSubjects : BaseViewController {
 	
 	var selected : [Selected] = []
 	
+	var tableViewIsActive : Bool = false {
+		didSet {
+			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "navbar-x") : #imageLiteral(resourceName: "back-button")
+		}
+	}
+	
 	var selectedCategory : Int = 6 {
 		didSet {
 			DispatchQueue.main.async {
@@ -293,7 +300,7 @@ class TutorAddSubjects : BaseViewController {
 
 	private func tableView(shouldDisplay bool: Bool) {
 		contentView.searchBar.text = ""
-		
+		tableViewIsActive = !tableViewIsActive
 		UIView.animate(withDuration: 0.5, animations: {
 			self.contentView.collectionView.alpha = bool ? 0.0 : 1.0
 			return
@@ -354,7 +361,7 @@ class TutorAddSubjects : BaseViewController {
 	
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX {
-			if !contentView.tableView.isHidden {
+			if tableViewIsActive {
 				
 				SubjectStore.readCategory(resource: categories[selectedCategory].subcategory.fileToRead) { (subjects) in
 					self.subjects = subjects
@@ -544,20 +551,7 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 }
 
-extension TutorAddSubjects : UISearchBarDelegate, UIScrollViewDelegate {
-	
-	private func scrollToTop() {
-		contentView.tableView.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-		automaticScroll = false
-	}
-
-	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-		if !automaticScroll {
-			self.view.endEditing(true)
-		}
-	}
+extension TutorAddSubjects : UISearchBarDelegate {
 	
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		tableView(shouldDisplay: true)
@@ -586,5 +580,19 @@ extension TutorAddSubjects : UISearchBarDelegate, UIScrollViewDelegate {
 		}
 	}
 }
+extension TutorAddSubjects : UIScrollViewDelegate {
+	
+	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+		if !automaticScroll {
+			self.view.endEditing(true)
+		}
+	}
+	private func scrollToTop() {
+		contentView.tableView.reloadData()
+		let indexPath = IndexPath(row: 0, section: 0)
+		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+		automaticScroll = false
+	}
+	
 
-
+}

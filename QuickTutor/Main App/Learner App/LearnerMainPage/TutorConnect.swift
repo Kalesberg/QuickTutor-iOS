@@ -105,35 +105,43 @@ class TutorConnect : BaseViewController {
 		view = TutorConnectView()
 	}
 	
-	var dataSource : [FeaturedTutor] = [] {
-		didSet {
-			contentView.collectionView.reloadData()
-		}
-	}
+	var datasource = [FeaturedTutor]()
+//	var datasource : [FeaturedTutor] = [] {
+//		didSet {
+//			contentView.collectionView.reloadData()
+//		}
+//	}
 	
 	var subcategory : String! {
 		didSet {
-//			SpotlightTutor.shared.queryBySubcategory(subcategory: subcategory) { (tutors) in
-//				if let tutors = tutors {
-//					self.dataSource = tutors
-//				}
-//			}
-		}
-	}
-	var subject : (String, String)! {
-		didSet {
-			QueryData.shared.queryBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
+			QueryData.shared.queryBySubcategory(subcategory: subcategory) { (tutors) in
 				if let tutors = tutors {
-					self.dataSource = tutors
+					self.datasource = tutors
+					print(self.datasource)
+				} else {
+					print("error")
 				}
 			}
 		}
 	}
+	
+	var subject : (String, String)!// {
+//		didSet {
+//			QueryData.shared.queryBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
+//				if let tutors = tutors {
+//					self.dataSource = tutors
+//				}
+//			}
+//		}
+//	}
 
 	private var startingScrollingOffset = CGPoint.zero
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+	
+		
 		contentView.collectionView.dataSource = self
 		contentView.collectionView.delegate = self
 		contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
@@ -162,7 +170,7 @@ extension TutorConnect : UIPopoverPresentationControllerDelegate {
 
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return dataSource.count
+		return datasource.count
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

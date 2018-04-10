@@ -98,7 +98,7 @@ class Tutor {
 			}
 		}
 		for path in paths.unique {
-			updateValues["subcategory/\(path)/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : 5, "d" : 0, "h" : 0]
+			updateValues["subcategory/\(path.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : 5, "d" : 0, "h" : 0]
 		}
 		self.ref.root.updateChildValues(updateValues)
 	}

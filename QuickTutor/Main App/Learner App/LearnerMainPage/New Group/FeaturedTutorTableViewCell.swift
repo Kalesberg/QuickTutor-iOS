@@ -12,12 +12,6 @@ import SnapKit
 
 class FeaturedTutorTableViewCell : UITableViewCell  {
 	
-	var sectionIndex : Int! {
-		didSet {
-			//collectionView.reloadData()
-		}
-	}
-	
 	var datasource : [FeaturedTutor]?
 	
 	let collectionView : UICollectionView =  {
@@ -77,18 +71,16 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return datasource?.count ?? 0
-		//return feature[category[sectionIndex - 1]]?.count ?? 0
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 
-		//cell.price.text = datasource![indexPath.item].name
-		
-//		cell.price.text = String(feature[category[sectionIndex - 1]]![indexPath.item].price)
-//		cell.featuredTutor.namePrice.text = feature[category[sectionIndex - 1]]![indexPath.item].name
-//		cell.featuredTutor.region.text = feature[category[sectionIndex - 1]]![indexPath.item].region
+		cell.price.text = String(datasource![indexPath.item].price)
+		cell.featuredTutor.namePrice.text = datasource![indexPath.item].name
+		cell.featuredTutor.region.text = datasource![indexPath.item].region
+		cell.featuredTutor.subject.text = datasource![indexPath.item].topSubject
 		
 		return cell
 	}

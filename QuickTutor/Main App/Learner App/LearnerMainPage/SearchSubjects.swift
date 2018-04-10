@@ -15,6 +15,7 @@ class SearchSubjectsView : SearchLayoutView, Keyboardable {
 	var backButton = NavbarButtonX()
 	
 	let headerView = SectionHeader()
+	
 	override var leftButton : NavbarButton {
 		get {
 			return backButton
@@ -78,6 +79,7 @@ class SearchSubjectsView : SearchLayoutView, Keyboardable {
 		addSubview(tableView)
 		addSubview(keyboardView)
 		super.configureView()
+		backButton.image.image = #imageLiteral(resourceName: "back-button")
 		headerView.backgroundColor = Colors.backgroundDark
 		applyConstraints()
 	}
@@ -104,7 +106,9 @@ class SearchSubjectsView : SearchLayoutView, Keyboardable {
 			make.centerX.equalToSuperview()
 		}
 	}
+	
 	override func layoutSubviews() {
+		super.layoutSubviews()
 		layoutIfNeeded()
 	}
 }
@@ -130,6 +134,12 @@ class SearchSubjects: BaseViewController {
 	var filteredSubjects : [String] = []
 	
 	var shouldUpdateSearchResults = false
+	
+	var isTableViewActive : Bool = false {
+		didSet {
+			contentView.backButton.image.image = isTableViewActive ? #imageLiteral(resourceName: "navbar-x") : #imageLiteral(resourceName: "back-button")
+		}
+	}
 	
 	var selectedCategory : Int = 6 {
 		didSet {
@@ -163,6 +173,7 @@ class SearchSubjects: BaseViewController {
 		if !initialSetup && initialIndex != nil{
 			contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
 			contentView.searchTextField.textField.attributedPlaceholder = NSAttributedString(string: categories[selectedCategory].subcategory.phrase, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			contentView.headerView.category.text = categories[selectedCategory].mainPageData.displayName
 			initialSetup = true
 		}
 		contentView.collectionView.reloadData()
@@ -201,21 +212,19 @@ class SearchSubjects: BaseViewController {
 			automaticScroll = false
 			return
 		}
-
-		if shouldUpdateSearchResults {
-			filteredSubjects = subjects.filter({$0.contains(textField.text!.lowercased())})
-			contentView.tableView.reloadData()
-		} else {
-			subjects = subjects.filter({$0.contains(textField.text!.lowercased())})
-			contentView.tableView.reloadData()
-		}
-	
+		
+		shouldUpdateSearchResults = true
+		
+		filteredSubjects = subjects.filter({$0.contains(textField.text!.lowercased())})
+		contentView.tableView.reloadData()
+		
 		if filteredSubjects.count > 0 {
 			scrollToTop()
 		}
 	}
+	
 	private func tableView(shouldDisplay bool: Bool) {
-		contentView.searchTextField.textField.text = ""
+		isTableViewActive = !isTableViewActive
 		
 		UIView.animate(withDuration: 0.5, animations: {
 			self.contentView.collectionView.alpha = bool ? 0.0 : 1.0
@@ -224,10 +233,13 @@ class SearchSubjects: BaseViewController {
 		
 		UIView.animate(withDuration: 0.5, animations: {
 			self.contentView.tableView.alpha = bool ? 1.0 : 0.0
+			return
 		})
 	}
 	
 	func newCategorySelected(_ indexPath : Int) {
+		
+		shouldUpdateSearchResults = false
 		
 		UIView.animate(withDuration: 0.5, animations: {
 			self.contentView.collectionView.alpha = 0.0
@@ -235,6 +247,14 @@ class SearchSubjects: BaseViewController {
 		})
 		
 		selectedCategory = indexPath
+		
+		contentView.headerView.category.text = categories[selectedCategory].mainPageData.displayName
+		
+		SubjectStore.readCategory(resource: self.categories[selectedCategory].subcategory.fileToRead) { (subjects) in
+			self.subjects = subjects
+			print("read")
+		}
+		
 		filteredSubjects = []
 		contentView.tableView.reloadData()
 		
@@ -247,14 +267,16 @@ class SearchSubjects: BaseViewController {
 
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX {
-			if shouldUpdateSearchResults {
+			print("yaas")
+			
+			if isTableViewActive {
 				
 				tableView(shouldDisplay: false)
 				shouldUpdateSearchResults = false
 				filteredSubjects = []
-				contentView.tableView.reloadData()
+				contentView.searchTextField.textField.text = ""
 				self.dismissKeyboard()
-			} else{
+			} else {
 				self.dismissKeyboard()
 				navigationController?.popViewController(animated: true)
 			}
@@ -276,6 +298,7 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 		if collectionView.tag == 0 {
 			
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionViewCell", for: indexPath) as! SubjectCollectionViewCell
+			
 			cell.imageView.image = categories[selectedCategory].subcategory.icon[indexPath.item]
 			cell.label.text = categories[selectedCategory].subcategory.subcategories[indexPath.item]
 			
@@ -292,22 +315,27 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		if collectionView.tag == 1  {
+		if collectionView.tag == 0 {
+			
+			let next = TutorConnect()
+			
+			next.subcategory = categories[selectedCategory].subcategory.subcategories[indexPath.item]
+			
+			self.present(next, animated: true, completion: nil)
+		
+		} else if collectionView.tag == 1  {
+			
 			shouldUpdateSearchResults = true
+			
 			newCategorySelected(indexPath.item)
-			SubjectStore.readCategory(resource: categories[selectedCategory].subcategory.fileToRead) { (subjects) in
-				self.subjects = subjects
-			}
-			filteredSubjects = subjects
-			contentView.tableView.reloadData()
+			collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
 			
 		} else {
-			let next = TutorConnect()
-			next.subcategory = categories[selectedCategory].subcategory.subcategories[indexPath.item]
-			self.present(next, animated: true, completion: nil)
+			return
 		}
 	}
 }
+
 extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 	
 	internal func numberOfSections(in tableView: UITableView) -> Int {
@@ -323,9 +351,13 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 	
 	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "subjectTableViewCell", for: indexPath) as! SubjectTableViewCell
+		
 		if shouldUpdateSearchResults {
 			cell.subject.text = (filteredSubjects[indexPath.row])
+		} else {
+			cell.subject.text = subjects[indexPath.row]
 		}
+		
 		return cell
 	}
 	
@@ -333,8 +365,11 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 		let subject = tableView.cellForRow(at: indexPath) as! SubjectTableViewCell
 		
 		SubjectStore.findSubCategory(resource: categories[selectedCategory].mainPageData.displayName.lowercased(), subject: subject.subject.text!) { (key) in
+			
 			let next = TutorConnect()
+			
 			next.subject = (key, subject.subject.text!)
+			
 			self.present(next, animated: true, completion: nil)
 		}
 	}
@@ -356,21 +391,22 @@ extension SearchSubjects : UIPopoverPresentationControllerDelegate {
 
 extension SearchSubjects : UITextFieldDelegate {
 	
-	private func scrollToTop() {
-		contentView.tableView.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-		automaticScroll = false
+	internal func textFieldDidBeginEditing(_ textField: UITextField) {
+		tableView(shouldDisplay: true)
 	}
+}
+extension SearchSubjects : UIScrollViewDelegate {
 	
 	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
 		if !automaticScroll {
 			self.view.endEditing(true)
 		}
 	}
-
-	internal func textFieldDidBeginEditing(_ textField: UITextField) {
-		shouldUpdateSearchResults = true
-		tableView(shouldDisplay: true)
+	
+	private func scrollToTop() {
+		contentView.tableView.reloadData()
+		let indexPath = IndexPath(row: 0, section: 0)
+		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+		automaticScroll = false
 	}
 }

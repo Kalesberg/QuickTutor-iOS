@@ -70,6 +70,11 @@ class LearnerMainPageView : MainPageView {
 			make.centerX.equalToSuperview()
 		}
 	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		tableView.layoutSubviews()
+		tableView.layoutIfNeeded()
+	}
 }
 
 class LearnerMainPage : MainPage {
@@ -88,23 +93,30 @@ class LearnerMainPage : MainPage {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		configureView()
-		loadData(data: Array(category.prefix(4)))
-		
+		QueryData.shared.queryFeaturedTutor(categories: Array(category.prefix(4))) { (datasource, error) in
+			if let error = error {
+				
+				print(error.localizedDescription)
+				
+			} else if let datasource = datasource {
+				
+				self.contentView.tableView.performBatchUpdates({
+					
+					self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+					
+					self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+					
+				}, completion: { (finished) in
+					if finished {
+						self.didLoadMore = false
+					}
+				})
+			}
+		}
 		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
 			contentView.sidebar.profileView.profilePicView.image = image
 		}
 	}
-
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-		
-		contentView.sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.sidebar.bounds)
-		
-		contentView.tableView.layoutSubviews()
-		contentView.tableView.layoutIfNeeded()
-		contentView.tableView.reloadData()
-	}
-	
 	override func updateSideBar() {
 		
 		contentView.sidebar.profileView.profileNameView.label.text = user.name
@@ -122,39 +134,6 @@ class LearnerMainPage : MainPage {
 		contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
 	}
 	
-	private func loadData(data: [Category]) {
-		
-		QueryData.shared.queryFeaturedTutor(categories: data) { (datasource, error) in
-			if let error = error {
-			
-				print(error.localizedDescription)
-			
-			} else if let datasource = datasource {
-				
-				self.contentView.tableView.performBatchUpdates({
-					self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-					
-					self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .automatic )
-					
-				}, completion: { (finished) in
-					self.didLoadMore = false
-					self.contentView.tableView.scrollToRow(at: IndexPath(row: 0, section: self.datasource.count), at: .bottom, animated: true)
-				})
-				
-//				self.contentView.tableView.beginUpdates()
-//
-//				self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-//
-//				self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 2..<self.datasource.count - 2 + data.count) , with: .bottom )
-//
-//				self.contentView.tableView.endUpdates()
-//
-//				self.didLoadMore = false
-//
-//				self.contentView.tableView.scrollToRow(at: IndexPath(row: 0, section: self.datasource.count), at: .bottom, animated: true)
-			}
-		}
-	}
 	override func handleNavigation() {
 		super.handleNavigation()
 		
@@ -213,9 +192,9 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 			return cell
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
+		
+			cell.datasource = self.datasource[category[indexPath.section - 1]]
 			
-			cell.sectionIndex = indexPath.section
-			cell.datasource = self.datasource[category[indexPath.row + 1]]
 			return cell
 		}
 	}
@@ -243,12 +222,37 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	}
 }
 extension LearnerMainPage : UIScrollViewDelegate {
+	
 	func scrollViewDidScroll(_ scrollView: UIScrollView) {
 		if (scrollView.contentOffset.y - 60 >= (scrollView.contentSize.height - scrollView.frame.size.height))  && contentView.tableView.numberOfSections > 1 {
+			
 			if !didLoadMore && datasource.count < 12 {
+				
 				didLoadMore = true
-				loadData(data: Array(category[self.datasource.count..<self.datasource.count + 4]))
-				return
+				
+				QueryData.shared.queryFeaturedTutor(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource, error) in
+					//do something with error
+					if let error = error {
+						print(error.localizedDescription)
+						return
+					}
+					//update datasource.
+					if let datasource = datasource {
+						
+						self.contentView.tableView.performBatchUpdates({
+							//merge current datasource with new datasource replacing duplicate keys with the new datasource
+							self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+							
+							//create indexSet for new sections to be added.
+							self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+							
+						}, completion: { (finished) in
+							if finished {
+								self.didLoadMore = false
+							}
+						})
+					}
+				}
 			}
 		}
 	}
