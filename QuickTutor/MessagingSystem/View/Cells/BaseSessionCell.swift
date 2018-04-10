@@ -41,7 +41,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     let profileImage: UserImageView = {
         let iv = UserImageView()
-        iv.imageView.backgroundColor = .yellow
         return iv
     }()
     
@@ -49,7 +48,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createBoldSize(13)
-        label.text = "Mathematics"
         return label
     }()
     
@@ -57,7 +55,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createSize(11)
-        label.text = "with Alex Zoltowski"
         return label
     }()
     
@@ -71,7 +68,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     let starLabel: UILabel = {
         let label = UILabel()
-        label.text = "4.71"
         label.textAlignment = .right
         label.font = Fonts.createBoldSize(9)
         label.textColor = UIColor(hex: "FFDA02")
@@ -95,7 +91,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         updateWeekdayLabel()
         updateMonthLabel()
         subjectLabel.text = session.subject
-        DataService.shared.getStudentWithId(session.partnerId()) { (tutor) in
+        DataService.shared.getStudentWithId(session.partnerId()) { tutor in
             guard let username = tutor?.username.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
             self.profileImage.imageView.loadImage(urlString: profilePicUrl)
@@ -119,7 +115,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     }
     
     func setupMainView() {
-        backgroundColor = UIColor(red: 76.0/255.0, green: 94.0/255.0, blue: 141.0/255.0, alpha: 1.0)
+        backgroundColor = UIColor(red: 76.0 / 255.0, green: 94.0 / 255.0, blue: 141.0 / 255.0, alpha: 1.0)
     }
     
     func setupMonthLabel() {
@@ -192,7 +188,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     func updateWeekdayLabel() {
         
     }
-
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -202,7 +197,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     func handleButton1() {
         print("button 1 was touched")
@@ -223,9 +217,3 @@ protocol SessionCellActionViewDelegate {
     func handleButton2()
     func handleButton3()
 }
-
-//extension SessionCellActionViewDelegate {
-//    func handleButton1() {}
-//    func handleButton2() {}
-//    func handleButton3() {}
-//}

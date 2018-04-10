@@ -81,7 +81,7 @@ class DataService {
     }
     
     func getSessionById(_ sessionId: String, completion: @escaping(Session) -> ()) {
-        Database.database().reference().child("sessionRequests").child(sessionId).observeSingleEvent(of: .value) { (snapshot) in
+        Database.database().reference().child("sessions").child(sessionId).observeSingleEvent(of: .value) { (snapshot) in
             guard let value = snapshot.value as? [String: Any] else { return }
             let session = Session(dictionary: value, id: sessionId)
             completion(session)
@@ -151,7 +151,7 @@ class DataService {
         let _: [String: Any] = ["expiration": expiration, "status": "pending"]
         
         let timestamp = Date().timeIntervalSince1970
-        Database.database().reference().child("sessionRequests").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { (error, ref1) in
+        Database.database().reference().child("sessions").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { (error, ref1) in
             let message = UserMessage(dictionary: ["timestamp": timestamp, "senderId": uid, "receiverId": id, "sessionRequestId": ref1.key])
             Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
                 let senderRef = Database.database().reference().child("conversations").child(uid).child(id)

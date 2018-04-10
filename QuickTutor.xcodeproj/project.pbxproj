@@ -274,6 +274,9 @@
 		CF833B83207C4C2600323242 /* LearnerPastSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B82207C4C2600323242 /* LearnerPastSessionCell.swift */; };
 		CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B84207C4C4200323242 /* TutorPastSessionCell.swift */; };
 		CF833B87207C4D3000323242 /* SessionCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B86207C4D3000323242 /* SessionCellActionView.swift */; };
+		CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B89207C93D800323242 /* MessageButtonDelegate.swift */; };
+		CF833B8C207C940A00323242 /* CancelSessionButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B8B207C940A00323242 /* CancelSessionButtonDelegate.swift */; };
+		CF833B90207C949D00323242 /* RequestSessionButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B8F207C949D00323242 /* RequestSessionButtonDelegate.swift */; };
 		CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */; };
 		CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */; };
 		CF8578C62060AB230089B6F0 /* MessagesContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */; };
@@ -569,6 +572,9 @@
 		CF833B82207C4C2600323242 /* LearnerPastSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerPastSessionCell.swift; sourceTree = "<group>"; };
 		CF833B84207C4C4200323242 /* TutorPastSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPastSessionCell.swift; sourceTree = "<group>"; };
 		CF833B86207C4D3000323242 /* SessionCellActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCellActionView.swift; sourceTree = "<group>"; };
+		CF833B89207C93D800323242 /* MessageButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtonDelegate.swift; sourceTree = "<group>"; };
+		CF833B8B207C940A00323242 /* CancelSessionButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSessionButtonDelegate.swift; sourceTree = "<group>"; };
+		CF833B8F207C949D00323242 /* RequestSessionButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSessionButtonDelegate.swift; sourceTree = "<group>"; };
 		CF8578BD2060650F0089B6F0 /* EmptyMessagesBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMessagesBackground.swift; sourceTree = "<group>"; };
 		CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseContentCell.swift; sourceTree = "<group>"; };
 		CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesContentCell.swift; sourceTree = "<group>"; };
@@ -1220,6 +1226,7 @@
 		CF6F5886205EE68800ACBD32 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CF833B88207C93C500323242 /* Delegates */,
 				CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */,
 				CF6F5888205EE68800ACBD32 /* Cells */,
 				CF6F5894205EE68800ACBD32 /* MeetupRequests */,
@@ -1381,6 +1388,16 @@
 				CF833B84207C4C4200323242 /* TutorPastSessionCell.swift */,
 			);
 			path = PastCells;
+			sourceTree = "<group>";
+		};
+		CF833B88207C93C500323242 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				CF833B89207C93D800323242 /* MessageButtonDelegate.swift */,
+				CF833B8B207C940A00323242 /* CancelSessionButtonDelegate.swift */,
+				CF833B8F207C949D00323242 /* RequestSessionButtonDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1599,6 +1616,7 @@
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
 				CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */,
+				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
 				848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */,
 				846D9B562069E57C00302773 /* FeaturedTutorTableViewCell.swift in Sources */,
 				845B3BA02069E81B009F8E04 /* CategoryCollectViewCell.swift in Sources */,
@@ -1765,6 +1783,7 @@
 				CF12D93B20642236004BE148 /* Session.swift in Sources */,
 				CF833B70207C4B1500323242 /* LearnerSessionContentCell.swift in Sources */,
 				840613251FD8BE29003F6547 /* BioView.swift in Sources */,
+				CF833B90207C949D00323242 /* RequestSessionButtonDelegate.swift in Sources */,
 				8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */,
 				84D19DA8207056DD00216238 /* TutorMyProfileCells.swift in Sources */,
 				84D8C9342067116C003C3AEA /* TutorConnect.swift in Sources */,
@@ -1776,6 +1795,7 @@
 				CF833B7A207C4B9D00323242 /* BaseUpcomingSessionCell.swift in Sources */,
 				84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */,
 				CF6F58D9205EE68800ACBD32 /* StudentKeyboardAccessory.swift in Sources */,
+				CF833B8C207C940A00323242 /* CancelSessionButtonDelegate.swift in Sources */,
 				CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */,
 				84E4C7E8204E9774009C2FC4 /* SearchTutor.swift in Sources */,
 				CF6F58E1205EE68800ACBD32 /* CreateAccountVC.swift in Sources */,
