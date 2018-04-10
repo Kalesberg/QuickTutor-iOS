@@ -22,42 +22,72 @@ class Tutor {
 	public func initTutor(completion: @escaping (Error?) -> Void) {
 		
 		let data = LearnerData.userData
-		var paths : [String] = []
-		var updateValues : [String : Any] = [:]
+		let subjectNode = buildSubjectNode()
 		
-		
-		if let subjects = TutorRegistration.subjects {
-			for (_, value) in subjects.enumerated() {
-				paths.append(value.path)
-			}
-		}
-		for path in paths.unique {
-			updateValues["tutor-info/\(Auth.auth().currentUser!.uid)\(path)/"] = []
-		}
-		
-		let post : [String:Any] =
+		let post : [String : Any] =
 			[
-				"nm" : data.name,
-				"bio" : TutorRegistration.tutorBio,
-				"sub" : "subjects",
-				"rg" : TutorRegistration.address,
-				"tok" : TutorRegistration.stripeToken,
-            ]
+				"/tutor-info/\(user.uid)" :
+					[ "nm"  : data.name,
+					  "sch" : data.school,
+					  "lng" : data.languages,
+					  "img" : data.images,
+					  "hr"  : 0,
+					  "r"   : 5,
+					  "nos" : 0,
+					  "p"	: 5,
+					  "bio" : TutorRegistration.tutorBio,
+					  "rg"  : TutorRegistration.address,
+					  "tok" : TutorRegistration.stripeToken,],
+				
+				"/subject/\(user.uid)" : subjectNode,
+				
+				]
 		
-		ref.child("tutor-info").child(user.uid).updateChildValues(post) { (error, databaseRef) in
+		ref.root.updateChildValues(post) { (error, databaseRef) in
 			if let error = error {
 				print(error.localizedDescription)
 				completion(error)
 			} else {
 				print("User is in the database!")
+				self.geoFire(location: TutorRegistration.location)
+				self.placeTutor()
 				completion(nil)
 			}
 		}
-		geoFire(location: TutorRegistration.location)
-		placeTutor()
+		
+	}
+	public func buildSubjectNode() -> [String : Any] {
+
+		var subcategories : [String] = []
+		var updateValues : [String : Any] = [:]
+		var subjectDict = [String : [String]]()
+		
+		if let subjects = TutorRegistration.subjects {
+			for (_, value) in subjects.enumerated() {
+				subcategories.append(value.path)
+			}
+			
+			for subcategory in subcategories.unique {
+				
+				let path = subcategory
+				var arr : [String] = []
+				
+				for subject in subjects {
+					if path == subject.path {
+						arr.append(subject.subject)
+					}
+				}
+				subjectDict[path] = arr
+			}
+		}
+		for key in subjectDict {
+			let subjects = key.value.compactMap({$0}).joined(separator: " ")
+			updateValues["\(key.key.lowercased())"] = ["p": 5, "r" : 5, "sbj" : subjects, "h" : 0, "s" : 0]
+		}
+		return updateValues
 	}
 	
-	public func placeTutor() {
+	private func placeTutor() {
 		
 		var paths : [String] = []
 		var updateValues : [String : Any] = [:]
@@ -68,9 +98,9 @@ class Tutor {
 			}
 		}
 		for path in paths.unique {
-			updateValues["subcategory/\(path)/\(Auth.auth().currentUser!.uid)"] = ["r" : 5]
+			updateValues["subcategory/\(path)/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : 5, "d" : 0, "h" : 0]
 		}
-	    self.ref.root.updateChildValues(updateValues)
+		self.ref.root.updateChildValues(updateValues)
 	}
 	
 	public func updateValue(value: [String : Any]) {

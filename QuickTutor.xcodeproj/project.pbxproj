@@ -24,6 +24,7 @@
 		841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */; };
 		841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */; };
 		841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */; };
+		8421007E207A7E0800422A31 /* FeaturedTutorQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421007D207A7E0800422A31 /* FeaturedTutorQuery.swift */; };
 		8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422F2F0205AB6480061ACE4 /* PageController.swift */; };
 		8422F2F3205AC6390061ACE4 /* LeanerMessaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422F2F2205AC6390061ACE4 /* LeanerMessaging.swift */; };
 		842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */; };
@@ -227,6 +228,7 @@
 		841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAccountPayments.swift; sourceTree = "<group>"; };
 		841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorUpdatePayment.swift; sourceTree = "<group>"; };
 		841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPaymentEarnings.swift; sourceTree = "<group>"; };
+		8421007D207A7E0800422A31 /* FeaturedTutorQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTutorQuery.swift; sourceTree = "<group>"; };
 		8422F2F0205AB6480061ACE4 /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		8422F2F2205AC6390061ACE4 /* LeanerMessaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeanerMessaging.swift; sourceTree = "<group>"; };
 		842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfo.swift; sourceTree = "<group>"; };
@@ -458,6 +460,14 @@
 				84D8C9272066A8E8003C3AEA /* CategoryTableViewCell.swift */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		8421007C207A7DEE00422A31 /* TutorQueries */ = {
+			isa = PBXGroup;
+			children = (
+				8421007D207A7E0800422A31 /* FeaturedTutorQuery.swift */,
+			);
+			path = TutorQueries;
 			sourceTree = "<group>";
 		};
 		842393FE1FF4BA7D00827C7D /* Registration UI */ = {
@@ -901,6 +911,7 @@
 				84D8C9332067116C003C3AEA /* TutorConnect.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
 				84BC21D7206DB333002B4721 /* ViewFullProfile.swift */,
+				8421007C207A7DEE00422A31 /* TutorQueries */,
 				845B3BA22069E8D1009F8E04 /* CollectionViewCells */,
 				845B3BA12069E8C3009F8E04 /* TableViewCells */,
 				846D9B422069E3A500302773 /* CustomLayouts */,
@@ -1369,6 +1380,7 @@
 				846D9B582069E57E00302773 /* SubjectTableViewCell.swift in Sources */,
 				8470995C20083AA5000DCFD0 /* MainPage.swift in Sources */,
 				84E283572004874300B004E7 /* RegistrationBigButton.swift in Sources */,
+				8421007E207A7E0800422A31 /* FeaturedTutorQuery.swift in Sources */,
 				84E4C7D2204E80E4009C2FC4 /* AccountPayments.swift in Sources */,
 				842394131FF4CAC600827C7D /* RegistrationTextField.swift in Sources */,
 				84E1E4381FBE630200678531 /* signIn.swift in Sources */,

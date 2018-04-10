@@ -202,10 +202,14 @@ class SearchSubjects: BaseViewController {
 			return
 		}
 
-		shouldUpdateSearchResults = true
-		filteredSubjects = subjects.filter({$0.contains(textField.text!.lowercased())})
-		contentView.tableView.reloadData()
-		
+		if shouldUpdateSearchResults {
+			filteredSubjects = subjects.filter({$0.contains(textField.text!.lowercased())})
+			contentView.tableView.reloadData()
+		} else {
+			subjects = subjects.filter({$0.contains(textField.text!.lowercased())})
+			contentView.tableView.reloadData()
+		}
+	
 		if filteredSubjects.count > 0 {
 			scrollToTop()
 		}

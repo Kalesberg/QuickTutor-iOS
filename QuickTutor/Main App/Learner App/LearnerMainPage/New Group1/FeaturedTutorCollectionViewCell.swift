@@ -13,6 +13,7 @@ import SnapKit
 class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 	
 	let featuredTutor = FeaturedTutorView()
+	
 	let view : UIView = {
 		let view = UIView()
 		view.backgroundColor = Colors.learnerPurple
@@ -25,7 +26,7 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		
 		label.textAlignment = .center
 		label.textColor = .white
-		label.text = "$45/hr"
+		label.text = "$12/hr"
 		label.font = Fonts.createSize(13)
 		label.adjustsFontSizeToFitWidth = true
 		label.backgroundColor = .clear

@@ -105,7 +105,7 @@ class TutorConnect : BaseViewController {
 		view = TutorConnectView()
 	}
 	
-	var dataSource : [SpotlightTutor] = [] {
+	var dataSource : [FeaturedTutor] = [] {
 		didSet {
 			contentView.collectionView.reloadData()
 		}
@@ -122,7 +122,7 @@ class TutorConnect : BaseViewController {
 	}
 	var subject : (String, String)! {
 		didSet {
-			SpotlightTutor.shared.queryBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
+			QueryData.shared.queryBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
 				if let tutors = tutors {
 					self.dataSource = tutors
 				}

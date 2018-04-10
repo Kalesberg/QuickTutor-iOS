@@ -53,7 +53,6 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		textField?.autocapitalizationType = .words
 		textField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		textField?.keyboardAppearance = .dark
-		searchBar.isHidden = true
 		
 		return searchBar
 	}()
@@ -123,14 +122,14 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return tblView
 	}()
 	
-    var backButton = NavbarButtonBack()
+    var backButton = NavbarButtonX()
     var doneButton = NavbarButtonDone()
     
 	override var leftButton : NavbarButton {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonBack
+			backButton = newValue as! NavbarButtonX
 		}
 	}
     
@@ -148,9 +147,9 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		addSubview(categoryCollectionView)
 		addSubview(pickedCollectionView)
 		addSubview(tableView)
+		navbar.addSubview(searchBar)
 		addSubview(keyboardView)
 		super.configureView()
-		
 	
 		headerView.backgroundColor = Colors.backgroundDark
 		collectionView.collectionViewLayout = customLayout
@@ -234,7 +233,7 @@ class TutorAddSubjects : BaseViewController {
 	
 	var selected : [Selected] = []
 	
-	var selectedCategory : Int = 0 {
+	var selectedCategory : Int = 6 {
 		didSet {
 			DispatchQueue.main.async {
 				self.contentView.collectionView.reloadData()
@@ -246,8 +245,11 @@ class TutorAddSubjects : BaseViewController {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
+		
+		SubjectStore.readCategory(resource: categories[selectedCategory].subcategory.fileToRead) { (subjects) in
+			self.subjects = subjects
+		}
 	}
-	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
@@ -299,10 +301,12 @@ class TutorAddSubjects : BaseViewController {
 		
 		UIView.animate(withDuration: 0.5, animations: {
 			self.contentView.tableView.alpha = bool ? 1.0 : 0.0
+			return
 		})
 	}
 	
 	private func removeItem (item: Int) {
+		
 		selectedSubjects.remove(at: item)
 		selected.remove(at: item)
 		
@@ -314,9 +318,10 @@ class TutorAddSubjects : BaseViewController {
 		
 		}) { (finished) in
 			
-			self.contentView.pickedCollectionView.reloadItems(at: self.contentView.pickedCollectionView.indexPathsForVisibleItems)
-			
+			self.contentView.pickedCollectionView.reloadItems(at:
+				self.contentView.pickedCollectionView.indexPathsForVisibleItems)
 			self.contentView.noSelectedItemsLabel.isHidden = (self.selectedSubjects.count == 0) ? false : true
+			self.contentView.tableView.reloadData()
 		}
 	}
 	
@@ -328,6 +333,9 @@ class TutorAddSubjects : BaseViewController {
 		})
 		
 		selectedCategory = indexPath
+		SubjectStore.readCategory(resource: self.categories[selectedCategory].subcategory.fileToRead) { (subjects) in
+			self.subjects = subjects
+		}
 		filteredSubjects = []
 		contentView.tableView.reloadData()
 		
@@ -336,6 +344,7 @@ class TutorAddSubjects : BaseViewController {
 			self.contentView.searchBar.placeholder =  self.categories[self.selectedCategory].subcategory.phrase
 			return
 		})
+		
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -345,19 +354,24 @@ class TutorAddSubjects : BaseViewController {
 	
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX {
-			if shouldUpdateSearchResults {
-				contentView.searchBar.isHidden = true
-				shouldUpdateSearchResults = false
+			if !contentView.tableView.isHidden {
+				
+				SubjectStore.readCategory(resource: categories[selectedCategory].subcategory.fileToRead) { (subjects) in
+					self.subjects = subjects
+				}
+				
 				tableView(shouldDisplay: false)
+				shouldUpdateSearchResults = false
 				filteredSubjects = []
 				subIndex = nil
-				contentView.tableView.reloadData()
 				self.dismissKeyboard()
-			} else{
+			
+			} else {
 				self.dismissKeyboard()
 				navigationController?.popViewController(animated: true)
 			}
-		} else if touchStartView is RegistrationNextButton {
+		
+		} else if touchStartView is NavbarButtonDone {
 			TutorRegistration.subjects = selected
 			navigationController?.pushViewController(TutorBio(), animated: true)
 		}
@@ -373,9 +387,9 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
 			return 12
 		} else {
 			return selectedSubjects.count
-			
 		}
 	}
+	
 	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		if collectionView.tag == 0 {
 			return contentView.customLayout.itemSize
@@ -413,20 +427,18 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
 	internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		switch collectionView.tag {
 		case 0:
-			
+
 			shouldUpdateSearchResults = true
 			
-			SubjectStore.readSubcategory(resource: categories[selectedCategory].subcategory.fileToRead, subjectString: categories[selectedCategory].subcategory.subcategories[indexPath.item]) { (subjects) in
-				self.subjects = subjects
+			SubjectStore.readSubcategory(resource: self.categories[selectedCategory].subcategory.fileToRead, subjectString: categories[selectedCategory].subcategory.subcategories[indexPath.item]) { (subjects) in
+				self.filteredSubjects = subjects
+				self.contentView.tableView.reloadData()
+				self.scrollToTop()
 			}
 			
-			filteredSubjects = subjects
-			contentView.tableView.reloadData()
-			
-			contentView.searchBar.isHidden = false
-			tableView(shouldDisplay: true)
 			subIndex = indexPath.item
-			contentView.headerView.category.text = categories[selectedCategory].subcategory.subcategories[subIndex!]
+			contentView.headerView.category.text = self.categories[selectedCategory].subcategory.subcategories[subIndex!]
+			tableView(shouldDisplay: true)
 		
 		case 1:
 			newCategorySelected(indexPath.item)
@@ -466,9 +478,17 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 	
 	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "addSubjectsCell", for: indexPath) as! AddSubjectsTableViewCell
+		
 		if shouldUpdateSearchResults {
 			cell.subject.text = filteredSubjects[indexPath.row]
 			if selectedSubjects.contains(filteredSubjects[indexPath.row])  {
+				cell.selectedIcon.isSelected = true
+			} else{
+				cell.selectedIcon.isSelected = false
+			}
+		} else {
+			cell.subject.text = subjects[indexPath.row]
+			if selectedSubjects.contains(subjects[indexPath.row])  {
 				cell.selectedIcon.isSelected = true
 			} else{
 				cell.selectedIcon.isSelected = false
@@ -509,8 +529,10 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 		
 		selectedSubjects.append(cell.subject.text!)
 
-		selected.append(Selected(path: "\(categories[selectedCategory].subcategory.subcategories[subIndex!].lowercased())", subject: cell.subject.text!))
-
+		SubjectStore.findSubCategory(resource: categories[selectedCategory].mainPageData.displayName.lowercased(), subject: cell.subject.text!) { (subcategory) in
+			self.selected.append(Selected(path: "\(subcategory)", subject: cell.subject.text!))
+		}
+		
 		let index = IndexPath(item: selectedSubjects.endIndex - 1, section: 0)
 		
 		contentView.pickedCollectionView.performBatchUpdates({ [weak self] () -> Void in
@@ -538,7 +560,6 @@ extension TutorAddSubjects : UISearchBarDelegate, UIScrollViewDelegate {
 	}
 	
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-		shouldUpdateSearchResults = true
 		tableView(shouldDisplay: true)
 		if subIndex == nil {
 			contentView.headerView.category.text = categories[selectedCategory].mainPageData.displayName
@@ -555,9 +576,11 @@ extension TutorAddSubjects : UISearchBarDelegate, UIScrollViewDelegate {
 			automaticScroll = false
 			return
 		}
+		
 		shouldUpdateSearchResults = true
 		filteredSubjects = subjects.filter({$0.contains(searchText.lowercased())})
 		contentView.tableView.reloadData()
+		
 		if filteredSubjects.count > 0 {
 			scrollToTop()
 		}

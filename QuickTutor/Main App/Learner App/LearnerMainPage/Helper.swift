@@ -59,7 +59,7 @@ class FeaturedTutorView : BaseView {
 		
 		subject.textAlignment = .left
 		subject.textColor = .white
-		subject.text = "German Tutoring"
+		subject.text = "Psychology"
 		subject.font = Fonts.createSize(17)
 		subject.adjustsFontSizeToFitWidth = true
 		
@@ -71,7 +71,7 @@ class FeaturedTutorView : BaseView {
 		
 		region.textAlignment = .left
 		region.textColor = Colors.grayText
-		region.text = "Wyandotte, MI"
+		region.text = "Grand Rapids, MI"
 		region.font = Fonts.createSize(13)
 		region.adjustsFontSizeToFitWidth = true
 		
@@ -83,7 +83,7 @@ class FeaturedTutorView : BaseView {
 		
 		namePrice.textAlignment = .left
 		namePrice.textColor = Colors.grayText
-		namePrice.text = "Garry, M"
+		namePrice.text = "Toto, Sob"
 		namePrice.font = Fonts.createSize(13)
 		namePrice.adjustsFontSizeToFitWidth = true
 		
@@ -244,12 +244,12 @@ enum Category {
 		case .academics:				displayName = "ACADEMICS"
 		searchBarPhrases = ["search any academic subject"]
 		subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular","Test Preparation"]
-		icon = [#imageLiteral(resourceName: "mathematics") ,#imageLiteral(resourceName: "language-arts"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "extracurricular"),#imageLiteral(resourceName: "test-prep")]
+		icon = [#imageLiteral(resourceName: "mathematics") ,#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "test-prep")]
 		fileToRead = "academics"
 			
 		case .arts:						displayName = "THE ARTS"
 		searchBarPhrases = ["search for any art"]
-		subcategories = ["Applied Arts", "Art History", "Performing Arts", "Arts Critism", "Visual Arts","Literary Arts"]
+		subcategories = ["Applied Arts", "Art History", "Performing Arts", "Arts Criticism", "Visual Arts", "Literary Arts"]
 		icon = [#imageLiteral(resourceName: "applied-arts"),#imageLiteral(resourceName: "history"),#imageLiteral(resourceName: "performing"),#imageLiteral(resourceName: "art-criticism"),#imageLiteral(resourceName: "visual-arts"),#imageLiteral(resourceName: "literacy")]
 		fileToRead = "arts"
 			
@@ -267,7 +267,7 @@ enum Category {
 			
 		case .experiences:				displayName = "EXPERIENCES"
 		searchBarPhrases = ["search for any experience"]
-		subcategories = ["Career", "Cooking | Baking", "Volunteering", "Motivation | Consulting", "Travel Destinations","Fitness"]
+		subcategories = ["Career", "Cooking | Baking", "Motivation | Consulting", "Travel Destinations","Fitness", "Creations"]
 		icon = [#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "volunteering"),#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "fitness")]
 		fileToRead = "experiences"
 			
@@ -366,7 +366,7 @@ enum Category {
 			
 		case "academics":
 			return .academics
-		case "the arts":
+		case "arts":
 			return .arts
 		case "auto":
 			return .auto

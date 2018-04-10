@@ -107,7 +107,7 @@ class CategorySearch: BaseViewController {
 		view = CategorySearchView()
 	}
 	
-	var dataSource : [SpotlightTutor] = [] {
+	var dataSource : [FeaturedTutor] = [] {
 		didSet {
 			contentView.collectionView.reloadData()
 		}
@@ -115,7 +115,7 @@ class CategorySearch: BaseViewController {
 	
 	var category : Category! {
 		didSet {
-			SpotlightTutor.shared.queryByCategory(category:  category) { (tutors) in
+			QueryData.shared.queryByCategory(category:  category) { (tutors) in
 				if let tutors = tutors {
 					self.dataSource = tutors
 				} else {
@@ -165,10 +165,10 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		
-		cell.price.text = dataSource[indexPath.item].price
+		cell.price.text = String(dataSource[indexPath.item].price)
 		cell.featuredTutor.namePrice.text = dataSource[indexPath.item].name
 		cell.featuredTutor.region.text = dataSource[indexPath.item].region
-		cell.featuredTutor.subject.text = dataSource[indexPath.item].topic
+		//cell.featuredTutor.subject.text = dataSource[indexPath.item].topic
 		
 		return cell
 	}

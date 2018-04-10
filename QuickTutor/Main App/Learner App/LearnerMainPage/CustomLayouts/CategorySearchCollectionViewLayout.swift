@@ -12,6 +12,7 @@ import UIKit
 class CategorySearchCollectionViewLayout: UICollectionViewFlowLayout {
 	
 	let cellsPerRow: Int
+	
 	override var itemSize: CGSize {
 		get {
 			guard let collectionView = collectionView else { return super.itemSize }
