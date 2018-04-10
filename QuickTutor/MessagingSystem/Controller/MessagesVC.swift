@@ -78,6 +78,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.backItem?.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settingsIcon"), style: .plain, target: self, action: #selector(showSettings))
+        messageSessionControl.setupForUserType(.learner)
     }
     
     private func setupMessageSessionControl() {
@@ -154,6 +155,8 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
         blackView.removeFromSuperview()
     }
     
+    
+    
 }
 
 
@@ -169,7 +172,7 @@ extension MessagesVC: UICollectionViewDataSource {
             return cell
         } else {
             
-            if userType == "tutor" {
+            if AccountService.shared.currentUserType == .tutor {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorSessionsContentCell", for: indexPath) as! TutorSessionContentCell
                 return cell
             } else {

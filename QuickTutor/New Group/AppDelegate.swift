@@ -91,6 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 					})
 					
 					let controller = LearnerPageViewController()
+                    AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
 					self.window?.rootViewController = navigationController

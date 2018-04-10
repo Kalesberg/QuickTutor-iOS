@@ -34,7 +34,7 @@ class MessagesContentCell: BaseContentCell {
     private func setupEmptyBackground() {
         addSubview(emptyBackround)
         emptyBackround.anchor(top: collectionView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
-        emptyBackround.setupForLearner()
+        emptyBackround.setupForCurrentUserType()
     }
     
     override func setupRefreshControl() {

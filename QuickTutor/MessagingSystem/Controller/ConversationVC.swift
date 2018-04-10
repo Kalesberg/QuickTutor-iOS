@@ -251,8 +251,7 @@ class ConversationVC: UICollectionViewController {
     }
     
     override var inputAccessoryView: UIView? {
-        let currentUser = AccountService.shared.currentUser
-        return currentUser?.type == "teacher" ? teacherKeyboardAccessory : studentKeyboardAccessory
+        return AccountService.shared.currentUserType == .tutor ? teacherKeyboardAccessory : studentKeyboardAccessory
     }
     
     override var canBecomeFirstResponder: Bool {

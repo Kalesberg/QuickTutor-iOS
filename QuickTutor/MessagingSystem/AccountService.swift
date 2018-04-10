@@ -13,6 +13,8 @@ class AccountService {
     static let shared = AccountService()
     private(set) var currentUser: User!
     
+    var currentUserType: UserType = .learner
+    
     private init() {
         loadUser()
     }

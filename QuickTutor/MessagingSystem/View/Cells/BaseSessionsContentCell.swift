@@ -9,8 +9,6 @@
 import UIKit
 import Firebase
 
-let userType = "tutor"
-
 class BaseSessionsContentCell: BaseContentCell {
     
     var pendingSessions = [Session]()

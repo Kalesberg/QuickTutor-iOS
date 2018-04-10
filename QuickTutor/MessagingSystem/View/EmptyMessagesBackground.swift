@@ -59,13 +59,17 @@ class EmptyMessagesBackground: UIView {
         addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
     }
     
-    func setupForLearner() {
+    func setupForCurrentUserType() {
+        AccountService.shared.currentUserType == .learner ? setupForLearner() : setupForTutor()
+    }
+    
+    private func setupForLearner() {
         icon.image = #imageLiteral(resourceName: "searchIcon")
         titleLabel.text = "Start Searching"
         descriptionLabel.text = "When you connect with tutors they’ll appear here, where you can send them messages and schedule sessions."
     }
     
-    func setupForTutor() {
+    private func setupForTutor() {
         icon.image = #imageLiteral(resourceName: "buildIcon")
         titleLabel.text = "Build Your Profile"
         descriptionLabel.text = "When you connect with learners they’ll appear here, where you can send them messages and schedule sessions"

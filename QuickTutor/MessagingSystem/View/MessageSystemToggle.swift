@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum UserType {
+    case learner, tutor
+}
+
 protocol SegmentedViewDelegate {
     func scrollTo(index: Int)
 }
@@ -44,14 +48,24 @@ class MessagingSystemToggle: UIView {
     private func setupCollectionView() {
         addSubview(cv)
         cv.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        let selectedIndexPath = NSIndexPath(row: 0, section: 0)
-        cv.selectItem(at: selectedIndexPath as IndexPath, animated: false, scrollPosition: [])
+        selectFirstSection()
     }
     
     private func setupSeparator() {
         addSubview(separator)
         separator.anchor(top: cv.topAnchor, left: nil, bottom: cv.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0.5, height: 0)
         addConstraint(NSLayoutConstraint(item: separator, attribute: .centerX, relatedBy: .equal, toItem: cv, attribute: .centerX, multiplier: 1, constant: 0))
+    }
+    
+    func selectFirstSection() {
+        let selectedIndexPath = NSIndexPath(row: 0, section: 0)
+        cv.selectItem(at: selectedIndexPath as IndexPath, animated: false, scrollPosition: [])
+    }
+    
+    func setupForUserType(_ userType: UserType) {
+        sections[0] = userType == .learner ? "Tutors" : "Learners"
+        cv.reloadData()
+        selectFirstSection()
     }
     
     override init(frame: CGRect) {
