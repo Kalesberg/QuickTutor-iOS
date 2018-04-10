@@ -40,26 +40,25 @@ class BaseSessionsContentCell: BaseContentCell {
     
     func fetchSessions() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        print(uid)
-        print(uid)
 
         Database.database().reference().child("userSessions").child(uid).observe(.childAdded) { (snapshot) in
             DataService.shared.getSessionById(snapshot.key, completion: { session in
-                if session.status == "pending" && session.date > Date().timeIntervalSince1970 {
+                if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
                     self.pendingSessions.append(session)
                     self.collectionView.reloadData()
                     return
                 }
                 
-                if session.date < Date().timeIntervalSince1970 {
-                    print(Date().timeIntervalSince1970 - session.date)
+                if session.startTime < Date().timeIntervalSince1970 {
                     self.pastSessions.append(session)
                     self.collectionView.reloadData()
                     return
                 }
                 
-                self.upcomingSessions.append(session)
-                self.collectionView.reloadData()
+                if session.status == "accepted" {
+                    self.upcomingSessions.append(session)
+                    self.collectionView.reloadData()
+                }
             })
         }
     }

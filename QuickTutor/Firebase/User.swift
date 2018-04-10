@@ -34,6 +34,7 @@ class LearnerData {
 }
 
 class LocalImageCache {
+
 	
 	static let localImageManager = LocalImageCache()
 	

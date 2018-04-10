@@ -46,17 +46,12 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         let range = calendar.range(of: .day, in: .month, for: date)!
         let days = range.count
         for day in 1...days {
-            print(day)
             dateData[1].append("\(day)")
         }
         
         self.selectRow(currentMonth - 1, inComponent: 0, animated: true)
         self.selectRow(currentDay - 1, inComponent: 1, animated: true)
         updateDate()
-        print(date - Date().timeIntervalSince1970)
-        print(date - Date().timeIntervalSince1970)
-        print(date - Date().timeIntervalSince1970)
-
 
         customDelegate?.didSelectDate((self.date?.timeIntervalSince1970)!)
     }
@@ -94,6 +89,7 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         let daysToAdd = selectedRow(inComponent: 1) - (currentDay - 1)
         guard let dateWithDaysAdded = Calendar.current.date(byAdding: .day, value: daysToAdd, to: dateWithMonthsAdded) else { return }
         self.date = dateWithDaysAdded
+
         customDelegate?.didSelectDate(dateWithDaysAdded.timeIntervalSince1970)
     }
     
