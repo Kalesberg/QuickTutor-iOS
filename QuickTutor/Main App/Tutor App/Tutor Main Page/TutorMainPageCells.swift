@@ -217,7 +217,7 @@ class TutorMainPageTopSubjectCell : BaseTableViewCell {
         backgroundColor = Colors.registrationDark
         selectionStyle = .none
         
-        icon.image = #imageLiteral(resourceName: "mathematics")
+        icon.image = #imageLiteral(resourceName: "services")
         
         applyConstraints()
     }
@@ -229,12 +229,11 @@ class TutorMainPageTopSubjectCell : BaseTableViewCell {
         }
         
         subjectLabel.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview().inset(6)
             make.centerX.equalToSuperview()
         }
         
         icon.snp.makeConstraints { (make) in
-            make.width.height.equalTo(70)
             make.centerY.equalToSuperview().inset(-5)
             make.centerX.equalToSuperview()
         }

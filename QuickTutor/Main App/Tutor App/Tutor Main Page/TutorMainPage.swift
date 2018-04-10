@@ -72,7 +72,7 @@ class TutorMainPageView : MainPageView {
         insertSubview(xButton, aboveSubview: backgroundView)
         insertSubview(shareUsernameModal, aboveSubview: backgroundView)
         backgroundView.isUserInteractionEnabled = false
-        
+        AccountService.shared.currentUserType = .tutor
         qtText.image = #imageLiteral(resourceName: "qt-small-text")
     }
     

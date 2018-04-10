@@ -45,6 +45,7 @@ class PageViewController : UIPageViewController {
 		if let firstViewController = orderedViewControllers.first {
 			setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
 		}
+        
 	}
 	private func configureView() {
 		self.view.backgroundColor = Colors.backgroundDark
@@ -60,10 +61,24 @@ class LearnerPageViewController : PageViewController {
         mainPage.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(mainPage as! UIViewController)
         
-        let messaging = Message() as PageObservation
+        let messaging = MessagesVC() as PageObservation
         messaging.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(messaging as! UIViewController)
-		
+        
+        let addTutorButtonImage = UIImage(named: "addTutorByUsernameButton")?.withRenderingMode(.alwaysOriginal)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: addTutorButtonImage, style: .plain, target: self, action: #selector(showAddTutor))
+        
+        let backButtonImage = UIImage(named: "backButton")?.withRenderingMode(.alwaysOriginal)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(popVC))
+        
+    }
+    
+    @objc func showAddTutor() {
+        navigationController?.pushViewController(AddTutorVC(), animated: true)
+    }
+    
+    @objc func popVC() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -74,7 +89,7 @@ class TutorPageViewController : PageViewController {
         mainPage.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(mainPage as! UIViewController)
         
-        let messaging = Message() as PageObservation
+        let messaging = MessagesVC() as PageObservation
         messaging.getParentPageViewController(parentRef: self)
         orderedViewControllers.append(messaging as! UIViewController)
     }

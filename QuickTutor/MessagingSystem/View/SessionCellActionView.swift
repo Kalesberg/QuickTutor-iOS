@@ -1,0 +1,134 @@
+//
+//  SessionCellActionView.swift
+//  QuickTutor
+//
+//  Created by Zach Fuller on 4/9/18.
+//  Copyright © 2018 QuickTutor. All rights reserved.
+//
+
+import UIKit
+
+class SessionCellActionView: UIView {
+    
+    var delegate: SessionCellActionViewDelegate?
+    
+    let cellActionContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+        view.isHidden = true
+        return view
+    }()
+    
+    let actionButton1: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    let actionButton2: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    let actionButton3: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    func setupViews() {
+        setupActionContainerView()
+        setupActionButtonTargets()
+    }
+    
+    func setupActionContainerView() {
+        addSubview(cellActionContainerView)
+        cellActionContainerView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(hideActionContainerView))
+        cellActionContainerView.addGestureRecognizer(dismissTap)
+    }
+    
+    private func setupActionButton1() {
+        cellActionContainerView.addSubview(actionButton1)
+        actionButton1.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
+        addConstraint(NSLayoutConstraint(item: actionButton1, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
+        actionButton1.addTarget(self, action: #selector(handleButton1), for: .touchUpInside)
+    }
+    
+    private func setupActionButton2() {
+        cellActionContainerView.addSubview(actionButton2)
+        actionButton2.anchor(top: nil, left: nil, bottom: nil, right: actionButton1.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
+        addConstraint(NSLayoutConstraint(item: actionButton2, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
+        actionButton2.addTarget(self, action: #selector(handleButton2), for: .touchUpInside)
+    }
+    
+    private func setupActionButton3() {
+        cellActionContainerView.addSubview(actionButton3)
+        actionButton3.anchor(top: nil, left: nil, bottom: nil, right: actionButton2.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
+        addConstraint(NSLayoutConstraint(item: actionButton3, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
+        actionButton3.addTarget(self, action: #selector(handleButton3), for: .touchUpInside)
+    }
+    
+    func setupActionButtonTargets() {
+        
+    }
+    
+    func showActionContainerView() {
+        cellActionContainerView.isHidden = false
+    }
+    
+    @objc func hideActionContainerView() {
+        cellActionContainerView.isHidden = true
+    }
+    
+    func updateButtonImages(_ images: [UIImage]) {
+        let buttons = [actionButton1, actionButton2, actionButton3]
+        for x in 0...images.count - 1 {
+            buttons[buttons.count - (x + 1)].setImage(images[x], for: .normal)
+        }
+    }
+    
+    func setupAsSingleButton() {
+        setupActionButton1()
+    }
+    
+    func setupAsDoubleButton() {
+        setupAsSingleButton()
+        setupActionButton2()
+    }
+    
+    func setupAsTripleButton() {
+        setupAsDoubleButton()
+        setupActionButton3()
+    }
+    
+    @objc func handleButton1() {
+        hideActionContainerView()
+        delegate?.handleButton1()
+    }
+    
+    @objc func handleButton2() {
+        hideActionContainerView()
+        delegate?.handleButton2()
+    }
+    
+    @objc func handleButton3() {
+        hideActionContainerView()
+        delegate?.handleButton3()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+

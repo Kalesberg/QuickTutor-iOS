@@ -7,6 +7,7 @@
 //
 
 class RegistrationNavBarView: RegistrationGradientView {
+    
     var navBar       = RegistrationNavBar()
     var backButton   = RegistrationBackButton()
     var titleLabel   = RegistrationTitleLabel()
@@ -19,7 +20,6 @@ class RegistrationNavBarView: RegistrationGradientView {
         addSubview(backButton)
         addSubview(titleLabel)
         addSubview(nextButton)
-		
     }
     
     override func applyConstraints() {

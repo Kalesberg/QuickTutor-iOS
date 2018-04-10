@@ -333,7 +333,7 @@ class BaseSlider : UISlider {
         var width : Int
         
         if (UIScreen.main.bounds.height == 568) {
-            width = 240
+            width = 230
         } else {
             width = 280
         }
@@ -387,7 +387,7 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
         var width : Int
         
         if (UIScreen.main.bounds.height == 568) {
-            width = 240
+            width = 230
         } else {
             width = 290
         }
@@ -400,8 +400,9 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
         }
         
         valueLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(slider).inset(-13)
-            make.left.equalTo(slider.snp.right).inset(-15)
+            make.centerY.equalTo(slider).inset(-14)
+            make.left.equalTo(slider.snp.right)
+            make.right.equalToSuperview()
         }
         
         slider.snp.makeConstraints { (make) in
@@ -412,5 +413,45 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
             make.bottom.equalToSuperview()
         }
     }
-
 }
+
+class EditProfileCheckboxTableViewCell : BaseTableViewCell {
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createSize(15)
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    let checkbox = RegistrationCheckbox()
+    
+    override func configureView() {
+        addSubview(label)
+        contentView.addSubview(checkbox)
+        super.configureView()
+        
+        selectionStyle = .none
+        backgroundColor = .clear
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label.snp.makeConstraints { (make) in
+            make.left.equalToSuperview()
+            make.height.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        checkbox.snp.makeConstraints { (make) in
+            make.right.equalToSuperview()
+            make.height.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(40)
+        }
+    }
+}
+
