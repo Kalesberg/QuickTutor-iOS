@@ -10,11 +10,13 @@ import UIKit
 
 protocol CancelModalDelegate {
     func handleNevermind()
+    func handleCancel(id: String)
 }
 
 class CancelSessionModal: UIView {
     
     var delegate: CancelModalDelegate?
+    var sessionId: String!
     
     let titleBackground: UIView = {
         let view = UIView()
@@ -130,7 +132,7 @@ class CancelSessionModal: UIView {
     }
     
     @objc func handleConfirmButton() {
-        
+        delegate?.handleCancel(id: sessionId)
     }
     
     override init(frame: CGRect) {

@@ -83,7 +83,7 @@ class ViewSessionRequestVC: UIViewController {
     
     @objc func handleButtonAction(sender: UIButton) {
         let valueToSet = sender.tag == 0 ? "accepted" : "declined"
-        Database.database().reference().child("sessionRequests").child(sessionRequestId).child("status").setValue(valueToSet)
+        Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue(valueToSet)
         navigationController?.popViewController(animated: true)
     }
     
@@ -94,7 +94,7 @@ class ViewSessionRequestVC: UIViewController {
     }
     
     func loadSessionRequestFromId(_ id: String) {
-        Database.database().reference().child("sessionRequests").child(id).observeSingleEvent(of: .value) { (snapshot) in
+        Database.database().reference().child("sessions").child(id).observeSingleEvent(of: .value) { (snapshot) in
             guard let value = snapshot.value as? [String: Any] else { return }
             let sessionRequest = SessionRequest(data: value)
             self.sessionRequest = sessionRequest

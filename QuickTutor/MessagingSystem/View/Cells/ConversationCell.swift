@@ -231,7 +231,9 @@ class ConversationCell: UICollectionViewCell {
             fatalError("Couldn't convert to tutor")
         }
         
-//            self.locationLabel.text = tutor.region!
+        if AccountService.shared.currentUserType == .learner {
+            self.locationLabel.text = tutor.region!        
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

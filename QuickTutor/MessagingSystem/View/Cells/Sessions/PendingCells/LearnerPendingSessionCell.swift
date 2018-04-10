@@ -18,7 +18,7 @@ class LearnerPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate, 
     }
     
     override func handleButton1() {
-        cancelSession()
+        cancelSession(id: session.id)
     }
     
     override func handleButton2() {

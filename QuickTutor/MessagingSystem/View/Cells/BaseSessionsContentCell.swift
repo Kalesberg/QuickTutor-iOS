@@ -36,11 +36,16 @@ class BaseSessionsContentCell: BaseContentCell {
         collectionView.register(SessionHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
     }
     
-    func fetchSessions() {
+    @objc func fetchSessions() {
+        pendingSessions.removeAll()
+        upcomingSessions.removeAll()
+        pastSessions.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
-
         Database.database().reference().child("userSessions").child(uid).observe(.childAdded) { (snapshot) in
+            self.refreshControl.endRefreshing()
             DataService.shared.getSessionById(snapshot.key, completion: { session in
+                guard session.status != "cancelled" && session.status != "declined" else { return }
+                
                 if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
                     self.pendingSessions.append(session)
                     self.collectionView.reloadData()
@@ -59,6 +64,11 @@ class BaseSessionsContentCell: BaseContentCell {
                 }
             })
         }
+    }
+    
+    override func setupRefreshControl() {
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(fetchSessions), for: .valueChanged)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -127,60 +137,5 @@ class BaseSessionsContentCell: BaseContentCell {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
         cell.actionView.showActionContainerView()
-    }
-}
-
-class PendingSessionCell: BaseSessionCell {
-    
-}
-
-class UpcomingSessionCell: BaseSessionCell {
-    
-}
-
-protocol MessageButtonDelegate {
-    func showConversationWithUID(_ uid: String)
-}
-
-protocol RequestSessionButtonDelegate {
-    func requestSession(_ uid: String)
-}
-
-protocol CancelSessionButtonDelegate {
-    func cancelSession()
-}
-
-extension RequestSessionButtonDelegate {
-    func requestSession(_ uid: String) {
-        let userInfo = ["uid": uid]
-        let notification = Notification(name: NSNotification.Name(rawValue: "requestSession"), object: nil, userInfo: userInfo)
-        NotificationCenter.default.post(notification)
-    }
-}
-
-extension CancelSessionButtonDelegate {
-    func cancelSession() {
-        let notification = Notification(name: NSNotification.Name(rawValue: "cancelSession"), object: nil, userInfo: nil)
-        NotificationCenter.default.post(notification)
-    }
-}
-
-protocol ViewProfileButtonDelegate {
-    func viewProfile()
-}
-
-protocol AcceptSessionButtonDelegate {
-    func acceptSession()
-}
-
-protocol DeclineSessionButtonDelegate {
-    func declineSession()
-}
-
-extension MessageButtonDelegate {
-    func showConversationWithUID(_ uid: String) {
-        let userInfo = ["uid": uid]
-        let notification = Notification(name: NSNotification.Name(rawValue: "sendMessage"), object: nil, userInfo: userInfo)
-        NotificationCenter.default.post(notification)
     }
 }

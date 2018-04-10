@@ -93,7 +93,7 @@ class SessionRequestCell: UserMessageCell {
             loadFromRequest()
             return
         }
-        Database.database().reference().child("sessionRequests").child(id).observeSingleEvent(of: .value) { snapshot in
+        Database.database().reference().child("sessions").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
             let sessionRequest = SessionRequest(data: value)
             sessionRequest.id = id
@@ -186,7 +186,7 @@ class SessionRequestCell: UserMessageCell {
     @objc func handleButtonAction(sender: UIButton) {
         guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
         let valueToSet = sender.tag == 0 ? "accepted" : "declined"
-        Database.database().reference().child("sessionRequests").child(sessionRequestId).child("status").setValue(valueToSet)
+        Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue(valueToSet)
         sessionCache.removeValue(forKey: sessionRequestId)
         
         acceptButton.isHidden = true

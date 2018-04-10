@@ -32,7 +32,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
         return control
     }()
     
-    let alert = CancelSessionModal()
+    let cancelSessionModal = CancelSessionModal()
     let blackView = UIView()
     
     override func viewDidLoad() {
@@ -78,7 +78,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.backItem?.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settingsIcon"), style: .plain, target: self, action: #selector(showSettings))
-        messageSessionControl.setupForUserType(.learner)
+        messageSessionControl.setupForUserType(AccountService.shared.currentUserType)
     }
     
     private func setupMessageSessionControl() {
@@ -132,13 +132,15 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     }
 
     
-    @objc func showCancelModal() {
+    @objc func showCancelModal(notification: Notification) {
+        guard let userInfo = notification.userInfo, let sessionId = userInfo["sessionId"] as? String else { return }
         addBlackView()
         guard let window = UIApplication.shared.keyWindow else { return }
-        window.addSubview(alert)
-        alert.delegate = self
-        alert.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 207)
-        window.addConstraint(NSLayoutConstraint(item: alert, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
+        window.addSubview(cancelSessionModal)
+        cancelSessionModal.delegate = self
+        cancelSessionModal.sessionId = sessionId
+        cancelSessionModal.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 207)
+        window.addConstraint(NSLayoutConstraint(item: cancelSessionModal, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func addBlackView() {
@@ -151,7 +153,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     }
     
     @objc func removeAlert() {
-        alert.removeFromSuperview()
+        cancelSessionModal.removeFromSuperview()
         blackView.removeFromSuperview()
     }
     
@@ -173,6 +175,7 @@ extension MessagesVC: UICollectionViewDataSource {
         } else {
             
             if AccountService.shared.currentUserType == .tutor {
+                print(AccountService.shared.currentUserType == .tutor)
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorSessionsContentCell", for: indexPath) as! TutorSessionContentCell
                 return cell
             } else {
@@ -218,6 +221,12 @@ extension MessagesVC: SegmentedViewDelegate {
 extension MessagesVC: CancelModalDelegate {
     func handleNevermind() {
         blackView.removeFromSuperview()
-        alert.removeFromSuperview()
+        cancelSessionModal.removeFromSuperview()
+    }
+    
+    func handleCancel(id: String) {
+        Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
+        blackView.removeFromSuperview()
+        cancelSessionModal.removeFromSuperview()
     }
 }
