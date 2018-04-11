@@ -244,7 +244,7 @@ enum Category {
         case .academics:                displayName = "ACADEMICS"
         searchBarPhrases = ["search any academic subject"]
         subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular","Test Preparation"]
-        icon = [#imageLiteral(resourceName: "mathematics") ,#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "test-prep")]
+        icon = [#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "language-arts"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "extracurricular"),#imageLiteral(resourceName: "test-prep")]
         fileToRead = "academics"
             
         case .arts:                        displayName = "THE ARTS"
@@ -268,7 +268,7 @@ enum Category {
         case .experiences:                displayName = "EXPERIENCES"
         searchBarPhrases = ["search for any experience"]
 		subcategories = ["Career", "Cooking | Baking", "Motivation | Consulting", "Travel Destinations","Fitness", "Creations"]
-		icon = [#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "volunteering"),#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "fitness")]
+		icon = [#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "volunteering"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "fitness"),#imageLiteral(resourceName: "life_lessons")]
         fileToRead = "experiences"
             
         case .health:                    displayName = "HEALTH"

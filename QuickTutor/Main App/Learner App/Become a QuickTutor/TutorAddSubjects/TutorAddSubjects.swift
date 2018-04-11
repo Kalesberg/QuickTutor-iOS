@@ -151,8 +151,9 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		addSubview(keyboardView)
 		super.configureView()
 	
+        backButton.image.image = #imageLiteral(resourceName: "backButton")
+        
 		headerView.backgroundColor = Colors.backgroundDark
-		backButton.image.image = #imageLiteral(resourceName: "back-button")
 		collectionView.collectionViewLayout = customLayout
 
 		applyConstraints()
@@ -161,10 +162,10 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 	override func applyConstraints() {
 		super.applyConstraints()
 		searchBar.snp.makeConstraints { (make) in
-			make.top.equalTo(backButton.snp.top)
 			make.left.equalTo(backButton.snp.right)
-			make.right.equalToSuperview()
+			make.right.equalTo(rightButton.snp.left)
 			make.height.equalToSuperview()
+            make.centerY.equalTo(backButton.image)
 		}
 		noSelectedItemsLabel.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-10)
