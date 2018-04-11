@@ -106,6 +106,10 @@ class AddTutorCell: UICollectionViewCell {
             self.profileImageView.imageView.loadImage(urlString: tutor.profilePicUrl)
             self.nameLabel.text = tutor.username.capitalized
             self.locationLabel.text = tutor.region
+            guard let hours = tutor.hoursTaught, let sessions = tutor.totalSessions else {
+                return
+            }
+            self.statsLabel.text = "\(hours) hours taught, \(sessions) complete sessions"
         }
     }
     

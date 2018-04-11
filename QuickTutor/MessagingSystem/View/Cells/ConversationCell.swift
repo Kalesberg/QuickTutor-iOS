@@ -194,6 +194,7 @@ class ConversationCell: UICollectionViewCell {
             self.updateProfileImage()
             self.updateLastMessageLabel(message: message)
             self.updateRegion()
+            self.updateRating()
         }
     }
     
@@ -236,6 +237,10 @@ class ConversationCell: UICollectionViewCell {
         }
     }
     
+    private func updateRating() {
+        guard let tutor = chatPartner as? ZFTutor, let rating = tutor.rating else { return }
+        self.starLabel.text = "\(rating)"
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

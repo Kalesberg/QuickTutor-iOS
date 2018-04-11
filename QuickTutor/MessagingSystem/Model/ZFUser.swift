@@ -31,11 +31,15 @@ class ZFTutor: User {
     var region: String?
     var subjects: [String]?
     var rating: Double?
+    var hoursTaught: Int?
+    var totalSessions: Int?
     
     override init(dictionary: [String : Any]) {
         super.init(dictionary: dictionary)
         region = dictionary["rg"] as? String
         rating = dictionary["r"] as? Double
+        hoursTaught = dictionary["hr"] as? Int
+        totalSessions = dictionary["nos"] as? Int
     }
     
     required init(from decoder: Decoder) throws {
