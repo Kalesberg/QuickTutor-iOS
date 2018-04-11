@@ -53,12 +53,12 @@ class SubjectCollectionViewCell : UICollectionViewCell {
 		imageView.snp.makeConstraints { (make) in
 			make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().inset(-10)
-            make.height.width.equalToSuperview().multipliedBy(0.7)
+            make.height.width.equalToSuperview().multipliedBy(0.65)
 		}
 		label.snp.makeConstraints { (make) in
 			make.top.equalTo(imageView.snp.bottom)
 			make.bottom.equalToSuperview()
-			make.width.equalToSuperview()
+			make.width.equalToSuperview().inset(2)
 			make.centerX.equalToSuperview()
 		}
 	}

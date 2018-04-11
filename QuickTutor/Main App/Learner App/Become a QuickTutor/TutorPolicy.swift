@@ -233,18 +233,27 @@ class TutorPolicy : BaseViewController {
 }
 
 extension NSMutableAttributedString {
-    @discardableResult func regular(_ text: String, _ size: CGFloat, _ color: UIColor) -> NSMutableAttributedString {
+    @discardableResult func regular(_ text: String, _ size: CGFloat, _ color: UIColor, _ spacing: CGFloat = 0) -> NSMutableAttributedString {
         let attrs: [NSAttributedStringKey: Any] = [.font: UIFont(name: "Lato-Regular", size: size)!, .foregroundColor : color]
         let string = NSMutableAttributedString(string:text, attributes: attrs)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = spacing
+        string.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, string.length))
+        
         append(string)
         
         return self
     }
     
-    @discardableResult func bold(_ text: String, _ size: CGFloat, _ color: UIColor) -> NSMutableAttributedString {
+    @discardableResult func bold(_ text: String, _ size: CGFloat, _ color: UIColor, _ spacing: CGFloat = 0) -> NSMutableAttributedString {
         let attrs: [NSAttributedStringKey: Any] = [.font: UIFont(name: "Lato-Bold", size: size)!, .foregroundColor : color]
         let string = NSMutableAttributedString(string:text, attributes: attrs)
         append(string)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = spacing
+        string.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, string.length))
         
         return self
     }
