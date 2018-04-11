@@ -83,6 +83,7 @@ class TutorEditProfile : BaseViewController {
         contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
         contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
         contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
+        contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
     }
     override func loadView() {
         view = TutorEditProfileView()
@@ -116,7 +117,7 @@ class TutorEditProfile : BaseViewController {
 extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 17
+        return 19
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -142,18 +143,22 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         case 9:
             return UITableViewAutomaticDimension
         case 10:
-            return 50
+            return 40
         case 11:
-            return 75
+            return 40
         case 12:
-            return 75
-        case 13:
             return 50
+        case 13:
+            return 75
         case 14:
             return 75
         case 15:
-            return 75
+            return 50
         case 16:
+            return 75
+        case 17:
+            return 75
+        case 18:
             return 50
         default:
             break
@@ -258,12 +263,28 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             return cell
         case 10:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell", for: indexPath) as! EditProfileCheckboxTableViewCell
+            
+            cell.label.text = "Tutoring In-Person Sessions?"
+            
+            //set if checked or not
+            
+            return cell
+        case 11:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell", for: indexPath) as! EditProfileCheckboxTableViewCell
+            
+            cell.label.text = "Tutoring Online (Video Call) Sessions?"
+            
+            //set if checked or not
+            
+            return cell
+        case 12:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
             
             cell.label.text = "Private Information"
             
             return cell
-        case 11:
+        case 13:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Mobile Number"
@@ -271,7 +292,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
-        case 12:
+        case 14:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Email"
@@ -279,13 +300,13 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
-        case 13:
+        case 15:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
             
             cell.label.text = "Optional Information"
             
             return cell
-        case 14:
+        case 16:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Languages I Speak"
@@ -293,7 +314,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
-        case 15:
+        case 17:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "School"
@@ -301,7 +322,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
-        case 16:
+        case 18:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
             
             cell.label.text = "Connections"
