@@ -81,8 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 						print("Retrieved customer.")
 						self.window?.makeKeyAndVisible()
 					})
-					
-					let controller = TutorAddSubjects()
+					let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true

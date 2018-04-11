@@ -8,17 +8,25 @@
 
 import UIKit
 
-class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate {
+class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestSessionButtonDelegate {
     override func setupViews() {
         super.setupViews()
         actionView.setupAsTripleButton()
-        actionView.actionButton3.setImage(#imageLiteral(resourceName: "viewProfileButton"), for: .normal)
-        actionView.actionButton2.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
         actionView.actionButton1.setImage(#imageLiteral(resourceName: "requestSessionButton"), for: .normal)
+        actionView.actionButton2.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
+        actionView.actionButton3.setImage(#imageLiteral(resourceName: "viewProfileButton"), for: .normal)
+    }
+    
+    override func handleButton1() {
+        requestSession(session.partnerId())
     }
     
     override func handleButton2() {
-        print(session.receiverId)
-        print(session.senderId)
+        showConversationWithUID(session.partnerId())
+    }
+    
+    override func handleButton3() {
+        let vc = ViewFullProfile()
+        navigationController.pushViewController(vc, animated: true)
     }
 }

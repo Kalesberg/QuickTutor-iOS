@@ -38,7 +38,6 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        updateNavBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {

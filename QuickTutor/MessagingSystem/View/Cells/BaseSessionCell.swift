@@ -90,11 +90,14 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         updateDayLabel()
         updateWeekdayLabel()
         updateMonthLabel()
+        updateTimeAndPriceLabel()
         subjectLabel.text = session.subject
-        DataService.shared.getStudentWithId(session.partnerId()) { tutor in
+        DataService.shared.getTutorWithId(session.partnerId()) { tutor in
             guard let username = tutor?.username.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
             self.profileImage.imageView.loadImage(urlString: profilePicUrl)
+            guard let rating  = tutor?.rating else { return }
+            self.updateRatingLabel(rating: rating)
         }
     }
     
@@ -120,7 +123,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     func setupMonthLabel() {
         addSubview(monthLabel)
-        monthLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 13, paddingLeft: 17, paddingBottom: 0, paddingRight: 0, width: 25, height: 10)
+        monthLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 17, paddingBottom: 0, paddingRight: 0, width: 25, height: 10)
     }
     
     func setupDayLabel() {
@@ -131,7 +134,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     func setupWeekdayLabel() {
         addSubview(weekdayLabel)
-        weekdayLabel.anchor(top: dayLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 20, height: 10)
+        weekdayLabel.anchor(top: dayLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 30, height: 10)
         addConstraint(NSLayoutConstraint(item: weekdayLabel, attribute: .centerX, relatedBy: .equal, toItem: monthLabel, attribute: .centerX, multiplier: 1, constant: 0))
     }
     
@@ -186,7 +189,32 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     }
     
     func updateWeekdayLabel() {
+        let weekday = Calendar.current.component(.weekday, from: Date(timeIntervalSince1970: session.date)).advanced(by: -1)
+        let weekdayText = DateFormatter().shortWeekdaySymbols[weekday]
+        self.weekdayLabel.text = "\(weekdayText)"
+    }
+    
+    func updateTimeAndPriceLabel() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
         
+        let startTime = Date(timeIntervalSince1970: session.startTime)
+        let startTimeString = dateFormatter.string(from: startTime)
+        
+        let endTime = Date(timeIntervalSince1970: session.endTime)
+        let endTimeString = dateFormatter.string(from: endTime)
+
+        let timeString = "\(startTimeString) - \(endTimeString)"
+        
+        let formattedPrice = String(format: "%.2f", session.price)
+        let priceString = "$\(formattedPrice)"
+        
+        self.timeAndPriceLabel.text = "\(timeString), \(priceString)"
+    }
+
+    
+    func updateRatingLabel(rating: Double) {
+        self.starLabel.text = "\(rating)"
     }
     
     override init(frame: CGRect) {

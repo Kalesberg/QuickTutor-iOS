@@ -30,10 +30,12 @@ class User: Decodable {
 class ZFTutor: User {
     var region: String?
     var subjects: [String]?
+    var rating: Double?
     
     override init(dictionary: [String : Any]) {
         super.init(dictionary: dictionary)
         region = dictionary["rg"] as? String
+        rating = dictionary["r"] as? Double
     }
     
     required init(from decoder: Decoder) throws {

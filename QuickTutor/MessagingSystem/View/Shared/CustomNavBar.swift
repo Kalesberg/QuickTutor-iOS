@@ -33,13 +33,13 @@ extension CustomNavBarDisplay where Self: UIViewController {
     func updateNavBar() {
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 1000, height: 22))
         
-        let searchBar = UISearchBar()
+        let searchBar = CustomSearchBar(frame: CGRect(x: 0, y: 0, width: 1000, height: 18))
+        searchBar.backgroundColor = .white
+        searchBar.layer.cornerRadius = 7
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(searchBar)
-        searchBar.isUserInteractionEnabled = true
         
-        
-        let leftButtonWidth: CGFloat = 35 // left padding
+        let leftButtonWidth: CGFloat = 75 // left padding
         let rightButtonWidth: CGFloat = 75 // right padding
         let width = view.frame.width - leftButtonWidth - rightButtonWidth
         
