@@ -77,10 +77,10 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 
-		cell.price.text = String(datasource![indexPath.item].price)
-		cell.featuredTutor.namePrice.text = datasource![indexPath.item].name
-		cell.featuredTutor.region.text = datasource![indexPath.item].region
-		cell.featuredTutor.subject.text = datasource![indexPath.item].topSubject
+//		cell.price.text = String(datasource![indexPath.item].price)
+//		cell.featuredTutor.namePrice.text = datasource![indexPath.item].name
+//		cell.featuredTutor.region.text = datasource![indexPath.item].region
+//		cell.featuredTutor.subject.text = datasource![indexPath.item].topSubject
 		
 		return cell
 	}

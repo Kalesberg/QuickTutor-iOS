@@ -19,7 +19,6 @@ struct TutorRegistration {
 	static var distance : Int!
 	static var sessionPreference : Int!
 	
-	
 	//stripe - connect
 	static var bankholderName : String!
 	static var last4SSN : String!
