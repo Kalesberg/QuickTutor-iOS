@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 						print("Retrieved customer.")
 						self.window?.makeKeyAndVisible()
 					})
-					
+                    
 					let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)

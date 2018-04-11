@@ -183,7 +183,7 @@ class ConversationCell: UICollectionViewCell {
     }
     
     func updateUI(message: UserMessage) {
-        DataService.shared.getStudentWithId(message.partnerId()) { (userIn) in
+        DataService.shared.getTutorWithId(message.partnerId()) { (userIn) in
             guard let user = userIn else { return }
             self.chatPartner = user
             
