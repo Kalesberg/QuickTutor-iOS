@@ -46,7 +46,6 @@ class TutorPreferencesNextButton : InteractableView, Interactable {
     }
 }
 
-
 class TutorPreferencesLayout : MainLayoutTitleBackButton {
     
     let progressBar = ProgressBar()
@@ -126,43 +125,74 @@ class TutorPreferences : BaseViewController {
     override var contentView: TutorPreferencesView {
         return view as! TutorPreferencesView
     }
-    
+	
+	var price : Int = 5
+	var distance : Int = 5
+	
+	var inPerson : Bool = true
+	var video : Bool = true
+	
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+		
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
+		
         contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
         contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
+		
     }
     override func loadView() {
         view = TutorPreferencesView()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+		
     }
-    
+	
+	@objc
+	private func rateSliderValueDidChange(_ sender: UISlider!) {
+		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
+		
+		cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
+		
+		price = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
+	}
+	
+	@objc
+	private func distanceSliderValueDidChange(_ sender: UISlider!) {
+		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! EditProfileSliderTableViewCell)
+		
+		let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
+		
+		distance = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
+		
+		if(value % 5 == 0) {
+			cell.valueLabel.text = String(value) + " mi"
+		}
+	}
+	
+	private func getUserPreferences() {
+		
+		TutorRegistration.price = price
+		TutorRegistration.distance = distance
+		
+		if inPerson && video {
+			TutorRegistration.sessionPreference = 3
+		} else if inPerson && !video {
+			TutorRegistration.sessionPreference = 2
+		} else if !inPerson && video {
+			TutorRegistration.sessionPreference = 1
+		} else {
+			TutorRegistration.sessionPreference = 0
+		}
+	}
+	
     override func handleNavigation() {
         if (touchStartView is TutorPreferencesNextButton) {
-            print("sdf")
-            //navigationController?.pushViewController(, animated: <#T##Bool#>)
-        }
-    }
-    
-    @objc
-    private func rateSliderValueDidChange(_ sender: UISlider!) {
-        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
-        
-        cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-    }
-    
-    @objc
-    private func distanceSliderValueDidChange(_ sender: UISlider!) {
-        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! EditProfileSliderTableViewCell)
-        let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-        
-        if(value % 5 == 0) {
-            cell.valueLabel.text = String(value) + " mi"
+			getUserPreferences()
+            navigationController?.pushViewController(TutorBio(), animated: true)
         }
     }
 }

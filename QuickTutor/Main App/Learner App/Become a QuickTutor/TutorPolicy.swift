@@ -202,19 +202,19 @@ class TutorPolicy : BaseViewController {
 		// Dispose of any resources that can be recreated.
 	}
 	private func accepted() {
-		Stripe.stripeManager.initConnectAccount(completion: { (error) in
+//		Stripe.stripeManager.initConnectAccount(completion: { (error) in
+//			if let error = error {
+//				print(error)
+//			} else {
+//			}
+//		})
+		Tutor.shared.initTutor(completion: { (error) in
 			if let error = error {
-				print(error)
+				print(error.localizedDescription)
 			} else {
-				Tutor.shared.initTutor(completion: { (error) in
-					if let error = error {
-						print(error.localizedDescription)
-					} else {
-						self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-						let endIndex = self.navigationController?.viewControllers.endIndex
-						self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
-					}
-				})
+				self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+				let endIndex = self.navigationController?.viewControllers.endIndex
+				self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
 			}
 		})
 	}
@@ -228,7 +228,6 @@ class TutorPolicy : BaseViewController {
             //to website
         } else if (touchStartView == contentView.checkBox) {
             accepted()
-            print("checkbox pressed")
         }
 	}
 }

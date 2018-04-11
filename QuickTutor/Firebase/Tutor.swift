@@ -34,14 +34,15 @@ class Tutor {
 					  "hr"  : 0,
 					  "r"   : 5,
 					  "nos" : 0,
-					  "p"	: 5,
+					  "p"	: TutorRegistration.price,
+					  "d"	: TutorRegistration.distance,
 					  "bio" : TutorRegistration.tutorBio,
-					  "rg"  : TutorRegistration.address,
-					  "tok" : TutorRegistration.stripeToken,
+					  "rg"  : "region",
 					  "pol" : "5_5_5_5",
+					  "prf" : TutorRegistration.sessionPreference,
 					  "tp"  : "Math"],
 				
-				"/subject/\(user.uid)" : subjectNode,
+				"tutor-info/subject/\(user.uid)" : subjectNode,
 				
 				]
 		
@@ -50,8 +51,7 @@ class Tutor {
 				print(error.localizedDescription)
 				completion(error)
 			} else {
-				print("User is in the database!")
-				self.geoFire(location: TutorRegistration.location)
+				//self.geoFire(location: TutorRegistration.location)
 				self.placeTutor()
 				completion(nil)
 			}

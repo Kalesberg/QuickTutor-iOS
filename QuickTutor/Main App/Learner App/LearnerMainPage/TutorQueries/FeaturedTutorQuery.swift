@@ -37,7 +37,7 @@ struct TutorReview {
 
 struct FeaturedTutor {
 	
-	static let shared = FeaturedTutor()
+	//static let shared = FeaturedTutor()
 	
 	var name   : String!
 	var region : String!
@@ -59,7 +59,7 @@ struct FeaturedTutor {
 	
 	//	let review : [TutorReview]
 	//	let subject : [TutorSubject]
-	
+
 }
 
 /*
@@ -90,10 +90,11 @@ class QueryData {
 				
 				print(snapshot.childrenCount)
 
+				
 				for snap in snapshot.children {
 					dispatch.enter()
 					let child = snap as! DataSnapshot
-					
+
 					self.ref?.child("tutor-info").child(child.key).observeSingleEvent(of: .value, with: { (snapshot) in
 						
 						guard
@@ -201,14 +202,14 @@ class QueryData {
 			var tutors = [FeaturedTutor]()
 			
 			for snap in snapshot.children {
-				dispatch.enter()
 				
+				dispatch.enter()
 				let child = snap as! DataSnapshot
 
 				self.ref?.child("tutor-info").child(child.key).observeSingleEvent(of: .value, with: { (snapshot) in
-					
-					guard
-						let value = snapshot.value as? [String : AnyObject],
+
+					guard let value = snapshot.value as? [String : AnyObject],
+
 						let name = value["nm"] as? String,
 						let region = value["rg"] as? String,
 						let school = value["sch"] as? String,
@@ -224,13 +225,14 @@ class QueryData {
 						let token = value["tok"] as? String
 						//							let reviews = value["rvw"] as? [String: [String : Any]],
 						//							let subjects = value["rvw"] as? [String: [String : Any]]
-						
-						else {
-							print("Failure")
-							return
+
+					else {
+						print("Failure")
+						return
 					}
-					tutors.append(FeaturedTutor(name: name, region: region, school: school, topSubject: topSubject, bio: bio, policy: policy, hours: hours, price: price, numSessions: numSessions, rating: rating, language: language, token: token))
 					
+					tutors.append(FeaturedTutor(name: name, region: region, school: school, topSubject: topSubject, bio: bio, policy: policy, hours: hours, price: price, numSessions: numSessions, rating: rating, language: language, token: token))
+		
 					dispatch.leave()
 				})
 			}
