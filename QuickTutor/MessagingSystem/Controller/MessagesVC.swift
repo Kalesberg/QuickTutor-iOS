@@ -32,8 +32,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
         return control
     }()
     
-    let cancelSessionModal = CancelSessionModal()
-    let blackView = UIView()
+    let cancelSessionModal: CancelSessionModal? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -147,29 +146,9 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     
     @objc func showCancelModal(notification: Notification) {
         guard let userInfo = notification.userInfo, let sessionId = userInfo["sessionId"] as? String else { return }
-        addBlackView()
-        guard let window = UIApplication.shared.keyWindow else { return }
-        window.addSubview(cancelSessionModal)
-        cancelSessionModal.delegate = self
-        cancelSessionModal.sessionId = sessionId
-        cancelSessionModal.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 207)
-        window.addConstraint(NSLayoutConstraint(item: cancelSessionModal, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
+        cancelSessionModal?.delegate = self
+        cancelSessionModal?.show()
     }
-    
-    func addBlackView() {
-        blackView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        guard let window = UIApplication.shared.keyWindow else { return }
-        window.addSubview(blackView)
-        blackView.anchor(top: window.topAnchor, left: window.leftAnchor, bottom: window.bottomAnchor, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        let dismiss = UITapGestureRecognizer(target: self, action: #selector(removeAlert))
-        blackView.addGestureRecognizer(dismiss)
-    }
-    
-    @objc func removeAlert() {
-        cancelSessionModal.removeFromSuperview()
-        blackView.removeFromSuperview()
-    }
-    
 }
 
 extension MessagesVC: UICollectionViewDataSource {
@@ -228,15 +207,12 @@ extension MessagesVC: SegmentedViewDelegate {
     }
 }
 
-extension MessagesVC: CancelModalDelegate {
+extension MessagesVC: CustomModalDelegate {
     func handleNevermind() {
-        blackView.removeFromSuperview()
-        cancelSessionModal.removeFromSuperview()
+        
     }
     
     func handleCancel(id: String) {
         Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
-        blackView.removeFromSuperview()
-        cancelSessionModal.removeFromSuperview()
     }
 }
