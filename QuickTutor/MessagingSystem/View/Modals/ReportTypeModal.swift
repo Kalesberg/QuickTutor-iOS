@@ -12,7 +12,9 @@ import Firebase
 class ReportTypeModal: BaseCustomModal {
     
     let reportTypeStrings = ["Innapropriate Messages", "Innapropriate Photos", "Harassment", "Fake Profile"]
+    var reportSuccessfulModal: ReportSuccessfulModal?
     var chatPartnerId: String?
+    
     
     let tableView: UITableView = {
         let tv = UITableView()
@@ -71,6 +73,8 @@ extension ReportTypeModal: UITableViewDelegate, UITableViewDataSource {
             break
         }
         dismiss()
+        reportSuccessfulModal = ReportSuccessfulModal()
+        reportSuccessfulModal?.show()
     }
     
     func reportForReason(_ reason: ReportType) {
