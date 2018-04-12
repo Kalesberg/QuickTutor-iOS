@@ -13,6 +13,8 @@ class FileReportActionsheet: UIView {
     let titles = ["Report", "Disconnect", "Cancel"]
     var bottomLayoutMargin: CGFloat!
     var actionSheetBottomAnchor: NSLayoutConstraint?
+    var alert: CustomModal?
+    var partnerId: String?
     
     let backgroundBlur: UIView = {
         let view = UIView()
@@ -67,7 +69,6 @@ class FileReportActionsheet: UIView {
     
 
     func show() {
-        guard let window = UIApplication.shared.keyWindow else { return }
         UIViewPropertyAnimator(duration: 0.5, curve: .easeOut) {
             self.layoutIfNeeded()
             self.actionSheetBackground.transform = CGAffineTransform(translationX: 0, y: -150)
@@ -92,7 +93,11 @@ class FileReportActionsheet: UIView {
     }
     
     func handleDisconnectButton() {
-        
+        dismiss()
+        alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from Alex.", cancelText: "Nevermind", confirmText: "Yes, disconnect")
+        guard let disconnectModal = alert as? DisconnectModal, let id = partnerId else { return }
+        disconnectModal.partnerId = id
+        disconnectModal.show()
     }
     
     func handleCancelButton() {

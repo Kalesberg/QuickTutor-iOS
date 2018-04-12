@@ -148,6 +148,7 @@ class ConversationVC: UICollectionViewController {
         becomeFirstResponder()
         resignFirstResponder()
         actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom)
+        actionSheet?.partnerId = chatPartner.uid
         actionSheet?.show()
     }
     
