@@ -14,6 +14,7 @@ class FileReportActionsheet: UIView {
     var bottomLayoutMargin: CGFloat!
     var actionSheetBottomAnchor: NSLayoutConstraint?
     var alert: CustomModal?
+    var reportTypeModal: ReportTypeModal?
     var partnerId: String?
     
     let backgroundBlur: UIView = {
@@ -89,7 +90,11 @@ class FileReportActionsheet: UIView {
     }
     
     func handleReportButton() {
-        
+        guard let id = partnerId else { return }
+        reportTypeModal = ReportTypeModal()
+        reportTypeModal?.chatPartnerId = id
+        reportTypeModal?.show()
+        dismiss()
     }
     
     func handleDisconnectButton() {

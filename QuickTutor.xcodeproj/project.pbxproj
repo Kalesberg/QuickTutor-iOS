@@ -290,6 +290,8 @@
 		CFB60619207FB60C0029CFE4 /* FileReportActionsheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */; };
 		CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */; };
 		CFB6061D207FD7000029CFE4 /* CustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6061C207FD7000029CFE4 /* CustomModal.swift */; };
+		CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */; };
+		CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */; };
 		CFF5017720698F620085B0E9 /* LearnerHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C5201E8500006FC580 /* LearnerHelp.swift */; };
 		CFF50178206990060085B0E9 /* LearnerEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2F02720354E4700F921C9 /* LearnerEditProfile.swift */; };
 		CFF50179206990590085B0E9 /* LearnerMyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BD201E8245006FC580 /* LearnerMyProfile.swift */; };
@@ -595,6 +597,8 @@
 		CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheetCell.swift; sourceTree = "<group>"; };
 		CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectModal.swift; sourceTree = "<group>"; };
 		CFB6061C207FD7000029CFE4 /* CustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModal.swift; sourceTree = "<group>"; };
+		CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCustomModal.swift; sourceTree = "<group>"; };
+		CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTypeModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1251,6 +1255,7 @@
 		CF6F5886205EE68800ACBD32 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CFB60622207FD9A60029CFE4 /* Modals */,
 				CF833B88207C93C500323242 /* Delegates */,
 				CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */,
 				CF6F5888205EE68800ACBD32 /* Cells */,
@@ -1265,8 +1270,6 @@
 				CF1E43C420705F8D0033F845 /* StarView.swift */,
 				CF833B86207C4D3000323242 /* SessionCellActionView.swift */,
 				CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */,
-				CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */,
-				CFB6061C207FD7000029CFE4 /* CustomModal.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1427,6 +1430,17 @@
 				CF833B8F207C949D00323242 /* RequestSessionButtonDelegate.swift */,
 			);
 			path = Delegates;
+			sourceTree = "<group>";
+		};
+		CFB60622207FD9A60029CFE4 /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */,
+				CFB6061C207FD7000029CFE4 /* CustomModal.swift */,
+				CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */,
+				CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */,
+			);
+			path = Modals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1759,6 +1773,7 @@
 				84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */,
 				CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */,
 				845A3A011FFC267100226B25 /* GeohashBox.swift in Sources */,
+				CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */,
 				84052F0E206BCC03007B1248 /* LearnerCancelled.swift in Sources */,
 				847CF8E8202A7738003BB4FA /* UIScrollViewExtensions.swift in Sources */,
 				CF6F58CD205EE68800ACBD32 /* MeetupTimePicker.swift in Sources */,
@@ -1800,6 +1815,7 @@
 				8423942B1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift in Sources */,
 				84F2451A1FDA1143006447A8 /* TutorSSN.swift in Sources */,
 				8430A8E41FFED70D002FD8A3 /* RegistrationNavBarView.swift in Sources */,
+				CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */,
 				84F431962070786F00030BD4 /* TutorEditProfileCells.swift in Sources */,
 				846252F120637F9D001DD330 /* TutorMyProfile.swift in Sources */,
 				8425BA08202E1BB100B2C5A7 /* CardManager.swift in Sources */,
