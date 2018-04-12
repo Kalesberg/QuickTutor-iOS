@@ -218,6 +218,8 @@
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325E9207FF2C80037F8AA /* SessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* SessionStartVC.swift */; };
 		CF6325EB207FF4480037F8AA /* SessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */; };
+		CF6325ED208011750037F8AA /* VideoSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EC208011750037F8AA /* VideoSessionVC.swift */; };
+		CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */; };
 		CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */; };
 		CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5889205EE68800ACBD32 /* ConversationCell.swift */; };
 		CF6F58BE205EE68800ACBD32 /* ConnectionRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F588B205EE68800ACBD32 /* ConnectionRequestCell.swift */; };
@@ -528,6 +530,8 @@
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
 		CF6325E8207FF2C80037F8AA /* SessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartVC.swift; sourceTree = "<group>"; };
 		CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProfileBox.swift; sourceTree = "<group>"; };
+		CF6325EC208011750037F8AA /* VideoSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionVC.swift; sourceTree = "<group>"; };
+		CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsNavBar.swift; sourceTree = "<group>"; };
 		CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		CF6F5889205EE68800ACBD32 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		CF6F588B205EE68800ACBD32 /* ConnectionRequestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRequestCell.swift; sourceTree = "<group>"; };
@@ -1338,6 +1342,7 @@
 				CF6F58A0205EE68800ACBD32 /* UserImageView.swift */,
 				CF6F58A1205EE68800ACBD32 /* CustomImageView.swift */,
 				CF2D9777207B354F00914B27 /* CustomSearchBar.swift */,
+				CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1369,6 +1374,7 @@
 				CF6F58B3205EE68800ACBD32 /* ConversationVC.swift */,
 				CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */,
 				CF6325E8207FF2C80037F8AA /* SessionStartVC.swift */,
+				CF6325EC208011750037F8AA /* VideoSessionVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1662,6 +1668,7 @@
 				CFF5017B206990B20085B0E9 /* LearnerReviews.swift in Sources */,
 				CFF5017A206990810085B0E9 /* LeanerMessaging.swift in Sources */,
 				CFF50179206990590085B0E9 /* LearnerMyProfile.swift in Sources */,
+				CF6325ED208011750037F8AA /* VideoSessionVC.swift in Sources */,
 				CFF50178206990060085B0E9 /* LearnerEditProfile.swift in Sources */,
 				CFF5017720698F620085B0E9 /* LearnerHelp.swift in Sources */,
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
@@ -1705,6 +1712,7 @@
 				846252E720637CF8001DD330 /* LearnerMainPage.swift in Sources */,
 				84E4C7DF204E9342009C2FC4 /* ForgotPassword.swift in Sources */,
 				8476C6A62053714400B55C8F /* SignInHandler.swift in Sources */,
+				CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */,
 				CF833B7E207C4BCB00323242 /* TutorUpcomingSessionCell.swift in Sources */,
 				CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */,
 				CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */,
