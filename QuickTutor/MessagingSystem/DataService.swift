@@ -17,6 +17,18 @@ class DataService {
     typealias UserCompletion = (User?) -> ()
     typealias TutorCompletion = (ZFTutor?) -> ()
     
+    func getUserOfOppositeTypeWithId(_ uid: String, completion: @escaping(User?) -> ()) {
+        if AccountService.shared.currentUserType == .learner {
+            getTutorWithId(uid) { (tutor) in
+                completion(tutor)
+            }
+        } else {
+            getStudentWithId(uid) { (student) in
+                completion(student)
+            }
+        }
+    }
+    
     func getUserWithUid(_ uid: String, completion: @escaping (User?) -> ()) {
         Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {

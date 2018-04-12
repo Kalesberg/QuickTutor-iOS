@@ -44,6 +44,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.isOpaque = false
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = Colors.navBarColor
         edgesForExtendedLayout = []
     }
     

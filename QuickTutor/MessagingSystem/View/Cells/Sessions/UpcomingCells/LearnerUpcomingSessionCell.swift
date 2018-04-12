@@ -16,4 +16,10 @@ class LearnerUpcomingSessionCell: BaseUpcomingSessionCell {
         actionView.actionButton3.setImage(#imageLiteral(resourceName: "startSessionButton"), for: .normal)
     }
     
+    override func handleButton3() {
+        let vc = SessionStartVC()
+        vc.sessionId = session.id
+        vc.partnerId = session.partnerId()
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
