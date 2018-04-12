@@ -146,6 +146,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     
     @objc func showCancelModal(notification: Notification) {
         guard let userInfo = notification.userInfo, let sessionId = userInfo["sessionId"] as? String else { return }
+        cancelSessionModal?.delegate = self
         cancelSessionModal?.show()
     }
 }
@@ -211,7 +212,6 @@ extension MessagesVC: CustomModalDelegate {
         
     }
     
-
     func handleCancel(id: String) {
         Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
     }
