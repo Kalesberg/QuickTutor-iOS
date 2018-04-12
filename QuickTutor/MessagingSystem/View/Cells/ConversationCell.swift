@@ -143,7 +143,7 @@ class ConversationCell: UICollectionViewCell {
     }
     
     func updateUI(message: UserMessage) {
-        AccountService.shared.currentUserType == .learner ? handleAsLearner() : handleAsTutor()
+        AccountService.shared.currentUserType == .learner ? handleAsLearner(message: message) : handleAsTutor(message: message)
     }
     
     private func handleAsTutor(message: UserMessage) {
