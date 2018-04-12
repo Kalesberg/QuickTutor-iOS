@@ -125,7 +125,7 @@ class ConversationVC: UICollectionViewController {
     private func setupTitleView() {
         let frame = CGRect(x: 0, y: 0, width: 100, height: 50)
         let titleView = CustomTitleView(frame: frame)
-//        titleView.updateUI(user: chatPartner)
+        titleView.updateUI(user: chatPartner)
         navigationItem.titleView = titleView
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.loadImage(urlString: profilePicUrl)
@@ -277,14 +277,14 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.bubbleWidthAnchor?.constant = 200
             cell.delegate = self
             cell.updateUI(message: message)
-//            cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
+            cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
             return cell
         }
         
         if message.sessionRequestId != nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestCell
             cell.updateUI(message: message)
-//            cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
+            cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
             return cell
         }
         
@@ -293,14 +293,14 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.bubbleWidthAnchor?.constant = 200
             cell.chatPartner = chatPartner
             cell.updateUI(message: message)
-//            cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
+            cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
             return cell
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "textMessage", for: indexPath) as! UserMessageCell
         cell.updateUI(message: message)
         cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 20
-//        cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
+        cell.profileImageView.loadImage(urlString: (chatPartner?.profilePicUrl)!)
         return cell
     }
     
@@ -430,9 +430,6 @@ extension ConversationVC {
                 self.conversationRead = false
             }
         }
-        //        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
-        //            self.messagesCollection.reloadData()
-        //        }.fire()
     }
     
     func markConversationRead() {

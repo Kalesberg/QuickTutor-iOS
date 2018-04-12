@@ -103,6 +103,7 @@ extension AddTutorVC: UICollectionViewDelegate {
             results.forEach({ (arg) in
                 
                 let (key, value) = arg
+                guard let uid = Auth.auth().currentUser?.uid, key != uid else { return }
                 DataService.shared.getTutorWithId(key, completion: { (tutor) in
                     self.filteredUsers.append(tutor!)
                     
@@ -139,10 +140,13 @@ extension AddTutorVC: UITextFieldDelegate {
 extension AddTutorVC: AddTutorButtonDelegate {
 
     func addTutorWithUid(_ uid: String) {
-        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-        vc.receiverId = uid
-        vc.shouldSetupForConnectionRequest = true
-        navigationController?.pushViewController(vc, animated: true)
+        DataService.shared.getTutorWithId(uid) { (tutor) in
+            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            vc.receiverId = uid
+            vc.chatPartner = tutor
+            vc.shouldSetupForConnectionRequest = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
