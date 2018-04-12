@@ -83,6 +83,8 @@ class ConversationVC: UICollectionViewController {
         return view
     }()
     
+    var actionSheet: FileReportActionsheet?
+    
     let studentKeyboardAccessory = StudentKeyboardAccessory()
     let teacherKeyboardAccessory = TeacherKeyboardAccessory()
     var containerViewBottomAnchor: NSLayoutConstraint?
@@ -119,6 +121,7 @@ class ConversationVC: UICollectionViewController {
         navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "backButton")
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"backButton")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(pop))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"fileReportFlag")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(showReportSheet))
         setupTitleView()
     }
     
@@ -129,6 +132,7 @@ class ConversationVC: UICollectionViewController {
         navigationItem.titleView = titleView
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.loadImage(urlString: profilePicUrl)
+
     }
     
     func teardownConnectionRequest() {
@@ -138,6 +142,13 @@ class ConversationVC: UICollectionViewController {
     
     @objc func pop() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func showReportSheet() {
+        becomeFirstResponder()
+        resignFirstResponder()
+        actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom)
+        actionSheet?.show()
     }
     
     // MARK: Lifecycle -
@@ -242,6 +253,7 @@ class ConversationVC: UICollectionViewController {
     
     func setupKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(becomeFirstResponder), name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
     }
     
     @objc func handleKeyboardDidShow() {

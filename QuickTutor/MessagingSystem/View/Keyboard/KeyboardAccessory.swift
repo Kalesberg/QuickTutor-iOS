@@ -15,7 +15,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     
     let backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.navBarColor
         return view
     }()
     

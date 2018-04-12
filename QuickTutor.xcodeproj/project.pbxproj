@@ -286,6 +286,8 @@
 		CF8578C82060AB470089B6F0 /* BaseSessionsContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C72060AB470089B6F0 /* BaseSessionsContentCell.swift */; };
 		CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */; };
 		CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */; };
+		CFB60617207FA6B80029CFE4 /* FileReportActionsheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */; };
+		CFB60619207FB60C0029CFE4 /* FileReportActionsheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */; };
 		CFF5017720698F620085B0E9 /* LearnerHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C5201E8500006FC580 /* LearnerHelp.swift */; };
 		CFF50178206990060085B0E9 /* LearnerEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2F02720354E4700F921C9 /* LearnerEditProfile.swift */; };
 		CFF50179206990590085B0E9 /* LearnerMyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BD201E8245006FC580 /* LearnerMyProfile.swift */; };
@@ -587,6 +589,8 @@
 		CF8578C72060AB470089B6F0 /* BaseSessionsContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionsContentCell.swift; sourceTree = "<group>"; };
 		CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemToggleCell.swift; sourceTree = "<group>"; };
 		CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSystemToggle.swift; sourceTree = "<group>"; };
+		CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheet.swift; sourceTree = "<group>"; };
+		CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheetCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1256,6 +1260,7 @@
 				CF046422206EE3D800BFE898 /* CancelSessionModal.swift */,
 				CF1E43C420705F8D0033F845 /* StarView.swift */,
 				CF833B86207C4D3000323242 /* SessionCellActionView.swift */,
+				CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1277,6 +1282,7 @@
 				CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */,
 				CF1E43C8207067860033F845 /* BaseSessionCell.swift */,
 				CF2D9773207A828F00914B27 /* AddTutorCell.swift */,
+				CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1792,6 +1798,8 @@
 				8425BA08202E1BB100B2C5A7 /* CardManager.swift in Sources */,
 				84E283592004940600B004E7 /* TheChoice.swift in Sources */,
 				CF6F58E3205EE68800ACBD32 /* QuickChatViewDelegate.swift in Sources */,
+				CFB60617207FA6B80029CFE4 /* FileReportActionsheet.swift in Sources */,
+				CFB60619207FB60C0029CFE4 /* FileReportActionsheetCell.swift in Sources */,
 				CF6F58E6205EE68800ACBD32 /* ZFUser.swift in Sources */,
 				CF6F58D5205EE68800ACBD32 /* KeyboardActionView.swift in Sources */,
 				CF6F58C5205EE68800ACBD32 /* ContactCell.swift in Sources */,
