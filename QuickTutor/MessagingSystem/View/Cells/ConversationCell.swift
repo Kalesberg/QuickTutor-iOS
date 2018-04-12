@@ -26,24 +26,10 @@ class ConversationCell: UICollectionViewCell {
         return label
     }()
     
-    let locationLabel: UILabel = {
-        let label = UILabel()
-        label.font = Fonts.createSize(11)
-        label.textColor = UIColor(hex: "999999")
-        return label
-    }()
-    
     let lastMessageLabel: UILabel = {
         let label = UILabel()
         label.font = Fonts.createSize(11)
         label.textColor = .white
-        return label
-    }()
-    
-    let lastSessionLabel: UILabel = {
-        let label = UILabel()
-        label.font = Fonts.createSize(7)
-        label.textColor = UIColor(hex: "999999")
         return label
     }()
     
@@ -67,14 +53,6 @@ class ConversationCell: UICollectionViewCell {
         let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
         iv.contentMode = .scaleAspectFit
         return iv
-    }()
-    
-    let pastSessionsLabel: UILabel = {
-        let label = UILabel()
-        label.font = Fonts.createSize(7)
-        label.textColor = UIColor(hex: "999999")
-        label.textAlignment = .right
-        return label
     }()
     
     let separatorLine: UIView = {
@@ -114,12 +92,9 @@ class ConversationCell: UICollectionViewCell {
         setupProfilePic()
         setupTimestampLabel()
         setupUsernameLabel()
-        setupLocationLabel()
         setupLastMessageLabel()
-        setupLastSessionLabel()
         setupStarIcon()
         setupStarLabel()
-        setupPastSessionsLabel()
         setupLine()
         setupNewMessageGradientLayer()
     }
@@ -140,19 +115,9 @@ class ConversationCell: UICollectionViewCell {
         usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 12)
     }
     
-    private func setupLocationLabel() {
-        addSubview(locationLabel)
-        locationLabel.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 14)
-    }
-    
     private func setupLastMessageLabel() {
         addSubview(lastMessageLabel)
-        lastMessageLabel.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 14)
-    }
-    
-    private func setupLastSessionLabel() {
-        addSubview(lastSessionLabel)
-        lastSessionLabel.anchor(top: lastMessageLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 0, paddingBottom: 8, paddingRight: 0, width: 300, height: 7)
+        lastMessageLabel.anchor(top: usernameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 14)
     }
     
     private func setupStarIcon() {
@@ -167,11 +132,6 @@ class ConversationCell: UICollectionViewCell {
         addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
-    private func setupPastSessionsLabel() {
-        addSubview(pastSessionsLabel)
-        pastSessionsLabel.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 8, width: 150, height: 8)
-    }
-    
     private func setupLine() {
         addSubview(separatorLine)
         separatorLine.anchor(top: nil, left: profileImageView.leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
@@ -183,6 +143,26 @@ class ConversationCell: UICollectionViewCell {
     }
     
     func updateUI(message: UserMessage) {
+        AccountService.shared.currentUserType == .learner ? handleAsLearner() : handleAsTutor()
+    }
+    
+    private func handleAsTutor(message: UserMessage) {
+        DataService.shared.getStudentWithId(message.partnerId()) { (userIn) in
+            guard let user = userIn else { return }
+            self.chatPartner = user
+            
+            self.updateUsernameLabel()
+            self.updateOnlineStatusIndicator()
+            self.updateProfileImage()
+            self.updateTimestampLabel(message: message)
+            self.updateProfileImage()
+            self.updateLastMessageLabel(message: message)
+            self.updateRegion()
+            self.updateRating()
+        }
+    }
+    
+    private func handleAsLearner(message: UserMessage) {
         DataService.shared.getTutorWithId(message.partnerId()) { (userIn) in
             guard let user = userIn else { return }
             self.chatPartner = user
@@ -230,10 +210,6 @@ class ConversationCell: UICollectionViewCell {
     private func updateRegion() {
         guard let tutor = chatPartner as? ZFTutor else {
             fatalError("Couldn't convert to tutor")
-        }
-        
-        if AccountService.shared.currentUserType == .learner {
-            self.locationLabel.text = tutor.region!        
         }
     }
     

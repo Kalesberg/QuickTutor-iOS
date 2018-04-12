@@ -8,8 +8,9 @@
 
 import UIKit
 
-enum UserType {
-    case learner, tutor
+enum UserType: String {
+    case learner = "learner"
+    case tutor = "tutor"
 }
 
 protocol SegmentedViewDelegate {

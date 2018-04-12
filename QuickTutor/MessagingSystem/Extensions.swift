@@ -44,7 +44,7 @@ extension String {
     func estimatedFrame() -> CGRect {
         let size = CGSize(width: 200, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        return NSString(string: self).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)], context: nil)
+        return NSString(string: self).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: Fonts.createSize(16)], context: nil)
     }
     
     func estimateFrameForFontSize(_ fontSize: CGFloat) -> CGRect {

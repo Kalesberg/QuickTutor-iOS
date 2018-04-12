@@ -107,7 +107,22 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     
     @objc func showConversation(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        DataService.shared.getStudentWithId(uid) { (tutor) in
+        AccountService.shared.currentUserType == .learner ? getTutor(uid: uid) : getStudent(uid: uid)
+    }
+    
+    private func getStudent(uid: String) {
+        DataService.shared.getStudentWithId(uid) { student in
+            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            vc.receiverId = uid
+            vc.chatPartner = student!
+            vc.connectionRequestAccepted = true
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    private func getTutor(uid: String) {
+        DataService.shared.getTutorWithId(uid) { tutor in
             let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
             vc.receiverId = uid
             vc.chatPartner = tutor!
@@ -119,7 +134,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     
     @objc func requestSession(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        DataService.shared.getStudentWithId(uid) { (tutor) in
+        DataService.shared.getTutorWithId(uid) { tutor in
             let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
             vc.receiverId = uid
             vc.chatPartner = tutor!
@@ -129,7 +144,6 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-
     
     @objc func showCancelModal(notification: Notification) {
         guard let userInfo = notification.userInfo, let sessionId = userInfo["sessionId"] as? String else { return }
@@ -156,10 +170,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
         blackView.removeFromSuperview()
     }
     
-    
-    
 }
-
 
 extension MessagesVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -197,7 +208,7 @@ extension MessagesVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
+    
 }
 
 extension MessagesVC: NewMessageDelegate {
