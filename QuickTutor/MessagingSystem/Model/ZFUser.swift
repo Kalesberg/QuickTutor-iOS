@@ -18,7 +18,7 @@ class User: Decodable {
     var isOnline: Bool!
     
     init(dictionary: [String: Any]) {
-        username = dictionary["username"] as? String ?? ""
+        username = (dictionary["username"] as? String)?.capitalized ?? ""
         profilePicUrl = dictionary["profilePicUrl"] as? String ?? ""
         uid = dictionary["uid"] as? String
         type = dictionary["type"] as? String ?? ""
