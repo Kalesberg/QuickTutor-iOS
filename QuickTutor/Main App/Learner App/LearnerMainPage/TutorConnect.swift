@@ -13,7 +13,7 @@ class TutorConnectView : MainLayoutTwoButton {
 	
 	var back = NavbarButtonX()
 	var filters = NavbarButtonLines()
-
+	
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
 		
@@ -105,56 +105,84 @@ class TutorConnect : BaseViewController {
 		view = TutorConnectView()
 	}
 	
-	var datasource = [FeaturedTutor]()
-//	var datasource : [FeaturedTutor] = [] {
-//		didSet {
-//			contentView.collectionView.reloadData()
-//		}
-//	}
+	var tutorReviews : [TutorReview]! {
+		didSet {
+			//reload a view or sumthin
+		}
+	}
+	var tutorSubjects : [TutorSubcategory]! {
+		didSet {
+			//reload or sumthin
+		}
+	}
+	
+	var featuredTutor : FeaturedTutor! {
+		didSet {
+			self.datasource.append(featuredTutor)
+			
+			QueryData.shared.loadReviews(uid: featuredTutor.uid) { (review) in
+				if let reviews = review {
+					self.tutorReviews = reviews
+				}
+			}
+			QueryData.shared.loadSubjects(uid: featuredTutor.uid) { (subjects) in
+				if let subjects = subjects {
+					self.tutorSubjects = subjects
+				}
+			}
+		}
+	}
+	
+	var datasource = [FeaturedTutor]() {
+		didSet {
+			contentView.collectionView.reloadData()
+		}
+	}
 	
 	var subcategory : String! {
 		didSet {
 			QueryData.shared.queryBySubcategory(subcategory: subcategory) { (tutors) in
 				if let tutors = tutors {
 					self.datasource = tutors
-					print(self.datasource)
-				} else {
-					print("error")
 				}
 			}
 		}
 	}
 	
-	var subject : (String, String)!// {
-//		didSet {
-//			QueryData.shared.queryBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
-//				if let tutors = tutors {
-//					self.dataSource = tutors
-//				}
-//			}
-//		}
-//	}
-
+	var subject : (String, String)! {
+		didSet {
+			print("What...")
+			QueryData.shared.queryBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
+				if let tutors = tutors {
+					self.datasource = tutors
+					print("what.")
+				}
+			}
+		}
+	}
+	
 	private var startingScrollingOffset = CGPoint.zero
-
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-	
 		
 		contentView.collectionView.dataSource = self
 		contentView.collectionView.delegate = self
 		contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
+		
 	}
+	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-	
+		
 		contentView.collectionView.reloadData()
 	}
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
+	
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX{
 			dismiss(animated: true, completion: nil)
@@ -169,23 +197,33 @@ extension TutorConnect : UIPopoverPresentationControllerDelegate {
 }
 
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+	internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return datasource.count
 	}
-
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+	
+	internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
-
+		
+		cell.body.aboutMe.bioLabel.text = datasource[indexPath.item].bio
+		cell.body.priceRating.price.text = datasource[indexPath.item].price.priceFormat()
+		cell.body.priceRating.rating.text = String(datasource[indexPath.item].rating)
+		cell.header.name.text = datasource[indexPath.item].name
+		cell.header.region.text = datasource[indexPath.item].region
+		cell.header.tutorData.text = "\(datasource[indexPath.item].numSessions!) hours taught, \(datasource[indexPath.item].hours!) completed sessions"
+		
 		return cell
 	}
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+	
+	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
 		let width = UIScreen.main.bounds.width - 20
 		
 		return CGSize(width: width, height: collectionView.frame.height - 50)
+		
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 		return 20
 	}
 }

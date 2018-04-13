@@ -21,12 +21,12 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		//view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width:2,height:2), radius: 5)
 		return view
 	}()
+	
 	let price : UILabel = {
 		let label = UILabel()
 		
 		label.textAlignment = .center
 		label.textColor = .white
-		label.text = "$12/hr"
 		label.font = Fonts.createSize(13)
 		label.adjustsFontSizeToFitWidth = true
 		label.backgroundColor = .clear

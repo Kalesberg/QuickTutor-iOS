@@ -16,8 +16,12 @@ class SignInHandler {
 	private let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 	private let user = Auth.auth().currentUser!
 	
+	let learner = LearnerData.userData
+	
 	init(_ completion: @escaping (Error?) -> Void) {
+		
 		getAccountData()
+	
 		getLearnerData { (error) in
 			if let error = error {
 				completion(error)
@@ -30,30 +34,30 @@ class SignInHandler {
 	public func getAccountData() {
 		self.ref.child("account").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			let value = snapshot.value as? NSDictionary
-			let user = LearnerData.userData
 			
-			user.phone			= value?["phn"	] as? String ?? ""
-			user.email          = value?["em"   ] as? String ?? ""
-			user.birthday	    = value?["bd"	] as? String ?? ""
+			self.learner.phone			= value?["phn"	] as? String ?? ""
+			self.learner.email          = value?["em"   ] as? String ?? ""
+			self.learner.birthday	    = value?["bd"	] as? String ?? ""
 			
 		})
 	}
 	
 	public func getLearnerData(completion: @escaping (Error?) -> Void) {
+		
 		self.ref.child("student-info").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
 				let value = snapshot.value as? NSDictionary
-				let user = LearnerData.userData
-				
-				user.name			= value?["nm"			]   as? String ?? ""
-				user.bio          	= value?["bio"          ]   as? String ?? ""
-				user.school         = value?["sch"       	]   as? String ?? ""
-				user.languages     	= value?["lng"   		]   as? [String] ?? []
-				user.customer 		= value?["cus" 			]	as?	String ?? ""
+			
+				self.learner.name			= value?["nm"			]   as? String ?? ""
+				self.learner.bio          	= value?["bio"          ]   as? String ?? ""
+				self.learner.school         = value?["sch"       	]   as? String ?? ""
+				self.learner.languages     	= value?["lng"   		]   as? [String] ?? []
+				self.learner.customer 		= value?["cus" 			]	as?	String ?? ""
 			
 				print("Grabbing image urls...")
-				self.grabImageUrls {
-					print("Done grabbing image urls.")
-					completion(nil)
+			
+			self.grabImageUrls {
+				print("Done grabbing image urls.")
+				completion(nil)
 			}
 		}) { (error) in
 			completion(error)
@@ -76,18 +80,26 @@ class SignInHandler {
 	
 	private func downloadImage(_ imageUrl : String, _ number: String) {
 		print("downloading Image\(number)...")
+		
 		if imageUrl == "" {
+			
 			inputDefaultImage(number: number)
+			
 			return
 		}
 		
 		let storage = Storage.storage().reference(forURL: imageUrl)
+		
 		storage.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+			
 			if let error = error {
 				print(error)
 			} else {
+				
 				let image : UIImage! = UIImage(data: data!)
+				
 				LocalImageCache.localImageManager.storeImageLocally(image: image.circleMasked!, number: number)
+				
 				LearnerData.userData.images["image\(number)"] = imageUrl
 			}
 		}
@@ -95,11 +107,15 @@ class SignInHandler {
 	}
 	
 	private func inputDefaultImage(number: String) {
+		
 		LocalImageCache.localImageManager.storeImageLocally(image: #imageLiteral(resourceName: "registration-image-placeholder"), number: number)
+		
 		LearnerData.userData.images["image\(number)"] = ""
 	}
 	private func checkIsTutor() {
+		
 		self.ref.child("tutor").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+			
 			if snapshot.exists() {
 				//do things related to being a tutor
 				UserDefaultData.localDataManager.isTutor = true

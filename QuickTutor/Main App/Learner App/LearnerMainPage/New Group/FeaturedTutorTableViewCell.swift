@@ -12,7 +12,14 @@ import SnapKit
 
 class FeaturedTutorTableViewCell : UITableViewCell  {
 	
-	var datasource : [FeaturedTutor]?
+	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		configureTableViewCell()
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 	
 	let collectionView : UICollectionView =  {
 		
@@ -31,14 +38,10 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		return collectionView
 	}()
 	
-	
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		configureTableViewCell()
-	}
-	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+	var datasource : [FeaturedTutor]? {
+		didSet {
+			collectionView.reloadData()
+		}
 	}
 	
 	var view : UIView!
@@ -77,20 +80,32 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 
-//		cell.price.text = String(datasource![indexPath.item].price)
-//		cell.featuredTutor.namePrice.text = datasource![indexPath.item].name
-//		cell.featuredTutor.region.text = datasource![indexPath.item].region
-//		cell.featuredTutor.subject.text = datasource![indexPath.item].topSubject
+		cell.price.text = datasource![indexPath.item].price.priceFormat()
+		cell.featuredTutor.imageView.loadUserImages(by: datasource![indexPath.item].imageUrls["image1"]!)
+		cell.featuredTutor.namePrice.text = datasource![indexPath.item].name
+		cell.featuredTutor.region.text = datasource![indexPath.item].region
+		cell.featuredTutor.subject.text = datasource![indexPath.item].topSubject
 		
 		return cell
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		
 		if let current = UIApplication.getPresentedViewController() {
-			current.present(TutorConnect(), animated: true, completion: nil)
+			
+			let next = TutorConnect()
+			next.featuredTutor = datasource![indexPath.item]
+			
+			current.present(next, animated: true, completion: nil)
 		}
 	}
 	
+	func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+		let attributes = collectionView.layoutAttributesForItem(at: indexPath)
+			attributes?.alpha = 1.0
+			attributes?.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+		return attributes
+	}
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
 		let screen = UIScreen.main.bounds

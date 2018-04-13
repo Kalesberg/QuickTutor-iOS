@@ -215,7 +215,8 @@ class SearchSubjects: BaseViewController {
 		
 		shouldUpdateSearchResults = true
 		
-		filteredSubjects = subjects.filter({$0.contains(textField.text!.lowercased())})
+		filteredSubjects = self.subjects.filter({$0.contains(textField.text!.lowercased())})
+		
 		contentView.tableView.reloadData()
 		
 		if filteredSubjects.count > 0 {
@@ -252,7 +253,7 @@ class SearchSubjects: BaseViewController {
 		
 		SubjectStore.readCategory(resource: self.categories[selectedCategory].subcategory.fileToRead) { (subjects) in
 			self.subjects = subjects
-			print("read")
+			print(self.categories[self.selectedCategory].subcategory.fileToRead)
 		}
 		
 		filteredSubjects = []
@@ -267,8 +268,6 @@ class SearchSubjects: BaseViewController {
 
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX {
-			print("yaas")
-			
 			if isTableViewActive {
 				
 				tableView(shouldDisplay: false)
@@ -328,9 +327,11 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 			shouldUpdateSearchResults = true
 			
 			newCategorySelected(indexPath.item)
+			
 			collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
 			
 		} else {
+			
 			return
 		}
 	}

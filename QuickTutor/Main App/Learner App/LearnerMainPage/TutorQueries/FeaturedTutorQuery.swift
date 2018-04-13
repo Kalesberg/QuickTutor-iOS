@@ -9,8 +9,18 @@
 import Foundation
 import Firebase
 
+struct TutorSubjectSearch {
+	let rating : Double
+	let price : Int
+	let subjects : String
+	let hours : Int
+	let distancePreference : Int
+	let numSessions : Int
+}
+
 struct TutorSubcategory {
 	
+	let subcategory : String
 	let price : Int
 	let rating : Double
 	let hours : Int
@@ -23,7 +33,7 @@ struct TutorReview {
 	
 	let sessionId : String
 	let studentName : String
-	let date : Date
+	let date : String
 	let message : String
 	let imageURL : String
 	let subject : String
@@ -38,12 +48,12 @@ struct FeaturedTutor {
 	
 	static let shared = FeaturedTutor()
 	
+	var uid    : String!
 	var name   : String!
 	var region : String!
 	var school : String!
 	var topSubject : String!
 	var bio : String!
-	var policy : String!
 	
 	var hours : Int!
 	var price : Int!
@@ -53,16 +63,14 @@ struct FeaturedTutor {
 	var rating : Double!
 	
 	var language  : [String]!
-	//var imageUrls = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
-	var token 	  : String!
+	var imageUrls : [String : String]!
 	
-	//	let review : [TutorReview]!
-	//	let subject : [TutorSubject]!
+	var token 	  : String!
 	
 }
 
 /*
-These queries can 100% be written better, but for the sake of testing other things on the app i just copy and pasted them.
+These queries can 100% be written better/less redundant, but for the sake of testing other things on the app i just copy and pasted most of them to make my life easier.
 */
 
 class QueryData {
@@ -71,7 +79,7 @@ class QueryData {
 	
 	private var ref : DatabaseReference? = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	
-	public func queryFeaturedTutor(categories: [Category], _ completion: @escaping ([Category: [FeaturedTutor]]?, Error?) -> Void) {
+	public func queryFeaturedTutor(categories: [Category], _ completion: @escaping ([Category: [FeaturedTutor]]?) -> Void) {
 		
 		let dispatch = DispatchGroup()
 		
@@ -100,6 +108,7 @@ class QueryData {
 						var tutor = FeaturedTutor.shared
 						
 						if let value = snapshot.value as? [String : AnyObject] {
+							tutor.uid = child.key
 							
 							if let name = value["nm"] as? String {
 								tutor.name = name
@@ -122,7 +131,11 @@ class QueryData {
 								
 								valid = false
 							}
-							//							let imageURLs = value["img"] as? [String],
+							if let imageURLs = value["img"] as? [String : String] {
+								tutor.imageUrls = imageURLs
+							} else {
+								valid = false
+							}
 							if let language = value["lng"] as? [String] {
 								tutor.language = language
 							} else {
@@ -152,6 +165,7 @@ class QueryData {
 								valid = false
 							}
 							if let numSessions = value["nos"] as? Int{
+								print(numSessions)
 								tutor.numSessions = numSessions
 							} else {
 								print("nos")
@@ -172,17 +186,6 @@ class QueryData {
 								
 								valid = false
 							}
-							if let policy = value["pol"] as? String{
-								tutor.policy = policy
-							} else {
-								print("pol")
-								valid = false
-							}
-							if let subjects = value["sbj"] as? [String : AnyObject] {
-								self.normalizeSubjects(snapshot: <#T##DataSnapshot#>, <#T##completion: ([TutorSubcategory]?) -> Void##([TutorSubcategory]?) -> Void#>)
-							} else {
-								print("failure")
-							}
 						}
 						
 						if valid {
@@ -190,14 +193,16 @@ class QueryData {
 						} else {
 							print(child.key)
 						}
+						
 						dispatch.leave()
 					})
 				}
+				
 				dispatch.leave()
 			}
 		}
 		dispatch.notify(queue: .main) {
-			completion(feature, nil)
+			completion(feature)
 		}
 	}
 	
@@ -242,7 +247,11 @@ class QueryData {
 							
 							valid = false
 						}
-						//							let imageURLs = value["img"] as? [String],
+						if let imageURLs = value["img"] as? [String : String] {
+							tutor.imageUrls = imageURLs
+						} else {
+							valid = false
+						}
 						if let language = value["lng"] as? [String] {
 							tutor.language = language
 						} else {
@@ -282,20 +291,11 @@ class QueryData {
 							tutor.price = price
 						} else {
 							print("p")
-							
 							valid = false
 						}
-						if let topSubject = value["tp"] as? String{
+						if let topSubject = value["tp"] as? String {
 							tutor.topSubject = topSubject
 						} else {
-							print("tp")
-							
-							valid = false
-						}
-						if let policy = value["pol"] as? String{
-							tutor.policy = policy
-						} else {
-							print("pol")
 							valid = false
 						}
 					}
@@ -316,16 +316,39 @@ class QueryData {
 	}
 	
 	func queryBySubject(subcategory: String, subject: String, _ completion: @escaping ([FeaturedTutor]?) -> Void) {
+
+		var tutors = [TutorSubjectSearch]()
+		print("Hur")
 		
-		//var uids : [String]
-		//	we will need to create codes for every subject so that we can query a range of similar subjects...
-		self.ref?.child(subcategory).queryOrdered(byChild: "r").queryStarting(atValue: 3.0).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
-			
-			for snap in snapshot.children {
-				let child = snap as! DataSnapshot
-				print(child.key)
+		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "r").queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
+
+			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
+
+				for child in snap {
+
+					let userid = child.key
+					
+					guard let value = child.value as? [String : AnyObject],
+						
+						let price = value["p"] as? Int,
+						let distancePreference = value["dst"] as? Int,
+						let hours = value["hr"] as? Int,
+						let rating = value["r"] as? Double,
+						let numSessions = value["nos"] as? Int,
+						let subjects = value["sbj"] as? String
+						
+						else {
+							print("Fail")
+							continue
+					}
+					
+					tutors.append(TutorSubjectSearch(rating: rating, price: price, subjects: subjects, hours: hours, distancePreference: distancePreference, numSessions: numSessions))
 				
+					//what are we comparing them to? user preferences? or our own standards? both?
+				
+				}
 			}
+			completion(nil)
 		}
 	}
 	
@@ -350,7 +373,7 @@ class QueryData {
 					var tutor = FeaturedTutor.shared
 					
 					if let value = snapshot.value as? [String : AnyObject] {
-						
+						tutor.uid = child.key
 						if let name = value["nm"] as? String {
 							tutor.name = name
 						} else {
@@ -373,7 +396,12 @@ class QueryData {
 							
 							valid = false
 						}
-						//							let imageURLs = value["img"] as? [String],
+						if let imageURLs = value["img"] as? [String : String] {
+							tutor.imageUrls = imageURLs
+						} else {
+							valid = false
+						}
+						
 						if let language = value["lng"] as? [String] {
 							tutor.language = language
 						} else {
@@ -423,12 +451,6 @@ class QueryData {
 							
 							valid = false
 						}
-						if let policy = value["pol"] as? String{
-							tutor.policy = policy
-						} else {
-							print("pol")
-							valid = false
-						}
 					}
 					
 					if valid {
@@ -449,52 +471,67 @@ class QueryData {
 
 extension QueryData {
 	
-	func normalizeReviews(snapshot : DataSnapshot, _ completion : @escaping ([TutorReview]?) -> Void) {
+	func loadReviews(uid : String, _ completion : @escaping ([TutorReview]?) -> Void) {
+		
 		var reviews : [TutorReview] = []
+		
+		self.ref?.child("review").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+		
+			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
+				
+				for child in snap {
+					
+					let sessionId = child.key
+					
+					guard let value = child.value as? [String : AnyObject],
+						
+						let studentName = value["nm"] as? String,
+						let date 		= value["dte"] as? String,
+						let message 	= value["m"] as? String,
+						let imageURL 	= value["img"] as? String,
+						let subject 	= value["sbj"] as? String,
+						let price 		= value["p"]   as? Int,
+						let rating	 	= value["r"]   as? Double,
+						let duration 	= value["dur"]   as? Int
 
-		for snap in snapshot.children {
-			let child = snap as! DataSnapshot
-			print(child)
-			guard let value = child.value as? [String : AnyObject],
-				
-				let sessionId 	= value["sid"] as? String,
-				let studentName = value["std"] as? String,
-				let date 		= value["dte"] as? Date,
-				let message 	= value["msg"] as? String,
-				let imageURL 	= value["img"] as? String,
-				let subject 	= value["sbj"] as? String,
-				let price 		= value["p"]   as? Int,
-				let rating	 	= value["r"]   as? Double,
-				let duration 	= value["d"]   as? Int
-				
-				else {
-					continue
+						else {
+							continue
+					}
+					reviews.append(TutorReview(sessionId: sessionId, studentName: studentName, date: date, message: message, imageURL: imageURL, subject: subject, price: price, rating: rating, duration: duration))
+				}
 			}
-			
-			reviews.append(TutorReview(sessionId: sessionId, studentName: studentName, date: date, message: message, imageURL: imageURL, subject: subject, price: price, rating: rating, duration: duration))
-		}
-		completion(reviews)
+			completion(reviews)
+		})
 	}
 	
-	func normalizeSubjects(snapshot : DataSnapshot, _ completion : @escaping ([TutorSubcategory]?) -> Void) {
+	func loadSubjects(uid: String, _ completion: @escaping ([TutorSubcategory]?) -> Void) {
+		
 		var subcategories : [TutorSubcategory] = []
 		
-		for snap in snapshot.children {
-			let child = snap as! DataSnapshot
+		self.ref?.child("subject").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			
-			guard let value = child.value as? [String : AnyObject],
-			
-			let price 	 	= value["p"] as? Int,
-			let rating   	= value["r"] as? Double,
-			let hours 	 	= value["hr"] as? Int,
-			let subjects 	= value["sbj"] as? String,
-			let numSessions = value["nos"] as? Int
-			
-				else {
-					continue
+			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
+
+				for child in snap {
+					
+					let subcategory = child.key
+					
+					guard let value = child.value as? [String : AnyObject],
+						
+						let price 	 	= value["p"] as? Int,
+						let rating   	= value["r"] as? Double,
+						let hours 	 	= value["hr"] as? Int,
+						let subjects 	= value["sbj"] as? String,
+						let numSessions = value["nos"] as? Int
+					
+					else {
+						continue
+					}
+					
+					subcategories.append(TutorSubcategory(subcategory: subcategory, price: price, rating: rating, hours: hours, subjects: subjects, numSessions: numSessions))
+				}
 			}
-			subcategories.append(TutorSubcategory(price: price, rating: rating, hours: hours, subjects: subjects, numSessions: numSessions))
-		}
-		completion(subcategories)
+				completion(subcategories)
+		})
 	}
 }

@@ -135,11 +135,14 @@ class TutorPreferences : BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
 		
 		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
 		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
+		
+
 	}
 	
 	override func loadView() {
@@ -148,18 +151,20 @@ class TutorPreferences : BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+
 	}
-	
+
 	@objc
-	private func rateSliderValueDidChange(_ sender: UISlider!) {
+	private func rateSliderValueDidChange(_ sender: UISlider) {
 		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
 		
 		cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
+	
 		price  = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
 	}
 	
 	@objc
-	private func distanceSliderValueDidChange(_ sender: UISlider!) {
+	private func distanceSliderValueDidChange(_ sender: UISlider) {
 		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! EditProfileSliderTableViewCell)
 		let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
 		
@@ -255,7 +260,7 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
 			
 			cell.header.attributedText = formattedString
 			
-			cell.valueLabel.text = "$0"
+			cell.valueLabel.text = "$5"
 			
 			return cell
 		case 2:
@@ -281,7 +286,7 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
 			
 			cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
 			
-			cell.slider.minimumValue = 0
+			cell.slider.minimumValue = 5
 			cell.slider.maximumValue = 150
 			
 			let formattedString = NSMutableAttributedString()
@@ -291,7 +296,7 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
 			
 			cell.header.attributedText = formattedString
 			
-			cell.valueLabel.text = "0 mi"
+			cell.valueLabel.text = "5 mi"
 			
 			return cell
 		case 4:

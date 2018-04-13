@@ -202,12 +202,6 @@ class TutorPolicy : BaseViewController {
 		// Dispose of any resources that can be recreated.
 	}
 	private func accepted() {
-//		Stripe.stripeManager.initConnectAccount(completion: { (error) in
-//			if let error = error {
-//				print(error)
-//			} else {
-//			}
-//		})
 		Tutor.shared.initTutor(completion: { (error) in
 			if let error = error {
 				print(error.localizedDescription)
