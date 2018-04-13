@@ -74,6 +74,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				} else {
 					print("Sign In Handler Completed.")
 					print("Grabbing customer data...")
+                    guard let uid = Auth.auth().currentUser?.uid else { return }
+//                    Database.database().reference().child("sessionStarts").child(uid).observe(.childAdded, with: { (snapshot) in
+//                        guard let value = snapshot.value as? [String: Any],
+//                            let sessionId = value["sessionId"] as? String,
+//                            let partnerId = value["partnerId"] as? String else { return }
+//                        let vc = SessionStartVC()
+//                        vc.sessionId = sessionId
+//                        vc.partnerId = partnerId
+//                        navigationController.navigationBar.isHidden = false
+//                        navigationController.pushViewController(vc, animated: true)
+//                    })
 					Stripe.stripeManager.retrieveCustomer({ (error) in
 						if let error = error {
 							print(error.localizedDescription)
