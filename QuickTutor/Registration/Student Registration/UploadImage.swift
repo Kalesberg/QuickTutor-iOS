@@ -33,7 +33,7 @@ class UploadImageView : RegistrationNavBarView {
         buttonView.addSubview(looksGoodButton)
         buttonView.addSubview(chooseNewButton)
         
-        navBar.progress = 0.857
+        navBar.progressBar.progress = 0.857
         navBar.applyConstraints()
         
         titleLabel.label.text = "Alright, time to add a photo!"
@@ -54,7 +54,6 @@ class UploadImageView : RegistrationNavBarView {
 
         chooseNewButton.label.label.text = "Choose a different photo"
 
-        
         applyConstraints()
     }
     
@@ -127,20 +126,49 @@ class UploadImageView : RegistrationNavBarView {
 
 
 //Interactables
-class AddImageButton : BaseView, Interactable {
+class AddImageButton : InteractableView, Interactable {
     
     var imageView = UIImageView()
     
     override func configureView() {
         addSubview(imageView)
+        
         imageView.image = UIImage(named: "registration-add-image")
+    
         applyConstraints()
     }
     
     override func applyConstraints() {
         imageView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+            make.width.height.equalToSuperview()
+            make.center.equalToSuperview()
         }
+    }
+    
+    func touchStart() {
+        imageView.snp.updateConstraints { (make) in
+            make.width.equalToSuperview().inset(-5)
+            make.height.equalToSuperview().inset(-5)
+        }
+        
+        needsUpdateConstraints()
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func didDragOff() {
+        imageView.snp.updateConstraints { (make) in
+            make.width.equalToSuperview().inset(5)
+            make.height.equalToSuperview().inset(5)
+        }
+        
+        needsUpdateConstraints()
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.layoutIfNeeded()
+        })
     }
 }
 

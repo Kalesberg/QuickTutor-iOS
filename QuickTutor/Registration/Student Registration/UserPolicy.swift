@@ -5,8 +5,7 @@
 //  Created by QuickTutor on 1/8/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
-//TODO Backend:
-//  - Hyperlink the learn more button
+
 
 import UIKit
 import FirebaseAuth

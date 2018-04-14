@@ -5,73 +5,11 @@
 //  Created by QuickTutor on 2/24/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
+//THIS IS CURRENTLY NOT IN USE
 
 import Foundation
 import UIKit
 import FirebaseAuth
-
-class PhoneTextField : InteractableView, Interactable {
-    
-    var textField = NoPasteTextField()
-    var flag = UIImageView()
-    var plusOneLabel = UILabel()
-    var line = UIView()
-    
-    override func configureView() {
-        addSubview(textField)
-        addSubview(line)
-        addSubview(flag)
-        addSubview(plusOneLabel)
-        super.configureView()
-        
-        textField.font = Fonts.createSize(25)
-        textField.keyboardAppearance = .dark
-        textField.textColor = .white
-        textField.tintColor = .white
-        
-        flag.image = UIImage(named: "flag")
-        flag.scaleImage()
-        
-        plusOneLabel.textColor = .white
-        plusOneLabel.font = Fonts.createSize(25)
-        plusOneLabel.text = "+1"
-        plusOneLabel.textAlignment = .center
-        
-        line.backgroundColor = .white
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        flag.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.6)
-            make.width.equalTo(30)
-            make.left.equalToSuperview()
-            make.bottom.equalToSuperview()
-        }
-        
-        plusOneLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(flag.snp.right)
-            make.bottom.equalToSuperview()
-            make.width.equalTo(45)
-            make.height.equalTo(flag)
-        }
-        
-        textField.snp.makeConstraints { (make) in
-            make.left.equalTo(plusOneLabel.snp.right)
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.6)
-        }
-        
-        line.snp.makeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview().offset(1)
-            make.height.equalTo(1)
-        }
-    }
-}
 
 
 class EnterPhoneNumberView : RegistrationGradientView, Keyboardable {

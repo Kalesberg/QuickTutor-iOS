@@ -401,7 +401,7 @@ fileprivate class EditProfileItem : InteractableView {
 		
 		divider.snp.makeConstraints { (make) in
 			make.top.equalTo(spacer.snp.top)
-			make.height.equalTo(0.5)
+			make.height.equalTo(1)
 			make.left.equalToSuperview()
 			make.right.equalToSuperview()
 		}
@@ -619,7 +619,7 @@ class EditProfileConnectInsta : InteractableView, Interactable {
 		
 		divider.snp.makeConstraints { (make) in
 			make.bottom.equalToSuperview()
-			make.height.equalTo(0.5)
+			make.height.equalTo(1)
 			make.left.equalToSuperview()
 			make.right.equalToSuperview()
 		}

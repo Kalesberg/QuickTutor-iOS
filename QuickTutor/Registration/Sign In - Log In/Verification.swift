@@ -9,6 +9,7 @@
 import FirebaseAuth
 import FirebaseDatabase
 
+
 class VerificationView: RegistrationNavBarKeyboardView {
     
     var vcDigit1         = RegistrationDigitTextField()
@@ -23,7 +24,7 @@ class VerificationView: RegistrationNavBarKeyboardView {
     var rightDigits      = UIView()
     
     var resendButtonView = UIView()
-    var resendVCButton   = UIButton()
+    var resendVCButton   = ResendButton()
 	
     override func configureView() {
         super.configureView()
@@ -41,7 +42,7 @@ class VerificationView: RegistrationNavBarKeyboardView {
         contentView.addSubview(resendButtonView)
         resendButtonView.addSubview(resendVCButton)
         
-        navBar.progress = 0.142
+        navBar.progressBar.progress = 1.01
         navBar.applyConstraints()
         
         titleLabel.label.text = "Enter the 6-digit code we've sent to: \(Registration.phone.formatPhoneNumber())"
@@ -49,10 +50,6 @@ class VerificationView: RegistrationNavBarKeyboardView {
 		titleLabel.label.adjustsFontSizeToFitWidth = true
         titleLabel.label.adjustsFontForContentSizeCategory = true
         titleLabel.label.numberOfLines = 2
-        
-        resendVCButton.setTitle("Resend verification code »", for: .normal)
-        resendVCButton.titleLabel?.font = Fonts.createSize(18)
-        resendVCButton.setTitleColor(.white, for: .normal)
 		
 		nextButton.isUserInteractionEnabled = false
 
@@ -105,11 +102,48 @@ class VerificationView: RegistrationNavBarKeyboardView {
         }
         
         resendVCButton.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview().multipliedBy(1.5)
             make.left.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(250)
+            make.height.equalTo(40)
         }
     }
 }
+
+class ResendButton : InteractableView, Interactable {
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createSize(18)
+        label.text = "Resend verification code »"
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(label)
+        super.configureView()
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func touchStart() {
+        label.alpha = 0.6
+    }
+    
+    func didDragOff() {
+        label.alpha = 1.0
+    }
+}
+
 
 class Verification : BaseViewController {
 	

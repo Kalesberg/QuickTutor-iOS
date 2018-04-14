@@ -21,7 +21,7 @@ class BirthdayView: RegistrationNavBarView {
 	override func configureView() {
 		super.configureView()
 		
-		navBar.progress = 0.714
+		navBar.progressBar.progress = 0.714
 		navBar.applyConstraints()
 		
 		addSubview(birthdayPicker)

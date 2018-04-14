@@ -24,7 +24,7 @@ class EmailView: RegistrationNavBarKeyboardView {
 		contentView.addSubview(checkboxLabel)
 		contentView.addSubview(checkbox)
 		
-		navBar.progress = 0.429
+		navBar.progressBar.progress = 0.429
 		navBar.applyConstraints()
 		
 		titleLabel.label.text = "Your email?"

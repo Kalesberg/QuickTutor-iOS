@@ -106,7 +106,7 @@ extension TutorManagePolicies : UITableViewDelegate, UITableViewDataSource {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfilePolicyTableViewCell", for: indexPath) as! EditProfilePolicyTableViewCell
-            
+        
             cell.infoLabel.label.text = "Late Policy"
             cell.textField.attributedText = NSAttributedString(string: "Enter how many minutes",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
