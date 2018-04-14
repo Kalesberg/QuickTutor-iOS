@@ -21,6 +21,8 @@ extension UIImageView {
 	
 	func loadUserImages(by url: String) {
 		
+		self.image = nil
+		
 		if let image = userImageCache[url] {
 			self.image = image
 			return
@@ -36,6 +38,7 @@ extension UIImageView {
 				DispatchQueue.main.async(execute: {
 					if let image = UIImage(data: data!)?.circleMasked {
 						userImageCache[url] = image
+						self.image = image	
 					}
 				})
 			}.resume()

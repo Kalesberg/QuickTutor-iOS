@@ -99,7 +99,8 @@ class Stripe {
 	
 	func retrieveCustomer(_ completion: @escaping STPErrorBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievecustomer.php"
-		let params : [String : Any] = ["customer" : LearnerData.userData.customer]
+		let params : [String : Any] = ["customer" : LearnerData.userData.customer!]
+
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseJSON(completionHandler: { (response) in

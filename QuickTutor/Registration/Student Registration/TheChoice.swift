@@ -112,7 +112,7 @@ class TheChoice : BaseViewController {
             UserDefaultData.localDataManager.isTutor = false
             
         } else if (touchStartView == contentView.tutorButton) {
-            let next = TutorSubjects()
+            let next = BecomeTutor()
             navigationController?.pushViewController(next, animated: true)
             let endIndex = navigationController?.viewControllers.endIndex
             navigationController?.viewControllers.removeFirst(endIndex! - 1)

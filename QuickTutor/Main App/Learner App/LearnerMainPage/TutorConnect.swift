@@ -117,14 +117,17 @@ class TutorConnect : BaseViewController {
 	}
 	
 	var featuredTutor : FeaturedTutor! {
+		
 		didSet {
 			self.datasource.append(featuredTutor)
-			
+			print("uid ", featuredTutor.uid)
 			QueryData.shared.loadReviews(uid: featuredTutor.uid) { (review) in
 				if let reviews = review {
+					print("here")
 					self.tutorReviews = reviews
 				}
 			}
+			
 			QueryData.shared.loadSubjects(uid: featuredTutor.uid) { (subjects) in
 				if let subjects = subjects {
 					self.tutorSubjects = subjects
@@ -208,6 +211,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 		cell.body.aboutMe.bioLabel.text = datasource[indexPath.item].bio
 		cell.body.priceRating.price.text = datasource[indexPath.item].price.priceFormat()
 		cell.body.priceRating.rating.text = String(datasource[indexPath.item].rating)
+		cell.header.imageView.loadUserImages(by: datasource[indexPath.item].imageUrls["image1"]!)
 		cell.header.name.text = datasource[indexPath.item].name
 		cell.header.region.text = datasource[indexPath.item].region
 		cell.header.tutorData.text = "\(datasource[indexPath.item].numSessions!) hours taught, \(datasource[indexPath.item].hours!) completed sessions"

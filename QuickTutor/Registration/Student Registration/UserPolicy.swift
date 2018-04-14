@@ -161,7 +161,14 @@ class UserPolicy : BaseViewController {
 			declined()
 			print("decline")
 		} else if (touchStartView == contentView.learnMoreButton) {
-			print("learn more")
+			guard let url = URL(string: "https://www.quicktutor.com") else {
+				return
+			}
+			if #available(iOS 10, *) {
+				UIApplication.shared.open(url, options: [:], completionHandler: nil)
+			} else {
+				UIApplication.shared.openURL(url)
+			}
 		}
 	}
 	private func accepted() {
@@ -181,7 +188,7 @@ class UserPolicy : BaseViewController {
 			}
 		}
 	}
-
+	
 	private func getUserData() {
 		_ = SignInHandler.init({ (error) in
 			if error != nil {
@@ -199,7 +206,18 @@ class UserPolicy : BaseViewController {
 	}
 	
 	private func declined() {
+		let alertController = UIAlertController(title: "All your progress will be deleted", message: "By pressing delete your account will not be created.", preferredStyle: UIAlertControllerStyle.alert)
+		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in
+			self.dismiss(animated: true, completion: nil)
+		}
+		let delete = UIAlertAction(title: "Delete", style: .destructive) { (delete) in
+			print("delete")
+			self.navigationController?.popToRootViewController(animated: true)
+		}
+		alertController.addAction(cancel)
+		alertController.addAction(delete)
 		
+		self.present(alertController, animated: true, completion: nil)
 	}
 	
 	override func didReceiveMemoryWarning() {

@@ -243,7 +243,7 @@ enum Category {
             
         case .academics:                displayName = "ACADEMICS"
         searchBarPhrases = ["search any academic subject"]
-        subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular","Test Preparation"]
+        subcategories = ["Mathematics", "Language Arts", "History", "The Sciences", "Extracurricular","Test Preparation"]
         icon = [#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "language-arts"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "extracurricular"),#imageLiteral(resourceName: "test-prep")]
         fileToRead = "academics"
             
@@ -255,7 +255,7 @@ enum Category {
             
         case .auto:                     displayName = "AUTO"
         searchBarPhrases = ["search anything auto-related"]
-        subcategories = ["Automobiles", "Motor vehicles", "Maintenance", "Repairs", "Upgrades", "Design"]
+        subcategories = ["Automobiles", "Motor Vehicles", "Maintenance", "Repairs", "Upgrades", "Design"]
         icon = [#imageLiteral(resourceName: "automobiles"),#imageLiteral(resourceName: "motor-vehicles"),#imageLiteral(resourceName: "maintenance"),#imageLiteral(resourceName: "repairs"),#imageLiteral(resourceName: "upgrades"),#imageLiteral(resourceName: "design")]
         fileToRead = "auto"
             

@@ -27,10 +27,12 @@ class Tutor {
 		
 		let data = LearnerData.userData
 		let subjectNode = buildSubjectNode()
-		let post : [String : Any] =
+		
+		var post : [String : Any] =
 			[
 				"/tutor-info/\(user.uid)" :
-					[ "nm"  : data.name,
+					[
+					  "nm"  : data.name,
 					  "sch" : data.school,
 					  "lng" : data.languages,
 					  "img" : data.images,
@@ -38,17 +40,17 @@ class Tutor {
 					  "r"   : 5,
 					  "nos" : 0,
 					  "p"	: TutorRegistration.price,
-					  "d"	: TutorRegistration.distance,
+					  "dst"	: TutorRegistration.distance,
 					  "bio" : TutorRegistration.tutorBio,
 					  "rg"  : "region",
 					  "pol" : "5_5_5_5",
 					  "prf" : TutorRegistration.sessionPreference,
 					  "tp"  : "Math"],
-				
-				"subject/\(user.uid)" : subjectNode.0,
-
 				]
 		
+		post.merge(subjectNode.0) { (_, last) in last }
+		post.merge(subjectNode.1) { (_, last) in last }
+	
 		ref.root.updateChildValues(post) { (error, databaseRef) in
 			if let error = error {
 				print(error.localizedDescription)
@@ -56,9 +58,6 @@ class Tutor {
 			} else {
 				//self.geoFire(location: TutorRegistration.location)
 				completion(nil)
-
-				// still have to figure out a way to get this in a single write without overwriting the current node
-				self.ref.root.updateChildValues(subjectNode.1)
 			}
 		}
 	}
@@ -70,6 +69,7 @@ class Tutor {
 		var subjectDict = [String : [String]]()
 		
 		if let subjects = TutorRegistration.subjects {
+			
 			for (_, value) in subjects.enumerated() {
 				subcategories.append(value.path)
 			}
@@ -95,46 +95,14 @@ class Tutor {
 			
 			let subjects = key.value.compactMap({$0}).joined(separator: "$")
 			
-			updateSubjectValues["\(key.key.lowercased())"] = ["p": TutorRegistration.price, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
+			updateSubjectValues["/subject/\(Auth.auth().currentUser!.uid)/\(key.key.lowercased())"] = ["p": TutorRegistration.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
 			
-			//these are the same node, just different order.
-			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : TutorRegistration.price, "d" : TutorRegistration.distance, "hr" : 0,"nos" : 0, "sbj" : subjects]
+			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : TutorRegistration.price!, "dst" : TutorRegistration.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
 		}
+
 		return (updateSubjectValues, updateSubcategoryValues)
 	}
-	
-	private func placeTutor() {
-		
-		var paths : [String] = []
-		var subjectList : String = ""
-		var updateValues = [String : Any]()
 
-		if let subjects = TutorRegistration.subjects {
-			
-			for (_, value) in subjects.enumerated() {
-				
-				paths.append(value.path)
-				
-				subjectList.append(value.subject)
-			}
-			
-			for path in paths.unique {
-				
-				var arr = [String]()
-				
-				for subject in subjects {
-					if path == subject.path {
-						arr.append(subject.subject)
-					}
-				}
-				//let subjects = key.value.compactMap({$0}).joined(separator: " ")
-				updateValues["subcategory/\(path.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : TutorRegistration.price, "dst" : TutorRegistration.distance, "hr" : 0, "sbj" : subjectList]
-			}
-		}
-		
-		self.ref.root.updateChildValues(updateValues)
-	}
-	
 	public func updateValue(value: [String : Any]) {
 		self.ref.child("tutor-info").child(user.uid).updateChildValues(value) { (error, reference) in
 			if let error = error {
@@ -142,11 +110,13 @@ class Tutor {
 			}
 		}
 	}
+	
 	public func geoFire(location: CLLocation) {
 		let geoFire = GeoFire(firebaseRef: ref.child("tutor_loc"))
 		geoFire.setLocation(location, forKey: user.uid)
 	}
 }
+
 extension Array where Element : Hashable {
 	var unique: [Element] {
 		return Array(Set(self))

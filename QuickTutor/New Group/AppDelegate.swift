@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 						self.window?.makeKeyAndVisible()
 					})
 					
-					let controller = LearnerMainPage()
+					let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
