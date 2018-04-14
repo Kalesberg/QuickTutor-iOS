@@ -18,7 +18,7 @@ class LearnerMainPageView : MainPageView {
 	
 	var search  = SearchBar()
 	var learnerSidebar = LearnerSideBar()
-
+	
 	let tableView : UITableView = {
 		let tableView = UITableView(frame: .zero, style: .grouped)
 		
@@ -77,7 +77,7 @@ class LearnerMainPageView : MainPageView {
 		tableView.layoutIfNeeded()
 	}
 }
-
+import Firebase
 class LearnerMainPage : MainPage {
 	
 	override var contentView: LearnerMainPageView {
@@ -93,13 +93,9 @@ class LearnerMainPage : MainPage {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		configureView()
-		QueryData.shared.queryFeaturedTutor(categories: Array(category.prefix(4))) { (datasource, error) in
-			if let error = error {
-				
-				print(error.localizedDescription)
-				
-			} else if let datasource = datasource {
+		
+		QueryData.shared.queryFeaturedTutor(categories: Array(category.prefix(4))) { (datasource) in
+			if let datasource = datasource {
 				
 				self.contentView.tableView.performBatchUpdates({
 					
@@ -114,6 +110,9 @@ class LearnerMainPage : MainPage {
 				})
 			}
 		}
+		
+		configureView()
+		
 		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
 			contentView.sidebar.profileView.profilePicView.image = image
 		}
@@ -193,7 +192,6 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 			return cell
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
-		
 			cell.datasource = self.datasource[category[indexPath.section - 1]]
 			
 			return cell
@@ -213,7 +211,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 		}
 		return view
 	}
-
+	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 		return 50
 	}
@@ -225,18 +223,14 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 extension LearnerMainPage : UIScrollViewDelegate {
 	
 	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		
 		if (scrollView.contentOffset.y - 60 >= (scrollView.contentSize.height - scrollView.frame.size.height))  && contentView.tableView.numberOfSections > 1 {
 			
 			if !didLoadMore && datasource.count < 12 {
 				
 				didLoadMore = true
 				
-				QueryData.shared.queryFeaturedTutor(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource, error) in
-					//do something with error
-					if let error = error {
-						print(error.localizedDescription)
-						return
-					}
+				QueryData.shared.queryFeaturedTutor(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
 					//update datasource.
 					if let datasource = datasource {
 						

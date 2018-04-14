@@ -11,6 +11,10 @@ import FirebaseStorage
 import FirebaseAuth
 import GeoFire
 
+/*
+	Still need to figure out how to put all of this data into a single Write
+*/
+
 class Tutor {
 	
 	private var ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
@@ -24,47 +28,48 @@ class Tutor {
 		let data = LearnerData.userData
 		let subjectNode = buildSubjectNode()
 		
-		let post : [String : Any] =
+		var post : [String : Any] =
 			[
 				"/tutor-info/\(user.uid)" :
-					[ "nm"  : data.name,
+					[
+					  "nm"  : data.name,
 					  "sch" : data.school,
 					  "lng" : data.languages,
 					  "img" : data.images,
 					  "hr"  : 0,
 					  "r"   : 5,
 					  "nos" : 0,
-					  "p"	: 5,
+					  "p"	: TutorRegistration.price,
+					  "dst"	: TutorRegistration.distance,
 					  "bio" : TutorRegistration.tutorBio,
-					  "rg"  : TutorRegistration.address,
-					  "tok" : TutorRegistration.stripeToken,
+					  "rg"  : "region",
 					  "pol" : "5_5_5_5",
+					  "prf" : TutorRegistration.sessionPreference,
 					  "tp"  : "Math"],
-				
-				"/subject/\(user.uid)" : subjectNode,
-				
 				]
 		
+		post.merge(subjectNode.0) { (_, last) in last }
+		post.merge(subjectNode.1) { (_, last) in last }
+	
 		ref.root.updateChildValues(post) { (error, databaseRef) in
 			if let error = error {
 				print(error.localizedDescription)
 				completion(error)
 			} else {
-				print("User is in the database!")
-				self.geoFire(location: TutorRegistration.location)
-				self.placeTutor()
+				//self.geoFire(location: TutorRegistration.location)
 				completion(nil)
 			}
 		}
-		
 	}
-	public func buildSubjectNode() -> [String : Any] {
+	
+	public func buildSubjectNode() -> ([String : Any], [String : Any]) {
 
 		var subcategories : [String] = []
-		var updateValues : [String : Any] = [:]
+		
 		var subjectDict = [String : [String]]()
 		
 		if let subjects = TutorRegistration.subjects {
+			
 			for (_, value) in subjects.enumerated() {
 				subcategories.append(value.path)
 			}
@@ -82,29 +87,22 @@ class Tutor {
 				subjectDict[path] = arr
 			}
 		}
+		
+		var updateSubjectValues 	= [String : Any]()
+		var updateSubcategoryValues = [String : Any]()
+		
 		for key in subjectDict {
-			let subjects = key.value.compactMap({$0}).joined(separator: " ")
-			updateValues["\(key.key.lowercased())"] = ["p": 5, "r" : 5, "sbj" : subjects, "h" : 0, "s" : 0]
+			
+			let subjects = key.value.compactMap({$0}).joined(separator: "$")
+			
+			updateSubjectValues["/subject/\(Auth.auth().currentUser!.uid)/\(key.key.lowercased())"] = ["p": TutorRegistration.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
+			
+			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : TutorRegistration.price!, "dst" : TutorRegistration.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
 		}
-		return updateValues
+
+		return (updateSubjectValues, updateSubcategoryValues)
 	}
-	
-	private func placeTutor() {
-		
-		var paths : [String] = []
-		var updateValues : [String : Any] = [:]
-		
-		if let subjects = TutorRegistration.subjects {
-			for (_, value) in subjects.enumerated() {
-				paths.append(value.path)
-			}
-		}
-		for path in paths.unique {
-			updateValues["subcategory/\(path.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : 5, "d" : 0, "h" : 0]
-		}
-		self.ref.root.updateChildValues(updateValues)
-	}
-	
+
 	public func updateValue(value: [String : Any]) {
 		self.ref.child("tutor-info").child(user.uid).updateChildValues(value) { (error, reference) in
 			if let error = error {
@@ -112,11 +110,13 @@ class Tutor {
 			}
 		}
 	}
+	
 	public func geoFire(location: CLLocation) {
 		let geoFire = GeoFire(firebaseRef: ref.child("tutor_loc"))
 		geoFire.setLocation(location, forKey: user.uid)
 	}
 }
+
 extension Array where Element : Hashable {
 	var unique: [Element] {
 		return Array(Set(self))

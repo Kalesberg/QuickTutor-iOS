@@ -381,7 +381,7 @@ class TutorAddSubjects : BaseViewController {
 		
 		} else if touchStartView is NavbarButtonDone {
 			TutorRegistration.subjects = selected
-			navigationController?.pushViewController(TutorBio(), animated: true)
+			navigationController?.pushViewController(TutorPreferences(), animated: true)
 		}
 	}
 }

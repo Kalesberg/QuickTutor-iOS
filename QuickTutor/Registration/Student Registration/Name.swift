@@ -5,7 +5,6 @@
 //  Created by QuickTutor on 11/20/17.
 //  Copyright © 2017 QuickTutor. All rights reserved.
 //
-// TODO: fix KeyboardShouldReturn -KeyboardPressed() - I AM A DINGUS
 import UIKit
 
 class NameView : RegistrationNavBarKeyboardView {
@@ -64,13 +63,25 @@ class Name : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
 		contentView.firstNameTextField.textField.delegate = self
 		contentView.lastNameTextField.textField.delegate = self
+		
+		contentView.firstNameTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+		contentView.lastNameTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		contentView.firstNameTextField.textField.becomeFirstResponder()
+	}
+	
+	@objc private func textFieldDidChange(_ sender : UITextField) {
+		
+		guard checkNameValidity() else { return }
+		
+		//show animation/UI-ish here.
+
 	}
 	
 	override func handleNavigation() {
@@ -97,11 +108,11 @@ class Name : BaseViewController {
 	}
 	
 	private func checkNameValidity() -> Bool {
-		if contentView.firstNameTextField.textField.text!.count < 2
-			|| contentView.lastNameTextField.textField.text!.count < 2 {
-			return false
+		if contentView.firstNameTextField.textField.text!.count >= 1
+			&& contentView.lastNameTextField.textField.text!.count >= 1 {
+			return true
 		}
-		return true
+		return !true //LOL
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -111,28 +122,20 @@ class Name : BaseViewController {
 extension Name : UITextFieldDelegate {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-		
-		let char = string.cString(using: String.Encoding.utf8)!
-		let isBackSpace = strcmp(char, "\\b")
-		
-		if isBackSpace == Constants.BCK_SPACE {
-			textField.text!.removeLast()
-		}
+
+		let inverseSet = NSCharacterSet(charactersIn:"0123456789@#$%^&*()_=+<>?,[]{};'~!").inverted //Add any extra characters here..
+		let components = string.components(separatedBy: inverseSet)
+		let filtered = components.joined(separator: "")
 		
 		if textField.text!.count <= 24 {
-			switch textField {
-			case contentView.firstNameTextField.textField:
-				if string.rangeOfCharacter(from: .letters) != nil {return true}
-				return false
-			case contentView.lastNameTextField.textField:
-				if string.rangeOfCharacter(from: .letters) != nil {return true}
-				return false
-			default:
-				contentView.lastNameTextField.textField.becomeFirstResponder()
-				return false
+			if string == "" {
+				return true
 			}
+			return !(string == filtered)
 		} else {
-			print("Your name is too long!")
+			if string == "" {
+				return true
+			}
 			return false
 		}
 	}

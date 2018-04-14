@@ -15,6 +15,9 @@ struct TutorRegistration {
 	static var subjects : [Selected]!
 	static var address : String!
 	static var location : CLLocation!
+	static var price : Int!
+	static var distance : Int!
+	static var sessionPreference : Int!
 	
 	//stripe - connect
 	static var bankholderName : String!

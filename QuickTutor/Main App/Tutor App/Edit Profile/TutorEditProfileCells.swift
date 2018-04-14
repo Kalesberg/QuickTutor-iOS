@@ -339,6 +339,7 @@ class BaseSlider : UISlider {
         }
         
         let rect:CGRect = CGRect(x: 0, y: 0, width: width, height: 12)
+		
         return rect
     }
 }
@@ -376,7 +377,6 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
         contentView.addSubview(slider)
         contentView.addSubview(valueLabel)
         backgroundColor = .clear
-        
         selectionStyle = .none
         
         applyConstraints()

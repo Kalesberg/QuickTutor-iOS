@@ -163,19 +163,25 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		
-		cell.price.text = String(dataSource[indexPath.item].price)
+		cell.price.text = dataSource[indexPath.item].price.priceFormat()
+		cell.featuredTutor.imageView.loadUserImages(by: dataSource[indexPath.item].imageUrls["image1"]!)
 		cell.featuredTutor.namePrice.text = dataSource[indexPath.item].name
 		cell.featuredTutor.region.text = dataSource[indexPath.item].region
-		//cell.featuredTutor.subject.text = dataSource[indexPath.item].topic
+		cell.featuredTutor.subject.text = dataSource[indexPath.item].topSubject
 		
 		return cell
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		if let current = UIApplication.getPresentedViewController() {
-			current.present(TutorConnect(), animated: true, completion: nil)
+			let next = TutorConnect()
+			
+			next.datasource = [dataSource[indexPath.item]]
+			
+			current.present(next, animated: true, completion: nil)
 		}
 	}
 }

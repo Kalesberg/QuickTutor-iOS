@@ -100,7 +100,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 	}
 	override func handleNavigation() {
 		if touchStartView is ConnectButton {
-			print("connect")
 		} else if touchStartView is FullProfile {
 			if let current = UIApplication.getPresentedViewController() {
 				current.present(ViewFullProfile(), animated: true, completion: nil)
@@ -128,8 +127,9 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
 	}
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = SectionHeader()
-		view.category.text = "22 Reviews"
+		
 		view.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+		
 		return view
 	}
 }
@@ -138,48 +138,48 @@ class TutorCardHeader : InteractableView {
 	
 	let distance = TutorDistanceView()
 	
-	 let imageView : UIImageView = {
-		let imageView = UIImageView()
+	 var imageView : UIImageView = {
+		var imageView = UIImageView()
+		
 		imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+		
 		return imageView
 	}()
 	
-	let name : UILabel = {
-		let label = UILabel()
+	var name : UILabel = {
+		var label = UILabel()
 		
 		label.textColor = .white
 		label.textAlignment = .left
-		label.text = "Alex Zoltowski, 20"
 		label.font = Fonts.createBoldSize(30)
 		label.adjustsFontSizeToFitWidth = true
 		
 		return label
 	}()
 	
-	let region : UILabel = {
-		let label = UILabel()
+	var region : UILabel = {
+		var label = UILabel()
 		
 		label.textColor = .white
 		label.textAlignment = .left
-		label.text = "Mount Pleasant, Michigan"
 		label.font = Fonts.createSize(16)
 		label.adjustsFontSizeToFitWidth = true
 		
 		return label
 	}()
 	
-	let tutorData : UILabel = {
-		let label = UILabel()
+	var tutorData : UILabel = {
+		var label = UILabel()
 		
 		label.textColor = .white
 		label.textAlignment = .left
-		label.text = "148 hours taught, 14 completed sessions"
 		label.font = Fonts.createSize(16)
 		label.adjustsFontSizeToFitWidth = true
 		
 		return label
 	}()
-	
+
+
 	override func configureView() {
 		addSubview(imageView)
 		addSubview(region)
@@ -233,7 +233,6 @@ class TutorDistanceView : BaseView {
 		let label = UILabel()
 		
 		label.textColor = Colors.tutorBlue
-		label.text = "3 miles away"
 		label.textAlignment = .center
 		label.font = Fonts.createSize(12)
 		label.adjustsFontSizeToFitWidth = true
@@ -270,7 +269,7 @@ class TutorCardBody : InteractableView {
 		
 		super.configureView()
 		aboutMe.aboutMeLabel.label.text = "About Alex"
-		aboutMe.bioLabel.text = "Emma: .TopRight and .BottomRight are not working for you perhaps because the call to view.roundCorners is done BEFORE final view bounds are calculated. Note that the Bezier Path derives from the view bounds at the time it is called."
+		
 		backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		
 		applyConstraints()
@@ -291,7 +290,6 @@ class TutorCardBody : InteractableView {
 		}
 	}
 }
-
 
 class TutorCardReviewCell : UITableViewCell {
 	
@@ -316,7 +314,6 @@ class TutorCardReviewCell : UITableViewCell {
 		let label = UILabel()
 		
 		label.textColor = .white
-		label.text = "Austin Welch"
 		label.font = Fonts.createBoldSize(18)
 
 		return label
@@ -325,7 +322,6 @@ class TutorCardReviewCell : UITableViewCell {
 	let reviewTextLabel : UILabel = {
 		let label = UILabel()
 		
-		label.text = "This kid FUCKS! But i still want to see how this looks and if will allow me to go onto 2 lines"
 		label.textColor = Colors.grayText
 		label.font = Fonts.createItalicSize(13)
 		label.numberOfLines = 3
@@ -375,7 +371,6 @@ class PriceRating : BaseView {
 		
 		label.font = Fonts.createBoldSize(18)
 		label.textColor = .green
-		label.text = "$9.00/hour"
 		label.textAlignment = .center
 		label.adjustsFontSizeToFitWidth = true
 		
@@ -387,7 +382,6 @@ class PriceRating : BaseView {
 		
 		label.font = Fonts.createSize(18)
 		label.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
-		label.text = "4.71 * (22 ratings)"
 		label.textAlignment = .center
 		label.adjustsFontSizeToFitWidth = true
 		
@@ -497,7 +491,9 @@ extension UIView {
 	func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
 		let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
 		let mask = CAShapeLayer()
+	
 		mask.path = path.cgPath
+		
 		self.layer.mask = mask
 	}
 }
