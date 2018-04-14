@@ -82,6 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 						self.window?.makeKeyAndVisible()
 					})
 					
+					
 					let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)
