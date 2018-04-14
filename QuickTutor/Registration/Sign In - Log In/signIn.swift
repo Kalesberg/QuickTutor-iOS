@@ -5,12 +5,6 @@
 //  Created by QuickTutor on 11/16/17.
 //  Copyright © 2017 QuickTutor. All rights reserved.
 //
-//TODO: Design
-//
-//TODO: Backend
-// 	- Add hyperlinks to infoLabel for the policies
-//	- Anyway to use the functionality of FBSDKLoginButton for our custom button? maybe override it, remove views, add our own?? lemme know
-//	- Next button only interactable if a valid phone number is typed in
 
 import UIKit
 import FirebaseAuth
@@ -45,7 +39,6 @@ class SignInView: RegistrationGradientView, Keyboardable {
 	override func configureView() {
 		addKeyboardView()
 		addSubview(backButton)
-		addSubview(nextButton)
 		addSubview(quicktutorText)
 		addSubview(learnAnythingLabel)
 		addSubview(quicktutorFlame)
@@ -54,6 +47,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		container.addSubview(phoneTextField)
 		phoneTextField.addSubview(numberLabel)
 		container.addSubview(facebookButton2)
+		addSubview(nextButton)
 		super.configureView()
 	
 		backButton.alpha = 0.0
@@ -64,7 +58,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		
 		quicktutorText.image = UIImage(named: "quicktutor-text")
 		
-		learnAnythingLabel.label.text = "learn anything | teach anyone"
+		learnAnythingLabel.label.text = "Learn Anything. Teach Anyone."
 		learnAnythingLabel.label.font = Fonts.createLightSize(20)
 		
 		infoLabel.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Terms of Service, Privacy Policy, and Nondiscrimination Policy."
@@ -193,8 +187,80 @@ class FacebookButton : InteractableView, Interactable {
 			make.height.equalTo(30)
 		}
 	}
+	
+	func touchStart() {
+		facebookIcon.alpha = 0.6
+		facebookLabel.alpha = 0.6
+	}
+	
+	func didDragOff() {
+		facebookIcon.alpha = 1.0
+		facebookLabel.alpha = 1.0
+	}
 }
 
+class PhoneTextField : InteractableView, Interactable {
+	
+	var textField = NoPasteTextField()
+	var flag = UIImageView()
+	var plusOneLabel = UILabel()
+	var line = UIView()
+	
+	override func configureView() {
+		addSubview(textField)
+		addSubview(line)
+		addSubview(flag)
+		addSubview(plusOneLabel)
+		super.configureView()
+		
+		textField.font = Fonts.createSize(25)
+		textField.keyboardAppearance = .dark
+		textField.textColor = .white
+		textField.tintColor = .white
+		
+		flag.image = UIImage(named: "flag")
+		flag.scaleImage()
+		
+		plusOneLabel.textColor = .white
+		plusOneLabel.font = Fonts.createSize(25)
+		plusOneLabel.text = "+1"
+		plusOneLabel.textAlignment = .center
+		
+		line.backgroundColor = .white
+		
+		applyConstraints()
+	}
+	
+	override func applyConstraints() {
+		flag.snp.makeConstraints { (make) in
+			make.height.equalToSuperview().multipliedBy(0.6)
+			make.width.equalTo(30)
+			make.left.equalToSuperview()
+			make.bottom.equalToSuperview()
+		}
+		
+		plusOneLabel.snp.makeConstraints { (make) in
+			make.left.equalTo(flag.snp.right)
+			make.bottom.equalToSuperview()
+			make.width.equalTo(45)
+			make.height.equalTo(flag)
+		}
+		
+		textField.snp.makeConstraints { (make) in
+			make.left.equalTo(plusOneLabel.snp.right)
+			make.right.equalToSuperview()
+			make.bottom.equalToSuperview()
+			make.height.equalToSuperview().multipliedBy(0.6)
+		}
+		
+		line.snp.makeConstraints { (make) in
+			make.left.equalToSuperview()
+			make.right.equalToSuperview()
+			make.bottom.equalToSuperview().offset(1)
+			make.height.equalTo(1)
+		}
+	}
+}
 
 class SignIn: BaseViewController {
 	
@@ -253,8 +319,10 @@ class SignIn: BaseViewController {
 				self.contentView.phoneTextField.textField.isEnabled = true
 				self.contentView.phoneTextField.textField.becomeFirstResponder()
 				self.contentView.nextButton.fadeIn(withDuration: 0.2, alpha: 1.0)
-				self.contentView.nextButton.isUserInteractionEnabled = true
 			})
+			
+			contentView.nextButton.isUserInteractionEnabled = true
+			
 		} else if(touchStartView is RegistrationBackButton) {
 			contentView.backButton.isUserInteractionEnabled = false
 			contentView.nextButton.isUserInteractionEnabled = false

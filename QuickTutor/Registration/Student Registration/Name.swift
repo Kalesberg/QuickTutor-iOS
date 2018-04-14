@@ -5,7 +5,6 @@
 //  Created by QuickTutor on 11/20/17.
 //  Copyright © 2017 QuickTutor. All rights reserved.
 //
-// TODO: fix KeyboardShouldReturn -KeyboardPressed() - I AM A DINGUS
 import UIKit
 
 class NameView : RegistrationNavBarKeyboardView {
@@ -18,7 +17,7 @@ class NameView : RegistrationNavBarKeyboardView {
 		contentView.addSubview(firstNameTextField)
 		contentView.addSubview(lastNameTextField)
 		
-		navBar.progress = 0.286
+		navBar.progressBar.progress = 0.286
 		navBar.applyConstraints()
 		
 		titleLabel.label.text = "Hey, what's your name?"

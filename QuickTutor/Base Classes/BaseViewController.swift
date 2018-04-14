@@ -38,16 +38,15 @@ public class BaseViewController: UIViewController {
         super.touchesBegan(touches, with: event)
         
         if let firstTouch = touches.first {
-            let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event)
-            
-			print(hitView!)
+            if let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event) {
 
-            if (hitView is Interactable) {
-                print("BEGAN: INTERACTABLE")
-                touchStartView = hitView as? (UIView & Interactable)!
-                touchStartView?.touchStart()
-            } else {
-                print("BEGAN: NOT INTERACTABLE")
+                if (hitView is Interactable) {
+                    print("BEGAN: INTERACTABLE")
+                    touchStartView = (hitView as! (UIView & Interactable))
+                    touchStartView?.touchStart()
+                } else {
+                    print("BEGAN: NOT INTERACTABLE")
+                }
             }
         }
     }
@@ -59,21 +58,22 @@ public class BaseViewController: UIViewController {
             print("DRAGGING ON A NONINTERACTABLE")
         } else {
             if let firstTouch = touches.first {
-                let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event)
+                if let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event) {
                 let previousView = self.contentView.hitTest(firstTouch.previousLocation(in: self.contentView), with: event)
-                
-                if ((touchStartView == hitView) && (previousView == hitView)) {
-                    print("DRAGGING ON START VIEW")
-                    touchStartView?.draggingOn()
-                } else if (previousView == touchStartView) {
-                    print("DID DRAG OFF START VIEW")
-                    touchStartView?.didDragOff()
-                } else if ((previousView != touchStartView) && (hitView == touchStartView)) {
-                    print("DID DRAG ON TO START VIEW")
-                    touchStartView?.didDragOn()
-                } else {
-                    touchStartView?.draggingOff()
-                    print("DRAGGING OFF START VIEW")
+
+                    if ((touchStartView == hitView) && (previousView == hitView)) {
+                        print("DRAGGING ON START VIEW")
+                        touchStartView?.draggingOn()
+                    } else if (previousView == touchStartView) {
+                        print("DID DRAG OFF START VIEW")
+                        touchStartView?.didDragOff()
+                    } else if ((previousView != touchStartView) && (hitView == touchStartView)) {
+                        print("DID DRAG ON TO START VIEW")
+                        touchStartView?.didDragOn()
+                    } else {
+                        touchStartView?.draggingOff()
+                        print("DRAGGING OFF START VIEW")
+                    }
                 }
             }
         }
@@ -87,15 +87,15 @@ public class BaseViewController: UIViewController {
         }
         else {
             if let firstTouch = touches.first {
-                let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event)
-                print(hitView)
-                if (touchStartView == hitView) {
-                    print("ENDED: ON START")
-                    touchStartView?.touchEndOnStart()
-                } else {
-                    touchStartView?.touchEndOffStart()
-                    touchStartView = nil
-                    print("ENDED: OFF START")
+                if let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event) {
+                    if (touchStartView == hitView) {
+                        print("ENDED: ON START")
+                        touchStartView?.touchEndOnStart()
+                    } else {
+                        touchStartView?.touchEndOffStart()
+                        touchStartView = nil
+                        print("ENDED: OFF START")
+                    }
                 }
             }
         }

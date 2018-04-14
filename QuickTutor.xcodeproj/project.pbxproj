@@ -2022,7 +2022,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U9G698QATF;
+				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = "$(SRCROOT)/QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

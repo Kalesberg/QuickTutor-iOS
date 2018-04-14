@@ -120,8 +120,8 @@ class LearnerMainPage : MainPage {
 	}
 	override func updateSideBar() {
 		
-		contentView.sidebar.profileView.profileNameView.label.text = user.name
-		contentView.sidebar.profileView.profileSchoolView.label.text = user.school
+		contentView.sidebar.profileView.profileNameView.text = user.name
+		//contentView.sidebar.profileView.profileSchoolView.text = user.school
 		contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
 		
 	}

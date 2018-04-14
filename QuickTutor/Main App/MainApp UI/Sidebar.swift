@@ -255,8 +255,7 @@ class ProfileView : InteractableBackgroundView {
             print("set profile pic")
         }
     }
-    var profileNameView   = LeftTextLabel()
-    var profileSchoolView = LeftTextLabel()
+    var profileNameView   = UILabel()
     
     override func configureView() {
         super.configureView()
@@ -269,18 +268,15 @@ class ProfileView : InteractableBackgroundView {
 
         profileView.addSubview(profilePicView)
         profileView.addSubview(profileNameView)
-        profileView.addSubview(profileSchoolView)
         
         backgroundView.isUserInteractionEnabled = false
         profilePicView.scaleImage()
         
-        profileNameView.label.font = Fonts.createBoldSize(14)
-        profileSchoolView.label.font = Fonts.createLightSize(14)
-        profileNameView.label.text = user.name!
-        profileSchoolView.label.text = user.school!
-        
-        profileSchoolView.label.adjustsFontSizeToFitWidth = true
-        profileSchoolView.label.numberOfLines = 0
+        profileNameView.font = Fonts.createBoldSize(16)
+      
+        profileNameView.text = user.name!
+        profileNameView.textColor = .white
+        profileNameView.adjustsFontSizeToFitWidth = true
         
         applyConstraints()
     }
@@ -303,28 +299,9 @@ class ProfileView : InteractableBackgroundView {
         
         profileNameView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
-            make.left.equalTo(profilePicView.snp.right).inset(-8)
-            make.width.equalToSuperview()
-        }
-        
-        profileNameView.label.snp.remakeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-        
-        profileSchoolView.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
-            make.left.equalTo(profilePicView.snp.right).inset(-8)
-            make.right.equalToSuperview()
-        }
-        
-        profileSchoolView.label.snp.remakeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
+            make.height.equalToSuperview()
+            make.left.equalTo(profilePicView.snp.right).inset(-10)
+            make.right.equalToSuperview().inset(3)
         }
     }
 }
@@ -343,7 +320,7 @@ class RatingView : InteractableBackgroundView {
         starImageView.image = UIImage(named: "sidebar-star")
         
         ratingLabel.label.text = "4.71"
-        ratingLabel.label.font = Fonts.createBoldSize(12)
+        ratingLabel.label.font = Fonts.createBoldSize(14)
         
         applyConstraints()
     }

@@ -21,8 +21,8 @@ class EditBioTextView : BaseView {
         textView.textColor = .white
         textView.tintColor = .white
         textView.backgroundColor = .clear
-        textView.autocorrectionType = .no
-        textView.isSecureTextEntry = true
+        textView.returnKeyType = .default
+        textView.font = Fonts.createSize(18)
 		
         let user = LearnerData.userData
         textView.text = user.bio!
@@ -64,13 +64,11 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
         titleLabel.label.text = "About me"
         titleLabel.label.font = Fonts.createBoldSize(16)
 		
-        textView.textView.autocorrectionType = .yes
-        textView.textView.returnKeyType = .default
+        
         textView.backgroundColor = Colors.registrationDark
         textView.layer.borderWidth = 1.0
         textView.layer.borderColor = UIColor.black.cgColor
         textView.layer.cornerRadius = 10
-        textView.textView.font = Fonts.createSize(18)
         
         characterCount.label.adjustsFontForContentSizeCategory = true
         characterCount.label.adjustsFontSizeToFitWidth = true

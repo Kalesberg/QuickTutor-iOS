@@ -21,7 +21,7 @@ class CreatePasswordView : RegistrationNavBarKeyboardView {
 		contentView.addSubview(createPasswordTextfield)
 		contentView.addSubview(passwordInfo)
 		
-		navBar.progress = 0.571
+		navBar.progressBar.progress = 0.571
 		navBar.applyConstraints()
 		
 		titleLabel.label.text = "Let's create a password"

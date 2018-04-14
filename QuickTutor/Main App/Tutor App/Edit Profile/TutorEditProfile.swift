@@ -342,13 +342,13 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 			print("manage subjects")
 		case 7:
 			navigationController?.pushViewController(TutorManagePolicies(), animated: true)
-		case 11:
+		case 13:
 			navigationController?.pushViewController(EditPhone(), animated: true)
-		case 12:
-			navigationController?.pushViewController(ChangeEmail(), animated: true)
 		case 14:
+			navigationController?.pushViewController(ChangeEmail(), animated: true)
+		case 16:
 			navigationController?.pushViewController(EditLanguage(), animated: true)
-		case 15:
+		case 17:
 			navigationController?.pushViewController(EditSchool(), animated: true)
 		default:
 			break
