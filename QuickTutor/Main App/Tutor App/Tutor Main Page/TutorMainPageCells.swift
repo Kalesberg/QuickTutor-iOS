@@ -115,6 +115,7 @@ class TutorMainPageSummaryCell : BaseTableViewCell {
         let label = UILabel()
         
         let formattedString = NSMutableAttributedString()
+		
         formattedString
             .bold("123\n", 16, .white)
             .regular("5-Stars", 15, Colors.grayText)

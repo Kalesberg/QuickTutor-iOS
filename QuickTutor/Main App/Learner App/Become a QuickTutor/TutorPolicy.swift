@@ -206,9 +206,15 @@ class TutorPolicy : BaseViewController {
 			if let error = error {
 				print(error.localizedDescription)
 			} else {
-				self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-				let endIndex = self.navigationController?.viewControllers.endIndex
-				self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
+				_ = TutorSignIn.init({ (error) in
+					if error != nil {
+						print("error signing in...")
+					} else {
+						self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+						let endIndex = self.navigationController?.viewControllers.endIndex
+						self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
+					}
+				})
 			}
 		})
 	}

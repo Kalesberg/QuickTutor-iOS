@@ -426,11 +426,11 @@ class EditProfileCheckboxTableViewCell : BaseTableViewCell {
         return label
     }()
     
-    let checkbox = RegistrationCheckbox()
+	let checkbox = RegistrationCheckbox()
     
     override func configureView() {
         addSubview(label)
-        contentView.addSubview(checkbox)
+      	contentView.addSubview(checkbox)
         super.configureView()
         
         selectionStyle = .none

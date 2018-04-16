@@ -428,16 +428,7 @@ class PoliciesTableViewCell : UITableViewCell {
     
     let policiesLabel : UILabel = {
         let label = UILabel()
-        
-        let formattedString = NSMutableAttributedString()
-        formattedString
-            .regular(" - Will travel up to 15 miles\n\n", 14, .white)
-            .regular(" - Will tutor Online or In-Person\n\n", 14, .white)
-            .regular(" - Cancellations: 24 Hour Notice\n\n", 14, .white)
-            .regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
-            .regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
-        
-        label.attributedText = formattedString
+
         label.translatesAutoresizingMaskIntoConstraints = false
         label.sizeToFit()
         label.numberOfLines = 0
@@ -521,7 +512,13 @@ class SubjectsTableViewCell : UITableViewCell {
         
         return collectionView
     }()
-    
+	
+	var datasource : [String] = [] {
+		didSet {
+			subjectCollectionView.reloadData()
+		}
+	}
+	
     func configureView() {
         addSubview(subjectCollectionView)
         
@@ -544,20 +541,17 @@ class SubjectsTableViewCell : UITableViewCell {
     }
 }
 
-struct Subjects {
-    static var subjects = ["Chemistry", "Math", "Python", "Javascript", "This thug"]
-}
 
 extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Subjects.subjects.count
+        return datasource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectSelectionCollectionViewCell", for: indexPath) as! SubjectSelectionCollectionViewCell
         
-        if(indexPath.row == 0) {
+        if (indexPath.row == 0) {
             let divider = UIView()
             divider.backgroundColor = Colors.backgroundDark
             cell.addSubview(divider)
@@ -570,13 +564,13 @@ extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDe
             })
         }
         
-        cell.label.text = Subjects.subjects[indexPath.row]
+        cell.label.text = datasource[indexPath.row]
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (Subjects.subjects[indexPath.row] as NSString).size(withAttributes: nil).width + 40, height: 30)
+        return CGSize(width: (datasource[indexPath.row] as NSString).size(withAttributes: nil).width + 40, height: 30)
     }
 }
 

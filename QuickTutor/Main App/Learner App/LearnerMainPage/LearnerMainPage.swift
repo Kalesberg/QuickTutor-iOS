@@ -162,9 +162,23 @@ class LearnerMainPage : MainPage {
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.becomeQTItem) {
-			navigationController?.pushViewController(BecomeTutor(), animated: true)
+			
+			if LearnerData.userData.isTutor {
+				_ = TutorSignIn.init({ (error) in
+					if error != nil {
+						print("error signing in...")
+					} else {
+						AccountService.shared.currentUserType = .tutor
+						self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+					}
+				})
+			} else {
+				navigationController?.pushViewController(BecomeTutor(), animated: true)
+			}
+	
 			hideSidebar()
 			hideBackground()
+			
 		} else if (touchStartView is SearchBar) {
 			navigationController?.pushViewController(SearchSubjects(), animated: true)
 		}

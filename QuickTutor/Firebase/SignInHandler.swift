@@ -21,7 +21,7 @@ class SignInHandler {
 	init(_ completion: @escaping (Error?) -> Void) {
 		
 		getAccountData()
-	
+		checkIsTutor()
 		getLearnerData { (error) in
 			if let error = error {
 				completion(error)
@@ -63,7 +63,7 @@ class SignInHandler {
 			completion(error)
 		}
 	}
-	
+
 	private func grabImageUrls(completion: @escaping () -> Void) {
 		self.ref.child("student-info").child(user.uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
 			
@@ -112,14 +112,17 @@ class SignInHandler {
 		
 		LearnerData.userData.images["image\(number)"] = ""
 	}
+	
 	private func checkIsTutor() {
 		
-		self.ref.child("tutor").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+		self.ref.child("tutor-info").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			
 			if snapshot.exists() {
 				//do things related to being a tutor
+				self.learner.isTutor = true
 				UserDefaultData.localDataManager.isTutor = true
 			} else {
+				self.learner.isTutor = false	
 				//do things related to not being a tutor
 			}
 		})

@@ -119,9 +119,39 @@ class EditLanguage : BaseViewController {
 		}
 	}
 	private func saveLanguages() {
-		LearnerData.userData.languages = selectedCells
-		FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedCells])
-		navigationController?.popViewController(animated: true)
+		
+		
+		switch AccountService.shared.currentUserType {
+		
+		case .learner:
+			
+			if !LearnerData.userData.isTutor {
+				
+				LearnerData.userData.languages = selectedCells
+				FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedCells])
+				
+				navigationController?.popViewController(animated: true)
+				
+				break
+				
+			}
+			
+			fallthrough
+		case .tutor :
+			
+			let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/lng" : selectedCells, "/tutor-info/\(AccountService.shared.currentUser.uid!)/lng" : selectedCells]
+			
+			Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
+				if let error = error {
+					print(error)
+				} else {
+					print("success")
+					self.navigationController?.popViewController(animated: true)
+				}
+			}
+			TutorData.shared.languages = selectedCells
+			LearnerData.userData.languages = selectedCells
+		}
 	}
 	
 	private func loadListOfLanguages() {

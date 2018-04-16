@@ -68,6 +68,7 @@ class TutorManagePolicies : BaseViewController {
         super.viewDidAppear(animated)
     }
     override func handleNavigation() {
+		
     }
 }
 
@@ -102,22 +103,23 @@ extension TutorManagePolicies : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
             
             cell.label.text = "Policies"
-            
+			
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfilePolicyTableViewCell", for: indexPath) as! EditProfilePolicyTableViewCell
         
             cell.infoLabel.label.text = "Late Policy"
-            cell.textField.attributedText = NSAttributedString(string: "Enter how many minutes",
+            cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter how many minutes",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             cell.label.text = "How much time passes from the scheduled session before the learner is late?"
-            
+			
+			
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfilePolicyTableViewCell", for: indexPath) as! EditProfilePolicyTableViewCell
             
             cell.infoLabel.label.text = "Late Fee"
-            cell.textField.attributedText = NSAttributedString(string: "Enter late fee",
+            cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter late fee",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             cell.label.text = "How much learner pays if they arrive late to a session after the above time."
             
@@ -126,7 +128,7 @@ extension TutorManagePolicies : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfilePolicyTableViewCell", for: indexPath) as! EditProfilePolicyTableViewCell
             
             cell.infoLabel.label.text = "Cancellation Notice"
-            cell.textField.attributedText = NSAttributedString(string: "Enter how many hours",
+            cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter how many hours",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             cell.label.text = "How many hours before a session should a learner notify you of a cancellation?"
             
@@ -135,7 +137,7 @@ extension TutorManagePolicies : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfilePolicyTableViewCell", for: indexPath) as! EditProfilePolicyTableViewCell
             
             cell.infoLabel.label.text = "Cancellation Fee"
-            cell.textField.attributedText = NSAttributedString(string: "Enter cancellation fee",
+            cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter cancellation fee",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             cell.label.text = "How much learner pays if they cancel a session after the above time."
             

@@ -51,12 +51,16 @@ class TutorRatings : BaseViewController {
     override func loadView() {
         view = TutorRatingsView()
     }
+	
+	let tutor = TutorData.shared
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-        contentView.tableView.register(TutorMainPageHeaderCell.self, forCellReuseIdentifier: "tutorMainPageHeaderCell")
+		
+		contentView.tableView.register(TutorMainPageHeaderCell.self, forCellReuseIdentifier: "tutorMainPageHeaderCell")
         contentView.tableView.register(TutorMainPageSummaryCell.self, forCellReuseIdentifier: "tutorMainPageSummaryCell")
         contentView.tableView.register(TutorMainPageTopSubjectCell.self, forCellReuseIdentifier: "tutorMainPageTopSubjectCell")
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
@@ -101,13 +105,58 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        switch (indexPath.row) {
+		
+		switch (indexPath.row) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageHeaderCell", for: indexPath) as! TutorMainPageHeaderCell
+			cell.headerLabel.text = String(tutor.rating)
+			
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageSummaryCell", for: indexPath) as! TutorMainPageSummaryCell
+			
+			let formattedString1 = NSMutableAttributedString()
+			
+			formattedString1
+				.bold("\(tutor.numSessions!)\n", 16, .white)
+				.regular("Sessions", 15, Colors.grayText)
+			
+			let paragraphStyle1 = NSMutableParagraphStyle()
+			
+			paragraphStyle1.lineSpacing = 6
+			
+			formattedString1.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle1, range:NSMakeRange(0, formattedString1.length))
+			
+			cell.infoLabel1.attributedText = formattedString1
+			
+			let formattedString2 = NSMutableAttributedString()
+			
+			formattedString2
+				.bold("\(tutor.numSessions!)\n", 16, .white)
+				.regular("5-Stars", 15, Colors.grayText)
+			
+			let paragraphStyle2 = NSMutableParagraphStyle()
+			
+			paragraphStyle2.lineSpacing = 6
+			
+			formattedString2.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle2, range:NSMakeRange(0, formattedString2.length))
+			
+			cell.infoLabel2.attributedText = formattedString2
+			
+			let formattedString3 = NSMutableAttributedString()
+			
+			formattedString3
+				.bold("\(tutor.hours!)\n", 16, .white)
+				.regular("Hours", 15, Colors.grayText)
+			
+			let paragraphStyle3 = NSMutableParagraphStyle()
+			
+			paragraphStyle3.lineSpacing = 6
+			
+			formattedString3.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle3, range:NSMakeRange(0, formattedString3.length))
+			
+			cell.infoLabel3.attributedText = formattedString3
+			
             return cell
         case 2:
             let cell = UITableViewCell()
@@ -116,13 +165,16 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageTopSubjectCell", for: indexPath) as! TutorMainPageTopSubjectCell
-            return cell
+				cell.topSubjectsLabel.text = tutor.topSubject!
+				//store top subject as a path.
+			return cell
         case 4:
             let cell = UITableViewCell()
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
             return cell
         case 5:
+			
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
             
             cell.backgroundColor = Colors.registrationDark
@@ -130,12 +182,13 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
             cell.reviewLabel.snp.updateConstraints { (make) in
                 make.top.equalToSuperview().inset(15)
             }
-            
+			
             cell.seeAllButton.snp.updateConstraints { (make) in
                 make.bottom.equalToSuperview().inset(15)
             }
             
             return cell
+			
         default:
             break
         }
