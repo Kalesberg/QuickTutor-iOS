@@ -32,31 +32,28 @@ class SubjectSelectionCollectionViewCell : UICollectionViewCell {
         return label
     }()
     
-    let divider : UIView = {
-        var view = UIView()
-        
-        view.backgroundColor = Colors.backgroundDark
-        
-        return view
-    }()
+    let labelContainer = UIView()
     
     func configureView() {
-        addSubview(label)
-        addSubview(divider)
+        addSubview(labelContainer)
+        labelContainer.addSubview(label)
+        
+        labelContainer.backgroundColor = Colors.tutorBlue
+        labelContainer.layer.cornerRadius = 10
+        
         applyConstraints()
     }
     
     func applyConstraints(){
+        
         label.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.center.equalToSuperview()
         }
         
-        divider.snp.makeConstraints { (make) in
-            make.width.equalTo(1)
-            make.right.equalToSuperview()
-            make.height.equalToSuperview()
+        labelContainer.snp.makeConstraints { (make) in
+            make.width.equalTo(label).inset(-10)
             make.centerY.equalToSuperview()
+            make.height.equalTo(30)
         }
     }
 }
@@ -356,6 +353,7 @@ class AboutMeTableViewCell : UITableViewCell {
         contentView.addSubview(divider2)
         
         backgroundColor = .clear
+        selectionStyle = .none
         
         let user = LearnerData.userData
         
@@ -437,18 +435,15 @@ class PoliciesTableViewCell : UITableViewCell {
     }()
     
     var divider1 = UIView()
-    var divider2 = UIView()
     
     func configureView() {
         contentView.addSubview(header)
         contentView.addSubview(policiesLabel)
         contentView.addSubview(divider1)
-        contentView.addSubview(divider2)
         
         backgroundColor = .clear
         
         divider1.backgroundColor = Colors.divider
-        divider2.backgroundColor = Colors.divider
         
         applyConstraints()
     }
@@ -456,12 +451,12 @@ class PoliciesTableViewCell : UITableViewCell {
     func applyConstraints() {
         header.snp.makeConstraints { (make) in
             make.top.equalTo(contentView).inset(10)
-            make.left.equalTo(contentView).inset(15)
+            make.left.equalTo(contentView).inset(10)
         }
         
         policiesLabel.snp.makeConstraints { (make) in
             make.top.equalTo(header.snp.bottom).inset(-10)
-            make.left.equalTo(contentView.snp.left).inset(15)
+            make.left.equalTo(contentView.snp.left).inset(10)
             make.right.equalTo(contentView).inset(15)
             make.bottom.equalTo(contentView).inset(15)
         }
@@ -471,13 +466,6 @@ class PoliciesTableViewCell : UITableViewCell {
             make.centerY.equalTo(header).inset(0.5)
             make.height.equalTo(0.75)
             make.right.equalTo(contentView).inset(20)
-        }
-        
-        divider2.snp.makeConstraints { (make) in
-            make.left.equalTo(header)
-            make.height.equalTo(0.75)
-            make.right.equalTo(contentView).inset(20)
-            make.bottom.equalTo(policiesLabel).inset(-15)
         }
     }
 }
@@ -499,13 +487,13 @@ class SubjectsTableViewCell : UITableViewCell {
         let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         let layout = UICollectionViewFlowLayout()
         
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0.0
         layout.minimumLineSpacing = 0
         
         collectionView.collectionViewLayout = layout
-        collectionView.backgroundColor = Colors.tutorBlue
+        collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.tag = 1
@@ -520,6 +508,7 @@ class SubjectsTableViewCell : UITableViewCell {
 	}
 	
     func configureView() {
+        addSubview(label)
         addSubview(subjectCollectionView)
         
         backgroundColor = .clear
@@ -532,11 +521,18 @@ class SubjectsTableViewCell : UITableViewCell {
     }
     
     func applyConstraints() {
+        
+        label.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(10)
+            make.height.equalTo(55)
+            make.top.equalToSuperview()
+        }
+        
         subjectCollectionView.snp.makeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalTo(label.snp.bottom)
         }
     }
 }
@@ -576,12 +572,12 @@ extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 
 class RatingTableViewCell : BaseTableViewCell {
 
-    let reviewLabel : ReviewLabel = {
-        let label = ReviewLabel()
+    let reviewLabel : UILabel = {
+        let label = UILabel()
         
-        label.reviewlabel.text = "22 Reviews"
-        label.ratingLabel.text = "4.71"
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Reviews"
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(18)
         
         return label
     }()
@@ -628,30 +624,29 @@ class RatingTableViewCell : BaseTableViewCell {
     override func applyConstraints() {
         reviewLabel.snp.makeConstraints { (make) in
             make.top.equalTo(contentView)
-            make.left.equalTo(contentView).inset(15)
-            make.right.equalTo(reviewLabel.ratingLabel).inset(-10)
-            make.height.equalTo(30)
+            make.left.equalTo(contentView).inset(10)
+            make.height.equalTo(55)
         }
         
         review1.snp.makeConstraints { (make) in
-            make.top.equalTo(reviewLabel.snp.bottom).inset(-10)
-            make.height.equalTo(60)
-            make.right.equalTo(contentView).inset(15)
-            make.left.equalTo(contentView).inset(15)
+            make.top.equalTo(reviewLabel.snp.bottom)
+            make.height.equalTo(70)
+            make.right.equalTo(contentView).inset(10)
+            make.left.equalTo(contentView).inset(10)
         }
         
         review2.snp.makeConstraints { (make) in
-            make.top.equalTo(review1.snp.bottom).inset(-15)
-            make.height.equalTo(60)
-            make.right.equalTo(contentView).inset(15)
-            make.left.equalTo(contentView).inset(15)
+            make.top.equalTo(review1.snp.bottom).inset(-10)
+            make.height.equalTo(70)
+            make.right.equalTo(contentView).inset(10)
+            make.left.equalTo(contentView).inset(10)
         }
         
         seeAllButton.snp.makeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalTo(80)
-            make.top.equalTo(review2.snp.bottom).inset(-13)
-            make.right.equalTo(review1.snp.right).inset(15)
+            make.top.equalTo(review2.snp.bottom).inset(-10)
+            make.right.equalTo(review1.snp.right)
             make.bottom.equalTo(contentView)
         }
     }

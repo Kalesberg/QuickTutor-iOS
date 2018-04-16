@@ -75,16 +75,20 @@ class ReviewView : BaseView {
             //set to some arbitrary image.
         }
         
+        layer.cornerRadius = 15
+        layer.borderWidth = 1.5
+        layer.borderColor = Colors.sidebarPurple.cgColor
+        
         profilePic.scaleImage()
         
         nameLabel.textColor = .white
-        nameLabel.font = Fonts.createBoldSize(18)
+        nameLabel.font = Fonts.createBoldSize(16)
         
         dateSubjectLabel.textColor = Colors.grayText
         dateSubjectLabel.font = Fonts.createSize(13)
         
         reviewTextLabel.textColor = Colors.grayText
-        reviewTextLabel.font = Fonts.createItalicSize(15)
+        reviewTextLabel.font = Fonts.createItalicSize(14)
         
         applyConstraints()
     }
@@ -92,7 +96,7 @@ class ReviewView : BaseView {
     override func applyConstraints() {
        
         profilePic.snp.makeConstraints { (make) in
-            make.left.equalToSuperview()
+            make.left.equalToSuperview().inset(7)
             make.centerY.equalToSuperview()
             make.height.equalTo(50)
             make.width.equalTo(50)
@@ -100,7 +104,7 @@ class ReviewView : BaseView {
         
         nameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(profilePic.snp.right).inset(-10)
-            make.centerY.equalToSuperview().multipliedBy(0.6)
+            make.centerY.equalToSuperview().multipliedBy(0.7)
         }
         
         dateSubjectLabel.snp.makeConstraints { (make) in
@@ -111,7 +115,7 @@ class ReviewView : BaseView {
         reviewTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(profilePic.snp.right).inset(-10)
             make.centerY.equalToSuperview().multipliedBy(1.4)
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().inset(3)
         }
     }
 }
@@ -465,7 +469,7 @@ class ProfileItem : BaseView {
         label.textColor = .white
         label.textAlignment = .left
         label.sizeToFit()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.font = Fonts.createSize(12)
         label.adjustsFontSizeToFitWidth = true
         
@@ -476,6 +480,7 @@ class ProfileItem : BaseView {
         label.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.left.equalTo(imageView.snp.right).inset(-5)
+            make.right.equalToSuperview().inset(3)
         }
         
         imageView.snp.makeConstraints { (make) in
