@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 class TutorMyProfileView : MainLayoutTitleBackTwoButton {
     
     var editButton = NavbarButtonEdit()
@@ -111,30 +110,40 @@ class TutorMyProfile : BaseViewController {
     override func viewDidLoad() {
         contentView.addSubview(horizontalScrollView)
         super.viewDidLoad()
-        horizontalScrollView.delegate = self
+		
+		horizontalScrollView.delegate = self
     
         pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
         
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
+		
         contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
         contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         contentView.tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         contentView.tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
     }
-    override func loadView() {
+	
+	override func loadView() {
         view = TutorMyProfileView()
     }
-    override func viewDidAppear(_ animated: Bool) {
+	
+	override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         configureScrollView()
         configurePageControl()
         setUpImages()
-    }
-    
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		contentView.tableView.reloadData()
+	}
+	
     private func configureScrollView() {
+		
         horizontalScrollView.isUserInteractionEnabled = false
         horizontalScrollView.isHidden = true
         horizontalScrollView.isPagingEnabled = true
@@ -147,8 +156,10 @@ class TutorMyProfile : BaseViewController {
             make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
         }
         contentView.layoutIfNeeded()
+		
         horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
     }
+	
     private func configurePageControl() {
 		
 		// The total number of pages that are available is based on how many available colors we have.
@@ -174,7 +185,6 @@ class TutorMyProfile : BaseViewController {
         
         for number in 1..<5 {
             if tutor.images["image\(number)"] == "" {
-                print("nothing")
                 continue
             }
             print("found image\(number)")
@@ -184,8 +194,10 @@ class TutorMyProfile : BaseViewController {
     }
     
     private func setImage(_ number: Int, _ count: Int) {
-        let imageView = UIImageView()
-        imageView.image = LocalImageCache.localImageManager.getImage(number: String(number))
+		
+		let imageView = UIImageView()
+		
+		imageView.image = LocalImageCache.localImageManager.getImage(number: String(number))
         imageView.scaleImage()
         
         self.horizontalScrollView.addSubview(imageView)
@@ -212,7 +224,7 @@ class TutorMyProfile : BaseViewController {
             horizontalScrollView.isUserInteractionEnabled = false
             horizontalScrollView.isHidden = true
             contentView.leftButton.isHidden = false
-        }
+		}
     }
 }
 
@@ -267,8 +279,11 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 		case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
 
-			cell.reviewLabel.reviewlabel.text = "\(tutor.numSessions!) Reviews"
-			cell.reviewLabel.ratingLabel.text = "\(tutor.rating!)"
+			if tutor.reviews.count <= 2 {
+				cell.datasource = tutor.reviews
+			} else {
+				cell.datasource = Array(tutor.reviews[0..<2])
+			}
 			
 			return cell
 			
@@ -299,13 +314,13 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 				//not sure how were storing these yet
 				.regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
 				.regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
+			
 			cell.policiesLabel.attributedText = formattedString
 
 			return cell
         default:
             break
         }
-        
         return UITableViewCell()
     }
 }

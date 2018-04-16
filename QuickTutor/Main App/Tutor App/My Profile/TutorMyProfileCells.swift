@@ -507,6 +507,16 @@ class SubjectsTableViewCell : UITableViewCell {
 		}
 	}
 	
+	let label : UILabel = {
+		let label = UILabel()
+		
+		label.text = "Subjects"
+		label.textColor = .white
+		label.font = Fonts.createBoldSize(18)
+		
+		return label
+	}()
+	
     func configureView() {
         addSubview(label)
         addSubview(subjectCollectionView)
@@ -572,82 +582,195 @@ extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 
 class RatingTableViewCell : BaseTableViewCell {
 
-    let reviewLabel : UILabel = {
-        let label = UILabel()
-        
-        label.text = "Reviews"
-        label.textColor = .white
-        label.font = Fonts.createBoldSize(18)
-        
-        return label
-    }()
-    
-    let review1 : ReviewView = {
-        let review = ReviewView()
-        
-        review.nameLabel.text = "Alex Z."
-        review.dateSubjectLabel.text = "Dec 12, 2017 - Python"
-        review.reviewTextLabel.text = "\"Collin was a natural at python, a genius really!\""
-        review.translatesAutoresizingMaskIntoConstraints = false
-        
-        return review
-    }()
-    
-    let review2 : ReviewView = {
-        let review = ReviewView()
-        
-        review.nameLabel.text = "Alex Z."
-        review.dateSubjectLabel.text = "Dec 12, 2017 - Python"
-        review.reviewTextLabel.text = "\"Collin was a natural at python, a genius really!\""
-        review.translatesAutoresizingMaskIntoConstraints = false
-        
-        return review
-    }()
-    
+	let tableView : UITableView = {
+		let tableView = UITableView()
+		
+		tableView.backgroundColor = .clear
+		tableView.estimatedRowHeight = 60
+		tableView.isScrollEnabled = false
+		tableView.separatorInset.left = 0
+		tableView.separatorStyle = .none
+		tableView.allowsSelection = false
+		tableView.estimatedSectionHeaderHeight = 30
+		
+		return tableView
+	}()
+	
     let seeAllButton : SeeAllButton = {
         let button = SeeAllButton()
         
         return button
     }()
-    
+	
+	var datasource : [TutorReview]? {
+		didSet {
+			tableView.reloadData()
+		}
+	}
+	
     override func configureView() {
-        contentView.addSubview(reviewLabel)
-        contentView.addSubview(review1)
-        contentView.addSubview(review2)
+		contentView.addSubview(tableView)
         contentView.addSubview(seeAllButton)
-        applyConstraints()
-        
+		
+		tableView.delegate = self
+		tableView.dataSource = self
+		tableView.register(TutorMyProfileReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
+		
         backgroundColor = .clear
         selectionStyle = .none
+
+		applyConstraints()
+
     }
     
     override func applyConstraints() {
-        reviewLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(contentView)
-            make.left.equalTo(contentView).inset(10)
-            make.height.equalTo(55)
-        }
-        
-        review1.snp.makeConstraints { (make) in
-            make.top.equalTo(reviewLabel.snp.bottom)
-            make.height.equalTo(70)
-            make.right.equalTo(contentView).inset(10)
-            make.left.equalTo(contentView).inset(10)
-        }
-        
-        review2.snp.makeConstraints { (make) in
-            make.top.equalTo(review1.snp.bottom).inset(-10)
-            make.height.equalTo(70)
-            make.right.equalTo(contentView).inset(10)
-            make.left.equalTo(contentView).inset(10)
-        }
-        
+		
+		tableView.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.95)
+			make.height.equalToSuperview().multipliedBy(0.8)
+			make.centerX.equalToSuperview()
+		}
+		
         seeAllButton.snp.makeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalTo(80)
-            make.top.equalTo(review2.snp.bottom).inset(-10)
-            make.right.equalTo(review1.snp.right)
+            make.top.equalTo(tableView.snp.bottom).inset(-10)
+            make.right.equalTo(tableView.snp.right)
             make.bottom.equalTo(contentView)
         }
     }
+	override func handleNavigation() {
+	}
+}
+
+extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
+	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return datasource?.count ?? 0
+	}
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		return 60
+	}
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		
+		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
+		
+		let data = datasource?[indexPath.row]
+		
+		cell.nameLabel.text = data?.studentName ?? ""
+		cell.reviewTextLabel.text = data?.message ?? ""
+		cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "")"
+		cell.profilePic.loadUserImages(by: data?.imageURL ?? "")
+	
+		return cell
+	}
+	
+	func numberOfSections(in tableView: UITableView) -> Int {
+		return 1
+	}
+	
+	func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+		return 10
+	}
+
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+	
+		let view = SectionHeader()
+		
+		view.category.font = Fonts.createBoldSize(18)
+		view.category.text = "Reviews (22)"
+		
+		return view
+	}
+	
+	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+		return 44
+	}
+}
+
+class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
+	
+	let profilePic : UIImageView = {
+		
+		let imageView = UIImageView()
+		
+		imageView.scaleImage()
+		
+		return imageView
+	}()
+	
+	
+	let nameLabel : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = .white
+		label.font = Fonts.createBoldSize(16)
+		
+		return label
+	}()
+	let dateSubjectLabel : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = Colors.grayText
+		label.font = Fonts.createSize(13)
+		
+		return label
+	}()
+	
+	let reviewTextLabel : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = Colors.grayText
+		label.font = Fonts.createItalicSize(14)
+		
+		return label
+	}()
+	
+	override func configureView() {
+		addSubview(profilePic)
+		addSubview(nameLabel)
+		addSubview(dateSubjectLabel)
+		addSubview(reviewTextLabel)
+		super.configureView()
+		
+		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+			profilePic.image = image
+		} else {
+			//set to some arbitrary image.
+		}
+		applyConstraints()
+		layer.cornerRadius = 15
+		layer.borderWidth = 1.5
+		layer.borderColor = Colors.sidebarPurple.cgColor
+
+		backgroundColor = .clear
+		
+	}
+	
+	override func applyConstraints() {
+		
+		profilePic.snp.makeConstraints { (make) in
+			make.left.equalToSuperview().inset(7)
+			make.centerY.equalToSuperview()
+			make.height.equalTo(50)
+			make.width.equalTo(50)
+		}
+		
+		nameLabel.snp.makeConstraints { (make) in
+			make.left.equalTo(profilePic.snp.right).inset(-10)
+			make.centerY.equalToSuperview().multipliedBy(0.7)
+		}
+		
+		dateSubjectLabel.snp.makeConstraints { (make) in
+			make.left.equalTo(nameLabel.snp.right).inset(-8)
+			make.centerY.equalTo(nameLabel)
+		}
+		
+		reviewTextLabel.snp.makeConstraints { (make) in
+			make.left.equalTo(profilePic.snp.right).inset(-10)
+			make.centerY.equalToSuperview().multipliedBy(1.4)
+			make.right.equalToSuperview().inset(3)
+		}
+	}
 }

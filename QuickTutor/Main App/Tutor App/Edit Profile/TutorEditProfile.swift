@@ -136,10 +136,12 @@ class TutorEditProfile : BaseViewController {
 		
 	}
 	private func saveChanges() {
+		
 		if firstName.count < 1 || lastName.count < 0 {
 			print("invalid name!")
 			return
 		}
+		
 		
 		let sharedUpdateValues : [String : Any] = [
 			

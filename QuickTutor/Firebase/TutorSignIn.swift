@@ -21,8 +21,18 @@ class TutorSignIn {
 		
 		getAccountData()
 		
-		getTutorSubjects()
-		
+		getTutorSubjects { (subjects) in
+			if let subjects = subjects {
+				print(subjects)
+				self.tutor.subjects = subjects
+			}
+		}
+		QueryData.shared.loadReviews(uid: user.uid) { (reviews) in
+			if let reviews = reviews {
+				self.tutor.reviews = reviews
+			}
+		}
+
 		getTutorData { (error) in
 			if let error = error {
 				completion(error)
@@ -41,7 +51,7 @@ class TutorSignIn {
 			self.tutor.phone		= value?["phn"	] as? String ?? ""
 			self.tutor.email        = value?["em"   ] as? String ?? ""
 			self.tutor.birthday	    = value?["bd"	] as? String ?? ""
-			
+
 		})
 	}
 	
@@ -82,7 +92,7 @@ class TutorSignIn {
 		}
 	}
 	
-	private func getTutorSubjects() {
+	private func getTutorSubjects(_ completion: @escaping ([String]?) -> Void) {
 		
 		QueryData.shared.loadSubjects(uid: user.uid) { (subcategory) in
 
@@ -91,6 +101,7 @@ class TutorSignIn {
 			if let subcategory = subcategory {
 				
 				for subject in subcategory {
+					
 					let this = subject.subjects.split(separator: "$")
 					
 					for i in this {
@@ -98,7 +109,7 @@ class TutorSignIn {
 					}
 				}
 			}
-			self.tutor.subjects = subjects
+			completion(subjects)
 		}
 	}
 	

@@ -23,6 +23,11 @@ extension UIImageView {
 		
 		self.image = nil
 		
+		if url == "" {
+			self.image = #imageLiteral(resourceName: "registration-image-placeholder")
+			return
+		}
+		
 		if let image = userImageCache[url] {
 			self.image = image
 			return

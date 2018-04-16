@@ -179,10 +179,10 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
             
             cell.backgroundColor = Colors.registrationDark
             
-            cell.reviewLabel.snp.updateConstraints { (make) in
-                make.top.equalToSuperview().inset(15)
-            }
-			
+//            cell.reviewLabel.snp.updateConstraints { (make) in
+//                make.top.equalToSuperview().inset(15)
+//            }
+//			
             cell.seeAllButton.snp.updateConstraints { (make) in
                 make.bottom.equalToSuperview().inset(15)
             }

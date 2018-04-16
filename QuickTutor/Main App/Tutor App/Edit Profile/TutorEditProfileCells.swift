@@ -453,5 +453,6 @@ class EditProfileCheckboxTableViewCell : BaseTableViewCell {
             make.width.equalTo(40)
         }
     }
+
 }
 
