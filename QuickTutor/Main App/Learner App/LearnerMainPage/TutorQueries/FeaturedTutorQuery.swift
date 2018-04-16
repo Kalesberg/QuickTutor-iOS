@@ -348,6 +348,7 @@ extension QueryData {
 							continue
 					}
 					reviews.append(TutorReview(sessionId: sessionId, studentName: studentName, date: date, message: message, imageURL: imageURL, subject: subject, price: price, rating: rating, duration: duration))
+					print(reviews)
 				}
 			}
 			completion(reviews)

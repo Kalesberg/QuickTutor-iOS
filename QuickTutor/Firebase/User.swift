@@ -12,8 +12,7 @@ import FirebaseDatabase
 import FirebaseStorage
 import Stripe
 import SwiftKeychainWrapper
-import FirebaseDatabase
-import FirebaseStorage
+
 
 class LearnerData {
 	
@@ -30,6 +29,8 @@ class LearnerData {
 	var address   : String!
 	var customer  : String!
 	var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
+	
+	var isTutor : Bool!
 }
 
 class LocalImageCache {
@@ -70,14 +71,47 @@ class LocalImageCache {
 	}
 	
 	func updateImageStored(image: UIImage, number: String) {
+		
 		if let data = UIImagePNGRepresentation(image) {
+			
 			let filename = getDocumentsDirectory().appendingPathComponent("image\(number).png")
+			
 			do {
 				try data.write(to: filename)
+				
 				FirebaseData.manager.uploadUserImage(image: image.circleMasked!, number: number, completion: { (imageUrl) in
+					
 					if let imageUrl = imageUrl {
-						LearnerData.userData.images["image\(number)"] = imageUrl
-						FirebaseData.manager.updateValue(node: "student-info", value: ["img" : LearnerData.userData.images])
+						
+						switch AccountService.shared.currentUserType {
+						
+						case .learner:
+							
+							if !LearnerData.userData.isTutor {
+								
+								LearnerData.userData.images["image\(number)"] = imageUrl
+								
+								FirebaseData.manager.updateValue(node: "student-info", value: ["img" : LearnerData.userData.images])
+								break
+							}
+							
+							fallthrough
+							
+						case .tutor:
+							
+							TutorData.shared.images["image\(number)"] = imageUrl
+							
+							let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : TutorData.shared.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : TutorData.shared.images]
+							
+							Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
+								if let error = error {
+									print(error)
+								} else {
+									print("success")
+								}
+							}
+						}
+						
 					} else {
 						print("error")
 					}

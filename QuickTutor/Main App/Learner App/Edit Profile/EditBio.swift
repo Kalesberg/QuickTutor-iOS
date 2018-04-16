@@ -24,9 +24,13 @@ class EditBioTextView : BaseView {
         textView.returnKeyType = .default
         textView.font = Fonts.createSize(18)
 		
-        let user = LearnerData.userData
-        textView.text = user.bio!
-        
+		switch AccountService.shared.currentUserType {
+		case .learner:
+			textView.text = LearnerData.userData.bio
+		case .tutor:
+			textView.text = TutorData.shared.bio
+		}
+		
         applyConstraints()
     }
     
@@ -152,16 +156,21 @@ class EditBio : BaseViewController {
     override var contentView: EditBioView {
         return view as! EditBioView
     }
-    
+	
+	override func loadView() {
+		view = EditBioView()
+	}
+	
+	var originalBio : String = ""
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		contentView.textView.textView.delegate = self
 		NavbarButtonBack.enabled = false
+		
+		originalBio = contentView.textView.textView.text
+		print(originalBio)
 	}
-
-    override func loadView() {
-        view = EditBioView()
-    }
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
@@ -187,7 +196,7 @@ class EditBio : BaseViewController {
         if (touchStartView is NavbarButtonSave) {
 			saveChanges()
 		} else if (touchStartView is NavbarButtonBack) {
-			if LearnerData.userData.bio != contentView.textView.textView.text {
+			if originalBio != contentView.textView.textView.text {
 				changedEditBioAlert()
 			} else {
 				navigationController?.popViewController(animated: true)
@@ -212,9 +221,25 @@ class EditBio : BaseViewController {
     }
     
 	private func saveChanges() {
-		FirebaseData.manager.updateValue(node: "student-info", value: ["bio" : contentView.textView.textView.text!])
-		LearnerData.userData.bio = contentView.textView.textView.text!
-		navigationController?.popViewController(animated: true)
+	
+		switch AccountService.shared.currentUserType {
+			
+		case .learner:
+			
+				FirebaseData.manager.updateValue(node: "student-info", value: ["bio" : contentView.textView.textView.text!])
+				LearnerData.userData.bio = contentView.textView.textView.text!
+				
+				self.navigationController?.popViewController(animated: true)
+
+		case .tutor :
+			
+			Tutor.shared.updateValue(value: ["bio" : contentView.textView.textView.text!])
+			
+			TutorData.shared.bio = contentView.textView.textView.text!
+			LearnerData.userData.bio = contentView.textView.textView.text!
+			
+			self.navigationController?.popViewController(animated: true)
+		}
 	}
 	
 	private func changedEditBioAlert() {

@@ -120,10 +120,8 @@ class TutorConnect : BaseViewController {
 		
 		didSet {
 			self.datasource.append(featuredTutor)
-			print("uid ", featuredTutor.uid)
 			QueryData.shared.loadReviews(uid: featuredTutor.uid) { (review) in
 				if let reviews = review {
-					print("here")
 					self.tutorReviews = reviews
 				}
 			}
@@ -154,11 +152,9 @@ class TutorConnect : BaseViewController {
 	
 	var subject : (String, String)! {
 		didSet {
-			print("What...")
 			QueryData.shared.queryBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
 				if let tutors = tutors {
 					self.datasource = tutors
-					print("what.")
 				}
 			}
 		}
@@ -189,6 +185,8 @@ class TutorConnect : BaseViewController {
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX{
 			dismiss(animated: true, completion: nil)
+		} else if touchStartView is NavbarButtonLines {
+			self.present(LearnerFilters(), animated: true, completion: nil)
 		}
 	}
 }
@@ -207,27 +205,19 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 	internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
-        
-        var languagesText = "Speaks: "
-        
-        for s in datasource[indexPath.item].language {
-            if datasource[indexPath.item].language.last == s {
-                languagesText += s
-            } else {
-                languagesText += s + ", "
-            }
-        }
 		
-		cell.body.aboutMe.bioLabel.text = datasource[indexPath.item].bio
-		cell.body.priceRating.price.text = datasource[indexPath.item].price.priceFormat()
-		cell.header.imageView.loadUserImages(by: datasource[indexPath.item].imageUrls["image1"]!)
-        cell.header.name.text = datasource[indexPath.item].name.components(separatedBy: " ")[0]
-		cell.header.locationItem.label.text = datasource[indexPath.item].region
-		cell.header.tutorItem.label.text = "\(datasource[indexPath.item].numSessions!) hours taught, \(datasource[indexPath.item].hours!) sessions"
-        cell.header.speakItem.label.text = languagesText
-        cell.header.studysItem.label.text = datasource[indexPath.item].school
-        cell.reviewLabel.text = "21 Reviews ★ 4.17"
-        cell.rateLabel.text = "$12 / hour"
+		let data = datasource[indexPath.item]
+		
+		cell.body.aboutMe.bioLabel.text = data.bio!
+		cell.body.priceRating.price.text = data.price.priceFormat()
+		cell.header.imageView.loadUserImages(by: data.imageUrls["image1"]!)
+        cell.header.name.text = data.name.components(separatedBy: " ")[0]
+		cell.header.locationItem.label.text = data.region!
+		cell.header.tutorItem.label.text = "\(data.hours!) hours taught, \(data.numSessions!) sessions"
+		cell.header.speakItem.label.text = "Speaks: \(data.language.compactMap({$0}).joined(separator: ", "))"
+        cell.header.studysItem.label.text = data.school
+        cell.reviewLabel.text = "\(data.numSessions!) Reviews ★ \(data.rating!)"
+        cell.rateLabel.text = "$\(data.price!) / hour"
         
         let formattedString = NSMutableAttributedString()
         formattedString
@@ -238,7 +228,8 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
             .bold("away", 12, Colors.lightBlue)
         
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
+		
+		paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = -2
         formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
         

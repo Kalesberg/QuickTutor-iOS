@@ -64,27 +64,56 @@ class TutorEditProfile : BaseViewController {
         return view as! TutorEditProfileView
     }
     
-    let user = LearnerData.userData
+    let tutor = TutorData.shared
+	
     var name = [Substring]()
-    
-    override func viewDidLoad() {
+	
+	var price : Int!
+	var distance : Int!
+	var preference : Int!
+	
+	var firstName : String!
+	var lastName : String!
+	
+	var inPerson : Bool = true {
+		didSet {
+		}
+	}
+	var inVideo : Bool = true {
+		didSet {
+		}
+	}
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
         
         hideKeyboardWhenTappedAround()
-        
-        name = user.name.split(separator: " ")
-        imagePicker.delegate = self
+        configureDelegates()
 		
-		contentView.tableView.delegate = self
-        contentView.tableView.dataSource = self
+        name = tutor.name.split(separator: " ")
 		
-        contentView.tableView.register(ProfileImagesTableViewCell.self, forCellReuseIdentifier: "profileImagesTableViewCell")
-        contentView.tableView.register(EditProfileDotItemTableViewCell.self, forCellReuseIdentifier: "editProfileDotItemTableViewCell")
-        contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
-        contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
-        contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
-        contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
+		firstName = String(name[0])
+		lastName =	String(name[1])
+		
+		price = tutor.price
+		distance = tutor.distance
+		preference = tutor.preference
+		
+		if preference == 3 {
+			inPerson = true
+			inVideo = true
+		} else if preference == 2 {
+			inPerson = true
+			inVideo = false
+		} else if preference == 1 {
+			inPerson = false
+			inVideo = true
+		} else {
+			inPerson = false
+			inVideo = false
+		}
     }
+	
     override func loadView() {
         view = TutorEditProfileView()
     }
@@ -92,26 +121,86 @@ class TutorEditProfile : BaseViewController {
         super.viewDidAppear(animated)
 		
     }
-    override func handleNavigation() {
-        
-    }
-    
+	private func configureDelegates() {
+		imagePicker.delegate = self
+		
+		contentView.tableView.delegate = self
+		contentView.tableView.dataSource = self
+		
+		contentView.tableView.register(ProfileImagesTableViewCell.self, forCellReuseIdentifier: "profileImagesTableViewCell")
+		contentView.tableView.register(EditProfileDotItemTableViewCell.self, forCellReuseIdentifier: "editProfileDotItemTableViewCell")
+		contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
+		contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
+		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
+		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
+		
+	}
+	private func saveChanges() {
+		
+		if firstName.count < 1 || lastName.count < 0 {
+			print("invalid name!")
+			return
+		}
+		
+		
+		let sharedUpdateValues : [String : Any] = [
+			
+			"/tutor-info/\(AccountService.shared.currentUser.uid!)/p" : price,
+			"/tutor-info/\(AccountService.shared.currentUser.uid!)/dst" : distance,
+			"/tutor-info/\(AccountService.shared.currentUser.uid!)/prf" : 3,
+			"/tutor-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName,
+			"/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName
+
+		]
+		
+		Tutor.shared.updateSharedValues(multiWriteNode: sharedUpdateValues) { (error) in
+			if let error = error {
+				print(error)
+			} else {
+				print("success.")
+			}
+		}
+	}
+	
     @objc
     private func rateSliderValueDidChange(_ sender: UISlider!) {
+		
         let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 8, section: 0)) as! EditProfileSliderTableViewCell)
         
         cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-    }
+		price = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
+	}
     
     @objc
     private func distanceSliderValueDidChange(_ sender: UISlider!) {
-        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 9, section: 0)) as! EditProfileSliderTableViewCell)
+		
+		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 9, section: 0)) as! EditProfileSliderTableViewCell)
         let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-        
-        if(value % 5 == 0) {
-            cell.valueLabel.text = String(value) + " mi"
-        }
+		
+		cell.valueLabel.text = String(value) + " mi"
+		distance = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
     }
+	
+	@objc private func firstNameValueChanged(_ textField : UITextField) {
+		
+		guard textField.text!.count > 0 else { return }
+		
+		firstName = textField.text
+	}
+	
+	@objc private func lastNameValueChanged(_ textField : UITextField) {
+		
+		guard textField.text!.count > 0 else { return }
+		
+		lastName = textField.text
+	}
+	
+	override func handleNavigation() {
+		
+		if touchStartView is NavbarButtonSave {
+			saveChanges()
+		}
+	}
 }
 
 extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
@@ -180,7 +269,9 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
-            
+			
+			cell.textField.addTarget(self, action: #selector(firstNameValueChanged(_:)), for: .editingChanged)
+			
             cell.infoLabel.label.text = "First Name"
             cell.textField.attributedText = NSAttributedString(string: "\(name[0])",
                 attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
@@ -188,7 +279,9 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
-            
+			
+			cell.textField.addTarget(self, action: #selector(lastNameValueChanged(_:)), for: .editingChanged)
+
             cell.infoLabel.label.text = "Last Name"
             cell.textField.attributedText = NSAttributedString(string: "\(name[1])",
                 attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
@@ -228,15 +321,13 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
             
             cell.slider.addTarget(self, action: #selector(rateSliderValueDidChange), for: .valueChanged)
+			cell.slider.minimumValue = 5
+			cell.slider.maximumValue = 100
 			
-            //set users current value to slider.value and valueLabel.text
-            //cell.slider.value = CGFloat(user.rate)
-            //cell.valueLabel.text = "$" + user.rate
-            
-            cell.slider.minimumValue = 5
-            cell.slider.maximumValue = 100
-            
-            let formattedString = NSMutableAttributedString()
+			cell.slider.value = Float(tutor.price!)
+			cell.valueLabel.text = "$\(tutor.price!)"
+
+			let formattedString = NSMutableAttributedString()
             formattedString
                 .bold("Hourly Rate  ", 15, .white)
                 .regular("  [$5-$100]", 15, Colors.grayText)
@@ -248,12 +339,13 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
             
             cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
-            //cell.slider.value = CGFloat(user.distance)
-            //cell.valueLabel.text = user.distance + " mi"
-            
-            cell.slider.minimumValue = 0
+
+            cell.slider.minimumValue = 5
             cell.slider.maximumValue = 150
-            
+			
+			cell.slider.value = Float(tutor.distance!)
+			cell.valueLabel.text = "\(tutor.distance!) mi"
+			
             let formattedString = NSMutableAttributedString()
             formattedString
                 .bold("Travel Distance  ", 15, .white)
@@ -266,17 +358,15 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell", for: indexPath) as! EditProfileCheckboxTableViewCell
             
             cell.label.text = "Tutoring In-Person Sessions?"
-            
-            //set if checked or not
-            
-            return cell
+			cell.checkbox.isSelected = inPerson
+			
+			return cell
         case 11:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell", for: indexPath) as! EditProfileCheckboxTableViewCell
-            
-            cell.label.text = "Tutoring Online (Video Call) Sessions?"
-            
-            //set if checked or not
-            
+
+			cell.label.text = "Tutoring Online (Video Call) Sessions?"
+			cell.checkbox.isSelected = inVideo
+
             return cell
         case 12:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
@@ -288,7 +378,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Mobile Number"
-            cell.textField.attributedText = NSAttributedString(string: user.phone,
+            cell.textField.attributedText = NSAttributedString(string: tutor.phone,
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
@@ -296,7 +386,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Email"
-            cell.textField.attributedText = NSAttributedString(string: user.email,
+            cell.textField.attributedText = NSAttributedString(string: tutor.email,
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell

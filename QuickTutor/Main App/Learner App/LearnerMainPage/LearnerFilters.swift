@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 class LearnerFiltersView : MainLayoutTitleOneButton {
     
     var xButton = NavbarButtonX()

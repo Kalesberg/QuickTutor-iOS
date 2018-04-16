@@ -19,7 +19,7 @@ class LearnerReviewsView : MainLayoutTitleBackButton {
 	
 	var tableView = UITableView()
 	fileprivate var subtitleLabel 	= LeftTextLabel()
-
+	
     override func configureView() {
 		addSubview(tableView)
 		addSubview(subtitleLabel)
@@ -64,14 +64,22 @@ class LearnerReviews : BaseViewController {
     override var contentView: LearnerReviewsView {
         return view as! LearnerReviewsView
     }
-    var reviews = ["1", "2", "4"]
+	
+	var reviews = ["1", "2", "4"]
+
+	var datasource : [TutorReview]? {
+		didSet {
+			contentView.tableView.reloadData()
+		}
+	}
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
-		contentView.tableView.register(CustomReviewCell.self, forCellReuseIdentifier: "reviewCell")
+		
+		contentView.tableView.register(TutorMyProfileReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
     }
     
     override func loadView() {
@@ -84,14 +92,13 @@ class LearnerReviews : BaseViewController {
     }
     
     override func handleNavigation() {
-        
     }
 }
 
 extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return reviews.count
+		return datasource?.count ?? 0
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -99,10 +106,15 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell : CustomReviewCell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! CustomReviewCell
-		cell.reviewTextLabel.text = "Such a great time over there doing over there things over there"
-		cell.dateSubjectLabel.text = "Dec 17th, 2018 - Biology"
-		cell.nameLabel.text = "Austin Welch"
+		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
+		
+		let data = datasource?[indexPath.row]
+		
+		cell.nameLabel.text = data?.studentName ?? ""
+		cell.reviewTextLabel.text = data?.message ?? ""
+		cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "")"
+		cell.profilePic.loadUserImages(by: data?.imageURL ?? "")
+		
 		return cell
 	}
 	

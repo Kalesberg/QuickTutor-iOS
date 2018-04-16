@@ -14,6 +14,38 @@ import GeoFire
 /*
 	Still need to figure out how to put all of this data into a single Write
 */
+class TutorData {
+	
+	static let shared = TutorData()
+	
+	var name	  : String!
+	var bio 	  : String!
+	var birthday  : String!
+	var email 	  : String!
+	var school    : String?
+	var phone     : String!
+	var age       : String!
+	var languages : [String]!
+	var region    : String!
+	var account   : String!
+	
+	var earnings : Double?
+	
+	var price : Int!
+	var distance : Int!
+	var rating : Double!
+	var topSubject : String!
+	var policy : String!
+	var numSessions : Int!
+	var hours : Int!
+	var preference : Int!
+	
+	var subjects : [String]!
+	var reviews : [TutorReview]!
+	
+	var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
+}
+
 
 class Tutor {
 	
@@ -103,6 +135,15 @@ class Tutor {
 		return (updateSubjectValues, updateSubcategoryValues)
 	}
 
+	public func updateSharedValues(multiWriteNode : [String : Any], _ completion: @escaping (Error?) -> Void) {
+		self.ref.root.updateChildValues(multiWriteNode) { (error, _) in
+			if let error = error {
+				completion(error)
+			} else {
+				completion(nil)
+			}
+		}
+	}
 	public func updateValue(value: [String : Any]) {
 		self.ref.child("tutor-info").child(user.uid).updateChildValues(value) { (error, reference) in
 			if let error = error {

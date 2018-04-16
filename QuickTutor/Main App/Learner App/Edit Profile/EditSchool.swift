@@ -12,6 +12,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class EditSchoolView : EditProfileMainLayout {
 	
@@ -20,9 +21,12 @@ class EditSchoolView : EditProfileMainLayout {
 	var header = UIView()
 	
 	override func configureView() {
+		
 		addSubview(tableView)
 		addSubview(header)
+		
 		header.addSubview(searchBar)
+		
 		super.configureView()
 		
 		title.label.text = "School"
@@ -104,6 +108,7 @@ class EditSchool : BaseViewController {
 		contentView.searchBar.delegate = self
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
+		
 		contentView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "idCell")
 	}
 	
@@ -145,7 +150,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 		formatTableView(cell)
 		
 		if shouldUpdateSearchResults {
-			cell.textLabel?.text = (filteredSchools[indexPath.row] as! String)
+			cell.textLabel?.text = (filteredSchools[indexPath.row])
 		}
 		return cell
 	}
@@ -156,9 +161,36 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 		
 		if shouldUpdateSearchResults {
 			school = filteredSchools[indexPath.row]
-			FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
-			LearnerData.userData.school = school
-			navigationController?.popViewController(animated: true)
+			
+			switch AccountService.shared.currentUserType {
+			case .learner:
+				
+				if !LearnerData.userData.isTutor {
+					
+					FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
+					LearnerData.userData.school = school
+					
+					self.navigationController?.popViewController(animated: true)
+					break
+					
+				}
+				
+				fallthrough
+			case .tutor :
+
+				let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/sch" : school, "/tutor-info/\(AccountService.shared.currentUser.uid!)/sch" : school]
+				
+				Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
+					if let error = error {
+						print(error)
+					} else {
+						print("success")
+						self.navigationController?.popViewController(animated: true)
+					}
+				}
+				TutorData.shared.school = school
+				LearnerData.userData.school = school
+			}
 		}
 	}
 	
