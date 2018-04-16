@@ -207,15 +207,45 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 	internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
+        
+        var languagesText = "Speaks: "
+        
+        for s in datasource[indexPath.item].language {
+            if datasource[indexPath.item].language.last == s {
+                languagesText += s
+            } else {
+                languagesText += s + ", "
+            }
+        }
 		
 		cell.body.aboutMe.bioLabel.text = datasource[indexPath.item].bio
 		cell.body.priceRating.price.text = datasource[indexPath.item].price.priceFormat()
-		cell.body.priceRating.rating.text = String(datasource[indexPath.item].rating)
 		cell.header.imageView.loadUserImages(by: datasource[indexPath.item].imageUrls["image1"]!)
-		cell.header.name.text = datasource[indexPath.item].name
-		cell.header.region.text = datasource[indexPath.item].region
-		cell.header.tutorData.text = "\(datasource[indexPath.item].numSessions!) hours taught, \(datasource[indexPath.item].hours!) completed sessions"
-		
+        cell.header.name.text = datasource[indexPath.item].name.components(separatedBy: " ")[0]
+		cell.header.locationItem.label.text = datasource[indexPath.item].region
+		cell.header.tutorItem.label.text = "\(datasource[indexPath.item].numSessions!) hours taught, \(datasource[indexPath.item].hours!) sessions"
+        cell.header.speakItem.label.text = languagesText
+        cell.header.studysItem.label.text = datasource[indexPath.item].school
+        cell.reviewLabel.text = "21 Reviews ★ 4.17"
+        cell.rateLabel.text = "$12 / hour"
+        
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .bold("126", 17, Colors.lightBlue)
+            .regular("\n", 0, .clear)
+            .bold("miles", 12, Colors.lightBlue)
+            .regular("\n", 0, .clear)
+            .bold("away", 12, Colors.lightBlue)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineSpacing = -2
+        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+        
+        cell.distanceLabel.attributedText = formattedString
+        cell.distanceLabel.numberOfLines = 0
+        
+        //(cell.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! AboutMeTableViewCell).bioLabel.text = "This is the bio" //datasource[indexPath.item].bio - this fails for some reason... bio or not
 		return cell
 	}
 	
