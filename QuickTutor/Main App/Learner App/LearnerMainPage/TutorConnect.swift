@@ -207,9 +207,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
 		
 		let data = datasource[indexPath.item]
-		
-		cell.body.aboutMe.bioLabel.text = data.bio!
-		cell.body.priceRating.price.text = data.price.priceFormat()
+    
 		cell.header.imageView.loadUserImages(by: data.imageUrls["image1"]!)
         cell.header.name.text = data.name.components(separatedBy: " ")[0]
 		cell.header.locationItem.label.text = data.region!

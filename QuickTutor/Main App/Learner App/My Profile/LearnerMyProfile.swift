@@ -132,115 +132,49 @@ class LearnerMyProfileView : MainLayoutTitleBackTwoButton {
         }
     }
     
-    var xButton = NavbarButtonX()
+    let xButton : NavbarButtonX = {
+        let xButton = NavbarButtonX()
+        
+        xButton.alpha = 0
+        
+        return xButton
+    }()
     
-    var scrollView = MyProfileScrollView()
-    var backgroundView = UIView()
+    let backgroundView : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = .black
+        view.alpha = 0.0
+        
+        return view
+    }()
     
-    var imageContainer = ImageContainer()
-    var nameLabel = CenterTextLabel()
-    var locationItem = LocationItem()
-    var aboutMe = AboutMeView()
-    var speakItem = ProfileItem()
-    var tutorItem = ProfileItem()
-    var studysItem = ProfileItem()
-    var divider = UIView()
-    var reviewLabel = ReviewLabel()
-    var review = ReviewView()
-    var review2 = ReviewView()
-    var seeAllButton = SeeAllButton()
-    var divider2 = UIView()
+    let tableView : UITableView = {
+        let tableView = UITableView()
+        
+        tableView.backgroundColor = .clear
+        tableView.estimatedRowHeight = 250
+        tableView.isScrollEnabled = true
+        tableView.separatorInset.left = 0
+        tableView.separatorStyle = .none
+        tableView.allowsSelection = false
+        
+        return tableView
+    }()
     
     override func configureView() {
-        addSubview(scrollView)
+        addSubview(tableView)
         addSubview(backgroundView)
         addSubview(xButton)
-        scrollView.addSubview(imageContainer)
-        scrollView.addSubview(nameLabel)
-        scrollView.addSubview(locationItem)
-        scrollView.addSubview(aboutMe)
-        scrollView.addSubview(speakItem)
-        scrollView.addSubview(tutorItem)
-        scrollView.addSubview(studysItem)
-        scrollView.addSubview(divider)
-        scrollView.addSubview(reviewLabel)
-        scrollView.addSubview(review)
-        scrollView.addSubview(review2)
-        scrollView.addSubview(seeAllButton)
-        scrollView.addSubview(divider2)
         super.configureView()
         
-        let user = LearnerData.userData
-        
         title.label.text = "My Profile"
-        
-        scrollView.showsVerticalScrollIndicator = false
-        
-        backgroundView.backgroundColor = .black
-        backgroundView.alpha = 0.0
-        
-        xButton.alpha = 0.0
-        
-        nameLabel.label.font = Fonts.createBoldSize(22)
-        nameLabel.label.text = user.name!
-
-		speakItem.label.text = "Speaks: "
-        speakItem.imageView.image = UIImage(named: "speaks")
-        
-        tutorItem.label.text = "Tutored in 14 sessions"
-        tutorItem.imageView.image = UIImage(named: "tutored-in")
-        
-        studysItem.imageView.image = UIImage(named: "studys-at")
-        
-        if let bio = user.bio {
-            aboutMe.bioLabel.text = "\(bio)\n"
-        } else {
-            aboutMe.bioLabel.text = "No bio yet! You can add one in Edit Profile."
-        }
-        
-        divider.backgroundColor = Colors.divider
-        divider2.backgroundColor = Colors.divider
-        
-        if let school = user.school {
-            studysItem.label.text = "Studys at \(school)"
-            studysItem.constrainSelf(top: tutorItem.snp.bottom)
-            
-            divider.snp.makeConstraints({ (make) in
-                make.height.equalTo(0.5)
-                make.bottom.equalTo(studysItem).inset(-10)
-                make.width.equalToSuperview()
-                make.centerX.equalToSuperview()
-            })
-        } else {
-            divider.snp.makeConstraints({ (make) in
-                make.height.equalTo(0.5)
-                make.bottom.equalTo(tutorItem).inset(-10)
-                make.width.equalToSuperview()
-                make.centerX.equalToSuperview()
-            })
-        }
-        
-        reviewLabel.reviewlabel.text = "22 Reviews"
-        reviewLabel.ratingLabel.text = "4.71"
-        
-        review.nameLabel.text = "Alex Z."
-        review.dateSubjectLabel.text = "Dec 12, 2017 - Python"
-        review.reviewTextLabel.text = "\"Collin was a natural at python, a genius really!\""
-        
-        review2.nameLabel.text = "Austin W."
-        review2.dateSubjectLabel.text = "Jan 12, 2018 - A long subject line dfsds"
-        review2.reviewTextLabel.text = "\"Alex is a legend, he taught me!\""
+        navbar.backgroundColor = Colors.learnerPurple
+        statusbarView.backgroundColor = Colors.learnerPurple
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-        
-        scrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom)
-            make.left.equalTo(layoutMarginsGuide.snp.left)
-            make.right.equalTo(layoutMarginsGuide.snp.right)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-        }
         
         backgroundView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
@@ -256,71 +190,11 @@ class LearnerMyProfileView : MainLayoutTitleBackTwoButton {
             make.left.equalToSuperview()
         }
         
-        imageContainer.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
+        tableView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.21)
-        }
-        
-        nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(imageContainer.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.06)
-        }
-        
-        locationItem.constrainSelf(top: nameLabel.snp.bottom)
-        
-        aboutMe.snp.makeConstraints { (make) in
-            make.top.equalTo(locationItem.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(aboutMe.divider2)
-        }
-    
-        speakItem.snp.makeConstraints { (make) in
-            make.top.equalTo(aboutMe.divider2.snp.bottom).inset(-10)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.05)
-        }
-        
-        tutorItem.constrainSelf(top: speakItem.snp.bottom)
-        
-        reviewLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(divider).inset(15)
-            make.left.equalToSuperview()
-            make.right.equalTo(reviewLabel.ratingLabel).inset(-10)
-            make.height.equalTo(30)
-        }
-        
-        review.snp.makeConstraints { (make) in
-            make.top.equalTo(reviewLabel.snp.bottom).inset(-13)
-            make.height.equalTo(60)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-        
-        review2.snp.makeConstraints { (make) in
-            make.top.equalTo(review.snp.bottom)
-            make.height.equalTo(60)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-        
-        seeAllButton.snp.makeConstraints { (make) in
-            make.height.equalTo(30)
-            make.width.equalTo(80)
-            make.top.equalTo(review2.snp.bottom).inset(-13)
-            make.right.equalTo(review.snp.right)
-        }
-        
-        divider2.snp.makeConstraints { (make) in
-            make.height.equalTo(0.5)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.top.equalTo(seeAllButton.snp.bottom).inset(-15)
+            make.top.equalTo(navbar.snp.bottom)
+            make.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
 }
@@ -621,9 +495,14 @@ class LearnerMyProfile : BaseViewController {
         super.viewDidLoad()
 		horizontalScrollView.delegate = self
 
-        contentView.scrollView.contentSize = CGSize(width: 280, height: (contentView.seeAllButton.frame.maxY - contentView.imageContainer.frame.minY) + 30)
+        //contentView.scrollView.contentSize = CGSize(width: 280, height: (contentView.seeAllButton.frame.maxY - contentView.imageContainer.frame.minY) + 30)
 		
 		pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
+        
+        contentView.tableView.delegate = self
+        contentView.tableView.dataSource = self
+        contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
+        contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
     }
     override func loadView() {
         view = LearnerMyProfileView()
@@ -634,17 +513,12 @@ class LearnerMyProfile : BaseViewController {
 		configureScrollView()
 		setUpImages()
 	}
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		setUpLabels()
-	}
-	private func setUpLabels (){
-		contentView.speakItem.label.text = languages
-		contentView.studysItem.label.text = LearnerData.userData.school
-		contentView.imageContainer.profilePicImageView.image = LocalImageCache.localImageManager.image1
-		contentView.aboutMe.bioLabel.text = bio
-	}
-	
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        contentView.tableView.reloadData()
+    }
+
 	private func setUpImages() {
 		var count = 0
 		
@@ -731,10 +605,54 @@ class LearnerMyProfile : BaseViewController {
         }
     }
 }
+
+extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch (indexPath.row) {
+        case 0:
+            return 170
+        case 1:
+            return UITableViewAutomaticDimension
+        default:
+            break
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        switch (indexPath.row) {
+            
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
+            
+//            cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
+//            cell.speakItem.label.text = "Speaks: \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
+//            cell.studysItem.label.text = tutor.school!
+//            cell.locationItem.label.text = tutor.region
+            
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
+            
+            //cell.bioLabel.text = tutor.bio + "\n"
+            
+            return cell
+        default:
+            break
+        }
+        return UITableViewCell()
+    }
+}
+
+
 extension LearnerMyProfile : UIScrollViewDelegate {
-	
 	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-		
 		let pageNumber = round(horizontalScrollView.contentOffset.x / horizontalScrollView.frame.size.width)
 		pageControl.currentPage = Int(pageNumber)
 	}

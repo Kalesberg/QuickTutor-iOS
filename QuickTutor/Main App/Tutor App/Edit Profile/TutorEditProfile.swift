@@ -43,7 +43,8 @@ class TutorEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
         super.configureView()
         
         title.label.text = "Edit Profile"
-        
+        navbar.backgroundColor = Colors.tutorBlue
+        statusbarView.backgroundColor = Colors.tutorBlue
     }
     
     override func applyConstraints() {

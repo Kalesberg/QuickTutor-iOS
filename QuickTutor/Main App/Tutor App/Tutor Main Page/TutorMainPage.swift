@@ -606,7 +606,7 @@ class TutorMainPage : MainPage {
         } else if (touchStartView == contentView.earningsButton) {
             navigationController?.pushViewController(TutorEarnings(), animated: true)
         } else if (touchStartView == contentView.improveItem) {
-            
+            navigationController?.pushViewController(TutorMainTips(), animated: true)
         } else if (touchStartView == contentView.usernameItem) {
             contentView.backgroundView.alpha = 0.65
             contentView.xButton.isHidden = false

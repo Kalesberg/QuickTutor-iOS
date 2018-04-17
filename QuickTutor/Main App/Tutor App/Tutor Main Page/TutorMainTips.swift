@@ -70,8 +70,9 @@ class TutorMainTips : BaseViewController {
     override func loadView() {
         view = TutorMainTipsView()
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
+        contentView.textView.setContentOffset(.zero, animated: false)
     }
 }

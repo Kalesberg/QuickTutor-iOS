@@ -259,16 +259,16 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
 			
-			cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
-			cell.speakItem.label.text = "Speaks \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
-			cell.studysItem.label.text = "Studies at \(tutor.school!)"
+            cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
+            cell.speakItem.label.text = "Speaks: \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
+			cell.studysItem.label.text = tutor.school!
 			cell.locationItem.label.text = tutor.region
 			
 			return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
 			
-			cell.bioLabel.text = tutor.bio
+			cell.bioLabel.text = tutor.bio + "\n"
 			
             return cell
         case 2:
@@ -279,11 +279,11 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 		case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
 
-			if tutor.reviews.count <= 2 {
-				cell.datasource = tutor.reviews
-			} else {
-				cell.datasource = Array(tutor.reviews[0..<2])
-			}
+            if tutor.reviews.count <= 2 {
+                cell.datasource = tutor.reviews
+            } else {
+                cell.datasource = Array(tutor.reviews[0..<2])
+            }
 			
 			return cell
 			
@@ -296,13 +296,13 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			var tutorPref : String!
 			
 			if tutor.preference == 3 {
-				tutorPref = "- Will tutor Online or In-Person\n\n"
+				tutorPref = " - Will tutor Online or In-Person\n\n"
 			} else if tutor.preference == 2 {
-				tutorPref = "- Will tutor In-Person\n\n"
+				tutorPref = " - Will tutor In-Person\n\n"
 			} else if tutor.preference == 1 {
-				tutorPref = "- Will tutor Online \n\n"
+				tutorPref = " - Will tutor Online \n\n"
 			} else {
-				tutorPref = "- Currently unavailable\n\n"
+				tutorPref = " - Currently unavailable\n\n"
 			}
 			
 			let formattedString = NSMutableAttributedString()
