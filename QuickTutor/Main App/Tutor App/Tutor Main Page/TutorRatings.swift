@@ -126,8 +126,11 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			paragraphStyle1.lineSpacing = 6
 			
 			formattedString1.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle1, range:NSMakeRange(0, formattedString1.length))
-			
+		
 			cell.infoLabel1.attributedText = formattedString1
+			
+			cell.infoLabel1.textAlignment = .center
+			cell.infoLabel1.numberOfLines = 0
 			
 			let formattedString2 = NSMutableAttributedString()
 			
@@ -143,6 +146,9 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			
 			cell.infoLabel2.attributedText = formattedString2
 			
+			cell.infoLabel2.textAlignment = .center
+			cell.infoLabel3.numberOfLines = 0
+			
 			let formattedString3 = NSMutableAttributedString()
 			
 			formattedString3
@@ -157,7 +163,10 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			
 			cell.infoLabel3.attributedText = formattedString3
 			
-            return cell
+			cell.infoLabel3.textAlignment = .center
+			cell.infoLabel3.numberOfLines = 0
+			
+			return cell
         case 2:
             let cell = UITableViewCell()
             cell.backgroundColor = .clear

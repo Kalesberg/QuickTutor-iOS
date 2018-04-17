@@ -132,7 +132,8 @@ class TutorEditProfile : BaseViewController {
 		contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
 		contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
 		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
-		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
+		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell1")
+		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell2")
 		
 	}
 	private func saveChanges() {
@@ -141,13 +142,12 @@ class TutorEditProfile : BaseViewController {
 			print("invalid name!")
 			return
 		}
-		
-		
+
 		let sharedUpdateValues : [String : Any] = [
 			
 			"/tutor-info/\(AccountService.shared.currentUser.uid!)/p" : price,
 			"/tutor-info/\(AccountService.shared.currentUser.uid!)/dst" : distance,
-			"/tutor-info/\(AccountService.shared.currentUser.uid!)/prf" : 3,
+			"/tutor-info/\(AccountService.shared.currentUser.uid!)/prf" : preference,
 			"/tutor-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName,
 			"/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName
 
@@ -355,14 +355,16 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             return cell
         case 10:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell", for: indexPath) as! EditProfileCheckboxTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell1", for: indexPath) as! EditProfileCheckboxTableViewCell
             
             cell.label.text = "Tutoring In-Person Sessions?"
 			cell.checkbox.isSelected = inPerson
-			
+			if touchStartView == cell.checkbox.checkbox {
+				print("123")
+			}
 			return cell
         case 11:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell", for: indexPath) as! EditProfileCheckboxTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell2", for: indexPath) as! EditProfileCheckboxTableViewCell
 
 			cell.label.text = "Tutoring Online (Video Call) Sessions?"
 			cell.checkbox.isSelected = inVideo
