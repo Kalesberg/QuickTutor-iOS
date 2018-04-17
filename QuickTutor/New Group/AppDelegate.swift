@@ -58,7 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Facebook init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame: UIScreen.main.bounds)
-        
         //Firebase check
         if Auth.auth().currentUser != nil {
             //create SignInClass to handle everything before user is able to sign in.
@@ -75,16 +74,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 					print("Sign In Handler Completed.")
 					print("Grabbing customer data...")
                     guard let uid = Auth.auth().currentUser?.uid else { return }
-//                    Database.database().reference().child("sessionStarts").child(uid).observe(.childAdded, with: { (snapshot) in
-//                        guard let value = snapshot.value as? [String: Any],
-//                            let sessionId = value["sessionId"] as? String,
-//                            let partnerId = value["partnerId"] as? String else { return }
-//                        let vc = SessionStartVC()
-//                        vc.sessionId = sessionId
-//                        vc.partnerId = partnerId
-//                        navigationController.navigationBar.isHidden = false
-//                        navigationController.pushViewController(vc, animated: true)
-//                    })
+                    Database.database().reference().child("sessionStarts").child(uid).observe(.childAdded, with: { (snapshot) in
+                        guard let value = snapshot.value as? [String: Any],
+                            let startType = value["startType"] as? String,
+                            let initiatorId = value["startedBy"] as? String
+                            else { return }
+                        let vc = SessionStartVC()
+                        vc.sessionId = snapshot.key
+                        vc.initiatorId = initiatorId
+                        vc.startType = startType
+                        navigationController.navigationBar.isHidden = false
+                        navigationController.pushViewController(vc, animated: true)
+                    })
 					Stripe.stripeManager.retrieveCustomer({ (error) in
 						if let error = error {
 							print(error.localizedDescription)

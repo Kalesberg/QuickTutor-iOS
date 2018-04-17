@@ -18,7 +18,9 @@ class TutorUpcomingSessionCell: BaseUpcomingSessionCell {
     }
     
     override func handleButton3() {
-        let vc = ViewFullProfile()
+        let vc = SessionStartVC()
+        vc.sessionId = session.id
+        vc.partnerId = session.partnerId()
         navigationController.pushViewController(vc, animated: true)
     }
 }

@@ -330,7 +330,7 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     @objc func sendRequest() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         sessionData["status"] = "pending"
-        sessionData["type"] = "online"
+        sessionData["type"] = onlineToggle.isSelected ? "online" : "in-person"
         sessionData["expiration"] = getExpiration()
         sessionData["senderId"] = uid
         sessionData["receiverId"] = chatPartnerId

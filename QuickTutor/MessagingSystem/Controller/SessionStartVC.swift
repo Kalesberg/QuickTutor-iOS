@@ -13,6 +13,11 @@ class SessionStartVC: UIViewController {
     
     var partnerId: String?
     var sessionId: String?
+    var initiatorId: String?
+    var startType: String?
+    var partner: User?
+    var partnerUsername: String?
+    var meetupConfirmed = false
     
     var session: Session?
     
@@ -75,6 +80,7 @@ class SessionStartVC: UIViewController {
         button.titleLabel?.font = Fonts.createSize(16)
         button.layer.cornerRadius = 4
         button.backgroundColor = Colors.navBarColor
+        button.isHidden = true
         return button
     }()
     
@@ -85,6 +91,7 @@ class SessionStartVC: UIViewController {
         label.font = Fonts.createSize(16)
         label.text = "Waiting for your partner to accept the manual start..."
         label.adjustsFontSizeToFitWidth = true
+        label.isHidden = true
         return label
     }()
     
@@ -97,6 +104,7 @@ class SessionStartVC: UIViewController {
         button.titleLabel?.font = Fonts.createSize(18)
         button.layer.cornerRadius = 4
         button.backgroundColor = Colors.navBarColor
+        button.isHidden = true
         return button
     }()
     
@@ -113,14 +121,60 @@ class SessionStartVC: UIViewController {
     }()
     
     func updateUI() {
-        guard let sessionId = sessionId, let uid = Auth.auth().currentUser?.uid, let partnerId = partnerId else { return }
+        guard let sessionId = sessionId, let uid = Auth.auth().currentUser?.uid else { return }
         DataService.shared.getSessionById(sessionId) { (sessionIn) in
             self.session = sessionIn
+            self.partnerId = self.session?.partnerId()
             self.subjectLabel.text = self.session?.subject
             self.infoLabel.text = self.getFormattedInfoLabelString()
+            guard let partnerId = self.session?.partnerId() else { return }
+            self.partnerBox.updateUI(uid: partnerId)
+            self.currentUserBox.updateUI(uid: uid)
+            DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { (user) in
+                self.partner = user
+                self.partnerUsername = user?.username
+                self.updateTitleLabel()
+            })
         }
-        partnerBox.updateUI(uid: partnerId)
-        currentUserBox.updateUI(uid: uid)
+    }
+    
+    func updateTitleLabel() {
+        guard let uid = Auth.auth().currentUser?.uid, let username = partnerUsername else { return }
+        
+        //Online Automatic
+        if startType == "automatic" && session?.type == "online" {
+            self.titleLabel.text = "Video calling \(username)..."
+        }
+        
+        //Online Manual Started By Current User
+        if startType == "manual" && session?.type == "online" && initiatorId == uid {
+            self.titleLabel.text = "Video calling \(username)..."
+        }
+        
+        //Online Manual Started By Other User
+        if startType == "manual" && session?.type == "online" && initiatorId != uid {
+            self.titleLabel.text = "\(username) is Video Calling..."
+            self.confirmButton.isHidden = false
+        }
+
+        //In-person Automatic
+        if startType == "automatic" && session?.type == "in-person" {
+            self.titleLabel.text = "Time to meet up!"
+//            self.messageButton.
+        }
+        
+        //In-person Manual Started By Current User
+        if startType == "manual" && session?.type == "in-person" && initiatorId == uid {
+            self.titleLabel.text = "Time to meet up!"
+            self.statusLabel.text = "Waiting for your partner to accept the manual start..."
+            self.statusLabel.isHidden = false
+        }
+        
+        //In-person Manual Started By Other User
+        if startType == "manual" && session?.type == "in-person" && initiatorId != uid {
+            titleLabel.text = "\(username) wants to meet up early!"
+            self.confirmButton.isHidden = false
+        }
     }
     
     func getFormattedInfoLabelString() -> String {

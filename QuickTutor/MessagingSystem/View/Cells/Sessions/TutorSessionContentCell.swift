@@ -14,7 +14,7 @@ class TutorSessionContentCell: BaseSessionsContentCell {
         super.setupCollectionView()
         collectionView.register(TutorPendingSessionCell.self, forCellWithReuseIdentifier: "pendingSessionCell")
         collectionView.register(TutorPastSessionCell.self, forCellWithReuseIdentifier: "pastSessionCell")
-        collectionView.register(TutorUpcomingSessionCell.self, forCellWithReuseIdentifier: "upcomingSessionCell")
+        collectionView.register(BaseUpcomingSessionCell.self, forCellWithReuseIdentifier: "upcomingSessionCell")
         collectionView.register(EmptySessionCell.self, forCellWithReuseIdentifier: "emptyCell")
         collectionView.register(SessionHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
     }
@@ -43,7 +43,7 @@ class TutorSessionContentCell: BaseSessionsContentCell {
                 return cell
             }
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! TutorUpcomingSessionCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! BaseUpcomingSessionCell
             cell.updateUI(session: upcomingSessions[indexPath.item])
             return cell
         }
