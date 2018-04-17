@@ -63,6 +63,9 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
 		scrollView.addSubview(connectionsHeader)
 		scrollView.addSubview(connectInsta)
 		super.configureView()
+        
+        navbar.backgroundColor = Colors.learnerPurple
+        statusbarView.backgroundColor = Colors.learnerPurple
 		
 		let user = LearnerData.userData
 		let name = user.name.split(separator: " ")

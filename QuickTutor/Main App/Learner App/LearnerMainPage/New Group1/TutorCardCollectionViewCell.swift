@@ -39,14 +39,13 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         return label
     }()
+    
     let rateLabelContainer = UIView()
     let distanceLabel = UILabel()
     let distanceLabelContainer = UIView()
-	let body = TutorCardBody()
-	let connect = ConnectButton()
-	let viewFullProfile = FullProfile()
-	
+	let connectButton = ConnectButton()
     let tableViewContainer = UIView()
+    
 	let tableView : UITableView = {
 		let tableView = UITableView()
 		
@@ -64,17 +63,15 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 	
 	func configureCollectionViewCell() {
 		addSubview(header)
-//        addSubview(body)
-//        addSubview(connect)
         addSubview(tableViewContainer)
 		tableViewContainer.addSubview(tableView)
-		//addSubview(viewFullProfile)
         addSubview(reviewLabelContainer)
         reviewLabelContainer.addSubview(reviewLabel)
         addSubview(rateLabelContainer)
         rateLabelContainer.addSubview(rateLabel)
         addSubview(distanceLabelContainer)
         distanceLabelContainer.addSubview(distanceLabel)
+        addSubview(connectButton)
         
         tableViewContainer.backgroundColor = UIColor(hex: "1B1B26")
         
@@ -137,30 +134,18 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.bottom.equalTo(safeAreaLayoutGuide).inset(10)
             make.centerX.equalToSuperview()
         }
+        connectButton.snp.makeConstraints { (make) in
+            make.width.equalTo(180)
+            make.height.equalTo(40)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(tableViewContainer).inset(7)
+        }
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(20)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(5)
+            make.bottom.equalTo(connectButton.snp.top).inset(-5)
         }
-//        body.snp.makeConstraints { (make) in
-//            make.top.equalTo(header.snp.bottom)
-//            make.bottom.equalTo(safeAreaLayoutGuide).inset(15)
-//            make.width.equalToSuperview()
-//            make.centerX.equalToSuperview()
-//        }
-//        viewFullProfile.snp.makeConstraints { (make) in
-//            make.top.equalTo(tableView.snp.bottom)
-//            make.height.equalTo(30)
-//            make.width.equalToSuperview().multipliedBy(0.7)
-//            make.centerX.equalToSuperview()
-//        }
-//        connect.snp.makeConstraints { (make) in
-//            make.height.equalTo(30)
-//            make.width.equalToSuperview().multipliedBy(0.7)
-//            make.centerX.equalToSuperview()
-//            make.bottom.equalTo(safeAreaLayoutGuide)
-//        }
 	}
 	
 	override func layoutSubviews() {
@@ -171,8 +156,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 		header.roundCorners([.topLeft, .topRight], radius: 22)
 		
 		tableViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 22)
-		
-		connect.layer.cornerRadius = connect.frame.height / 2
 		
 		header.imageView.applyDefaultShadow()
 	}
@@ -595,7 +578,7 @@ class ConnectButton : InteractableView, Interactable {
 		
 		label.font = Fonts.createBoldSize(18)
 		label.textColor = .white
-		label.text = "CONNECT"
+		label.text = "Connect!"
 		label.textAlignment = .center
 		label.adjustsFontSizeToFitWidth = true
 		
@@ -604,7 +587,10 @@ class ConnectButton : InteractableView, Interactable {
 	override func configureView() {
 		addSubview(connect)
 		super.configureView()
-		backgroundColor = Colors.learnerPurple
+        
+		backgroundColor = Colors.green
+        layer.cornerRadius = 8
+        
 		applyConstraints()
 	}
 	
@@ -616,9 +602,9 @@ class ConnectButton : InteractableView, Interactable {
 		}
 	}
 	func touchStart() {
-		alpha = 0.5
+		alpha = 0.6
 	}
-	func touchEndOnStart() {
+    func didDragOff() {
 		alpha = 1.0
 	}
 }

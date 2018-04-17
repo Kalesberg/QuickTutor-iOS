@@ -40,20 +40,24 @@ class SubjectSelectionCollectionViewCell : UICollectionViewCell {
         
         labelContainer.backgroundColor = Colors.tutorBlue
         labelContainer.layer.cornerRadius = 10
+        labelContainer.clipsToBounds = true
         
         applyConstraints()
     }
     
     func applyConstraints(){
-        
         label.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
+            make.top.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
         
         labelContainer.snp.makeConstraints { (make) in
-            make.width.equalTo(label).inset(-10)
-            make.centerY.equalToSuperview()
-            make.height.equalTo(30)
+            make.top.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
     }
 }
@@ -189,8 +193,10 @@ class ProfilePicTableViewCell : BaseTableViewCell {
         return imageView
     }()
     
-    let locationItem : LocationItem = {
-        let item = LocationItem()
+    let locationItem : ProfileItem = {
+        let item = ProfileItem()
+        
+        item.imageView.image = #imageLiteral(resourceName: "location")
         
         return item
     }()
@@ -198,7 +204,6 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     let speakItem : ProfileItem = {
         let item = ProfileItem()
         
-        item.label.text = "Speaks: English, Spanish"
         item.imageView.image = #imageLiteral(resourceName: "speaks")
         
         return item
@@ -207,8 +212,7 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     let studysItem : ProfileItem = {
         let item = ProfileItem()
         
-        item.label.text = "Central Michigan University"
-        item.imageView.image = UIImage(named: "studys-at")
+        item.imageView.image = #imageLiteral(resourceName: "studys-at")
         
         return item
     }()
@@ -216,7 +220,6 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     let tutorItem : ProfileItem = {
         let item = ProfileItem()
         
-        item.label.text = "Tutored in 14 sessions"
         item.imageView.image = UIImage(named: "tutored-in")
         
         return item
@@ -295,7 +298,7 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     override func handleNavigation() {
         if (touchStartView is InteractableUIImageView) {
             
-            let vc = (next?.next?.next as! TutorMyProfile)
+            let vc = (next?.next?.next as! LearnerMyProfile)
     
             vc.contentView.backgroundView.alpha = 0.65
             vc.contentView.xButton.alpha = 1.0
@@ -355,18 +358,9 @@ class AboutMeTableViewCell : UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        let user = LearnerData.userData
-        
-        if let bio = user.bio {
-            bioLabel.text = "\(bio)\n"
-        } else {
-            bioLabel.text = "No bio yet! You can add one in Edit Profile."
-        }
-        
         divider1.backgroundColor = Colors.divider
         divider2.backgroundColor = Colors.divider
-        
-        
+    
         applyConstraints()
     }
     
@@ -442,6 +436,7 @@ class PoliciesTableViewCell : UITableViewCell {
         contentView.addSubview(divider1)
         
         backgroundColor = .clear
+        selectionStyle = .none
         
         divider1.backgroundColor = Colors.divider
         
@@ -489,8 +484,8 @@ class SubjectsTableViewCell : UITableViewCell {
         
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 0.0
-        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 8.0
+        layout.minimumLineSpacing = 8.0
         
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .clear
@@ -522,6 +517,7 @@ class SubjectsTableViewCell : UITableViewCell {
         addSubview(subjectCollectionView)
         
         backgroundColor = .clear
+        selectionStyle = .none
         
         subjectCollectionView.delegate = self
         subjectCollectionView.dataSource = self
@@ -557,26 +553,13 @@ extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectSelectionCollectionViewCell", for: indexPath) as! SubjectSelectionCollectionViewCell
         
-        if (indexPath.row == 0) {
-            let divider = UIView()
-            divider.backgroundColor = Colors.backgroundDark
-            cell.addSubview(divider)
-            
-            divider.snp.makeConstraints({ (make) in
-                make.left.equalToSuperview()
-                make.height.equalToSuperview()
-                make.centerY.equalToSuperview()
-                make.width.equalTo(1)
-            })
-        }
-        
         cell.label.text = datasource[indexPath.row]
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (datasource[indexPath.row] as NSString).size(withAttributes: nil).width + 40, height: 30)
+        return CGSize(width: (datasource[indexPath.row] as NSString).size(withAttributes: nil).width + 35, height: 30)
     }
 }
 
@@ -620,7 +603,6 @@ class RatingTableViewCell : BaseTableViewCell {
         selectionStyle = .none
 
 		applyConstraints()
-
     }
     
     override func applyConstraints() {
@@ -628,7 +610,7 @@ class RatingTableViewCell : BaseTableViewCell {
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
 			make.width.equalToSuperview().multipliedBy(0.95)
-			make.height.equalToSuperview().multipliedBy(0.8)
+            make.height.equalTo(190)
 			make.centerX.equalToSuperview()
 		}
 		
@@ -650,10 +632,10 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 		return datasource?.count ?? 0
 	}
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 60
+		return 70
 	}
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
+
 		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
 		
 		let data = datasource?[indexPath.row]
@@ -676,16 +658,17 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 	
-		let view = SectionHeader()
+		let label = UILabel()
 		
-		view.category.font = Fonts.createBoldSize(18)
-		view.category.text = "Reviews (22)"
+		label.font = Fonts.createBoldSize(18)
+		label.text = "Reviews (22)"
+        label.textColor = .white
 		
-		return view
+		return label
 	}
 	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 44
+		return 50
 	}
 }
 
@@ -726,12 +709,15 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
 		
 		return label
 	}()
+    
+    let container = UIView()
 	
 	override func configureView() {
-		addSubview(profilePic)
-		addSubview(nameLabel)
-		addSubview(dateSubjectLabel)
-		addSubview(reviewTextLabel)
+        addSubview(container)
+		container.addSubview(profilePic)
+		container.addSubview(nameLabel)
+		container.addSubview(dateSubjectLabel)
+		container.addSubview(reviewTextLabel)
 		super.configureView()
 		
 		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
@@ -740,15 +726,21 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
 			//set to some arbitrary image.
 		}
 		applyConstraints()
-		layer.cornerRadius = 15
-		layer.borderWidth = 1.5
-		layer.borderColor = Colors.sidebarPurple.cgColor
+		container.layer.cornerRadius = 15
+		container.layer.borderWidth = 1.5
+		container.layer.borderColor = Colors.sidebarPurple.cgColor
 
 		backgroundColor = .clear
 		
 	}
 	
 	override func applyConstraints() {
+        
+        container.snp.makeConstraints { (make) in
+            make.width.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.height.equalTo(60)
+        }
 		
 		profilePic.snp.makeConstraints { (make) in
 			make.left.equalToSuperview().inset(7)
