@@ -41,7 +41,18 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }()
     
     let rateLabelContainer = UIView()
+    
     let distanceLabel = UILabel()
+    let distanceExtraLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(12)
+        label.text = "away"
+        label.textColor = Colors.lightBlue
+        label.textAlignment = .center
+        
+        return label
+    }()
     let distanceLabelContainer = UIView()
 	let connectButton = ConnectButton()
     let tableViewContainer = UIView()
@@ -76,6 +87,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         rateLabelContainer.addSubview(rateLabel)
         addSubview(distanceLabelContainer)
         distanceLabelContainer.addSubview(distanceLabel)
+        distanceLabelContainer.addSubview(distanceExtraLabel)
         addSubview(connectButton)
         
         tableViewContainer.backgroundColor = UIColor(hex: "1B1B26")
@@ -86,6 +98,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
         tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
+        tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
         
         reviewLabelContainer.backgroundColor = Colors.yellow
         reviewLabelContainer.layer.cornerRadius = 12
@@ -104,7 +117,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 			make.top.equalToSuperview()
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-			make.height.equalTo(150)
+			make.height.equalTo(170)
 		}
         reviewLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
@@ -121,12 +134,19 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         }
         rateLabelContainer.snp.makeConstraints { (make) in
             make.bottom.equalTo(header).inset(-13)
-            make.centerX.equalTo(header.imageView)
+            make.left.equalToSuperview().inset(20)
             make.width.equalTo(rateLabel).inset(-16)
             make.height.equalTo(24)
         }
         distanceLabel.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview().inset(1)
+            make.top.equalToSuperview().inset(4)
+            make.width.equalToSuperview().inset(2)
+            make.centerX.equalToSuperview()
+        }
+        distanceExtraLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(distanceLabel.snp.bottom).inset(5)
+            make.width.equalTo(distanceLabel)
+            make.centerX.equalToSuperview()
         }
         distanceLabelContainer.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(-7)
@@ -176,7 +196,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 4
+		return 5
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -190,12 +210,16 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
 				cell.datasource = datasource?.subjects
 			
             return cell
+            
         case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
+            return cell
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
                 RatingTableViewCell
             	cell.datasource = datasource?.reviews
             return cell
-        case 3:
+        case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
 			
 			let formattedString = NSMutableAttributedString()
@@ -223,10 +247,12 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         case 0:
             return UITableViewAutomaticDimension
         case 1:
-            return 90
-        case 2:
             return UITableViewAutomaticDimension
+        case 2:
+            return 90
         case 3:
+            return UITableViewAutomaticDimension
+        case 4:
             return UITableViewAutomaticDimension
         default:
             return 0
@@ -251,77 +277,16 @@ class TutorCardHeader : InteractableView {
 		var label = UILabel()
 		
 		label.textColor = .white
-		label.textAlignment = .left
+		label.textAlignment = .center
 		label.font = Fonts.createBoldSize(20)
 		label.adjustsFontSizeToFitWidth = true
 		
 		return label
 	}()
-	
-	var region : UILabel = {
-		var label = UILabel()
-		
-		label.textColor = .white
-		label.textAlignment = .left
-		label.font = Fonts.createSize(16)
-		label.adjustsFontSizeToFitWidth = true
-		
-		return label
-	}()
-	
-	var tutorData : UILabel = {
-		var label = UILabel()
-		
-		label.textColor = .white
-		label.textAlignment = .left
-		label.font = Fonts.createSize(16)
-		label.adjustsFontSizeToFitWidth = true
-		
-		return label
-	}()
-    
-    let locationItem : ProfileItem = {
-        let item = ProfileItem()
-        
-        item.imageView.image = #imageLiteral(resourceName: "location")
-        
-        return item
-    }()
-    
-    let speakItem : ProfileItem = {
-        let item = ProfileItem()
-        
-        item.imageView.image = #imageLiteral(resourceName: "speaks")
-        
-        return item
-    }()
-    
-    let studysItem : ProfileItem = {
-        let item = ProfileItem()
-        
-        item.imageView.image = UIImage(named: "studys-at")
-        
-        return item
-    }()
-    
-    let tutorItem : ProfileItem = {
-        let item = ProfileItem()
-        
-        item.imageView.image = UIImage(named: "tutored-in")
-        
-        return item
-    }()
-    
-    let container = UIView()
 
 	override func configureView() {
 		addSubview(imageView)
         addSubview(name)
-        addSubview(container)
-        container.addSubview(locationItem)
-        container.addSubview(tutorItem)
-        container.addSubview(speakItem)
-        container.addSubview(studysItem)
 		super.configureView()
 		
 		backgroundColor = Colors.tutorBlue
@@ -331,67 +296,17 @@ class TutorCardHeader : InteractableView {
 	
 	override func applyConstraints() {
 		imageView.snp.makeConstraints { (make) in
-			make.left.equalToSuperview().inset(10)
-			make.centerY.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.7)
-			make.width.equalToSuperview().multipliedBy(0.3)
+			make.top.equalToSuperview().inset(8)
+			make.centerX.equalToSuperview()
+			make.height.equalTo(110)
+			make.width.equalTo(110)
 		}
         name.snp.makeConstraints { (make) in
-            make.left.equalTo(imageView.snp.right).inset(-10)
-            make.top.equalTo(imageView.snp.top)
-            make.right.equalToSuperview().inset(3)
-        }
-        container.snp.makeConstraints { (make) in
-            make.top.equalTo(name.snp.bottom)
-            make.left.equalTo(name).inset(-4)
-            make.right.equalTo(name)
-            make.bottom.equalToSuperview().inset(10)
-        }
-        locationItem.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.25)
-            make.width.equalToSuperview()
+            make.top.equalTo(imageView.snp.bottom)
+            make.bottom.equalToSuperview().inset(5)
+            make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
-        
-        tutorItem.snp.makeConstraints { (make) in
-            make.top.equalTo(locationItem.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(0.25)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-        
-        speakItem.snp.makeConstraints { (make) in
-            make.top.equalTo(tutorItem.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(0.25)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-        
-        studysItem.snp.makeConstraints { (make) in
-            make.top.equalTo(speakItem.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(0.25)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-//        region.snp.makeConstraints { (make) in
-//            make.left.equalTo(imageView.snp.right).multipliedBy(1.1)
-//            make.centerY.equalToSuperview()
-//            make.height.equalTo(25)
-//            make.width.equalToSuperview().multipliedBy(0.4)
-//        }
-//        tutorData.snp.makeConstraints { (make) in
-//            make.left.equalTo(imageView.snp.right).multipliedBy(1.1)
-//            make.top.equalTo(region.snp.bottom)
-//            make.height.equalTo(25)
-//            make.width.equalToSuperview()
-//        }
-//        distance.snp.makeConstraints { (make) in
-//            make.top.equalToSuperview().inset(10)
-//            make.right.equalToSuperview().inset(30)
-//            make.height.equalTo(30)
-//            make.width.equalTo(70)
-//        }
 	}
 }
 

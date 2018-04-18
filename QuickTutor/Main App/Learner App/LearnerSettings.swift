@@ -165,7 +165,7 @@ class SettingsItem : BaseView {
         divider.snp.makeConstraints { (make) in
             make.bottom.equalTo(self.snp.bottom)
             make.width.equalToSuperview()
-            make.height.equalTo(0.5)
+            make.height.equalTo(1.0)
         }
     }
 }
@@ -375,7 +375,7 @@ fileprivate class SettingsProfileView : ArrowItem {
         
         divider.snp.makeConstraints { (make) in
             make.bottom.equalTo(self.snp.bottom)
-            make.height.equalTo(0.5)
+            make.height.equalTo(1.0)
             make.width.equalToSuperview()
         }
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 
 class SubjectSelectionCollectionViewCell : UICollectionViewCell {
@@ -167,15 +168,6 @@ class InteractableUIImageView : UIImageView, Interactable {}
 
 class ProfilePicTableViewCell : BaseTableViewCell {
     
-    let mainContainer : UIView = {
-        let view = UIView()
-        
-        view.backgroundColor = Colors.registrationDark
-        view.layer.cornerRadius = 7
-        
-        return view
-    }()
-    
     let profilePicView : InteractableUIImageView = {
         let imageView = InteractableUIImageView()
         
@@ -193,51 +185,40 @@ class ProfilePicTableViewCell : BaseTableViewCell {
         return imageView
     }()
     
-    let locationItem : ProfileItem = {
-        let item = ProfileItem()
+    let nameLabel : UILabel = {
+        let label = UILabel()
         
-        item.imageView.image = #imageLiteral(resourceName: "location")
+        label.font = Fonts.createBoldSize(20)
+        label.textColor = .white
+        label.text = "Alex Zoltowski"
         
-        return item
+        return label
     }()
     
-    let speakItem : ProfileItem = {
-        let item = ProfileItem()
-        
-        item.imageView.image = #imageLiteral(resourceName: "speaks")
-        
-        return item
-    }()
-    
-    let studysItem : ProfileItem = {
-        let item = ProfileItem()
-        
-        item.imageView.image = #imageLiteral(resourceName: "studys-at")
-        
-        return item
-    }()
-    
-    let tutorItem : ProfileItem = {
-        let item = ProfileItem()
-        
-        item.imageView.image = UIImage(named: "tutored-in")
-        
-        return item
-    }()
-    
-    let container : UIView = {
-        let view = UIView()
-        
+    let locationImage : UIImageView = {
+        let view = UIImageView()
+
+        view.image = #imageLiteral(resourceName: "location")
+
         return view
     }()
+
+    let locationLabel : UILabel = {
+        let label = UILabel()
+
+        label.font = Fonts.createSize(14)
+        label.adjustsFontSizeToFitWidth = true
+        label.clipsToBounds = true
+        label.textColor = .white
+        label.text = "Mount Pleasant, MI"
+
+        return label
+    }()
     override func configureView() {
-        contentView.addSubview(mainContainer)
-        mainContainer.addSubview(profilePicView)
-        mainContainer.addSubview(container)
-        container.addSubview(locationItem)
-        container.addSubview(tutorItem)
-        container.addSubview(speakItem)
-        container.addSubview(studysItem)
+        contentView.addSubview(profilePicView)
+        addSubview(nameLabel)
+        addSubview(locationImage)
+        addSubview(locationLabel)
         
         backgroundColor = .clear
         
@@ -246,65 +227,105 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     
     override func applyConstraints() {
         
-        mainContainer.snp.makeConstraints { (make) in
-            make.width.equalToSuperview().multipliedBy(0.95)
-            make.height.equalTo(150)
-            make.centerX.equalToSuperview()
-            make.top.equalTo(contentView).inset(15)
-        }
-        
         profilePicView.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(10)
-            make.width.equalToSuperview().multipliedBy(0.35)
-            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().inset(20)
+            make.width.equalTo(110)
+            make.height.equalTo(110)
         }
-        
-        container.snp.makeConstraints { (make) in
-            make.left.equalTo(profilePicView.snp.right).inset(-5)
-            make.right.equalToSuperview().inset(3)
-            make.height.equalTo(100)
-            make.centerY.equalToSuperview()
-        }
-        
-        locationItem.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.25)
-            make.width.equalToSuperview()
+        nameLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(profilePicView.snp.bottom).inset(-15)
             make.centerX.equalToSuperview()
         }
-        
-        tutorItem.snp.makeConstraints { (make) in
-            make.top.equalTo(locationItem.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(0.25)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
+        locationLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview().inset(10)
+            make.height.equalTo(30)
+            make.top.equalTo(nameLabel.snp.bottom)
         }
-        
-        speakItem.snp.makeConstraints { (make) in
-            make.top.equalTo(tutorItem.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(0.25)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-        
-        studysItem.snp.makeConstraints { (make) in
-            make.top.equalTo(speakItem.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(0.25)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
+        locationImage.snp.makeConstraints { (make) in
+            make.right.equalTo(locationLabel.snp.left).inset(-7)
+            make.centerY.equalTo(locationLabel)
+            make.height.equalTo(17)
+            make.width.equalTo(17)
         }
     }
     
     override func handleNavigation() {
         if (touchStartView is InteractableUIImageView) {
             
-            let vc = (next?.next?.next as! LearnerMyProfile)
+            if let current = next?.next?.next {
+                
+                if current is TutorMyProfile {
+                    let vc = (current as! TutorMyProfile)
+                    
+                    vc.contentView.backgroundView.alpha = 0.65
+                    vc.contentView.xButton.alpha = 1.0
+                    vc.horizontalScrollView.isUserInteractionEnabled = true
+                    vc.horizontalScrollView.isHidden = false
+                    vc.contentView.leftButton.isHidden = true
+                    
+                } else {
+                    let vc = (current as! LearnerMyProfile)
+                    
+                    vc.contentView.backgroundView.alpha = 0.65
+                    vc.contentView.xButton.alpha = 1.0
+                    vc.horizontalScrollView.isUserInteractionEnabled = true
+                    vc.horizontalScrollView.isHidden = false
+                    vc.contentView.leftButton.isHidden = true
+                }
+            }
+        }
+    }
+}
+
+
+class ExtraInfoTableViewCell : BaseTableViewCell {
     
-            vc.contentView.backgroundView.alpha = 0.65
-            vc.contentView.xButton.alpha = 1.0
-            vc.horizontalScrollView.isUserInteractionEnabled = true
-            vc.horizontalScrollView.isHidden = false
-            vc.contentView.leftButton.isHidden = true
+    let speakItem : ProfileItem = {
+        let item = ProfileItem()
+
+        item.imageView.image = #imageLiteral(resourceName: "speaks")
+
+        return item
+    }()
+
+    let studysItem : ProfileItem = {
+        let item = ProfileItem()
+
+        item.imageView.image = #imageLiteral(resourceName: "studys-at")
+
+        return item
+    }()
+
+    let tutorItem : ProfileItem = {
+        let item = ProfileItem()
+
+        item.imageView.image = UIImage(named: "tutored-in")
+
+        return item
+    }()
+    
+    let divider = UIView()
+    
+    override func configureView() {
+        contentView.addSubview(tutorItem)
+        contentView.addSubview(divider)
+        super.configureView()
+        
+        backgroundColor = .clear
+        selectionStyle = .none
+        
+        divider.backgroundColor = Colors.divider
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        divider.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.height.equalTo(1)
+            make.left.equalToSuperview().inset(12)
+            make.right.equalToSuperview().inset(20)
         }
     }
 }
@@ -382,12 +403,12 @@ class AboutMeTableViewCell : UITableViewCell {
         divider1.snp.makeConstraints { (make) in
             make.left.equalTo(aboutMeLabel.snp.right).inset(-10)
             make.centerY.equalTo(aboutMeLabel)
-            make.height.equalTo(0.75)
+            make.height.equalTo(1)
             make.right.equalTo(bioLabel)
         }
         
         divider2.snp.makeConstraints { (make) in
-            make.height.equalTo(0.75)
+            make.height.equalTo(1)
             make.left.equalTo(aboutMeLabel)
             make.right.equalTo(divider1)
             make.top.equalTo(contentView.snp.bottom)

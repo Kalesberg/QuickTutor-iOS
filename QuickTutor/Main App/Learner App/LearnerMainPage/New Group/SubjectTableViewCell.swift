@@ -85,10 +85,10 @@ class SubjectTableViewCell : UITableViewCell  {
 	
 	func configureTableViewCell() {
 		addSubview(subject)
-		addSubview(localTutors)
-		addSubview(globalTutors)
-		addSubview(price)
-		addSubview(averagePrice)
+//        addSubview(localTutors)
+//        addSubview(globalTutors)
+//        addSubview(price)
+//        addSubview(averagePrice)
 		
 		let cellBackground = UIView()
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
@@ -106,29 +106,29 @@ class SubjectTableViewCell : UITableViewCell  {
 			make.height.equalToSuperview()
 			make.centerY.equalToSuperview()
 		}
-		localTutors.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.left.equalTo(subject.snp.right)
-			make.width.equalToSuperview().multipliedBy(0.25)
-			make.height.equalToSuperview().multipliedBy(0.5)
-		}
-		globalTutors.snp.makeConstraints { (make) in
-			make.top.equalTo(localTutors.snp.bottom)
-			make.left.equalTo(localTutors.snp.left)
-			make.width.equalToSuperview().multipliedBy(0.25)
-			make.height.equalToSuperview().multipliedBy(0.5)
-		}
-		averagePrice.snp.makeConstraints { (make) in
-			make.left.equalTo(localTutors.snp.right)
-			make.bottom.equalTo(localTutors.snp.bottom)
-			make.width.equalToSuperview().multipliedBy(0.2)
-			make.height.equalToSuperview().multipliedBy(0.3)
-		}
-		price.snp.makeConstraints { (make) in
-			make.left.equalTo(averagePrice.snp.left)
-			make.top.equalTo(averagePrice.snp.bottom)
-			make.width.equalToSuperview().multipliedBy(0.2)
-			make.height.equalToSuperview().multipliedBy(0.3)
-		}
+//        localTutors.snp.makeConstraints { (make) in
+//            make.top.equalToSuperview()
+//            make.left.equalTo(subject.snp.right)
+//            make.width.equalToSuperview().multipliedBy(0.25)
+//            make.height.equalToSuperview().multipliedBy(0.5)
+//        }
+//        globalTutors.snp.makeConstraints { (make) in
+//            make.top.equalTo(localTutors.snp.bottom)
+//            make.left.equalTo(localTutors.snp.left)
+//            make.width.equalToSuperview().multipliedBy(0.25)
+//            make.height.equalToSuperview().multipliedBy(0.5)
+//        }
+//        averagePrice.snp.makeConstraints { (make) in
+//            make.left.equalTo(localTutors.snp.right)
+//            make.bottom.equalTo(localTutors.snp.bottom)
+//            make.width.equalToSuperview().multipliedBy(0.2)
+//            make.height.equalToSuperview().multipliedBy(0.3)
+//        }
+//        price.snp.makeConstraints { (make) in
+//            make.left.equalTo(averagePrice.snp.left)
+//            make.top.equalTo(averagePrice.snp.bottom)
+//            make.width.equalToSuperview().multipliedBy(0.2)
+//            make.height.equalToSuperview().multipliedBy(0.3)
+//        }
 	}
 }
