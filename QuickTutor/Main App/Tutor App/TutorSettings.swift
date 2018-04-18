@@ -38,7 +38,7 @@ class TutorSettingsView : LearnerSettingsView {
         }
         
         visibleOnQT.divider.snp.remakeConstraints { (make) in
-            make.height.equalTo(0.25)
+            make.height.equalTo(1)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.top.equalTo(signOut.snp.top)

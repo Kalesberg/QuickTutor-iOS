@@ -427,11 +427,34 @@ class ShareUsernameModal : InteractableView {
         return label
     }()
     
-    let twitterImage = ModalImage()
-    let facebookImage = ModalImage()
-    let messagesImage = ModalImage()
-    let emailImage = ModalImage()
-    let messengerImage = ModalImage()
+    let twitterImage : ModalImage = {
+        let image = ModalImage()
+        
+        image.imageView.image = #imageLiteral(resourceName: "social-twitter")
+        
+        return image
+    }()
+    let facebookImage : ModalImage = {
+        let image = ModalImage()
+        
+        image.imageView.image = #imageLiteral(resourceName: "social-facebook")
+        
+        return image
+    }()
+    let messagesImage : ModalImage = {
+        let image = ModalImage()
+        
+        image.imageView.image = #imageLiteral(resourceName: "social-imessages")
+        
+        return image
+    }()
+    let emailImage : ModalImage = {
+        let image = ModalImage()
+        
+        image.imageView.image = #imageLiteral(resourceName: "social-email")
+        
+        return image
+    }()
     
     override func configureView () {
         addSubview(shareUsernameLabel)
@@ -440,7 +463,6 @@ class ShareUsernameModal : InteractableView {
         addSubview(facebookImage)
         addSubview(messagesImage)
         addSubview(emailImage)
-        addSubview(messengerImage)
         super.configureView()
         
         layer.cornerRadius = 8
@@ -470,35 +492,28 @@ class ShareUsernameModal : InteractableView {
             make.width.equalTo(55)
             make.height.equalTo(55)
             make.bottom.equalToSuperview().inset(20)
-            make.centerX.equalToSuperview()
+            make.centerX.equalToSuperview().inset(30)
         }
         
         facebookImage.snp.makeConstraints { (make) in
             make.width.equalTo(55)
             make.height.equalTo(55)
             make.bottom.equalToSuperview().inset(20)
-            make.right.equalTo(twitterImage.snp.left)
-        }
-        
-        messengerImage.snp.makeConstraints { (make) in
-            make.width.equalTo(55)
-            make.height.equalTo(55)
-            make.bottom.equalToSuperview().inset(20)
-            make.left.equalTo(twitterImage.snp.right)
+            make.centerX.equalToSuperview().inset(-30)
         }
         
         messagesImage.snp.makeConstraints { (make) in
             make.width.equalTo(55)
             make.height.equalTo(55)
             make.bottom.equalToSuperview().inset(20)
-            make.right.equalTo(facebookImage.snp.left)
+            make.centerX.equalTo(facebookImage).inset(-60)
         }
-        
+
         emailImage.snp.makeConstraints { (make) in
             make.width.equalTo(55)
             make.height.equalTo(55)
             make.bottom.equalToSuperview().inset(20)
-            make.left.equalTo(messengerImage.snp.right)
+            make.centerX.equalTo(twitterImage).inset(60)
         }
     }
 }
@@ -508,8 +523,7 @@ class ModalImage : InteractableView, Interactable {
     
     let imageView : UIImageView = {
         let image = UIImageView()
-        
-        image.image = #imageLiteral(resourceName: "social-twitter")
+
         image.scaleImage()
         
         return image
@@ -630,8 +644,6 @@ class TutorMainPage : MainPage {
         } else if (touchStartView == contentView.shareUsernameModal.twitterImage) {
             
         } else if (touchStartView == contentView.shareUsernameModal.facebookImage) {
-            
-        } else if (touchStartView == contentView.shareUsernameModal.messengerImage) {
             
         } else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
             

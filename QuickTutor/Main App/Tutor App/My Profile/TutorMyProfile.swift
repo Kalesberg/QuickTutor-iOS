@@ -123,6 +123,7 @@ class TutorMyProfile : BaseViewController {
         contentView.tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         contentView.tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+        contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
     }
 	
 	override func loadView() {
@@ -231,20 +232,22 @@ class TutorMyProfile : BaseViewController {
 extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.row) {
         case 0:
-            return 170
+            return 200
         case 1:
             return UITableViewAutomaticDimension
         case 2:
-            return 90
-        case 3:
             return UITableViewAutomaticDimension
+        case 3:
+            return 90
         case 4:
+            return UITableViewAutomaticDimension
+        case 5:
             return UITableViewAutomaticDimension
         default:
             break
@@ -258,64 +261,111 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
-			
-            cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
-            cell.speakItem.label.text = "Speaks: \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
-			cell.studysItem.label.text = tutor.school!
-			cell.locationItem.label.text = tutor.region
+            
+			//cell.locationLabel.text = tutor.region
 			
 			return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
-			
-			cell.bioLabel.text = tutor.bio + "\n"
-			
+            
+            //cell.bioLabel.text = tutor.bio + "\n"
+            
             return cell
         case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
+            
+            //cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
+            //cell.speakItem.label.text = "Speaks: \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
+            //cell.studysItem.label.text = tutor.school!
+            
+            cell.tutorItem.snp.makeConstraints { (make) in
+                make.left.equalToSuperview().inset(12)
+                make.right.equalToSuperview().inset(20)
+                make.height.equalTo(35)
+                make.top.equalToSuperview().inset(10)
+                
+                //remove line below this once logic is implemented... the bottom will be set with the if below it
+                make.bottom.equalToSuperview().inset(10)
+                
+                //if speak and study is not set {
+                //   make.bottom.equalToSuperview().inset(10)
+                //}
+            }
+            
+            //if speak item is set {
+            //cell.addSubview(speakItem)
+//            cell.speakItem.snp.makeConstraints { (make) in
+//                make.left.equalToSuperview().inset(12)
+//                make.right.equalToSuperview().inset(20)
+//                make.height.equalTo(40)
+//                make.top.equalTo(cell.tutorItem.snp.bottom)
+//
+//                if study is not set{
+//                   make.bottom.equalToSuperview().inset(10)
+//                }
+//            }
+//        }
+            //if study is set {
+            //cell.addSubview(studysItem)
+//            cell.studysItem.snp.makeConstraints { (make) in
+//                make.left.equalToSuperview().inset(12)
+//                make.right.equalToSuperview().inset(20)
+//                make.height.equalTo(40)
+//                if speak is set {
+//                  make.top.equalTo(cell.speakItem.snp.bottom)
+//                } else {
+//                  make.top.equalTo(cell.tutorItem.snp.bottom)
+//       }
+//                make.bottom.equalToSuperview().inset(10)
+//            }
+//        }
+            return cell
+        
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-			cell.datasource = tutor.subjects
+			//cell.datasource = tutor.subjects
             return cell
 			
-		case 3:
+		case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
 
-            if tutor.reviews.count <= 2 {
-                cell.datasource = tutor.reviews
-            } else {
-                cell.datasource = Array(tutor.reviews[0..<2])
-            }
+//            if tutor.reviews.count <= 2 {
+//                cell.datasource = tutor.reviews
+//            } else {
+//                cell.datasource = Array(tutor.reviews[0..<2])
+//            }
 			
 			return cell
 			
-        case 4:
+        case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
 		
-			let policies = tutor.policy.split(separator: "_")
-			
-			let cancelNotice = policies[2]
-			var tutorPref : String!
-			
-			if tutor.preference == 3 {
-				tutorPref = " - Will tutor Online or In-Person\n\n"
-			} else if tutor.preference == 2 {
-				tutorPref = " - Will tutor In-Person\n\n"
-			} else if tutor.preference == 1 {
-				tutorPref = " - Will tutor Online \n\n"
-			} else {
-				tutorPref = " - Currently unavailable\n\n"
-			}
-			
-			let formattedString = NSMutableAttributedString()
-			
-			formattedString
-				.regular(" - Will travel up to \(tutor.distance!) miles\n\n", 14, .white)
-				.regular(tutorPref, 14, .white)
-				.regular(" - Cancellations: \(cancelNotice) Hour Notice\n\n", 14, .white)
-				//not sure how were storing these yet
-				.regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
-				.regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
-			
-			cell.policiesLabel.attributedText = formattedString
+//            let policies = tutor.policy.split(separator: "_")
+//            
+//            let cancelNotice = policies[2]
+//            var tutorPref : String!
+//            
+//            if tutor.preference == 3 {
+//                tutorPref = " - Will tutor Online or In-Person\n\n"
+//            } else if tutor.preference == 2 {
+//                tutorPref = " - Will tutor In-Person\n\n"
+//            } else if tutor.preference == 1 {
+//                tutorPref = " - Will tutor Online \n\n"
+//            } else {
+//                tutorPref = " - Currently unavailable\n\n"
+//            }
+//            
+//            let formattedString = NSMutableAttributedString()
+//            
+//            formattedString
+//                .regular(" - Will travel up to \(tutor.distance!) miles\n\n", 14, .white)
+//                .regular(tutorPref, 14, .white)
+//                .regular(" - Cancellations: \(cancelNotice) Hour Notice\n\n", 14, .white)
+//                //not sure how were storing these yet
+//                .regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
+//                .regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
+//            
+//            cell.policiesLabel.attributedText = formattedString
 
 			return cell
         default:

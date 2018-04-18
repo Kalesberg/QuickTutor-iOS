@@ -130,7 +130,7 @@ class EditProfileItemTableViewCell : BaseTableViewCell {
         
         divider.snp.makeConstraints { (make) in
             make.top.equalTo(spacer.snp.top)
-            make.height.equalTo(0.75)
+            make.height.equalTo(1)
             make.left.equalTo(infoLabel)
             make.right.equalTo(infoLabel)
         }
@@ -239,7 +239,7 @@ class EditProfilePolicyTableViewCell : EditProfileDotItemTableViewCell {
         
         divider.snp.makeConstraints { (make) in
             make.top.equalTo(textField.snp.bottom).inset(-5)
-            make.height.equalTo(0.75)
+            make.height.equalTo(1)
             make.left.equalTo(infoLabel)
             make.right.equalTo(infoLabel)
             make.bottom.equalToSuperview().inset(8)

@@ -209,21 +209,25 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 		let data = datasource[indexPath.item]
     
 		cell.header.imageView.loadUserImages(by: data.imageUrls["image1"]!)
-        cell.header.name.text = data.name.components(separatedBy: " ")[0]
-		cell.header.locationItem.label.text = data.region!
-		cell.header.tutorItem.label.text = "\(data.hours!) hours taught, \(data.numSessions!) sessions"
-		cell.header.speakItem.label.text = "Speaks: \(data.language.compactMap({$0}).joined(separator: ", "))"
-        cell.header.studysItem.label.text = data.school
+        
+        let name = data.name.components(separatedBy: " ")
+        let index = name[1].index(name[1].startIndex, offsetBy: 0)
+    
+        cell.header.name.text = "\(name[0]) \(String(name[1][index]).uppercased())."
+//        cell.header.locationItem.label.text = data.region!
+//        cell.header.tutorItem.label.text = "\(data.hours!) hours taught, \(data.numSessions!) sessions"
+//        cell.header.speakItem.label.text = "Speaks: \(data.language.compactMap({$0}).joined(separator: ", "))"
+//        cell.header.studysItem.label.text = data.school
         cell.reviewLabel.text = "\(data.numSessions!) Reviews ★ \(data.rating!)"
         cell.rateLabel.text = "$\(data.price!) / hour"
         
+        //(cell.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! AboutMeTableViewCell).aboutMeLabel.label.text = "About " + data.name.components(separatedBy: " ")[0]
+        
         let formattedString = NSMutableAttributedString()
         formattedString
-            .bold("126", 17, Colors.lightBlue)
+            .bold("12", 17, Colors.lightBlue)
             .regular("\n", 0, .clear)
             .bold("miles", 12, Colors.lightBlue)
-            .regular("\n", 0, .clear)
-            .bold("away", 12, Colors.lightBlue)
         
         let paragraphStyle = NSMutableParagraphStyle()
 		
