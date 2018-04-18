@@ -224,7 +224,7 @@ class Sidebar : BaseView {
             make.top.equalTo(profileView.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(0.5)
+            make.height.equalTo(1)
         }
         
         ratingView.snp.makeConstraints { (make) in
@@ -238,7 +238,7 @@ class Sidebar : BaseView {
             make.top.equalTo(ratingView.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(0.5)
+            make.height.equalTo(1)
         }
     }
 

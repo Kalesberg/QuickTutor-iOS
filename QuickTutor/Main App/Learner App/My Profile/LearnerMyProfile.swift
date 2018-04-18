@@ -344,8 +344,11 @@ class ProfileItem : BaseView {
         label.textAlignment = .left
         label.sizeToFit()
         label.numberOfLines = 1
-        label.font = Fonts.createSize(12)
+        label.font = Fonts.createSize(15)
         label.adjustsFontSizeToFitWidth = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
         
         applyConstraints()
     }
@@ -360,17 +363,18 @@ class ProfileItem : BaseView {
         imageView.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview()
-            make.height.equalTo(16)
+            make.height.equalTo(18)
             make.width.equalTo(25)
         }
     }
     
-    func constrainSelf(top: ConstraintItem) {
+    func constraintItem(top: ConstraintItem) {
         self.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.05)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
             make.top.equalTo(top)
+            make.left.equalToSuperview().inset(12)
+            make.right.equalToSuperview().inset(20)
+            make.height.equalTo(40)
+            make.bottom.equalToSuperview()
         }
     }
 }
@@ -503,6 +507,7 @@ class LearnerMyProfile : BaseViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
         contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
+        contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
     }
     override func loadView() {
         view = LearnerMyProfileView()
@@ -609,14 +614,16 @@ class LearnerMyProfile : BaseViewController {
 extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.row) {
         case 0:
-            return 170
+            return 200
         case 1:
+            return UITableViewAutomaticDimension
+        case 2:
             return UITableViewAutomaticDimension
         default:
             break
@@ -643,6 +650,56 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             //cell.bioLabel.text = tutor.bio + "\n"
             
             return cell
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
+            
+            //cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
+            //cell.speakItem.label.text = "Speaks: \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
+            //cell.studysItem.label.text = tutor.school!
+            
+            cell.tutorItem.snp.makeConstraints { (make) in
+                make.left.equalToSuperview().inset(12)
+                make.right.equalToSuperview().inset(20)
+                make.height.equalTo(35)
+                make.top.equalToSuperview().inset(10)
+                
+                //remove line below this once logic is implemented... the bottom will be set with the if below it
+                make.bottom.equalToSuperview().inset(10)
+                
+                //if speak and study is not set {
+                //   make.bottom.equalToSuperview().inset(10)
+                //}
+            }
+            
+            //if speak item is set {
+            //cell.addSubview(speakItem)
+            //            cell.speakItem.snp.makeConstraints { (make) in
+            //                make.left.equalToSuperview().inset(12)
+            //                make.right.equalToSuperview().inset(20)
+            //                make.height.equalTo(40)
+            //                make.top.equalTo(cell.tutorItem.snp.bottom)
+            //
+            //                if study is not set{
+            //                   make.bottom.equalToSuperview().inset(10)
+            //                }
+            //            }
+            //        }
+            //if study is set {
+            //cell.addSubview(studysItem)
+            //            cell.studysItem.snp.makeConstraints { (make) in
+            //                make.left.equalToSuperview().inset(12)
+            //                make.right.equalToSuperview().inset(20)
+            //                make.height.equalTo(40)
+            //                if speak is set {
+            //                  make.top.equalTo(cell.speakItem.snp.bottom)
+            //                } else {
+            //                  make.top.equalTo(cell.tutorItem.snp.bottom)
+            //       }
+            //                make.bottom.equalToSuperview().inset(10)
+            //            }
+            //        }
+            return cell
+            
         default:
             break
         }
