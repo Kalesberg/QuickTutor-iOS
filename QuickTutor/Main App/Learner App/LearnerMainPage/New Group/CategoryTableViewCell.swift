@@ -26,7 +26,7 @@ class CategoryTableViewCell : UITableViewCell  {
 		
 		let layout = UICollectionViewFlowLayout()
 		
-		layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 0)
+		layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
 		layout.scrollDirection = .horizontal
 		layout.minimumInteritemSpacing = 0
 		

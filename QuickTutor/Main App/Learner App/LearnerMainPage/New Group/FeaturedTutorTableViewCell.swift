@@ -94,9 +94,38 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		if let current = UIApplication.getPresentedViewController() {
 			
 			let next = TutorConnect()
-			next.featuredTutor = datasource![indexPath.item]
-			
-			current.present(next, animated: true, completion: nil)
+			var tutor = datasource![indexPath.item]
+			let group = DispatchGroup()
+			group.enter()
+			QueryData.shared.loadReviews(uid: tutor.uid) { (reviews) in
+				
+				if let reviews = reviews {
+					tutor.reviews = reviews
+				}
+				group.leave()
+			}
+			group.enter()
+			QueryData.shared.loadSubjects(uid: tutor.uid) { (subcategory) in
+				var subjects : [String] = []
+				
+				if let subcategory = subcategory {
+					
+					for subject in subcategory {
+						
+						let this = subject.subjects.split(separator: "$")
+						
+						for i in this {
+							subjects.append(String(i))
+						}
+					}
+					tutor.subjects = subjects
+				}
+				group.leave()
+			}
+			group.notify(queue: .main) {
+				next.featuredTutor = tutor
+				current.present(next, animated: true, completion: nil)
+			}
 		}
 	}
 	

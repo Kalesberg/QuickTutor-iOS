@@ -57,10 +57,15 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 		tableView.backgroundColor = .clear
 		tableView.delaysContentTouches = false
         tableView.allowsSelection = false
-		
 		return tableView
 	}()
 	
+	var datasource : FeaturedTutor? {
+		didSet{
+			tableView.reloadData()
+		}
+	}
+
 	func configureCollectionViewCell() {
 		addSubview(header)
         addSubview(tableViewContainer)
@@ -178,17 +183,33 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         switch indexPath.item {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
+				cell.bioLabel.text = datasource?.bio
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
+				cell.datasource = datasource?.subjects
+			
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
                 RatingTableViewCell
-            
+            	cell.datasource = datasource?.reviews
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
+			
+			let formattedString = NSMutableAttributedString()
+			
+			
+			formattedString
+				.regular(" - Will travel up to \(datasource!.distance!) miles\n\n", 14, .white)
+				.regular((datasource?.preference.preferenceNormalization())!, 14, .white)
+				.regular(" - Cancellations: \(5) Hour Notice\n\n", 14, .white)
+				.regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
+				.regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
+			
+			cell.policiesLabel.attributedText = formattedString
+			
             return cell
         default:
             return UITableViewCell()

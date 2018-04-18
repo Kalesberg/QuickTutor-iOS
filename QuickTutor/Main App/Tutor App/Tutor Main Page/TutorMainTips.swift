@@ -14,7 +14,8 @@ class TutorMainTipsView : MainLayoutTitleBackButton {
     
     let textView : UITextView = {
         let textView = UITextView()
-        
+		
+        textView.showsVerticalScrollIndicator = false
         textView.isEditable = false
         textView.backgroundColor = .clear
         

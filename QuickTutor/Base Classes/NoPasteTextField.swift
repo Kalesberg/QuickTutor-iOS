@@ -59,7 +59,7 @@ class FullNameTextField : NoPasteTextField {
 		attributedPlaceholder = NSAttributedString(string: "Your Full Name", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
 		textColor = .white
 		textAlignment = .left
-		keyboardType = .namePhonePad
+		keyboardType = .default
 		returnKeyType = .done
 		autocapitalizationType = .words
 		tintColor = .white

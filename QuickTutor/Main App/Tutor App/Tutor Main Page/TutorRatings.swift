@@ -185,7 +185,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
         case 5:
 			
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-            
+            cell.datasource = tutor.reviews
             cell.backgroundColor = Colors.registrationDark
             
 //            cell.reviewLabel.snp.updateConstraints { (make) in

@@ -225,6 +225,7 @@ class Verification : BaseViewController {
 			navigationController!.popViewController(animated: false)
 		} else if (touchStartView == contentView.nextButton){
 			createCredential(verificationCode)
+			contentView.nextButton.isUserInteractionEnabled = false
 		} else if (touchStartView == contentView.resendVCButton){
             resendVCAction()
         }
@@ -236,8 +237,10 @@ class Verification : BaseViewController {
     }
 	
     private func createCredential(_ verificationCode: String) {
-        let verificationId = UserDefaults.standard.value(forKey: Constants.VRFCTN_ID)
-        let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId! as! String, verificationCode: verificationCode)
+		
+		let verificationId = UserDefaults.standard.value(forKey: Constants.VRFCTN_ID)
+		
+		let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId! as! String, verificationCode: verificationCode)
         
         signInRegisterWithCredential(credential)
     }
@@ -247,6 +250,7 @@ class Verification : BaseViewController {
             if let error = error {
                 print("Error", error.localizedDescription)
                 self.contentView.vcDigit6.textField.isEnabled = true
+				self.contentView.nextButton.isUserInteractionEnabled = true
             } else {
                 self.view.endEditing(true)
                 self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in

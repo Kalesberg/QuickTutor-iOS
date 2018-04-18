@@ -64,7 +64,13 @@ class LearnerFilters: BaseViewController {
     override func loadView() {
         view = LearnerFiltersView()
     }
-    
+	
+	var price : Int = 5
+	var distance : Int = 5
+	var video : Bool = false
+	
+	var delegate : ApplyLearnerFilters?
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,9 +83,11 @@ class LearnerFilters: BaseViewController {
     
     @objc
     private func rateSliderValueDidChange(_ sender: UISlider!) {
-        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
+		
+		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
         
         cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
+		price = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
     }
     
     @objc
@@ -90,7 +98,17 @@ class LearnerFilters: BaseViewController {
         if(value % 5 == 0) {
             cell.valueLabel.text = String(value) + " mi"
         }
+		distance = value
     }
+	override func handleNavigation() {
+		if touchStartView is NavbarButtonX {
+			
+			self.delegate?.filters = (self.distance, self.price, self.video)
+			self.delegate?.applyFilters()
+
+			self.dismiss(animated: true, completion: nil)
+		}
+	}
 }
 
 
@@ -177,11 +195,7 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
             
             cell.slider.addTarget(self, action: #selector(rateSliderValueDidChange), for: .valueChanged)
             cell.slider.minimumTrackTintColor = Colors.learnerPurple
-            
-            //set users current value to slider.value and valueLabel.text
-            //cell.slider.value = CGFloat(user.rate)
-            //cell.valueLabel.text = "$" + user.rate
-            
+			
             cell.slider.minimumValue = 5
             cell.slider.maximumValue = 100
             
@@ -198,10 +212,7 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
             
             cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
             cell.slider.minimumTrackTintColor = Colors.learnerPurple
-            
-//            cell.slider.value = CGFloat(user.distance)
-//            cell.valueLabel.text = user.distance + " mi"
-            
+			
             cell.slider.minimumValue = 5
             cell.slider.maximumValue = 150
             

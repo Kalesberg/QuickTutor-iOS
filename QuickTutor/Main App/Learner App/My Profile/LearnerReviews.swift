@@ -15,28 +15,43 @@ struct Review {
 	let rating : String!
 }
 
-class LearnerReviewsView : MainLayoutTitleBackButton {
+class LearnerReviewsView : MainLayoutTitleOneButton {
 	
-	var tableView = UITableView()
-	fileprivate var subtitleLabel 	= LeftTextLabel()
-	
-    override func configureView() {
-		addSubview(tableView)
-		addSubview(subtitleLabel)
-        super.configureView()
-        
-        title.label.text = "Reviews"
-		
-		subtitleLabel.label.text = "22 Reviews"
-		subtitleLabel.label.textAlignment = .left
-		subtitleLabel.label.font = Fonts.createBoldSize(20)
+	let tableView  : UITableView = {
+		let tableView = UITableView()
 		
 		tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 80
 		tableView.isScrollEnabled = true
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
-		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		tableView.backgroundColor = Colors.backgroundDark
+		
+		return tableView
+	}()
+	
+	var backButton = NavbarButtonX()
+	
+	override var leftButton : NavbarButton {
+		get {
+			return backButton
+		} set {
+			backButton = newValue as! NavbarButtonX
+		}
+	}
+	
+	fileprivate var subtitleLabel = LeftTextLabel()
+	
+    override func configureView() {
+		addSubview(tableView)
+		addSubview(subtitleLabel)
+        super.configureView()
+		
+        title.label.text = "Reviews"
+		
+		subtitleLabel.label.textAlignment = .left
+		subtitleLabel.label.font = Fonts.createBoldSize(20)
+		
 		
 		applyConstraints()
     }
@@ -69,6 +84,7 @@ class LearnerReviews : BaseViewController {
 
 	var datasource : [TutorReview]? {
 		didSet {
+			contentView.subtitleLabel.label.text = "Reviews \((datasource?.count ?? 0))"
 			contentView.tableView.reloadData()
 		}
 	}
@@ -92,6 +108,9 @@ class LearnerReviews : BaseViewController {
     }
     
     override func handleNavigation() {
+		if touchStartView is NavbarButtonX {
+			self.dismiss(animated: true, completion: nil)
+		}
     }
 }
 
@@ -109,6 +128,10 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
 		
 		let data = datasource?[indexPath.row]
+		
+		//i dont know why?!?!?!
+		cell.selectionStyle = .none
+		cell.backgroundColor = .clear
 		
 		cell.nameLabel.text = data?.studentName ?? ""
 		cell.reviewTextLabel.text = data?.message ?? ""

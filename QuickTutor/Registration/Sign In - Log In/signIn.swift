@@ -11,7 +11,6 @@ import FirebaseAuth
 import FBSDKLoginKit
 import SnapKit
 
-
 class SignInView: RegistrationGradientView, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
@@ -324,9 +323,11 @@ class SignIn: BaseViewController {
 			contentView.nextButton.isUserInteractionEnabled = true
 			
 		} else if(touchStartView is RegistrationBackButton) {
+			
 			contentView.backButton.isUserInteractionEnabled = false
 			contentView.nextButton.isUserInteractionEnabled = false
 			contentView.phoneTextField.textField.isEnabled = false
+			
 			contentView.backButton.fadeOut(withDuration: 0.2)
 			contentView.nextButton.fadeOut(withDuration: 0.2)
 			
@@ -356,6 +357,9 @@ class SignIn: BaseViewController {
 			})
 		} else if (touchStartView is RegistrationNextButton) {
 			signIn()
+			contentView.nextButton.isUserInteractionEnabled = false
+		} else if touchStartView is FacebookButton {
+			facebookSignIn()
 		}
 	}
 	
@@ -370,17 +374,19 @@ class SignIn: BaseViewController {
 		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { (verificationId, error) in
 			if let error = error {
 				print("Error:", error.localizedDescription)
-				//self.contentView.nextButton.isUserInteractionEnabled = true
+				self.contentView.nextButton.isUserInteractionEnabled = true
 			} else {
 				
 				UserDefaults.standard.set(verificationId, forKey: Constants.VRFCTN_ID)
 				Registration.phone = phoneNumber.cleanPhoneNumber()
+				
 				self.navigationController?.pushViewController(Verification(), animated: true)
 			}
 		}
 	}
 	
 	private func facebookSignIn () {
+		print("facebook")
 		fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
 			if let error = error {
 				print("Failed to login: \(error.localizedDescription)")
@@ -390,6 +396,7 @@ class SignIn: BaseViewController {
 				print("Failed to get access token")
 				return
 			}
+			
 			let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
 			
 			// Perform login by calling Firebase APIs

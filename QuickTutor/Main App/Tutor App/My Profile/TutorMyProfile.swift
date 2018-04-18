@@ -140,6 +140,7 @@ class TutorMyProfile : BaseViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		contentView.tableView.reloadData()
+		contentView.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
 	}
 	
     private func configureScrollView() {
@@ -293,23 +294,12 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			let policies = tutor.policy.split(separator: "_")
 			
 			let cancelNotice = policies[2]
-			var tutorPref : String!
-			
-			if tutor.preference == 3 {
-				tutorPref = " - Will tutor Online or In-Person\n\n"
-			} else if tutor.preference == 2 {
-				tutorPref = " - Will tutor In-Person\n\n"
-			} else if tutor.preference == 1 {
-				tutorPref = " - Will tutor Online \n\n"
-			} else {
-				tutorPref = " - Currently unavailable\n\n"
-			}
 			
 			let formattedString = NSMutableAttributedString()
 			
 			formattedString
 				.regular(" - Will travel up to \(tutor.distance!) miles\n\n", 14, .white)
-				.regular(tutorPref, 14, .white)
+				.regular(tutor.preference.preferenceNormalization(), 14, .white)
 				.regular(" - Cancellations: \(cancelNotice) Hour Notice\n\n", 14, .white)
 				//not sure how were storing these yet
 				.regular("      Late Fee: $15.00\n", 13, Colors.qtRed)

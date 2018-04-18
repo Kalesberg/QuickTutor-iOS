@@ -85,6 +85,8 @@ class TutorEditProfile : BaseViewController {
 		}
 	}
 	
+	var automaticScroll = false
+
 	override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -158,7 +160,10 @@ class TutorEditProfile : BaseViewController {
 			if let error = error {
 				print(error)
 			} else {
-				print("success.")
+				TutorData.shared.distance = self.distance
+				TutorData.shared.name = self.firstName + " " + self.lastName
+				TutorData.shared.price = self.price
+				TutorData.shared.preference = self.preference
 			}
 		}
 	}
@@ -492,5 +497,17 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 	
 	func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
 		dismiss(animated: true, completion: nil)
+	}
+}
+
+extension TutorEditProfile : UIScrollViewDelegate {
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		if !automaticScroll {
+			self.view.endEditing(true)
+		}
+	}
+	
+	func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+		automaticScroll = false
 	}
 }
