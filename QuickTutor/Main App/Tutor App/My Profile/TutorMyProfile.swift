@@ -94,9 +94,9 @@ class TutorMyProfile : BaseViewController {
     let horizontalScrollView = UIScrollView()
     var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
     var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
-	
-	let tutor = TutorData.shared
-	
+    
+    let tutor = TutorData.shared
+    
     var pageCount : Int {
         var count = 0
         tutor.images.forEach { (_,value) in
@@ -110,14 +110,14 @@ class TutorMyProfile : BaseViewController {
     override func viewDidLoad() {
         contentView.addSubview(horizontalScrollView)
         super.viewDidLoad()
-		
-		horizontalScrollView.delegate = self
+        
+        horizontalScrollView.delegate = self
     
         pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
         
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-		
+        
         contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
         contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         contentView.tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
@@ -125,26 +125,27 @@ class TutorMyProfile : BaseViewController {
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
         contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
     }
-	
-	override func loadView() {
+    
+    override func loadView() {
         view = TutorMyProfileView()
     }
-	
-	override func viewDidAppear(_ animated: Bool) {
+    
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         configureScrollView()
         configurePageControl()
         setUpImages()
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		contentView.tableView.reloadData()
-	}
-	
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        contentView.tableView.reloadData()
+        contentView.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
+    }
+    
     private func configureScrollView() {
-		
+        
         horizontalScrollView.isUserInteractionEnabled = false
         horizontalScrollView.isHidden = true
         horizontalScrollView.isPagingEnabled = true
@@ -157,14 +158,14 @@ class TutorMyProfile : BaseViewController {
             make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
         }
         contentView.layoutIfNeeded()
-		
+        
         horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
     }
-	
+    
     private func configurePageControl() {
-		
-		// The total number of pages that are available is based on how many available colors we have.
-		pageControl.numberOfPages = pageCount
+        
+        // The total number of pages that are available is based on how many available colors we have.
+        pageControl.numberOfPages = pageCount
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .white
         pageControl.currentPageIndicatorTintColor = Colors.learnerPurple
@@ -195,10 +196,10 @@ class TutorMyProfile : BaseViewController {
     }
     
     private func setImage(_ number: Int, _ count: Int) {
-		
-		let imageView = UIImageView()
-		
-		imageView.image = LocalImageCache.localImageManager.getImage(number: String(number))
+        
+        let imageView = UIImageView()
+        
+        imageView.image = LocalImageCache.localImageManager.getImage(number: String(number))
         imageView.scaleImage()
         
         self.horizontalScrollView.addSubview(imageView)
@@ -225,7 +226,7 @@ class TutorMyProfile : BaseViewController {
             horizontalScrollView.isUserInteractionEnabled = false
             horizontalScrollView.isHidden = true
             contentView.leftButton.isHidden = false
-		}
+        }
     }
 }
 
@@ -258,13 +259,13 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch (indexPath.row) {
-			
+            
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
             
-			//cell.locationLabel.text = tutor.region
-			
-			return cell
+            //cell.locationLabel.text = tutor.region
+            
+            return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
             
@@ -323,10 +324,10 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-			//cell.datasource = tutor.subjects
+            //cell.datasource = tutor.subjects
             return cell
-			
-		case 4:
+            
+        case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
 
 //            if tutor.reviews.count <= 2 {
@@ -334,40 +335,29 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 //            } else {
 //                cell.datasource = Array(tutor.reviews[0..<2])
 //            }
-			
-			return cell
-			
+            
+            return cell
+            
         case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
-		
-//            let policies = tutor.policy.split(separator: "_")
-//            
-//            let cancelNotice = policies[2]
-//            var tutorPref : String!
-//            
-//            if tutor.preference == 3 {
-//                tutorPref = " - Will tutor Online or In-Person\n\n"
-//            } else if tutor.preference == 2 {
-//                tutorPref = " - Will tutor In-Person\n\n"
-//            } else if tutor.preference == 1 {
-//                tutorPref = " - Will tutor Online \n\n"
-//            } else {
-//                tutorPref = " - Currently unavailable\n\n"
-//            }
-//            
-//            let formattedString = NSMutableAttributedString()
-//            
-//            formattedString
-//                .regular(" - Will travel up to \(tutor.distance!) miles\n\n", 14, .white)
-//                .regular(tutorPref, 14, .white)
-//                .regular(" - Cancellations: \(cancelNotice) Hour Notice\n\n", 14, .white)
-//                //not sure how were storing these yet
-//                .regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
-//                .regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
-//            
-//            cell.policiesLabel.attributedText = formattedString
+        
+            let policies = tutor.policy.split(separator: "_")
+            
+            let cancelNotice = policies[2]
+            
+            let formattedString = NSMutableAttributedString()
+            
+            formattedString
+                .regular(" - Will travel up to \(tutor.distance!) miles\n\n", 14, .white)
+                .regular(tutor.preference.preferenceNormalization(), 14, .white)
+                .regular(" - Cancellations: \(cancelNotice) Hour Notice\n\n", 14, .white)
+                //not sure how were storing these yet
+                .regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
+                .regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
+            
+            cell.policiesLabel.attributedText = formattedString
 
-			return cell
+            return cell
         default:
             break
         }

@@ -57,6 +57,8 @@ struct FeaturedTutor {
 	var topSubject : String!
 	var bio : String!
 	
+	var preference : Int!
+	var distance : Int!
 	var hours : Int!
 	var price : Int!
 	
@@ -68,6 +70,9 @@ struct FeaturedTutor {
 	var imageUrls : [String : String]!
 	
 	var token 	  : String!
+	
+	var reviews : [TutorReview]?
+	var subjects : [String]!
 	
 }
 
@@ -96,11 +101,109 @@ class QueryData {
 				for snap in snapshot.children {
 					
 					group.enter()
-					
+
 					let child = snap as! DataSnapshot
 					
-					self.loadTutorData(userId: child.key, { (tutor) in
-						if let tutor = tutor {
+					self.ref?.child("tutor-info").child(child.key).observeSingleEvent(of: .value, with: { (snapshot) in
+						
+						var valid : Bool = true
+						
+						var tutor = FeaturedTutor.shared
+						
+						if let value = snapshot.value as? [String : AnyObject] {
+							
+							tutor.uid = child.key
+							
+							if let name = value["nm"] as? String {
+								tutor.name = name
+							} else {
+								print("name")
+								
+								valid = false
+							}
+							
+							if let region = value["rg"] as? String {
+								tutor.region = region
+							} else {
+								print("region")
+								
+								valid = false
+							}
+							if let school = value["sch"] as? String {
+								tutor.school = school
+							} else {
+								print("school")
+								
+								valid = false
+							}
+							if let imageURLs = value["img"] as? [String : String] {
+								tutor.imageUrls = imageURLs
+							} else {
+								valid = false
+							}
+							if let language = value["lng"] as? [String] {
+								tutor.language = language
+							} else {
+								print("languge")
+								
+								valid = false
+							}
+							if let bio = value["bio"] as? String{
+								tutor.bio = bio
+							} else {
+								print("bio")
+								
+								valid = false
+							}
+							if let distance = value["dst"] as? Int {
+								tutor.distance = distance
+							} else {
+								print("distance")
+								
+								valid = false
+							}
+							if let preference = value["prf"] as? Int {
+								tutor.preference = preference
+							} else {
+								print("preference")
+								
+								valid = false
+							}
+							if let hours = value["hr"] as? Int{
+								tutor.hours = hours
+							} else {
+								print("hr")
+								
+								valid = false
+							}
+							if let rating = value["r"] as? Double{
+								tutor.rating = rating
+							} else {
+								print("r")
+								
+								valid = false
+							}
+							if let numSessions = value["nos"] as? Int{
+								tutor.numSessions = numSessions
+							} else {
+								print("nos")
+								
+								valid = false
+							}
+							if let price = value["p"] as? Int{
+								tutor.price = price
+							} else {
+								print("p")
+								valid = false
+							}
+							if let topSubject = value["tp"] as? String {
+								tutor.topSubject = topSubject
+							} else {
+								valid = false
+							}
+						}
+						
+						if valid {
 							feature[category]!.append(tutor)
 						}
 						group.leave()
@@ -108,7 +211,6 @@ class QueryData {
 				}
 				group.leave()
 			}
-			
 		}
 		group.notify(queue: .main) {
 			completion(feature)
@@ -143,12 +245,12 @@ class QueryData {
 	func queryBySubject(subcategory: String, subject: String, _ completion: @escaping ([FeaturedTutor]?) -> Void) {
 		
 		var tutors = [TutorSubjectSearch]()
+		
 		var sortedTutors = [FeaturedTutor]()
 		
 		let group = DispatchGroup()
 		
-		
-		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "p").queryStarting(atValue: 25 - 10).queryEnding(atValue: 25 + 10).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
+		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "p").queryStarting(atValue: 10).queryEnding(atValue: 255 + 10).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
 			
 			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
 				
@@ -171,21 +273,24 @@ class QueryData {
 					}
 					
 					tutors.append(TutorSubjectSearch(userId: userid, rating: rating, price: price, subjects: subjects, hours: hours, distancePreference: distancePreference, numSessions: numSessions))
-					
-					//sort some sort of fitness based on value that comes from rating -> price -> numSessions
 				}
-				for user in tutors {
-					
+				
+				for tutor in tutors {
+
 					group.enter()
 					
-					self.loadTutorData(userId: user.userId, { (tutor) in
+					self.loadTutorData(userId: tutor.userId, { (tutor) in
+						
 						if let tutor = tutor {
+							
 							sortedTutors.append(tutor)
+							
 						}
 						group.leave()
 					})
 				}
 				group.notify(queue: .main, execute: {
+					
 					completion(sortedTutors)
 				})
 			} else {
@@ -212,11 +317,11 @@ class QueryData {
 					if let tutor = tutor {
 						tutors.append(tutor)
 					}
-					
 					group.leave()
 				})
 			}
 			group.notify(queue: .main) {
+				
 				completion(tutors)
 			}
 		}
@@ -256,9 +361,7 @@ extension QueryData {
 				if let school = value["sch"] as? String {
 					tutor.school = school
 				} else {
-					print("school")
 					
-					valid = false
 				}
 				if let imageURLs = value["img"] as? [String : String] {
 					tutor.imageUrls = imageURLs
@@ -268,9 +371,7 @@ extension QueryData {
 				if let language = value["lng"] as? [String] {
 					tutor.language = language
 				} else {
-					print("languge")
 					
-					valid = false
 				}
 				if let bio = value["bio"] as? String{
 					tutor.bio = bio
@@ -300,6 +401,20 @@ extension QueryData {
 					
 					valid = false
 				}
+				if let distance = value["dst"] as? Int {
+					tutor.distance = distance
+				} else {
+					print("distance")
+					
+					valid = false
+				}
+				if let preference = value["prf"] as? Int {
+					tutor.preference = preference
+				} else {
+					print("preference")
+					
+					valid = false
+				}
 				if let price = value["p"] as? Int{
 					tutor.price = price
 				} else {
@@ -314,7 +429,41 @@ extension QueryData {
 			}
 			
 			if valid {
-				completion(tutor)
+				let group = DispatchGroup()
+				
+				group.enter()
+				
+				self.loadSubjects(uid: tutor.uid, { (subcategory) in
+					var subjects : [String] = []
+					
+					if let subcategory = subcategory {
+						
+						for subject in subcategory {
+							
+							let this = subject.subjects.split(separator: "$")
+							
+							for i in this {
+								subjects.append(String(i))
+	
+							}
+						}
+						tutor.subjects = subjects
+					}
+					group.leave()
+				})
+				
+				group.enter()
+				self.loadReviews(uid: tutor.uid, { (reviews) in
+					if let reviews = reviews {
+						tutor.reviews = reviews
+					}
+					group.leave()
+				})
+				
+				group.notify(queue: .main, execute: {
+					completion(tutor)
+				})
+			
 			} else {
 				completion(nil)
 			}

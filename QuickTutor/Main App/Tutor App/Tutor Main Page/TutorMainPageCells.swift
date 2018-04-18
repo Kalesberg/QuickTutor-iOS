@@ -94,20 +94,6 @@ class TutorMainPageSummaryCell : BaseTableViewCell {
     let infoLabel1 : UILabel = {
         let label = UILabel()
         
-        let formattedString = NSMutableAttributedString()
-        formattedString
-            .bold("123\n", 16, .white)
-            .regular("Sessions", 15, Colors.grayText)
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 6
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
-        
-        label.attributedText = formattedString
-        
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        
         return label
     }()
     

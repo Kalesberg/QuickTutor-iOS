@@ -68,6 +68,19 @@ extension String {
 		let fullNameTest = NSPredicate(format:"SELF MATCHES %@", fullNameRegex)
 		return fullNameTest.evaluate(with: self)
 	}
+	
+	func policyNormailzation() {
+		
+		let policy = self.split(separator: "_")
+		
+		let latePolicy = policy[0]
+		let lateFee = policy[1]
+		let cancelNotice = policy[2]
+		let cancelFee = policy[3]
+		
+	}
+	
+	
 }
 
 extension MutableCollection {

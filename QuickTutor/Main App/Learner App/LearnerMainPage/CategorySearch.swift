@@ -136,19 +136,22 @@ class CategorySearch: BaseViewController {
 
 		contentView.searchBar.delegate = self
 	}
+	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		contentView.searchBar.resignFirstResponder()
 	}
+	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		
 		contentView.collectionView.reloadData()
 	}
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
+	
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonBack {
 			self.dismiss(animated: true, completion: nil)

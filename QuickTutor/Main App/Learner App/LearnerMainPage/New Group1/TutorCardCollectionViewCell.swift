@@ -68,10 +68,15 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 		tableView.backgroundColor = .clear
 		tableView.delaysContentTouches = false
         tableView.allowsSelection = false
-		
 		return tableView
 	}()
 	
+	var datasource : FeaturedTutor? {
+		didSet{
+			tableView.reloadData()
+		}
+	}
+
 	func configureCollectionViewCell() {
 		addSubview(header)
         addSubview(tableViewContainer)
@@ -198,73 +203,12 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         switch indexPath.item {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
+				cell.bioLabel.text = datasource?.bio
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
-            
-            //cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
-            //cell.speakItem.label.text = "Speaks: \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
-            //cell.studysItem.label.text = tutor.school!
-            
-            let locationItem : ProfileItem = {
-                let item = ProfileItem()
-                
-                item.imageView.image = #imageLiteral(resourceName: "location")
-                item.label.text = "Mount Pleasant, MI"
-                
-                return item
-            }()
-            
-            cell.contentView.addSubview(locationItem)
-            
-            locationItem.snp.makeConstraints { (make) in
-                make.left.equalToSuperview().inset(12)
-                make.right.equalToSuperview().inset(20)
-                make.height.equalTo(35)
-                make.top.equalToSuperview().inset(10)
-            }
-            
-            cell.tutorItem.snp.makeConstraints { (make) in
-                make.left.equalToSuperview().inset(12)
-                make.right.equalToSuperview().inset(20)
-                make.height.equalTo(35)
-                make.top.equalTo(locationItem.snp.bottom)
-                
-                //remove line below this once logic is implemented... the bottom will be set with the if below it
-                make.bottom.equalToSuperview().inset(10)
-                
-                //if speak and study is not set {
-                //   make.bottom.equalToSuperview().inset(10)
-                //}
-            }
-            
-            //if speak item is set {
-            //cell.addSubview(speakItem)
-            //            cell.speakItem.snp.makeConstraints { (make) in
-            //                make.left.equalToSuperview().inset(12)
-            //                make.right.equalToSuperview().inset(20)
-            //                make.height.equalTo(40)
-            //                make.top.equalTo(cell.tutorItem.snp.bottom)
-            //
-            //                if study is not set{
-            //                   make.bottom.equalToSuperview().inset(10)
-            //                }
-            //            }
-            //        }
-            //if study is set {
-            //cell.addSubview(studysItem)
-            //            cell.studysItem.snp.makeConstraints { (make) in
-            //                make.left.equalToSuperview().inset(12)
-            //                make.right.equalToSuperview().inset(20)
-            //                make.height.equalTo(40)
-            //                if speak is set {
-            //                  make.top.equalTo(cell.speakItem.snp.bottom)
-            //                } else {
-            //                  make.top.equalTo(cell.tutorItem.snp.bottom)
-            //       }
-            //                make.bottom.equalToSuperview().inset(10)
-            //            }
-            //        }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
+				cell.datasource = datasource?.subjects
+			
             return cell
             
         case 2:
@@ -273,10 +217,23 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
                 RatingTableViewCell
-            
+            	cell.datasource = datasource?.reviews
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
+			
+			let formattedString = NSMutableAttributedString()
+			
+			
+			formattedString
+				.regular(" - Will travel up to \(datasource!.distance!) miles\n\n", 14, .white)
+				.regular((datasource?.preference.preferenceNormalization())!, 14, .white)
+				.regular(" - Cancellations: \(5) Hour Notice\n\n", 14, .white)
+				.regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
+				.regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
+			
+			cell.policiesLabel.attributedText = formattedString
+			
             return cell
         default:
             return UITableViewCell()

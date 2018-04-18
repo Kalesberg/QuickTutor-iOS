@@ -201,15 +201,17 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.section == 0 {
+			
 			let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
 			
 			return cell
 			
 		} else {
+			
 			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
 			
 			cell.datasource = self.datasource[category[indexPath.section - 1]]
-			
+
 			return cell
 		}
 	}
@@ -221,7 +223,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = SectionHeader()
 		if section == 0 {
-			view.category.text = "Category"
+			view.category.text = "Categories"
 		} else {
 			view.category.text = category[section - 1].mainPageData.displayName
 		}

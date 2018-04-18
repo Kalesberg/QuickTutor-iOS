@@ -517,7 +517,7 @@ class SubjectsTableViewCell : UITableViewCell {
         return collectionView
     }()
 	
-	var datasource : [String] = [] {
+	var datasource : [String]? {
 		didSet {
 			subjectCollectionView.reloadData()
 		}
@@ -568,19 +568,19 @@ class SubjectsTableViewCell : UITableViewCell {
 extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return datasource.count
+        return datasource?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectSelectionCollectionViewCell", for: indexPath) as! SubjectSelectionCollectionViewCell
         
-        cell.label.text = datasource[indexPath.row]
+		cell.label.text = datasource?[indexPath.row]
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (datasource[indexPath.row] as NSString).size(withAttributes: nil).width + 35, height: 30)
+		return CGSize(width: (datasource![indexPath.row] as NSString).size(withAttributes: nil).width + 35, height: 30)
     }
 }
 
@@ -612,17 +612,18 @@ class RatingTableViewCell : BaseTableViewCell {
 		}
 	}
 	
-    override func configureView() {
+	override func configureView() {
 		contentView.addSubview(tableView)
         contentView.addSubview(seeAllButton)
 		
 		tableView.delegate = self
 		tableView.dataSource = self
 		tableView.register(TutorMyProfileReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
-		
+	
         backgroundColor = .clear
         selectionStyle = .none
-
+		
+		
 		applyConstraints()
     }
     
@@ -644,6 +645,13 @@ class RatingTableViewCell : BaseTableViewCell {
         }
     }
 	override func handleNavigation() {
+		if touchStartView is SeeAllButton {
+			if let current = UIApplication.getPresentedViewController() {
+				let next = LearnerReviews()
+				next.datasource = datasource
+				current.present(next, animated: true, completion: nil)
+			}
+		}
 	}
 }
 
@@ -677,12 +685,17 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 		return 10
 	}
 
+	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+		
+		cell.backgroundColor = .clear
+	}
+	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 	
 		let label = UILabel()
 		
 		label.font = Fonts.createBoldSize(18)
-		label.text = "Reviews (22)"
+		label.text = "Reviews \((datasource?.count ?? 0))"
         label.textColor = .white
 		
 		return label
@@ -751,8 +764,10 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
 		container.layer.borderWidth = 1.5
 		container.layer.borderColor = Colors.sidebarPurple.cgColor
 
-		backgroundColor = .clear
-		
+		contentView.backgroundColor = .clear
+
+		selectionStyle = .none
+
 	}
 	
 	override func applyConstraints() {
