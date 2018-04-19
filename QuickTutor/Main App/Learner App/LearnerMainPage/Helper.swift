@@ -321,44 +321,58 @@ enum Category {
         
         let displayName : String
         let image : UIImage
+        let categoryInfo : String
         
         switch self {
         case .academics:                displayName = "Academics"
         image = #imageLiteral(resourceName: "academics")
+        categoryInfo = "The classics. Whether you’re a master of mechanical engineering or a math wiz — we have a subject you can tutor. These are the core subjects that have been around since the beginning of time."
             
         case .arts:                        displayName = "The Arts"
         image = #imageLiteral(resourceName: "arts")
+        categoryInfo = "Does the renaissance sing out of your soul? Whether your a dancer, singer or poet — you now have the ability to tutor others in poetry, drama, painting or phantom of the opera — this is where we get the creative juices flowin’."
+            
         case .auto:                     displayName = "Auto"
         image = #imageLiteral(resourceName: "auto")
+        categoryInfo = "Interested in teaching others a thing or two about being a gear-head? Are you a skilled repairman or designer? In this category you’ll be able to teach others anything about auto or just make some side cash fixing stuff! "
             
         case .business:                    displayName = "Business"
         image = #imageLiteral(resourceName: "business")
+        categoryInfo = "Are you an entrepreneur, lawyer, accountant, marketer, or economist? Maybe the neighborhood excel expert? Lets talk business. "
             
         case .experiences:                displayName = "Experiences"
         image = #imageLiteral(resourceName: "experiences")
+        categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Experiences is where all can tutor the things that warm our hearts and drive our souls."
             
         case .health:                    displayName = "Health"
         image = #imageLiteral(resourceName: "health")
+        categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any subject in our health & wellness category."
             
         case .language:                    displayName = "Language"
         image = #imageLiteral(resourceName: "languages")
+        categoryInfo = "Run a tutoring business teaching others your native language or even a language you’ve adopted! Nearly every language in existence — available to tutor with just the tap of a button."
             
         case .outdoors:                 displayName = "Outdoors"
         image = #imageLiteral(resourceName: "outdoors")
+        categoryInfo = "Tutors, it’s time to take your learners outside of the classroom and office. Are you a survivalist? Expert in your neck of the woods? Dad of the year? If so, this is the category for you. "
             
         case .remedial:                 displayName = "Remedial"
         image = #imageLiteral(resourceName: "remedial")
+        categoryInfo = "QuickTutor is for everyone. Remedial is provided and intended for learners who experience difficulties."
             
         case .sports:                     displayName = "Sports"
         image = #imageLiteral(resourceName: "sports")
+        categoryInfo = "Snowboarding, football, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
             
         case .tech:                        displayName = "Tech"
         image = #imageLiteral(resourceName: "tech")
+        categoryInfo = "Programmers, engineers, gamers, and the creators of the future, come all — here’s where you can share your passion and knowledge with those in need. "
             
         case .trades:                    displayName = "Trades"
         image = #imageLiteral(resourceName: "trades")
+        categoryInfo = "Time to become a hands-on tutor in construction, industrial, motive-power, services, home, or anything! Turn your everyday skills into a tutoring business."
         }
-        return MainPageData(displayName: displayName, image: image)
+        return MainPageData(displayName: displayName, image: image, categoryInfo: categoryInfo)
     }
     static func category(for string: String) -> Category? {
         
@@ -399,6 +413,7 @@ extension Category {
     struct MainPageData {
         let displayName : String
         let image : UIImage
+        let categoryInfo : String
     }
     
     struct Subcategory {

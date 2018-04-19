@@ -314,6 +314,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
+            
             guard let policy = TutorData.shared.policy else { return UITableViewCell() }
             
             let policies = policy.split(separator: "_")
@@ -327,6 +328,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 .regular("      Late Fee: $\(policies[1])).00\n", 13, Colors.qtRed)
                 .regular("      Cancellation Fee: $\(policies[3]).00", 13, Colors.qtRed)
             
+            cell.policiesLabel.attributedText = formattedString
             
             return cell
         default:

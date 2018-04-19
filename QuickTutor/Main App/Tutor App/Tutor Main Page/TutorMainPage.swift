@@ -574,8 +574,18 @@ class TutorMainPage : MainPage {
         contentView.sidebar.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
     }
     override func updateSideBar() {
-        contentView.sidebar.profileView.profileNameView.text = user.name!
-       // contentView.sidebar.profileView.profileSchoolView.label.text = user.school
+        let formattedString = NSMutableAttributedString()
+        
+        if let school = user.school {
+            formattedString
+                .bold(user.name + "\n", 17, .white)
+                .regular(school, 14, Colors.grayText)
+        } else {
+            formattedString
+                .bold(user.name, 17, .white)
+        }
+        
+        contentView.sidebar.profileView.profileNameView.attributedText = formattedString
         contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
     }
     override func handleNavigation() {
@@ -622,6 +632,8 @@ class TutorMainPage : MainPage {
             navigationController?.pushViewController(TutorEarnings(), animated: true)
         } else if (touchStartView == contentView.improveItem) {
             navigationController?.pushViewController(TutorMainTips(), animated: true)
+        } else if (touchStartView == contentView.viewTrendingButton) {
+            navigationController?.pushViewController(TrendingCategories(), animated: true)
         } else if (touchStartView == contentView.usernameItem) {
             contentView.backgroundView.alpha = 0.65
             contentView.xButton.isHidden = false
