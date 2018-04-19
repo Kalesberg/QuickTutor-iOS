@@ -65,13 +65,13 @@ class TutorMyProfileView : MainLayoutTitleBackTwoButton {
     override func applyConstraints() {
         super.applyConstraints()
         
-        tableView.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalTo(safeAreaLayoutGuide)
-        }
-        
+//        tableView.snp.makeConstraints { (make) in
+//            make.width.equalToSuperview()
+//            make.centerX.equalToSuperview()
+////            make.top.equalTo(navbar.snp.bottom)
+//            make.bottom.equalTo(safeAreaLayoutGuide)
+//        }
+		
         backgroundView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }

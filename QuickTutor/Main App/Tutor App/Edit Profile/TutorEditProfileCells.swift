@@ -84,6 +84,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 			imageToChange = 4
 		}
 	}
+	
 }
 
 class EditProfileItemTableViewCell : BaseTableViewCell {
@@ -246,7 +247,6 @@ class EditProfilePolicyTableViewCell : EditProfileDotItemTableViewCell {
         }
     }
 }
-
 
 class EditProfileHeaderTableViewCell : BaseTableViewCell {
     
@@ -415,6 +415,7 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
     }
 }
 
+
 class EditProfileCheckboxTableViewCell : BaseTableViewCell {
     
     let label : UILabel = {
@@ -425,8 +426,12 @@ class EditProfileCheckboxTableViewCell : BaseTableViewCell {
         
         return label
     }()
-    
-	let checkbox = RegistrationCheckbox()
+	
+	var checkbox = RegistrationCheckbox() {
+		didSet {
+			print("changed")
+		}
+	}
     
     override func configureView() {
         addSubview(label)
@@ -453,6 +458,99 @@ class EditProfileCheckboxTableViewCell : BaseTableViewCell {
             make.width.equalTo(40)
         }
     }
+}
 
+class EditProfileVideoCheckboxTableViewCell : BaseTableViewCell {
+	
+	let label : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createSize(15)
+		label.textColor = .white
+		
+		return label
+	}()
+	
+	var delegate : TutorPreferenceChange?
+	
+	let checkbox = RegistrationCheckbox()
+	
+	override func configureView() {
+		addSubview(label)
+		contentView.addSubview(checkbox)
+		super.configureView()
+		
+		selectionStyle = .none
+		backgroundColor = .clear
+		
+		applyConstraints()
+	}
+	
+	override func applyConstraints() {
+		label.snp.makeConstraints { (make) in
+			make.left.equalToSuperview()
+			make.height.equalToSuperview()
+			make.centerY.equalToSuperview()
+		}
+		
+		checkbox.snp.makeConstraints { (make) in
+			make.right.equalToSuperview()
+			make.height.equalToSuperview()
+			make.centerY.equalToSuperview()
+			make.width.equalTo(40)
+		}
+	}
+	override func handleNavigation() {
+		if touchStartView is RegistrationCheckbox {
+			delegate?.inVideoPressed()
+		}
+	}
+}
+class EditProfilePersonCheckboxTableViewCell : BaseTableViewCell {
+	
+	let label : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createSize(15)
+		label.textColor = .white
+		
+		return label
+	}()
+	
+	var delegate : TutorPreferenceChange?
+	
+	let checkbox = RegistrationCheckbox()
+	
+	override func configureView() {
+		addSubview(label)
+		contentView.addSubview(checkbox)
+		super.configureView()
+		
+		selectionStyle = .none
+		backgroundColor = .clear
+		
+		applyConstraints()
+	}
+	
+	override func applyConstraints() {
+		label.snp.makeConstraints { (make) in
+			make.left.equalToSuperview()
+			make.height.equalToSuperview()
+			make.centerY.equalToSuperview()
+		}
+		
+		checkbox.snp.makeConstraints { (make) in
+			make.right.equalToSuperview()
+			make.height.equalToSuperview()
+			make.centerY.equalToSuperview()
+			make.width.equalTo(40)
+		}
+	}
+	override func handleNavigation() {
+		if touchStartView is RegistrationCheckbox {
+			delegate?.inPersonPressed()
+			print("why...")
+		}
+	}
 }
 

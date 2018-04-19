@@ -1,27 +1,16 @@
 //
-//  TutorAddSubjects.swift
+//  EditTutorSubjects.swift
 //  QuickTutor
 //
-//  Created by QuickTutor on 3/14/18.
+//  Created by QuickTutor on 4/18/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
-/*
-	Tutors must pick a subcategory before being allowed to search
-	There should probably be a 'Done' button top right and not a next button on this frame.
- 	need a title that can disappear and come back
-	This could probably be in a tableview, but i wanted to know how the icons looked at their sizes before committing to a change like that.
-	I feel like the size of those icons will change alot about this page.
-*/
 
 import Foundation
 import UIKit
+import Firebase
 
-struct Selected {
-	let path : String
-	let subject : String
-}
-
-class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
+class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
 	
@@ -101,7 +90,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		collectionView.backgroundColor = .clear
 		collectionView.showsVerticalScrollIndicator = false
 		collectionView.showsHorizontalScrollIndicator = false
-
+		
 		collectionView.tag = 1
 		
 		return collectionView
@@ -122,9 +111,9 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return tblView
 	}()
 	
-    var backButton = NavbarButtonX()
-    var doneButton = NavbarButtonDone()
-    
+	var backButton = NavbarButtonX()
+	var saveButton = NavbarButtonSave()
+	
 	override var leftButton : NavbarButton {
 		get {
 			return backButton
@@ -132,14 +121,14 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 			backButton = newValue as! NavbarButtonX
 		}
 	}
-    
-    override var rightButton : NavbarButton {
-        get {
-            return doneButton
-        } set {
-            doneButton = newValue as! NavbarButtonDone
-        }
-    }
+	
+	override var rightButton : NavbarButton {
+		get {
+			return saveButton
+		} set {
+			saveButton = newValue as! NavbarButtonSave
+		}
+	}
 	
 	override func configureView() {
 		addSubview(noSelectedItemsLabel)
@@ -150,12 +139,12 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		navbar.addSubview(searchBar)
 		addSubview(keyboardView)
 		super.configureView()
-	
-        backButton.image.image = #imageLiteral(resourceName: "backButton")
-        
+		
+		backButton.image.image = #imageLiteral(resourceName: "backButton")
+		
 		headerView.backgroundColor = Colors.backgroundDark
 		collectionView.collectionViewLayout = customLayout
-
+		
 		applyConstraints()
 	}
 	
@@ -165,7 +154,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 			make.left.equalTo(backButton.snp.right)
 			make.right.equalTo(rightButton.snp.left)
 			make.height.equalToSuperview()
-            make.centerY.equalTo(backButton.image)
+			make.centerY.equalTo(backButton.image)
 		}
 		noSelectedItemsLabel.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-10)
@@ -206,14 +195,16 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 }
 
 
-class TutorAddSubjects : BaseViewController {
+class EditTutorSubjects : BaseViewController {
 	
-	override var contentView: TutorAddSubjectsView {
-		return view as! TutorAddSubjectsView
+	override var contentView: EditTutorSubjectsView {
+		return view as! EditTutorSubjectsView
 	}
 	override func loadView() {
-		view = TutorAddSubjectsView()
+		view = EditTutorSubjectsView()
 	}
+	
+	let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	
 	var shouldUpdateSearchResults = false
 	
@@ -242,8 +233,6 @@ class TutorAddSubjects : BaseViewController {
 	var subjects : [String] = []
 	
 	var filteredSubjects : [String] = []
-	
-	
 	
 	var tableViewIsActive : Bool = false {
 		didSet {
@@ -307,11 +296,14 @@ class TutorAddSubjects : BaseViewController {
 		contentView.searchBar.delegate = self
 		
 	}
-
-
+	
+	
 	private func tableView(shouldDisplay bool: Bool) {
+		
 		contentView.searchBar.text = ""
+		
 		tableViewIsActive = !tableViewIsActive
+		
 		UIView.animate(withDuration: 0.5, animations: {
 			self.contentView.collectionView.alpha = bool ? 0.0 : 1.0
 			return
@@ -333,7 +325,7 @@ class TutorAddSubjects : BaseViewController {
 		self.contentView.pickedCollectionView.performBatchUpdates({
 			
 			self.contentView.pickedCollectionView.deleteItems(at: [indexPath])
-		
+			
 		}) { (finished) in
 			
 			self.contentView.pickedCollectionView.reloadItems(at:
@@ -370,6 +362,98 @@ class TutorAddSubjects : BaseViewController {
 		// Dispose of any resources that can be recreated.
 	}
 	
+	private func deleteSubjects() {
+		
+		var currentSubs: [String] = []
+		var newSubs : [String] = []
+		var subcategoriesToDelete : [String] = []
+		
+		for i in TutorData.shared.selected {
+			currentSubs.append(i.path)
+		}
+		
+		for j in selected {
+			newSubs.append(j.path)
+		}
+		
+		for k in currentSubs.unique {
+			if !newSubs.contains(k) {
+				subcategoriesToDelete.append(k)
+			}
+		}
+		
+		for i in 0..<subcategoriesToDelete.count {
+			print("1")
+			self.ref.child("subcategory").child(subcategoriesToDelete[i]).child(Auth.auth().currentUser!.uid).removeValue()
+			self.ref.child("subject").child(Auth.auth().currentUser!.uid).child(subcategoriesToDelete[i]).removeValue()
+		}
+
+		TutorData.shared.subjects = self.selectedSubjects
+		TutorData.shared.selected = self.selected
+		
+	}
+	
+	private func saveSubjects() {
+		
+		var subcategories : [String] = []
+		var subjectDict = [String : [String]]()
+		var post : [String : Any] = [:]
+		
+		for i in selected {
+			subcategories.append(i.path)
+		}
+		
+		for subcategory in subcategories.unique {
+			
+			let path = subcategory
+			var arr : [String] = []
+			
+			for subject in selected {
+				if path == subject.path {
+					arr.append(subject.subject)
+				}
+			}
+			subjectDict[path] = arr
+		}
+		
+		var updateSubjectValues 	= [String : Any]()
+		var updateSubcategoryValues = [String : Any]()
+		
+		for key in subjectDict {
+			
+			let subjects = key.value.compactMap({$0}).joined(separator: "$")
+			
+			updateSubjectValues["/subject/\(Auth.auth().currentUser!.uid)/\(key.key.lowercased())"] = ["p": TutorData.shared.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
+			
+			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : TutorData.shared.price!, "dst" : TutorData.shared.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
+		}
+		
+		post.merge(updateSubjectValues) { (_, last) in last }
+		post.merge(updateSubcategoryValues) { (_, last) in last }
+		
+		ref.root.updateChildValues(post) { (error, databaseRef) in
+			if let error = error {
+				print(error.localizedDescription)
+			}
+			TutorData.shared.subjects = self.selectedSubjects
+			TutorData.shared.selected = self.selected
+			
+			self.displaySavedAlertController()
+		}
+	}
+	private func displaySavedAlertController() {
+		let alertController = UIAlertController(title: "Saved!", message: "Your changed have been saved", preferredStyle: .alert)
+		
+		self.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 1
+		DispatchQueue.main.asyncAfter(deadline: when){
+			alertController.dismiss(animated: true){
+				self.navigationController?.popViewController(animated: true)
+			}
+		}
+		
+	}
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX {
 			if tableViewIsActive {
@@ -383,20 +467,20 @@ class TutorAddSubjects : BaseViewController {
 				filteredSubjects = []
 				subIndex = nil
 				self.dismissKeyboard()
-			
+				
 			} else {
 				self.dismissKeyboard()
 				navigationController?.popViewController(animated: true)
 			}
-		
-		} else if touchStartView is NavbarButtonDone {
-			TutorRegistration.subjects = selected
-			navigationController?.pushViewController(TutorPreferences(), animated: true)
+			
+		} else if touchStartView is NavbarButtonSave {
+			deleteSubjects()
+			saveSubjects()
 		}
 	}
 }
 
-extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension EditTutorSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	
 	internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		if collectionView.tag == 0 {
@@ -421,7 +505,7 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
 			}
 		}
 	}
-
+	
 	internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		if collectionView.tag == 0 {
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionViewCell", for: indexPath) as! SubjectCollectionViewCell
@@ -441,11 +525,11 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
 			return cell
 		}
 	}
-
+	
 	internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		switch collectionView.tag {
 		case 0:
-
+			
 			shouldUpdateSearchResults = true
 			
 			SubjectStore.readSubcategory(resource: self.categories[selectedCategory].subcategory.fileToRead, subjectString: categories[selectedCategory].subcategory.subcategories[indexPath.item]) { (subjects) in
@@ -457,7 +541,7 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
 			subIndex = indexPath.item
 			contentView.headerView.category.text = self.categories[selectedCategory].subcategory.subcategories[subIndex!]
 			tableView(shouldDisplay: true)
-		
+			
 		case 1:
 			newCategorySelected(indexPath.item)
 			collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
@@ -481,7 +565,7 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
 	}
 }
 
-extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
+extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 	
 	internal func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
@@ -546,7 +630,7 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 		self.contentView.noSelectedItemsLabel.isHidden = true
 		
 		selectedSubjects.append(cell.subject.text!)
-
+		
 		SubjectStore.findSubCategory(resource: categories[selectedCategory].mainPageData.displayName.lowercased(), subject: cell.subject.text!) { (subcategory) in
 			self.selected.append(Selected(path: "\(subcategory)", subject: cell.subject.text!))
 		}
@@ -562,7 +646,7 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 }
 
-extension TutorAddSubjects : UISearchBarDelegate {
+extension EditTutorSubjects : UISearchBarDelegate {
 	
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		tableView(shouldDisplay: true)
@@ -573,7 +657,7 @@ extension TutorAddSubjects : UISearchBarDelegate {
 	
 	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		automaticScroll = true
-
+		
 		if searchText == "" {
 			scrollToTop()
 			filteredSubjects = subjects
@@ -591,7 +675,7 @@ extension TutorAddSubjects : UISearchBarDelegate {
 		}
 	}
 }
-extension TutorAddSubjects : UIScrollViewDelegate {
+extension EditTutorSubjects : UIScrollViewDelegate {
 	
 	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
 		if !automaticScroll {
@@ -605,5 +689,5 @@ extension TutorAddSubjects : UIScrollViewDelegate {
 		automaticScroll = false
 	}
 	
-
+	
 }

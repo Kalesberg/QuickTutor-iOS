@@ -95,20 +95,22 @@ class TutorSignIn {
 	private func getTutorSubjects(_ completion: @escaping ([String]?) -> Void) {
 		
 		QueryData.shared.loadSubjects(uid: user.uid) { (subcategory) in
-
+			
+			var selected : [Selected] = []
 			var subjects : [String] = []
 			
 			if let subcategory = subcategory {
 				
 				for subject in subcategory {
-					
 					let this = subject.subjects.split(separator: "$")
 					
 					for i in this {
+						selected.append(Selected(path: "\(subject.subcategory)", subject: String(i)))
 						subjects.append(String(i))
 					}
 				}
 			}
+			self.tutor.selected = selected
 			completion(subjects)
 		}
 	}
