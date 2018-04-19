@@ -206,14 +206,9 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         let data = datasource[indexPath.item]
         
-        if let languages = data.language {
-            cell.header.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
-        }
         cell.header.imageView.loadUserImages(by: (data.imageUrls["image1"])!)
         cell.header.name.text = data.name.components(separatedBy: " ")[0]
-        cell.header.locationItem.label.text = data.region!
-        cell.header.tutorItem.label.text = "\(data.hours!) hours taught, \(data.numSessions!) sessions"
-        cell.header.studysItem.label.text = data.school
+
         cell.reviewLabel.text = "\(data.reviews?.count ?? 0) Reviews ★ \(data.rating!)"
         cell.rateLabel.text = "$\(data.price!) / hour"
         
@@ -221,11 +216,9 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         let formattedString = NSMutableAttributedString()
         formattedString
-            .bold("126", 17, Colors.lightBlue)
+            .bold("12", 17, Colors.lightBlue)
             .regular("\n", 0, .clear)
             .bold("miles", 12, Colors.lightBlue)
-            .regular("\n", 0, .clear)
-            .bold("away", 12, Colors.lightBlue)
         
         let paragraphStyle = NSMutableParagraphStyle()
         

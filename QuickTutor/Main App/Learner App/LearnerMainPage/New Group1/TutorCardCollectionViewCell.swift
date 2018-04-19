@@ -59,7 +59,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     
 	let tableView : UITableView = {
 		let tableView = UITableView()
-		
+        
 		tableView.rowHeight = 55
 		tableView.showsVerticalScrollIndicator = false
 		tableView.allowsSelection = false
@@ -68,12 +68,13 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 		tableView.backgroundColor = .clear
 		tableView.delaysContentTouches = false
         tableView.allowsSelection = false
+        
 		return tableView
 	}()
 	
 	var datasource : FeaturedTutor? {
 		didSet{
-			tableView.reloadData()
+			//tableView.reloadData()
 		}
 	}
 
@@ -203,16 +204,104 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         switch indexPath.item {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
-				cell.bioLabel.text = datasource?.bio
+            cell.bioLabel.text = (datasource?.bio)! + "\n"
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-				cell.datasource = datasource?.subjects
-			
+            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
+            
+            let locationItem : ProfileItem = {
+                let item = ProfileItem()
+                
+                item.imageView.image = #imageLiteral(resourceName: "location")
+                item.label.text = datasource?.region
+                
+                return item
+            }()
+            
+            cell.contentView.addSubview(locationItem)
+            
+            locationItem.snp.makeConstraints { (make) in
+                make.left.equalToSuperview().inset(12)
+                make.right.equalToSuperview().inset(20)
+                make.height.equalTo(35)
+                make.top.equalToSuperview().inset(10)
+            }
+    
+            cell.tutorItem.label.text = "Tutored in \(datasource?.numSessions!) sessions"
+            
+            if let languages = datasource?.language {
+                cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
+                cell.contentView.addSubview(cell.speakItem)
+                
+                cell.tutorItem.snp.makeConstraints { (make) in
+                    make.left.equalToSuperview().inset(12)
+                    make.right.equalToSuperview().inset(20)
+                    make.height.equalTo(35)
+                    make.top.equalTo(locationItem.snp.bottom)
+                }
+                
+                if let studys = datasource?.school {
+                    cell.studysItem.label.text = studys
+                    cell.contentView.addSubview(cell.studysItem)
+                    
+                    cell.speakItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.tutorItem.snp.bottom)
+                    }
+                    
+                    cell.studysItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.speakItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                } else {
+                    cell.speakItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.tutorItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                }
+            } else {
+                if let studies = datasource?.school {
+                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.contentView.addSubview(cell.studysItem)
+                    
+                    cell.tutorItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(locationItem.snp.bottom)
+                    }
+                    
+                    cell.studysItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.tutorItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                } else {
+                    cell.tutorItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(locationItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                }
+            }
+
             return cell
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
+				cell.datasource = datasource?.subjects
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
@@ -223,8 +312,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
 			
 			let formattedString = NSMutableAttributedString()
-			
-			
+    
 			formattedString
 				.regular(" - Will travel up to \(datasource!.distance!) miles\n\n", 14, .white)
 				.regular((datasource?.preference.preferenceNormalization())!, 14, .white)
