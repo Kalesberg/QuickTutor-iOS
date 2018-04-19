@@ -18,7 +18,7 @@ class KeyboardActionViewCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Meet up"
+        label.text = "Session"
         label.textAlignment = .center
         label.textColor = .white
         label.font = Fonts.createSize(12)

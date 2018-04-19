@@ -15,6 +15,8 @@ protocol PriceInputViewDelegate {
 class PriceInputView: UIView {
     
     var delegate: PriceInputViewDelegate?
+    var increasePriceTimer: Timer?
+    var decreasePriceTimer: Timer?
     
     var currentPrice = 0.00 {
         didSet {
@@ -58,13 +60,15 @@ class PriceInputView: UIView {
     private func setupDecreaseButton() {
         decreaseButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         decreaseButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        decreaseButton.addTarget(self, action: #selector(decreasePrice), for: .touchUpInside)
+        decreaseButton.addTarget(self, action: #selector(decreasePrice), for: .touchDown)
+        decreaseButton.addTarget(self, action: #selector(endDecreasePrice), for: [.touchUpInside, .touchUpOutside])
     }
     
     private func setupIncreaseButton() {
         increaseButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         increaseButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        increaseButton.addTarget(self, action: #selector(increasePrice), for: .touchUpInside)
+        increaseButton.addTarget(self, action: #selector(increasePrice), for: .touchDown)
+        increaseButton.addTarget(self, action: #selector(endIncreasePrice), for: [.touchUpInside, .touchUpOutside])
     }
     
     private func setupStackView() {
@@ -76,14 +80,30 @@ class PriceInputView: UIView {
     }
     
     @objc func decreasePrice() {
-        guard currentPrice != 0 else { return }
-        currentPrice -= 1
-        delegate?.priceDidChange(currentPrice)
+        guard currentPrice > 0 else { return }
+        decreasePriceTimer =  Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { (timer) in
+            guard self.currentPrice > 0 else { return }
+            self.currentPrice -= 1
+            self.delegate?.priceDidChange(self.currentPrice)
+        }
+        decreasePriceTimer?.fire()
+    }
+    
+    @objc func endDecreasePrice() {
+        decreasePriceTimer?.invalidate()
     }
     
     @objc func increasePrice() {
-        currentPrice += 1
-        delegate?.priceDidChange(currentPrice)
+        self.currentPrice += 1
+        self.delegate?.priceDidChange(self.currentPrice)
+        increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { (timer) in
+            self.currentPrice += 1
+            self.delegate?.priceDidChange(self.currentPrice)
+        })
+    }
+    
+    @objc func endIncreasePrice() {
+        increasePriceTimer?.invalidate()
     }
     
     required init?(coder aDecoder: NSCoder) {

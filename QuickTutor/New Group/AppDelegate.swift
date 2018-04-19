@@ -32,7 +32,7 @@ func setDeviceInfo() -> (Double, Double, Double, Double) {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
     
     var window: UIWindow?
     
@@ -58,7 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Facebook init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame: UIScreen.main.bounds)
-        
         //Firebase check
         if Auth.auth().currentUser != nil {
             //create SignInClass to handle everything before user is able to sign in.
@@ -73,7 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 					self.window?.rootViewController = navigationController
 				} else {
 					print("Sign In Handler Completed.")
-					print("Grabbing customer data...")
+                    print("Grabbing customer data...")
+                    self.listenForData()
 					Stripe.stripeManager.retrieveCustomer({ (error) in
 						if let error = error {
 							print(error.localizedDescription)
@@ -81,7 +81,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 						print("Retrieved customer.")
 						self.window?.makeKeyAndVisible()
 					})
-					let controller = LearnerPageViewController()
+                    
+                    
+					let controller = TutorPageViewController()
                     AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
