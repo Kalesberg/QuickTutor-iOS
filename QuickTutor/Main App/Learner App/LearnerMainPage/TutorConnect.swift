@@ -51,9 +51,6 @@ class TutorConnectView : MainLayoutTwoButton {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        layout.headerReferenceSize = CGSize.zero
-        layout.footerReferenceSize = CGSize.zero
         
         collectionView.backgroundColor = Colors.backgroundDark
         collectionView.collectionViewLayout = layout

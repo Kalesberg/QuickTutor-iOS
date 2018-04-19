@@ -25,6 +25,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         button.contentMode = .scaleAspectFit
         button.setImage(#imageLiteral(resourceName: "checkIcon"), for: .normal)
         button.applyDefaultShadow()
+        button.layer.cornerRadius = 17
         return button
     }()
     
@@ -87,7 +88,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     
     private func setupSubmitButton() {
         addSubview(submitButton)
-        submitButton.anchor(top: nil, left: nil, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        submitButton.anchor(top: nil, left: nil, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 34, height: 34)
         submitButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
     }
 
