@@ -119,7 +119,8 @@ class VideoSessionVC: UIViewController {
     }
     
     func fetchToken() {
-        URLSession.shared.dataTask(with: URL(string: "http://api.tidycoder.com/token")!) { (data, respoonse, error) in
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        URLSession.shared.dataTask(with: URL(string: "http://api.tidycoder.com/token/\(uid)")!) { (data, respoonse, error) in
             guard error == nil, let data = data else {
                 print(error.debugDescription)
                 return
@@ -150,13 +151,6 @@ class VideoSessionVC: UIViewController {
             builder.audioTracks = self.localAudioTrack != nil ? [self.localAudioTrack!] : [TVILocalAudioTrack]()
             builder.videoTracks = self.localVideoTrack != nil ? [self.localVideoTrack!] : [TVILocalVideoTrack]()
             
-            // Use the preferred audio codec
-            if Settings.shared.audioCodec != nil {
-            }
-            
-            // Use the preferred video codec
-            if Settings.shared.videoCodec != nil {
-            }
             
             // Use the preferred encoding parameters
             if let encodingParameters = Settings.shared.getEncodingParameters() {
@@ -276,7 +270,6 @@ extension VideoSessionVC: TVIRemoteParticipantDelegate {
         
         
         if (self.remoteParticipant == participant) {
-            setupRemoteView()
             videoTrack.addRenderer(self.remoteView)
         }
     }
