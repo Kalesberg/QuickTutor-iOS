@@ -20,9 +20,9 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }
     
     let header = TutorCardHeader()
-	
+    
     let reviewLabel : UILabel = {
-		
+        
         let label = UILabel()
         
         label.textAlignment = .center
@@ -31,11 +31,11 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         return label
     }()
-	
+    
     let reviewLabelContainer = UIView()
-	
-	let rateLabel : UILabel = {
-		
+    
+    let rateLabel : UILabel = {
+        
         let label = UILabel()
         
         label.textAlignment = .center
@@ -102,7 +102,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         tableView.dataSource = self
         tableView.delegate = self
-		
+        
         tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
@@ -195,14 +195,14 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }
     override func handleNavigation() {
         if touchStartView is ConnectButton {
-			delegate?.connectedTutor = datasource
-			delegate?.connectButtonPressed(uid: datasource!.uid)
-			
-		} else if touchStartView is FullProfile {
-			if let current = UIApplication.getPresentedViewController() {
-				current.present(ViewFullProfile(), animated: true, completion: nil)
-			}
-		}
+            delegate?.connectedTutor = datasource
+            delegate?.connectButtonPressed(uid: datasource!.uid)
+            
+        } else if touchStartView is FullProfile {
+            if let current = UIApplication.getPresentedViewController() {
+                current.present(ViewFullProfile(), animated: true, completion: nil)
+            }
+        }
     }
 }
 
