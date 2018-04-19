@@ -32,8 +32,12 @@ class EditProfilePolicyView : InteractableView {
 		return textField
 	}()
 	
-	let sideLabel : RightTextLabel = {
-		let label = RightTextLabel()
+	let sideLabel : UILabel = {
+		let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(15)
+        label.text = "•"
 		
 		return label
 	}()
@@ -59,7 +63,7 @@ class EditProfilePolicyView : InteractableView {
 		label.textColor = Colors.grayText
 		label.sizeToFit()
 		label.numberOfLines = 0
-		
+
 		return label
 	}()
 	
@@ -99,10 +103,8 @@ class EditProfilePolicyView : InteractableView {
 		}
 		
 		sideLabel.snp.makeConstraints { (make) in
-			make.right.equalTo(infoLabel)
-			make.height.equalToSuperview()
-			make.top.equalToSuperview()
-			make.width.equalTo(15)
+			make.right.equalTo(label)
+            make.centerY.equalTo(textField)
 		}
 		
 		divider.snp.makeConstraints { (make) in
@@ -115,7 +117,7 @@ class EditProfilePolicyView : InteractableView {
 	}
 }
 
-class TutorManagePoliciesView : MainLayoutTitleTwoButton {
+class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
 	
 	let scrollView = UIScrollView()
 	
@@ -137,7 +139,7 @@ class TutorManagePoliciesView : MainLayoutTitleTwoButton {
 		view.textField.attributedPlaceholder = NSAttributedString(string: "Enter a late fee",
 																	 attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		view.label.text = "How much a learner pays if they arrive late to a session after the above time."
-		
+        
 		return view
 	}()
 	let cancelNotice : EditProfilePolicyView = {
@@ -147,7 +149,6 @@ class TutorManagePoliciesView : MainLayoutTitleTwoButton {
 		view.textField.attributedPlaceholder = NSAttributedString(string: "Enter how many hours",
 																		  attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		view.label.text = "How many hours before a session should a learner notify you of a cancellation?"
-		
 		
 		return view
 		
@@ -160,7 +161,7 @@ class TutorManagePoliciesView : MainLayoutTitleTwoButton {
 		view.textField.attributedPlaceholder = NSAttributedString(string: "Enter cancellation fee",
 																	   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		view.label.text = "How much a learner pays if they cancel a session after the above time."
-		
+        
 		return view
 	}()
 	
@@ -168,20 +169,14 @@ class TutorManagePoliciesView : MainLayoutTitleTwoButton {
 		let label = UILabel()
 		
 		label.text = "Policies"
+        label.font = Fonts.createBoldSize(18)
+        label.textColor = .white
 		
 		return label
 	}()
-	
-	var backButton = NavbarButtonBack()
+
 	var saveButton = NavbarButtonSave()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		} set {
-			backButton = newValue as! NavbarButtonBack
-		}
-	}
+
 	override var rightButton: NavbarButton {
 		get {
 			return saveButton
@@ -189,6 +184,8 @@ class TutorManagePoliciesView : MainLayoutTitleTwoButton {
 			saveButton = newValue as! NavbarButtonSave
 		}
 	}
+    
+    let emptySpace = UIView()
 	
 	override func configureView() {
 		addSubview(scrollView)
@@ -198,11 +195,14 @@ class TutorManagePoliciesView : MainLayoutTitleTwoButton {
 		scrollView.addSubview(lateFee)
 		scrollView.addSubview(cancelNotice)
 		scrollView.addSubview(cancelFee)
+        scrollView.addSubview(emptySpace)
 		
 		super.configureView()
 		
 		title.label.text = "Manage Policies"
 		
+        scrollView.isScrollEnabled = true
+        
 		applyConstraints()
 	}
 	
@@ -211,14 +211,14 @@ class TutorManagePoliciesView : MainLayoutTitleTwoButton {
 		
 		scrollView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom)
-			make.height.equalToSuperview()
-			make.width.equalToSuperview()
+			make.bottom.equalTo(safeAreaLayoutGuide)
+			make.width.equalToSuperview().multipliedBy(0.95)
 			make.centerX.equalToSuperview()
 		}
 
 		subTitle.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.1)
+			make.top.equalToSuperview().inset(10)
+			make.height.equalTo(50)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
@@ -227,26 +227,32 @@ class TutorManagePoliciesView : MainLayoutTitleTwoButton {
 			make.top.equalTo(subTitle.snp.bottom)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.15)
+			make.height.equalTo(120)
 		}
 		lateFee.snp.makeConstraints { (make) in
 			make.top.equalTo(latePolicy.snp.bottom)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.15)
+			make.height.equalTo(120)
 		}
 		cancelNotice.snp.makeConstraints { (make) in
 			make.top.equalTo(lateFee.snp.bottom)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.15)
+			make.height.equalTo(120)
 		}
 		cancelFee.snp.makeConstraints { (make) in
 			make.top.equalTo(cancelNotice.snp.bottom)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.15)
+			make.height.equalTo(120)
 		}
+        emptySpace.snp.makeConstraints { (make) in
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalTo(cancelFee.snp.bottom)
+            make.height.equalTo(250)
+        }
 	}
 	
 	override func layoutSubviews() {
@@ -291,6 +297,8 @@ class TutorManagePolicies : BaseViewController {
 		configureDelegates()
 		loadTutorPolicy()
 		
+        contentView.layoutIfNeeded()
+        contentView.scrollView.setContentSize()
 	}
 	
 	override func loadView() {
@@ -305,9 +313,6 @@ class TutorManagePolicies : BaseViewController {
 	private func configureDelegates() {
 		pickerView.delegate = self
 		pickerView.dataSource = self
-		
-		contentView.layoutIfNeeded()
-		contentView.scrollView.setContentSize()
 		
 		contentView.latePolicy.textField.delegate = self
 		contentView.lateFee.textField.delegate = self

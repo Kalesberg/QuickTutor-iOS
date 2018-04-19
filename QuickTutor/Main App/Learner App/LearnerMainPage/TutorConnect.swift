@@ -43,9 +43,12 @@ class TutorConnectView : MainLayoutTwoButton {
         
         let layout = UICollectionViewFlowLayout()
         
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        layout.headerReferenceSize = CGSize.zero
+        layout.footerReferenceSize = CGSize.zero
         
         collectionView.backgroundColor = Colors.backgroundDark
         collectionView.collectionViewLayout = layout
@@ -89,11 +92,12 @@ class TutorConnectView : MainLayoutTwoButton {
             make.left.equalTo(back.snp.right)
             make.right.equalTo(rightButton.snp.left)
             make.height.equalToSuperview()
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().inset(3)
         }
         collectionView.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
@@ -187,6 +191,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             self.present(next, animated: true, completion: nil)
         }
     }
+
 }
 
 extension TutorConnect : UIPopoverPresentationControllerDelegate {
@@ -236,11 +241,11 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
     }
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
+
         let width = UIScreen.main.bounds.width - 20
-        
-        return CGSize(width: width, height: collectionView.frame.height - 50)
-        
+
+        return CGSize(width: width, height: collectionView.frame.height)
+
     }
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

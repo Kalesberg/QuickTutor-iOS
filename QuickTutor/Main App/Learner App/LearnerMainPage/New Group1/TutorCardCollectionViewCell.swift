@@ -115,7 +115,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 	
 	func applyConstraints(){
 		header.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
+            make.top.equalToSuperview().inset(15)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 			make.height.equalTo(170)
@@ -150,27 +150,27 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.centerX.equalToSuperview()
         }
         distanceLabelContainer.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(-7)
+            make.top.equalTo(header).inset(-7)
             make.right.equalToSuperview().inset(-7)
             make.width.height.equalTo(56)
         }
         tableViewContainer.snp.makeConstraints { (make) in
             make.top.equalTo(header.snp.bottom)
             make.width.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(10)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(23)
             make.centerX.equalToSuperview()
         }
         connectButton.snp.makeConstraints { (make) in
             make.width.equalTo(180)
             make.height.equalTo(40)
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(tableViewContainer).inset(7)
+            make.bottom.equalTo(tableViewContainer).inset(-20)
         }
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(20)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(connectButton.snp.top).inset(-5)
+            make.bottom.equalTo(tableViewContainer.snp.bottom).inset(22)
         }
 	}
 	
@@ -187,11 +187,9 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 	}
 	override func handleNavigation() {
 		if touchStartView is ConnectButton {
-		} else if touchStartView is FullProfile {
-			if let current = UIApplication.getPresentedViewController() {
-				current.present(ViewFullProfile(), animated: true, completion: nil)
-			}
+            print("lksd")
 		}
+		
 	}
 }
 extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSource {
@@ -612,8 +610,10 @@ class ConnectButton : InteractableView, Interactable {
 		addSubview(connect)
 		super.configureView()
         
-		backgroundColor = Colors.green
+		backgroundColor = Colors.learnerPurple
         layer.cornerRadius = 8
+        translatesAutoresizingMaskIntoConstraints = false
+        clipsToBounds = false
         
 		applyConstraints()
 	}
