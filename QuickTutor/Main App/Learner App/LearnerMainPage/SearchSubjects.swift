@@ -114,7 +114,8 @@ class SearchSubjectsView : SearchLayoutView, Keyboardable {
 }
 
 class SearchSubjects: BaseViewController, ConnectButtonPress {
-
+	
+	var connectedTutor: FeaturedTutor!
 	
 	override var contentView: SearchSubjectsView {
 		return view as! SearchSubjectsView
@@ -166,7 +167,9 @@ class SearchSubjects: BaseViewController, ConnectButtonPress {
 		
 	}
 	func connectButtonPressed(uid: String) {
-		addTutorWithUid(uid)
+		self.navigationController?.presentedViewController?.dismiss(animated: true) {
+//			self.addTutorWithUid(uid)
+		}
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -332,12 +335,11 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 		if collectionView.tag == 0 {
 			
 			let next = TutorConnect()
+			
 			next.subcategory = categories[selectedCategory].subcategory.subcategories[indexPath.item]
-			let nav = UINavigationController(rootViewController: next)
-			nav.isNavigationBarHidden = true
 			
 			DispatchQueue.main.async {
-				self.present(nav, animated: true)
+				self.navigationController?.pushViewController(next, animated: true)
 			}
 		
 		} else if collectionView.tag == 1  {
@@ -387,9 +389,9 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 			let next = TutorConnect()
 			
 			next.subject = (key, subject.subject.text!)
-			let nav = UINavigationController(rootViewController: next)
+			
 			DispatchQueue.main.async {
-				self.present(nav, animated: true)
+				self.navigationController?.pushViewController(next, animated: true)
 			}
 		}
 	}

@@ -31,7 +31,9 @@ class CustomTitleView: UIView {
         label.font = UIFont.systemFont(ofSize: 10)
         return label
     }()
-    
+	
+	var tutorData : FeaturedTutor!
+	
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -53,10 +55,40 @@ class CustomTitleView: UIView {
     }
     
     @objc func showProfile() {
-        let vc = AccountService.shared.currentUserType == .learner ? TutorMyProfile() : LearnerMyProfile()
-        navigationController.pushViewController(vc, animated: true)
+		
+        let type = AccountService.shared.currentUserType
+		
+		if type == .learner {
+			let next = TutorMyProfile()
+			next.tutor = convertFeaturedTutorToTutorData()
+			navigationController.pushViewController(next, animated: true)
+
+		} else {
+			let next = LearnerMyProfile()
+			
+			navigationController.pushViewController(next, animated: true)
+		}
     }
-    
+	//this is stupid. but demo is in an hour. :(
+	private func convertFeaturedTutorToTutorData() -> TutorData {
+		
+		let tutor = TutorData()
+		
+		tutor.name =  tutorData.name
+		tutor.region = tutorData.region
+		tutor.bio = tutorData.bio
+		tutor.numSessions = tutorData.numSessions
+		tutor.languages = tutorData.language
+		tutor.school = tutorData.school
+		tutor.subjects = tutorData.subjects
+		tutor.reviews = tutorData.reviews
+		tutor.policy = tutorData.policy
+		tutor.distance = tutorData.distance
+		tutor.preference = tutorData.preference
+		
+		return tutor
+	}
+	
     private func setupImageView() {
         addSubview(imageView)
         imageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 38, height: 38)

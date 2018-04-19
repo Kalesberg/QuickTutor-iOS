@@ -274,7 +274,7 @@ class TutorAddress : BaseViewController {
 				if let error = error {
 					print(error)
 				} else {
-					self.navigationController?.pushViewController(TutorPolicy(), animated: true)
+					self.navigationController?.pushViewController(TutorMainPage(), animated: true)
 				}
 			})
 		}

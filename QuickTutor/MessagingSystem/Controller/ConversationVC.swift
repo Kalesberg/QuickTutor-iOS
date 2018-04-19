@@ -39,7 +39,9 @@ class ConversationVC: UICollectionViewController {
         cv.register(ConnectionRequestCell.self, forCellWithReuseIdentifier: "connectionRequest")
         return cv
     }()
-    
+	
+	var tutor : FeaturedTutor?
+	
     lazy var emptyCellBackground: UIView = {
         let contentView = UIView()
         let icon: UIImageView = {
@@ -54,7 +56,7 @@ class ConversationVC: UICollectionViewController {
             label.textColor = Colors.border
             label.textAlignment = .center
             label.numberOfLines = 0
-            label.font = Fonts.createSize(11)
+            label.font = Fonts.createSize(13)
             label.text = "Select a custom message, or introduce yourself by typing a message. A tutor must accept your connection request before you are able to message them again"
             return label
         }()
@@ -131,6 +133,9 @@ class ConversationVC: UICollectionViewController {
         if let partner = chatPartner {
             titleView.updateUI(user: chatPartner)
         }
+		
+		titleView.tutorData = tutor
+		
         navigationItem.titleView = titleView
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.loadImage(urlString: profilePicUrl)

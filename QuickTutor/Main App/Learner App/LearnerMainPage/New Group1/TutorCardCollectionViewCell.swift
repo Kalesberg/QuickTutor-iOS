@@ -20,7 +20,9 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }
     
     let header = TutorCardHeader()
+    
     let reviewLabel : UILabel = {
+        
         let label = UILabel()
         
         label.textAlignment = .center
@@ -29,8 +31,11 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         return label
     }()
+    
     let reviewLabelContainer = UIView()
+    
     let rateLabel : UILabel = {
+        
         let label = UILabel()
         
         label.textAlignment = .center
@@ -76,7 +81,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     
     var datasource : FeaturedTutor? {
         didSet{
-            //tableView.reloadData()
+            tableView.reloadData()
         }
     }
 
@@ -97,6 +102,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
         tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
@@ -189,13 +195,14 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }
     override func handleNavigation() {
         if touchStartView is ConnectButton {
-			delegate?.connectButtonPressed(uid: datasource!.uid)
-		} else if touchStartView is FullProfile {
-			if let current = UIApplication.getPresentedViewController() {
-				current.present(ViewFullProfile(), animated: true, completion: nil)
-			}
+            delegate?.connectedTutor = datasource
+            delegate?.connectButtonPressed(uid: datasource!.uid)
+            
+        } else if touchStartView is FullProfile {
+            if let current = UIApplication.getPresentedViewController() {
+                current.present(ViewFullProfile(), animated: true, completion: nil)
+            }
         }
-        
     }
 }
 
@@ -218,7 +225,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 let item = ProfileItem()
                 
                 item.imageView.image = #imageLiteral(resourceName: "location")
-                item.label.text = datasource?.region
+                item.label.text = "Mount Pleasant, MI" //datasource?.region
                 
                 return item
             }()
@@ -314,22 +321,21 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
-            
-            guard let policy = TutorData.shared.policy else { return UITableViewCell() }
-            
-            let policies = policy.split(separator: "_")
-            
-            let formattedString = NSMutableAttributedString()
+			
+			
+            let policies = datasource!.policy.split(separator: "_")
+			
+			let formattedString = NSMutableAttributedString()
     
             formattedString
                 .regular(" - Will travel up to \(datasource!.distance!) miles\n\n", 14, .white)
                 .regular((datasource?.preference.preferenceNormalization())!, 14, .white)
                 .regular(" - Cancellations: \(policies[2]) Hour Notice\n\n", 14, .white)
-                .regular("      Late Fee: $\(policies[1])).00\n", 13, Colors.qtRed)
+                .regular("      Late Fee: $\(policies[1]).00\n", 13, Colors.qtRed)
                 .regular("      Cancellation Fee: $\(policies[3]).00", 13, Colors.qtRed)
             
             cell.policiesLabel.attributedText = formattedString
-            
+			
             return cell
         default:
             return UITableViewCell()
@@ -363,7 +369,6 @@ class TutorCardHeader : InteractableView {
      var imageView : UIImageView = {
         var imageView = UIImageView()
         
-        //imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
         imageView.scaleImage()
         
         return imageView
@@ -610,7 +615,7 @@ class ConnectButton : InteractableView, Interactable {
         
         label.font = Fonts.createBoldSize(18)
         label.textColor = .white
-        label.text = "Connect!"
+        label.text = "Connect"
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         

@@ -31,9 +31,15 @@ class TutorMyProfile : BaseViewController {
     var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
     var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
     
-    let tutor = TutorData.shared
-    
-    var pageCount : Int {
+    //let tutor = TutorData.shared
+	
+	var tutor : TutorData! {
+		didSet {
+			contentView.tableView.reloadData()
+		}
+	}
+	
+	var pageCount : Int {
         var count = 0
         tutor.images.forEach { (_,value) in
             if value != "" {

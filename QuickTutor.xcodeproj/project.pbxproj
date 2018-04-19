@@ -855,6 +855,9 @@
 		846252EA20637EF3001DD330 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				84F245191FDA1143006447A8 /* TutorSSN.swift */,
+				84F2451B1FDA1183006447A8 /* TutorRegPayment.swift */,
+				8479EA622063E63100C5113E /* TutorAddress.swift */,
 				846252F220637FA7001DD330 /* BankManager.swift */,
 				84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */,
 			);
@@ -961,10 +964,7 @@
 			children = (
 				848E643A2059EE0A000CD921 /* BecomeTutor.swift */,
 				8425765E2070292300FD295B /* TutorAddSubjects */,
-				84F245191FDA1143006447A8 /* TutorSSN.swift */,
 				84F141A0207E490D003D3193 /* TutorPreferences.swift */,
-				8479EA622063E63100C5113E /* TutorAddress.swift */,
-				84F2451B1FDA1183006447A8 /* TutorRegPayment.swift */,
 				8479EA642063E66400C5113E /* TutorPolicy.swift */,
 				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
 				849AAEA92060846800B9CFD7 /* TutorLocation.swift */,

@@ -195,11 +195,13 @@ extension MessagesVC: UICollectionViewDelegateFlowLayout {
 
 extension MessagesVC: NewMessageDelegate {
     func showConversationWithUser(user: User, isConnection: Bool) {
-        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+		
+		let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = user.uid
         vc.connectionRequestAccepted = isConnection
         vc.chatPartner = user
-        navigationController?.pushViewController(vc, animated: true)
+		
+		navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -64,6 +64,7 @@ class NewMessageVC: UIViewController {
     }
     
     func setupNavBar() {
+		
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationItem.title = "Contacts"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: nil, action: nil)

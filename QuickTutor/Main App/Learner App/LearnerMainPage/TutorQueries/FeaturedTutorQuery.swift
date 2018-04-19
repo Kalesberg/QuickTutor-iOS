@@ -56,6 +56,7 @@ struct FeaturedTutor {
 	var school : String!
 	var topSubject : String!
 	var bio : String!
+	var policy : String!
 	
 	var preference : Int!
 	var distance : Int!
@@ -147,6 +148,9 @@ class QueryData {
 								print("languge")
 								
 								valid = false
+							}
+							if let policy = value["pol"] as? String {
+								tutor.policy = policy
 							}
 							if let bio = value["bio"] as? String{
 								tutor.bio = bio
@@ -368,11 +372,14 @@ extension QueryData {
 				} else {
 					valid = false
 				}
+				if let policy = value["pol"] as? String {
+					tutor.policy = policy
+				}
+				
 				if let language = value["lng"] as? [String] {
 					tutor.language = language
-				} else {
-					
 				}
+				
 				if let bio = value["bio"] as? String{
 					tutor.bio = bio
 				} else {

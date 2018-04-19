@@ -136,7 +136,6 @@ class MainPage : BaseViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		print("view will appear")
 		updateSideBar()
 	}
 	
