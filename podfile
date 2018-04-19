@@ -28,5 +28,6 @@ target 'QuickTutor' do
   pod 'SnapKit'
   
   pod 'Reveal-SDK', :configurations => ['Debug']
+  pod 'TwilioVideo', '2.0.0-beta3'
 
 end
