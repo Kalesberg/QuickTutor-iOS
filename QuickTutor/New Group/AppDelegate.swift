@@ -32,7 +32,7 @@ func setDeviceInfo() -> (Double, Double, Double, Double) {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
     
     var window: UIWindow?
     
@@ -72,20 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 					self.window?.rootViewController = navigationController
 				} else {
 					print("Sign In Handler Completed.")
-					print("Grabbing customer data...")
-                    guard let uid = Auth.auth().currentUser?.uid else { return }
-                    Database.database().reference().child("sessionStarts").child(uid).observe(.childAdded, with: { (snapshot) in
-                        guard let value = snapshot.value as? [String: Any],
-                            let startType = value["startType"] as? String,
-                            let initiatorId = value["startedBy"] as? String
-                            else { return }
-                        let vc = SessionStartVC()
-                        vc.sessionId = snapshot.key
-                        vc.initiatorId = initiatorId
-                        vc.startType = startType
-                        navigationController.navigationBar.isHidden = false
-                        navigationController.pushViewController(vc, animated: true)
-                    })
+                    print("Grabbing customer data...")
+                    self.listenForData()
 					Stripe.stripeManager.retrieveCustomer({ (error) in
 						if let error = error {
 							print(error.localizedDescription)
@@ -93,7 +81,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 						print("Retrieved customer.")
 						self.window?.makeKeyAndVisible()
 					})
-					let controller = LearnerPageViewController()
+                    
+                    
+					let controller = TutorPageViewController()
                     AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true

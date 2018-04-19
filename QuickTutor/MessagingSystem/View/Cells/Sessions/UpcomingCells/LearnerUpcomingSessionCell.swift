@@ -17,7 +17,7 @@ class LearnerUpcomingSessionCell: BaseUpcomingSessionCell {
     }
     
     override func handleButton3() {
-        let vc = SessionStartVC()
+        let vc = BaseSessionStartVC()
         vc.sessionId = session.id
         vc.partnerId = session.partnerId()
         navigationController.pushViewController(vc, animated: true)

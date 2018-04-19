@@ -41,11 +41,13 @@ class SessionTypeCell: UIView {
     }
     
     func setSelected() {
+        selectionButton.isSelected = true
         selectionButton.backgroundColor = .green
         titleLabel.textColor = .green
     }
     
     func setUnselected() {
+        selectionButton.isSelected = false
         selectionButton.backgroundColor = .clear
         titleLabel.textColor = Colors.border
     }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class VideoSessionVC: UIViewController {
     
@@ -42,10 +43,15 @@ class VideoSessionVC: UIViewController {
     }()
     
     func setupViews() {
+        setupMainView()
         setupNavBar()
         setupPauseSessionButton()
         setupEndSessionButton()
         setupCameraFeedView()
+    }
+    
+    func setupMainView() {
+        view.backgroundColor = .black
     }
     
     func setupNavBar()  {
@@ -53,6 +59,7 @@ class VideoSessionVC: UIViewController {
         sessionNavBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         view.addSubview(statusBarCover)
         statusBarCover.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: sessionNavBar.topAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        navigationController?.navigationBar.isHidden = true
     }
     
     func setupPauseSessionButton() {
@@ -70,8 +77,14 @@ class VideoSessionVC: UIViewController {
         cameraFeedView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16/9) - 30)
     }
     
+    func removeStartData() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("sessionStarts").child(uid).removeValue()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        removeStartData()
     }
 }

@@ -320,7 +320,7 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
             self.accessoryView.removeFromSuperview()
             self.accessoryView = view
             self.addSubview(view)
-            view.anchor(top: self.resetButton.bottomAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+            view.anchor(top: self.resetButton.bottomAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
             self.accessoryView.alpha = 1
         }
         
@@ -330,10 +330,14 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     @objc func sendRequest() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         sessionData["status"] = "pending"
-        sessionData["type"] = onlineToggle.isSelected ? "online" : "in-person"
+        sessionData["type"] = onlineToggle.selectionButton.isSelected ? "online" : "in-person"
         sessionData["expiration"] = getExpiration()
         sessionData["senderId"] = uid
         sessionData["receiverId"] = chatPartnerId
+        
+//        do {
+//            let encodedData = try JSONEncoder().encode(<#T##value: Encodable##Encodable#>)
+//        }
         
         guard let _ = sessionData["subject"], let _ = sessionData["date"], let _ = sessionData["startTime"], let _ = sessionData["endTime"], let _ = sessionData["status"], let _ = sessionData["type"], let _ = sessionData["price"] else {
             return

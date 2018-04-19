@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class SessionStartVC: UIViewController {
+class BaseSessionStartVC: UIViewController {
     
     var partnerId: String?
     var sessionId: String?
@@ -55,12 +55,12 @@ class SessionStartVC: UIViewController {
         return label
     }()
     
-    let partnerBox: SessionProfileBox = {
+    let senderBox: SessionProfileBox = {
         let box = SessionProfileBox()
         return box
     }()
     
-    let currentUserBox: SessionProfileBox = {
+    let receieverBox: SessionProfileBox = {
         let box = SessionProfileBox()
         return box
     }()
@@ -69,19 +69,6 @@ class SessionStartVC: UIViewController {
         let iv = UIImageView(image: #imageLiteral(resourceName: "waveIcon"))
         iv.contentMode = .scaleAspectFit
         return iv
-    }()
-    
-    let messageButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Message", for: .normal)
-        button.setTitleColor(Colors.learnerPurple, for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = Colors.learnerPurple.cgColor
-        button.titleLabel?.font = Fonts.createSize(16)
-        button.layer.cornerRadius = 4
-        button.backgroundColor = Colors.navBarColor
-        button.isHidden = true
-        return button
     }()
     
     let statusLabel: UILabel = {
@@ -124,12 +111,14 @@ class SessionStartVC: UIViewController {
         guard let sessionId = sessionId, let uid = Auth.auth().currentUser?.uid else { return }
         DataService.shared.getSessionById(sessionId) { (sessionIn) in
             self.session = sessionIn
+//            self.removeStartData()
             self.partnerId = self.session?.partnerId()
             self.subjectLabel.text = self.session?.subject
             self.infoLabel.text = self.getFormattedInfoLabelString()
-            guard let partnerId = self.session?.partnerId() else { return }
-            self.partnerBox.updateUI(uid: partnerId)
-            self.currentUserBox.updateUI(uid: uid)
+            guard let partnerId = self.session?.partnerId(), let senderId = self.initiatorId else { return }
+            self.senderBox.updateUI(uid: senderId)
+            guard let receiverId = self.initiatorId == uid ? self.session?.partnerId() : uid else { return }
+            self.receieverBox.updateUI(uid: receiverId)
             DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { (user) in
                 self.partner = user
                 self.partnerUsername = user?.username
@@ -139,42 +128,7 @@ class SessionStartVC: UIViewController {
     }
     
     func updateTitleLabel() {
-        guard let uid = Auth.auth().currentUser?.uid, let username = partnerUsername else { return }
-        
-        //Online Automatic
-        if startType == "automatic" && session?.type == "online" {
-            self.titleLabel.text = "Video calling \(username)..."
-        }
-        
-        //Online Manual Started By Current User
-        if startType == "manual" && session?.type == "online" && initiatorId == uid {
-            self.titleLabel.text = "Video calling \(username)..."
-        }
-        
-        //Online Manual Started By Other User
-        if startType == "manual" && session?.type == "online" && initiatorId != uid {
-            self.titleLabel.text = "\(username) is Video Calling..."
-            self.confirmButton.isHidden = false
-        }
-
-        //In-person Automatic
-        if startType == "automatic" && session?.type == "in-person" {
-            self.titleLabel.text = "Time to meet up!"
-//            self.messageButton.
-        }
-        
-        //In-person Manual Started By Current User
-        if startType == "manual" && session?.type == "in-person" && initiatorId == uid {
-            self.titleLabel.text = "Time to meet up!"
-            self.statusLabel.text = "Waiting for your partner to accept the manual start..."
-            self.statusLabel.isHidden = false
-        }
-        
-        //In-person Manual Started By Other User
-        if startType == "manual" && session?.type == "in-person" && initiatorId != uid {
-            titleLabel.text = "\(username) wants to meet up early!"
-            self.confirmButton.isHidden = false
-        }
+        guard let _ = Auth.auth().currentUser?.uid, let _ = partnerUsername else { return }
     }
     
     func getFormattedInfoLabelString() -> String {
@@ -195,10 +149,9 @@ class SessionStartVC: UIViewController {
         setupInfoBox()
         setupSubjectLabel()
         setupInfoLabel()
-        setupPartnerBox()
-        setupCurrentUserBox()
+        setupSenderBox()
+        setupReceiverBox()
         setupWaveIcon()
-        setupMessageButton()
         setupCancelButton()
         setupConfirmButton()
         setupStatusLabel()
@@ -236,26 +189,21 @@ class SessionStartVC: UIViewController {
         infoLabel.anchor(top: subjectLabel.bottomAnchor, left: infoBox.leftAnchor, bottom: infoBox.bottomAnchor, right: infoBox.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
     }
     
-    func setupPartnerBox() {
-        view.addSubview(partnerBox)
-        partnerBox.anchor(top: infoBox.bottomAnchor, left: infoBox.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 158)
+    func setupSenderBox() {
+        view.addSubview(senderBox)
+        senderBox.anchor(top: infoBox.bottomAnchor, left: infoBox.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 158)
     }
     
-    func setupCurrentUserBox() {
-        view.addSubview(currentUserBox)
-        currentUserBox.anchor(top: infoBox.bottomAnchor, left: nil, bottom: nil, right: infoBox.rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 158)
+    func setupReceiverBox() {
+        view.addSubview(receieverBox)
+        receieverBox.anchor(top: infoBox.bottomAnchor, left: nil, bottom: nil, right: infoBox.rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 158)
     }
     
     func setupWaveIcon() {
         view.addSubview(waveIcon)
         waveIcon.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
         view.addConstraint(NSLayoutConstraint(item: waveIcon, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
-        view.addConstraint(NSLayoutConstraint(item: waveIcon, attribute: .centerY, relatedBy: .equal, toItem: partnerBox, attribute: .centerY, multiplier: 1, constant: 0))
-    }
-    
-    func setupMessageButton() {
-        view.addSubview(messageButton)
-        messageButton.anchor(top: currentUserBox.bottomAnchor, left: currentUserBox.leftAnchor, bottom: nil, right: currentUserBox.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
+        view.addConstraint(NSLayoutConstraint(item: waveIcon, attribute: .centerY, relatedBy: .equal, toItem: senderBox, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func setupCancelButton() {
@@ -268,6 +216,7 @@ class SessionStartVC: UIViewController {
         view.addSubview(confirmButton)
         confirmButton.anchor(top: nil, left: nil, bottom: cancelButton.topAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 270, height: 50)
         view.addConstraint(NSLayoutConstraint(item: confirmButton, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
+        confirmButton.addTarget(self, action: #selector(confirmManualStart), for: .touchUpInside)
     }
     
     func setupStatusLabel() {
@@ -281,6 +230,24 @@ class SessionStartVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
+    
+    @objc func confirmManualStart() {
+        guard let uid = Auth.auth().currentUser?.uid, let partnerId = session?.partnerId(), let id = session?.id else { return }
+        Database.database().reference().child("sessionStarts").child(uid).child(id).child("startAccepted").setValue(true)
+        Database.database().reference().child("sessionStarts").child(partnerId).child(id).child("startAccepted").setValue(true)
+    }
+    
+    private func removeStartData() {
+        guard let uid = Auth.auth().currentUser?.uid, let sessionId = session?.id else { return }
+        Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
+    }
+    
+    @objc func proceedToSession() {
+        guard let uid = Auth.auth().currentUser?.uid, let partnerId = session?.partnerId(), let id = session?.id else { return }
+        Database.database().reference().child("sessionStarts").child(uid).child(id).child("startAccepted").setValue(true)
+        Database.database().reference().child("sessionStarts").child(partnerId).child(id).child("startAccepted").setValue(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -290,4 +257,5 @@ class SessionStartVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
     }
+
 }

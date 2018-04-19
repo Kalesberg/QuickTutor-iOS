@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-class Session {
+class Session: Codable {
     
     var senderId: String
     var receiverId: String
