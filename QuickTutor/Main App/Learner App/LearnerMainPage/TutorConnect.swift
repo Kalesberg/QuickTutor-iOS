@@ -206,6 +206,9 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         let data = datasource[indexPath.item]
         
+        if let languages = data.language {
+            //cell.header.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
+        }
         cell.header.imageView.loadUserImages(by: (data.imageUrls["image1"])!)
         cell.header.name.text = data.name.components(separatedBy: " ")[0]
 

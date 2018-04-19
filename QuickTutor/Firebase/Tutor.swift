@@ -41,6 +41,7 @@ class TutorData {
 	var preference : Int!
 	
 	var subjects : [String]!
+	var selected : [Selected]!
 	var reviews : [TutorReview]!
 	
 	var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
@@ -144,6 +145,7 @@ class Tutor {
 			}
 		}
 	}
+	
 	public func updateValue(value: [String : Any]) {
 		self.ref.child("tutor-info").child(user.uid).updateChildValues(value) { (error, reference) in
 			if let error = error {

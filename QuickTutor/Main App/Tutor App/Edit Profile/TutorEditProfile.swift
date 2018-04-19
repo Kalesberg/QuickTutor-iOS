@@ -10,6 +10,11 @@ import Foundation
 import UIKit
 import AAPhotoCircleCrop
 
+protocol TutorPreferenceChange {
+	func inPersonPressed()
+	func inVideoPressed()
+}
+
 class TutorEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
     
     var editButton = NavbarButtonEdit()
@@ -59,8 +64,8 @@ class TutorEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
     }
 }
 
-class TutorEditProfile : BaseViewController {
-    
+class TutorEditProfile : BaseViewController, TutorPreferenceChange {
+
     override var contentView: TutorEditProfileView {
         return view as! TutorEditProfileView
     }
@@ -76,14 +81,8 @@ class TutorEditProfile : BaseViewController {
 	var firstName : String!
 	var lastName : String!
 	
-	var inPerson : Bool = true {
-		didSet {
-		}
-	}
-	var inVideo : Bool = true {
-		didSet {
-		}
-	}
+	var inPerson : Bool!
+	var inVideo : Bool!
 	
 	var automaticScroll = false
 
@@ -124,6 +123,17 @@ class TutorEditProfile : BaseViewController {
         super.viewDidAppear(animated)
 		
     }
+	func inPersonPressed() {
+		print("wut.")
+		self.inPerson = !self.inPerson
+		print(inPerson)
+	}
+	
+	func inVideoPressed() {
+		self.inVideo = !self.inVideo
+		print(inVideo)
+	}
+
 	private func configureDelegates() {
 		imagePicker.delegate = self
 		
@@ -135,8 +145,8 @@ class TutorEditProfile : BaseViewController {
 		contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
 		contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
 		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
-		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell1")
-		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell2")
+		contentView.tableView.register(EditProfilePersonCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfilePersonCheckboxTableViewCell")
+		contentView.tableView.register(EditProfileVideoCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileVideoCheckboxTableViewCell")
 		
 	}
 	private func saveChanges() {
@@ -145,7 +155,17 @@ class TutorEditProfile : BaseViewController {
 			print("invalid name!")
 			return
 		}
-
+		
+		if inPerson && inVideo {
+			preference = 3
+		} else if inPerson && !inVideo {
+			preference = 2
+		} else if !inPerson && inVideo {
+			preference = 1
+		} else {
+			preference = 0
+		}
+		
 		let sharedUpdateValues : [String : Any] = [
 			
 			"/tutor-info/\(AccountService.shared.currentUser.uid!)/p" : price,
@@ -160,10 +180,13 @@ class TutorEditProfile : BaseViewController {
 			if let error = error {
 				print(error)
 			} else {
+				
 				TutorData.shared.distance = self.distance
 				TutorData.shared.name = self.firstName + " " + self.lastName
 				TutorData.shared.price = self.price
 				TutorData.shared.preference = self.preference
+				
+				self.displaySavedAlertController()
 			}
 		}
 	}
@@ -201,8 +224,20 @@ class TutorEditProfile : BaseViewController {
 		lastName = textField.text
 	}
 	
-	override func handleNavigation() {
+	private func displaySavedAlertController() {
+		let alertController = UIAlertController(title: "Saved!", message: "Your policy changes have been saved", preferredStyle: .alert)
 		
+		self.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 1
+		DispatchQueue.main.asyncAfter(deadline: when){
+			alertController.dismiss(animated: true){
+				self.navigationController?.popViewController(animated: true)
+			}
+		}
+		
+	}
+	override func handleNavigation() {
 		if touchStartView is NavbarButtonSave {
 			saveChanges()
 		}
@@ -361,20 +396,20 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             return cell
         case 10:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell1", for: indexPath) as! EditProfileCheckboxTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfilePersonCheckboxTableViewCell", for: indexPath) as! EditProfilePersonCheckboxTableViewCell
             
             cell.label.text = "Tutoring In-Person Sessions?"
 			cell.checkbox.isSelected = inPerson
-			if touchStartView == cell.checkbox.checkbox {
-				print("123")
-			}
+			cell.delegate = self
+			
 			return cell
         case 11:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell2", for: indexPath) as! EditProfileCheckboxTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileVideoCheckboxTableViewCell", for: indexPath) as! EditProfileVideoCheckboxTableViewCell
 
 			cell.label.text = "Tutoring Online (Video Call) Sessions?"
 			cell.checkbox.isSelected = inVideo
-
+			cell.delegate = self
+			
             return cell
         case 12:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
@@ -437,7 +472,10 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 		case 4:
 			navigationController?.pushViewController(EditBio(), animated: true)
 		case 6:
-			print("manage subjects")
+			let next = EditTutorSubjects()
+			next.selectedSubjects = TutorData.shared.subjects
+			next.selected = TutorData.shared.selected
+			navigationController?.pushViewController(next, animated: true)
 		case 7:
 			navigationController?.pushViewController(TutorManagePolicies(), animated: true)
 		case 13:
