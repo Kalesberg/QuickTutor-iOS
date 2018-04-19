@@ -34,14 +34,14 @@ PODS:
   - FirebaseAnalytics (4.1.0):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - nanopb (~> 0.3)
   - FirebaseAuth (4.5.0):
     - FirebaseAnalytics (~> 4.1)
-    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseCore (4.0.18):
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseDatabase (4.1.5):
     - FirebaseAnalytics (~> 4.1)
     - FirebaseCore (~> 4.0)
@@ -67,13 +67,13 @@ PODS:
   - GoogleToolboxForMac/Defines (2.1.3)
   - GoogleToolboxForMac/Logger (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
-  - GoogleToolboxForMac/NSData+zlib (2.1.3):
+  - "GoogleToolboxForMac/NSData+zlib (2.1.3)":
     - GoogleToolboxForMac/Defines (= 2.1.3)
-  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.3):
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.1.3)":
     - GoogleToolboxForMac/DebugUtils (= 2.1.3)
     - GoogleToolboxForMac/Defines (= 2.1.3)
-    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)
-  - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.1.3)"
   - GTMSessionFetcher/Core (1.1.15)
   - leveldb-library (1.20)
   - nanopb (0.3.8):
@@ -86,6 +86,7 @@ PODS:
   - SnapKit (4.0.0)
   - Stripe (12.1.2)
   - SwiftKeychainWrapper (3.0.1)
+  - TwilioVideo (2.0.0-beta3)
 
 DEPENDENCIES:
   - AAPhotoCircleCrop
@@ -104,6 +105,35 @@ DEPENDENCIES:
   - SnapKit
   - Stripe
   - SwiftKeychainWrapper
+  - TwilioVideo (= 2.0.0-beta3)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AAPhotoCircleCrop
+    - Alamofire
+    - Bolts
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseAuth
+    - FirebaseCore
+    - FirebaseDatabase
+    - FirebaseDynamicLinks
+    - FirebaseInstanceID
+    - FirebaseMessaging
+    - FirebaseStorage
+    - GoogleToolboxForMac
+    - GTMSessionFetcher
+    - leveldb-library
+    - nanopb
+    - Protobuf
+    - Reveal-SDK
+    - SnapKit
+    - Stripe
+    - SwiftKeychainWrapper
+    - TwilioVideo
 
 EXTERNAL SOURCES:
   GeoFire:
@@ -140,7 +170,8 @@ SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Stripe: 3230cdf8a8b0c04902e45e86f222fb82a926239c
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
+  TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
-PODFILE CHECKSUM: e88cecb3c03e633ecca7654e0281a504f220dc83
+PODFILE CHECKSUM: 2bb7f67994f51114e625149af4c51ffa589fc30d
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0
