@@ -607,6 +607,7 @@ class TutorMainPage : MainPage {
             hideBackground()
         } else if(touchStartView == contentView.sidebar.becomeQTItem) {
             navigationController?.pushViewController(LearnerPageViewController(), animated: true)
+			AccountService.shared.currentUserType = .learner
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.tutorSidebar.taxItem) {

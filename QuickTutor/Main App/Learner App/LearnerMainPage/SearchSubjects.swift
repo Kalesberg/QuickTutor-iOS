@@ -113,7 +113,8 @@ class SearchSubjectsView : SearchLayoutView, Keyboardable {
 	}
 }
 
-class SearchSubjects: BaseViewController {
+class SearchSubjects: BaseViewController, ConnectButtonPress {
+
 	
 	override var contentView: SearchSubjectsView {
 		return view as! SearchSubjectsView
@@ -163,6 +164,9 @@ class SearchSubjects: BaseViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
+	}
+	func connectButtonPressed(uid: String) {
+		addTutorWithUid(uid)
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -282,6 +286,17 @@ class SearchSubjects: BaseViewController {
 		}
 	}
 }
+extension SearchSubjects : AddTutorButtonDelegate {
+	func addTutorWithUid(_ uid: String) {
+		DataService.shared.getTutorWithId(uid) { (tutor) in
+			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+			vc.receiverId = uid
+			vc.chatPartner = tutor
+			vc.shouldSetupForConnectionRequest = true
+			self.navigationController?.pushViewController(vc, animated: true)
+		}
+	}
+}
 
 extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	
@@ -317,10 +332,13 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 		if collectionView.tag == 0 {
 			
 			let next = TutorConnect()
-			
 			next.subcategory = categories[selectedCategory].subcategory.subcategories[indexPath.item]
+			let nav = UINavigationController(rootViewController: next)
+			nav.isNavigationBarHidden = true
 			
-			self.present(next, animated: true, completion: nil)
+			DispatchQueue.main.async {
+				self.present(nav, animated: true)
+			}
 		
 		} else if collectionView.tag == 1  {
 			
@@ -331,7 +349,6 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 			collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
 			
 		} else {
-			
 			return
 		}
 	}
@@ -370,8 +387,10 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 			let next = TutorConnect()
 			
 			next.subject = (key, subject.subject.text!)
-			
-			self.present(next, animated: true, completion: nil)
+			let nav = UINavigationController(rootViewController: next)
+			DispatchQueue.main.async {
+				self.present(nav, animated: true)
+			}
 		}
 	}
 	

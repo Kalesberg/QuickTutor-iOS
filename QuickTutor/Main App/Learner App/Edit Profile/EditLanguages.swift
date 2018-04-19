@@ -69,6 +69,19 @@ class EditLanguageView : EditProfileMainLayout {
             make.centerX.equalToSuperview()
         }
 	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		
+		if AccountService.shared.currentUserType == .tutor {
+			navbar.backgroundColor = Colors.tutorBlue
+			statusbarView.backgroundColor = Colors.tutorBlue
+			searchBar.tintColor = Colors.tutorBlue
+		} else {
+			navbar.backgroundColor = Colors.learnerPurple
+			statusbarView.backgroundColor = Colors.learnerPurple
+			searchBar.tintColor = Colors.learnerPurple
+		}
+	}
 }
 
 class EditLanguage : BaseViewController {
@@ -115,9 +128,23 @@ class EditLanguage : BaseViewController {
 	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonSave) {
+			self.dismissKeyboard()
 			saveLanguages()
 		}
 	}
+	private func displaySavedAlertController() {
+		let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
+		
+		self.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 1
+		DispatchQueue.main.asyncAfter(deadline: when){
+			alertController.dismiss(animated: true){
+				self.navigationController?.popViewController(animated: true)
+			}
+		}
+	}
+	
 	private func saveLanguages() {
 		
 		
@@ -129,9 +156,7 @@ class EditLanguage : BaseViewController {
 				
 				LearnerData.userData.languages = selectedCells
 				FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedCells])
-				
-				navigationController?.popViewController(animated: true)
-				
+				displaySavedAlertController()
 				break
 				
 			}
@@ -146,7 +171,7 @@ class EditLanguage : BaseViewController {
 					print(error)
 				} else {
 					print("success")
-					self.navigationController?.popViewController(animated: true)
+					self.displaySavedAlertController()
 				}
 			}
 			TutorData.shared.languages = selectedCells

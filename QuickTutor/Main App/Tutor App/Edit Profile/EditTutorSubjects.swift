@@ -442,7 +442,7 @@ class EditTutorSubjects : BaseViewController {
 		}
 	}
 	private func displaySavedAlertController() {
-		let alertController = UIAlertController(title: "Saved!", message: "Your changed have been saved", preferredStyle: .alert)
+		let alertController = UIAlertController(title: "Saved!", message: "Your phone update has been saved", preferredStyle: .alert)
 		
 		self.present(alertController, animated: true, completion: nil)
 		

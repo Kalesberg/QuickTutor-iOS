@@ -148,6 +148,16 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
             })
         }
     }
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		if AccountService.shared.currentUserType == .tutor {
+			navbar.backgroundColor = Colors.tutorBlue
+			statusbarView.backgroundColor = Colors.tutorBlue
+		} else {
+			navbar.backgroundColor = Colors.learnerPurple
+			statusbarView.backgroundColor = Colors.learnerPurple
+		}
+	}
 }
 
 
@@ -169,12 +179,12 @@ class EditBio : BaseViewController {
 		NavbarButtonBack.enabled = false
 		
 		originalBio = contentView.textView.textView.text
-		print(originalBio)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		contentView.textView.textView.becomeFirstResponder()
+
 	}
     
 	override func viewDidDisappear(_ animated: Bool) {
@@ -191,9 +201,23 @@ class EditBio : BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+	
+	private func displaySavedAlertController() {
+		let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
+		
+		self.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 1
+		DispatchQueue.main.asyncAfter(deadline: when){
+			alertController.dismiss(animated: true){
+				self.navigationController?.popViewController(animated: true)
+			}
+		}
+	}
+	
     override func handleNavigation() {
         if (touchStartView is NavbarButtonSave) {
+			self.dismissKeyboard()
 			saveChanges()
 		} else if (touchStartView is NavbarButtonBack) {
 			if originalBio != contentView.textView.textView.text {
@@ -228,8 +252,7 @@ class EditBio : BaseViewController {
 			
 				FirebaseData.manager.updateValue(node: "student-info", value: ["bio" : contentView.textView.textView.text!])
 				LearnerData.userData.bio = contentView.textView.textView.text!
-				
-				self.navigationController?.popViewController(animated: true)
+				displaySavedAlertController()
 
 		case .tutor :
 			
@@ -237,8 +260,7 @@ class EditBio : BaseViewController {
 			
 			TutorData.shared.bio = contentView.textView.textView.text!
 			LearnerData.userData.bio = contentView.textView.textView.text!
-			
-			self.navigationController?.popViewController(animated: true)
+			displaySavedAlertController()
 		}
 	}
 	

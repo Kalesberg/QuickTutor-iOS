@@ -343,7 +343,7 @@ class TutorManagePolicies : BaseViewController {
 			}
 		}
 	}
-	private func displaySavedAlertController() {
+	private  func displaySavedAlertController() {
 		let alertController = UIAlertController(title: "Saved!", message: "Your policy changes have been saved", preferredStyle: .alert)
 		
 		self.present(alertController, animated: true, completion: nil)

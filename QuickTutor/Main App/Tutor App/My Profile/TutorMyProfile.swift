@@ -199,7 +199,8 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
-            
+			
+            cell.nameLabel.text = tutor.name
             cell.locationLabel.text = tutor.region
             
             return cell
@@ -309,18 +310,15 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
 
             let policies = tutor.policy.split(separator: "_")
-
-            let cancelNotice = policies[2]
-
             let formattedString = NSMutableAttributedString()
 
             formattedString
                 .regular(" - Will travel up to \(tutor.distance!) miles\n\n", 14, .white)
                 .regular(tutor.preference.preferenceNormalization(), 14, .white)
-                .regular(" - Cancellations: \(cancelNotice) Hour Notice\n\n", 14, .white)
+				.regular(" - Cancellations: \(policies[2]) Hour Notice\n\n", 14, .white)
                 //not sure how were storing these yet
-                .regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
-                .regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
+                .regular("      Late Fee: $\(policies[1])00\n", 13, Colors.qtRed)
+                .regular("      Cancellation Fee: $\(policies[3])00", 13, Colors.qtRed)
 
             cell.policiesLabel.attributedText = formattedString
 

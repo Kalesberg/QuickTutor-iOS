@@ -637,7 +637,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
-            
+            cell.nameLabel.text = LearnerData.userData.name
             cell.locationLabel.text = LearnerData.userData.address
             
             return cell

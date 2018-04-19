@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class TutorCardCollectionViewCell : BaseCollectionViewCell {
-	
+
 	required override init(frame: CGRect) {
 		super.init(frame: .zero)
 		configureCollectionViewCell()
@@ -71,6 +71,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
 		return tableView
 	}()
+
+	var delegate : ConnectButtonPress?
 	
 	var datasource : FeaturedTutor? {
 		didSet{
@@ -187,6 +189,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 	}
 	override func handleNavigation() {
 		if touchStartView is ConnectButton {
+			delegate?.connectButtonPressed(uid: datasource!.uid)
 		} else if touchStartView is FullProfile {
 			if let current = UIApplication.getPresentedViewController() {
 				current.present(ViewFullProfile(), animated: true, completion: nil)
@@ -194,6 +197,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 		}
 	}
 }
+
 extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -227,7 +231,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 make.top.equalToSuperview().inset(10)
             }
     
-            cell.tutorItem.label.text = "Tutored in \(datasource?.numSessions!) sessions"
+            cell.tutorItem.label.text = "Tutored in \(datasource?.numSessions! ?? 0) sessions"
             
             if let languages = datasource?.language {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
@@ -296,7 +300,6 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                     }
                 }
             }
-
             return cell
             
         case 2:
@@ -310,17 +313,19 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
+			guard let policy = TutorData.shared.policy else { return UITableViewCell() }
+			
+			let policies = policy.split(separator: "_")
 			
 			let formattedString = NSMutableAttributedString()
     
 			formattedString
 				.regular(" - Will travel up to \(datasource!.distance!) miles\n\n", 14, .white)
 				.regular((datasource?.preference.preferenceNormalization())!, 14, .white)
-				.regular(" - Cancellations: \(5) Hour Notice\n\n", 14, .white)
-				.regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
-				.regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
+				.regular(" - Cancellations: \(policies[2]) Hour Notice\n\n", 14, .white)
+				.regular("      Late Fee: $\(policies[1])).00\n", 13, Colors.qtRed)
+				.regular("      Cancellation Fee: $\(policies[3]).00", 13, Colors.qtRed)
 			
-			cell.policiesLabel.attributedText = formattedString
 			
             return cell
         default:
@@ -608,6 +613,7 @@ class ConnectButton : InteractableView, Interactable {
 		
 		return label
 	}()
+	
 	override func configureView() {
 		addSubview(connect)
 		super.configureView()
