@@ -119,8 +119,19 @@ class LearnerMainPage : MainPage {
 	}
 	override func updateSideBar() {
 		
-		contentView.sidebar.profileView.profileNameView.text = user.name
-		//contentView.sidebar.profileView.profileSchoolView.text = user.school
+        let formattedString = NSMutableAttributedString()
+            
+        if let school = user.school {
+            formattedString
+                .bold(user.name + "\n", 17, .white)
+                .regular(school, 14, Colors.grayText)
+        } else {
+            formattedString
+                .bold(user.name, 17, .white)
+        }
+        
+        
+		contentView.sidebar.profileView.profileNameView.attributedText = formattedString
 		contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
 		
 	}

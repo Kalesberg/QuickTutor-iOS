@@ -19,6 +19,7 @@ class TutorSideBar : Sidebar {
         super.configureView()
         
         becomeQTItem.label.label.text = "Start Learning"
+        ratingView.tutorOrLearnerLabel.text = "Tutor Rating:"
         
         applyConstraints()
     }
@@ -98,6 +99,7 @@ class LearnerSideBar : Sidebar {
     override func configureView() {
         super.configureView()
     
+        ratingView.tutorOrLearnerLabel.text = "Learner Rating:"
     }
     
     override func applyConstraints() {
@@ -277,6 +279,7 @@ class ProfileView : InteractableBackgroundView {
         profileNameView.text = user.name!
         profileNameView.textColor = .white
         profileNameView.adjustsFontSizeToFitWidth = true
+        profileNameView.numberOfLines = 2
         
         applyConstraints()
     }
@@ -307,26 +310,42 @@ class ProfileView : InteractableBackgroundView {
 }
 
 
-class RatingView : InteractableBackgroundView {
+class RatingView : InteractableView {
     
-    var starImageView = UIImageView()
-    var ratingLabel   = LeftTextLabel()
+    let starImageView : UIImageView = {
+        let view = UIImageView()
+        
+        view.image = UIImage(named: "sidebar-star")
+        
+        return view
+    }()
+    let ratingLabel : LeftTextLabel = {
+        let label = LeftTextLabel()
+        
+        label.label.text = "4.71"
+        label.label.font = Fonts.createBoldSize(14)
+        
+        return label
+    }()
+    let tutorOrLearnerLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createSize(17)
+        label.textColor = .white
+        
+        return label
+    }()
     
     override func configureView() {
         addSubview(starImageView)
         addSubview(ratingLabel)
+        addSubview(tutorOrLearnerLabel)
         super.configureView()
-        
-        starImageView.image = UIImage(named: "sidebar-star")
-        
-        ratingLabel.label.text = "4.71"
-        ratingLabel.label.font = Fonts.createBoldSize(14)
         
         applyConstraints()
     }
     
     override func applyConstraints() {
-
         starImageView.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(20)
@@ -336,6 +355,11 @@ class RatingView : InteractableBackgroundView {
             make.centerY.equalToSuperview()
             make.height.equalToSuperview()
             make.right.equalTo(starImageView.snp.left).inset(-8)
+        }
+        
+        tutorOrLearnerLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
         }
     }
 }

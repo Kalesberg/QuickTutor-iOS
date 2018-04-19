@@ -83,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 					})
                     
                     
-					let controller = TutorPageViewController()
+					let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
