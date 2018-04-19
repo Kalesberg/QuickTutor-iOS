@@ -74,6 +74,18 @@ class EditSchoolView : EditProfileMainLayout {
 			make.centerY.equalToSuperview()
 		}
 	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		if AccountService.shared.currentUserType == .tutor {
+			navbar.backgroundColor = Colors.tutorBlue
+			statusbarView.backgroundColor = Colors.tutorBlue
+			searchBar.tintColor = Colors.tutorBlue
+		} else {
+			navbar.backgroundColor = Colors.learnerPurple
+			statusbarView.backgroundColor = Colors.learnerPurple
+			searchBar.tintColor = Colors.learnerPurple
+		}
+	}
 }
 
 class EditSchool : BaseViewController {
@@ -111,7 +123,19 @@ class EditSchool : BaseViewController {
 		
 		contentView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "idCell")
 	}
-	
+	private func displaySavedAlertController() {
+		let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
+		
+		self.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 1
+		DispatchQueue.main.asyncAfter(deadline: when){
+			alertController.dismiss(animated: true){
+				self.navigationController?.popViewController(animated: true)
+			}
+		}
+		
+	}
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonSave) {
 			//save button pressed
@@ -161,7 +185,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 		
 		if shouldUpdateSearchResults {
 			school = filteredSchools[indexPath.row]
-			
+			self.dismissKeyboard()
 			switch AccountService.shared.currentUserType {
 			case .learner:
 				
@@ -170,11 +194,10 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 					FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
 					LearnerData.userData.school = school
 					
-					self.navigationController?.popViewController(animated: true)
+					displaySavedAlertController()
 					break
 					
 				}
-				
 				fallthrough
 			case .tutor :
 
@@ -185,7 +208,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 						print(error)
 					} else {
 						print("success")
-						self.navigationController?.popViewController(animated: true)
+						self.displaySavedAlertController()
 					}
 				}
 				TutorData.shared.school = school

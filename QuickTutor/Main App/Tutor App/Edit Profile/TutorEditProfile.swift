@@ -225,7 +225,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 	}
 	
 	private func displaySavedAlertController() {
-		let alertController = UIAlertController(title: "Saved!", message: "Your policy changes have been saved", preferredStyle: .alert)
+		let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
 		
 		self.present(alertController, animated: true, completion: nil)
 		
@@ -235,8 +235,8 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 				self.navigationController?.popViewController(animated: true)
 			}
 		}
-		
 	}
+	
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonSave {
 			saveChanges()

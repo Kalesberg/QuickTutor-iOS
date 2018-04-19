@@ -58,6 +58,22 @@ class EditPhoneView : MainLayoutTitleBackButton, Keyboardable {
 			make.centerX.equalToSuperview()
 		}
 	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		
+		if AccountService.shared.currentUserType == .tutor {
+			navbar.backgroundColor = Colors.tutorBlue
+			statusbarView.backgroundColor = Colors.tutorBlue
+			enterButton.backgroundColor = Colors.tutorBlue
+			phoneTextField.textField.tintColor = Colors.tutorBlue
+		} else {
+			navbar.backgroundColor = Colors.learnerPurple
+			statusbarView.backgroundColor = Colors.learnerPurple
+			enterButton.backgroundColor = Colors.learnerPurple
+			phoneTextField.textField.tintColor = Colors.learnerPurple
+
+		}
+	}
 }
 
 
@@ -181,10 +197,12 @@ class EditPhone : BaseViewController {
 	override func loadView() {
 		view = EditPhoneView()
 	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		contentView.phoneTextField.textField.delegate = self
 	}
+	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		contentView.phoneTextField.textField.becomeFirstResponder()
@@ -193,22 +211,40 @@ class EditPhone : BaseViewController {
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 	}
+	private func displaySavedAlertController() {
+		let alertController = UIAlertController(title: "Saved!", message: "Your changed have been saved", preferredStyle: .alert)
+		
+		self.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 1
+		DispatchQueue.main.asyncAfter(deadline: when){
+			alertController.dismiss(animated: true){
+				self.navigationController?.popViewController(animated: true)
+			}
+		}
+	}
 	
+	private func updateNewPhone() {
+		let phoneNumber = contentView.phoneTextField.textField.text!.cleanPhoneNumber()
+		
+		if phoneNumber.phoneRegex() {
+			FirebaseData.manager.changeMobileNumberRequest(phone: phoneNumber, completion: { (error) in
+				if let error = error {
+					print(error.localizedDescription)
+				} else {
+					EditPhoneVerification.phoneNumber = phoneNumber.formatPhoneNumber()
+					self.displaySavedAlertController()
+				}
+			})
+		} else {
+			print("Bad Phone")
+			contentView.phoneTextField.textField.becomeFirstResponder()
+		}
+	}
 	override func handleNavigation() {
 		if (touchStartView is EnterButton) {
-			let phoneNumber = contentView.phoneTextField.textField.text!.cleanPhoneNumber()
-			if phoneNumber.phoneRegex() {
-				FirebaseData.manager.changeMobileNumberRequest(phone: phoneNumber, completion: { (error) in
-					if let error = error {
-						print(error.localizedDescription)
-					} else {
-						EditPhoneVerification.phoneNumber = phoneNumber.formatPhoneNumber()
-						self.navigationController?.pushViewController(EditPhoneVerification(), animated: true)
-					}
-				})
-			} else {
-				print("Bad Phone")
-			}
+			self.dismissKeyboard()
+			updateNewPhone()
 		}
 	}
 }

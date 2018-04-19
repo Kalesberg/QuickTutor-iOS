@@ -14,6 +14,12 @@ protocol ApplyLearnerFilters {
     func applyFilters()
 }
 
+protocol ConnectButtonPress{
+	
+	func connectButtonPressed(uid: String)
+	
+}
+
 class TutorConnectView : MainLayoutTwoButton {
     
     var back = NavbarButtonX()
@@ -43,9 +49,12 @@ class TutorConnectView : MainLayoutTwoButton {
         
         let layout = UICollectionViewFlowLayout()
         
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        layout.headerReferenceSize = CGSize.zero
+        layout.footerReferenceSize = CGSize.zero
         
         collectionView.backgroundColor = Colors.backgroundDark
         collectionView.collectionViewLayout = layout
@@ -89,23 +98,24 @@ class TutorConnectView : MainLayoutTwoButton {
             make.left.equalTo(back.snp.right)
             make.right.equalTo(rightButton.snp.left)
             make.height.equalToSuperview()
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().inset(3)
         }
         collectionView.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
     }
 }
 
-class TutorConnect : BaseViewController, ApplyLearnerFilters {
-    
+class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress {
+	
     var filters: (Int, Int, Bool)!
     
     func applyFilters() {
-        //sort here... reset the database
+        //sort here... reset the datasource
         let sortedTutors = datasource.sorted { (tutor1 : FeaturedTutor, tutor2 : FeaturedTutor) -> Bool in
             
             let ratio1 = Double(tutor1.price) / Double(filters.1) / (tutor1.rating / 5.0)
@@ -113,6 +123,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 
             return ratio1 < ratio2
         }
+		
         self.datasource = sortedTutors
     }
     
@@ -157,8 +168,10 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         }
     }
 
+	
     private var startingScrollingOffset = CGPoint.zero
-    
+
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -167,7 +180,11 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         
         contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
     }
-    
+	
+	func connectButtonPressed(uid: String) {
+		addTutorWithUid(uid)
+	}
+	
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -177,7 +194,8 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
+	
     override func handleNavigation() {
         if touchStartView is NavbarButtonX{
             dismiss(animated: true, completion: nil)
@@ -185,8 +203,25 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             let next = LearnerFilters()
             next.delegate = self
             self.present(next, animated: true, completion: nil)
-        }
+		}
     }
+
+}
+
+extension TutorConnect : AddTutorButtonDelegate {
+	
+	func addTutorWithUid(_ uid: String) {
+		
+		DataService.shared.getTutorWithId(uid) { (tutor) in
+			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+			
+			vc.receiverId = uid
+			vc.chatPartner = tutor
+			vc.shouldSetupForConnectionRequest = true
+
+			self.navigationController?.pushViewController(vc, animated: true)
+		}
+	}
 }
 
 extension TutorConnect : UIPopoverPresentationControllerDelegate {
@@ -205,10 +240,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
         
         let data = datasource[indexPath.item]
-        
-        if let languages = data.language {
-            //cell.header.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
-        }
+
         cell.header.imageView.loadUserImages(by: (data.imageUrls["image1"])!)
         cell.header.name.text = data.name.components(separatedBy: " ")[0]
 
@@ -231,16 +263,17 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         cell.distanceLabel.attributedText = formattedString
         cell.distanceLabel.numberOfLines = 0
-
+		cell.delegate = self
+		
         return cell
     }
-    
+	
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
+
         let width = UIScreen.main.bounds.width - 20
-        
-        return CGSize(width: width, height: collectionView.frame.height - 50)
-        
+
+        return CGSize(width: width, height: collectionView.frame.height)
+
     }
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

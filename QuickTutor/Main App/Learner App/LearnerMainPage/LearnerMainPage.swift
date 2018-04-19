@@ -79,7 +79,7 @@ class LearnerMainPageView : MainPageView {
 }
 import Firebase
 class LearnerMainPage : MainPage {
-	
+
 	override var contentView: LearnerMainPageView {
 		return view as! LearnerMainPageView
 	}

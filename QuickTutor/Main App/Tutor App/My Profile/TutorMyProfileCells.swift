@@ -190,8 +190,7 @@ class ProfilePicTableViewCell : BaseTableViewCell {
         
         label.font = Fonts.createBoldSize(20)
         label.textColor = .white
-        label.text = "Alex Zoltowski"
-        
+		
         return label
     }()
     
@@ -210,7 +209,6 @@ class ProfilePicTableViewCell : BaseTableViewCell {
         label.adjustsFontSizeToFitWidth = true
         label.clipsToBounds = true
         label.textColor = .white
-        label.text = "Mount Pleasant, MI"
 
         return label
     }()
