@@ -9,80 +9,16 @@
 import Foundation
 import UIKit
 
-class TutorMyProfileView : MainLayoutTitleBackTwoButton {
-    
-    var editButton = NavbarButtonEdit()
-    
-    override var rightButton: NavbarButton {
-        get {
-            return editButton
-        } set {
-            editButton = newValue as! NavbarButtonEdit
-        }
-    }
-    
-    let tableView : UITableView = {
-        let tableView = UITableView()
-        
-        tableView.backgroundColor = .clear
-        tableView.estimatedRowHeight = 250
-        tableView.isScrollEnabled = true
-        tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
-        tableView.allowsSelection = false
-        
-        return tableView
-    }()
-    
-    let backgroundView : UIView = {
-        let view = UIView()
-        
-        view.backgroundColor = .black
-        view.alpha = 0.0
-        
-        return view
-    }()
-    
-    let xButton : NavbarButtonX = {
-        let button = NavbarButtonX()
-        
-        button.alpha = 0.0
-        
-        return button
-    }()
+class TutorMyProfileView : LearnerMyProfileView {
     
     override func configureView() {
-        addSubview(tableView)
-        addSubview(backgroundView)
-        addSubview(xButton)
         super.configureView()
         
         title.label.text = "My Profile"
         statusbarView.backgroundColor = Colors.tutorBlue
         navbar.backgroundColor = Colors.tutorBlue
     }
-    
-    override func applyConstraints() {
-        super.applyConstraints()
-        
-        tableView.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalTo(safeAreaLayoutGuide)
-        }
-        
-        backgroundView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        
-        xButton.snp.makeConstraints { (make) in
-            make.width.equalToSuperview().multipliedBy(0.175)
-            make.top.equalTo(navbar).inset(10)
-            make.bottom.equalTo(navbar).inset(10)
-            make.left.equalToSuperview()
-        }
-    }
+
 }
 
 class TutorMyProfile : BaseViewController {
@@ -125,7 +61,7 @@ class TutorMyProfile : BaseViewController {
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
         contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
     }
-    
+
     override func loadView() {
         view = TutorMyProfileView()
     }
@@ -141,7 +77,8 @@ class TutorMyProfile : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         contentView.tableView.reloadData()
-        contentView.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
+        //contentView.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .none)
+        
     }
     
     private func configureScrollView() {
@@ -263,90 +200,120 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
             
-            //cell.locationLabel.text = tutor.region
+            cell.locationLabel.text = tutor.region
             
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
             
-            //cell.bioLabel.text = tutor.bio + "\n"
+            cell.bioLabel.text = tutor.bio + "\n"
             
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
+
+            cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
             
-            //cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
-            //cell.speakItem.label.text = "Speaks: \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
-            //cell.studysItem.label.text = tutor.school!
-            
-            cell.tutorItem.snp.makeConstraints { (make) in
-                make.left.equalToSuperview().inset(12)
-                make.right.equalToSuperview().inset(20)
-                make.height.equalTo(35)
-                make.top.equalToSuperview().inset(10)
-                
-                //remove line below this once logic is implemented... the bottom will be set with the if below it
-                make.bottom.equalToSuperview().inset(10)
-                
-                //if speak and study is not set {
-                //   make.bottom.equalToSuperview().inset(10)
-                //}
+            if let languages = tutor.languages {
+                cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
+                cell.contentView.addSubview(cell.speakItem)
+
+                cell.tutorItem.snp.makeConstraints { (make) in
+                    make.left.equalToSuperview().inset(12)
+                    make.right.equalToSuperview().inset(20)
+                    make.height.equalTo(35)
+                    make.top.equalToSuperview().inset(10)
+                }
+
+                if let studies = tutor.school {
+                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.contentView.addSubview(cell.studysItem)
+
+                    cell.speakItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.tutorItem.snp.bottom)
+                    }
+
+                    cell.studysItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.speakItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                } else {
+                    print("school nil")
+                    cell.speakItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.tutorItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                }
+            } else {
+                if let studies = tutor.school {
+                    print("languages nil")
+                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.contentView.addSubview(cell.studysItem)
+
+                    cell.tutorItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalToSuperview().inset(10)
+                    }
+
+                    cell.studysItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.tutorItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                } else {
+                    print("all nil")
+                    cell.tutorItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalToSuperview().inset(10)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                }
             }
-            
-            //if speak item is set {
-            //cell.addSubview(speakItem)
-//            cell.speakItem.snp.makeConstraints { (make) in
-//                make.left.equalToSuperview().inset(12)
-//                make.right.equalToSuperview().inset(20)
-//                make.height.equalTo(40)
-//                make.top.equalTo(cell.tutorItem.snp.bottom)
-//
-//                if study is not set{
-//                   make.bottom.equalToSuperview().inset(10)
-//                }
-//            }
-//        }
-            //if study is set {
-            //cell.addSubview(studysItem)
-//            cell.studysItem.snp.makeConstraints { (make) in
-//                make.left.equalToSuperview().inset(12)
-//                make.right.equalToSuperview().inset(20)
-//                make.height.equalTo(40)
-//                if speak is set {
-//                  make.top.equalTo(cell.speakItem.snp.bottom)
-//                } else {
-//                  make.top.equalTo(cell.tutorItem.snp.bottom)
-//       }
-//                make.bottom.equalToSuperview().inset(10)
-//            }
-//        }
+
             return cell
-        
+
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-            //cell.datasource = tutor.subjects
-            return cell
             
+            cell.datasource = tutor.subjects
+            
+            return cell
+
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
 
-//            if tutor.reviews.count <= 2 {
-//                cell.datasource = tutor.reviews
-//            } else {
-//                cell.datasource = Array(tutor.reviews[0..<2])
-//            }
-            
+            if tutor.reviews.count <= 2 {
+                cell.datasource = tutor.reviews
+            } else {
+                cell.datasource = Array(tutor.reviews[0..<2])
+            }
+
             return cell
-            
+
         case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
-        
+
             let policies = tutor.policy.split(separator: "_")
-            
+
             let cancelNotice = policies[2]
-            
+
             let formattedString = NSMutableAttributedString()
-            
+
             formattedString
                 .regular(" - Will travel up to \(tutor.distance!) miles\n\n", 14, .white)
                 .regular(tutor.preference.preferenceNormalization(), 14, .white)
@@ -354,7 +321,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                 //not sure how were storing these yet
                 .regular("      Late Fee: $15.00\n", 13, Colors.qtRed)
                 .regular("      Cancellation Fee: $15.00", 13, Colors.qtRed)
-            
+
             cell.policiesLabel.attributedText = formattedString
 
             return cell
