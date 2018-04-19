@@ -316,6 +316,8 @@ class ExtraInfoTableViewCell : BaseTableViewCell {
         selectionStyle = .none
         
         divider.backgroundColor = Colors.divider
+        divider.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
         
         applyConstraints()
     }

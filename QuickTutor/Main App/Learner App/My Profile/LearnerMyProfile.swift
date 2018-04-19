@@ -638,66 +638,91 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
             
-//            cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
-//            cell.speakItem.label.text = "Speaks: \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
-//            cell.studysItem.label.text = tutor.school!
-//            cell.locationItem.label.text = tutor.region
+            cell.locationLabel.text = LearnerData.userData.address
             
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
             
-            //cell.bioLabel.text = tutor.bio + "\n"
+            cell.bioLabel.text = LearnerData.userData.bio + "\n"
             
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
             
-            //cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
-            //cell.speakItem.label.text = "Speaks: \(tutor.languages.compactMap({$0}).joined(separator: ", "))"
-            //cell.studysItem.label.text = tutor.school!
+            //cell.tutorItem.label.text = "Tutored in \(LearnerData.userData.numSessions!) sessions"
             
-            cell.tutorItem.snp.makeConstraints { (make) in
-                make.left.equalToSuperview().inset(12)
-                make.right.equalToSuperview().inset(20)
-                make.height.equalTo(35)
-                make.top.equalToSuperview().inset(10)
+            if let languages = LearnerData.userData.languages {
+                cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
+                cell.contentView.addSubview(cell.speakItem)
                 
-                //remove line below this once logic is implemented... the bottom will be set with the if below it
-                make.bottom.equalToSuperview().inset(10)
+                cell.tutorItem.snp.makeConstraints { (make) in
+                    make.left.equalToSuperview().inset(12)
+                    make.right.equalToSuperview().inset(20)
+                    make.height.equalTo(35)
+                    make.top.equalToSuperview().inset(10)
+                }
                 
-                //if speak and study is not set {
-                //   make.bottom.equalToSuperview().inset(10)
-                //}
+                if let studies = LearnerData.userData.school {
+                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.contentView.addSubview(cell.studysItem)
+                    
+                    cell.speakItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.tutorItem.snp.bottom)
+                    }
+                    
+                    cell.studysItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.speakItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                } else {
+                    print("school nil")
+                    cell.speakItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.tutorItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                }
+            } else {
+                if let studies = LearnerData.userData.school {
+                    print("languages nil")
+                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.contentView.addSubview(cell.studysItem)
+                    
+                    cell.tutorItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalToSuperview().inset(10)
+                    }
+                    
+                    cell.studysItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalTo(cell.tutorItem.snp.bottom)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                } else {
+                    print("all nil")
+                    cell.tutorItem.snp.makeConstraints { (make) in
+                        make.left.equalToSuperview().inset(12)
+                        make.right.equalToSuperview().inset(20)
+                        make.height.equalTo(35)
+                        make.top.equalToSuperview().inset(10)
+                        make.bottom.equalToSuperview().inset(10)
+                    }
+                }
             }
-            
-            //if speak item is set {
-            //cell.addSubview(speakItem)
-            //            cell.speakItem.snp.makeConstraints { (make) in
-            //                make.left.equalToSuperview().inset(12)
-            //                make.right.equalToSuperview().inset(20)
-            //                make.height.equalTo(40)
-            //                make.top.equalTo(cell.tutorItem.snp.bottom)
-            //
-            //                if study is not set{
-            //                   make.bottom.equalToSuperview().inset(10)
-            //                }
-            //            }
-            //        }
-            //if study is set {
-            //cell.addSubview(studysItem)
-            //            cell.studysItem.snp.makeConstraints { (make) in
-            //                make.left.equalToSuperview().inset(12)
-            //                make.right.equalToSuperview().inset(20)
-            //                make.height.equalTo(40)
-            //                if speak is set {
-            //                  make.top.equalTo(cell.speakItem.snp.bottom)
-            //                } else {
-            //                  make.top.equalTo(cell.tutorItem.snp.bottom)
-            //       }
-            //                make.bottom.equalToSuperview().inset(10)
-            //            }
-            //        }
+
             return cell
             
         default:

@@ -221,11 +221,9 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         let formattedString = NSMutableAttributedString()
         formattedString
-            .bold("126", 17, Colors.lightBlue)
+            .bold("12", 17, Colors.lightBlue)
             .regular("\n", 0, .clear)
             .bold("miles", 12, Colors.lightBlue)
-            .regular("\n", 0, .clear)
-            .bold("away", 12, Colors.lightBlue)
         
         let paragraphStyle = NSMutableParagraphStyle()
         
