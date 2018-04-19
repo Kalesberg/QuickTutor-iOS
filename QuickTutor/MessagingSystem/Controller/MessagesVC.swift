@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class MessagesVC: MainPage, CustomNavBarDisplay {
+class MessagesVC: UIViewController, CustomNavBarDisplay {
     
     let mainCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -32,7 +32,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
         return control
     }()
     
-    let cancelSessionModal: CancelSessionModal? = nil
+    var cancelSessionModal: CancelSessionModal? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,7 +82,7 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     
     private func setupMessageSessionControl() {
         view.addSubview(messageSessionControl)
-        messageSessionControl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 130, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
+        messageSessionControl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
         messageSessionControl.delegate = self
     }
     
@@ -147,7 +147,9 @@ class MessagesVC: MainPage, CustomNavBarDisplay {
     
     @objc func showCancelModal(notification: Notification) {
         guard let userInfo = notification.userInfo, let sessionId = userInfo["sessionId"] as? String else { return }
+        cancelSessionModal = CancelSessionModal(frame: .zero)
         cancelSessionModal?.delegate = self
+        cancelSessionModal?.sessionId = sessionId
         cancelSessionModal?.show()
     }
 }
@@ -215,5 +217,6 @@ extension MessagesVC: CustomModalDelegate {
     
     func handleCancel(id: String) {
         Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
+        cancelSessionModal?.dismiss()
     }
 }

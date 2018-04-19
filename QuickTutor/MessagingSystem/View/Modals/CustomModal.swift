@@ -102,6 +102,11 @@ class CustomModal: BaseCustomModal {
         
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
     init(title: String, message: String, note: String, cancelText: String, confirmText: String) {
         super.init(frame: .zero)
         setupViews()

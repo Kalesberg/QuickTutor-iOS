@@ -15,7 +15,7 @@ class SessionRequestCell: UserMessageCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "You requested a meet up"
+        label.text = "You requested a session"
         label.font = Fonts.createBoldSize(16)
         label.textColor = .white
         label.textAlignment = .center
@@ -87,12 +87,12 @@ class SessionRequestCell: UserMessageCell {
     }
     
     func getSessionRequestWithId(_ id: String) {
-        guard sessionCache[id] == nil else {
-            print("this one has already be loaded")
-            sessionRequest = sessionCache[id]
-            loadFromRequest()
-            return
-        }
+//        guard sessionCache[id] == nil else {
+//            print("this one has already be loaded")
+//            sessionRequest = sessionCache[id]
+//            loadFromRequest()
+//            return
+//        }
         Database.database().reference().child("sessions").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
             let sessionRequest = SessionRequest(data: value)

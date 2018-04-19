@@ -157,7 +157,6 @@ class ConversationCell: UICollectionViewCell {
             self.updateTimestampLabel(message: message)
             self.updateProfileImage()
             self.updateLastMessageLabel(message: message)
-            self.updateRegion()
             self.updateRating()
         }
     }
@@ -173,7 +172,6 @@ class ConversationCell: UICollectionViewCell {
             self.updateTimestampLabel(message: message)
             self.updateProfileImage()
             self.updateLastMessageLabel(message: message)
-            self.updateRegion()
             self.updateRating()
         }
     }
@@ -204,12 +202,6 @@ class ConversationCell: UICollectionViewCell {
         }
         if message.sessionRequestId != nil {
             self.lastMessageLabel.text = "Session Request"
-        }
-    }
-    
-    private func updateRegion() {
-        guard let tutor = chatPartner as? ZFTutor else {
-            fatalError("Couldn't convert to tutor")
         }
     }
     

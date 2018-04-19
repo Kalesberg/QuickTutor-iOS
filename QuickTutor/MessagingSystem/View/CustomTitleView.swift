@@ -47,6 +47,14 @@ class CustomTitleView: UIView {
         setupImageView()
         setupTitleView()
         setupActiveLabel()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(showProfile))
+        addGestureRecognizer(tap)
+    }
+    
+    @objc func showProfile() {
+        let vc = AccountService.shared.currentUserType == .learner ? TutorMyProfile() : LearnerMyProfile()
+        navigationController.pushViewController(vc, animated: true)
     }
     
     private func setupImageView() {
