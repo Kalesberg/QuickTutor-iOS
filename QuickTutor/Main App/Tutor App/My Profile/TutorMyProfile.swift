@@ -18,28 +18,7 @@ class TutorMyProfileView : LearnerMyProfileView {
         statusbarView.backgroundColor = Colors.tutorBlue
         navbar.backgroundColor = Colors.tutorBlue
     }
-    
-    override func applyConstraints() {
-        super.applyConstraints()
-        
-//        tableView.snp.makeConstraints { (make) in
-//            make.width.equalToSuperview()
-//            make.centerX.equalToSuperview()
-////            make.top.equalTo(navbar.snp.bottom)
-//            make.bottom.equalTo(safeAreaLayoutGuide)
-//        }
-		
-        backgroundView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        
-        xButton.snp.makeConstraints { (make) in
-            make.width.equalToSuperview().multipliedBy(0.175)
-            make.top.equalTo(navbar).inset(10)
-            make.bottom.equalTo(navbar).inset(10)
-            make.left.equalToSuperview()
-        }
-    }
+
 }
 
 class TutorMyProfile : BaseViewController {

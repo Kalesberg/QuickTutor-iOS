@@ -211,9 +211,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         }
         cell.header.imageView.loadUserImages(by: (data.imageUrls["image1"])!)
         cell.header.name.text = data.name.components(separatedBy: " ")[0]
-//        cell.header.locationItem.label.text = data.region!
-//        cell.header.tutorItem.label.text = "\(data.hours!) hours taught, \(data.numSessions!) sessions"
-//        cell.header.studysItem.label.text = data.school
+
         cell.reviewLabel.text = "\(data.reviews?.count ?? 0) Reviews ★ \(data.rating!)"
         cell.rateLabel.text = "$\(data.price!) / hour"
         
