@@ -14,10 +14,9 @@ protocol ApplyLearnerFilters {
     func applyFilters()
 }
 
-protocol ConnectButtonPress{
-	
+protocol ConnectButtonPress {
+	var connectedTutor : FeaturedTutor! { get set }
 	func connectButtonPressed(uid: String)
-	
 }
 
 class TutorConnectView : MainLayoutTwoButton {
@@ -111,8 +110,8 @@ class TutorConnectView : MainLayoutTwoButton {
 }
 
 class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress {
-	
-    var filters: (Int, Int, Bool)!
+
+	var filters: (Int, Int, Bool)!
     
     func applyFilters() {
         //sort here... reset the datasource
@@ -134,7 +133,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
     override func loadView() {
         view = TutorConnectView()
     }
-    
+	
+	var connectedTutor : FeaturedTutor!
+
     var featuredTutor : FeaturedTutor! {
         didSet {
             self.datasource.append(featuredTutor)
@@ -213,12 +214,14 @@ extension TutorConnect : AddTutorButtonDelegate {
 	func addTutorWithUid(_ uid: String) {
 		
 		DataService.shared.getTutorWithId(uid) { (tutor) in
+			
 			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
 			
 			vc.receiverId = uid
 			vc.chatPartner = tutor
 			vc.shouldSetupForConnectionRequest = true
-
+			vc.tutor = self.connectedTutor
+			
 			self.navigationController?.pushViewController(vc, animated: true)
 		}
 	}
@@ -259,7 +262,8 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = -2
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+		
+		formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
         
         cell.distanceLabel.attributedText = formattedString
         cell.distanceLabel.numberOfLines = 0

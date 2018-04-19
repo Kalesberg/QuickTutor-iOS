@@ -671,9 +671,9 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 		
 		cell.nameLabel.text = data?.studentName ?? ""
 		cell.reviewTextLabel.text = data?.message ?? ""
-		cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "")"
+		cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "") "
 		cell.profilePic.loadUserImages(by: data?.imageURL ?? "")
-	
+
 		return cell
 	}
 	

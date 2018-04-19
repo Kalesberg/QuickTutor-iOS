@@ -18,7 +18,6 @@ import Foundation
 import UIKit
 import SnapKit
 
-
 class SeeAllButton: InteractableView, Interactable {
     
     var label = UILabel()
@@ -480,14 +479,10 @@ class LearnerMyProfile : BaseViewController {
 		return count
 	}
 	
-	var languages : String! {
-		let languages = LearnerData.userData.languages.map({ (language) -> String in
-			return language
-		}).joined(separator: ", ")
-		return "Speaks: \(languages)"
-	}
-	var bio : String! {
-		return LearnerData.userData.bio
+	var learner : LearnerData! {
+		didSet {
+			contentView.tableView.reloadData()
+		}
 	}
 	
     override var contentView: LearnerMyProfileView {
@@ -497,9 +492,10 @@ class LearnerMyProfile : BaseViewController {
     override func viewDidLoad() {
         contentView.addSubview(horizontalScrollView)
         super.viewDidLoad()
+		
 		horizontalScrollView.delegate = self
-
-        //contentView.scrollView.contentSize = CGSize(width: 280, height: (contentView.seeAllButton.frame.maxY - contentView.imageContainer.frame.minY) + 30)
+	
+		//contentView.scrollView.contentSize = CGSize(width: 280, height: (contentView.seeAllButton.frame.maxY - contentView.imageContainer.frame.minY) + 30)
 		
 		pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
         
@@ -509,9 +505,11 @@ class LearnerMyProfile : BaseViewController {
         contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
     }
+	
     override func loadView() {
         view = LearnerMyProfileView()
     }
+	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		configurePageControl()
@@ -639,7 +637,6 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
             cell.nameLabel.text = LearnerData.userData.name
             cell.locationLabel.text = LearnerData.userData.address
-            
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
@@ -651,7 +648,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
             
             //cell.tutorItem.label.text = "Tutored in \(LearnerData.userData.numSessions!) sessions"
-            
+            cell.tutorItem.label.text = "Tutored in 0 sessions"
+			
             if let languages = LearnerData.userData.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
                 cell.contentView.addSubview(cell.speakItem)

@@ -110,6 +110,13 @@ class LearnerMainPage : MainPage {
 				})
 			}
 		}
+		AccountService.shared.currentUserType = .learner
+		
+		if LearnerData.userData.isTutor {
+			contentView.sidebar.becomeQTItem.label.label.text = "Start Teaching"
+		} else {
+			contentView.sidebar.becomeQTItem.label.label.text = "Become A Tutor"
+		}
 		
 		configureView()
 		
@@ -146,7 +153,9 @@ class LearnerMainPage : MainPage {
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.profileView) {
-			navigationController?.pushViewController(LearnerMyProfile(), animated: true)
+			let next = LearnerMyProfile()
+			next.learner = LearnerData.userData
+			navigationController?.pushViewController(next, animated: true)
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.reportItem) {
@@ -156,6 +165,14 @@ class LearnerMainPage : MainPage {
 		} else if(touchStartView == contentView.sidebar.legalItem) {
 			hideSidebar()
 			hideBackground()
+			guard let url = URL(string: "https://www.quicktutor.com") else {
+				return
+			}
+			if #available(iOS 10, *) {
+				UIApplication.shared.open(url, options: [:], completionHandler: nil)
+			} else {
+				UIApplication.shared.openURL(url)
+			}
 			//take user to legal on our website
 		} else if(touchStartView == contentView.sidebar.helpItem) {
 			navigationController?.pushViewController(LearnerHelp(), animated: true)

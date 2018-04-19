@@ -582,7 +582,7 @@ class TutorMainPage : MainPage {
         super.handleNavigation()
         
         if(touchStartView == contentView.sidebar.paymentItem) {
-            navigationController?.pushViewController(hasPaymentMethod ? BankManager() : TutorPayment(), animated: true)
+            navigationController?.pushViewController(TutorSSN(), animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.settingsItem) {
@@ -590,7 +590,9 @@ class TutorMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
-            navigationController?.pushViewController(TutorMyProfile(), animated: true)
+			let next = TutorMyProfile()
+			next.tutor = TutorData.shared
+            navigationController?.pushViewController(next, animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.reportItem) {
