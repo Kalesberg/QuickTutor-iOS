@@ -73,6 +73,21 @@ class ChangeEmailView : MainLayoutTitleBackButton, Keyboardable {
 			make.centerX.equalToSuperview()
 		}
 	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		
+		if AccountService.shared.currentUserType == .tutor {
+			navbar.backgroundColor = Colors.tutorBlue
+			statusbarView.backgroundColor = Colors.tutorBlue
+			updateEmailButton.backgroundColor = Colors.tutorBlue
+			textField.tintColor = Colors.tutorBlue
+		} else {
+			navbar.backgroundColor = Colors.learnerPurple
+			statusbarView.backgroundColor = Colors.learnerPurple
+			updateEmailButton.backgroundColor = Colors.learnerPurple
+			textField.tintColor = Colors.learnerPurple
+		}
+	}
 }
 fileprivate class ChangeEmailTextField : InteractableView, Interactable {
 	
@@ -170,19 +185,35 @@ class ChangeEmail : BaseViewController {
 	
 	override func handleNavigation() {
 		if (touchStartView is UpdateEmailButton) {
+			self.dismissKeyboard()
 			verifyUpdate()
 		}
+	}
+	private func displaySavedAlertController() {
+		let alertController = UIAlertController(title: "Saved!", message: "Your email update has been saved", preferredStyle: .alert)
+		
+		self.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 1
+		DispatchQueue.main.asyncAfter(deadline: when){
+			alertController.dismiss(animated: true){
+				self.navigationController?.popViewController(animated: true)
+			}
+		}
+		
 	}
 	private func verifyUpdate() {
 		let emailText = contentView.textField.text
 		guard let email = emailText, email.emailRegex() else {
 			print("bad email")
+			self.contentView.textField.becomeFirstResponder()
 			return
 		}
 		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
 		Auth.auth().signIn(withEmail: LearnerData.userData.email!, password: password!) { (user, error) in
 			if let error = error {
 				print(error)
+				self.contentView.textField.becomeFirstResponder()
 			} else {
 				user?.updateEmail(to: emailText!, completion: { (error) in
 					if let error = error {
@@ -190,7 +221,7 @@ class ChangeEmail : BaseViewController {
 					} else {
 						LearnerData.userData.email = emailText!
 						FirebaseData.manager.updateValue(node : "account", value: ["email" : emailText!])
-						self.navigationController?.popViewController(animated: true)
+						self.displaySavedAlertController()
 					}
 				})
 			}
