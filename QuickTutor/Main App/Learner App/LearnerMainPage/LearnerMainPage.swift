@@ -113,7 +113,7 @@ class LearnerMainPage : MainPage {
 		AccountService.shared.currentUserType = .learner
 		
 		if LearnerData.userData.isTutor {
-			contentView.sidebar.becomeQTItem.label.label.text = "Start Teaching"
+			contentView.sidebar.becomeQTItem.label.label.text = "Start Tutoring"
 		} else {
 			contentView.sidebar.becomeQTItem.label.label.text = "Become A Tutor"
 		}
@@ -137,10 +137,9 @@ class LearnerMainPage : MainPage {
                 .bold(user.name, 17, .white)
         }
         
-        
 		contentView.sidebar.profileView.profileNameView.attributedText = formattedString
 		contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
-		
+		contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
 	}
 	
 	private func configureView() {
@@ -220,11 +219,15 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return indexPath.section == 0 ? 205.0 : 170.0
-	}
-	
-	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-		return indexPath.section == 0 ? 205.0 : 170.0
+        if indexPath.section == 0 {
+            if UIScreen.main.bounds.height == 568 {
+                return 180
+            } else {
+                return 210
+            }
+        } else {
+            return 170.0
+        }
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

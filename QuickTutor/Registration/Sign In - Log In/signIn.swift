@@ -20,7 +20,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 	
 	var phoneNumberTextField = RegistrationTextField()
 	var signInButton         = RegistrationNextButton()
-	var facebookButton       = FBSDKLoginButton()
+	//var facebookButton       = FBSDKLoginButton()
 	var signinLabel          = UILabel()
 	
 	var quicktutorText = UIImageView()
@@ -31,7 +31,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 	
 	var container = UIView()
 	var phoneTextField = PhoneTextField()
-	var facebookButton2 = FacebookButton()
+	//var facebookButton2 = FacebookButton()
 	
 	var infoLabel = UILabel()
 	
@@ -45,7 +45,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		addSubview(container)
 		container.addSubview(phoneTextField)
 		phoneTextField.addSubview(numberLabel)
-		container.addSubview(facebookButton2)
+		//container.addSubview(facebookButton2)
 		addSubview(nextButton)
 		super.configureView()
 	
@@ -120,7 +120,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		
 		infoLabel.snp.makeConstraints { (make) in
 			make.width.equalToSuperview().multipliedBy(0.8)
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
+			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
 			make.centerX.equalToSuperview()
 		}
 		
@@ -133,7 +133,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		
 		phoneTextField.snp.makeConstraints { (make) in
 			make.width.equalToSuperview()
-			make.centerY.equalToSuperview().multipliedBy(0.7)
+			make.centerY.equalToSuperview().multipliedBy(0.8)
 			make.height.equalTo(60)
 			make.centerX.equalToSuperview()
 		}
@@ -145,12 +145,12 @@ class SignInView: RegistrationGradientView, Keyboardable {
 			make.height.equalTo(30)
 		}
 		
-		facebookButton2.snp.makeConstraints { (make) in
-			make.centerY.equalToSuperview().multipliedBy(1.5)
-			make.height.equalTo(30)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-		}
+//		facebookButton2.snp.makeConstraints { (make) in
+//			make.centerY.equalToSuperview().multipliedBy(1.5)
+//			make.height.equalTo(30)
+//			make.width.equalToSuperview()
+//			make.centerX.equalToSuperview()
+//		}
 	}
 }
 
@@ -280,10 +280,14 @@ class SignIn: BaseViewController {
 		fbLoginManager.logOut()
 		contentView.phoneTextField.textField.delegate = self
 	}
-
-	override func viewDidAppear(_ animated: Bool) {
-		//contentView.phoneNumberTextField.textField.becomeFirstResponder()
-		//contentView.signInButton.isUserInteractionEnabled = true
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		if contentView.nextButton.isUserInteractionEnabled {
+			contentView.phoneTextField.isUserInteractionEnabled = true
+			contentView.phoneTextField.textField.becomeFirstResponder()
+		}
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -294,7 +298,7 @@ class SignIn: BaseViewController {
 		if (touchStartView is PhoneTextField) {
 			contentView.quicktutorText.fadeOut(withDuration: 0.2)
 			contentView.learnAnythingLabel.fadeOut(withDuration: 0.2)
-			contentView.facebookButton2.fadeOut(withDuration: 0.2)
+			//contentView.facebookButton2.fadeOut(withDuration: 0.2)
 			contentView.infoLabel.fadeOut(withDuration: 0.2)
 			
 			contentView.phoneTextField.snp.remakeConstraints({ (make) in
@@ -310,7 +314,7 @@ class SignIn: BaseViewController {
 			})
 			
 			contentView.setNeedsUpdateConstraints()
-			UIView.animate(withDuration: 0.7, delay: 0.2, options: .curveEaseIn, animations: {
+			UIView.animate(withDuration: 0.7, delay: 0.2, options: [.curveEaseIn], animations: {
 				self.contentView.layoutIfNeeded()
 			}, completion: { (true) in
 				self.contentView.backButton.fadeIn(withDuration: 0.2, alpha: 1.0)
@@ -347,12 +351,12 @@ class SignIn: BaseViewController {
 			}
 			
 			contentView.setNeedsUpdateConstraints()
-			UIView.animate(withDuration: 0.7, delay: 0.2, options: .curveEaseIn, animations: {
+			UIView.animate(withDuration: 0.7, delay: 0.2, options: [.curveEaseIn], animations: {
 				self.contentView.layoutIfNeeded()
 			}, completion: { (true) in
 				self.contentView.quicktutorText.fadeIn(withDuration: 0.2, alpha: 1.0)
 				self.contentView.learnAnythingLabel.fadeIn(withDuration: 0.2, alpha: 1.0)
-				self.contentView.facebookButton2.fadeIn(withDuration: 0.2, alpha: 1.0)
+				//self.contentView.facebookButton2.fadeIn(withDuration: 0.2, alpha: 1.0)
 				self.contentView.infoLabel.fadeIn(withDuration: 0.2, alpha: 1.0)
 			})
 		} else if (touchStartView is RegistrationNextButton) {

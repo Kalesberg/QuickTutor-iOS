@@ -247,7 +247,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 19
+        return 18
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -288,8 +288,8 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             return 75
         case 17:
             return 75
-        case 18:
-            return 50
+//        case 18:
+//            return 50
         default:
             break
         }
@@ -455,12 +455,12 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
-        case 18:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-            
-            cell.label.text = "Connections"
-            
-            return cell
+//        case 18:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
+//
+//            cell.label.text = "Connections"
+//
+//            return cell
         default:
             break
         }
