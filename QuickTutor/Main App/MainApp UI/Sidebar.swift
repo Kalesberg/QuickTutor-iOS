@@ -275,11 +275,7 @@ class ProfileView : InteractableBackgroundView {
         profilePicView.scaleImage()
         
         profileNameView.font = Fonts.createBoldSize(16)
-      
-        profileNameView.text = user.name!
-        profileNameView.textColor = .white
-        profileNameView.adjustsFontSizeToFitWidth = true
-        profileNameView.numberOfLines = 2
+        profileNameView.numberOfLines = 3
         
         applyConstraints()
     }
@@ -319,18 +315,18 @@ class RatingView : InteractableView {
         
         return view
     }()
-    let ratingLabel : LeftTextLabel = {
-        let label = LeftTextLabel()
-        
-        label.label.text = "4.71"
-        label.label.font = Fonts.createBoldSize(14)
+    let ratingLabel : UILabel = {
+        let label = UILabel()
+    
+        label.font = Fonts.createBoldSize(14)
+        label.textColor = .white
         
         return label
     }()
     let tutorOrLearnerLabel : UILabel = {
         let label = UILabel()
         
-        label.font = Fonts.createSize(17)
+        label.font = Fonts.createSize(16)
         label.textColor = .white
         
         return label
@@ -352,9 +348,8 @@ class RatingView : InteractableView {
         }
         
         ratingLabel.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.height.equalToSuperview()
-            make.right.equalTo(starImageView.snp.left).inset(-8)
+            make.centerY.equalToSuperview().inset(1)
+            make.right.equalTo(starImageView.snp.left).inset(-5)
         }
         
         tutorOrLearnerLabel.snp.makeConstraints { (make) in

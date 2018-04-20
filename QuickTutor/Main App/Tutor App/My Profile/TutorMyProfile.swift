@@ -32,14 +32,14 @@ class TutorMyProfile : BaseViewController {
     var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
     
     //let tutor = TutorData.shared
-	
-	var tutor : TutorData! {
-		didSet {
-			contentView.tableView.reloadData()
-		}
-	}
-	
-	var pageCount : Int {
+    
+    var tutor : TutorData! {
+        didSet {
+            contentView.tableView.reloadData()
+        }
+    }
+    
+    var pageCount : Int {
         var count = 0
         tutor.images.forEach { (_,value) in
             if value != "" {
@@ -205,7 +205,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
-			
+            
             cell.nameLabel.text = tutor.name
             cell.locationLabel.text = tutor.region
             
@@ -251,7 +251,6 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                         make.bottom.equalToSuperview().inset(10)
                     }
                 } else {
-                    print("school nil")
                     cell.speakItem.snp.makeConstraints { (make) in
                         make.left.equalToSuperview().inset(12)
                         make.right.equalToSuperview().inset(20)
@@ -262,7 +261,6 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
             } else {
                 if let studies = tutor.school {
-                    print("languages nil")
                     cell.studysItem.label.text = "Studies: " + studies
                     cell.contentView.addSubview(cell.studysItem)
 
@@ -281,7 +279,6 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                         make.bottom.equalToSuperview().inset(10)
                     }
                 } else {
-                    print("all nil")
                     cell.tutorItem.snp.makeConstraints { (make) in
                         make.left.equalToSuperview().inset(12)
                         make.right.equalToSuperview().inset(20)
@@ -321,7 +318,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             formattedString
                 .regular(" - Will travel up to \(tutor.distance!) miles\n\n", 14, .white)
                 .regular(tutor.preference.preferenceNormalization(), 14, .white)
-				.regular(" - Cancellations: \(policies[2]) Hour Notice\n\n", 14, .white)
+                .regular(" - Cancellations: \(policies[2]) Hour Notice\n\n", 14, .white)
                 //not sure how were storing these yet
                 .regular("      Late Fee: $\(policies[1])00\n", 13, Colors.qtRed)
                 .regular("      Cancellation Fee: $\(policies[3])00", 13, Colors.qtRed)

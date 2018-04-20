@@ -43,8 +43,8 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
     fileprivate var languagesItem = EditProfileLanguageItem()
     fileprivate var schoolItem = EditProfileSchoolItem()
     
-    fileprivate var connectionsHeader = EditProfileHeader()
-    var connectInsta = EditProfileConnectInsta()
+//    fileprivate var connectionsHeader = EditProfileHeader()
+//    var connectInsta = EditProfileConnectInsta()
     
     override func configureView() {
         addKeyboardView()
@@ -60,8 +60,8 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
         scrollView.addSubview(optionalInfoHeader)
         scrollView.addSubview(languagesItem)
         scrollView.addSubview(schoolItem)
-        scrollView.addSubview(connectionsHeader)
-        scrollView.addSubview(connectInsta)
+//        scrollView.addSubview(connectionsHeader)
+//        scrollView.addSubview(connectInsta)
         super.configureView()
         
         navbar.backgroundColor = Colors.learnerPurple
@@ -97,7 +97,7 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
         
         optionalInfoHeader.label.text = "Optional Information"
         
-        connectionsHeader.label.text = "Connections"
+//        connectionsHeader.label.text = "Connections"
     }
     
     override func applyConstraints() {
@@ -187,19 +187,19 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
             make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.12)
         }
         
-        connectionsHeader.snp.makeConstraints { (make) in
-            make.top.equalTo(schoolItem.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.1)
-        }
-        
-        connectInsta.snp.makeConstraints { (make) in
-            make.top.equalTo(connectionsHeader.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(40)
-        }
+//        connectionsHeader.snp.makeConstraints { (make) in
+//            make.top.equalTo(schoolItem.snp.bottom)
+//            make.width.equalToSuperview()
+//            make.centerX.equalToSuperview()
+//            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.1)
+//        }
+//        
+//        connectInsta.snp.makeConstraints { (make) in
+//            make.top.equalTo(connectionsHeader.snp.bottom)
+//            make.width.equalToSuperview()
+//            make.centerX.equalToSuperview()
+//            make.height.equalTo(40)
+//        }
     }
 }
 

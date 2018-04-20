@@ -174,7 +174,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageTopSubjectCell", for: indexPath) as! TutorMainPageTopSubjectCell
-				cell.topSubjectsLabel.text = tutor.topSubject!
+				cell.subjectLabel.text = tutor.topSubject!
 				//store top subject as a path.
 			return cell
         case 4:

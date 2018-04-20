@@ -25,9 +25,9 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
     var spreadLoveHeader = ItemHeader()
     var rateUs = RateUs()
     var followUs = FollowUs()
-    var calendarHeader = ItemHeader()
-    var calendarToggle = ItemToggle()
-    var calendarInfo = SettingsItem()
+//    var calendarHeader = ItemHeader()
+//    var calendarToggle = ItemToggle()
+//    var calendarInfo = SettingsItem()
     var communityHeader = ItemHeader()
     var communityGuidelines = CommunityGuidelines()
     var userSafety = UserSafety()
@@ -40,9 +40,9 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
         scrollView.addSubview(spreadLoveHeader)
         scrollView.addSubview(rateUs)
         scrollView.addSubview(followUs)
-        scrollView.addSubview(calendarHeader)
-        scrollView.addSubview(calendarToggle)
-        scrollView.addSubview(calendarInfo)
+//        scrollView.addSubview(calendarHeader)
+//        scrollView.addSubview(calendarToggle)
+//        scrollView.addSubview(calendarInfo)
         scrollView.addSubview(communityHeader)
         scrollView.addSubview(communityGuidelines)
         scrollView.addSubview(userSafety)
@@ -56,15 +56,15 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
         
         spreadLoveHeader.label.text = "Spread the Love"
         
-        calendarHeader.label.text = "Scheduling"
-    
-        calendarToggle.label.text = "Calendar"
-        calendarToggle.divider.isHidden = true
-        
-        calendarInfo.label.text = "Connecting your Calendar to QuickTutor will sync your upcoming tutoring sessions with your everyday schedule"
-        calendarInfo.label.font = Fonts.createSize(14)
-        calendarInfo.label.textColor = Colors.grayText
-        
+//        calendarHeader.label.text = "Scheduling"
+//
+//        calendarToggle.label.text = "Calendar"
+//        calendarToggle.divider.isHidden = true
+//
+//        calendarInfo.label.text = "Connecting your Calendar to QuickTutor will sync your upcoming tutoring sessions with your everyday schedule"
+//        calendarInfo.label.font = Fonts.createSize(14)
+//        calendarInfo.label.textColor = Colors.grayText
+
         communityHeader.label.text = "Community"
         
         accountHeader.label.text = "Account"
@@ -100,27 +100,27 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
             make.height.equalTo(50)
         }
         
-        calendarHeader.selfConstraint(top: followUs.snp.bottom)
+//        calendarHeader.selfConstraint(top: followUs.snp.bottom)
+//
+//        calendarToggle.snp.makeConstraints { (make) in
+//            make.top.equalTo(calendarHeader.snp.bottom)
+//            make.width.equalToSuperview()
+//            make.height.equalTo(50)
+//        }
+//
+//        calendarInfo.snp.makeConstraints { (make) in
+//            make.top.equalTo(calendarToggle.snp.bottom)
+//            make.width.equalToSuperview()
+//            make.height.equalTo(50)
+//        }
+//
+//        calendarInfo.label.snp.makeConstraints { (make) in
+//            make.left.equalToSuperview().inset(15)
+//            make.width.equalToSuperview().multipliedBy(0.85)
+//            make.centerY.equalToSuperview()
+//        }
         
-        calendarToggle.snp.makeConstraints { (make) in
-            make.top.equalTo(calendarHeader.snp.bottom)
-            make.width.equalToSuperview()
-            make.height.equalTo(50)
-        }
-        
-        calendarInfo.snp.makeConstraints { (make) in
-            make.top.equalTo(calendarToggle.snp.bottom)
-            make.width.equalToSuperview()
-            make.height.equalTo(50)
-        }
-        
-        calendarInfo.label.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(15)
-            make.width.equalToSuperview().multipliedBy(0.85)
-            make.centerY.equalToSuperview()
-        }
-        
-        communityHeader.selfConstraint(top: calendarInfo.snp.bottom)
+        communityHeader.selfConstraint(top: followUs.snp.bottom)
         
         communityGuidelines.snp.makeConstraints { (make) in
             make.top.equalTo(communityHeader.snp.bottom)

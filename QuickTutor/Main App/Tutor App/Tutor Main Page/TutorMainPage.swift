@@ -585,6 +585,7 @@ class TutorMainPage : MainPage {
                 .bold(user.name, 17, .white)
         }
         
+        contentView.sidebar.ratingView.ratingLabel.text = String(TutorData.shared.rating)
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
         contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
     }

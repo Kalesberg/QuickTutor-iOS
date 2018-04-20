@@ -22,26 +22,23 @@ class TrendingCategoriesView : MainLayoutTitleBackButton {
         return label
     }()
     
-    let collectionView : UICollectionView = {
+    let tableView : UITableView = {
+        let tableView = UITableView()
         
-        let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        let layout = UICollectionViewFlowLayout()
+        tableView.backgroundColor = .clear
+        tableView.estimatedRowHeight = 250
+        tableView.isScrollEnabled = true
+        tableView.separatorInset.left = 0
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 0
-        
-        collectionView.collectionViewLayout = layout
-        collectionView.backgroundColor = .clear
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        
-        return collectionView
+        return tableView
     }()
+
     
     override func configureView() {
         addSubview(titleLabel)
-        addSubview(collectionView)
+        addSubview(tableView)
         super.configureView()
         
         title.label.text = "Trending Categories"
@@ -56,11 +53,11 @@ class TrendingCategoriesView : MainLayoutTitleBackButton {
             make.left.equalToSuperview().inset(15)
         }
         
-        collectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).inset(-15)
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).inset(-10)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.equalTo(205)
+            make.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
 }
@@ -76,40 +73,35 @@ class TrendingCategories : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentView.collectionView.delegate = self
-        contentView.collectionView.dataSource = self
-        contentView.collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCollectionViewCell")
+        contentView.tableView.delegate = self
+        contentView.tableView.dataSource = self
+        contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
     }
 }
 
-extension TrendingCategories : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 12
+extension TrendingCategories : UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCollectionViewCell", for: indexPath) as! CategoryCollectionViewCell
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if UIScreen.main.bounds.height == 568 {
+            return 180
+        } else {
+            return 210
+        }
         
-        cell.label.text = category[indexPath.row].mainPageData.displayName
-        cell.imageView.image = category[indexPath.row].mainPageData.image
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
         
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        CategorySelected.title = category[indexPath.item].mainPageData.displayName
-        
-        let next = CategoryInfo()
-        next.category = category[indexPath.item]
-        next.contentView.title.label.text = category[indexPath.item].mainPageData.displayName
-        navigationController?.pushViewController(next, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let screenWidth = UIScreen.main.bounds.width
-        let width = (screenWidth / 2) - 10
-        
-        return CGSize(width: width, height: contentView.frame.height)
-    }
+    
 }
