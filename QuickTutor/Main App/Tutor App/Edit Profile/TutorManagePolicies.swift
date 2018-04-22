@@ -258,7 +258,6 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
 	override func layoutSubviews() {
 		statusbarView.backgroundColor = Colors.tutorBlue
 		navbar.backgroundColor = Colors.tutorBlue
-
 	}
 }
 

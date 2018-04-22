@@ -142,6 +142,16 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
             make.height.equalTo(50)
         }
     }
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		if AccountService.shared.currentUserType == .learner {
+			navbar.backgroundColor = Colors.learnerPurple
+			statusbarView.backgroundColor = Colors.learnerPurple
+		} else {
+			navbar.backgroundColor = Colors.tutorBlue
+			statusbarView.backgroundColor = Colors.tutorBlue
+		}
+	}
 }
 
 

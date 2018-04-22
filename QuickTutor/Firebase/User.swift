@@ -20,6 +20,7 @@ class LearnerData {
 	
 	var name	  : String!
 	var bio 	  : String!
+	var rating 	  : Double!
 	var birthday  : String!
 	var email 	  : String!
 	var school    : String!
@@ -35,7 +36,6 @@ class LearnerData {
 
 class LocalImageCache {
 
-	
 	static let localImageManager = LocalImageCache()
 	
 	var image1 : UIImage! {
@@ -239,6 +239,7 @@ class FirebaseData {
 		let studentInfo : [String : Any] =
 			["nm" : Registration.name,
 			 "age" : Registration.age,
+			 "r" : 5.0,
 			 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]
 		]
 		
@@ -262,6 +263,14 @@ class FirebaseData {
 					print(error.localizedDescription)
 					completion(nil)
 				} else {
+//					self.storageRef.downloadURL(completion: { (url, error) in
+//						if let error = error {
+//							print(error)
+//						}
+//						else {
+//							let imageUrl = url?.absoluteString
+//						}
+//					})
 					let imageURL = (meta?.downloadURL()?.absoluteString)!
 					completion(imageURL)
 				}

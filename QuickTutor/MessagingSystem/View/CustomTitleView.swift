@@ -61,6 +61,7 @@ class CustomTitleView: UIView {
 		if type == .learner {
 			let next = TutorMyProfile()
 			next.tutor = convertFeaturedTutorToTutorData()
+			next.contentView.rightButton.isHidden = true	
 			navigationController.pushViewController(next, animated: true)
 
 		} else {
