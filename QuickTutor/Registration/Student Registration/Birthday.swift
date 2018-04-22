@@ -17,6 +17,17 @@ class BirthdayView: RegistrationNavBarView {
 	var birthdayLabel     = RegistrationTextField()
 	var birthdayInfoBig   = LeftTextLabel()
 	var birthdayInfoSmall = LeftTextLabel()
+    
+    let errorLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createItalicSize(17)
+        label.textColor = .red
+        label.isHidden = true
+        label.numberOfLines = 2
+        
+        return label
+    }()
 	
 	override func configureView() {
 		super.configureView()
@@ -30,10 +41,12 @@ class BirthdayView: RegistrationNavBarView {
 		contentView.addSubview(birthdayLabel)
 		contentView.addSubview(birthdayInfoBig)
 		contentView.addSubview(birthdayInfoSmall)
+        contentView.addSubview(errorLabel)
 		
 		titleLabel.label.text = "We need your birthday"
 		titleLabel.label.adjustsFontSizeToFitWidth = true
 		titleLabel.label.adjustsFontForContentSizeCategory = true
+        errorLabel.text = "Must be 18 years or older to use QuickTutor"
 		
 		birthdayLabel.textField.font = Fonts.createSize(CGFloat(DeviceInfo.textFieldFontSize))
 		birthdayLabel.placeholder.text = "BIRTHDATE"
@@ -98,6 +111,12 @@ class BirthdayView: RegistrationNavBarView {
 			make.left.equalToSuperview()
 			make.right.equalToSuperview()
 		}
+        
+        errorLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview()
+            make.centerY.equalTo(nextButton).inset(4)
+            make.right.equalTo(nextButton.snp.left).inset(20)
+        }
 	}
 }
 
@@ -140,11 +159,12 @@ class Birthday: BaseViewController {
 				//need more checks here...
 				Registration.age = String(age.year!)
 				Registration.dob = String("\(birthday.day!)/\(birthday.month!)/\(birthday.year!)")
+                contentView.errorLabel.isHidden = true
 				let next = UploadImage()
 				navigationController!.pushViewController(next, animated: true)
-				
+
 			} else {
-				print("Please enter your birthdate!")
+				contentView.errorLabel.isHidden = false
 			}
 		}
 	}

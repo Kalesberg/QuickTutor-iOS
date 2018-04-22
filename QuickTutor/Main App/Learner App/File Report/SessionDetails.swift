@@ -57,7 +57,6 @@ class SessionDetails : BaseViewController {
     }
 	
 	let options = ["My tutor cancelled", "My tutor was late", "My tutor was unprofessional", "Harrassment", "Other"]
-	let sessionDetails = ["Tutor Fare", "Total", "Payment Method"]
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +64,6 @@ class SessionDetails : BaseViewController {
 		contentView.tableView.dataSource = self
 		contentView.tableView.delegate = self
 		contentView.tableView.register(CustomFileReportTableViewCell.self, forCellReuseIdentifier: "fileReportCell")
-		contentView.tableView.register(SessionDetailsTableViewCell.self, forCellReuseIdentifier: "sessionDetailsCell")
     }
     
     override func viewDidLayoutSubviews() {
@@ -86,108 +84,75 @@ class SessionDetails : BaseViewController {
 extension SessionDetails : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if section == 0 {
-			return options.count
-		} else {
-			return sessionDetails.count
-		}
-	}
-	
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return tableView.estimatedRowHeight
+        return options.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		if indexPath.section == 0 {
-			let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
-			
-			cell.textLabel?.text = options[indexPath.row]
-			return cell
-		} else {
-			let cell : SessionDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "sessionDetailsCell", for: indexPath) as! SessionDetailsTableViewCell
-			cell.textLabel?.text = sessionDetails[indexPath.row]
-			cell.rightLabel.text = "$18.50"
-			return cell
-		}
-	}
-	func numberOfSections(in tableView: UITableView) -> Int {
-		return 2
-	}
-	
-	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		let view = UIView()
-		view.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0)
-		view.backgroundColor = Colors.backgroundDark
-		return view
-	}
-	
-	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		if section == 1 {
-			return 44
-		}
-		return 0
-	}
+        let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
+        
+        cell.textLabel?.text = options[indexPath.row]
+        return cell
+    }
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if indexPath.section == 0 {
-			switch indexPath.row {
-			case 0:
-				navigationController?.pushViewController(TutorCancelled(), animated: true)
-			case 1:
-				navigationController?.pushViewController(TutorLate(), animated: true)
-			case 2:
-				navigationController?.pushViewController(TutorUnprofessional(), animated: true)
-			case 3:
-				navigationController?.pushViewController(TutorHarassment(), animated: true)
-			case 4:
-				navigationController?.pushViewController(TutorOther(), animated: true)
-			default:
-				break
-			}
-		}
+        switch indexPath.row {
+            case 0:
+                navigationController?.pushViewController(TutorCancelled(), animated: true)
+            case 1:
+                navigationController?.pushViewController(TutorLate(), animated: true)
+            case 2:
+                navigationController?.pushViewController(TutorUnprofessional(), animated: true)
+            case 3:
+                navigationController?.pushViewController(TutorHarassment(), animated: true)
+            case 4:
+                navigationController?.pushViewController(TutorOther(), animated: true)
+            default:
+                break
+        }
+
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }
 
-class SessionDetailsTableViewCell : UITableViewCell {
-	
-	var rightLabel = UILabel()
-	
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		configureTableViewCell()
-	}
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	
-	func configureTableViewCell() {
-		addSubview(rightLabel)
-		let cellBackground = UIView()
-		cellBackground.backgroundColor = UIColor(red: 0.08, green: 0.05, blue: 0.08, alpha: 1)
-		selectedBackgroundView = cellBackground
-		
-		textLabel?.font = Fonts.createSize(14)
-		textLabel?.textColor = Colors.grayText
-		textLabel?.adjustsFontSizeToFitWidth = true
-		
-		backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-		
-		rightLabel.font = Fonts.createSize(14)
-		rightLabel.textColor = Colors.grayText
-		rightLabel.adjustsFontSizeToFitWidth = true
-		rightLabel.numberOfLines = 2
-		rightLabel.textAlignment = .right
-		
-		applyConstraints()
-	}
-	
-	func applyConstraints() {
-		rightLabel.snp.makeConstraints { (make) in
-			make.right.equalToSuperview().inset(5)
-			make.centerY.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.5)
-			make.height.equalToSuperview()
-		}
-	}
-}
+//class SessionDetailsTableViewCell : UITableViewCell {
+//
+//    var rightLabel = UILabel()
+//
+//    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+//        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//        configureTableViewCell()
+//    }
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//
+//    func configureTableViewCell() {
+//        addSubview(rightLabel)
+//        let cellBackground = UIView()
+//        cellBackground.backgroundColor = UIColor(red: 0.08, green: 0.05, blue: 0.08, alpha: 1)
+//        selectedBackgroundView = cellBackground
+//
+//        textLabel?.font = Fonts.createSize(14)
+//        textLabel?.textColor = Colors.grayText
+//        textLabel?.adjustsFontSizeToFitWidth = true
+//
+//        backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+//
+//        rightLabel.font = Fonts.createSize(14)
+//        rightLabel.textColor = Colors.grayText
+//        rightLabel.adjustsFontSizeToFitWidth = true
+//        rightLabel.numberOfLines = 2
+//        rightLabel.textAlignment = .right
+//
+//        applyConstraints()
+//    }
+//
+//    func applyConstraints() {
+//        rightLabel.snp.makeConstraints { (make) in
+//            make.right.equalToSuperview().inset(5)
+//            make.centerY.equalToSuperview()
+//            make.width.equalToSuperview().multipliedBy(0.5)
+//            make.height.equalToSuperview()
+//        }
+//    }
+//}
