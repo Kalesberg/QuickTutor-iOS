@@ -31,11 +31,11 @@ class TutorPolicyView : BaseLayoutView {
     let scrollViewLabel : UILabel = {
         let formattedString = NSMutableAttributedString()
         formattedString
-            .regular("Your relationship with QuickTutor\n\n", 15, .white)
+            .bold("Your relationship with QuickTutor\n\n", 15, .white)
             .regular("On QuickTutor, you're an independent tutor in full control of your business. You have the freedom to choose which opportunities to pursue, when you want to tutor, and how much you charge.\n\n", 13, Colors.grayText)
-            .regular("Communicate through the app\n\n", 15, .white)
+            .bold("Communicate through the app\n\n", 15, .white)
             .regular("The QuickTutor messaging system allows you to communicate and set up tutoring sessions, without having to give away any personal or private information like your phone number or email. Keep your conversations in the messaging system to protect yourself.\n\n", 13, Colors.grayText)
-            .regular("The ultimate biz management tool\n\n", 15, .white)
+            .bold("The ultimate biz management tool\n\n", 15, .white)
             .regular("With QuickTutor, you'll be able to schedule and facilitate your in-person and online sessions through the app, and recieve instant payments for tutoring. Make sure to keep your sessions through the app to avoid not being paid on time, not being paid at all, or not revieving a rating.", 13, Colors.grayText)
         
         var label = UILabel()

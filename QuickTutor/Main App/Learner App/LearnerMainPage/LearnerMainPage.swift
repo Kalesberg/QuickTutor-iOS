@@ -127,16 +127,18 @@ class LearnerMainPage : MainPage {
 	override func updateSideBar() {
 		
         let formattedString = NSMutableAttributedString()
-            
-        if let school = user.school {
+        
+        let school = user.school
+    
+        if !(school == "") {
             formattedString
                 .bold(user.name + "\n", 17, .white)
-                .regular(school, 14, Colors.grayText)
+                .regular(school!, 14, Colors.grayText)
         } else {
             formattedString
                 .bold(user.name, 17, .white)
         }
-        
+
 		contentView.sidebar.profileView.profileNameView.attributedText = formattedString
 		contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
 		contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true

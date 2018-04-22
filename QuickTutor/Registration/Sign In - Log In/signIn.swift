@@ -361,7 +361,6 @@ class SignIn: BaseViewController {
 			})
 		} else if (touchStartView is RegistrationNextButton) {
 			signIn()
-			contentView.nextButton.isUserInteractionEnabled = false
 		} else if touchStartView is FacebookButton {
 			facebookSignIn()
 		}

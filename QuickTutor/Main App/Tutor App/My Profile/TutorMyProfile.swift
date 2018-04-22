@@ -219,7 +219,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
 
-            cell.tutorItem.label.text = "Tutored in \(tutor.numSessions!) sessions"
+            cell.tutorItem.label.text = "Has tutored \(tutor.numSessions!) sessions"
             
             if let languages = tutor.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
@@ -233,7 +233,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
 
                 if let studies = tutor.school {
-                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
 
                     cell.speakItem.snp.makeConstraints { (make) in
@@ -261,7 +261,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
             } else {
                 if let studies = tutor.school {
-                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
 
                     cell.tutorItem.snp.makeConstraints { (make) in

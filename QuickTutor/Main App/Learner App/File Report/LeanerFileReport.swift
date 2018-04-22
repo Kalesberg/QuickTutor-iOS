@@ -293,7 +293,7 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
                 make.top.equalTo(textBody.snp.bottom).inset(-15)
                 make.width.equalToSuperview().multipliedBy(0.9)
                 make.centerX.equalToSuperview()
-                make.bottom.equalTo(keyboardView.snp.top).inset(-20)
+                make.bottom.equalTo(keyboardView.snp.top).inset(-50)
             }
         }
         

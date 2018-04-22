@@ -52,6 +52,9 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
         
         title.label.text = "Settings"
         
+        navbar.backgroundColor = Colors.learnerPurple
+        statusbarView.backgroundColor = Colors.learnerPurple
+        
         scrollView.showsVerticalScrollIndicator = false
         
         spreadLoveHeader.label.text = "Spread the Love"
