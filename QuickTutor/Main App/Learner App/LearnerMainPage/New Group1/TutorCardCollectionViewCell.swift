@@ -239,7 +239,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 make.top.equalToSuperview().inset(10)
             }
     
-            cell.tutorItem.label.text = "Tutored in \(datasource?.numSessions! ?? 0) sessions"
+            cell.tutorItem.label.text = "Has tutored \(datasource?.numSessions! ?? 0) sessions"
             
             if let languages = datasource?.language {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
@@ -281,7 +281,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 }
             } else {
                 if let studies = datasource?.school {
-                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.tutorItem.snp.makeConstraints { (make) in

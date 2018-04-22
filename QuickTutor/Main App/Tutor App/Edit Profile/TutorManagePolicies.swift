@@ -127,7 +127,7 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
 		view.infoLabel.label.text = "Late Policy"
 		view.textField.attributedPlaceholder = NSAttributedString(string: "Enter how many minutes",
 																		attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		view.label.text = "How much time passes from the scheduled session before the learner is late?"
+		view.label.text = "How much time will you allow to pass before a learner is late to a session?"
 		
 		return view
 	}()
@@ -138,7 +138,7 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
 		view.infoLabel.label.text = "Late Fee"
 		view.textField.attributedPlaceholder = NSAttributedString(string: "Enter a late fee",
 																	 attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		view.label.text = "How much a learner pays if they arrive late to a session after the above time."
+		view.label.text = "How much a learner pays if they arrive late to a session."
         
 		return view
 	}()
@@ -200,6 +200,9 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
 		super.configureView()
 		
 		title.label.text = "Manage Policies"
+        
+        navbar.backgroundColor = Colors.tutorBlue
+        statusbarView.backgroundColor = Colors.tutorBlue
 		
         scrollView.isScrollEnabled = true
         

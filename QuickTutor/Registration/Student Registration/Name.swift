@@ -91,6 +91,7 @@ class Name : BaseViewController {
 		} else if(touchStartView == contentView.nextButton) {
 			if checkNameValidity() {
 				Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
+
 				navigationController?.pushViewController(Email(), animated: true)
 			} else {
 				print("Name Error")

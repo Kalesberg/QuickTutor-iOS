@@ -20,6 +20,9 @@ class TutorSettingsView : LearnerSettingsView {
         scrollView.addSubview(visibleInfoLabel)
         super.configureView()
         
+        navbar.backgroundColor = Colors.tutorBlue
+        statusbarView.backgroundColor = Colors.tutorBlue
+        
         visibleOnQT.label.text = "Show me on QuickTutor"
         visibleOnQT.toggle.isOn = true
         

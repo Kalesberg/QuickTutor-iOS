@@ -93,13 +93,14 @@ class TutorEarningsView : TutorLayoutView {
     let tableView : UITableView = {
         let tableView = UITableView()
         
+        tableView.rowHeight = 40
         tableView.backgroundColor = .clear
-        tableView.estimatedRowHeight = 250
         tableView.isScrollEnabled = true
         tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
+        tableView.separatorColor = Colors.divider
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = .black
+        tableView.backgroundColor = Colors.registrationDark
+        tableView.isScrollEnabled = false
         
         return tableView
     }()
@@ -178,6 +179,11 @@ class TutorEarnings : BaseViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        contentView.tableView.delegate = self
+        contentView.tableView.dataSource = self
+        
+        contentView.tableView.register(TutorEarningsTableCellView.self, forCellReuseIdentifier: "tutorEarningsTableCellView")
     }
     
     override func viewDidLayoutSubviews() {
@@ -185,32 +191,74 @@ class TutorEarnings : BaseViewController {
         
         contentView.infoContainer.layer.addBorder(edge: .top, color: Colors.divider, thickness: 1)
         contentView.infoContainer.layer.addBorder(edge: .bottom, color: Colors.divider, thickness: 1)
+        contentView.tableView.layer.addBorder(edge: .top, color: Colors.divider, thickness: 1)
+        contentView.tableView.layer.addBorder(edge: .bottom, color: Colors.divider, thickness: 1)
+    }
+}
+
+
+class TutorEarningsTableCellView : BaseTableViewCell {
+    
+    let leftLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createSize(16)
+        label.adjustsFontSizeToFitWidth = true
+        label.text = "3/3/18 - Chemistry"
+        
+        return label
+    }()
+    
+    let rightLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createSize(16)
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .right
+        label.text = "$10.00"
+        
+        return label
+    }()
+    
+    override func configureView() {
+        contentView.addSubview(leftLabel)
+        contentView.addSubview(rightLabel)
+        super.configureView()
+        
+        backgroundColor = .clear
+        selectionStyle = .none
+        
+        applyConstraints()
+        
+    }
+    
+    override func applyConstraints() {
+        leftLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(15)
+            make.height.centerY.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
+        }
+        
+        rightLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(leftLabel.snp.right)
+            make.centerY.height.equalToSuperview()
+            make.right.equalToSuperview().inset(15)
+        }
     }
 }
 
 extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch (indexPath.row) {
-        default:
-            break
-        }
-        return 0
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch (indexPath.row) {
-        case 0:
-            break
-        default:
-            break
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tutorEarningsTableCellView", for: indexPath) as! TutorEarningsTableCellView
         
-        return UITableViewCell()
+        return cell
     }
 }

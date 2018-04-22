@@ -15,7 +15,7 @@ class TutorPreferencesNextButton : InteractableView, Interactable {
 	let label : UILabel = {
 		let label = UILabel()
 		
-		label.font = Fonts.createSize(18)
+		label.font = Fonts.createSize(21)
 		label.textColor = .white
 		label.text = "Next"
 		

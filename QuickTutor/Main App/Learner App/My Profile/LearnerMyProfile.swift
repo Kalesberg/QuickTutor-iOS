@@ -662,7 +662,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 if let studies = LearnerData.userData.school {
-                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.speakItem.snp.makeConstraints { (make) in
@@ -692,7 +692,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             } else {
                 if let studies = LearnerData.userData.school {
                     print("languages nil")
-                    cell.studysItem.label.text = "Studies: " + studies
+                    cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.tutorItem.snp.makeConstraints { (make) in
