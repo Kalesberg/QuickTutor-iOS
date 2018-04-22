@@ -23,6 +23,7 @@ class NameView : RegistrationNavBarKeyboardView {
 		titleLabel.label.text = "Hey, what's your name?"
 		firstNameTextField.placeholder.text = "FIRST NAME"
 		lastNameTextField.placeholder.text = "LAST NAME"
+        errorLabel.text = "Must fill out both fields"
 		
 		let textFields = [firstNameTextField.textField, lastNameTextField.textField]
 		for textField in textFields{
@@ -90,21 +91,23 @@ class Name : BaseViewController {
 			navigationController!.popToRootViewController(animated: false)
 		} else if(touchStartView == contentView.nextButton) {
 			if checkNameValidity() {
+                contentView.errorLabel.isHidden = true
 				Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
 
 				navigationController?.pushViewController(Email(), animated: true)
 			} else {
-				print("Name Error")
+				contentView.errorLabel.isHidden = false
 			}
 		}
 	}
 	
 	private func keyboardNextWasPressed() {
 		if checkNameValidity() {
+            contentView.errorLabel.isHidden = true
 			Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
 			navigationController?.pushViewController(Email(), animated: true)
 		} else {
-			print("Name Error")
+            contentView.errorLabel.isHidden = false
 		}
 	}
 	

@@ -102,6 +102,8 @@ class TutorPolicyView : BaseLayoutView {
         
         return label
     }()
+    
+    let backButton = RegistrationBackButton()
 	
 	override func configureView() {
         addSubview(qtTitle)
@@ -112,6 +114,7 @@ class TutorPolicyView : BaseLayoutView {
         addSubview(scrollView)
         scrollView.addSubview(scrollViewLabel)
         addSubview(tutorAgreementButton)
+        addSubview(backButton)
 		super.configureView()
 
 		applyConstraints()
@@ -119,12 +122,19 @@ class TutorPolicyView : BaseLayoutView {
 	
 	override func applyConstraints() {
 		super.applyConstraints()
+        
+        backButton.snp.makeConstraints { (make) in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.left.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.1)
+            make.width.equalToSuperview().multipliedBy(0.2)
+        }
 		
         qtTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(safeAreaLayoutGuide).inset(35)
+            make.top.equalTo(backButton.snp.bottom)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
-            make.height.equalTo(60)
+            make.height.equalTo(30)
         }
 
         bottomView.snp.makeConstraints { (make) in
@@ -228,6 +238,9 @@ class TutorPolicy : BaseViewController {
             //to website
         } else if (touchStartView == contentView.checkBox) {
             accepted()
+        } else if (touchStartView == contentView.backButton) {
+            //pop up here that makes sure they want to quit tutor registration
+            print("poasdfjs")
         }
 	}
 }

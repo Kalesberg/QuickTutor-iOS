@@ -13,9 +13,20 @@ class RegistrationNavBarKeyboardView: RegistrationNavBarView, Keyboardable {
     var keyboardComponent = ViewComponent()
     var contentView  = UIView()
     
+    let errorLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createItalicSize(17)
+        label.textColor = .red
+        label.isHidden = true
+        
+        return label
+    }()
+    
     override func configureView() {
         super.configureView()
         addSubview(contentView)
+        contentView.addSubview(errorLabel)
         addKeyboardView()
     }
     
@@ -34,6 +45,11 @@ class RegistrationNavBarKeyboardView: RegistrationNavBarView, Keyboardable {
             make.bottom.equalTo(nextButton.snp.top)
             make.left.equalTo(titleLabel)
             make.right.equalTo(titleLabel)
+        }
+        
+        errorLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview()
+            make.centerY.equalTo(nextButton).inset(4)
         }
     }
 }

@@ -27,6 +27,7 @@ class CreatePasswordView : RegistrationNavBarKeyboardView {
 		titleLabel.label.text = "Let's create a password"
 		titleLabel.label.adjustsFontSizeToFitWidth = true
 		titleLabel.label.adjustsFontForContentSizeCategory = true
+        errorLabel.text = "Password is less than 8 characters"
 		
 		createPasswordTextfield.placeholder.text = "PASSWORD"
 		
@@ -85,9 +86,10 @@ class CreatePassword: BaseViewController {
 			navigationController!.popViewController(animated: false)
 		} else if (touchStartView == contentView.nextButton) {
 			if checkPasswordValidity() {
+                contentView.errorLabel.isHidden = true
 				createEmailAccount()
 			} else {
-				print("Error: Password is weak.")
+				contentView.errorLabel.isHidden = false
 			}
 		}
 	}
@@ -110,9 +112,10 @@ class CreatePassword: BaseViewController {
 	
 	private func keyboardNextWasPressed() {
 		if checkPasswordValidity() {
+            contentView.errorLabel.isHidden = true
 			createEmailAccount()
 		} else {
-			print("password Error")
+			contentView.errorLabel.isHidden = false
 		}
 	}
 	

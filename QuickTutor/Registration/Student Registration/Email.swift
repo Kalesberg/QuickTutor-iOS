@@ -28,6 +28,7 @@ class EmailView: RegistrationNavBarKeyboardView {
 		navBar.applyConstraints()
 		
 		titleLabel.label.text = "Your email?"
+        errorLabel.text = "The provided e-mail is not valid"
 		
 		emailTextField.placeholder.text = "EMAIL"
 		emailTextField.textField.returnKeyType = .next
@@ -95,20 +96,22 @@ class Email: BaseViewController {
 		} else if(touchStartView == contentView.nextButton) {
 			
 			if (contentView.emailTextField.textField.text!).emailRegex() {
+                contentView.errorLabel.isHidden = true
 				Registration.email = contentView.emailTextField.textField.text!
 				navigationController!.pushViewController(CreatePassword(), animated: true)
 			
 			} else {
-				print("Error: bad email")
+				contentView.errorLabel.isHidden = false
 			}
 		}
 	}
 	private func keyboardNextWasPressed() {
 		if (contentView.emailTextField.textField.text!).emailRegex() {
+            contentView.errorLabel.isHidden = true
 			Registration.email = contentView.emailTextField.textField.text!
 			navigationController?.pushViewController(CreatePassword(), animated: true)
 		} else {
-			print("Email Error")
+			contentView.errorLabel.isHidden = false
 		}
 	}
 	

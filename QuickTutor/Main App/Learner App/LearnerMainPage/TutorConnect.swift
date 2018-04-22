@@ -15,8 +15,8 @@ protocol ApplyLearnerFilters {
 }
 
 protocol ConnectButtonPress {
-	var connectedTutor : FeaturedTutor! { get set }
-	func connectButtonPressed(uid: String)
+    var connectedTutor : FeaturedTutor! { get set }
+    func connectButtonPressed(uid: String)
 }
 
 class TutorConnectView : MainLayoutTwoButton {
@@ -108,7 +108,7 @@ class TutorConnectView : MainLayoutTwoButton {
 
 class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress {
 
-	var filters: (Int, Int, Bool)!
+    var filters: (Int, Int, Bool)!
     
     func applyFilters() {
         //sort here... reset the datasource
@@ -119,7 +119,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
 
             return ratio1 < ratio2
         }
-		
+        
         self.datasource = sortedTutors
     }
     
@@ -130,8 +130,8 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
     override func loadView() {
         view = TutorConnectView()
     }
-	
-	var connectedTutor : FeaturedTutor!
+    
+    var connectedTutor : FeaturedTutor!
 
     var featuredTutor : FeaturedTutor! {
         didSet {
@@ -148,7 +148,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
     var subcategory : String! {
         didSet {
 
-			QueryData.shared.queryBySubcategory(subcategory: subcategory!) { (tutors) in
+            QueryData.shared.queryBySubcategory(subcategory: subcategory!) { (tutors) in
                 if let tutor = tutors {
                     self.datasource = tutor
                 }
@@ -165,7 +165,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
             }
         }
     }
-	
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -174,11 +174,11 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
         
         contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
     }
-	
-	func connectButtonPressed(uid: String) {
-		addTutorWithUid(uid)
-	}
-	
+    
+    func connectButtonPressed(uid: String) {
+        addTutorWithUid(uid)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -189,38 +189,38 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
         super.didReceiveMemoryWarning()
     }
 
-	
+    
     override func handleNavigation() {
         if touchStartView is NavbarButtonX {
-			
-			navigationController?.popViewController(animated: true)
-			
-		} else if touchStartView is NavbarButtonLines {
-			
-			let next = LearnerFilters()
+            
+            navigationController?.popViewController(animated: true)
+            
+        } else if touchStartView is NavbarButtonLines {
+            
+            let next = LearnerFilters()
             next.delegate = self
-			
-			self.present(next, animated: true, completion: nil)
-		}
+            
+            self.present(next, animated: true, completion: nil)
+        }
     }
 }
 
 extension TutorConnect : AddTutorButtonDelegate {
-	
-	func addTutorWithUid(_ uid: String) {
-		
-		DataService.shared.getTutorWithId(uid) { (tutor) in
-			
-			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-			
-			vc.receiverId = uid
-			vc.chatPartner = tutor
-			vc.shouldSetupForConnectionRequest = true
-			vc.tutor = self.connectedTutor
-			
-			self.navigationController?.pushViewController(vc, animated: true)
-		}
-	}
+    
+    func addTutorWithUid(_ uid: String) {
+        
+        DataService.shared.getTutorWithId(uid) { (tutor) in
+            
+            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            
+            vc.receiverId = uid
+            vc.chatPartner = tutor
+            vc.shouldSetupForConnectionRequest = true
+            vc.tutor = self.connectedTutor
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
 
 extension TutorConnect : UIPopoverPresentationControllerDelegate {
@@ -258,16 +258,16 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = -2
-		
-		formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+        
+        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
         
         cell.distanceLabel.attributedText = formattedString
         cell.distanceLabel.numberOfLines = 0
-		cell.delegate = self
-		
+        cell.delegate = self
+        
         return cell
     }
-	
+    
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let width = UIScreen.main.bounds.width - 20

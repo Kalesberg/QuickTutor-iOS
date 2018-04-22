@@ -27,8 +27,6 @@ class CategoryInfoView : MainLayoutTitleBackButton {
     override func configureView() {
         addSubview(tableView)
         super.configureView()
-        
-        
     }
     
     override func applyConstraints() {
@@ -57,6 +55,8 @@ class CategoryInfo : BaseViewController {
         
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
+        
+        contentView.title.label.text = category?.mainPageData.displayName
     }
     
     var category : Category? = nil

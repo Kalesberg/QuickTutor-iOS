@@ -75,7 +75,7 @@ class TrendingCategories : BaseViewController {
         
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-        contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
+        contentView.tableView.register(TrendingCategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
     }
 }
 
@@ -95,7 +95,7 @@ extension TrendingCategories : UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! TrendingCategoryTableViewCell
         
         return cell
     }
@@ -103,5 +103,14 @@ extension TrendingCategories : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+}
+
+class TrendingCategoryTableViewCell : CategoryTableViewCell {}
+
+extension TrendingCategoryTableViewCell {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let next = CategoryInfo()
+        next.category = category[indexPath.item]
+        navigationController.pushViewController(next, animated: true)
+    }
 }

@@ -641,7 +641,12 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
             
-            cell.bioLabel.text = LearnerData.userData.bio + "\n"
+            if LearnerData.userData.bio == "" {
+                 cell.bioLabel.text = "No bio yet! Add one in Edit Profile\n"
+            } else {
+                cell.bioLabel.text = LearnerData.userData.bio + "\n"
+            }
+            
             
             return cell
         case 2:

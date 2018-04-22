@@ -82,8 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 						self.window?.makeKeyAndVisible()
 					})
                     
-                    
-					let controller = LearnerPageViewController()
+					let controller = Birthday()
                     AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
@@ -91,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 				}
 			})
         } else {
-            let controller = SignIn()
+            let controller = Birthday()
             navigationController = CustomNavVC(rootViewController: controller)
             navigationController.navigationBar.isHidden = true
             self.window?.makeKeyAndVisible()

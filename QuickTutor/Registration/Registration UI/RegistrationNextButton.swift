@@ -22,10 +22,10 @@ class RegistrationNextButton: BaseView, Interactable {
     override func configureView() {
         addSubview(button)
         
-        _ = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(toggleText), userInfo: nil, repeats: true)
+        //_ = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(toggleText), userInfo: nil, repeats: true)
 
-        button.label.text = textOne
-        button.label.font = Fonts.createBoldSize(50)
+        button.label.text = textTwo
+        button.label.font = Fonts.createBoldSize(54)
         
         applyConstraints()
     }
