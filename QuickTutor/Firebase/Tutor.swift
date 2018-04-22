@@ -134,7 +134,6 @@ class Tutor {
 			
 			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : TutorRegistration.price!, "dst" : TutorRegistration.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
 		}
-
 		return (updateSubjectValues, updateSubcategoryValues)
 	}
 

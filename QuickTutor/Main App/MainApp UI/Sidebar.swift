@@ -262,8 +262,6 @@ class ProfileView : InteractableBackgroundView {
     override func configureView() {
         super.configureView()
 
-        let user = LearnerData.userData
-
         addSubview(profileView)
         
         layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1.5), radius: 3.0)
@@ -337,7 +335,9 @@ class RatingView : InteractableView {
         addSubview(ratingLabel)
         addSubview(tutorOrLearnerLabel)
         super.configureView()
-        
+		
+		ratingLabel.text = String(LearnerData.userData.rating)
+		
         applyConstraints()
     }
     

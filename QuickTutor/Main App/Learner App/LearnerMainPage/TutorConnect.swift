@@ -141,14 +141,14 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
     
     var datasource = [FeaturedTutor]() {
         didSet {
-            print("1")
             contentView.collectionView.reloadData()
         }
     }
 
     var subcategory : String! {
         didSet {
-            QueryData.shared.queryBySubcategory(subcategory: subcategory) { (tutors) in
+
+			QueryData.shared.queryBySubcategory(subcategory: subcategory!) { (tutors) in
                 if let tutor = tutors {
                     self.datasource = tutor
                 }
@@ -165,10 +165,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
             }
         }
     }
-
-	
-    private var startingScrollingOffset = CGPoint.zero
-
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -195,15 +191,18 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
 
 	
     override func handleNavigation() {
-        if touchStartView is NavbarButtonX{
-            dismiss(animated: true, completion: nil)
-        } else if touchStartView is NavbarButtonLines {
-            let next = LearnerFilters()
+        if touchStartView is NavbarButtonX {
+			
+			navigationController?.popViewController(animated: true)
+			
+		} else if touchStartView is NavbarButtonLines {
+			
+			let next = LearnerFilters()
             next.delegate = self
-            self.present(next, animated: true, completion: nil)
+			
+			self.present(next, animated: true, completion: nil)
 		}
     }
-
 }
 
 extension TutorConnect : AddTutorButtonDelegate {

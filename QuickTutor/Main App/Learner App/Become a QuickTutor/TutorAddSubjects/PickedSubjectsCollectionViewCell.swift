@@ -56,11 +56,11 @@ class PickedSubjectsCollectionViewCell : UICollectionViewCell {
 		subject.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
 			make.height.equalToSuperview()
-			make.width.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.8)
 			make.centerX.equalToSuperview()
 		}
-		
 	}
+	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		layoutIfNeeded()

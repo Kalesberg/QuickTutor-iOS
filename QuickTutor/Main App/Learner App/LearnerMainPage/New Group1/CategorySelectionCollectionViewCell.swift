@@ -21,54 +21,102 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	let category : UILabel = {
+	let customLayout = SubjectSearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 15, minimumLineSpacing: 15, sectionInset: UIEdgeInsets(top: 20, left: 5, bottom: 0, right: 5))
+
+	let collectionView : UICollectionView = {
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+		
+		collectionView.backgroundColor = .clear
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.tag = 0
+		
+		return collectionView
+	}()
+	
+	
+	let categoryLabel : UILabel = {
 		let label = UILabel()
 		
 		label.textColor = .white
 		label.textAlignment = .center
-		label.font = Fonts.createSize(14)
+		label.font = Fonts.createBoldSize(24)
 		label.alpha = 0.6
 		
 		return label
 	}()
-	
-	let dot : UIView = {
-		let view = UIView()
-		
-		view.clipsToBounds = true
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 3
-		
-		return view
-	}()
-	
+
 	override var isSelected : Bool {
 		didSet {
-			category.alpha = isSelected ? 1.0 : 0.6
-			dot.isHidden   = isSelected ? false : true
+			categoryLabel.alpha = isSelected ? 1.0 : 0.6
 			isUserInteractionEnabled = isSelected ? false : true
 		}
 	}
 	
+	var delegate : SelectedSubcategory?
+	
+	var category : Category! {
+		didSet{
+			categoryLabel.text = category.mainPageData.displayName
+			collectionView.reloadData()
+		}
+	}
+	
+	
 	func configureView() {
-		addSubview(category)
-		addSubview(dot)
 		
-		dot.isHidden = true
+		addSubview(categoryLabel)
+		addSubview(collectionView)
+		
+		collectionView.dataSource = self
+		collectionView.delegate = self
+		collectionView.register(SubjectCollectionViewCell.self, forCellWithReuseIdentifier: "subcategoryCell")
+		collectionView.collectionViewLayout = customLayout
 		
 		applyConstraints()
 	}
 	
 	func applyConstraints(){
-		category.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.centerY.equalToSuperview()
+		collectionView.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.height.equalToSuperview().multipliedBy(0.85)
+			make.width.equalToSuperview()
+			make.centerX.equalToSuperview()
 		}
-		dot.snp.makeConstraints { (make) in
-			make.top.equalTo(category.snp.bottom).inset(-3)
-			make.height.width.equalTo(6)
+		categoryLabel.snp.makeConstraints { (make) in
+			make.top.equalTo(collectionView.snp.bottom)
+			make.bottom.equalToSuperview()
+			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
 	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		layoutIfNeeded()
+	}
 }
 
+extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+	
+	internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return 6
+	}
+
+	internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategoryCell", for: indexPath) as! SubjectCollectionViewCell
+		
+		cell.imageView.image = category.subcategory.icon[indexPath.item]
+		cell.label.text = category.subcategory.subcategories[indexPath.item]
+
+
+		return cell
+	}
+	
+	internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		print(category.subcategory.fileToRead)
+		print(category.subcategory.subcategories[indexPath.item])
+		delegate?.didSelectSubcategory(resource: category.subcategory.fileToRead, subject: category.subcategory.subcategories[indexPath.item], index: indexPath.item)
+
+	}
+}

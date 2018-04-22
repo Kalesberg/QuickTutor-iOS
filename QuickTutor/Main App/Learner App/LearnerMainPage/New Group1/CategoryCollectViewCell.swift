@@ -11,55 +11,55 @@ import UIKit
 import SnapKit
 
 class CategoryCollectionViewCell : UICollectionViewCell {
-	
-	let label : UILabel = {
-		let label = UILabel()
-		
-		label.textColor = .white
-		label.textAlignment = .center
-		label.font = Fonts.createSize(15)
-		label.adjustsFontSizeToFitWidth = true
-		label.adjustsFontForContentSizeCategory = true
-		
-		return label
-	}()
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = Fonts.createSize(15)
+        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontForContentSizeCategory = true
+        
+        return label
+    }()
 
-	let imageView : UIImageView = {
-		let imageView = UIImageView()
-	
+    let imageView : UIImageView = {
+        let imageView = UIImageView()
+    
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
-		
-		return imageView
-	}()
-	
-	required override init(frame: CGRect) {
-		super.init(frame: .zero)
-		configureView()
-	}
-	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	func configureView() {
-		addSubview(imageView)
-		addSubview(label)
-		
-		applyConstraints()
-	}
-	func applyConstraints(){
-		imageView.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.85)
-			make.centerX.equalToSuperview()
-		}
-		label.snp.makeConstraints { (make) in
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
+        
+        return imageView
+    }()
+    
+    required override init(frame: CGRect) {
+        super.init(frame: .zero)
+        configureView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    func configureView() {
+        addSubview(imageView)
+        addSubview(label)
+        
+        applyConstraints()
+    }
+    func applyConstraints(){
+        imageView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.85)
+            make.centerX.equalToSuperview()
+        }
+        label.snp.makeConstraints { (make) in
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(4)
-		}
-	}
+        }
+    }
 }
 

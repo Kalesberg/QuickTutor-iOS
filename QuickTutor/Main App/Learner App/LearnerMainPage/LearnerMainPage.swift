@@ -72,9 +72,11 @@ class LearnerMainPageView : MainPageView {
 	}
 	override func layoutSubviews() {
 		super.layoutSubviews()
+		
 		sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: sidebar.bounds)
 		tableView.layoutSubviews()
 		tableView.layoutIfNeeded()
+	
 	}
 }
 import Firebase
@@ -183,7 +185,6 @@ class LearnerMainPage : MainPage {
 			} else {
 				UIApplication.shared.openURL(url)
 			}
-			//take user to legal on our website
 		} else if(touchStartView == contentView.sidebar.helpItem) {
 			navigationController?.pushViewController(LearnerHelp(), animated: true)
 			hideSidebar()

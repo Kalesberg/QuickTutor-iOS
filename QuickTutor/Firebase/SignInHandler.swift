@@ -52,8 +52,9 @@ class SignInHandler {
 				self.learner.school         = value?["sch"       	]   as? String ?? ""
 				self.learner.languages     	= value?["lng"   		]   as? [String] ?? []
 				self.learner.customer 		= value?["cus" 			]	as?	String ?? ""
+				self.learner.rating			= value?["r"			]	as? Double ?? 5.0
 			
-				print("Grabbing image urls...")
+			print("Grabbing image urls...")
 			
 			self.grabImageUrls {
 				print("Done grabbing image urls.")

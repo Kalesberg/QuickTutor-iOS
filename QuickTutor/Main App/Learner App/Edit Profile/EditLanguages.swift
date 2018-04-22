@@ -23,11 +23,9 @@ import UIKit
 class EditLanguageView : EditProfileMainLayout {
 	
 	var tableView = UITableView()
-	var searchBar = UISearchBar()
 	
 	override func configureView() {
 		addSubview(tableView)
-		addSubview(searchBar)
 		super.configureView()
 		
 		title.label.text = "Language"
@@ -39,32 +37,15 @@ class EditLanguageView : EditProfileMainLayout {
 		tableView.showsVerticalScrollIndicator = false
 		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
 		tableView.allowsMultipleSelection = true
-		
-		searchBar.sizeToFit()
-		searchBar.searchBarStyle = .minimal
-		searchBar.backgroundImage = UIImage(color: UIColor.clear)
-		
-		let textField = searchBar.value(forKey: "searchField") as? UITextField
-		textField?.font = Fonts.createSize(18)
-		textField?.textColor = .white
-		textField?.adjustsFontSizeToFitWidth = true
-		textField?.autocapitalizationType = .words	
-		textField?.attributedPlaceholder = NSAttributedString(string: "Enter a language", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-        textField?.keyboardAppearance = .dark
+
 		
 	}
 	override func applyConstraints() {
 		super.applyConstraints()
-        
-        searchBar.snp.makeConstraints { (make) in
+		
+        tableView.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom)
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalTo(55)
-            make.centerX.equalToSuperview()
-        }
-        tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(searchBar.snp.bottom)
-            make.width.equalTo(searchBar)
             make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
             make.centerX.equalToSuperview()
         }
@@ -75,11 +56,9 @@ class EditLanguageView : EditProfileMainLayout {
 		if AccountService.shared.currentUserType == .tutor {
 			navbar.backgroundColor = Colors.tutorBlue
 			statusbarView.backgroundColor = Colors.tutorBlue
-			searchBar.tintColor = Colors.tutorBlue
 		} else {
 			navbar.backgroundColor = Colors.learnerPurple
 			statusbarView.backgroundColor = Colors.learnerPurple
-			searchBar.tintColor = Colors.learnerPurple
 		}
 	}
 }
@@ -94,10 +73,8 @@ class EditLanguage : BaseViewController {
 	}
 	
 	var languages : [String] = []
-	var filteredLanguages : [String] = []
 	let currentLanguges = LearnerData.userData.languages
 	var selectedCells : [String]!
-	var shouldUpdateSearchResults = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -120,7 +97,6 @@ class EditLanguage : BaseViewController {
 	}
 	
 	private func configure() {
-		contentView.searchBar.delegate   = self
 		contentView.tableView.delegate   = self
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(CustomLanguageCell.self, forCellReuseIdentifier: "idCell")
@@ -186,7 +162,7 @@ class EditLanguage : BaseViewController {
                 let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
                 languages = school.components(separatedBy: ",") as [String]
             } catch {
-                languages = [""]
+                languages = []
                 print("Try-catch error")
             }
         }
@@ -198,30 +174,18 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 		return 1
 	}
 	internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if shouldUpdateSearchResults {
-			return filteredLanguages.count
-		} else {
-			return languages.count
-		}
+		return languages.count
 	}
 	
 	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell : CustomLanguageCell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath) as! CustomLanguageCell
-		if shouldUpdateSearchResults {
-			cell.textLabel?.text = (filteredLanguages[indexPath.row])
-			if selectedCells.contains((cell.textLabel?.text)!) || (currentLanguges?.contains((cell.textLabel?.text)!))! {
-				cell.checkbox.isSelected = true
-			} else{
-				cell.checkbox.isSelected = false
-			}
-		}
-		else {
-			cell.textLabel?.text = (languages[indexPath.row])
-			if selectedCells.contains((cell.textLabel?.text)!) || (currentLanguges?.contains((cell.textLabel?.text)!))! {
-				cell.checkbox.isSelected = true
-			} else{
-				cell.checkbox.isSelected = false
-			}
+		
+		cell.textLabel?.text = (languages[indexPath.row])
+		
+		if selectedCells.contains((cell.textLabel?.text)!) || (currentLanguges?.contains((cell.textLabel?.text)!))! {
+			cell.checkbox.isSelected = true
+		} else{
+			cell.checkbox.isSelected = false
 		}
 		return cell
 	}
@@ -241,29 +205,6 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 		tableView.deselectRow(at: indexPath, animated: true)
 
 		print(self.selectedCells)
-	}
-}
-
-extension EditLanguage : UISearchBarDelegate {
-	
-	private func scrollToTop() {
-		contentView.tableView.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-	}
-	
-	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-		shouldUpdateSearchResults = true
-		
-		if let searchString = contentView.searchBar.text {
-			filteredLanguages = languages.filter{($0.contains(searchString))}
-			if filteredLanguages.count > 0 {
-				scrollToTop()
-			} else {
-				filteredLanguages = languages
-			}
-		}
-		contentView.tableView.reloadData()
 	}
 }
 
