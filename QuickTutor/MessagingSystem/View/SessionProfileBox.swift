@@ -83,3 +83,10 @@ class SessionProfileBox: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+class InPersonProfileBox: SessionProfileBox {
+    
+    
+    
+    
+}

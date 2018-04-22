@@ -74,6 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 					print("Sign In Handler Completed.")
                     print("Grabbing customer data...")
                     self.listenForData()
+                    NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
 					Stripe.stripeManager.retrieveCustomer({ (error) in
 						if let error = error {
 							print(error.localizedDescription)
@@ -82,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 						self.window?.makeKeyAndVisible()
 					})
                     
-					let controller = Birthday()
+					let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
 					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
@@ -98,6 +99,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         }
         
         return true
+    }
+    
+    @objc func showHomePage() {
+        let vc = AccountService.shared.currentUserType == .learner ? LearnerPageViewController() : TutorPageViewController()
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {

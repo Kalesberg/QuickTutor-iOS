@@ -22,13 +22,9 @@ class SessionNavBar: UIView {
         return iv
     }()
     
-    let timeLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.textColor = .white
-        label.text = "01:33:13"
-        label.font = Fonts.createSize(15)
-        return label
+    let timeLabel: CountdownTimer = {
+        let coundown = CountdownTimer()
+        return coundown
     }()
     
     let timeDescriptionLabel: UILabel = {

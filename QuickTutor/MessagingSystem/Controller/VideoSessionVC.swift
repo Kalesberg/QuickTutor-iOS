@@ -19,6 +19,7 @@ class VideoSessionVC: UIViewController {
     var localVideoTrack: TVILocalVideoTrack?
     var localAudioTrack: TVILocalAudioTrack?
     var remoteParticipant: TVIRemoteParticipant?
+    var endSessionModal: EndSessionModal?
     
     var remoteView: TVIVideoView = {
         let view = TVIVideoView()
@@ -73,7 +74,6 @@ class VideoSessionVC: UIViewController {
         setupPauseSessionButton()
         setupEndSessionButton()
         setupCameraFeedView()
-        
     }
     
     func setupMainView() {
@@ -106,11 +106,17 @@ class VideoSessionVC: UIViewController {
     func setupEndSessionButton() {
         view.addSubview(endSessionButton)
         endSessionButton.anchor(top: nil, left: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 15, width: 97, height: 35)
+        endSessionButton.addTarget(self, action: #selector(showEndModal), for: .touchUpInside)
+    }
+    
+    @objc func showEndModal() {
+        endSessionModal = EndSessionModal(frame: .zero)
+        endSessionModal?.show()
     }
     
     func setupCameraFeedView() {
-//        view.addSubview(cameraFeedView)
-//        cameraFeedView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16/9) - 30)
+        view.addSubview(cameraFeedView)
+        cameraFeedView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16/9) - 30)
     }
     
     func removeStartData() {
@@ -151,7 +157,6 @@ class VideoSessionVC: UIViewController {
             builder.audioTracks = self.localAudioTrack != nil ? [self.localAudioTrack!] : [TVILocalAudioTrack]()
             builder.videoTracks = self.localVideoTrack != nil ? [self.localVideoTrack!] : [TVILocalVideoTrack]()
             
-            
             // Use the preferred encoding parameters
             if let encodingParameters = Settings.shared.getEncodingParameters() {
                 builder.encodingParameters = encodingParameters
@@ -178,8 +183,6 @@ class VideoSessionVC: UIViewController {
             // Add renderer to video track for local preview
             localVideoTrack!.addRenderer(self.previewView)
             
-            print("Video track created")
-            
             // We will flip camera on tap.
             let tap = UITapGestureRecognizer(target: self, action: #selector(VideoSessionVC.flipCamera))
             self.previewView.addGestureRecognizer(tap)
@@ -195,16 +198,9 @@ class VideoSessionVC: UIViewController {
     }
     
     func prepareLocalMedia() {
-        
-        // We will share local audio and video when we connect to the Room.
-        
         // Create an audio track.
         if (localAudioTrack == nil) {
             localAudioTrack = TVILocalAudioTrack.init(options: nil, enabled: true, name: "Microphone")
-            
-            if (localAudioTrack == nil) {
-                //                logMessage(messageText: "Failed to create audio track")
-            }
         }
         
         // Create a video track which captures from the camera.
@@ -216,8 +212,8 @@ class VideoSessionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        removeStartData()
-        fetchToken()
+//        removeStartData()
+//        fetchToken()
     }
 }
 
@@ -250,7 +246,6 @@ extension VideoSessionVC: TVIRoomDelegate {
             if ((self.remoteParticipant?.videoTracks.count)! > 0) {
                 let remoteVideoTrack = self.remoteParticipant?.remoteVideoTracks[0].remoteTrack
                 remoteVideoTrack?.removeRenderer(self.remoteView)
-//                self.remoteView.removeFromSuperview()
             }
         }
     }
@@ -261,30 +256,16 @@ extension VideoSessionVC: TVICameraCapturerDelegate {
 }
 
 extension VideoSessionVC: TVIRemoteParticipantDelegate {
-    func subscribed(to videoTrack: TVIRemoteVideoTrack,
-                    publication: TVIRemoteVideoTrackPublication,
-                    for participant: TVIRemoteParticipant) {
-        
-        // We are subscribed to the remote Participant's audio Track. We will start receiving the
-        // remote Participant's video frames now.
-        
+    func subscribed(to videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
         
         if (self.remoteParticipant == participant) {
             videoTrack.addRenderer(self.remoteView)
         }
     }
     
-    func unsubscribed(from videoTrack: TVIRemoteVideoTrack,
-                      publication: TVIRemoteVideoTrackPublication,
-                      for participant: TVIRemoteParticipant) {
-        
-        // We are unsubscribed from the remote Participant's video Track. We will no longer receive the
-        // remote Participant's video.
-        
-        
+    func unsubscribed(from videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
         if (self.remoteParticipant == participant) {
             videoTrack.removeRenderer(self.remoteView)
-//            self.remoteView.removeFromSuperview()
         }
     }
     
@@ -302,8 +283,7 @@ class Settings: NSObject {
         if maxAudioBitrate == 0 && maxVideoBitrate == 0 {
             return nil;
         } else {
-            return TVIEncodingParameters(audioBitrate: maxAudioBitrate,
-                                         videoBitrate: maxVideoBitrate)
+            return TVIEncodingParameters(audioBitrate: maxAudioBitrate, videoBitrate: maxVideoBitrate)
         }
     }
     

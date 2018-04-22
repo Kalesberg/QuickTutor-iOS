@@ -208,6 +208,8 @@
 		CF2D9772207A7F7D00914B27 /* AddTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */; };
 		CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9773207A828F00914B27 /* AddTutorCell.swift */; };
 		CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9777207B354F00914B27 /* CustomSearchBar.swift */; };
+		CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D35208D392D0096617C /* EndSessionModal.swift */; };
+		CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D37208D401B0096617C /* CountdownTimer.swift */; };
 		CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBA2088113C00087449 /* InPersonSessionVC.swift */; };
 		CF387EBD2088314B00087449 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBC2088314B00087449 /* Notifications.swift */; };
 		CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */; };
@@ -518,6 +520,8 @@
 		CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorVC.swift; sourceTree = "<group>"; };
 		CF2D9773207A828F00914B27 /* AddTutorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorCell.swift; sourceTree = "<group>"; };
 		CF2D9777207B354F00914B27 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
+		CF360D35208D392D0096617C /* EndSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndSessionModal.swift; sourceTree = "<group>"; };
+		CF360D37208D401B0096617C /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		CF387EBA2088113C00087449 /* InPersonSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonSessionVC.swift; sourceTree = "<group>"; };
 		CF387EBC2088314B00087449 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionStartVC.swift; sourceTree = "<group>"; };
@@ -1261,6 +1265,7 @@
 				CF833B86207C4D3000323242 /* SessionCellActionView.swift */,
 				CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */,
 				CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */,
+				CF360D37208D401B0096617C /* CountdownTimer.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1439,6 +1444,7 @@
 				CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */,
 				CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */,
 				CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */,
+				CF360D35208D392D0096617C /* EndSessionModal.swift */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -1455,7 +1461,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				EDBF9AC8596B54BB49466DD1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1610,21 +1615,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EDBF9AC8596B54BB49466DD1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1649,6 +1639,7 @@
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
 				CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */,
+				CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */,
 				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
 				848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */,
 				846D9B562069E57C00302773 /* FeaturedTutorTableViewCell.swift in Sources */,
@@ -1845,6 +1836,7 @@
 				CF833B7A207C4B9D00323242 /* BaseUpcomingSessionCell.swift in Sources */,
 				84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */,
 				CF6F58D9205EE68800ACBD32 /* StudentKeyboardAccessory.swift in Sources */,
+				CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */,
 				CF833B8C207C940A00323242 /* CancelSessionButtonDelegate.swift in Sources */,
 				CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */,
 				84E4C7E8204E9774009C2FC4 /* SearchTutor.swift in Sources */,
