@@ -210,6 +210,7 @@
 		CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9777207B354F00914B27 /* CustomSearchBar.swift */; };
 		CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D35208D392D0096617C /* EndSessionModal.swift */; };
 		CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D37208D401B0096617C /* CountdownTimer.swift */; };
+		CF360D3A208D48DB0096617C /* PauseSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D39208D48DB0096617C /* PauseSessionModal.swift */; };
 		CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBA2088113C00087449 /* InPersonSessionVC.swift */; };
 		CF387EBD2088314B00087449 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBC2088314B00087449 /* Notifications.swift */; };
 		CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */; };
@@ -522,6 +523,7 @@
 		CF2D9777207B354F00914B27 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		CF360D35208D392D0096617C /* EndSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndSessionModal.swift; sourceTree = "<group>"; };
 		CF360D37208D401B0096617C /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
+		CF360D39208D48DB0096617C /* PauseSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSessionModal.swift; sourceTree = "<group>"; };
 		CF387EBA2088113C00087449 /* InPersonSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonSessionVC.swift; sourceTree = "<group>"; };
 		CF387EBC2088314B00087449 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionStartVC.swift; sourceTree = "<group>"; };
@@ -1445,6 +1447,7 @@
 				CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */,
 				CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */,
 				CF360D35208D392D0096617C /* EndSessionModal.swift */,
+				CF360D39208D48DB0096617C /* PauseSessionModal.swift */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -1665,6 +1668,7 @@
 				84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */,
 				CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
+				CF360D3A208D48DB0096617C /* PauseSessionModal.swift in Sources */,
 				84C4E93F206B61C2000C7A2F /* LearnerProfilePics.swift in Sources */,
 				8479EA652063E66400C5113E /* TutorPolicy.swift in Sources */,
 				84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */,

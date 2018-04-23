@@ -38,6 +38,7 @@ extension HandlesSessionStartData {
             if let start = value["startAccepted"] as? Bool, let type = value["sessionType"] as? String {
                 if type == "online" {
                     let vc = VideoSessionVC()
+                    vc.sessionId = snapshot.key
                     navigationController.pushViewController(vc, animated: true)
                 } else {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "manualStartAccepted"), object: nil)

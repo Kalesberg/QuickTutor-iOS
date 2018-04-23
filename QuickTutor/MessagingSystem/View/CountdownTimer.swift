@@ -28,8 +28,15 @@ class CountdownTimer: UIView {
     }
     
     func startTimer() {
+        guard timer == nil else { return }
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         timer?.fire()
+    }
+    
+    func stopTimer() {
+        guard timer != nil else { return }
+        timer?.invalidate()
+        timer = nil
     }
     
     @objc func updateTimeLabel() {
