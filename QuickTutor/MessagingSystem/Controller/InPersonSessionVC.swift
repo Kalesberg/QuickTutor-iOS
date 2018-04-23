@@ -12,6 +12,7 @@ import Firebase
 class InPersonSessionVC: UIViewController {
     
     var endSessionModal: EndSessionModal?
+    var sessionId: String?
     
     let sessionNavBar: SessionNavBar = {
         let bar = SessionNavBar()
@@ -26,8 +27,8 @@ class InPersonSessionVC: UIViewController {
         return view
     }()
     
-    let receieverBox: SessionProfileBox = {
-        let box = SessionProfileBox()
+    let receieverBox: InPersonProfileBox = {
+        let box = InPersonProfileBox()
         return box
     }()
     
@@ -35,7 +36,7 @@ class InPersonSessionVC: UIViewController {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .white
-        label.font = Fonts.createSize(16)
+        label.font = Fonts.createSize(20)
         label.text = "Session In Progress..."
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -59,6 +60,7 @@ class InPersonSessionVC: UIViewController {
         setupNavBar()
         setupReceiverBox()
         setupCancelButton()
+        setupStatusLabel()
         receieverBox.updateUI(uid: uid)
     }
     
@@ -76,7 +78,7 @@ class InPersonSessionVC: UIViewController {
     
     func setupReceiverBox() {
         view.addSubview(receieverBox)
-        receieverBox.anchor(top: sessionNavBar.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 158)
+        receieverBox.anchor(top: sessionNavBar.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 175, height: 197.5)
         view.addConstraint(NSLayoutConstraint(item: receieverBox, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
     }
     
@@ -85,6 +87,11 @@ class InPersonSessionVC: UIViewController {
         cancelButton.anchor(top: nil, left: nil, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 52.5, paddingRight: 0, width: 270, height: 50)
         view.addConstraint(NSLayoutConstraint(item: cancelButton, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
         cancelButton.addTarget(self, action: #selector(showModal), for: .touchUpInside)
+    }
+    
+    func setupStatusLabel() {
+        view.addSubview(statusLabel)
+        statusLabel.anchor(top: receieverBox.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 120, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
     }
     
     @objc func showModal() {
@@ -97,10 +104,20 @@ class InPersonSessionVC: UIViewController {
         Database.database().reference().child("sessionStarts").child(uid).removeValue()
     }
     
+    func updateUI() {
+        guard let id = sessionId else { return }
+        DataService.shared.getSessionById(id) { (session) in
+            self.receieverBox.infoLabel.text = session.getFormattedInfoLabelString()
+            self.receieverBox.subjectLabel.text = session.subject
+            self.receieverBox.updateUI(uid: session.partnerId())
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         removeStartData()
+        updateUI()
     }
 }
 

@@ -202,6 +202,7 @@
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
 		CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046422206EE3D800BFE898 /* CancelSessionModal.swift */; };
 		CF12D93B20642236004BE148 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12D93A20642236004BE148 /* Session.swift */; };
+		CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */; };
 		CF1E43C520705F8D0033F845 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C420705F8D0033F845 /* StarView.swift */; };
 		CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */; };
 		CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C8207067860033F845 /* BaseSessionCell.swift */; };
@@ -515,6 +516,7 @@
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
 		CF046422206EE3D800BFE898 /* CancelSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSessionModal.swift; sourceTree = "<group>"; };
 		CF12D93A20642236004BE148 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonProfileBox.swift; sourceTree = "<group>"; };
 		CF1E43C420705F8D0033F845 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderCell.swift; sourceTree = "<group>"; };
 		CF1E43C8207067860033F845 /* BaseSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionCell.swift; sourceTree = "<group>"; };
@@ -1268,6 +1270,7 @@
 				CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */,
 				CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */,
 				CF360D37208D401B0096617C /* CountdownTimer.swift */,
+				CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1684,6 +1687,7 @@
 				8476C6A62053714400B55C8F /* SignInHandler.swift in Sources */,
 				CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */,
 				CF833B7E207C4BCB00323242 /* TutorUpcomingSessionCell.swift in Sources */,
+				CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */,
 				CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */,
 				CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */,
 				CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */,
