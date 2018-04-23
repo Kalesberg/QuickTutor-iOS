@@ -266,8 +266,8 @@ class VideoSessionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-//        removeStartData()
-//        fetchToken()
+        removeStartData()
+        fetchToken()
         observeSessionEvents()
         loadSession()
     }
