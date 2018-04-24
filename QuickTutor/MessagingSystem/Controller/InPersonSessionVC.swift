@@ -13,6 +13,7 @@ class InPersonSessionVC: UIViewController {
     
     var endSessionModal: EndSessionModal?
     var sessionId: String?
+    var partnerId: String?
     
     let sessionNavBar: SessionNavBar = {
         let bar = SessionNavBar()
@@ -104,12 +105,23 @@ class InPersonSessionVC: UIViewController {
         Database.database().reference().child("sessionStarts").child(uid).removeValue()
     }
     
+    func observeEvents() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEndSession), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+    }
+    
+    @objc func showEndSession() {
+        let vc = SessionCompleteVC()
+        vc.partnerId = partnerId
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func updateUI() {
         guard let id = sessionId else { return }
         DataService.shared.getSessionById(id) { (session) in
             self.receieverBox.infoLabel.text = session.getFormattedInfoLabelString()
             self.receieverBox.subjectLabel.text = session.subject
             self.receieverBox.updateUI(uid: session.partnerId())
+            self.partnerId = session.partnerId()
         }
     }
     
@@ -118,6 +130,7 @@ class InPersonSessionVC: UIViewController {
         setupViews()
         removeStartData()
         updateUI()
+        observeEvents()
     }
 }
 
