@@ -224,6 +224,16 @@ class VideoSessionVC: UIViewController {
             })
 
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEndSession), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+
+    }
+    
+    
+    @objc func showEndSession() {
+        let vc = SessionCompleteVC()
+        vc.partnerId = partnerId
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func startPreview() {
