@@ -31,7 +31,7 @@ class SessionProfileBox: UIView {
         label.textAlignment = .center
         label.textColor = .white
         label.text = "Collin Vargo"
-        label.font = Fonts.createSize(18)
+        label.font = Fonts.createSize(16)
         return label
     }()
     
@@ -82,11 +82,4 @@ class SessionProfileBox: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-class InPersonProfileBox: SessionProfileBox {
-    
-    
-    
-    
 }

@@ -20,6 +20,9 @@ class VideoSessionVC: UIViewController {
     var localAudioTrack: TVILocalAudioTrack?
     var remoteParticipant: TVIRemoteParticipant?
     var endSessionModal: EndSessionModal?
+    var pauseSessionModal: PauseSessionModal?
+    var partnerId: String?
+    var sessionId: String?
     
     var remoteView: TVIVideoView = {
         let view = TVIVideoView()
@@ -101,6 +104,7 @@ class VideoSessionVC: UIViewController {
     func setupPauseSessionButton() {
         view.addSubview(pauseSessionButton)
         pauseSessionButton.anchor(top: sessionNavBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
+        pauseSessionButton.addTarget(self, action: #selector(pauseSession), for: .touchUpInside)
     }
     
     func setupEndSessionButton() {
@@ -114,6 +118,29 @@ class VideoSessionVC: UIViewController {
         endSessionModal?.show()
     }
     
+    @objc func pauseSession() {
+        guard let uid = Auth.auth().currentUser?.uid, let id = partnerId else { return }
+        Database.database().reference().child("sessionEvents").child(uid).child("pausedBy").setValue(uid)
+        Database.database().reference().child("sessionEvents").child(id).child("pausedBy").setValue(uid)
+    }
+    
+    @objc func showPauseModal(pausedById: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        sessionNavBar.timeLabel.timer?.invalidate()
+        pauseSessionModal?.delegate = self
+        DataService.shared.getUserOfOppositeTypeWithId(partnerId ?? "") { (user) in
+            guard let username = user?.username else { return }
+            self.pauseSessionModal = PauseSessionModal(frame: .zero)
+            if pausedById == uid {
+                self.pauseSessionModal?.pausedByCurrentUser()
+            }
+            self.pauseSessionModal?.partnerUsername = username
+            self.pauseSessionModal?.delegate = self
+            self.pauseSessionModal?.pausedById = pausedById
+            self.pauseSessionModal?.show()
+        }
+    }
+    
     func setupCameraFeedView() {
         view.addSubview(cameraFeedView)
         cameraFeedView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16/9) - 30)
@@ -122,6 +149,13 @@ class VideoSessionVC: UIViewController {
     func removeStartData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("sessionStarts").child(uid).removeValue()
+    }
+    
+    func loadSession() {
+        guard let id = sessionId else { return }
+        DataService.shared.getSessionById(id) { (session) in
+            self.partnerId = session.partnerId()
+        }
     }
     
     func fetchToken() {
@@ -149,7 +183,7 @@ class VideoSessionVC: UIViewController {
     
     func connect() {
         self.prepareLocalMedia()
-        
+
         // Preparing the connect options with the access token that we fetched (or hardcoded).
         let connectOptions = TVIConnectOptions.init(token: accessToken) { (builder) in
             
@@ -170,6 +204,36 @@ class VideoSessionVC: UIViewController {
         // Connect to the Room using the options we provided.
         room = TwilioVideo.connect(with: connectOptions, delegate: self)
         
+    }
+    
+    func observeSessionEvents() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("sessionEvents").child(uid).observe(.value) { (snapshot) in
+            guard let value = snapshot.value as? [String: Any] else { return }
+            if let pausedById = value["pausedBy"] as? String {
+                self.showPauseModal(pausedById: pausedById)
+                self.sessionNavBar.timeLabel.timer?.invalidate()
+                self.sessionNavBar.timeLabel.timer = nil
+            } else {
+                self.pauseSessionModal?.dismiss()
+            }
+            
+            Database.database().reference().child("sessionEvents").child(uid).observe(.childRemoved, with: { (snapshot) in
+                    self.pauseSessionModal?.dismiss()
+                    self.sessionNavBar.timeLabel.startTimer()
+            })
+
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEndSession), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+
+    }
+    
+    
+    @objc func showEndSession() {
+        let vc = SessionCompleteVC()
+        vc.partnerId = partnerId
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func startPreview() {
@@ -212,8 +276,10 @@ class VideoSessionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-//        removeStartData()
-//        fetchToken()
+        removeStartData()
+        fetchToken()
+        observeSessionEvents()
+        loadSession()
     }
 }
 
@@ -269,6 +335,14 @@ extension VideoSessionVC: TVIRemoteParticipantDelegate {
         }
     }
     
+}
+
+extension VideoSessionVC: PauseSessionModalDelegate {
+    func unpauseSession() {
+        guard let uid = Auth.auth().currentUser?.uid, let id = partnerId else { return }
+        Database.database().reference().child("sessionEvents").child(uid).child("pausedBy").removeValue()
+        Database.database().reference().child("sessionEvents").child(id).child("pausedBy").removeValue()
+    }
 }
 
 class Settings: NSObject {

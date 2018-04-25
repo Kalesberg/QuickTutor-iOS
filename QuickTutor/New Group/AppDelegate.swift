@@ -153,11 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         return true
     }
     
-    @objc func showHomePage() {
-        let vc = AccountService.shared.currentUserType == .learner ? LearnerPageViewController() : TutorPageViewController()
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         return handled

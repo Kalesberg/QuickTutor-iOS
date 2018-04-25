@@ -13,7 +13,7 @@ class MessageTextView: UITextView {
     let placeholderLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.border
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = Fonts.createSize(14)
         label.text = "Enter a message..."
         return label
     }()
