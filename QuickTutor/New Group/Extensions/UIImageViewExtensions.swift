@@ -19,6 +19,34 @@ extension UIImageView {
         clipsToBounds = true
     }
 	
+	
+	
+	func loadImages(urlString: String) {
+		
+		
+		guard let url = URL(string: urlString) else { return }
+		
+		self.image = nil
+		
+		if let cachedImage = imageCache[urlString] {
+			self.image = cachedImage
+			return
+		}
+		
+		URLSession.shared.dataTask(with: url) { (data, response, error) in
+			guard error == nil, let imageData = data else {
+				print("Failed to fetch post image:", error.debugDescription)
+				return
+			}
+			
+			let image = UIImage(data: imageData)
+			imageCache[url.absoluteString] = image
+			DispatchQueue.main.async {
+				self.image = image
+			}
+			}.resume()
+	}
+	
 	func loadUserImages(by url: String) {
 		
 		self.image = nil
@@ -44,6 +72,8 @@ extension UIImageView {
 					if let image = UIImage(data: data!)?.circleMasked {
 						userImageCache[url] = image
 						self.image = image	
+					} else  {
+						self.image = #imageLiteral(resourceName: "registration-image-placeholder")
 					}
 				})
 			}.resume()

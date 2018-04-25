@@ -40,7 +40,7 @@ struct Registration {
 		defaults.set(0, 							forKey: "numberOfCards")
 		defaults.set(false, 						forKey: "hasBio")
 		
-		LocalImageCache.localImageManager.updateImageStored(image: Registration.studentImage, number: "1")
+		//LocalImageCache.localImageManager.updateImageStored(image: Registration.studentImage, number: "1")
 	}
 }
 

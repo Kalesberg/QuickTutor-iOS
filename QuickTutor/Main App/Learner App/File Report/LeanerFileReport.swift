@@ -94,12 +94,12 @@ class FileReportSessionView : BaseView {
         dayOfWeekLabel.text = "Tue"
         dayOfWeekLabel.textAlignment = .center
         
-        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-            profilePic.image = image
-        } else {
-            //set to some arbitrary image.
-        }
-        
+//        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+//            profilePic.image = image
+//        } else {
+//            //set to some arbitrary image.
+//        }
+		
         profilePic.scaleImage()
         
         subjectLabel.font = Fonts.createBoldSize(14)
@@ -560,11 +560,11 @@ class CustomHeaderCell : BaseView {
 		dayOfWeekLabel.text = "Tue"
 		dayOfWeekLabel.textAlignment = .center
 		
-		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			profilePic.image = image
-		} else {
-			//set to some arbitrary image.
-		}
+//		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+//			profilePic.image = image
+//		} else {
+//			//set to some arbitrary image.
+//		}
 		
 		profilePic.scaleImage()
 		

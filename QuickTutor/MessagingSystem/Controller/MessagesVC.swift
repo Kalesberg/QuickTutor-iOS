@@ -108,6 +108,7 @@ class MessagesVC: UIViewController, CustomNavBarDisplay {
     @objc func showConversation(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
         AccountService.shared.currentUserType == .learner ? getTutor(uid: uid) : getStudent(uid: uid)
+		print("showConvo")
     }
     
     private func getStudent(uid: String) {
@@ -140,6 +141,7 @@ class MessagesVC: UIViewController, CustomNavBarDisplay {
             vc.chatPartner = tutor!
             vc.connectionRequestAccepted = true
             vc.shouldRequestSession = true
+			
             self.navigationController?.setNavigationBarHidden(false, animated: false)
             self.navigationController?.pushViewController(vc, animated: true)
         }

@@ -59,22 +59,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame: UIScreen.main.bounds)
         //Firebase check
-        if Auth.auth().currentUser != nil {
+        if let user = Auth.auth().currentUser {
             //create SignInClass to handle everything before user is able to sign in.
 			
-			_ = SignInHandler.init({ (error) in
-				if error != nil {
-					print(error!)
-					self.window?.makeKeyAndVisible()
-					let controller = SignIn()
-					navigationController = CustomNavVC(rootViewController: controller)
-					navigationController.navigationBar.isHidden = true
-					self.window?.rootViewController = navigationController
-				} else {
-					print("Sign In Handler Completed.")
-                    print("Grabbing customer data...")
-                    self.listenForData()
-                    NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+			FirebaseData.manager.getLearner(user.uid) { (learner) in
+				if let learner = learner {
+
+					CurrentUser.shared.learner = learner
+					
+					self.listenForData()
+					
+					NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+					
 					Stripe.stripeManager.retrieveCustomer({ (error) in
 						if let error = error {
 							print(error.localizedDescription)
@@ -82,16 +78,72 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 						print("Retrieved customer.")
 						self.window?.makeKeyAndVisible()
 					})
-                    
+					
 					let controller = LearnerPageViewController()
-                    AccountService.shared.currentUserType = .learner
+					AccountService.shared.currentUserType = .learner
+					
 					navigationController = CustomNavVC(rootViewController: controller)
 					navigationController.navigationBar.isHidden = true
+					
 					self.window?.rootViewController = navigationController
-				}
-			})
+					
+//					AccountService.shared.currentUserType = .learner
+//
+//					self.listenForData()
+//
+//					NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+//
+//					Stripe.stripeManager.retrieveCustomer({ (error) in
+//						if let error = error {
+//							print(error.localizedDescription)
+//						}
+//						self.window?.makeKeyAndVisible()
+//					})
+//
+//					let controller = LearnerPageViewController()
+//
+//					navigationController = CustomNavVC(rootViewController: controller)
+//					navigationController.navigationBar.isHidden = true
+//					self.window?.rootViewController = navigationController
+
+				} else {
+					print("Here2.")
+
+					self.window?.makeKeyAndVisible()
+					let controller = SignIn()
+					navigationController = CustomNavVC(rootViewController: controller)
+					navigationController.navigationBar.isHidden = true
+					self.window?.rootViewController = navigationController				}
+			}
+//
+//			_ = SignInHandler.init({ (error) in
+//				if error != nil {
+//					print(error!)
+//					self.window?.makeKeyAndVisible()
+//					let controller = SignIn()
+//					navigationController = CustomNavVC(rootViewController: controller)
+//					navigationController.navigationBar.isHidden = true
+//					self.window?.rootViewController = navigationController
+//				} else {
+//                    self.listenForData()
+//                    NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+//					Stripe.stripeManager.retrieveCustomer({ (error) in
+//						if let error = error {
+//							print(error.localizedDescription)
+//						}
+//						print("Retrieved customer.")
+//						self.window?.makeKeyAndVisible()
+//					})
+//
+//					let controller = LearnerPageViewController()
+//                    AccountService.shared.currentUserType = .learner
+//					navigationController = CustomNavVC(rootViewController: controller)
+//					navigationController.navigationBar.isHidden = true
+//					self.window?.rootViewController = navigationController
+//				}
+//			})
         } else {
-            let controller = Birthday()
+			let controller = SignIn()
             navigationController = CustomNavVC(rootViewController: controller)
             navigationController.navigationBar.isHidden = true
             self.window?.makeKeyAndVisible()

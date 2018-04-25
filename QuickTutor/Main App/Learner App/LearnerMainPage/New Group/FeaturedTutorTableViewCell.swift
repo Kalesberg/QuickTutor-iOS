@@ -38,7 +38,7 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		return collectionView
 	}()
 	
-	var datasource : [FeaturedTutor]? {
+	var datasource : [AWTutor]? {
 		didSet {
 			collectionView.reloadData()
 		}
@@ -81,7 +81,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 
 		cell.price.text = datasource![indexPath.item].price.priceFormat()
-		cell.featuredTutor.imageView.loadUserImages(by: datasource![indexPath.item].imageUrls["image1"]!)
+		cell.featuredTutor.imageView.loadUserImages(by: datasource![indexPath.item].images["image1"]!)
 		cell.featuredTutor.namePrice.text = datasource![indexPath.item].name
 		cell.featuredTutor.region.text = datasource![indexPath.item].region
 		cell.featuredTutor.subject.text = datasource![indexPath.item].topSubject
@@ -94,38 +94,12 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		if let current = UIApplication.getPresentedViewController() {
 			
 			let next = TutorConnect()
-			var tutor = datasource![indexPath.item]
-			let group = DispatchGroup()
-			group.enter()
-			QueryData.shared.loadReviews(uid: tutor.uid) { (reviews) in
-				
-				if let reviews = reviews {
-					tutor.reviews = reviews
-				}
-				group.leave()
-			}
-			group.enter()
-			QueryData.shared.loadSubjects(uid: tutor.uid) { (subcategory) in
-				var subjects : [String] = []
-				
-				if let subcategory = subcategory {
-					
-					for subject in subcategory {
-						
-						let this = subject.subjects.split(separator: "$")
-						
-						for i in this {
-							subjects.append(String(i))
-						}
-					}
-					tutor.subjects = subjects
-				}
-				group.leave()
-			}
-			group.notify(queue: .main) {
-				next.featuredTutor = tutor
-				current.present(next, animated: true, completion: nil)
-			}
+			let tutor = datasource![indexPath.item]
+			
+			next.featuredTutor = tutor
+			navigationController.pushViewController(next, animated: true)
+//			current.present(next, animated: true, completion: nil)
+			
 		}
 	}
 	

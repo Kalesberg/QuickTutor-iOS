@@ -134,11 +134,10 @@ class EditSchool : BaseViewController {
 				self.navigationController?.popViewController(animated: true)
 			}
 		}
-		
 	}
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonSave) {
-			//save button pressed
+			//save button
 		}
 	}
 	
@@ -189,10 +188,10 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 			switch AccountService.shared.currentUserType {
 			case .learner:
 				
-				if !LearnerData.userData.isTutor {
+				if !CurrentUser.shared.learner.isTutor {
 					
 					FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
-					LearnerData.userData.school = school
+					CurrentUser.shared.learner.school = school
 					
 					displaySavedAlertController()
 					break
@@ -211,8 +210,8 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 						self.displaySavedAlertController()
 					}
 				}
-				TutorData.shared.school = school
-				LearnerData.userData.school = school
+				CurrentUser.shared.learner.school = school
+				CurrentUser.shared.tutor.school = school
 			}
 		}
 	}

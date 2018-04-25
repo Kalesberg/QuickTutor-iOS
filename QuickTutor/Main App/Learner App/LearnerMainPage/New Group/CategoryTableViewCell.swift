@@ -98,6 +98,7 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 		
 		let next = CategorySearch()
 		next.category = category[indexPath.item]
+		print(category[indexPath.item])
 		navigationController.pushViewController(next, animated: true)
 	}
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

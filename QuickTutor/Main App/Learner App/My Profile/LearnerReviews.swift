@@ -84,7 +84,7 @@ class LearnerReviews : BaseViewController {
 
 	var datasource : [TutorReview]? {
 		didSet {
-			contentView.subtitleLabel.label.text = "Reviews \((datasource?.count ?? 0))"
+			contentView.subtitleLabel.label.text = "Reviews (\((datasource?.count ?? 0)))"
 			contentView.tableView.reloadData()
 		}
 	}
@@ -179,11 +179,11 @@ class CustomReviewCell : UITableViewCell {
 		addSubview(dateSubjectLabel)
 		addSubview(reviewTextLabel)
 		
-		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			profilePic.image = image
-		} else {
-			//set to some arbitrary image.
-		}
+//		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+//			profilePic.image = image
+//		} else {
+//			//set to some arbitrary image.
+//		}
 		
 		let cellBackground = UIView()
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)

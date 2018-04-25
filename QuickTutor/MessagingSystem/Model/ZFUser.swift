@@ -24,7 +24,6 @@ class User: Decodable {
         type = dictionary["type"] as? String ?? ""
         isOnline = dictionary["online"] as? Bool ?? false
     }
-    
 }
 
 class ZFTutor: User {

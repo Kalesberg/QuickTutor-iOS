@@ -29,6 +29,7 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		
 		return label
 	}()
+	var searchTextField : UITextField!
 	
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
@@ -36,14 +37,6 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		searchBar.sizeToFit()
 		searchBar.searchBarStyle = .minimal
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
-		
-		let textField = searchBar.value(forKey: "searchField") as? UITextField
-		textField?.font = Fonts.createSize(16)
-		textField?.textColor = .white
-		textField?.adjustsFontSizeToFitWidth = true
-		textField?.autocapitalizationType = .words
-		textField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		textField?.keyboardAppearance = .dark
 		
 		return searchBar
 	}()
@@ -104,14 +97,14 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return tableView
 	}()
 	
-	var backButton = NavbarButtonBack()
+	var backButton = NavbarButtonX()
 	var cancelButton = NavbarButtonDone()
 	
 	override var leftButton : NavbarButton {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonBack
+			backButton = newValue as! NavbarButtonX
 		}
 	}
 	override var rightButton: NavbarButton  {
@@ -132,9 +125,18 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		addSubview(keyboardView)
 		super.configureView()
 		
+		searchTextField = searchBar.value(forKey: "searchField") as? UITextField
+		searchTextField?.font = Fonts.createSize(16)
+		searchTextField?.textColor = .white
+		searchTextField?.adjustsFontSizeToFitWidth = true
+		searchTextField?.autocapitalizationType = .words
+		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		searchTextField?.keyboardAppearance = .dark
+		
+		
 		backButton.image.image = #imageLiteral(resourceName: "backButton")
 		nextButton.label.text = "Save"
-		cancelButton.label.label.text = "Cancel"
+		cancelButton.label.label.text = "Add"
 		headerView.backgroundColor = Colors.backgroundDark
 		
 		applyConstraints()
@@ -214,6 +216,8 @@ class EditTutorSubjects : BaseViewController {
 	}
 	
 	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+	
+	var tutor : AWTutor!
 	
 	var selectedSubjects : [String] = [] {
 		didSet {
@@ -363,7 +367,7 @@ class EditTutorSubjects : BaseViewController {
 		var newSubs : [String] = []
 		var subcategoriesToDelete : [String] = []
 		
-		for i in TutorData.shared.selected {
+		for i in tutor.selected {
 			currentSubs.append(i.path)
 		}
 		
@@ -381,12 +385,12 @@ class EditTutorSubjects : BaseViewController {
 		
 			print("subjectToDelete", subcategoriesToDelete[i])
 			
-			self.ref.child("subcategory").child(subcategoriesToDelete[i]).child(Auth.auth().currentUser!.uid).removeValue()
-			self.ref.child("subject").child(Auth.auth().currentUser!.uid).child(subcategoriesToDelete[i]).removeValue()
+			self.ref.child("subcategory").child(subcategoriesToDelete[i].lowercased()).child(Auth.auth().currentUser!.uid).removeValue()
+			self.ref.child("subject").child(Auth.auth().currentUser!.uid).child(subcategoriesToDelete[i].lowercased()).removeValue()
 		}
-
-		TutorData.shared.subjects = self.selectedSubjects
-		TutorData.shared.selected = self.selected
+		
+		tutor.subjects = self.selectedSubjects
+		tutor.selected = self.selected
 		
 	}
 	
@@ -421,9 +425,9 @@ class EditTutorSubjects : BaseViewController {
 			
 			let subjects = key.value.compactMap({$0}).joined(separator: "$")
 			
-			updateSubjectValues["/subject/\(Auth.auth().currentUser!.uid)/\(key.key.lowercased())"] = ["p": TutorData.shared.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
+			updateSubjectValues["/subject/\(Auth.auth().currentUser!.uid)/\(key.key.lowercased())"] = ["p": tutor.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
 			
-			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : TutorData.shared.price!, "dst" : TutorData.shared.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
+			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : tutor.price!, "dst" : tutor.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
 		}
 		print("UpdatedSubject: ", updateSubjectValues)
 		
@@ -434,15 +438,16 @@ class EditTutorSubjects : BaseViewController {
 			if let error = error {
 				print(error.localizedDescription)
 			}
-			TutorData.shared.subjects = self.selectedSubjects
-			TutorData.shared.selected = self.selected
+			
+			CurrentUser.shared.tutor.subjects = self.selectedSubjects
+			CurrentUser.shared.tutor.selected = self.selected
 			
 			self.displaySavedAlertController()
 		}
 	}
 	
 	private func displaySavedAlertController() {
-		let alertController = UIAlertController(title: "Saved!", message: "Your phone update has been saved", preferredStyle: .alert)
+		let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
 		
 		self.present(alertController, animated: true, completion: nil)
 		
@@ -455,6 +460,23 @@ class EditTutorSubjects : BaseViewController {
 		}
 		
 	}
+	private func backButtonAlert() {
+		let alertController = UIAlertController(title: "Are You Sure?", message: "All of your progress will be deleted.", preferredStyle: .alert)
+		
+		let okButton = UIAlertAction(title: "Ok", style: .destructive) { (alert) in
+			self.navigationController?.popViewController(animated: true)
+			
+		}
+		
+		let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
+			
+		}
+		
+		alertController.addAction(okButton)
+		alertController.addAction(cancelButton)
+		
+		self.present(alertController, animated: true, completion: nil)
+	}
 	override func handleNavigation() {
 		if touchStartView is TutorPreferencesNextButton {
 			deleteSubjects()
@@ -464,6 +486,8 @@ class EditTutorSubjects : BaseViewController {
 			didSelectCategory = false
 			contentView.searchBar.text = ""
 			tableView(shouldDisplay: false)
+		} else if touchStartView is NavbarButtonX {
+			backButtonAlert()
 		}
 	}
 }
@@ -474,6 +498,8 @@ extension EditTutorSubjects : SelectedSubcategory {
 		shouldUpdateSearchResults = true
 		didSelectCategory = true
 		contentView.searchBar.becomeFirstResponder()
+	
+		contentView.searchTextField.attributedPlaceholder = NSAttributedString(string: (Category.category(for: resource)?.subcategory.phrase)!, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		
 		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
 			self.partialSubjects = subjects
@@ -483,7 +509,7 @@ extension EditTutorSubjects : SelectedSubcategory {
 		contentView.tableView.reloadData()
 		scrollToTop()
 		
-		contentView.headerView.category.text = self.categories[selectedCategory].subcategory.subcategories[index]
+		contentView.headerView.category.text = subject
 		
 		tableView(shouldDisplay: true)
 	}
@@ -576,6 +602,7 @@ extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "addSubjectsCell", for: indexPath) as! AddSubjectsTableViewCell
 		
 		if shouldUpdateSearchResults {
+			cell.subcategory.isHidden = didSelectCategory
 			
 			cell.subject.text = filteredSubjects[indexPath.section].0
 			cell.subcategory.text = filteredSubjects[indexPath.section].1
