@@ -62,7 +62,7 @@ class SessionCompleteVC: UIViewController {
     }()
     
     let ratingView: RatingStartView = {
-        let view = RatingStartView()
+        let view = RatingStartView(frame: CGRect(x: 0, y: 0, width: 257, height: 45))
         return view
     }()
     
@@ -122,7 +122,10 @@ class SessionCompleteVC: UIViewController {
         guard let id = partnerId else { return }
         let infoNode = AccountService.shared.currentUserType == .learner ? "tutor-info" : "learner-info"
         Database.database().reference().child(infoNode).child(id).child("r").setValue(ratingView.rating)
-        navigationController?.pushViewController(LearnerPageViewController(), animated: true)
+        let vc = SessionReviewVC()
+        vc.partnerId = partnerId
+        vc.rating = ratingView.rating
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func viewDidLoad() {
