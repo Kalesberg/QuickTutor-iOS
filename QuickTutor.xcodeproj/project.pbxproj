@@ -205,6 +205,8 @@
 		CF177BC9208E920E006DD50B /* SessionCompleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */; };
 		CF177BCB208FB8E0006DD50B /* RatingStarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BCA208FB8E0006DD50B /* RatingStarView.swift */; };
 		CF177BCD208FB94B006DD50B /* EndSessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BCC208FB94B006DD50B /* EndSessionProfileBox.swift */; };
+		CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */; };
+		CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */; };
 		CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */; };
 		CF1E43C520705F8D0033F845 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C420705F8D0033F845 /* StarView.swift */; };
 		CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */; };
@@ -522,6 +524,8 @@
 		CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteVC.swift; sourceTree = "<group>"; };
 		CF177BCA208FB8E0006DD50B /* RatingStarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingStarView.swift; sourceTree = "<group>"; };
 		CF177BCC208FB94B006DD50B /* EndSessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndSessionProfileBox.swift; sourceTree = "<group>"; };
+		CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionReviewVC.swift; sourceTree = "<group>"; };
+		CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProfileBox.swift; sourceTree = "<group>"; };
 		CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonProfileBox.swift; sourceTree = "<group>"; };
 		CF1E43C420705F8D0033F845 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderCell.swift; sourceTree = "<group>"; };
@@ -1279,6 +1283,7 @@
 				CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */,
 				CF177BCA208FB8E0006DD50B /* RatingStarView.swift */,
 				CF177BCC208FB94B006DD50B /* EndSessionProfileBox.swift */,
+				CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1377,6 +1382,7 @@
 				CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */,
 				CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */,
 				CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */,
+				CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1776,6 +1782,7 @@
 				846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */,
 				847463262069425C00B70AD9 /* TutorSessions.swift in Sources */,
 				84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */,
+				CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */,
 				CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */,
 				845A3A011FFC267100226B25 /* GeohashBox.swift in Sources */,
 				CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */,
@@ -1788,6 +1795,7 @@
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBio.swift in Sources */,
 				CF6F58D4205EE68800ACBD32 /* QuickChatView.swift in Sources */,
+				CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */,
 				847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,

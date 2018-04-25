@@ -64,44 +64,35 @@ class RatingStartView: UIView {
     
     lazy var buttons = [star1, star2, star3, star4, star5]
     
+    lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [star1, star2, star3, star4, star5])
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.contentMode = .scaleAspectFill
+        stackView.spacing = frame.height * 0.18
+        return stackView
+    }()
+    
     func setupViews() {
-        setupStar1()
-        setupStar2()
-        setupStar3()
-        setupStar4()
-        setupStar5()
+        setupStackview()
         setupButtonActions()
     }
     
-    func setupStar1() {
-        addSubview(star1)
-        star1.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 45, height: 0)
-    }
-    
-    func setupStar2() {
-        addSubview(star2)
-        star2.anchor(top: topAnchor, left: star1.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 45, height: 0)
-    }
-    
-    func setupStar3() {
-        addSubview(star3)
-        star3.anchor(top: topAnchor, left: star2.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 45, height: 0)
-    }
-    
-    func setupStar4() {
-        addSubview(star4)
-        star4.anchor(top: topAnchor, left: star3.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 45, height: 0)
-    }
-    
-    func setupStar5() {
-        addSubview(star5)
-        star5.anchor(top: topAnchor, left: star4.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 45, height: 0)
+    func setupStackview() {
+        addSubview(stackView)
+        stackView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     func setupButtonActions() {
         buttons.forEach { (button) in
             button.addTarget(self, action: #selector(updateRating(sender:)), for: .touchDown)
         }
+    }
+    
+    func setRatingTo(_ rating: Int) {
+        let button = UIButton()
+        button.tag = rating
+        updateRating(sender: button)
     }
     
     @objc func updateRating(sender: UIButton) {
@@ -117,6 +108,7 @@ class RatingStartView: UIView {
         
         delegate?.didUpdateRating(rating: sender.tag)
     }
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
