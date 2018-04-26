@@ -151,7 +151,11 @@ class MainLayoutView: BaseLayoutView {
         statusbarView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
         
         navbar.snp.makeConstraints { (make) in
@@ -338,7 +342,11 @@ class MainLayoutHeaderScroll : MainLayoutTitleBackButton {
         scrollView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
             make.centerX.equalToSuperview()
         }
         

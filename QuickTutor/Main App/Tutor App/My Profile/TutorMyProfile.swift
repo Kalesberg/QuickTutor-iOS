@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 
 class TutorMyProfileView : LearnerMyProfileView {
-	
-	override func configureView() {
-		super.configureView()
-		
-		title.label.text = "My Profile"
-		statusbarView.backgroundColor = Colors.tutorBlue
-		navbar.backgroundColor = Colors.tutorBlue
-	}
-	
+    
+    override func configureView() {
+        super.configureView()
+        
+        title.label.text = "My Profile"
+        statusbarView.backgroundColor = Colors.tutorBlue
+        navbar.backgroundColor = Colors.tutorBlue
+    }
+    
 }
 
 class TutorMyProfile : BaseViewController {

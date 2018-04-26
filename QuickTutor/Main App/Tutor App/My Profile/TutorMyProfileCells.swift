@@ -660,6 +660,56 @@ class RatingTableViewCell : BaseTableViewCell {
 	}
 }
 
+class NoRatingsTableViewCell : BaseTableViewCell {
+    
+    let label1 : UILabel = {
+        let label = UILabel()
+        
+        label.text = "Reviews"
+        label.font = Fonts.createBoldSize(18)
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    let label2 : UILabel = {
+        let label = UILabel()
+        
+        label.text = "No reviews yet!"
+        label.font = Fonts.createBoldSize(18)
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    override func configureView() {
+        contentView.addSubview(label1)
+        contentView.addSubview(label2)
+        super.configureView()
+        
+        backgroundColor = .clear
+        selectionStyle = .none
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label1.snp.makeConstraints { (make) in
+            make.width.equalToSuperview().multipliedBy(0.95)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(40)
+            make.top.equalToSuperview()
+        }
+        
+        label2.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.height.equalTo(40)
+            make.top.equalTo(label1.snp.bottom)
+            make.bottom.equalToSuperview()
+        }
+    }
+}
+
 extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

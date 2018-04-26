@@ -106,6 +106,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+        tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
         tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
         tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
         
@@ -216,7 +217,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         switch indexPath.item {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
-           	cell.bioLabel.text = (datasource.tBio)! + "\n"
+               cell.bioLabel.text = (datasource.tBio)! + "\n"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
@@ -241,7 +242,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
     
             cell.tutorItem.label.text = "Has tutored \(datasource?.numSessions! ?? 0) sessions"
             
-			if let languages = datasource?.languages {
+            if let languages = datasource?.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
                 cell.contentView.addSubview(cell.speakItem)
                 
@@ -315,29 +316,35 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 cell.datasource = datasource?.subjects
             return cell
         case 3:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
-                RatingTableViewCell
-                cell.datasource = datasource?.reviews
+            
+            //if no reviews
+            let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+            
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
+//                RatingTableViewCell
+//
+//
+//                cell.datasource = datasource?.reviews
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
-		
-			if let policy = datasource?.policy {
-				let policies = policy.split(separator: "_")
-				
-				let formattedString = NSMutableAttributedString()
-				
-				formattedString
-					.regular(datasource.distance.distancePreference(datasource.preference), 14, .white)
-					.regular(datasource.preference.preferenceNormalization(), 14, .white)
-					.regular(String(policies[2]).cancelNotice(), 14, .white)
-					.regular(String(policies[1]).lateFee(), 13, Colors.qtRed)
-					.regular(String(policies[3]).cancelFee(), 13, Colors.qtRed)
-				
-				cell.policiesLabel.attributedText = formattedString
-			} else {
-				// show "No Policies cell"
-			}
+        
+            if let policy = datasource?.policy {
+                let policies = policy.split(separator: "_")
+                
+                let formattedString = NSMutableAttributedString()
+                
+                formattedString
+                    .regular(datasource.distance.distancePreference(datasource.preference), 14, .white)
+                    .regular(datasource.preference.preferenceNormalization(), 14, .white)
+                    .regular(String(policies[2]).cancelNotice(), 14, .white)
+                    .regular(String(policies[1]).lateFee(), 13, Colors.qtRed)
+                    .regular(String(policies[3]).cancelFee(), 13, Colors.qtRed)
+                
+                cell.policiesLabel.attributedText = formattedString
+            } else {
+                // show "No Policies cell"
+            }
             return cell
         default:
             return UITableViewCell()

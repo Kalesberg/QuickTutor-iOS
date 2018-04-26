@@ -11,10 +11,8 @@ import UIKit
 
 class EditBioTextView : BaseView {
     
-    var textView = UITextView()
-    
-    override func configureView() {
-        addSubview(textView)
+    let textView : UITextView = {
+        let textView = UITextView()
         
         textView.font = Fonts.createSize(20)
         textView.keyboardAppearance = .dark
@@ -23,6 +21,12 @@ class EditBioTextView : BaseView {
         textView.backgroundColor = .clear
         textView.returnKeyType = .default
         textView.font = Fonts.createSize(18)
+        
+        return textView
+    }()
+    
+    override func configureView() {
+        addSubview(textView)
 		
 		switch AccountService.shared.currentUserType {
 		case .learner:
@@ -53,6 +57,17 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
     var textView = EditBioTextView()
     var characterCount = LeftTextLabel()
     var infoLabel = LeftTextLabel()
+    
+    let errorLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .red
+        label.font = Fonts.createItalicSize(15)
+        label.isHidden = true
+        label.text = "Bio must be at least 20 characters"
+        
+        return label
+    }()
 	
 	override func configureView() {
         addKeyboardView()
@@ -60,6 +75,7 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
         contentView.addSubview(textView)
         contentView.addSubview(titleLabel)
         textView.addSubview(characterCount)
+        textView.addSubview(errorLabel)
         contentView.addSubview(infoLabel)
         super.configureView()
         
@@ -88,7 +104,6 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
         
         infoLabel.label.attributedText = attributedString;
         infoLabel.label.font = Fonts.createSize(14)
-
     }
     
     override func applyConstraints() {
@@ -124,9 +139,13 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
         characterCount.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(10)
             make.bottom.equalToSuperview().inset(10)
-            make.width.equalTo(100)
         }
         
+        errorLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(characterCount.snp.right).inset(-10)
+            make.bottom.equalToSuperview().inset(10)
+        }
+    
         infoLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(12)
             make.right.equalToSuperview()
@@ -185,6 +204,8 @@ class EditBio : BaseViewController {
 		NavbarButtonBack.enabled = false
 		
 		originalBio = contentView.textView.textView.text
+        
+        contentView.characterCount.label.text = String(300 - originalBio.count)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -223,12 +244,21 @@ class EditBio : BaseViewController {
 	
     override func handleNavigation() {
         if (touchStartView is NavbarButtonSave) {
-			self.dismissKeyboard()
-			saveChanges()
+            if contentView.textView.textView.text.count < 20 {
+                contentView.errorLabel.isHidden = false
+            } else {
+                contentView.errorLabel.isHidden = true
+                self.dismissKeyboard()
+                saveChanges()
+            }
 		} else if (touchStartView is NavbarButtonBack) {
-			if originalBio != contentView.textView.textView.text {
+            if contentView.textView.textView.text.count < 20 {
+                contentView.errorLabel.isHidden = false
+            } else if originalBio != contentView.textView.textView.text {
 				changedEditBioAlert()
+                contentView.errorLabel.isHidden = true
 			} else {
+                contentView.errorLabel.isHidden = true
 				navigationController?.popViewController(animated: true)
 			}
 		}

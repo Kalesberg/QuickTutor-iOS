@@ -42,7 +42,6 @@ class SubjectCollectionViewCell : UICollectionViewCell {
 		addSubview(imageView)
 		addSubview(label)
 		
-		contentView.backgroundColor = Colors.tutorBlue
 		contentView.layer.cornerRadius = 5
 		//contentView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5.0)
 		
@@ -53,7 +52,11 @@ class SubjectCollectionViewCell : UICollectionViewCell {
 		imageView.snp.makeConstraints { (make) in
 			make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().inset(-10)
-            make.height.width.equalToSuperview().multipliedBy(0.65)
+            if UIScreen.main.bounds.height == 568 {
+                make.height.width.equalToSuperview().multipliedBy(0.6)
+            } else {
+                make.height.width.equalToSuperview().multipliedBy(0.65)
+            }
 		}
 		label.snp.makeConstraints { (make) in
 			make.top.equalTo(imageView.snp.bottom)

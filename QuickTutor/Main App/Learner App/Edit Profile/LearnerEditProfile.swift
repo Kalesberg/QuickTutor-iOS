@@ -101,7 +101,11 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
             make.top.equalTo(navbar.snp.bottom)
             make.leading.equalTo(layoutMarginsGuide.snp.leading)
             make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
         
         imagesContainer.snp.makeConstraints { (make) in

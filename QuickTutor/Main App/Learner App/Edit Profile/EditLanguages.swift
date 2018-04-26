@@ -46,7 +46,11 @@ class EditLanguageView : EditProfileMainLayout {
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom)
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
             make.centerX.equalToSuperview()
         }
 	}
