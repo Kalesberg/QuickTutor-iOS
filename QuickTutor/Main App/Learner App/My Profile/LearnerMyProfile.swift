@@ -67,13 +67,7 @@ class ReviewView : BaseView {
         addSubview(dateSubjectLabel)
         addSubview(reviewTextLabel)
         super.configureView()
-        
-        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-            profilePic.image = image
-        } else {
-            //set to some arbitrary image.
-        }
-        
+
         layer.cornerRadius = 15
         layer.borderWidth = 1.5
         layer.borderColor = Colors.sidebarPurple.cgColor
@@ -216,7 +210,7 @@ class ProfilePicInteractable : UIImageView, Interactable, BaseViewProtocol {
     }
     
     func configureView() {
-        image = LocalImageCache.localImageManager.image1
+        loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
         isUserInteractionEnabled = true
         scaleImage()
     }
@@ -482,9 +476,9 @@ class LearnerMyProfile : BaseViewController {
 		}
 		return count
 	}
-	
-	var learner : LearnerData! {
-		didSet {
+
+	var learner : AWLearner! {
+		didSet {			
 			contentView.tableView.reloadData()
 		}
 	}
@@ -516,13 +510,14 @@ class LearnerMyProfile : BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		configurePageControl()
-		configureScrollView()
-		setUpImages()
+		
 	}
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+		configurePageControl()
+		configureScrollView()
+		setUpImages()
         contentView.tableView.reloadData()
     }
 
@@ -530,19 +525,19 @@ class LearnerMyProfile : BaseViewController {
 		var count = 0
 		
 		for number in 1..<5 {
-			if LearnerData.userData.images["image\(number)"] == "" {
-				print("nothing")
+			if learner.images["image\(number)"] == "" {
+				print("nothing...")
 				continue
 			}
-			print("found image\(number)")
+			print("dound image\(number)")
+			
 			count += 1
 			setImage(number, count)
 		}
 	}
 	private func setImage(_ number: Int, _ count: Int) {
 		let imageView = UIImageView()
-		imageView.image = LocalImageCache.localImageManager.getImage(number: String(number))
-		imageView.scaleImage()
+		imageView.loadUserImages(by: learner.images["image1"]!)
 		
 		self.horizontalScrollView.addSubview(imageView)
 		
@@ -599,9 +594,7 @@ class LearnerMyProfile : BaseViewController {
     }
     
     override func handleNavigation() {
-        if (touchStartView == nil) {
-            return
-        } else if(touchStartView is NavbarButtonEdit) {
+        if(touchStartView is NavbarButtonEdit) {
             navigationController?.pushViewController(LearnerEditProfile(), animated: true)
         } else if(touchStartView is NavbarButtonX) {
             contentView.backgroundView.alpha = 0.0
@@ -639,18 +632,24 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
-            cell.nameLabel.text = LearnerData.userData.name
-            cell.locationLabel.text = LearnerData.userData.address
+			cell.nameLabel.text = learner.name
+            cell.locationLabel.text = "Mount Pleasant, MI"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
-            
-            if LearnerData.userData.bio == "" {
-                 cell.bioLabel.text = "No bio yet! Add one in Edit Profile\n"
-            } else {
-                cell.bioLabel.text = LearnerData.userData.bio + "\n"
-            }
-            
+
+			if learner.bio == "" {
+				cell.bioLabel.text = "No bio yet! Add one in Edit Profile\n"
+			} else {
+				cell.bioLabel.text = learner.bio + "\n"
+			}
+			
+//			if LearnerData.userData.bio == "" {
+//                 cell.bioLabel.text = "No bio yet! Add one in Edit Profile\n"
+//            } else {
+//                cell.bioLabel.text = LearnerData.userData.bio + "\n"
+//            }
+			
             
             return cell
         case 2:
@@ -659,7 +658,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             //cell.tutorItem.label.text = "Tutored in \(LearnerData.userData.numSessions!) sessions"
             cell.tutorItem.label.text = "Tutored in 0 sessions"
 			
-            if let languages = LearnerData.userData.languages {
+			if let languages = learner.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
                 cell.contentView.addSubview(cell.speakItem)
                 
@@ -670,7 +669,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                     make.top.equalToSuperview().inset(10)
                 }
                 
-                if let studies = LearnerData.userData.school {
+				if let studies = learner.school {
                     cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
                     
@@ -699,7 +698,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             } else {
-                if let studies = LearnerData.userData.school {
+				if let studies = learner.school {
                     print("languages nil")
                     cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)

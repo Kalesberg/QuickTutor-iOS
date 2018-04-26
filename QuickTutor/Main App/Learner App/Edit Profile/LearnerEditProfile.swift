@@ -66,9 +66,7 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
         
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple
-        
-        let user = LearnerData.userData
-        let name = user.name.split(separator: " ")
+		
         title.label.text = "Edit Profile"
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,21 +77,17 @@ class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
         aboutMeLabel.label.font = Fonts.createSize(18)
         
         firstNameItem.infoLabel.label.text = "First Name"
-        firstNameItem.textField.attributedText = NSAttributedString(string: "\(name[0])",
-                                                                    attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        //firstNameItem.textField.attributedText = NSAttributedString(string: "\(name[0])", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         
         lastNameItem.infoLabel.label.text = "Last Name"
-        lastNameItem.textField.attributedText = NSAttributedString(string: "\(name[1])",
-                                                                   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+       // lastNameItem.textField.attributedText = NSAttributedString(string: "\(name[1])", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         
         personalInfoHeader.label.text = "Personal Information"
         
-        mobileNumberItem.textField.attributedPlaceholder = NSAttributedString(string: user.phone.formatPhoneNumber(),
-                                                                              attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        //mobileNumberItem.textField.attributedPlaceholder = NSAttributedString(string: user.phone.formatPhoneNumber(), attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         
         emailItem.infoLabel.label.text = "Email"
-        emailItem.textField.attributedPlaceholder = NSAttributedString(string: user.email,
-                                                                       attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+       // emailItem.textField.attributedPlaceholder = NSAttributedString(string: user.email, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         
         optionalInfoHeader.label.text = "Optional Information"
         
@@ -242,7 +236,8 @@ class ProfilePicImageView : InteractableView, Interactable {
 class ProfileImage1 : ProfilePicImageView {
     override func configureView() {
         super.configureView()
-        picView.image = LocalImageCache.localImageManager.image1
+		picView.loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
+
     }
 }
 
@@ -253,8 +248,9 @@ class ProfileImage2 : ProfilePicImageView {
     
     override func configureView() {
         super.configureView()
-        picView.image = LocalImageCache.localImageManager.image2
-        
+		
+		picView.loadUserImages(by: CurrentUser.shared.learner.images["image2"]!)
+
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
         self.addGestureRecognizer(longPressRecognizer)
@@ -263,7 +259,7 @@ class ProfileImage2 : ProfilePicImageView {
     @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             AlertController.removeImageAlert(current!, number) { () in
-                self.picView.image = LocalImageCache.localImageManager.image2
+               // self.picView.image = LocalImageCache.localImageManager.image2
             }
         }
     }
@@ -276,8 +272,9 @@ class ProfileImage3 : ProfilePicImageView {
     
     override func configureView() {
         super.configureView()
-        picView.image = LocalImageCache.localImageManager.image3
-        
+		
+		picView.loadUserImages(by: CurrentUser.shared.learner.images["image3"]!)
+
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
         self.addGestureRecognizer(longPressRecognizer)
@@ -286,7 +283,7 @@ class ProfileImage3 : ProfilePicImageView {
     @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             AlertController.removeImageAlert(current!, number) { () in
-                self.picView.image = LocalImageCache.localImageManager.image3
+               // self.picView.image = LocalImageCache.localImageManager.image3
             }
         }
     }
@@ -300,7 +297,7 @@ class ProfileImage4 : ProfilePicImageView {
     override func configureView() {
         super.configureView()
         
-        picView.image = LocalImageCache.localImageManager.image4
+		picView.loadUserImages(by: CurrentUser.shared.learner.images["image4"]!)
     
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
@@ -310,7 +307,7 @@ class ProfileImage4 : ProfilePicImageView {
     @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             AlertController.removeImageAlert(current!, number) { () in
-                self.picView.image = LocalImageCache.localImageManager.image4
+                //self.picView.image = LocalImageCache.localImageManager.image4
             }
         }
     }
@@ -719,40 +716,67 @@ class LearnerEditProfile : BaseViewController {
     override func loadView() {
         view = LearnerEditProfileView()
     }
-    
+	var learner : AWLearner!
+	
     var automaticScroll = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround()
-        
-        contentView.layoutIfNeeded()
-        contentView.scrollView.setContentSize()
-        imagePicker.delegate = self
-        contentView.firstNameItem.textField.delegate = self
-        contentView.lastNameItem.textField.delegate = self
-        contentView.emailItem.textField.delegate = self
-        contentView.scrollView.delegate = self
-        
+		
+		learner = CurrentUser.shared.learner
+
+		self.hideKeyboardWhenTappedAround()
+        configureDelegates()
+		configureView()
+	
         definesPresentationContext = true
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        contentView.schoolItem.textField.attributedPlaceholder = NSAttributedString(string: getSchool(), attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-        
-        contentView.emailItem.textField.attributedPlaceholder = NSAttributedString(string: LearnerData.userData.email!, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-        
-        contentView.mobileNumberItem.textField.attributedPlaceholder = NSAttributedString(string: LearnerData.userData.phone.formatPhoneNumber(), attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-        
+	
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+	
+	private func configureView() {
+		
+		let name  = learner.name.split(separator: " ")
+
+		contentView.layoutIfNeeded()
+		contentView.scrollView.setContentSize()
+		
+		contentView.firstNameItem.textField.attributedText = NSAttributedString(string: "\(name[0])", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		
+		 contentView.lastNameItem.textField.attributedText = NSAttributedString(string: "\(name[1])", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		
+		
+		contentView.mobileNumberItem.textField.attributedPlaceholder = NSAttributedString(string: learner.phone.formatPhoneNumber(), attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		
+		 contentView.emailItem.textField.attributedPlaceholder = NSAttributedString(string: learner.email, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		
+		if let school = learner.school {
+			contentView.schoolItem.textField.attributedPlaceholder = NSAttributedString(string: school, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		} else {
+			contentView.schoolItem.textField.attributedPlaceholder = NSAttributedString(string: "Add School", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		}
+		
+		contentView.emailItem.textField.attributedPlaceholder = NSAttributedString(string: learner.email, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		
+		contentView.mobileNumberItem.textField.attributedPlaceholder = NSAttributedString(string: learner.phone.formatPhoneNumber(), attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		
+	}
+	private func configureDelegates() {
+		imagePicker.delegate = self
+		contentView.firstNameItem.textField.delegate = self
+		contentView.lastNameItem.textField.delegate = self
+		contentView.emailItem.textField.delegate = self
+		contentView.scrollView.delegate = self
+		
+	}
     override func handleNavigation() {
         if (touchStartView is NavbarButtonSave) {
             saveButtonPressed()
@@ -761,31 +785,35 @@ class LearnerEditProfile : BaseViewController {
             self.navigationController?.pushViewController(ChangeEmail(), animated: true)
         }
     }
-    
-    private func getSchool() -> String {
-        let school = LearnerData.userData.school
-        if school != "" {
-            return school!
-        }
-        return "Add"
-    }
-    
+	
+	private func uploadImageUrl(imageUrl: String, number: String) {
+		if !self.learner.isTutor {
+			FirebaseData.manager.updateValue(node: "student-info", value: ["img" : CurrentUser.shared.learner.images])
+			
+		} else {
+			
+			let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images]
+			
+			Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
+				if let error = error {
+					print(error)
+				}
+			})
+		}
+		
+	}
     private func saveButtonPressed() {
-        let user = LearnerData.userData
-        guard
+
+		guard
             let firstName = contentView.firstNameItem.textField.text, firstName.count > 1,
             let lastName = contentView.lastNameItem.textField.text, lastName.count > 1 else {
                 print("name error")
                 return
         }
-        guard let email = contentView.emailItem.textField.text, email.emailRegex() else {
-            print("email error")
-            return
-        }
         
-        user.name = "\(firstName.filter{ !" \n\t\r".contains($0)}) \(lastName.filter{ !" \n\t\r".contains($0) })"
+        learner.name = "\(firstName.filter{ !" \n\t\r".contains($0)}) \(lastName.filter{ !" \n\t\r".contains($0) })"
         
-        FirebaseData.manager.updateValue(node: "student-info", value: ["nm" : user.name])
+        FirebaseData.manager.updateValue(node: "student-info", value: ["nm" : learner.name])
         
     }
 }
@@ -804,22 +832,43 @@ extension LearnerEditProfile : UIScrollViewDelegate {
 extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
     
     func circleCropDidCropImage(_ image: UIImage) {
-        
-        let imageCache = LocalImageCache.localImageManager
-        //fix the animation when the cropper dismisses
-        switch imageToChange {
+		
+		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
+
+		switch imageToChange {
         case 1:
-            imageCache.updateImageStored(image: image, number: "1")
-            contentView.imagesContainer.image1.picView.image = image
+			
+			FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.learner.images["image1"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "1")
+				}
+			}
+			contentView.imagesContainer.image1.picView.image = image
         case 2:
-            imageCache.updateImageStored(image: image, number: "2")
-            contentView.imagesContainer.image2.picView.image = image
+			FirebaseData.manager.uploadImage(data: data, number: "2") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.learner.images["image2"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "2")
+				}
+			}
+			contentView.imagesContainer.image2.picView.image = image
         case 3:
-            imageCache.updateImageStored(image: image, number: "3")
-            contentView.imagesContainer.image3.picView.image = image
+			FirebaseData.manager.uploadImage(data: data, number: "3") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.learner.images["image3"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "3")
+				}
+			}
+			contentView.imagesContainer.image3.picView.image = image
         case 4:
-            imageCache.updateImageStored(image: image, number: "4")
-            contentView.imagesContainer.image4.picView.image = image
+			FirebaseData.manager.uploadImage(data: data, number: "4") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.learner.images["image4"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "4")
+				}
+			}
+			contentView.imagesContainer.image4.picView.image = image
         default:
             break
         }

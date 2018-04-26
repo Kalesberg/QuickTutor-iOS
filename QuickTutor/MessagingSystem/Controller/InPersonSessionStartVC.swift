@@ -58,6 +58,7 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     override func proceedToSession() {
         let vc = InPersonSessionVC()
+        vc.sessionId = self.sessionId
         navigationController?.pushViewController(vc, animated: true)
     }
     override func updateTitleLabel() {

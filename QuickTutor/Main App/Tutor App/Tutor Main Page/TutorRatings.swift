@@ -52,7 +52,11 @@ class TutorRatings : BaseViewController {
         view = TutorRatingsView()
     }
 	
-	let tutor = TutorData.shared
+	var tutor : AWTutor! {
+		didSet{
+			contentView.tableView.reloadData()
+		}
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +72,15 @@ class TutorRatings : BaseViewController {
         contentView.tableView.cellForRow(at: IndexPath(row: 5, section: 0))?.layer.addBorder(edge: .top, color: Colors.divider, thickness: 1)
         contentView.tableView.cellForRow(at: IndexPath(row: 5, section: 0))?.layer.addBorder(edge: .bottom, color: Colors.divider, thickness: 1)
     }
+	private func configureDelegates() {
+		contentView.tableView.delegate = self
+		contentView.tableView.dataSource = self
+		
+		contentView.tableView.register(TutorMainPageHeaderCell.self, forCellReuseIdentifier: "tutorMainPageHeaderCell")
+		contentView.tableView.register(TutorMainPageSummaryCell.self, forCellReuseIdentifier: "tutorMainPageSummaryCell")
+		contentView.tableView.register(TutorMainPageTopSubjectCell.self, forCellReuseIdentifier: "tutorMainPageTopSubjectCell")
+		contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+	}
 }
 
 extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
@@ -101,7 +114,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 		switch (indexPath.row) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageHeaderCell", for: indexPath) as! TutorMainPageHeaderCell
-			cell.headerLabel.text = String(tutor.rating)
+			cell.headerLabel.text = String(tutor.tRating)
 			
             return cell
         case 1:

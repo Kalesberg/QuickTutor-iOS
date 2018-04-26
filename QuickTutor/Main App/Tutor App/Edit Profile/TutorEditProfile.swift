@@ -74,9 +74,11 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
         return view as! TutorEditProfileView
     }
     
-    let tutor = TutorData.shared
-	
-    var name = [Substring]()
+	var tutor : AWTutor! {
+		didSet {
+			contentView.tableView.reloadData()
+		}
+	}
 	
 	var price : Int!
 	var distance : Int!
@@ -96,8 +98,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
         hideKeyboardWhenTappedAround()
         configureDelegates()
 		
-        name = tutor.name.split(separator: " ")
-		
+		let name = tutor.name.split(separator: " ")
 		firstName = String(name[0])
 		lastName =	String(name[1])
 		
@@ -123,21 +124,27 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
     override func loadView() {
         view = TutorEditProfileView()
     }
-    override func viewDidAppear(_ animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		scrollToFirstRow()
+	}
+
+	override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-		
     }
 	func inPersonPressed() {
-		print("wut.")
 		self.inPerson = !self.inPerson
-		print(inPerson)
 	}
 	
 	func inVideoPressed() {
 		self.inVideo = !self.inVideo
-		print(inVideo)
 	}
-
+	
+	func scrollToFirstRow() {
+		let indexPath = IndexPath(row: 0, section: 0)
+		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+	}
+	
 	private func configureDelegates() {
 		imagePicker.delegate = self
 		
@@ -185,10 +192,10 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 				print(error)
 			} else {
 				
-				TutorData.shared.distance = self.distance
-				TutorData.shared.name = self.firstName + " " + self.lastName
-				TutorData.shared.price = self.price
-				TutorData.shared.preference = self.preference
+				CurrentUser.shared.tutor.distance = self.distance
+				CurrentUser.shared.tutor.name = self.firstName + " " + self.lastName
+				CurrentUser.shared.tutor.price = self.price
+				CurrentUser.shared.tutor.preference = self.preference
 				
 				self.displaySavedAlertController()
 			}
@@ -239,6 +246,17 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 				self.navigationController?.popViewController(animated: true)
 			}
 		}
+	}
+	
+	private func uploadImageUrl(imageUrl: String, number: String) {
+		
+		let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images]
+		
+		Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
+			if let error = error {
+				print(error)
+			}
+		})
 	}
 	
 	override func handleNavigation() {
@@ -318,7 +336,8 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 			cell.textField.addTarget(self, action: #selector(firstNameValueChanged(_:)), for: .editingChanged)
 			
             cell.infoLabel.label.text = "First Name"
-            cell.textField.attributedText = NSAttributedString(string: "\(name[0])",
+			guard let firstName = firstName else { return cell }
+            cell.textField.attributedText = NSAttributedString(string: "\(firstName)",
                 attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
@@ -328,7 +347,8 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 			cell.textField.addTarget(self, action: #selector(lastNameValueChanged(_:)), for: .editingChanged)
 
             cell.infoLabel.label.text = "Last Name"
-            cell.textField.attributedText = NSAttributedString(string: "\(name[1])",
+			guard let lastName = lastName else { return cell }
+            cell.textField.attributedText = NSAttributedString(string: "\(lastName)",
                 attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
@@ -425,7 +445,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Mobile Number"
-            cell.textField.attributedText = NSAttributedString(string: tutor.phone,
+            cell.textField.attributedText = NSAttributedString(string: tutor.phone.formatPhoneNumber(),
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
@@ -483,11 +503,14 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 			navigationController?.pushViewController(EditBio(), animated: true)
 		case 6:
 			let next = EditTutorSubjects()
-			next.selectedSubjects = TutorData.shared.subjects
-			next.selected = TutorData.shared.selected
+			next.selectedSubjects = CurrentUser.shared.tutor.subjects!
+			next.selected = CurrentUser.shared.tutor.selected
+			next.tutor = CurrentUser.shared.tutor
 			navigationController?.pushViewController(next, animated: true)
 		case 7:
-			navigationController?.pushViewController(TutorManagePolicies(), animated: true)
+			let next = TutorManagePolicies()
+			next.tutor = tutor
+			navigationController?.pushViewController(next, animated: true)
 		case 13:
 			navigationController?.pushViewController(EditPhone(), animated: true)
 		case 14:
@@ -507,20 +530,42 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 	
 	func circleCropDidCropImage(_ image: UIImage) {
 		let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
-		let imageCache = LocalImageCache.localImageManager
-		//fix the animation when the cropper dismisses
+		
+		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
+		
 		switch imageToChange {
 		case 1:
-			imageCache.updateImageStored(image: image, number: "1")
+			
+			FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.tutor.images["image1"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "1")
+				}
+			}
 			cell.image1.picView.image = image
 		case 2:
-			imageCache.updateImageStored(image: image, number: "2")
+			FirebaseData.manager.uploadImage(data: data, number: "2") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.tutor.images["image2"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "2")
+				}
+			}
 			cell.image2.picView.image = image
 		case 3:
-			imageCache.updateImageStored(image: image, number: "3")
+			FirebaseData.manager.uploadImage(data: data, number: "3") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.tutor.images["image3"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "3")
+				}
+			}
 			cell.image3.picView.image = image
 		case 4:
-			imageCache.updateImageStored(image: image, number: "4")
+			FirebaseData.manager.uploadImage(data: data, number: "4") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.tutor.images["image4"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "4")
+				}
+			}
 			cell.image4.picView.image = image
 		default:
 			break

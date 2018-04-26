@@ -15,13 +15,13 @@ protocol ApplyLearnerFilters {
 }
 
 protocol ConnectButtonPress {
-    var connectedTutor : FeaturedTutor! { get set }
+    var connectedTutor : AWTutor! { get set }
     func connectButtonPressed(uid: String)
 }
 
 class TutorConnectView : MainLayoutTwoButton {
     
-    var back = NavbarButtonX()
+    var back = NavbarButtonBack()
     var filters = NavbarButtonLines()
     
     let searchBar : UISearchBar = {
@@ -67,7 +67,7 @@ class TutorConnectView : MainLayoutTwoButton {
         get {
             return back
         } set {
-            back = newValue as! NavbarButtonX
+            back = newValue as! NavbarButtonBack
         }
     }
     
@@ -112,15 +112,15 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
     
     func applyFilters() {
         //sort here... reset the datasource
-        let sortedTutors = datasource.sorted { (tutor1 : FeaturedTutor, tutor2 : FeaturedTutor) -> Bool in
-            
-            let ratio1 = Double(tutor1.price) / Double(filters.1) / (tutor1.rating / 5.0)
-            let ratio2 = Double(tutor2.price) / Double(filters.1) / (tutor2.rating / 5.0)
-
-            return ratio1 < ratio2
-        }
-        
-        self.datasource = sortedTutors
+//        let sortedTutors = datasource.sorted { (tutor1 : FeaturedTutor, tutor2 : FeaturedTutor) -> Bool in
+//
+//            let ratio1 = Double(tutor1.price) / Double(filters.1) / (tutor1.rating / 5.0)
+//            let ratio2 = Double(tutor2.price) / Double(filters.1) / (tutor2.rating / 5.0)
+//
+//            return ratio1 < ratio2
+//        }
+//
+//        self.datasource = sortedTutors
     }
     
     override var contentView: TutorConnectView {
@@ -131,25 +131,26 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
         view = TutorConnectView()
     }
     
-    var connectedTutor : FeaturedTutor!
+    var connectedTutor : AWTutor!
 
-    var featuredTutor : FeaturedTutor! {
+    var featuredTutor : AWTutor! {
         didSet {
             self.datasource.append(featuredTutor)
         }
     }
     
-    var datasource = [FeaturedTutor]() {
+	var datasource = [AWTutor]() {
         didSet {
+			print("sourse!", datasource)
             contentView.collectionView.reloadData()
         }
     }
 
     var subcategory : String! {
         didSet {
-
-            QueryData.shared.queryBySubcategory(subcategory: subcategory!) { (tutors) in
+            QueryData.shared.queryAWTutorBySubcategory(subcategory: subcategory!) { (tutors) in
                 if let tutor = tutors {
+					print(tutor, "kjhjhkgkhkjhkj")
                     self.datasource = tutor
                 }
             }
@@ -158,7 +159,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
     
     var subject : (String, String)! {
         didSet {
-            QueryData.shared.queryBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
+            QueryData.shared.queryAWTutorBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
                 if let tutors = tutors {
                     self.datasource = tutors
                 }
@@ -191,11 +192,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
 
     
     override func handleNavigation() {
-        if touchStartView is NavbarButtonX {
-            
-            navigationController?.popViewController(animated: true)
-            
-        } else if touchStartView is NavbarButtonLines {
+        if touchStartView is NavbarButtonLines {
             
             let next = LearnerFilters()
             next.delegate = self
@@ -240,13 +237,13 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         let data = datasource[indexPath.item]
 
-        cell.header.imageView.loadUserImages(by: (data.imageUrls["image1"])!)
+        cell.header.imageView.loadUserImages(by: (data.images["image1"])!)
         cell.header.name.text = data.name.components(separatedBy: " ")[0]
 
-        cell.reviewLabel.text = "\(data.reviews?.count ?? 0) Reviews ★ \(data.rating!)"
+        cell.reviewLabel.text = "\(data.reviews?.count ?? 0) Reviews ★ \(data.tRating!)"
         cell.rateLabel.text = "$\(data.price!) / hour"
         
-        cell.datasource = datasource[indexPath.row]
+       	cell.datasource = datasource[indexPath.row]
         
         let formattedString = NSMutableAttributedString()
         formattedString
@@ -273,7 +270,6 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         let width = UIScreen.main.bounds.width - 20
 
         return CGSize(width: width, height: collectionView.frame.height)
-
     }
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

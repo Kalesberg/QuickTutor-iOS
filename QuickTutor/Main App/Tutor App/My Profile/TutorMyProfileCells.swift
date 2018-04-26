@@ -171,12 +171,17 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     let profilePicView : InteractableUIImageView = {
         let imageView = InteractableUIImageView()
         
-        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-            imageView.image = image
-        } else {
-            
-        }
-        
+//        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+//            imageView.image = image
+//        } else {
+//
+//        }
+		if AccountService.shared.currentUserType == .learner {
+			imageView.loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
+		} else {
+			imageView.loadUserImages(by: CurrentUser.shared.tutor.images["image1"]!)
+
+		}
         imageView.isUserInteractionEnabled = true
         
         imageView.scaleImage()
@@ -721,8 +726,8 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 		
 		cell.nameLabel.text = data?.studentName ?? ""
 		cell.reviewTextLabel.text = data?.message ?? ""
-		cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "") "
-		cell.profilePic.loadUserImages(by: data?.imageURL ?? "")
+		cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "")"
+		cell.profilePic.loadUserImages(by: datasource![indexPath.row].imageURL)
 
 		return cell
 	}
@@ -804,11 +809,12 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
 		container.addSubview(reviewTextLabel)
 		super.configureView()
 		
-		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			profilePic.image = image
-		} else {
-			//set to some arbitrary image.
-		}
+//		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+//			profilePic.image = image
+//		} else {
+//			//set to some arbitrary image.
+//		}
+		
 		applyConstraints()
 		container.layer.cornerRadius = 15
 		container.layer.borderWidth = 1.5

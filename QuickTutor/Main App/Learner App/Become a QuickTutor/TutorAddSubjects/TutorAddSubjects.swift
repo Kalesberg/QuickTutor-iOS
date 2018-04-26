@@ -111,14 +111,14 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return tblView
 	}()
 	
-	var backButton = NavbarButtonBack()
+	var backButton = NavbarButtonX()
 	var cancelButton = NavbarButtonDone()
 
 	override var leftButton : NavbarButton {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonBack
+			backButton = newValue as! NavbarButtonX
 		}
 	}
 	override var rightButton: NavbarButton  {
@@ -374,10 +374,13 @@ class TutorAddSubjects : BaseViewController {
 	private func backButtonAlert() {
 		let alertController = UIAlertController(title: "Are You Sure?", message: "All of your progress will be deleted.", preferredStyle: .alert)
 		
-		let okButton = UIAlertAction(title: "Ok", style: .destructive) { (alert) in }
+		let okButton = UIAlertAction(title: "Ok", style: .destructive) { (alert) in
+			self.navigationController?.popViewController(animated: true)
+
+		}
 		
 		let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
-			self.navigationController?.popViewController(animated: true)
+		
 		}
 		
 		alertController.addAction(okButton)
@@ -387,7 +390,7 @@ class TutorAddSubjects : BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonBack {
+		if touchStartView is NavbarButtonX {
 			backButtonAlert()
 		} else if touchStartView is NavbarButtonDone {
 			shouldUpdateSearchResults = false
@@ -451,6 +454,7 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
 
 			cell.category = categories[indexPath.item]
 			cell.delegate = self
+			
 			return cell
 		} else {
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pickedCollectionViewCell", for: indexPath) as! PickedSubjectsCollectionViewCell
@@ -509,7 +513,7 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 		if shouldUpdateSearchResults {
 			cell.subject.text = filteredSubjects[indexPath.section].0
 			cell.subcategory.text = filteredSubjects[indexPath.section].1
-
+			
 			if selectedSubjects.contains(filteredSubjects[indexPath.section].0)  {
 				cell.selectedIcon.isSelected = true
 			} else{

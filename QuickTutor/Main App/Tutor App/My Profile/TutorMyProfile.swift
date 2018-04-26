@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 
 class TutorMyProfileView : LearnerMyProfileView {
-    
-    override func configureView() {
-        super.configureView()
-        
-        title.label.text = "My Profile"
-        statusbarView.backgroundColor = Colors.tutorBlue
-        navbar.backgroundColor = Colors.tutorBlue
-    }
-
+	
+	override func configureView() {
+		super.configureView()
+		
+		title.label.text = "My Profile"
+		statusbarView.backgroundColor = Colors.tutorBlue
+		navbar.backgroundColor = Colors.tutorBlue
+	}
+	
 }
 
 class TutorMyProfile : BaseViewController {
@@ -260,30 +260,21 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                     cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
 
-                    cell.tutorItem.snp.makeConstraints { (make) in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalToSuperview().inset(10)
-                    }
+		configureScrollView()
+		configurePageControl()
+		setUpImages()
 
-                    cell.studysItem.snp.makeConstraints { (make) in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.tutorItem.snp.bottom)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                } else {
-                    cell.tutorItem.snp.makeConstraints { (make) in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalToSuperview().inset(10)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                }
-            }
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		scrollToFirstRow()
+	}
+	
+	func scrollToFirstRow() {
+		let indexPath = IndexPath(row: 0, section: 0)
+		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+	}
 
             return cell
 
@@ -327,10 +318,167 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 
             cell.policiesLabel.attributedText = formattedString
 
-            return cell
-        default:
-            break
-        }
-        return UITableViewCell()
-    }
+extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
+	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return 6
+	}
+	
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		switch (indexPath.row) {
+		case 0:
+			return 200
+		case 1:
+			return UITableViewAutomaticDimension
+		case 2:
+			return UITableViewAutomaticDimension
+		case 3:
+			return 90
+		case 4:
+			return UITableViewAutomaticDimension
+		case 5:
+			return UITableViewAutomaticDimension
+		default:
+			break
+		}
+		return 0
+	}
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		
+		switch (indexPath.row) {
+			
+		case 0:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
+			
+			cell.nameLabel.text = tutor.name
+			cell.locationLabel.text = tutor.region
+			
+			return cell
+		case 1:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
+			
+			cell.bioLabel.text = tutor.tBio + "\n"
+			
+			return cell
+		case 2:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
+			
+			cell.tutorItem.label.text = "Has tutored \(tutor.numSessions!) sessions"
+			
+			if let languages = tutor.languages {
+				cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
+				cell.contentView.addSubview(cell.speakItem)
+				
+				cell.tutorItem.snp.makeConstraints { (make) in
+					make.left.equalToSuperview().inset(12)
+					make.right.equalToSuperview().inset(20)
+					make.height.equalTo(35)
+					make.top.equalToSuperview().inset(10)
+				}
+				
+				if let studies = tutor.school {
+					cell.studysItem.label.text = "Studies at " + studies
+					cell.contentView.addSubview(cell.studysItem)
+					
+					cell.speakItem.snp.makeConstraints { (make) in
+						make.left.equalToSuperview().inset(12)
+						make.right.equalToSuperview().inset(20)
+						make.height.equalTo(35)
+						make.top.equalTo(cell.tutorItem.snp.bottom)
+					}
+					
+					cell.studysItem.snp.makeConstraints { (make) in
+						make.left.equalToSuperview().inset(12)
+						make.right.equalToSuperview().inset(20)
+						make.height.equalTo(35)
+						make.top.equalTo(cell.speakItem.snp.bottom)
+						make.bottom.equalToSuperview().inset(10)
+					}
+				} else {
+					cell.speakItem.snp.makeConstraints { (make) in
+						make.left.equalToSuperview().inset(12)
+						make.right.equalToSuperview().inset(20)
+						make.height.equalTo(35)
+						make.top.equalTo(cell.tutorItem.snp.bottom)
+						make.bottom.equalToSuperview().inset(10)
+					}
+				}
+			} else {
+				if let studies = tutor.school {
+					cell.studysItem.label.text = "Studies at " + studies
+					cell.contentView.addSubview(cell.studysItem)
+					
+					cell.tutorItem.snp.makeConstraints { (make) in
+						make.left.equalToSuperview().inset(12)
+						make.right.equalToSuperview().inset(20)
+						make.height.equalTo(35)
+						make.top.equalToSuperview().inset(10)
+					}
+					
+					cell.studysItem.snp.makeConstraints { (make) in
+						make.left.equalToSuperview().inset(12)
+						make.right.equalToSuperview().inset(20)
+						make.height.equalTo(35)
+						make.top.equalTo(cell.tutorItem.snp.bottom)
+						make.bottom.equalToSuperview().inset(10)
+					}
+				} else {
+					cell.tutorItem.snp.makeConstraints { (make) in
+						make.left.equalToSuperview().inset(12)
+						make.right.equalToSuperview().inset(20)
+						make.height.equalTo(35)
+						make.top.equalToSuperview().inset(10)
+						make.bottom.equalToSuperview().inset(10)
+					}
+				}
+			}
+			
+			return cell
+			
+		case 3:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
+			
+			cell.datasource = tutor.subjects
+			
+			return cell
+			
+		case 4:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
+			
+			if let reviews = tutor.reviews {
+				if reviews.count <= 2 {
+					cell.datasource = reviews
+				} else {
+					cell.datasource = Array(reviews[0..<2])
+				}
+			}
+			
+			return cell
+			
+		case 5:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
+			
+			if let policy = tutor.policy {
+				let policies = policy.split(separator: "_")
+				
+				let formattedString = NSMutableAttributedString()
+				
+				formattedString
+					.regular(tutor.distance.distancePreference(tutor.preference), 14, .white)
+					.regular(tutor.preference.preferenceNormalization(), 14, .white)
+					.regular(String(policies[2]).cancelNotice(), 14, .white)
+					.regular(String(policies[1]).lateFee(), 13, Colors.qtRed)
+					.regular(String(policies[3]).cancelFee(), 13, Colors.qtRed)
+				
+				cell.policiesLabel.attributedText = formattedString
+			} else {
+				// show "No Policies cell"
+			}
+			return cell
+		default:
+			break
+		}
+		return UITableViewCell()
+	}
 }

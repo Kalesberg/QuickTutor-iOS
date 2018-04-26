@@ -111,21 +111,29 @@ class CategorySearch: BaseViewController {
 		view = CategorySearchView()
 	}
 	
-	var dataSource : [FeaturedTutor] = [] {
+	var datasource : [AWTutor]? {
 		didSet {
+			print("set.", datasource?.count)
 			contentView.collectionView.reloadData()
 		}
 	}
 	
 	var category : Category! {
 		didSet {
-			QueryData.shared.queryByCategory(category:  category) { (tutors) in
+			QueryData.shared.queryAWTutorByCategory(category: category, { (tutors) in
 				if let tutors = tutors {
-					self.dataSource = tutors
+					self.datasource = tutors
 				} else {
-					print("Error querying tutors")
+					print("oops, no tutors.")
 				}
-			}
+			})
+//			QueryData.shared.queryByCategory(category:  category) { (tutors) in
+//				if let tutors = tutors {
+//					self.dataSource = tutors
+//				} else {
+//					print("Error querying tutors")
+//				}
+//			}
 		}
 	}
 	
@@ -166,19 +174,19 @@ class CategorySearch: BaseViewController {
 extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return dataSource.count
+		return datasource?.count ?? 0
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
-		
-		cell.price.text = dataSource[indexPath.item].price.priceFormat()
-		cell.featuredTutor.imageView.loadUserImages(by: dataSource[indexPath.item].imageUrls["image1"]!)
-		cell.featuredTutor.namePrice.text = dataSource[indexPath.item].name
-		cell.featuredTutor.region.text = dataSource[indexPath.item].region
-		cell.featuredTutor.subject.text = dataSource[indexPath.item].topSubject
-		
+		if let datasource = datasource {
+			cell.price.text = datasource[indexPath.item].price.priceFormat()
+			cell.featuredTutor.imageView.loadUserImages(by: datasource[indexPath.item].images["image1"]!)
+			cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
+			cell.featuredTutor.region.text = datasource[indexPath.item].region
+			cell.featuredTutor.subject.text = datasource[indexPath.item].topSubject
+		}
 		return cell
 	}
 	
@@ -186,7 +194,7 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		if let current = UIApplication.getPresentedViewController() {
 			let next = TutorConnect()
 			
-			next.datasource = [dataSource[indexPath.item]]
+			next.datasource = [datasource![indexPath.item]]
 			
 			current.present(next, animated: true, completion: nil)
 		}

@@ -204,12 +204,12 @@ class Sidebar : BaseView {
         divider1.backgroundColor = Colors.divider
         divider2.backgroundColor = Colors.divider
         
-        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-            profileView.profilePicView.image = image
-        } else {
-            //set to some arbitrary image.
-        }
-        
+//        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+//            profileView.profilePicView.image = image
+//        } else {
+//            //set to some arbitrary image.
+//        }
+		
         applyConstraints()
     }
     
@@ -336,7 +336,7 @@ class RatingView : InteractableView {
         addSubview(tutorOrLearnerLabel)
         super.configureView()
 		
-		ratingLabel.text = String(LearnerData.userData.rating)
+		//ratingLabel.text = String(LearnerData.userData.rating)
 		
         applyConstraints()
     }

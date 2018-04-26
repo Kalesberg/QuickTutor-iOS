@@ -84,7 +84,38 @@ extension String {
 		let cancelFee = policy[3]
 		
 	}
+	//We can do more with these, add new phrases, cases, etc.
 	
+	func cancelNotice() -> String {
+		let text : String
+		
+		if self != "0" {
+			text = " - Cancellations: \(self) Hour Notice\n\n"
+		} else {
+			text = " - No Cancellation Policy."
+		}
+		return text
+	}
+	func cancelFee() -> String {
+		let text : String
+		
+		if self != "0" {
+			text = "      Cancellation Fee: $\(self).00"
+		} else {
+			text = "      No Cancellation Fee."
+		}
+		return text
+	}
+	func lateFee() -> String {
+		let text : String
+		
+		if self != "0" {
+			text = "      Late Fee: $\(self).00\n"
+		} else {
+			text = "      No Late Fee."
+		}
+		return text
+	}
 	
 }
 

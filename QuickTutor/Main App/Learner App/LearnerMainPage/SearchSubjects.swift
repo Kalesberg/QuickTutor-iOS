@@ -126,7 +126,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 
 class SearchSubjects: BaseViewController, ConnectButtonPress {
 	
-	var connectedTutor: FeaturedTutor!
+	var connectedTutor: AWTutor!
 	
 	override var contentView: SearchSubjectsView {
 		return view as! SearchSubjectsView
@@ -321,7 +321,6 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
 		guard let cell = collectionView.cellForItem(at: indexPath) as? CategorySelectionCollectionViewCell else { return }
-		print("called.")
 		let next = TutorConnect()
 		
 		next.subcategory = cell.category.subcategory.subcategories[indexPath.item]

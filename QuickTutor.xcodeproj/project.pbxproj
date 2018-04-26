@@ -202,12 +202,21 @@
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
 		CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046422206EE3D800BFE898 /* CancelSessionModal.swift */; };
 		CF12D93B20642236004BE148 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12D93A20642236004BE148 /* Session.swift */; };
+		CF177BC9208E920E006DD50B /* SessionCompleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */; };
+		CF177BCB208FB8E0006DD50B /* RatingStarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BCA208FB8E0006DD50B /* RatingStarView.swift */; };
+		CF177BCD208FB94B006DD50B /* EndSessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BCC208FB94B006DD50B /* EndSessionProfileBox.swift */; };
+		CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */; };
+		CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */; };
+		CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */; };
 		CF1E43C520705F8D0033F845 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C420705F8D0033F845 /* StarView.swift */; };
 		CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */; };
 		CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C8207067860033F845 /* BaseSessionCell.swift */; };
 		CF2D9772207A7F7D00914B27 /* AddTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */; };
 		CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9773207A828F00914B27 /* AddTutorCell.swift */; };
 		CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9777207B354F00914B27 /* CustomSearchBar.swift */; };
+		CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D35208D392D0096617C /* EndSessionModal.swift */; };
+		CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D37208D401B0096617C /* CountdownTimer.swift */; };
+		CF360D3A208D48DB0096617C /* PauseSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D39208D48DB0096617C /* PauseSessionModal.swift */; };
 		CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBA2088113C00087449 /* InPersonSessionVC.swift */; };
 		CF387EBD2088314B00087449 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBC2088314B00087449 /* Notifications.swift */; };
 		CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */; };
@@ -512,12 +521,21 @@
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
 		CF046422206EE3D800BFE898 /* CancelSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSessionModal.swift; sourceTree = "<group>"; };
 		CF12D93A20642236004BE148 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteVC.swift; sourceTree = "<group>"; };
+		CF177BCA208FB8E0006DD50B /* RatingStarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingStarView.swift; sourceTree = "<group>"; };
+		CF177BCC208FB94B006DD50B /* EndSessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndSessionProfileBox.swift; sourceTree = "<group>"; };
+		CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionReviewVC.swift; sourceTree = "<group>"; };
+		CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProfileBox.swift; sourceTree = "<group>"; };
+		CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonProfileBox.swift; sourceTree = "<group>"; };
 		CF1E43C420705F8D0033F845 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderCell.swift; sourceTree = "<group>"; };
 		CF1E43C8207067860033F845 /* BaseSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionCell.swift; sourceTree = "<group>"; };
 		CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorVC.swift; sourceTree = "<group>"; };
 		CF2D9773207A828F00914B27 /* AddTutorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorCell.swift; sourceTree = "<group>"; };
 		CF2D9777207B354F00914B27 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
+		CF360D35208D392D0096617C /* EndSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndSessionModal.swift; sourceTree = "<group>"; };
+		CF360D37208D401B0096617C /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
+		CF360D39208D48DB0096617C /* PauseSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSessionModal.swift; sourceTree = "<group>"; };
 		CF387EBA2088113C00087449 /* InPersonSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonSessionVC.swift; sourceTree = "<group>"; };
 		CF387EBC2088314B00087449 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionStartVC.swift; sourceTree = "<group>"; };
@@ -1261,6 +1279,11 @@
 				CF833B86207C4D3000323242 /* SessionCellActionView.swift */,
 				CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */,
 				CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */,
+				CF360D37208D401B0096617C /* CountdownTimer.swift */,
+				CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */,
+				CF177BCA208FB8E0006DD50B /* RatingStarView.swift */,
+				CF177BCC208FB94B006DD50B /* EndSessionProfileBox.swift */,
+				CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1358,6 +1381,8 @@
 				CF387EBA2088113C00087449 /* InPersonSessionVC.swift */,
 				CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */,
 				CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */,
+				CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */,
+				CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1439,6 +1464,8 @@
 				CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */,
 				CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */,
 				CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */,
+				CF360D35208D392D0096617C /* EndSessionModal.swift */,
+				CF360D39208D48DB0096617C /* PauseSessionModal.swift */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -1455,7 +1482,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				EDBF9AC8596B54BB49466DD1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1610,21 +1636,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EDBF9AC8596B54BB49466DD1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1649,6 +1660,7 @@
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
 				CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */,
+				CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */,
 				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
 				848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */,
 				846D9B562069E57C00302773 /* FeaturedTutorTableViewCell.swift in Sources */,
@@ -1674,6 +1686,7 @@
 				84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */,
 				CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
+				CF360D3A208D48DB0096617C /* PauseSessionModal.swift in Sources */,
 				84C4E93F206B61C2000C7A2F /* LearnerProfilePics.swift in Sources */,
 				8479EA652063E66400C5113E /* TutorPolicy.swift in Sources */,
 				84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */,
@@ -1689,6 +1702,7 @@
 				8476C6A62053714400B55C8F /* SignInHandler.swift in Sources */,
 				CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */,
 				CF833B7E207C4BCB00323242 /* TutorUpcomingSessionCell.swift in Sources */,
+				CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */,
 				CF6F58BD205EE68800ACBD32 /* ConversationCell.swift in Sources */,
 				CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */,
 				CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */,
@@ -1768,6 +1782,7 @@
 				846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */,
 				847463262069425C00B70AD9 /* TutorSessions.swift in Sources */,
 				84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */,
+				CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */,
 				CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */,
 				845A3A011FFC267100226B25 /* GeohashBox.swift in Sources */,
 				CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */,
@@ -1780,6 +1795,7 @@
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBio.swift in Sources */,
 				CF6F58D4205EE68800ACBD32 /* QuickChatView.swift in Sources */,
+				CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */,
 				847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,
@@ -1801,6 +1817,7 @@
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
 				CF6F58DA205EE68800ACBD32 /* ProfileVC.swift in Sources */,
 				CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */,
+				CF177BCD208FB94B006DD50B /* EndSessionProfileBox.swift in Sources */,
 				84D55E9A204F638D00BB899C /* EditPhoneVerification.swift in Sources */,
 				CF6F58D8205EE68800ACBD32 /* KeyboardAccessory.swift in Sources */,
 				8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */,
@@ -1845,6 +1862,7 @@
 				CF833B7A207C4B9D00323242 /* BaseUpcomingSessionCell.swift in Sources */,
 				84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */,
 				CF6F58D9205EE68800ACBD32 /* StudentKeyboardAccessory.swift in Sources */,
+				CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */,
 				CF833B8C207C940A00323242 /* CancelSessionButtonDelegate.swift in Sources */,
 				CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */,
 				84E4C7E8204E9774009C2FC4 /* SearchTutor.swift in Sources */,
@@ -1853,6 +1871,7 @@
 				8448C574204BC87100C3247D /* EditPhone.swift in Sources */,
 				846D9B582069E57E00302773 /* SubjectTableViewCell.swift in Sources */,
 				CF833B81207C4C0100323242 /* BasePastSessionCell.swift in Sources */,
+				CF177BCB208FB8E0006DD50B /* RatingStarView.swift in Sources */,
 				CF6F58C1205EE68800ACBD32 /* ImageMessageCell.swift in Sources */,
 				8470995C20083AA5000DCFD0 /* MainPage.swift in Sources */,
 				84E283572004874300B004E7 /* RegistrationBigButton.swift in Sources */,
@@ -1895,6 +1914,7 @@
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
 				84052F16206BCCD7007B1248 /* TutorSessionDetails.swift in Sources */,
 				84052F10206BCC3D007B1248 /* LearnerHarassment.swift in Sources */,
+				CF177BC9208E920E006DD50B /* SessionCompleteVC.swift in Sources */,
 				CF833B83207C4C2600323242 /* LearnerPastSessionCell.swift in Sources */,
 				CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */,
 				CF6F58E5205EE68800ACBD32 /* UserMessage.swift in Sources */,

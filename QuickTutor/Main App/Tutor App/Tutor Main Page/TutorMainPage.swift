@@ -27,15 +27,11 @@ class TutorMainPageView : MainPageView {
     
     let nameLabel : UILabel = {
         let label = UILabel()
-        
-        let user = LearnerData.userData
-        var name = user.name.split(separator: " ")
-        
+		
         label.font = Fonts.createBoldSize(18)
         label.textColor = .white
         label.textAlignment = .center
-        label.text = "Welcome back, \(name[0])."
-        
+		
         return label
     }()
     
@@ -553,24 +549,30 @@ class TutorMainPage : MainPage {
     override func loadView() {
         view = TutorMainPageView()
     }
+	
+	var tutor : AWTutor!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-            contentView.sidebar.profileView.profilePicView.image = image
-        } else {
-        }
+		
+		tutor = CurrentUser.shared.tutor
+		
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         contentView.sidebar.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
     }
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		let name = tutor.name.split(separator: " ")
+		contentView.nameLabel.text = "Welcome back, \(name[0])"
+	}
     override func updateSideBar() {
         let formattedString = NSMutableAttributedString()
         
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
-        contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
+        contentView.sidebar.profileView.profilePicView.loadUserImages(by: tutor.images["image1"]!)
     }
     override func handleNavigation() {
         super.handleNavigation()
@@ -585,7 +587,7 @@ class TutorMainPage : MainPage {
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
 			let next = TutorMyProfile()
-			next.tutor = TutorData.shared
+			next.tutor = CurrentUser.shared.tutor
             navigationController?.pushViewController(next, animated: true)
             hideSidebar()
             hideBackground()

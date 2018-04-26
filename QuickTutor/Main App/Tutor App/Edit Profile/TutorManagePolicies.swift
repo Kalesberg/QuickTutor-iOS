@@ -119,7 +119,14 @@ class EditProfilePolicyView : InteractableView {
 
 class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
 	
-	let scrollView = UIScrollView()
+	let scrollView : UIScrollView = {
+		let scrollView = UIScrollView()
+		
+		scrollView.showsVerticalScrollIndicator = false
+		scrollView.isScrollEnabled = true
+
+		return scrollView
+	}()
 	
 	let latePolicy : EditProfilePolicyView = {
 		let view = EditProfilePolicyView()
@@ -204,8 +211,7 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
         navbar.backgroundColor = Colors.tutorBlue
         statusbarView.backgroundColor = Colors.tutorBlue
 		
-        scrollView.isScrollEnabled = true
-        
+		
 		applyConstraints()
 	}
 	
@@ -279,6 +285,8 @@ class TutorManagePolicies : BaseViewController {
 	
 	let pickerView = UIPickerView()
 	
+	var tutor : AWTutor!
+	
 	var datasource : [String]? {
 		didSet {
 			pickerView.reloadAllComponents()
@@ -288,13 +296,14 @@ class TutorManagePolicies : BaseViewController {
 	var selectedTextField : UITextField! {
 		didSet {
 			selectedTextField.inputView = pickerView
+			pickerView.selectRow(0, inComponent: 0, animated: true)
 		}
 	}
 	
 	let latePolicy = ["None","5 Minutes","10 Minutes","15 Minutes","20 Minutes","25 Minutes","30 Minutes","35 Minutes","40 Minutes","45 Minutes","50 Minutes","55 Minutes","60 Minutes"]
 	let lateFee = ["None","$5.00","$10.00","$15.00","$20.00","$25.00","$30.00","$35.00","$40.00","$45.00","$50.00"]
-	let cancelNotice = ["None","1 Hour","2 Hours","3 Hours","4 Hours","5 Hours","6 Hours","7 Hours","8 Hours","9 Hours","10 Hours","11 Hours","12 Hours"]
-	let cancelFee = ["0","$5.00","$10.00","$15.00","$20.00","$25.00","$30.00","$35.00","$40.00","$45.00","$50.00","$55.00","$60.00","$65.00","$70.00","$75.00","$80.00","$85.00","$90.00","$95.00","$100.00"]
+	let cancelNotice = ["None","1 Hour","2 Hours","3 Hours","4 Hours","5 Hours","6 Hours","7 Hours","8 Hours","9 Hours","10 Hours","11 Hours","12 Hours", "24 Hours", "36 Hours", "48 Hours", "72 Hours"]
+	let cancelFee = ["None","$5.00","$10.00","$15.00","$20.00","$25.00","$30.00","$35.00","$40.00","$45.00","$50.00","$55.00","$60.00","$65.00","$70.00","$75.00","$80.00","$85.00","$90.00","$95.00","$100.00"]
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -302,7 +311,7 @@ class TutorManagePolicies : BaseViewController {
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
 		loadTutorPolicy()
-		
+		pickerView.backgroundColor = Colors.backgroundDark
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
 	}
@@ -325,32 +334,71 @@ class TutorManagePolicies : BaseViewController {
 		contentView.cancelNotice.textField.delegate = self
 		contentView.cancelFee.textField.delegate = self
 	}
+	
 	private func loadTutorPolicy() {
-		guard let tutorPolicy = TutorData.shared.policy else {
+		guard let tutorPolicy = tutor.policy else {
 			return
 		}
+		
 		let policy = tutorPolicy.split(separator: "_")
-		contentView.latePolicy.textField.text = "\(policy[0]) Minutes"
-		contentView.lateFee.textField.text = "$\(policy[1]).00"
-		contentView.cancelNotice.textField.text = "\(policy[2]) Hours"
-		contentView.cancelFee.textField.text = "$\(policy[3]).00"
+		
+		if policy[0] != "0" {
+			contentView.latePolicy.textField.text = "\(policy[0]) Minutes"
+		}
+		if policy[1] != "0" {
+			contentView.lateFee.textField.text = "$\(policy[1]).00"
+		}
+		if policy[2] != "0" {
+			contentView.cancelNotice.textField.text = "\(policy[2]) Hours"
+		}
+		if policy[3] != "0" {
+			contentView.cancelFee.textField.text = "$\(policy[3]).00"
+		}
+		return
 	}
+	
 	private func savePolicies() {
 		
-		let latePolicy = contentView.latePolicy.textField.text!.trimmingCharacters(in: CharacterSet(charactersIn: "01234567890").inverted)
-		let lateFee = contentView.lateFee.textField.text!.trimmingCharacters(in: CharacterSet(charactersIn: "01234567890.").inverted).replacingOccurrences(of: ".00", with: "")
+		var latePolicy = contentView.latePolicy.textField.text!
+		
+		if latePolicy == "None" || latePolicy == "" {
+			latePolicy = "0"
+		} else {
+			latePolicy = latePolicy.trimmingCharacters(in: CharacterSet(charactersIn: "01234567890").inverted)
+		}
+		
+		var lateFee = contentView.lateFee.textField.text!
 	
-		let canceNotice = contentView.cancelNotice.textField.text!.trimmingCharacters(in: CharacterSet(charactersIn: "01234567890").inverted)
-		let cancelFee = contentView.cancelFee.textField.text!.trimmingCharacters(in: CharacterSet(charactersIn: "01234567890.").inverted).replacingOccurrences(of: ".00", with: "")
-
-		let policyString = "\(latePolicy)_\(lateFee)_\(canceNotice)_\(cancelFee)"
+		if lateFee == "None" || lateFee == "" {
+			lateFee = "0"
+		} else {
+			lateFee = lateFee.trimmingCharacters(in: CharacterSet(charactersIn: "01234567890.").inverted).replacingOccurrences(of: ".00", with: "")
+		}
+		
+		var cancelNotice = contentView.cancelNotice.textField.text!
+		
+		if cancelNotice == "None" || cancelNotice == ""{
+			cancelNotice = "0"
+		} else {
+			cancelNotice = cancelNotice.trimmingCharacters(in: CharacterSet(charactersIn: "01234567890").inverted)
+		}
+		
+		var cancelFee = contentView.cancelFee.textField.text!
+		
+		if cancelFee == "None" || cancelFee == "" {
+			cancelFee = "0"
+		} else {
+			cancelFee = cancelFee.trimmingCharacters(in: CharacterSet(charactersIn: "01234567890.").inverted).replacingOccurrences(of: ".00", with: "")
+		}
+		
+		let policyString = "\(latePolicy)_\(lateFee)_\(cancelNotice)_\(cancelFee)"
 		
 		self.ref.child("tutor-info").child(Auth.auth().currentUser!.uid).updateChildValues(["pol" : policyString]) { (error, _) in
 			if let error = error {
 				print(error)
 			} else {
 				self.displaySavedAlertController()
-				TutorData.shared.policy = policyString
+				CurrentUser.shared.tutor.policy = policyString
 			}
 		}
 	}
@@ -386,13 +434,13 @@ extension TutorManagePolicies : UITextFieldDelegate {
 			
 		case contentView.lateFee.textField:
 			datasource = lateFee
-			
+
 		case contentView.cancelNotice.textField:
 			datasource = cancelNotice
-			
+
 		case contentView.cancelFee.textField:
 			datasource = cancelFee
-			
+			contentView.scrollView.setContentOffset(CGPoint(x: 0, y: 100), animated: true)
 		default:
 			break
 		}
@@ -412,5 +460,6 @@ extension TutorManagePolicies : UIPickerViewDelegate, UIPickerViewDataSource {
 	}
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 		selectedTextField.text = datasource![row]
+		
 	}
 }

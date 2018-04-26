@@ -23,4 +23,12 @@ extension Int {
 			return " - Currently unavailable\n\n"
 		}
 	}
+	
+	func distancePreference(_ preference: Int) -> String {
+		if preference == 3 || preference == 2 {
+			return " - Will travel up to \(self) miles\n\n"
+		} else {
+			return " - Unable to travel.\n\n"
+		}
+	}
 }

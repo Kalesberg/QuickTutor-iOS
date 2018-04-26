@@ -19,6 +19,10 @@ class VideoSessionVC: UIViewController {
     var localVideoTrack: TVILocalVideoTrack?
     var localAudioTrack: TVILocalAudioTrack?
     var remoteParticipant: TVIRemoteParticipant?
+    var endSessionModal: EndSessionModal?
+    var pauseSessionModal: PauseSessionModal?
+    var partnerId: String?
+    var sessionId: String?
     
     var remoteView: TVIVideoView = {
         let view = TVIVideoView()
@@ -73,7 +77,6 @@ class VideoSessionVC: UIViewController {
         setupPauseSessionButton()
         setupEndSessionButton()
         setupCameraFeedView()
-        
     }
     
     func setupMainView() {
@@ -101,21 +104,58 @@ class VideoSessionVC: UIViewController {
     func setupPauseSessionButton() {
         view.addSubview(pauseSessionButton)
         pauseSessionButton.anchor(top: sessionNavBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
+        pauseSessionButton.addTarget(self, action: #selector(pauseSession), for: .touchUpInside)
     }
     
     func setupEndSessionButton() {
         view.addSubview(endSessionButton)
         endSessionButton.anchor(top: nil, left: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 15, width: 97, height: 35)
+        endSessionButton.addTarget(self, action: #selector(showEndModal), for: .touchUpInside)
+    }
+    
+    @objc func showEndModal() {
+        endSessionModal = EndSessionModal(frame: .zero)
+        endSessionModal?.show()
+    }
+    
+    @objc func pauseSession() {
+        guard let uid = Auth.auth().currentUser?.uid, let id = partnerId else { return }
+        Database.database().reference().child("sessionEvents").child(uid).child("pausedBy").setValue(uid)
+        Database.database().reference().child("sessionEvents").child(id).child("pausedBy").setValue(uid)
+    }
+    
+    @objc func showPauseModal(pausedById: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        sessionNavBar.timeLabel.timer?.invalidate()
+        pauseSessionModal?.delegate = self
+        DataService.shared.getUserOfOppositeTypeWithId(partnerId ?? "") { (user) in
+            guard let username = user?.username else { return }
+            self.pauseSessionModal = PauseSessionModal(frame: .zero)
+            if pausedById == uid {
+                self.pauseSessionModal?.pausedByCurrentUser()
+            }
+            self.pauseSessionModal?.partnerUsername = username
+            self.pauseSessionModal?.delegate = self
+            self.pauseSessionModal?.pausedById = pausedById
+            self.pauseSessionModal?.show()
+        }
     }
     
     func setupCameraFeedView() {
-//        view.addSubview(cameraFeedView)
-//        cameraFeedView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16/9) - 30)
+        view.addSubview(cameraFeedView)
+        cameraFeedView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16/9) - 30)
     }
     
     func removeStartData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("sessionStarts").child(uid).removeValue()
+    }
+    
+    func loadSession() {
+        guard let id = sessionId else { return }
+        DataService.shared.getSessionById(id) { (session) in
+            self.partnerId = session.partnerId()
+        }
     }
     
     func fetchToken() {
@@ -143,14 +183,13 @@ class VideoSessionVC: UIViewController {
     
     func connect() {
         self.prepareLocalMedia()
-        
+
         // Preparing the connect options with the access token that we fetched (or hardcoded).
         let connectOptions = TVIConnectOptions.init(token: accessToken) { (builder) in
             
             // Use the local media that we prepared earlier.
             builder.audioTracks = self.localAudioTrack != nil ? [self.localAudioTrack!] : [TVILocalAudioTrack]()
             builder.videoTracks = self.localVideoTrack != nil ? [self.localVideoTrack!] : [TVILocalVideoTrack]()
-            
             
             // Use the preferred encoding parameters
             if let encodingParameters = Settings.shared.getEncodingParameters() {
@@ -167,6 +206,36 @@ class VideoSessionVC: UIViewController {
         
     }
     
+    func observeSessionEvents() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("sessionEvents").child(uid).observe(.value) { (snapshot) in
+            guard let value = snapshot.value as? [String: Any] else { return }
+            if let pausedById = value["pausedBy"] as? String {
+                self.showPauseModal(pausedById: pausedById)
+                self.sessionNavBar.timeLabel.timer?.invalidate()
+                self.sessionNavBar.timeLabel.timer = nil
+            } else {
+                self.pauseSessionModal?.dismiss()
+            }
+            
+            Database.database().reference().child("sessionEvents").child(uid).observe(.childRemoved, with: { (snapshot) in
+                    self.pauseSessionModal?.dismiss()
+                    self.sessionNavBar.timeLabel.startTimer()
+            })
+
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEndSession), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+
+    }
+    
+    
+    @objc func showEndSession() {
+        let vc = SessionCompleteVC()
+        vc.partnerId = partnerId
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func startPreview() {
         
         // Preview our local camera track in the local video preview view.
@@ -177,8 +246,6 @@ class VideoSessionVC: UIViewController {
         } else {
             // Add renderer to video track for local preview
             localVideoTrack!.addRenderer(self.previewView)
-            
-            print("Video track created")
             
             // We will flip camera on tap.
             let tap = UITapGestureRecognizer(target: self, action: #selector(VideoSessionVC.flipCamera))
@@ -195,16 +262,9 @@ class VideoSessionVC: UIViewController {
     }
     
     func prepareLocalMedia() {
-        
-        // We will share local audio and video when we connect to the Room.
-        
         // Create an audio track.
         if (localAudioTrack == nil) {
             localAudioTrack = TVILocalAudioTrack.init(options: nil, enabled: true, name: "Microphone")
-            
-            if (localAudioTrack == nil) {
-                //                logMessage(messageText: "Failed to create audio track")
-            }
         }
         
         // Create a video track which captures from the camera.
@@ -218,6 +278,8 @@ class VideoSessionVC: UIViewController {
         setupViews()
         removeStartData()
         fetchToken()
+        observeSessionEvents()
+        loadSession()
     }
 }
 
@@ -250,7 +312,6 @@ extension VideoSessionVC: TVIRoomDelegate {
             if ((self.remoteParticipant?.videoTracks.count)! > 0) {
                 let remoteVideoTrack = self.remoteParticipant?.remoteVideoTracks[0].remoteTrack
                 remoteVideoTrack?.removeRenderer(self.remoteView)
-//                self.remoteView.removeFromSuperview()
             }
         }
     }
@@ -261,33 +322,27 @@ extension VideoSessionVC: TVICameraCapturerDelegate {
 }
 
 extension VideoSessionVC: TVIRemoteParticipantDelegate {
-    func subscribed(to videoTrack: TVIRemoteVideoTrack,
-                    publication: TVIRemoteVideoTrackPublication,
-                    for participant: TVIRemoteParticipant) {
-        
-        // We are subscribed to the remote Participant's audio Track. We will start receiving the
-        // remote Participant's video frames now.
-        
+    func subscribed(to videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
         
         if (self.remoteParticipant == participant) {
             videoTrack.addRenderer(self.remoteView)
         }
     }
     
-    func unsubscribed(from videoTrack: TVIRemoteVideoTrack,
-                      publication: TVIRemoteVideoTrackPublication,
-                      for participant: TVIRemoteParticipant) {
-        
-        // We are unsubscribed from the remote Participant's video Track. We will no longer receive the
-        // remote Participant's video.
-        
-        
+    func unsubscribed(from videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
         if (self.remoteParticipant == participant) {
             videoTrack.removeRenderer(self.remoteView)
-//            self.remoteView.removeFromSuperview()
         }
     }
     
+}
+
+extension VideoSessionVC: PauseSessionModalDelegate {
+    func unpauseSession() {
+        guard let uid = Auth.auth().currentUser?.uid, let id = partnerId else { return }
+        Database.database().reference().child("sessionEvents").child(uid).child("pausedBy").removeValue()
+        Database.database().reference().child("sessionEvents").child(id).child("pausedBy").removeValue()
+    }
 }
 
 class Settings: NSObject {
@@ -302,8 +357,7 @@ class Settings: NSObject {
         if maxAudioBitrate == 0 && maxVideoBitrate == 0 {
             return nil;
         } else {
-            return TVIEncodingParameters(audioBitrate: maxAudioBitrate,
-                                         videoBitrate: maxVideoBitrate)
+            return TVIEncodingParameters(audioBitrate: maxAudioBitrate, videoBitrate: maxVideoBitrate)
         }
     }
     

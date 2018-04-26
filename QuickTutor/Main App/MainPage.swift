@@ -118,9 +118,6 @@ class MainPage : BaseViewController {
 	var hasPaymentMethod : Bool!
 	var hasStudentBio : Bool!
 	
-	let user = LearnerData.userData
-	let image = LocalImageCache.localImageManager
-	
 	var parentPageViewController : PageViewController!
 
 	override func viewDidAppear(_ animated: Bool) {

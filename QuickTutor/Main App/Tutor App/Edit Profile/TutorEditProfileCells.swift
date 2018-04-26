@@ -84,7 +84,6 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 			imageToChange = 4
 		}
 	}
-	
 }
 
 class EditProfileItemTableViewCell : BaseTableViewCell {
