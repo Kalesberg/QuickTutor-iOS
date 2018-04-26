@@ -57,14 +57,6 @@ class TutorRatings : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentView.tableView.delegate = self
-        contentView.tableView.dataSource = self
-		
-		contentView.tableView.register(TutorMainPageHeaderCell.self, forCellReuseIdentifier: "tutorMainPageHeaderCell")
-        contentView.tableView.register(TutorMainPageSummaryCell.self, forCellReuseIdentifier: "tutorMainPageSummaryCell")
-        contentView.tableView.register(TutorMainPageTopSubjectCell.self, forCellReuseIdentifier: "tutorMainPageTopSubjectCell")
-        contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
-        contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
