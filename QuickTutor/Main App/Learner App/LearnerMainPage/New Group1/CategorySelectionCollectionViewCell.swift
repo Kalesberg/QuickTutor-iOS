@@ -116,6 +116,7 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
 	internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		print(category.subcategory.fileToRead)
 		print(category.subcategory.subcategories[indexPath.item])
+		
 		delegate?.didSelectSubcategory(resource: category.subcategory.fileToRead, subject: category.subcategory.subcategories[indexPath.item], index: indexPath.item)
 
 	}

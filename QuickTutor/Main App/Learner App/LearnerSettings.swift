@@ -341,12 +341,12 @@ fileprivate class SettingsProfileView : ArrowItem {
         isUserInteractionEnabled = true
 		let user = LearnerData.userData
 		
-		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			imageView.image = image
-		} else {
-			//set to some arbitrary image.
-		}
-		
+//		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+//			imageView.image = image
+//		} else {
+//			//set to some arbitrary image.
+//		}
+//		
         imageView.isUserInteractionEnabled = false
         imageView.scaleImage()
         

@@ -40,7 +40,9 @@ class ConversationVC: UICollectionViewController {
         return cv
     }()
 	
-	var tutor : FeaturedTutor?
+	var tutor : AWTutor!
+	
+	var learner : AWLearner!
 	
     lazy var emptyCellBackground: UIView = {
         let contentView = UIView()
@@ -134,7 +136,11 @@ class ConversationVC: UICollectionViewController {
             titleView.updateUI(user: chatPartner)
         }
 		
-		titleView.tutorData = tutor
+		if AccountService.shared.currentUserType == .learner {
+			titleView.tutor = tutor
+		} else {
+			titleView.learner = learner
+		}
 		
         navigationItem.titleView = titleView
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }

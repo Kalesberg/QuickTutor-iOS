@@ -71,9 +71,8 @@ class EditLanguage : BaseViewController {
 	override func loadView() {
 		view = EditLanguageView()
 	}
-	
 	var languages : [String] = []
-	let currentLanguges = LearnerData.userData.languages
+	let currentLanguges = CurrentUser.shared.learner.languages
 	var selectedCells : [String]!
 	
 	override func viewDidLoad() {
@@ -128,9 +127,9 @@ class EditLanguage : BaseViewController {
 		
 		case .learner:
 			
-			if !LearnerData.userData.isTutor {
+			if !CurrentUser.shared.learner.isTutor {
 				
-				LearnerData.userData.languages = selectedCells
+				CurrentUser.shared.learner.languages = selectedCells
 				FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedCells])
 				displaySavedAlertController()
 				break
@@ -150,8 +149,8 @@ class EditLanguage : BaseViewController {
 					self.displaySavedAlertController()
 				}
 			}
-			TutorData.shared.languages = selectedCells
-			LearnerData.userData.languages = selectedCells
+			CurrentUser.shared.learner.languages = selectedCells
+			//CurrentUser.shared.tutor.languages = selectedCells
 		}
 	}
 	

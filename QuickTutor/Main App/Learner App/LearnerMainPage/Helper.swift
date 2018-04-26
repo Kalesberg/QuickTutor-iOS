@@ -42,12 +42,7 @@ class FeaturedTutorView : BaseView {
 	let imageView  : UIImageView = {
 		let imageView = UIImageView()
 		
-		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			imageView.image = image
-		} else {
-			//set to some arbitrary image.
-		}
-		//imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+		imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
 		imageView.scaleImage()
 		imageView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 3, height: 2), radius: 5)
 		
@@ -193,7 +188,7 @@ struct SubjectStore {
 			guard let subjectArray = object[subjectString] else { return nil }
 			
 			for subject in subjectArray {
-				subjects.append((subject, resource))
+				subjects.append((subject, subjectString))
 			}
 		} catch {
 			return nil
@@ -288,7 +283,7 @@ enum Category {
 			
 		case .arts:                        displayName = "THE ARTS"
 		searchBarPhrases = ["search for any art"]
-		subcategories = ["Applied Arts", "Art History", "Performing Arts", "Arts Criticism", "Visual Arts", "Literary Arts"]
+		subcategories = ["Literary Arts", "Visual Arts", "Performing Arts", "Art History", "Applied Arts", "Arts Criticism"]
 		icon = [#imageLiteral(resourceName: "applied-arts"),#imageLiteral(resourceName: "history"),#imageLiteral(resourceName: "performing"),#imageLiteral(resourceName: "art-criticism"),#imageLiteral(resourceName: "visual-arts"),#imageLiteral(resourceName: "literacy")]
 		fileToRead = "arts"
 			
@@ -300,19 +295,19 @@ enum Category {
 			
 		case .business:                    displayName = "BUSINESS"
 		searchBarPhrases = ["search any business topic"]
-		subcategories = ["Entrepreneurship", "Finance | Law", "Economics | Accounting", "Management", "Information Systems","Marketing | Hospitality"]
+		subcategories = ["Entrepreneurship", "Finance & Law", "Economics & Accounting", "Business Management", "Information Systems","Marketing & Hospitality"]
 		icon = [#imageLiteral(resourceName: "entrepreneurship"),#imageLiteral(resourceName: "finance-law"),#imageLiteral(resourceName: "economics-accounting"),#imageLiteral(resourceName: "management"),#imageLiteral(resourceName: "it"),#imageLiteral(resourceName: "marketing-hospitality")]
 		fileToRead = "business"
 			
 		case .experiences:                displayName = "EXPERIENCES"
 		searchBarPhrases = ["search for any experience"]
-		subcategories = ["Career", "Cooking | Baking", "Motivation | Consulting", "Travel Destinations","Fitness", "Creations"]
+		subcategories = ["Motivation/Consulting", "Creations", "Cooking & Baking","Fitness", "Travel Destinations","Careers"]
 		icon = [#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "volunteering"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "fitness"),#imageLiteral(resourceName: "life_lessons")]
 		fileToRead = "experiences"
 			
 		case .health:                    displayName = "HEALTH"
 		searchBarPhrases = ["search health and wellness"]
-		subcategories = ["General", "Illness", "Medicines", "Nutrition", "Physical Exercise","Self-Care"]
+		subcategories = ["General", "Self-Care", "Nutrition", "Medicines", "Physical Exercise","Illness"]
 		icon = [#imageLiteral(resourceName: "general"),#imageLiteral(resourceName: "illness"),#imageLiteral(resourceName: "medicine"),#imageLiteral(resourceName: "nutrition"),#imageLiteral(resourceName: "physical-sports"),#imageLiteral(resourceName: "selfcare")]
 		fileToRead = "health"
 			
@@ -324,31 +319,31 @@ enum Category {
 			
 		case .outdoors:                 displayName = "OUTDOORS"
 		searchBarPhrases = ["discover the outdoors"]
-		subcategories = ["Activities", "Land | Water", "Life Identification", "Survival", "Preparation", "Seasonal"]
+		subcategories = ["Survival", "Life Identification", "Preparation", "Activities", "Land & Water","Seasonal"]
 		icon = [#imageLiteral(resourceName: "activities"),#imageLiteral(resourceName: "land-water"),#imageLiteral(resourceName: "life-identity"),#imageLiteral(resourceName: "survival"),#imageLiteral(resourceName: "preperation"),#imageLiteral(resourceName: "seasonal")]
 		fileToRead = "outdoors"
 			
 		case .remedial:                 displayName = "REMEDIAL"
 		searchBarPhrases = ["search for help in anything"]
-		subcategories = ["Conditions", "Development", "Disabilities", "Impairments", "Injuries","Special Education"]
+		subcategories = ["Development", "Conditions", "Impairments", "Disabilities", "Injuries","Special Education"]
 		icon = [#imageLiteral(resourceName: "conditions"),#imageLiteral(resourceName: "development"),#imageLiteral(resourceName: "disabilities"),#imageLiteral(resourceName: "impairments"),#imageLiteral(resourceName: "injuries"),#imageLiteral(resourceName: "special-education")]
 		fileToRead = "remedial"
 			
 		case .sports:                     displayName = "SPORTS"
 		searchBarPhrases = ["search sports and games"]
-		subcategories = ["E-Sports", "Extreme Sports", "Fantasy Sports", "Mind Sports", "Physical Sports","Skills Training"]
+		subcategories = ["Physical Sports", "Mind Sports", "Skills Training", "E-Sports", "Fantasy Sports","Extreme Sports"]
 		icon = [#imageLiteral(resourceName: "esports"),#imageLiteral(resourceName: "extreme-sports"),#imageLiteral(resourceName: "fantasy-sports"),#imageLiteral(resourceName: "mind-sports"),#imageLiteral(resourceName: "physical-sports"),#imageLiteral(resourceName: "skill-training")]
 		fileToRead = "sports"
 			
 		case .tech:                        displayName = "TECH"
 		searchBarPhrases = ["search technological topics"]
-		subcategories = ["Gaming", "Hardware", "IT", "Programming", "Repairs", "Software"]
+		subcategories = ["Programming", "Gaming", "Hardware", "Software", "IT", "Repairs"]
 		icon = [#imageLiteral(resourceName: "gaming"),#imageLiteral(resourceName: "hardware"),#imageLiteral(resourceName: "it"),#imageLiteral(resourceName: "programming"),#imageLiteral(resourceName: "repairs"),#imageLiteral(resourceName: "software")]
 		fileToRead = "tech"
 			
 		case .trades:                    displayName = "TRADES"
 		searchBarPhrases = ["search for any trade"]
-		subcategories = ["Construction", "General", "Home", "Industrial", "Motive Power", "Services"]
+		subcategories = ["Construction", "Industrial", "Motive Power", "Services", "Home", "General"]
 		icon = [#imageLiteral(resourceName: "construction"),#imageLiteral(resourceName: "general"),#imageLiteral(resourceName: "home"),#imageLiteral(resourceName: "industry"),#imageLiteral(resourceName: "motive-power"),#imageLiteral(resourceName: "services")]
 		fileToRead = "trades"
 		}

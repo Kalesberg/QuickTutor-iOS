@@ -70,49 +70,49 @@ class SignInHandler {
 			
 			let value = snapshot.value as? NSDictionary
 			
-			self.downloadImage((value?["image1"] as? String) ?? "", "1")
-			self.downloadImage((value?["image2"] as? String) ?? "", "2")
-			self.downloadImage((value?["image3"] as? String) ?? "", "3")
-			self.downloadImage((value?["image4"] as? String) ?? "", "4")
-			
+//			self.downloadImage((value?["image1"] as? String) ?? "", "1")
+//			self.downloadImage((value?["image2"] as? String) ?? "", "2")
+//			self.downloadImage((value?["image3"] as? String) ?? "", "3")
+//			self.downloadImage((value?["image4"] as? String) ?? "", "4")
+
 			completion()
 		}
 	}
 	
-	private func downloadImage(_ imageUrl : String, _ number: String) {
-		print("downloading Image\(number)...")
-		
-		if imageUrl == "" {
-			
-			inputDefaultImage(number: number)
-			
-			return
-		}
-		
-		let storage = Storage.storage().reference(forURL: imageUrl)
-		
-		storage.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
-			
-			if let error = error {
-				print(error)
-			} else {
-				
-				let image : UIImage! = UIImage(data: data!)
-				
-				LocalImageCache.localImageManager.storeImageLocally(image: image.circleMasked!, number: number)
-				
-				LearnerData.userData.images["image\(number)"] = imageUrl
-			}
-		}
-		print("image\(number) downloaded.")
-	}
+//	private func downloadImage(_ imageUrl : String, _ number: String) {
+//		print("downloading Image\(number)...")
+//
+//		if imageUrl == "" {
+//
+//			inputDefaultImage(number: number)
+//
+//			return
+//		}
+//
+//		let storage = Storage.storage().reference(forURL: imageUrl)
+//
+//		storage.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+//
+//			if let error = error {
+//				print(error)
+//			} else {
+//
+//				let image : UIImage! = UIImage(data: data!)
+//
+//				LocalImageCache.localImageManager.storeImageLocally(image: image.circleMasked!, number: number)
+//
+//				LearnerData.userData.images["image\(number)"] = imageUrl
+//			}
+//		}
+//		print("image\(number) downloaded.")
+//	}
 	
-	private func inputDefaultImage(number: String) {
-		
-		LocalImageCache.localImageManager.storeImageLocally(image: #imageLiteral(resourceName: "registration-image-placeholder"), number: number)
-		
-		LearnerData.userData.images["image\(number)"] = ""
-	}
+//	private func inputDefaultImage(number: String) {
+//		
+//		LocalImageCache.localImageManager.storeImageLocally(image: #imageLiteral(resourceName: "registration-image-placeholder"), number: number)
+//		
+//		LearnerData.userData.images["image\(number)"] = ""
+//	}
 	
 	private func checkIsTutor() {
 		

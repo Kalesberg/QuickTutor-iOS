@@ -32,7 +32,9 @@ class CustomTitleView: UIView {
         return label
     }()
 	
-	var tutorData : FeaturedTutor!
+	var tutor : AWTutor!
+	
+	var learner : AWLearner!
 	
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,7 +62,7 @@ class CustomTitleView: UIView {
 		
 		if type == .learner {
 			let next = TutorMyProfile()
-			next.tutor = convertFeaturedTutorToTutorData()
+			next.tutor = tutor
 			next.contentView.rightButton.isHidden = true	
 			navigationController.pushViewController(next, animated: true)
 
@@ -70,27 +72,8 @@ class CustomTitleView: UIView {
 			navigationController.pushViewController(next, animated: true)
 		}
     }
-	//this is stupid. but demo is in an hour. :(
-	private func convertFeaturedTutorToTutorData() -> TutorData {
-		
-		let tutor = TutorData()
-		
-		tutor.name =  tutorData.name
-		tutor.region = tutorData.region
-		tutor.bio = tutorData.bio
-		tutor.numSessions = tutorData.numSessions
-		tutor.languages = tutorData.language
-		tutor.school = tutorData.school
-		tutor.subjects = tutorData.subjects
-		tutor.reviews = tutorData.reviews
-		tutor.policy = tutorData.policy
-		tutor.distance = tutorData.distance
-		tutor.preference = tutorData.preference
-		
-		return tutor
-	}
-	
-    private func setupImageView() {
+
+	private func setupImageView() {
         addSubview(imageView)
         imageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 38, height: 38)
     }

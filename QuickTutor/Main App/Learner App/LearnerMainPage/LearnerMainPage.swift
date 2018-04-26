@@ -89,60 +89,60 @@ class LearnerMainPage : MainPage {
 		view = LearnerMainPageView()
 	}
 	
-	var datasource = [Category : [FeaturedTutor]]()
+	var datasource = [Category : [AWTutor]]()
 	
 	var didLoadMore = false
+	
+	var learner : AWLearner!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		QueryData.shared.queryFeaturedTutor(categories: Array(category.prefix(4))) { (datasource) in
+		learner = CurrentUser.shared.learner
+		
+		QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category.prefix(4))) { (datasource) in
 			if let datasource = datasource {
-				
+
 				self.contentView.tableView.performBatchUpdates({
-					
+				
 					self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-					
+				
 					self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
-					
+				
 				}, completion: { (finished) in
 					if finished {
-						self.didLoadMore = false
+					self.didLoadMore = false
 					}
 				})
 			}
 		}
+		
 		AccountService.shared.currentUserType = .learner
 		
-		if LearnerData.userData.isTutor {
+		if learner.isTutor {
 			contentView.sidebar.becomeQTItem.label.label.text = "Start Tutoring"
 		} else {
 			contentView.sidebar.becomeQTItem.label.label.text = "Become A Tutor"
 		}
 		
 		configureView()
-		
-		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-			contentView.sidebar.profileView.profilePicView.image = image
-		}
+	
 	}
 	override func updateSideBar() {
 		
         let formattedString = NSMutableAttributedString()
-        
-        let school = user.school
-    
-        if !(school == "") {
-            formattedString
-                .bold(user.name + "\n", 17, .white)
-                .regular(school!, 14, Colors.grayText)
-        } else {
-            formattedString
-                .bold(user.name, 17, .white)
-        }
-
+		
+		if let school = learner.school {
+			formattedString
+				.bold(learner.name + "\n", 17, .white)
+				.regular(school, 14, Colors.grayText)
+		} else {
+			formattedString
+				.bold(learner.name, 17, .white)
+		}
+		contentView.sidebar.ratingView.ratingLabel.text = String(learner.lRating)
 		contentView.sidebar.profileView.profileNameView.attributedText = formattedString
-		contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
+		contentView.sidebar.profileView.profilePicView.loadUserImages(by: learner.images["image1"]!)
 		contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
 	}
 	
@@ -151,7 +151,7 @@ class LearnerMainPage : MainPage {
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
 		
-		contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "featuredCell")
+		contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
 		contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
 	}
 	
@@ -168,7 +168,7 @@ class LearnerMainPage : MainPage {
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.profileView) {
 			let next = LearnerMyProfile()
-			next.learner = LearnerData.userData
+			next.learner = self.learner
 			navigationController?.pushViewController(next, animated: true)
 			hideSidebar()
 			hideBackground()
@@ -193,17 +193,19 @@ class LearnerMainPage : MainPage {
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.becomeQTItem) {
 			
-			if LearnerData.userData.isTutor {
-				_ = TutorSignIn.init({ (error) in
-					if error != nil {
-						print("error signing in...")
-					} else {
+			if CurrentUser.shared.learner.isTutor {
+				FirebaseData.manager.getTutor(Auth.auth().currentUser!.uid) { (tutor) in
+					if let tutor = tutor {
+						CurrentUser.shared.tutor = tutor
 						AccountService.shared.currentUserType = .tutor
 						self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+					} else {
+						print("oops?")
+						return
 					}
-				})
+				}
 			} else {
-				navigationController?.pushViewController(BecomeTutor(), animated: true)
+				self.navigationController?.pushViewController(BecomeTutor(), animated: true)
 			}
 	
 			hideSidebar()
@@ -242,7 +244,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 			
 		} else {
 			
-			let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorTableViewCell
+			let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
 			
 			cell.datasource = self.datasource[category[indexPath.section - 1]]
 
@@ -282,7 +284,7 @@ extension LearnerMainPage : UIScrollViewDelegate {
 				
 				didLoadMore = true
 				
-				QueryData.shared.queryFeaturedTutor(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
+				QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
 					//update datasource.
 					if let datasource = datasource {
 						

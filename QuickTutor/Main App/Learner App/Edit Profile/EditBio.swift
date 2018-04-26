@@ -26,9 +26,9 @@ class EditBioTextView : BaseView {
 		
 		switch AccountService.shared.currentUserType {
 		case .learner:
-			textView.text = LearnerData.userData.bio
+			textView.text = CurrentUser.shared.learner.bio
 		case .tutor:
-			textView.text = TutorData.shared.bio
+			textView.text = CurrentUser.shared.tutor.bio
 		}
 		
         applyConstraints()
@@ -150,12 +150,18 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
     }
 	override func layoutSubviews() {
 		super.layoutSubviews()
+		
 		if AccountService.shared.currentUserType == .tutor {
 			navbar.backgroundColor = Colors.tutorBlue
 			statusbarView.backgroundColor = Colors.tutorBlue
-		} else {
+			textView.textView.tintColor = Colors.tutorBlue
+		} else if AccountService.shared.currentUserType == .learner {
 			navbar.backgroundColor = Colors.learnerPurple
 			statusbarView.backgroundColor = Colors.learnerPurple
+			textView.textView.tintColor = Colors.learnerPurple
+
+		} else {
+			
 		}
 	}
 }

@@ -79,7 +79,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 
     var delegate : ConnectButtonPress?
     
-    var datasource : FeaturedTutor? {
+    var datasource : AWTutor! {
         didSet{
             tableView.reloadData()
         }
@@ -216,7 +216,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         switch indexPath.item {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
-            cell.bioLabel.text = (datasource?.bio)! + "\n"
+           	cell.bioLabel.text = (datasource.tBio)! + "\n"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
@@ -241,7 +241,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
     
             cell.tutorItem.label.text = "Has tutored \(datasource?.numSessions! ?? 0) sessions"
             
-            if let languages = datasource?.language {
+			if let languages = datasource?.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
                 cell.contentView.addSubview(cell.speakItem)
                 
@@ -321,21 +321,23 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
-			
-			
-            let policies = datasource!.policy.split(separator: "_")
-			
-			let formattedString = NSMutableAttributedString()
-    
-            formattedString
-                .regular(" - Will travel up to \(datasource!.distance!) miles\n\n", 14, .white)
-                .regular((datasource?.preference.preferenceNormalization())!, 14, .white)
-                .regular(" - Cancellations: \(policies[2]) Hour Notice\n\n", 14, .white)
-                .regular("      Late Fee: $\(policies[1]).00\n", 13, Colors.qtRed)
-                .regular("      Cancellation Fee: $\(policies[3]).00", 13, Colors.qtRed)
-            
-            cell.policiesLabel.attributedText = formattedString
-			
+		
+			if let policy = datasource?.policy {
+				let policies = policy.split(separator: "_")
+				
+				let formattedString = NSMutableAttributedString()
+				
+				formattedString
+					.regular(datasource.distance.distancePreference(datasource.preference), 14, .white)
+					.regular(datasource.preference.preferenceNormalization(), 14, .white)
+					.regular(String(policies[2]).cancelNotice(), 14, .white)
+					.regular(String(policies[1]).lateFee(), 13, Colors.qtRed)
+					.regular(String(policies[3]).cancelFee(), 13, Colors.qtRed)
+				
+				cell.policiesLabel.attributedText = formattedString
+			} else {
+				// show "No Policies cell"
+			}
             return cell
         default:
             return UITableViewCell()
@@ -489,7 +491,7 @@ class TutorCardReviewCell : UITableViewCell {
     let profilePic : UIImageView  = {
         let imageView = UIImageView()
         
-        imageView.image = LocalImageCache.localImageManager.getImage(number: "1")
+        //imageView.image = LocalImageCache.localImageManager.getImage(number: "1")
         
         return imageView
     }()
