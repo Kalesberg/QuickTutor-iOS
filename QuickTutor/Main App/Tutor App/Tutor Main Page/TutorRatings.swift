@@ -56,7 +56,6 @@ class TutorRatings : BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

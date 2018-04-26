@@ -569,16 +569,6 @@ class TutorMainPage : MainPage {
     override func updateSideBar() {
         let formattedString = NSMutableAttributedString()
         
-        if !(user.school == "") {
-            formattedString
-                .bold(user.name + "\n", 17, .white)
-                .regular(user.school, 14, Colors.grayText)
-        } else {
-            formattedString
-                .bold(user.name, 17, .white)
-        }
-        
-        contentView.sidebar.ratingView.ratingLabel.text = String(TutorData.shared.rating)
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
         contentView.sidebar.profileView.profilePicView.image = image.getImage(number: "1")
     }
