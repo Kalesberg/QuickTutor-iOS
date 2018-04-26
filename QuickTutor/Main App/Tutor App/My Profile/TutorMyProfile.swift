@@ -65,6 +65,7 @@ class TutorMyProfile : BaseViewController {
         contentView.tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         contentView.tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+        contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
         contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
     }
 
@@ -83,12 +84,9 @@ class TutorMyProfile : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         contentView.tableView.reloadData()
-        //contentView.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .none)
-        
     }
     
     private func configureScrollView() {
-        
         horizontalScrollView.isUserInteractionEnabled = false
         horizontalScrollView.isHidden = true
         horizontalScrollView.isPagingEnabled = true
@@ -106,8 +104,6 @@ class TutorMyProfile : BaseViewController {
     }
     
     private func configurePageControl() {
-        
-        // The total number of pages that are available is based on how many available colors we have.
         pageControl.numberOfPages = pageCount
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .white
@@ -299,15 +295,21 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             return cell
 
         case 4:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
+            
+            //if no reviews
+            let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+            
+            
 
-            if tutor.reviews.count <= 2 {
-                cell.datasource = tutor.reviews
-            } else {
-                cell.datasource = Array(tutor.reviews[0..<2])
-            }
+            //let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
 
-            return cell
+//            if tutor.reviews.count <= 2 {
+//                cell.datasource = tutor.reviews
+//            } else {
+//                cell.datasource = Array(tutor.reviews[0..<2])
+//            }
+
+           return cell
 
         case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell

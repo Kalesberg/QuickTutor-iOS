@@ -4,7 +4,7 @@
 //
 //  Created by QuickTutor on 3/14/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-//
+
 
 import Foundation
 import UIKit
@@ -82,7 +82,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		let layout = UICollectionViewFlowLayout()
 		
-		layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+		layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
 		layout.scrollDirection = .horizontal
 		layout.minimumInteritemSpacing = 5.0
 		layout.minimumLineSpacing = 5.0
@@ -100,7 +100,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 	let tableView : UITableView = {
 		let tblView = UITableView.init(frame: .zero, style: .grouped)
 		
-		tblView.rowHeight = 55
+		tblView.rowHeight = 33
 		tblView.separatorInset.left = 0
 		tblView.separatorStyle = .none
 		tblView.showsVerticalScrollIndicator = false
@@ -144,7 +144,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		backButton.image.image = #imageLiteral(resourceName: "backButton")
 		headerView.backgroundColor = Colors.backgroundDark
 		cancelButton.label.label.text = "Cancel"
-
+        
 		applyConstraints()
 	}
 	
@@ -158,29 +158,34 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		}
 		
 		noSelectedItemsLabel.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).inset(-10)
+			make.top.equalTo(navbar.snp.bottom).inset(-4)
 			make.height.equalTo(45)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
 		
 		pickedCollectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).inset(-10)
+			make.top.equalTo(navbar.snp.bottom).inset(-5)
 			make.height.equalTo(45)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
 		
 		categoryCollectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-10)
+			make.top.equalTo(pickedCollectionView.snp.bottom)
 			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.4)
+            if UIScreen.main.bounds.height == 568 {
+                make.height.equalTo(235)
+            } else {
+                make.height.equalTo(295)
+            }
+			
 			make.centerX.equalToSuperview()
 			
 		}
 		tableView.snp.makeConstraints { (make) in
-			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-10)
-			make.bottom.equalTo(safeAreaLayoutGuide)
+			make.top.equalTo(pickedCollectionView.snp.bottom)
+			make.bottom.equalTo(nextButton.snp.top)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
@@ -502,7 +507,6 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "addSubjectsCell", for: indexPath) as! AddSubjectsTableViewCell
 		
 		if shouldUpdateSearchResults {
-			
 			cell.subject.text = filteredSubjects[indexPath.section].0
 			cell.subcategory.text = filteredSubjects[indexPath.section].1
 
@@ -511,9 +515,7 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 			} else{
 				cell.selectedIcon.isSelected = false
 			}
-			
 		} else {
-			
 			cell.subject.text = allSubjects[indexPath.section].0
 			cell.subcategory.text = allSubjects[indexPath.section].1
 			
@@ -524,10 +526,6 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 			}
 		}
 		return cell
-	}
-	
-	internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 55
 	}
 
 	internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -545,19 +543,19 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 		return view
 	}
 	
-	internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		if section == 0 {
-			return 50
-		}
-		return 5
-	}
-	
-	internal func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-		if section != 0{
-			return 5
-		}
-		return 0
-	}
+    internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 30
+        }
+        return 0
+    }
+    
+    internal func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section != 0{
+            return 5
+        }
+        return 0
+    }
 	
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		

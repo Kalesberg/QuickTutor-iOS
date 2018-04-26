@@ -64,6 +64,7 @@ class TutorRatings : BaseViewController {
         contentView.tableView.register(TutorMainPageSummaryCell.self, forCellReuseIdentifier: "tutorMainPageSummaryCell")
         contentView.tableView.register(TutorMainPageTopSubjectCell.self, forCellReuseIdentifier: "tutorMainPageTopSubjectCell")
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+        contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -183,18 +184,17 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             return cell
         case 5:
-			
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-            cell.datasource = tutor.reviews
+            let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
             cell.backgroundColor = Colors.registrationDark
-            
-//            cell.reviewLabel.snp.updateConstraints { (make) in
-//                make.top.equalToSuperview().inset(15)
-//            }
-//			
-            cell.seeAllButton.snp.updateConstraints { (make) in
-                make.bottom.equalToSuperview().inset(15)
+            cell.label2.snp.updateConstraints { (make) in
+                make.height.equalTo(55)
             }
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
+//            cell.datasource = tutor.reviews
+//            cell.backgroundColor = Colors.registrationDark
+//            cell.seeAllButton.snp.updateConstraints { (make) in
+//                make.bottom.equalToSuperview().inset(15)
+//            }
             
             return cell
 			

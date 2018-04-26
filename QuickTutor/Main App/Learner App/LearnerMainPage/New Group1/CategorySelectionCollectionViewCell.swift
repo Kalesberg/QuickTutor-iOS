@@ -21,7 +21,7 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	let customLayout = SubjectSearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 15, minimumLineSpacing: 15, sectionInset: UIEdgeInsets(top: 20, left: 5, bottom: 0, right: 5))
+	let customLayout = SubjectSearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 10, minimumLineSpacing: 10, sectionInset: UIEdgeInsets(top: 5, left: 5, bottom: 0, right: 5))
 
 	let collectionView : UICollectionView = {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -30,6 +30,7 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 		collectionView.showsVerticalScrollIndicator = false
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.tag = 0
+        //collectionView.backgroundColor = .gray
 		
 		return collectionView
 	}()
@@ -61,10 +62,10 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 			collectionView.reloadData()
 		}
 	}
-	
+    
+    var colors = ["1EAD4A", "3F578C", "524D8C", "E2B700", "F48619", "1EADFC"]
 	
 	func configureView() {
-		
 		addSubview(categoryLabel)
 		addSubview(collectionView)
 		
@@ -79,7 +80,7 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 	func applyConstraints(){
 		collectionView.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.85)
+			make.height.equalToSuperview().multipliedBy(0.88)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
@@ -105,11 +106,18 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
 	internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategoryCell", for: indexPath) as! SubjectCollectionViewCell
-		
+        
 		cell.imageView.image = category.subcategory.icon[indexPath.item]
 		cell.label.text = category.subcategory.subcategories[indexPath.item]
+        
+        let randomIndex = Int(arc4random_uniform(UInt32(colors.count)))
+        cell.contentView.backgroundColor = UIColor(hex: colors[randomIndex])
+        colors.remove(at: randomIndex)
 
-
+        if colors.count == 0 {
+            colors = ["1EAD4A", "3F578C", "524D8C", "E2B700", "F48619", "1EADFC"]
+        }
+        
 		return cell
 	}
 	

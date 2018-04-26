@@ -28,7 +28,7 @@ class AddSubjectsTableViewCell : UITableViewCell  {
 		label.textColor = .white
 		label.textAlignment = .left
 		label.numberOfLines = 2
-		label.font = Fonts.createSize(16)
+		label.font = Fonts.createSize(17)
 		label.adjustsFontSizeToFitWidth = true
 		
 		return label
@@ -40,11 +40,11 @@ class AddSubjectsTableViewCell : UITableViewCell  {
 		label.textColor = .white
 		label.textAlignment = .center
 		label.font = Fonts.createSize(13)
-		label.adjustsFontSizeToFitWidth = true
 		
 		return label
 	}()
-	
+    
+    let subcatContainer = UIView()
 
 	let selectedIcon = SelectedCellIcon()
 	
@@ -52,42 +52,48 @@ class AddSubjectsTableViewCell : UITableViewCell  {
 
 	func configureTableViewCell() {
 		addSubview(subject)
-		addSubview(subcategory)
+        addSubview(subcatContainer)
+		subcatContainer.addSubview(subcategory)
 		addSubview(selectedIcon)
 		
 		selectedIcon.isSelected = false
 		
 		selectedBackgroundView = cellBackground
 		
-		subcategory.layer.cornerRadius = 5
+		subcatContainer.layer.cornerRadius = 9
+        subcatContainer.backgroundColor = Colors.tutorBlue
 		
-		backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		backgroundColor = .clear
 		
 		applyConstraints()
 	}
 	
 	func applyConstraints() {
+        
+        selectedIcon.snp.makeConstraints { (make) in
+            make.width.equalTo(60)
+            make.right.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.height.equalToSuperview()
+        }
 		
-		subject.snp.makeConstraints { (make) in
-			make.left.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.5)
-			make.height.equalToSuperview()
-			make.centerY.equalToSuperview()
-		}
-		
-		subcategory.snp.makeConstraints { (make) in
-			make.left.equalTo(subject.snp.right)
-			make.centerY.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.33)
-			make.height.equalToSuperview().multipliedBy(0.63)
-		}
-		
-		selectedIcon.snp.makeConstraints { (make) in
-			make.left.equalTo(subcategory.snp.right)
-			make.right.equalToSuperview()
-			make.centerY.equalToSuperview()
-			make.height.equalToSuperview()
-		}
+//        subcategory.snp.makeConstraints { (make) in
+//            make.center.equalToSuperview()
+//        }
+//
+//        subcatContainer.snp.makeConstraints { (make) in
+//            make.width.equalTo(subcategory).inset(-12)
+//            make.centerY.equalToSuperview()
+//            make.right.equalTo(selectedIcon.snp.left)
+//            make.height.equalTo(30)
+//        }
+        
+        subject.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(12)
+            make.right.equalTo(selectedIcon.snp.left)
+            make.height.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
 	}
 	override func setSelected(_ selected: Bool, animated: Bool) {
 		let color = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
@@ -102,7 +108,6 @@ class AddSubjectsTableViewCell : UITableViewCell  {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		subcategory.layer.masksToBounds = true
-		subcategory.backgroundColor = Colors.tutorBlue
 		subcategory.layer.cornerRadius = 5
 	}
 }

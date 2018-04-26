@@ -149,20 +149,20 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 			make.centerY.equalTo(backButton.image)
 		}
 		noSelectedItemsLabel.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).inset(-10)
+			make.top.equalTo(navbar.snp.bottom).inset(-6)
 			make.height.equalTo(45)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
 		pickedCollectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).inset(-10)
+			make.top.equalTo(navbar.snp.bottom).inset(-6)
 			make.height.equalTo(45)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
 
 		categoryCollectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-10)
+			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-6)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 			make.height.equalToSuperview().multipliedBy(0.4)

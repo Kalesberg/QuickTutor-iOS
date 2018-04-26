@@ -112,6 +112,17 @@ class NavbarButtonBack: NavbarButtonImage {
 }
 
 
+class NavbarButtonFilters: NavbarButtonImage {
+
+    
+    override func configureView() {
+        super.configureView()
+        
+        image.image = UIImage(named: "navbar-filters")
+    }
+}
+
+
 class NavbarButtonMessages: NavbarButtonImage {
     
     override func configureView() {

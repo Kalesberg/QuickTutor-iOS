@@ -49,7 +49,7 @@ class TutorMainPageView : MainPageView {
     
     let viewTrendingButton = ViewTrendingButton()
     let buttonContainer = UIView()
-    let leaderboardButton = TutorMainPageLeaderButton()
+    //let leaderboardButton = TutorMainPageLeaderButton()
     let ratingButton = TutorMainPageRatingButton()
     let earningsButton = TutorMainPageEarningsButton()
     let improveItem = TutorMainPageImproveItem()
@@ -61,7 +61,7 @@ class TutorMainPageView : MainPageView {
         addSubview(nameLabel)
         addSubview(viewTrendingButton)
         addSubview(buttonContainer)
-        buttonContainer.addSubview(leaderboardButton)
+        //buttonContainer.addSubview(leaderboardButton)
         buttonContainer.addSubview(ratingButton)
         buttonContainer.addSubview(earningsButton)
         addSubview(improveItem)
@@ -79,13 +79,6 @@ class TutorMainPageView : MainPageView {
     override func applyConstraints() {
         super.applyConstraints()
         
-        var size : Int
-        
-        if(UIScreen.main.bounds.height == 568) {
-            size = 95
-        } else {
-            size = 110
-        }
         qtText.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().inset(6)
@@ -113,29 +106,29 @@ class TutorMainPageView : MainPageView {
         }
         
         buttonContainer.snp.makeConstraints { (make) in
-            make.height.equalTo(size)
+            make.height.equalTo(110)
             make.right.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(10)
             make.top.equalTo(viewTrendingButton.snp.bottom).inset(-50)
         }
         
-        leaderboardButton.snp.makeConstraints { (make) in
-            make.width.equalTo(size)
-            make.left.equalToSuperview()
-            make.height.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
+//        leaderboardButton.snp.makeConstraints { (make) in
+//            make.width.equalTo(size)
+//            make.left.equalToSuperview()
+//            make.height.equalToSuperview()
+//            make.centerY.equalToSuperview()
+//        }
         
         ratingButton.snp.makeConstraints { (make) in
-            make.width.equalTo(size)
-            make.centerX.equalToSuperview()
+            make.width.equalTo(110)
+            make.centerX.equalToSuperview().inset(-80)
             make.height.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
         earningsButton.snp.makeConstraints { (make) in
-            make.width.equalTo(size)
-            make.right.equalToSuperview()
+            make.width.equalTo(110)
+            make.centerX.equalToSuperview().inset(80)
             make.height.equalToSuperview()
             make.centerY.equalToSuperview()
         }
@@ -576,10 +569,10 @@ class TutorMainPage : MainPage {
     override func updateSideBar() {
         let formattedString = NSMutableAttributedString()
         
-        if let school = user.school {
+        if !(user.school == "") {
             formattedString
                 .bold(user.name + "\n", 17, .white)
-                .regular(school, 14, Colors.grayText)
+                .regular(user.school, 14, Colors.grayText)
         } else {
             formattedString
                 .bold(user.name, 17, .white)
@@ -627,8 +620,6 @@ class TutorMainPage : MainPage {
             navigationController?.pushViewController(TutorTaxInfo(), animated: true)
             hideSidebar()
             hideBackground()
-        } else if (touchStartView == contentView.leaderboardButton) {
-            //navigationController?.pushViewController((), animated: true)
         } else if (touchStartView == contentView.ratingButton) {
             navigationController?.pushViewController(TutorRatings(), animated: true)
         } else if (touchStartView == contentView.earningsButton) {

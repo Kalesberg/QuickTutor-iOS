@@ -106,6 +106,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+        tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
         tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
         tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
         
@@ -315,9 +316,15 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 cell.datasource = datasource?.subjects
             return cell
         case 3:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
-                RatingTableViewCell
-                cell.datasource = datasource?.reviews
+            
+            //if no reviews
+            let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+            
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
+//                RatingTableViewCell
+//
+//
+//                cell.datasource = datasource?.reviews
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
