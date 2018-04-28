@@ -68,14 +68,14 @@ class TheChoiceView : RegistrationGradientView {
         }
         
         continueButton.snp.makeConstraints { (make) in
-            make.height.equalTo(60)
+            make.height.equalTo(55)
             make.width.equalTo(270)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.6)
         }
         
         tutorButton.snp.makeConstraints { (make) in
-            make.height.equalTo(60)
+            make.height.equalTo(55)
             make.width.equalTo(270)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.4)

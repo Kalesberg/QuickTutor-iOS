@@ -17,7 +17,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
         
         label.textColor = .white
         label.textAlignment = .center
-        label.font = Fonts.createSize(15)
+        label.font = Fonts.createSize(17)
         label.adjustsFontSizeToFitWidth = true
         label.adjustsFontForContentSizeCategory = true
         
@@ -52,13 +52,14 @@ class CategoryCollectionViewCell : UICollectionViewCell {
         imageView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.85)
+            make.height.equalToSuperview().multipliedBy(0.8)
             make.centerX.equalToSuperview()
         }
         label.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(4)
+            make.bottom.equalToSuperview()
+            make.top.equalTo(imageView.snp.bottom)
         }
     }
 }

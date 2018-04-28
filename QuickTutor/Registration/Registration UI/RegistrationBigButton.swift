@@ -4,7 +4,6 @@
 //
 //  Created by QuickTutor on 1/9/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-//
 
 import Foundation
 import UIKit
@@ -17,7 +16,7 @@ class RegistrationBigButton: BaseView, Interactable {
         addSubview(label)
         
         layer.borderWidth = 1
-        layer.cornerRadius = 30
+        layer.cornerRadius = 27.5
         layer.borderColor = UIColor.white.cgColor
         label.label.textAlignment = .center
         label.label.font = Fonts.createLightSize(22)
@@ -28,8 +27,6 @@ class RegistrationBigButton: BaseView, Interactable {
     
     override func applyConstraints() {
         label.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
             make.center.equalToSuperview()
         }
     }

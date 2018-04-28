@@ -40,7 +40,6 @@ class LearnerPaymentView : MainLayoutTitleBackButton, Keyboardable {
         backOfCard.backgroundColor = UIColor.clear
         backOfCard.layer.cornerRadius = 6
         
-        nextButton.backgroundColor = UIColor(red: 0.3459837437, green: 0.2445590198, blue: 0.4809810519, alpha: 1)
         nextButton.alpha = 0.4
         
         applyConstraints()
@@ -49,17 +48,15 @@ class LearnerPaymentView : MainLayoutTitleBackButton, Keyboardable {
         super.applyConstraints()
         frontOfCard.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.26)
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.24)
             make.centerX.equalToSuperview()
             make.top.equalTo(subtitleLabel.snp.bottom)
-          //  make.centerY.equalToSuperview().multipliedBy(0.78)
         }
         backOfCard.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.26)
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.24)
             make.centerX.equalToSuperview()
             make.top.equalTo(subtitleLabel.snp.bottom)
-           // make.centerY.equalToSuperview().multipliedBy(0.78)
         }
         subtitleLabel.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
@@ -69,15 +66,14 @@ class LearnerPaymentView : MainLayoutTitleBackButton, Keyboardable {
         }
         nextButton.snp.makeConstraints { (make) in
             make.bottom.equalTo(keyboardView.snp.top)
-            make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.08)
-            make.centerX.equalToSuperview()
+            make.right.equalToSuperview().inset(20)
+            make.width.equalTo(90)
         }
         flipToFront.snp.makeConstraints { (make) in
-            make.top.equalTo(frontOfCard.snp.bottom)
-            make.left.equalTo(frontOfCard.snp.left)
-            make.width.equalTo(frontOfCard.snp.width)
-            make.bottom.equalTo(nextButton.snp.top)
+            make.height.equalTo(nextButton)
+            make.left.equalToSuperview().inset(20)
+            make.centerY.equalTo(nextButton)
         }
     }
     
@@ -152,7 +148,7 @@ fileprivate class FlipToFront : InteractableView, Interactable {
         super.configureView()
         
         label.text = "« Back to Front"
-        label.font = Fonts.createSize(18)
+        label.font = Fonts.createBoldSize(18)
         label.textColor = .white
         label.adjustsFontForContentSizeCategory = true
         label.adjustsFontSizeToFitWidth = true
@@ -304,7 +300,7 @@ fileprivate class FrontOfCard : InteractableView, Interactable {
     override func applyConstraints() {
         frontOfCardContents.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.84)
+            make.height.equalToSuperview().multipliedBy(0.87)
             make.width.equalToSuperview().multipliedBy(0.9)
         }
         brandBox.snp.makeConstraints { (make) in
@@ -316,8 +312,8 @@ fileprivate class FrontOfCard : InteractableView, Interactable {
         cardNumberLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalTo(30)
-            make.centerY.equalToSuperview().multipliedBy(0.6)
+            make.height.equalTo(25)
+            make.centerY.equalToSuperview().multipliedBy(0.55)
         }
         cardNumberContainer.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -371,7 +367,7 @@ fileprivate class FrontOfCard : InteractableView, Interactable {
         expirationLabel.snp.makeConstraints { (make) in
             make.bottom.equalTo(expirationDate.snp.top)
             make.right.equalToSuperview()
-            make.height.lessThanOrEqualTo(25)
+            make.height.equalTo(25)
             make.width.equalToSuperview().multipliedBy(0.3)
         }
     }
@@ -387,10 +383,10 @@ fileprivate class AddNewCard : InteractableView, Interactable {
         
         isUserInteractionEnabled = true
         
-        title.text = "Next"
-        title.textColor = UIColor.white.withAlphaComponent(0.4)
-        title.font = Fonts.createBoldSize(22)
-        title.textAlignment = .center
+        title.text = "Next »"
+        title.textColor = UIColor.white.withAlphaComponent(0.3)
+        title.font = Fonts.createBoldSize(20)
+        title.textAlignment = .right
         title.adjustsFontSizeToFitWidth = true
         
         applyConstraints()
@@ -593,7 +589,8 @@ class LearnerPayment : BaseViewController {
             flipCard()
             contentView.flipToFront.isHidden = false
             contentView.invalidInformation()
-            contentView.nextButton.title.text = "Add Payment Method"
+            contentView.nextButton.title.text = "Add Card »"
+            contentView.subtitleLabel.label.text = "Enter Your CVV Number"
             
         } else {
             //start animation here..
@@ -619,8 +616,9 @@ class LearnerPayment : BaseViewController {
         } else if (touchStartView == contentView.flipToFront) {
             flipCard()
             contentView.flipToFront.isHidden = true
-            contentView.nextButton.title.text = "Next"
+            contentView.nextButton.title.text = "Next »"
             contentView.backOfCard.CVC.text = ""
+            contentView.subtitleLabel.label.text = "Enter Your Card Number"
             textFieldsValid(contentView.frontOfCard.fullName)
         }
     }

@@ -42,8 +42,8 @@ class VerificationView: RegistrationNavBarKeyboardView {
         contentView.addSubview(resendButtonView)
         resendButtonView.addSubview(resendVCButton)
         
-        navBar.progressBar.progress = 1.01
-        navBar.applyConstraints()
+        progressBar.progress = 1.01
+        progressBar.applyConstraints()
         
         titleLabel.label.text = "Enter the 6-digit code we've sent to: \(Registration.phone.formatPhoneNumber())"
 

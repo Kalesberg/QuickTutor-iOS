@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "qt-small-text@1x.png",
       "scale" : "1x"
     },
     {

@@ -538,6 +538,7 @@ class LearnerMyProfile : BaseViewController {
 	private func setImage(_ number: Int, _ count: Int) {
 		let imageView = UIImageView()
 		imageView.loadUserImages(by: learner.images["image1"]!)
+        imageView.scaleImage()
 		
 		self.horizontalScrollView.addSubview(imageView)
 		
