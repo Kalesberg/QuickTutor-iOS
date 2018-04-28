@@ -36,6 +36,7 @@ class UserPolicyView : RegistrationGradientView {
 		textLabel.label.numberOfLines = 0
 		textLabel.label.textColor = .white
 		textLabel.label.text = "Whether it's your first time on QuickTutor or you've been with us from the very beginning, please commit to respecting and loving everyone in the QuickTutor community.\n\nI agree to treat everyone on QuickTutor regardless of their race, physical features, national origin, ethnicity, religion, sex, disability, gender identity, sexual orientation or age with respect and love, without judgement or bias."
+        textLabel.label.adjustsFontSizeToFitWidth = true
 		
 		acceptButton.label.label.text = "Accept"
 		
@@ -84,14 +85,14 @@ class UserPolicyView : RegistrationGradientView {
 		}
 		
 		acceptButton.snp.makeConstraints { (make) in
-			make.height.equalTo(60)
+			make.height.equalTo(55)
 			make.width.equalTo(270)
 			make.centerX.equalToSuperview()
 			make.centerY.equalToSuperview().multipliedBy(0.6)
 		}
 		
 		declineButton.snp.makeConstraints { (make) in
-			make.height.equalTo(60)
+			make.height.equalTo(55)
 			make.width.equalTo(270)
 			make.centerX.equalToSuperview()
 			make.centerY.equalToSuperview().multipliedBy(1.4)

@@ -24,8 +24,8 @@ class EmailView: RegistrationNavBarKeyboardView {
 		contentView.addSubview(checkboxLabel)
 		contentView.addSubview(checkbox)
 		
-		navBar.progressBar.progress = 0.429
-		navBar.applyConstraints()
+        progressBar.progress = 0.4
+        progressBar.applyConstraints()
 		
 		titleLabel.label.text = "Your email?"
         errorLabel.text = "The provided e-mail is not valid"
@@ -37,6 +37,7 @@ class EmailView: RegistrationNavBarKeyboardView {
 		
 		checkboxLabel.label.font = Fonts.createLightSize(14.5)
 		checkboxLabel.label.text = "I'd like to recieve promotional content, including events, surveys, motivation, and goodies from QuickTutor via email."
+        checkboxLabel.label.adjustsFontSizeToFitWidth = true
 		
 		applyConstraints()
 	}

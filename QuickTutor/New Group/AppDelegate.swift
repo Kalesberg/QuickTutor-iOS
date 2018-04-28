@@ -25,7 +25,9 @@ func setDeviceInfo() -> (Double, Double, Double, Double) {
     case 667:
         return (216.0, 20, 24, 1.1)
     case 568:
-        return (216.0, 20, 22, 1.15)
+        return (216.0, 20, 24, 1.15)
+    case 480:
+        return (216.0, 0, 18, 1.15)
     default:
         return (0, 0, 0, 0)
     }
@@ -58,6 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         //Facebook init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame: UIScreen.main.bounds)
+
         //Firebase check
         if let user = Auth.auth().currentUser {
             //create SignInClass to handle everything before user is able to sign in.
@@ -69,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 					
 					self.listenForData()
 					
-					NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+					//NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
 					
                     Stripe.stripeManager.retrieveCustomer({ (error) in
                         if let error = error {

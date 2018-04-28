@@ -66,7 +66,7 @@ class TutorSideBar : Sidebar {
             make.top.equalTo(becomeQTItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(0.5)
+            make.height.equalTo(1)
         }
         
         legalItem.snp.makeConstraints { (make) in
@@ -144,7 +144,7 @@ class LearnerSideBar : Sidebar {
             make.top.equalTo(becomeQTItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(0.5)
+            make.height.equalTo(1)
         }
         
         legalItem.snp.makeConstraints { (make) in
@@ -219,7 +219,7 @@ class Sidebar : BaseView {
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.17)
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.15)
         }
         
         divider.snp.makeConstraints { (make) in
