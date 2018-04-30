@@ -12,16 +12,7 @@ import CoreLocation
 class TutorLocation {
 	
 	let geoCoder = CLGeocoder()
-	
-	init(addressString: String, completion: @escaping (Error?) -> Void) {
-		convertAddressToLatLong(addressString: addressString) { (error) in
-			if let error = error {
-				completion(error)
-			} else {
-				completion(nil)
-			}
-		}
-	}
+	static let shared = TutorLocation()
 	
 	func convertAddressToLatLong(addressString : String, completion: @escaping (Error?) -> Void) {
 		geoCoder.geocodeAddressString(addressString) { (placemark, error) in
@@ -49,15 +40,16 @@ class TutorLocation {
 			
 			let pm = placemark[0]
 			var line1 : String = ""
-			
+			var addressString : String = ""
+
 			if let streetNumber = pm.subThoroughfare {
 				line1 = line1 + streetNumber + " "
 			}
 			if let street = pm.thoroughfare {
+				addressString = line1 + street
 				TutorRegistration.line1 = line1 + street
 			}
 			
-			var addressString : String = ""
 			if let city = pm.locality {
 				addressString = addressString + city + ", "
 				TutorRegistration.city = city

@@ -17,17 +17,17 @@ class BirthdayView: RegistrationNavBarView {
 	var birthdayLabel     = RegistrationTextField()
 	var birthdayInfoBig   = LeftTextLabel()
 	var birthdayInfoSmall = LeftTextLabel()
-    
-    let errorLabel : UILabel = {
-        let label = UILabel()
-        
-        label.font = Fonts.createItalicSize(17)
-        label.textColor = .red
-        label.isHidden = true
-        label.numberOfLines = 2
-        
-        return label
-    }()
+	
+	let errorLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createItalicSize(17)
+		label.textColor = .red
+		label.isHidden = true
+		label.numberOfLines = 2
+		
+		return label
+	}()
 	
 	override func configureView() {
 		super.configureView()
@@ -41,12 +41,12 @@ class BirthdayView: RegistrationNavBarView {
 		contentView.addSubview(birthdayLabel)
 		contentView.addSubview(birthdayInfoBig)
 		contentView.addSubview(birthdayInfoSmall)
-        contentView.addSubview(errorLabel)
+		contentView.addSubview(errorLabel)
 		
 		titleLabel.label.text = "We need your birthday"
 		titleLabel.label.adjustsFontSizeToFitWidth = true
 		titleLabel.label.adjustsFontForContentSizeCategory = true
-        errorLabel.text = "Must be 18 years or older to use QuickTutor"
+		errorLabel.text = "Must be 18 years or older to use QuickTutor"
 		
 		birthdayLabel.textField.font = Fonts.createSize(CGFloat(DeviceInfo.textFieldFontSize))
 		birthdayLabel.placeholder.text = "BIRTHDATE"
@@ -62,7 +62,7 @@ class BirthdayView: RegistrationNavBarView {
 		birthdayInfoBig.label.numberOfLines = 2
 		
 		birthdayInfoSmall.label.font = Fonts.createLightSize(14.5)
-            
+		
 		birthdayInfoSmall.label.text = "By entering my birthday, I agree that I'm at least 18 years old."
 		birthdayInfoSmall.label.numberOfLines = 2
 		applyConstraints()
@@ -111,12 +111,12 @@ class BirthdayView: RegistrationNavBarView {
 			make.left.equalToSuperview()
 			make.right.equalToSuperview()
 		}
-        
-        errorLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.centerY.equalTo(nextButton).inset(4)
-            make.right.equalTo(nextButton.snp.left).inset(20)
-        }
+		
+		errorLabel.snp.makeConstraints { (make) in
+			make.left.equalToSuperview()
+			make.centerY.equalTo(nextButton).inset(4)
+			make.right.equalTo(nextButton.snp.left).inset(20)
+		}
 	}
 }
 
@@ -145,24 +145,28 @@ class Birthday: BaseViewController {
 		super.viewDidAppear(animated)
 		
 	}
-	
+	private func getAgeBirthday() -> Int {
+		let birthdate = contentView.birthdayPicker.datePicker.calendar!
+		let birthday = birthdate.dateComponents([.day, .month, .year], from: contentView.birthdayPicker.datePicker.date)
+		let age = birthdate.dateComponents([.year], from: contentView.birthdayPicker.datePicker.date, to: date)
+		
+		if age.year! > 0 {
+			//need more checks here...
+			Registration.age = age.year!
+			Registration.dob = String("\(birthday.day!)/\(birthday.month!)/\(birthday.year!)")
+			contentView.errorLabel.isHidden = true
+		}
+		return age.year!
+	}
 	override func handleNavigation() {
 		if (touchStartView == contentView.backButton) {
 			navigationController!.view.layer.add(contentView.backButton.transition, forKey: nil)
 			navigationController!.popViewController(animated: false)
 		} else if(touchStartView == contentView.nextButton) {
-			let birthdate = contentView.birthdayPicker.datePicker.calendar!
-			let birthday = birthdate.dateComponents([.day, .month, .year], from: contentView.birthdayPicker.datePicker.date)
-			let age = birthdate.dateComponents([.year], from: contentView.birthdayPicker.datePicker.date, to: date)
 			
-			if age.year! > 0 {
-				//need more checks here...
-				Registration.age = String(age.year!)
-				Registration.dob = String("\(birthday.day!)/\(birthday.month!)/\(birthday.year!)")
-                contentView.errorLabel.isHidden = true
-				let next = UploadImage()
+			let next = UploadImage()
+			if getAgeBirthday() >= 18 {
 				navigationController!.pushViewController(next, animated: true)
-
 			} else {
 				contentView.errorLabel.isHidden = false
 			}

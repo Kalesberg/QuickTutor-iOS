@@ -21,7 +21,7 @@ protocol ConnectButtonPress {
 
 class TutorConnectView : MainLayoutTwoButton {
     
-    var back = NavbarButtonBack()
+    var back = NavbarButtonX()
     var filters = NavbarButtonLines()
     
     let searchBar : UISearchBar = {
@@ -32,7 +32,7 @@ class TutorConnectView : MainLayoutTwoButton {
         searchBar.backgroundImage = UIImage(color: UIColor.clear)
         
         let textField = searchBar.value(forKey: "searchField") as? UITextField
-        textField?.font = Fonts.createSize(18)
+        textField?.font = Fonts.createSize(14)
         textField?.textColor = .white
         textField?.adjustsFontSizeToFitWidth = true
         textField?.autocapitalizationType = .words
@@ -67,7 +67,7 @@ class TutorConnectView : MainLayoutTwoButton {
         get {
             return back
         } set {
-            back = newValue as! NavbarButtonBack
+            back = newValue as! NavbarButtonX
         }
     }
     
@@ -112,15 +112,14 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
     
     func applyFilters() {
         //sort here... reset the datasource
-//        let sortedTutors = datasource.sorted { (tutor1 : FeaturedTutor, tutor2 : FeaturedTutor) -> Bool in
-//
-//            let ratio1 = Double(tutor1.price) / Double(filters.1) / (tutor1.rating / 5.0)
-//            let ratio2 = Double(tutor2.price) / Double(filters.1) / (tutor2.rating / 5.0)
-//
-//            return ratio1 < ratio2
-//        }
-//
-//        self.datasource = sortedTutors
+        let sortedTutors = datasource.sorted { (tutor1 : AWTutor, tutor2 : AWTutor) -> Bool in
+
+            let ratio1 = Double(tutor1.price) / Double(filters.1) / (tutor1.tRating / 5.0)
+            let ratio2 = Double(tutor2.price) / Double(filters.1) / (tutor2.tRating / 5.0)
+
+            return ratio1 < ratio2
+        }
+        self.datasource = sortedTutors
     }
     
     override var contentView: TutorConnectView {
@@ -198,7 +197,11 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
             next.delegate = self
             
             self.present(next, animated: true, completion: nil)
-        }
+		} else if touchStartView is NavbarButtonX {
+			let transition = CATransition()
+			navigationController?.view.layer.add(transition.popFromTop(), forKey: nil)
+			navigationController?.popViewController(animated: false)
+		}
     }
 }
 

@@ -113,10 +113,20 @@ class ReviewView : BaseView {
     }
 }
 
-class LearnerMyProfileView : MainLayoutTitleBackTwoButton {
+class LearnerMyProfileView : MainLayoutTitleTwoButton {
     
     var editButton = NavbarButtonEdit()
-    
+    var backButton = NavbarButtonX()
+	
+	override var leftButton: NavbarButton{
+		get {
+			return backButton
+		}
+		set {
+			backButton = newValue as! NavbarButtonX
+		}
+	}
+	
     override var rightButton: NavbarButton {
         get {
             return editButton
@@ -206,7 +216,6 @@ class ProfilePicInteractable : UIImageView, Interactable, BaseViewProtocol {
     }
     
     func configureView() {
-        loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
         isUserInteractionEnabled = true
         scaleImage()
     }
@@ -591,14 +600,21 @@ class LearnerMyProfile : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView is NavbarButtonEdit) {
-            navigationController?.pushViewController(LearnerEditProfile(), animated: true)
-        } else if(touchStartView is NavbarButtonX) {
+			let next = LearnerEditProfile()
+			next.learner = self.learner
+            navigationController?.pushViewController(next, animated: true)
+        } else if(touchStartView == contentView.xButton) {
             contentView.backgroundView.alpha = 0.0
             contentView.xButton.alpha = 0.0
             horizontalScrollView.isUserInteractionEnabled = false
             horizontalScrollView.isHidden = true
             contentView.leftButton.isHidden = false
-        }
+		} else if (touchStartView == contentView.backButton) {
+			let transition = CATransition()
+			let nav = self.navigationController
+			nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+			nav?.popBackToMain()
+		}
     }
 }
 
@@ -630,7 +646,9 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
 			cell.nameLabel.text = learner.name
             cell.locationLabel.text = "Mount Pleasant, MI"
-            return cell
+			cell.profilePicView.loadUserImages(by: learner.images["image1"]!)
+
+			return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
 
@@ -639,15 +657,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
 			} else {
 				cell.bioLabel.text = learner.bio + "\n"
 			}
-			
-//			if LearnerData.userData.bio == "" {
-//                 cell.bioLabel.text = "No bio yet! Add one in Edit Profile\n"
-//            } else {
-//                cell.bioLabel.text = LearnerData.userData.bio + "\n"
-//            }
-			
-            
-            return cell
+			return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
             

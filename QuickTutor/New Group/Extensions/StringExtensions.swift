@@ -87,7 +87,7 @@ extension String {
 		if self != "0" {
 			text = " - Cancellations: \(self) Hour Notice\n\n"
 		} else {
-			text = " - No Cancellation Policy."
+			text = " - No Cancellation Policy.\n"
 		}
 		return text
 	}
@@ -95,9 +95,9 @@ extension String {
 		let text : String
 		
 		if self != "0" {
-			text = "      Cancellation Fee: $\(self).00"
+			text = "      Cancellation Fee: $\(self).00\n"
 		} else {
-			text = "      No Cancellation Fee."
+			text = "      No Cancellation Fee.\n"
 		}
 		return text
 	}
@@ -107,7 +107,7 @@ extension String {
 		if self != "0" {
 			text = "      Late Fee: $\(self).00\n"
 		} else {
-			text = "      No Late Fee."
+			text = "      No Late Fee.\n"
 		}
 		return text
 	}

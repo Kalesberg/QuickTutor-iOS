@@ -78,6 +78,8 @@ class CreatePassword: BaseViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		self.contentView.createPasswordTextfield.textField.becomeFirstResponder()
+		contentView.nextButton.isUserInteractionEnabled = true
+
 	}
 	
 	override func handleNavigation() {
@@ -85,11 +87,13 @@ class CreatePassword: BaseViewController {
 			navigationController!.view.layer.add(contentView.backButton.transition, forKey: nil)
 			navigationController!.popViewController(animated: false)
 		} else if (touchStartView == contentView.nextButton) {
+			contentView.nextButton.isUserInteractionEnabled = false
 			if checkPasswordValidity() {
                 contentView.errorLabel.isHidden = true
 				createEmailAccount()
 			} else {
 				contentView.errorLabel.isHidden = false
+				contentView.nextButton.isUserInteractionEnabled = true
 			}
 		}
 	}

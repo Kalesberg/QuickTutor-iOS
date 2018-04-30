@@ -719,8 +719,6 @@ class LearnerEditProfile : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		learner = CurrentUser.shared.learner
-
 		self.hideKeyboardWhenTappedAround()
         configureDelegates()
 		configureView()
@@ -765,6 +763,18 @@ class LearnerEditProfile : BaseViewController {
 		contentView.mobileNumberItem.textField.attributedPlaceholder = NSAttributedString(string: learner.phone.formatPhoneNumber(), attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		
 	}
+	private func displaySavedAlertController() {
+		let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
+		
+		self.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 1
+		DispatchQueue.main.asyncAfter(deadline: when){
+			alertController.dismiss(animated: true){
+				self.navigationController?.popViewController(animated: true)
+			}
+		}
+	}
 	private func configureDelegates() {
 		imagePicker.delegate = self
 		contentView.firstNameItem.textField.delegate = self
@@ -785,7 +795,7 @@ class LearnerEditProfile : BaseViewController {
 	private func uploadImageUrl(imageUrl: String, number: String) {
 		if !self.learner.isTutor {
 			FirebaseData.manager.updateValue(node: "student-info", value: ["img" : CurrentUser.shared.learner.images])
-			
+			self.learner.images = CurrentUser.shared.learner.images
 		} else {
 			
 			let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images]
@@ -793,6 +803,8 @@ class LearnerEditProfile : BaseViewController {
 			Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
 				if let error = error {
 					print(error)
+				} else {
+					self.learner.images = CurrentUser.shared.learner.images
 				}
 			})
 		}
@@ -808,9 +820,8 @@ class LearnerEditProfile : BaseViewController {
         }
         
         learner.name = "\(firstName.filter{ !" \n\t\r".contains($0)}) \(lastName.filter{ !" \n\t\r".contains($0) })"
-        
         FirebaseData.manager.updateValue(node: "student-info", value: ["nm" : learner.name])
-        
+		displaySavedAlertController()
     }
 }
 

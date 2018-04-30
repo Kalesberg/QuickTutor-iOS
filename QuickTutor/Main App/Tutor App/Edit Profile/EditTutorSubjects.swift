@@ -787,6 +787,16 @@ extension EditTutorSubjects : UIScrollViewDelegate {
 			self.view.endEditing(true)
 		}
 	}
+	
+	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+		let x = scrollView.contentOffset.x
+		let w = scrollView.bounds.size.width
+		let currentPage = Int(ceil(x / w))
+		
+		if currentPage < 12 {
+			contentView.searchBar.placeholder = categories[currentPage].subcategory.phrase
+		}
+	}
 	private func scrollToTop() {
 		contentView.tableView.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)

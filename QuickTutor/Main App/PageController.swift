@@ -59,10 +59,10 @@ class LearnerPageViewController : PageViewController {
 		
         let mainPage = LearnerMainPage() as PageObservation
         mainPage.getParentPageViewController(parentRef: self)
-        orderedViewControllers.append(mainPage as! UIViewController)
+		orderedViewControllers.append(mainPage as! UIViewController)
         
         let messaging = MessagesVC()
-        orderedViewControllers.append(messaging as! UIViewController)
+        orderedViewControllers.append(messaging as UIViewController)
         
         let addTutorButtonImage = UIImage(named: "addTutorByUsernameButton")?.withRenderingMode(.alwaysOriginal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: addTutorButtonImage, style: .plain, target: self, action: #selector(showAddTutor))
@@ -89,7 +89,7 @@ class TutorPageViewController : PageViewController {
         orderedViewControllers.append(mainPage as! UIViewController)
         
         let messaging = MessagesVC()
-        orderedViewControllers.append(messaging as! UIViewController)
+		orderedViewControllers.append(messaging as UIViewController)
     }
 }
 

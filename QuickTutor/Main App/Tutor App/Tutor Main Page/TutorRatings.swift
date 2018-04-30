@@ -61,7 +61,6 @@ class TutorRatings : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		configureDelegates()
-		tutor = CurrentUser.shared.tutor
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

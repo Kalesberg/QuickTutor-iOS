@@ -9,64 +9,58 @@
 //	Maximum of 5 cards per user. The add payment button will be disabled when they have 5 cards.
 //
 /*	TODO: Design
-	 		- Warn User when they delete last card.
-		  Backend
-			- ...
-		  Future
-			- ...
+- Warn User when they delete last card.
+Backend
+- ...
+Future
+- ...
 */
 
 import UIKit.UITableView
 import Stripe
 
-class CardManagerView : MainLayoutTitleBackTwoButton {
+class CardManagerView : MainLayoutTitleOneButton {
 	
-	fileprivate var subtitleLabel 	= LeftTextLabel()
-	fileprivate var addPaymentMethod = NavbarButtonText()
-	fileprivate var addCardAlert = UILabel()
+	let subtitleLabel : LeftTextLabel = {
+		let label = LeftTextLabel()
+		
+		label.label.text = "Payment Methods"
+		label.label.textAlignment = .left
+		label.label.font = Fonts.createBoldSize(20)
+		
+		return label
+	}()
 	
-	var tableView 	  			= UITableView()
-	var header 					= UIView()
-	
-	override var rightButton: NavbarButton {
-		get { return addPaymentMethod }
-		set { addPaymentMethod = newValue as! NavbarButtonText }
-	}
-	
-	override func configureView() {
-		addSubview(subtitleLabel)
-		addSubview(tableView)
-		addSubview(header)
-		addSubview(addPaymentMethod)
-		addSubview(addCardAlert)
-		super.configureView()
+	let tableView : UITableView = {
+		let tableView = UITableView()
 		
-		title.label.text = "Payment"
-		
-		subtitleLabel.label.text = "Payment Methods"
-		subtitleLabel.label.textAlignment = .left
-		subtitleLabel.label.font = Fonts.createBoldSize(20)
-		
-		addPaymentMethod.allignRight()
-		addPaymentMethod.label.label.text = "+"
-		addPaymentMethod.label.label.font = Fonts.createSize(40)
-		
-		tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 44
 		tableView.isScrollEnabled = false
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
-		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		tableView.backgroundColor = Colors.backgroundDark
 		
-		header.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+		return tableView
+	}()
+	
+	var backButton = NavbarButtonX()
+	
+	override var leftButton: NavbarButton {
+		get {
+			return backButton
+		}
+		set {
+			backButton = newValue as! NavbarButtonX
+		}
+	}
+
+	
+	override func configureView() {
+		addSubview(subtitleLabel)
+		addSubview(tableView)
+		super.configureView()
 		
-		addCardAlert.text = "Press the '+' to add a new payment method"
-		addCardAlert.textColor = .white
-		addCardAlert.font = Fonts.createSize(40)
-		addCardAlert.adjustsFontSizeToFitWidth = true
-		addCardAlert.adjustsFontForContentSizeCategory = true
-		addCardAlert.numberOfLines = 3
-		addCardAlert.isHidden = true
+		title.label.text = "Payment"
 		
 		applyConstraints()
 	}
@@ -79,31 +73,24 @@ class CardManagerView : MainLayoutTitleBackTwoButton {
 			make.height.equalToSuperview().multipliedBy(0.1)
 			make.centerX.equalToSuperview()
 		}
-        
-        subtitleLabel.label.snp.remakeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.25)
-            make.width.equalToSuperview()
-        }
-        
+		
+		subtitleLabel.label.snp.remakeConstraints { (make) in
+			make.left.equalToSuperview()
+			make.centerY.equalToSuperview().multipliedBy(1.25)
+			make.width.equalToSuperview()
+		}
+		
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(subtitleLabel.snp.bottom).inset(-20)
 			make.width.equalToSuperview().multipliedBy(0.85)
-			make.height.equalTo((tableView.contentSize.height + 44) * CGFloat(Customer.sources.count))
-			make.centerX.equalToSuperview()
-		}
-		addCardAlert.snp.makeConstraints { (make) in
-			make.centerX.equalToSuperview()
-			make.centerY.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.7)
 			make.height.equalToSuperview().multipliedBy(0.5)
+			make.centerX.equalToSuperview()
 		}
-		header.snp.makeConstraints { (make) in
-			make.width.equalTo(tableView.snp.width)
-			make.top.equalTo(tableView.snp.top)
-			make.left.equalTo(tableView.snp.left)
-			make.height.equalTo(1)
-		}
+	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		navbar.backgroundColor = Colors.learnerPurple
+		statusbarView.backgroundColor = Colors.learnerPurple
 	}
 }
 
@@ -117,61 +104,67 @@ class CardManager : BaseViewController {
 		view = CardManagerView()
 	}
 	
-	private var cards : [STPCard]!
-	private var defaultCard : STPCard!
-	private var observer : NSObjectProtocol!
+	var customerId : String!
+	
+	var customer : STPCustomer! {
+		didSet {
+			setCustomer()
+			contentView.tableView.reloadData()
+		}
+	}
+	
+	private var cards = [STPCard]()
+	private var defaultCard : STPCard?
 	private var cardsToBeDeleted = [STPCard]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		if UserDefaultData.localDataManager.hasPaymentMethod { setCustomer() }
+		Stripe.stripeManager.retrieveCustomer(cusID: customerId) { (customer, error) in
+			if let error = error{
+				print(error.localizedDescription)
+			} else if let customer = customer {
+				self.customer = customer
+			}
+		}
 		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(CardManagerTableViewCell.self, forCellReuseIdentifier: "cardCell")
-		
-		observer = NotificationCenter.default.addObserver(forName: .CustomerUpdated, object: nil, queue: .main, using: { (notication) in
-			
-			if UserDefaultData.localDataManager.hasPaymentMethod { self.setCustomer() }
-			else {
-				self.contentView.addCardAlert.isHidden = false
-				self.contentView.tableView.isHidden = true
-				self.contentView.header.isHidden = true
-			}
-		})
-		
-		if UserDefaultData.localDataManager.numberOfCards >= 5 {
-			contentView.addPaymentMethod.isUserInteractionEnabled = false
-		}
-	}
+		contentView.tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
 
+	}
+	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		if cardsToBeDeleted.count > 0 {
 			for card in cardsToBeDeleted {
-				Stripe.stripeManager.dettachSource(customer: Customer, deleting: card, completion: { (error) in
-					if let error = error { print(error.localizedDescription) }
-					else { print("Card Deleted: ", card.stripeID) }
+				Stripe.stripeManager.dettachSource(customer: self.customer, deleting: card, completion: { (error) in
+					if let error = error {
+						print(error.localizedDescription)
+					}
 				})
 			}
 		}
 	}
-	private func setCustomer() {
-		cards = Customer?.sources as! [STPCard]
-		defaultCard  = Customer?.defaultSource as! STPCard
-		contentView.tableView.reloadData()
-	}
 	
-	deinit {
-		//additional deinit ish
-		NotificationCenter.default.removeObserver(observer)
+	private func setCustomer() {
+		guard let cards = customer.sources as? [STPCard] else { return }
+		self.cards = cards
+		guard let defaultCard = customer.defaultSource as? STPCard else { return }
+		self.defaultCard = defaultCard
+		
+		contentView.tableView.reloadData()
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		contentView.addPaymentMethod.isUserInteractionEnabled = true
 		contentView.tableView.reloadData()
+	}
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -180,18 +173,23 @@ class CardManager : BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if (touchStartView == nil) {
-			return
-		} else if (touchStartView == contentView.addPaymentMethod){
-			navigationController!.pushViewController(LearnerPayment(), animated: true)
-			contentView.addPaymentMethod.isUserInteractionEnabled = false
+		if (touchStartView is NavbarButtonX) {
+			let transition = CATransition()
+			let nav = self.navigationController
+			
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+				nav?.popViewController(animated: false)
+			}
 		}
 	}
+	
+	// TODO: Check if they have any pending sessions.
 	
 	private func defaultCardAlert(card: STPCard) {
 		let alertController = UIAlertController(title: "Default Payment Method?", message: "Do you want this card to be your default Payment method?", preferredStyle: .actionSheet)
 		let setDefault = UIAlertAction(title: "Set as Default", style: .default) { (alert) in
-			Stripe.stripeManager.updateDefaultSource(customer: Customer, new: card, completion: { (error) in
+			Stripe.stripeManager.updateDefaultSource(customer: self.customer, new: card, completion: { (error) in
 				if let error = error {
 					print(error.localizedDescription)
 				} else {
@@ -215,7 +213,7 @@ class CardManager : BaseViewController {
 extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return cards.count
+		return (cards.count > 0) ? cards.count + 1 : 0
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -223,22 +221,37 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell : CardManagerTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! CardManagerTableViewCell
 		
-		insertBorder(cell: cell)
-		cell.last4.text = cards[indexPath.row].last4
-		cell.brand.image = STPImageLibrary.brandImage(for: cards[indexPath.row].brand)
-		
-		if cards[indexPath.row] == defaultCard { cell.defaultcard.isHidden = false }
-		
-		return cell
+		let endIndex = cards.count
+
+		if indexPath.row != endIndex {
+			let cell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! CardManagerTableViewCell
+			
+			insertBorder(cell: cell)
+
+			cell.last4.text = cards[indexPath.row].last4
+			cell.brand.image = STPImageLibrary.brandImage(for: cards[indexPath.row].brand)
+			cell.defaultcard.isHidden = !(cards[indexPath.row] == defaultCard)
+			
+			return cell
+		} else {
+			let cell = tableView.dequeueReusableCell(withIdentifier: "addCardCell", for: indexPath) as! AddCardTableViewCell
+			return cell
+		}
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		//would probably want to show a message here saying that this will set the new card as Default.
-		if cards[indexPath.row] != defaultCard {
-			defaultCardAlert(card: cards[indexPath.row])
-			tableView.deselectRow(at: indexPath, animated: true)
+		if indexPath.row == cards.count {
+			if cards.count == 5 {
+				print("too many cards")
+				return
+			}
+			navigationController?.pushViewController(LearnerPayment(), animated: true)
+		} else {
+			if cards[indexPath.row] != defaultCard {
+				defaultCardAlert(card: cards[indexPath.row])
+				tableView.deselectRow(at: indexPath, animated: true)
+			}
 		}
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
@@ -246,26 +259,22 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
 		return "Remove Card"
 	}
+
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		let view = AddCardHeaderView()
+		return view
+	}
+	
+	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+		return 30
+	}
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			let user = UserDefaultData.localDataManager
 			
 			cardsToBeDeleted.append(cards[indexPath.row])
 			cards.remove(at: indexPath.row)
 			tableView.deleteRows(at: [indexPath], with: .fade)
-			
-			user.deleteCard()
-			
-			if user.numberOfCards == 0 {
-				contentView.addCardAlert.isHidden = false
-				contentView.tableView.isHidden = true
-				contentView.header.isHidden = true
-			} else {
-				contentView.addCardAlert.isHidden = true
-				contentView.tableView.isHidden = false
-				contentView.header.isHidden = false
-			}
 			
 			tableView.reloadData()
 		}
@@ -278,12 +287,137 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	}
 }
 
+class AddCardHeaderView : BaseView {
+	
+	var addCard : UILabel = {
+		let label = UILabel()
+		
+		label.text = "Cards"
+		label.textColor = .white
+		label.font = Fonts.createBoldSize(18)
+		label.textAlignment = .left
+		label.adjustsFontSizeToFitWidth = true
+		
+		return label
+	}()
+	
+	let footer = UIView()
+	
+	override func configureView() {
+		addSubview(addCard)
+		addSubview(footer)
+		super.configureView()
+		
+		footer.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+		applyConstraints()
+	}
+	override func applyConstraints() {
+		addCard.snp.makeConstraints { (make) in
+			make.center.equalToSuperview()
+			make.height.equalToSuperview()
+			make.width.equalToSuperview()
+		}
+		footer.snp.makeConstraints { (make) in
+			make.bottom.equalToSuperview()
+			make.height.equalTo(1)
+			make.width.equalToSuperview()
+			make.centerX.equalToSuperview()
+		}
+	}
+}
+
+class AddCardTableViewCell : UITableViewCell {
+	
+	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		configureTableViewCell()
+	}
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	let addCard : UILabel = {
+		let label = UILabel()
+		
+		label.text = "Add debit or credit card"
+		label.textColor = .white
+		label.font = Fonts.createSize(18)
+		label.textAlignment = .center
+		label.adjustsFontSizeToFitWidth = true
+		
+		return label
+	}()
+	
+	let footer = UIView()
+	
+	func configureTableViewCell() {
+		addSubview(addCard)
+		addSubview(footer)
+		
+		let cellBackground = UIView()
+		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+		selectedBackgroundView = cellBackground
+		
+		footer.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+		
+		backgroundColor = Colors.backgroundDark
+		
+		applyConstraints()
+	}
+	
+	
+	func applyConstraints() {
+		addCard.snp.makeConstraints { (make) in
+			make.center.equalToSuperview()
+			make.height.equalToSuperview()
+			make.width.equalToSuperview()
+		}
+		footer.snp.makeConstraints { (make) in
+			make.bottom.equalToSuperview()
+			make.height.equalTo(1)
+			make.width.equalToSuperview()
+			make.centerX.equalToSuperview()
+		}
+	}
+}
+
 class CardManagerTableViewCell : UITableViewCell {
-    
-	var hiddenCardNumbers = UILabel()
-	var last4 = UILabel()
+	
+	var hiddenCardNumbers : UILabel = {
+		let label = UILabel()
+		
+		label.text = "••••"
+		label.adjustsFontSizeToFitWidth = true
+		label.font = Fonts.createSize(22)
+		label.textColor = .white
+		
+		return label
+	}()
+	
+	var last4 : UILabel = {
+		let label = UILabel()
+		
+		label.adjustsFontSizeToFitWidth = true
+		label.font = Fonts.createBoldSize(22)
+		label.textColor = .white
+		
+		return label
+	}()
 	var brand = UIImageView()
-	var defaultcard = UILabel()
+	
+	var defaultcard : UILabel = {
+		let label = UILabel()
+		
+		label.text = "Default"
+		label.font = Fonts.createSize(15)
+		label.textColor = .white
+		label.textColor.withAlphaComponent(1.0)
+		label.textAlignment = .center
+		label.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+		label.isHidden = true
+		
+		return label
+	}()
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -303,29 +437,12 @@ class CardManagerTableViewCell : UITableViewCell {
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
 		
-		backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-		
-		hiddenCardNumbers.text = "••••"
-		hiddenCardNumbers.adjustsFontSizeToFitWidth = true
-		hiddenCardNumbers.font = Fonts.createSize(22)
-		hiddenCardNumbers.textColor = .white
-		
-		last4.adjustsFontSizeToFitWidth = true
-		last4.font = Fonts.createBoldSize(22)
-		last4.textColor = .white
-		
-		defaultcard.text = "Default"
-		defaultcard.font = Fonts.createSize(13)
-		defaultcard.textColor = .white
-		defaultcard.textColor.withAlphaComponent(1.0)
-		defaultcard.textAlignment = .center
-		defaultcard.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-		defaultcard.isHidden = true
+		backgroundColor = Colors.backgroundDark
 		
 		applyConstraints()
 	}
-    
-
+	
+	
 	func applyConstraints() {
 		brand.snp.makeConstraints { (make) in
 			make.left.equalToSuperview().multipliedBy(1.2)

@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import Stripe
 
 class TutorPolicyView : BaseLayoutView {
 	
@@ -212,21 +213,30 @@ class TutorPolicy : BaseViewController {
 		// Dispose of any resources that can be recreated.
 	}
 	private func accepted() {
-		Tutor.shared.initTutor(completion: { (error) in
-			if let error = error {
-				print(error.localizedDescription)
-			} else {
-				_ = TutorSignIn.init({ (error) in
-					if error != nil {
-						print("error signing in...")
-					} else {
-						self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-						let endIndex = self.navigationController?.viewControllers.endIndex
-						self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
+		
+		//Start animation...
+		let group = DispatchGroup()
+
+		group.enter()
+		Stripe.stripeManager.createConnect { (acctId) in
+			if let acctId = acctId {
+				TutorRegistration.acctId = acctId
+				Tutor.shared.initTutor(completion: { (error) in
+					if let error = error {
+						print(error)
 					}
+					group.leave()
 				})
 			}
-		})
+		}
+
+		group.notify(queue: .main) {
+			//End animation...
+			CurrentUser.shared.learner.isTutor = true
+			self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+			let endIndex = self.navigationController?.viewControllers.endIndex
+			self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
+		}
 	}
 	
 	private func declined() {

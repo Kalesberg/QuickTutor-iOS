@@ -34,17 +34,42 @@ extension UIViewController {
 		let ok = UIAlertAction(title: "Ok thanks!", style: .default) { (alert) in
 			completion()
 		}
+
 		alertController.addAction(ok)
-		
 		present(alertController, animated: true, completion: nil)
 	}
 }
 
 extension UINavigationController {
+	
 	func popBackToMain() {
 		for controller in self.viewControllers {
 			if controller is LearnerPageViewController {
-				self.popToViewController(controller, animated: true)
+				self.popToViewController(controller, animated: false)
+				break
+			} else {
+				print("unable to pop!")
+			}
+		}
+	}
+	func popBackToTutorMain() {
+		for controller in self.viewControllers {
+			if controller is TutorPageViewController {
+				self.popToViewController(controller, animated: false)
+				break
+			} else {
+				print("unable to pop!")
+			}
+		}
+	}
+	
+	func popViewControllerWithHandler(completion: @escaping ()->()) {
+		for controller in self.viewControllers {
+			if controller is LearnerPageViewController {
+				CATransaction.begin()
+				CATransaction.setCompletionBlock(completion)
+				self.popViewController(animated: true)
+				CATransaction.commit()
 				break
 			} else {
 				print("unable to pop!")

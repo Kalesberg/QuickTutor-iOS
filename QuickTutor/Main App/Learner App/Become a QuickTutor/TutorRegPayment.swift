@@ -176,6 +176,11 @@ class TutorRegPaymentView : MainLayoutTitleBackButton, Keyboardable {
             make.height.equalTo(30)
         }
 	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		navbar.backgroundColor = Colors.tutorBlue
+		statusbarView.backgroundColor = Colors.tutorBlue
+	}
 }
 
 class TutorRegPayment: BaseViewController {
@@ -246,12 +251,11 @@ class TutorRegPayment: BaseViewController {
         contentView.addBankButton.alpha = 1.0
 		contentView.addBankButton.isUserInteractionEnabled = true
 		
-		TutorRegistration.bankholderName = name
+		TutorRegistration.bankHoldersName = name
 		TutorRegistration.routingNumber = routingNumber
 		TutorRegistration.accountNumber = accountNumber
-		
+
 	}
-	
 }
 extension TutorRegPayment : UITextFieldDelegate {
 	

@@ -19,7 +19,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 	var nextButton = RegistrationNextButton()
 	
 	var phoneNumberTextField = RegistrationTextField()
-	var signInButton         = RegistrationNextButton()
+
 	//var facebookButton       = FBSDKLoginButton()
 	var signinLabel          = UILabel()
 	
@@ -281,6 +281,11 @@ class SignIn: BaseViewController {
 		contentView.phoneTextField.textField.delegate = self
 	}
 	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		contentView.nextButton.button.isUserInteractionEnabled = true
+
+	}
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
@@ -361,6 +366,7 @@ class SignIn: BaseViewController {
 			})
 		} else if (touchStartView is RegistrationNextButton) {
 			signIn()
+			contentView.nextButton.button.isUserInteractionEnabled = false
 		} else if touchStartView is FacebookButton {
 			facebookSignIn()
 		}

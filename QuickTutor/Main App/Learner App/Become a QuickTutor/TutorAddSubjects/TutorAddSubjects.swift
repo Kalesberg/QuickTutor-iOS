@@ -38,6 +38,8 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return label
 	}()
 	
+	var searchTextField : UITextField!
+
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
 		
@@ -45,15 +47,6 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		searchBar.searchBarStyle = .minimal
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
 	
-		let textField = searchBar.value(forKey: "searchField") as? UITextField
-		
-		textField?.font = Fonts.createSize(16)
-		textField?.textColor = .white
-		textField?.adjustsFontSizeToFitWidth = true
-		textField?.autocapitalizationType = .words
-		textField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		textField?.keyboardAppearance = .dark
-		
 		return searchBar
 	}()
 	
@@ -140,6 +133,15 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		addSubview(keyboardView)
 		
 		super.configureView()
+		
+		searchTextField = searchBar.value(forKey: "searchField") as? UITextField
+		
+		searchTextField?.font = Fonts.createSize(16)
+		searchTextField?.textColor = .white
+		searchTextField?.adjustsFontSizeToFitWidth = true
+		searchTextField?.autocapitalizationType = .words
+		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		searchTextField?.keyboardAppearance = .dark
 		
 		backButton.image.image = #imageLiteral(resourceName: "backButton")
 		headerView.backgroundColor = Colors.backgroundDark
@@ -405,6 +407,8 @@ extension TutorAddSubjects : SelectedSubcategory {
 		didSelectCategory = true
 		contentView.searchBar.becomeFirstResponder()
 		
+		contentView.searchTextField.attributedPlaceholder = NSAttributedString(string: (Category.category(for: resource)?.subcategory.phrase)!, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		
 		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
 			self.partialSubjects = subjects
 			self.filteredSubjects = self.partialSubjects
@@ -413,8 +417,8 @@ extension TutorAddSubjects : SelectedSubcategory {
 		contentView.tableView.reloadData()
 		scrollToTop()
 		
-		contentView.headerView.category.text = self.categories[selectedCategory].subcategory.subcategories[index]
-		
+		contentView.headerView.category.text = subject
+
 		tableView(shouldDisplay: true)
 	}
 }
@@ -690,6 +694,17 @@ extension TutorAddSubjects : UIScrollViewDelegate {
 			self.view.endEditing(true)
 		}
 	}
+	
+	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+		let x = scrollView.contentOffset.x
+		let w = scrollView.bounds.size.width
+		let currentPage = Int(ceil(x / w))
+		
+		if currentPage < 12 {
+			contentView.searchBar.placeholder = categories[currentPage].subcategory.phrase
+		}
+	}
+	
 	private func scrollToTop() {
 		contentView.tableView.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)

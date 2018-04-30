@@ -192,6 +192,7 @@ class TutorPreferences : BaseViewController {
 	override func handleNavigation() {
 		if (touchStartView is TutorPreferencesNextButton) {
 			setUserPreferences()
+			
 			navigationController?.pushViewController(TutorBio(), animated: true)
 		}
 	}

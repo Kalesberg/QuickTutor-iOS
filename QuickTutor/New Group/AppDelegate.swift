@@ -69,79 +69,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 					
 					self.listenForData()
 					
-					NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+//					NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+//
 					
-                    Stripe.stripeManager.retrieveCustomer({ (error) in
-                        if let error = error {
-                            print(error.localizedDescription)
-                        }
-                        print("Retrieved customer.")
-                        self.window?.makeKeyAndVisible()
-                    })
-                    
                     let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
                     
                     navigationController = CustomNavVC(rootViewController: controller)
                     navigationController.navigationBar.isHidden = true
-                    
+					
+					self.window?.makeKeyAndVisible()
                     self.window?.rootViewController = navigationController
-                    
-//                    AccountService.shared.currentUserType = .learner
-//
-//                    self.listenForData()
-//
-//                    NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
-//
-//                    Stripe.stripeManager.retrieveCustomer({ (error) in
-//                        if let error = error {
-//                            print(error.localizedDescription)
-//                        }
-//                        self.window?.makeKeyAndVisible()
-//                    })
-//
-//                    let controller = LearnerPageViewController()
-//
-//                    navigationController = CustomNavVC(rootViewController: controller)
-//                    navigationController.navigationBar.isHidden = true
-//                    self.window?.rootViewController = navigationController
 
                 } else {
-                    print("Here2.")
-
+					
                     self.window?.makeKeyAndVisible()
                     let controller = SignIn()
                     navigationController = CustomNavVC(rootViewController: controller)
                     navigationController.navigationBar.isHidden = true
-                    self.window?.rootViewController = navigationController                }
+                    self.window?.rootViewController = navigationController
+
+				}
             }
-//
-//            _ = SignInHandler.init({ (error) in
-//                if error != nil {
-//                    print(error!)
-//                    self.window?.makeKeyAndVisible()
-//                    let controller = SignIn()
-//                    navigationController = CustomNavVC(rootViewController: controller)
-//                    navigationController.navigationBar.isHidden = true
-//                    self.window?.rootViewController = navigationController
-//                } else {
-//                    self.listenForData()
-//                    NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
-//                    Stripe.stripeManager.retrieveCustomer({ (error) in
-//                        if let error = error {
-//                            print(error.localizedDescription)
-//                        }
-//                        print("Retrieved customer.")
-//                        self.window?.makeKeyAndVisible()
-//                    })
-//
-//                    let controller = LearnerPageViewController()
-//                    AccountService.shared.currentUserType = .learner
-//                    navigationController = CustomNavVC(rootViewController: controller)
-//                    navigationController.navigationBar.isHidden = true
-//                    self.window?.rootViewController = navigationController
-//                }
-//            })
         } else {
             let controller = SignIn()
             navigationController = CustomNavVC(rootViewController: controller)
@@ -149,7 +98,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
             self.window?.makeKeyAndVisible()
             self.window?.rootViewController = navigationController
         }
-        
         return true
     }
     

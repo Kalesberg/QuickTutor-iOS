@@ -12,7 +12,7 @@ import FirebaseAuth
 import GeoFire
 
 /*
-	Still need to figure out how to put all of this data into a single Write
+Still need to figure out how to put all of this data into a single Write
 */
 class TutorData {
 	
@@ -60,45 +60,51 @@ class Tutor {
 	
 	public func initTutor(completion: @escaping (Error?) -> Void) {
 		
-		let data = LearnerData.userData
-		let subjectNode = buildSubjectNode()
-		
-		var post : [String : Any] =
-			[
-				"/tutor-info/\(user.uid)" :
-					[
-					  "nm"  : data.name,
-					  "sch" : data.school,
-					  "lng" : data.languages,
-					  "img" : data.images,
-					  "hr"  : 0,
-					  "tr"   : 5,
-					  "nos" : 0,
-					  "p"	: TutorRegistration.price,
-					  "dst"	: TutorRegistration.distance,
-					  "tbio" : TutorRegistration.tutorBio,
-					  "rg"  : "region",
-					  "pol" : "0_0_0_0",
-					  "prf" : TutorRegistration.sessionPreference,
-					  "tp"  : "Math"],
-				]
-		
-		post.merge(subjectNode.0) { (_, last) in last }
-		post.merge(subjectNode.1) { (_, last) in last }
-	
-		ref.root.updateChildValues(post) { (error, databaseRef) in
-			if let error = error {
-				print(error.localizedDescription)
-				completion(error)
-			} else {
-				//self.geoFire(location: TutorRegistration.location)
-				completion(nil)
+		if let data = CurrentUser.shared.learner {
+			
+			let subjectNode = buildSubjectNode()
+			
+			var post : [String : Any] =
+				[
+					"/tutor-info/\(user.uid)" :
+						[
+							"nm"  : data.name,
+							"img" : data.images,
+							"sch" : data.school,
+							"lng" : data.languages,
+							"act" : TutorRegistration.acctId,
+							"hr"  : 0,
+							"tr"  : 5,
+							"nos" : 0,
+							"p"	  : TutorRegistration.price,
+							"dst" : TutorRegistration.distance,
+							"tbio": TutorRegistration.tutorBio,
+							"rg"  : "region",
+							"pol" : "0_0_0_0",
+							"prf" : TutorRegistration.sessionPreference,
+							"tp"  : "Math"],
+					]
+			
+			post.merge(subjectNode.0) { (_, last) in last }
+			post.merge(subjectNode.1) { (_, last) in last }
+
+			ref.root.updateChildValues(post) { (error, databaseRef) in
+				if let error = error {
+					print(error.localizedDescription)
+					completion(error)
+				} else {
+					self.geoFire(location: TutorRegistration.location)
+					completion(nil)
+				}
 			}
+		} else {
+			print("oops.")
+			return
 		}
 	}
 	
 	public func buildSubjectNode() -> ([String : Any], [String : Any]) {
-
+		
 		var subcategories : [String] = []
 		
 		var subjectDict = [String : [String]]()
@@ -136,7 +142,7 @@ class Tutor {
 		}
 		return (updateSubjectValues, updateSubcategoryValues)
 	}
-
+	
 	public func updateSharedValues(multiWriteNode : [String : Any], _ completion: @escaping (Error?) -> Void) {
 		self.ref.root.updateChildValues(multiWriteNode) { (error, _) in
 			if let error = error {
@@ -146,7 +152,7 @@ class Tutor {
 			}
 		}
 	}
-
+	
 	public func updateValue(value: [String : Any]) {
 		self.ref.child("tutor-info").child(user.uid).updateChildValues(value) { (error, reference) in
 			if let error = error {

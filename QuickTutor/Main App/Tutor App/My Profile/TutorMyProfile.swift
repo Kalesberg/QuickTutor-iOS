@@ -169,12 +169,18 @@ class TutorMyProfile : BaseViewController {
 			let next = TutorEditProfile()
 			next.tutor = tutor
 			navigationController?.pushViewController(next, animated: true)
-		} else if(touchStartView is NavbarButtonX) {
+		} else if(touchStartView == contentView.editButton) {
 			contentView.backgroundView.alpha = 0.0
 			contentView.xButton.alpha = 0.0
 			horizontalScrollView.isUserInteractionEnabled = false
 			horizontalScrollView.isHidden = true
 			contentView.leftButton.isHidden = false
+		}
+		else if touchStartView == contentView.backButton {
+			let transition = CATransition()
+			let nav = self.navigationController
+			nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+			nav?.popBackToTutorMain()
 		}
 	}
 }
@@ -214,6 +220,12 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			
 			cell.nameLabel.text = tutor.name
 			cell.locationLabel.text = tutor.region
+			
+			if AccountService.shared.currentUserType == .learner {
+				cell.profilePicView.loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
+			} else {
+				cell.profilePicView.loadUserImages(by: CurrentUser.shared.tutor.images["image1"]!)
+			}
 			
 			return cell
 		case 1:
@@ -310,8 +322,11 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			if let reviews = tutor.reviews {
 				if reviews.count <= 2 {
 					cell.datasource = reviews
+					cell.seeAllButton.isHidden = true
 				} else {
 					cell.datasource = Array(reviews[0..<2])
+					cell.seeAllButton.isHidden = false	
+
 				}
 			}
 			

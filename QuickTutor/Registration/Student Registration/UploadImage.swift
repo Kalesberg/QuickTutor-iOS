@@ -190,7 +190,12 @@ class UploadImage: BaseViewController {
         super.viewDidLoad()
         imagePicker.delegate = self
     }
-    
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		contentView.looksGoodButton.isUserInteractionEnabled = true
+	}
+	
     override func handleNavigation() {
         if (touchStartView == contentView.backButton) {
 			let viewControllers: [UIViewController] = self.navigationController!.viewControllers
@@ -205,20 +210,20 @@ class UploadImage: BaseViewController {
 			AlertController.cropImageAlert(self, imagePicker: imagePicker)
         } else if (touchStartView == contentView.looksGoodButton) {
 			if imagePicked {
-				let formattedImage = contentView.imageView.image?.circleMasked!
-				Registration.studentImage = formattedImage
-				//get the image url.
-				FirebaseData.manager.uploadUserImage(image: formattedImage!, number: "1", completion: { (imageUrl) in
+				contentView.looksGoodButton.isUserInteractionEnabled = false
+				guard let image = contentView.imageView.image?.circleMasked! else { return }
+			
+				guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
+				
+				FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
 					if let imageUrl = imageUrl {
 						Registration.studentImageURL = imageUrl
-						self.navigationController!.pushViewController(UserPolicy(), animated: true)
+						Registration.studentImage = image
+						self.navigationController?.pushViewController(UserPolicy(), animated: true)
 					} else {
-						print("error")
-						Registration.studentImageURL = ""
-						self.navigationController!.pushViewController(UserPolicy(), animated: true)
+						self.contentView.looksGoodButton.isUserInteractionEnabled = true
 					}
-				})
-				
+				}				
 			} else {
 				print("Select a photo!")
 			}
