@@ -13,7 +13,7 @@ class LearnerHarassmentView : FileReportSubmissionLayout {
 	
 	override func configureView() {
 		super.configureView()
-		header.label.text = "Harassment"
+		header.text = "Harassment"
 		
 		textBody.font = Fonts.createSize(14)
 		textBody.text = "QuickTutor’s Non-Discrimination Policy is set in place to protect all users from harassment and ensure the safety of everyone using our platform.\n\nAggressive or inappropriate physical contact or verbal harassment is not tolerated. If your learner did anything to make you feel uncomfortable, unsafe, or harassed you in any way, please let us know here.\n"

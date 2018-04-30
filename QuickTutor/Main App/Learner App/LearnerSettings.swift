@@ -21,7 +21,7 @@ import FirebaseAuth
 class LearnerSettingsView : MainLayoutTitleOneButton {
     
     var scrollView = SettingsScrollView()
-	var profileView = SettingsProfileView()
+    var profileView = SettingsProfileView()
     var spreadLoveHeader = ItemHeader()
     var rateUs = RateUs()
     var followUs = FollowUs()
@@ -34,14 +34,14 @@ class LearnerSettingsView : MainLayoutTitleOneButton {
     var accountHeader = ItemHeader()
     var signOut = SignOut()
 
-	var backButton = NavbarButtonX()
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		} set{
-			backButton = newValue as! NavbarButtonX
-		}
-	}
+    var backButton = NavbarButtonX()
+    override var leftButton: NavbarButton {
+        get {
+            return backButton
+        } set{
+            backButton = newValue as! NavbarButtonX
+        }
+    }
     override func configureView() {
         addSubview(scrollView)
         scrollView.addSubview(profileView)
@@ -153,16 +153,16 @@ class LearnerSettingsView : MainLayoutTitleOneButton {
             make.height.equalTo(50)
         }
     }
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		if AccountService.shared.currentUserType == .learner {
-			navbar.backgroundColor = Colors.learnerPurple
-			statusbarView.backgroundColor = Colors.learnerPurple
-		} else {
-			navbar.backgroundColor = Colors.tutorBlue
-			statusbarView.backgroundColor = Colors.tutorBlue
-		}
-	}
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if AccountService.shared.currentUserType == .learner {
+            navbar.backgroundColor = Colors.learnerPurple
+            statusbarView.backgroundColor = Colors.learnerPurple
+        } else {
+            navbar.backgroundColor = Colors.tutorBlue
+            statusbarView.backgroundColor = Colors.tutorBlue
+        }
+    }
 }
 
 
@@ -347,7 +347,7 @@ class SettingsProfileView : ArrowItem {
         super.configureView()
         
         isUserInteractionEnabled = true
-		
+        
         imageView.isUserInteractionEnabled = false
         imageView.scaleImage()
         
@@ -527,33 +527,33 @@ class SettingsScrollView : BaseScrollView {
         if (touchStartView == nil) {
             return
         } else if(touchStartView is SettingsProfileView) {
-			if AccountService.shared.currentUserType == .learner {
-				let next = LearnerMyProfile()
-				next.learner = CurrentUser.shared.learner
-				navigationController.pushViewController(next, animated: true)
-			} else {
-				let next = TutorMyProfile()
-				next.tutor = CurrentUser.shared.tutor
-				navigationController.pushViewController(next, animated: true)
-			}
+            if AccountService.shared.currentUserType == .learner {
+                let next = LearnerMyProfile()
+                next.learner = CurrentUser.shared.learner
+                navigationController.pushViewController(next, animated: true)
+            } else {
+                let next = TutorMyProfile()
+                next.tutor = CurrentUser.shared.tutor
+                navigationController.pushViewController(next, animated: true)
+            }
         } else if (touchStartView is CommunityGuidelines) {
-			guard let url = URL(string: "https://www.quicktutor.com") else {
-				return
-			}
-			if #available(iOS 10, *) {
-				UIApplication.shared.open(url, options: [:], completionHandler: nil)
-			} else {
-				UIApplication.shared.openURL(url)
-			}
+            guard let url = URL(string: "https://www.quicktutor.com") else {
+                return
+            }
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
         } else if (touchStartView is UserSafety) {
-			guard let url = URL(string: "https://www.quicktutor.com") else {
-				return
-			}
-			if #available(iOS 10, *) {
-				UIApplication.shared.open(url, options: [:], completionHandler: nil)
-			} else {
-				UIApplication.shared.openURL(url)
-			}
+            guard let url = URL(string: "https://www.quicktutor.com") else {
+                return
+            }
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
         } else if(touchStartView is RateUs) {
             //take user to app store to rate the app
             SocialMedia.socialMediaManager.rateApp(appUrl: "itms-apps://itunes.apple.com/", webUrl: "", completion: { (success) in
@@ -590,19 +590,19 @@ class LearnerSettings : BaseViewController {
         return view as! LearnerSettingsView
     }
 
-	override func loadView() {
-		view = LearnerSettingsView()
-	}
-	
-	var learner : AWLearner!
-	
+    override func loadView() {
+        view = LearnerSettingsView()
+    }
+    
+    var learner : AWLearner!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
-		
-		contentView.profileView.label.text = "\(learner.name!)\n\(learner.phone.formatPhoneNumber())\n\(learner.email!)"
-		contentView.profileView.imageView.loadUserImages(by: learner.images["image1"]!)
+        
+        contentView.profileView.label.text = "\(learner.name!)\n\(learner.phone.formatPhoneNumber())\n\(learner.email!)"
+        contentView.profileView.imageView.loadUserImages(by: learner.images["image1"]!)
     }
     
     override func viewDidLayoutSubviews() {
@@ -617,15 +617,15 @@ class LearnerSettings : BaseViewController {
     }
     
     override func handleNavigation() {
-		if touchStartView is NavbarButtonX {
-			let nav = self.navigationController
-			let transition = CATransition()
-			
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.popFromRight(), forKey: nil)
-				nav?.popViewController(animated: false)
-			}
-		}
+        if touchStartView is NavbarButtonX {
+            let nav = self.navigationController
+            let transition = CATransition()
+            
+            DispatchQueue.main.async {
+                nav?.view.layer.add(transition.popFromRight(), forKey: nil)
+                nav?.popViewController(animated: false)
+            }
+        }
     }
 }
 

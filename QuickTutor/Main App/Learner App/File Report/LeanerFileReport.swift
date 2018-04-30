@@ -33,7 +33,7 @@ class LearnerFileReportView : MainLayoutHeader {
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-		tableView.estimatedSectionHeaderHeight = 100
+		tableView.estimatedSectionHeaderHeight = 85
 		
 		return tableView
 	}()
@@ -44,7 +44,7 @@ class LearnerFileReportView : MainLayoutHeader {
         super.configureView()
         
         title.label.text = "File Report"
-        header.label.text = "Your Past Sessions"
+        header.text = "Your Past Sessions"
 		
 		applyConstraints()
     }
@@ -234,7 +234,7 @@ class FileReportCheckboxLayout : MainLayoutHeader {
         submitButton.snp.makeConstraints { (make) in
             make.height.equalTo(44)
             make.width.equalTo(250)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
             make.centerX.equalToSuperview()
         }
     }
@@ -247,10 +247,22 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
     var textView = EditBioTextView()
 	var characterCount = LeftTextLabel()
     var submitButton = SubmitButton()
+    let errorLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createItalicSize(17)
+        label.textColor = .red
+        label.isHidden = true
+        label.text = "Report must be at least 20 characters."
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
     
     override func configureView() {
         addSubview(textBody)
         addSubview(textView)
+        textView.addSubview(errorLabel)
 		textView.addSubview(characterCount)
         addKeyboardView()
         addSubview(submitButton)
@@ -270,11 +282,11 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
 		textView.textView.font = Fonts.createSize(18)
 		textView.textView.delegate = self
 		
-		characterCount.label.adjustsFontForContentSizeCategory = true
-		characterCount.label.adjustsFontSizeToFitWidth = true
 		characterCount.label.textColor = .white
 		characterCount.label.font = Fonts.createSize(14)
 		characterCount.label.text = "250"
+        characterCount.label.numberOfLines = 1
+        characterCount.label.sizeToFit()
 	}
     
     override func applyConstraints() {
@@ -282,12 +294,12 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
 		
         textBody.constrainSelf(top: header.snp.bottom)
         
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             textView.snp.makeConstraints { (make) in
                 make.top.equalTo(textBody.snp.bottom).inset(-15)
                 make.width.equalToSuperview().multipliedBy(0.9)
                 make.centerX.equalToSuperview()
-                make.height.equalTo(120)
+                make.height.equalTo(110)
             }
         } else {
             textView.snp.makeConstraints { (make) in
@@ -301,7 +313,6 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
         characterCount.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(10)
             make.bottom.equalToSuperview().inset(10)
-            make.width.equalTo(100)
         }
 		
         submitButton.snp.makeConstraints { (make) in
@@ -309,6 +320,12 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
             make.width.equalTo(250)
             make.centerX.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
+        }
+        
+        errorLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(characterCount.snp.right).inset(-10)
+            make.bottom.equalToSuperview().inset(10)
+            make.right.equalToSuperview().inset(5)
         }
     }
     
@@ -319,7 +336,7 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
         
         textView.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerY.equalTo(textBody)
+            make.top.equalTo(header.snp.bottom)
             make.centerX.equalToSuperview()
             make.height.equalTo(120)
         }
@@ -359,19 +376,28 @@ class SubmissionViewController : BaseViewController {
     }
     
     @objc func keyboardWillAppear() {
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             (self.view as! FileReportSubmissionLayout).keyboardWillAppear()
         }
     }
     
     @objc func keyboardDidDisappear() {
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             (self.view as! FileReportSubmissionLayout).keyboardDidDisappear()
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func checkReport() {
+        let view = (self.view as! FileReportSubmissionLayout)
+        if view.textView.textView.text!.count < 20 {
+            view.errorLabel.isHidden = false
+        } else {
+            view.errorLabel.isHidden = true
+        }
     }
 }
 
@@ -512,7 +538,7 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = FileReportSessionView()
-		view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100) )
+		view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 85) )
 		return view
 	}
 	

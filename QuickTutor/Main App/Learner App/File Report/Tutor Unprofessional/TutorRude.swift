@@ -14,7 +14,7 @@ class TutorRudeView : FileReportSubmissionLayout {
     
     override func configureView() {
         super.configureView()
-        header.label.text = "My tutor was rude"
+        header.text = "My tutor was rude"
         
         textBody.font = Fonts.createSize(14)
         textBody.text = "QuickTutor has a zero tolerance policy for tutors who are unprofessional/rude to their learners. As a learner your feedback on sessions, including ratings and reviews helps us improve session quality for others.\n\nAll tutor’s agree to a high standard of service that includes being polite, professional, and respectful. If you believe your tutor has been unprofessional, please share your experience."
@@ -51,11 +51,12 @@ class TutorRude : SubmissionViewController {
     
 	override func handleNavigation() {
 		if touchStartView is SubmitButton {
-			if contentView.textView.textView.text!.count > 20 {
-				submitReport()
-			} else {
-				print("Please give us a breif description of what happened.")
-			}
+            if contentView.textView.textView.text!.count < 20 {
+                contentView.errorLabel.isHidden = false
+            } else {
+                contentView.errorLabel.isHidden = true
+                submitReport()
+            }
 		}
 	}
 	private func submitReport() {

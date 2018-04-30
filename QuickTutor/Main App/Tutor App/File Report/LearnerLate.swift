@@ -14,7 +14,7 @@ class LearnerLateView : FileReportCheckboxLayout {
 	
 	override func configureView() {
 		super.configureView()
-		header.label.text = "My Learner was late"
+		header.text = "My Learner was late"
 		
 		textBody.font = Fonts.createSize(14)
 		textBody.text = "As a tutor, you have the option to create your own custom cancellation policy (CCP) -- which learners are subject to upon scheduling a session with you. This includes late fees. However, as a tutor you are subject to your own policy as well.\n\nIf your learner disobeyed your late policy, please let us know. Note that a report must be filed no earlier than 30 mins before the scheduled end of a session. And cannot be filed more than 7 days after the date of the scheduled session.\n"

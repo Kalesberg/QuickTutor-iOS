@@ -179,13 +179,20 @@ class MainLayoutTitleBackSaveButton: MainLayoutTitleBackTwoButton {
 
 class MainLayoutHeader : MainLayoutTitleBackButton {
     
-    var header = LeftTextLabel()
+    var header : UILabel = {
+        var label = UILabel()
+        
+        label.font = Fonts.createSize(21)
+        label.numberOfLines = 1
+        label.textColor = .white
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
     
     override func configureView() {
         addSubview(header)
         super.configureView()
-        
-        header.label.font = Fonts.createSize(21.5)
     }
     
     override func applyConstraints() {
@@ -193,16 +200,16 @@ class MainLayoutHeader : MainLayoutTitleBackButton {
         
         header.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
-            make.height.equalTo(70)
+            make.height.equalToSuperview().multipliedBy(0.1)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
         
-        header.label.snp.remakeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.2)
-        }
+//        header.label.snp.remakeConstraints { (make) in
+//            make.width.equalToSuperview()
+//            make.centerX.equalToSuperview()
+//            make.centerY.equalToSuperview().multipliedBy(1.2)
+//        }
     }
 }
 

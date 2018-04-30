@@ -86,7 +86,7 @@ extension TrendingCategories : UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if UIScreen.main.bounds.height == 568 {
+        if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
             return 180
         } else {
             return 210
