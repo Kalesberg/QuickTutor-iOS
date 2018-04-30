@@ -15,7 +15,7 @@ class TutorProfilePicsView : FileReportSubmissionLayout {
         super.configureView()
         
         title.label.text = "File Report"
-        header.label.text = "My tutor didn't match their profile picture(s)"
+        header.text = "My tutor didn't match their profile picture(s)"
         
         textBody.font = Fonts.createSize(14)
         textBody.text = "Upon registration, every learner and QuickTutor is required to upload a profile picture, which helps both users recognize each other when meeting for in-person tutoring sessions.\n\nIf you believe that your tutor for this session was not who you were expecting, please notify us here.\n"
@@ -48,11 +48,12 @@ class TutorProfilePics : SubmissionViewController {
     
 	override func handleNavigation() {
 		if touchStartView is SubmitButton {
-			if contentView.textView.textView.text!.count > 20 {
-				submitReport()
-			} else {
-				print("Please give us a breif description of what happened.")
-			}
+            if contentView.textView.textView.text!.count < 20 {
+                contentView.errorLabel.isHidden = false
+            } else {
+                contentView.errorLabel.isHidden = true
+                submitReport()
+            }
 		}
 	}
 	

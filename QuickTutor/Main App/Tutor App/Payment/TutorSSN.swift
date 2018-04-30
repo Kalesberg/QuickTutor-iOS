@@ -114,7 +114,7 @@ class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
     
     func keyboardWillAppear() {
         if (digit1.textField.isFirstResponder) {
-            if (UIScreen.main.bounds.height == 568) {
+            if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
                 ssnInfo.alpha = 0.0
             }
         
@@ -133,7 +133,7 @@ class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
     
     func keyboardWillDisappear() {
         if (digit4.textField.isFirstResponder) {
-            if (UIScreen.main.bounds.height == 568) {
+            if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
                 UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
                     self.ssnInfo.alpha = 1.0
                 })
@@ -173,7 +173,7 @@ class TutorSSN : BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
         
-        if (!(UIScreen.main.bounds.height == 568)) {
+        if (!(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480)) {
             contentView.digit1.textField.becomeFirstResponder()
         }
         

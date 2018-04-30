@@ -18,7 +18,7 @@ class TutorUnprofessionalView : MainLayoutHeader {
         super.configureView()
         
         title.label.text = "File Report"
-        header.label.text = "My tutor was unprofessional"
+        header.text = "My tutor was unprofessional"
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 40

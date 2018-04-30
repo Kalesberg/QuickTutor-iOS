@@ -33,7 +33,7 @@ class AnotherQuestionView : MainLayoutHeader, Keyboardable {
         super.configureView()
         
         title.label.text = "Help"
-        header.label.text = "I have another question"
+        header.text = "I have another question"
         
         anotherQuestionBody.text = "If you’ve run into a problem we haven’t mentioned, please leave us a note of your issue and we’ll get back to you as soon as possible via email. "
         

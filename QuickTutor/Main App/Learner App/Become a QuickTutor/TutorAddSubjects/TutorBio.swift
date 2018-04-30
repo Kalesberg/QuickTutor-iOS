@@ -36,7 +36,7 @@ class TutorBioView : EditBioView {
 	}
 	
 	override func keyboardWillAppear() {
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             infoLabel.alpha = 0.0
             nextButton.alpha = 0.0
             return
@@ -55,7 +55,7 @@ class TutorBioView : EditBioView {
     }
 	
 	override func keyboardWillDisappear() {
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
                 self.infoLabel.alpha = 1.0
                 self.nextButton.alpha = 1.0

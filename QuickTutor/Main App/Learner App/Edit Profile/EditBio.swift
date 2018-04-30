@@ -154,14 +154,14 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
     }
     
     func keyboardWillAppear() {
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             infoLabel.alpha = 0.0
             return
         }
     }
     
     func keyboardWillDisappear() {
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
                 self.infoLabel.alpha = 1.0
             })
@@ -265,13 +265,13 @@ class EditBio : BaseViewController {
     }
     
     @objc func keyboardWillAppear() {
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             (self.view as! EditBioView).keyboardWillAppear()
         }
     }
     
     @objc func keyboardWillDisappear() {
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             (self.view as! EditBioView).keyboardWillDisappear()
         }
     }

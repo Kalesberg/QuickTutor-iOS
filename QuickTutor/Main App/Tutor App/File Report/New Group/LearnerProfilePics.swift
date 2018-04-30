@@ -16,7 +16,7 @@ class LearnerProfilePicsView : FileReportSubmissionLayout {
         super.configureView()
         
         title.label.text = "File Report"
-        header.label.text = "My Learner didn't match their profile picture(s)"
+        header.text = "My Learner didn't match their profile picture(s)"
         
         textBody.font = Fonts.createSize(14)
         textBody.text = "Upon registration, every learner and QuickTutor is required to upload a profile picture, which helps both users recognize each other when meeting for in-person tutoring sessions.\n\nIf you believe that your learner for this session was not who you were expecting, please notify us here."

@@ -14,7 +14,7 @@ class LearnerRudeView : FileReportSubmissionLayout {
     
     override func configureView() {
         super.configureView()
-        header.label.text = "My learner was rude"
+        header.text = "My learner was rude"
         
         textBody.font = Fonts.createSize(14)
         textBody.text = "QuickTutor has a zero tolerance policy for learners who are rude/unprofessional to their tutors. As a tutor, your feedback on sessions, including ratings and reviews helps us improve session quality for others.\n\nall users agree to a high standard of service that includes being polite, professional, and respectful. If you believe your learner has been unprofessional, please share your experience."

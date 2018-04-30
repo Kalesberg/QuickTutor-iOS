@@ -352,7 +352,7 @@ fileprivate class SettingsProfileView : ArrowItem {
         
         label.font = Fonts.createSize(14)
         
-        label.text = "\(user.name!)\n\(user.phone.formatPhoneNumber())\n\(user.email!)"
+        //label.text = "\(user.name!)\n\(user.phone.formatPhoneNumber())\n\(user.email!)"
         
         applyConstraints()
     }

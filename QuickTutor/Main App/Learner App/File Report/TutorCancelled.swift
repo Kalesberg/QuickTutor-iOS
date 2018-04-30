@@ -18,7 +18,7 @@ class TutorCancelledView : FileReportCheckboxLayout {
     
     override func configureView() {
         super.configureView()
-        header.label.text = "My tutor cancelled"
+        header.text = "My tutor cancelled"
         
         textBody.font = Fonts.createSize(14)
         textBody.text = "Tutors have the option to create a custom cancellation policy, which learners are subject to upon scheduling a session with a tutor. However, tutors are subject to their own custom cancellation policy (CCP).\n\nIf your tutor disobeyed their custom cancellation policy, please let us know. Note that a session cancellation must be filed no earlier than 30 mins before the scheduled end of a session. And cannot be filed more than 7 days after the date of the scheduled session.\n"
