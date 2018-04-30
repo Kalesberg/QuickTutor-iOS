@@ -169,7 +169,6 @@ class BecomeTutor : BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         contentView.layoutIfNeeded()
         contentView.scrollView.contentSize = CGSize(width: 280, height: contentView.safetyMattersBody.frame.maxY - contentView.earnMoneyTitle.frame.minY)
         contentView.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.bounds)

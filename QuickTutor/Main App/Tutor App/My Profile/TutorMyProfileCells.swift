@@ -170,18 +170,7 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     
     let profilePicView : InteractableUIImageView = {
         let imageView = InteractableUIImageView()
-        
-//        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-//            imageView.image = image
-//        } else {
-//
-//        }
-		if AccountService.shared.currentUserType == .learner {
-			imageView.loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
-		} else {
-			imageView.loadUserImages(by: CurrentUser.shared.tutor.images["image1"]!)
-
-		}
+		
         imageView.isUserInteractionEnabled = true
         
         imageView.scaleImage()

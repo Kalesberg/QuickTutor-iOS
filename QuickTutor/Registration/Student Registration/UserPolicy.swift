@@ -8,7 +8,9 @@
 
 
 import UIKit
-import FirebaseAuth
+import Firebase
+import Stripe
+import Alamofire
 
 class UserPolicyView : RegistrationGradientView {
 	
@@ -142,7 +144,7 @@ class UserPolicy : BaseViewController {
 		view = UserPolicyView()
 	}
 	
-	private let userId : String = Auth.auth().currentUser!.uid
+	private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -171,39 +173,54 @@ class UserPolicy : BaseViewController {
 			}
 		}
 	}
+	func createCustomer(_ completion: @escaping (String?) -> Void) {
+		
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/createcustomer.php"
+		
+		let params : [String : Any] = ["email" : Registration.email, "description" : "Student Account"]
+		
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				
+				case .success(var value):
+					value = String(value.filter{ !" \n\t\r".contains($0)})
+					
+					completion(value)
+				case .failure:
+					completion(nil)
+				}
+			})
+	}
+	
 	private func accepted() {
-		FirebaseData.manager.uploadUser { (error) in
-			if let error = error {
-				print(error)
-			} else {
-				Stripe.stripeManager.createCustomer ({ (error) in
+		createCustomer { (cusID) in
+			if let cusID = cusID {
+				let account : [String : Any] =
+					["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
+				
+				let studentInfo : [String : Any] =
+					["nm" : Registration.name, "r" : 5.0, "cus" : cusID,
+					 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]
+					]
+				
+				let newUser = ["/account/\(Registration.uid!)/" : account, "/student-info/\(Registration.uid!)/" : studentInfo]
+				
+				self.ref.root.updateChildValues(newUser) { (error, reference) in
 					if let error = error {
 						print(error.localizedDescription)
-						self.contentView.acceptButton.isUserInteractionEnabled = true
 					} else {
 						Registration.registrationManager.setRegistrationDefaults()
-						self.getUserData()
+						self.navigationController?.pushViewController(TheChoice(), animated: true)
 					}
-				})
+				}
+			} else {
+				print("oops try again.")
 			}
 		}
 	}
 	
-	private func getUserData() {
-		_ = SignInHandler.init({ (error) in
-			if error != nil {
-				self.navigationController?.pushViewController(SignIn(), animated: true)
-			} else {
-				Stripe.stripeManager.retrieveCustomer({ (error) in
-					if let error = error {
-						print(error)
-					} else {
-						self.navigationController?.pushViewController(TheChoice(), animated: true)
-					}
-				})
-			}
-		})
-	}
 	
 	private func declined() {
 		let alertController = UIAlertController(title: "All your progress will be deleted", message: "By pressing delete your account will not be created.", preferredStyle: UIAlertControllerStyle.alert)

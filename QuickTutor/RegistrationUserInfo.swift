@@ -20,8 +20,9 @@ struct Registration {
 	
 	static let registrationManager = Registration()
 	
+	static var uid : String!
 	static var name : String!
-    static var age : String!
+    static var age : Int!
     static var email : String!
     static var phone : String!
     static var studentImage : UIImage!

@@ -19,16 +19,16 @@ struct TutorRegistration {
 	static var distance : Int!
 	static var sessionPreference : Int!
 	
-	//stripe - connect
-	static var bankholderName : String!
 	static var last4SSN : String!
 	static var routingNumber : String!
 	static var accountNumber : String!
-	static var stripeToken : String!
-	static var city : String!
 	static var line1 : String!
-	static var zipcode : String!
+	static var city : String!
 	static var state : String!
+	static var bankHoldersName : String!
+	static var zipcode : String!
+
+	static var acctId : String!
 }
 
 

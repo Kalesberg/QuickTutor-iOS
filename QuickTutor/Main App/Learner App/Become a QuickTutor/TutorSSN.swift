@@ -34,7 +34,7 @@ class SSNDigitTextField : RegistrationDigitTextField {
 	}
 }
 
-class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
+class TutorSSNView : MainLayoutTitleOneButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
 	var nextButton        = RegistrationNextButton()
@@ -49,6 +49,17 @@ class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
 	
 	var lockImageView     = UIImageView()
 	var ssnInfo           = LeftTextLabel()
+	
+	var backButton = NavbarButtonX()
+	
+	override var leftButton: NavbarButton {
+		get {
+			return backButton
+		}
+		set {
+			backButton = newValue as! NavbarButtonX
+		}
+	}
 	
 	override func configureView() {
 		addSubview(titleLabel)
@@ -154,6 +165,11 @@ class TutorSSNView : MainLayoutTitleBackButton, Keyboardable {
             })
         }
     }
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		navbar.backgroundColor = Colors.tutorBlue
+		statusbarView.backgroundColor = Colors.tutorBlue
+	}
 }
 
 
@@ -243,6 +259,7 @@ class TutorSSN : BaseViewController {
 			return
 		}
 		last4SSN = first + second + third + forth
+		print(last4SSN)
 		contentView.nextButton.isUserInteractionEnabled = true
 	}
 	
@@ -253,7 +270,16 @@ class TutorSSN : BaseViewController {
 	override func handleNavigation() {
 		if(touchStartView is RegistrationNextButton) {
 			TutorRegistration.last4SSN = last4SSN
+			
 			self.navigationController?.pushViewController(TutorRegPayment(), animated: true)
+		} else if touchStartView is NavbarButtonX {
+			let transition = CATransition()
+			let nav = self.navigationController
+			
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+				nav?.popViewController(animated: false)
+			}
 		}
 	}
 }

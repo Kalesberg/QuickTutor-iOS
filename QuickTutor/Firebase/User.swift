@@ -21,7 +21,7 @@ class CurrentUser {
 	var tutor : AWTutor!
 }
 
-class AWLearner : Decodable {
+class AWLearner {
 	
 	var uid : String = ""
 	
@@ -30,6 +30,7 @@ class AWLearner : Decodable {
 	var birthday  : String!
 	var email 	  : String!
 	var phone     : String!
+	
 	var customer  : String!
 	
 	var school    : String?
@@ -40,6 +41,7 @@ class AWLearner : Decodable {
 	var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
 	
 	var isTutor : Bool = false
+	var hasPayment : Bool = false
 	
 	init(dictionary: [String:Any]) {
 		
@@ -58,23 +60,26 @@ class AWLearner : Decodable {
 
 class AWTutor : AWLearner {
 	
+	var tBio : String!
 	var region : String!
 	var policy : String?
+	var acctId : String!
 	var topSubject : String?
-	var tBio : String!
 	
 	var price : Int!
 	var hours : Int!
 	var distance : Int!
 	var preference : Int!
 	var numSessions : Int!
-
+	
 	var tRating : Double!
 	var earnings : Double!
-	
+
 	var subjects : [String]?
 	var selected : [Selected] = []
 	var reviews : [TutorReview]?
+	
+	var hasConnectAccount : Bool = false
 	
 	override init(dictionary: [String : Any]) {
 		super.init(dictionary: dictionary)
@@ -83,7 +88,8 @@ class AWTutor : AWLearner {
 		region 		= dictionary["rg"] 	as? String ?? ""
 		topSubject 	= dictionary["tp"] 	as? String ?? ""
 		tBio		= dictionary["tbio"] as? String ?? ""
-		
+		acctId		= dictionary["act"] as? String ?? ""
+
 		price 		= dictionary["p"] 	as? Int ?? 0
 		hours 		= dictionary["hr"] 	as? Int ?? 0
 		distance 	= dictionary["dst"] as? Int ?? 0
@@ -92,7 +98,6 @@ class AWTutor : AWLearner {
 		
 		tRating 	= dictionary["tr"] 	as? Double ?? 5.0
 		earnings 	= dictionary["ern"] as? Double ?? 0.0
-
 	}
 	
 	required init(from decoder: Decoder) throws {
@@ -120,120 +125,6 @@ class LearnerData {
 	
 	var isTutor : Bool!
 }
-
-//class LocalImageCache {
-//
-//	static let localImageManager = LocalImageCache()
-//
-//	var image1 : UIImage! {
-//		return getImage(number: "1")
-//	}
-//	var image2 : UIImage! {
-//		print("set image2")
-//		return getImage(number: "2")
-//	}
-//	var image3 : UIImage! {
-//		print("set image3")
-//		return getImage(number: "3")
-//	}
-//	var image4 : UIImage! {
-//		print("set image4")
-//		return getImage(number: "4")
-//	}
-//
-//	func getDocumentsDirectory() -> URL{
-//		let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//		return paths[0]
-//	}
-//	func storeImageLocally(image: UIImage, number: String) {
-//		if let data = UIImagePNGRepresentation(image) {
-//
-//			let filename = getDocumentsDirectory().appendingPathComponent("image\(number).png")
-//			do {
-//				try data.write(to: filename)
-//			} catch {
-//				print("error with image")
-//			}
-//		}
-//	}
-//
-//	func updateImageStored(image: UIImage, number: String) {
-//
-//		if let data = UIImagePNGRepresentation(image) {
-//
-//			let filename = getDocumentsDirectory().appendingPathComponent("image\(number).png")
-//
-//			do {
-//				try data.write(to: filename)
-//
-//				FirebaseData.manager.uploadUserImage(image: image.circleMasked!, number: number, completion: { (imageUrl) in
-//
-//					if let imageUrl = imageUrl {
-//
-//						switch AccountService.shared.currentUserType {
-//
-//						case .learner:
-//
-//							if !LearnerData.userData.isTutor {
-//
-//								LearnerData.userData.images["image\(number)"] = imageUrl
-//
-//								FirebaseData.manager.updateValue(node: "student-info", value: ["img" : LearnerData.userData.images])
-//								break
-//							}
-//
-//							fallthrough
-//
-//						case .tutor:
-//
-//							TutorData.shared.images["image\(number)"] = imageUrl
-//
-//							let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : TutorData.shared.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : TutorData.shared.images]
-//
-//							Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
-//								if let error = error {
-//									print(error)
-//								} else {
-//									print("success")
-//								}
-//							}
-//						}
-//
-//					} else {
-//						print("error")
-//					}
-//				})
-//			} catch {
-//				print("error with image")
-//			}
-//		}
-//	}
-//
-//	func getImage(number : String) -> UIImage? {
-//		let fileManager = FileManager.default
-//		let filename = getDocumentsDirectory().appendingPathComponent("image\(number).png")
-//
-//		if fileManager.fileExists(atPath: filename.path) {
-//			return UIImage(contentsOfFile: filename.path)
-//		} else {
-//			return UIImage(imageLiteralResourceName: "registration-image-placeholder")
-//		}
-//	}
-//
-//	func removeImage(number : String) {
-//		if let data = UIImagePNGRepresentation(#imageLiteral(resourceName: "registration-image-placeholder")) {
-//			let filename = getDocumentsDirectory().appendingPathComponent("image\(number).png")
-//			do {
-//				try data.write(to: filename)
-//				LearnerData.userData.images["image\(number)"] = ""
-//				FirebaseData.manager.updateValue(node: "student-info", value: ["image" : LearnerData.userData.images])
-//				FirebaseData.manager.removeUserImage(number)
-//			} catch {
-//				print("error with image")
-//			}
-//		}
-//	}
-//}
 
 class UserDefaultData {
 	
@@ -322,11 +213,10 @@ class FirebaseData {
 	public func uploadUser(_ completion: @escaping (Error?) -> Void) {
 		
 		let account : [String : Any] =
-			["phn" : Registration.phone, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
+			["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
+		
 		let studentInfo : [String : Any] =
-			["nm" : Registration.name,
-			 "age" : Registration.age,
-			 "r" : 5.0,
+			["nm" : Registration.name, "r" : 5.0,
 			 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]
 		]
 		
@@ -336,34 +226,34 @@ class FirebaseData {
 			if let error = error {
 				completion(error)
 			} else {
-				//do something with reference
+				print(reference)
 				completion(nil)
 			}
 		}
 	}
 	
-	public func uploadUserImage(image: UIImage, number: String, completion: @escaping (_ imageUrl: String?) -> Void) {
-		let path = "student/\(user.uid)/student-profile-pic\(number)"
-		if let uploadData = UIImageJPEGRepresentation(image, 0.5) {
-			storageRef.child(path).putData(uploadData, metadata: nil, completion: { (meta, error) in
-				if let error = error {
-					print(error.localizedDescription)
-					completion(nil)
-				} else {
-					//					self.storageRef.downloadURL(completion: { (url, error) in
-					//						if let error = error {
-					//							print(error)
-					//						}
-					//						else {
-					//							let imageUrl = url?.absoluteString
-					//						}
-					//					})
-					let imageURL = (meta?.downloadURL()?.absoluteString)!
-					completion(imageURL)
-				}
-			})
-		}
-	}
+//	public func uploadUserImage(image: UIImage, number: String, completion: @escaping (_ imageUrl: String?) -> Void) {
+//		let path = "student/\(user.uid)/student-profile-pic\(number)"
+//		if let uploadData = UIImageJPEGRepresentation(image, 0.5) {
+//			storageRef.child(path).putData(uploadData, metadata: nil, completion: { (meta, error) in
+//				if let error = error {
+//					print(error.localizedDescription)
+//					completion(nil)
+//				} else {
+//					//					self.storageRef.downloadURL(completion: { (url, error) in
+//					//						if let error = error {
+//					//							print(error)
+//					//						}
+//					//						else {
+//					//							let imageUrl = url?.absoluteString
+//					//						}
+//					//					})
+//					let imageURL = (meta?.downloadURL()?.absoluteString)!
+//					completion(imageURL)
+//				}
+//			})
+//		}
+//	}
 	
 	public func removeUserImage(_ number: String) {
 		let imageRef = Storage.storage().reference().child("student/\(user.uid)/student-profile-pic\(number)")
@@ -411,6 +301,8 @@ class FirebaseData {
 	
 	public func getLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
 		
+		let group = DispatchGroup()
+		
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else {
 				print("value 1 error")
@@ -430,15 +322,19 @@ class FirebaseData {
 				
 				let learner = AWLearner(dictionary: learnerData)
 				learner.uid = uid
-				
+				print("start search.")
+				group.enter()
 				self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 					learner.isTutor = snapshot.exists()
+					group.leave()
 				})
-				
+				print("Out.")
 				guard let images = learnerData["img"] as? [String : String] else { return }
 				learner.images = images
 				
-				completion(learner)
+				group.notify(queue: .main) {
+					completion(learner)
+				}
 			})
 		})
 	}

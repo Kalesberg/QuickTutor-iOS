@@ -38,6 +38,7 @@ class LearnerFileReportView : MainLayoutHeader {
 		return tableView
 	}()
 
+
 	override func configureView() {
         addSubview(tableView)
         super.configureView()

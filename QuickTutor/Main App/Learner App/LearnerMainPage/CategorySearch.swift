@@ -113,7 +113,6 @@ class CategorySearch: BaseViewController {
 	
 	var datasource : [AWTutor]? {
 		didSet {
-			print("set.", datasource?.count)
 			contentView.collectionView.reloadData()
 		}
 	}
@@ -127,13 +126,6 @@ class CategorySearch: BaseViewController {
 					print("oops, no tutors.")
 				}
 			})
-//			QueryData.shared.queryByCategory(category:  category) { (tutors) in
-//				if let tutors = tutors {
-//					self.dataSource = tutors
-//				} else {
-//					print("Error querying tutors")
-//				}
-//			}
 		}
 	}
 	
