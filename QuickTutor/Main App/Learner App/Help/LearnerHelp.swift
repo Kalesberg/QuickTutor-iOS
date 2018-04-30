@@ -126,7 +126,11 @@ class HelpHeaderScroll : MainLayoutTitleBackButton {
         scrollView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
             make.centerX.equalToSuperview()
         }
         

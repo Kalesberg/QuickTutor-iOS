@@ -60,7 +60,7 @@ class LearnerMainPageView : MainPageView {
 			make.height.equalTo(35)
 			make.width.equalToSuperview().multipliedBy(0.65)
 			make.centerX.equalToSuperview()
-			make.centerY.equalToSuperview().inset(5)
+			make.centerY.equalToSuperview()
 		}
 		
 		tableView.snp.makeConstraints { (make) in
@@ -139,10 +139,10 @@ class LearnerMainPage : MainPage {
 		let formattedString = NSMutableAttributedString()
 		contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become A Tutor"
 		
-		if let school = learner.school {
+		if !(learner.school == "") {
 			formattedString
 				.bold(learner.name + "\n", 17, .white)
-				.regular(school, 14, Colors.grayText)
+                .regular(learner.school!, 14, Colors.grayText)
 		} else {
 			formattedString
 				.bold(learner.name, 17, .white)

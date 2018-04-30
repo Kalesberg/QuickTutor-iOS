@@ -32,8 +32,8 @@ class BirthdayView: RegistrationNavBarView {
 	override func configureView() {
 		super.configureView()
 		
-		navBar.progressBar.progress = 0.714
-		navBar.applyConstraints()
+        progressBar.progress = 0.8
+        progressBar.applyConstraints()
 		
 		addSubview(birthdayPicker)
 		addSubview(contentView)
@@ -60,11 +60,13 @@ class BirthdayView: RegistrationNavBarView {
 		birthdayInfoBig.label.font = Fonts.createSize(18)
 		birthdayInfoBig.label.text = "Others will not be able to see your birthday"
 		birthdayInfoBig.label.numberOfLines = 2
+        birthdayInfoBig.label.adjustsFontSizeToFitWidth = true
 		
 		birthdayInfoSmall.label.font = Fonts.createLightSize(14.5)
 		
 		birthdayInfoSmall.label.text = "By entering my birthday, I agree that I'm at least 18 years old."
 		birthdayInfoSmall.label.numberOfLines = 2
+        birthdayInfoSmall.label.adjustsFontSizeToFitWidth = true
 		applyConstraints()
 	}
 	

@@ -45,7 +45,7 @@ class NavbarButtonImage : NavbarButton, Interactable {
     
     override func applyConstraints() {
         image.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview().inset(5)
+            make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
         }
     }
@@ -81,7 +81,7 @@ class NavbarButtonText : NavbarButton, Interactable {
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.5)
-            make.centerY.equalToSuperview().offset(5)
+            make.centerY.equalToSuperview()
         }
     }
     
@@ -108,6 +108,17 @@ class NavbarButtonBack: NavbarButtonImage {
 		if NavbarButtonBack.enabled {
 			navigationController.popViewController(animated: true)
 		}
+    }
+}
+
+
+class NavbarButtonFilters: NavbarButtonImage {
+
+    
+    override func configureView() {
+        super.configureView()
+        
+        image.image = UIImage(named: "navbar-filters")
     }
 }
 

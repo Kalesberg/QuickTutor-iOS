@@ -19,7 +19,7 @@ class TextLabel: BaseView {
         addSubview(label)
         
         label.textColor = .white
-        label.numberOfLines = 4
+        label.numberOfLines = 0
         
         applyConstraints()
     }

@@ -17,8 +17,8 @@ class NameView : RegistrationNavBarKeyboardView {
 		contentView.addSubview(firstNameTextField)
 		contentView.addSubview(lastNameTextField)
 		
-		navBar.progressBar.progress = 0.286
-		navBar.applyConstraints()
+        progressBar.progress = 0.2
+        progressBar.applyConstraints()
 		
 		titleLabel.label.text = "Hey, what's your name?"
 		firstNameTextField.placeholder.text = "FIRST NAME"

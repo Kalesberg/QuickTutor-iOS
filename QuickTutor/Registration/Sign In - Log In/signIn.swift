@@ -103,7 +103,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		
 		quicktutorText.snp.makeConstraints { (make) in
 			make.centerX.equalToSuperview()
-			make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(20)
+			make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(10)
 		}
 		
 		learnAnythingLabel.snp.makeConstraints { (make) in
@@ -120,7 +120,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		
 		infoLabel.snp.makeConstraints { (make) in
 			make.width.equalToSuperview().multipliedBy(0.8)
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
+			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
 			make.centerX.equalToSuperview()
 		}
 		

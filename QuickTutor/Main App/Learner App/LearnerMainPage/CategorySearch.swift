@@ -90,7 +90,11 @@ class CategorySearchView : MainLayoutTwoButton {
 		}
 		collectionView.snp.makeConstraints { (make) in
 			make.top.equalTo(subtitle.snp.bottom).inset(-20)
-			make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}

@@ -138,9 +138,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
         }
     }
     
-	var datasource = [AWTutor]() {
+    var datasource = [AWTutor]() {
         didSet {
-			print("sourse!", datasource)
+            print("sourse!", datasource)
             contentView.collectionView.reloadData()
         }
     }
@@ -149,7 +149,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
         didSet {
             QueryData.shared.queryAWTutorBySubcategory(subcategory: subcategory!) { (tutors) in
                 if let tutor = tutors {
-					print(tutor, "kjhjhkgkhkjhkj")
+                    print(tutor, "kjhjhkgkhkjhkj")
                     self.datasource = tutor
                 }
             }
@@ -246,7 +246,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.reviewLabel.text = "\(data.reviews?.count ?? 0) Reviews ★ \(data.tRating!)"
         cell.rateLabel.text = "$\(data.price!) / hour"
         
-       	cell.datasource = datasource[indexPath.row]
+           cell.datasource = datasource[indexPath.row]
         
         let formattedString = NSMutableAttributedString()
         formattedString

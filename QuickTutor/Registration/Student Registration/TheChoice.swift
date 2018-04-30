@@ -27,8 +27,13 @@ class TheChoiceView : RegistrationGradientView {
         buttonView.addSubview(continueButton)
         buttonView.addSubview(tutorButton)
         
-        titleLabel.label.text = "You are all set!\n\nWhat would you like to do now?"
-        titleLabel.label.numberOfLines = 4
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .bold("You're all set!\n\nWhat would you like to do now?\n\n", 18, .white)
+            .regular("You can always sign up as a tutor later!", 16, .white)
+        
+        titleLabel.label.attributedText = formattedString
+        titleLabel.label.numberOfLines = 0
         titleLabel.label.textAlignment = .center
         
         continueButton.label.label.text = "Continue as Learner"
@@ -44,7 +49,7 @@ class TheChoiceView : RegistrationGradientView {
         super.applyConstraints()
         
         titleLabel.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview().multipliedBy(0.4)
+            make.centerY.equalToSuperview().multipliedBy(0.5)
             make.height.equalToSuperview().multipliedBy(0.15)
             make.width.equalToSuperview().multipliedBy(0.8)
             make.centerX.equalToSuperview()
@@ -63,14 +68,14 @@ class TheChoiceView : RegistrationGradientView {
         }
         
         continueButton.snp.makeConstraints { (make) in
-            make.height.equalTo(60)
+            make.height.equalTo(55)
             make.width.equalTo(270)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.6)
         }
         
         tutorButton.snp.makeConstraints { (make) in
-            make.height.equalTo(60)
+            make.height.equalTo(55)
             make.width.equalTo(270)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.4)

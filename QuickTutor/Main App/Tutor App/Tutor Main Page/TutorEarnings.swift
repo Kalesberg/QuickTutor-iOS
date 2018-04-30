@@ -105,8 +105,6 @@ class TutorEarningsView : TutorLayoutView {
         return tableView
     }()
     
-    let seeAllButton = SeeAllButton()
-    
     override func configureView() {
         addSubview(label)
         addSubview(infoContainer)
@@ -114,7 +112,6 @@ class TutorEarningsView : TutorLayoutView {
         infoContainer.addSubview(earningsLabel)
         addSubview(tableView)
         addSubview(recentStatementsLabel)
-        addSubview(seeAllButton)
         super.configureView()
     }
     
@@ -158,13 +155,6 @@ class TutorEarningsView : TutorLayoutView {
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide)
-        }
-        
-        seeAllButton.snp.makeConstraints { (make) in
-            make.height.equalTo(25)
-            make.width.equalTo(75)
-            make.centerY.equalTo(recentStatementsLabel)
-            make.right.equalToSuperview().inset(15)
         }
     }
 }

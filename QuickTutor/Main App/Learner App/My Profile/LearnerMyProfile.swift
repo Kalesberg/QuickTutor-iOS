@@ -197,7 +197,11 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
     }
 }
@@ -543,6 +547,7 @@ class LearnerMyProfile : BaseViewController {
 	private func setImage(_ number: Int, _ count: Int) {
 		let imageView = UIImageView()
 		imageView.loadUserImages(by: learner.images["image1"]!)
+        imageView.scaleImage()
 		
 		self.horizontalScrollView.addSubview(imageView)
 		

@@ -33,8 +33,8 @@ class UploadImageView : RegistrationNavBarView {
         buttonView.addSubview(looksGoodButton)
         buttonView.addSubview(chooseNewButton)
         
-        navBar.progressBar.progress = 0.857
-        navBar.applyConstraints()
+        progressBar.progress = 1.01
+        progressBar.applyConstraints()
         
         titleLabel.label.text = "Alright, time to add a photo!"
         titleLabel.label.numberOfLines = 2
@@ -109,14 +109,14 @@ class UploadImageView : RegistrationNavBarView {
         }
         
         looksGoodButton.snp.makeConstraints { (make) in
-            make.height.equalTo(60)
+            make.height.equalTo(55)
             make.width.equalTo(270)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.6)
         }
         
         chooseNewButton.snp.makeConstraints { (make) in
-            make.height.equalTo(60)
+            make.height.equalTo(55)
             make.width.equalTo(270)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.4)

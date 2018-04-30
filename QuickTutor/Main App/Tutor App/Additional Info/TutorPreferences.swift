@@ -99,23 +99,23 @@ class TutorPreferencesView : TutorPreferencesLayout {
 	
 	override func applyConstraints() {
 		super.applyConstraints()
+        
+        nextButton.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            if (UIScreen.main.bounds.height == 812) {
+                make.height.equalTo(80)
+            } else {
+                make.height.equalTo(60)
+            }
+        }
 		
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-8)
 			make.leading.equalTo(layoutMarginsGuide.snp.leading)
 			make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(50)
-		}
-		
-		nextButton.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview()
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-			if (UIScreen.main.bounds.height == 812) {
-				make.height.equalTo(80)
-			} else {
-				make.height.equalTo(60)
-			}
+			make.bottom.equalTo(nextButton.snp.top)
 		}
 	}
 }

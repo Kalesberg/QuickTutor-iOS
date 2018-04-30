@@ -5,126 +5,9 @@
 //  Created by QuickTutor on 1/12/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
 
-//TODO Design:
-//  - Put shadow in front of elements, not behind them
-
 import Foundation
 import UIKit
 
-class AddSubjectSearchField : BaseView {
-	
-	let textField : NoPasteTextField = {
-		let textField = NoPasteTextField()
-		
-		textField.font = Fonts.createSize(16)
-		textField.keyboardAppearance = .dark
-		textField.textColor = .white
-		textField.tintColor = Colors.tutorBlue
-		textField.adjustsFontSizeToFitWidth = true
-		textField.adjustsFontForContentSizeCategory = true
-		textField.attributedPlaceholder = NSAttributedString(string: "What would you like to teach?", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		
-		return textField
-	}()
-	
-	let line : UIView = {
-		let view = UIView()
-		
-		view.backgroundColor = .black
-		
-		return view
-	}()
-	
-	override func configureView() {
-		addSubview(textField)
-		addSubview(line)
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		
-		textField.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.left.equalToSuperview().inset(20)
-			make.right.equalToSuperview().inset(50)
-			make.height.equalToSuperview()
-		}
-		line.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview()
-			make.height.equalTo(1)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-		}
-	}
-}
-
-class SearchLayoutView : BaseLayoutView {
-	
-	let statusbarView : UIView = {
-		let view = UIView()
-		
-		view.backgroundColor = Colors.registrationDark
-		
-		return view
-	}()
-	
-	
-	let navbar : UIView = {
-		let view = UIView()
-		
-		view.backgroundColor = Colors.registrationDark
-		view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: CGSize(width: 0, height: 3.0), radius: 1.0)
-
-		return view
-	}()
-	
-	let searchTextField = AddSubjectSearchField()
-	
-	var leftButton = NavbarButton()
-	
-	override func configureView() {
-		super.configureView()
-		
-		insertSubview(statusbarView, at: 0)
-		insertSubview(navbar, at: 1)
-		
-		navbar.addSubview(searchTextField)
-		navbar.addSubview(leftButton)
-		
-		backgroundColor = Colors.backgroundDark
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		statusbarView.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.width.equalToSuperview()
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
-		}
-		
-		navbar.snp.makeConstraints { (make) in
-			make.top.equalTo(statusbarView.snp.bottom)
-			make.width.equalToSuperview()
-			make.height.equalTo(120)
-		}
-		
-		leftButton.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.left.equalToSuperview()
-			make.height.equalToSuperview().dividedBy(2.6)
-			make.width.equalToSuperview().multipliedBy(0.175)
-		}
-
-		searchTextField.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().dividedBy(2)
-			make.centerX.equalToSuperview()
-		}
-	}
-}
 
 class MainLayoutView: BaseLayoutView {
 
@@ -151,13 +34,17 @@ class MainLayoutView: BaseLayoutView {
         statusbarView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+            if UIScreen.main.bounds.height == 480 {
+                make.height.equalTo(0)
+            } else {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+            }
         }
         
         navbar.snp.makeConstraints { (make) in
             make.top.equalTo(statusbarView.snp.bottom)
             make.width.equalToSuperview()
-            make.height.equalTo(70)
+            make.height.equalTo(50)
         }
     }
 }
@@ -221,7 +108,7 @@ extension Titleable {
         title.snp.makeConstraints { (make) in
             make.height.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(5)
+            make.centerY.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.7)
         }
     }
@@ -338,7 +225,11 @@ class MainLayoutHeaderScroll : MainLayoutTitleBackButton {
         scrollView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
             make.centerX.equalToSuperview()
         }
         

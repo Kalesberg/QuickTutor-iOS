@@ -220,7 +220,11 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
 		
 		scrollView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom)
-			make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
 			make.width.equalToSuperview().multipliedBy(0.95)
 			make.centerX.equalToSuperview()
 		}
