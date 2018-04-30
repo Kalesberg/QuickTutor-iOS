@@ -65,34 +65,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         if let user = Auth.auth().currentUser {
             //create SignInClass to handle everything before user is able to sign in.
             
-			FirebaseData.manager.getLearner(user.uid) { (learner) in
-				if let learner = learner {
+            FirebaseData.manager.getLearner(user.uid) { (learner) in
+                if let learner = learner {
 
-					CurrentUser.shared.learner = learner
-					
-					self.listenForData()
-					
+                    CurrentUser.shared.learner = learner
+                    
+                    self.listenForData()
+                    
 //					NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
 //
-					
+                    
                     let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
                     
                     navigationController = CustomNavVC(rootViewController: controller)
                     navigationController.navigationBar.isHidden = true
-					
-					self.window?.makeKeyAndVisible()
+                    
+                    self.window?.makeKeyAndVisible()
                     self.window?.rootViewController = navigationController
 
                 } else {
-					
+                    
                     self.window?.makeKeyAndVisible()
                     let controller = SignIn()
                     navigationController = CustomNavVC(rootViewController: controller)
                     navigationController.navigationBar.isHidden = true
                     self.window?.rootViewController = navigationController
 
-				}
+                }
             }
         } else {
             let controller = SignIn()

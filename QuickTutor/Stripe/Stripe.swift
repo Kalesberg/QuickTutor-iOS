@@ -203,7 +203,7 @@ class Stripe {
 			})
 	}
 	
-	func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPErrorBlock) {
+	func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPCustomerCompletionBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultsource.php"
 		let params : [String : Any] = ["customer" : customer.stripeID, "card" : defaultCard.stripeID]
 		print(defaultCard.stripeID)
@@ -212,10 +212,14 @@ class Stripe {
 			.responseJSON(completionHandler: { (response) in
 				switch response.result {
 				case .success:
-					self.deserializeCustomer(response: response)
-					completion(nil)
+					let deserializer : STPCustomerDeserializer = STPCustomerDeserializer(data: response.data!, urlResponse: response.response, error: response.error)
+					if let error = deserializer.error {
+						completion(nil, error)
+					} else if let customer = deserializer.customer {
+						completion(customer, nil)
+					}
 				case .failure(let error):
-					completion(error)
+					completion(nil, error)
 				}
 			})
 	}

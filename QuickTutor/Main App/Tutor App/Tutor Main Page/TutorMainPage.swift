@@ -30,11 +30,11 @@ class TutorMainPageView : MainPageView {
     
     let nameLabel : UILabel = {
         let label = UILabel()
-		
+        
         label.font = Fonts.createBoldSize(18)
         label.textColor = .white
         label.textAlignment = .center
-		
+        
         return label
     }()
     
@@ -552,45 +552,45 @@ class TutorMainPage : MainPage {
     override func loadView() {
         view = TutorMainPageView()
     }
-	
-	var tutor : AWTutor!
+    
+    var tutor : AWTutor!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		FirebaseData.manager.getTutor(Auth.auth().currentUser!.uid) { (tutor) in
-			if let tutor = tutor {
-				AccountService.shared.currentUserType = .tutor
-				CurrentUser.shared.tutor = tutor
-				self.tutor = tutor
+        
+        FirebaseData.manager.getTutor(Auth.auth().currentUser!.uid) { (tutor) in
+            if let tutor = tutor {
+                AccountService.shared.currentUserType = .tutor
+                CurrentUser.shared.tutor = tutor
+                self.tutor = tutor
 
-				Stripe.stripeManager.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-					if let account = account {
-					}
-					self.configureSideBarView()
-				})
+                Stripe.stripeManager.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
+                    if let account = account {
+                    }
+                    self.configureSideBarView()
+                })
 
-			} else {
-				try! Auth.auth().signOut()
-				self.navigationController?.pushViewController(SignIn(), animated: true)
-			}
-		}
+            } else {
+                try! Auth.auth().signOut()
+                self.navigationController?.pushViewController(SignIn(), animated: true)
+            }
+        }
     }
-	
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         contentView.sidebar.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
     }
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
-	
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     private func configureSideBarView() {
         let formattedString = NSMutableAttributedString()
-		
-		let name = tutor.name.split(separator: " ")
-		contentView.nameLabel.text = "Welcome back, \(name[0])"
+        
+        let name = tutor.name.split(separator: " ")
+        contentView.nameLabel.text = "Welcome back, \(name[0])"
 		
 		if let school = tutor.school {
 			formattedString
@@ -609,78 +609,78 @@ class TutorMainPage : MainPage {
         super.handleNavigation()
         
         if(touchStartView == contentView.sidebar.paymentItem) {
-			
-			let transition = CATransition()
-			let nav = self.navigationController
-			
-			let next = BankManager()
-			next.acctId = tutor.acctId
-			
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-				nav?.pushViewController(next, animated: false)
-			}
-			
+            
+            let transition = CATransition()
+            let nav = self.navigationController
+            
+            let next = BankManager()
+            next.acctId = tutor.acctId
+            
+            DispatchQueue.main.async {
+                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+                nav?.pushViewController(next, animated: false)
+            }
+            
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.settingsItem) {
-			
-			let next = TutorSettings()
-			next.tutor = self.tutor
-			
-			let transition = CATransition()
-			let nav = self.navigationController
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromLeft(), forKey: nil)
-				nav?.pushViewController(next, animated: false)
-			}
-			
+            
+            let next = TutorSettings()
+            next.tutor = self.tutor
+            
+            let transition = CATransition()
+            let nav = self.navigationController
+            DispatchQueue.main.async {
+                nav?.view.layer.add(transition.segueFromLeft(), forKey: nil)
+                nav?.pushViewController(next, animated: false)
+            }
+            
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
-			let next = TutorMyProfile()
-			next.tutor = CurrentUser.shared.tutor
-			let transition = CATransition()
-			let nav = self.navigationController
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-				nav?.pushViewController(next, animated: false)
-			}
+            let next = TutorMyProfile()
+            next.tutor = CurrentUser.shared.tutor
+            let transition = CATransition()
+            let nav = self.navigationController
+            DispatchQueue.main.async {
+                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+                nav?.pushViewController(next, animated: false)
+            }
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.reportItem) {
-			
-			let transition = CATransition()
-			let nav = self.navigationController
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-				nav?.pushViewController(TutorFileReport(), animated: false)
-			}
+            
+            let transition = CATransition()
+            let nav = self.navigationController
+            DispatchQueue.main.async {
+                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+                nav?.pushViewController(TutorFileReport(), animated: false)
+            }
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.legalItem) {
-			guard let url = URL(string: "https://www.quicktutor.com") else {
-				return
-			}
-			if #available(iOS 10, *) {
-				UIApplication.shared.open(url, options: [:], completionHandler: nil)
-			} else {
-				UIApplication.shared.openURL(url)
-			}
+            guard let url = URL(string: "https://www.quicktutor.com") else {
+                return
+            }
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.helpItem) {
-			let transition = CATransition()
-			let nav = self.navigationController
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-				nav?.pushViewController(TutorHelp(), animated: false)
-			}
+            let transition = CATransition()
+            let nav = self.navigationController
+            DispatchQueue.main.async {
+                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+                nav?.pushViewController(TutorHelp(), animated: false)
+            }
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.becomeQTItem) {
             navigationController?.pushViewController(LearnerPageViewController(), animated: true)
-			AccountService.shared.currentUserType = .learner
+            AccountService.shared.currentUserType = .learner
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.tutorSidebar.taxItem) {
@@ -688,8 +688,8 @@ class TutorMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if (touchStartView == contentView.ratingButton) {
-			let next = TutorRatings()
-			next.tutor = self.tutor
+            let next = TutorRatings()
+            next.tutor = self.tutor
             navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.earningsButton) {
             navigationController?.pushViewController(TutorEarnings(), animated: true)
@@ -718,51 +718,51 @@ class TutorMainPage : MainPage {
             }
             contentView.shareUsernameModal.isHidden = true
         } else if (touchStartView == contentView.shareUsernameModal.twitterImage) {
-			
-			let tweetText = "Follow me on Quicktutor!"
-			let usernameURL = "http://QuickTutor.com/"
-			let shareString = "https://twitter.com/intent/tweet?text=\(tweetText)&url=\(usernameURL)"
-			
-			let escapedShareString = shareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            
+            let tweetText = "Follow me on Quicktutor!"
+            let usernameURL = "http://QuickTutor.com/"
+            let shareString = "https://twitter.com/intent/tweet?text=\(tweetText)&url=\(usernameURL)"
+            
+            let escapedShareString = shareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
 
-			guard let url = URL(string: escapedShareString) else {
-				return
-			}
-		
-			if #available(iOS 10, *) {
-				UIApplication.shared.open(url, options: [:], completionHandler: nil)
-			} else {
-				UIApplication.shared.openURL(url)
-			}
+            guard let url = URL(string: escapedShareString) else {
+                return
+            }
+        
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
         } else if (touchStartView == contentView.shareUsernameModal.facebookImage) {
-			//TODO - - need to integrate FBSDK
+            //TODO - - need to integrate FBSDK
         } else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
-			if (MFMessageComposeViewController.canSendText()) {
-				let controller = MFMessageComposeViewController()
-				controller.body = "Follow me on QuickTutor! "
-				controller.messageComposeDelegate = self
-				self.present(controller, animated: true, completion: nil)
-			}
+            if (MFMessageComposeViewController.canSendText()) {
+                let controller = MFMessageComposeViewController()
+                controller.body = "Follow me on QuickTutor! "
+                controller.messageComposeDelegate = self
+                self.present(controller, animated: true, completion: nil)
+            }
         } else if (touchStartView == contentView.shareUsernameModal.emailImage) {
-			if MFMailComposeViewController.canSendMail() {
-				let mail = MFMailComposeViewController()
-				mail.mailComposeDelegate = self
-				mail.setMessageBody("<p>Hey!, Check me out on QuickTutor! http://QuickTutor.com/</p>", isHTML: true)
-				
-				present(mail, animated: true)
-			} else {
-				print("oops!")
-			}
+            if MFMailComposeViewController.canSendMail() {
+                let mail = MFMailComposeViewController()
+                mail.mailComposeDelegate = self
+                mail.setMessageBody("<p>Hey!, Check me out on QuickTutor! http://QuickTutor.com/</p>", isHTML: true)
+                
+                present(mail, animated: true)
+            } else {
+                print("oops!")
+            }
         }
     }
 }
 extension TutorMainPage : MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
-	func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-		self.dismiss(animated: true, completion: nil)
-	}
-	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-		self.dismiss(animated: true, completion: nil)
-	}
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 class TutorHeaderLayoutView : TutorLayoutView {
     

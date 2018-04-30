@@ -189,12 +189,12 @@ class CardManager : BaseViewController {
 	private func defaultCardAlert(card: STPCard) {
 		let alertController = UIAlertController(title: "Default Payment Method?", message: "Do you want this card to be your default Payment method?", preferredStyle: .actionSheet)
 		let setDefault = UIAlertAction(title: "Set as Default", style: .default) { (alert) in
-			Stripe.stripeManager.updateDefaultSource(customer: self.customer, new: card, completion: { (error) in
+			Stripe.stripeManager.updateDefaultSource(customer: self.customer, new: card, completion: { (customer, error)  in
 				if let error = error {
 					print(error.localizedDescription)
-				} else {
+				} else if let customer = customer {
 					print("Default Updated")
-					self.contentView.tableView.reloadData()
+					self.customer = customer
 				}
 			})
 		}
@@ -228,7 +228,7 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! CardManagerTableViewCell
 			
 			insertBorder(cell: cell)
-
+			print("Reload Data.")
 			cell.last4.text = cards[indexPath.row].last4
 			cell.brand.image = STPImageLibrary.brandImage(for: cards[indexPath.row].brand)
 			cell.defaultcard.isHidden = !(cards[indexPath.row] == defaultCard)

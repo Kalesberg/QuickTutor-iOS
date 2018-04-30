@@ -90,37 +90,37 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return collectionView
 	}()
 
-    let tableView : UITableView = {
-        let tblView = UITableView.init(frame: .zero, style: .grouped)
-        
-        tblView.rowHeight = 33
-        tblView.separatorInset.left = 0
-        tblView.separatorStyle = .none
-        tblView.showsVerticalScrollIndicator = false
-        tblView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-        tblView.allowsMultipleSelection = true
-        tblView.alpha = 0.0
-        
-        return tblView
-    }()
-    
-    var backButton = NavbarButtonX()
-    var cancelButton = NavbarButtonDone()
+	let tableView : UITableView = {
+		let tblView = UITableView.init(frame: .zero, style: .grouped)
+		
+		tblView.rowHeight = 55
+		tblView.separatorInset.left = 0
+		tblView.separatorStyle = .none
+		tblView.showsVerticalScrollIndicator = false
+		tblView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		tblView.allowsMultipleSelection = true
+		tblView.alpha = 0.0
+		
+		return tblView
+	}()
+	
+	var backButton = NavbarButtonX()
+	var cancelButton = NavbarButtonDone()
 
-    override var leftButton : NavbarButton {
-        get {
-            return backButton
-        } set {
-            backButton = newValue as! NavbarButtonX
-        }
-    }
-    override var rightButton: NavbarButton  {
-        get {
-            return cancelButton
-        } set {
-            cancelButton = newValue as! NavbarButtonDone
-        }
-    }
+	override var leftButton : NavbarButton {
+		get {
+			return backButton
+		} set {
+			backButton = newValue as! NavbarButtonX
+		}
+	}
+	override var rightButton: NavbarButton  {
+		get {
+			return cancelButton
+		} set {
+			cancelButton = newValue as! NavbarButtonDone
+		}
+	}
 
 	
 	override func configureView() {
@@ -145,7 +145,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		
 		backButton.image.image = #imageLiteral(resourceName: "backButton")
 		headerView.backgroundColor = Colors.backgroundDark
-		cancelButton.label.label.text = "Add"
+        cancelButton.label.label.text = "Add"
 
         applyConstraints()
     }

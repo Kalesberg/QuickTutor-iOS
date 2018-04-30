@@ -166,6 +166,7 @@ class MainPage : BaseViewController {
             hideBackground()
         } else if(touchStartView == contentView.messagesButton) {
 			parentPageViewController.goToNextPage()
+
         }
     }
     
