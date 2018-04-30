@@ -18,10 +18,10 @@ import UIKit
 import SnapKit
 import FirebaseAuth
 
-class LearnerSettingsView : MainLayoutTitleBackButton {
+class LearnerSettingsView : MainLayoutTitleOneButton {
     
     var scrollView = SettingsScrollView()
-    fileprivate var profileView = SettingsProfileView()
+	var profileView = SettingsProfileView()
     var spreadLoveHeader = ItemHeader()
     var rateUs = RateUs()
     var followUs = FollowUs()
@@ -34,6 +34,14 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
     var accountHeader = ItemHeader()
     var signOut = SignOut()
 
+	var backButton = NavbarButtonX()
+	override var leftButton: NavbarButton {
+		get {
+			return backButton
+		} set{
+			backButton = newValue as! NavbarButtonX
+		}
+	}
     override func configureView() {
         addSubview(scrollView)
         scrollView.addSubview(profileView)
@@ -328,7 +336,7 @@ class ItemToggle : SettingsItem {
     }
 }
 
-fileprivate class SettingsProfileView : ArrowItem {
+class SettingsProfileView : ArrowItem {
     
     var imageContainer = BaseView()
     var imageView = UIImageView()
@@ -339,21 +347,12 @@ fileprivate class SettingsProfileView : ArrowItem {
         super.configureView()
         
         isUserInteractionEnabled = true
-		let user = LearnerData.userData
 		
-//		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-//			imageView.image = image
-//		} else {
-//			//set to some arbitrary image.
-//		}
-//		
         imageView.isUserInteractionEnabled = false
         imageView.scaleImage()
         
         label.font = Fonts.createSize(14)
-        
-        label.text = "\(user.name!)\n\(user.phone.formatPhoneNumber())\n\(user.email!)"
-        
+		
         applyConstraints()
     }
     
@@ -528,30 +527,48 @@ class SettingsScrollView : BaseScrollView {
         if (touchStartView == nil) {
             return
         } else if(touchStartView is SettingsProfileView) {
-            navigationController.pushViewController(LearnerMyProfile(), animated: true)
+			if AccountService.shared.currentUserType == .learner {
+				let next = LearnerMyProfile()
+				next.learner = CurrentUser.shared.learner
+				navigationController.pushViewController(next, animated: true)
+			} else {
+				let next = TutorMyProfile()
+				next.tutor = CurrentUser.shared.tutor
+				navigationController.pushViewController(next, animated: true)
+			}
         } else if (touchStartView is CommunityGuidelines) {
-            print("Go to Community Guidelines")
+			guard let url = URL(string: "https://www.quicktutor.com") else {
+				return
+			}
+			if #available(iOS 10, *) {
+				UIApplication.shared.open(url, options: [:], completionHandler: nil)
+			} else {
+				UIApplication.shared.openURL(url)
+			}
         } else if (touchStartView is UserSafety) {
-            print("Go to user Safety")
+			guard let url = URL(string: "https://www.quicktutor.com") else {
+				return
+			}
+			if #available(iOS 10, *) {
+				UIApplication.shared.open(url, options: [:], completionHandler: nil)
+			} else {
+				UIApplication.shared.openURL(url)
+			}
         } else if(touchStartView is RateUs) {
             //take user to app store to rate the app
             SocialMedia.socialMediaManager.rateApp(appUrl: "itms-apps://itunes.apple.com/", webUrl: "", completion: { (success) in
-                print("Rated appstore? \(success)")
             })
         }  else if(touchStartView is TwitterIcon) {
             //take user to our twitter
             SocialMedia.socialMediaManager.rateApp(appUrl:  "twitter://user?screen_name=QuickTutorApp", webUrl: "https://twitter.com/QuickTutorApp", completion: { (success) in
-                print("Rated Twitter? \(success)")
             })
         } else if(touchStartView is InstagramIcon) {
             //take user to our in instagram
             SocialMedia.socialMediaManager.rateApp(appUrl:  "instagram://user?username=QuickTutor", webUrl: "https://www.instagram.com/quicktutor/", completion: { (success) in
-                print("Rated instagram? \(success)")
             })
         } else if(touchStartView is FacebookIcon) {
             //take user to our facebook
             SocialMedia.socialMediaManager.rateApp(appUrl:  "fb://profile/QuickTutor", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { (success) in
-                print("Rated facebook? \(success)")
             })
         } else if(touchStartView is SignOut) {
             //Are you sure? error message should be added.
@@ -577,10 +594,15 @@ class LearnerSettings : BaseViewController {
 		view = LearnerSettingsView()
 	}
 	
+	var learner : AWLearner!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
+		
+		contentView.profileView.label.text = "\(learner.name!)\n\(learner.phone.formatPhoneNumber())\n\(learner.email!)"
+		contentView.profileView.imageView.loadUserImages(by: learner.images["image1"]!)
     }
     
     override func viewDidLayoutSubviews() {
@@ -595,6 +617,15 @@ class LearnerSettings : BaseViewController {
     }
     
     override func handleNavigation() {
+		if touchStartView is NavbarButtonX {
+			let nav = self.navigationController
+			let transition = CATransition()
+			
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.popFromRight(), forKey: nil)
+				nav?.popViewController(animated: false)
+			}
+		}
     }
 }
 

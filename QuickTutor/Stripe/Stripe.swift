@@ -9,7 +9,6 @@ import Stripe
 import Alamofire
 
 var Customer : STPCustomer! {
-	
 	willSet(newCustomer) {
 		//additional setup when Customer is about to be updated.
 	}
@@ -24,6 +23,19 @@ extension NSNotification.Name {
 	static let CustomerUpdated = NSNotification.Name(Bundle.main.bundleIdentifier! + ".CustomerUpdated")
 }
 
+struct ConnectAccount: Decodable {
+	
+	let data : [Data]
+
+	struct Data : Decodable {
+		let id : String
+		let bank_name : String
+		let last4 : String
+		let status : String
+		let account_holder_name : String
+	}
+}
+
 class Stripe {
 	
 	/*
@@ -36,14 +48,14 @@ class Stripe {
 		print("Stripe initialized.")
 	}
 	
-	func initConnectAccount(completion: @escaping (Error?) -> Void) {
-		//makes a call to heroku<->stripe to return the new connected account Id.
+	func createConnect(completion: @escaping (String?) -> Void) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/connect.php"
+
+		guard let data = CurrentUser.shared.learner else { return }
 		
-		let data = LearnerData.userData
 		let dob = data.birthday.split(separator: "/")
 		let name = data.name!.split(separator: " ")
-		
+
 		let params : [String : Any] = [
 			"country" : "US",
 			"type": "custom",
@@ -59,57 +71,85 @@ class Stripe {
 			"ssn_last_4" : TutorRegistration.last4SSN!,
 			"currency" : "usd",
 			"entity_type" : "individual",
-			"bank_holder_name" : TutorRegistration.bankholderName,
+			"bank_holder_name" : TutorRegistration.bankHoldersName!,
 			"routing_number" : TutorRegistration.routingNumber!,
 			"account_number" : TutorRegistration.accountNumber!,
-			
 			]
+
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success(var value):
+					value = String(value.filter{ !" \n\t\r".contains($0)})
+					completion(value)
+				case .failure:
+					completion(nil)
+				}
+			})
+	}
+	
+	func retrieveConnectAccount(acctId: String, _ completion: @escaping (String?) -> Void) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrieveconnect.php"
+		let params : [String : Any] = ["acct" : acctId]
+
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success(let value):
+					print(value)
+					completion("value")
+				case .failure(let error):
+					print("Error: ", error)
+					completion(error.localizedDescription)
+				}
+			})
+	}
+	
+	func retrieveBankList(acctId: String, _ completion: @escaping (ConnectAccount?) -> Void) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievebank.php"
+		let params : [String : Any] = ["acct" : acctId]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseString(completionHandler: { (response) in
 				switch response.result {
-				case .success(var value):
-					value = String(value.filter{ !" \n\t\r".contains($0)})
-					TutorRegistration.stripeToken = value
+				case .success:
+					print(response.value!)
+					guard let data = response.data else { return }
+					
+					do {
+						let account : ConnectAccount = try JSONDecoder().decode(ConnectAccount.self, from: data)
+						print(account)
+						completion(account)
+					} catch {
+						completion(nil)
+					}
+				case .failure:
 					completion(nil)
-				case .failure(let error):
-					completion(error)
 				}
 			})
 	}
 	
-	func createCustomer(_ completion: @escaping STPErrorBlock) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/createcustomer.php"
-		let params : [String : Any] = ["email" : Registration.email, "description" : "Student Account"]
-		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
-			.validate(statusCode: 200..<300)
-			.responseString(completionHandler: { (response) in
-				switch response.result {
-				case .success(var value):
-					value = String(value.filter{ !" \n\t\r".contains($0)})
-					let newNode = ["cus" : value]
-					FirebaseData.manager.updateValue(node: "student-info", value: newNode)
-					completion(nil)
-				case .failure(let error):
-					completion(error)
-				}
-			})
-	}
-	
-	func retrieveCustomer(_ completion: @escaping STPErrorBlock) {
+	func retrieveCustomer(cusID: String, _ completion: @escaping STPCustomerCompletionBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievecustomer.php"
-		let params : [String : Any] = ["customer" : CurrentUser.shared.learner.customer!]
+		let params : [String : Any] = ["customer" : cusID]
 
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseJSON(completionHandler: { (response) in
 				switch response.result {
+				
 				case .success:
-					self.deserializeCustomer(response: response)
-					completion(nil)
+					let deserializer : STPCustomerDeserializer = STPCustomerDeserializer(data: response.data!, urlResponse: response.response, error: response.error)
+					if let error = deserializer.error {
+						completion(nil, error)
+					} else if let customer = deserializer.customer {
+						completion(customer, nil)
+					}
 				case .failure(let error):
-					completion(error)
+					completion(nil, error)
 				}
 			})
 	}
@@ -123,7 +163,7 @@ class Stripe {
 		}
 	}
 	
-	func attachSource(adding card: STPCardParams, completion: @escaping STPErrorBlock) {
+	func attachSource(cusID: String, adding card: STPCardParams, completion: @escaping STPErrorBlock) {
 		STPAPIClient.shared().createToken(withCard: card) { (token, error) in
 			if let error = error {
 				print(error.localizedDescription)
@@ -131,7 +171,7 @@ class Stripe {
 			}
 			if let token = token {
 				let requestString = "https://aqueous-taiga-32557.herokuapp.com/AttachSource.php"
-				let params : [String : Any] = ["customer" : LearnerData.userData.customer!, "token" :  token]
+				let params : [String : Any] = ["customer" : cusID, "token" :  token]
 				Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 					.validate(statusCode: 200..<300)
 					.responseJSON(completionHandler: { (response) in
@@ -163,7 +203,7 @@ class Stripe {
 			})
 	}
 	
-	func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPErrorBlock) {
+	func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPCustomerCompletionBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultsource.php"
 		let params : [String : Any] = ["customer" : customer.stripeID, "card" : defaultCard.stripeID]
 		print(defaultCard.stripeID)
@@ -172,10 +212,14 @@ class Stripe {
 			.responseJSON(completionHandler: { (response) in
 				switch response.result {
 				case .success:
-					self.deserializeCustomer(response: response)
-					completion(nil)
+					let deserializer : STPCustomerDeserializer = STPCustomerDeserializer(data: response.data!, urlResponse: response.response, error: response.error)
+					if let error = deserializer.error {
+						completion(nil, error)
+					} else if let customer = deserializer.customer {
+						completion(customer, nil)
+					}
 				case .failure(let error):
-					completion(error)
+					completion(nil, error)
 				}
 			})
 	}

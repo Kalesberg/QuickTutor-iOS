@@ -205,6 +205,11 @@ class TutorAddressView : MainLayoutTitleBackButton, Keyboardable {
 			make.height.equalTo(30)
 		}
 	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		navbar.backgroundColor = Colors.tutorBlue
+		statusbarView.backgroundColor = Colors.tutorBlue
+	}
 }
 
 class TutorAddress : BaseViewController {
@@ -270,13 +275,13 @@ class TutorAddress : BaseViewController {
 	
 	override func handleNavigation() {
 		if (touchStartView is SubmitAddressButton) {
-			_ = TutorLocation.init(addressString: self.addressString, completion: { (error) in
+			TutorLocation.shared.convertAddressToLatLong(addressString: addressString) { (error) in
 				if let error = error {
-					print(error)
+					print(error.localizedDescription)
 				} else {
-					self.navigationController?.pushViewController(TutorMainPage(), animated: true)
+					self.navigationController?.pushViewController(TutorPolicy(), animated: true)
 				}
-			})
+			}
 		}
 	}
 }

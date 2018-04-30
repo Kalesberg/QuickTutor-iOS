@@ -40,3 +40,38 @@ extension CALayer {
         addSublayer(border)
     }
 }
+
+extension CATransition {
+	
+	func segueFromBottom() -> CATransition {
+		self.duration = 0.44
+		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		self.type = kCATransitionMoveIn
+		self.subtype = kCATransitionFromTop
+		return self
+	}
+	
+	func segueFromLeft() -> CATransition {
+		self.duration = 0.44
+		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		self.type = kCATransitionMoveIn
+		self.subtype = kCATransitionFromLeft
+		return self
+	}
+	
+	func popFromRight() -> CATransition {
+		self.duration = 0.44
+		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		self.type = kCATransitionReveal
+		self.subtype = kCATransitionFromRight
+		return self
+	}
+	
+	func popFromTop() -> CATransition {
+		self.duration = 0.44
+		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		self.type = kCATransitionReveal
+		self.subtype = kCATransitionFromBottom
+		return self
+	}
+}

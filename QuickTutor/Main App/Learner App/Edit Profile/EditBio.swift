@@ -28,13 +28,16 @@ class EditBioTextView : BaseView {
     override func configureView() {
         addSubview(textView)
 		
-		switch AccountService.shared.currentUserType {
-		case .learner:
+		if AccountService.shared.currentUserType == .learner {
 			textView.text = CurrentUser.shared.learner.bio
-		case .tutor:
-			textView.text = CurrentUser.shared.tutor.bio
+		} else if AccountService.shared.currentUserType == .tutor {
+			if (CurrentUser.shared.tutor != nil) {
+				print("exists")
+				textView.text = CurrentUser.shared.tutor.tBio
+			} else {
+				print("does not exist")
+			}
 		}
-		
         applyConstraints()
     }
     

@@ -19,131 +19,133 @@ protocol SelectedSubcategory {
 }
 
 class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
-    
-    var keyboardComponent = ViewComponent()
-    
-    let headerView = SectionHeader()
-    
-    let nextButton = TutorPreferencesNextButton()
-    
-    let noSelectedItemsLabel : UILabel = {
-        let label = UILabel()
-        
-        label.textColor = .white
-        label.textAlignment = .center
-        label.font = Fonts.createSize(16)
-        label.adjustsFontSizeToFitWidth = true
-        label.text = "Add subjects you would like to teach"
-        
-        return label
-    }()
-    
-    let searchBar : UISearchBar = {
-        let searchBar = UISearchBar()
-        
-        searchBar.sizeToFit()
-        searchBar.searchBarStyle = .minimal
-        searchBar.backgroundImage = UIImage(color: UIColor.clear)
-    
-        let textField = searchBar.value(forKey: "searchField") as? UITextField
-        
-        textField?.font = Fonts.createSize(16)
-        textField?.textColor = .white
-        textField?.adjustsFontSizeToFitWidth = true
-        textField?.autocapitalizationType = .words
-        textField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-        textField?.keyboardAppearance = .dark
-        
-        return searchBar
-    }()
-    
-    let categoryCollectionView : UICollectionView = {
-        let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        let layout = UICollectionViewFlowLayout()
-        
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 0.0
-        
-        collectionView.backgroundColor = Colors.backgroundDark
-        collectionView.collectionViewLayout = layout
-        collectionView.backgroundColor = .clear
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.isPagingEnabled = true
-        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-        
-        collectionView.tag = 0
-        
-        return collectionView
-    }()
-    
-    let pickedCollectionView : UICollectionView = {
-        let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        let layout = UICollectionViewFlowLayout()
-        
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 5.0
-        layout.minimumLineSpacing = 5.0
-        layout.itemSize.width = 40
-        
-        collectionView.collectionViewLayout = layout
-        collectionView.backgroundColor = .clear
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.tag = 1
-        
-        return collectionView
-    }()
+	
+	var keyboardComponent = ViewComponent()
+	
+	let headerView = SectionHeader()
+	
+	let nextButton = TutorPreferencesNextButton()
+	
+	let noSelectedItemsLabel : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = .white
+		label.textAlignment = .center
+		label.font = Fonts.createSize(16)
+		label.adjustsFontSizeToFitWidth = true
+		label.text = "Add subjects you would like to teach"
+		
+		return label
+	}()
+	
+	var searchTextField : UITextField!
 
-    let tableView : UITableView = {
-        let tblView = UITableView.init(frame: .zero, style: .grouped)
-        
-        tblView.rowHeight = 33
-        tblView.separatorInset.left = 0
-        tblView.separatorStyle = .none
-        tblView.showsVerticalScrollIndicator = false
-        tblView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-        tblView.allowsMultipleSelection = true
-        tblView.alpha = 0.0
-        
-        return tblView
-    }()
-    
-    var backButton = NavbarButtonX()
-    var cancelButton = NavbarButtonDone()
+	let searchBar : UISearchBar = {
+		let searchBar = UISearchBar()
+		
+		searchBar.sizeToFit()
+		searchBar.searchBarStyle = .minimal
+		searchBar.backgroundImage = UIImage(color: UIColor.clear)
+	
+		return searchBar
+	}()
+	
+	let categoryCollectionView : UICollectionView = {
+		let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+		let layout = UICollectionViewFlowLayout()
+		
+		layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+		layout.scrollDirection = .horizontal
+		layout.minimumInteritemSpacing = 0.0
+		
+		collectionView.backgroundColor = Colors.backgroundDark
+		collectionView.collectionViewLayout = layout
+		collectionView.backgroundColor = .clear
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.isPagingEnabled = true
+		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+		
+		collectionView.tag = 0
+		
+		return collectionView
+	}()
+	
+	let pickedCollectionView : UICollectionView = {
+		let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+		let layout = UICollectionViewFlowLayout()
+		
+		layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+		layout.scrollDirection = .horizontal
+		layout.minimumInteritemSpacing = 5.0
+		layout.minimumLineSpacing = 5.0
+		layout.itemSize.width = 40
+		
+		collectionView.collectionViewLayout = layout
+		collectionView.backgroundColor = .clear
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.tag = 1
+		
+		return collectionView
+	}()
 
-    override var leftButton : NavbarButton {
-        get {
-            return backButton
-        } set {
-            backButton = newValue as! NavbarButtonX
-        }
-    }
-    override var rightButton: NavbarButton  {
-        get {
-            return cancelButton
-        } set {
-            cancelButton = newValue as! NavbarButtonDone
-        }
-    }
+	let tableView : UITableView = {
+		let tblView = UITableView.init(frame: .zero, style: .grouped)
+		
+		tblView.rowHeight = 55
+		tblView.separatorInset.left = 0
+		tblView.separatorStyle = .none
+		tblView.showsVerticalScrollIndicator = false
+		tblView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		tblView.allowsMultipleSelection = true
+		tblView.alpha = 0.0
+		
+		return tblView
+	}()
+	
+	var backButton = NavbarButtonX()
+	var cancelButton = NavbarButtonDone()
 
-    
-    override func configureView() {
-        navbar.addSubview(searchBar)
-        addSubview(noSelectedItemsLabel)
-        addSubview(categoryCollectionView)
-        addSubview(pickedCollectionView)
-        addSubview(tableView)
-        addSubview(nextButton)
-        addSubview(keyboardView)
-        
-        super.configureView()
-        
-        backButton.image.image = #imageLiteral(resourceName: "backButton")
-        headerView.backgroundColor = Colors.backgroundDark
-		cancelButton.label.label.text = "Add"
+	override var leftButton : NavbarButton {
+		get {
+			return backButton
+		} set {
+			backButton = newValue as! NavbarButtonX
+		}
+	}
+	override var rightButton: NavbarButton  {
+		get {
+			return cancelButton
+		} set {
+			cancelButton = newValue as! NavbarButtonDone
+		}
+	}
+
+	
+	override func configureView() {
+		navbar.addSubview(searchBar)
+		addSubview(noSelectedItemsLabel)
+		addSubview(categoryCollectionView)
+		addSubview(pickedCollectionView)
+		addSubview(tableView)
+		addSubview(nextButton)
+		addSubview(keyboardView)
+		
+		super.configureView()
+		
+		searchTextField = searchBar.value(forKey: "searchField") as? UITextField
+		
+		searchTextField?.font = Fonts.createSize(16)
+		searchTextField?.textColor = .white
+		searchTextField?.adjustsFontSizeToFitWidth = true
+		searchTextField?.autocapitalizationType = .words
+		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		searchTextField?.keyboardAppearance = .dark
+		
+		backButton.image.image = #imageLiteral(resourceName: "backButton")
+		headerView.backgroundColor = Colors.backgroundDark
+        cancelButton.label.label.text = "Add"
 
         applyConstraints()
     }
@@ -404,24 +406,26 @@ class TutorAddSubjects : BaseViewController {
     }
 }
 extension TutorAddSubjects : SelectedSubcategory {
-    
-    func didSelectSubcategory(resource: String, subject: String, index: Int) {
-        shouldUpdateSearchResults = true
-        didSelectCategory = true
-        contentView.searchBar.becomeFirstResponder()
-        
-        if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
-            self.partialSubjects = subjects
-            self.filteredSubjects = self.partialSubjects
-        }
-        
-        contentView.tableView.reloadData()
-        scrollToTop()
-        
-        contentView.headerView.category.text = self.categories[selectedCategory].subcategory.subcategories[index]
-        
-        tableView(shouldDisplay: true)
-    }
+	
+	func didSelectSubcategory(resource: String, subject: String, index: Int) {
+		shouldUpdateSearchResults = true
+		didSelectCategory = true
+		contentView.searchBar.becomeFirstResponder()
+		
+		contentView.searchTextField.attributedPlaceholder = NSAttributedString(string: (Category.category(for: resource)?.subcategory.phrase)!, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		
+		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
+			self.partialSubjects = subjects
+			self.filteredSubjects = self.partialSubjects
+		}
+		
+		contentView.tableView.reloadData()
+		scrollToTop()
+		
+		contentView.headerView.category.text = subject
+
+		tableView(shouldDisplay: true)
+	}
 }
 
 extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -684,16 +688,27 @@ extension TutorAddSubjects : UISearchBarDelegate {
     }
 }
 extension TutorAddSubjects : UIScrollViewDelegate {
-    
-    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        if !automaticScroll {
-            self.view.endEditing(true)
-        }
-    }
-    private func scrollToTop() {
-        contentView.tableView.reloadData()
-        let indexPath = IndexPath(row: 0, section: 0)
-        contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-        automaticScroll = false
-    }
+	
+	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+		if !automaticScroll {
+			self.view.endEditing(true)
+		}
+	}
+	
+	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+		let x = scrollView.contentOffset.x
+		let w = scrollView.bounds.size.width
+		let currentPage = Int(ceil(x / w))
+		
+		if currentPage < 12 {
+			contentView.searchBar.placeholder = categories[currentPage].subcategory.phrase
+		}
+	}
+	
+	private func scrollToTop() {
+		contentView.tableView.reloadData()
+		let indexPath = IndexPath(row: 0, section: 0)
+		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+		automaticScroll = false
+	}
 }

@@ -25,22 +25,15 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		}
 	}
 	
+	var searchTextField : UITextField!
+	
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
 		
 		searchBar.sizeToFit()
 		searchBar.searchBarStyle = .minimal
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
-		
-		let textField = searchBar.value(forKey: "searchField") as? UITextField
-		
-		textField?.font = Fonts.createSize(16)
-		textField?.textColor = .white
-		textField?.adjustsFontSizeToFitWidth = true
-		textField?.autocapitalizationType = .words
-		textField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		textField?.keyboardAppearance = .dark
-		
+	
 		return searchBar
 	}()
 	
@@ -87,6 +80,16 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		addSubview(tableView)
 		addSubview(keyboardView)
 		super.configureView()
+		
+		searchTextField = searchBar.value(forKey: "searchField") as? UITextField
+		
+		searchTextField?.font = Fonts.createSize(16)
+		searchTextField?.textColor = .white
+		searchTextField?.adjustsFontSizeToFitWidth = true
+		searchTextField?.autocapitalizationType = .words
+		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		searchTextField?.keyboardAppearance = .dark
+		
 		
 		headerView.backgroundColor = Colors.backgroundDark
 		
@@ -246,29 +249,7 @@ class SearchSubjects: BaseViewController, ConnectButtonPress {
 			return
 		})
 	}
-	
-	func newCategorySelected(_ indexPath : Int) {
-		
-		UIView.animate(withDuration: 0.5, animations: {
-			self.contentView.categoryCollectionView.alpha = 0.0
-			return
-		})
-		
-		selectedCategory = indexPath
-		
-		contentView.headerView.category.text = categories[selectedCategory].mainPageData.displayName
-		
-		filteredSubjects = []
-		contentView.tableView.reloadData()
-		
-		UIView.animate(withDuration: 0.5, animations: {
-			self.contentView.categoryCollectionView.alpha = 1.0
-			self.contentView.searchBar.placeholder = self.categories[self.selectedCategory].subcategory.phrase
-			
-			return
-		})
-	}
-	
+
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonBack {
 			self.dismissKeyboard()
@@ -294,10 +275,15 @@ extension SearchSubjects : SelectedSubcategory {
 	func didSelectSubcategory(resource: String, subject: String, index: Int) {
 		
 		let next = TutorConnect()
+		let transition = CATransition()
+		let nav = self.navigationController
+		
 		next.subcategory = subject.lowercased()
+		next.contentView.searchBar.placeholder = subject
 		
 		DispatchQueue.main.async {
-			self.navigationController?.pushViewController(next, animated: true)
+			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+			nav?.pushViewController(next, animated: false)
 		}
 	}
 }
@@ -321,13 +307,11 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
 		guard let cell = collectionView.cellForItem(at: indexPath) as? CategorySelectionCollectionViewCell else { return }
-		let next = TutorConnect()
 		
+		let next = TutorConnect()
+
 		next.subcategory = cell.category.subcategory.subcategories[indexPath.item]
 		
-		DispatchQueue.main.async {
-			self.navigationController?.pushViewController(next, animated: true)
-		}
 	}
 	
 	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -378,16 +362,21 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 		guard let cell = tableView.cellForRow(at: indexPath) as? SubjectTableViewCell else { return }
 		
 		let next = TutorConnect()
+		let navigationController = self.navigationController
+		let transition = CATransition()
 		
 		next.subject = (cell.subcategory.text!,cell.subject.text!)
+		next.contentView.searchBar.placeholder = cell.subject.text!
 		
 		DispatchQueue.main.async {
-			self.navigationController?.pushViewController(next, animated: true)
+			navigationController?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+			navigationController?.pushViewController(next, animated: false)
 		}
 	}
 	
 	internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		if section == 0 {
+			contentView.headerView.category.text = ""
 			return contentView.headerView
 		}
 		let view : UIView = {
@@ -439,6 +428,7 @@ extension SearchSubjects : UISearchBarDelegate {
 		}
 		
 	}
+	
 	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		automaticScroll = true
 		
@@ -485,5 +475,15 @@ extension SearchSubjects : UIScrollViewDelegate {
 		let indexPath = IndexPath(row: 0, section: 0)
 		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
 		automaticScroll = false
+	}
+	
+	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+		let x = scrollView.contentOffset.x
+		let w = scrollView.bounds.size.width
+		let currentPage = Int(ceil(x / w))
+		
+		if currentPage < 12 {
+			contentView.searchBar.placeholder = categories[currentPage].subcategory.phrase
+		}
 	}
 }

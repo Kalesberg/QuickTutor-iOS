@@ -44,9 +44,12 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		}
 	}
 	
-	var view : UIView!
+	var category : Category! {
+		didSet{
+			collectionView.reloadData()
+		}
+	}
 	
-
 	func configureTableViewCell() {
 		addSubview(collectionView)
 		
@@ -97,9 +100,17 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 			let tutor = datasource![indexPath.item]
 			
 			next.featuredTutor = tutor
-			navigationController.pushViewController(next, animated: true)
-//			current.present(next, animated: true, completion: nil)
+			next.contentView.rightButton.isHidden = true
+			next.contentView.searchBar.isUserInteractionEnabled = false
+			next.contentView.searchBar.placeholder = "\(category.mainPageData.displayName) • \(tutor.topSubject!)"
 			
+			let transition = CATransition()
+			
+			DispatchQueue.main.async {
+				let nav = navigationController
+				nav.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav.pushViewController(next, animated: false)
+			}
 		}
 	}
 	

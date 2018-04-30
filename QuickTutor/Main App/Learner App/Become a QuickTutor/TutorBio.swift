@@ -119,7 +119,7 @@ class TutorBio: BaseViewController {
 			}
 			
 			TutorRegistration.tutorBio = bio
-			navigationController?.pushViewController(TutorPolicy(), animated: true)
+			navigationController?.pushViewController(TutorSSN(), animated: true)
 		}
 	}
 	

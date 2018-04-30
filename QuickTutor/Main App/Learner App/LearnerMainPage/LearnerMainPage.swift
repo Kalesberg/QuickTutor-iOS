@@ -76,12 +76,11 @@ class LearnerMainPageView : MainPageView {
 		sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: sidebar.bounds)
 		tableView.layoutSubviews()
 		tableView.layoutIfNeeded()
-	
+		
 	}
 }
-import Firebase
 class LearnerMainPage : MainPage {
-
+	
 	override var contentView: LearnerMainPageView {
 		return view as! LearnerMainPageView
 	}
@@ -97,40 +96,48 @@ class LearnerMainPage : MainPage {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		learner = CurrentUser.shared.learner
+
+		FirebaseData.manager.getLearner(Auth.auth().currentUser!.uid) { (learner) in
+			if let learner = learner {
+				AccountService.shared.currentUserType = .learner
+				self.learner = learner
+
+				Stripe.stripeManager.retrieveCustomer(cusID: learner.customer) { (customer, error) in
+					if let error = error{
+						print(error.localizedDescription)
+					} else if let customer = customer {
+						learner.hasPayment = (customer.sources.count > 0)
+					}
+					self.configureSideBarView()
+				}
+			} else {
+				try! Auth.auth().signOut()
+				self.navigationController?.pushViewController(SignIn(), animated: true)
+			}
+		}
 		
 		QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category.prefix(4))) { (datasource) in
 			if let datasource = datasource {
-
+				
 				self.contentView.tableView.performBatchUpdates({
-				
+					
 					self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-				
+					
 					self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
-				
+					
 				}, completion: { (finished) in
 					if finished {
-					self.didLoadMore = false
+						self.didLoadMore = false
 					}
 				})
 			}
 		}
-		
-		AccountService.shared.currentUserType = .learner
-		
-		if learner.isTutor {
-			contentView.sidebar.becomeQTItem.label.label.text = "Start Tutoring"
-		} else {
-			contentView.sidebar.becomeQTItem.label.label.text = "Become A Tutor"
-		}
-		
 		configureView()
-	
 	}
-	override func updateSideBar() {
+	private func configureSideBarView(){
 		
-        let formattedString = NSMutableAttributedString()
+		let formattedString = NSMutableAttributedString()
+		contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become A Tutor"
 		
 		if !(learner.school == "") {
 			formattedString
@@ -140,6 +147,7 @@ class LearnerMainPage : MainPage {
 			formattedString
 				.bold(learner.name, 17, .white)
 		}
+		
 		contentView.sidebar.ratingView.ratingLabel.text = String(learner.lRating)
 		contentView.sidebar.profileView.profileNameView.attributedText = formattedString
 		contentView.sidebar.profileView.profilePicView.loadUserImages(by: learner.images["image1"]!)
@@ -159,17 +167,42 @@ class LearnerMainPage : MainPage {
 		super.handleNavigation()
 		
 		if(touchStartView == contentView.sidebar.paymentItem) {
-			navigationController?.pushViewController(hasPaymentMethod ? CardManager() : LearnerPayment(), animated: true)
+			
+			let transition = CATransition()
+			let nav = self.navigationController
+			
+			let next = CardManager()
+			next.customerId = learner.customer
+			
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav?.pushViewController(next, animated: false)
+			}
+			
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.settingsItem) {
-			navigationController?.pushViewController(LearnerSettings(), animated: true)
+			let next = LearnerSettings()
+			next.learner = self.learner
+			let transition = CATransition()
+			let nav = self.navigationController
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.segueFromLeft(), forKey: nil)
+				nav?.pushViewController(next, animated: false)
+			}
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.profileView) {
 			let next = LearnerMyProfile()
 			next.learner = self.learner
-			navigationController?.pushViewController(next, animated: true)
+			
+			let transition = CATransition()
+			let nav = self.navigationController
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav?.pushViewController(next, animated: false)
+			}
+			
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.reportItem) {
@@ -188,29 +221,23 @@ class LearnerMainPage : MainPage {
 				UIApplication.shared.openURL(url)
 			}
 		} else if(touchStartView == contentView.sidebar.helpItem) {
-			navigationController?.pushViewController(LearnerHelp(), animated: true)
+			let transition = CATransition()
+			let nav = self.navigationController
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav?.pushViewController(LearnerHelp(), animated: false)
+			}
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.becomeQTItem) {
-			
-			if CurrentUser.shared.learner.isTutor {
-				FirebaseData.manager.getTutor(Auth.auth().currentUser!.uid) { (tutor) in
-					if let tutor = tutor {
-						CurrentUser.shared.tutor = tutor
-						AccountService.shared.currentUserType = .tutor
-						self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-					} else {
-						print("oops?")
-						return
-					}
+				AccountService.shared.currentUserType = .tutor
+				if learner.isTutor {
+					self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+				} else {
+					self.navigationController?.pushViewController(BecomeTutor(), animated: true)
 				}
-			} else {
-				self.navigationController?.pushViewController(BecomeTutor(), animated: true)
-			}
-	
 			hideSidebar()
 			hideBackground()
-			
 		} else if (touchStartView is SearchBar) {
 			navigationController?.pushViewController(SearchSubjects(), animated: true)
 		}
@@ -224,15 +251,15 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480)  {
-                return 180
-            } else {
-                return 210
-            }
-        } else {
-            return 170.0
-        }
+		if indexPath.section == 0 {
+			if UIScreen.main.bounds.height == 568 {
+				return 180
+			} else {
+				return 210
+			}
+		} else {
+			return 170.0
+		}
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -247,7 +274,8 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
 			
 			cell.datasource = self.datasource[category[indexPath.section - 1]]
-
+			cell.category =  category[indexPath.section - 1]
+			
 			return cell
 		}
 	}

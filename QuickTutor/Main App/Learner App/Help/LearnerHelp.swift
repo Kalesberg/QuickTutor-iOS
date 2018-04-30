@@ -20,7 +20,8 @@ class HelpHeader : MainLayoutTitleBackButton {
         
         header.label.font = Fonts.createSize(22)
     }
-    
+	
+	
     override func applyConstraints() {
         super.applyConstraints()
         
@@ -39,12 +40,21 @@ class HelpHeader : MainLayoutTitleBackButton {
     }
 }
 
-class LearnerHelpView : MainLayoutTitleBackButton {
+class LearnerHelpView : MainLayoutTitleOneButton {
     
     var subtitle = LeftTextLabel()
     var tableView                   = UITableView()
     var header                     = UIView()
-    
+	
+	var backButton = NavbarButtonX()
+	
+	override var leftButton: NavbarButton {
+		get {
+			return backButton
+		} set {
+			backButton = newValue as! NavbarButtonX
+		}
+	}
     override func configureView() {
         addSubview(subtitle)
         addSubview(tableView)
@@ -269,6 +279,17 @@ class LearnerHelp : BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+	override func handleNavigation() {
+		if touchStartView is NavbarButtonX {
+			let transition = CATransition()
+			let nav = self.navigationController
+			
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+				nav?.popViewController(animated: false)
+			}
+		}
+	}
 }
 
 extension LearnerHelp : UITableViewDataSource, UITableViewDelegate {

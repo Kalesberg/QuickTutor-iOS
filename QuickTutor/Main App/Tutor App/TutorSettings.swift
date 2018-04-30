@@ -14,7 +14,18 @@ class TutorSettingsView : LearnerSettingsView {
     
     var visibleOnQT = ItemToggle()
     var visibleInfoLabel = SettingsItem()
-    
+	
+	var tutorProfileView = SettingsProfileView()
+	
+	override var profileView: SettingsProfileView {
+		get {
+			return tutorProfileView
+		}
+		set {
+			tutorProfileView = newValue as SettingsProfileView
+		}
+	}
+	
     override func configureView() {
         scrollView.addSubview(visibleOnQT)
         scrollView.addSubview(visibleInfoLabel)
@@ -65,7 +76,6 @@ class TutorSettingsView : LearnerSettingsView {
             make.height.equalTo(50)
         }
     }
-    
 }
 
 class TutorSettings : BaseViewController {
@@ -73,12 +83,19 @@ class TutorSettings : BaseViewController {
     override var contentView: TutorSettingsView {
         return view as! TutorSettingsView
     }
-    
+	
+	var tutor : AWTutor!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
+		
+		tutor = CurrentUser.shared.tutor
+		
+		contentView.profileView.imageView.loadUserImages(by: tutor.images["image1"]!)
+		contentView.profileView.label.text = "\(tutor.name!)\n\(tutor.phone.formatPhoneNumber())\n\(tutor.email!)"
     }
     override func loadView() {
         view = TutorSettingsView()
@@ -88,6 +105,11 @@ class TutorSettings : BaseViewController {
     }
     
     override func handleNavigation() {
-        
+		if touchStartView is NavbarButtonX {
+			let nav = self.navigationController
+			let transition = CATransition()
+			nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+			nav?.popViewController(animated: false)
+		}
     }
 }

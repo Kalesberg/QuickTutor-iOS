@@ -594,13 +594,17 @@ class LearnerPayment : BaseViewController {
             
         } else {
             //start animation here..
-            Stripe.stripeManager.attachSource(adding: self.card, completion: { (error) in
+			Stripe.stripeManager.attachSource(cusID: CurrentUser.shared.learner.customer, adding: self.card, completion: { (error) in
                 if let error = error {
                     print("Error: ", error.localizedDescription)
                     self.contentView.nextButton.isUserInteractionEnabled = true
                 } else {
-                    UserDefaultData.localDataManager.addCard()
-                    self.navigationController?.popBackToMain()
+					let nav = self.navigationController
+					let transition = CATransition()
+					DispatchQueue.main.async {
+						nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+						nav?.popBackToMain()
+					}
                 }
             })
         }
