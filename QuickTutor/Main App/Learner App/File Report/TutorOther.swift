@@ -13,7 +13,7 @@ class TutorOtherView : FileReportSubmissionLayout {
     
     override func configureView() {
         super.configureView()
-        header.label.text = "Other"
+        header.text = "Other"
         
         textBody.font = Fonts.createSize(14)
         textBody.text = "QuickTutor's mission is to ensure all learners have the best experience possible. Tell us what happened during your session and we'll do our best to make sure it doesn't happen again. Refer to the Learner Handbook for more information."
@@ -46,11 +46,12 @@ class TutorOther : SubmissionViewController {
     
 	override func handleNavigation() {
 		if touchStartView == contentView.submitButton {
-			if contentView.textView.textView.text!.count > 20 {
-				submitReport()
-			} else {
-				print("Please give us a breif description of what happened.")
-			}
+            if contentView.textView.textView.text!.count < 20 {
+                contentView.errorLabel.isHidden = false
+            } else {
+                contentView.errorLabel.isHidden = true
+                submitReport()
+            }
 		}
 	}
 	

@@ -21,7 +21,7 @@ class PaymentDeclinedView : MainLayoutHeader {
         super.configureView()
         
         title.label.text = "Help"
-        header.label.text = "Why was my payment declined?"
+        header.text = "Why was my payment declined?"
         
         strings = ["•  “Card Declined”.\n", "•  “Payment method invalid. Please review your settings.”\n", "•  “Transaction error.”"]
         

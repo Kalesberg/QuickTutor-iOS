@@ -134,7 +134,7 @@ class TutorMainPageView : MainPageView {
         
         var height : Int
         
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             height = 75
         } else {
             height = 100

@@ -52,7 +52,7 @@ class SubjectCollectionViewCell : UICollectionViewCell {
 		imageView.snp.makeConstraints { (make) in
 			make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().inset(-10)
-            if UIScreen.main.bounds.height == 568 {
+            if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
                 make.height.width.equalToSuperview().multipliedBy(0.6)
             } else {
                 make.height.width.equalToSuperview().multipliedBy(0.65)

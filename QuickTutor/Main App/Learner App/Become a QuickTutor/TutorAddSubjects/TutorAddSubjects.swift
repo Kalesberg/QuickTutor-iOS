@@ -176,7 +176,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
         categoryCollectionView.snp.makeConstraints { (make) in
             make.top.equalTo(pickedCollectionView.snp.bottom)
             make.width.equalToSuperview()
-            if UIScreen.main.bounds.height == 568 {
+            if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
                 make.height.equalTo(235)
             } else {
                 make.height.equalTo(295)

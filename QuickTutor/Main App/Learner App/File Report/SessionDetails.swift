@@ -20,7 +20,7 @@ class SessionDetailsView : MainLayoutHeader {
         super.configureView()
 		
         title.label.text = "File Report"
-        header.label.text = "Session Details"
+        header.text = "Session Details"
 		
 		tableView.estimatedRowHeight = 44
 		tableView.rowHeight = UITableViewAutomaticDimension

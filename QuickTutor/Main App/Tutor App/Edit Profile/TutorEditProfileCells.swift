@@ -32,7 +32,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
         
         var height : Int
         
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             height = 67
         } else {
             height = 75
@@ -331,7 +331,7 @@ class BaseSlider : UISlider {
         
         var width : Int
         
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             width = 230
         } else {
             width = 280
@@ -385,7 +385,7 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
         
         var width : Int
         
-        if (UIScreen.main.bounds.height == 568) {
+        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             width = 230
         } else {
             width = 290

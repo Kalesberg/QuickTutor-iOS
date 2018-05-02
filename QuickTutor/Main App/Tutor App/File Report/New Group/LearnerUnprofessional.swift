@@ -14,9 +14,8 @@ class LearnerUnprofessionalView : TutorUnprofessionalView {
     
     override func configureView() {
         super.configureView()
-        
-        header.label.font = Fonts.createSize(21.5)
-        header.label.text = "My learner was unprofessional"
+    
+        header.text = "My learner was unprofessional"
     }
 }
 
