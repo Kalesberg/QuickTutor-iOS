@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import Stripe
 
 class AddBankButton : InteractableView, Interactable {
     
@@ -191,6 +192,11 @@ class TutorRegPayment: BaseViewController {
 	override func loadView() {
 		view = TutorRegPaymentView()
 	}
+	
+	var fullName : String!
+	var routingNumber : String!
+	var accountNumber : String!
+	
 	override func viewDidLoad() {
         super.viewDidLoad()
 		
@@ -211,13 +217,6 @@ class TutorRegPayment: BaseViewController {
 		super.viewDidDisappear(animated)
 		contentView.resignFirstResponder()
 	}
-	
-    override func handleNavigation() {
-        if (touchStartView is AddBankButton) {
-			contentView.addBankButton.isUserInteractionEnabled = false
-			self.navigationController?.pushViewController(TutorAddress(), animated: true)
-        }
-    }
 	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -251,10 +250,41 @@ class TutorRegPayment: BaseViewController {
         contentView.addBankButton.alpha = 1.0
 		contentView.addBankButton.isUserInteractionEnabled = true
 		
-		TutorRegistration.bankHoldersName = name
-		TutorRegistration.routingNumber = routingNumber
-		TutorRegistration.accountNumber = accountNumber
-
+		self.fullName = name
+		self.routingNumber = routingNumber
+		self.accountNumber = accountNumber
+	
+	}
+	
+	private func getTutorBankToken(completion: @escaping (Error?) -> Void) {
+		let bankAccount = STPBankAccountParams()
+		
+		bankAccount.accountHolderName = self.fullName
+		bankAccount.routingNumber = self.routingNumber
+		bankAccount.accountNumber = self.accountNumber
+		bankAccount.country = "US"
+		
+		STPAPIClient.shared().createToken(withBankAccount: bankAccount) { (token, error) in
+			if let error = error {
+				completion(error)
+			} else if let token = token {
+				completion(nil)
+			}
+		}
+	}
+	
+	override func handleNavigation() {
+		if (touchStartView is AddBankButton) {
+			contentView.addBankButton.isUserInteractionEnabled = false
+			getTutorBankToken { (error) in
+				if let error = error {
+					print(error.localizedDescription)
+					self.contentView.addBankButton.isUserInteractionEnabled = false
+				} else {
+					self.navigationController?.pushViewController(TutorAddress(), animated: true)
+				}
+			}
+		}
 	}
 }
 extension TutorRegPayment : UITextFieldDelegate {

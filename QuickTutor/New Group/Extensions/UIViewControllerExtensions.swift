@@ -52,6 +52,16 @@ extension UINavigationController {
 			}
 		}
 	}
+	func popBackToMainWithAddTutor(){
+		for controller in self.viewControllers {
+			if controller is LearnerPageViewController {
+				popViewControllerWithHandler {
+					self.pushViewController(MessagesVC(), animated: true)
+				}
+				break
+			}
+		}
+	}
 	func popBackToTutorMain() {
 		for controller in self.viewControllers {
 			if controller is TutorPageViewController {
@@ -62,18 +72,25 @@ extension UINavigationController {
 			}
 		}
 	}
-	
 	func popViewControllerWithHandler(completion: @escaping ()->()) {
-		for controller in self.viewControllers {
-			if controller is LearnerPageViewController {
-				CATransaction.begin()
-				CATransaction.setCompletionBlock(completion)
-				self.popViewController(animated: true)
-				CATransaction.commit()
-				break
-			} else {
-				print("unable to pop!")
-			}
+
+		CATransaction.begin()
+		CATransaction.setCompletionBlock(completion)
+		
+		let nav = self
+		let transition = CATransition()
+		
+		nav.view.layer.add(transition.popFromTop(), forKey: nil)
+		nav.popViewController(animated: true)
+		
+		CATransaction.commit()
+	}
+	func popThenPopThenPopTHenPushSon() {
+		popViewControllerWithHandler {
+			
+		}
+		self.popViewControllerWithHandler {
+			self.pushViewController(MessagesVC(), animated: true)
 		}
 	}
 }
