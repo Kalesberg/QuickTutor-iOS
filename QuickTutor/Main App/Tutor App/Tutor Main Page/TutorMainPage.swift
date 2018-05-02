@@ -80,7 +80,7 @@ class TutorMainPageView : MainPageView {
         
         qtText.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().inset(6)
+            make.centerY.equalToSuperview()
         }
         
         nameLabel.snp.makeConstraints { (make) in

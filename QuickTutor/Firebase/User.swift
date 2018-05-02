@@ -49,9 +49,9 @@ class AWLearner {
 		bio 		= dictionary["bio"] 	as? String ?? ""
 		birthday 	= dictionary["bd"] 		as? String ?? ""
 		email 	  	= dictionary["em"] 		as? String ?? ""
-		school	  	= dictionary["sch"] 	as? String ?? ""
+		school	  	= dictionary["sch"] 	as? String ?? nil
 		phone 	  	= dictionary["phn"] 	as? String ?? ""
-		languages 	= dictionary["lng"] 	as? [String] ?? []
+		languages 	= dictionary["lng"] 	as? [String] ?? nil
 		customer 	= dictionary["cus"] 	as? String ?? ""
 		
 		lRating 		= dictionary["r"] 		as? Double ?? 0.0

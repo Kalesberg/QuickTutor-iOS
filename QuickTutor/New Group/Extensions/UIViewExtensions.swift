@@ -42,6 +42,14 @@ extension UIView {
         return paragraphStyle
     }
     
+    func shake() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.duration = 0.7
+        animation.values = [-5, 5, -2.5, 2.5, -1, 1]
+        layer.add(animation, forKey: "shake")
+    }
+    
     func fadeIn(withDuration duration: TimeInterval, alpha: CGFloat) {
         UIView.animate(withDuration: duration, animations: {
             self.alpha = alpha
