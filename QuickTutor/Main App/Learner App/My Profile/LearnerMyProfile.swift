@@ -4,15 +4,7 @@
 //
 //  Created by QuickTutor on 1/28/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-//
-//TODO: Design
-//  - Instagram scroll view
-//  - course codes?
-//
-//TODO: Backend
-//  - fix up the if let for the bio text... if the bio is changed to empty, it doesnt set the placeholder text
-//  - test to see if the constraints work properly with no school in profile
-//  - tableview in Reviews, i have the cell view that would be inserted
+
 
 import Foundation
 import UIKit
@@ -53,65 +45,6 @@ class SeeAllButton: InteractableView, Interactable {
     }
 }
 
-
-class ReviewView : BaseView {
-    
-    var profilePic = UIImageView()
-    var nameLabel = UILabel()
-    var dateSubjectLabel = UILabel()
-    var reviewTextLabel = UILabel()
-    
-    override func configureView() {
-        addSubview(profilePic)
-        addSubview(nameLabel)
-        addSubview(dateSubjectLabel)
-        addSubview(reviewTextLabel)
-        super.configureView()
-
-        layer.cornerRadius = 15
-        layer.borderWidth = 1.5
-        layer.borderColor = Colors.sidebarPurple.cgColor
-        
-        profilePic.scaleImage()
-        
-        nameLabel.textColor = .white
-        nameLabel.font = Fonts.createBoldSize(16)
-        
-        dateSubjectLabel.textColor = Colors.grayText
-        dateSubjectLabel.font = Fonts.createSize(13)
-        
-        reviewTextLabel.textColor = Colors.grayText
-        reviewTextLabel.font = Fonts.createItalicSize(14)
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-       
-        profilePic.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(7)
-            make.centerY.equalToSuperview()
-            make.height.equalTo(50)
-            make.width.equalTo(50)
-        }
-        
-        nameLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(profilePic.snp.right).inset(-10)
-            make.centerY.equalToSuperview().multipliedBy(0.7)
-        }
-        
-        dateSubjectLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel.snp.right).inset(-8)
-            make.centerY.equalTo(nameLabel)
-        }
-        
-        reviewTextLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(profilePic.snp.right).inset(-10)
-            make.centerY.equalToSuperview().multipliedBy(1.4)
-            make.right.equalToSuperview().inset(3)
-        }
-    }
-}
 
 class LearnerMyProfileView : MainLayoutTitleTwoButton {
     
@@ -277,75 +210,19 @@ class ImageContainer : InteractableView {
     }
 }
 
-class AboutMeView : BaseView {
-		
-    var aboutMeLabel = LeftTextLabel()
-    var bioLabel = UILabel()
-    var divider1 = BaseView()
-    var divider2 = BaseView()
-    
-    override func configureView() {
-        addSubview(aboutMeLabel)
-        addSubview(divider1)
-        addSubview(bioLabel)
-        addSubview(divider2)
-        super.configureView()
-        
-        aboutMeLabel.label.font = Fonts.createBoldSize(18)
-        aboutMeLabel.label.text = "About Me"
-        aboutMeLabel.sizeToFit()
-        
-        bioLabel.textColor = Colors.grayText
-        bioLabel.font = Fonts.createSize(13)
-        bioLabel.numberOfLines = 0
-        
-        divider1.backgroundColor = Colors.divider
-        divider2.backgroundColor = Colors.divider
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        aboutMeLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.height.equalTo(30)
-            make.top.equalToSuperview()
-        }
-        
-        bioLabel.snp.makeConstraints { (make) in
-            make.width.equalToSuperview().multipliedBy(0.95)
-            make.centerX.equalToSuperview()
-            make.top.equalTo(aboutMeLabel.snp.bottom)
-        }
-        
-        divider1.snp.makeConstraints { (make) in
-            make.left.equalTo(aboutMeLabel.snp.right).inset(-10)
-            make.centerY.equalTo(aboutMeLabel)
-            make.height.equalTo(0.5)
-            make.right.equalToSuperview()
-        }
-        
-        divider2.snp.makeConstraints { (make) in
-            make.height.equalTo(0.5)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.top.equalTo(bioLabel.snp.bottom).inset(-10)
-        }
-    }
-}
 
 class ProfileItem : BaseView {
-    
+
     var imageView = UIImageView()
     var label = UILabel()
-    
+
     override func configureView() {
         addSubview(imageView)
         addSubview(label)
         super.configureView()
-        
+
         imageView.scaleImage()
-        
+
         label.textColor = .white
         label.textAlignment = .left
         label.sizeToFit()
@@ -355,17 +232,17 @@ class ProfileItem : BaseView {
         label.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         translatesAutoresizingMaskIntoConstraints = false
-        
+
         applyConstraints()
     }
-    
+
     override func applyConstraints() {
         label.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.left.equalTo(imageView.snp.right).inset(-5)
             make.right.equalToSuperview().inset(3)
         }
-        
+
         imageView.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview()
@@ -373,7 +250,7 @@ class ProfileItem : BaseView {
             make.width.equalTo(25)
         }
     }
-    
+
     func constraintItem(top: ConstraintItem) {
         self.snp.makeConstraints { (make) in
             make.top.equalTo(top)
@@ -434,42 +311,6 @@ class ReviewLabel : BaseView {
     }
 }
 
-class LocationItem : ProfileItem {
-    
-    override func configureView() {
-        super.configureView()
-        
-        label.text = "Mount Pleasant, Michigan"
-        label.textAlignment = .center
-        imageView.image = UIImage(named: "location")
-    }
-    
-//    override func applyConstraints() {
-
-//
-//        imageView.snp.makeConstraints { (make) in
-//
-//        }
-//    }
-}
-
-class MyProfileScrollView : BaseScrollView {
-    
-    override func handleNavigation() {
-        let vc = (next?.next as! LearnerMyProfile)
-        
-        if(touchStartView is ProfilePicInteractable) {
-            vc.contentView.backgroundView.alpha = 0.65
-            vc.contentView.xButton.alpha = 1.0
-            vc.horizontalScrollView.isUserInteractionEnabled = true
-            vc.horizontalScrollView.isHidden = false
-            vc.contentView.leftButton.isHidden = true
-        } else if (touchStartView is SeeAllButton) {
-            navigationController.pushViewController(LearnerReviews(), animated: true)
-        }
-
-    }
-}
 
 class LearnerMyProfile : BaseViewController {
     

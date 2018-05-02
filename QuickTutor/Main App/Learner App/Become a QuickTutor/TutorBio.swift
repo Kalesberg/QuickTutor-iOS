@@ -2,14 +2,19 @@ import UIKit
 import SnapKit
 
 class TutorBioView : EditBioView {
-	
-	var nextButton = RegistrationNextButton()
+    
+    var nextButton = NavbarButtonNext()
+    
+    override var rightButton: NavbarButton {
+        get {
+            return nextButton
+        } set {
+            nextButton = newValue as! NavbarButtonNext
+        }
+    }
 	
 	override func configureView() {
-        addSubview(nextButton)
 		super.configureView()
-        insertSubview(nextButton, aboveSubview: contentView)
-		rightButton.isHidden = true
 		
 		title.label.text = "Biography"
 		textView.textView.text = ""
@@ -26,57 +31,24 @@ class TutorBioView : EditBioView {
 	
 	override func applyConstraints() {
 		super.applyConstraints()
-		
-		nextButton.snp.makeConstraints { (make) in
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
-			make.width.equalToSuperview()
-			make.height.equalTo(60)
-			make.centerX.equalToSuperview()
-        }
 	}
 	
 	override func keyboardWillAppear() {
         if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
-            infoLabel.alpha = 0.0
-            nextButton.alpha = 0.0
+            UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
+                self.infoLabel.alpha = 0.0
+            })
             return
         }
-    
-        nextButton.snp.removeConstraints()
-        nextButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(keyboardView.snp.top)
-            make.width.equalToSuperview()
-            make.height.equalTo(60)
-            make.centerX.equalToSuperview()
-        }
-        
-        needsUpdateConstraints()
-        layoutIfNeeded()
     }
 	
 	override func keyboardWillDisappear() {
         if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
             UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
                 self.infoLabel.alpha = 1.0
-                self.nextButton.alpha = 1.0
             })
-            
             return
         }
-            
-        nextButton.snp.removeConstraints()
-        nextButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
-            make.width.equalToSuperview()
-            make.height.equalTo(60)
-            make.centerX.equalToSuperview()
-        }
-        
-        needsUpdateConstraints()
-        
-        UIView.animate(withDuration: 0.2, animations: {
-            self.layoutIfNeeded()
-        })
 	}
 }
 
@@ -111,10 +83,13 @@ class TutorBio: BaseViewController {
 		contentView.textView.textView.resignFirstResponder()
 	}
 	override func handleNavigation() {
-		if (touchStartView is RegistrationNextButton) {
+		if (touchStartView is NavbarButtonNext) {
 			
 			guard let bio = contentView.textView.textView.text, bio.count > 20 else {
-				print("Add a bio my dude.")
+                if !contentView.errorLabel.isHidden {
+                    contentView.errorLabel.shake()
+                }
+				contentView.errorLabel.isHidden = false
 				return
 			}
 			

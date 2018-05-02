@@ -180,3 +180,12 @@ class NavbarButtonDone: NavbarButtonText {
         label.label.text = "Done"
     }
 }
+
+class NavbarButtonNext: NavbarButtonText {
+    
+    override func configureView() {
+        super.configureView()
+        
+        label.label.text = "Next"
+    }
+}

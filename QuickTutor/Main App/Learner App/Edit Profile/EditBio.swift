@@ -248,14 +248,18 @@ class EditBio : BaseViewController {
     override func handleNavigation() {
         if (touchStartView is NavbarButtonSave) {
             if contentView.textView.textView.text.count < 20 {
-                contentView.errorLabel.isHidden = false
+                if !contentView.errorLabel.isHidden {
+                    contentView.errorLabel.shake()
+                } else {
+                    contentView.errorLabel.isHidden = false
+                }
             } else {
                 contentView.errorLabel.isHidden = true
                 self.dismissKeyboard()
                 saveChanges()
             }
 		} else if (touchStartView is NavbarButtonBack) {
-            if contentView.textView.textView.text.count < 20 {
+            if contentView.textView.textView.text.count < 20 && !(contentView.textView.textView.text.count == 0) {
                 contentView.errorLabel.isHidden = false
             } else if originalBio != contentView.textView.textView.text {
 				changedEditBioAlert()
