@@ -320,7 +320,7 @@ class LearnerMyProfile : BaseViewController {
 	
 	var pageCount : Int {
 		var count = 0
-		LearnerData.userData.images.forEach { (_,value) in
+		learner.images.forEach { (_,value) in
 			if value != "" {
 				count += 1
 			}
@@ -361,15 +361,16 @@ class LearnerMyProfile : BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		
-	}
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
 		configurePageControl()
 		configureScrollView()
 		setUpImages()
-        contentView.tableView.reloadData()
+		contentView.tableView.reloadData()
+	}
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//		configurePageControl()
+//		configureScrollView()
+//		setUpImages()
     }
 
 	private func setUpImages() {
@@ -380,7 +381,7 @@ class LearnerMyProfile : BaseViewController {
 				print("nothing...")
 				continue
 			}
-			print("dound image\(number)")
+			print("found image\(number)")
 			
 			count += 1
 			setImage(number, count)
@@ -388,7 +389,7 @@ class LearnerMyProfile : BaseViewController {
 	}
 	private func setImage(_ number: Int, _ count: Int) {
 		let imageView = UIImageView()
-		imageView.loadUserImages(by: learner.images["image1"]!)
+		imageView.loadUserImages(by: learner.images["image\(number)"]!)
         imageView.scaleImage()
 		
 		self.horizontalScrollView.addSubview(imageView)
@@ -447,20 +448,30 @@ class LearnerMyProfile : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView is NavbarButtonEdit) {
+			
 			let next = LearnerEditProfile()
 			next.learner = self.learner
-            navigationController?.pushViewController(next, animated: true)
-        } else if(touchStartView == contentView.xButton) {
-            contentView.backgroundView.alpha = 0.0
+			
+			navigationController?.pushViewController(next, animated: true)
+			
+		} else if(touchStartView == contentView.xButton) {
+			
+			contentView.backgroundView.alpha = 0.0
             contentView.xButton.alpha = 0.0
-            horizontalScrollView.isUserInteractionEnabled = false
+			contentView.leftButton.isHidden = false
+
+			horizontalScrollView.isUserInteractionEnabled = false
             horizontalScrollView.isHidden = true
-            contentView.leftButton.isHidden = false
+			
+		
 		} else if (touchStartView == contentView.backButton) {
+			
 			let transition = CATransition()
 			let nav = self.navigationController
-			nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-			nav?.popBackToMain()
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+				nav?.popBackToMain()
+			}
 		}
     }
 }
@@ -510,7 +521,6 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             
             //cell.tutorItem.label.text = "Tutored in \(LearnerData.userData.numSessions!) sessions"
             cell.tutorItem.label.text = "Tutored in 0 sessions"
-			
 			if let languages = learner.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
                 cell.contentView.addSubview(cell.speakItem)

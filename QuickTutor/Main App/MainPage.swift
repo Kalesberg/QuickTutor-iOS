@@ -123,7 +123,7 @@ class MainPage : BaseViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 
-        hasPaymentMethod = UserDefaultData.localDataManager.hasPaymentMethod
+		hasPaymentMethod = UserDefaultData.localDataManager.hasPaymentMethod
         hasStudentBio = UserDefaultData.localDataManager.hasBio
 	}
     
@@ -149,7 +149,7 @@ class MainPage : BaseViewController {
             let startX = self.contentView.sidebar.center.x
             self.contentView.sidebar.center.x = (startX * -1)
             self.contentView.sidebar.alpha = 1.0
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseIn, animations: {
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
                 self.contentView.sidebar.center.x = startX
             })
             self.contentView.sidebar.isUserInteractionEnabled = true
@@ -157,7 +157,7 @@ class MainPage : BaseViewController {
         } else if(touchStartView! == contentView.backgroundView) {
             self.contentView.sidebar.isUserInteractionEnabled = false
             let startX = self.contentView.sidebar.center.x
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
                self.contentView.sidebar.center.x *= -1
             }, completion: { (value: Bool) in
                 self.contentView.sidebar.alpha = 0
@@ -165,7 +165,9 @@ class MainPage : BaseViewController {
             })
             hideBackground()
         } else if(touchStartView == contentView.messagesButton) {
-			parentPageViewController.goToNextPage()
+//			parentPageViewController.goToNextPage()
+			
+			parentPageViewController.setViewControllers([MessagesVC()], direction: .forward, animated: true, completion: nil)
 
         }
     }

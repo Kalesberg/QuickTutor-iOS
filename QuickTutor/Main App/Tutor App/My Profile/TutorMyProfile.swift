@@ -64,7 +64,7 @@ class TutorMyProfile : BaseViewController {
 		configureScrollView()
 		configurePageControl()
 		setUpImages()
-
+		contentView.tableView.reloadData()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -90,6 +90,7 @@ class TutorMyProfile : BaseViewController {
 		contentView.tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
 		contentView.tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
 		contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+		contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
 		contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
 	}
 	private func configureScrollView() {
@@ -116,7 +117,7 @@ class TutorMyProfile : BaseViewController {
 		pageControl.numberOfPages = pageCount
 		pageControl.currentPage = 0
 		pageControl.pageIndicatorTintColor = .white
-		pageControl.currentPageIndicatorTintColor = Colors.learnerPurple
+		pageControl.currentPageIndicatorTintColor = Colors.tutorBlue
 		contentView.backgroundView.addSubview(pageControl)
 		
 		pageControl.snp.makeConstraints { (make) in
@@ -146,7 +147,7 @@ class TutorMyProfile : BaseViewController {
 	private func setImage(_ number: Int, _ count: Int) {
 		
 		let imageView = UIImageView()
-		imageView.loadUserImages(by: tutor.images["image1"]!)
+		imageView.loadUserImages(by: tutor.images["image\(number)"]!)
 		imageView.scaleImage()
 		
 		self.horizontalScrollView.addSubview(imageView)
@@ -169,14 +170,14 @@ class TutorMyProfile : BaseViewController {
 			let next = TutorEditProfile()
 			next.tutor = tutor
 			navigationController?.pushViewController(next, animated: true)
-		} else if(touchStartView == contentView.editButton) {
+		} else if(touchStartView == contentView.xButton) {
+
 			contentView.backgroundView.alpha = 0.0
 			contentView.xButton.alpha = 0.0
 			horizontalScrollView.isUserInteractionEnabled = false
 			horizontalScrollView.isHidden = true
 			contentView.leftButton.isHidden = false
-		}
-		else if touchStartView == contentView.backButton {
+		} else if touchStartView == contentView.backButton {
 			let transition = CATransition()
 			let nav = self.navigationController
 			nav?.view.layer.add(transition.popFromTop(), forKey: nil)
@@ -317,19 +318,24 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			return cell
 			
 		case 4:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-			
-			if let reviews = tutor.reviews {
-				if reviews.count <= 2 {
-					cell.datasource = reviews
-					cell.seeAllButton.isHidden = true
-				} else {
-					cell.datasource = Array(reviews[0..<2])
-					cell.seeAllButton.isHidden = false	
 
-				}
+			guard let datasource = tutor.reviews else {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as!
+				NoRatingsTableViewCell
+				return cell
 			}
 			
+			if datasource.count == 0 {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as!
+				NoRatingsTableViewCell
+				return cell
+			}
+			
+			let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
+			RatingTableViewCell
+			
+			cell.seeAllButton.isHidden = !(datasource.count > 2)
+			cell.datasource = datasource
 			return cell
 			
 		case 5:

@@ -75,15 +75,19 @@ class EditLanguage : BaseViewController {
 	override func loadView() {
 		view = EditLanguageView()
 	}
-	var languages : [String] = []
-	let currentLanguges = CurrentUser.shared.learner.languages
-	var selectedCells : [String]!
+	
+	var datasource : [String]?
+	
+	var selectedCells : [String] = [] {
+		didSet {
+			contentView.tableView.reloadData()
+		}
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		configure()
 		loadListOfLanguages()
-		selectedCells = currentLanguges!
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -139,7 +143,6 @@ class EditLanguage : BaseViewController {
 				break
 				
 			}
-			
 			fallthrough
 		case .tutor :
 			
@@ -154,7 +157,9 @@ class EditLanguage : BaseViewController {
 				}
 			}
 			CurrentUser.shared.learner.languages = selectedCells
-			//CurrentUser.shared.tutor.languages = selectedCells
+			if AccountService.shared.currentUserType == .tutor {
+				CurrentUser.shared.tutor.languages = selectedCells
+			}
 		}
 	}
 	
@@ -163,9 +168,9 @@ class EditLanguage : BaseViewController {
         if let path = pathToFile {
             do {
                 let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-                languages = school.components(separatedBy: ",") as [String]
+                datasource = school.components(separatedBy: ",") as [String]
             } catch {
-                languages = []
+                datasource = nil
                 print("Try-catch error")
             }
         }
@@ -177,18 +182,20 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 		return 1
 	}
 	internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return languages.count
+		return datasource?.count ?? 0
 	}
 	
 	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell : CustomLanguageCell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath) as! CustomLanguageCell
 		
-		cell.textLabel?.text = (languages[indexPath.row])
+		guard let language = datasource?[indexPath.row] else { return  cell }
+		cell.textLabel?.text = language
 		
-		if selectedCells.contains((cell.textLabel?.text)!) || (currentLanguges?.contains((cell.textLabel?.text)!))! {
+		if selectedCells.contains(language) {
 			cell.checkbox.isSelected = true
-		} else{
+		} else {
 			cell.checkbox.isSelected = false
+
 		}
 		return cell
 	}
@@ -196,6 +203,7 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		let cell : CustomLanguageCell = tableView.cellForRow(at: indexPath) as! CustomLanguageCell
+
 		
 		if self.selectedCells.contains((cell.textLabel?.text)!) {
 			self.selectedCells.remove(at: selectedCells.index(of:(cell.textLabel?.text)!)!)
@@ -206,8 +214,6 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 		}
 		
 		tableView.deselectRow(at: indexPath, animated: true)
-
-		print(self.selectedCells)
 	}
 }
 

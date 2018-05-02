@@ -294,15 +294,13 @@ class EditBio : BaseViewController {
 		case .learner:
 			
 				FirebaseData.manager.updateValue(node: "student-info", value: ["bio" : contentView.textView.textView.text!])
-				LearnerData.userData.bio = contentView.textView.textView.text!
+				CurrentUser.shared.learner.bio = contentView.textView.textView.text!
 				displaySavedAlertController()
 
 		case .tutor :
 			
-			Tutor.shared.updateValue(value: ["bio" : contentView.textView.textView.text!])
-			
-			TutorData.shared.bio = contentView.textView.textView.text!
-			LearnerData.userData.bio = contentView.textView.textView.text!
+			Tutor.shared.updateValue(value: ["tbio" : contentView.textView.textView.text!])
+			CurrentUser.shared.tutor.tBio = contentView.textView.textView.text!
 			displaySavedAlertController()
 		}
 	}

@@ -546,9 +546,11 @@ class ModalImage : InteractableView, Interactable {
 
 
 class TutorMainPage : MainPage {
-    override var contentView: TutorMainPageView {
+	
+	override var contentView: TutorMainPageView {
         return view as! TutorMainPageView
     }
+	
     override func loadView() {
         view = TutorMainPageView()
     }
@@ -565,7 +567,8 @@ class TutorMainPage : MainPage {
                 self.tutor = tutor
 
                 Stripe.stripeManager.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-                    if let account = account {
+                    if let _ = account {
+						
                     }
                     self.configureSideBarView()
                 })

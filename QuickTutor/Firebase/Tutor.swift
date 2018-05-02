@@ -79,6 +79,7 @@ class Tutor {
 							"p"	  : TutorRegistration.price,
 							"dst" : TutorRegistration.distance,
 							"tbio": TutorRegistration.tutorBio,
+							"rg" : TutorRegistration.address,
 							"rg"  : "region",
 							"pol" : "0_0_0_0",
 							"prf" : TutorRegistration.sessionPreference,

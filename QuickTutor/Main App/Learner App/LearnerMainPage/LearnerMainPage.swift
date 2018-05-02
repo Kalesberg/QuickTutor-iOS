@@ -25,7 +25,7 @@ class LearnerMainPageView : MainPageView {
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
 		tableView.showsVerticalScrollIndicator = false
-		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		tableView.backgroundColor = Colors.backgroundDark
 		tableView.estimatedSectionHeaderHeight = 50
 		tableView.sectionHeaderHeight = 50
 		tableView.translatesAutoresizingMaskIntoConstraints = true
@@ -194,7 +194,7 @@ class LearnerMainPage : MainPage {
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.profileView) {
 			let next = LearnerMyProfile()
-			next.learner = self.learner
+			next.learner = CurrentUser.shared.learner
 			
 			let transition = CATransition()
 			let nav = self.navigationController
@@ -239,7 +239,10 @@ class LearnerMainPage : MainPage {
 			hideSidebar()
 			hideBackground()
 		} else if (touchStartView is SearchBar) {
-			navigationController?.pushViewController(SearchSubjects(), animated: true)
+			let nav = self.navigationController
+			let transition = CATransition()
+			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+			nav?.pushViewController(SearchSubjects(), animated: false)
 		}
 	}
 }

@@ -45,7 +45,7 @@ class AddTutorVC: UIViewController, ShowsConversation {
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = "Add Tutor By Username"
         
-        let backButtonImage = UIImage(named: "backButton")?.withRenderingMode(.alwaysOriginal)
+        let backButtonImage = UIImage(named: "navbar-x")?.withRenderingMode(.alwaysOriginal)
         let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(popVC))
         navigationItem.leftBarButtonItem = backButton
         navigationItem.backBarButtonItem = backButton
@@ -66,7 +66,13 @@ class AddTutorVC: UIViewController, ShowsConversation {
     }
     
     @objc func popVC() {
-        navigationController?.popViewController(animated: true)
+		let transition = CATransition()
+		let nav = self.navigationController
+		
+		DispatchQueue.main.async {
+			nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+			nav?.popViewController(animated: false)
+		}
     }
     
     override func viewDidLoad() {

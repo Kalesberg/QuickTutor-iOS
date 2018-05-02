@@ -89,7 +89,7 @@ class AWTutor : AWLearner {
 		topSubject 	= dictionary["tp"] 	as? String ?? ""
 		tBio		= dictionary["tbio"] as? String ?? ""
 		acctId		= dictionary["act"] as? String ?? ""
-
+		
 		price 		= dictionary["p"] 	as? Int ?? 0
 		hours 		= dictionary["hr"] 	as? Int ?? 0
 		distance 	= dictionary["dst"] as? Int ?? 0
@@ -103,27 +103,6 @@ class AWTutor : AWLearner {
 	required init(from decoder: Decoder) throws {
 		fatalError("init(from:) has not been implemented")
 	}
-}
-
-
-class LearnerData {
-	
-	static let userData = LearnerData()
-	
-	var name	  : String!
-	var bio 	  : String!
-	var rating 	  : Double!
-	var birthday  : String!
-	var email 	  : String!
-	var school    : String!
-	var phone     : String!
-	var age       : String!
-	var languages : [String]!
-	var address   : String!
-	var customer  : String!
-	var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
-	
-	var isTutor : Bool!
 }
 
 class UserDefaultData {
@@ -158,25 +137,6 @@ class UserDefaultData {
 	}
 	deinit {
 		print("UserData Deninit")
-	}
-}
-
-extension UserDefaultData /* Functions */ {
-	
-	func addCard() {
-		defaults.set(numberOfCards + 1, forKey:"numberOfCards")
-		defaults.set(true, forKey: "hasPaymentMethod")
-	}
-	
-	func deleteCard() {
-		defaults.set(numberOfCards - 1, forKey: "numberOfCards")
-		if defaults.integer(forKey: "numberOfCards") == 0 {
-			defaults.set(false, forKey: "hasPaymentMethod")
-		}
-	}
-	
-	func updateValue(for key: String, value: Any) {
-		defaults.set(value, forKey: key)
 	}
 }
 
@@ -231,30 +191,7 @@ class FirebaseData {
 			}
 		}
 	}
-	
-//	public func uploadUserImage(image: UIImage, number: String, completion: @escaping (_ imageUrl: String?) -> Void) {
-//		let path = "student/\(user.uid)/student-profile-pic\(number)"
-//		if let uploadData = UIImageJPEGRepresentation(image, 0.5) {
-//			storageRef.child(path).putData(uploadData, metadata: nil, completion: { (meta, error) in
-//				if let error = error {
-//					print(error.localizedDescription)
-//					completion(nil)
-//				} else {
-//					//					self.storageRef.downloadURL(completion: { (url, error) in
-//					//						if let error = error {
-//					//							print(error)
-//					//						}
-//					//						else {
-//					//							let imageUrl = url?.absoluteString
-//					//						}
-//					//					})
-//					let imageURL = (meta?.downloadURL()?.absoluteString)!
-//					completion(imageURL)
-//				}
-//			})
-//		}
-//	}
-	
+
 	public func removeUserImage(_ number: String) {
 		let imageRef = Storage.storage().reference().child("student/\(user.uid)/student-profile-pic\(number)")
 		imageRef.delete { (error) in
