@@ -14,7 +14,6 @@ var Customer : STPCustomer! {
 	}
 	didSet {
 		//additional setup when Customer has been updated.
-		UserDefaultData.localDataManager.updateValue(for: "numberOfCards", value: Customer.sources.count)
 		NotificationCenter.default.post(name: .CustomerUpdated, object: nil)
 		
 	}

@@ -106,7 +106,7 @@ class TutorConnectView : MainLayoutTwoButton {
     }
 }
 
-class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress {
+class TutorConnect : BaseViewController, ApplyLearnerFilters {
 
     var filters: (Int, Int, Bool)!
     
@@ -130,7 +130,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
         view = TutorConnectView()
     }
     
-    var connectedTutor : AWTutor!
 
     var featuredTutor : AWTutor! {
         didSet {
@@ -140,7 +139,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
     
     var datasource = [AWTutor]() {
         didSet {
-            print("sourse!", datasource)
             contentView.collectionView.reloadData()
         }
     }
@@ -149,7 +147,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
         didSet {
             QueryData.shared.queryAWTutorBySubcategory(subcategory: subcategory!) { (tutors) in
                 if let tutor = tutors {
-                    print(tutor, "kjhjhkgkhkjhkj")
                     self.datasource = tutor
                 }
             }
@@ -173,10 +170,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
         contentView.collectionView.delegate = self
         
         contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
-    }
-    
-    func connectButtonPressed(uid: String) {
-        addTutorWithUid(uid)
     }
     
     override func viewDidLayoutSubviews() {
@@ -205,32 +198,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters, ConnectButtonPress
     }
 }
 
-extension TutorConnect : AddTutorButtonDelegate {
-    
-    func addTutorWithUid(_ uid: String) {
-        
-        DataService.shared.getTutorWithId(uid) { (tutor) in
-            
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-            
-            vc.receiverId = uid
-            vc.chatPartner = tutor
-            vc.shouldSetupForConnectionRequest = true
-            vc.tutor = self.connectedTutor
-            
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-}
-
-extension TutorConnect : UIPopoverPresentationControllerDelegate {
-    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return .none
-    }
-}
-
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
-    internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+	
+	internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return datasource.count
     }
     
@@ -246,7 +216,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.reviewLabel.text = "\(data.reviews?.count ?? 0) Reviews ★ \(data.tRating!)"
         cell.rateLabel.text = "$\(data.price!) / hour"
         
-           cell.datasource = datasource[indexPath.row]
+		cell.datasource = datasource[indexPath.row]
         
         let formattedString = NSMutableAttributedString()
         formattedString
@@ -263,7 +233,6 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         cell.distanceLabel.attributedText = formattedString
         cell.distanceLabel.numberOfLines = 0
-        cell.delegate = self
         
         return cell
     }

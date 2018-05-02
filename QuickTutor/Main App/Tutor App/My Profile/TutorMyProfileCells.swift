@@ -600,7 +600,7 @@ class RatingTableViewCell : BaseTableViewCell {
         return button
     }()
 	
-	var datasource : [TutorReview]? {
+	var datasource : [TutorReview]! {
 		didSet {
 			tableView.reloadData()
 		}
@@ -702,7 +702,7 @@ class NoRatingsTableViewCell : BaseTableViewCell {
 extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return datasource?.count ?? 0
+		return (datasource.count >= 2) ? 2 : 1
 	}
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return 70

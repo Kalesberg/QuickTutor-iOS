@@ -13,7 +13,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 	var keyboardComponent = ViewComponent()
 	var filters = NavbarButtonLines()
 	
-	var backButton = NavbarButtonBack()
+	var backButton = NavbarButtonX()
 	
 	let headerView = SectionHeader()
 	
@@ -21,7 +21,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonBack
+			backButton = newValue as! NavbarButtonX
 		}
 	}
 	
@@ -127,7 +127,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 	}
 }
 
-class SearchSubjects: BaseViewController, ConnectButtonPress {
+class SearchSubjects: BaseViewController {
 	
 	var connectedTutor: AWTutor!
 	
@@ -193,12 +193,6 @@ class SearchSubjects: BaseViewController, ConnectButtonPress {
 		
 	}
 	
-	func connectButtonPressed(uid: String) {
-		self.navigationController?.presentedViewController?.dismiss(animated: true) {
-			//			self.addTutorWithUid(uid)
-		}
-	}
-	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		
@@ -251,21 +245,15 @@ class SearchSubjects: BaseViewController, ConnectButtonPress {
 	}
 
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonBack {
+		if touchStartView is NavbarButtonX {
 			self.dismissKeyboard()
-			navigationController?.popViewController(animated: true)
-		}
-	}
-}
-
-extension SearchSubjects : AddTutorButtonDelegate {
-	func addTutorWithUid(_ uid: String) {
-		DataService.shared.getTutorWithId(uid) { (tutor) in
-			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-			vc.receiverId = uid
-			vc.chatPartner = tutor
-			vc.shouldSetupForConnectionRequest = true
-			self.navigationController?.pushViewController(vc, animated: true)
+			let nav = self.navigationController
+			let transition = CATransition()
+			
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+				nav?.popViewController(animated: false)
+			}
 		}
 	}
 }

@@ -37,7 +37,7 @@ class PageViewController : UIPageViewController {
 	
 	private func configureDelegates() {
 		delegate = self
-		dataSource = self
+		//dataSource = self
 		
 		let scrollView = view.subviews.filter { $0 is UIScrollView }.first as! UIScrollView
 		scrollView.delegate = self

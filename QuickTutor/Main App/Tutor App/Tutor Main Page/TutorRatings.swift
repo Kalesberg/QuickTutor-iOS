@@ -190,19 +190,33 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             return cell
         case 5:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
-            cell.backgroundColor = Colors.registrationDark
-            cell.label2.snp.updateConstraints { (make) in
-                make.height.equalTo(55)
-            }
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-//            cell.datasource = tutor.reviews
-//            cell.backgroundColor = Colors.registrationDark
-//            cell.seeAllButton.snp.updateConstraints { (make) in
-//                make.bottom.equalToSuperview().inset(15)
-//            }
-            
-            return cell
+			guard let datasource = tutor.reviews else {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+				cell.backgroundColor = Colors.registrationDark
+				cell.label2.snp.updateConstraints { (make) in
+					make.height.equalTo(55)
+				}
+				return cell
+			}
+			
+			if datasource.count == 0 {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+				cell.backgroundColor = Colors.registrationDark
+				cell.label2.snp.updateConstraints { (make) in
+					make.height.equalTo(55)
+				}
+				return cell
+			}
+			
+			let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
+			cell.backgroundColor = Colors.registrationDark
+			cell.seeAllButton.snp.updateConstraints { (make) in
+				make.bottom.equalToSuperview().inset(15)
+			}
+			cell.seeAllButton.isHidden = !(datasource.count > 2)
+			cell.datasource = datasource
+			
+			return cell
 			
         default:
             break

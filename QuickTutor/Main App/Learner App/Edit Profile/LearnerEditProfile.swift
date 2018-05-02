@@ -542,7 +542,15 @@ fileprivate class EditProfileLanguageItem : EditProfileArrowItem {
     
     override func touchEndOnStart() {
         didDragOff()
-        navigationController.pushViewController(EditLanguage(), animated: true)
+		let next = EditLanguage()
+		
+		if let languages = CurrentUser.shared.learner.languages {
+			next.selectedCells = languages
+		} else {
+			next.selectedCells = []
+		}
+		
+        navigationController.pushViewController(next, animated: true)
     }
 }
 

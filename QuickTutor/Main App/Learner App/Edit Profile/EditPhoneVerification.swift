@@ -248,8 +248,8 @@ class EditPhoneVerification : BaseViewController {
 			if let error = error {
 				print(error.localizedDescription)
 			} else{
-				LearnerData.userData.phone = EditPhoneVerification.phoneNumber
-				FirebaseData.manager.updateValue(node: "account",value: ["phn": LearnerData.userData.phone.cleanPhoneNumber()])
+				CurrentUser.shared.learner.phone = EditPhoneVerification.phoneNumber
+				FirebaseData.manager.updateValue(node: "account",value: ["phn": CurrentUser.shared.learner.phone.cleanPhoneNumber()])
 				self.navigationController?.popToViewController(LearnerEditProfile(), animated: true)
 			}
 		})
