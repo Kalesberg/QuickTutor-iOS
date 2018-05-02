@@ -475,38 +475,38 @@ class TutorDistanceView : BaseView {
 	}
 }
 
-class TutorCardBody : InteractableView {
-	
-	let priceRating = PriceRating()
-	let aboutMe = AboutMeView()
-	
-	override func configureView() {
-		addSubview(priceRating)
-		addSubview(aboutMe)
-		
-		super.configureView()
-		aboutMe.aboutMeLabel.label.text = "About Alex"
-		
-		backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		priceRating.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.15)
-			make.width.equalToSuperview()
-		}
-		aboutMe.snp.makeConstraints { (make) in
-			make.top.equalTo(priceRating.snp.bottom)
-			make.centerX.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.25)
-		}
-	}
-}
+//class TutorCardBody : InteractableView {
+//    
+//    let priceRating = PriceRating()
+//    let aboutMe = AboutMeView()
+//    
+//    override func configureView() {
+//        addSubview(priceRating)
+//        addSubview(aboutMe)
+//        
+//        super.configureView()
+//        aboutMe.aboutMeLabel.label.text = "About Alex"
+//        
+//        backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+//        
+//        applyConstraints()
+//    }
+//    
+//    override func applyConstraints() {
+//        priceRating.snp.makeConstraints { (make) in
+//            make.top.equalToSuperview()
+//            make.centerX.equalToSuperview()
+//            make.height.equalToSuperview().multipliedBy(0.15)
+//            make.width.equalToSuperview()
+//        }
+//        aboutMe.snp.makeConstraints { (make) in
+//            make.top.equalTo(priceRating.snp.bottom)
+//            make.centerX.equalToSuperview()
+//            make.width.equalToSuperview()
+//            make.height.equalToSuperview().multipliedBy(0.25)
+//        }
+//    }
+//}
 
 
 class TutorCardReviewCell : UITableViewCell {
