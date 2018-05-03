@@ -281,6 +281,9 @@ class TutorRegPayment: BaseViewController {
 					print(error.localizedDescription)
 					self.contentView.addBankButton.isUserInteractionEnabled = false
 				} else {
+					TutorRegistration.bankHoldersName = self.fullName
+					TutorRegistration.accountNumber = self.accountNumber
+					TutorRegistration.routingNumber = self.routingNumber
 					self.navigationController?.pushViewController(TutorAddress(), animated: true)
 				}
 			}

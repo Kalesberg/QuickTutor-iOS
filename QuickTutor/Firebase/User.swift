@@ -366,17 +366,16 @@ class FirebaseData {
 		
 		self.ref?.child("review").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			
-			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
+			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
+			
+			for child in snap {
 				
-				for child in snap {
-					
-					guard let value = child.value as? [String : Any] else { return }
-					
-					var review = TutorReview(dictionary: value)
-					review.sessionId = child.key
-					
-					reviews.append(review)
-				}
+				guard let value = child.value as? [String : Any] else { return }
+				
+				var review = TutorReview(dictionary: value)
+				review.sessionId = child.key
+				
+				reviews.append(review)
 			}
 			completion(reviews)
 		})
