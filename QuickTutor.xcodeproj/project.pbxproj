@@ -182,7 +182,6 @@
 		84E4C7EC204E9829009C2FC4 /* Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4C7EB204E9829009C2FC4 /* Sessions.swift */; };
 		84E91B5C20573E5100D1F613 /* SessionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B5B20573E5100D1F613 /* SessionDetails.swift */; };
 		84E91B5E205740CC00D1F613 /* SubmissionElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B5D205740CC00D1F613 /* SubmissionElements.swift */; };
-		84E91B60205740ED00D1F613 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B5F205740ED00D1F613 /* Labels.swift */; };
 		84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B612057421900D1F613 /* TutorCancelled.swift */; };
 		84E91B64205761A600D1F613 /* TutorLate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B63205761A600D1F613 /* TutorLate.swift */; };
 		84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */; };
@@ -500,7 +499,6 @@
 		84E4C7EB204E9829009C2FC4 /* Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sessions.swift; sourceTree = "<group>"; };
 		84E91B5B20573E5100D1F613 /* SessionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetails.swift; sourceTree = "<group>"; };
 		84E91B5D205740CC00D1F613 /* SubmissionElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmissionElements.swift; sourceTree = "<group>"; };
-		84E91B5F205740ED00D1F613 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		84E91B612057421900D1F613 /* TutorCancelled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCancelled.swift; sourceTree = "<group>"; };
 		84E91B63205761A600D1F613 /* TutorLate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLate.swift; sourceTree = "<group>"; };
 		84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPayment.swift; sourceTree = "<group>"; };
@@ -930,7 +928,6 @@
 				8470995920082DA5000DCFD0 /* Sidebar.swift */,
 				84DA9F232019138100D53D78 /* NavbarButtons.swift */,
 				84E91B5D205740CC00D1F613 /* SubmissionElements.swift */,
-				84E91B5F205740ED00D1F613 /* Labels.swift */,
 			);
 			path = "MainApp UI";
 			sourceTree = "<group>";
@@ -1485,6 +1482,7 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
+				FF5CAE009F94F61AF6FF777B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1639,6 +1637,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FF5CAE009F94F61AF6FF777B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1751,7 +1764,6 @@
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
 				CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */,
 				CF833B6E207C4AE800323242 /* TutorSessionContentCell.swift in Sources */,
-				84E91B60205740ED00D1F613 /* Labels.swift in Sources */,
 				CF6F58E9205EE68800ACBD32 /* BaseMessage.swift in Sources */,
 				84E4C7DB204E91F6009C2FC4 /* UpdatePayment.swift in Sources */,
 				8470995A20082DA5000DCFD0 /* Sidebar.swift in Sources */,

@@ -139,10 +139,10 @@ class LearnerMainPage : MainPage {
 		let formattedString = NSMutableAttributedString()
 		contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become A Tutor"
 		
-		if !(learner.school == "") {
+		if let school = learner.school {
 			formattedString
 				.bold(learner.name + "\n", 17, .white)
-                .regular(learner.school!, 14, Colors.grayText)
+                .regular(school, 14, Colors.grayText)
 		} else {
 			formattedString
 				.bold(learner.name, 17, .white)
