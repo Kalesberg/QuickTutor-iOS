@@ -60,47 +60,41 @@ class Tutor {
 	
 	public func initTutor(completion: @escaping (Error?) -> Void) {
 		
-		if let data = CurrentUser.shared.learner {
-			
-			let subjectNode = buildSubjectNode()
-			
-			var post : [String : Any] =
-				[
-					"/tutor-info/\(user.uid)" :
-						[
-							"nm"  : data.name,
-							"img" : data.images,
-							"sch" : data.school,
-							"lng" : data.languages,
-							"act" : TutorRegistration.acctId,
-							"hr"  : 0,
-							"tr"  : 5,
-							"nos" : 0,
-							"p"	  : TutorRegistration.price,
-							"dst" : TutorRegistration.distance,
-							"tbio": TutorRegistration.tutorBio,
-							"rg" : TutorRegistration.address,
-							"rg"  : "region",
-							"pol" : "0_0_0_0",
-							"prf" : TutorRegistration.sessionPreference,
-							"tp"  : "Math"],
-					]
-			
-			post.merge(subjectNode.0) { (_, last) in last }
-			post.merge(subjectNode.1) { (_, last) in last }
-
-			ref.root.updateChildValues(post) { (error, databaseRef) in
-				if let error = error {
-					print(error.localizedDescription)
-					completion(error)
-				} else {
-					self.geoFire(location: TutorRegistration.location)
-					completion(nil)
-				}
+		guard let data = CurrentUser.shared.learner else { return }
+		let subjectNode = buildSubjectNode()
+		
+		var post : [String : Any] =
+			[
+				"/tutor-info/\(user.uid)" :
+					[
+						"nm"  : data.name,
+						"img" : data.images,
+						"sch" : data.school,
+						"lng" : data.languages,
+						"act" : TutorRegistration.acctId,
+						"hr"  : 0,
+						"tr"  : 5,
+						"nos" : 0,
+						"p"	  : TutorRegistration.price,
+						"dst" : TutorRegistration.distance,
+						"tbio": TutorRegistration.tutorBio,
+						"rg" : TutorRegistration.address,
+						"pol" : "0_0_0_0",
+						"prf" : TutorRegistration.sessionPreference,
+						"tp"  : "Math"],
+				]
+		
+		post.merge(subjectNode.0) { (_, last) in last }
+		post.merge(subjectNode.1) { (_, last) in last }
+		
+		ref.root.updateChildValues(post) { (error, databaseRef) in
+			if let error = error {
+				print(error.localizedDescription)
+				completion(error)
+			} else {
+				self.geoFire(location: TutorRegistration.location)
+				completion(nil)
 			}
-		} else {
-			print("oops.")
-			return
 		}
 	}
 	
@@ -144,7 +138,7 @@ class Tutor {
 		return (updateSubjectValues, updateSubcategoryValues)
 	}
 	
-	public func updateSharedValues(multiWriteNode : [String : Any], _ completion: @escaping (Error?) -> Void) {
+	public func updateSharedValues(multiWriteNode : [String : Any],_ completion: @escaping (Error?) -> Void) {
 		self.ref.root.updateChildValues(multiWriteNode) { (error, _) in
 			if let error = error {
 				completion(error)

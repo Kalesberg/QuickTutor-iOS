@@ -612,53 +612,29 @@ class TutorMainPage : MainPage {
         super.handleNavigation()
         
         if(touchStartView == contentView.sidebar.paymentItem) {
-            
-            let transition = CATransition()
-            let nav = self.navigationController
-            
             let next = BankManager()
             next.acctId = tutor.acctId
-            
-            DispatchQueue.main.async {
-                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-                nav?.pushViewController(next, animated: false)
-            }
-            
+			navigationController?.pushViewController(next, animated: true)
+				
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.settingsItem) {
             
             let next = TutorSettings()
             next.tutor = self.tutor
-            
-            let transition = CATransition()
-            let nav = self.navigationController
-            DispatchQueue.main.async {
-                nav?.view.layer.add(transition.segueFromLeft(), forKey: nil)
-                nav?.pushViewController(next, animated: false)
-            }
-            
+			navigationController?.pushViewController(next, animated: true)
+				
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
             let next = TutorMyProfile()
             next.tutor = CurrentUser.shared.tutor
-            let transition = CATransition()
-            let nav = self.navigationController
-            DispatchQueue.main.async {
-                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-                nav?.pushViewController(next, animated: false)
-            }
-            hideSidebar()
+			navigationController?.pushViewController(next, animated: true)
+			
+			hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.reportItem) {
-            
-            let transition = CATransition()
-            let nav = self.navigationController
-            DispatchQueue.main.async {
-                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-                nav?.pushViewController(TutorFileReport(), animated: false)
-            }
+			navigationController?.pushViewController(TutorFileReport(), animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.legalItem) {
@@ -673,12 +649,7 @@ class TutorMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.helpItem) {
-            let transition = CATransition()
-            let nav = self.navigationController
-            DispatchQueue.main.async {
-                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-                nav?.pushViewController(TutorHelp(), animated: false)
-            }
+			navigationController?.pushViewController(TutorHelp(), animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.becomeQTItem) {

@@ -35,14 +35,14 @@ class BankManagerView : MainLayoutTitleOneButton {
 		return tableView
 	}()
 	
-	var backButton = NavbarButtonX()
+	var backButton = NavbarButtonBack()
 	
 	override var leftButton: NavbarButton {
 		get {
 			return backButton
 		}
 		set {
-			backButton = newValue as! NavbarButtonX
+			backButton = newValue as! NavbarButtonBack
 		}
 	}
 	
@@ -107,7 +107,7 @@ class BankManager : BaseViewController {
 		}
 	}
 	
-	var bankList : [ConnectAccount.Data]? {
+	var bankList = [ConnectAccount.Data]() {
 		didSet {
 			contentView.tableView.reloadData()
 		}
@@ -142,15 +142,7 @@ class BankManager : BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if (touchStartView is NavbarButtonX) {
-			let transition = CATransition()
-			let nav = self.navigationController
-			
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-				nav?.popViewController(animated: false)
-			}
-		}
+		
 	}
 	
 	// TODO: Check if they have any pending sessions.
@@ -175,8 +167,8 @@ class BankManager : BaseViewController {
 extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		let count = bankList?.count ?? 0
-		return count + 1
+		
+		return bankList.count + 1
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -185,18 +177,15 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
-		let endIndex = bankList?.count ?? 0
+		let endIndex = bankList.count
 		
 		if indexPath.row != endIndex {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "bankCell", for: indexPath) as! BankManagerTableViewCell
-			
-			guard let bank = bankList else { return cell }
-
 			insertBorder(cell: cell)
 			
 			//Not sure what we want to put here. But for now it will have bank name, and bankholder name
-			cell.bankName.text = bank[indexPath.row].bank_name
-			cell.holderName.text = bank[indexPath.row].account_holder_name
+			cell.bankName.text = bankList[indexPath.row].bank_name
+			cell.holderName.text = bankList[indexPath.row].account_holder_name
 			
 			return cell
 		} else {
@@ -208,9 +197,12 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 		}
 	}
 	
+	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		return (indexPath.row == bankList.count) ? false : true
+	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if indexPath.row == bankList?.count {
-			if bankList?.count == 5 {
+		if indexPath.row == bankList.count {
+			if bankList.count == 5 {
 				print("too many banks")
 				return
 			}
@@ -227,9 +219,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = AddCardHeaderView()
-		
 		view.addCard.text = "Banks"
-		
 		return view
 	}
 	

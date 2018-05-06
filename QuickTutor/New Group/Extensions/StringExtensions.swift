@@ -117,6 +117,10 @@ extension String {
 		return text
 	}
 	
+	func formatName() -> String {
+		let name = self.components(separatedBy: " ")
+		return "\(name[0])  \(name[1].prefix(1))."
+	}
 }
 
 extension MutableCollection {

@@ -195,28 +195,32 @@ class UserPolicy : BaseViewController {
 	}
 	
 	private func accepted() {
+		var studentInfo : [String : Any]!
+		
 		createCustomer { (cusID) in
 			if let cusID = cusID {
-				let account : [String : Any] =
-					["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
-				
-				let studentInfo : [String : Any] =
+				studentInfo =
 					["nm" : Registration.name, "r" : 5.0, "cus" : cusID,
 					 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]
 					]
-				
-				let newUser = ["/account/\(Registration.uid!)/" : account, "/student-info/\(Registration.uid!)/" : studentInfo]
-				
-				self.ref.root.updateChildValues(newUser) { (error, reference) in
-					if let error = error {
-						print(error.localizedDescription)
-					} else {
-						Registration.registrationManager.setRegistrationDefaults()
-						self.navigationController?.pushViewController(TheChoice(), animated: true)
-					}
-				}
 			} else {
-				print("oops try again.")
+				studentInfo =
+					["nm" : Registration.name, "r" : 5.0,
+					 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]]
+			}
+		}
+		
+		let account : [String : Any] =
+			["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
+		
+		let newUser : [String : Any] = ["/account/\(Registration.uid!)/" : account, "/student-info/\(Registration.uid!)/" : studentInfo]
+		
+		self.ref.root.updateChildValues(newUser) { (error, reference) in
+			if let error = error {
+				print(error.localizedDescription)
+			} else {
+				Registration.registrationManager.setRegistrationDefaults()
+				self.navigationController?.pushViewController(TheChoice(), animated: true)
 			}
 		}
 	}

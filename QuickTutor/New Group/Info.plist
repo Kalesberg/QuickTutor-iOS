@@ -57,7 +57,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>For taking your profile picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We are going to access you current zipcode</string>
+	<string>For matching you with tutors in your area</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>For video sessions.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
