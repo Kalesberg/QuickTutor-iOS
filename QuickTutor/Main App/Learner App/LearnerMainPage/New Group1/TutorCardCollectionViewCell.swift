@@ -52,7 +52,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         let label = UILabel()
         
         label.font = Fonts.createBoldSize(12)
-        label.text = "away"
         label.textColor = Colors.lightBlue
         label.textAlignment = .center
         
@@ -118,7 +117,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         distanceLabelContainer.backgroundColor = .white
         distanceLabelContainer.layer.cornerRadius = 28
-        
+		distanceLabelContainer.isHidden = true
+		distanceLabel.numberOfLines  = 0
         applyConstraints()
     }
     
@@ -240,7 +240,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 let item = ProfileItem()
                 
                 item.imageView.image = #imageLiteral(resourceName: "location")
-                item.label.text = "Mount Pleasant, MI" //datasource?.region
+                item.label.text = datasource?.region
                 
                 return item
             }()

@@ -49,14 +49,14 @@ class SeeAllButton: InteractableView, Interactable {
 class LearnerMyProfileView : MainLayoutTitleTwoButton {
     
     var editButton = NavbarButtonEdit()
-    var backButton = NavbarButtonX()
+    var backButton = NavbarButtonBack()
 	
 	override var leftButton: NavbarButton{
 		get {
 			return backButton
 		}
 		set {
-			backButton = newValue as! NavbarButtonX
+			backButton = newValue as! NavbarButtonBack
 		}
 	}
 	
@@ -464,14 +464,6 @@ class LearnerMyProfile : BaseViewController {
             horizontalScrollView.isHidden = true
 			
 		
-		} else if (touchStartView == contentView.backButton) {
-			
-			let transition = CATransition()
-			let nav = self.navigationController
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-				nav?.popBackToMain()
-			}
 		}
     }
 }

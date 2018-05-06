@@ -5,8 +5,6 @@
 //  Created by QuickTutor on 3/22/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
-// BUG :: Tableview 'Jumps' when switching sizing from the Category cell to the featuredTutor cell.
-// only happens when scrolling back up to top.
 
 import Foundation
 import UIKit
@@ -97,24 +95,34 @@ class LearnerMainPage : MainPage {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		FirebaseData.manager.getLearner(Auth.auth().currentUser!.uid) { (learner) in
-			if let learner = learner {
-				AccountService.shared.currentUserType = .learner
-				self.learner = learner
-
-				Stripe.stripeManager.retrieveCustomer(cusID: learner.customer) { (customer, error) in
-					if let error = error{
-						print(error.localizedDescription)
-					} else if let customer = customer {
-						learner.hasPayment = (customer.sources.count > 0)
-					}
-					self.configureSideBarView()
-				}
-			} else {
-				try! Auth.auth().signOut()
-				self.navigationController?.pushViewController(SignIn(), animated: true)
-			}
+		guard let learner = CurrentUser.shared.learner else {
+			try! Auth.auth().signOut()
+			self.navigationController?.pushViewController(SignIn(), animated: true)
+			return
 		}
+		self.learner = learner
+		AccountService.shared.currentUserType = .learner
+		
+		Stripe.stripeManager.retrieveCustomer(cusID: learner.customer) { (customer, error) in
+			if let error = error{
+				print(error.localizedDescription)
+			} else if let customer = customer {
+				learner.hasPayment = (customer.sources.count > 0)
+			}
+			self.configureSideBarView()
+		}
+		
+//		FirebaseData.manager.getLearner(Auth.auth().currentUser!.uid) { (learner) in
+//			if let learner = learner {
+//				AccountService.shared.currentUserType = .learner
+//				self.learner = learner
+
+		
+//			} else {
+//				try! Auth.auth().signOut()
+//				self.navigationController?.pushViewController(SignIn(), animated: true)
+//			}
+//		}
 		
 		QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category.prefix(4))) { (datasource) in
 			if let datasource = datasource {
@@ -167,41 +175,23 @@ class LearnerMainPage : MainPage {
 		super.handleNavigation()
 		
 		if(touchStartView == contentView.sidebar.paymentItem) {
-			
-			let transition = CATransition()
-			let nav = self.navigationController
-			
 			let next = CardManager()
 			next.customerId = learner.customer
-			
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-				nav?.pushViewController(next, animated: false)
-			}
+			navigationController?.pushViewController(next, animated: true)
 			
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.settingsItem) {
 			let next = LearnerSettings()
 			next.learner = self.learner
-			let transition = CATransition()
-			let nav = self.navigationController
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromLeft(), forKey: nil)
-				nav?.pushViewController(next, animated: false)
-			}
+
+			navigationController?.pushViewController(next, animated: true)
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.profileView) {
 			let next = LearnerMyProfile()
 			next.learner = CurrentUser.shared.learner
-			
-			let transition = CATransition()
-			let nav = self.navigationController
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-				nav?.pushViewController(next, animated: false)
-			}
+			navigationController?.pushViewController(next, animated: true)
 			
 			hideSidebar()
 			hideBackground()
@@ -221,12 +211,7 @@ class LearnerMainPage : MainPage {
 				UIApplication.shared.openURL(url)
 			}
 		} else if(touchStartView == contentView.sidebar.helpItem) {
-			let transition = CATransition()
-			let nav = self.navigationController
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-				nav?.pushViewController(LearnerHelp(), animated: false)
-			}
+			navigationController?.pushViewController(LearnerHelp(), animated: true)
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.becomeQTItem) {
@@ -241,8 +226,11 @@ class LearnerMainPage : MainPage {
 		} else if (touchStartView is SearchBar) {
 			let nav = self.navigationController
 			let transition = CATransition()
-			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-			nav?.pushViewController(SearchSubjects(), animated: false)
+			
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav?.pushViewController(SearchSubjects(), animated: false)
+			}
 		}
 	}
 }

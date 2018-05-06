@@ -255,7 +255,14 @@ class Verification : BaseViewController {
                 self.view.endEditing(true)
                 self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
                     if snapshot.exists() {
-						self.navigationController!.pushViewController(LearnerPageViewController(), animated: true)
+						FirebaseData.manager.getLearner(user!.uid, { (learner) in
+							if let learner = learner {
+								CurrentUser.shared.learner = learner
+								AccountService.shared.currentUserType = .learner
+								self.navigationController!.pushViewController(LearnerPageViewController(), animated: true)
+							}
+							print("Lost user.")
+						})
                     } else {
 						Registration.uid = user!.uid
                         self.navigationController!.pushViewController(Name(), animated: true)

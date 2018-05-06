@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import CoreLocation
 
 struct TutorSubjectSearch {
 	
@@ -81,38 +82,20 @@ struct TutorReview {
 		rating 		= dictionary["r"] as? Double ?? 0.0
 		
 	}
-	
 }
 
-struct FeaturedTutor {
+struct TutorLocation1 {
+	let geohash : String?
+	let location : CLLocation?
 	
-	static let shared = FeaturedTutor()
-	
-	var uid    : String!
-	var name   : String!
-	var region : String!
-	var school : String!
-	var topSubject : String!
-	var bio : String!
-	var policy : String!
-	
-	var preference : Int!
-	var distance : Int!
-	var hours : Int!
-	var price : Int!
-	
-	var numSessions : Int!
-	
-	var rating : Double!
-	
-	var language  : [String]!
-	var imageUrls : [String : String]!
-	
-	var token 	  : String!
-	
-	var reviews : [TutorReview]?
-	var subjects : [String]!
-	
+	init(dictionary : [String : Any]) {
+		geohash = dictionary["g"] as? String ?? nil
+		guard let locationArray = dictionary["l"] as? [Double] else {
+			location = nil
+			return
+		}
+		location = CLLocation(latitude: locationArray[0], longitude: locationArray[1])
+	}
 }
 
 class QueryData {
@@ -234,7 +217,7 @@ class QueryData {
 		
 		var tutors = [AWTutor]()
 		let group = DispatchGroup()
-		
+		print("subcategory: ",  subcategory)
 		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "r").queryStarting(atValue: 3.0).queryLimited(toFirst: 5).observeSingleEvent(of: .value) { (snapshot) in
 			
 			for snap in snapshot.children {
@@ -250,6 +233,7 @@ class QueryData {
 				})
 			}
 			group.notify(queue: .main) {
+				print(tutors)
 				completion(tutors)
 			}
 		}

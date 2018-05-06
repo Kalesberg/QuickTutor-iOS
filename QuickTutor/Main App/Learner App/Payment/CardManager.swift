@@ -19,7 +19,7 @@ Future
 import UIKit.UITableView
 import Stripe
 
-class CardManagerView : MainLayoutTitleOneButton {
+class CardManagerView : MainLayoutTitleBackButton {
 	
 	let subtitleLabel : LeftTextLabel = {
 		let label = LeftTextLabel()
@@ -42,18 +42,6 @@ class CardManagerView : MainLayoutTitleOneButton {
 		
 		return tableView
 	}()
-	
-	var backButton = NavbarButtonX()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		}
-		set {
-			backButton = newValue as! NavbarButtonX
-		}
-	}
-
 	
 	override func configureView() {
 		addSubview(subtitleLabel)
@@ -173,15 +161,7 @@ class CardManager : BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if (touchStartView is NavbarButtonX) {
-			let transition = CATransition()
-			let nav = self.navigationController
-			
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-				nav?.popViewController(animated: false)
-			}
-		}
+		
 	}
 	
 	// TODO: Check if they have any pending sessions.
@@ -213,7 +193,7 @@ class CardManager : BaseViewController {
 extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return (cards.count > 0) ? cards.count + 1 : 0
+		return (cards.count > 0) ? cards.count + 1 : 1
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -260,6 +240,10 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 		return "Remove Card"
 	}
 
+	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		return (indexPath.row == cards.count) ? false : true
+	}
+	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = AddCardHeaderView()
 		return view
@@ -271,12 +255,10 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			
-			cardsToBeDeleted.append(cards[indexPath.row])
-			cards.remove(at: indexPath.row)
-			tableView.deleteRows(at: [indexPath], with: .fade)
-			
-			tableView.reloadData()
+			self.cardsToBeDeleted.append(cards[indexPath.row])
+
+			self.cards.remove(at: indexPath.row)
+			tableView.deleteRows(at: [indexPath], with: .automatic)
 		}
 	}
 	

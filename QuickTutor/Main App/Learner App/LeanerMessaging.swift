@@ -90,9 +90,6 @@ class Message : BaseViewController {
 	private var hasPaymentMethod : Bool!
 	private var hasStudentBio : Bool!
 	
-//	let user = LearnerData.userData
-//	let image = LocalImageCache.localImageManager
-//	
 	var parentPageViewController : PageViewController!
 	
 	override func viewDidLoad() {

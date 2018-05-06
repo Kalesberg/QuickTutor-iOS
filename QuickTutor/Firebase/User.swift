@@ -11,6 +11,8 @@ import Firebase
 import FirebaseDatabase
 import FirebaseStorage
 import Stripe
+import CoreLocation
+
 import SwiftKeychainWrapper
 
 class CurrentUser {
@@ -78,6 +80,7 @@ class AWTutor : AWLearner {
 	var subjects : [String]?
 	var selected : [Selected] = []
 	var reviews : [TutorReview]?
+	var location : TutorLocation1?
 	
 	var hasConnectAccount : Bool = false
 	
@@ -147,7 +150,7 @@ class FirebaseData {
 	private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	private let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 	private let user = Auth.auth().currentUser!
-	
+		
 	private init() {
 		print("firebaser has been initialized")
 	}
@@ -259,13 +262,13 @@ class FirebaseData {
 				
 				let learner = AWLearner(dictionary: learnerData)
 				learner.uid = uid
-				print("start search.")
+				
 				group.enter()
 				self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 					learner.isTutor = snapshot.exists()
 					group.leave()
 				})
-				print("Out.")
+
 				guard let images = learnerData["img"] as? [String : String] else { return }
 				learner.images = images
 				
@@ -304,9 +307,15 @@ class FirebaseData {
 				}
 				
 				tutor.images = images
+				
+				self.getTutorLocation(uid: uid, { (location) in
+					if let location = location {
+						tutor.location = location
+					}
+				})
+				
 				group.enter()
 				self.loadTutorReviews(uid: uid, { (reviews) in
-					print("5")
 					if let reviews = reviews {
 						tutor.reviews = reviews
 					}
@@ -359,6 +368,17 @@ class FirebaseData {
 		}
 	}
 	
+	func getTutorLocation(uid: String,_ completion: @escaping (TutorLocation1?) -> Void) {
+		self.ref?.child("tutor_loc").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+			if snapshot.exists() {
+				guard let value = snapshot.value as? [String : Any] else { return }
+				let tutorLocation = TutorLocation1(dictionary: value)
+				completion(tutorLocation)
+			} else {
+				completion(nil)
+			}
+		})
+	}
 	
 	func loadTutorReviews(uid : String, _ completion : @escaping ([TutorReview]?) -> Void) {
 		
@@ -429,4 +449,5 @@ class FirebaseData {
 		print("FirebaseData has De-initialized")
 	}
 }
+
 

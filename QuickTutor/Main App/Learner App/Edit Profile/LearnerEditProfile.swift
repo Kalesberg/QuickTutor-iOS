@@ -356,8 +356,7 @@ class LearnerEditProfile : BaseViewController {
 		}
 	}
 	private func configureDelegates() {
-        //imagePicker.delegate = self
-        
+        imagePicker.delegate = self
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         
@@ -386,24 +385,24 @@ class LearnerEditProfile : BaseViewController {
         lastName = textField.text
     }
 	
-//    private func uploadImageUrl(imageUrl: String, number: String) {
-//        if !self.learner.isTutor {
-//            FirebaseData.manager.updateValue(node: "student-info", value: ["img" : CurrentUser.shared.learner.images])
-//            self.learner.images = CurrentUser.shared.learner.images
-//        } else {
-//
-//            let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images]
-//
-//            Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
-//                if let error = error {
-//                    print(error)
-//                } else {
-//                    self.learner.images = CurrentUser.shared.learner.images
-//                }
-//            })
-//        }
-//    }
-    
+    private func uploadImageUrl(imageUrl: String, number: String) {
+        if !self.learner.isTutor {
+            FirebaseData.manager.updateValue(node: "student-info", value: ["img" : CurrentUser.shared.learner.images])
+            self.learner.images = CurrentUser.shared.learner.images
+        } else {
+
+            let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images]
+
+            Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.learner.images = CurrentUser.shared.learner.images
+                }
+            })
+        }
+    }
+	
     private func saveChanges() {
         
         if firstName.count < 1 || lastName.count < 0 {
@@ -579,82 +578,85 @@ extension LearnerEditProfile : UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-//extension LearnerEditProfile : UIScrollViewDelegate {
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if !automaticScroll {
-//            self.view.endEditing(true)
-//        }
-//    }
-//
-//    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-//        automaticScroll = false
-//    }
-//}
-//extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
-//
-//    func circleCropDidCropImage(_ image: UIImage) {
-//
-//        guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
-//
-//        switch imageToChange {
-//        case 1:
-//
-//            FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
-//                if let imageUrl = imageUrl {
-//                    CurrentUser.shared.learner.images["image1"] = imageUrl
-//                    self.uploadImageUrl(imageUrl: imageUrl, number: "1")
-//                }
-//            }
-//            contentView.imagesContainer.image1.picView.image = image
-//        case 2:
-//            FirebaseData.manager.uploadImage(data: data, number: "2") { (imageUrl) in
-//                if let imageUrl = imageUrl {
-//                    CurrentUser.shared.learner.images["image2"] = imageUrl
-//                    self.uploadImageUrl(imageUrl: imageUrl, number: "2")
-//                }
-//            }
-//            contentView.imagesContainer.image2.picView.image = image
-//        case 3:
-//            FirebaseData.manager.uploadImage(data: data, number: "3") { (imageUrl) in
-//                if let imageUrl = imageUrl {
-//                    CurrentUser.shared.learner.images["image3"] = imageUrl
-//                    self.uploadImageUrl(imageUrl: imageUrl, number: "3")
-//                }
-//            }
-//            contentView.imagesContainer.image3.picView.image = image
-//        case 4:
-//            FirebaseData.manager.uploadImage(data: data, number: "4") { (imageUrl) in
-//                if let imageUrl = imageUrl {
-//                    CurrentUser.shared.learner.images["image4"] = imageUrl
-//                    self.uploadImageUrl(imageUrl: imageUrl, number: "4")
-//                }
-//            }
-//            contentView.imagesContainer.image4.picView.image = image
-//        default:
-//            break
-//        }
-//    }
-//
-//    func circleCropDidCancel() {
-//        print("cancelled")
-//    }
-//
-//    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-//        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-//
-//            let circleCropController = AACircleCropViewController()
-//            circleCropController.image = image
-//            circleCropController.delegate = self
-//
-//            self.navigationController?.pushViewController(circleCropController, animated: true)
-//            imagePicker.dismiss(animated: true, completion: nil)
-//        }
-//    }
-//
-//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//        dismiss(animated: true, completion: nil)
-//    }
-//}
+extension LearnerEditProfile : UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !automaticScroll {
+            self.view.endEditing(true)
+        }
+    }
+
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        automaticScroll = false
+    }
+}
+extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
+
+    func circleCropDidCropImage(_ image: UIImage) {
+		print("here")
+		let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
+
+		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { print("return"); return }
+
+		switch imageToChange {
+		case 1:
+			
+			FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.learner.images["image1"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "1")
+				}
+			}
+			cell.image1.picView.image = image
+		case 2:
+			FirebaseData.manager.uploadImage(data: data, number: "2") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.learner.images["image2"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "2")
+				}
+			}
+			cell.image2.picView.image = image
+		case 3:
+			FirebaseData.manager.uploadImage(data: data, number: "3") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.learner.images["image3"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "3")
+				}
+			}
+			cell.image3.picView.image = image
+		case 4:
+			FirebaseData.manager.uploadImage(data: data, number: "4") { (imageUrl) in
+				if let imageUrl = imageUrl {
+					CurrentUser.shared.learner.images["image4"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: "4")
+				}
+			}
+			cell.image4.picView.image = image
+		default:
+			break
+		}
+	}
+
+    func circleCropDidCancel() {
+        print("cancelled")
+    }
+
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+
+            let circleCropController = AACircleCropViewController()
+            circleCropController.image = image
+            circleCropController.delegate = self
+			print("here.")
+            self.navigationController?.pushViewController(circleCropController, animated: true)
+            imagePicker.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+		print("hre.")
+        dismiss(animated: true, completion: nil)
+    }
+}
 //extension LearnerEditProfile : UITextFieldDelegate {
 //
 //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

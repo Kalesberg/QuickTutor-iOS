@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class TheChoiceView : RegistrationGradientView {
     
@@ -111,11 +112,20 @@ class TheChoice : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView == contentView.continueButton) {
-			navigationController?.pushViewController(LearnerPageViewController(), animated: true)
-            let endIndex = navigationController?.viewControllers.endIndex
-            navigationController?.viewControllers.removeFirst(endIndex! - 1)
-            UserDefaultData.localDataManager.isTutor = false
-            
+			FirebaseData.manager.getLearner(Registration.uid) { (learner) in
+				if let learner = learner {
+					CurrentUser.shared.learner = learner
+					AccountService.shared.currentUserType = .learner
+					self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
+					let endIndex = self.navigationController?.viewControllers.endIndex
+					self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
+				} else {
+					try! Auth.auth().signOut()
+					self.navigationController?.pushViewController(SignIn(), animated: true)
+				}
+			}
+			
+			
         } else if (touchStartView == contentView.tutorButton) {
             let next = BecomeTutor()
             navigationController?.pushViewController(next, animated: true)

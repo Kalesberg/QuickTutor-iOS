@@ -281,13 +281,7 @@ class LearnerHelp : BaseViewController {
     }
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX {
-			let transition = CATransition()
-			let nav = self.navigationController
-			
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-				nav?.popViewController(animated: false)
-			}
+			navigationController?.popViewController(animated: true)
 		}
 	}
 }
