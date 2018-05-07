@@ -4,9 +4,7 @@
 //
 //  Created by QuickTutor on 3/4/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-//
-//TODO: Design
-//  - check mockups when they're done, implement design
+
 
 import UIKit
 
@@ -31,7 +29,6 @@ class EditPhoneView : MainLayoutTitleBackButton, Keyboardable {
 		subtitle.label.font = Fonts.createBoldSize(18)
 		subtitle.label.numberOfLines = 2
 		
-		//phoneTextField.textField.font = Fonts.createSize(18))
 	}
 	
 	override func applyConstraints() {

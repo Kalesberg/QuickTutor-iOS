@@ -9,8 +9,7 @@
 import UIKit
 
 class RegistrationNavBarView: RegistrationGradientView {
-    
-    //var navBar       = RegistrationNavBar()
+
     var statusbarView = UIView()
     var progressBar   = ProgressBar()
     var backButton    = RegistrationBackButton()
@@ -19,7 +18,6 @@ class RegistrationNavBarView: RegistrationGradientView {
     
     override func configureView() {
         super.configureView()
-        //addSubview(navBar)
         addSubview(statusbarView)
         addSubview(progressBar)
         addSubview(backButton)
@@ -30,11 +28,6 @@ class RegistrationNavBarView: RegistrationGradientView {
     }
     
     override func applyConstraints() {
-//        navBar.snp.makeConstraints { (make) in
-//            make.top.equalToSuperview()
-//            make.width.equalToSuperview()
-//            make.height.equalToSuperview().multipliedBy(0.06)
-//        }
         
         statusbarView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
@@ -48,8 +41,6 @@ class RegistrationNavBarView: RegistrationGradientView {
             make.height.equalTo(8)
             make.top.equalTo(statusbarView.snp.bottom)
         }
-        
-        //progressBar.applyConstraints()
         
         backButton.snp.makeConstraints { (make) in
             make.top.equalTo(progressBar.snp.bottom)

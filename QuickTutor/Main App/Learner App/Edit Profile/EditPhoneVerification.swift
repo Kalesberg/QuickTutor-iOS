@@ -229,12 +229,7 @@ class EditPhoneVerification : BaseViewController {
 		current.isEnabled = false
 		textFieldToChange.isEnabled = true
 	}
-	
-//	@objc
-//	private func buildVerificationCode(_ textField: UITextField) {
-//		verificationCode.append(textField.text!)
-//	}
-//
+
 	private func createCredential(_ verificationCode: String) {
 		if (verificationCode.count == 6) {
 			let verificationId = UserDefaults.standard.value(forKey: "reCredential")

@@ -26,7 +26,7 @@ class SubjectCollectionViewCell : UICollectionViewCell {
 	
 	let imageView : UIImageView = {
 		let imageView = UIImageView()
-		//additional setup
+
 		return imageView
 	}()
 	
@@ -43,7 +43,6 @@ class SubjectCollectionViewCell : UICollectionViewCell {
 		addSubview(label)
 		
 		contentView.layer.cornerRadius = 5
-		//contentView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5.0)
 		
 		applyConstraints()
 	}

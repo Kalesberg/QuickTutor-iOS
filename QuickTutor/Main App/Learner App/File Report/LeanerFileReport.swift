@@ -45,6 +45,9 @@ class LearnerFileReportView : MainLayoutHeader {
         
         title.label.text = "File Report"
         header.text = "Your Past Sessions"
+        
+        navbar.backgroundColor = Colors.learnerPurple
+        statusbarView.backgroundColor = Colors.learnerPurple
 		
 		applyConstraints()
     }
@@ -94,12 +97,6 @@ class FileReportSessionView : BaseView {
         dayOfWeekLabel.textColor = .white
         dayOfWeekLabel.text = "Tue"
         dayOfWeekLabel.textAlignment = .center
-        
-//        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-//            profilePic.image = image
-//        } else {
-//            //set to some arbitrary image.
-//        }
 		
         profilePic.scaleImage()
         
@@ -552,108 +549,6 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 	}
 }
 
-class CustomHeaderCell : BaseView {
-	
-	var monthLabel = UILabel()
-	var dayLabel = UILabel()
-	var dayOfWeekLabel = UILabel()
-	var profilePic = UIImageView()
-	var subjectLabel = UILabel()
-	var nameLabel = UILabel()
-	var sessionInfoLabel = UILabel()
-	
-	override func configureView() {
-		addSubview(monthLabel)
-		addSubview(dayLabel)
-		addSubview(dayOfWeekLabel)
-		addSubview(profilePic)
-		addSubview(subjectLabel)
-		addSubview(nameLabel)
-		addSubview(sessionInfoLabel)
-		super.configureView()
-		
-		monthLabel.font = Fonts.createSize(14)
-		monthLabel.textColor = .white
-		monthLabel.text = "Dec"
-		monthLabel.textAlignment = .center
-		
-		dayLabel.font = Fonts.createBoldSize(20)
-		dayLabel.textColor = .white
-		dayLabel.text = "28"
-		dayLabel.textAlignment = .center
-		
-		dayOfWeekLabel.font = Fonts.createSize(14)
-		dayOfWeekLabel.textColor = .white
-		dayOfWeekLabel.text = "Tue"
-		dayOfWeekLabel.textAlignment = .center
-		
-//		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-//			profilePic.image = image
-//		} else {
-//			//set to some arbitrary image.
-//		}
-		
-		profilePic.scaleImage()
-		
-		subjectLabel.font = Fonts.createBoldSize(14)
-		subjectLabel.textColor = .white
-		subjectLabel.text = "Mathematics"
-		
-		nameLabel.font = Fonts.createSize(13)
-		nameLabel.textColor = .white
-		nameLabel.text = "with Alex Zoltowski"
-		
-		sessionInfoLabel.font = Fonts.createSize(13)
-		sessionInfoLabel.textColor = .white
-		sessionInfoLabel.text = "3:00-6:00, $18.50"
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		super.applyConstraints()
-		
-		dayLabel.snp.makeConstraints { (make) in
-			make.left.equalToSuperview().inset(15)
-			make.centerY.equalToSuperview()
-			make.width.equalTo(40)
-		}
-		
-		monthLabel.snp.makeConstraints { (make) in
-			make.bottom.equalTo(dayLabel.snp.top)
-			make.left.equalTo(dayLabel)
-			make.width.equalTo(dayLabel)
-		}
-		
-		dayOfWeekLabel.snp.makeConstraints { (make) in
-			make.top.equalTo(dayLabel.snp.bottom)
-			make.left.equalTo(monthLabel)
-			make.width.equalTo(monthLabel)
-		}
-		
-		profilePic.snp.makeConstraints { (make) in
-			make.left.equalTo(monthLabel.snp.right)
-			make.centerY.equalToSuperview()
-			make.height.equalTo(60)
-			make.width.equalTo(85)
-		}
-		
-		subjectLabel.snp.makeConstraints { (make) in
-			make.left.equalTo(profilePic.snp.right)
-			make.top.equalTo(monthLabel)
-		}
-		
-		nameLabel.snp.makeConstraints { (make) in
-			make.top.equalTo(subjectLabel.snp.bottom)
-			make.left.equalTo(subjectLabel)
-		}
-		
-		sessionInfoLabel.snp.makeConstraints { (make) in
-			make.bottom.equalTo(dayOfWeekLabel)
-			make.left.equalTo(subjectLabel)
-		}
-	}
-}
 
 class CustomFileReportTableViewCell : UITableViewCell {
 
