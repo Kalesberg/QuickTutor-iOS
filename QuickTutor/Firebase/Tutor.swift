@@ -97,9 +97,6 @@ class Tutor {
 					completion(nil)
 				}
 			}
-		} else {
-			print("oops.")
-			return
 		}
 	}
 	
@@ -143,7 +140,7 @@ class Tutor {
 		return (updateSubjectValues, updateSubcategoryValues)
 	}
 	
-	public func updateSharedValues(multiWriteNode : [String : Any], _ completion: @escaping (Error?) -> Void) {
+	public func updateSharedValues(multiWriteNode : [String : Any],_ completion: @escaping (Error?) -> Void) {
 		self.ref.root.updateChildValues(multiWriteNode) { (error, _) in
 			if let error = error {
 				completion(error)

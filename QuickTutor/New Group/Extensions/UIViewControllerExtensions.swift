@@ -65,10 +65,8 @@ extension UINavigationController {
 	func popBackToTutorMain() {
 		for controller in self.viewControllers {
 			if controller is TutorPageViewController {
-				self.popToViewController(controller, animated: false)
+				self.popToViewController(controller, animated: true)
 				break
-			} else {
-				print("unable to pop!")
 			}
 		}
 	}

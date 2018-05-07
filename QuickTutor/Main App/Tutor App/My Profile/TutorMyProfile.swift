@@ -177,11 +177,6 @@ class TutorMyProfile : BaseViewController {
 			horizontalScrollView.isUserInteractionEnabled = false
 			horizontalScrollView.isHidden = true
 			contentView.leftButton.isHidden = false
-		} else if touchStartView == contentView.backButton {
-			let transition = CATransition()
-			let nav = self.navigationController
-			nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-			nav?.popBackToTutorMain()
 		}
 	}
 }

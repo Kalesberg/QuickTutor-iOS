@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import FirebaseAuth
 
-class LearnerSettingsView : MainLayoutTitleOneButton {
+class LearnerSettingsView : MainLayoutTitleBackButton {
     
     var scrollView = SettingsScrollView()
     var profileView = SettingsProfileView()
@@ -23,14 +23,6 @@ class LearnerSettingsView : MainLayoutTitleOneButton {
     var accountHeader = ItemHeader()
     var signOut = SignOut()
 
-    var backButton = NavbarButtonX()
-    override var leftButton: NavbarButton {
-        get {
-            return backButton
-        } set{
-            backButton = newValue as! NavbarButtonX
-        }
-    }
     override func configureView() {
         addSubview(scrollView)
         scrollView.addSubview(profileView)
@@ -568,15 +560,7 @@ class LearnerSettings : BaseViewController {
     }
     
     override func handleNavigation() {
-        if touchStartView is NavbarButtonX {
-            let nav = self.navigationController
-            let transition = CATransition()
-            
-            DispatchQueue.main.async {
-                nav?.view.layer.add(transition.popFromRight(), forKey: nil)
-                nav?.popViewController(animated: false)
-            }
-        }
+       
     }
 }
 

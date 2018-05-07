@@ -103,7 +103,9 @@ class EditProfileItemTableViewCell : BaseTableViewCell {
         
         backgroundColor = .clear
         selectionStyle = .none;
-        
+		
+		textField.delegate = self
+		
         divider.backgroundColor = Colors.divider
         
         infoLabel.label.font = Fonts.createBoldSize(15)
@@ -150,7 +152,30 @@ class EditProfileItemTableViewCell : BaseTableViewCell {
         }
     }
 }
-
+extension EditProfileItemTableViewCell : UITextFieldDelegate {
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		
+		let inverseSet = NSCharacterSet(charactersIn:"0123456789@#$%^&*()_=+<>?,[]{};'~!").inverted //Add any extra characters here..
+		let components = string.components(separatedBy: inverseSet)
+		let filtered = components.joined(separator: "")
+		
+		if textField.text!.count <= 24 {
+			if string == "" {
+				return true
+			}
+			return !(string == filtered)
+		} else {
+			if string == "" {
+				return true
+			}
+			return false
+		}
+	}
+	
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		return true
+	}
+}
 class EditProfileDotItemTableViewCell : EditProfileItemTableViewCell {
     override func configureView() {
         super.configureView()
@@ -548,7 +573,6 @@ class EditProfilePersonCheckboxTableViewCell : BaseTableViewCell {
 	override func handleNavigation() {
 		if touchStartView is RegistrationCheckbox {
 			delegate?.inPersonPressed()
-			print("why...")
 		}
 	}
 }

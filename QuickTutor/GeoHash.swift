@@ -15,11 +15,11 @@ enum CompassPoint {
 	case west
 }
 
-enum rattan {
+enum parity {
 	case even, odd
 }
 
-prefix func !(a: rattan) -> rattan {
+prefix func !(a: parity) -> parity {
 	return a == .even ? .odd : .even
 }
 
@@ -45,6 +45,7 @@ public struct Geohash {
 			let s  = neighbor(box, direction: .south, precision: precision),
 			let e  = neighbor(box, direction: .east, precision: precision),
 			let w  = neighbor(box, direction: .west, precision: precision),
+			
 			let ne = neighbor(n, direction: .east, precision: precision),
 			let nw = neighbor(n, direction: .west, precision: precision),
 			let se = neighbor(s, direction: .east, precision: precision),
@@ -61,7 +62,7 @@ public struct Geohash {
 		
 		var geohash = String()
 		
-		var rattanMode = rattan.even
+		var rattanMode = parity.even
 		var base32Char = 0
 		var bit = Base32BitflowInit
 		
@@ -100,7 +101,7 @@ public struct Geohash {
 	}
 	
 	static func geohashbox(_ hash:String) -> GeohashBox? {
-		var dirtyBitMode = rattan.even
+		var dirtyBitMode = parity.even
 		var lat = (-90.0, 90.0)
 		var long = (-180.0, 180.0)
 		

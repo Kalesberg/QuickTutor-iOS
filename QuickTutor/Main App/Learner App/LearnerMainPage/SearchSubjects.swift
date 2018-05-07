@@ -87,7 +87,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		searchTextField?.textColor = .white
 		searchTextField?.adjustsFontSizeToFitWidth = true
 		searchTextField?.autocapitalizationType = .words
-		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		searchTextField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		searchTextField?.keyboardAppearance = .dark
 		
 		
@@ -205,7 +205,6 @@ class SearchSubjects: BaseViewController {
 		if !initialSetup && initialIndex != nil{
 			contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
 			
-			contentView.searchBar.placeholder = categories[selectedCategory].subcategory.phrase
 			contentView.headerView.category.text = categories[selectedCategory].mainPageData.displayName
 			
 			initialSetup = true
@@ -401,12 +400,6 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 }
 
-extension SearchSubjects : UIPopoverPresentationControllerDelegate {
-	func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-		return .overCurrentContext
-	}
-}
-
 extension SearchSubjects : UISearchBarDelegate {
 	
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -470,12 +463,12 @@ extension SearchSubjects : UIScrollViewDelegate {
 	}
 	
 	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-		let x = scrollView.contentOffset.x
-		let w = scrollView.bounds.size.width
-		let currentPage = Int(ceil(x / w))
-		
-		if currentPage < 12 {
-			contentView.searchBar.placeholder = categories[currentPage].subcategory.phrase
-		}
+//		let x = scrollView.contentOffset.x
+//		let w = scrollView.bounds.size.width
+//		let currentPage = Int(ceil(x / w))
+//
+//		if currentPage < 12 {
+//			contentView.searchBar.placeholder = categories[currentPage].subcategory.phrase
+//		}
 	}
 }
