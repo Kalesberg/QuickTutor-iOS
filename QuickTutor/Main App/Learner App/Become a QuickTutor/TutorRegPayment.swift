@@ -77,7 +77,7 @@ class PaymentTextField : NoPasteTextField {
     }
 }
 
-class TutorRegPaymentView : MainLayoutTitleBackButton, Keyboardable {
+class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
     
     var keyboardComponent = ViewComponent()
     var contentView = UIView()
@@ -87,11 +87,11 @@ class TutorRegPaymentView : MainLayoutTitleBackButton, Keyboardable {
 	var routingNumberTextfield = PaymentTextField()
     var accountNumberTitle = SectionTitle()
 	var accountNumberTextfield  = PaymentTextField()
-    var addBankButton = AddBankButton()
+    //var addBankButton = AddBankButton()
     
 	override func configureView() {
         addSubview(contentView)
-        addSubview(addBankButton)
+        //addSubview(addBankButton)
         contentView.addSubview(nameTitle)
         contentView.addSubview(nameTextfield)
         contentView.addSubview(routingNumberTitle)
@@ -101,6 +101,9 @@ class TutorRegPaymentView : MainLayoutTitleBackButton, Keyboardable {
         
         addKeyboardView()
 		super.configureView()
+        
+        progressBar.progress = 0.6
+        progressBar.applyConstraints()
 
         title.label.text = "Payment"
         
@@ -121,18 +124,18 @@ class TutorRegPaymentView : MainLayoutTitleBackButton, Keyboardable {
 	override func applyConstraints() {
 		super.applyConstraints()
         
-        addBankButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(keyboardView.snp.top).inset(-10)
-            make.width.equalToSuperview().multipliedBy(0.85)
-            make.height.equalTo(35)
-            make.centerX.equalToSuperview()
-        }
+//        addBankButton.snp.makeConstraints { (make) in
+//            make.bottom.equalTo(keyboardView.snp.top).inset(-10)
+//            make.width.equalToSuperview().multipliedBy(0.85)
+//            make.height.equalTo(35)
+//            make.centerX.equalToSuperview()
+//        }
         
         contentView.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.85)
             make.top.equalTo(navbar.snp.bottom)
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(addBankButton.snp.top)
+            make.bottom.equalTo(keyboardView.snp.top)
         }
         
         nameTitle.snp.makeConstraints { (make) in
@@ -223,38 +226,38 @@ class TutorRegPayment: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
 	
-	@objc private func textFieldDidChange(_ textField: UITextField) {
-		
-		contentView.addBankButton.isUserInteractionEnabled = false
-		
-		guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
-			print("invalid name")
-            contentView.addBankButton.alpha = 0.5
-			return
-		}
-		print("Good Name")
-		guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
-			print("invalid routing")
-            contentView.addBankButton.alpha = 0.5
-			return
-		}
-		
-		print("Good routing")
-		guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
-			print("invalid account")
-            contentView.addBankButton.alpha = 0.5
-			return
-		}
-		print("Good account.")
-        
-        contentView.addBankButton.alpha = 1.0
-		contentView.addBankButton.isUserInteractionEnabled = true
-		
-		self.fullName = name
-		self.routingNumber = routingNumber
-		self.accountNumber = accountNumber
-	
-	}
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+//
+//        contentView.addBankButton.isUserInteractionEnabled = false
+//
+//        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
+//            print("invalid name")
+//            contentView.addBankButton.alpha = 0.5
+//            return
+//        }
+//        print("Good Name")
+//        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
+//            print("invalid routing")
+//            contentView.addBankButton.alpha = 0.5
+//            return
+//        }
+//
+//        print("Good routing")
+//        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
+//            print("invalid account")
+//            contentView.addBankButton.alpha = 0.5
+//            return
+//        }
+//        print("Good account.")
+//
+//        contentView.addBankButton.alpha = 1.0
+//        contentView.addBankButton.isUserInteractionEnabled = true
+//
+//        self.fullName = name
+//        self.routingNumber = routingNumber
+//        self.accountNumber = accountNumber
+//
+    }
 	
 	private func getTutorBankToken(completion: @escaping (Error?) -> Void) {
 		let bankAccount = STPBankAccountParams()
@@ -274,13 +277,16 @@ class TutorRegPayment: BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if (touchStartView is AddBankButton) {
-			contentView.addBankButton.isUserInteractionEnabled = false
+		if (touchStartView is NavbarButtonNext) {
+			//contentView.addBankButton.isUserInteractionEnabled = false
 			getTutorBankToken { (error) in
 				if let error = error {
 					print(error.localizedDescription)
-					self.contentView.addBankButton.isUserInteractionEnabled = false
+				//	self.contentView.addBankButton.isUserInteractionEnabled = false
 				} else {
+                    TutorRegistration.bankHoldersName = self.fullName
+                    TutorRegistration.accountNumber = self.accountNumber
+                    TutorRegistration.routingNumber = self.routingNumber
 					self.navigationController?.pushViewController(TutorAddress(), animated: true)
 				}
 			}

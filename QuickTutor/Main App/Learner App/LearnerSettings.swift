@@ -5,14 +5,6 @@
 //  Created by QuickTutor on 1/28/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
 
-//TODO: Design
-//  - add the social media images (it is all ready set up, the images are interactable and alligned, it is invisible though)
-//  - add a pop up that asks, "Are you sure you want to sign out?"
-//  - sizing for smaller devices
-//
-//TODO: Backend
-//  - Community Guidlines and User Safety need to have Viewcontrollers that either take us to website or take us to textview.
-//  - Calendar functionality
 
 import UIKit
 import SnapKit
@@ -25,9 +17,6 @@ class LearnerSettingsView : MainLayoutTitleOneButton {
     var spreadLoveHeader = ItemHeader()
     var rateUs = RateUs()
     var followUs = FollowUs()
-//    var calendarHeader = ItemHeader()
-//    var calendarToggle = ItemToggle()
-//    var calendarInfo = SettingsItem()
     var communityHeader = ItemHeader()
     var communityGuidelines = CommunityGuidelines()
     var userSafety = UserSafety()
@@ -48,9 +37,6 @@ class LearnerSettingsView : MainLayoutTitleOneButton {
         scrollView.addSubview(spreadLoveHeader)
         scrollView.addSubview(rateUs)
         scrollView.addSubview(followUs)
-//        scrollView.addSubview(calendarHeader)
-//        scrollView.addSubview(calendarToggle)
-//        scrollView.addSubview(calendarInfo)
         scrollView.addSubview(communityHeader)
         scrollView.addSubview(communityGuidelines)
         scrollView.addSubview(userSafety)
@@ -67,15 +53,6 @@ class LearnerSettingsView : MainLayoutTitleOneButton {
         
         spreadLoveHeader.label.text = "Spread the Love"
         
-//        calendarHeader.label.text = "Scheduling"
-//
-//        calendarToggle.label.text = "Calendar"
-//        calendarToggle.divider.isHidden = true
-//
-//        calendarInfo.label.text = "Connecting your Calendar to QuickTutor will sync your upcoming tutoring sessions with your everyday schedule"
-//        calendarInfo.label.font = Fonts.createSize(14)
-//        calendarInfo.label.textColor = Colors.grayText
-
         communityHeader.label.text = "Community"
         
         accountHeader.label.text = "Account"
@@ -110,26 +87,6 @@ class LearnerSettingsView : MainLayoutTitleOneButton {
             make.width.equalToSuperview()
             make.height.equalTo(50)
         }
-        
-//        calendarHeader.selfConstraint(top: followUs.snp.bottom)
-//
-//        calendarToggle.snp.makeConstraints { (make) in
-//            make.top.equalTo(calendarHeader.snp.bottom)
-//            make.width.equalToSuperview()
-//            make.height.equalTo(50)
-//        }
-//
-//        calendarInfo.snp.makeConstraints { (make) in
-//            make.top.equalTo(calendarToggle.snp.bottom)
-//            make.width.equalToSuperview()
-//            make.height.equalTo(50)
-//        }
-//
-//        calendarInfo.label.snp.makeConstraints { (make) in
-//            make.left.equalToSuperview().inset(15)
-//            make.width.equalToSuperview().multipliedBy(0.85)
-//            make.centerY.equalToSuperview()
-//        }
         
         communityHeader.selfConstraint(top: followUs.snp.bottom)
         
@@ -193,13 +150,13 @@ class SettingsItem : BaseView {
 
 
 class SettingsInteractableItem : SettingsItem, InteractableBackground {
-    
+
     var backgroundComponent = ViewComponent()
 
     override func configureView() {
         super.configureView()
         isUserInteractionEnabled = true
-        
+
         addBackgroundView()
     }
 }
@@ -555,19 +512,15 @@ class SettingsScrollView : BaseScrollView {
                 UIApplication.shared.openURL(url)
             }
         } else if(touchStartView is RateUs) {
-            //take user to app store to rate the app
             SocialMedia.socialMediaManager.rateApp(appUrl: "itms-apps://itunes.apple.com/", webUrl: "", completion: { (success) in
             })
         }  else if(touchStartView is TwitterIcon) {
-            //take user to our twitter
             SocialMedia.socialMediaManager.rateApp(appUrl:  "twitter://user?screen_name=QuickTutorApp", webUrl: "https://twitter.com/QuickTutorApp", completion: { (success) in
             })
         } else if(touchStartView is InstagramIcon) {
-            //take user to our in instagram
             SocialMedia.socialMediaManager.rateApp(appUrl:  "instagram://user?username=QuickTutor", webUrl: "https://www.instagram.com/quicktutor/", completion: { (success) in
             })
         } else if(touchStartView is FacebookIcon) {
-            //take user to our facebook
             SocialMedia.socialMediaManager.rateApp(appUrl:  "fb://profile/QuickTutor", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { (success) in
             })
         } else if(touchStartView is SignOut) {
@@ -607,8 +560,6 @@ class LearnerSettings : BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        //contentView.applyGradient(firstColor: Colors.tutorBlue.cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: contentView.bounds)
     }
     
     override func didReceiveMemoryWarning() {

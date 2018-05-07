@@ -4,10 +4,6 @@
 //
 //  Created by QuickTutor on 3/7/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-//
-//TODO: Backend
-//  - first letter not capitalized
-
 
 import UIKit
 import FirebaseAuth

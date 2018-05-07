@@ -127,7 +127,11 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.top.equalToSuperview().inset(15)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.equalTo(170)
+            if UIScreen.main.bounds.height == 480 {
+                make.height.equalTo(140)
+            } else {
+                make.height.equalTo(170)
+            }
         }
         reviewLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
@@ -432,8 +436,12 @@ class TutorCardHeader : InteractableView {
         imageView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(8)
             make.centerX.equalToSuperview()
-            make.height.equalTo(110)
-            make.width.equalTo(110)
+            if UIScreen.main.bounds.height == 480 {
+                make.height.width.equalTo(85)
+            } else {
+                make.height.width.equalTo(110)
+            }
+            
         }
         name.snp.makeConstraints { (make) in
             make.top.equalTo(imageView.snp.bottom)
@@ -476,22 +484,22 @@ class TutorDistanceView : BaseView {
 }
 
 //class TutorCardBody : InteractableView {
-//    
+//
 //    let priceRating = PriceRating()
 //    let aboutMe = AboutMeView()
-//    
+//
 //    override func configureView() {
 //        addSubview(priceRating)
 //        addSubview(aboutMe)
-//        
+//
 //        super.configureView()
 //        aboutMe.aboutMeLabel.label.text = "About Alex"
-//        
+//
 //        backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-//        
+//
 //        applyConstraints()
 //    }
-//    
+//
 //    override func applyConstraints() {
 //        priceRating.snp.makeConstraints { (make) in
 //            make.top.equalToSuperview()

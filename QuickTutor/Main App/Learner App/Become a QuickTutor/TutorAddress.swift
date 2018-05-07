@@ -75,7 +75,7 @@ fileprivate class AddressTextField : NoPasteTextField {
 	}
 }
 
-class TutorAddressView : MainLayoutTitleBackButton, Keyboardable {
+class TutorAddressView : TutorRegistrationLayout, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
 	var contentView = UIView()
@@ -92,12 +92,12 @@ class TutorAddressView : MainLayoutTitleBackButton, Keyboardable {
 	var zipTitle = SectionTitle()
 	fileprivate var zipTextField = AddressTextField()
 	
-	fileprivate var submitAddressButton = SubmitAddressButton()
+	//fileprivate var submitAddressButton = SubmitAddressButton()
 	
 	
 	override func configureView() {
 		addSubview(contentView)
-		addSubview(submitAddressButton)
+		//addSubview(submitAddressButton)
 		contentView.addSubview(addressLine1Title)
 		contentView.addSubview(addressLine1TextField)
 		contentView.addSubview(cityTitle)
@@ -136,18 +136,18 @@ class TutorAddressView : MainLayoutTitleBackButton, Keyboardable {
 	override func applyConstraints() {
 		super.applyConstraints()
 		
-		submitAddressButton.snp.makeConstraints { (make) in
-			make.bottom.equalTo(keyboardView.snp.top).inset(-10)
-			make.width.equalToSuperview().multipliedBy(0.85)
-			make.height.equalTo(35)
-			make.centerX.equalToSuperview()
-		}
+//        submitAddressButton.snp.makeConstraints { (make) in
+//            make.bottom.equalTo(keyboardView.snp.top).inset(-10)
+//            make.width.equalToSuperview().multipliedBy(0.85)
+//            make.height.equalTo(35)
+//            make.centerX.equalToSuperview()
+//        }
 		
 		contentView.snp.makeConstraints { (make) in
 			make.width.equalToSuperview().multipliedBy(0.85)
 			make.top.equalTo(navbar.snp.bottom)
 			make.centerX.equalToSuperview()
-			make.bottom.equalTo(submitAddressButton.snp.top)
+			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
 		}
 		
 		addressLine1Title.snp.makeConstraints { (make) in
@@ -251,7 +251,7 @@ class TutorAddress : BaseViewController {
 	}
 	
 	@objc private func textFieldDidChange(_ textField: UITextField) {
-		contentView.submitAddressButton.isUserInteractionEnabled = false
+		//contentView.submitAddressButton.isUserInteractionEnabled = false
 		guard let line1 = textFields[0].text, line1.count > 5 else {
 			print("invalid line1")
 			return
@@ -270,11 +270,11 @@ class TutorAddress : BaseViewController {
 		}
 		print("Valid info")
 		addressString = line1 + " " + city + state + ", " + zipcode
-		contentView.submitAddressButton.isUserInteractionEnabled = true
+		//contentView.submitAddressButton.isUserInteractionEnabled = true
 	}
 	
 	override func handleNavigation() {
-		if (touchStartView is SubmitAddressButton) {
+		if (touchStartView is NavbarButtonNext) {
 			TutorLocation.shared.convertAddressToLatLong(addressString: addressString) { (error) in
 				if let error = error {
 					print(error.localizedDescription)

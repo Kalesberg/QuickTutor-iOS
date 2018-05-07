@@ -87,7 +87,7 @@ class TutorMainPageView : MainPageView {
             make.top.equalTo(navbar.snp.bottom)
             make.left.equalToSuperview().inset(20)
             make.right.equalToSuperview().inset(20)
-            make.height.equalTo(80)
+            make.height.equalToSuperview().multipliedBy(0.11)
         }
         
         xButton.snp.makeConstraints { (make) in
@@ -105,7 +105,7 @@ class TutorMainPageView : MainPageView {
         }
         
         buttonContainer.snp.makeConstraints { (make) in
-            make.height.equalTo(110)
+            make.height.equalToSuperview().multipliedBy(0.13)
             make.right.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(10)
             make.top.equalTo(viewTrendingButton.snp.bottom).inset(-50)
@@ -119,16 +119,14 @@ class TutorMainPageView : MainPageView {
 //        }
         
         ratingButton.snp.makeConstraints { (make) in
-            make.width.equalTo(110)
+            make.width.height.equalTo(110)
             make.centerX.equalToSuperview().inset(-80)
-            make.height.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
         earningsButton.snp.makeConstraints { (make) in
-            make.width.equalTo(110)
+            make.width.height.equalTo(110)
             make.centerX.equalToSuperview().inset(80)
-            make.height.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
@@ -141,7 +139,7 @@ class TutorMainPageView : MainPageView {
         }
         
         improveItem.snp.makeConstraints { (make) in
-            make.top.equalTo(earningsButton.snp.bottom).inset(-50)
+            make.top.equalTo(earningsButton.snp.bottom).inset(-40)
             make.height.equalTo(height)
             make.width.equalToSuperview().inset(-4)
             make.centerX.equalToSuperview()

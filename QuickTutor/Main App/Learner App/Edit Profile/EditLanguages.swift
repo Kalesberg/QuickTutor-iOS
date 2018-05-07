@@ -4,17 +4,6 @@
 //
 //  Created by QuickTutor on 2/28/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-//
-// TODO Design:
-//  - Make cell height smaller
-//
-//TODO Backend:
-//  - is the searchbar necessary?
-// 	- Currently allow 10 languages, need to add an error message for when the user hits that limit
-//  - Remove last item from array of languages cuz xcode forces an empty line at the end of the file EDIT:
-// I force this empty item ^ to ensure we don't unwrap a non-optional variable. I then account for it later in the code.
-//  - Change cell checkbox to its opposite when it's tapped, will prolly have to cast the cell to the checkbox object, will prolly have to disable interaction on the checkbox
-//	Haven't touched this class too because i didnt want to deal with the language.txt.
 
 
 import Foundation

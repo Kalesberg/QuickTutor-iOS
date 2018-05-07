@@ -132,13 +132,22 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
             make.width.equalToSuperview()
         }
         
-        textView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.height.equalTo(180)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
+        if UIScreen.main.bounds.height == 480 {
+            textView.snp.remakeConstraints { (make) in
+                make.top.equalTo(titleLabel.snp.bottom)
+                make.height.equalTo(120)
+                make.width.equalToSuperview()
+                make.centerX.equalToSuperview()
+            }
+        } else {
+            textView.snp.makeConstraints { (make) in
+                make.top.equalTo(titleLabel.snp.bottom)
+                make.height.equalTo(180)
+                make.width.equalToSuperview()
+                make.centerX.equalToSuperview()
+            }
         }
-
+        
         characterCount.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(10)
             make.bottom.equalToSuperview().inset(10)

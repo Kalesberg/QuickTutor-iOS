@@ -4,9 +4,6 @@
 //
 //  Created by QuickTutor on 1/28/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-//
-//  TODO: Update Design, Remake, Update SubtitleLabel, force keyboard
-
 
 import UIKit
 import Stripe
@@ -90,13 +87,6 @@ class LearnerPaymentView : MainLayoutTitleBackButton, Keyboardable {
         frontOfCard.third4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
         frontOfCard.forth4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
         backOfCard.CVC.attributedPlaceholder = NSAttributedString(string: "XXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        //        frontOfCard.second4.snp.remakeConstraints { (make) in
-        //            make.top.equalTo(frontOfCard.chip.snp.bottom).multipliedBy(1.1)
-        //            make.width.equalToSuperview().multipliedBy(0.25)
-        //            make.height.equalToSuperview().multipliedBy(0.2)
-        //            make.left.equalTo(frontOfCard.first4.snp.right)
-        //        }
-        
     }
     fileprivate func layoutAmexCard() {
         frontOfCard.forth4.isHidden = true
@@ -104,20 +94,6 @@ class LearnerPaymentView : MainLayoutTitleBackButton, Keyboardable {
         frontOfCard.second4.attributedPlaceholder = NSAttributedString(string: "XXXXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
         frontOfCard.third4.attributedPlaceholder = NSAttributedString(string: "XXXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
         backOfCard.CVC.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        
-        //        frontOfCard.second4.snp.remakeConstraints { (make) in
-        //            make.top.equalTo(frontOfCard.chip.snp.bottom).multipliedBy(1.1)
-        //            make.width.equalToSuperview().multipliedBy(0.35)
-        //            make.height.equalToSuperview().multipliedBy(0.2)
-        //            make.left.equalTo(frontOfCard.first4.snp.right)
-        //        }
-        //
-        //        frontOfCard.third4.snp.remakeConstraints { (make) in
-        //            make.top.equalTo(frontOfCard.chip.snp.bottom).multipliedBy(1.1)
-        //            make.width.equalToSuperview().multipliedBy(0.28)
-        //            make.height.equalToSuperview().multipliedBy(0.2)
-        //            make.left.equalTo(frontOfCard.second4.snp.right)
-        //        }
     }
     fileprivate func layoutDinersCard(){
         frontOfCard.forth4.isHidden = false
@@ -226,15 +202,12 @@ fileprivate class BackOfCard : InteractableView, Interactable {
             make.width.equalTo(greyStrip.frame.height)
             make.height.equalToSuperview().multipliedBy(0.2)
         }
-        
-       // layoutIfNeeded()
     }
 }
 
 fileprivate class FrontOfCard : InteractableView, Interactable {
     
     var frontOfCardContents = UIView()
-    //var chip = UIImageView()
     var brandBox = UIImageView()
     var cardNumberLabel = LeftTextLabel()
     
@@ -254,7 +227,6 @@ fileprivate class FrontOfCard : InteractableView, Interactable {
         addSubview(frontOfCardContents)
         
         frontOfCardContents.addSubview(brandBox)
-        //frontOfCardContents.addSubview(chip)
         frontOfCardContents.addSubview(cardNumberLabel)
         frontOfCardContents.addSubview(cardNumberContainer)
         
@@ -272,11 +244,7 @@ fileprivate class FrontOfCard : InteractableView, Interactable {
         
         layer.cornerRadius = 6
         
-        //chip.backgroundColor = UIColor(red: 0.3019312322, green: 0.3019797206, blue: 0.3019206524, alpha: 1)
-        //chip.layer.cornerRadius = 4
-        
         brandBox.layer.cornerRadius = 4
-        //        brandBox.backgroundColor = UIColor(named: "mainapp-background-dark")
         
         cardNumberLabel.label.textColor = UIColor(red: 149/255, green: 133/255, blue: 232/255, alpha: 1.0)
         cardNumberLabel.label.text = "CARD NUMBER"

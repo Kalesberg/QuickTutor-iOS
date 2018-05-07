@@ -10,41 +10,12 @@ import SnapKit
 import UIKit
 import Foundation
 
-class HelpHeader : MainLayoutTitleBackButton {
-    
-    var header = LeftTextLabel()
-    
-    override func configureView() {
-        addSubview(header)
-        super.configureView()
-        
-        header.label.font = Fonts.createSize(22)
-    }
-	
-	
-    override func applyConstraints() {
-        super.applyConstraints()
-        
-        header.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom)
-            make.height.equalTo(70)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
-        }
-        
-        header.label.snp.remakeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.2)
-        }
-    }
-}
 
 class LearnerHelpView : MainLayoutTitleOneButton {
     
     var subtitle = LeftTextLabel()
-    var tableView                   = UITableView()
-    var header                     = UIView()
+    var tableView = UITableView()
+    var header = UIView()
 	
 	var backButton = NavbarButtonX()
 	

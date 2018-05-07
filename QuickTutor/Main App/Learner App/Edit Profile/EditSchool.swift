@@ -4,11 +4,7 @@
 //
 //  Created by QuickTutor on 3/1/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
-//
-//TODO Design:
-//  - fix up cell view
-//TODO Backend:
-//  - add barebones searchbar and tableview/cells... i can design it
+
 
 import Foundation
 import UIKit

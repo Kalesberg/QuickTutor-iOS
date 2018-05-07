@@ -12,9 +12,15 @@ class TutorBioView : EditBioView {
             nextButton = newValue as! NavbarButtonNext
         }
     }
+    
+    var progressBar = ProgressBar()
 	
 	override func configureView() {
+        addSubview(progressBar)
 		super.configureView()
+        
+        progressBar.progress = 0.3
+        progressBar.applyConstraints()
 		
 		title.label.text = "Biography"
 		textView.textView.text = ""
@@ -31,7 +37,20 @@ class TutorBioView : EditBioView {
 	
 	override func applyConstraints() {
 		super.applyConstraints()
+        
+        progressBar.snp.makeConstraints { (make) in
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalTo(navbar.snp.bottom)
+            make.height.equalTo(8)
+        }
 	}
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        navbar.backgroundColor = Colors.tutorBlue
+        statusbarView.backgroundColor = Colors.tutorBlue
+    }
 	
 	override func keyboardWillAppear() {
         if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
@@ -65,12 +84,14 @@ class TutorBio: BaseViewController {
 		super.viewDidLoad()
 		contentView.textView.textView.delegate = self
         
+        
+        
         self.hideKeyboardWhenTappedAround()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
+
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardWillHide, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
 	}
