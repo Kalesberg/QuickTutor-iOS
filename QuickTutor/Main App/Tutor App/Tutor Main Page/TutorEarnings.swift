@@ -100,7 +100,7 @@ class TutorEarningsView : TutorLayoutView {
         tableView.separatorColor = Colors.divider
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = Colors.registrationDark
-        tableView.isScrollEnabled = false
+        tableView.isScrollEnabled = true
         
         return tableView
     }()

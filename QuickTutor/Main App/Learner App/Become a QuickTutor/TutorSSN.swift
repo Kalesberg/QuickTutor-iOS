@@ -34,10 +34,9 @@ class SSNDigitTextField : RegistrationDigitTextField {
 	}
 }
 
-class TutorSSNView : MainLayoutTitleOneButton, Keyboardable {
+class TutorSSNView : TutorRegistrationLayout, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
-	var nextButton        = RegistrationNextButton()
 	var titleLabel        = UILabel()
 	
 	var digitView         = UIView()
@@ -50,22 +49,10 @@ class TutorSSNView : MainLayoutTitleOneButton, Keyboardable {
 	var lockImageView     = UIImageView()
 	var ssnInfo           = LeftTextLabel()
 	
-	var backButton = NavbarButtonX()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		}
-		set {
-			backButton = newValue as! NavbarButtonX
-		}
-	}
-	
 	override func configureView() {
 		addSubview(titleLabel)
 		addSubview(digitView)
 		addSubview(ssnInfo)
-		addSubview(nextButton)
         addKeyboardView()
 		digitView.addSubview(digit1)
 		digitView.addSubview(digit2)
@@ -73,6 +60,9 @@ class TutorSSNView : MainLayoutTitleOneButton, Keyboardable {
 		digitView.addSubview(digit4)
 		super.configureView()
 		
+        progressBar.progress = 0.45
+        progressBar.applyConstraints()
+        
 		title.label.text = "SSN"
 		
 		titleLabel.text = "For authentication purposes, we'll need the last 4 digits of your Social Security Number."
@@ -114,27 +104,12 @@ class TutorSSNView : MainLayoutTitleOneButton, Keyboardable {
 			make.width.equalTo(titleLabel)
 			make.centerX.equalToSuperview()
 		}
-		
-        nextButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
-            make.width.equalToSuperview()
-            make.height.equalTo(60)
-            make.centerX.equalToSuperview()
-        }
 	}
     
     func keyboardWillAppear() {
         if (digit1.textField.isFirstResponder) {
             if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
                 ssnInfo.alpha = 0.0
-            }
-        
-            nextButton.snp.removeConstraints()
-            nextButton.snp.makeConstraints { (make) in
-                make.bottom.equalTo(keyboardView.snp.top)
-                make.width.equalToSuperview()
-                make.height.equalTo(60)
-                make.centerX.equalToSuperview()
             }
         
             needsUpdateConstraints()
@@ -148,14 +123,6 @@ class TutorSSNView : MainLayoutTitleOneButton, Keyboardable {
                 UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
                     self.ssnInfo.alpha = 1.0
                 })
-            }
-            
-            nextButton.snp.removeConstraints()
-            nextButton.snp.makeConstraints { (make) in
-                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
-                make.width.equalToSuperview()
-                make.height.equalTo(60)
-                make.centerX.equalToSuperview()
             }
             
             needsUpdateConstraints()
@@ -207,7 +174,6 @@ class TutorSSN : BaseViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		contentView.nextButton.isUserInteractionEnabled = false
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -221,7 +187,6 @@ class TutorSSN : BaseViewController {
 	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
     
     @objc func keyboardWillAppear() {
@@ -260,7 +225,6 @@ class TutorSSN : BaseViewController {
 		}
 		last4SSN = first + second + third + forth
 		print(last4SSN)
-		contentView.nextButton.isUserInteractionEnabled = true
 	}
 	
 	private func textFieldController(current: UITextField, textFieldToChange: UITextField) {
@@ -268,7 +232,7 @@ class TutorSSN : BaseViewController {
 		textFieldToChange.isEnabled = true
 	}
 	override func handleNavigation() {
-		if(touchStartView is RegistrationNextButton) {
+		if(touchStartView is NavbarButtonNext) {
 			TutorRegistration.last4SSN = last4SSN
 			
 			self.navigationController?.pushViewController(TutorRegPayment(), animated: true)
@@ -310,7 +274,6 @@ extension TutorSSN : UITextFieldDelegate {
 			textFieldController(current: textFields[index], textFieldToChange: textFields[index - 1])
 			textFields[index - 1].becomeFirstResponder()
 			index -= 1
-			contentView.nextButton.isUserInteractionEnabled = false
 			return false
 		}
 		

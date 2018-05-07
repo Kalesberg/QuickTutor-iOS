@@ -47,10 +47,20 @@ class TutorPreferencesNextButton : InteractableView, Interactable {
 }
 
 
-class TutorPreferencesLayout : MainLayoutTitleBackButton {
+class TutorRegistrationLayout : MainLayoutTitleBackTwoButton {
+    
+    var nextButton = NavbarButtonNext()
+    
+    override var rightButton: NavbarButton {
+        get {
+            return nextButton
+        }
+        set {
+            nextButton = newValue as! NavbarButtonNext
+        }
+    }
     
     let progressBar = ProgressBar()
-    let nextButton = TutorPreferencesNextButton()
     
     override func configureView() {
         addSubview(progressBar)
@@ -71,7 +81,7 @@ class TutorPreferencesLayout : MainLayoutTitleBackButton {
 }
 
 
-class TutorPreferencesView : TutorPreferencesLayout {
+class TutorPreferencesView : TutorRegistrationLayout {
     
     let tableView : UITableView = {
         let tableView = UITableView()
@@ -93,29 +103,29 @@ class TutorPreferencesView : TutorPreferencesLayout {
         title.label.text = "Set Your Preferences"
         
         addSubview(progressBar)
-        progressBar.progress = 0.5
+        progressBar.progress = 0.15
         progressBar.applyConstraints()
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-        
-        nextButton.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            if (UIScreen.main.bounds.height == 812) {
-                make.height.equalTo(80)
-            } else {
-                make.height.equalTo(60)
-            }
-        }
+//
+//        nextButton.snp.makeConstraints { (make) in
+//            make.bottom.equalToSuperview()
+//            make.width.equalToSuperview()
+//            make.centerX.equalToSuperview()
+//            if (UIScreen.main.bounds.height == 812) {
+//                make.height.equalTo(80)
+//            } else {
+//                make.height.equalTo(60)
+//            }
+//        }
         
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom).inset(-8)
             make.leading.equalTo(layoutMarginsGuide.snp.leading)
             make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
-            make.bottom.equalTo(nextButton.snp.top)
+            make.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
 }
@@ -142,7 +152,6 @@ class TutorPreferences : BaseViewController {
         contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
         contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
         
-
     }
     
     override func loadView() {
@@ -151,7 +160,6 @@ class TutorPreferences : BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
     }
 
     @objc
@@ -190,10 +198,10 @@ class TutorPreferences : BaseViewController {
     }
     
     override func handleNavigation() {
-        if (touchStartView is TutorPreferencesNextButton) {
+        if (touchStartView is NavbarButtonNext) {
             setUserPreferences()
-			
-			navigationController?.pushViewController(TutorBio(), animated: true)
+			let next = TutorBio()
+			navigationController?.pushViewController(next, animated: true)
         }
     }
 }

@@ -204,12 +204,6 @@ class MainLayoutHeader : MainLayoutTitleBackButton {
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
-        
-//        header.label.snp.remakeConstraints { (make) in
-//            make.width.equalToSuperview()
-//            make.centerX.equalToSuperview()
-//            make.centerY.equalToSuperview().multipliedBy(1.2)
-//        }
     }
 }
 

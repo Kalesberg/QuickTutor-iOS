@@ -108,7 +108,7 @@ class TutorAddUsernameTextfield : InteractableView {
 }
 
 
-class TutorAddUsernameView : TutorPreferencesLayout, Keyboardable {
+class TutorAddUsernameView : TutorRegistrationLayout, Keyboardable {
     
     var keyboardComponent = ViewComponent()
     

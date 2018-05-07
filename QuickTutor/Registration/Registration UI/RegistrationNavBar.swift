@@ -72,32 +72,3 @@ class ProgressBar : BaseView {
     }
 }
 
-//class RegistrationNavBar: BaseView {
-//    var blackBar      = BaseView()
-//    var progressBar   = ProgressBar()
-//    
-//    override func configureView() {
-//        super.configureView()
-//        addSubview(blackBar)
-//        addSubview(progressBar)
-//        
-//        blackBar.backgroundColor = Colors.registrationDark
-//    }
-//    
-//    override func applyConstraints() {
-//        blackBar.snp.makeConstraints { (make) in
-//            make.width.equalToSuperview()
-//            make.height.equalToSuperview()
-//            make.top.equalToSuperview()
-//        }
-//        
-//        progressBar.snp.makeConstraints { (make) in
-//            make.width.equalToSuperview()
-//            make.centerX.equalToSuperview()
-//            make.top.equalTo(blackBar.snp.bottom)
-//            make.height.equalTo(8)
-//        }
-//        
-//        progressBar.applyConstraints()
-//    }
-//}

@@ -203,12 +203,6 @@ class Sidebar : BaseView {
         divider.backgroundColor = Colors.divider
         divider1.backgroundColor = Colors.divider
         divider2.backgroundColor = Colors.divider
-        
-//        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-//            profileView.profilePicView.image = image
-//        } else {
-//            //set to some arbitrary image.
-//        }
 		
         applyConstraints()
     }
@@ -335,8 +329,6 @@ class RatingView : InteractableView {
         addSubview(ratingLabel)
         addSubview(tutorOrLearnerLabel)
         super.configureView()
-		
-		//ratingLabel.text = String(LearnerData.userData.rating)
 		
         applyConstraints()
     }
@@ -474,7 +466,7 @@ class BecomeQTSidebarItem : SidebarItemIcon {
 class TaxSidebarItem : SidebarItem {
     override func configureView() {
         super.configureView()
-    
+
         label.label.text = "Tax Information"
     }
 }

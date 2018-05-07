@@ -150,12 +150,14 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 			make.height.equalToSuperview()
 			make.centerY.equalTo(backButton.image)
 		}
+        
 		noSelectedItemsLabel.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-6)
 			make.height.equalTo(45)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
+        
 		pickedCollectionView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-6)
 			make.height.equalTo(45)
@@ -167,7 +169,11 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-6)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.4)
+            if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
+                make.height.equalTo(235)
+            } else {
+                make.height.equalTo(295)
+            }
 		}
 		
 		tableView.snp.makeConstraints { (make) in

@@ -18,7 +18,6 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		let view = UIView()
 		view.backgroundColor = Colors.learnerPurple
 		view.layer.cornerRadius = 10
-		//view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width:2,height:2), radius: 5)
 		return view
 	}()
 	
@@ -39,7 +38,6 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		
 		view.backgroundColor = Colors.registrationDark
 		view.layer.cornerRadius = 8
-		//view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: 2, height: 2), radius: 5)
 		
 		return view
 	}()
@@ -59,7 +57,6 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		view.addSubview(price)
 		
 		featuredTutor.backgroundColor = .clear
-		//backgroundColor = .yellow
 		applyConstraints()
 	}
 	func applyConstraints(){

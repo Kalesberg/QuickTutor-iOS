@@ -165,15 +165,11 @@ class MainPage : BaseViewController {
             })
             hideBackground()
         } else if(touchStartView == contentView.messagesButton) {
-//			parentPageViewController.goToNextPage()
-			
 			parentPageViewController.setViewControllers([MessagesVC()], direction: .forward, animated: true, completion: nil)
-
         }
     }
     
     internal func showSidebar() {
-        //contentView.sidebar.fadeIn(withDuration: 0.1, alpha: 1.0)
         contentView.sidebar.alpha = 1.0
         contentView.sidebar.isUserInteractionEnabled = true
     }

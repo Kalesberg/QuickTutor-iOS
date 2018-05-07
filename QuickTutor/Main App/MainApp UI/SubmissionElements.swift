@@ -41,33 +41,3 @@ class SubmitButton : InteractableView, Interactable {
     }
 }
 
-class SubmissionTextField : NoPasteTextField {
-    
-    var line = UIView()
-    
-    override func configureTextField() {
-        addSubview(line)
-        super.configureTextField()
-        
-        tintColor = Colors.learnerPurple
-        font = Fonts.createSize(20)
-        isUserInteractionEnabled = true
-		
-        textColor = .white
-        
-        line.backgroundColor = Colors.registrationDark
-        
-        applyConstraints()
-    }
-    
-    func applyConstraints() {
-        line.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview().offset(5)
-            make.width.equalToSuperview()
-            make.height.equalTo(1)
-            make.centerX.equalToSuperview()
-        }
-    }
-    
-   
-}
