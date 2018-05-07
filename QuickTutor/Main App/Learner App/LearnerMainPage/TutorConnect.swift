@@ -153,8 +153,8 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	var subcategory : String! {
 		didSet {
 			QueryData.shared.queryAWTutorBySubcategory(subcategory: subcategory!) { (tutors) in
-				if let tutor = tutors {
-					self.datasource = tutor
+				if let tutors = tutors {
+					self.datasource = tutors.sortWithoutDistance()
 				}
 			}
 		}
@@ -164,7 +164,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 		didSet {
 			QueryData.shared.queryAWTutorBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
 				if let tutors = tutors {
-					self.datasource = tutors
+					self.datasource = tutors.sortWithoutDistance()
 				}
 			}
 		}
@@ -190,14 +190,17 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 		super.didReceiveMemoryWarning()
 	}
 	
-	func sortWithDistance(_ tutors: [AWTutor]? ) {
-		guard let tutors = tutors else {
+	func sortWithDistance(_ tutors: [AWTutor] ) {
+		print("her.")
+
+		if tutors.count == 0 {
 			datasource = []
 			return
 		}
+		
 		guard let currentUserLocation = location else {
 			print("unable to find your location.")
-			sortWithoutDistance(tutors)
+			datasource = tutors.sortWithoutDistance()
 			return
 		}
 		
@@ -205,7 +208,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 		var d1 : Double = 150
 		
 		datasource = tutors.sorted {
-			
+			print("1")
 			if let location1 = $0.location?.location {
 				d0 = location1.distance(from: currentUserLocation)
 			}
@@ -220,31 +223,10 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 				return $0.price < $1.price
 			} else if d0 != d1 {
 				return d0 < d1
-			}else if $0.numSessions != $1.numSessions {
-				return $0.numSessions < $0.numSessions
 			} else if $0.hours != $1.hours {
 				return $0.hours < $1.hours
-			} else {
-				return $0.name < $1.name
-			}
-		}
-	}
-	
-	func sortWithoutDistance(_ tutors : [AWTutor]? ) {
-		guard let tutors = tutors else {
-			datasource = []
-			return
-		}
-		
-		datasource = tutors.sorted {
-			if $0.tRating != $1.tRating {
-				return $0.tRating > $1.tRating
-			} else if $0.price != $1.price {
-				return $0.price < $1.price
 			} else if $0.numSessions != $1.numSessions {
 				return $0.numSessions < $0.numSessions
-			} else if $0.hours != $1.hours {
-				return $0.hours < $1.hours
 			} else {
 				return $0.name < $1.name
 			}
@@ -258,28 +240,32 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 		var distance : Double = 0.0
 		
 		if filters.2 {
-			tutors = (filters.1 != -1) ? datasource.filter { ($0.price < filters.1) } : datasource
-			sortWithoutDistance(tutors)
+			tutors = (filters.1 != -1) ? datasource.filter { ($0.price <= filters.1) } : datasource
+			filteredDatasource = tutors.sortWithoutDistance()
 		} else {
-			tutors = (filters.1 != -1) ? datasource.filter { ($0.price < filters.1) } : datasource
+			tutors = (filters.1 != -1) ? datasource.filter { ($0.price <= filters.1) } : datasource
 			if filters.0 != -1 {
 				tutors = tutors.filter {
 					if let currentUserLocation = location {
 						if let tutorLocation = $0.location?.location {
 							distance = currentUserLocation.distance(from: tutorLocation) * 0.00062137
-							return (distance < Double(filters.0))
+							return (distance <= Double(filters.0))
 						} else {
 							return (false)
 						}
 					} else {
 						print("No location for tutor.")
-						sortWithoutDistance(tutors)
+						filteredDatasource = tutors.sortWithoutDistance()
 						return (false)
 					}
 				}
 				sortWithDistance(tutors)
 			} else {
-				sortWithoutDistance(tutors)
+				if tutors.count == 0 {
+					filteredDatasource = []
+					return
+				}
+				filteredDatasource = tutors.sortWithoutDistance()
 			}
 		}
 	}
@@ -338,5 +324,22 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 	
 	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 		return 20
+	}
+}
+extension Array where Element: AWTutor {
+	func sortWithoutDistance() -> [AWTutor] {
+		return sorted {
+			if $0.tRating != $1.tRating {
+				return $0.tRating > $1.tRating
+			} else if $0.price != $1.price {
+				return $0.price < $1.price
+			} else if $0.hours != $1.hours {
+				return $0.hours < $1.hours
+			} else if $0.numSessions != $1.numSessions {
+				return $0.numSessions < $0.numSessions
+			}  else {
+				return $0.name < $1.name
+			}
+		}
 	}
 }

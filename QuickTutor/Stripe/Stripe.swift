@@ -106,6 +106,23 @@ class Stripe {
 			})
 	}
 	
+	func destinationCharge(acctId: String, customerId: String, sourceId: String, amount: Int, fee: Int, _ completion: @escaping (Error?) -> ()) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/charge.php"
+		let params : [String : Any] = ["acct" : acctId, "customer" : customerId, "source": sourceId, "fee" : fee, "amount" : amount]
+		
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success(let value):
+					print(value)
+					completion(nil)
+				case .failure(let error):
+					completion(error)
+				}
+			})
+	}
+	
 	func retrieveBankList(acctId: String, _ completion: @escaping (ConnectAccount?) -> Void) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievebank.php"
 		let params : [String : Any] = ["acct" : acctId]
@@ -120,7 +137,6 @@ class Stripe {
 					
 					do {
 						let account : ConnectAccount = try JSONDecoder().decode(ConnectAccount.self, from: data)
-						print(account)
 						completion(account)
 					} catch {
 						completion(nil)
