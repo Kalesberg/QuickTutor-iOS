@@ -140,7 +140,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		searchTextField?.textColor = .white
 		searchTextField?.adjustsFontSizeToFitWidth = true
 		searchTextField?.autocapitalizationType = .words
-		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Experiences", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Search for anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		searchTextField?.keyboardAppearance = .dark
 		
 		backButton.image.image = #imageLiteral(resourceName: "backButton")
@@ -223,11 +223,13 @@ class TutorAddSubjects : BaseViewController {
     
     var shouldUpdateSearchResults = false
     
-    var didSelectCategory = false {
-        didSet {
-            contentView.tableView.reloadData()
-        }
-    }
+	var didSelectCategory = false {
+		didSet {
+			if didSelectCategory == false {
+				contentView.headerView.category.text = ""
+			}
+		}
+	}
     
     var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
     
@@ -252,7 +254,13 @@ class TutorAddSubjects : BaseViewController {
     var partialSubjects : [(String, String)] = []
     var allSubjects : [(String, String)] = []
     
-    var tableViewIsActive : Bool = false
+	var tableViewIsActive : Bool = false {
+		didSet {
+			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "navbar-x") : #imageLiteral(resourceName: "backButton")
+			contentView.nextButton.isHidden = tableViewIsActive
+			shouldUpdateSearchResults = tableViewIsActive
+		}
+	}
     
     var selectedCategory : Int = 6 {
         didSet {
@@ -264,7 +272,6 @@ class TutorAddSubjects : BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         hideKeyboardWhenTappedAround()
         configureDelegates()
         
@@ -288,10 +295,8 @@ class TutorAddSubjects : BaseViewController {
         
         if !initialSetup {
             contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
-            contentView.searchBar.placeholder = self.categories[self.selectedCategory].subcategory.phrase
             initialSetup = true
         }
-        
         contentView.categoryCollectionView.reloadData()
     }
     private func configureDelegates() {
@@ -312,9 +317,8 @@ class TutorAddSubjects : BaseViewController {
         
     }
     
-    private func tableView(shouldDisplay bool: Bool) {
-        tableViewIsActive = !tableViewIsActive
-        
+	private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {
+		tableViewIsActive = bool
         UIView.animate(withDuration: 0.25, animations: {
             self.contentView.categoryCollectionView.alpha = bool ? 0.0 : 1.0
             return
@@ -322,6 +326,7 @@ class TutorAddSubjects : BaseViewController {
         
         UIView.animate(withDuration: 0.25, animations: {
             self.contentView.tableView.alpha = bool ? 1.0 : 0.0
+			completion()
             return
         })
     }
@@ -349,26 +354,6 @@ class TutorAddSubjects : BaseViewController {
             self.contentView.tableView.reloadData()
         }
     }
-    
-    private func newCategorySelected(_ indexPath : Int) {
-        
-        UIView.animate(withDuration: 0.5, animations: {
-            self.contentView.categoryCollectionView.alpha = 0.0
-            return
-        })
-        
-        selectedCategory = indexPath
-    
-        filteredSubjects = []
-        contentView.tableView.reloadData()
-        
-        UIView.animate(withDuration: 0.5, animations: {
-            self.contentView.categoryCollectionView.alpha = 1.0
-            self.contentView.searchBar.placeholder =  self.categories[self.selectedCategory].subcategory.phrase
-            return
-        })
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -393,12 +378,16 @@ class TutorAddSubjects : BaseViewController {
     
     override func handleNavigation() {
         if touchStartView is NavbarButtonX {
-            backButtonAlert()
+				tableViewIsActive ? tableView(shouldDisplay: false) {
+					self.didSelectCategory = false
+					self.contentView.searchBar.text = ""
+					} : backButtonAlert()
+
         } else if touchStartView is NavbarButtonDone {
-            shouldUpdateSearchResults = false
-            didSelectCategory = false
-            contentView.searchBar.text = ""
-            tableView(shouldDisplay: false)
+			tableView(shouldDisplay: false) {
+				self.didSelectCategory = false
+				self.contentView.searchBar.text = ""
+			}
         } else if touchStartView is TutorPreferencesNextButton {
             TutorRegistration.subjects = selected
             navigationController?.pushViewController(TutorPreferences(), animated: true)
@@ -408,23 +397,20 @@ class TutorAddSubjects : BaseViewController {
 extension TutorAddSubjects : SelectedSubcategory {
 	
 	func didSelectSubcategory(resource: String, subject: String, index: Int) {
-		shouldUpdateSearchResults = true
-		didSelectCategory = true
-		contentView.searchBar.becomeFirstResponder()
-		
-		contentView.searchTextField.attributedPlaceholder = NSAttributedString(string: (Category.category(for: resource)?.subcategory.phrase)!, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		
 		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
 			self.partialSubjects = subjects
 			self.filteredSubjects = self.partialSubjects
+			self.contentView.headerView.category.text = subject
 		}
 		
-		contentView.tableView.reloadData()
-		scrollToTop()
-		
-		contentView.headerView.category.text = subject
+		tableView(shouldDisplay: true) {
+			self.didSelectCategory = true
+			self.contentView.searchBar.becomeFirstResponder()
 
-		tableView(shouldDisplay: true)
+			self.scrollToTop()
+			self.contentView.tableView.reloadData()
+		}
 	}
 }
 
@@ -468,12 +454,7 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView.tag == 0 {
-        
-            newCategorySelected(indexPath.item)
-            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            
-        } else {
+        if collectionView.tag == 1 {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
             let remove = UIAlertAction(title: "Remove", style: .destructive) { (_) in
@@ -504,7 +485,7 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
         if shouldUpdateSearchResults {
             return filteredSubjects.count
         }
-        return 0
+        return allSubjects.count
     }
     
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -518,22 +499,11 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
             cell.subcategory.isHidden = didSelectCategory
             cell.subject.text = filteredSubjects[indexPath.section].0
             cell.subcategory.text = filteredSubjects[indexPath.section].1
-            
-            if selectedSubjects.contains(filteredSubjects[indexPath.section].0)  {
-                cell.selectedIcon.isSelected = true
-            } else{
-                cell.selectedIcon.isSelected = false
-            }
+            cell.selectedIcon.isSelected = selectedSubjects.contains(filteredSubjects[indexPath.section].0)
         } else {
-            print("HER>")
-            cell.subject.text = allSubjects[indexPath.section].0
+			cell.subject.text = allSubjects[indexPath.section].0
             cell.subcategory.text = allSubjects[indexPath.section].1
-            
-            if selectedSubjects.contains(allSubjects[indexPath.section].0)  {
-                cell.selectedIcon.isSelected = true
-            } else{
-                cell.selectedIcon.isSelected = false
-            }
+			cell.selectedIcon.isSelected = selectedSubjects.contains(allSubjects[indexPath.section].0)
         }
         return cell
     }
@@ -570,11 +540,9 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if selectedSubjects.count > 20 {
-            
+
             print("Too many subjects")
-            
             tableView.deselectRow(at: indexPath, animated: true)
-            
             return
         }
         
@@ -625,17 +593,10 @@ extension TutorAddSubjects : UISearchBarDelegate {
         
         if searchBar.text!.count < 1 {
             if didSelectCategory {
-                
-                tableView(shouldDisplay: true)
-                contentView.tableView.reloadData()
-                
-                return
+				contentView.tableView.reloadData()
             }
-            shouldUpdateSearchResults = false
-            tableView(shouldDisplay: false)
         } else {
-            shouldUpdateSearchResults = true
-            tableView(shouldDisplay: true)
+			tableView(shouldDisplay: true) {}
         }
     }
     
@@ -643,44 +604,25 @@ extension TutorAddSubjects : UISearchBarDelegate {
         automaticScroll = true
         
         if searchText == ""  {
-            
-            tableView(shouldDisplay: false)
-            
-            automaticScroll = false
-
-            filteredSubjects = allSubjects
-            
-            shouldUpdateSearchResults = false
-            
-            didSelectCategory = false
-            
-            contentView.headerView.category.text = ""
-            
-            contentView.tableView.reloadData()
+			
+			tableView(shouldDisplay: false) {
+				self.didSelectCategory = false
+				self.contentView.searchBar.text = ""
+				self.automaticScroll = false
+			}
             return
         }
 
         if didSelectCategory {
-            
-            shouldUpdateSearchResults = true
-            
             filteredSubjects = partialSubjects.filter({$0.0.contains(searchText.lowercased())})
-            
-            tableView(shouldDisplay: true)
-            
             contentView.tableView.reloadData()
-            
             return
             
         } else {
-        
-            shouldUpdateSearchResults = true
-        
-            filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText.lowercased())})
-        
-            tableView(shouldDisplay: true)
-        
-            contentView.tableView.reloadData()
+			tableView(shouldDisplay: true) {
+				self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText.lowercased())})
+				self.contentView.tableView.reloadData()
+			}
         }
         if filteredSubjects.count > 0 {
             scrollToTop()
@@ -695,16 +637,13 @@ extension TutorAddSubjects : UIScrollViewDelegate {
 		}
 	}
 	
-	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-		let x = scrollView.contentOffset.x
-		let w = scrollView.bounds.size.width
-		let currentPage = Int(ceil(x / w))
-		
-		if currentPage < 12 {
-			contentView.searchBar.placeholder = categories[currentPage].subcategory.phrase
-		}
-	}
-	
+//	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//		let x = scrollView.contentOffset.x
+//		let w = scrollView.bounds.size.width
+//		let currentPage = Int(ceil(x / w))
+//		
+//	}
+//	
 	private func scrollToTop() {
 		contentView.tableView.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)

@@ -8,33 +8,6 @@
 import Stripe
 import Alamofire
 
-var Customer : STPCustomer! {
-	willSet(newCustomer) {
-		//additional setup when Customer is about to be updated.
-	}
-	didSet {
-		//additional setup when Customer has been updated.
-		NotificationCenter.default.post(name: .CustomerUpdated, object: nil)
-		
-	}
-}
-extension NSNotification.Name {
-	static let CustomerUpdated = NSNotification.Name(Bundle.main.bundleIdentifier! + ".CustomerUpdated")
-}
-
-struct ConnectAccount: Decodable {
-	
-	let data : [Data]
-
-	struct Data : Decodable {
-		let id : String
-		let bank_name : String
-		let last4 : String
-		let status : String
-		let account_holder_name : String
-	}
-}
-
 class Stripe {
 	
 	/*
@@ -147,6 +120,32 @@ class Stripe {
 			})
 	}
 	
+	func retrieveBalanceTransactionList(acctId: String, _ completion: @escaping (BalanceTransaction?) -> Void) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/transfer.php"
+		let params : [String : Any] = ["acct" : "acct_1COwHwARbMbNlmG8"]
+		
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success:
+					if let data = response.data {
+						do {
+							let transaction : BalanceTransaction = try JSONDecoder().decode(BalanceTransaction.self, from: data)
+							completion(transaction)
+						} catch {
+							completion(nil)
+						}
+					} else {
+						completion(nil)
+					}
+				case .failure(let error):
+					print("Error: ", error.localizedDescription)
+					completion(nil)
+				}
+			})
+	}
+	
 	func retrieveCustomer(cusID: String, _ completion: @escaping STPCustomerCompletionBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievecustomer.php"
 		let params : [String : Any] = ["customer" : cusID]
@@ -174,7 +173,7 @@ class Stripe {
 		if let error = deserializer.error {
 			print(error.localizedDescription)
 		} else if let customer = deserializer.customer {
-			Customer = customer
+//			Customer = customer
 		}
 	}
 	
