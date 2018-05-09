@@ -13,12 +13,12 @@ struct BalanceTransaction: Decodable {
 	let data : [Data]
 	
 	struct Data : Decodable {
-		let id : String?
+		let id : String
 		let amount : Int?
-		let created : Int?
-		let description : String?
+		let created : Int
+		let description : String
 		let fee : Int?
 		let net : Int?
-		let status : String?
+		let status : String
 	}
 }

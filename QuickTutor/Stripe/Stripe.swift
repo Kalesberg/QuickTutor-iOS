@@ -190,7 +190,65 @@ class Stripe {
 			}
 		}
 	}
-	
+	class func updateDefaultBank(account: String, bankId: String, completion: @escaping (ConnectAccount?) -> Void) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultbankaccount.php"
+		let params : [String : Any] = ["acct" : account, "bankId" : bankId ]
+		
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success:
+					print(response.value!)
+					if let data = response.data {
+						do {
+							let account : ConnectAccount = try JSONDecoder().decode(ConnectAccount.self, from: data)
+							completion(account)
+						} catch {
+							print("Error1: ")
+							completion(nil)
+						}
+					} else {
+						print("Error2: ")
+						completion(nil)
+					}
+				case .failure(let error):
+					print("Error3: ", error.localizedDescription)
+					completion(nil)
+				}
+				
+			})
+	}
+
+	class func removeBank(account: String, bankId: String, completion: @escaping (ConnectAccount?) -> Void) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/removebank.php"
+		let params : [String : Any] = ["acct" : account, "bankId" : bankId ]
+		
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success:
+					print(response.value!)
+					if let data = response.data {
+						do {
+							let account : ConnectAccount = try JSONDecoder().decode(ConnectAccount.self, from: data)
+							completion(account)
+						} catch {
+							print("Error: 1")
+							completion(nil)
+						}
+					} else {
+						print("Error: 2")
+						completion(nil)
+					}
+				case .failure(let error):
+					print("Error: ", error.localizedDescription)
+					completion(nil)
+				}
+
+			})
+	}
 	class func dettachSource(customer: STPCustomer, deleting card: STPCard, completion: @escaping STPCustomerCompletionBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/detachsource.php"
 		let params : [String : Any] = ["customer" : customer.stripeID, "card" : card.stripeID ]
