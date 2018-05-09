@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol EndSessionModalDelegate {
+    func endSession()
+}
+
 class EndSessionModal: BaseCustomModal {
     
     let endSessionButton: UIButton = {
@@ -31,6 +35,8 @@ class EndSessionModal: BaseCustomModal {
         button.titleLabel?.font = Fonts.createSize(16)
         return button
     }()
+    
+    var delegate: EndSessionModalDelegate?
     
     override func setupViews() {
         super.setupViews()
@@ -61,7 +67,7 @@ class EndSessionModal: BaseCustomModal {
     }
     
     @objc func endSession() {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+        delegate?.endSession()
         dismiss()
         removeFromSuperview()
     }

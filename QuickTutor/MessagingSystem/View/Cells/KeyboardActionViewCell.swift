@@ -42,7 +42,7 @@ class KeyboardActionViewCell: UICollectionViewCell {
     
     private func setupButton() {
         addSubview(icon)
-        icon.anchor(top: nil, left: leftAnchor, bottom: titleLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 17, paddingRight: 0, width: 0, height: 30)
+        icon.anchor(top: nil, left: leftAnchor, bottom: titleLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 0, height: 45)
     }
     
     override init(frame: CGRect) {

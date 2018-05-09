@@ -27,7 +27,9 @@ target 'QuickTutor' do
   pod "FBSDKCoreKit", "4.24.0"
   pod 'SnapKit'
   
+  # Pods for Sessions
   pod 'Reveal-SDK', :configurations => ['Debug']
   pod 'TwilioVideo', '2.0.0-beta3'
+  pod 'Socket.IO-Client-Swift', '~> 13.1.0'
 
 end

@@ -27,6 +27,7 @@ class PauseSessionModal: BaseCustomModal {
         button.layer.borderColor = Colors.green.cgColor
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(20)
+        button.backgroundColor = Colors.navBarColor
         button.isHidden = true
         return button
     }()
@@ -49,6 +50,11 @@ class PauseSessionModal: BaseCustomModal {
         titleBackground.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
     }
     
+    override func setupBackgroundBlurView() {
+        super.setupBackgroundBlurView()
+        backgroundBlurView.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+    }
+    
     override func setupViews() {
         super.setupViews()
         background.backgroundColor = .clear
@@ -58,7 +64,6 @@ class PauseSessionModal: BaseCustomModal {
     
     func updateTitleLabel() {
         guard let uid = Auth.auth().currentUser?.uid, let username = partnerUsername else { return }
-        print("Paused by id: ", pausedById)
         titleLabel.text = uid == pausedById ? "You paused the session." : "\(username) paused the session."
     }
     
@@ -75,6 +80,5 @@ class PauseSessionModal: BaseCustomModal {
         delegate?.unpauseSession()
         dismiss()
     }
-    
     
 }

@@ -14,6 +14,7 @@ class InPersonSessionVC: UIViewController {
     var endSessionModal: EndSessionModal?
     var sessionId: String?
     var partnerId: String?
+    let socket = SocketClient.shared.socket!
     
     let sessionNavBar: SessionNavBar = {
         let bar = SessionNavBar()
@@ -97,6 +98,7 @@ class InPersonSessionVC: UIViewController {
     
     @objc func showModal() {
         endSessionModal = EndSessionModal(frame: .zero)
+        endSessionModal?.delegate = self
         endSessionModal?.show()
     }
     
@@ -106,13 +108,21 @@ class InPersonSessionVC: UIViewController {
     }
     
     func observeEvents() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showEndSession), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
+        socket.on(SocketEvents.endSession) { _, _ in
+            self.showEndSession()
+        }
     }
     
     @objc func showEndSession() {
-        let vc = SessionCompleteVC()
-        vc.partnerId = partnerId
-        navigationController?.pushViewController(vc, animated: true)
+        if AccountService.shared.currentUserType == .learner {
+            let vc = AddTipVC()
+            vc.partnerId = partnerId
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = SessionCompleteVC()
+            vc.partnerId = partnerId
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func updateUI() {
@@ -131,6 +141,12 @@ class InPersonSessionVC: UIViewController {
         removeStartData()
         updateUI()
         observeEvents()
+    }
+}
+
+extension InPersonSessionVC: EndSessionModalDelegate {
+    func endSession() {
+        socket.emit(SocketEvents.endSession, ["roomKey": sessionId!])
     }
 }
 
