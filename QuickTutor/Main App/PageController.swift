@@ -62,6 +62,7 @@ class LearnerPageViewController : PageViewController {
         orderedViewControllers.append(mainPage as! UIViewController)
         
         let messaging = MessagesVC()
+        messaging.parentPageViewController = self
         orderedViewControllers.append(messaging as! UIViewController)
         
         let addTutorButtonImage = UIImage(named: "addTutorByUsernameButton")?.withRenderingMode(.alwaysOriginal)
@@ -89,6 +90,7 @@ class TutorPageViewController : PageViewController {
         orderedViewControllers.append(mainPage as! UIViewController)
         
         let messaging = MessagesVC()
+        messaging.parentPageViewController = self
         orderedViewControllers.append(messaging as! UIViewController)
     }
 }

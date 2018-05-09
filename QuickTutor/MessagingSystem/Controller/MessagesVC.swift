@@ -9,7 +9,15 @@
 import UIKit
 import Firebase
 
-class MessagesVC: UIViewController, CustomNavBarDisplay {
+class MessagesVC: UIViewController, CustomNavBarDisplayer {
+    
+    var navBar: ZFNavBar = {
+        let bar = ZFNavBar()
+        bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+        bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "addTutorByUsernameButton"), for: .normal)
+        bar.addSearchBar()
+        return bar
+    }()
     
     let mainCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -32,7 +40,9 @@ class MessagesVC: UIViewController, CustomNavBarDisplay {
         return control
     }()
     
-    var cancelSessionModal: CancelSessionModal? = nil
+    var cancelSessionModal: CancelSessionModal?
+    var parentPageViewController : PageViewController!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +51,7 @@ class MessagesVC: UIViewController, CustomNavBarDisplay {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.isOpaque = false
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
@@ -50,9 +60,9 @@ class MessagesVC: UIViewController, CustomNavBarDisplay {
     
     func setupViews() {
         setupMainView()
+        setupNavBar()
         setupMessageSessionControl()
         setupCollectionView()
-        setupNavBar()
         setupObservers()
     }
     
@@ -61,28 +71,20 @@ class MessagesVC: UIViewController, CustomNavBarDisplay {
         edgesForExtendedLayout = []
     }
     
+    func setupNavBar() {
+        addNavBar()
+    }
+    
     private func setupCollectionView() {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
         view.addSubview(mainCollectionView)
         mainCollectionView.anchor(top: messageSessionControl.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 29, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
-    
-    private func setupNavBar() {
-        let backItem = UIBarButtonItem()
-        backItem.title = ""
-        navigationItem.backBarButtonItem = backItem
-        navigationItem.backBarButtonItem?.tintColor = .white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "newMessageIcon"), style: .plain, target: self, action: #selector(showContacts))
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.backItem?.largeTitleDisplayMode = .never
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settingsIcon"), style: .plain, target: self, action: #selector(showSettings))
-        messageSessionControl.setupForUserType(AccountService.shared.currentUserType)
-    }
-    
+
     private func setupMessageSessionControl() {
         view.addSubview(messageSessionControl)
-        messageSessionControl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
+        messageSessionControl.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
         messageSessionControl.delegate = self
     }
     
@@ -99,6 +101,18 @@ class MessagesVC: UIViewController, CustomNavBarDisplay {
         present(navVC, animated: true, completion: nil)
     }
     
+    func handleLeftViewTapped() {
+        parentPageViewController.gotToPreviousPage()
+    }
+    
+    func handleRightViewTapped() {
+        navigationController?.pushViewController(AddTutorVC(), animated: true)
+    }
+    
+    @objc func handleSeachTapped() {
+        navigationController?.pushViewController(SearchSubjects(), animated: true)
+    }
+    
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(showConversation(notification:)), name: Notification.Name(rawValue: "sendMessage"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showCancelModal), name: Notification.Name(rawValue: "cancelSession"), object: nil)
@@ -108,7 +122,7 @@ class MessagesVC: UIViewController, CustomNavBarDisplay {
     @objc func showConversation(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
         AccountService.shared.currentUserType == .learner ? getTutor(uid: uid) : getStudent(uid: uid)
-		print("showConvo")
+        print("showConvo")
     }
     
     private func getStudent(uid: String) {
@@ -141,7 +155,7 @@ class MessagesVC: UIViewController, CustomNavBarDisplay {
             vc.chatPartner = tutor!
             vc.connectionRequestAccepted = true
             vc.shouldRequestSession = true
-			
+            
             self.navigationController?.setNavigationBarHidden(false, animated: false)
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -197,13 +211,13 @@ extension MessagesVC: UICollectionViewDelegateFlowLayout {
 
 extension MessagesVC: NewMessageDelegate {
     func showConversationWithUser(user: User, isConnection: Bool) {
-		
-		let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+        
+        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = user.uid
         vc.connectionRequestAccepted = isConnection
         vc.chatPartner = user
-		
-		navigationController?.pushViewController(vc, animated: true)
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

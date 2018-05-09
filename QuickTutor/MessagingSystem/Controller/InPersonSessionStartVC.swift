@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SocketIO
 
 class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
@@ -44,9 +45,17 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     }
     
     func setupObservers() {
+        
+        socket.on(SocketEvents.manualStartAccetped) { (data, ack) in
+            self.showConfirmMeetupButton()
+        }
+        
+        socket.on(SocketEvents.meetupConfirmed) { (data, ack) in
+            self.proceedToSession()
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(pushConversationVC(notification:)), name: NSNotification.Name(rawValue: "sendMessage"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(proceedToSession), name: NSNotification.Name(rawValue: "showConfirmMeetup"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(confirmManualStart), name: NSNotification.Name(rawValue: "manualStartAccepted"), object: nil)
+
     }
     
     @objc func pushConversationVC(notification: Notification) {
@@ -56,11 +65,12 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    override func proceedToSession() {
+    @objc func proceedToSession() {
         let vc = InPersonSessionVC()
         vc.sessionId = self.sessionId
         navigationController?.pushViewController(vc, animated: true)
     }
+    
     override func updateTitleLabel() {
         guard let uid = Auth.auth().currentUser?.uid, let username = partnerUsername else { return }
         //In-person Automatic
@@ -83,29 +93,26 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     }
     
     override func confirmManualStart() {
-        
+        socket.emit(SocketEvents.manualStartAccetped, ["roomKey": sessionId!])
+    }
+    
+    
+    
+    func showConfirmMeetupButton() {
         guard let uid = Auth.auth().currentUser?.uid, let id = session?.id, let partnerId = partnerId, !startAccepted else { return }
         messageButton.isHidden = false
-        
-        
-        
         confirmButton.isHidden = false
-        
         startAccepted = true
         confirmButton.removeTarget(self, action: #selector(confirmManualStart), for: .touchUpInside)
         confirmButton.setTitle("Confirm Meet Up", for: .normal)
         confirmButton.addTarget(self, action: #selector(confirmMeetup), for: .touchUpInside)
-        Database.database().reference().child("sessionStarts").child(uid).child(id).child("startAccepted").setValue(1)
-        Database.database().reference().child("sessionStarts").child(partnerId).child(id).child("startAccepted").setValue(1)
     }
     
     @objc func confirmMeetup() {
         statusLabel.text = "Waiting for your partner to confirm meet-up..."
         statusLabel.isHidden = false
         confirmButton.isHidden = true
-        guard let uid = Auth.auth().currentUser?.uid, let id = session?.id, let partnerId = partnerId else { return }
-        Database.database().reference().child("sessionStarts").child(uid).child(id).child("confirmedBy").child(uid).setValue(true)
-        Database.database().reference().child("sessionStarts").child(partnerId).child(id).child("confirmedBy").child(uid).setValue(true)
+        socket.emit(SocketEvents.meetupConfirmed, ["roomKey": sessionId!])
     }
     
 }

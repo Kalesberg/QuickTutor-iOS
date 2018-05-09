@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CountdownTimerDelegate {
+    func didUpdateTime(_ time: Int)
+}
+
 class CountdownTimer: UIView {
     
     var timeInSeconds = 0
@@ -21,6 +25,8 @@ class CountdownTimer: UIView {
         label.font = Fonts.createSize(15)
         return label
     }()
+    
+    var delegate: CountdownTimerDelegate?
     
     func setupViews() {
         addSubview(label)
@@ -47,6 +53,9 @@ class CountdownTimer: UIView {
         let seconds = timeInSeconds - (timeInSeconds - hours * 60 * 60) - (timeInSeconds - minutes * 60)
         
         label.text = "\(hours):\(minutes):\(seconds * -1)"
+        
+        delegate?.didUpdateTime(timeInSeconds)
+        
     }
     
     override init(frame: CGRect) {

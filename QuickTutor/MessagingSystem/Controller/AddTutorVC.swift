@@ -9,8 +9,16 @@
 import UIKit
 import Firebase
 
-class AddTutorVC: UIViewController, ShowsConversation {
+class AddTutorVC: UIViewController, ShowsConversation, CustomNavBarDisplayer {
     
+    var navBar: ZFNavBar = {
+        let bar = ZFNavBar()
+        bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+        bar.search.removeFromSuperview()
+        bar.setupTitleLabelWithText("Add Tutor by Username")
+        return bar
+    }()
+
     var filteredUsers = [User]()
     
     let collectionView: UICollectionView = {
@@ -33,28 +41,20 @@ class AddTutorVC: UIViewController, ShowsConversation {
     
     func setupViews() {
         setupMainView()
+        addNavBar()
         setupSearchBar()
         setupCollectionView()
         searchForUsername("Alex")
     }
     
     func setupMainView() {
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.isOpaque = false
-        navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = "Add Tutor By Username"
-        
-        let backButtonImage = UIImage(named: "backButton")?.withRenderingMode(.alwaysOriginal)
-        let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(popVC))
-        navigationItem.leftBarButtonItem = backButton
-        navigationItem.backBarButtonItem = backButton
         view.backgroundColor = Colors.darkBackground
     }
     
     func setupSearchBar() {
         view.addSubview(searchBar)
-        searchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 34)
+        searchBar.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 34)
         searchBar.addTarget(self, action: #selector(textDidChange(sender:)), for: UIControlEvents.editingChanged)
     }
     
@@ -64,8 +64,8 @@ class AddTutorVC: UIViewController, ShowsConversation {
         view.addSubview(collectionView)
         collectionView.anchor(top: searchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
-    
-    @objc func popVC() {
+
+    func handleLeftViewTapped() {
         navigationController?.popViewController(animated: true)
     }
     

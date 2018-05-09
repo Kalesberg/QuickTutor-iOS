@@ -30,23 +30,5 @@ extension HandlesSessionStartData {
             navigationController.navigationBar.isHidden = false
             navigationController.pushViewController(vc, animated: true)
         })
-        
-        Database.database().reference().child("sessionStarts").child(uid).observe(.childChanged, with: { (snapshot) in
-            print("Calling second snapshot...")
-            guard let value = snapshot.value as? [String: Any] else { return }
-            print(snapshot.value)
-            if let start = value["startAccepted"] as? Bool, let type = value["sessionType"] as? String {
-                if type == "online" {
-                    let vc = VideoSessionVC()
-                    vc.sessionId = snapshot.key
-                    navigationController.pushViewController(vc, animated: true)
-                } else {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "manualStartAccepted"), object: nil)
-                    guard let confirmedUsers = value["confirmedBy"] as? [String: Any], confirmedUsers.count == 2 else { return }
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showConfirmMeetup"), object: nil)
-                }
-            }
-            print("Value was changed...")
-        })
     }
 }

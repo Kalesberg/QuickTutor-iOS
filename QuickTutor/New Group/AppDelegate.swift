@@ -68,17 +68,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 					CurrentUser.shared.learner = learner
 					
 					self.listenForData()
-					
-					NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
-					
-                    Stripe.stripeManager.retrieveCustomer({ (error) in
-                        if let error = error {
-                            print(error.localizedDescription)
-                        }
-                        print("Retrieved customer.")
-                        self.window?.makeKeyAndVisible()
-                    })
+            
+//                    
+//                    Stripe.stripeManager.retrieveCustomer({ (error) in
+//                        if let error = error {
+//                            print(error.localizedDescription)
+//                        }
+//
+//                        print("Retrieved customer.")
+//                    })
                     
+                    self.window?.makeKeyAndVisible()
                     let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
                     
@@ -86,12 +86,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
                     navigationController.navigationBar.isHidden = true
                     
                     self.window?.rootViewController = navigationController
+                    SocketClient.shared.connect()
                     
 //                    AccountService.shared.currentUserType = .learner
 //
 //                    self.listenForData()
-//
-//                    NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
 //
 //                    Stripe.stripeManager.retrieveCustomer({ (error) in
 //                        if let error = error {
@@ -126,7 +125,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 //                    self.window?.rootViewController = navigationController
 //                } else {
 //                    self.listenForData()
-//                    NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
 //                    Stripe.stripeManager.retrieveCustomer({ (error) in
 //                        if let error = error {
 //                            print(error.localizedDescription)
