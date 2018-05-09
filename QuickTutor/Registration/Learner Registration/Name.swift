@@ -40,14 +40,14 @@ class NameView : RegistrationNavBarKeyboardView {
 			make.top.equalTo(titleLabel.snp.bottom)
 			make.left.equalTo(titleLabel)
 			make.right.equalTo(titleLabel)
-			make.height.equalToSuperview().multipliedBy(0.5)
+			make.height.equalToSuperview().multipliedBy(0.47)
 		}
 		
 		lastNameTextField.snp.makeConstraints { (make) in
 			make.top.equalTo(firstNameTextField.snp.bottom)
 			make.left.equalTo(titleLabel)
 			make.right.equalTo(titleLabel)
-			make.height.equalToSuperview().multipliedBy(0.5)
+			make.height.equalToSuperview().multipliedBy(0.47)
 		}
 	}
 }

@@ -12,26 +12,49 @@ import SnapKit
 
 class RegistrationNextButton: BaseView, Interactable {
 
-    var button : UILabel = {
-        let label = UILabel()
+    var image : UIImageView = {
+        let image = UIImageView()
         
-        label.text = "  »"
-        label.font = Fonts.createBoldSize(54)
-        label.textColor = .white
+        image.image = #imageLiteral(resourceName: "next-button")
         
-        return label
+        return image
     }()
     
     override func configureView() {
-        addSubview(button)
+        addSubview(image)
 
         applyConstraints()
     }
     
     override func applyConstraints() {
-        button.snp.makeConstraints { (make) in
+        image.snp.makeConstraints { (make) in
             make.right.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
+            make.width.height.equalTo(35)
         }
+    }
+    
+    func touchStart() {
+        image.snp.updateConstraints { (make) in
+            make.width.height.equalTo(40)
+        }
+        
+        needsUpdateConstraints()
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func didDragOff() {
+        image.snp.updateConstraints { (make) in
+            make.width.height.equalTo(35)
+        }
+        
+        needsUpdateConstraints()
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.layoutIfNeeded()
+        })
     }
 }

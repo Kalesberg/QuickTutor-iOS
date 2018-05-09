@@ -77,7 +77,7 @@ class BecomeTutorView : BaseLayoutView {
         
         makeMoneyLabel.text = "Make money teaching the things you're good at!"
         makeMoneyLabel.textColor = .white
-        makeMoneyLabel.font = Fonts.createSize(16)
+        makeMoneyLabel.font = Fonts.createSize(15)
         makeMoneyLabel.numberOfLines = 0
         
         earnMoneyTitle.label.text = "Earn money as a QuickTutor"

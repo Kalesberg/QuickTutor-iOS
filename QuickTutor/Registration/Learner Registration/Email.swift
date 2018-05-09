@@ -47,7 +47,7 @@ class EmailView: RegistrationNavBarKeyboardView {
 		
 		emailTextField.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.5)
+			make.height.equalToSuperview().multipliedBy(0.47)
 			make.right.equalToSuperview()
 			make.left.equalToSuperview()
 		}

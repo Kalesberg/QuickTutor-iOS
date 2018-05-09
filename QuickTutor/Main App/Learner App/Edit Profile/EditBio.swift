@@ -268,7 +268,7 @@ class EditBio : BaseViewController {
                 saveChanges()
             }
 		} else if (touchStartView is NavbarButtonBack) {
-            if contentView.textView.textView.text.count < 20 && !(contentView.textView.textView.text.count == 0) {
+            if contentView.textView.textView.text.count <= 20 && !(contentView.textView.textView.text.count == 0) {
                 contentView.errorLabel.isHidden = false
             } else if originalBio != contentView.textView.textView.text {
 				changedEditBioAlert()

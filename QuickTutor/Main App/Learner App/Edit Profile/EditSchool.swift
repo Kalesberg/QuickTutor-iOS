@@ -207,7 +207,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 					}
 				}
 				CurrentUser.shared.learner.school = school
-				CurrentUser.shared.tutor.school = school
+				//CurrentUser.shared.tutor.school = school
 			}
 		}
 	}

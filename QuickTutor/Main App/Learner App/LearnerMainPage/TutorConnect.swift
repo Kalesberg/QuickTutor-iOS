@@ -24,7 +24,7 @@ protocol ConnectButtonPress {
 class TutorConnectView : MainLayoutTwoButton {
 	
 	var back = NavbarButtonX()
-	var filters = NavbarButtonLines()
+	var filters = NavbarButtonFilters()
 	
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
@@ -76,7 +76,7 @@ class TutorConnectView : MainLayoutTwoButton {
 		get {
 			return filters
 		} set {
-			filters = newValue as! NavbarButtonLines
+			filters = newValue as! NavbarButtonFilters
 		}
 	}
 	

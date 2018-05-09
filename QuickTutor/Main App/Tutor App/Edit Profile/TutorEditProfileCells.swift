@@ -366,6 +366,12 @@ class BaseSlider : UISlider {
 		
         return rect
     }
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        var bounds: CGRect = self.bounds
+        bounds = bounds.insetBy(dx: -20, dy: -20)
+        return bounds.contains(point)
+    }
 }
 
 class EditProfileSliderTableViewCell : BaseTableViewCell {

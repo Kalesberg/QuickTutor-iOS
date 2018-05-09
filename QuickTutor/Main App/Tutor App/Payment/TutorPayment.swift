@@ -21,8 +21,6 @@ class TutorPayment : BaseViewController {
     }
     
     override func handleNavigation() {
-        if (touchStartView is AddBankButton) {
-            
-        }
+      
     }
 }

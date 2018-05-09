@@ -8,44 +8,6 @@
 import UIKit
 import SnapKit
 
-fileprivate class SubmitAddressButton : InteractableView, Interactable {
-	
-	var label = UILabel()
-	
-	override func configureView() {
-		addSubview(label)
-		super.configureView()
-		
-		layer.cornerRadius = 6
-		layer.borderWidth = 1.5
-		layer.borderColor = Colors.green.cgColor
-		
-		label.textColor = Colors.green
-		label.text = "Submit Billing Address"
-		label.textAlignment = .center
-		label.font = Fonts.createSize(18)
-		
-		alpha = 0.5
-		
-		isUserInteractionEnabled = false
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		label.snp.makeConstraints { (make) in
-			make.center.equalToSuperview()
-		}
-	}
-	
-	func touchStart() {
-		backgroundColor = Colors.registrationDark
-	}
-	
-	func didDragOff() {
-		backgroundColor = .clear
-	}
-}
 
 fileprivate class AddressTextField : NoPasteTextField {
 	
@@ -92,12 +54,8 @@ class TutorAddressView : TutorRegistrationLayout, Keyboardable {
 	var zipTitle = SectionTitle()
 	fileprivate var zipTextField = AddressTextField()
 	
-	//fileprivate var submitAddressButton = SubmitAddressButton()
-	
-	
 	override func configureView() {
 		addSubview(contentView)
-		//addSubview(submitAddressButton)
 		contentView.addSubview(addressLine1Title)
 		contentView.addSubview(addressLine1TextField)
 		contentView.addSubview(cityTitle)
@@ -111,6 +69,9 @@ class TutorAddressView : TutorRegistrationLayout, Keyboardable {
 		super.configureView()
 		
 		title.label.text = "Billing Address"
+        
+        progressBar.progress = 0.8333333
+        progressBar.applyConstraints()
 		
 		addressLine1Title.label.text = "Address"
 		cityTitle.label.text = "City"
@@ -136,18 +97,11 @@ class TutorAddressView : TutorRegistrationLayout, Keyboardable {
 	override func applyConstraints() {
 		super.applyConstraints()
 		
-//        submitAddressButton.snp.makeConstraints { (make) in
-//            make.bottom.equalTo(keyboardView.snp.top).inset(-10)
-//            make.width.equalToSuperview().multipliedBy(0.85)
-//            make.height.equalTo(35)
-//            make.centerX.equalToSuperview()
-//        }
-		
 		contentView.snp.makeConstraints { (make) in
 			make.width.equalToSuperview().multipliedBy(0.85)
 			make.top.equalTo(navbar.snp.bottom)
 			make.centerX.equalToSuperview()
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+			make.bottom.equalTo(keyboardView.snp.top)
 		}
 		
 		addressLine1Title.snp.makeConstraints { (make) in
@@ -204,11 +158,6 @@ class TutorAddressView : TutorRegistrationLayout, Keyboardable {
 			make.right.equalTo(cityTextField.snp.right)
 			make.height.equalTo(30)
 		}
-	}
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		navbar.backgroundColor = Colors.tutorBlue
-		statusbarView.backgroundColor = Colors.tutorBlue
 	}
 }
 
@@ -279,7 +228,7 @@ class TutorAddress : BaseViewController {
 				if let error = error {
 					print(error.localizedDescription)
 				} else {
-					self.navigationController?.pushViewController(TutorPolicy(), animated: true)
+					self.navigationController?.pushViewController(TutorAddUsername(), animated: true)
 				}
 			}
 		}

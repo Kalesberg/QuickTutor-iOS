@@ -23,6 +23,9 @@ class TutorFileReport : BaseViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.register(CustomFileReportTableViewCell.self, forCellReuseIdentifier: "fileReportCell")
         
+        contentView.navbar.backgroundColor = Colors.tutorBlue
+        contentView.statusbarView.backgroundColor = Colors.tutorBlue
+        
         contentView.tableView.reloadData()
     }
     

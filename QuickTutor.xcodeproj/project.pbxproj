@@ -803,14 +803,6 @@
 			path = "New Group1";
 			sourceTree = "<group>";
 		};
-		845D403920796D5000EFFC6C /* Additional Info */ = {
-			isa = PBXGroup;
-			children = (
-				845D403C2079A30F00EFFC6C /* TutorAddUsername.swift */,
-			);
-			path = "Additional Info";
-			sourceTree = "<group>";
-		};
 		846252E820637ED6001DD330 /* My Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -943,10 +935,11 @@
 				84F245171FDA1127006447A8 /* TutorBio.swift */,
 				84F245191FDA1143006447A8 /* TutorSSN.swift */,
 				84F2451B1FDA1183006447A8 /* TutorRegPayment.swift */,
-				8479EA642063E66400C5113E /* TutorPolicy.swift */,
-				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
 				8479EA622063E63100C5113E /* TutorAddress.swift */,
+				845D403C2079A30F00EFFC6C /* TutorAddUsername.swift */,
+				8479EA642063E66400C5113E /* TutorPolicy.swift */,
 				849AAEA92060846800B9CFD7 /* TutorLocation.swift */,
+				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
 			);
 			path = "Become a QuickTutor";
 			sourceTree = "<group>";
@@ -1170,7 +1163,6 @@
 				846252ED20637F26001DD330 /* File Report */,
 				846252EE20637F38001DD330 /* Help */,
 				846252EF20637F44001DD330 /* Tax Information */,
-				845D403920796D5000EFFC6C /* Additional Info */,
 			);
 			path = "Tutor App";
 			sourceTree = "<group>";

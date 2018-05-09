@@ -10,44 +10,6 @@ import UIKit
 import SnapKit
 import Stripe
 
-class AddBankButton : InteractableView, Interactable {
-    
-    var label = UILabel()
-    
-    override func configureView() {
-        addSubview(label)
-        super.configureView()
-        
-        layer.cornerRadius = 6
-        layer.borderWidth = 1.5
-        layer.borderColor = Colors.green.cgColor
-        
-        label.textColor = Colors.green
-        label.text = "Add Bank"
-        label.textAlignment = .center
-        label.font = Fonts.createSize(18)
-        
-        alpha = 0.5
-        
-        isUserInteractionEnabled = false
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        label.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-        }
-    }
-    
-    func touchStart() {
-        backgroundColor = Colors.registrationDark
-    }
-    
-    func didDragOff() {
-        backgroundColor = .clear
-    }
-}
 
 class PaymentTextField : NoPasteTextField {
     
@@ -87,11 +49,9 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
     var routingNumberTextfield = PaymentTextField()
     var accountNumberTitle = SectionTitle()
     var accountNumberTextfield  = PaymentTextField()
-    //var addBankButton = AddBankButton()
     
     override func configureView() {
         addSubview(contentView)
-        //addSubview(addBankButton)
         contentView.addSubview(nameTitle)
         contentView.addSubview(nameTextfield)
         contentView.addSubview(routingNumberTitle)
@@ -102,10 +62,10 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
         addKeyboardView()
         super.configureView()
         
-        progressBar.progress = 0.6
+        progressBar.progress = 0.666667
         progressBar.applyConstraints()
 
-        title.label.text = "Payment"
+        title.label.text = "Add Bank"
         
         nameTitle.label.text = "Name"
         routingNumberTitle.label.text = "Routing Number"
@@ -123,13 +83,6 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
     
     override func applyConstraints() {
         super.applyConstraints()
-        
-//        addBankButton.snp.makeConstraints { (make) in
-//            make.bottom.equalTo(keyboardView.snp.top).inset(-10)
-//            make.width.equalToSuperview().multipliedBy(0.85)
-//            make.height.equalTo(35)
-//            make.centerX.equalToSuperview()
-//        }
         
         contentView.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.85)
@@ -180,11 +133,6 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
             make.height.equalTo(30)
         }
     }
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
-    }
 }
 
 class TutorRegPayment: BaseViewController {
@@ -204,7 +152,7 @@ class TutorRegPayment: BaseViewController {
         super.viewDidLoad()
         
         let textFields = [contentView.nameTextfield, contentView.routingNumberTextfield, contentView.accountNumberTextfield]
-        for textField in textFields{
+        for textField in textFields {
             textField.delegate = self
             textField.returnKeyType = .next
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
@@ -227,36 +175,31 @@ class TutorRegPayment: BaseViewController {
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
-//
-//        contentView.addBankButton.isUserInteractionEnabled = false
-//
-//        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
-//            print("invalid name")
-//            contentView.addBankButton.alpha = 0.5
-//            return
-//        }
-//        print("Good Name")
-//        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
-//            print("invalid routing")
-//            contentView.addBankButton.alpha = 0.5
-//            return
-//        }
-//
-//        print("Good routing")
-//        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
-//            print("invalid account")
-//            contentView.addBankButton.alpha = 0.5
-//            return
-//        }
-//        print("Good account.")
-//
-//        contentView.addBankButton.alpha = 1.0
-//        contentView.addBankButton.isUserInteractionEnabled = true
-//
-//        self.fullName = name
-//        self.routingNumber = routingNumber
-//        self.accountNumber = accountNumber
-//
+
+        contentView.rightButton.isUserInteractionEnabled = false
+
+        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
+            print("invalid name")
+            return
+        }
+        print("Good Name")
+        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
+            print("invalid routing")
+            return
+        }
+
+        print("Good routing")
+        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
+            print("invalid account")
+            return
+        }
+        print("Good account.")
+
+        contentView.rightButton.isUserInteractionEnabled = true
+
+        self.fullName = name
+        self.routingNumber = routingNumber
+        self.accountNumber = accountNumber
     }
     
     private func getTutorBankToken(completion: @escaping (Error?) -> Void) {
@@ -278,11 +221,12 @@ class TutorRegPayment: BaseViewController {
     
     override func handleNavigation() {
         if (touchStartView is NavbarButtonNext) {
-            //contentView.addBankButton.isUserInteractionEnabled = false
+            contentView.rightButton.isUserInteractionEnabled = false
+            
             getTutorBankToken { (error) in
                 if let error = error {
                     print(error.localizedDescription)
-                //    self.contentView.addBankButton.isUserInteractionEnabled = false
+                    self.contentView.rightButton.isUserInteractionEnabled = false
                 } else {
 					TutorRegistration.bankHoldersName = self.fullName
 					TutorRegistration.accountNumber = self.accountNumber

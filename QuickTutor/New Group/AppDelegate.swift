@@ -80,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 //					NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
 //
                     
-                    let controller = LearnerPageViewController()
+                    let controller = BecomeTutor()
                     AccountService.shared.currentUserType = .learner
                     
                     navigationController = CustomNavVC(rootViewController: controller)

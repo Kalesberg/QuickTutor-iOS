@@ -11,7 +11,7 @@ import UIKit
 class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
-	var filters = NavbarButtonLines()
+	var filters = NavbarButtonFilters()
 	
 	var backButton = NavbarButtonX()
 	

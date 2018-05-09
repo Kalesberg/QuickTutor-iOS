@@ -11,7 +11,18 @@ import SnapKit
 import Stripe
 import Alamofire
 
-class TutorAddBankView : MainLayoutTitleBackButton, Keyboardable {
+class TutorAddBankView : MainLayoutTitleBackTwoButton, Keyboardable {
+    
+    var nextButton = NavbarButtonNext()
+    
+    override var rightButton: NavbarButton {
+        get {
+            return nextButton
+        }
+        set {
+            nextButton = newValue as! NavbarButtonNext
+        }
+    }
 	
 	var keyboardComponent = ViewComponent()
 	var contentView = UIView()
@@ -21,11 +32,9 @@ class TutorAddBankView : MainLayoutTitleBackButton, Keyboardable {
 	var routingNumberTextfield = PaymentTextField()
 	var accountNumberTitle = SectionTitle()
 	var accountNumberTextfield  = PaymentTextField()
-	var addBankButton = AddBankButton()
 	
 	override func configureView() {
 		addSubview(contentView)
-		addSubview(addBankButton)
 		contentView.addSubview(nameTitle)
 		contentView.addSubview(nameTextfield)
 		contentView.addSubview(routingNumberTitle)
@@ -55,18 +64,11 @@ class TutorAddBankView : MainLayoutTitleBackButton, Keyboardable {
 	override func applyConstraints() {
 		super.applyConstraints()
 		
-		addBankButton.snp.makeConstraints { (make) in
-			make.bottom.equalTo(keyboardView.snp.top).inset(-10)
-			make.width.equalToSuperview().multipliedBy(0.85)
-			make.height.equalTo(35)
-			make.centerX.equalToSuperview()
-		}
-		
 		contentView.snp.makeConstraints { (make) in
 			make.width.equalToSuperview().multipliedBy(0.85)
 			make.top.equalTo(navbar.snp.bottom)
 			make.centerX.equalToSuperview()
-			make.bottom.equalTo(addBankButton.snp.top)
+			make.bottom.equalTo(keyboardView.snp.top)
 		}
 		
 		nameTitle.snp.makeConstraints { (make) in
@@ -160,34 +162,34 @@ class TutorAddBank: BaseViewController {
 	
 	@objc private func textFieldDidChange(_ textField: UITextField) {
 		
-		contentView.addBankButton.isUserInteractionEnabled = false
-		
-		guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
-			self.fullName = ""
-			contentView.addBankButton.alpha = 0.5
-			return
-		}
-		print("Good Name")
-		guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
-			self.routingNumber = ""
-			contentView.addBankButton.alpha = 0.5
-			return
-		}
-		
-		print("Good routing")
-		guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
-			self.accountNumber = ""
-			contentView.addBankButton.alpha = 0.5
-			return
-		}
-		print("Good account.")
-		
-		contentView.addBankButton.alpha = 1.0
-		contentView.addBankButton.isUserInteractionEnabled = true
-		
-		self.fullName = name
-		self.routingNumber = routingNumber
-		self.accountNumber = accountNumber
+//        contentView.addBankButton.isUserInteractionEnabled = false
+//
+//        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
+//            self.fullName = ""
+//            contentView.addBankButton.alpha = 0.5
+//            return
+//        }
+//        print("Good Name")
+//        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
+//            self.routingNumber = ""
+//            contentView.addBankButton.alpha = 0.5
+//            return
+//        }
+//
+//        print("Good routing")
+//        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
+//            self.accountNumber = ""
+//            contentView.addBankButton.alpha = 0.5
+//            return
+//        }
+//        print("Good account.")
+//
+//        contentView.addBankButton.alpha = 1.0
+//        contentView.addBankButton.isUserInteractionEnabled = true
+//
+//        self.fullName = name
+//        self.routingNumber = routingNumber
+//        self.accountNumber = accountNumber
 	}
 	
 	private func addTutorBankAccount(completion: @escaping (Error?) -> Void) {
@@ -221,8 +223,8 @@ class TutorAddBank: BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if (touchStartView is AddBankButton) {
-			contentView.addBankButton.isUserInteractionEnabled = false
+		if (touchStartView is NavbarButtonNext) {
+			//contentView.addBankButton.isUserInteractionEnabled = false
 			addTutorBankAccount { (error) in
 				if let error = error {
 					print(error.localizedDescription)
