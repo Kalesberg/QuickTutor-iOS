@@ -664,7 +664,9 @@ class TutorMainPage : MainPage {
             next.tutor = self.tutor
             navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.earningsButton) {
-            navigationController?.pushViewController(TutorEarnings(), animated: true)
+			let next = TutorEarnings()
+			next.accountId = tutor.acctId
+            navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.improveItem) {
             navigationController?.pushViewController(TutorMainTips(), animated: true)
         } else if (touchStartView == contentView.viewTrendingButton) {

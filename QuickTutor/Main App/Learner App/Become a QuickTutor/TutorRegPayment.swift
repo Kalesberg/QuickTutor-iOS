@@ -227,36 +227,28 @@ class TutorRegPayment: BaseViewController {
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
-//
-//        contentView.addBankButton.isUserInteractionEnabled = false
-//
-//        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
-//            print("invalid name")
-//            contentView.addBankButton.alpha = 0.5
-//            return
-//        }
-//        print("Good Name")
-//        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
-//            print("invalid routing")
-//            contentView.addBankButton.alpha = 0.5
-//            return
-//        }
-//
-//        print("Good routing")
-//        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
-//            print("invalid account")
-//            contentView.addBankButton.alpha = 0.5
-//            return
-//        }
-//        print("Good account.")
-//
-//        contentView.addBankButton.alpha = 1.0
-//        contentView.addBankButton.isUserInteractionEnabled = true
-//
-//        self.fullName = name
-//        self.routingNumber = routingNumber
-//        self.accountNumber = accountNumber
-//
+
+        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
+            print("invalid name")
+            return
+        }
+        print("Good Name")
+        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
+            print("invalid routing")
+            return
+        }
+
+        print("Good routing")
+        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
+            print("invalid account")
+            return
+        }
+        print("Good account.")
+
+        self.fullName = name
+        self.routingNumber = routingNumber
+        self.accountNumber = accountNumber
+
     }
     
     private func getTutorBankToken(completion: @escaping (Error?) -> Void) {

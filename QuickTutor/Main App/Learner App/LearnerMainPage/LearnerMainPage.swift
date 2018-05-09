@@ -145,7 +145,7 @@ class LearnerMainPage : MainPage {
 	private func configureSideBarView(){
 		
 		let formattedString = NSMutableAttributedString()
-		contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become A Tutor"
+		contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become a QuickTutor"
 		
 		if let school = learner.school {
 			formattedString
