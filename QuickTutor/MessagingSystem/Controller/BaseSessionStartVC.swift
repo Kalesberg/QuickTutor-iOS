@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SocketIO
 
 class BaseSessionStartVC: UIViewController {
     
@@ -18,6 +19,7 @@ class BaseSessionStartVC: UIViewController {
     var partner: User?
     var partnerUsername: String?
     var meetupConfirmed = false
+    let socket = SocketClient.shared.socket!
     
     var session: Session?
     
@@ -232,9 +234,8 @@ class BaseSessionStartVC: UIViewController {
     
     
     @objc func confirmManualStart() {
-        guard let uid = Auth.auth().currentUser?.uid, let partnerId = session?.partnerId(), let id = session?.id else { return }
-        Database.database().reference().child("sessionStarts").child(uid).child(id).child("startAccepted").setValue(true)
-        Database.database().reference().child("sessionStarts").child(partnerId).child(id).child("startAccepted").setValue(true)
+        let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType" : session?.type]
+        socket.emit(SocketEvents.manualStartAccetped, data)
     }
     
     private func removeStartData() {
@@ -242,16 +243,12 @@ class BaseSessionStartVC: UIViewController {
         Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
     }
     
-    @objc func proceedToSession() {
-        guard let uid = Auth.auth().currentUser?.uid, let partnerId = session?.partnerId(), let id = session?.id else { return }
-        Database.database().reference().child("sessionStarts").child(uid).child(id).child("startAccepted").setValue(true)
-        Database.database().reference().child("sessionStarts").child(partnerId).child(id).child("startAccepted").setValue(true)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         updateUI()
+        guard let id = sessionId else { return }
+        socket.emit("joinRoom", id);
     }
     
     override func viewWillDisappear(_ animated: Bool) {

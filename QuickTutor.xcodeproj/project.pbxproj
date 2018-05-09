@@ -77,7 +77,6 @@
 		846252F320637FA7001DD330 /* BankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F220637FA7001DD330 /* BankManager.swift */; };
 		846252F720637FC5001DD330 /* TutorHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F620637FC5001DD330 /* TutorHelp.swift */; };
 		846252FB206381BD001DD330 /* TaxInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252FA206381BD001DD330 /* TaxInformation.swift */; };
-		8464669A2096BBFD006ABA98 /* TutorAddBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846466992096BBFD006ABA98 /* TutorAddBank.swift */; };
 		84681F922049F30A00F45DFC /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84681F912049F30A00F45DFC /* LocationServices.swift */; };
 		84681FA0204B63DC00F45DFC /* schools.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84681F9F204B63DC00F45DFC /* schools.txt */; };
 		846D9B4E2069E57000302773 /* CategorySelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */; };
@@ -195,12 +194,18 @@
 		CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */; };
 		CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */; };
 		CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */; };
+		CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C610C209EA57B009B7B0E /* TipAmountCell.swift */; };
+		CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C610E209EA593009B7B0E /* CustomTipModal.swift */; };
+		CF1C6111209EA5BD009B7B0E /* PaymentMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6110209EA5BD009B7B0E /* PaymentMethodCell.swift */; };
+		CF1C6113209EA6F4009B7B0E /* AddTimeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6112209EA6F4009B7B0E /* AddTimeModal.swift */; };
+		CF1C6115209ED011009B7B0E /* SocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6114209ED011009B7B0E /* SocketClient.swift */; };
 		CF1E43C520705F8D0033F845 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C420705F8D0033F845 /* StarView.swift */; };
 		CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */; };
 		CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C8207067860033F845 /* BaseSessionCell.swift */; };
 		CF2D9772207A7F7D00914B27 /* AddTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */; };
 		CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9773207A828F00914B27 /* AddTutorCell.swift */; };
 		CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9777207B354F00914B27 /* CustomSearchBar.swift */; };
+		CF2E1A6120A0D20C00BCB53A /* ZFNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2E1A6020A0D20C00BCB53A /* ZFNavBar.swift */; };
 		CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D35208D392D0096617C /* EndSessionModal.swift */; };
 		CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D37208D401B0096617C /* CountdownTimer.swift */; };
 		CF360D3A208D48DB0096617C /* PauseSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D39208D48DB0096617C /* PauseSessionModal.swift */; };
@@ -209,6 +214,7 @@
 		CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */; };
 		CF387EC12088EE1000087449 /* InPersonSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */; };
 		CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */; };
+		CF50ADE420A2C1770035A702 /* TutorAddBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846466992096BBFD006ABA98 /* TutorAddBank.swift */; };
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
 		CF6325EB207FF4480037F8AA /* SessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */; };
@@ -283,6 +289,7 @@
 		CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */; };
 		CF8578C62060AB230089B6F0 /* MessagesContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */; };
 		CF8578C82060AB470089B6F0 /* BaseSessionsContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8578C72060AB470089B6F0 /* BaseSessionsContentCell.swift */; };
+		CF8BBCBC20A0251F0043D231 /* TwilioSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8BBCBB20A0251F0043D231 /* TwilioSettings.swift */; };
 		CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */; };
 		CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */; };
 		CFB60617207FA6B80029CFE4 /* FileReportActionsheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */; };
@@ -291,6 +298,7 @@
 		CFB6061D207FD7000029CFE4 /* CustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6061C207FD7000029CFE4 /* CustomModal.swift */; };
 		CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */; };
 		CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */; };
+		CFCA549F209AD6DC00FC83A1 /* AddTipVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCA549E209AD6DC00FC83A1 /* AddTipVC.swift */; };
 		CFF5017720698F620085B0E9 /* LearnerHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C5201E8500006FC580 /* LearnerHelp.swift */; };
 		CFF50178206990060085B0E9 /* LearnerEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2F02720354E4700F921C9 /* LearnerEditProfile.swift */; };
 		CFF50179206990590085B0E9 /* LearnerMyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BD201E8245006FC580 /* LearnerMyProfile.swift */; };
@@ -501,12 +509,18 @@
 		CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionReviewVC.swift; sourceTree = "<group>"; };
 		CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProfileBox.swift; sourceTree = "<group>"; };
 		CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonProfileBox.swift; sourceTree = "<group>"; };
+		CF1C610C209EA57B009B7B0E /* TipAmountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipAmountCell.swift; sourceTree = "<group>"; };
+		CF1C610E209EA593009B7B0E /* CustomTipModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTipModal.swift; sourceTree = "<group>"; };
+		CF1C6110209EA5BD009B7B0E /* PaymentMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodCell.swift; sourceTree = "<group>"; };
+		CF1C6112209EA6F4009B7B0E /* AddTimeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimeModal.swift; sourceTree = "<group>"; };
+		CF1C6114209ED011009B7B0E /* SocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketClient.swift; sourceTree = "<group>"; };
 		CF1E43C420705F8D0033F845 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderCell.swift; sourceTree = "<group>"; };
 		CF1E43C8207067860033F845 /* BaseSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionCell.swift; sourceTree = "<group>"; };
 		CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorVC.swift; sourceTree = "<group>"; };
 		CF2D9773207A828F00914B27 /* AddTutorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorCell.swift; sourceTree = "<group>"; };
 		CF2D9777207B354F00914B27 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
+		CF2E1A6020A0D20C00BCB53A /* ZFNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZFNavBar.swift; sourceTree = "<group>"; };
 		CF360D35208D392D0096617C /* EndSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndSessionModal.swift; sourceTree = "<group>"; };
 		CF360D37208D401B0096617C /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		CF360D39208D48DB0096617C /* PauseSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSessionModal.swift; sourceTree = "<group>"; };
@@ -589,6 +603,7 @@
 		CF8578C32060AAF70089B6F0 /* BaseContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseContentCell.swift; sourceTree = "<group>"; };
 		CF8578C52060AB230089B6F0 /* MessagesContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesContentCell.swift; sourceTree = "<group>"; };
 		CF8578C72060AB470089B6F0 /* BaseSessionsContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionsContentCell.swift; sourceTree = "<group>"; };
+		CF8BBCBB20A0251F0043D231 /* TwilioSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSettings.swift; sourceTree = "<group>"; };
 		CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemToggleCell.swift; sourceTree = "<group>"; };
 		CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSystemToggle.swift; sourceTree = "<group>"; };
 		CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheet.swift; sourceTree = "<group>"; };
@@ -597,6 +612,7 @@
 		CFB6061C207FD7000029CFE4 /* CustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModal.swift; sourceTree = "<group>"; };
 		CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCustomModal.swift; sourceTree = "<group>"; };
 		CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTypeModal.swift; sourceTree = "<group>"; };
+		CFCA549E209AD6DC00FC83A1 /* AddTipVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTipVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1243,6 +1259,8 @@
 				CF1E43C8207067860033F845 /* BaseSessionCell.swift */,
 				CF2D9773207A828F00914B27 /* AddTutorCell.swift */,
 				CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */,
+				CF1C610C209EA57B009B7B0E /* TipAmountCell.swift */,
+				CF1C6110209EA5BD009B7B0E /* PaymentMethodCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1283,6 +1301,7 @@
 				CF6F58A1205EE68800ACBD32 /* CustomImageView.swift */,
 				CF2D9777207B354F00914B27 /* CustomSearchBar.swift */,
 				CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */,
+				CF2E1A6020A0D20C00BCB53A /* ZFNavBar.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1320,6 +1339,7 @@
 				CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */,
 				CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */,
 				CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */,
+				CFCA549E209AD6DC00FC83A1 /* AddTipVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1337,6 +1357,8 @@
 				CF12D93A20642236004BE148 /* Session.swift */,
 				CF387EBC2088314B00087449 /* Notifications.swift */,
 				CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */,
+				CF1C6114209ED011009B7B0E /* SocketClient.swift */,
+				CF8BBCBB20A0251F0043D231 /* TwilioSettings.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1403,6 +1425,8 @@
 				CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */,
 				CF360D35208D392D0096617C /* EndSessionModal.swift */,
 				CF360D39208D48DB0096617C /* PauseSessionModal.swift */,
+				CF1C610E209EA593009B7B0E /* CustomTipModal.swift */,
+				CF1C6112209EA6F4009B7B0E /* AddTimeModal.swift */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -1520,6 +1544,8 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${PODS_ROOT}/Reveal-SDK/RevealServer-14/iOS/RevealServer.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
 				"${PODS_ROOT}/TwilioVideo/Build/iOS/TwilioVideo.framework",
@@ -1540,6 +1566,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwilioVideo.framework",
@@ -1639,6 +1667,7 @@
 				CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */,
 				CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */,
 				CF6F58DD205EE68800ACBD32 /* LoginVC.swift in Sources */,
+				CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */,
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestion.swift in Sources */,
 				842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */,
 				CF6F58BE205EE68800ACBD32 /* ConnectionRequestCell.swift in Sources */,
@@ -1650,9 +1679,12 @@
 				846D9B542069E57A00302773 /* CategoryTableViewCell.swift in Sources */,
 				841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */,
 				CF1E43C520705F8D0033F845 /* StarView.swift in Sources */,
+				CF2E1A6120A0D20C00BCB53A /* ZFNavBar.swift in Sources */,
+				CF1C6113209EA6F4009B7B0E /* AddTimeModal.swift in Sources */,
 				84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */,
 				CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */,
 				CF6F58C4205EE68800ACBD32 /* QuickChatViewCell.swift in Sources */,
+				CFCA549F209AD6DC00FC83A1 /* AddTipVC.swift in Sources */,
 				CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */,
 				CF6F58C9205EE68800ACBD32 /* MeetupTypeCell.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfo.swift in Sources */,
@@ -1712,6 +1744,7 @@
 				CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */,
 				CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */,
 				CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */,
+				CF8BBCBC20A0251F0043D231 /* TwilioSettings.swift in Sources */,
 				84052F0E206BCC03007B1248 /* LearnerCancelled.swift in Sources */,
 				847CF8E8202A7738003BB4FA /* UIScrollViewExtensions.swift in Sources */,
 				CF6F58CD205EE68800ACBD32 /* MeetupTimePicker.swift in Sources */,
@@ -1721,7 +1754,7 @@
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBio.swift in Sources */,
 				CF6F58D4205EE68800ACBD32 /* QuickChatView.swift in Sources */,
-				8464669A2096BBFD006ABA98 /* TutorAddBank.swift in Sources */,
+				CF1C6115209ED011009B7B0E /* SocketClient.swift in Sources */,
 				CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */,
 				847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */,
@@ -1734,6 +1767,7 @@
 				CF6F58CB205EE68800ACBD32 /* SubjectPicker.swift in Sources */,
 				843ECCC2207D8D4400C0F622 /* TutorMainTips.swift in Sources */,
 				CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */,
+				CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */,
 				CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */,
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
@@ -1803,6 +1837,7 @@
 				8421007E207A7E0800422A31 /* FeaturedTutorQuery.swift in Sources */,
 				CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */,
 				CF6F58CE205EE68800ACBD32 /* ConnectionRequestView.swift in Sources */,
+				CF1C6111209EA5BD009B7B0E /* PaymentMethodCell.swift in Sources */,
 				84E4C7D2204E80E4009C2FC4 /* AccountPayments.swift in Sources */,
 				CF6F58C8205EE68800ACBD32 /* PriceInputView.swift in Sources */,
 				842394131FF4CAC600827C7D /* RegistrationTextField.swift in Sources */,
@@ -1843,6 +1878,7 @@
 				CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */,
 				CF6F58E5205EE68800ACBD32 /* UserMessage.swift in Sources */,
 				CF6F58C3205EE68800ACBD32 /* BaseMessageCell.swift in Sources */,
+				CF50ADE420A2C1770035A702 /* TutorAddBank.swift in Sources */,
 				84E4C7D6204E8434009C2FC4 /* LearnerHandbook.swift in Sources */,
 				CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */,
 				CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */,
@@ -1985,7 +2021,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QYG3ENEK3P;
+				DEVELOPMENT_TEAM = U9G698QATF;
 				INFOPLIST_FILE = "$(SRCROOT)/QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2007,7 +2043,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QYG3ENEK3P;
+				DEVELOPMENT_TEAM = U9G698QATF;
 				INFOPLIST_FILE = "$(SRCROOT)/QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

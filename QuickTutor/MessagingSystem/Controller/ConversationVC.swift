@@ -9,7 +9,14 @@
 import UIKit
 import Firebase
 
-class ConversationVC: UICollectionViewController {
+class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
+    
+    var navBar: ZFNavBar = {
+        let bar = ZFNavBar()
+        bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+        bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "fileReportFlag"), for: .normal)
+        return bar
+    }()
     
     var messages = [BaseMessage]()
     var receiverId: String!
@@ -41,7 +48,6 @@ class ConversationVC: UICollectionViewController {
     }()
 	
 	var tutor : AWTutor!
-	
 	var learner : AWLearner!
 	
     lazy var emptyCellBackground: UIView = {
@@ -49,7 +55,7 @@ class ConversationVC: UICollectionViewController {
         let icon: UIImageView = {
             let iv = UIImageView()
             iv.image = #imageLiteral(resourceName: "emptyChatImage")
-            iv.contentMode = .scaleAspectFill
+            iv.contentMode = .scaleAspectFit
             return iv
         }()
         
@@ -59,7 +65,7 @@ class ConversationVC: UICollectionViewController {
             label.textAlignment = .center
             label.numberOfLines = 0
             label.font = Fonts.createSize(13)
-            label.text = "Select a custom message, or introduce yourself by typing a message. A tutor must accept your connection request before you are able to message them again"
+            label.text = "Select a custom message, or introduce\n yourself by typing a message. A tutor must\n accept your connection request before\n you are able to message them again."
             return label
         }()
         
@@ -102,6 +108,7 @@ class ConversationVC: UICollectionViewController {
     
     private func setupMainView() {
         view.backgroundColor = Colors.darkBackground
+        edgesForExtendedLayout = []
         studentKeyboardAccessory.delegate = self
         teacherKeyboardAccessory.delegate = self
     }
@@ -114,18 +121,18 @@ class ConversationVC: UICollectionViewController {
     
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
-        emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
-        view.addConstraint(NSLayoutConstraint(item: emptyCellBackground, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0))
+        emptyCellBackground.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
     }
     
     private func setupNavBar() {
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "backButton")
-        navigationItem.hidesBackButton = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"backButton")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(pop))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"fileReportFlag")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(showReportSheet))
+        addNavBar()
+//        navigationController?.navigationBar.isHidden = false
+//        navigationController?.setNavigationBarHidden(false, animated: false)
+//        navigationController?.navigationBar.prefersLargeTitles = false
+//        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "backButton")
+//        navigationItem.hidesBackButton = true
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"backButton")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(pop))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"fileReportFlag")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(showReportSheet))
         setupTitleView()
     }
     
@@ -133,7 +140,7 @@ class ConversationVC: UICollectionViewController {
         let frame = CGRect(x: 0, y: 0, width: 100, height: 50)
         let titleView = CustomTitleView(frame: frame)
         if let partner = chatPartner {
-            titleView.updateUI(user: chatPartner)
+            titleView.updateUI(user: partner)
         }
 		
 		if AccountService.shared.currentUserType == .learner {
@@ -142,7 +149,9 @@ class ConversationVC: UICollectionViewController {
 			titleView.learner = learner
 		}
 		
-        navigationItem.titleView = titleView
+        navBar.addSubview(titleView)
+        titleView.anchor(top: navBar.titleView.topAnchor, left: nil, bottom: navBar.titleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.loadImage(urlString: profilePicUrl)
 
@@ -151,6 +160,14 @@ class ConversationVC: UICollectionViewController {
     func teardownConnectionRequest() {
         self.studentKeyboardAccessory.hideQuickChatView()
         self.emptyCellBackground.removeFromSuperview()
+    }
+    
+    func handleLeftViewTapped() {
+        pop()
+    }
+    
+    func handleRightViewTapped() {
+        showReportSheet()
     }
     
     @objc func pop() {
@@ -368,10 +385,10 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         guard let message = messages[indexPath.item] as? UserMessage, let sessionRequestId = message.sessionRequestId else {
             return
         }
-        let vc = ViewSessionRequestVC()
-        vc.sessionRequestId = sessionRequestId
-        vc.senderId = message.senderId
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = ViewSessionRequestVC()
+//        vc.sessionRequestId = sessionRequestId
+//        vc.senderId = message.senderId
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

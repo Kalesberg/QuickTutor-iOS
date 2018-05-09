@@ -64,6 +64,7 @@ class MessagesContentCell: BaseContentCell {
             self.messages = Array(self.conversationsDictionary.values)
             self.messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
             self.collectionView.reloadData()
+
         }
     }
     

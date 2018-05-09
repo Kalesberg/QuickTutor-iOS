@@ -116,6 +116,7 @@ class LoginVC: UIViewController {
     
     func showMessagesVC() {
         let vc = MessagesVC()
+        
         let navVC = CustomNavVC(rootViewController: vc)
         present(navVC, animated: true, completion: nil)
     }

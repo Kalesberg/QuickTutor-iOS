@@ -14,15 +14,30 @@ protocol PriceInputViewDelegate {
 
 class PriceInputView: UIView {
     
+    enum InputMode {
+        case price
+        case minutes
+    }
+    
     var delegate: PriceInputViewDelegate?
     var increasePriceTimer: Timer?
     var decreasePriceTimer: Timer?
+    var inputMode = InputMode.price
     
     var currentPrice = 0.00 {
         didSet {
-            let priceString = String(format: "%.2f", currentPrice)
-            priceLabel.text = "$\(priceString)"
+            inputMode == .price ? getFormattedPrice() : getFormattedMinutes()
         }
+    }
+    
+    func getFormattedPrice() {
+        let priceString = String(format: "%.2f", currentPrice)
+        priceLabel.text = "$\(priceString)"
+    }
+    
+    func getFormattedMinutes() {
+        let minuteString = String(format: "%.0f", currentPrice)
+        priceLabel.text = "\(minuteString) mins"
     }
     
     let decreaseButton: UIButton = {

@@ -165,7 +165,9 @@ class MainPage : BaseViewController {
             })
             hideBackground()
         } else if(touchStartView == contentView.messagesButton) {
-			parentPageViewController.setViewControllers([MessagesVC()], direction: .forward, animated: true, completion: nil)
+            let vc = MessagesVC()
+            vc.parentPageViewController = parentPageViewController
+            parentPageViewController.setViewControllers([vc], direction: .forward, animated: true, completion: nil)
         }
     }
     
