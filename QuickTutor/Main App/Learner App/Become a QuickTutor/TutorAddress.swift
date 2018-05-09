@@ -181,7 +181,7 @@ class TutorAddress : BaseViewController {
 		for textField in textFields{
 			textField.delegate = self
 			textField.returnKeyType = .next
-			textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+			//textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 		}
 	}
 	
@@ -221,16 +221,50 @@ class TutorAddress : BaseViewController {
 		addressString = line1 + " " + city + state + ", " + zipcode
 		//contentView.submitAddressButton.isUserInteractionEnabled = true
 	}
+    
+    private func infoIsValid() -> Bool{
+        guard let line1 = textFields[0].text, line1.count > 5 else {
+            textFields[0].layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        textFields[0].layer.borderColor = Colors.green.cgColor
+        guard let city = textFields[1].text, city.count >= 2 else {
+            textFields[1].layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        textFields[1].layer.borderColor = Colors.green.cgColor
+        guard let state = textFields[2].text, state.count == 2 else {
+            textFields[2].layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        textFields[2].layer.borderColor = Colors.green.cgColor
+        guard let zipcode = textFields[3].text, zipcode.count == 5 else {
+            textFields[3].layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        textFields[3].layer.borderColor = Colors.green.cgColor
+        
+        addressString = line1 + " " + city + state + ", " + zipcode
+        
+        return true
+    }
 	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonNext) {
-			TutorLocation.shared.convertAddressToLatLong(addressString: addressString) { (error) in
-				if let error = error {
-					print(error.localizedDescription)
-				} else {
-					self.navigationController?.pushViewController(TutorAddUsername(), animated: true)
-				}
-			}
+            contentView.rightButton.isUserInteractionEnabled = false
+            
+            if infoIsValid() {
+                TutorLocation.shared.convertAddressToLatLong(addressString: addressString) { (error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        self.contentView.rightButton.isUserInteractionEnabled = true
+                    } else {
+                        self.navigationController?.pushViewController(TutorAddUsername(), animated: true)
+                    }
+                }
+            } else {
+                contentView.rightButton.isUserInteractionEnabled = true
+            }
 		}
 	}
 }
