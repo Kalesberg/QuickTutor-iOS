@@ -19,7 +19,7 @@ class TutorBioView : EditBioView {
         addSubview(progressBar)
 		super.configureView()
         
-        progressBar.progress = 0.3
+        progressBar.progress = 0.33333
         progressBar.applyConstraints()
 		
 		title.label.text = "Biography"
@@ -48,8 +48,9 @@ class TutorBioView : EditBioView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
+        navbar.backgroundColor = Colors.registrationDark
+        statusbarView.backgroundColor = Colors.registrationDark
+        textView.textView.tintColor = Colors.tutorBlue
     }
 	
 	override func keyboardWillAppear() {
@@ -84,8 +85,6 @@ class TutorBio: BaseViewController {
 		super.viewDidLoad()
 		contentView.textView.textView.delegate = self
         
-        
-        
         self.hideKeyboardWhenTappedAround()
 	}
 	
@@ -106,7 +105,7 @@ class TutorBio: BaseViewController {
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonNext) {
 			
-			guard let bio = contentView.textView.textView.text, bio.count > 20 else {
+			guard let bio = contentView.textView.textView.text, bio.count >= 20 else {
                 if !contentView.errorLabel.isHidden {
                     contentView.errorLabel.shake()
                 }

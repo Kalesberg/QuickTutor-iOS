@@ -103,7 +103,7 @@ class TutorPreferencesView : TutorRegistrationLayout {
         title.label.text = "Set Your Preferences"
         
         addSubview(progressBar)
-        progressBar.progress = 0.15
+        progressBar.progress = 0.16667
         progressBar.applyConstraints()
     }
     

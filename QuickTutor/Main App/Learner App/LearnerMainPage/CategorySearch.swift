@@ -11,7 +11,7 @@ import UIKit
 class CategorySearchView : MainLayoutTwoButton {
 	
 	var back =  NavbarButtonBack()
-	var filters = NavbarButtonLines()
+	var filters = NavbarButtonFilters()
 	
 	let subtitle = SectionHeader()
 	
@@ -60,7 +60,8 @@ class CategorySearchView : MainLayoutTwoButton {
 		get {
 			return filters
 		} set {
-			filters = newValue as! NavbarButtonLines
+			filters = newValue as! NavbarButtonFilters
+            
 		}
 	}
 	

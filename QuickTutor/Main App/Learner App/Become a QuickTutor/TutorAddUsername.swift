@@ -119,13 +119,12 @@ class TutorAddUsernameView : TutorRegistrationLayout, Keyboardable {
         addKeyboardView()
         addSubview(contentView)
         contentView.addSubview(textField)
-        contentView.addSubview(nextButton)
         super.configureView()
         
         title.label.text = "Create a Username"
         
         addSubview(progressBar)
-        progressBar.progress = 0.8
+        progressBar.progress = 1.01
         progressBar.applyConstraints()
     }
     
@@ -143,13 +142,6 @@ class TutorAddUsernameView : TutorRegistrationLayout, Keyboardable {
             make.centerY.equalToSuperview().inset(-50)
             make.height.equalTo(120)
             make.width.equalToSuperview().multipliedBy(0.85)
-        }
-        
-        nextButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(contentView)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(60)
         }
     }
 }
@@ -174,9 +166,8 @@ class TutorAddUsername : BaseViewController {
     }
     
     override func handleNavigation() {
-        if (touchStartView is TutorPreferencesNextButton) {
-            print("sdf")
-            //navigationController?.pushViewController(, animated: <#T##Bool#>)
+        if (touchStartView is NavbarButtonNext) {
+            navigationController?.pushViewController(TutorPolicy(), animated: true)
         }
     }
 }

@@ -284,7 +284,7 @@ class SignIn: BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		contentView.nextButton.button.isUserInteractionEnabled = true
+		//contentView.nextButton.button.isUserInteractionEnabled = true
 
 	}
 	override func viewWillAppear(_ animated: Bool) {
@@ -331,7 +331,7 @@ class SignIn: BaseViewController {
 			})
 			
 			contentView.nextButton.isUserInteractionEnabled = true
-			contentView.nextButton.button.isUserInteractionEnabled = false
+			//contentView.nextButton.button.isUserInteractionEnabled = false
 			
 		} else if(touchStartView is RegistrationBackButton) {
 			
@@ -368,7 +368,7 @@ class SignIn: BaseViewController {
 			})
 		} else if (touchStartView is RegistrationNextButton) {
 			signIn()
-			contentView.nextButton.button.isUserInteractionEnabled = false
+			//contentView.nextButton.button.isUserInteractionEnabled = false
 		} else if touchStartView is FacebookButton {
 			facebookSignIn()
 		}

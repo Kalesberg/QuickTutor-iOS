@@ -60,7 +60,7 @@ class TutorSSNView : TutorRegistrationLayout, Keyboardable {
 		digitView.addSubview(digit4)
 		super.configureView()
 		
-        progressBar.progress = 0.45
+        progressBar.progress = 0.5
         progressBar.applyConstraints()
         
 		title.label.text = "SSN"
@@ -132,11 +132,6 @@ class TutorSSNView : TutorRegistrationLayout, Keyboardable {
             })
         }
     }
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		navbar.backgroundColor = Colors.tutorBlue
-		statusbarView.backgroundColor = Colors.tutorBlue
-	}
 }
 
 

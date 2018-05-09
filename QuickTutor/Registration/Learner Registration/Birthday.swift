@@ -93,7 +93,7 @@ class BirthdayView: RegistrationNavBarView {
         
         birthdayLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.47)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
