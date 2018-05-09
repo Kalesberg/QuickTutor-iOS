@@ -191,7 +191,7 @@ class TutorEarnings : BaseViewController {
 		dateFormatter.dateFormat = "MM/dd/yyyy"
 		
 		
-		Stripe.stripeManager.retrieveBalanceTransactionList(acctId: accountId) { (transactions) in
+		Stripe.retrieveBalanceTransactionList(acctId: accountId) { (transactions) in
 			if let transactions = transactions {
 				self.datasource = transactions.data.sorted {
 					return $0.created! < $1.created!

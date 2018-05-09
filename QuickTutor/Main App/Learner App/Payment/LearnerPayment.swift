@@ -562,7 +562,7 @@ class LearnerPayment : BaseViewController {
             
         } else {
             //start animation here..
-			Stripe.stripeManager.attachSource(cusID: CurrentUser.shared.learner.customer, adding: self.card, completion: { (error) in
+			Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, adding: self.card, completion: { (error) in
                 if let error = error {
                     print("Error: ", error.localizedDescription)
                     self.contentView.nextButton.isUserInteractionEnabled = true

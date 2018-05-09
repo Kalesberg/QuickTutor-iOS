@@ -94,7 +94,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
-		if let current = UIApplication.getPresentedViewController() {
+		if let _ = UIApplication.getPresentedViewController() {
 			
 			let next = TutorConnect()
 			let tutor = datasource![indexPath.item]

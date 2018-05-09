@@ -564,7 +564,7 @@ class TutorMainPage : MainPage {
                 CurrentUser.shared.tutor = tutor
                 self.tutor = tutor
 
-                Stripe.stripeManager.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
+                Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
                     if let _ = account {
 						
                     }

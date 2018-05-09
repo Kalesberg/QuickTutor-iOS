@@ -103,7 +103,7 @@ class LearnerMainPage : MainPage {
 		self.learner = learner
 		AccountService.shared.currentUserType = .learner
 		
-		Stripe.stripeManager.retrieveCustomer(cusID: learner.customer) { (customer, error) in
+		Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
 			if let error = error{
 				print(error.localizedDescription)
 			} else if let customer = customer {

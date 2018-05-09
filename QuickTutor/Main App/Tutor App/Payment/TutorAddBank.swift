@@ -192,7 +192,7 @@ class TutorAddBank: BaseViewController {
 //        self.accountNumber = accountNumber
 	}
 	
-    private func infoIsValid() -> Bool{
+    private func infoIsValid() -> Bool {
         
         guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
             contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
@@ -259,12 +259,7 @@ class TutorAddBank: BaseViewController {
                         print(error.localizedDescription)
                         self.contentView.rightButton.isUserInteractionEnabled = true
                     } else {
-                        let nav = self.navigationController
-                        let transition = CATransition()
-                        DispatchQueue.main.async {
-                            nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-                            nav?.popBackToTutorMain()
-                        }
+						self.navigationController?.popBackToTutorMain()
                     }
                 }
             } else {
