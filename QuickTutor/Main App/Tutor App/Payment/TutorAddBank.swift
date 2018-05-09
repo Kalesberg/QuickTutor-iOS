@@ -141,7 +141,7 @@ class TutorAddBank: BaseViewController {
 		for textField in textFields{
 			textField.delegate = self
 			textField.returnKeyType = .next
-			textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+			//textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 		}
 	}
 	
@@ -192,6 +192,33 @@ class TutorAddBank: BaseViewController {
 //        self.accountNumber = accountNumber
 	}
 	
+    private func infoIsValid() -> Bool {
+        
+        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
+            contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        contentView.nameTextfield.layer.borderColor = Colors.green.cgColor
+        
+        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
+            contentView.routingNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        contentView.routingNumberTextfield.layer.borderColor = Colors.green.cgColor
+        
+        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
+            contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        contentView.accountNumberTextfield.layer.borderColor = Colors.green.cgColor
+        
+        self.fullName = name
+        self.routingNumber = routingNumber
+        self.accountNumber = accountNumber
+        
+        return true
+    }
+    
 	private func addTutorBankAccount(completion: @escaping (Error?) -> Void) {
 		
 		let bankAccount = STPBankAccountParams()
@@ -224,19 +251,20 @@ class TutorAddBank: BaseViewController {
 	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonNext) {
-			//contentView.addBankButton.isUserInteractionEnabled = false
-			addTutorBankAccount { (error) in
-				if let error = error {
-					print(error.localizedDescription)
-				} else {
-					let nav = self.navigationController
-					let transition = CATransition()
-					DispatchQueue.main.async {
-						nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-						nav?.popBackToTutorMain()
-					}
-				}
-			}
+            contentView.rightButton.isUserInteractionEnabled = false
+            
+            if infoIsValid() {
+                addTutorBankAccount { (error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        self.contentView.rightButton.isUserInteractionEnabled = true
+                    } else {
+						self.navigationController?.popBackToTutorMain()
+                    }
+                }
+            } else {
+                contentView.rightButton.isUserInteractionEnabled = true
+            }
 		}
 	}
 }

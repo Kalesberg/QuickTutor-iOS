@@ -564,7 +564,7 @@ class TutorMainPage : MainPage {
                 CurrentUser.shared.tutor = tutor
                 self.tutor = tutor
 
-                Stripe.stripeManager.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
+                Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
                     if let _ = account {
 						
                     }
@@ -664,7 +664,9 @@ class TutorMainPage : MainPage {
             next.tutor = self.tutor
             navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.earningsButton) {
-            navigationController?.pushViewController(TutorEarnings(), animated: true)
+			let next = TutorEarnings()
+			next.accountId = tutor.acctId
+            navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.improveItem) {
             navigationController?.pushViewController(TutorMainTips(), animated: true)
         } else if (touchStartView == contentView.viewTrendingButton) {

@@ -60,6 +60,37 @@ extension Int {
 		
 		return formattedString
 	}
+	func yearlyEarningsFormat() -> String {
+		let number = (Double(self) / 100) as NSNumber
+		
+		let numberFormatter = NumberFormatter()
+		numberFormatter.numberStyle = .currency
+		numberFormatter.locale = NSLocale.current
+		numberFormatter.maximumFractionDigits = 0
+		
+		guard let currency = numberFormatter.string(from: number) else { return "N/A" }
+		
+		return currency 
+	}
+	
+	func earningsDateFormat() -> String {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "MM/dd/yyyy"
+		
+		let date = Date(timeIntervalSince1970: TimeInterval(self))
+		return dateFormatter.string(from: date)
+	}
+	
+	func currencyFormat() -> String {
+		
+		let number = (Double(self) / 100) as NSNumber
+		let numberformat = NumberFormatter()
+		numberformat.numberStyle = .currency
+		
+		guard let currency = numberformat.string(from: number) else { return "N/A"}
+		
+		return currency
+	}
 }
 extension Double {
 	func formatDistance() -> NSMutableAttributedString {

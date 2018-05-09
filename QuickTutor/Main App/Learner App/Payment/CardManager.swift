@@ -103,12 +103,11 @@ class CardManager : BaseViewController {
 	
 	private var cards = [STPCard]()
 	private var defaultCard : STPCard?
-	private var cardsToBeDeleted = [STPCard]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		Stripe.stripeManager.retrieveCustomer(cusID: customerId) { (customer, error) in
+		Stripe.retrieveCustomer(cusID: customerId) { (customer, error) in
 			if let error = error{
 				print(error.localizedDescription)
 			} else if let customer = customer {
@@ -121,19 +120,6 @@ class CardManager : BaseViewController {
 		contentView.tableView.register(CardManagerTableViewCell.self, forCellReuseIdentifier: "cardCell")
 		contentView.tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
 
-	}
-	
-	override func viewWillDisappear(_ animated: Bool) {
-		super.viewWillDisappear(animated)
-		if cardsToBeDeleted.count > 0 {
-			for card in cardsToBeDeleted {
-				Stripe.stripeManager.dettachSource(customer: self.customer, deleting: card, completion: { (error) in
-					if let error = error {
-						print(error.localizedDescription)
-					}
-				})
-			}
-		}
 	}
 	
 	private func setCustomer() {
@@ -152,7 +138,6 @@ class CardManager : BaseViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -169,7 +154,7 @@ class CardManager : BaseViewController {
 	private func defaultCardAlert(card: STPCard) {
 		let alertController = UIAlertController(title: "Default Payment Method?", message: "Do you want this card to be your default Payment method?", preferredStyle: .actionSheet)
 		let setDefault = UIAlertAction(title: "Set as Default", style: .default) { (alert) in
-			Stripe.stripeManager.updateDefaultSource(customer: self.customer, new: card, completion: { (customer, error)  in
+			Stripe.updateDefaultSource(customer: self.customer, new: card, completion: { (customer, error)  in
 				if let error = error {
 					print(error.localizedDescription)
 				} else if let customer = customer {
@@ -255,10 +240,15 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			self.cardsToBeDeleted.append(cards[indexPath.row])
-
-			self.cards.remove(at: indexPath.row)
-			tableView.deleteRows(at: [indexPath], with: .automatic)
+			Stripe.dettachSource(customer: self.customer, deleting: cards[indexPath.row]) { (customer, error) in
+				if let error = error {
+					print(error.localizedDescription)
+				} else if let customer = customer {
+					self.cards.remove(at: indexPath.row)
+					tableView.deleteRows(at: [indexPath], with: .automatic)
+					self.customer = customer
+				}
+			}
 		}
 	}
 	

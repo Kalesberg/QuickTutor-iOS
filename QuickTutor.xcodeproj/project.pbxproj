@@ -66,8 +66,6 @@
 		8449DDEA1FFDD40600FC38CB /* CALayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449DDE91FFDD40600FC38CB /* CALayerExtensions.swift */; };
 		844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A6A8B1FCE5B91003992C3 /* CreatePassword.swift */; };
 		845980511FD4FD4B007E9339 /* Lato in Resources */ = {isa = PBXBuildFile; fileRef = 845980501FD4FD4B007E9339 /* Lato */; };
-		845A39FF1FFC22CF00226B25 /* GeoHash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845A39FE1FFC22CF00226B25 /* GeoHash.swift */; };
-		845A3A011FFC267100226B25 /* GeohashBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845A3A001FFC267100226B25 /* GeohashBox.swift */; };
 		845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C93120670EC0003C3AEA /* CategorySearch.swift */; };
 		845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */; };
 		845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */; };
@@ -138,6 +136,8 @@
 		84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */; };
 		84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E31FF8997400737A59 /* TextLabel.swift */; };
 		84C96C0D1FCE34A900DBD3A6 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C96C0C1FCE34A900DBD3A6 /* Email.swift */; };
+		84C9C00D20A2374C000DE1C9 /* ConnectAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9C00C20A2374C000DE1C9 /* ConnectAccount.swift */; };
+		84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */; };
 		84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC341A1FCE2979008E7A0B /* StringExtensions.swift */; };
 		84CCB17E2082CAE80056466B /* TutorSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CCB17D2082CAE80056466B /* TutorSignIn.swift */; };
 		84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */; };
@@ -373,8 +373,6 @@
 		8449DDE91FFDD40600FC38CB /* CALayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayerExtensions.swift; sourceTree = "<group>"; };
 		844A6A8B1FCE5B91003992C3 /* CreatePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePassword.swift; sourceTree = "<group>"; };
 		845980501FD4FD4B007E9339 /* Lato */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Lato; sourceTree = "<group>"; };
-		845A39FE1FFC22CF00226B25 /* GeoHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoHash.swift; sourceTree = "<group>"; };
-		845A3A001FFC267100226B25 /* GeohashBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeohashBox.swift; sourceTree = "<group>"; };
 		845B3B9F2069E81B009F8E04 /* CategoryCollectViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCollectViewCell.swift; sourceTree = "<group>"; };
 		845D403C2079A30F00EFFC6C /* TutorAddUsername.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddUsername.swift; sourceTree = "<group>"; };
 		846252E620637CF8001DD330 /* LearnerMainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPage.swift; sourceTree = "<group>"; };
@@ -448,6 +446,8 @@
 		84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDigitTextField.swift; sourceTree = "<group>"; };
 		84C8F5E31FF8997400737A59 /* TextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
 		84C96C0C1FCE34A900DBD3A6 /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
+		84C9C00C20A2374C000DE1C9 /* ConnectAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectAccount.swift; sourceTree = "<group>"; };
+		84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceTransaction.swift; sourceTree = "<group>"; };
 		84CC341A1FCE2979008E7A0B /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		84CCB17D2082CAE80056466B /* TutorSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSignIn.swift; sourceTree = "<group>"; };
 		84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorManagePolicies.swift; sourceTree = "<group>"; };
@@ -964,6 +964,7 @@
 			isa = PBXGroup;
 			children = (
 				849029871FF70F4600A4A1D7 /* Stripe.swift */,
+				84C9C00E20A23751000DE1C9 /* Model */,
 			);
 			path = Stripe;
 			sourceTree = "<group>";
@@ -1000,8 +1001,6 @@
 				84681F912049F30A00F45DFC /* LocationServices.swift */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
 				842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */,
-				845A39FE1FFC22CF00226B25 /* GeoHash.swift */,
-				845A3A001FFC267100226B25 /* GeohashBox.swift */,
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
 			);
 			path = QuickTutor;
@@ -1027,6 +1026,15 @@
 			);
 			name = LearnerUnprofessional;
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		84C9C00E20A23751000DE1C9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				84C9C00C20A2374C000DE1C9 /* ConnectAccount.swift */,
+				84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		84CC341C1FCE298C008E7A0B /* Extensions */ = {
@@ -1735,7 +1743,6 @@
 				842A5580209DF55700F6870A /* AdjustFiltersCollectViewCell.swift in Sources */,
 				CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */,
 				CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */,
-				845A3A011FFC267100226B25 /* GeohashBox.swift in Sources */,
 				CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */,
 				CF8BBCBC20A0251F0043D231 /* TwilioSettings.swift in Sources */,
 				84052F0E206BCC03007B1248 /* LearnerCancelled.swift in Sources */,
@@ -1751,9 +1758,9 @@
 				CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */,
 				847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */,
+				84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,
 				CF6F58E4205EE68800ACBD32 /* SystemMessage.swift in Sources */,
-				845A39FF1FFC22CF00226B25 /* GeoHash.swift in Sources */,
 				CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */,
 				CF6F58CA205EE68800ACBD32 /* CustomDatePicker.swift in Sources */,
 				CF8578C62060AB230089B6F0 /* MessagesContentCell.swift in Sources */,
@@ -1860,6 +1867,7 @@
 				84A37B78200447C800C19397 /* UserPolicy.swift in Sources */,
 				CF6F58DB205EE68800ACBD32 /* MessagesVC.swift in Sources */,
 				CF6F58D0205EE68800ACBD32 /* CustomTextFields.swift in Sources */,
+				84C9C00D20A2374C000DE1C9 /* ConnectAccount.swift in Sources */,
 				84E4C7D4204E8317009C2FC4 /* QTGuide.swift in Sources */,
 				CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */,
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,

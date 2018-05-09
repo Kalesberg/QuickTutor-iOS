@@ -164,18 +164,107 @@ class TutorEarnings : BaseViewController {
     override var contentView: TutorEarningsView {
         return view as! TutorEarningsView
     }
+	
     override func loadView() {
         view = TutorEarningsView()
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+	
+	var accountId : String!
+	
+	let dateFormatter = DateFormatter()
+	
+	var datasource = [BalanceTransaction.Data]() {
+		didSet {
+			if datasource.count == 0 {
+				//TODO create backgroundView.
+					//contentView.tableView.backgroundView = backgroundView.
+			}
+			getEarnings()
+			getYearlyEarnings()
+			contentView.tableView.reloadData()
+		}
+	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		dateFormatter.dateFormat = "MM/dd/yyyy"
+		
+		
+		Stripe.retrieveBalanceTransactionList(acctId: accountId) { (transactions) in
+			if let transactions = transactions {
+				self.datasource = transactions.data.sorted {
+					return $0.created! < $1.created!
+				}
+			}
+		}
+		
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         
         contentView.tableView.register(TutorEarningsTableCellView.self, forCellReuseIdentifier: "tutorEarningsTableCellView")
     }
-    
+	
+	private func getYearlyEarnings() {
+		var thisYearTotal : Int = 0
+		
+		let year = Calendar.current.component(.year, from: Date())
+		
+		if let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1)) {
+			let firstDay = firstOfYear.timeIntervalSince1970
+			for transaction in datasource {
+				guard let created = transaction.created else { continue }
+				guard let net = transaction.net else { continue }
+				if created > Int(firstDay) {
+					thisYearTotal += net
+				}
+			}
+			contentView.label.textColor = .white
+			
+			let formattedString = NSMutableAttributedString()
+			
+			formattedString
+				.bold("\(thisYearTotal.yearlyEarningsFormat())\n", 45, .white)
+				.regular("\(year) Earnings", 15, .white)
+			
+			let paragraphStyle = NSMutableParagraphStyle()
+			paragraphStyle.lineSpacing = 8
+			formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+			
+			contentView.label.attributedText = formattedString
+			contentView.label.textAlignment = .center
+			contentView.label.numberOfLines = 0
+		}
+	}
+	
+	private func getEarnings() {
+		var last7Days : Int = 0
+		var last30Days : Int = 0
+		var allTime : Int = 0
+		
+		let lastWeek = NSDate().timeIntervalSince1970 - 86400
+		let lastMonth = NSDate().timeIntervalSince1970 - 2629743
+		
+		for transaction in datasource {
+			guard let created = transaction.created else { continue }
+			guard let net = transaction.net else { continue }
+			
+			if (created) > Int(lastWeek) {
+				last7Days += net
+			}
+			if (created) > Int(lastMonth) {
+				last30Days += net
+			}
+			allTime += net
+		}
+		print(last7Days.currencyFormat())
+		print(last30Days.currencyFormat())
+		print(allTime.currencyFormat())
+		
+		return
+	}
+	
+	
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -186,7 +275,29 @@ class TutorEarnings : BaseViewController {
     }
 }
 
-
+extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
+	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return datasource.count
+	}
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		
+		let cell = tableView.dequeueReusableCell(withIdentifier: "tutorEarningsTableCellView", for: indexPath) as! TutorEarningsTableCellView
+		
+		if let created = datasource[indexPath.row].created {
+			cell.leftLabel.text = "\(created.earningsDateFormat()) - Chemistry"
+		} else {
+			cell.leftLabel.text = "Chemistry"
+		}
+		
+		if let net = datasource[indexPath.row].net {
+			cell.rightLabel.text = net.currencyFormat()
+		}
+		
+		return cell
+	}
+}
 class TutorEarningsTableCellView : BaseTableViewCell {
     
     let leftLabel : UILabel = {
@@ -239,16 +350,3 @@ class TutorEarningsTableCellView : BaseTableViewCell {
     }
 }
 
-extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tutorEarningsTableCellView", for: indexPath) as! TutorEarningsTableCellView
-        
-        return cell
-    }
-}

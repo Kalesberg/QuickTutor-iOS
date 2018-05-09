@@ -188,10 +188,8 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 					
 					FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
 					CurrentUser.shared.learner.school = school
-					
 					displaySavedAlertController()
 					break
-					
 				}
 				fallthrough
 			case .tutor :
@@ -207,7 +205,9 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 					}
 				}
 				CurrentUser.shared.learner.school = school
-				//CurrentUser.shared.tutor.school = school
+				if CurrentUser.shared.tutor != nil {
+					CurrentUser.shared.tutor.school = school
+				}
 			}
 		}
 	}

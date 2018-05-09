@@ -82,8 +82,8 @@ class LearnerFilters: BaseViewController {
 	
 	let locationManager = CLLocationManager()
 	
-	var price : Int = 0
-	var distance : Int = 0
+	var price : Int = -1
+	var distance : Int = -1
 	var video : Bool = false
 	
 	var delegate : ApplyLearnerFilters?
@@ -111,8 +111,9 @@ class LearnerFilters: BaseViewController {
 		
 		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
 		
-		cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-		price = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
+		let value = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
+		cell.valueLabel.text = ( value == 0) ?  "" : "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
+		price = value
 	}
 	
 	@objc
@@ -123,7 +124,7 @@ class LearnerFilters: BaseViewController {
 			let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
 			
 			if(value % 5 == 0) {
-				cell.valueLabel.text = String(value) + " mi"
+				cell.valueLabel.text = (value == 0) ? "" : String(value) + " mi"
 			}
 			distance = value
 		} else {
@@ -287,7 +288,7 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 			cell.slider.addTarget(self, action: #selector(rateSliderValueDidChange), for: .valueChanged)
 			cell.slider.minimumTrackTintColor = Colors.learnerPurple
 			
-			cell.slider.minimumValue = 5
+			cell.slider.minimumValue = 0
 			cell.slider.maximumValue = 100
 			
 			let formattedString = NSMutableAttributedString()
@@ -304,7 +305,7 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 			cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
 			cell.slider.minimumTrackTintColor = Colors.learnerPurple
 			
-			cell.slider.minimumValue = 5
+			cell.slider.minimumValue = 0
 			cell.slider.maximumValue = 150
 			
 			let formattedString = NSMutableAttributedString()

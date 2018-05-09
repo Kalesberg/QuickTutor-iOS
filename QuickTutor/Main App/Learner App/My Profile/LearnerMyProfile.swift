@@ -359,30 +359,22 @@ class LearnerMyProfile : BaseViewController {
         view = LearnerMyProfileView()
     }
 	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 		configurePageControl()
 		configureScrollView()
 		setUpImages()
 		contentView.tableView.reloadData()
-	}
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//		configurePageControl()
-//		configureScrollView()
-//		setUpImages()
     }
 
 	private func setUpImages() {
 		var count = 0
 		
 		for number in 1..<5 {
+
 			if learner.images["image\(number)"] == "" {
-				print("nothing...")
 				continue
 			}
-			print("found image\(number)")
-			
 			count += 1
 			setImage(number, count)
 		}
@@ -462,8 +454,6 @@ class LearnerMyProfile : BaseViewController {
 
 			horizontalScrollView.isUserInteractionEnabled = false
             horizontalScrollView.isHidden = true
-			
-		
 		}
     }
 }

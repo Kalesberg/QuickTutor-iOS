@@ -336,7 +336,7 @@ class LearnerEditProfile : BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-	
+		contentView.tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {

@@ -8,33 +8,6 @@
 import Stripe
 import Alamofire
 
-var Customer : STPCustomer! {
-	willSet(newCustomer) {
-		//additional setup when Customer is about to be updated.
-	}
-	didSet {
-		//additional setup when Customer has been updated.
-		NotificationCenter.default.post(name: .CustomerUpdated, object: nil)
-		
-	}
-}
-extension NSNotification.Name {
-	static let CustomerUpdated = NSNotification.Name(Bundle.main.bundleIdentifier! + ".CustomerUpdated")
-}
-
-struct ConnectAccount: Decodable {
-	
-	let data : [Data]
-
-	struct Data : Decodable {
-		let id : String
-		let bank_name : String
-		let last4 : String
-		let status : String
-		let account_holder_name : String
-	}
-}
-
 class Stripe {
 	
 	/*
@@ -47,14 +20,14 @@ class Stripe {
 		print("Stripe initialized.")
 	}
 	
-	func createConnect(completion: @escaping (String?) -> Void) {
+	class func createConnect(completion: @escaping (String?) -> Void) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/connect.php"
-
+		
 		guard let data = CurrentUser.shared.learner else { return }
 		
 		let dob = data.birthday.split(separator: "/")
 		let name = data.name!.split(separator: " ")
-
+		
 		let params : [String : Any] = [
 			"country" : "US",
 			"type": "custom",
@@ -74,7 +47,7 @@ class Stripe {
 			"routing_number" : TutorRegistration.routingNumber!,
 			"account_number" : TutorRegistration.accountNumber!,
 			]
-
+		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseString(completionHandler: { (response) in
@@ -88,10 +61,10 @@ class Stripe {
 			})
 	}
 	
-	func retrieveConnectAccount(acctId: String, _ completion: @escaping (String?) -> Void) {
+	class func retrieveConnectAccount(acctId: String, _ completion: @escaping (String?) -> Void) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrieveconnect.php"
 		let params : [String : Any] = ["acct" : acctId]
-
+		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseString(completionHandler: { (response) in
@@ -106,9 +79,9 @@ class Stripe {
 			})
 	}
 	
-	func destinationCharge(acctId: String, customerId: String, sourceId: String, amount: Int, fee: Int, _ completion: @escaping (Error?) -> ()) {
+	class func destinationCharge(acctId: String, customerId: String, sourceId: String, amount: Int, fee: Int, description: String, _ completion: @escaping (Error?) -> ()) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/charge.php"
-		let params : [String : Any] = ["acct" : acctId, "customer" : customerId, "source": sourceId, "fee" : fee, "amount" : amount]
+		let params : [String : Any] = ["acct" : acctId, "customer" : customerId, "source": sourceId, "fee" : fee, "amount" : amount, "description" : description]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
@@ -123,7 +96,7 @@ class Stripe {
 			})
 	}
 	
-	func retrieveBankList(acctId: String, _ completion: @escaping (ConnectAccount?) -> Void) {
+	class func retrieveBankList(acctId: String, _ completion: @escaping (ConnectAccount?) -> Void) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievebank.php"
 		let params : [String : Any] = ["acct" : acctId]
 		
@@ -147,15 +120,41 @@ class Stripe {
 			})
 	}
 	
-	func retrieveCustomer(cusID: String, _ completion: @escaping STPCustomerCompletionBlock) {
+	class func retrieveBalanceTransactionList(acctId: String, _ completion: @escaping (BalanceTransaction?) -> Void) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/transfer.php"
+		let params : [String : Any] = ["acct" : "acct_1COwHwARbMbNlmG8"]
+		
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success:
+					if let data = response.data {
+						do {
+							let transaction : BalanceTransaction = try JSONDecoder().decode(BalanceTransaction.self, from: data)
+							completion(transaction)
+						} catch {
+							completion(nil)
+						}
+					} else {
+						completion(nil)
+					}
+				case .failure(let error):
+					print("Error: ", error.localizedDescription)
+					completion(nil)
+				}
+			})
+	}
+	
+	class func retrieveCustomer(cusID: String, _ completion: @escaping STPCustomerCompletionBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievecustomer.php"
 		let params : [String : Any] = ["customer" : cusID]
-
+		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseJSON(completionHandler: { (response) in
 				switch response.result {
-				
+					
 				case .success:
 					let deserializer : STPCustomerDeserializer = STPCustomerDeserializer(data: response.data!, urlResponse: response.response, error: response.error)
 					if let error = deserializer.error {
@@ -169,16 +168,7 @@ class Stripe {
 			})
 	}
 	
-	private func deserializeCustomer(response: DataResponse<Any>) {
-		let deserializer : STPCustomerDeserializer = STPCustomerDeserializer(data: response.data!, urlResponse: response.response, error: response.error)
-		if let error = deserializer.error {
-			print(error.localizedDescription)
-		} else if let customer = deserializer.customer {
-			Customer = customer
-		}
-	}
-	
-	func attachSource(cusID: String, adding card: STPCardParams, completion: @escaping STPErrorBlock) {
+	class func attachSource(cusID: String, adding card: STPCardParams, completion: @escaping STPErrorBlock) {
 		STPAPIClient.shared().createToken(withCard: card) { (token, error) in
 			if let error = error {
 				print(error.localizedDescription)
@@ -192,7 +182,6 @@ class Stripe {
 					.responseJSON(completionHandler: { (response) in
 						switch response.result {
 						case .success:
-							self.deserializeCustomer(response: response)
 							completion(nil)
 						case .failure(let error):
 							completion(error)
@@ -202,7 +191,7 @@ class Stripe {
 		}
 	}
 	
-	func dettachSource(customer: STPCustomer, deleting card: STPCard, completion: @escaping STPErrorBlock) {
+	class func dettachSource(customer: STPCustomer, deleting card: STPCard, completion: @escaping STPCustomerCompletionBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/detachsource.php"
 		let params : [String : Any] = ["customer" : customer.stripeID, "card" : card.stripeID ]
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -210,18 +199,26 @@ class Stripe {
 			.responseJSON(completionHandler: { (response) in
 				switch response.result {
 				case .success:
-					self.deserializeCustomer(response: response)
-					completion(nil)
+					if let data = response.data {
+						let deserializer : STPCustomerDeserializer = STPCustomerDeserializer(data: data, urlResponse: response.response, error: response.error)
+						if let error = deserializer.error {
+							completion(nil, error)
+						} else if let customer = deserializer.customer {
+							completion(customer, nil)
+						}
+					} else {
+						completion(nil, nil)
+					}
 				case .failure(let error):
-					completion(error)
+					completion(nil, error)
 				}
 			})
 	}
 	
-	func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPCustomerCompletionBlock) {
+	class  func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPCustomerCompletionBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultsource.php"
 		let params : [String : Any] = ["customer" : customer.stripeID, "card" : defaultCard.stripeID]
-		print(defaultCard.stripeID)
+		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseJSON(completionHandler: { (response) in

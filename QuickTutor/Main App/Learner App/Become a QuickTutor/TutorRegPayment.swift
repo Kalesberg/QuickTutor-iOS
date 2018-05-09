@@ -155,7 +155,7 @@ class TutorRegPayment: BaseViewController {
         for textField in textFields {
             textField.delegate = self
             textField.returnKeyType = .next
-            textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+            //textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         }
     }
     
@@ -193,13 +193,39 @@ class TutorRegPayment: BaseViewController {
             print("invalid account")
             return
         }
-        print("Good account.")
 
         contentView.rightButton.isUserInteractionEnabled = true
 
         self.fullName = name
         self.routingNumber = routingNumber
         self.accountNumber = accountNumber
+    }
+    
+    private func infoIsValid() -> Bool {
+
+        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
+            contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        contentView.nameTextfield.layer.borderColor = Colors.green.cgColor
+
+        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
+            contentView.routingNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        contentView.routingNumberTextfield.layer.borderColor = Colors.green.cgColor
+        
+        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
+            contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
+            return false
+        }
+        contentView.accountNumberTextfield.layer.borderColor = Colors.green.cgColor
+        
+        self.fullName = name
+        self.routingNumber = routingNumber
+        self.accountNumber = accountNumber
+        
+        return true
     }
     
     private func getTutorBankToken(completion: @escaping (Error?) -> Void) {
@@ -223,16 +249,20 @@ class TutorRegPayment: BaseViewController {
         if (touchStartView is NavbarButtonNext) {
             contentView.rightButton.isUserInteractionEnabled = false
             
-            getTutorBankToken { (error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                    self.contentView.rightButton.isUserInteractionEnabled = false
-                } else {
-					TutorRegistration.bankHoldersName = self.fullName
-					TutorRegistration.accountNumber = self.accountNumber
-					TutorRegistration.routingNumber = self.routingNumber
-                    self.navigationController?.pushViewController(TutorAddress(), animated: true)
+            if infoIsValid() {
+                getTutorBankToken { (error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        self.contentView.rightButton.isUserInteractionEnabled = true
+                    } else {
+                        TutorRegistration.bankHoldersName = self.fullName
+                        TutorRegistration.accountNumber = self.accountNumber
+                        TutorRegistration.routingNumber = self.routingNumber
+                        self.navigationController?.pushViewController(TutorAddress(), animated: true)
+                    }
                 }
+            } else {
+                contentView.rightButton.isUserInteractionEnabled = true
             }
         }
     }

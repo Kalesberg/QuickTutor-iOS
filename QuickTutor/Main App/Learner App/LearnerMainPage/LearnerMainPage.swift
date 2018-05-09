@@ -103,7 +103,7 @@ class LearnerMainPage : MainPage {
 		self.learner = learner
 		AccountService.shared.currentUserType = .learner
 		
-		Stripe.stripeManager.retrieveCustomer(cusID: learner.customer) { (customer, error) in
+		Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
 			if let error = error{
 				print(error.localizedDescription)
 			} else if let customer = customer {
@@ -145,7 +145,7 @@ class LearnerMainPage : MainPage {
 	private func configureSideBarView(){
 		
 		let formattedString = NSMutableAttributedString()
-		contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become A Tutor"
+		contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become a QuickTutor"
 		
 		if let school = learner.school {
 			formattedString

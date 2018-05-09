@@ -218,7 +218,7 @@ class TutorPolicy : BaseViewController {
 		let group = DispatchGroup()
 
 		group.enter()
-		Stripe.stripeManager.createConnect { (acctId) in
+		Stripe.createConnect { (acctId) in
 			if let acctId = acctId {
 				TutorRegistration.acctId = acctId
 				Tutor.shared.initTutor(completion: { (error) in

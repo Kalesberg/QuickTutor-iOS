@@ -99,9 +99,10 @@ class BankManager : BaseViewController {
 	
 	var acctId : String! {
 		didSet {
-			Stripe.stripeManager.retrieveBankList(acctId: acctId, { (bankList) in
+			Stripe.retrieveBankList(acctId: acctId, { (bankList) in
 				if let bankList = bankList {
 					self.bankList = bankList.data
+					print(self.bankList)
 				}
 			})
 		}
