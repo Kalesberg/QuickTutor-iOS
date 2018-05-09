@@ -65,9 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         if let user = Auth.auth().currentUser {
             //create SignInClass to handle everything before user is able to sign in.
 			
-			Stripe.destinationCharge(acctId: "acct_1COwHwARbMbNlmG8", customerId: "cus_CkpEv8zhIsBMS9", sourceId: "card_1CPsazCX1LLHxlMtfRCzQZ8o", amount: 1000, fee: 900, description: "Chemistry") { (_) in
-				
-			}
             FirebaseData.manager.getLearner(user.uid) { (learner) in
                 if let learner = learner {
 
