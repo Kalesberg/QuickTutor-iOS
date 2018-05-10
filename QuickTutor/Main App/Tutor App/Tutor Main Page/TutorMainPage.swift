@@ -709,8 +709,17 @@ class TutorMainPage : MainPage {
                 UIApplication.shared.openURL(url)
             }
         } else if (touchStartView == contentView.shareUsernameModal.facebookImage) {
-            //TODO - - need to integrate FBSDK
-        } else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
+			let content = FBSDKShareLinkContent()
+			
+			content.contentURL =  URL(string: "https://quicktutor.com")
+			content.quote = "AZolt23"
+			
+			let dialog : FBSDKShareDialog = FBSDKShareDialog()
+			dialog.fromViewController = self
+			dialog.shareContent = content
+			dialog.mode = FBSDKShareDialogMode.automatic
+			dialog.show()
+		} else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
             if (MFMessageComposeViewController.canSendText()) {
                 let controller = MFMessageComposeViewController()
                 controller.body = "Follow me on QuickTutor! "
@@ -729,6 +738,7 @@ class TutorMainPage : MainPage {
             }
         }
     }
+	
 }
 extension TutorMainPage : MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
