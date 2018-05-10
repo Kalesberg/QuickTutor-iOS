@@ -97,7 +97,6 @@ class CardManager : BaseViewController {
 	var customer : STPCustomer! {
 		didSet {
 			setCustomer()
-			contentView.tableView.reloadData()
 		}
 	}
 	
@@ -178,7 +177,7 @@ class CardManager : BaseViewController {
 extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return (cards.count > 0) ? cards.count + 1 : 1
+		return  cards.count + 1
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -193,7 +192,6 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! CardManagerTableViewCell
 			
 			insertBorder(cell: cell)
-			print("Reload Data.")
 			cell.last4.text = cards[indexPath.row].last4
 			cell.brand.image = STPImageLibrary.brandImage(for: cards[indexPath.row].brand)
 			cell.defaultcard.isHidden = !(cards[indexPath.row] == defaultCard)

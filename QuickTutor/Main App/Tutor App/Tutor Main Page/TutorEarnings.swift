@@ -194,7 +194,7 @@ class TutorEarnings : BaseViewController {
 		Stripe.retrieveBalanceTransactionList(acctId: accountId) { (transactions) in
 			if let transactions = transactions {
 				self.datasource = transactions.data.sorted {
-					return $0.created! < $1.created!
+					return $0.created < $1.created
 				}
 			}
 		}
@@ -213,9 +213,8 @@ class TutorEarnings : BaseViewController {
 		if let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1)) {
 			let firstDay = firstOfYear.timeIntervalSince1970
 			for transaction in datasource {
-				guard let created = transaction.created else { continue }
 				guard let net = transaction.net else { continue }
-				if created > Int(firstDay) {
+				if transaction.created > Int(firstDay) {
 					thisYearTotal += net
 				}
 			}
@@ -246,13 +245,12 @@ class TutorEarnings : BaseViewController {
 		let lastMonth = NSDate().timeIntervalSince1970 - 2629743
 		
 		for transaction in datasource {
-			guard let created = transaction.created else { continue }
 			guard let net = transaction.net else { continue }
 			
-			if (created) > Int(lastWeek) {
+			if (transaction.created) > Int(lastWeek) {
 				last7Days += net
 			}
-			if (created) > Int(lastMonth) {
+			if (transaction.created) > Int(lastMonth) {
 				last30Days += net
 			}
 			allTime += net
@@ -285,12 +283,7 @@ extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "tutorEarningsTableCellView", for: indexPath) as! TutorEarningsTableCellView
 		
-		if let created = datasource[indexPath.row].created {
-			cell.leftLabel.text = "\(created.earningsDateFormat()) - Chemistry"
-		} else {
-			cell.leftLabel.text = "Chemistry"
-		}
-		
+		cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - Chemistry"
 		if let net = datasource[indexPath.row].net {
 			cell.rightLabel.text = net.currencyFormat()
 		}

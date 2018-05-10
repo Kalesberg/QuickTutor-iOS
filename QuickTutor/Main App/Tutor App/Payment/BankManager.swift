@@ -102,7 +102,6 @@ class BankManager : BaseViewController {
 			Stripe.retrieveBankList(acctId: acctId, { (bankList) in
 				if let bankList = bankList {
 					self.bankList = bankList.data
-					print(self.bankList)
 				}
 			})
 		}
@@ -110,10 +109,12 @@ class BankManager : BaseViewController {
 	
 	var bankList = [ConnectAccount.Data]() {
 		didSet {
-			contentView.tableView.reloadData()
+			setBank()
 		}
 	}
 
+	private var banks = [ConnectAccount.Data]()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -142,16 +143,24 @@ class BankManager : BaseViewController {
 		// Dispose of any resources that can be recreated.
 	}
 	
+	private func setBank() {
+		self.banks = bankList
+		contentView.tableView.reloadData()
+	}
 	override func handleNavigation() {
 		
 	}
 	
 	// TODO: Check if they have any pending sessions.
 	
-	private func defaultCardAlert(card: STPCard) {
+	private func defaultBankAlert(bankId: String) {
 		let alertController = UIAlertController(title: "Default Payout Method?", message: "Do you want this card to be your default payout method?", preferredStyle: .actionSheet)
 		let setDefault = UIAlertAction(title: "Set as Default", style: .default) { (alert) in
-			
+			Stripe.updateDefaultBank(account: self.acctId, bankId: bankId, completion: { (account) in
+				if let account = account {
+					self.bankList = account.data
+				}
+			})
 		}
 		
 		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
@@ -168,8 +177,7 @@ class BankManager : BaseViewController {
 extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		
-		return bankList.count + 1
+		return banks.count + 1
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -178,15 +186,16 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
-		let endIndex = bankList.count
+		let endIndex = banks.count
 		
 		if indexPath.row != endIndex {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "bankCell", for: indexPath) as! BankManagerTableViewCell
 			insertBorder(cell: cell)
 			
 			//Not sure what we want to put here. But for now it will have bank name, and bankholder name
-			cell.bankName.text = bankList[indexPath.row].bank_name
-			cell.holderName.text = bankList[indexPath.row].account_holder_name
+			cell.bankName.text = banks[indexPath.row].bank_name
+			cell.holderName.text = banks[indexPath.row].account_holder_name
+			cell.defaultBank.isHidden = !banks[indexPath.row].default_for_currency!
 			
 			return cell
 		} else {
@@ -199,16 +208,17 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-		return (indexPath.row == bankList.count) ? false : true
+		return (indexPath.row == banks.count) ? false : true
 	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if indexPath.row == bankList.count {
-			if bankList.count == 5 {
+		if indexPath.row == banks.count {
+			if banks.count == 5 {
 				print("too many banks")
 				return
 			}
 			navigationController?.pushViewController(TutorAddBank(), animated: true)
 		} else {
+			defaultBankAlert(bankId: banks[indexPath.row].id)
 			tableView.deselectRow(at: indexPath, animated: true)
 		}
 		tableView.deselectRow(at: indexPath, animated: true)
@@ -230,9 +240,15 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-		
-			tableView.deleteRows(at: [indexPath], with: .fade)
-			tableView.reloadData()
+			Stripe.removeBank(account: acctId, bankId: banks[indexPath.row].id) { (account) in
+				if let account = account {
+					self.banks.remove(at: indexPath.row)
+					tableView.deleteRows(at: [indexPath], with: .automatic)
+					self.bankList = account.data
+				} else {
+					print("Oops soemthing went wrong.")
+				}
+			}
 		}
 	}
 	
@@ -275,10 +291,24 @@ class BankManagerTableViewCell : UITableViewCell {
 		return label
 	}()
 	
+	let defaultBank : UILabel = {
+		let label = UILabel()
+		
+		label.text = "Default"
+		label.font = Fonts.createSize(15)
+		label.textColor = .white
+		label.textColor.withAlphaComponent(1.0)
+		label.textAlignment = .center
+		label.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+		label.isHidden = true
+		
+		return label
+	}()
+	
 	func configureTableViewCell() {
 		addSubview(bankName)
 		addSubview(holderName)
-		
+		addSubview(defaultBank)
 		let cellBackground = UIView()
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
@@ -301,6 +331,12 @@ class BankManagerTableViewCell : UITableViewCell {
 			make.height.equalToSuperview()
 			make.left.equalTo(bankName.snp.right)
 			make.centerY.equalToSuperview()
+		}
+		defaultBank.snp.makeConstraints { (make) in
+			make.centerY.equalToSuperview()
+			make.right.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.2)
+			make.height.equalToSuperview().multipliedBy(0.4)
 		}
 	}
 }
