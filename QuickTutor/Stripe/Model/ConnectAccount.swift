@@ -14,11 +14,13 @@ struct ConnectAccount: Decodable {
 	
 	struct Data : Decodable {
 		let id : String
-		let bank_name : String
-		let last4 : String
+		let bank_name : String?
+		let last4 : String?
 		let status : String
-		let account_holder_name : String
+		let account_holder_name : String?
+		let default_for_currency : Bool?
 	}
 }
+
 
 
