@@ -114,6 +114,7 @@
 		848E643D205A228C000CD921 /* TutorAddSubjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E643C205A228C000CD921 /* TutorAddSubjects.swift */; };
 		848E87E22043DC75007935BE /* BaseScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E87E12043DC75007935BE /* BaseScrollView.swift */; };
 		848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E87E52043EB5D007935BE /* UIViewExtensions.swift */; };
+		848E91FC20A60C13002D22AA /* CloseAccountSubmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E91FB20A60C13002D22AA /* CloseAccountSubmission.swift */; };
 		848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848F83272009B4CC0099D997 /* MainLayoutViews.swift */; };
 		849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849029871FF70F4600A4A1D7 /* Stripe.swift */; };
 		8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8491C29A1FBE62350036FC12 /* AppDelegate.swift */; };
@@ -184,6 +185,9 @@
 		84F36ED81FC3603F00E71589 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F36ED71FC3603F00E71589 /* Name.swift */; };
 		84F431962070786F00030BD4 /* TutorEditProfileCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F431942070786F00030BD4 /* TutorEditProfileCells.swift */; };
 		84F431972070786F00030BD4 /* TutorEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F431952070786F00030BD4 /* TutorEditProfile.swift */; };
+		84F5FD1120A4DCA900CFDA95 /* TutorServiceFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1020A4DCA900CFDA95 /* TutorServiceFee.swift */; };
+		84F5FD1420A5544200CFDA95 /* CloseAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1320A5544200CFDA95 /* CloseAccount.swift */; };
+		84F5FD1920A57DA200CFDA95 /* CloseAccountReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1820A57DA200CFDA95 /* CloseAccountReason.swift */; };
 		84F9CC00204D3F8F009A2851 /* languages.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84F9CBFF204D3F8F009A2851 /* languages.txt */; };
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
 		CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046422206EE3D800BFE898 /* CancelSessionModal.swift */; };
@@ -421,6 +425,7 @@
 		848E643C205A228C000CD921 /* TutorAddSubjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddSubjects.swift; sourceTree = "<group>"; };
 		848E87E12043DC75007935BE /* BaseScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScrollView.swift; sourceTree = "<group>"; };
 		848E87E52043EB5D007935BE /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		848E91FB20A60C13002D22AA /* CloseAccountSubmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountSubmission.swift; sourceTree = "<group>"; };
 		848F83272009B4CC0099D997 /* MainLayoutViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLayoutViews.swift; sourceTree = "<group>"; };
 		849029871FF70F4600A4A1D7 /* Stripe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stripe.swift; sourceTree = "<group>"; };
 		8491C2971FBE62350036FC12 /* QuickTutor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickTutor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -497,6 +502,9 @@
 		84F36ED71FC3603F00E71589 /* Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Name.swift; sourceTree = "<group>"; };
 		84F431942070786F00030BD4 /* TutorEditProfileCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorEditProfileCells.swift; sourceTree = "<group>"; };
 		84F431952070786F00030BD4 /* TutorEditProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorEditProfile.swift; sourceTree = "<group>"; };
+		84F5FD1020A4DCA900CFDA95 /* TutorServiceFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorServiceFee.swift; sourceTree = "<group>"; };
+		84F5FD1320A5544200CFDA95 /* CloseAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccount.swift; sourceTree = "<group>"; };
+		84F5FD1820A57DA200CFDA95 /* CloseAccountReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountReason.swift; sourceTree = "<group>"; };
 		84F9CBFF204D3F8F009A2851 /* languages.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = languages.txt; path = ../../../Resources/languages.txt; sourceTree = "<group>"; };
 		98A3B0EC84A5F4A56226BC1D /* Pods_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C777B3ED14C155B5B40069C5 /* Pods-QuickTutor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor.release.xcconfig"; sourceTree = "<group>"; };
@@ -908,6 +916,7 @@
 				847463212068B97900B70AD9 /* TutorQTGuide.swift */,
 				84746323206940EE00B70AD9 /* TutorConnections.swift */,
 				847463252069425C00B70AD9 /* TutorSessions.swift */,
+				84F5FD1020A4DCA900CFDA95 /* TutorServiceFee.swift */,
 			);
 			path = "QuickTutor Guide";
 			sourceTree = "<group>";
@@ -1168,7 +1177,7 @@
 				843BA3202055087D000C7054 /* My Profile */,
 				8482AFDF2038C25B00F6F805 /* Edit Profile */,
 				8426A1712055C4BE00EAF1A8 /* Payment */,
-				840E75BB201E818C006FC580 /* LearnerSettings.swift */,
+				84F5FD1220A5541900CFDA95 /* Settings */,
 				848E64392059EDAF000CD921 /* Become a QuickTutor */,
 				84E91B5A20573D9F00D1F613 /* File Report */,
 				84E4C7D0204E80C9009C2FC4 /* Help */,
@@ -1183,12 +1192,31 @@
 				846252E820637ED6001DD330 /* My Profile */,
 				846252E920637EE6001DD330 /* Edit Profile */,
 				846252EA20637EF3001DD330 /* Payment */,
-				846252EB20637F22001DD330 /* TutorSettings.swift */,
+				84F5FD1520A56DA500CFDA95 /* Settings */,
 				846252ED20637F26001DD330 /* File Report */,
 				846252EE20637F38001DD330 /* Help */,
 				846252EF20637F44001DD330 /* Tax Information */,
 			);
 			path = "Tutor App";
+			sourceTree = "<group>";
+		};
+		84F5FD1220A5541900CFDA95 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				840E75BB201E818C006FC580 /* LearnerSettings.swift */,
+				84F5FD1320A5544200CFDA95 /* CloseAccount.swift */,
+				84F5FD1820A57DA200CFDA95 /* CloseAccountReason.swift */,
+				848E91FB20A60C13002D22AA /* CloseAccountSubmission.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		84F5FD1520A56DA500CFDA95 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				846252EB20637F22001DD330 /* TutorSettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		C3E28A83DDB66A652D92E0F2 /* Frameworks */ = {
@@ -1443,6 +1471,7 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
+				8D48401C833A5E236014A546 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1579,6 +1608,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8D48401C833A5E236014A546 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1671,6 +1715,7 @@
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestion.swift in Sources */,
 				842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */,
 				CF6F58BE205EE68800ACBD32 /* ConnectionRequestCell.swift in Sources */,
+				84F5FD1120A4DCA900CFDA95 /* TutorServiceFee.swift in Sources */,
 				8479EA632063E63100C5113E /* TutorAddress.swift in Sources */,
 				84681F922049F30A00F45DFC /* LocationServices.swift in Sources */,
 				84716F882087FCC100E80E17 /* EditTutorSubjects.swift in Sources */,
@@ -1750,6 +1795,7 @@
 				CF6F58CD205EE68800ACBD32 /* MeetupTimePicker.swift in Sources */,
 				CF6F58E0205EE68800ACBD32 /* ViewMeetupRequestVC.swift in Sources */,
 				848809FD2057875700F204A0 /* TutorTips.swift in Sources */,
+				84F5FD1920A57DA200CFDA95 /* CloseAccountReason.swift in Sources */,
 				848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */,
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBio.swift in Sources */,
@@ -1832,9 +1878,11 @@
 				CF177BCB208FB8E0006DD50B /* RatingStarView.swift in Sources */,
 				CF6F58C1205EE68800ACBD32 /* ImageMessageCell.swift in Sources */,
 				8470995C20083AA5000DCFD0 /* MainPage.swift in Sources */,
+				848E91FC20A60C13002D22AA /* CloseAccountSubmission.swift in Sources */,
 				84E283572004874300B004E7 /* RegistrationBigButton.swift in Sources */,
 				CFB6061D207FD7000029CFE4 /* CustomModal.swift in Sources */,
 				8421007E207A7E0800422A31 /* FeaturedTutorQuery.swift in Sources */,
+				84F5FD1420A5544200CFDA95 /* CloseAccount.swift in Sources */,
 				CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */,
 				CF6F58CE205EE68800ACBD32 /* ConnectionRequestView.swift in Sources */,
 				CF1C6111209EA5BD009B7B0E /* PaymentMethodCell.swift in Sources */,

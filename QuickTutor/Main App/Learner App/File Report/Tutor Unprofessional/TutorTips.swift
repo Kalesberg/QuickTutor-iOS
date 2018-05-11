@@ -18,7 +18,7 @@ class TutorTipsView : FileReportYesNoLayout {
         header.text = "Is my tutor allowed to ask for tips?"
         
         textBody.font = Fonts.createSize(14)
-        textBody.text = "Tutors who operate through QuickTutor are independent contractors and may request tips.\n\nPlease note that the session fare charged to your account does not include gratuity. QuickTutor does not require learners to offer their tutors tips, but you are welcome to do so if you please.\n\nIf you choose to tip, it is the tutor’s choice to accept or decline your gratuity. Tutors care about their ratings and reviews and will do their best to ensure your learning experience is ideal.\n\n"
+        textBody.text = "Tutors who operate through QuickTutor are independent contractors and may request tips.\n\nPlease note that the session fare charged to your account does not include gratuity. QuickTutor does not require learners to offer their tutor's tips, but you are welcome to do so if you please.\n\nIf you choose to tip, it is the tutors choice to accept or decline your gratuity. Tutors care about their ratings and reviews and will do their best to ensure your learning experience is ideal.\n\n"
     }
     
     override func applyConstraints() {
