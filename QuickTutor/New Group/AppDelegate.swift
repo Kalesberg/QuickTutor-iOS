@@ -72,9 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
                     
                     self.listenForData()
                     
-//					NotificationCenter.default.addObserver(self, selector: #selector(self.showHomePage), name: NSNotification.Name(rawValue: "com.qt.showHomePage"), object: nil)
-//
-                    
                     self.window?.makeKeyAndVisible()
                     let controller = LearnerPageViewController()
                     AccountService.shared.currentUserType = .learner
@@ -154,10 +151,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
     }
     
     func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplicationExtensionPointIdentifier) -> Bool {
-        if extensionPointIdentifier == UIApplicationExtensionPointIdentifier.keyboard {
-            return false
-        }
-        
-        return true
+        return extensionPointIdentifier != UIApplicationExtensionPointIdentifier.keyboard
     }
 }

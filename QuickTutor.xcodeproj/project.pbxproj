@@ -236,7 +236,7 @@
 		CF6F58C9205EE68800ACBD32 /* MeetupTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5897205EE68800ACBD32 /* MeetupTypeCell.swift */; };
 		CF6F58CA205EE68800ACBD32 /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5898205EE68800ACBD32 /* CustomDatePicker.swift */; };
 		CF6F58CB205EE68800ACBD32 /* SubjectPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5899205EE68800ACBD32 /* SubjectPicker.swift */; };
-		CF6F58CC205EE68800ACBD32 /* MeetupRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F589A205EE68800ACBD32 /* MeetupRequestView.swift */; };
+		CF6F58CC205EE68800ACBD32 /* SessionRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F589A205EE68800ACBD32 /* SessionRequestView.swift */; };
 		CF6F58CD205EE68800ACBD32 /* MeetupTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F589B205EE68800ACBD32 /* MeetupTimePicker.swift */; };
 		CF6F58CE205EE68800ACBD32 /* ConnectionRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F589C205EE68800ACBD32 /* ConnectionRequestView.swift */; };
 		CF6F58CF205EE68800ACBD32 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F589E205EE68800ACBD32 /* CustomNavBar.swift */; };
@@ -550,7 +550,7 @@
 		CF6F5897205EE68800ACBD32 /* MeetupTypeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetupTypeCell.swift; sourceTree = "<group>"; };
 		CF6F5898205EE68800ACBD32 /* CustomDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomDatePicker.swift; sourceTree = "<group>"; };
 		CF6F5899205EE68800ACBD32 /* SubjectPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectPicker.swift; sourceTree = "<group>"; };
-		CF6F589A205EE68800ACBD32 /* MeetupRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetupRequestView.swift; sourceTree = "<group>"; };
+		CF6F589A205EE68800ACBD32 /* SessionRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionRequestView.swift; sourceTree = "<group>"; };
 		CF6F589B205EE68800ACBD32 /* MeetupTimePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetupTimePicker.swift; sourceTree = "<group>"; };
 		CF6F589C205EE68800ACBD32 /* ConnectionRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRequestView.swift; sourceTree = "<group>"; };
 		CF6F589E205EE68800ACBD32 /* CustomNavBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
@@ -1286,7 +1286,7 @@
 				CF6F5897205EE68800ACBD32 /* MeetupTypeCell.swift */,
 				CF6F5898205EE68800ACBD32 /* CustomDatePicker.swift */,
 				CF6F5899205EE68800ACBD32 /* SubjectPicker.swift */,
-				CF6F589A205EE68800ACBD32 /* MeetupRequestView.swift */,
+				CF6F589A205EE68800ACBD32 /* SessionRequestView.swift */,
 				CF6F589B205EE68800ACBD32 /* MeetupTimePicker.swift */,
 			);
 			path = MeetupRequests;
@@ -1852,7 +1852,7 @@
 				84DA9F242019138100D53D78 /* NavbarButtons.swift in Sources */,
 				84880A042058643800F204A0 /* TutorOther.swift in Sources */,
 				84D8C92C2066A965003C3AEA /* Helper.swift in Sources */,
-				CF6F58CC205EE68800ACBD32 /* MeetupRequestView.swift in Sources */,
+				CF6F58CC205EE68800ACBD32 /* SessionRequestView.swift in Sources */,
 				CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */,
 				84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */,
 				CF833B75207C4B6E00323242 /* LearnerPendingSessionCell.swift in Sources */,

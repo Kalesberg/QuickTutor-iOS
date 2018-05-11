@@ -247,14 +247,14 @@ class SessionRequestView: UIView {
     private func setupStartTimePicker() {
         startTimePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         setStartTime()
-        startTimePicker.date = startTimePicker.minimumDate!
+        startTimePicker.date = startTimePicker.minimumDate ?? Date()
         reloadTitleForStartTime()
     }
     
     private func setupEndTimePicker() {
         endTimePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         setEndTime()
-        endTimePicker.date = endTimePicker.minimumDate!
+        endTimePicker.date = endTimePicker.minimumDate ?? Date()
         reloadTitleForEndTime()
     }
     
@@ -373,13 +373,11 @@ extension SessionRequestView: CustomDatePickerDelegate {
     }
     
     func setDateTo(_ date: Date) {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        let formattedDate = formatter.string(from: date)
         titles[1] = formattedDate
         let dateTitleIndex = IndexPath(row: 1, section: 0)
         inputTable.reloadRows(at: [dateTitleIndex], with: .automatic)
         sessionData["date"] = date.timeIntervalSince1970
+        self.datePicker.date = date
     }
 }
 
@@ -396,7 +394,9 @@ extension SessionRequestView {
     func setStartTime() {
         if let date = datePicker.date, Calendar.current.isDateInToday(date) {
             startTimePicker.minimumDate = Calendar.current.date(byAdding: .minute, value: 15, to: date)
+            print(formatter.string(from: Calendar.current.date(byAdding: .minute, value: 15, to: date)!))
         }
+        startTimePicker.minimumDate = nil
         reloadTitleForStartTime()
     }
     
