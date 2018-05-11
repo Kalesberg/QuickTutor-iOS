@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 class EditBioTextView : BaseView {
     
     let textView : UITextView = {
@@ -87,7 +88,6 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
         titleLabel.label.text = "About me"
         titleLabel.label.font = Fonts.createBoldSize(16)
 		
-        
         textView.backgroundColor = Colors.registrationDark
         textView.layer.borderWidth = 1.0
         textView.layer.borderColor = UIColor.black.cgColor

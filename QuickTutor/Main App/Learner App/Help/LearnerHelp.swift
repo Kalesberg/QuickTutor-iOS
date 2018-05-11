@@ -17,13 +17,13 @@ class LearnerHelpView : MainLayoutTitleOneButton {
     var tableView = UITableView()
     var header = UIView()
 	
-	var backButton = NavbarButtonX()
+	var backButton = NavbarButtonBack()
 	
 	override var leftButton: NavbarButton {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonX
+			backButton = newValue as! NavbarButtonBack
 		}
 	}
     override func configureView() {

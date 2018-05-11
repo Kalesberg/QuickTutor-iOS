@@ -53,7 +53,7 @@ class TutorHandookView : MainLayoutHeaderScroll {
         
         earnTitle.label.text = "Earn what you want"
         
-        earnBody.text = "With QuickTutor, you can charge whatever you’d like. For your first fifteen hours of tutoring, we will take 10% of your fare. After that, we’ll just take 7.5% of your fare. "
+        earnBody.text = "With QuickTutor, you can charge whatever you’d like. For your first fifteen hours of tutoring, a 10% service fee will be subtracted from your fare. After fifteen hours of tutoring, the fee becomes only 7.5%. The fee helps us maintain the QuickTutor platform and make continuous investments to improve our technologies."
         
         toolTitle.label.text = "The ultimate biz management tool"
         

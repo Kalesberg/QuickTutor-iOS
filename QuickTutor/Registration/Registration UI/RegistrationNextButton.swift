@@ -30,7 +30,7 @@ class RegistrationNextButton: BaseView, Interactable {
         image.snp.makeConstraints { (make) in
             make.right.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(35)
+            make.width.height.equalTo(32)
         }
     }
     

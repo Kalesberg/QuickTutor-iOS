@@ -26,8 +26,6 @@ class LearnerHandookView : MainLayoutHeaderScroll {
     var adultsBody = SectionBody()
     var privateInfoSubtitle = SectionSubTitle()
     var privateInfoBody = SectionBody()
-    var backgroundCheckSubtitle = SectionSubTitle()
-    var backgroundCheckBody = SectionBody()
     var strings: [String] = []
     
     override func configureView() {
@@ -46,8 +44,6 @@ class LearnerHandookView : MainLayoutHeaderScroll {
         scrollView.addSubview(adultsBody)
         scrollView.addSubview(privateInfoSubtitle)
         scrollView.addSubview(privateInfoBody)
-        scrollView.addSubview(backgroundCheckSubtitle)
-        scrollView.addSubview(backgroundCheckBody)
         super.configureView()
         
         title.label.text = "Learner Handbook"
@@ -90,9 +86,6 @@ class LearnerHandookView : MainLayoutHeaderScroll {
         
         privateInfoSubtitle.label.text = "Never disclose private information"
         privateInfoBody.text = "Never disclose private information like your last name, e-mail address, home address, phone number, or other information in your biography or through the messaging system. Immediately stop communicating with and report any tutor who pressures you for private or financial information, or attempts in any way to manipulate you into revealing private information."
-        
-        backgroundCheckSubtitle.label.text = "Check to see if a tutor has a background check"
-        backgroundCheckBody.text = "Before setting up sessions with a tutor, you should check their profile to see if they have had a background check.\n\nTutors who have completed a background check will have this symbol on their profile:\n\nBackground checks cover Social Security number trace, local and federal felonies, sex crimes and certain misdemeanors.\n\nLearn more about background checks.\n\n"
     }
     
     override func applyConstraints() {
@@ -113,8 +106,6 @@ class LearnerHandookView : MainLayoutHeaderScroll {
         adultsBody.constrainSelf(top: adultsSubtitle.snp.bottom)
         privateInfoSubtitle.constrainSelf(top: adultsBody.snp.bottom)
         privateInfoBody.constrainSelf(top: privateInfoSubtitle.snp.bottom)
-        backgroundCheckSubtitle.constrainSelf(top: privateInfoBody.snp.bottom)
-        backgroundCheckBody.constrainSelf(top: backgroundCheckSubtitle.snp.bottom)
     }
 }
 

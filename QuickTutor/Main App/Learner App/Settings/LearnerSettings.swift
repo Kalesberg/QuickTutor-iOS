@@ -21,7 +21,8 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
     var communityGuidelines = CommunityGuidelines()
     var userSafety = UserSafety()
     var accountHeader = ItemHeader()
-    var signOut = SignOut()
+    var signOut = SignOutButton()
+    var closeAccount = CloseAccountButton()
 
     override func configureView() {
         addSubview(scrollView)
@@ -34,6 +35,7 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
         scrollView.addSubview(userSafety)
         scrollView.addSubview(accountHeader)
         scrollView.addSubview(signOut)
+        scrollView.addSubview(closeAccount)
         super.configureView()
         
         title.label.text = "Settings"
@@ -98,6 +100,12 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
         
         signOut.snp.makeConstraints { (make) in
             make.top.equalTo(accountHeader.snp.bottom)
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        
+        closeAccount.snp.makeConstraints { (make) in
+            make.top.equalTo(signOut.snp.bottom)
             make.width.equalToSuperview()
             make.height.equalTo(50)
         }
@@ -446,27 +454,24 @@ class FollowUs : SettingsItem {
 }
 
 
-class SignOut : SettingsInteractableItem {
-    
+class SignOutButton : ArrowItem {
     override func configureView() {
         super.configureView()
         
         label.text = "Sign Out"
-        label.textColor = Colors.qtRed
-        label.textAlignment = .center
-        label.font = Fonts.createSize(18)
         
         applyConstraints()
     }
-    
-    override func applyConstraints() {
-        super.applyConstraints()
+}
+
+class CloseAccountButton : ArrowItem {
+    override func configureView() {
+        super.configureView()
         
-        label.snp.makeConstraints { (make) in
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview()
-            make.center.equalToSuperview()
-        }
+        backgroundColor = Colors.qtRed
+        label.text = "Close Account"
+        
+        applyConstraints()
     }
 }
 
@@ -515,7 +520,7 @@ class SettingsScrollView : BaseScrollView {
         } else if(touchStartView is FacebookIcon) {
             SocialMedia.socialMediaManager.rateApp(appUrl:  "fb://profile/QuickTutor", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { (success) in
             })
-        } else if(touchStartView is SignOut) {
+        } else if(touchStartView is SignOutButton) {
             //Are you sure? error message should be added.
             do {
                 try Auth.auth().signOut()
@@ -524,6 +529,8 @@ class SettingsScrollView : BaseScrollView {
             } catch {
                 print("Error signing out")
             }
+        } else if(touchStartView is CloseAccountButton) {
+            navigationController.pushViewController(CloseAccount(), animated: true)
         }
     }
 }

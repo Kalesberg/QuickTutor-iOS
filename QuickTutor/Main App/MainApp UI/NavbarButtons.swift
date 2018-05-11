@@ -189,3 +189,12 @@ class NavbarButtonNext: NavbarButtonText {
         label.label.text = "Next"
     }
 }
+
+class NavbarButtonSubmit: NavbarButtonText {
+    
+    override func configureView() {
+        super.configureView()
+        
+        label.label.text = "Submit"
+    }
+}

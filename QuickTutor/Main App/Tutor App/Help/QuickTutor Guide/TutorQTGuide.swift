@@ -15,7 +15,7 @@ class TutorQTGuide : BaseViewController {
         return view as! QTGuideView
     }
     
-    var options = ["Connections","Sessions"]
+    var options = ["Connections","Sessions", "Service Fee"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +55,8 @@ extension TutorQTGuide : UITableViewDataSource, UITableViewDelegate {
             self.navigationController?.pushViewController(TutorConnections(), animated: true)
         case 1:
             self.navigationController?.pushViewController(TutorSessions(), animated: true)
+        case 2:
+            self.navigationController?.pushViewController(TutorServiceFee(), animated: true)
         default:
             break
         }

@@ -19,7 +19,7 @@ class TutorPaymentEarningsView : PaymentOptionsView {
         
         cashBody.text = "QuickTutor is designed for a cashless exchange between two individuals. After each session, your earnings will be virtually deposited into your QuickTutor wallet. Your receipt is then emailed to you, and your sessions tab is updated under the “past” section with all the details regarding the session."
         
-        gratuityBody.text = "You are aloud to ask for tips as a tutor. Learners tipping tutors is not required for sessions. Giving a tip is optional. Tips are added to the total of your earnings, and are still subject to the QuickTutor 10% or 7.5% service fee (depending on your hours completed). "
+        gratuityBody.text = "You are allowed to ask for tips as a tutor. Learners tipping tutors is not required for sessions. Giving a tip is optional. Tips are added to the total of your earnings, and are still subject to the QuickTutor 10% or 7.5% service fee (depending on your hours completed). "
     }
 }
 
