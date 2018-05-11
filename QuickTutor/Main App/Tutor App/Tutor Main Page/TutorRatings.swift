@@ -8,8 +8,21 @@
 
 import Foundation
 import UIKit
+import Firebase
 
-
+struct TopSubcategory {
+	var subcategory = ""
+	let hours : Int
+	let numSessions : Int
+	let rating : Double
+	
+	init(dictionary : [String : Any]) {
+		hours = dictionary["hr"] as? Int ?? 0
+		numSessions = dictionary["nos"] as? Int ?? 0
+		rating = dictionary["r"] as? Double ?? 0.0
+	}
+	
+}
 class TutorRatingsView : TutorHeaderLayoutView {
     
     let tableView : UITableView = {
@@ -52,16 +65,32 @@ class TutorRatings : BaseViewController {
         view = TutorRatingsView()
     }
 	
+	private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
+
 	var tutor : AWTutor! {
 		didSet{
 			contentView.tableView.reloadData()
 		}
 	}
 
+	var topSubject : (String, UIImage)! {
+		didSet {
+			if topSubject == nil {
+				//TODO create backgroundView
+			}
+			contentView.tableView.reloadData()
+		}
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		configureDelegates()
-    }
+		
+		getSubjectsTaught { (subcategoryList) in
+			self.findTopSubject(subjects: subcategoryList)
+		}
+	}
+	
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.layer.addBorder(edge: .top, color: Colors.divider, thickness: 1)
@@ -73,6 +102,7 @@ class TutorRatings : BaseViewController {
         contentView.tableView.cellForRow(at: IndexPath(row: 5, section: 0))?.layer.addBorder(edge: .top, color: Colors.divider, thickness: 1)
         contentView.tableView.cellForRow(at: IndexPath(row: 5, section: 0))?.layer.addBorder(edge: .bottom, color: Colors.divider, thickness: 1)
     }
+	
 	private func configureDelegates() {
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
@@ -82,6 +112,39 @@ class TutorRatings : BaseViewController {
 		contentView.tableView.register(TutorMainPageTopSubjectCell.self, forCellReuseIdentifier: "tutorMainPageTopSubjectCell")
 		contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
 		contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
+	}
+	
+	private func getSubjectsTaught(_ completion: @escaping ([TopSubcategory]) -> Void) {
+		
+		var subjectsTaught = [TopSubcategory]()
+		
+		ref.child("subject").child(tutor.uid).observeSingleEvent(of: .value) { (snapshot) in
+			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
+			
+			for child in snap {
+				guard let value = child.value as? [String : Any] else { return }
+				
+				var topSubjects = TopSubcategory(dictionary: value)
+				topSubjects.subcategory = child.key
+				
+				subjectsTaught.append(topSubjects)
+			}
+			completion(subjectsTaught)
+		}
+	}
+	
+	private func findTopSubject(subjects: [TopSubcategory]) {
+		//Will later be used to get a list of top subjects in order.
+		let sortedSubjects = subjects.sorted {
+			if $0.rating != $1.rating {
+				return $0.rating > $1.rating
+			} else if $0.numSessions != $1.numSessions {
+				return $0.numSessions > $1.numSessions
+			} else {
+				return $0.hours > $1.hours
+			}
+		}
+		topSubject = SubjectStore.findSubcategoryImage(subcategory: sortedSubjects[0].subcategory)
 	}
 }
 
@@ -181,8 +244,12 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageTopSubjectCell", for: indexPath) as! TutorMainPageTopSubjectCell
-				cell.subjectLabel.text = tutor.topSubject!
-				//store top subject as a path.
+
+			if topSubject != nil {
+				cell.subjectLabel.text = topSubject.0
+				cell.icon.image = topSubject.1
+			}
+	
 			return cell
         case 4:
             let cell = UITableViewCell()

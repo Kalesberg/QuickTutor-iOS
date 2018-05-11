@@ -117,16 +117,10 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 		view = TutorConnectView()
 	}
 	
-	
 	var filters: (Int, Int, Bool)!
 	var location : CLLocation?
 	var shouldFilterDatasource = false
-	
-	var featuredTutor : AWTutor! {
-		didSet {
-			self.datasource.append(featuredTutor)
-		}
-	}
+	var hasAppliedFilters = false
 	
 	var datasource = [AWTutor]() {
 		didSet {
@@ -141,12 +135,23 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	
 	var filteredDatasource = [AWTutor]() {
 		didSet {
+			print(filteredDatasource)
 			if filteredDatasource.count == 0 {
 				let view = NoResultsView()
 				view.label.text = "0 results 😭 \nAdjust your filters to get better results"
 				contentView.collectionView.backgroundView = view
 			}
+
+			contentView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
+			
 			contentView.collectionView.reloadData()
+
+		}
+	}
+	
+	var featuredTutor : AWTutor! {
+		didSet {
+			self.datasource.append(featuredTutor)
 		}
 	}
 	
@@ -173,6 +178,8 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		hideKeyboardWhenTappedAround()
+		
 		contentView.collectionView.dataSource = self
 		contentView.collectionView.delegate = self
 		
@@ -191,24 +198,21 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	}
 	
 	func sortWithDistance(_ tutors: [AWTutor] ) {
-		print("her.")
-
 		if tutors.count == 0 {
-			datasource = []
+			filteredDatasource = []
 			return
 		}
 		
 		guard let currentUserLocation = location else {
 			print("unable to find your location.")
-			datasource = tutors.sortWithoutDistance()
+			filteredDatasource = tutors.sortWithoutDistance()
 			return
 		}
 		
 		var d0 : Double = 150
 		var d1 : Double = 150
 		
-		datasource = tutors.sorted {
-			print("1")
+		filteredDatasource = tutors.sorted {
 			if let location1 = $0.location?.location {
 				d0 = location1.distance(from: currentUserLocation)
 			}
@@ -234,10 +238,19 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	}
 	
 	func applyFilters() {
-		shouldFilterDatasource = true
 		
-		var tutors =  [AWTutor]()
+		if filters.2 == false && filters.1 == -1 && filters.0 == -1 {
+			hasAppliedFilters = false
+			shouldFilterDatasource = false
+			contentView.collectionView.reloadData()
+			return
+		}
+		
 		var distance : Double = 0.0
+		var tutors =  [AWTutor]()
+		
+		shouldFilterDatasource = true
+		hasAppliedFilters = true
 		
 		if filters.2 {
 			tutors = (filters.1 != -1) ? datasource.filter { ($0.price <= filters.1) } : datasource
@@ -271,9 +284,17 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	}
 	
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonLines {
+		if touchStartView is NavbarButtonFilters {
 			
 			let next = LearnerFilters()
+			
+			if hasAppliedFilters {
+				
+				next.distance = (filters.0 - 10 >= 0) ? filters.0 - 10 : 0
+				next.price = (filters.1 - 10 >= 0) ? filters.1 - 10 : 0
+				next.video = filters.2
+			}
+			
 			next.delegate = self
 			self.present(next, animated: true, completion: nil)
 			
@@ -299,6 +320,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 		let data = (shouldFilterDatasource) ? filteredDatasource : datasource
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
+
 		cell.header.imageView.loadUserImages(by: data[indexPath.row].images["image1"]!)
 		cell.header.name.text = data[indexPath.row].name.formatName()
 		cell.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
@@ -312,6 +334,9 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 				cell.distanceLabel.attributedText = distance.formatDistance()
 			}
 		}
+		
+		cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
+
 		return cell
 	}
 	
@@ -326,6 +351,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 		return 20
 	}
 }
+
 extension Array where Element: AWTutor {
 	func sortWithoutDistance() -> [AWTutor] {
 		return sorted {

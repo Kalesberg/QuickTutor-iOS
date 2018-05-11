@@ -101,8 +101,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         tableView.dataSource = self
         tableView.delegate = self
-        
-        tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
+
+		tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
         tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")

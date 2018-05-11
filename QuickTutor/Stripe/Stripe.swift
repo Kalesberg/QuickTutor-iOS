@@ -129,6 +129,7 @@ class Stripe {
 			.responseString(completionHandler: { (response) in
 				switch response.result {
 				case .success:
+					print(response.value!)
 					if let data = response.data {
 						do {
 							let transaction : BalanceTransaction = try JSONDecoder().decode(BalanceTransaction.self, from: data)

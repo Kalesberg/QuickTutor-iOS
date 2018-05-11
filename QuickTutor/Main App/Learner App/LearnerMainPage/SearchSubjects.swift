@@ -147,21 +147,19 @@ class SearchSubjects: BaseViewController {
 	
 	var shouldUpdateSearchResults = false
 	
-	var didSelectCategory = false {
-		didSet {
-			contentView.tableView.reloadData()
-		}
-	}
-	
 	var initialSetup : Bool = false
 	
 	var automaticScroll : Bool = false
 	
 	var filteredSubjects : [(String, String)] = []
-	var partialSubjects : [(String, String)] = []
 	var allSubjects : [(String, String)] = []
 	
-	var isTableViewActive : Bool = false
+	var tableViewIsActive : Bool = false {
+		didSet {
+			contentView.backButton.isHidden = tableViewIsActive
+			shouldUpdateSearchResults = tableViewIsActive
+		}
+	}
 	
 	var selectedCategory : Int = 6 {
 		didSet {
@@ -180,21 +178,15 @@ class SearchSubjects: BaseViewController {
 		if let subjects = SubjectStore.loadTotalSubjectList() {
 			self.allSubjects = subjects
 			self.allSubjects.shuffle()
+			print(allSubjects.count)
 		}
 	}
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		contentView.searchBar.text = ""
-		shouldUpdateSearchResults = false
-		tableView(shouldDisplay: false)
-		filteredSubjects = []
-	
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -204,9 +196,6 @@ class SearchSubjects: BaseViewController {
 		
 		if !initialSetup && initialIndex != nil{
 			contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
-			
-			contentView.headerView.category.text = categories[selectedCategory].mainPageData.displayName
-			
 			initialSetup = true
 		}
 		contentView.categoryCollectionView.reloadData()
@@ -233,29 +222,34 @@ class SearchSubjects: BaseViewController {
 	
 	
 	
-	private func tableView(shouldDisplay bool: Bool) {
-		isTableViewActive = !isTableViewActive
-		
-		UIView.animate(withDuration: 0.5, animations: {
+	private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {
+		tableViewIsActive = bool
+		UIView.animate(withDuration: 0.25, animations: {
 			self.contentView.categoryCollectionView.alpha = bool ? 0.0 : 1.0
 			return
 		})
 		
-		UIView.animate(withDuration: 0.5, animations: {
+		UIView.animate(withDuration: 0.25, animations: {
 			self.contentView.tableView.alpha = bool ? 1.0 : 0.0
+			completion()
 			return
 		})
 	}
 
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonX {
-			self.dismissKeyboard()
-			let nav = self.navigationController
-			let transition = CATransition()
-			
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-				nav?.popViewController(animated: false)
+			if tableViewIsActive {
+				tableView(shouldDisplay: false) {
+					self.contentView.searchBar.text = ""
+				}
+			} else {
+				let nav = self.navigationController
+				let transition = CATransition()
+				
+				DispatchQueue.main.async {
+					nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+					nav?.popViewController(animated: false)
+				}
 			}
 		}
 	}
@@ -300,7 +294,6 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 		guard let cell = collectionView.cellForItem(at: indexPath) as? CategorySelectionCollectionViewCell else { return }
 		
 		let next = TutorConnect()
-
 		next.subcategory = cell.category.subcategory.subcategories[indexPath.item]
 		
 	}
@@ -323,7 +316,7 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 		if shouldUpdateSearchResults {
 			return filteredSubjects.count
 		}
-		return 0
+		return allSubjects.count
 	}
 	
 	internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -353,15 +346,15 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 		guard let cell = tableView.cellForRow(at: indexPath) as? SubjectTableViewCell else { return }
 		
 		let next = TutorConnect()
-		let navigationController = self.navigationController
+		let nav = self.navigationController
 		let transition = CATransition()
 		
 		next.subject = (cell.subcategory.text!,cell.subject.text!)
 		next.contentView.searchBar.placeholder = cell.subject.text!
 		
 		DispatchQueue.main.async {
-			navigationController?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-			navigationController?.pushViewController(next, animated: false)
+			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+			nav?.pushViewController(next, animated: false)
 		}
 	}
 	
@@ -403,44 +396,26 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 extension SearchSubjects : UISearchBarDelegate {
 	
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-		if searchBar.text!.count < 1 {
-			
-			shouldUpdateSearchResults = false
-			tableView(shouldDisplay: false)
-		} else {
-			shouldUpdateSearchResults = true
-			tableView(shouldDisplay: true)
+		if searchBar.text!.count > 1 {
+			tableView(shouldDisplay: true) {}
 		}
-		
 	}
 	
 	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		automaticScroll = true
 		
-		if searchText == "" {
-			tableView(shouldDisplay: false)
+		if searchText == ""  {
 			
-			automaticScroll = false
-			
-			filteredSubjects = allSubjects
-			
-			shouldUpdateSearchResults = false
-			
-			didSelectCategory = false
-			
-			contentView.headerView.category.text = ""
-			
-			contentView.tableView.reloadData()
+			tableView(shouldDisplay: false) {
+				self.contentView.searchBar.text = ""
+				self.automaticScroll = false
+			}
 			return
 		}
-		
-		shouldUpdateSearchResults = true
-		
-		filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText.lowercased())})
-		
-		tableView(shouldDisplay: true)
-		
-		contentView.tableView.reloadData()
+		tableView(shouldDisplay: true) {
+			self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText)})
+			self.contentView.tableView.reloadData()
+		}
 		
 		if filteredSubjects.count > 0 {
 			scrollToTop()

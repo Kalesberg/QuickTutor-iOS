@@ -112,13 +112,10 @@ class QueryData {
 		queryAWTutorByUids(categories: categories) { (uids) in
 			
 			if let uids = uids {
-				//iterate through given categories
 				for key in uids {
 					tutors[key.key] = []
-					//iterate through user UIds
 					for uid in key.value {
 						group.enter()
-						//get tutors
 						FirebaseData.manager.getTutor(uid) { (tutor) in
 							if let tutor = tutor {
 								print(tutor.name)
@@ -146,11 +143,11 @@ class QueryData {
 			group.enter()
 			
 			self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: categoryString).queryLimited(toFirst: 20).observeSingleEvent(of: .value, with: { (snapshot) in
-				
 				for snap in snapshot.children {
 					guard let child = snap as? DataSnapshot else { continue }
+					if child.key == CurrentUser.shared.learner.uid { continue }
+
 					uids[category]!.append(child.key)
-					
 				}
 				group.leave()
 			})
@@ -170,7 +167,8 @@ class QueryData {
 			
 			for snap in snapshot.children {
 				guard let child = snap as? DataSnapshot else { continue }
-				
+				if child.key == CurrentUser.shared.learner.uid { continue }
+
 				group.enter()
 				FirebaseData.manager.getTutor(child.key) { (tutor) in
 					if let tutor = tutor {
@@ -198,7 +196,8 @@ class QueryData {
 			
 			for snap in snapshot.children {
 				guard let child = snap as? DataSnapshot else { continue }
-				
+				if child.key == CurrentUser.shared.learner.uid { continue }
+
 				group.enter()
 				FirebaseData.manager.getTutor(child.key, { (tutor) in
 					if let tutor = tutor {
@@ -217,13 +216,14 @@ class QueryData {
 		
 		var tutors = [AWTutor]()
 		let group = DispatchGroup()
-		print("subcategory: ",  subcategory)
+		
 		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "r").queryStarting(atValue: 3.0).queryLimited(toFirst: 5).observeSingleEvent(of: .value) { (snapshot) in
 			
 			for snap in snapshot.children {
 	
 				guard let child = snap as? DataSnapshot else { continue }
-			
+				if child.key == CurrentUser.shared.learner.uid { continue }
+				
 				group.enter()
 				FirebaseData.manager.getTutor(child.key, { (tutor) in
 					if let tutor = tutor {
@@ -233,9 +233,9 @@ class QueryData {
 				})
 			}
 			group.notify(queue: .main) {
-				print(tutors)
 				completion(tutors)
 			}
 		}
 	}
+	
 }

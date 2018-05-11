@@ -220,7 +220,9 @@ class TutorAddSubjects : BaseViewController {
     override func loadView() {
         view = TutorAddSubjectsView()
     }
-    
+	
+	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+	
     var shouldUpdateSearchResults = false
     
 	var didSelectCategory = false {
@@ -231,7 +233,7 @@ class TutorAddSubjects : BaseViewController {
 		}
 	}
     
-    var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+	
     
     var selectedSubjects : [String] = [] {
         didSet {
@@ -643,7 +645,6 @@ extension TutorAddSubjects : UIScrollViewDelegate {
 //		let currentPage = Int(ceil(x / w))
 //		
 //	}
-//	
 	private func scrollToTop() {
 		contentView.tableView.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)

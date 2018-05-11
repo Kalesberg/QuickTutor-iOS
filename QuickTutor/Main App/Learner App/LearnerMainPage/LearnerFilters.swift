@@ -82,8 +82,8 @@ class LearnerFilters: BaseViewController {
 	
 	let locationManager = CLLocationManager()
 	
-	var price : Int = -1
-	var distance : Int = -1
+	var price : Int = 0
+	var distance : Int = 0
 	var video : Bool = false
 	
 	var delegate : ApplyLearnerFilters?
@@ -91,9 +91,12 @@ class LearnerFilters: BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		configureDelegates()
-		
 	}
 	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		contentView.tableView.reloadData()
+	}
 	private func configureDelegates() {
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
@@ -120,12 +123,10 @@ class LearnerFilters: BaseViewController {
 	private func distanceSliderValueDidChange(_ sender: UISlider!) {
 		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! EditProfileSliderTableViewCell)
 		
-		if ( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
+		if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
 			let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
 			
-			if(value % 5 == 0) {
-				cell.valueLabel.text = (value == 0) ? "" : String(value) + " mi"
-			}
+			cell.valueLabel.text = (value == 0) ? "" : String(value) + " mi"
 			distance = value
 		} else {
 			animateSlider(false)
@@ -169,25 +170,27 @@ class LearnerFilters: BaseViewController {
 			
 			distance = (distance == 0) ? -1 : distance + 10
 			price = (price == 0) ? -1 : price + 10
-			
+
 			self.delegate?.filters = (distance, price, video)
 			self.delegate?.applyFilters()
 			
 			self.dismiss(animated: true, completion: nil)
 		}
 	}
+	
 	func animateSlider(_ bool: Bool){
 		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! EditProfileSliderTableViewCell)
 		if bool {
 			UIView.animate(withDuration: 0.25) {
 				cell.slider.setValue(Float(self.distance), animated: true)
+				cell.valueLabel.text = (self.distance > 0) ? String(self.distance) + " mi" : ""
 			}
 			self.distanceSliderValueDidChange(cell.slider)
 
 		} else {
 			UIView.animate(withDuration: 0.25) {
 				cell.slider.setValue(0.0, animated: true)
-				cell.valueLabel.text = "0 mi"
+				cell.valueLabel.text = ""
 			}
 		}
 	}
@@ -290,6 +293,8 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 			
 			cell.slider.minimumValue = 0
 			cell.slider.maximumValue = 100
+			cell.slider.value = Float(price)
+			cell.valueLabel.text = (price == 0) ?  "" : "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
 			
 			let formattedString = NSMutableAttributedString()
 			formattedString
@@ -308,6 +313,10 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 			cell.slider.minimumValue = 0
 			cell.slider.maximumValue = 150
 			
+			cell.slider.value = Float(distance)
+			
+			cell.valueLabel.text = (self.distance > 0) ? String(self.distance) + " mi" : ""
+			
 			let formattedString = NSMutableAttributedString()
 			formattedString
 				.bold("Maximum Travel Distance  ", 15, .white)
@@ -320,7 +329,7 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "toggleTableViewCell", for: indexPath) as! ToggleTableViewCell
 			
 			cell.toggle.addTarget(self, action: #selector(sliderToggle(_:)), for: .touchUpInside)
-			
+			cell.toggle.setOn(video, animated: true)
 			
 			
 			return cell
