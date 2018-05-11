@@ -188,7 +188,6 @@ class TutorMainPageTopSubjectCell : BaseTableViewCell {
         
         label.textColor = .white
         label.font = Fonts.createSize(17)
-        label.text = "Mathematics"
         
         return label
     }()
@@ -203,9 +202,7 @@ class TutorMainPageTopSubjectCell : BaseTableViewCell {
 
         backgroundColor = Colors.registrationDark
         selectionStyle = .none
-        
-        icon.image = #imageLiteral(resourceName: "services")
-        
+		
         applyConstraints()
     }
     

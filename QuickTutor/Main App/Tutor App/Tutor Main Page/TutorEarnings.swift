@@ -190,7 +190,6 @@ class TutorEarnings : BaseViewController {
 		
 		dateFormatter.dateFormat = "MM/dd/yyyy"
 		
-		
 		Stripe.retrieveBalanceTransactionList(acctId: accountId) { (transactions) in
 			if let transactions = transactions {
 				self.datasource = transactions.data.sorted {
@@ -207,9 +206,9 @@ class TutorEarnings : BaseViewController {
 	
 	private func getYearlyEarnings() {
 		var thisYearTotal : Int = 0
-		
+
 		let year = Calendar.current.component(.year, from: Date())
-		
+
 		if let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1)) {
 			let firstDay = firstOfYear.timeIntervalSince1970
 			for transaction in datasource {
@@ -219,17 +218,17 @@ class TutorEarnings : BaseViewController {
 				}
 			}
 			contentView.label.textColor = .white
-			
+
 			let formattedString = NSMutableAttributedString()
-			
+
 			formattedString
 				.bold("\(thisYearTotal.yearlyEarningsFormat())\n", 45, .white)
 				.regular("\(year) Earnings", 15, .white)
-			
+
 			let paragraphStyle = NSMutableParagraphStyle()
 			paragraphStyle.lineSpacing = 8
 			formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
-			
+
 			contentView.label.attributedText = formattedString
 			contentView.label.textAlignment = .center
 			contentView.label.numberOfLines = 0
@@ -240,13 +239,13 @@ class TutorEarnings : BaseViewController {
 		var last7Days : Int = 0
 		var last30Days : Int = 0
 		var allTime : Int = 0
-		
-		let lastWeek = NSDate().timeIntervalSince1970 - 86400
+
+		let lastWeek = NSDate().timeIntervalSince1970 - 604800
 		let lastMonth = NSDate().timeIntervalSince1970 - 2629743
-		
+
 		for transaction in datasource {
 			guard let net = transaction.net else { continue }
-			
+
 			if (transaction.created) > Int(lastWeek) {
 				last7Days += net
 			}
@@ -255,10 +254,19 @@ class TutorEarnings : BaseViewController {
 			}
 			allTime += net
 		}
-		print(last7Days.currencyFormat())
-		print(last30Days.currencyFormat())
-		print(allTime.currencyFormat())
-		
+
+		let formattedString = NSMutableAttributedString()
+		formattedString
+			.bold(last7Days.currencyFormat() + "\n", 15, .white)
+			.bold(last30Days.currencyFormat() + "\n", 15, .white)
+			.bold(allTime.currencyFormat() + "\n", 15, .white)
+
+		let paragraphStyle = NSMutableParagraphStyle()
+		paragraphStyle.lineSpacing = 8
+		formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, formattedString.length))
+
+		contentView.earningsLabel.attributedText = formattedString
+
 		return
 	}
 	
@@ -283,7 +291,7 @@ extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "tutorEarningsTableCellView", for: indexPath) as! TutorEarningsTableCellView
 		
-		cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - Chemistry"
+		cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - \(datasource[indexPath.row].description ?? "Session")"
 		if let net = datasource[indexPath.row].net {
 			cell.rightLabel.text = net.currencyFormat()
 		}

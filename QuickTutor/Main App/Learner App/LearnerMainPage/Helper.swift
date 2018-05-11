@@ -149,16 +149,15 @@ struct SubjectStore {
 		
 		for i in 0..<category.count {
 			do {
-				guard let file = Bundle.main.url(forResource: category[i].subcategory.fileToRead, withExtension: "json") else { continue }
+				guard let file = Bundle.main.url(forResource: category[i].subcategory.fileToRead, withExtension: "json") else {
+					continue }
 				
 				let data = try Data(contentsOf: file)
-				
 				let json = try JSONSerialization.jsonObject(with: data, options: [])
 				
 				for key in category[i].subcategory.subcategories {
 					
 					guard let object = json as? [String : [String]] else { continue }
-					
 					guard let subjectArray = object[key] else { continue }
 			
 					for subject in subjectArray {
@@ -223,6 +222,27 @@ struct SubjectStore {
 		return subjects
 	}
 	
+	static func findSubcategoryImage(subcategory: String) -> (String, UIImage) {
+		
+		for i in 0..<category.count {
+			for key in category[i].subcategory.subcategories {
+				if key.lowercased() == subcategory {
+
+					let subcategories = category[i].subcategory.subcategories.map { $0.lowercased()}
+					
+					let indexOfImage = subcategories.index(of: key.lowercased())
+					let image = category[i].subcategory.icon[indexOfImage!]
+					
+					let indexOfSubcategory = subcategories.index(of: key.lowercased())
+					let subcategory = category[i].subcategory.subcategories[indexOfSubcategory!]
+					
+					return (subcategory, image)
+				}
+			}
+		}
+		return ("No top subject.", #imageLiteral(resourceName: "defaultProfileImage"))
+	}
+	
 	static func findSubCategory(resource: String, subject: String) -> String? {
 		do {
 			guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }
@@ -277,7 +297,7 @@ enum Category {
 			
 		case .academics:                displayName = "ACADEMICS"
 		searchBarPhrases = ["search any academic subject"]
-		subcategories = ["Mathematics", "Language Arts", "History", "The Sciences", "Extracurricular","Test Preparation"]
+		subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular","Test Preparation"]
 		icon = [#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "language-arts"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "extracurricular"),#imageLiteral(resourceName: "test-prep")]
 		fileToRead = "academics"
 			

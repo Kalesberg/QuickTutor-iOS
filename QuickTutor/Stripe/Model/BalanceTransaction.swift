@@ -8,17 +8,17 @@
 
 import Foundation
 
-struct BalanceTransaction: Decodable {
-	
-	let data : [Data]
-	
-	struct Data : Decodable {
-		let id : String
-		let amount : Int?
-		let created : Int
-		let description : String
-		let fee : Int?
-		let net : Int?
-		let status : String
-	}
-}
+//struct BalanceTransaction: Decodable {
+//	
+//	let data : [data]
+//	
+//	struct data : Decodable {
+//		let id : String
+//		let amount : Int?
+//		let created : Int
+//		let description : String
+//		let fee : Int?
+//		let net : Int?
+//		let status : String
+//	}
+//}

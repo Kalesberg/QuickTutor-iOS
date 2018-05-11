@@ -42,6 +42,8 @@ class AWLearner {
 
 	var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
 	
+	var connectedTutors = [String]()
+
 	var isTutor : Bool = false
 	var hasPayment : Bool = false
 	
@@ -78,6 +80,7 @@ class AWTutor : AWLearner {
 	var earnings : Double!
 
 	var subjects : [String]?
+	
 	var selected : [Selected] = []
 	var reviews : [TutorReview]?
 	var location : TutorLocation1?
@@ -245,13 +248,11 @@ class FirebaseData {
 		
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else {
-				print("value 1 error")
 				completion(nil)
 				return
 			}
 			self.ref.child("student-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot2) in
 				guard let value2 = snapshot2.value as? [String : Any] else {
-					print("value2 error")
 					completion(nil)
 					return
 				}
@@ -268,7 +269,13 @@ class FirebaseData {
 					learner.isTutor = snapshot.exists()
 					group.leave()
 				})
-
+				group.enter()
+				self.getLearnerConnections(uid: uid, { (connections) in
+					if let connections = connections {
+						learner.connectedTutors = connections
+					}
+					group.leave()
+				})
 				guard let images = learnerData["img"] as? [String : String] else { return }
 				learner.images = images
 				
@@ -422,6 +429,19 @@ class FirebaseData {
 		})
 	}
 	
+	func getLearnerConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
+		var uids = [String]()
+		self.ref.child("connections").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
+				
+				for child in snap {
+					guard let value = child.value as? [String : Any] else { return }
+					print(value)
+				}
+			}
+			completion(uids)
+		}
+	}
 	public func getCompressedImageDataFor(_ image: UIImage) -> Data? {
 		let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: CGFloat(ceil(200 / image.size.width * image.size.height)))))
 		imageView.contentMode = .scaleAspectFit
