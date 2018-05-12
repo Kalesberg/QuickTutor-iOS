@@ -118,9 +118,11 @@ extension CloseAccountReason : UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+		
         let next = CloseAccountSubmission()
         next.contentView.reasonLabel.text = options[indexPath.row]
+		next.reason = options[indexPath.row]
+		
         navigationController?.pushViewController(next, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)

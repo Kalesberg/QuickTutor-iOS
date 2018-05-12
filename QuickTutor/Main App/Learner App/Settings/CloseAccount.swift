@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 class CloseAccountView : MainLayoutTitleBackButton {
     
     let warningLabel = WarningLabel()
@@ -285,6 +284,8 @@ class CloseAccount : BaseViewController {
     override func handleNavigation() {
         if (touchStartView is ProceedButton) {
             navigationController?.pushViewController(CloseAccountReason(), animated: true)
-        }
+		} else if (touchStartView is CancelButton) {
+			navigationController?.popViewController(animated: true)
+		}
     }
 }

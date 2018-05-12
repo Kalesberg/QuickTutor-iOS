@@ -375,7 +375,7 @@ class FirebaseData {
 		}
 	}
 	
-	func getTutorLocation(uid: String,_ completion: @escaping (TutorLocation1?) -> Void) {
+	public func getTutorLocation(uid: String,_ completion: @escaping (TutorLocation1?) -> Void) {
 		self.ref?.child("tutor_loc").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			if snapshot.exists() {
 				guard let value = snapshot.value as? [String : Any] else { return }
@@ -387,38 +387,29 @@ class FirebaseData {
 		})
 	}
 	
-	func loadTutorReviews(uid : String, _ completion : @escaping ([TutorReview]?) -> Void) {
-		
+	public func loadTutorReviews(uid : String, _ completion : @escaping ([TutorReview]?) -> Void) {
 		var reviews : [TutorReview] = []
-		
 		self.ref?.child("review").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-			
 			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
 			
 			for child in snap {
-				
-				guard let value = child.value as? [String : Any] else { return }
+				guard let value = child.value as? [String : Any] else { continue }
 				
 				var review = TutorReview(dictionary: value)
 				review.sessionId = child.key
-				
 				reviews.append(review)
 			}
 			completion(reviews)
 		})
 	}
 	
-	func loadSubjects(uid: String, _ completion: @escaping ([TutorSubcategory]?) -> Void) {
+	public func loadSubjects(uid: String, _ completion: @escaping ([TutorSubcategory]?) -> Void) {
 		
 		var subcategories : [TutorSubcategory] = []
-		
 		self.ref?.child("subject").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-			
 			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
-				
 				for child in snap {
-					
-					guard let value = child.value as? [String : Any] else { return }
+					guard let value = child.value as? [String : Any] else { continue }
 					
 					var subcategory = TutorSubcategory(dictionary: value)
 					subcategory.subcategory = child.key
@@ -429,19 +420,18 @@ class FirebaseData {
 		})
 	}
 	
-	func getLearnerConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
+	public func getLearnerConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
 		var uids = [String]()
 		self.ref.child("connections").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
-				
 				for child in snap {
-					guard let value = child.value as? [String : Any] else { return }
-					print(value)
+					uids.append(child.key)
 				}
 			}
 			completion(uids)
 		}
 	}
+	
 	public func getCompressedImageDataFor(_ image: UIImage) -> Data? {
 		let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: CGFloat(ceil(200 / image.size.width * image.size.height)))))
 		imageView.contentMode = .scaleAspectFit
@@ -462,9 +452,90 @@ class FirebaseData {
 			print("No data to upload")
 			return nil
 		}
-		//		profileImageData = dataToUpload
 		return dataToUpload
 	}
+	
+	public func removeTutorAccount(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
+		
+		var childNodes : [String : Any] = [:]
+		
+		childNodes["/connections/\(uid)"] = NSNull()
+		childNodes["/conversations/\(uid)"] = NSNull()
+		childNodes["/featured/\(uid)"] = NSNull()
+		childNodes["/readReceipts/\(uid)"] = NSNull()
+		childNodes["/review/\(uid)"] = NSNull()
+		childNodes["/tutor-info/\(uid)"] = NSNull()
+		childNodes["/tutor_loc/\(uid)"] = NSNull()
+		childNodes["/userSessions/\(uid)"] = NSNull()
+		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "both"]
+		
+		for subcat in subcategory {
+			childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
+		}
+		
+		self.ref.root.updateChildValues(childNodes) { (error, _) in
+			if let error = error {
+				completion(error)
+			} else {
+				completion(nil)
+			}
+		}
+	}
+	
+	public func removeBothAccounts(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
+		
+		var childNodes : [String : Any] = [:]
+		
+		childNodes["/account/\(uid)"] = NSNull()
+		childNodes["/connections/\(uid)"] = NSNull()
+		//childNodes["/conversations/\(uid)"] = NSNull()
+		childNodes["/featured/\(uid)"] = NSNull()
+		childNodes["/notificationPreferences/\(uid)"] = NSNull()
+		childNodes["/readReceipts/\(uid)"] = NSNull()
+		childNodes["/review/\(uid)"] = NSNull()
+		childNodes["/student-info/\(uid)"] = NSNull()
+		childNodes["/subject/\(uid)"] = NSNull()
+		childNodes["/tutor-info/\(uid)"] = NSNull()
+		childNodes["/tutor_loc/\(uid)"] = NSNull()
+		childNodes["/userSessions/\(uid)"] = NSNull()
+		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "both"]
+		
+		for subcat in subcategory {
+			childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
+		}
+		
+		self.ref.root.updateChildValues(childNodes) { (error, _) in
+			if let error = error {
+				print(error.localizedDescription)
+				completion(error)
+			} else {
+				completion(nil)
+			}
+		}
+	}
+	
+	public func removeLearnerAccount(uid: String, reason: String, message: String, _ completion: @escaping (Error?) -> Void) {
+		
+		var childNodes : [String : Any] = [:]
+		
+		childNodes["/account/\(uid)"] = NSNull()
+		childNodes["/connections/\(uid)"] = NSNull()
+		childNodes["/conversations/\(uid)"] = NSNull()
+		childNodes["/readReceipts/\(uid)"] = NSNull()
+		childNodes["/student-info/\(uid)"] = NSNull()
+		childNodes["/userSessions/\(uid)"] = NSNull()
+		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "learner"]
+		
+		self.ref.root.updateChildValues(childNodes) { (error, _) in
+			if let error = error {
+				print(error.localizedDescription)
+				completion(error)
+			} else {
+				completion(nil)
+			}
+		}
+	}
+	
 	deinit {
 		print("FirebaseData has De-initialized")
 	}
