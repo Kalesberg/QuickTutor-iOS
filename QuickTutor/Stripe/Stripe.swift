@@ -9,21 +9,30 @@ import Stripe
 import Alamofire
 
 class Stripe {
-	
-	/*
-	create connect account
-	handle transfering funds
-	*/
+
 	static let stripeManager = Stripe()
 	
 	private init() {
 		print("Stripe initialized.")
 	}
 	
+	
 	class func createConnect(completion: @escaping (String?) -> Void) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/connect.php"
 		
 		guard let data = CurrentUser.shared.learner else { return }
+		
+		let legalEntityParams = STPLegalEntityParams()
+		
+		legalEntityParams.businessName = "QuickTutor - Tutor - \(CurrentUser.shared.learner.name)"
+		legalEntityParams.entityTypeString = "custom"
+		legalEntityParams.phoneNumber = CurrentUser.shared.learner.phone
+		legalEntityParams.ssnLast4 = TutorRegistration.last4SSN
+		legalEntityParams.address?.line1 = TutorRegistration.line1!
+		legalEntityParams.address?.city = TutorRegistration.city!
+		legalEntityParams.address?.state = TutorRegistration.state!
+		legalEntityParams.address?.postalCode = TutorRegistration.zipcode
+		legalEntityParams.address?.country = "US"
 		
 		let dob = data.birthday.split(separator: "/")
 		let name = data.name!.split(separator: " ")
@@ -274,7 +283,7 @@ class Stripe {
 			})
 	}
 	
-	class  func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPCustomerCompletionBlock) {
+	class func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPCustomerCompletionBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultsource.php"
 		let params : [String : Any] = ["customer" : customer.stripeID, "card" : defaultCard.stripeID]
 		
@@ -291,6 +300,40 @@ class Stripe {
 					}
 				case .failure(let error):
 					completion(nil, error)
+				}
+			})
+	}
+	
+	class func removeCustomer(customerId: String, completion: @escaping (Error?) -> Void) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/removecustomer.php"
+		let params : [String : Any] = ["customer" : customerId]
+		
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success:
+					completion(nil)
+				case .failure(let error):
+					completion(error)
+				}
+			})
+	}
+	class func removeConnectAccount(accountId: String, completion: @escaping (Error?) -> Void) {
+		//check for balance.
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/removeconnect.php"
+		let params : [String : Any] = ["acct" : accountId]
+		
+		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+			.validate(statusCode: 200..<300)
+			.responseString(completionHandler: { (response) in
+				switch response.result {
+				case .success(let value):
+					print("Value: ", value)
+					completion(nil)
+				case .failure(let error):
+					print("Error: ", error)
+					completion(error)
 				}
 			})
 	}

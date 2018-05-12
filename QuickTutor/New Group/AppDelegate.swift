@@ -64,12 +64,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         //Firebase check
         if let user = Auth.auth().currentUser {
             //create SignInClass to handle everything before user is able to sign in.
-			
             FirebaseData.manager.getLearner(user.uid) { (learner) in
                 if let learner = learner {
 
                     CurrentUser.shared.learner = learner
-                    
+
                     self.listenForData()
                     
                     self.window?.makeKeyAndVisible()
@@ -89,7 +88,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
                     navigationController = CustomNavVC(rootViewController: controller)
                     navigationController.navigationBar.isHidden = true
                     self.window?.rootViewController = navigationController
-
                 }
             }
         } else {
