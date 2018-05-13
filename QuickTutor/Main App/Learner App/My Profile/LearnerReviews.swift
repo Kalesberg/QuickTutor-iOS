@@ -30,13 +30,13 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
 		return tableView
 	}()
 	
-	var backButton = NavbarButtonX()
+	var backButton = NavbarButtonXLight()
 	
 	override var leftButton : NavbarButton {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonX
+			backButton = newValue as! NavbarButtonXLight
 		}
 	}
 	
@@ -108,7 +108,7 @@ class LearnerReviews : BaseViewController {
     }
     
     override func handleNavigation() {
-		if touchStartView is NavbarButtonX {
+		if touchStartView is NavbarButtonXLight {
 			self.dismiss(animated: true, completion: nil)
 		}
     }

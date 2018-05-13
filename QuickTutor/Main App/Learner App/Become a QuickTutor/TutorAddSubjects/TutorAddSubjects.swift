@@ -104,14 +104,14 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return tblView
 	}()
 	
-	var backButton = NavbarButtonX()
+	var backButton = NavbarButtonXLight()
 	var cancelButton = NavbarButtonDone()
 
 	override var leftButton : NavbarButton {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonX
+			backButton = newValue as! NavbarButtonXLight
 		}
 	}
 	override var rightButton: NavbarButton  {
@@ -258,7 +258,7 @@ class TutorAddSubjects : BaseViewController {
     
 	var tableViewIsActive : Bool = false {
 		didSet {
-			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "navbar-x") : #imageLiteral(resourceName: "backButton")
+			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "xbuttonlight") : #imageLiteral(resourceName: "backButton")
 			contentView.nextButton.isHidden = tableViewIsActive
 			shouldUpdateSearchResults = tableViewIsActive
 		}
@@ -379,7 +379,7 @@ class TutorAddSubjects : BaseViewController {
     }
     
     override func handleNavigation() {
-        if touchStartView is NavbarButtonX {
+        if touchStartView is NavbarButtonXLight {
 				tableViewIsActive ? tableView(shouldDisplay: false) {
 					self.didSelectCategory = false
 					self.contentView.searchBar.text = ""

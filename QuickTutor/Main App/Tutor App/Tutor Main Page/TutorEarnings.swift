@@ -94,7 +94,6 @@ class TutorEarningsView : TutorLayoutView {
         let tableView = UITableView()
         
         tableView.rowHeight = 40
-        tableView.backgroundColor = .clear
         tableView.isScrollEnabled = true
         tableView.separatorInset.left = 0
         tableView.separatorColor = Colors.divider
@@ -276,8 +275,6 @@ class TutorEarnings : BaseViewController {
         
         contentView.infoContainer.layer.addBorder(edge: .top, color: Colors.divider, thickness: 1)
         contentView.infoContainer.layer.addBorder(edge: .bottom, color: Colors.divider, thickness: 1)
-        contentView.tableView.layer.addBorder(edge: .top, color: Colors.divider, thickness: 1)
-        contentView.tableView.layer.addBorder(edge: .bottom, color: Colors.divider, thickness: 1)
     }
 }
 

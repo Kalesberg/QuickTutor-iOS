@@ -231,7 +231,9 @@ class LearnerMainPage : MainPage {
 				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
 				nav?.pushViewController(SearchSubjects(), animated: false)
 			}
-		}
+        } else if (touchStartView is InviteButton) {
+            navigationController?.pushViewController(InviteOthers(), animated: true)
+        }
 	}
 }
 
