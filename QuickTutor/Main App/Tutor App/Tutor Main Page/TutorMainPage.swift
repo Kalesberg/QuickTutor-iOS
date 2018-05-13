@@ -736,6 +736,8 @@ class TutorMainPage : MainPage {
             } else {
                 print("oops!")
             }
+        } else if (touchStartView is InviteButton) {
+            navigationController?.pushViewController(InviteOthers(), animated: true)
         }
     }
 	

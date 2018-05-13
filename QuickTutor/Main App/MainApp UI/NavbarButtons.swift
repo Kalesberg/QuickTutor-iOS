@@ -152,6 +152,14 @@ class NavbarButtonX: NavbarButtonImage {
     }
 }
 
+class NavbarButtonXLight: NavbarButtonImage {
+    
+    override func configureView() {
+        super.configureView()
+        
+        image.image = UIImage(named: "xbuttonlight")
+    }
+}
 
 class NavbarButtonEdit: NavbarButtonText {
     
@@ -196,5 +204,14 @@ class NavbarButtonSubmit: NavbarButtonText {
         super.configureView()
         
         label.label.text = "Submit"
+    }
+}
+
+class NavbarButtonInvite: NavbarButtonText {
+    
+    override func configureView() {
+        super.configureView()
+        
+        label.label.text = "Invite"
     }
 }

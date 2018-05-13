@@ -174,6 +174,7 @@
 		84E91B5E205740CC00D1F613 /* SubmissionElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B5D205740CC00D1F613 /* SubmissionElements.swift */; };
 		84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B612057421900D1F613 /* TutorCancelled.swift */; };
 		84E91B64205761A600D1F613 /* TutorLate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B63205761A600D1F613 /* TutorLate.swift */; };
+		84EA5EA020A7F4C50008292B /* InviteOthers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA5E9F20A7F4C50008292B /* InviteOthers.swift */; };
 		84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */; };
 		84F141A1207E490D003D3193 /* TutorPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A0207E490D003D3193 /* TutorPreferences.swift */; };
 		84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A2207F0D7B003D3193 /* IntExtensions.swift */; };
@@ -491,6 +492,7 @@
 		84E91B5D205740CC00D1F613 /* SubmissionElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmissionElements.swift; sourceTree = "<group>"; };
 		84E91B612057421900D1F613 /* TutorCancelled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCancelled.swift; sourceTree = "<group>"; };
 		84E91B63205761A600D1F613 /* TutorLate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLate.swift; sourceTree = "<group>"; };
+		84EA5E9F20A7F4C50008292B /* InviteOthers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteOthers.swift; sourceTree = "<group>"; };
 		84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPayment.swift; sourceTree = "<group>"; };
 		84F141A0207E490D003D3193 /* TutorPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutorPreferences.swift; path = "../../Tutor App/Additional Info/TutorPreferences.swift"; sourceTree = "<group>"; };
 		84F141A2207F0D7B003D3193 /* IntExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtensions.swift; sourceTree = "<group>"; };
@@ -1086,6 +1088,7 @@
 				84D8C92F2066E8CC003C3AEA /* SearchSubjects.swift */,
 				84D8C93120670EC0003C3AEA /* CategorySearch.swift */,
 				84D8C9332067116C003C3AEA /* TutorConnect.swift */,
+				84EA5E9F20A7F4C50008292B /* InviteOthers.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
 				84BC21D7206DB333002B4721 /* ViewFullProfile.swift */,
 				8421007C207A7DEE00422A31 /* TutorQueries */,
@@ -1471,6 +1474,7 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
+				311144881DEF38748AEF0621 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1607,6 +1611,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		311144881DEF38748AEF0621 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1655,6 +1674,7 @@
 				846D9B562069E57C00302773 /* FeaturedTutorTableViewCell.swift in Sources */,
 				845B3BA02069E81B009F8E04 /* CategoryCollectViewCell.swift in Sources */,
 				841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */,
+				84EA5EA020A7F4C50008292B /* InviteOthers.swift in Sources */,
 				84E4C7DD204E92AD009C2FC4 /* PaymentOptions.swift in Sources */,
 				84F431972070786F00030BD4 /* TutorEditProfile.swift in Sources */,
 				CF6F58C7205EE68800ACBD32 /* MeetupTableCell.swift in Sources */,
@@ -2053,7 +2073,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U9G698QATF;
+				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = "$(SRCROOT)/QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2075,7 +2095,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U9G698QATF;
+				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = "$(SRCROOT)/QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

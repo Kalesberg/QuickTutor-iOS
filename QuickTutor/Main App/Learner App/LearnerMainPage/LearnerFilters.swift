@@ -12,7 +12,7 @@ import CoreLocation
 
 class LearnerFiltersView : MainLayoutTitleTwoButton {
 	
-	var xButton = NavbarButtonX()
+	var xButton = NavbarButtonXLight()
 	var applyButton = NavbarButtonText()
 	
 	override var rightButton: NavbarButton {
@@ -27,7 +27,7 @@ class LearnerFiltersView : MainLayoutTitleTwoButton {
 		get {
 			return xButton
 		} set {
-			xButton = newValue as! NavbarButtonX
+			xButton = newValue as! NavbarButtonXLight
 		}
 	}
 	
@@ -164,7 +164,7 @@ class LearnerFilters: BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonX {
+		if touchStartView is NavbarButtonXLight {
 			self.dismiss(animated: true, completion: nil)
 		} else if touchStartView is NavbarButtonText {
 			
