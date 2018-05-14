@@ -226,6 +226,19 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func cellActionView(_ actionView: SessionCellActionView, didSelectButtonAt position: Int) {
+        switch position {
+        case 1:
+            handleButton1()
+        case 2:
+            handleButton2()
+        case 3:
+            handleButton3()
+        default:
+            break
+        }
+    }
+    
     func handleButton1() {
         print("button 1 was touched")
     }
@@ -238,10 +251,13 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         print("button 3 was touched")
     }
     
+    func cellActionViewDidSelectBackground(_ actionView: SessionCellActionView) {
+        
+    }
+    
 }
 
 protocol SessionCellActionViewDelegate {
-    func handleButton1()
-    func handleButton2()
-    func handleButton3()
+    func cellActionView(_ actionView: SessionCellActionView, didSelectButtonAt position: Int)
+    func cellActionViewDidSelectBackground(_ actionView: SessionCellActionView)
 }
