@@ -181,6 +181,16 @@ class Sidebar : BaseView {
     var legalItem         = LegalSidebarItem()
     var helpItem          = HelpSidebarItem()
     
+    let buttonContainer : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = Colors.registrationDark
+        
+        return view
+    }()
+    
+    let inviteButton = InviteButton()
+    
     static var manager = Sidebar()
     
     override func configureView() {
@@ -190,6 +200,8 @@ class Sidebar : BaseView {
         addSubview(ratingView)
         addSubview(divider1)
         addSubview(itemContainer)
+        addSubview(buttonContainer)
+        buttonContainer.addSubview(inviteButton)
         itemContainer.addSubview(paymentItem)
         itemContainer.addSubview(settingsItem)
         itemContainer.addSubview(reportItem)
@@ -208,7 +220,6 @@ class Sidebar : BaseView {
     }
     
     override func applyConstraints() {
-        
         profileView.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
@@ -236,10 +247,52 @@ class Sidebar : BaseView {
             make.right.equalToSuperview()
             make.height.equalTo(1)
         }
+        
+        buttonContainer.snp.makeConstraints { (make) in
+            make.bottom.width.centerX.equalToSuperview()
+            make.height.equalTo(80)
+        }
+        
+        inviteButton.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.height.equalTo(45)
+            make.width.equalToSuperview().multipliedBy(0.8)
+        }
     }
 
     deinit {
         print("SideBar Deinit")
+    }
+}
+
+
+class InviteButton : InteractableBackgroundView {
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(17)
+        label.textColor = Colors.registrationDark
+        label.textAlignment = .center
+        label.text = "Invite others to QT!"
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(label)
+        super.configureView()
+        
+        backgroundColor = .white
+        layer.cornerRadius = 5
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
     }
 }
 

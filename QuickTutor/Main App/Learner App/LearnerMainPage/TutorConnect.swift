@@ -23,7 +23,7 @@ protocol ConnectButtonPress {
 
 class TutorConnectView : MainLayoutTwoButton {
 	
-	var back = NavbarButtonX()
+	var back = NavbarButtonXLight()
 	var filters = NavbarButtonFilters()
 	
 	let searchBar : UISearchBar = {
@@ -68,7 +68,7 @@ class TutorConnectView : MainLayoutTwoButton {
 		get {
 			return back
 		} set {
-			back = newValue as! NavbarButtonX
+			back = newValue as! NavbarButtonXLight
 		}
 	}
 	
@@ -79,11 +79,15 @@ class TutorConnectView : MainLayoutTwoButton {
 			filters = newValue as! NavbarButtonFilters
 		}
 	}
+    
+    let tutorial = TutorCardTutorial()
 	
 	override func configureView() {
+        addSubview(tutorial)
 		navbar.addSubview(searchBar)
 		addSubview(collectionView)
 		super.configureView()
+        insertSubview(tutorial, aboveSubview: collectionView)
 		
 		applyConstraints()
 	}
@@ -104,8 +108,59 @@ class TutorConnectView : MainLayoutTwoButton {
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
+        
+        tutorial.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
 	}
 }
+
+
+class TutorCardTutorial : BaseView {
+    
+    let imageView : UIImageView = {
+        let view = UIImageView()
+        
+        view.image = #imageLiteral(resourceName: "finger")
+        
+        return view
+    }()
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        label.text = "Swipe left to see more tutors!"
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(20)
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(imageView)
+        addSubview(label)
+        super.configureView()
+        
+        backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        alpha = 0
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label.snp.makeConstraints { (make) in
+            make.centerX.width.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(1.1)
+        }
+        
+        imageView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.9)
+        }
+    }
+}
+
 
 class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	
@@ -186,6 +241,24 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 		contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
 		
 	}
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.animate(withDuration: 1, animations: {
+            self.contentView.tutorial.alpha = 1
+        }, completion: { (true) in
+            UIView.animate(withDuration: 0.9, delay: 0.5, options: [.repeat, .autoreverse], animations: {
+                UIView.setAnimationRepeatCount(3)
+                self.contentView.tutorial.imageView.center.x -= 30
+            }, completion: { (true) in
+                self.contentView.tutorial.imageView.isHidden = true
+                UIView.animate(withDuration: 1, animations: {
+                    self.contentView.tutorial.alpha = 0
+                })
+            })
+        })
+    }
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
@@ -298,7 +371,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 			next.delegate = self
 			self.present(next, animated: true, completion: nil)
 			
-		} else if touchStartView is NavbarButtonX {
+		} else if touchStartView is NavbarButtonXLight {
 			let transition = CATransition()
 			navigationController?.view.layer.add(transition.popFromTop(), forKey: nil)
 			navigationController?.popViewController(animated: false)

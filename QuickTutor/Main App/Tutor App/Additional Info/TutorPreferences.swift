@@ -128,10 +128,6 @@ class TutorPreferencesView : TutorRegistrationLayout {
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
-	override func layoutSubviews() {
-		navbar.backgroundColor = Colors.tutorBlue
-		statusbarView.backgroundColor = Colors.tutorBlue
-	}
 }
 
 class TutorPreferences : BaseViewController {

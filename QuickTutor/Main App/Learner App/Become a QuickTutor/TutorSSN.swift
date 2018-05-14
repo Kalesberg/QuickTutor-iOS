@@ -231,7 +231,7 @@ class TutorSSN : BaseViewController {
 			TutorRegistration.last4SSN = last4SSN
 			
 			self.navigationController?.pushViewController(TutorRegPayment(), animated: true)
-		} else if touchStartView is NavbarButtonX {
+		} else if touchStartView is NavbarButtonBack {
 			let transition = CATransition()
 			let nav = self.navigationController
 			

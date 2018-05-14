@@ -13,7 +13,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 	var keyboardComponent = ViewComponent()
 	var filters = NavbarButtonFilters()
 	
-	var backButton = NavbarButtonX()
+	var backButton = NavbarButtonXLight()
 	
 	let headerView = SectionHeader()
 	
@@ -21,7 +21,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonX
+			backButton = newValue as! NavbarButtonXLight
 		}
 	}
 	
@@ -237,7 +237,7 @@ class SearchSubjects: BaseViewController {
 	}
 
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonX {
+		if touchStartView is NavbarButtonXLight {
 			if tableViewIsActive {
 				tableView(shouldDisplay: false) {
 					self.contentView.searchBar.text = ""

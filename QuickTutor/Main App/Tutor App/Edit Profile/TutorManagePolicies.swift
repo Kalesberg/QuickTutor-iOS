@@ -311,7 +311,6 @@ class TutorManagePolicies : BaseViewController {
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
 		loadTutorPolicy()
-		pickerView.backgroundColor = Colors.backgroundDark
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
 	}
