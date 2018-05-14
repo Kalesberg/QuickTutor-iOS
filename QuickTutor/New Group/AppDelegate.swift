@@ -63,8 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 
         //Firebase check
         if let user = Auth.auth().currentUser {
-            //create SignInClass to handle everything before user is able to sign in.
-            FirebaseData.manager.getLearner(user.uid) { (learner) in
+
+			FirebaseData.manager.getLearner(user.uid) { (learner) in
                 if let learner = learner {
 
                     CurrentUser.shared.learner = learner

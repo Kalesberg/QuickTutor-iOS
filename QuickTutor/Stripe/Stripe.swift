@@ -16,46 +16,71 @@ class Stripe {
 		print("Stripe initialized.")
 	}
 	
+	class func createBankAccountToken(accountHoldersName: String, routingNumber: String, accountNumber: String, completion: @escaping (STPToken?) -> Void) {
+		
+		let bankAccountParams = STPBankAccountParams()
+		
+		bankAccountParams.accountHolderName = accountHoldersName
+		bankAccountParams.accountHolderType = .individual
+		bankAccountParams.country = "US"
+		bankAccountParams.currency = "usd"
+		bankAccountParams.routingNumber = routingNumber
+		bankAccountParams.accountNumber = accountNumber
+		
+		STPAPIClient.shared().createToken(withBankAccount: bankAccountParams) { (token, error) in
+			if let error = error {
+				print(error.localizedDescription)
+				completion(nil)
+			} else if let token = token {
+				completion(token)
+			}
+		}
+	}
 	
-	class func createConnect(completion: @escaping (String?) -> Void) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/connect.php"
+	class func createConnectAccountToken(ssnLast4: String, line1: String, city: String, state: String, zipcode: String, _ completion: @escaping (STPToken?) -> Void) {
 		
-		guard let data = CurrentUser.shared.learner else { return }
+		let name = CurrentUser.shared.learner.name.split(separator: " ")
 		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "dd/mm/yyyy"
+		let date = dateFormatter.date(from: CurrentUser.shared.learner.birthday!)
+
 		let legalEntityParams = STPLegalEntityParams()
 		
 		legalEntityParams.businessName = "QuickTutor - Tutor - \(CurrentUser.shared.learner.name)"
-		legalEntityParams.entityTypeString = "custom"
+		legalEntityParams.entityTypeString = "individual"
 		legalEntityParams.phoneNumber = CurrentUser.shared.learner.phone
-		legalEntityParams.ssnLast4 = TutorRegistration.last4SSN
-		legalEntityParams.address?.line1 = TutorRegistration.line1!
-		legalEntityParams.address?.city = TutorRegistration.city!
-		legalEntityParams.address?.state = TutorRegistration.state!
-		legalEntityParams.address?.postalCode = TutorRegistration.zipcode
-		legalEntityParams.address?.country = "US"
+		legalEntityParams.ssnLast4 = ssnLast4
+		legalEntityParams.firstName = String(name[0])
+		legalEntityParams.lastName = String(name[1])
 		
-		let dob = data.birthday.split(separator: "/")
-		let name = data.name!.split(separator: " ")
+		if let date = date {
+			legalEntityParams.dateOfBirth = Calendar.current.dateComponents([.month, .day, .year], from: date)
+		}
 		
-		let params : [String : Any] = [
-			"country" : "US",
-			"type": "custom",
-			"city": TutorRegistration.city!,
-			"line1": TutorRegistration.line1!,
-			"zipcode": TutorRegistration.zipcode!,
-			"state": TutorRegistration.state!,
-			"dob_day" : dob[0],
-			"dob_month" : dob[1],
-			"dob_year" : dob[2],
-			"first_name" : name[0],
-			"last_name" : name[1],
-			"ssn_last_4" : TutorRegistration.last4SSN!,
-			"currency" : "usd",
-			"entity_type" : "individual",
-			"bank_holder_name" : TutorRegistration.bankHoldersName!,
-			"routing_number" : TutorRegistration.routingNumber!,
-			"account_number" : TutorRegistration.accountNumber!,
-			]
+		let address = STPAddress()
+		address.line1 = TutorRegistration.line1
+		address.city = TutorRegistration.city
+		address.state = TutorRegistration.state
+		address.postalCode = TutorRegistration.zipcode
+		
+		legalEntityParams.address = address
+
+		let connectAccountParams = STPConnectAccountParams(tosShownAndAccepted: true, legalEntity: legalEntityParams)
+		
+		STPAPIClient.shared().createToken(withConnectAccount: connectAccountParams) { (token, error) in
+			if let error = error {
+				print(error.localizedDescription)
+				completion(nil)
+			} else if let token = token {
+				completion(token)
+			}
+		}
+	}
+	
+	class func createConnectAccount(bankAccountToken: STPToken, connectAccountToken: STPToken, _ completion: @escaping (String?) -> Void) {
+		let requestString = "https://aqueous-taiga-32557.herokuapp.com/connect.php"
+		let params = ["acct_token" : connectAccountToken, "bank_token" : bankAccountToken]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
@@ -69,7 +94,7 @@ class Stripe {
 				}
 			})
 	}
-	
+
 	class func retrieveConnectAccount(acctId: String, _ completion: @escaping (String?) -> Void) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrieveconnect.php"
 		let params : [String : Any] = ["acct" : acctId]
