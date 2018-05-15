@@ -9,15 +9,16 @@
 import Foundation
 
 struct ConnectAccount: Decodable {
+
+	let charges_enabled : Bool
+	let payouts_enabled : Bool
 	
-	let data : [Data]
+	let created : Int
+	let default_currency : String
+	let details_submitted : Bool
 	
-	struct Data : Decodable {
-		let id : String
-		let bank_name : String?
-		let last4 : String?
-		let status : String
-		let account_holder_name : String?
-		let default_for_currency : Bool?
-	}
+	let verification : AccountVerification
+	let external_accounts : ExternalAccounts
+	let legal_entity : LegalEntity
+
 }

@@ -107,13 +107,13 @@ class BankManager : BaseViewController {
 		}
 	}
 	
-	var bankList = [ConnectAccount.Data]() {
+	var bankList = [ExternalAccountsData]() {
 		didSet {
 			setBank()
 		}
 	}
 
-	private var banks = [ConnectAccount.Data]()
+	private var banks = [ExternalAccountsData]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -156,6 +156,7 @@ class BankManager : BaseViewController {
 	private func defaultBankAlert(bankId: String) {
 		let alertController = UIAlertController(title: "Default Payout Method?", message: "Do you want this card to be your default payout method?", preferredStyle: .actionSheet)
 		let setDefault = UIAlertAction(title: "Set as Default", style: .default) { (alert) in
+			
 			Stripe.updateDefaultBank(account: self.acctId, bankId: bankId, completion: { (account) in
 				if let account = account {
 					self.bankList = account.data
@@ -172,7 +173,6 @@ class BankManager : BaseViewController {
 		present(alertController, animated: true, completion: nil)
 	}
 }
-
 
 extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	
@@ -191,11 +191,11 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 		if indexPath.row != endIndex {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "bankCell", for: indexPath) as! BankManagerTableViewCell
 			insertBorder(cell: cell)
-			
+
 			//Not sure what we want to put here. But for now it will have bank name, and bankholder name
 			cell.bankName.text = banks[indexPath.row].bank_name
 			cell.holderName.text = banks[indexPath.row].account_holder_name
-			cell.defaultBank.isHidden = !banks[indexPath.row].default_for_currency!
+			cell.defaultBank.isHidden = !banks[indexPath.row].default_for_currency
 			
 			return cell
 		} else {
@@ -240,11 +240,11 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			Stripe.removeBank(account: acctId, bankId: banks[indexPath.row].id) { (account) in
-				if let account = account {
+			Stripe.removeBank(account: acctId, bankId: banks[indexPath.row].id) { (bankList) in
+				if let bankList = bankList {
 					self.banks.remove(at: indexPath.row)
 					tableView.deleteRows(at: [indexPath], with: .automatic)
-					self.bankList = account.data
+					self.bankList = bankList.data
 				} else {
 					print("Oops soemthing went wrong.")
 				}

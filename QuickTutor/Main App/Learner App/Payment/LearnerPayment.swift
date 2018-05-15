@@ -569,6 +569,7 @@ class LearnerPayment : BaseViewController {
                 } else {
 					let nav = self.navigationController
 					let transition = CATransition()
+					CurrentUser.shared.learner.hasPayment = true
 					DispatchQueue.main.async {
 						nav?.view.layer.add(transition.popFromTop(), forKey: nil)
 						nav?.popBackToMain()

@@ -405,7 +405,7 @@ class LearnerEditProfile : BaseViewController {
 	
     private func saveChanges() {
         
-        if firstName.count < 1 || lastName.count < 0 {
+        if firstName.count < 1 || lastName.count < 1 {
             print("invalid name!")
             return
         }
