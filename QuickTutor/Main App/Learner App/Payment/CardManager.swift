@@ -245,6 +245,9 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 					self.cards.remove(at: indexPath.row)
 					tableView.deleteRows(at: [indexPath], with: .automatic)
 					self.customer = customer
+					if self.cards.count == 0 {
+						CurrentUser.shared.learner.hasPayment = false
+					}
 				}
 			}
 		}

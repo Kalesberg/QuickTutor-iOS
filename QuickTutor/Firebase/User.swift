@@ -69,6 +69,7 @@ class AWTutor : AWLearner {
 	var policy : String?
 	var acctId : String!
 	var topSubject : String?
+	var username : String!
 	
 	var price : Int!
 	var hours : Int!
@@ -95,7 +96,7 @@ class AWTutor : AWLearner {
 		topSubject 	= dictionary["tp"] 	as? String ?? ""
 		tBio		= dictionary["tbio"] as? String ?? ""
 		acctId		= dictionary["act"] as? String ?? ""
-		
+		username 	= dictionary["usr"] as? String ?? ""
 		price 		= dictionary["p"] 	as? Int ?? 0
 		hours 		= dictionary["hr"] 	as? Int ?? 0
 		distance 	= dictionary["dst"] as? Int ?? 0
@@ -454,7 +455,6 @@ class FirebaseData {
 		}
 		return dataToUpload
 	}
-	
 	public func removeTutorAccount(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
 		
 		var childNodes : [String : Any] = [:]

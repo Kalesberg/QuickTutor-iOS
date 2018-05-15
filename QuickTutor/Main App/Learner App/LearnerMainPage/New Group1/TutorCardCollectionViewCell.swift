@@ -200,7 +200,12 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }
     override func handleNavigation() {
         if touchStartView is ConnectButton {
-            self.addTutorWithUid(datasource.uid)
+			if CurrentUser.shared.learner.hasPayment {
+				self.addTutorWithUid(datasource.uid)
+			} else {
+				print("Add a payment method.")
+			}
+
         } else if touchStartView is FullProfile {
             if let current = UIApplication.getPresentedViewController() {
                 current.present(ViewFullProfile(), animated: true, completion: nil)

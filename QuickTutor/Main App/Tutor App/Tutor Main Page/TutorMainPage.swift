@@ -565,7 +565,12 @@ class TutorMainPage : MainPage {
                 self.tutor = tutor
 
                 Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-                    if let _ = account {
+                    if let account = account {
+						if !account.verification.fields_needed.isEmpty {
+							print("field needed: ", account.verification.fields_needed, " due by: ", account.verification.due_by, " details: ", account.verification.disabled_reason)
+						}
+						if !account.charges_enabled { print("Charges disabled") }
+						if !account.payouts_enabled { print("payouts disabled") }
 						
                     }
                     self.configureSideBarView()
