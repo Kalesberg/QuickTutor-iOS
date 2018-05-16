@@ -15,7 +15,9 @@ public struct Constants {
     static let DATABASE_URL = "https://quicktutor-3c23b.firebaseio.com/"
     static let STORAGE_URL = "gs://quicktutor-3c23b.appspot.com"
 	
-	static var showTutorial : Bool = false
+	static var showSwipeTutorial : Bool = false
+	static var showMainPageTutorial : Bool = false
+	
 }
 
 struct Colors {

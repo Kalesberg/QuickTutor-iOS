@@ -97,7 +97,13 @@ class LearnerMainPage : MainPage {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+		let defaults = UserDefaults.standard
+		
+		if defaults.bool(forKey: "showMainPageTutorial1.0") {
+			displayMessagesTutorial()
+			defaults.set(false, forKey: "showMainPageTutorial1.0")
+		}
+		
         guard let learner = CurrentUser.shared.learner else {
             try! Auth.auth().signOut()
             self.navigationController?.pushViewController(SignIn(), animated: true)
@@ -106,8 +112,7 @@ class LearnerMainPage : MainPage {
         
         self.learner = learner
         AccountService.shared.currentUserType = .learner
-        displayMessagesTutorial()
-        
+		
         self.configureSideBarView()
     }
     
@@ -120,128 +125,157 @@ class LearnerMainPage : MainPage {
             formattedString
                 .bold(learner.name + "\n", 17, .white)
                 .regular(school, 14, Colors.grayText)
-		} else {
-			formattedString
-				.bold(learner.name, 17, .white)
-		}
-		
-		contentView.sidebar.ratingView.ratingLabel.text = String(learner.lRating)
-		contentView.sidebar.profileView.profileNameView.attributedText = formattedString
-		contentView.sidebar.profileView.profilePicView.loadUserImages(by: learner.images["image1"]!)
-		contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
-	}
-	
-	private func configureView() {
-		
-		contentView.tableView.delegate = self
-		contentView.tableView.dataSource = self
-		
-		contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
-		contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
-	}
-	
-	private func queryFeaturedTutors() {
-		QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
-			if let datasource = datasource {
-				
-				self.contentView.tableView.performBatchUpdates({
-					
-					self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-					
-					self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
-					
-				}, completion: { (finished) in
-					if finished {
-						self.didLoadMore = false
-					}
-				})
-			}
-		}
-	}
-	
-	private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
-		FirebaseData.manager.getTutor(Auth.auth().currentUser!.uid) { (tutor) in
-			if let tutor = tutor {
-				CurrentUser.shared.tutor = tutor
-				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-					if let account = account {
-						CurrentUser.shared.connectAccount = account
-						completion(true)
-					}
-				})
-			} else {
-				print("unable to launch tutor side")
-				completion(false)
-			}
-		}
-	}
-	
-	override func handleNavigation() {
-		super.handleNavigation()
-		
-		if(touchStartView == contentView.sidebar.paymentItem) {
+        } else {
+            formattedString
+                .bold(learner.name, 17, .white)
+        }
+        
+        contentView.sidebar.ratingView.ratingLabel.text = String(learner.lRating)
+        contentView.sidebar.profileView.profileNameView.attributedText = formattedString
+        contentView.sidebar.profileView.profilePicView.loadUserImages(by: learner.images["image1"]!)
+        contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
+    }
+    
+    private func configureView() {
+        
+        contentView.tableView.delegate = self
+        contentView.tableView.dataSource = self
+        
+        contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
+        contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
+    }
+    
+    func displayMessagesTutorial() {
+        
+        let image = UIImageView()
+        image.image = #imageLiteral(resourceName: "navbar-messages")
+        
+        let tutorial = TutorCardTutorial()
+        tutorial.label.text = "This is where you'll message your tutors and schedule sessions!"
+        tutorial.label.numberOfLines = 2
+        tutorial.addSubview(image)
+        contentView.addSubview(tutorial)
+        
+        tutorial.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        tutorial.label.snp.remakeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+        }
+        
+        image.snp.makeConstraints { (make) in
+            make.edges.equalTo(contentView.messagesButton.image)
+        }
+        
+        tutorial.imageView.snp.remakeConstraints { (make) in
+            make.top.equalTo(image.snp.bottom).inset(-5)
+            make.centerX.equalTo(image)
+        }
+        
+        UIView.animate(withDuration: 1, animations: {
+            tutorial.alpha = 1
+        }, completion: { (true) in
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: {
+                tutorial.imageView.center.y += 10
+            })
+        })
+    }
+    
+    
+    private func queryFeaturedTutors() {
+        QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
+            if let datasource = datasource {
+                
+                self.contentView.tableView.performBatchUpdates({
+                    
+                    self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+                    
+                    self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+                    
+                }, completion: { (finished) in
+                    if finished {
+                        self.didLoadMore = false
+                    }
+                })
+            }
+        }
+    }
+    
+    override func handleNavigation() {
+        super.handleNavigation()
+        
+        if(touchStartView == contentView.sidebarButton) {
+            let startX = self.contentView.sidebar.center.x
+            self.contentView.sidebar.center.x = (startX * -1)
+            self.contentView.sidebar.alpha = 1.0
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.contentView.sidebar.center.x = startX
+            })
+            self.contentView.sidebar.isUserInteractionEnabled = true
+            showBackground()
+        } else if(touchStartView == contentView.backgroundView) {
+            self.contentView.sidebar.isUserInteractionEnabled = false
+            let startX = self.contentView.sidebar.center.x
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.contentView.sidebar.center.x *= -1
+            }, completion: { (value: Bool) in
+                self.contentView.sidebar.alpha = 0
+                self.contentView.sidebar.center.x = startX
+            })
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.paymentItem) {
+            navigationController?.pushViewController(CardManager(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.settingsItem) {
 			
-			let next = CardManager()
-			next.customerId = learner.customer
-			navigationController?.pushViewController(next, animated: true)
+            navigationController?.pushViewController(LearnerSettings(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.profileView) {
 			
-			hideSidebar()
-			hideBackground()
-		} else if(touchStartView == contentView.sidebar.settingsItem) {
-			
-			let next = LearnerSettings()
-			next.learner = self.learner
-			navigationController?.pushViewController(next, animated: true)
-			
-			hideSidebar()
-			hideBackground()
-		} else if(touchStartView == contentView.sidebar.profileView) {
-			
-			let next = LearnerMyProfile()
-			next.learner = CurrentUser.shared.learner
-			navigationController?.pushViewController(next, animated: true)
-			
-			hideSidebar()
-			hideBackground()
-		} else if(touchStartView == contentView.sidebar.reportItem) {
-			navigationController?.pushViewController(LearnerFileReport(), animated: true)
-			hideSidebar()
-			hideBackground()
-		} else if(touchStartView == contentView.sidebar.legalItem) {
-			hideSidebar()
-			hideBackground()
-			guard let url = URL(string: "https://www.quicktutor.com") else {
-				return
-			}
-			if #available(iOS 10, *) {
-				UIApplication.shared.open(url, options: [:], completionHandler: nil)
-			} else {
-				UIApplication.shared.openURL(url)
-			}
-		} else if(touchStartView == contentView.sidebar.helpItem) {
-			navigationController?.pushViewController(LearnerHelp(), animated: true)
-			hideSidebar()
-			hideBackground()
-		} else if(touchStartView == contentView.sidebar.becomeQTItem) {
-			switchToTutorSide { (success) in
-				if success {
-					AccountService.shared.currentUserType = .tutor
-					self.navigationController?.pushViewController((self.learner.isTutor) ? TutorPageViewController() : BecomeTutor(), animated: true)
-				} else {
-					print("Try again")
-				}
-			}
-			hideSidebar()
-			hideBackground()
-		} else if (touchStartView is SearchBar) {
-			
-			let nav = self.navigationController
-			let transition = CATransition()
-			
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-				nav?.pushViewController(SearchSubjects(), animated: false)
-			}
+            navigationController?.pushViewController(LearnerMyProfile(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.reportItem) {
+            navigationController?.pushViewController(LearnerFileReport(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.legalItem) {
+            hideSidebar()
+            hideBackground()
+            guard let url = URL(string: "https://www.quicktutor.com") else {
+                return
+            }
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        } else if(touchStartView == contentView.sidebar.helpItem) {
+            navigationController?.pushViewController(LearnerHelp(), animated: true)
+            hideSidebar()
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.becomeQTItem) {
+                AccountService.shared.currentUserType = .tutor
+                if learner.isTutor {
+                    self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+                } else {
+                    self.navigationController?.pushViewController(BecomeTutor(), animated: true)
+                }
+            hideSidebar()
+            hideBackground()
+        } else if (touchStartView is SearchBar) {
+            
+            let nav = self.navigationController
+            let transition = CATransition()
+            
+            DispatchQueue.main.async {
+                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+                nav?.pushViewController(SearchSubjects(), animated: false)
+            }
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
         }

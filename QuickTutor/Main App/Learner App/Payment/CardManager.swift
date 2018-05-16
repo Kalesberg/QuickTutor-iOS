@@ -106,7 +106,7 @@ class CardManager : BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		Stripe.retrieveCustomer(cusID: customerId) { (customer, error) in
+		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
 			if let error = error{
 				print(error.localizedDescription)
 			} else if let customer = customer {

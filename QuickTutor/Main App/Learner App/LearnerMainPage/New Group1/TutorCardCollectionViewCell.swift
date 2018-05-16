@@ -57,6 +57,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         return label
     }()
+	
     let distanceLabelContainer = UIView()
     let connectButton = ConnectButton()
     let tableViewContainer = UIView()
@@ -203,9 +204,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 			if CurrentUser.shared.learner.hasPayment {
 				self.addTutorWithUid(datasource.uid)
 			} else {
-                print("Add payment method")
 				let view = (next?.next?.next as! TutorConnect).contentView
-                
                 view.addBankModal.isHidden = false
 			}
 

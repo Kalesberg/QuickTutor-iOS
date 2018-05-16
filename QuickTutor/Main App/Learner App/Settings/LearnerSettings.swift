@@ -545,15 +545,16 @@ class LearnerSettings : BaseViewController {
     override func loadView() {
         view = LearnerSettingsView()
     }
-    
-    var learner : AWLearner!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
-        
-        contentView.profileView.label.text = "\(learner.name!)\n\(learner.phone.formatPhoneNumber())\n\(learner.email!)"
+		
+		guard let learner = CurrentUser.shared.learner else {
+			return
+		}
+		contentView.profileView.label.text = "\(learner.name!)\n\(learner.phone.formatPhoneNumber())\n\(learner.email!)"
         contentView.profileView.imageView.loadUserImages(by: learner.images["image1"]!)
     }
     

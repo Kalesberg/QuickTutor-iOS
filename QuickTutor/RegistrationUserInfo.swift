@@ -17,9 +17,7 @@ struct DeviceInfo {
 }
 
 struct Registration {
-	
-	static let registrationManager = Registration()
-	
+		
 	static var uid : String!
 	static var name : String!
     static var age : Int!
@@ -29,19 +27,16 @@ struct Registration {
     static var studentImageURL : String!
 	static var dob : String!
 	static var emailCredential : AuthCredential!
-    static var filters : [String]!
 	
-	func setRegistrationDefaults(){
+	static func setRegistrationDefaults(){
 		
 		let defaults = UserDefaults.standard
 		
-		defaults.set(Registration.email, 			forKey: "email")
-		defaults.set(false, 						forKey: "hasPaymentMethod")
-		defaults.set(true,							forKey: "showTutorial")
-		defaults.set(0, 							forKey: "numberOfCards")
-		defaults.set(false, 						forKey: "hasBio")
-		
-		//LocalImageCache.localImageManager.updateImageStored(image: Registration.studentImage, number: "1")
+		defaults.set(Registration.email, forKey: "email")
+		//tutorials.
+		defaults.set(true, forKey: "showMainPageTutorial1.0")
+		defaults.set(true, forKey: "showTutorCardTutorial1.0")
+		defaults.set(true, forKey: "showSubjectTutorial1.0")
 	}
 }
 

@@ -655,22 +655,22 @@ class ModalImage : InteractableView, Interactable {
 
 
 class TutorMainPage : MainPage {
-	
-	override var contentView: TutorMainPageView {
+    
+    override var contentView: TutorMainPageView {
         return view as! TutorMainPageView
     }
-	
+    
     override func loadView() {
         view = TutorMainPageView()
     }
     
     var tutor : AWTutor!
-	var account : ConnectAccount!
-	
+    var account : ConnectAccount!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-	
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -679,40 +679,44 @@ class TutorMainPage : MainPage {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+	
+		if Constants.showMainPageTutorial {
+			displayMessagesTutorial()
+		}
+
 		guard let tutor = CurrentUser.shared.tutor, let account = CurrentUser.shared.connectAccount  else {
 			self.navigationController?.popBackToMain()
 			AccountService.shared.currentUserType = .learner
 			return
 		}
 		self.tutor = tutor
-		print(tutor.hasPayoutMethod)
 		self.account = account
 		self.configureSideBarView()
 	}
-
+    
     private func configureSideBarView() {
         let formattedString = NSMutableAttributedString()
         
         let name = tutor.name.split(separator: " ")
         contentView.nameLabel.text = "Welcome back, \(name[0])"
-		
-		if let school = tutor.school {
-			formattedString
-				.bold(tutor.name + "\n", 17, .white)
-				.regular(school, 14, Colors.grayText)
-		} else {
-			formattedString
-				.bold(tutor.name, 17, .white)
-		}
-		
+        
+        if let school = tutor.school {
+            formattedString
+                .bold(tutor.name + "\n", 17, .white)
+                .regular(school, 14, Colors.grayText)
+        } else {
+            formattedString
+                .bold(tutor.name, 17, .white)
+        }
+        
         contentView.sidebar.ratingView.ratingLabel.text = String(tutor.tRating)
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
         contentView.sidebar.profileView.profilePicView.loadUserImages(by: tutor.images["image1"]!)
     }
     
     func displaySidebarTutorial() {
-        
-        let item = BecomeQTSidebarItem()
+		Constants.showMainPageTutorial = false
+		let item = BecomeQTSidebarItem()
         item.label.label.text = "Start Learning"
         item.isUserInteractionEnabled = false
         
@@ -814,27 +818,27 @@ class TutorMainPage : MainPage {
         } else if(touchStartView == contentView.sidebar.paymentItem) {
             let next = BankManager()
             next.acctId = tutor.acctId
-			navigationController?.pushViewController(next, animated: true)
-				
+            navigationController?.pushViewController(next, animated: true)
+                
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.settingsItem) {
             
             let next = TutorSettings()
             next.tutor = self.tutor
-			navigationController?.pushViewController(next, animated: true)
-				
+            navigationController?.pushViewController(next, animated: true)
+                
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
             let next = TutorMyProfile()
             next.tutor = CurrentUser.shared.tutor
-			navigationController?.pushViewController(next, animated: true)
-			
-			hideSidebar()
+            navigationController?.pushViewController(next, animated: true)
+            
+            hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.reportItem) {
-			navigationController?.pushViewController(TutorFileReport(), animated: true)
+            navigationController?.pushViewController(TutorFileReport(), animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.legalItem) {
@@ -849,7 +853,7 @@ class TutorMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.helpItem) {
-			navigationController?.pushViewController(TutorHelp(), animated: true)
+            navigationController?.pushViewController(TutorHelp(), animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.becomeQTItem) {
@@ -866,8 +870,8 @@ class TutorMainPage : MainPage {
             next.tutor = self.tutor
             navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.earningsButton) {
-			let next = TutorEarnings()
-			next.accountId = tutor.acctId
+            let next = TutorEarnings()
+            next.accountId = tutor.acctId
             navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.improveItem) {
             navigationController?.pushViewController(TutorMainTips(), animated: true)
@@ -911,17 +915,17 @@ class TutorMainPage : MainPage {
                 UIApplication.shared.openURL(url)
             }
         } else if (touchStartView == contentView.shareUsernameModal.facebookImage) {
-			let content = FBSDKShareLinkContent()
-			
-			content.contentURL =  URL(string: "https://quicktutor.com")
-			content.quote = "AZolt23"
-			
-			let dialog : FBSDKShareDialog = FBSDKShareDialog()
-			dialog.fromViewController = self
-			dialog.shareContent = content
-			dialog.mode = FBSDKShareDialogMode.automatic
-			dialog.show()
-		} else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
+            let content = FBSDKShareLinkContent()
+            
+            content.contentURL =  URL(string: "https://quicktutor.com")
+            content.quote = "AZolt23"
+            
+            let dialog : FBSDKShareDialog = FBSDKShareDialog()
+            dialog.fromViewController = self
+            dialog.shareContent = content
+            dialog.mode = FBSDKShareDialogMode.automatic
+            dialog.show()
+        } else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
             if (MFMessageComposeViewController.canSendText()) {
                 let controller = MFMessageComposeViewController()
                 controller.body = "Follow me on QuickTutor! "
@@ -942,7 +946,7 @@ class TutorMainPage : MainPage {
             navigationController?.pushViewController(InviteOthers(), animated: true)
         }
     }
-	
+    
 }
 extension TutorMainPage : MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {

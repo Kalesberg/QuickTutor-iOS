@@ -313,7 +313,11 @@ class LearnerEditProfile : BaseViewController {
         view = LearnerEditProfileView()
     }
     
-	var learner : AWLearner!
+	var learner : AWLearner! {
+		didSet {
+			contentView.tableView.reloadData()
+		}
+	}
     
     var firstName : String!
     var lastName : String!
@@ -327,16 +331,15 @@ class LearnerEditProfile : BaseViewController {
         configureDelegates()
 	
         definesPresentationContext = true
-        
-        let name = learner.name.split(separator: " ")
-        firstName = String(name[0])
-        lastName = String(name[1])
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-		contentView.tableView.reloadData()
+		guard let learner = CurrentUser.shared.learner else { return }
+		self.learner = learner
+		let name = learner.name.split(separator: " ")
+		firstName = String(name[0])
+		lastName = String(name[1])
     }
     
     override func didReceiveMemoryWarning() {
