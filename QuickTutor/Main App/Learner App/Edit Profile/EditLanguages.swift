@@ -17,7 +17,7 @@ class EditLanguageView : EditProfileMainLayout {
 		addSubview(tableView)
 		super.configureView()
 		
-		title.label.text = "Language"
+		title.label.text = "Languages"
 		titleLabel.label.text = "Languages you speak"
 		
 		tableView.estimatedRowHeight = 25

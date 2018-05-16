@@ -176,6 +176,8 @@ class SearchSubjects: BaseViewController {
 			self.allSubjects = subjects
 			self.allSubjects.shuffle()
 		}
+        
+        displayTutorial()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -231,6 +233,26 @@ class SearchSubjects: BaseViewController {
 			return
 		})
 	}
+    
+    func displayTutorial() {
+        
+        let tutorial = TutorCardTutorial()
+        tutorial.label.text = "Swipe left and right for more subjects!"
+        contentView.addSubview(tutorial)
+        
+        tutorial.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        UIView.animate(withDuration: 1, animations: {
+            tutorial.alpha = 1
+        }, completion: { (true) in
+            UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
+                tutorial.imageView.center.x -= 20
+                tutorial.imageView.center.x += 20
+            })
+        })
+    }
 
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonXLight {
