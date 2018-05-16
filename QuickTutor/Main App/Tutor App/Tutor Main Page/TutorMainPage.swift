@@ -554,44 +554,31 @@ class TutorMainPage : MainPage {
     }
     
     var tutor : AWTutor!
-
+	var account : ConnectAccount!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        FirebaseData.manager.getTutor(Auth.auth().currentUser!.uid) { (tutor) in
-            if let tutor = tutor {
-                AccountService.shared.currentUserType = .tutor
-                CurrentUser.shared.tutor = tutor
-                self.tutor = tutor
-
-                Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-                    if let account = account {
-						if !account.verification.fields_needed.isEmpty {
-							print("field needed: ", account.verification.fields_needed, " due by: ", account.verification.due_by, " details: ", account.verification.disabled_reason)
-						}
-						if !account.charges_enabled { print("Charges disabled") }
-						if !account.payouts_enabled { print("payouts disabled") }
-						
-                    }
-                    self.configureSideBarView()
-                })
-
-            } else {
-                try! Auth.auth().signOut()
-                self.navigationController?.pushViewController(SignIn(), animated: true)
-            }
-        }
     }
-    
+	
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         contentView.sidebar.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		guard let tutor = CurrentUser.shared.tutor, let account = CurrentUser.shared.connectAccount  else {
+			self.navigationController?.popBackToMain()
+			AccountService.shared.currentUserType = .learner
+			return
+		}
+		self.tutor = tutor
+		print(tutor.hasPayoutMethod)
+		self.account = account
+		self.configureSideBarView()
+	}
+
     private func configureSideBarView() {
         let formattedString = NSMutableAttributedString()
         

@@ -245,6 +245,9 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 					self.banks.remove(at: indexPath.row)
 					tableView.deleteRows(at: [indexPath], with: .automatic)
 					self.bankList = bankList.data
+					if self.bankList.count == 0 {
+						CurrentUser.shared.tutor.hasPayoutMethod = false
+					}
 				} else {
 					print("Oops soemthing went wrong.")
 				}

@@ -21,6 +21,7 @@ class CurrentUser {
 	
 	var learner : AWLearner!
 	var tutor : AWTutor!
+	var connectAccount : ConnectAccount!
 }
 
 class AWLearner {
@@ -87,6 +88,7 @@ class AWTutor : AWLearner {
 	var location : TutorLocation1?
 	
 	var hasConnectAccount : Bool = false
+	var hasPayoutMethod : Bool = true
 	
 	override init(dictionary: [String : Any]) {
 		super.init(dictionary: dictionary)

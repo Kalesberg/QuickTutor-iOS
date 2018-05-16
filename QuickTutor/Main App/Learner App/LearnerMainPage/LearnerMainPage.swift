@@ -158,6 +158,23 @@ class LearnerMainPage : MainPage {
 		}
 	}
 	
+	private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
+		FirebaseData.manager.getTutor(Auth.auth().currentUser!.uid) { (tutor) in
+			if let tutor = tutor {
+				CurrentUser.shared.tutor = tutor
+				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
+					if let account = account {
+						CurrentUser.shared.connectAccount = account
+						completion(true)
+					}
+				})
+			} else {
+				print("unable to launch tutor side")
+				completion(false)
+			}
+		}
+	}
+	
 	override func handleNavigation() {
 		super.handleNavigation()
 		
@@ -205,12 +222,14 @@ class LearnerMainPage : MainPage {
 			hideSidebar()
 			hideBackground()
 		} else if(touchStartView == contentView.sidebar.becomeQTItem) {
-				AccountService.shared.currentUserType = .tutor
-				if learner.isTutor {
-					self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+			switchToTutorSide { (success) in
+				if success {
+					AccountService.shared.currentUserType = .tutor
+					self.navigationController?.pushViewController((self.learner.isTutor) ? TutorPageViewController() : BecomeTutor(), animated: true)
 				} else {
-					self.navigationController?.pushViewController(BecomeTutor(), animated: true)
+					print("Try again")
 				}
+			}
 			hideSidebar()
 			hideBackground()
 		} else if (touchStartView is SearchBar) {

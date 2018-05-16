@@ -9,7 +9,7 @@
 import Foundation
 
 struct ConnectAccount: Decodable {
-
+	
 	let charges_enabled : Bool
 	let payouts_enabled : Bool
 	
