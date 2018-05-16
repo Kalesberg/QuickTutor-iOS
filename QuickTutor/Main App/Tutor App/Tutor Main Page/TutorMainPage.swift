@@ -729,6 +729,7 @@ class TutorMainPage : MainPage {
         
         let item = BecomeQTSidebarItem()
         item.label.label.text = "Start Learning"
+        item.isUserInteractionEnabled = false
         
         let tutorial = TutorCardTutorial()
         tutorial.label.text = "Press this button to go back to the learner app!"
