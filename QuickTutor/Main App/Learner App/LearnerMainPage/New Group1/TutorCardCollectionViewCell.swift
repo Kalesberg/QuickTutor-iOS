@@ -102,7 +102,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         tableView.dataSource = self
         tableView.delegate = self
 
-		tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
+        tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
         tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
@@ -117,8 +117,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         distanceLabelContainer.backgroundColor = .white
         distanceLabelContainer.layer.cornerRadius = 28
-		distanceLabelContainer.isHidden = true
-		distanceLabel.numberOfLines  = 0
+        distanceLabelContainer.isHidden = true
+        distanceLabel.numberOfLines  = 0
         applyConstraints()
     }
     
@@ -200,10 +200,19 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }
     override func handleNavigation() {
         if touchStartView is ConnectButton {
-            //self.addTutorWithUid(datasource.uid)
-            let contentView = (next?.next?.next as! TutorConnect).contentView
-            
-            contentView.addBankModal.isHidden = false
+			if CurrentUser.shared.learner.hasPayment {
+				self.addTutorWithUid(datasource.uid)
+			} else {
+                print("Add payment method")
+				let view = (next?.next?.next as! TutorConnect).contentView
+                
+                view.addBankModal.isHidden = false
+			}
+
+        } else if touchStartView is FullProfile {
+            if let current = UIApplication.getPresentedViewController() {
+                current.present(ViewFullProfile(), animated: true, completion: nil)
+            }
         }
     }
 }
@@ -458,34 +467,34 @@ class TutorCardHeader : InteractableView {
 }
 
 class TutorDistanceView : BaseView {
-	
-	let distance : UILabel = {
-		let label = UILabel()
-		
-		label.textColor = Colors.tutorBlue
-		label.textAlignment = .center
-		label.font = Fonts.createSize(12)
-		label.adjustsFontSizeToFitWidth = true
-		
-		return label
-	}()
-	
-	override func configureView() {
-		addSubview(distance)
-		super.configureView()
-		
-		backgroundColor = .white
-		layer.cornerRadius = 6
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		distance.snp.makeConstraints { (make) in
-			make.center.equalToSuperview()
-			make.height.equalToSuperview()
-			make.width.equalToSuperview()
-		}
-	}
+    
+    let distance : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = Colors.tutorBlue
+        label.textAlignment = .center
+        label.font = Fonts.createSize(12)
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(distance)
+        super.configureView()
+        
+        backgroundColor = .white
+        layer.cornerRadius = 6
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        distance.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalToSuperview()
+        }
+    }
 }
 
 //class TutorCardBody : InteractableView {
