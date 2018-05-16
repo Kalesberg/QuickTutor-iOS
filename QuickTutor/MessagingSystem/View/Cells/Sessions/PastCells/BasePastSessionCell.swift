@@ -47,4 +47,16 @@ class BasePastSessionCell: BaseSessionCell {
         addSubview(starView)
         starView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 12, width: 40, height: 7)
     }
+    
+    override func cellActionView(_ actionView: SessionCellActionView, didSelectButtonAt position: Int) {
+        super.cellActionView(actionView, didSelectButtonAt: position)
+        starView.isHidden = !starView.isHidden
+    }
+    
+    override func cellActionViewDidSelectBackground(_ actionView: SessionCellActionView) {
+        super.cellActionViewDidSelectBackground(actionView)
+        starView.isHidden = !starView.isHidden
+
+    }
+
 }

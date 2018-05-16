@@ -348,6 +348,7 @@ class LearnerMyProfile : BaseViewController {
         
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
+		
         contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
         contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
@@ -359,10 +360,11 @@ class LearnerMyProfile : BaseViewController {
 	
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+		contentView.tableView.reloadData()
+
 		configurePageControl()
 		configureScrollView()
 		setUpImages()
-		contentView.tableView.reloadData()
     }
 
 	private func setUpImages() {

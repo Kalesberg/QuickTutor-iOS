@@ -44,13 +44,6 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 		
 		return label
 	}()
-
-	override var isSelected : Bool {
-		didSet {
-			categoryLabel.alpha = isSelected ? 1.0 : 0.6
-			isUserInteractionEnabled = isSelected ? false : true
-		}
-	}
 	
 	var delegate : SelectedSubcategory?
 	

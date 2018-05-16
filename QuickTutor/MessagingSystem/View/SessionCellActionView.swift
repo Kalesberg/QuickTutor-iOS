@@ -23,6 +23,7 @@ class SessionCellActionView: UIView {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
         button.contentMode = .scaleAspectFit
+        button.tag = 1
         return button
     }()
     
@@ -30,6 +31,7 @@ class SessionCellActionView: UIView {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
         button.contentMode = .scaleAspectFit
+        button.tag = 2
         return button
     }()
     
@@ -37,6 +39,7 @@ class SessionCellActionView: UIView {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
         button.contentMode = .scaleAspectFit
+        button.tag = 3
         return button
     }()
     
@@ -48,7 +51,7 @@ class SessionCellActionView: UIView {
     func setupActionContainerView() {
         addSubview(cellActionContainerView)
         cellActionContainerView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(hideActionContainerView))
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(didSelectbackground))
         cellActionContainerView.addGestureRecognizer(dismissTap)
     }
     
@@ -56,21 +59,21 @@ class SessionCellActionView: UIView {
         cellActionContainerView.addSubview(actionButton1)
         actionButton1.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
         addConstraint(NSLayoutConstraint(item: actionButton1, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
-        actionButton1.addTarget(self, action: #selector(handleButton1), for: .touchUpInside)
+        actionButton1.addTarget(self, action: #selector(didSelectButton(sender:)), for: .touchUpInside)
     }
     
     private func setupActionButton2() {
         cellActionContainerView.addSubview(actionButton2)
         actionButton2.anchor(top: nil, left: nil, bottom: nil, right: actionButton1.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
         addConstraint(NSLayoutConstraint(item: actionButton2, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
-        actionButton2.addTarget(self, action: #selector(handleButton2), for: .touchUpInside)
+        actionButton2.addTarget(self, action: #selector(didSelectButton(sender:)), for: .touchUpInside)
     }
     
     private func setupActionButton3() {
         cellActionContainerView.addSubview(actionButton3)
         actionButton3.anchor(top: nil, left: nil, bottom: nil, right: actionButton2.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
         addConstraint(NSLayoutConstraint(item: actionButton3, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
-        actionButton3.addTarget(self, action: #selector(handleButton3), for: .touchUpInside)
+        actionButton3.addTarget(self, action: #selector(didSelectButton(sender:)), for: .touchUpInside)
     }
     
     func setupActionButtonTargets() {
@@ -106,19 +109,14 @@ class SessionCellActionView: UIView {
         setupActionButton3()
     }
     
-    @objc func handleButton1() {
+    @objc func didSelectButton(sender: UIButton) {
         hideActionContainerView()
-        delegate?.handleButton1()
+        delegate?.cellActionView(self, didSelectButtonAt: sender.tag)
     }
     
-    @objc func handleButton2() {
+    @objc func didSelectbackground() {
         hideActionContainerView()
-        delegate?.handleButton2()
-    }
-    
-    @objc func handleButton3() {
-        hideActionContainerView()
-        delegate?.handleButton3()
+        delegate?.cellActionViewDidSelectBackground(self)
     }
     
     override init(frame: CGRect) {

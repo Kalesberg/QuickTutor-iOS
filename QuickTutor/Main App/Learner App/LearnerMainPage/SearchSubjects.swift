@@ -145,18 +145,15 @@ class SearchSubjects: BaseViewController {
 	
 	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
-	var shouldUpdateSearchResults = false
-	
 	var initialSetup : Bool = false
-	
 	var automaticScroll : Bool = false
-	
+	var shouldUpdateSearchResults = false
+
 	var filteredSubjects : [(String, String)] = []
 	var allSubjects : [(String, String)] = []
 	
 	var tableViewIsActive : Bool = false {
 		didSet {
-			contentView.backButton.isHidden = tableViewIsActive
 			shouldUpdateSearchResults = tableViewIsActive
 		}
 	}
@@ -178,17 +175,19 @@ class SearchSubjects: BaseViewController {
 		if let subjects = SubjectStore.loadTotalSubjectList() {
 			self.allSubjects = subjects
 			self.allSubjects.shuffle()
-			print(allSubjects.count)
 		}
         
         displayTutorial()
 	}
+	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+		contentView.searchTextField.text = ""
+		tableView(shouldDisplay: false) {}
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -212,7 +211,6 @@ class SearchSubjects: BaseViewController {
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(SubjectTableViewCell.self, forCellReuseIdentifier: "subjectTableViewCell")
-		
 		contentView.searchBar.delegate = self
 		
 	}
@@ -221,9 +219,7 @@ class SearchSubjects: BaseViewController {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-	
-	
-	
+
 	private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {
 		tableViewIsActive = bool
 		UIView.animate(withDuration: 0.25, animations: {
@@ -280,13 +276,14 @@ class SearchSubjects: BaseViewController {
 extension SearchSubjects : SelectedSubcategory {
 	
 	func didSelectSubcategory(resource: String, subject: String, index: Int) {
-		
+
 		let next = TutorConnect()
 		let transition = CATransition()
 		let nav = self.navigationController
 		
 		next.subcategory = subject.lowercased()
-		next.contentView.searchBar.placeholder = subject
+		next.contentView.searchBar.text = subject
+		next.contentView.searchBar.isUserInteractionEnabled = false
 		
 		DispatchQueue.main.async {
 			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
@@ -309,15 +306,6 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 		cell.delegate = self
 		
 		return cell
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		
-		guard let cell = collectionView.cellForItem(at: indexPath) as? CategorySelectionCollectionViewCell else { return }
-		
-		let next = TutorConnect()
-		next.subcategory = cell.category.subcategory.subcategories[indexPath.item]
-		
 	}
 	
 	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -372,7 +360,8 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 		let transition = CATransition()
 		
 		next.subject = (cell.subcategory.text!,cell.subject.text!)
-		next.contentView.searchBar.placeholder = cell.subject.text!
+		next.contentView.searchBar.text = "\(cell.subcategory.text!) • \(cell.subject.text!)"
+		next.contentView.searchBar.isUserInteractionEnabled = false
 		
 		DispatchQueue.main.async {
 			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
@@ -418,7 +407,7 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 extension SearchSubjects : UISearchBarDelegate {
 	
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-		if searchBar.text!.count > 1 {
+		if searchBar.text!.count > 0 {
 			tableView(shouldDisplay: true) {}
 		}
 	}

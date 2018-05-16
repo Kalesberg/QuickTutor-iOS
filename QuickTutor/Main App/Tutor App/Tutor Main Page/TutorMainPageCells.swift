@@ -56,7 +56,6 @@ class TutorMainPageHeaderCell : BaseTableViewCell {
         selectionStyle = .none
         
         icon.image = #imageLiteral(resourceName: "rating")
-        headerLabel.text = "4.71"
         subHeaderLabel.text = "YOUR TUTOR RATING"
         
         applyConstraints()
@@ -103,7 +102,7 @@ class TutorMainPageSummaryCell : BaseTableViewCell {
         let formattedString = NSMutableAttributedString()
 		
         formattedString
-            .bold("123\n", 16, .white)
+            .bold("\n", 16, .white)
             .regular("5-Stars", 15, Colors.grayText)
         
         let paragraphStyle = NSMutableParagraphStyle()
@@ -123,7 +122,7 @@ class TutorMainPageSummaryCell : BaseTableViewCell {
         
         let formattedString = NSMutableAttributedString()
         formattedString
-            .bold("123\n", 16, .white)
+            .bold("\n", 16, .white)
             .regular("Hours", 15, Colors.grayText)
         
         let paragraphStyle = NSMutableParagraphStyle()

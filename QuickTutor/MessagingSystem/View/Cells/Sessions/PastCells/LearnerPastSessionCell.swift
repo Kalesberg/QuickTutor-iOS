@@ -18,14 +18,17 @@ class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, Reques
     }
     
     override func handleButton1() {
+        super.handleButton1()
         requestSession(session.partnerId())
     }
     
     override func handleButton2() {
+        super.handleButton2()
         showConversationWithUID(session.partnerId())
     }
     
     override func handleButton3() {
+        super.handleButton3()
         let vc = ViewFullProfile()
         navigationController.pushViewController(vc, animated: true)
     }

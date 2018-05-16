@@ -25,7 +25,7 @@ class TutorConnectView : MainLayoutTwoButton {
 	
 	var back = NavbarButtonXLight()
 	var filters = NavbarButtonFilters()
-	
+
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
 		
@@ -220,7 +220,6 @@ class TutorCardTutorial : InteractableView, Interactable {
     }
 }
 
-
 class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	
 	override var contentView: TutorConnectView {
@@ -235,6 +234,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	var location : CLLocation?
 	var shouldFilterDatasource = false
 	var hasAppliedFilters = false
+	var shouldShowTutorial = false
 	
 	var datasource = [AWTutor]() {
 		didSet {
@@ -249,7 +249,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	
 	var filteredDatasource = [AWTutor]() {
 		didSet {
-			print(filteredDatasource)
 			if filteredDatasource.count == 0 {
 				let view = NoResultsView()
 				view.label.text = "0 results 😭 \nAdjust your filters to get better results"
@@ -259,7 +258,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 			contentView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
 			
 			contentView.collectionView.reloadData()
-
 		}
 	}
 	
@@ -286,19 +284,17 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 					self.datasource = tutors.sortWithoutDistance()
 				}
 			}
+			
 		}
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		hideKeyboardWhenTappedAround()
-		
+
 		contentView.collectionView.dataSource = self
 		contentView.collectionView.delegate = self
-		
 		contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
-		
 	}
     
     override func viewDidAppear(_ animated: Bool) {
@@ -309,7 +305,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		
 		contentView.collectionView.reloadData()
 	}
 	
@@ -344,6 +339,23 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             })
         })
     }
+	
+	func showSwipeTutorial() {
+		Constants.showTutorial = false
+		UIView.animate(withDuration: 1, animations: {
+			self.contentView.tutorial.alpha = 1
+		}, completion: { (true) in
+			UIView.animate(withDuration: 0.9, delay: 0.5, options: [.repeat, .autoreverse], animations: {
+				UIView.setAnimationRepeatCount(3)
+				self.contentView.tutorial.imageView.center.x -= 30
+			}, completion: { (true) in
+				self.contentView.tutorial.imageView.isHidden = true
+				UIView.animate(withDuration: 1, animations: {
+					self.contentView.tutorial.alpha = 0
+				})
+			})
+		})
+	}
 	
 	func sortWithDistance(_ tutors: [AWTutor] ) {
 		if tutors.count == 0 {
@@ -435,7 +447,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 		if touchStartView is NavbarButtonFilters {
 			
 			let next = LearnerFilters()
-			
 			if hasAppliedFilters {
 				
 				next.distance = (filters.0 - 10 >= 0) ? filters.0 - 10 : 0

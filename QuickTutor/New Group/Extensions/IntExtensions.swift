@@ -87,7 +87,7 @@ extension Int {
 		let numberformat = NumberFormatter()
 		numberformat.numberStyle = .currency
 		
-		guard let currency = numberformat.string(from: number) else { return "N/A"}
+		guard let currency = numberformat.string(from: number) else { return "$0.00"}
 		
 		return currency
 	}

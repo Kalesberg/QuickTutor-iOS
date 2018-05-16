@@ -56,6 +56,7 @@
 		8430A8E61FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8430A8E51FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift */; };
 		8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431A38D1FF8A0F20090AEF2 /* RegistrationCheckbox.swift */; };
 		8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434B82A20468D6F00E16170 /* EditLanguages.swift */; };
+		843709CE20AA27220070FCDD /* BankList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843709CD20AA27220070FCDD /* BankList.swift */; };
 		843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A1D182047C5BF00299D27 /* EditSchool.swift */; };
 		843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA323205513F4000C7054 /* UIColorExtensions.swift */; };
 		843ECCC2207D8D4400C0F622 /* TutorMainTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */; };
@@ -128,6 +129,9 @@
 		84A7E5D01FCE4FDE002EABD5 /* Tutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */; };
 		84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B09D40205050E000BC8F80 /* ChangeEmail.swift */; };
 		84BC21D8206DB333002B4721 /* ViewFullProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC21D7206DB333002B4721 /* ViewFullProfile.swift */; };
+		84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B620AB1991003E66D5 /* LegalEntity.swift */; };
+		84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */; };
+		84BDE2BF20AB9168003E66D5 /* AccountVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */; };
 		84C255691FC2563A0012C0AA /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C255681FC2563A0012C0AA /* Birthday.swift */; };
 		84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E931206B61A6000C7A2F /* TutorFileReport.swift */; };
 		84C4E93D206B61C2000C7A2F /* LearnerRude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E939206B61C1000C7A2F /* LearnerRude.swift */; };
@@ -366,6 +370,7 @@
 		8430A8E51FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationNavBarKeyboardView.swift; sourceTree = "<group>"; };
 		8431A38D1FF8A0F20090AEF2 /* RegistrationCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCheckbox.swift; sourceTree = "<group>"; };
 		8434B82A20468D6F00E16170 /* EditLanguages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLanguages.swift; sourceTree = "<group>"; };
+		843709CD20AA27220070FCDD /* BankList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankList.swift; sourceTree = "<group>"; };
 		843A1D182047C5BF00299D27 /* EditSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSchool.swift; sourceTree = "<group>"; };
 		843BA3212055088B000C7054 /* LearnerReviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerReviews.swift; sourceTree = "<group>"; };
 		843BA323205513F4000C7054 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
@@ -443,6 +448,9 @@
 		84B09D40205050E000BC8F80 /* ChangeEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmail.swift; sourceTree = "<group>"; };
 		84B2F02720354E4700F921C9 /* LearnerEditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerEditProfile.swift; sourceTree = "<group>"; };
 		84BC21D7206DB333002B4721 /* ViewFullProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFullProfile.swift; sourceTree = "<group>"; };
+		84BDE2B620AB1991003E66D5 /* LegalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalEntity.swift; sourceTree = "<group>"; };
+		84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAccounts.swift; sourceTree = "<group>"; };
+		84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerification.swift; sourceTree = "<group>"; };
 		84C255681FC2563A0012C0AA /* Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
 		84C4E931206B61A6000C7A2F /* TutorFileReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorFileReport.swift; sourceTree = "<group>"; };
 		84C4E939206B61C1000C7A2F /* LearnerRude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerRude.swift; sourceTree = "<group>"; };
@@ -1043,6 +1051,10 @@
 			isa = PBXGroup;
 			children = (
 				84C9C00C20A2374C000DE1C9 /* ConnectAccount.swift */,
+				84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */,
+				843709CD20AA27220070FCDD /* BankList.swift */,
+				84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */,
+				84BDE2B620AB1991003E66D5 /* LegalEntity.swift */,
 				84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */,
 			);
 			path = Model;
@@ -1474,7 +1486,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				311144881DEF38748AEF0621 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1609,21 +1620,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		311144881DEF38748AEF0621 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -1769,6 +1765,7 @@
 				848809F7205770D000F204A0 /* TutorUnprofessional.swift in Sources */,
 				CF6F58DE205EE68800ACBD32 /* SettingsVC.swift in Sources */,
 				CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */,
+				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
 				CF2D9772207A7F7D00914B27 /* AddTutorVC.swift in Sources */,
 				CF6F58F0205EE6B300ACBD32 /* DataService.swift in Sources */,
@@ -1822,6 +1819,7 @@
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
 				CF6F58CF205EE68800ACBD32 /* CustomNavBar.swift in Sources */,
+				84BDE2BF20AB9168003E66D5 /* AccountVerification.swift in Sources */,
 				CF833B87207C4D3000323242 /* SessionCellActionView.swift in Sources */,
 				843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */,
 				84CFDDF2207357B5001CA9BF /* TutorEarnings.swift in Sources */,
@@ -1834,6 +1832,7 @@
 				8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */,
 				84C255691FC2563A0012C0AA /* Birthday.swift in Sources */,
 				84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */,
+				84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */,
 				CF833B7C207C4BB300323242 /* LearnerUpcomingSessionCell.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
@@ -1892,6 +1891,7 @@
 				CF1C6111209EA5BD009B7B0E /* PaymentMethodCell.swift in Sources */,
 				84E4C7D2204E80E4009C2FC4 /* AccountPayments.swift in Sources */,
 				CF6F58C8205EE68800ACBD32 /* PriceInputView.swift in Sources */,
+				843709CE20AA27220070FCDD /* BankList.swift in Sources */,
 				842394131FF4CAC600827C7D /* RegistrationTextField.swift in Sources */,
 				84E1E4381FBE630200678531 /* signIn.swift in Sources */,
 				8430A8E61FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift in Sources */,

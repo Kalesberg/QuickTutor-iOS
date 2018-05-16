@@ -137,5 +137,8 @@ class BaseSessionsContentCell: BaseContentCell {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
         cell.actionView.showActionContainerView()
+        if let pastCell = cell as? BasePastSessionCell {
+            pastCell.starView.isHidden = !pastCell.starView.isHidden
+        }
     }
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Contacts
 
 
 class InviteOthersView : MainLayoutTitleBackTwoButton {
@@ -141,17 +142,79 @@ class InviteOthers : BaseViewController {
     override func loadView() {
         view = InviteOthersView()
     }
-    
-    override func viewDidLoad() {
+	
+	let contactStore = CNContactStore()
+	
+	var datasource = [CNContact]() {
+		didSet {
+			if datasource.count == 0{
+
+			}
+			contentView.tableView.reloadData()
+		}
+	}
+	let request = CNContactFetchRequest(keysToFetch: [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)])
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
         
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
+		contentView.tableView.register(InviteContactsTableViewCell.self, forCellReuseIdentifier: "contactCell")
+		
     }
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		requestAccess { (success) in
+			if success {
+				do {
+					try self.contactStore.enumerateContacts(with: self.request, usingBlock: { (contact, stop) in
+						self.datasource.append(contact)
+					})
+				}
+				catch {
+					print("unable to fetch contacts")
+				}
+			}
+		}
+	}
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+	
+	func requestAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
+		switch CNContactStore.authorizationStatus(for: .contacts) {
+		case .authorized:
+			completionHandler(true)
+		case .denied:
+			showSettingsAlert(completionHandler)
+		case .restricted, .notDetermined:
+			contactStore.requestAccess(for: .contacts) { granted, error in
+				if granted {
+					completionHandler(true)
+				} else {
+					DispatchQueue.main.async {
+						self.showSettingsAlert(completionHandler)
+					}
+				}
+			}
+		}
+	}
+	
+	private func showSettingsAlert(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
+		let alert = UIAlertController(title: nil, message: "This app requires access to Contacts to proceed. Would you like to open settings and grant permission to contacts?", preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { action in
+			completionHandler(false)
+			UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+		})
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { action in
+			completionHandler(false)
+		})
+		present(alert, animated: true)
+	}
+	
     override func handleNavigation() {
         if touchStartView is NavbarButtonInvite {
             
@@ -162,32 +225,44 @@ class InviteOthers : BaseViewController {
 extension InviteOthers : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return self.datasource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+		let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! InviteContactsTableViewCell
+		
+		cell.label.text = datasource[indexPath.row].givenName
         
-        cell.backgroundColor = .clear
-        cell.selectionStyle = .none
-        
-        let label : UILabel = {
-            let label = UILabel()
-            
-            label.text = "Austin F'in Welch"
-            label.font = Fonts.createBoldSize(14)
-            label.textColor = .white
-            
-            return label
-        }()
-        
-        cell.addSubview(label)
-        
-        label.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview().inset(15)
-            make.top.bottom.equalToSuperview()
-        }
+		
         
         return cell
     }
+}
+
+class InviteContactsTableViewCell : BaseTableViewCell {
+	
+	let label : UILabel = {
+		let label = UILabel()
+		label.font = Fonts.createBoldSize(14)
+		label.textColor = .white
+		
+		return label
+	}()
+	
+	override func configureView() {
+		addSubview(label)
+		super.configureView()
+		
+		backgroundColor = .clear
+		selectionStyle = .none
+		
+		applyConstraints()
+	}
+	
+	override func applyConstraints() {
+			label.snp.makeConstraints { (make) in
+			make.left.right.equalToSuperview().inset(15)
+			make.top.bottom.equalToSuperview()
+		}
+	}
 }

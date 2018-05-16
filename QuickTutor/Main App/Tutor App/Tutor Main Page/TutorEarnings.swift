@@ -11,28 +11,7 @@ import UIKit
 
 class TutorEarningsView : TutorLayoutView {
     
-    let label : UILabel = {
-        let label = UILabel()
-        
-        label.textColor = .white
-        
-        let formattedString = NSMutableAttributedString()
-        
-        formattedString
-            .bold("$3,350\n", 45, .white)
-            .regular("2018 Earnings", 15, .white)
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
-        
-        label.attributedText = formattedString
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        
-        return label
-    }()
-    
+
     let summaryLabel : UILabel = {
         let label = UILabel()
         
@@ -51,27 +30,10 @@ class TutorEarningsView : TutorLayoutView {
         
         return label
     }()
-    
-    let earningsLabel : UILabel = {
-        let label = UILabel()
-        
-        let formattedString = NSMutableAttributedString()
-        formattedString
-            .bold("$12.00\n", 15, .white)
-            .bold("$123.00\n", 15, .white)
-            .bold("$1234.00", 15, .white)
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
-        
-        label.attributedText = formattedString
-        label.numberOfLines = 0
-        label.textAlignment = .right
-        
-        return label
-    }()
-    
+	
+	let label = UILabel()
+    let earningsLabel = UILabel()
+	
     let infoContainer : UIView = {
         let view = UIView()
         
@@ -265,7 +227,8 @@ class TutorEarnings : BaseViewController {
 		formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, formattedString.length))
 
 		contentView.earningsLabel.attributedText = formattedString
-
+		contentView.earningsLabel.numberOfLines = 0
+		contentView.earningsLabel.textAlignment = .right
 		return
 	}
 	
@@ -304,8 +267,7 @@ class TutorEarningsTableCellView : BaseTableViewCell {
         label.textColor = .white
         label.font = Fonts.createSize(16)
         label.adjustsFontSizeToFitWidth = true
-        label.text = "3/3/18 - Chemistry"
-        
+		
         return label
     }()
     
@@ -316,8 +278,7 @@ class TutorEarningsTableCellView : BaseTableViewCell {
         label.font = Fonts.createSize(16)
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .right
-        label.text = "$10.00"
-        
+		
         return label
     }()
     

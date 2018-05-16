@@ -62,44 +62,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         window = UIWindow(frame: UIScreen.main.bounds)
 
         //Firebase check
+		//need to make a user defaults check as well.
+		
         if let user = Auth.auth().currentUser {
-            //create SignInClass to handle everything before user is able to sign in.
-            FirebaseData.manager.getLearner(user.uid) { (learner) in
+
+			FirebaseData.manager.getLearner(user.uid) { (learner) in
                 if let learner = learner {
 
                     CurrentUser.shared.learner = learner
-
+					AccountService.shared.currentUserType = .learner
                     self.listenForData()
-                    
-                    self.window?.makeKeyAndVisible()
-                    let controller = LearnerPageViewController()
-                    AccountService.shared.currentUserType = .learner
-                    
-                    navigationController = CustomNavVC(rootViewController: controller)
-                    navigationController.navigationBar.isHidden = true
-                    
-                    self.window?.makeKeyAndVisible()
-                    self.window?.rootViewController = navigationController
-
+					
+					Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
+						if let error = error {
+							print(error.localizedDescription)
+							try! Auth.auth().signOut()
+							self.configureRootViewController(controller: SignIn())
+						} else if let customer = customer {
+							learner.hasPayment = (customer.sources.count > 0)
+							self.configureRootViewController(controller: LearnerPageViewController())
+						}
+					}
                 } else {
-                    
-                    self.window?.makeKeyAndVisible()
-                    let controller = SignIn()
-                    navigationController = CustomNavVC(rootViewController: controller)
-                    navigationController.navigationBar.isHidden = true
-                    self.window?.rootViewController = navigationController
+					self.configureRootViewController(controller: SignIn())
                 }
             }
         } else {
-            let controller = SignIn()
-            navigationController = CustomNavVC(rootViewController: controller)
-            navigationController.navigationBar.isHidden = true
-            self.window?.makeKeyAndVisible()
-            self.window?.rootViewController = navigationController
+			try! Auth.auth().signOut()
+			configureRootViewController(controller: SignIn())
         }
         return true
     }
-    
+	
+	func configureRootViewController(controller: UIViewController) {
+		navigationController = CustomNavVC(rootViewController: controller)
+		navigationController.navigationBar.isHidden = true
+		self.window?.makeKeyAndVisible()
+		self.window?.rootViewController = navigationController
+	}
+	
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         return handled
