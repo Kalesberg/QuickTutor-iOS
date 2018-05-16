@@ -61,7 +61,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		learnAnythingLabel.label.text = "Learn Anything. Teach Anyone."
 		learnAnythingLabel.label.font = Fonts.createLightSize(20)
 		
-		infoLabel.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Terms of Service, Privacy Policy, and Nondiscrimination Policy."
+		infoLabel.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Terms of Service, Privacy Policy, and Nondiscrimination Policy. Patent Pending."
 		infoLabel.font = Fonts.createLightSize(14)
 		infoLabel.textColor = .white
 		infoLabel.textAlignment = .left

@@ -47,6 +47,7 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         tableView.separatorColor = Colors.divider
         tableView.showsVerticalScrollIndicator = false
         tableView.isScrollEnabled = true
+        tableView.backgroundView = InviteOthersTableViewBackground()
         
         return tableView
     }()
@@ -82,13 +83,51 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         
         label.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()
-            make.left.right.equalToSuperview().inset(3)
+            make.left.right.equalToSuperview().inset(5)
         }
         
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(container.snp.bottom).inset(-20)
             make.width.centerX.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+        }
+    }
+}
+
+
+class InviteOthersTableViewBackground : BaseView {
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        let formattedString = NSMutableAttributedString()
+        
+        formattedString
+            .bold("Connect your Contacts\n", 24, .white)
+            .regular("\nConnect your phone contacts to invite some peeps!", 17, .white)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+        
+        label.attributedText = formattedString
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(label)
+        super.configureView()
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label.snp.makeConstraints { (make) in
+            make.width.equalTo(250)
+            make.center.equalToSuperview()
         }
     }
 }

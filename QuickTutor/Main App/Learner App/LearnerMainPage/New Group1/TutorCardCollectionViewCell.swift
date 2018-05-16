@@ -102,7 +102,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         tableView.dataSource = self
         tableView.delegate = self
 
-		tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
+        tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
         tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
@@ -117,8 +117,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         distanceLabelContainer.backgroundColor = .white
         distanceLabelContainer.layer.cornerRadius = 28
-		distanceLabelContainer.isHidden = true
-		distanceLabel.numberOfLines  = 0
+        distanceLabelContainer.isHidden = true
+        distanceLabel.numberOfLines  = 0
         applyConstraints()
     }
     
@@ -203,7 +203,10 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 			if CurrentUser.shared.learner.hasPayment {
 				self.addTutorWithUid(datasource.uid)
 			} else {
-				print("Add a payment method.")
+                print("Add payment method")
+				let view = (next?.next?.next as! TutorConnect).contentView
+                
+                view.addBankModal.isHidden = false
 			}
 
         } else if touchStartView is FullProfile {
@@ -240,7 +243,13 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         switch indexPath.item {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
-            cell.bioLabel.text = (datasource.tBio)! + "\n"
+            
+            if let bio = datasource?.tBio {
+                cell.bioLabel.text = bio + "\n"
+            } else {
+                cell.bioLabel.text = "Learner has no bio!\n"
+            }
+            
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
@@ -458,34 +467,34 @@ class TutorCardHeader : InteractableView {
 }
 
 class TutorDistanceView : BaseView {
-	
-	let distance : UILabel = {
-		let label = UILabel()
-		
-		label.textColor = Colors.tutorBlue
-		label.textAlignment = .center
-		label.font = Fonts.createSize(12)
-		label.adjustsFontSizeToFitWidth = true
-		
-		return label
-	}()
-	
-	override func configureView() {
-		addSubview(distance)
-		super.configureView()
-		
-		backgroundColor = .white
-		layer.cornerRadius = 6
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		distance.snp.makeConstraints { (make) in
-			make.center.equalToSuperview()
-			make.height.equalToSuperview()
-			make.width.equalToSuperview()
-		}
-	}
+    
+    let distance : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = Colors.tutorBlue
+        label.textAlignment = .center
+        label.font = Fonts.createSize(12)
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(distance)
+        super.configureView()
+        
+        backgroundColor = .white
+        layer.cornerRadius = 6
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        distance.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalToSuperview()
+        }
+    }
 }
 
 //class TutorCardBody : InteractableView {

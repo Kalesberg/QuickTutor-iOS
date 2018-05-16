@@ -145,25 +145,6 @@ class MainPage : BaseViewController {
     override func handleNavigation() {
         if (touchStartView == nil) {
             return
-        } else if(touchStartView == contentView.sidebarButton) {
-            let startX = self.contentView.sidebar.center.x
-            self.contentView.sidebar.center.x = (startX * -1)
-            self.contentView.sidebar.alpha = 1.0
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.contentView.sidebar.center.x = startX
-            })
-            self.contentView.sidebar.isUserInteractionEnabled = true
-            showBackground()
-        } else if(touchStartView! == contentView.backgroundView) {
-            self.contentView.sidebar.isUserInteractionEnabled = false
-            let startX = self.contentView.sidebar.center.x
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-               self.contentView.sidebar.center.x *= -1
-            }, completion: { (value: Bool) in
-                self.contentView.sidebar.alpha = 0
-                self.contentView.sidebar.center.x = startX
-            })
-            hideBackground()
         } else if(touchStartView == contentView.messagesButton) {
             let vc = MessagesVC()
             vc.parentPageViewController = parentPageViewController
