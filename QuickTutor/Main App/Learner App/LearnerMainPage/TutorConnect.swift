@@ -60,6 +60,7 @@ class TutorConnectView : MainLayoutTwoButton {
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.isPagingEnabled = true
 		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+        //collectionView.backgroundView = TutorCardCollectionViewCell()
 
 		return collectionView
 	}()
@@ -80,14 +81,13 @@ class TutorConnectView : MainLayoutTwoButton {
 		}
 	}
     
-    let tutorial = TutorCardTutorial()
+    let addBankModal = AddBankModal()
 	
 	override func configureView() {
-        addSubview(tutorial)
 		navbar.addSubview(searchBar)
 		addSubview(collectionView)
+        addSubview(addBankModal)
 		super.configureView()
-        insertSubview(tutorial, aboveSubview: collectionView)
 		
 		applyConstraints()
 	}
@@ -100,23 +100,70 @@ class TutorConnectView : MainLayoutTwoButton {
 			make.right.equalTo(rightButton.snp.left)
 			make.height.equalToSuperview()
 			make.centerX.equalToSuperview()
-			make.centerY.equalToSuperview().inset(3)
+			make.centerY.equalToSuperview()
 		}
 		collectionView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom)
 			make.bottom.equalToSuperview()
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-		}
-        
-        tutorial.snp.makeConstraints { (make) in
+        }
+        addBankModal.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
 	}
 }
 
 
-class TutorCardTutorial : BaseView {
+class TutorCardCollectionViewBackground : BaseView {
+    
+    let imageView : UIImageView = {
+        let view = UIImageView()
+        
+        view.image = #imageLiteral(resourceName: "sad-face")
+        
+        return view
+    }()
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        let formattedString = NSMutableAttributedString()
+        
+        formattedString
+            .bold("No Tutors Found", 22, .white)
+            .regular("\n\nSorry! We couldn't find anything, try adjusting your filters to improve your search results.", 17, .white)
+        
+        label.attributedText = formattedString
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(imageView)
+        addSubview(label)
+        super.configureView()
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label.snp.makeConstraints { (make) in
+            make.width.equalToSuperview().multipliedBy(0.75)
+            make.center.equalToSuperview()
+        }
+        
+        imageView.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.bottom.equalTo(label.snp.top)
+        }
+    }
+}
+
+
+class TutorCardTutorial : InteractableView, Interactable {
     
     let imageView : UIImageView = {
         let view = UIImageView()
@@ -133,6 +180,7 @@ class TutorCardTutorial : BaseView {
         label.textAlignment = .center
         label.textColor = .white
         label.font = Fonts.createBoldSize(20)
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -142,21 +190,32 @@ class TutorCardTutorial : BaseView {
         addSubview(label)
         super.configureView()
         
-        backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        backgroundColor = UIColor.black.withAlphaComponent(0.85)
         alpha = 0
+        clipsToBounds = true
         
         applyConstraints()
     }
     
     override func applyConstraints() {
         label.snp.makeConstraints { (make) in
-            make.centerX.width.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.1)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(1.2)
+            make.width.equalToSuperview().multipliedBy(0.8)
         }
         
         imageView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.9)
+        }
+    }
+    
+    func touchEndOnStart() {
+        UIView.animate(withDuration: 0.6, animations: {
+            self.alpha = 0.0
+        }) { (true) in
+            self.isHidden = true
+            self.removeFromSuperview()
         }
     }
 }
@@ -245,19 +304,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UIView.animate(withDuration: 1, animations: {
-            self.contentView.tutorial.alpha = 1
-        }, completion: { (true) in
-            UIView.animate(withDuration: 0.9, delay: 0.5, options: [.repeat, .autoreverse], animations: {
-                UIView.setAnimationRepeatCount(3)
-                self.contentView.tutorial.imageView.center.x -= 30
-            }, completion: { (true) in
-                self.contentView.tutorial.imageView.isHidden = true
-                UIView.animate(withDuration: 1, animations: {
-                    self.contentView.tutorial.alpha = 0
-                })
-            })
-        })
+        displayTutorial()
     }
 	
 	override func viewDidLayoutSubviews() {
@@ -269,6 +316,34 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 	}
+    
+    func displayTutorial() {
+        
+        let tutorial = TutorCardTutorial()
+        contentView.addSubview(tutorial)
+        
+        tutorial.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        contentView.leftButton.isUserInteractionEnabled = false
+        contentView.rightButton.isUserInteractionEnabled = false
+        contentView.collectionView.isUserInteractionEnabled = false
+        contentView.searchBar.isUserInteractionEnabled = false
+        
+        UIView.animate(withDuration: 1, animations: {
+            tutorial.alpha = 1
+        }, completion: { (true) in
+            UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
+                tutorial.imageView.center.x -= 30
+            }, completion: { (true) in
+                self.contentView.leftButton.isUserInteractionEnabled = true
+                self.contentView.rightButton.isUserInteractionEnabled = true
+                self.contentView.collectionView.isUserInteractionEnabled = true
+                self.contentView.searchBar.isUserInteractionEnabled = true
+            })
+        })
+    }
 	
 	func sortWithDistance(_ tutors: [AWTutor] ) {
 		if tutors.count == 0 {
@@ -375,7 +450,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 			let transition = CATransition()
 			navigationController?.view.layer.add(transition.popFromTop(), forKey: nil)
 			navigationController?.popViewController(animated: false)
-		}
+        } else if touchStartView is AddBankButton {
+            navigationController?.pushViewController(CardManager(), animated: true)
+        }
 	}
 }
 

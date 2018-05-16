@@ -33,8 +33,9 @@ class UploadImageView : RegistrationNavBarView {
         buttonView.addSubview(looksGoodButton)
         buttonView.addSubview(chooseNewButton)
         
-        progressBar.progress = 1.01
+        progressBar.progress = 1
         progressBar.applyConstraints()
+        progressBar.divider.isHidden = true
         
         titleLabel.label.text = "Alright, time to add a photo!"
         titleLabel.label.numberOfLines = 2

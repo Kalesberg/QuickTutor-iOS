@@ -200,11 +200,10 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }
     override func handleNavigation() {
         if touchStartView is ConnectButton {
-            self.addTutorWithUid(datasource.uid)
-        } else if touchStartView is FullProfile {
-            if let current = UIApplication.getPresentedViewController() {
-                current.present(ViewFullProfile(), animated: true, completion: nil)
-            }
+            //self.addTutorWithUid(datasource.uid)
+            let contentView = (next?.next?.next as! TutorConnect).contentView
+            
+            contentView.addBankModal.isHidden = false
         }
     }
 }
@@ -235,7 +234,13 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         switch indexPath.item {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
-            cell.bioLabel.text = (datasource.tBio)! + "\n"
+            
+            if let bio = datasource?.tBio {
+                cell.bioLabel.text = bio + "\n"
+            } else {
+                cell.bioLabel.text = "Learner has no bio!\n"
+            }
+            
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell

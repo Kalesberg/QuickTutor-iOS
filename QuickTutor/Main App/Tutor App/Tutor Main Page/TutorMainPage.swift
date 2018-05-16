@@ -385,6 +385,117 @@ class TutorMainPageUsernameItem : TutorMainPageItem {
     }
 }
 
+class AddBankButton : InteractableView, Interactable {
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        label.text = "Add Bank"
+        label.font = Fonts.createBoldSize(20)
+        label.textColor = Colors.backgroundDark
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(label)
+        super.configureView()
+        
+        layer.cornerRadius = 8
+        backgroundColor = .white
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+}
+
+class AddBankModal : InteractableView {
+    
+    let modal : UIView = {
+        let view = UIView()
+        
+        view.layer.cornerRadius = 8
+        view.backgroundColor = Colors.backgroundDark
+        view.clipsToBounds = true
+        
+        return view
+    }()
+    
+    let addBankLabel : UILabel = {
+        let label = UILabel()
+        
+        label.text = "PAYMENT METHOD"
+        label.font = Fonts.createBoldSize(18)
+        label.textColor = .white
+        label.backgroundColor = UIColor(hex: "4C5E8D")
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    let infoLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createSize(18)
+        label.textColor = .white
+        label.text = "Hey! Before connecting with tutors, we need to make sure you have a payment method!"
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
+    let addBankButton = AddBankButton()
+    
+    override func configureView () {
+        addSubview(modal)
+        modal.addSubview(addBankLabel)
+        modal.addSubview(infoLabel)
+        modal.addSubview(addBankButton)
+        super.configureView()
+        
+        backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        isHidden = true
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        modal.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().inset(-20)
+            make.width.equalToSuperview().multipliedBy(0.85)
+            make.height.equalTo(200)
+        }
+        
+        addBankLabel.snp.makeConstraints { (make) in
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview()
+            make.height.equalTo(45)
+        }
+        
+        infoLabel.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+        }
+        
+        addBankButton.snp.makeConstraints { (make) in
+            make.width.equalTo(140)
+            make.height.equalTo(40)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(10)
+        }
+    }
+}
+
+
 class ShareUsernameModal : InteractableView {
     
     let shareUsernameLabel : UILabel = {
@@ -583,8 +694,10 @@ class TutorMainPage : MainPage {
         
         contentView.sidebar.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        displayMessagesTutorial()
     }
     
     private func configureSideBarView() {
@@ -606,10 +719,108 @@ class TutorMainPage : MainPage {
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
         contentView.sidebar.profileView.profilePicView.loadUserImages(by: tutor.images["image1"]!)
     }
+    
+    func displaySidebarTutorial() {
+        
+        let item = BecomeQTSidebarItem()
+        item.label.label.text = "Start Learning"
+        
+        let tutorial = TutorCardTutorial()
+        tutorial.label.text = "Press this button to go back to the learner app!"
+        tutorial.label.numberOfLines = 2
+        tutorial.addSubview(item)
+        contentView.addSubview(tutorial)
+        
+        tutorial.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        tutorial.imageView.snp.remakeConstraints { (make) in
+            make.top.equalTo(item.snp.bottom)
+            make.centerX.equalTo(item)
+        }
+        
+        tutorial.label.snp.remakeConstraints { (make) in
+            make.top.equalTo(tutorial.imageView.snp.bottom).inset(-15)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+        }
+        
+        item.snp.makeConstraints { (make) in
+            make.edges.equalTo(contentView.sidebar.becomeQTItem)
+        }
+        
+        UIView.animate(withDuration: 1, animations: {
+            tutorial.alpha = 1
+        }, completion: { (true) in
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: {
+                tutorial.imageView.center.y += 10
+            })
+        })
+    }
+    
+    func displayMessagesTutorial() {
+        
+        let image = UIImageView()
+        image.image = #imageLiteral(resourceName: "navbar-messages")
+        
+        let tutorial = TutorCardTutorial()
+        tutorial.label.text = "This is where you'll message your learners and manage sessions!"
+        tutorial.label.numberOfLines = 2
+        tutorial.addSubview(image)
+        contentView.addSubview(tutorial)
+        
+        tutorial.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        tutorial.label.snp.remakeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+        }
+        
+        image.snp.makeConstraints { (make) in
+            make.edges.equalTo(contentView.messagesButton.image)
+        }
+        
+        tutorial.imageView.snp.remakeConstraints { (make) in
+            make.top.equalTo(image.snp.bottom).inset(-5)
+            make.centerX.equalTo(image)
+        }
+        
+        UIView.animate(withDuration: 1, animations: {
+            tutorial.alpha = 1
+        }, completion: { (true) in
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: {
+                tutorial.imageView.center.y += 10
+            })
+        })
+    }
+    
     override func handleNavigation() {
         super.handleNavigation()
         
-        if(touchStartView == contentView.sidebar.paymentItem) {
+        if(touchStartView == contentView.sidebarButton) {
+            let startX = self.contentView.sidebar.center.x
+            self.contentView.sidebar.center.x = (startX * -1)
+            self.contentView.sidebar.alpha = 1.0
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.contentView.sidebar.center.x = startX
+            })
+            self.contentView.sidebar.isUserInteractionEnabled = true
+            showBackground()
+            displaySidebarTutorial()
+        } else if(touchStartView == contentView.backgroundView) {
+            self.contentView.sidebar.isUserInteractionEnabled = false
+            let startX = self.contentView.sidebar.center.x
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.contentView.sidebar.center.x *= -1
+            }, completion: { (value: Bool) in
+                self.contentView.sidebar.alpha = 0
+                self.contentView.sidebar.center.x = startX
+            })
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.paymentItem) {
             let next = BankManager()
             next.acctId = tutor.acctId
 			navigationController?.pushViewController(next, animated: true)

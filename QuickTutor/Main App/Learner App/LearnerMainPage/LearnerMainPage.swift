@@ -142,6 +142,13 @@ class LearnerMainPage : MainPage {
 		}
 		configureView()
 	}
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        displayMessagesTutorial()
+    }
+    
 	private func configureSideBarView(){
 		
 		let formattedString = NSMutableAttributedString()
@@ -170,11 +177,69 @@ class LearnerMainPage : MainPage {
 		contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
 		contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
 	}
+    
+    func displayMessagesTutorial() {
+        
+        let image = UIImageView()
+        image.image = #imageLiteral(resourceName: "navbar-messages")
+        
+        let tutorial = TutorCardTutorial()
+        tutorial.label.text = "This is where you'll message your tutors and schedule sessions!"
+        tutorial.label.numberOfLines = 2
+        tutorial.addSubview(image)
+        contentView.addSubview(tutorial)
+        
+        tutorial.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        tutorial.label.snp.remakeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+        }
+        
+        image.snp.makeConstraints { (make) in
+            make.edges.equalTo(contentView.messagesButton.image)
+        }
+        
+        tutorial.imageView.snp.remakeConstraints { (make) in
+            make.top.equalTo(image.snp.bottom).inset(-5)
+            make.centerX.equalTo(image)
+        }
+        
+        UIView.animate(withDuration: 1, animations: {
+            tutorial.alpha = 1
+        }, completion: { (true) in
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: {
+                tutorial.imageView.center.y += 10
+            })
+        })
+    }
+    
 	
 	override func handleNavigation() {
 		super.handleNavigation()
-		
-		if(touchStartView == contentView.sidebar.paymentItem) {
+        
+        if(touchStartView == contentView.sidebarButton) {
+            let startX = self.contentView.sidebar.center.x
+            self.contentView.sidebar.center.x = (startX * -1)
+            self.contentView.sidebar.alpha = 1.0
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.contentView.sidebar.center.x = startX
+            })
+            self.contentView.sidebar.isUserInteractionEnabled = true
+            showBackground()
+        } else if(touchStartView == contentView.backgroundView) {
+            self.contentView.sidebar.isUserInteractionEnabled = false
+            let startX = self.contentView.sidebar.center.x
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.contentView.sidebar.center.x *= -1
+            }, completion: { (value: Bool) in
+                self.contentView.sidebar.alpha = 0
+                self.contentView.sidebar.center.x = startX
+            })
+            hideBackground()
+        } else if(touchStartView == contentView.sidebar.paymentItem) {
 			let next = CardManager()
 			next.customerId = learner.customer
 			navigationController?.pushViewController(next, animated: true)
@@ -231,6 +296,7 @@ class LearnerMainPage : MainPage {
 				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
 				nav?.pushViewController(SearchSubjects(), animated: false)
 			}
+            
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
         }

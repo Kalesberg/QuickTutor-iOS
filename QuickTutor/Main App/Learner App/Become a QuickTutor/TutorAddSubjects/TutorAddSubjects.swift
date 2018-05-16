@@ -282,10 +282,11 @@ class TutorAddSubjects : BaseViewController {
             self.allSubjects.shuffle()
         }
     }
+
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        displayTutorial()
     }
     
     override func viewDidLayoutSubviews() {
@@ -301,6 +302,36 @@ class TutorAddSubjects : BaseViewController {
         }
         contentView.categoryCollectionView.reloadData()
     }
+    
+    func displayTutorial() {
+        
+        let tutorial = TutorCardTutorial()
+        tutorial.label.text = "Swipe left and right for more subjects!"
+        contentView.addSubview(tutorial)
+        
+        tutorial.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        contentView.leftButton.isUserInteractionEnabled = false
+        contentView.rightButton.isUserInteractionEnabled = false
+        contentView.searchBar.isUserInteractionEnabled = false
+        
+        UIView.animate(withDuration: 1, animations: {
+            tutorial.alpha = 1
+        }, completion: { (true) in
+            UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
+                tutorial.imageView.center.x -= 20
+                tutorial.imageView.center.x += 20
+            }, completion: { (true) in
+
+                self.contentView.leftButton.isUserInteractionEnabled = true
+                self.contentView.rightButton.isUserInteractionEnabled = true
+                self.contentView.searchBar.isUserInteractionEnabled = true
+            })
+        })
+    }
+    
     private func configureDelegates() {
         
         contentView.pickedCollectionView.delegate = self
@@ -316,7 +347,6 @@ class TutorAddSubjects : BaseViewController {
         contentView.tableView.register(AddSubjectsTableViewCell.self, forCellReuseIdentifier: "addSubjectsCell")
         
         contentView.searchBar.delegate = self
-        
     }
     
 	private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {

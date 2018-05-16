@@ -36,7 +36,7 @@ class EmailView: RegistrationNavBarKeyboardView {
 		emailTextField.textField.autocapitalizationType = .none
 		
 		checkboxLabel.label.font = Fonts.createLightSize(14.5)
-		checkboxLabel.label.text = "I'd like to recieve promotional content, including events, surveys, motivation, and goodies from QuickTutor via email."
+		checkboxLabel.label.text = "I'd like to recieve promotional content, including events, surveys, motivation, in-app reminders, and goodies from QuickTutor via email."
         checkboxLabel.label.adjustsFontSizeToFitWidth = true
 		
 		applyConstraints()

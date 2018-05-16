@@ -30,7 +30,6 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 		collectionView.showsVerticalScrollIndicator = false
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.tag = 0
-        //collectionView.backgroundColor = .gray
 		
 		return collectionView
 	}()
@@ -42,7 +41,6 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 		label.textColor = .white
 		label.textAlignment = .center
 		label.font = Fonts.createBoldSize(24)
-		label.alpha = 0.6
 		
 		return label
 	}()

@@ -329,11 +329,11 @@ class LearnerMyProfile : BaseViewController {
 	}
 
 	var learner : AWLearner! {
-		didSet {			
-			contentView.tableView.reloadData()
-		}
-	}
-	
+        didSet {
+            contentView.tableView.reloadData()
+        }
+    }
+
     override var contentView: LearnerMyProfileView {
         return view as! LearnerMyProfileView
     }
@@ -343,8 +343,6 @@ class LearnerMyProfile : BaseViewController {
         super.viewDidLoad()
 		
 		horizontalScrollView.delegate = self
-	
-		//contentView.scrollView.contentSize = CGSize(width: 280, height: (contentView.seeAllButton.frame.maxY - contentView.imageContainer.frame.minY) + 30)
 		
 		pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
         
@@ -501,9 +499,17 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
             
+            for view in cell.contentView.subviews {
+                view.snp.removeConstraints()
+            }
+            
+            cell.snp.removeConstraints()
+            cell.contentView.snp.removeConstraints()
+            
             //cell.tutorItem.label.text = "Tutored in \(LearnerData.userData.numSessions!) sessions"
             cell.tutorItem.label.text = "Tutored in 0 sessions"
 			if let languages = learner.languages {
+                print("languages")
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
                 cell.contentView.addSubview(cell.speakItem)
                 
@@ -515,6 +521,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
                 
 				if let studies = learner.school {
+                    print("school")
                     cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
                     
@@ -544,7 +551,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
             } else {
 				if let studies = learner.school {
-                    print("languages nil")
+                    print("languages nil & school")
                     cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
                     
@@ -573,6 +580,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             }
+            
+            cell.applyConstraints()
 
             return cell
             

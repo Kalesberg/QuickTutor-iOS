@@ -124,8 +124,9 @@ class TutorAddUsernameView : TutorRegistrationLayout, Keyboardable {
         title.label.text = "Create a Username"
         
         addSubview(progressBar)
-        progressBar.progress = 1.01
+        progressBar.progress = 1
         progressBar.applyConstraints()
+        progressBar.divider.isHidden = true
     }
     
     override func applyConstraints() {
