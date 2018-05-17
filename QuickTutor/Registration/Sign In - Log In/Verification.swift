@@ -255,14 +255,25 @@ class Verification : BaseViewController {
                 self.view.endEditing(true)
                 self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
                     if snapshot.exists() {
-						FirebaseData.manager.getLearner(user!.uid, { (learner) in
-							if let learner = learner {
-								CurrentUser.shared.learner = learner
-								AccountService.shared.currentUserType = .learner
-								self.navigationController!.pushViewController(LearnerPageViewController(), animated: true)
-							}
-							print("Lost user.")
-						})
+							if UserDefaults.standard.bool(forKey: "showHomePage") {
+								FirebaseData.manager.signInLearner(uid: user!.uid) { (successful) in
+									if successful {
+									self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
+									} else {
+										try! Auth.auth().signOut()
+										self.navigationController?.pushViewController(SignIn(), animated: true)
+									}
+								}
+							} else {
+								FirebaseData.manager.signInTutor(uid: user!.uid) { (successful) in
+									if successful {
+										self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+									} else {
+										try! Auth.auth().signOut()
+										self.navigationController?.pushViewController(SignIn(), animated: true)
+									}
+								}
+						}
                     } else {
 						Registration.uid = user!.uid
                         self.navigationController!.pushViewController(Name(), animated: true)
@@ -271,10 +282,7 @@ class Verification : BaseViewController {
             }
         }
     }
-	private func signIn() {
-	
-		
-	}
+
     private func resendVCAction() {
         PhoneAuthProvider.provider().verifyPhoneNumber(Registration.phone, uiDelegate: nil) { (verificationId, error) in
             if let error = error {

@@ -212,36 +212,82 @@ class TutorPolicy : BaseViewController {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-	private func accepted() {
+	private func declineButtonAlert() {
+		let alertController = UIAlertController(title: "Are You Sure?", message: "All of your progress will be deleted.", preferredStyle: .alert)
 		
+		let okButton = UIAlertAction(title: "Ok", style: .destructive) { (alert) in
+			self.navigationController?.popBackToMain()
+		}
+		
+		let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in }
+		
+		alertController.addAction(okButton)
+		alertController.addAction(cancelButton)
+		
+		self.present(alertController, animated: true, completion: nil)
+	}
+	private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
+		FirebaseData.manager.getTutor(CurrentUser.shared.learner.uid) { (tutor) in
+			if let tutor = tutor {
+				CurrentUser.shared.tutor = tutor
+				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
+					if let account = account {
+						CurrentUser.shared.connectAccount = account
+						completion(true)
+					}
+				})
+			} else {
+				completion(false)
+			}
+		}
+	}
+	private func createConnectAccount(_ completion: @escaping (Bool) -> Void) {
 		//Start animation...
 		Stripe.createConnectAccountToken(ssnLast4: TutorRegistration.last4SSN!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { (token) in
 			if let token = token {
 				Stripe.createConnectAccount(bankAccountToken: TutorRegistration.bankToken!, connectAccountToken: token, { (value) in
 					if let value = value  {
 						TutorRegistration.acctId = value
-						
 						Tutor.shared.initTutor(completion: { (error) in
 							if let error = error {
 								print(error.localizedDescription)
 							} else {
-								//end animation...
-								CurrentUser.shared.learner.isTutor = true
-								self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-								let endIndex = self.navigationController?.viewControllers.endIndex
-								self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
+								completion(true)
 							}
 						})
 					} else {
 						print("invalid token.")
+						completion(false)
 					}
 				})
+			} else {
+				print("invalid bank")
+				completion(false)
+			}
+		}
+	}
+	private func accepted() {
+		createConnectAccount { (success) in
+			if success {
+				self.switchToTutorSide({ (success) in
+					if success {
+						CurrentUser.shared.learner.isTutor = true
+						AccountService.shared.currentUserType = .tutor
+						self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+						let endIndex = self.navigationController?.viewControllers.endIndex
+						self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
+					} else {
+						print("failure2.")
+					}
+				})
+			} else {
+				print("failure1.")
 			}
 		}
 	}
 	
 	private func declined() {
-		
+		declineButtonAlert()
 	}
 	
 	override func handleNavigation() {

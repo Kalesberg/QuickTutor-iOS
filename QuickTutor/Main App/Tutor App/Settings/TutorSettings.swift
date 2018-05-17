@@ -92,7 +92,8 @@ class TutorSettings : BaseViewController {
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
 		
-		tutor = CurrentUser.shared.tutor
+		guard let tutor = CurrentUser.shared.tutor else { return }
+		self.tutor = tutor
 		
 		contentView.profileView.imageView.loadUserImages(by: tutor.images["image1"]!)
 		contentView.profileView.label.text = "\(tutor.name!)\n\(tutor.phone.formatPhoneNumber())\n\(tutor.email!)"

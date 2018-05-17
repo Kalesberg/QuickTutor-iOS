@@ -186,7 +186,6 @@ class UserPolicy : BaseViewController {
 				
 				case .success(var value):
 					value = String(value.filter{ !" \n\t\r".contains($0)})
-					
 					completion(value)
 				case .failure:
 					completion(nil)
@@ -213,7 +212,7 @@ class UserPolicy : BaseViewController {
 				if let error = error {
 					print(error.localizedDescription)
 				} else {
-					Registration.registrationManager.setRegistrationDefaults()
+					Registration.setRegistrationDefaults()
 					self.navigationController?.pushViewController(TheChoice(), animated: true)
 				}
 			}

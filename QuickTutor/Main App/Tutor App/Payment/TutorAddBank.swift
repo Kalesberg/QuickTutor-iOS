@@ -132,6 +132,7 @@ class TutorAddBank: BaseViewController {
 	var fullName : String!
 	var routingNumber : String!
 	var accountNumber : String!
+	var validAccountData : Bool = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -141,7 +142,7 @@ class TutorAddBank: BaseViewController {
 		for textField in textFields{
 			textField.delegate = self
 			textField.returnKeyType = .next
-			//textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+			textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 		}
 	}
 	
@@ -162,70 +163,48 @@ class TutorAddBank: BaseViewController {
 	
 	@objc private func textFieldDidChange(_ textField: UITextField) {
 		
-//        contentView.addBankButton.isUserInteractionEnabled = false
-//
-//        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
-//            self.fullName = ""
-//            contentView.addBankButton.alpha = 0.5
-//            return
-//        }
-//        print("Good Name")
-//        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
-//            self.routingNumber = ""
-//            contentView.addBankButton.alpha = 0.5
-//            return
-//        }
-//
-//        print("Good routing")
-//        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
-//            self.accountNumber = ""
-//            contentView.addBankButton.alpha = 0.5
-//            return
-//        }
-//        print("Good account.")
-//
-//        contentView.addBankButton.alpha = 1.0
-//        contentView.addBankButton.isUserInteractionEnabled = true
-//
-//        self.fullName = name
-//        self.routingNumber = routingNumber
-//        self.accountNumber = accountNumber
-	}
-	
-    private func infoIsValid() -> Bool {
-        
         guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
-            contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
-            return false
+			contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
+			validAccountData = false
+            return
         }
-        contentView.nameTextfield.layer.borderColor = Colors.green.cgColor
-        
+		contentView.nameTextfield.layer.borderColor = Colors.green.cgColor
+
+        print("Good Name")
         guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
-            contentView.routingNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
-            return false
+			if contentView.routingNumberTextfield.text!.count > 1 {
+				contentView.routingNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
+			}
+			validAccountData = false
+            return
         }
-        contentView.routingNumberTextfield.layer.borderColor = Colors.green.cgColor
-        
+		contentView.routingNumberTextfield.layer.borderColor = Colors.green.cgColor
+
+        print("Good routing")
         guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
-            contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
-            return false
+			if contentView.accountNumberTextfield.text!.count > 1 {
+				contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
+			}
+			validAccountData = false
+            return
         }
-        contentView.accountNumberTextfield.layer.borderColor = Colors.green.cgColor
-        
-        self.fullName = name
-        self.routingNumber = routingNumber
-        self.accountNumber = accountNumber
-        
-        return true
-    }
-    
-	private func addTutorBankAccount(completion: @escaping (Error?) -> Void) {
+		contentView.accountNumberTextfield.layer.borderColor = Colors.green.cgColor
+
+        print("Good account.")
+		validAccountData = true
+		
+		self.fullName = name
+		self.routingNumber = routingNumber
+		self.accountNumber = accountNumber
+	}
+
+	private func addTutorBankAccount(fullname: String, routingNumber: String, accountNumber: String,_ completion: @escaping (Error?) -> Void) {
 		
 		let bankAccount = STPBankAccountParams()
 		
-		bankAccount.accountHolderName = self.fullName
-		bankAccount.routingNumber = self.routingNumber
-		bankAccount.accountNumber = self.accountNumber
+		bankAccount.accountHolderName = fullname
+		bankAccount.routingNumber = routingNumber
+		bankAccount.accountNumber = accountNumber
 		bankAccount.country = "US"
 		
 		STPAPIClient.shared().createToken(withBankAccount: bankAccount) { (token, error) in
@@ -240,6 +219,7 @@ class TutorAddBank: BaseViewController {
 					.responseString(completionHandler: { (response) in
 						switch response.result {
 						case .success:
+							CurrentUser.shared.tutor.hasPayoutMethod = true
 							completion(nil)
 						case .failure(let error):
 							completion(error)
@@ -253,15 +233,15 @@ class TutorAddBank: BaseViewController {
 		if (touchStartView is NavbarButtonNext) {
             contentView.rightButton.isUserInteractionEnabled = false
             
-            if infoIsValid() {
-                addTutorBankAccount { (error) in
-                    if let error = error {
-                        print(error.localizedDescription)
-                        self.contentView.rightButton.isUserInteractionEnabled = true
-                    } else {
+            if validAccountData {
+				addTutorBankAccount(fullname: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (error) in
+					if let error = error {
+						print(error.localizedDescription)
+						self.contentView.rightButton.isUserInteractionEnabled = true
+					} else {
 						self.navigationController?.popBackToTutorMain()
-                    }
-                }
+					}
+				}
             } else {
                 contentView.rightButton.isUserInteractionEnabled = true
             }

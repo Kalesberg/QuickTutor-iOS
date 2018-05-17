@@ -130,8 +130,6 @@ class TutorEarnings : BaseViewController {
         view = TutorEarningsView()
     }
 	
-	var accountId : String!
-	
 	let dateFormatter = DateFormatter()
 	
 	var datasource = [BalanceTransaction.Data]() {
@@ -148,23 +146,21 @@ class TutorEarnings : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		dateFormatter.dateFormat = "MM/dd/yyyy"
 		
-		Stripe.retrieveBalanceTransactionList(acctId: accountId) { (transactions) in
+		Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { (transactions) in
 			if let transactions = transactions {
 				self.datasource = transactions.data.sorted {
 					return $0.created < $1.created
 				}
 			}
 		}
-		
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         
         contentView.tableView.register(TutorEarningsTableCellView.self, forCellReuseIdentifier: "tutorEarningsTableCellView")
     }
-	
+
 	private func getYearlyEarnings() {
 		var thisYearTotal : Int = 0
 

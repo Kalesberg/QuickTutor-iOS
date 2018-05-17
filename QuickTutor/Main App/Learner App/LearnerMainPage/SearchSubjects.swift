@@ -176,8 +176,6 @@ class SearchSubjects: BaseViewController {
 			self.allSubjects = subjects
 			self.allSubjects.shuffle()
 		}
-        
-        displayTutorial()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -186,8 +184,16 @@ class SearchSubjects: BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+		
 		contentView.searchTextField.text = ""
 		tableView(shouldDisplay: false) {}
+		
+		let defaults = UserDefaults.standard
+		
+		if defaults.bool(forKey: "showSubjectTutorial1.0") {
+			displayTutorial()
+			defaults.set(false, forKey: "showSubjectTutorial1.0")
+		}
 	}
 	
 	override func viewDidLayoutSubviews() {

@@ -67,7 +67,7 @@ class EditLanguage : BaseViewController {
 	
 	var datasource : [String]?
 	
-	var selectedCells : [String] = [] {
+	var selectedCells = [String]() {
 		didSet {
 			contentView.tableView.reloadData()
 		}
@@ -75,8 +75,12 @@ class EditLanguage : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		configure()
+		configureDelegates()
 		loadListOfLanguages()
+		
+		guard let languages = (AccountService.shared.currentUserType == .learner) ? CurrentUser.shared.learner.languages : CurrentUser.shared.tutor.languages else { return }
+		
+		selectedCells = languages
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -85,14 +89,13 @@ class EditLanguage : BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		//contentView.searchBar.becomeFirstResponder()
 	}
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		
 	}
 	
-	private func configure() {
+	private func configureDelegates() {
 		contentView.tableView.delegate   = self
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(CustomLanguageCell.self, forCellReuseIdentifier: "idCell")
@@ -146,6 +149,7 @@ class EditLanguage : BaseViewController {
 				}
 			}
 			CurrentUser.shared.learner.languages = selectedCells
+			
 			if AccountService.shared.currentUserType == .tutor {
 				CurrentUser.shared.tutor.languages = selectedCells
 			}
@@ -179,20 +183,14 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 		
 		guard let language = datasource?[indexPath.row] else { return  cell }
 		cell.textLabel?.text = language
-		
-		if selectedCells.contains(language) {
-			cell.checkbox.isSelected = true
-		} else {
-			cell.checkbox.isSelected = false
+		cell.checkbox.isSelected =  selectedCells.contains(language)
 
-		}
 		return cell
 	}
 	
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		let cell : CustomLanguageCell = tableView.cellForRow(at: indexPath) as! CustomLanguageCell
-
 		
 		if self.selectedCells.contains((cell.textLabel?.text)!) {
 			self.selectedCells.remove(at: selectedCells.index(of:(cell.textLabel?.text)!)!)

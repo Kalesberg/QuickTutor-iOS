@@ -341,17 +341,8 @@ class LearnerMyProfile : BaseViewController {
     override func viewDidLoad() {
         contentView.addSubview(horizontalScrollView)
         super.viewDidLoad()
+		configureDelegates()
 		
-		horizontalScrollView.delegate = self
-		
-		pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
-        
-        contentView.tableView.delegate = self
-        contentView.tableView.dataSource = self
-		
-        contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
-        contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
-        contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
     }
 	
     override func loadView() {
@@ -360,13 +351,25 @@ class LearnerMyProfile : BaseViewController {
 	
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-		contentView.tableView.reloadData()
-
+		guard let learner = CurrentUser.shared.learner else {
+			return
+		}
+		self.learner = learner
 		configurePageControl()
 		configureScrollView()
 		setUpImages()
     }
-
+	
+	private func configureDelegates() {
+		horizontalScrollView.delegate = self
+		pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
+		
+		contentView.tableView.delegate = self
+		contentView.tableView.dataSource = self
+		contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
+		contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
+		contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
+	}
 	private func setUpImages() {
 		var count = 0
 		
@@ -440,12 +443,7 @@ class LearnerMyProfile : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView is NavbarButtonEdit) {
-			
-			let next = LearnerEditProfile()
-			next.learner = self.learner
-			
-			navigationController?.pushViewController(next, animated: true)
-			
+			navigationController?.pushViewController(LearnerEditProfile(), animated: true)
 		} else if(touchStartView == contentView.xButton) {
 			
 			contentView.backgroundView.alpha = 0.0

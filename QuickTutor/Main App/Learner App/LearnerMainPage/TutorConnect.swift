@@ -299,8 +299,12 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        displayTutorial()
+		
+		let defaults = UserDefaults.standard
+		if defaults.bool(forKey: "showTutorCardTutorial1.0") {
+			displayTutorial()
+			defaults.set(false, forKey: "showTutorCardTutorial1.0")
+		}  
     }
     
     override func viewDidLayoutSubviews() {
@@ -339,24 +343,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             })
         })
     }
-    
-//    func showSwipeTutorial() {
-//        Constants.showTutorial = false
-//        UIView.animate(withDuration: 1, animations: {
-//            self.contentView.tutorial.alpha = 1
-//        }, completion: { (true) in
-//            UIView.animate(withDuration: 0.9, delay: 0.5, options: [.repeat, .autoreverse], animations: {
-//                UIView.setAnimationRepeatCount(3)
-//                self.contentView.tutorial.imageView.center.x -= 30
-//            }, completion: { (true) in
-//                self.contentView.tutorial.imageView.isHidden = true
-//                UIView.animate(withDuration: 1, animations: {
-//                    self.contentView.tutorial.alpha = 0
-//                })
-//            })
-//        })
-//    }
-    
+
     func sortWithDistance(_ tutors: [AWTutor] ) {
         if tutors.count == 0 {
             filteredDatasource = []

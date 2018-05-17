@@ -47,9 +47,9 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         tableView.separatorColor = Colors.divider
         tableView.showsVerticalScrollIndicator = false
         tableView.isScrollEnabled = true
-        tableView.backgroundView = InviteOthersTableViewBackground()
-        
-        return tableView
+		tableView.tableFooterView = UIView()
+		
+		return tableView
     }()
     
     override var rightButton: NavbarButton {
@@ -147,9 +147,13 @@ class InviteOthers : BaseViewController {
 	
 	var datasource = [CNContact]() {
 		didSet {
-			if datasource.count == 0{
-
+			if datasource.count == 0 {
+				print("Here.")
+				let view = InviteOthersTableViewBackground()
+				
+				contentView.tableView.backgroundView = view
 			}
+			print("Here1.")
 			contentView.tableView.reloadData()
 		}
 	}
@@ -157,7 +161,8 @@ class InviteOthers : BaseViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-        
+		
+		datasource = []
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
 		contentView.tableView.register(InviteContactsTableViewCell.self, forCellReuseIdentifier: "contactCell")
@@ -165,18 +170,18 @@ class InviteOthers : BaseViewController {
     }
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		requestAccess { (success) in
-			if success {
-				do {
-					try self.contactStore.enumerateContacts(with: self.request, usingBlock: { (contact, stop) in
-						self.datasource.append(contact)
-					})
-				}
-				catch {
-					print("unable to fetch contacts")
-				}
-			}
-		}
+//		requestAccess { (success) in
+//			if success {
+//				do {
+//					try self.contactStore.enumerateContacts(with: self.request, usingBlock: { (contact, stop) in
+//						self.datasource.append(contact)
+//					})
+//				}
+//				catch {
+//					print("unable to fetch contacts")
+//				}
+//			}
+//		}
 	}
 	
     override func didReceiveMemoryWarning() {
@@ -225,16 +230,15 @@ class InviteOthers : BaseViewController {
 extension InviteOthers : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.datasource.count
+		print(datasource.count)
+        return datasource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! InviteContactsTableViewCell
 		
 		cell.label.text = datasource[indexPath.row].givenName
-        
-		
-        
+
         return cell
     }
 }

@@ -115,7 +115,6 @@ class TheChoice : BaseViewController {
 			FirebaseData.manager.getLearner(Registration.uid) { (learner) in
 				if let learner = learner {
 					CurrentUser.shared.learner = learner
-					Constants.showTutorial = true
 					AccountService.shared.currentUserType = .learner
 					self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
 					let endIndex = self.navigationController?.viewControllers.endIndex
@@ -127,7 +126,6 @@ class TheChoice : BaseViewController {
 			}
         } else if (touchStartView == contentView.tutorButton) {
             let next = BecomeTutor()
-			Constants.showTutorial = true
             navigationController?.pushViewController(next, animated: true)
             let endIndex = navigationController?.viewControllers.endIndex
             navigationController?.viewControllers.removeFirst(endIndex! - 1)

@@ -86,6 +86,9 @@ class TutorRatings : BaseViewController {
         super.viewDidLoad()
 		configureDelegates()
 		
+		guard let tutor = CurrentUser.shared.tutor else { return }
+		self.tutor = tutor
+		
 		getSubjectsTaught { (subcategoryList) in
 			self.findTopSubject(subjects: subcategoryList)
 		}
@@ -118,7 +121,7 @@ class TutorRatings : BaseViewController {
 		
 		var subjectsTaught = [TopSubcategory]()
 		
-		ref.child("subject").child(tutor.uid).observeSingleEvent(of: .value) { (snapshot) in
+		ref.child("subject").child(CurrentUser.shared.tutor.uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
 			
 			for child in snap {
@@ -126,7 +129,6 @@ class TutorRatings : BaseViewController {
 				
 				var topSubjects = TopSubcategory(dictionary: value)
 				topSubjects.subcategory = child.key
-				
 				subjectsTaught.append(topSubjects)
 			}
 			completion(subjectsTaught)
