@@ -97,6 +97,17 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
         
         hideKeyboardWhenTappedAround()
         configureDelegates()
+	
+    }
+	
+    override func loadView() {
+        view = TutorEditProfileView()
+    }
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		//scrollToFirstRow()
+		guard let tutor = CurrentUser.shared.tutor else { return }
+		self.tutor = tutor
 		
 		let name = tutor.name.split(separator: " ")
 		firstName = String(name[0])
@@ -119,14 +130,6 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 			inPerson = false
 			inVideo = false
 		}
-    }
-	
-    override func loadView() {
-        view = TutorEditProfileView()
-    }
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		scrollToFirstRow()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {

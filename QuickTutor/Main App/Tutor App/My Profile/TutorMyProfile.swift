@@ -58,20 +58,18 @@ class TutorMyProfile : BaseViewController {
 		view = TutorMyProfileView()
 	}
 	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 
+		guard let tutor = CurrentUser.shared.tutor else { return }
+		self.tutor = tutor
+		
 		configureScrollView()
 		configurePageControl()
 		setUpImages()
-		contentView.tableView.reloadData()
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
 		scrollToFirstRow()
 	}
-	
+
 	func scrollToFirstRow() {
 		let indexPath = IndexPath(row: 0, section: 0)
 		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
@@ -167,9 +165,7 @@ class TutorMyProfile : BaseViewController {
 	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonEdit) {
-			let next = TutorEditProfile()
-			next.tutor = tutor
-			navigationController?.pushViewController(next, animated: true)
+			navigationController?.pushViewController(TutorEditProfile(), animated: true)
 		} else if(touchStartView == contentView.xButton) {
 
 			contentView.backgroundView.alpha = 0.0

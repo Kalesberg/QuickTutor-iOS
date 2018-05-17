@@ -457,6 +457,7 @@ class FirebaseData {
 		}
 		return dataToUpload
 	}
+	
 	public func removeTutorAccount(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
 		
 		var childNodes : [String : Any] = [:]
@@ -490,7 +491,6 @@ class FirebaseData {
 		
 		childNodes["/account/\(uid)"] = NSNull()
 		childNodes["/connections/\(uid)"] = NSNull()
-		//childNodes["/conversations/\(uid)"] = NSNull()
 		childNodes["/featured/\(uid)"] = NSNull()
 		childNodes["/notificationPreferences/\(uid)"] = NSNull()
 		childNodes["/readReceipts/\(uid)"] = NSNull()
@@ -522,7 +522,6 @@ class FirebaseData {
 		
 		childNodes["/account/\(uid)"] = NSNull()
 		childNodes["/connections/\(uid)"] = NSNull()
-		childNodes["/conversations/\(uid)"] = NSNull()
 		childNodes["/readReceipts/\(uid)"] = NSNull()
 		childNodes["/student-info/\(uid)"] = NSNull()
 		childNodes["/userSessions/\(uid)"] = NSNull()
@@ -538,6 +537,51 @@ class FirebaseData {
 		}
 	}
 	
+	public func signInLearner(uid: String,_ completion: @escaping (Bool) -> Void) {
+		getLearner(uid) { (learner) in
+			if let learner = learner {
+				CurrentUser.shared.learner = learner
+				AccountService.shared.currentUserType = .learner
+				Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
+					if let error = error {
+						print(error.localizedDescription)
+						completion(false)
+					} else if let customer = customer {
+						learner.hasPayment = (customer.sources.count > 0)
+						completion(true)
+					}
+				}
+			} else {
+				completion(false)
+			}
+		}
+	}
+	public func signInTutor(uid: String,_ completion: @escaping (Bool) -> Void) {
+		getLearner(uid) { (learner) in
+			if let learner = learner {
+				CurrentUser.shared.learner = learner
+				self.getTutor(learner.uid) { (tutor) in
+					if let tutor = tutor {
+						CurrentUser.shared.tutor = tutor
+						AccountService.shared.currentUserType = .tutor
+						Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account) in
+							if let account = account {
+								CurrentUser.shared.connectAccount = account
+								completion(true)
+							} else {
+								completion(false)
+							}
+						})
+					} else {
+						completion(false)
+
+					}
+				}
+			} else {
+				completion(false)
+			}
+		}
+	}
 	deinit {
 		print("FirebaseData has De-initialized")
 	}

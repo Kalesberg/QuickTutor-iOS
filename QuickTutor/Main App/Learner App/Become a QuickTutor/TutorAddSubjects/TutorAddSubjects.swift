@@ -583,11 +583,8 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
         if selectedSubjects.contains(cell.subject.text!) {
             
             cell.selectedIcon.isSelected = false
-            
             removeItem(item: selectedSubjects.index(of: cell.subject.text!)!)
-            
             tableView.deselectRow(at: indexPath, animated: true)
-            
             return
         }
         

@@ -91,9 +91,7 @@ class CardManager : BaseViewController {
 	override func loadView() {
 		view = CardManagerView()
 	}
-	
-	var customerId : String!
-	
+		
 	var customer : STPCustomer! {
 		didSet {
 			setCustomer()

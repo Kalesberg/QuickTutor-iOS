@@ -147,6 +147,7 @@ class TutorRegPayment: BaseViewController {
 	var fullName : String!
 	var routingNumber : String!
 	var accountNumber : String!
+	var validAccountData : Bool = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -155,7 +156,7 @@ class TutorRegPayment: BaseViewController {
 		for textField in textFields {
 			textField.delegate = self
 			textField.returnKeyType = .next
-			//textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+			textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 		}
 	}
 	
@@ -176,64 +177,48 @@ class TutorRegPayment: BaseViewController {
 	
 	@objc private func textFieldDidChange(_ textField: UITextField) {
 		
-		contentView.rightButton.isUserInteractionEnabled = false
-		
-		guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
-			print("invalid name")
-			return
-		}
-		print("Good Name")
-		guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
-			print("invalid routing")
-			return
-		}
-		
-		print("Good routing")
-		guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
-			print("invalid account")
-			return
-		}
-		
-		contentView.rightButton.isUserInteractionEnabled = true
-		
-		self.fullName = name
-		self.routingNumber = routingNumber
-		self.accountNumber = accountNumber
-	}
-	
-	private func infoIsValid() -> Bool {
-		
 		guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
 			contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
-			return false
+			validAccountData = false
+			return
 		}
 		contentView.nameTextfield.layer.borderColor = Colors.green.cgColor
 		
+		print("Good Name")
 		guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
-			contentView.routingNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
-			return false
+			if contentView.routingNumberTextfield.text!.count > 1 {
+				contentView.routingNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
+			}
+			validAccountData = false
+			return
 		}
 		contentView.routingNumberTextfield.layer.borderColor = Colors.green.cgColor
 		
+		print("Good routing")
 		guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
-			contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
-			return false
+			if contentView.accountNumberTextfield.text!.count > 1 {
+				contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
+			}
+			validAccountData = false
+			return
 		}
 		contentView.accountNumberTextfield.layer.borderColor = Colors.green.cgColor
+		
+		print("Good account.")
+		validAccountData = true
 		
 		self.fullName = name
 		self.routingNumber = routingNumber
 		self.accountNumber = accountNumber
-		
-		return true
 	}
+
 	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonNext) {
 			contentView.rightButton.isUserInteractionEnabled = false
 			
-			if infoIsValid() {
-				Stripe.createBankAccountToken(accountHoldersName: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber, completion: { (token) in
+			if validAccountData {
+				Stripe.createBankAccountToken(accountHoldersName: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (token) in
 					if let token = token {
 						TutorRegistration.bankToken = token
 						self.navigationController?.pushViewController(TutorAddress(), animated: true)
@@ -241,7 +226,7 @@ class TutorRegPayment: BaseViewController {
 						print("token error")
 						self.contentView.rightButton.isUserInteractionEnabled = true
 					}
-				})
+				}
 			} else {
 				contentView.rightButton.isUserInteractionEnabled = true
 			}

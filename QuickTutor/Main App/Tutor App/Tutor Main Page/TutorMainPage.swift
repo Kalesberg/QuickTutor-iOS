@@ -71,7 +71,6 @@ class TutorMainPageView : MainPageView {
         insertSubview(xButton, aboveSubview: backgroundView)
         insertSubview(shareUsernameModal, aboveSubview: backgroundView)
         backgroundView.isUserInteractionEnabled = false
-        AccountService.shared.currentUserType = .tutor
         qtText.image = #imageLiteral(resourceName: "qt-small-text")
     }
     
@@ -679,11 +678,7 @@ class TutorMainPage : MainPage {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-	
-		if Constants.showMainPageTutorial {
-			displayMessagesTutorial()
-		}
-
+		
 		guard let tutor = CurrentUser.shared.tutor, let account = CurrentUser.shared.connectAccount  else {
 			self.navigationController?.popBackToMain()
 			AccountService.shared.currentUserType = .learner
@@ -791,7 +786,7 @@ class TutorMainPage : MainPage {
             })
         })
     }
-    
+	
     override func handleNavigation() {
         super.handleNavigation()
         
@@ -804,7 +799,11 @@ class TutorMainPage : MainPage {
             })
             self.contentView.sidebar.isUserInteractionEnabled = true
             showBackground()
-            displaySidebarTutorial()
+			let defaults = UserDefaults.standard
+			if defaults.bool(forKey: "showTutorSideBarTutorial1.0") {
+				displaySidebarTutorial()
+				defaults.set(false, forKey: "showTutorSideBarTutorial1.0")
+			}			
         } else if(touchStartView == contentView.backgroundView) {
             self.contentView.sidebar.isUserInteractionEnabled = false
             let startX = self.contentView.sidebar.center.x
@@ -816,25 +815,17 @@ class TutorMainPage : MainPage {
             })
             hideBackground()
         } else if(touchStartView == contentView.sidebar.paymentItem) {
-            let next = BankManager()
-            next.acctId = tutor.acctId
-            navigationController?.pushViewController(next, animated: true)
-                
+		
+            navigationController?.pushViewController(BankManager(), animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.settingsItem) {
-            
-            let next = TutorSettings()
-            next.tutor = self.tutor
-            navigationController?.pushViewController(next, animated: true)
-                
+
+            navigationController?.pushViewController(TutorSettings(), animated: true)                
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
-            let next = TutorMyProfile()
-            next.tutor = CurrentUser.shared.tutor
-            navigationController?.pushViewController(next, animated: true)
-            
+            navigationController?.pushViewController(TutorMyProfile(), animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.reportItem) {
@@ -870,9 +861,8 @@ class TutorMainPage : MainPage {
             next.tutor = self.tutor
             navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.earningsButton) {
-            let next = TutorEarnings()
-            next.accountId = tutor.acctId
-            navigationController?.pushViewController(next, animated: true)
+			
+            navigationController?.pushViewController(TutorEarnings(), animated: true)
         } else if (touchStartView == contentView.improveItem) {
             navigationController?.pushViewController(TutorMainTips(), animated: true)
         } else if (touchStartView == contentView.viewTrendingButton) {
@@ -925,6 +915,7 @@ class TutorMainPage : MainPage {
             dialog.shareContent = content
             dialog.mode = FBSDKShareDialogMode.automatic
             dialog.show()
+			
         } else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
             if (MFMessageComposeViewController.canSendText()) {
                 let controller = MFMessageComposeViewController()
@@ -944,6 +935,8 @@ class TutorMainPage : MainPage {
             }
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
+			hideSidebar()
+			hideBackground()
         }
     }
     

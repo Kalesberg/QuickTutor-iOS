@@ -156,7 +156,6 @@ class SettingsInteractableItem : SettingsItem, InteractableBackground {
     override func configureView() {
         super.configureView()
         isUserInteractionEnabled = true
-
         addBackgroundView()
     }
 }

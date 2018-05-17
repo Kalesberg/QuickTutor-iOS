@@ -99,11 +99,7 @@ class BankManager : BaseViewController {
 	
 	var acctId : String! {
 		didSet {
-			Stripe.retrieveBankList(acctId: acctId, { (bankList) in
-				if let bankList = bankList {
-					self.bankList = bankList.data
-				}
-			})
+			contentView.tableView.reloadData()
 		}
 	}
 	
@@ -117,6 +113,12 @@ class BankManager : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		Stripe.retrieveBankList(acctId: CurrentUser.shared.tutor.acctId, { (bankList) in
+			if let bankList = bankList {
+				self.bankList = bankList.data
+			}
+		})
 		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
