@@ -148,15 +148,12 @@ class InviteOthers : BaseViewController {
 	var datasource = [CNContact]() {
 		didSet {
 			if datasource.count == 0 {
-				print("Here.")
-				let view = InviteOthersTableViewBackground()
-				
-				contentView.tableView.backgroundView = view
+				contentView.tableView.backgroundView = InviteOthersTableViewBackground()
 			}
-			print("Here1.")
 			contentView.tableView.reloadData()
 		}
 	}
+	
 	let request = CNContactFetchRequest(keysToFetch: [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)])
 	
 	override func viewDidLoad() {

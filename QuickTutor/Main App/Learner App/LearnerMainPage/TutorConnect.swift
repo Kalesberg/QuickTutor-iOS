@@ -254,9 +254,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
                 view.label.text = "0 results 😭 \nAdjust your filters to get better results"
                 contentView.collectionView.backgroundView = view
             }
-
             contentView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
-            
             contentView.collectionView.reloadData()
         }
     }

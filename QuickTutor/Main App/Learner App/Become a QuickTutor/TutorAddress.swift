@@ -172,6 +172,7 @@ class TutorAddress : BaseViewController {
 	
 	private var textFields : [UITextField] = []
 	private var addressString = ""
+	private var validData : Bool = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -181,12 +182,13 @@ class TutorAddress : BaseViewController {
 		for textField in textFields{
 			textField.delegate = self
 			textField.returnKeyType = .next
-			//textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+			textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 		}
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+		contentView.nextButton.isUserInteractionEnabled = true
 	}
 	
 	override func viewDidDisappear(_ animated: Bool) {
@@ -200,63 +202,44 @@ class TutorAddress : BaseViewController {
 	}
 	
 	@objc private func textFieldDidChange(_ textField: UITextField) {
-		//contentView.submitAddressButton.isUserInteractionEnabled = false
-		guard let line1 = textFields[0].text, line1.count > 5 else {
-			print("invalid line1")
+		guard let line1 = textFields[0].text, line1.streetRegex() else {
+			textFields[0].layer.borderColor = Colors.qtRed.cgColor
+			validData = false
 			return
 		}
-		guard let city = textFields[1].text, city.count >= 2 else {
-			print("invalid city")
+		textFields[0].layer.borderColor = Colors.green.cgColor
+
+		guard let city = textFields[1].text, city.cityRegex() else {
+			textFields[1].layer.borderColor = Colors.qtRed.cgColor
+			validData = false
 			return
 		}
-		guard let state = textFields[2].text, state.count == 2 else {
-			print("invalid state")
+		textFields[1].layer.borderColor = Colors.green.cgColor
+
+		guard let state = textFields[2].text, state.stateRegex() else {
+			textFields[2].layer.borderColor = Colors.qtRed.cgColor
+			validData = false
 			return
 		}
-		guard let zipcode = textFields[3].text, zipcode.count == 5 else {
-			print("invalid zip")
+		textFields[2].layer.borderColor = Colors.green.cgColor
+
+		guard let zipcode = textFields[3].text, zipcode.zipcodeRegex() else {
+			textFields[3].layer.borderColor = Colors.qtRed.cgColor
+			validData = false
 			return
 		}
-		print("Valid info")
-		addressString = line1 + " " + city + state + ", " + zipcode
-		//contentView.submitAddressButton.isUserInteractionEnabled = true
+		textFields[3].layer.borderColor = Colors.green.cgColor
+		addressString = line1 + " " + city + " " + state + ", " + zipcode
+		validData = true
 	}
-    
-    private func infoIsValid() -> Bool{
-        guard let line1 = textFields[0].text, line1.count > 5 else {
-            textFields[0].layer.borderColor = Colors.qtRed.cgColor
-            return false
-        }
-        textFields[0].layer.borderColor = Colors.green.cgColor
-        guard let city = textFields[1].text, city.count >= 2 else {
-            textFields[1].layer.borderColor = Colors.qtRed.cgColor
-            return false
-        }
-        textFields[1].layer.borderColor = Colors.green.cgColor
-        guard let state = textFields[2].text, state.count == 2 else {
-            textFields[2].layer.borderColor = Colors.qtRed.cgColor
-            return false
-        }
-        textFields[2].layer.borderColor = Colors.green.cgColor
-        guard let zipcode = textFields[3].text, zipcode.count == 5 else {
-            textFields[3].layer.borderColor = Colors.qtRed.cgColor
-            return false
-        }
-        textFields[3].layer.borderColor = Colors.green.cgColor
-        
-        addressString = line1 + " " + city + state + ", " + zipcode
-        
-        return true
-    }
-	
+
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonNext) {
             contentView.rightButton.isUserInteractionEnabled = false
-            
-            if infoIsValid() {
-                TutorLocation.shared.convertAddressToLatLong(addressString: addressString) { (error) in
+            if validData {
+                TutorLocation.convertAddressToLatLong(addressString: addressString) { (error) in
                     if let error = error {
-                        print(error.localizedDescription)
+						print("Error: ", error.localizedDescription)
                         self.contentView.rightButton.isUserInteractionEnabled = true
                     } else {
                         self.navigationController?.pushViewController(TutorAddUsername(), animated: true)
@@ -264,6 +247,7 @@ class TutorAddress : BaseViewController {
                 }
             } else {
                 contentView.rightButton.isUserInteractionEnabled = true
+				print("fill out the correct information.")
             }
 		}
 	}
@@ -273,7 +257,7 @@ extension TutorAddress : UITextFieldDelegate {
 	
 	internal func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		
-		let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
+		let inverseSet = NSCharacterSet(charactersIn:"0123456789-").inverted
 		let components = string.components(separatedBy: inverseSet)
 		let filtered = components.joined(separator: "")
 		
@@ -297,7 +281,7 @@ extension TutorAddress : UITextFieldDelegate {
 				return !(string == filtered)
 			}
 		case textFields[3]:
-			if newLength <= 6 {
+			if newLength <= 10 {
 				return string == filtered
 			}
 			return false

@@ -73,6 +73,28 @@ extension String {
 		let fullNameTest = NSPredicate(format:"SELF MATCHES %@", fullNameRegex)
 		return fullNameTest.evaluate(with: self)
 	}
+
+	func zipcodeRegex() -> Bool {
+		let regex = "^[0-9]{5}([- /]?[0-9]{4})?$"
+		let regexTest = NSPredicate(format: "SELF MATCHES %@", regex)
+		return regexTest.evaluate(with: self)
+	}
+	
+	func cityRegex() -> Bool {
+		let regex = "(?:[A-Z][a-z.-]+[ ]?)+"
+		let regexTest = NSPredicate(format: "SELF MATCHES %@", regex)
+		return regexTest.evaluate(with: self)
+	}
+	func stateRegex() -> Bool {
+		let regex = "^(?:(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|P[AR]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]))$"
+		let regexTest = NSPredicate(format: "SELF MATCHES %@", regex)
+		return regexTest.evaluate(with: self)
+	}
+	func streetRegex() -> Bool {
+		let regex = "[0-9]{1,3}.?[0-9]{0,3}[ ][a-zA-Z]{2,30}[ ][a-zA-Z]{2,15}."
+		let regexTest = NSPredicate(format: "SELF MATCHES %@", regex)
+		return regexTest.evaluate(with: self)
+	}
 	
 	func policyNormailzation() {
 		

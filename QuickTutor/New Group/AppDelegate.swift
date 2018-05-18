@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 		//Facebook init
 		FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 		window = UIWindow(frame: UIScreen.main.bounds)
-	
+
 		if let user = Auth.auth().currentUser {
 			self.listenForData()
 			let defaults = UserDefaults.standard
@@ -84,7 +84,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 					}
 				}
 			}
-			
 		} else {
 			try! Auth.auth().signOut()
 			configureRootViewController(controller: SignIn())

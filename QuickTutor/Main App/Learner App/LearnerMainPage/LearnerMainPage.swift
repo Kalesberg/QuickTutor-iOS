@@ -212,6 +212,8 @@ class LearnerMainPage : MainPage {
 						if !account.payouts_enabled { print("payouts disabled") }
 						CurrentUser.shared.connectAccount = account
 						completion(true)
+					} else {
+						completion(false)
 					}
 				})
 			} else {
