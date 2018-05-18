@@ -95,6 +95,37 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
 }
 
 
+class InviteOthersButton : InteractableBackgroundView {
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        label.text = "Connect"
+        label.textColor = Colors.registrationDark
+        label.textAlignment = .center
+        label.font = Fonts.createBoldSize(18)
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(label)
+        super.configureView()
+        
+        backgroundColor = .white
+        layer.cornerRadius = 5
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+}
+
+
 class InviteOthersTableViewBackground : BaseView {
     
     let label : UILabel = {
@@ -103,8 +134,8 @@ class InviteOthersTableViewBackground : BaseView {
         let formattedString = NSMutableAttributedString()
         
         formattedString
-            .bold("Connect your Contacts\n", 24, .white)
-            .regular("\nConnect your phone contacts to invite some peeps!", 17, .white)
+            .bold("Connect your Contacts", 24, .white)
+            .regular("\n\nConnect your phone contacts to invite some peeps!", 17, .white)
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
@@ -117,8 +148,11 @@ class InviteOthersTableViewBackground : BaseView {
         return label
     }()
     
+    let button = InviteOthersButton()
+    
     override func configureView() {
         addSubview(label)
+        addSubview(button)
         super.configureView()
         
         applyConstraints()
@@ -127,7 +161,15 @@ class InviteOthersTableViewBackground : BaseView {
     override func applyConstraints() {
         label.snp.makeConstraints { (make) in
             make.width.equalTo(250)
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().inset(-80)
+        }
+        
+        button.snp.makeConstraints { (make) in
+            make.width.equalTo(130)
+            make.height.equalTo(50)
+            make.top.equalTo(label.snp.bottom).inset(-25)
+            make.centerX.equalToSuperview()
         }
     }
 }
@@ -220,6 +262,8 @@ class InviteOthers : BaseViewController {
     override func handleNavigation() {
         if touchStartView is NavbarButtonInvite {
             
+        } else if touchStartView is InviteOthersButton {
+
         }
     }
 }
@@ -261,7 +305,7 @@ class InviteContactsTableViewCell : BaseTableViewCell {
 	}
 	
 	override func applyConstraints() {
-			label.snp.makeConstraints { (make) in
+        label.snp.makeConstraints { (make) in
 			make.left.right.equalToSuperview().inset(15)
 			make.top.bottom.equalToSuperview()
 		}

@@ -180,6 +180,39 @@ class LearnerMainPage : MainPage {
         })
     }
     
+    func displaySidebarTutorial() {
+        
+        let tutorial = TutorCardTutorial()
+        tutorial.label.text = "This is where you can view and edit your profile information!"
+        tutorial.label.numberOfLines = 2
+        contentView.addSubview(tutorial)
+        
+        
+        let profileView = contentView.sidebar.profileView
+        
+        tutorial.snp.makeConstraints { (make) in
+            make.top.equalTo(profileView.snp.bottom)
+            make.width.bottom.centerX.equalToSuperview()
+        }
+        
+        tutorial.label.snp.remakeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+        }
+        
+        tutorial.imageView.snp.remakeConstraints { (make) in
+            make.top.equalTo(profileView.snp.bottom).inset(-10)
+            make.centerX.equalTo(profileView)
+        }
+        
+        UIView.animate(withDuration: 1, animations: {
+            tutorial.alpha = 1
+        }, completion: { (true) in
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: {
+                tutorial.imageView.center.y += 10
+            })
+        })
+    }
     
     private func queryFeaturedTutors() {
         QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
@@ -234,6 +267,7 @@ class LearnerMainPage : MainPage {
             })
             self.contentView.sidebar.isUserInteractionEnabled = true
             showBackground()
+            displaySidebarTutorial()
         } else if(touchStartView == contentView.backgroundView) {
             self.contentView.sidebar.isUserInteractionEnabled = false
             let startX = self.contentView.sidebar.center.x

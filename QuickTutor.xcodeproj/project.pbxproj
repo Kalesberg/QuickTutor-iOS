@@ -133,6 +133,7 @@
 		84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */; };
 		84BDE2BF20AB9168003E66D5 /* AccountVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */; };
 		84C255691FC2563A0012C0AA /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C255681FC2563A0012C0AA /* Birthday.swift */; };
+		84C44F5620AE9704009AA5F1 /* CloseAccountChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C44F5520AE9704009AA5F1 /* CloseAccountChoice.swift */; };
 		84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E931206B61A6000C7A2F /* TutorFileReport.swift */; };
 		84C4E93D206B61C2000C7A2F /* LearnerRude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E939206B61C1000C7A2F /* LearnerRude.swift */; };
 		84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */; };
@@ -452,6 +453,7 @@
 		84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAccounts.swift; sourceTree = "<group>"; };
 		84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerification.swift; sourceTree = "<group>"; };
 		84C255681FC2563A0012C0AA /* Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
+		84C44F5520AE9704009AA5F1 /* CloseAccountChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountChoice.swift; sourceTree = "<group>"; };
 		84C4E931206B61A6000C7A2F /* TutorFileReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorFileReport.swift; sourceTree = "<group>"; };
 		84C4E939206B61C1000C7A2F /* LearnerRude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerRude.swift; sourceTree = "<group>"; };
 		84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerUnprofessional.swift; sourceTree = "<group>"; };
@@ -1222,6 +1224,7 @@
 				84F5FD1320A5544200CFDA95 /* CloseAccount.swift */,
 				84F5FD1820A57DA200CFDA95 /* CloseAccountReason.swift */,
 				848E91FB20A60C13002D22AA /* CloseAccountSubmission.swift */,
+				84C44F5520AE9704009AA5F1 /* CloseAccountChoice.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1486,6 +1489,7 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
+				3917BCD88F1111FBCE99BF2B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1622,6 +1626,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		3917BCD88F1111FBCE99BF2B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1744,6 +1763,7 @@
 				84257662207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift in Sources */,
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
+				84C44F5620AE9704009AA5F1 /* CloseAccountChoice.swift in Sources */,
 				848809FF20585C3A00F204A0 /* TutorProfilePics.swift in Sources */,
 				846252F320637FA7001DD330 /* BankManager.swift in Sources */,
 				840E75BA201E7DF6006FC580 /* LearnerPayment.swift in Sources */,

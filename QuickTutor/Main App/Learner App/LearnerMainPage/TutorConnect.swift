@@ -212,6 +212,9 @@ class TutorCardTutorial : InteractableView, Interactable {
     
     func touchEndOnStart() {
         UIView.animate(withDuration: 0.6, animations: {
+//            for view in self.subviews {
+//                view.alpha = 0.0
+//            }
             self.alpha = 0.0
         }) { (true) in
             self.isHidden = true
