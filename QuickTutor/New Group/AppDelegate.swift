@@ -60,6 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 		//Facebook init
 		FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 		window = UIWindow(frame: UIScreen.main.bounds)
+        
+        UserDefaults.standard.set(true, forKey: "showHomePage")
 	
 		if let user = Auth.auth().currentUser {
 			self.listenForData()
