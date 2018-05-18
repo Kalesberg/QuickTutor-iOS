@@ -135,8 +135,7 @@ class TutorEarnings : BaseViewController {
 	var datasource = [BalanceTransaction.Data]() {
 		didSet {
 			if datasource.count == 0 {
-				//TODO create backgroundView.
-					//contentView.tableView.backgroundView = backgroundView.
+                contentView.tableView.backgroundView = TutorEarningsTableViewBackground()
 			}
 			getEarnings()
 			getYearlyEarnings()
@@ -301,6 +300,39 @@ class TutorEarningsTableCellView : BaseTableViewCell {
             make.left.equalTo(leftLabel.snp.right)
             make.centerY.height.equalToSuperview()
             make.right.equalToSuperview().inset(15)
+        }
+    }
+}
+
+class TutorEarningsTableViewBackground : BaseView {
+
+    let label : UILabel = {
+        let label = UILabel()
+        
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .bold("No earnings yet!", 20, .white)
+            .regular("\n\nPayment information will load here once you have had your first session!", 16, .white)
+        
+        label.attributedText = formattedString
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(label)
+        super.configureView()
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        label.snp.makeConstraints { (make) in
+            make.top.bottom.equalToSuperview()
+            make.width.equalTo(260)
+            make.centerX.equalToSuperview()
         }
     }
 }

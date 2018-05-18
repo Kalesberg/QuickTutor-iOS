@@ -309,7 +309,7 @@ class TutorLayoutView : MainLayoutTitleBackButton {
         
         qtText.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().inset(6)
+            make.centerY.equalToSuperview()
         }
     }
 }
@@ -714,6 +714,7 @@ class TutorMainPage : MainPage {
 		let item = BecomeQTSidebarItem()
         item.label.label.text = "Start Learning"
         item.isUserInteractionEnabled = false
+        item.icon.isHidden = true
         
         let tutorial = TutorCardTutorial()
         tutorial.label.text = "Press this button to go back to the learner app!"

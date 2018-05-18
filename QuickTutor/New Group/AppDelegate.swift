@@ -60,6 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 		//Facebook init
 		FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 		window = UIWindow(frame: UIScreen.main.bounds)
+        
+        UserDefaults.standard.set(true, forKey: "showHomePage")
 	
 		if let user = Auth.auth().currentUser {
 			self.listenForData()
@@ -68,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
 			if defaults.bool(forKey: "showHomePage") {
 				FirebaseData.manager.signInLearner(uid: user.uid) { (successful) in
 					if successful {
-						self.configureRootViewController(controller: LearnerPageViewController())
+						self.configureRootViewController(controller: CloseAccountChoice())
 					} else {
 						try! Auth.auth().signOut()
 						self.configureRootViewController(controller: SignIn())
