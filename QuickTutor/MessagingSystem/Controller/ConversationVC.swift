@@ -9,6 +9,56 @@
 import UIKit
 import Firebase
 
+class ConversationManager {
+    
+    var delegate: ConversationManagerDelegate?
+    var memberIds: [String]?
+    var readByIds: [String]?
+    var messages: [UserMessage]?
+    var chatPartnerId: String?
+    
+    func loadMessages() {
+        messages = [UserMessage]()
+        let uid = AccountService.shared.currentUser.uid!
+        Database.database().reference().child("conversations").child(uid).child(chatPartnerId ?? "").observe(.childAdded) { snapshot in
+            let messageId = snapshot.key
+            DataService.shared.getMessageById(messageId, completion: { message in
+                self.messages?.append(message)
+                print("Conversation messages:", self.messages)
+                print("Message:", message.data)
+            })
+        }
+    }
+    
+    
+    
+}
+
+struct Conversation {
+    
+}
+
+protocol ConversationManagerDelegate {
+    func conversationManager(_ conversationManager: ConversationManager, didReceive message: Message)
+    func conversationManager(_ conversationManager: ConversationManager, didLoad messages: [Message])
+    func conversationManager(_ conversationManager: ConversationManager, didUpdateReadReceipt hasRead: Bool)
+}
+
+class ConversationManagerFacade: ConversationManagerDelegate {
+    func conversationManager(_ conversationManager: ConversationManager, didReceive message: Message) {
+        
+    }
+    
+    func conversationManager(_ conversationManager: ConversationManager, didLoad messages: [Message]) {
+        
+    }
+    
+    func conversationManager(_ conversationManager: ConversationManager, didUpdateReadReceipt hasRead: Bool) {
+        
+    }
+}
+
+
 class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     var navBar: ZFNavBar = {
@@ -17,6 +67,11 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "fileReportFlag"), for: .normal)
         return bar
     }()
+    
+    var messagingManagerDelegate: ConversationManagerDelegate?
+    var conversationManager = ConversationManager()
+
+    
     
     var messages = [BaseMessage]()
     var receiverId: String!
@@ -50,31 +105,9 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
 	var tutor : AWTutor!
 	var learner : AWLearner!
 	
-    lazy var emptyCellBackground: UIView = {
-        let contentView = UIView()
-        let icon: UIImageView = {
-            let iv = UIImageView()
-            iv.image = #imageLiteral(resourceName: "emptyChatImage")
-            iv.contentMode = .scaleAspectFit
-            return iv
-        }()
-        
-        let textLabel: UILabel = {
-            let label = UILabel()
-            label.textColor = Colors.border
-            label.textAlignment = .center
-            label.numberOfLines = 0
-            label.font = Fonts.createSize(13)
-            label.text = "Select a custom message, or introduce\n yourself by typing a message. A tutor must\n accept your connection request before\n you are able to message them again."
-            return label
-        }()
-        
-        contentView.addSubview(icon)
-        contentView.addSubview(textLabel)
-        icon.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 140)
-        textLabel.anchor(top: icon.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 100)
-        contentView.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0))
-        return contentView
+    lazy var emptyCellBackground: EmptyMessagesBackground = {
+        let background = EmptyMessagesBackground()
+        return background
     }()
     
     var imageCellImageView: UIImageView?
@@ -104,6 +137,9 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         setupMessagesCollection()
         setupNavBar()
         setupEmptyBackground()
+        conversationManager.chatPartnerId = receiverId
+        conversationManager.loadMessages()
+
     }
     
     private func setupMainView() {
@@ -126,13 +162,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     private func setupNavBar() {
         addNavBar()
-//        navigationController?.navigationBar.isHidden = false
-//        navigationController?.setNavigationBarHidden(false, animated: false)
-//        navigationController?.navigationBar.prefersLargeTitles = false
-//        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "backButton")
-//        navigationItem.hidesBackButton = true
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"backButton")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(pop))
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"fileReportFlag")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(showReportSheet))
         setupTitleView()
     }
     
