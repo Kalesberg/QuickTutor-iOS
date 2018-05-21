@@ -52,6 +52,18 @@ extension UINavigationController {
 			}
 		}
 	}
+    
+    func popBackToMainAnimated() {
+        for controller in self.viewControllers {
+            if controller is MessagesVC {
+                self.popToViewController(controller, animated: true)
+                break
+            } else {
+                print("unable to pop!")
+            }
+        }
+    }
+    
 	func popBackToMainWithAddTutor(){
 		for controller in self.viewControllers {
 			if controller is LearnerPageViewController {

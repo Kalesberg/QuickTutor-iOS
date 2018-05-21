@@ -19,7 +19,7 @@ class TwilioSettings: NSObject {
     
     func getEncodingParameters() -> TVIEncodingParameters?  {
         if maxAudioBitrate == 0 && maxVideoBitrate == 0 {
-            return nil;
+            return nil
         } else {
             return TVIEncodingParameters(audioBitrate: maxAudioBitrate, videoBitrate: maxVideoBitrate)
         }
@@ -29,6 +29,5 @@ class TwilioSettings: NSObject {
         // Can't initialize a singleton
     }
     
-    // MARK: Shared Instance
     static let shared = TwilioSettings()
 }

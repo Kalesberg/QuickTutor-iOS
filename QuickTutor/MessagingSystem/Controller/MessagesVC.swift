@@ -14,7 +14,7 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
     var navBar: ZFNavBar = {
         let bar = ZFNavBar()
         bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
-        bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "addTutorByUsernameButton"), for: .normal)
+        bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "connectionsIcon"), for: .normal)
         bar.addSearchBar()
         return bar
     }()
@@ -113,7 +113,9 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
     }
     
     func handleRightViewTapped() {
-        navigationController?.pushViewController(AddTutorVC(), animated: true)
+        let vc = ConnectionsVC()
+        vc.parentPageViewController = parentPageViewController
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func handleSeachTapped() {

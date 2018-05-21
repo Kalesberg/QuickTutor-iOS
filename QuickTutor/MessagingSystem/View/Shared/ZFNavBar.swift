@@ -53,9 +53,8 @@ class ZFNavBar: UIView {
     func setupTitleView() {
         addSubview(titleView)
         titleView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 65, paddingBottom: 10, paddingRight: 65, width: 0, height: 35)
-
-        
     }
+    
     func setupRightAccessoryView() {
         addSubview(rightAccessoryView)
         rightAccessoryView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 10, width: 35, height: 35)

@@ -18,6 +18,9 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         return bar
     }()
     
+    var messagingManagerDelegate: ConversationManagerDelegate?
+    var conversationManager = ConversationManager()
+    
     var messages = [BaseMessage]()
     var receiverId: String!
     var chatPartner: User!
@@ -50,60 +53,35 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
 	var tutor : AWTutor!
 	var learner : AWLearner!
 	
-    lazy var emptyCellBackground: UIView = {
-        let contentView = UIView()
-        let icon: UIImageView = {
-            let iv = UIImageView()
-            iv.image = #imageLiteral(resourceName: "emptyChatImage")
-            iv.contentMode = .scaleAspectFit
-            return iv
-        }()
-        
-        let textLabel: UILabel = {
-            let label = UILabel()
-            label.textColor = Colors.border
-            label.textAlignment = .center
-            label.numberOfLines = 0
-            label.font = Fonts.createSize(13)
-            label.text = "Select a custom message, or introduce\n yourself by typing a message. A tutor must\n accept your connection request before\n you are able to message them again."
-            return label
-        }()
-        
-        contentView.addSubview(icon)
-        contentView.addSubview(textLabel)
-        icon.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 140)
-        textLabel.anchor(top: icon.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 100)
-        contentView.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0))
-        return contentView
-    }()
-    
-    var imageCellImageView: UIImageView?
-    let zoomView = UIImageView()
-    let zoomBackground = UIView()
-    
-    let navBarCover: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        return view
-    }()
-    
-    let inputAccessoryCover: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        return view
+    lazy var emptyCellBackground: EmptyMessagesBackground = {
+        let background = EmptyMessagesBackground()
+        return background
     }()
     
     var actionSheet: FileReportActionsheet?
     
     let studentKeyboardAccessory = StudentKeyboardAccessory()
     let teacherKeyboardAccessory = TeacherKeyboardAccessory()
+    lazy var imageMessageAnimator: ImageMessageAnimator = {
+        let animator = ImageMessageAnimator(parentViewController: self)
+        return animator
+    }()
+    
+    lazy var imageMessageSender: ImageMessageSender = {
+        let sender = ImageMessageSender(parentViewController: self)
+        return sender
+    }()
+    
     var containerViewBottomAnchor: NSLayoutConstraint?
     
     func setupViews() {
+        setupNavBar()
         setupMainView()
         setupMessagesCollection()
-        setupNavBar()
         setupEmptyBackground()
+        conversationManager.chatPartnerId = receiverId
+        conversationManager.loadMessages()
+        conversationManager.delegate = ConversationManagerFacade()
     }
     
     private func setupMainView() {
@@ -117,6 +95,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
         collectionView = messagesCollection
+        collectionView?.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     private func setupEmptyBackground() {
@@ -126,13 +105,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     private func setupNavBar() {
         addNavBar()
-//        navigationController?.navigationBar.isHidden = false
-//        navigationController?.setNavigationBarHidden(false, animated: false)
-//        navigationController?.navigationBar.prefersLargeTitles = false
-//        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "backButton")
-//        navigationItem.hidesBackButton = true
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"backButton")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(pop))
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"fileReportFlag")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(showReportSheet))
         setupTitleView()
     }
     
@@ -221,26 +193,31 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
                     self.removeCurrentStatusLabel()
                     self.addMessageStatusLabel(atIndex: self.messages.endIndex)
                 }
-                
-                if message.connectionRequestId != nil {
-                    self.canSendMessages = false
-                    Database.database().reference().child("connections").child(uid).child(message.partnerId()).observeSingleEvent(of: .value, with: { (snapshot) in
-                        guard let value = snapshot.value as? Bool else {
-                            return
-                        }
-                        if value {
-                            self.canSendMessages = true
-                        } else {
-                            self.canSendMessages = false
-                        }
-                    })
-                    self.connectionRequestAccepted = true
-                }
+                self.checkIfMessageIsConnectionRequest(message)
                 self.studentKeyboardAccessory.hideQuickChatView()
                 self.scrollToBottom(animated: false)
             })
             self.markConversationRead()
         }
+    }
+    
+    func checkIfMessageIsConnectionRequest(_ message: UserMessage) {
+        let uid = AccountService.shared.currentUser.uid!
+        if message.connectionRequestId != nil {
+            self.canSendMessages = false
+            Database.database().reference().child("connections").child(uid).child(message.partnerId()).observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let value = snapshot.value as? Bool else {
+                    return
+                }
+                if value {
+                    self.canSendMessages = true
+                } else {
+                    self.canSendMessages = false
+                }
+            })
+            self.connectionRequestAccepted = true
+        }
+
     }
     
     func checkForConnection(completion: @escaping (Bool) ->() ) {
@@ -318,7 +295,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         if message.imageUrl != nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageMessage", for: indexPath) as! ImageMessageCell
             cell.bubbleWidthAnchor?.constant = 200
-            cell.delegate = self
+            cell.delegate = imageMessageAnimator
             cell.updateUI(message: message)
             cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
             return cell
@@ -395,6 +372,10 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
 
 // MARK: Plus button actions -
 extension ConversationVC: KeyboardAccessoryViewDelegate {
+    func handleSendingImage() {
+        imageMessageSender.handleSendingImage()
+    }
+    
     func handleSessionRequest() {
         studentKeyboardAccessory.messageTextview.resignFirstResponder()
         studentKeyboardAccessory.hideActionView()
@@ -426,7 +407,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
     }
     
     func sendMessage(message: UserMessage) {
-        
+        guard canSendMessages else { return }
         if let url = message.imageUrl {
             DataService.shared.sendImageMessage(imageUrl: url, imageWidth: message.data["imageWidth"] as! CGFloat, imageHeight: message.data["imageHeight"] as! CGFloat, receiverId: receiverId, completion: {
                 self.invalidateReceiverReceipt()
@@ -485,131 +466,6 @@ extension ConversationVC {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("readReceipts").child(uid).child(receiverId).setValue(false)
     }
-}
-
-extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func handleSendingImage() {
-        studentKeyboardAccessory.hideActionView()
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        
-        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
-            imagePicker.sourceType = .camera
-            self.present(imagePicker, animated: true, completion: nil)
-        }))
-        ac.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
-            imagePicker.sourceType = .photoLibrary
-            self.present(imagePicker, animated: true, completion: nil)
-        }))
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-        }))
-        present(ac, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-        var image: UIImage?
-        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-            image = editedImage
-        } else if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            image = originalImage
-        }
-        guard let imageToUplaod = image else { return }
-        uploadImageToFirebase(image: imageToUplaod)
-    }
-    
-    func uploadImageToFirebase(image: UIImage) {
-        dismiss(animated: true, completion: nil)
-        guard let data = UIImageJPEGRepresentation(image, 0.2) else {
-            return
-        }
-        let imageName = NSUUID().uuidString
-        
-        let metaDataDictionary = ["width": image.size.width, "height": image.size.height]
-        let metaData = StorageMetadata(dictionary: metaDataDictionary)
-        
-        Storage.storage().reference().child(imageName).putData(data, metadata: metaData) { metadata, _ in
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
-            let timestamp = Date().timeIntervalSince1970
-            
-            let message = UserMessage(dictionary: ["imageUrl": imageUrl, "timestamp": timestamp, "senderId": uid, "receiverId": self.receiverId])
-            message.data["imageWidth"] = image.size.width
-            message.data["imageHeight"] = image.size.width
-            self.sendMessage(message: message)
-        }
-    }
-}
-
-// MARK: Image zooming -
-extension ConversationVC: ImageMessageCellDelegate {
-    
-    func handleZoomFor(imageView: UIImageView) {
-        studentKeyboardAccessory.messageTextview.resignFirstResponder()
-        teacherKeyboardAccessory.messageTextview.resignFirstResponder()
-        guard let window = UIApplication.shared.keyWindow else { return }
-        navBarCover.alpha = 0
-        inputAccessoryCover.alpha = 0
-        window.addSubview(navBarCover)
-        
-        guard let navBarHeight = navigationController?.navigationBar.frame.height else { return }
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        navBarCover.anchor(top: window.topAnchor, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: navBarHeight + statusBarHeight)
-        
-        imageCellImageView = imageView
-        
-        zoomBackground.backgroundColor = .black
-        zoomBackground.alpha = 0
-        zoomBackground.frame = view.frame
-        zoomBackground.isUserInteractionEnabled = true
-        zoomBackground.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(zoomOut)))
-        view.addSubview(zoomBackground)
-        
-        imageView.alpha = 0
-        guard let startingFrame = imageView.superview?.convert(imageView.frame, to: nil) else { return }
-        zoomView.image = imageView.image
-        zoomView.contentMode = .scaleAspectFill
-        zoomView.clipsToBounds = true
-        zoomView.backgroundColor = .black
-        zoomView.frame = startingFrame
-        zoomView.isUserInteractionEnabled = true
-        view.addSubview(zoomView)
-        
-        zoomView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(zoomOut)))
-        
-        UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
-            let height = (self.view.frame.width / startingFrame.width) * startingFrame.height
-            let y = self.view.frame.height / 2 - height / 2
-            self.zoomView.frame = CGRect(x: 0, y: y, width: self.view.frame.width, height: height)
-            self.zoomBackground.alpha = 1
-            self.navBarCover.alpha = 1
-            self.inputAccessoryView?.alpha = 0
-        }.startAnimation()
-        
-    }
-    
-    @objc func zoomOut() {
-        guard let startingFrame = imageCellImageView!.superview?.convert(imageCellImageView!.frame, to: nil) else { return }
-        
-        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
-            self.zoomView.frame = startingFrame
-            self.zoomBackground.alpha = 0
-            self.navBarCover.alpha = 0
-            self.inputAccessoryView?.alpha = 1
-        }
-        
-        animator.addCompletion { _ in
-            self.zoomBackground.removeFromSuperview()
-            self.zoomView.removeFromSuperview()
-            self.imageCellImageView?.alpha = 1
-            self.navBarCover.removeFromSuperview()
-            self.becomeFirstResponder()
-        }
-        
-        animator.startAnimation()
-    }
-    
 }
 
 extension ConversationVC: QuickChatViewDelegate {

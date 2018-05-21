@@ -9,9 +9,21 @@
 import UIKit
 import Firebase
 
+protocol ConversationCellDelegate {
+    func conversationCellShouldDeleteMessages(_ conversationCell: ConversationCell)
+    func conversationCellShouldDisconnect(_ conversationCell: ConversationCell)
+}
+
 class ConversationCell: UICollectionViewCell {
     
     var chatPartner: User!
+    var delegate: ConversationCellDelegate?
+    
+    let background: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "1E1E26")
+        return view
+    }()
     
     let profileImageView: UserImageView = {
         let iv = UserImageView(frame: CGRect.zero)
@@ -64,7 +76,7 @@ class ConversationCell: UICollectionViewCell {
     let newMessageGradientLayer: CAGradientLayer = {
         let firstColor = Colors.learnerPurple.cgColor
         let secondColor = UIColor(hex: "1E1E26").cgColor
-
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.cornerRadius = 1
         gradientLayer.colors = [firstColor, secondColor]
@@ -75,12 +87,28 @@ class ConversationCell: UICollectionViewCell {
         let b = pow(sinf(Float(2 * .pi * ((x+0.0)/2))),2);
         let c = pow(sinf(Float(2 * .pi * ((x+0.25)/2))),2);
         let d = pow(sinf(Float(2 * .pi * ((x+0.5)/2))),2);
-        
+
         gradientLayer.endPoint = CGPoint(x: CGFloat(c),y: CGFloat(d))
         gradientLayer.startPoint = CGPoint(x: CGFloat(a),y:CGFloat(b))
         gradientLayer.locations = [0, 0.7, 0.9, 1]
         return gradientLayer
     }()
+    
+    let disconnectButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "disconnectButton"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    let deleteMessagesButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "deleteMessagesButton"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    var backgroundRightAnchor: NSLayoutConstraint?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -88,7 +116,9 @@ class ConversationCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        backgroundColor = UIColor(hex: "1E1E26")
+        setupBackground()
+        setupDisconnectButton()
+        setupDeleteMessagesButton()
         setupProfilePic()
         setupTimestampLabel()
         setupUsernameLabel()
@@ -99,47 +129,67 @@ class ConversationCell: UICollectionViewCell {
         setupNewMessageGradientLayer()
     }
     
+    private func setupBackground() {
+        addSubview(background)
+        background.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        addConstraint(NSLayoutConstraint(item: background, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0))
+        backgroundRightAnchor = background.rightAnchor.constraint(equalTo: rightAnchor, constant: 0)
+        backgroundRightAnchor?.isActive = true
+        backgroundColor = UIColor(hex: "1E1E26")
+    }
+    
     private func setupProfilePic() {
-        addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 10.5, paddingBottom: 10, paddingRight: 0, width: 60, height: 60)
+        background.addSubview(profileImageView)
+        profileImageView.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: background.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 10.5, paddingBottom: 10, paddingRight: 0, width: 60, height: 60)
     }
     
     private func setupTimestampLabel() {
-        addSubview(timestampLabel)
-        timestampLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 11, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 60, height: 12)
-
+        background.addSubview(timestampLabel)
+        timestampLabel.anchor(top: background.topAnchor, left: nil, bottom: nil, right: background.rightAnchor, paddingTop: 11, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 60, height: 12)
     }
     
     private func setupUsernameLabel() {
-        addSubview(usernameLabel)
+        background.addSubview(usernameLabel)
         usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 8, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
     }
     
     private func setupLastMessageLabel() {
-        addSubview(lastMessageLabel)
+        background.addSubview(lastMessageLabel)
         lastMessageLabel.anchor(top: usernameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 10, paddingRight: 0, width: 0, height: 14)
     }
     
     private func setupStarIcon() {
-        addSubview(starIcon)
-        starIcon.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 12, height: 12)
-        addConstraint(NSLayoutConstraint(item: starIcon, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        background.addSubview(starIcon)
+        starIcon.anchor(top: nil, left: nil, bottom: nil, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 12, height: 12)
+        addConstraint(NSLayoutConstraint(item: starIcon, attribute: .centerY, relatedBy: .equal, toItem: background, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     private func setupStarLabel() {
-        addSubview(starLabel)
+        background.addSubview(starLabel)
         starLabel.anchor(top: nil, left: nil, bottom: nil, right: starIcon.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 60, height: 15)
-        addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: background, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     private func setupLine() {
-        addSubview(separatorLine)
-        separatorLine.anchor(top: nil, left: profileImageView.leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
+        background.addSubview(separatorLine)
+        separatorLine.anchor(top: nil, left: profileImageView.leftAnchor, bottom: background.bottomAnchor, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
     }
     
     func setupNewMessageGradientLayer() {
-        layer.insertSublayer(newMessageGradientLayer, at: 0)
+        background.layer.insertSublayer(newMessageGradientLayer, at: 0)
         newMessageGradientLayer.frame = CGRect(x: 0, y: 0, width: 100, height: bounds.height)
+    }
+    
+    func setupDisconnectButton() {
+        insertSubview(disconnectButton, belowSubview: background)
+        disconnectButton.anchor(top: topAnchor, left: background.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 65, height: 0)
+        disconnectButton.addTarget(self, action: #selector(handleDisconnect), for: .touchUpInside)
+    }
+    
+    func setupDeleteMessagesButton() {
+        insertSubview(deleteMessagesButton, belowSubview: background)
+        deleteMessagesButton.anchor(top: topAnchor, left: disconnectButton.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 65, height: 0)
+        deleteMessagesButton.addTarget(self, action: #selector(handleDeleteMessages), for: .touchUpInside)
     }
     
     func updateUI(message: UserMessage) {
@@ -209,7 +259,26 @@ class ConversationCell: UICollectionViewCell {
         guard let tutor = chatPartner as? ZFTutor, let rating = tutor.rating else { return }
         self.starLabel.text = "\(rating)"
     }
+    
+    @objc func handleDisconnect() {
+        closeSwipeActions()
+        delegate?.conversationCellShouldDisconnect(self)
+    }
+    
+    @objc func handleDeleteMessages() {
+        closeSwipeActions()
+        delegate?.conversationCellShouldDeleteMessages(self)
+    }
+    
+    func closeSwipeActions() {
+        backgroundRightAnchor?.constant = 0
+        UIView.animate(withDuration: 0.25) {
+            self.layoutIfNeeded()
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+

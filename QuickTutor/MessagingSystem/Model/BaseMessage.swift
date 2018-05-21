@@ -13,3 +13,7 @@ class BaseMessage {
     var timestamp: NSNumber!
 }
 
+protocol Messageable {
+    var id: String! { get set }
+}
+

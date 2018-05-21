@@ -7,13 +7,48 @@
 //
 
 import UIKit
+import UIKit.UIGestureRecognizerSubclass
 import Firebase
+
+enum PanDirection {
+    case vertical
+    case horizontal
+}
+
+class UIPanDirectionGestureRecognizer: UIPanGestureRecognizer {
+    
+    let direction : PanDirection
+    
+    init(direction: PanDirection, target: AnyObject, action: Selector) {
+        self.direction = direction
+        super.init(target: target, action: action)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesMoved(touches, with: event)
+        
+        if state == .began {
+            
+            let vel = velocity(in: self.view!)
+            switch direction {
+            case .horizontal where fabs(vel.y) > fabs(vel.x):
+                state = .cancelled
+            case .vertical where fabs(vel.x) > fabs(vel.y):
+                state = .cancelled
+            default:
+                break
+            }
+        }
+    }
+}
+
 
 class MessagesContentCell: BaseContentCell {
     
     var messages = [UserMessage]()
     var conversationsDictionary = [String: UserMessage]()
     var parentViewController: UIViewController?
+    var swipeRecognizer: UIPanDirectionGestureRecognizer!
     
     let emptyBackround: EmptyMessagesBackground = {
         let bg = EmptyMessagesBackground()
@@ -38,11 +73,12 @@ class MessagesContentCell: BaseContentCell {
     }
     
     override func setupRefreshControl() {
-        refreshControl.addTarget(self, action: #selector(fetchConversations), for: .valueChanged)
         collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(fetchConversations), for: .valueChanged)
     }
     
     @objc func fetchConversations() {
+        refreshControl.beginRefreshing()
         conversationsDictionary.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("conversations").child(uid).observe(.childAdded) { snapshot in
@@ -64,13 +100,14 @@ class MessagesContentCell: BaseContentCell {
             self.messages = Array(self.conversationsDictionary.values)
             self.messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
             self.collectionView.reloadData()
-
+            
         }
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
         cell.updateUI(message: messages[indexPath.item])
+        cell.delegate = self
         return cell
     }
     
@@ -79,14 +116,67 @@ class MessagesContentCell: BaseContentCell {
         return messages.count
     }
     
+    func setupSwipeActions() {
+        swipeRecognizer = UIPanDirectionGestureRecognizer(direction: .horizontal, target: self, action: #selector(handleSwipe(sender:)))
+        collectionView.addGestureRecognizer(swipeRecognizer)
+        swipeRecognizer.delegate = self
+    }
+    
+    @objc func handleSwipe(sender: UIPanDirectionGestureRecognizer) {
+        
+        guard sender == swipeRecognizer else { return }
+        let swipeLocation = sender.location(in: collectionView)
+        guard let indexPath = self.collectionView.indexPathForItem(at: swipeLocation), let cell = self.collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
+        let distance = sender.translation(in: self).x
+        switch sender.state {
+        case .changed:
+            distance < 0 ? handleSwipeLeft(cell: cell, distance: distance) : handleSwipeRight(cell: cell, distance: distance)
+        case .ended:
+            handlePanEnd(cell: cell, distance: distance)
+        default:
+            break
+        }
+        
+    }
+    
+    func handleSwipeRight(cell: ConversationCell, distance: CGFloat) {
+        cell.backgroundRightAnchor?.constant = 0
+        UIView.animate(withDuration: 0.25) {
+            cell.layoutIfNeeded()
+        }
+    }
+    
+    func handleSwipeLeft(cell: ConversationCell, distance: CGFloat) {
+        guard distance > -130 else { return }
+        cell.backgroundRightAnchor?.constant = distance
+        cell.layoutIfNeeded()
+    }
+    
+    func handlePanEnd(cell: ConversationCell, distance: CGFloat) {
+        if distance > -65 {
+            cell.backgroundRightAnchor?.constant = 0
+        } else {
+            cell.backgroundRightAnchor?.constant = -130
+        }
+        
+        UIView.animate(withDuration: 0.25) {
+            cell.layoutIfNeeded()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         fetchConversations()
+        setupSwipeActions()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+}
+
+extension MessagesContentCell: UIGestureRecognizerDelegate {
     
 }
 
@@ -98,5 +188,31 @@ extension MessagesContentCell {
         vc.navigationItem.title = tappedCell.usernameLabel.text
         vc.chatPartner = tappedCell.chatPartner
         navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+extension MessagesContentCell: ConversationCellDelegate {
+    func conversationCellShouldDisconnect(_ conversationCell: ConversationCell) {
+        guard let uid = Auth.auth().currentUser?.uid, let id = conversationCell.chatPartner.uid else { return }
+        let conversationRef = Database.database().reference().child("conversations").child(uid).child(id)
+        conversationRef.removeValue()
+        conversationRef.childByAutoId().setValue(["removed": true, "removedAt": Date().timeIntervalSince1970])
+        let indexPath = collectionView.indexPath(for: conversationCell)!
+        messages.remove(at: indexPath.item)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func conversationCellShouldDeleteMessages(_ conversationCell: ConversationCell) {
+        guard let uid = Auth.auth().currentUser?.uid, let id = conversationCell.chatPartner.uid else { return }
+        let conversationRef = Database.database().reference().child("conversations").child(uid).child(id)
+        conversationRef.removeValue()
+        conversationRef.childByAutoId().setValue(["removed": true, "removedAt": Date().timeIntervalSince1970])
+        let indexPath = collectionView.indexPath(for: conversationCell)!
+        messages.remove(at: indexPath.item)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
+            self.collectionView.reloadData()
+        }
     }
 }
