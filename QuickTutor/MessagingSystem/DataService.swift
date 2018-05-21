@@ -183,4 +183,19 @@ class DataService {
             }
         }
     }
+    
+    func uploadImageToFirebase(image: UIImage, completion: @escaping(String) -> Void) {
+        guard let data = UIImageJPEGRepresentation(image, 0.2) else {
+            return
+        }
+        let imageName = NSUUID().uuidString
+        
+        let metaDataDictionary = ["width": image.size.width, "height": image.size.height]
+        let metaData = StorageMetadata(dictionary: metaDataDictionary)
+        
+        Storage.storage().reference().child(imageName).putData(data, metadata: metaData) { metadata, _ in
+            guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
+            completion(imageUrl)
+        }
+    }
 }

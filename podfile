@@ -28,7 +28,7 @@ target 'QuickTutor' do
   pod 'SnapKit'
   
   # Pods for Sessions
-  pod 'Reveal-SDK', :configurations => ['Debug']
+#  pod 'Reveal-SDK', :configurations => ['Debug']
   pod 'TwilioVideo', '2.0.0-beta3'
   pod 'Socket.IO-Client-Swift', '~> 13.1.0'
 

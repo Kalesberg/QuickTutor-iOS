@@ -82,12 +82,11 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.5.0)
-  - Reveal-SDK (14)
   - SnapKit (4.0.0)
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.5)
-  - Stripe (13.0.0)
+  - Stripe (13.0.1)
   - SwiftKeychainWrapper (3.0.1)
   - TwilioVideo (2.0.0-beta3)
 
@@ -104,7 +103,6 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/Storage
   - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
-  - Reveal-SDK
   - SnapKit
   - Socket.IO-Client-Swift (~> 13.1.0)
   - Stripe
@@ -133,7 +131,6 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - Protobuf
-    - Reveal-SDK
     - SnapKit
     - Socket.IO-Client-Swift
     - Starscream
@@ -172,14 +169,13 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
-  Reveal-SDK: 55b5c5545233b680c2f8da734f202acc15d422b7
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
-  Stripe: 542f2c4493ce31a99fa041fe4973206e8c868f29
+  Stripe: b3c69e4a269d5ae707916a090ee54b1f6011ccd9
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
   TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
-PODFILE CHECKSUM: e5886b4797c36bb02ac4f0cd29547d7bbbc4df2f
+PODFILE CHECKSUM: bdd056cf64548c8dcf6f55b3a74be0ab76837772
 
 COCOAPODS: 1.5.0
