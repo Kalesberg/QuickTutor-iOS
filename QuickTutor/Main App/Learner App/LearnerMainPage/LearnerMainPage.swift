@@ -187,12 +187,19 @@ class LearnerMainPage : MainPage {
         tutorial.label.numberOfLines = 2
         contentView.addSubview(tutorial)
         
-        
         let profileView = contentView.sidebar.profileView
         
+        let view = ProfileView()
+        view.isUserInteractionEnabled = false
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .bold(learner.name, 17, .white)
+        view.profileNameView.attributedText = formattedString
+        view.profilePicView.loadUserImages(by: learner.images["image1"]!)
+        tutorial.addSubview(view)
+        
         tutorial.snp.makeConstraints { (make) in
-            make.top.equalTo(profileView.snp.bottom)
-            make.width.bottom.centerX.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         tutorial.label.snp.remakeConstraints { (make) in
@@ -203,6 +210,10 @@ class LearnerMainPage : MainPage {
         tutorial.imageView.snp.remakeConstraints { (make) in
             make.top.equalTo(profileView.snp.bottom).inset(-10)
             make.centerX.equalTo(profileView)
+        }
+        
+        view.snp.makeConstraints { (make) in
+            make.edges.equalTo(profileView)
         }
         
         UIView.animate(withDuration: 1, animations: {

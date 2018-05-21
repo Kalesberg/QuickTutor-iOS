@@ -80,7 +80,7 @@ class NavbarButtonText : NavbarButton, Interactable {
         label.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.75)
             make.centerY.equalToSuperview()
         }
     }
@@ -213,5 +213,14 @@ class NavbarButtonInvite: NavbarButtonText {
         super.configureView()
         
         label.label.text = "Invite"
+    }
+}
+
+class NavbarButtonApply: NavbarButtonText {
+    
+    override func configureView() {
+        super.configureView()
+        
+        label.label.text = "Apply"
     }
 }

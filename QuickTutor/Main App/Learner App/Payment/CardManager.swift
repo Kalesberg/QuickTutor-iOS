@@ -62,12 +62,6 @@ class CardManagerView : MainLayoutTitleBackButton {
 			make.centerX.equalToSuperview()
 		}
 		
-//        subtitleLabel.label.snp.remakeConstraints { (make) in
-//            make.left.equalToSuperview()
-//            make.centerY.equalToSuperview().multipliedBy(1.25)
-//            make.width.equalToSuperview()
-//        }
-		
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(subtitleLabel.snp.bottom).inset(-20)
 			make.width.equalToSuperview().multipliedBy(0.85)

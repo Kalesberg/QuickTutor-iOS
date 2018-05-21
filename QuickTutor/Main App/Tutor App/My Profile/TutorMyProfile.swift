@@ -228,6 +228,13 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			return cell
 		case 2:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
+            
+            for view in cell.contentView.subviews {
+                view.snp.removeConstraints()
+            }
+            
+            cell.speakItem.removeFromSuperview()
+            cell.studysItem.removeFromSuperview()
 			
 			cell.tutorItem.label.text = "Has tutored \(tutor.numSessions!) sessions"
 			
@@ -298,6 +305,8 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 					}
 				}
 			}
+            
+            cell.applyConstraints()
 			
 			return cell
 			

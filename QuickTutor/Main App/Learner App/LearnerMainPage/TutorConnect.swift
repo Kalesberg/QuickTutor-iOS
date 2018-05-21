@@ -60,7 +60,6 @@ class TutorConnectView : MainLayoutTwoButton {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
         collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-        //collectionView.backgroundView = TutorCardCollectionViewCell()
 
         return collectionView
     }()
@@ -81,12 +80,12 @@ class TutorConnectView : MainLayoutTwoButton {
         }
     }
     
-    let addBankModal = AddBankModal()
+    let addPaymentModal = AddPaymentModal()
     
     override func configureView() {
         navbar.addSubview(searchBar)
         addSubview(collectionView)
-        addSubview(addBankModal)
+        addSubview(addPaymentModal)
         super.configureView()
         
         applyConstraints()
@@ -108,7 +107,7 @@ class TutorConnectView : MainLayoutTwoButton {
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-        addBankModal.snp.makeConstraints { (make) in
+        addPaymentModal.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
     }
@@ -212,9 +211,6 @@ class TutorCardTutorial : InteractableView, Interactable {
     
     func touchEndOnStart() {
         UIView.animate(withDuration: 0.6, animations: {
-//            for view in self.subviews {
-//                view.alpha = 0.0
-//            }
             self.alpha = 0.0
         }) { (true) in
             self.isHidden = true
@@ -452,6 +448,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             navigationController?.view.layer.add(transition.popFromTop(), forKey: nil)
             navigationController?.popViewController(animated: false)
         } else if touchStartView is AddBankButton {
+            contentView.addPaymentModal.isHidden = true
             navigationController?.pushViewController(CardManager(), animated: true)
         }
     }

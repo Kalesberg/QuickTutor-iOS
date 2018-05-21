@@ -503,8 +503,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                 view.snp.removeConstraints()
             }
             
-            cell.snp.removeConstraints()
-            cell.contentView.snp.removeConstraints()
+            cell.speakItem.removeFromSuperview()
+            cell.studysItem.removeFromSuperview()
             
             //cell.tutorItem.label.text = "Tutored in \(LearnerData.userData.numSessions!) sessions"
             cell.tutorItem.label.text = "Tutored in 0 sessions"
