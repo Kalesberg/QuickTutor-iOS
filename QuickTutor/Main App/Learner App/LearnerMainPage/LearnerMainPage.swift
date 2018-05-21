@@ -226,19 +226,18 @@ class LearnerMainPage : MainPage {
     }
     
     private func queryFeaturedTutors() {
+		self.displayLoadingOverlay()
         QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
             if let datasource = datasource {
-                
                 self.contentView.tableView.performBatchUpdates({
-                    
                     self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-                    
                     self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
                     
                 }, completion: { (finished) in
                     if finished {
                         self.didLoadMore = false
                     }
+					self.dismissOverlay()
                 })
             }
         }
@@ -326,11 +325,14 @@ class LearnerMainPage : MainPage {
             hideBackground()
         } else if(touchStartView == contentView.sidebar.becomeQTItem) {
             if self.learner.isTutor {
+				self.displayLoadingOverlay()
                 switchToTutorSide { (success) in
                     if success {
                         AccountService.shared.currentUserType = .tutor
+						self.dismissOverlay()
                         self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
                     } else {
+						self.dismissOverlay()
                         print("Oops.")
                     }
                 }

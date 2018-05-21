@@ -112,14 +112,17 @@ class TheChoice : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView == contentView.continueButton) {
+			self.displayLoadingOverlay()
 			FirebaseData.manager.getLearner(Registration.uid) { (learner) in
 				if let learner = learner {
+					self.dismissOverlay()
 					CurrentUser.shared.learner = learner
 					AccountService.shared.currentUserType = .learner
 					self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
 					let endIndex = self.navigationController?.viewControllers.endIndex
 					self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
 				} else {
+					self.dismissOverlay()
 					try! Auth.auth().signOut()
 					self.navigationController?.pushViewController(SignIn(), animated: true)
 				}

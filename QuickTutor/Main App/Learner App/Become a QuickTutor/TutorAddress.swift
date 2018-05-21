@@ -237,6 +237,7 @@ class TutorAddress : BaseViewController {
 		if (touchStartView is NavbarButtonNext) {
             contentView.rightButton.isUserInteractionEnabled = false
             if validData {
+				self.displayLoadingOverlay()
                 TutorLocation.convertAddressToLatLong(addressString: addressString) { (error) in
                     if let error = error {
 						print("Error: ", error.localizedDescription)
@@ -244,6 +245,7 @@ class TutorAddress : BaseViewController {
                     } else {
                         self.navigationController?.pushViewController(TutorAddUsername(), animated: true)
                     }
+					self.dismissOverlay()
                 }
             } else {
                 contentView.rightButton.isUserInteractionEnabled = true

@@ -256,6 +256,7 @@ class CloseAccountSubmission : BaseViewController {
 	
 	override func handleNavigation() {
 		if(touchStartView is NavbarButtonSubmit) {
+			self.displayLoadingOverlay()
 			if (CurrentUser.shared.learner.isTutor == false) {
 				FirebaseData.manager.removeLearnerAccount(uid: self.userId, reason: self.reason, { (error) in
 					if let error = error {
@@ -270,12 +271,14 @@ class CloseAccountSubmission : BaseViewController {
 							}
 						})
 					}
+					self.dismissOverlay()
 				})
 			} else {
 				self.removeAccount(deleteAccountType: DeleteAccount.type) { (error) in
 					if let error = error {
 						print(error.localizedDescription)
 					}
+					self.dismissOverlay()
 				}
 			}
 		}

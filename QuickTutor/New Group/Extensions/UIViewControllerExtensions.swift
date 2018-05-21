@@ -38,6 +38,35 @@ extension UIViewController {
 		alertController.addAction(ok)
 		present(alertController, animated: true, completion: nil)
 	}
+	func displayLoadingOverlay() {
+		if let _ = self.view.viewWithTag(69)  {
+			return
+		}
+		UIApplication.shared.isNetworkActivityIndicatorVisible = true
+		let overlay = UIView()
+		overlay.tag = 69
+		overlay.frame = self.view.bounds
+		overlay.backgroundColor = UIColor.black
+		overlay.alpha = 0.0
+		overlay.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+		
+		UIView.animate(withDuration: 0.2) {
+			overlay.alpha = 0.4
+			overlay.transform = .identity
+		}
+		self.view.addSubview(overlay)
+	}
+	func dismissOverlay() {
+		UIApplication.shared.isNetworkActivityIndicatorVisible = false
+		if let overlay = self.view.viewWithTag(69)  {
+			UIView.animate(withDuration: 0.2, animations: {
+				overlay.alpha = 0.0
+				overlay.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+			}) { _ in
+				overlay.removeFromSuperview()
+			}
+		}
+	}
 }
 
 extension UINavigationController {
@@ -47,8 +76,6 @@ extension UINavigationController {
 			if controller is LearnerPageViewController {
 				self.popToViewController(controller, animated: false)
 				break
-			} else {
-				print("unable to pop!")
 			}
 		}
 	}

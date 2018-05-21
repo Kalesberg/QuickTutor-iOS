@@ -147,14 +147,17 @@ class TutorEarnings : BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		dateFormatter.dateFormat = "MM/dd/yyyy"
-
+		
+		self.displayLoadingOverlay()
 		Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { (transactions) in
 			if let transactions = transactions {
 				self.datasource = transactions.data.sorted {
 					return $0.created < $1.created
 				}
 			}
+			self.dismissOverlay()
 		}
+		
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         

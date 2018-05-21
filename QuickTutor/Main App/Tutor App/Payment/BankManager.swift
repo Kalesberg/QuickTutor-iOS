@@ -114,17 +114,18 @@ class BankManager : BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		self.displayLoadingOverlay()
 		Stripe.retrieveBankList(acctId: CurrentUser.shared.tutor.acctId, { (bankList) in
 			if let bankList = bankList {
 				self.bankList = bankList.data
 			}
+			self.dismissKeyboard()
 		})
 		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(BankManagerTableViewCell.self, forCellReuseIdentifier: "bankCell")
 		contentView.tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
-		
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -158,11 +159,12 @@ class BankManager : BaseViewController {
 	private func defaultBankAlert(bankId: String) {
 		let alertController = UIAlertController(title: "Default Payout Method?", message: "Do you want this card to be your default payout method?", preferredStyle: .actionSheet)
 		let setDefault = UIAlertAction(title: "Set as Default", style: .default) { (alert) in
-			
+			self.displayLoadingOverlay()
 			Stripe.updateDefaultBank(account: self.acctId, bankId: bankId, completion: { (account) in
 				if let account = account {
 					self.bankList = account.data
 				}
+				self.dismissKeyboard()
 			})
 		}
 		
@@ -193,7 +195,6 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 		if indexPath.row != endIndex {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "bankCell", for: indexPath) as! BankManagerTableViewCell
 			insertBorder(cell: cell)
-
 			//Not sure what we want to put here. But for now it will have bank name, and bankholder name
 			cell.bankName.text = banks[indexPath.row].bank_name
 			cell.holderName.text = banks[indexPath.row].account_holder_name
@@ -242,6 +243,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
+			self.displayLoadingOverlay()
 			Stripe.removeBank(account: acctId, bankId: banks[indexPath.row].id) { (bankList) in
 				if let bankList = bankList {
 					self.banks.remove(at: indexPath.row)
@@ -253,6 +255,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 				} else {
 					print("Oops soemthing went wrong.")
 				}
+				self.dismissKeyboard()
 			}
 		}
 	}

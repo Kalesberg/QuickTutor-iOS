@@ -90,16 +90,20 @@ class Email: BaseViewController {
 	}
 	private func nextButtonPress() {
 		if (contentView.emailTextField.textField.text!).emailRegex() {
+			self.displayLoadingOverlay()
 			Auth.auth().fetchProviders(forEmail: contentView.emailTextField.textField.text!, completion: { (response, error) in
 				if let error = error {
 					print(error.localizedDescription)
+					self.dismissOverlay()
 				} else {
 					if response == nil {
 						print("No password. No active account")
+						self.dismissOverlay()
 						self.contentView.errorLabel.isHidden = true
 						Registration.email = self.contentView.emailTextField.textField.text!
 						self.navigationController?.pushViewController(CreatePassword(), animated: true)
 					} else {
+						self.dismissOverlay()
 						print("Email Account already in use!")
 					}
 				}

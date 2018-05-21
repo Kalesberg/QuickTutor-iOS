@@ -372,9 +372,7 @@ class LearnerMyProfile : BaseViewController {
 	}
 	private func setUpImages() {
 		var count = 0
-		
 		for number in 1..<5 {
-
 			if learner.images["image\(number)"] == "" {
 				continue
 			}

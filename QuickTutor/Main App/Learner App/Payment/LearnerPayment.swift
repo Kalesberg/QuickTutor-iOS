@@ -561,7 +561,7 @@ class LearnerPayment : BaseViewController {
             contentView.subtitleLabel.label.text = "Enter Your CVV Number"
             
         } else {
-            //start animation here..
+            self.displayLoadingOverlay()
 			Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, adding: self.card, completion: { (error) in
                 if let error = error {
                     print("Error: ", error.localizedDescription)
@@ -575,6 +575,7 @@ class LearnerPayment : BaseViewController {
 						nav?.popBackToMain()
 					}
                 }
+				self.dismissOverlay()
             })
         }
     }

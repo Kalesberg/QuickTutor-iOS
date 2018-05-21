@@ -173,10 +173,8 @@ class UserPolicy : BaseViewController {
 			}
 		}
 	}
-	func createCustomer(_ completion: @escaping (String?) -> Void) {
-		
+	func createCustomer(_ completion: @escaping (String?) -> Void) {		
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/createcustomer.php"
-		
 		let params : [String : Any] = ["email" : Registration.email, "description" : "Student Account"]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -195,7 +193,7 @@ class UserPolicy : BaseViewController {
 	
 	private func accepted() {
 		var studentInfo : [String : Any]!
-		
+		self.displayLoadingOverlay()
 		createCustomer { (cusID) in
 			if let cusID = cusID {
 				studentInfo =
@@ -203,6 +201,7 @@ class UserPolicy : BaseViewController {
 					 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]
 					]
 			}
+			
 			let account : [String : Any] =
 				["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
 			
@@ -211,22 +210,27 @@ class UserPolicy : BaseViewController {
 			self.ref.root.updateChildValues(newUser) { (error, reference) in
 				if let error = error {
 					print(error.localizedDescription)
+					self.dismissOverlay()
 				} else {
 					Auth.auth().fetchProviders(forEmail: Registration.email!, completion: { (response, error) in
 						if let error = error {
 							print(error)
+							self.dismissOverlay()
 						} else {
 							if response == nil {
 								Auth.auth().currentUser?.link(with: Registration.emailCredential, completion: { (user, _) in
 									if let error = error {
 										print(error.localizedDescription)
+										self.dismissOverlay()
 									} else {
+										self.dismissOverlay()
 										Registration.setRegistrationDefaults()
 										AccountService.shared.currentUserType = .learner
 										self.navigationController?.pushViewController(TheChoice(), animated: true)
 									}
 								})
 							} else {
+								self.dismissOverlay()
 								print("email already in use.")
 							}
 						}
@@ -238,22 +242,25 @@ class UserPolicy : BaseViewController {
 	}
 	
 	private func declined() {
+		self.displayLoadingOverlay()
 		let alertController = UIAlertController(title: "All your progress will be deleted", message: "By pressing delete your account will not be created.", preferredStyle: UIAlertControllerStyle.alert)
 		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in
 			self.dismiss(animated: true, completion: nil)
 		}
+		
 		let delete = UIAlertAction(title: "Delete", style: .destructive) { (delete) in
-			FirebaseData.manager.removeLearnerAccount(uid: Registration.uid!, { (error) in
+			FirebaseData.manager.removeLearnerAccount(uid: Registration.uid!, reason: "declined policy", { (error) in
 				if let error = error{
 					print(error)
+					self.dismissOverlay()
 				} else {
+					self.dismissOverlay()
 					self.navigationController?.popToRootViewController(animated: true)
 				}
 			})
 		}
 		alertController.addAction(cancel)
 		alertController.addAction(delete)
-		
 		self.present(alertController, animated: true, completion: nil)
 	}
 	

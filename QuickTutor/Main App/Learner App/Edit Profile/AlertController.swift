@@ -47,7 +47,6 @@ class AlertController : NSObject {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		
 		let remove = UIAlertAction(title: "Remove", style: .destructive) { (alert) in
-//			LocalImageCache.localImageManager.removeImage(number: number)
 			competion()
 		}
 		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
@@ -62,3 +61,5 @@ class AlertController : NSObject {
 		viewController.present(alertController, animated: true, completion: nil)
 	}
 }
+
+
