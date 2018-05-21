@@ -278,6 +278,7 @@ class Verification : BaseViewController {
 						}
                     } else {
 						Registration.uid = user!.uid
+						AccountService.shared.currentUserType = .lRegistration
                         self.navigationController!.pushViewController(Name(), animated: true)
                     }
                 })

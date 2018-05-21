@@ -11,6 +11,8 @@ import UIKit
 enum UserType: String {
     case learner = "learner"
     case tutor = "tutor"
+	case tRegistration = "tRegistration"
+	case lRegistration = "lRegistration"
 }
 
 protocol SegmentedViewDelegate {

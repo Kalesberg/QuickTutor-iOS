@@ -124,7 +124,6 @@ class TutorSSNView : TutorRegistrationLayout, Keyboardable {
                     self.ssnInfo.alpha = 1.0
                 })
             }
-            
             needsUpdateConstraints()
             
             UIView.animate(withDuration: 0.2, animations: {

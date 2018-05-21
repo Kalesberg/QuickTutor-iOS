@@ -100,18 +100,11 @@ class CreatePassword: BaseViewController {
 	private func createEmailAccount() {
 		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
 		let emailCredential = EmailAuthProvider.credential(withEmail: Registration.email, password: password!)
+		Registration.emailCredential = emailCredential
 		
-		Auth.auth().currentUser?.link(with: emailCredential, completion: { (user, error) in
-			if let error = error {
-				print(error.localizedDescription)
-				self.navigationController!.pushViewController(Birthday(), animated: true)
-			} else {
-				print("user is good.")
-				self.navigationController!.pushViewController(Birthday(), animated: true)
-				self.contentView.createPasswordTextfield.textField.text = ""
-			}
-		})
-	
+		self.navigationController!.pushViewController(Birthday(), animated: true)
+		self.contentView.createPasswordTextfield.textField.text = ""
+		
 	}
 	
 	private func keyboardNextWasPressed() {

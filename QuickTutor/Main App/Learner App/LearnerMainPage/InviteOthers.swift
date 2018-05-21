@@ -47,9 +47,9 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         tableView.separatorColor = Colors.divider
         tableView.showsVerticalScrollIndicator = false
         tableView.isScrollEnabled = true
-		tableView.tableFooterView = UIView()
-		
-		return tableView
+        tableView.tableFooterView = UIView()
+        
+        return tableView
     }()
     
     override var rightButton: NavbarButton {
@@ -184,86 +184,85 @@ class InviteOthers : BaseViewController {
     override func loadView() {
         view = InviteOthersView()
     }
-	
-	let contactStore = CNContactStore()
+    
+    let contactStore = CNContactStore()
+    let backgroundView = InviteOthersTableViewBackground()
 	
 	var datasource = [CNContact]() {
 		didSet {
 			if datasource.count == 0 {
-				contentView.tableView.backgroundView = InviteOthersTableViewBackground()
+				contentView.tableView.backgroundView = backgroundView
 			}
 			contentView.tableView.reloadData()
 		}
 	}
 	
-	let request = CNContactFetchRequest(keysToFetch: [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)])
-	
-	override func viewDidLoad() {
+    let request = CNContactFetchRequest(keysToFetch: [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)])
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
-		
-		datasource = []
+        
+        datasource = []
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-		contentView.tableView.register(InviteContactsTableViewCell.self, forCellReuseIdentifier: "contactCell")
-		
+        contentView.tableView.register(InviteContactsTableViewCell.self, forCellReuseIdentifier: "contactCell")
+        
     }
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-//		requestAccess { (success) in
-//			if success {
-//				do {
-//					try self.contactStore.enumerateContacts(with: self.request, usingBlock: { (contact, stop) in
-//						self.datasource.append(contact)
-//					})
-//				}
-//				catch {
-//					print("unable to fetch contacts")
-//				}
-//			}
-//		}
-	}
-	
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        requestAccess { (success) in
+//            if success {
+//                do {
+//                    try self.contactStore.enumerateContacts(with: self.request, usingBlock: { (contact, stop) in
+//                        self.datasource.append(contact)
+//                    })
+//                }
+//                catch {
+//                    print("unable to fetch contacts")
+//                }
+//            }
+//        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-	
-	func requestAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
-		switch CNContactStore.authorizationStatus(for: .contacts) {
-		case .authorized:
-			completionHandler(true)
-		case .denied:
-			showSettingsAlert(completionHandler)
-		case .restricted, .notDetermined:
-			contactStore.requestAccess(for: .contacts) { granted, error in
-				if granted {
-					completionHandler(true)
-				} else {
-					DispatchQueue.main.async {
-						self.showSettingsAlert(completionHandler)
-					}
-				}
-			}
-		}
-	}
-	
-	private func showSettingsAlert(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
-		let alert = UIAlertController(title: nil, message: "This app requires access to Contacts to proceed. Would you like to open settings and grant permission to contacts?", preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { action in
-			completionHandler(false)
-			UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
-		})
-		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { action in
-			completionHandler(false)
-		})
-		present(alert, animated: true)
-	}
-	
+    
+    func requestAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
+        switch CNContactStore.authorizationStatus(for: .contacts) {
+        case .authorized:
+            completionHandler(true)
+        case .denied:
+            showSettingsAlert(completionHandler)
+        case .restricted, .notDetermined:
+            contactStore.requestAccess(for: .contacts) { granted, error in
+                if granted {
+                    completionHandler(true)
+                } else {
+                    DispatchQueue.main.async {
+                        self.showSettingsAlert(completionHandler)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func showSettingsAlert(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
+        let alert = UIAlertController(title: nil, message: "This app requires access to Contacts to proceed. Would you like to open settings and grant permission to Contacts?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { action in
+            completionHandler(false)
+            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { action in
+            completionHandler(false)
+        })
+        present(alert, animated: true)
+    }
+    
     override func handleNavigation() {
         if touchStartView is NavbarButtonInvite {
             
-        } else if touchStartView is InviteOthersButton {
-
         }
     }
 }
@@ -271,43 +270,41 @@ class InviteOthers : BaseViewController {
 extension InviteOthers : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		print(datasource.count)
         return datasource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! InviteContactsTableViewCell
-		
-		cell.label.text = datasource[indexPath.row].givenName
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! InviteContactsTableViewCell
+        
+        cell.label.text = datasource[indexPath.row].givenName
         return cell
     }
 }
 
 class InviteContactsTableViewCell : BaseTableViewCell {
-	
-	let label : UILabel = {
-		let label = UILabel()
-		label.font = Fonts.createBoldSize(14)
-		label.textColor = .white
-		
-		return label
-	}()
-	
-	override func configureView() {
-		addSubview(label)
-		super.configureView()
-		
-		backgroundColor = .clear
-		selectionStyle = .none
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
+    
+    let label : UILabel = {
+        let label = UILabel()
+        label.font = Fonts.createBoldSize(14)
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    override func configureView() {
+        addSubview(label)
+        super.configureView()
+        
+        backgroundColor = .clear
+        selectionStyle = .none
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
         label.snp.makeConstraints { (make) in
-			make.left.right.equalToSuperview().inset(15)
-			make.top.bottom.equalToSuperview()
-		}
-	}
+            make.left.right.equalToSuperview().inset(15)
+            make.top.bottom.equalToSuperview()
+        }
+    }
 }

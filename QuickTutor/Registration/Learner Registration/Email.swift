@@ -88,6 +88,26 @@ class Email: BaseViewController {
 		super.viewDidAppear(animated)
 		self.contentView.emailTextField.textField.becomeFirstResponder()
 	}
+	private func nextButtonPress() {
+		if (contentView.emailTextField.textField.text!).emailRegex() {
+			Auth.auth().fetchProviders(forEmail: contentView.emailTextField.textField.text!, completion: { (response, error) in
+				if let error = error {
+					print(error.localizedDescription)
+				} else {
+					if response == nil {
+						print("No password. No active account")
+						self.contentView.errorLabel.isHidden = true
+						Registration.email = self.contentView.emailTextField.textField.text!
+						self.navigationController?.pushViewController(CreatePassword(), animated: true)
+					} else {
+						print("Email Account already in use!")
+					}
+				}
+			})
+		} else {
+			contentView.errorLabel.isHidden = false
+		}
+	}
 	
 	override func handleNavigation() {
 		if (touchStartView == contentView.backButton) {
@@ -95,25 +115,11 @@ class Email: BaseViewController {
 			self.navigationController!.popViewController(animated: false)
 		
 		} else if(touchStartView == contentView.nextButton) {
-			
-			if (contentView.emailTextField.textField.text!).emailRegex() {
-                contentView.errorLabel.isHidden = true
-				Registration.email = contentView.emailTextField.textField.text!
-				navigationController!.pushViewController(CreatePassword(), animated: true)
-			
-			} else {
-				contentView.errorLabel.isHidden = false
-			}
+			nextButtonPress()
 		}
 	}
 	private func keyboardNextWasPressed() {
-		if (contentView.emailTextField.textField.text!).emailRegex() {
-            contentView.errorLabel.isHidden = true
-			Registration.email = contentView.emailTextField.textField.text!
-			navigationController?.pushViewController(CreatePassword(), animated: true)
-		} else {
-			contentView.errorLabel.isHidden = false
-		}
+		nextButtonPress()
 	}
 	
 	override func didReceiveMemoryWarning() {

@@ -38,13 +38,13 @@ class AWLearner {
 	
 	var school    : String?
 	var languages : [String]?
-
+	
 	var lRating	  : Double!
-
+	
 	var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
 	
 	var connectedTutors = [String]()
-
+	
 	var isTutor : Bool = false
 	var hasPayment : Bool = false
 	
@@ -80,7 +80,7 @@ class AWTutor : AWLearner {
 	
 	var tRating : Double!
 	var earnings : Double!
-
+	
 	var subjects : [String]?
 	
 	var selected : [Selected] = []
@@ -156,7 +156,7 @@ class FirebaseData {
 	private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	private let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 	private let user = Auth.auth().currentUser!
-		
+	
 	private init() {
 		print("firebaser has been initialized")
 	}
@@ -200,7 +200,7 @@ class FirebaseData {
 			}
 		}
 	}
-
+	
 	public func removeUserImage(_ number: String) {
 		let imageRef = Storage.storage().reference().child("student/\(user.uid)/student-profile-pic\(number)")
 		imageRef.delete { (error) in
@@ -335,7 +335,7 @@ class FirebaseData {
 				self.loadSubjects(uid: uid, { (subcategory) in
 					var subjects : [String] = []
 					var selected : [Selected] = []
-
+					
 					if let subcategory = subcategory {
 						
 						for subject in subcategory {
@@ -467,6 +467,7 @@ class FirebaseData {
 		childNodes["/featured/\(uid)"] = NSNull()
 		childNodes["/readReceipts/\(uid)"] = NSNull()
 		childNodes["/review/\(uid)"] = NSNull()
+		childNodes["/subject/\(uid)"] = NSNull()
 		childNodes["/tutor-info/\(uid)"] = NSNull()
 		childNodes["/tutor_loc/\(uid)"] = NSNull()
 		childNodes["/userSessions/\(uid)"] = NSNull()
@@ -480,6 +481,7 @@ class FirebaseData {
 			if let error = error {
 				completion(error)
 			} else {
+				UserDefaults.standard.set(true, forKey: "showHomePage")
 				completion(nil)
 			}
 		}
@@ -487,7 +489,9 @@ class FirebaseData {
 	
 	public func removeBothAccounts(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
 		
-		var childNodes : [String : Any] = [:]
+		let group = DispatchGroup()
+		
+		var childNodes = [String : Any]()
 		
 		childNodes["/account/\(uid)"] = NSNull()
 		childNodes["/connections/\(uid)"] = NSNull()
@@ -505,34 +509,58 @@ class FirebaseData {
 		for subcat in subcategory {
 			childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
 		}
+		print(childNodes)
+		group.enter()
+		for (index, imageURL) in CurrentUser.shared.learner.images.enumerated() {
+			if imageURL.value == "" { continue }
+			self.storageRef.child("student-info").child(uid).child("student-profile-pic\(index)")
+				.delete { (error) in
+					if let error = error {
+						completion(error)
+					} else {
+						completion(nil)
+					}
+				group.leave()
+			}
+		}
 		
-		self.ref.root.updateChildValues(childNodes) { (error, _) in
-			if let error = error {
-				print(error.localizedDescription)
-				completion(error)
-			} else {
-				completion(nil)
+		group.notify(queue: .main) {
+			self.ref.root.updateChildValues(childNodes) { (error, _) in
+				if let error = error {
+					print(error.localizedDescription)
+					completion(error)
+				} else {
+					UserDefaults.standard.set(true, forKey: "showHomePage")
+					completion(nil)
+				}
 			}
 		}
 	}
 	
-	public func removeLearnerAccount(uid: String, reason: String, message: String, _ completion: @escaping (Error?) -> Void) {
+	public func removeLearnerAccount(uid: String, reason: String,_ completion: @escaping (Error?) -> Void) {
 		
-		var childNodes : [String : Any] = [:]
+		var childNodes = [String : Any]()
 		
-		childNodes["/account/\(uid)"] = NSNull()
-		childNodes["/connections/\(uid)"] = NSNull()
-		childNodes["/readReceipts/\(uid)"] = NSNull()
 		childNodes["/student-info/\(uid)"] = NSNull()
-		childNodes["/userSessions/\(uid)"] = NSNull()
-		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "learner"]
+		childNodes["/account/\(uid)"] = NSNull()
+		childNodes["/deleted/\(uid)"] = ["reason" : reason, "type" : "learner"]
 		
+		print("Child Nodes: ", childNodes)
 		self.ref.root.updateChildValues(childNodes) { (error, _) in
 			if let error = error {
 				print(error.localizedDescription)
 				completion(error)
 			} else {
-				completion(nil)
+				print("no error on updated.")
+				self.storageRef.child("student-info").child(uid).child("student-profile-pic1")
+					.delete { (error) in
+						if let error = error {
+							print("Storage: ", error.localizedDescription)
+							completion(error)
+						} else {
+							completion(nil)
+						}
+				}
 			}
 		}
 	}
@@ -574,7 +602,7 @@ class FirebaseData {
 						})
 					} else {
 						completion(false)
-
+						
 					}
 				}
 			} else {

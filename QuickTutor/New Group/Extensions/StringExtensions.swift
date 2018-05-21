@@ -96,18 +96,8 @@ extension String {
 		return regexTest.evaluate(with: self)
 	}
 	
-	func policyNormailzation() {
-		
-		let policy = self.split(separator: "_")
-		
-		let latePolicy = policy[0]
-		let lateFee = policy[1]
-		let cancelNotice = policy[2]
-		let cancelFee = policy[3]
-		
-	}
+
 	//We can do more with these, add new phrases, cases, etc.
-	
 	func cancelNotice() -> String {
 		let text : String
 		
@@ -115,6 +105,16 @@ extension String {
 			text = " - Cancellations: \(self) Hour Notice\n\n"
 		} else {
 			text = " - No Cancellation Policy.\n"
+		}
+		return text
+	}
+	func lateNotice() -> String {
+		let text : String
+		
+		if self != "0" {
+			text = " - Late Policy: \(self) Hour Notice\n\n"
+		} else {
+			text = " - No Late Policy.\n"
 		}
 		return text
 	}

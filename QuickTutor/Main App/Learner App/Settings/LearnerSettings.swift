@@ -475,7 +475,28 @@ class CloseAccountButton : ArrowItem {
 }
 
 class SettingsScrollView : BaseScrollView {
-    
+	private func signOutAlert() {
+		let alertController = UIAlertController(title: "Are You Sure?", message: "You will be signed out.", preferredStyle: .alert)
+		
+		let okButton = UIAlertAction(title: "Sign Out", style: .destructive) { (_) in
+			do {
+				try Auth.auth().signOut()
+				navigationController.pushViewController(SignIn(), animated: false)
+				navigationController.viewControllers.removeFirst(navigationController.viewControllers.endIndex - 1)
+			} catch {
+				print("Error signing out")
+			}
+		}
+		
+		let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+		
+		alertController.addAction(okButton)
+		alertController.addAction(cancelButton)
+		guard let current = UIApplication.getPresentedViewController() else {
+			return
+		}
+		current.present(alertController, animated: true, completion: nil)
+	}
     override func handleNavigation() {
         if (touchStartView == nil) {
             return
@@ -520,14 +541,7 @@ class SettingsScrollView : BaseScrollView {
             SocialMedia.socialMediaManager.rateApp(appUrl:  "fb://profile/QuickTutor", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { (success) in
             })
         } else if(touchStartView is SignOutButton) {
-            //Are you sure? error message should be added.
-            do {
-                try Auth.auth().signOut()
-                navigationController.pushViewController(SignIn(), animated: false)
-                navigationController.viewControllers.removeFirst(navigationController.viewControllers.endIndex - 1)
-            } catch {
-                print("Error signing out")
-            }
+			signOutAlert()
         } else if(touchStartView is CloseAccountButton) {
             navigationController.pushViewController(CloseAccount(), animated: true)
         }

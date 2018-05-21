@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+struct DeleteAccount {
+	static var type : Bool!
+}
 
 class CloseAccountChoiceView : MainLayoutTitleBackButton {
     
@@ -139,13 +142,12 @@ class TutorAndLearnerChoiceButton : CloseAccountChoiceButton {
     }
 }
 
-
 class CloseAccountChoice : BaseViewController {
     
     override var contentView: CloseAccountChoiceView {
         return view as! CloseAccountChoiceView
     }
-    
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -162,9 +164,13 @@ class CloseAccountChoice : BaseViewController {
     
     override func handleNavigation() {
         if touchStartView is TutorOnlyChoiceButton {
-            
+            let next = CloseAccountReason()
+			DeleteAccount.type = false
+			navigationController?.pushViewController(CloseAccountReason(), animated: true)
         } else if touchStartView is TutorAndLearnerChoiceButton {
-            
-        }
+			let next = CloseAccountReason()
+			DeleteAccount.type = true
+			navigationController?.pushViewController(CloseAccountReason(), animated: true)
+		}
     }
 }

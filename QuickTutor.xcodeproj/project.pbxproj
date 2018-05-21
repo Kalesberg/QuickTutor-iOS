@@ -93,7 +93,6 @@
 		84746324206940EE00B70AD9 /* TutorConnections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84746323206940EE00B70AD9 /* TutorConnections.swift */; };
 		847463262069425C00B70AD9 /* TutorSessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847463252069425C00B70AD9 /* TutorSessions.swift */; };
 		847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847463272069482D00B70AD9 /* TutorHandbook.swift */; };
-		8476C6A62053714400B55C8F /* SignInHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8476C6A52053714400B55C8F /* SignInHandler.swift */; };
 		8479EA632063E63100C5113E /* TutorAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA622063E63100C5113E /* TutorAddress.swift */; };
 		8479EA652063E66400C5113E /* TutorPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA642063E66400C5113E /* TutorPolicy.swift */; };
 		847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */; };
@@ -410,7 +409,6 @@
 		84746323206940EE00B70AD9 /* TutorConnections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorConnections.swift; sourceTree = "<group>"; };
 		847463252069425C00B70AD9 /* TutorSessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSessions.swift; sourceTree = "<group>"; };
 		847463272069482D00B70AD9 /* TutorHandbook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHandbook.swift; sourceTree = "<group>"; };
-		8476C6A52053714400B55C8F /* SignInHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInHandler.swift; sourceTree = "<group>"; };
 		8479EA622063E63100C5113E /* TutorAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddress.swift; sourceTree = "<group>"; };
 		8479EA642063E66400C5113E /* TutorPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPolicy.swift; sourceTree = "<group>"; };
 		847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCells.swift; sourceTree = "<group>"; };
@@ -706,7 +704,6 @@
 			isa = PBXGroup;
 			children = (
 				842394061FF4C7FF00827C7D /* User.swift */,
-				8476C6A52053714400B55C8F /* SignInHandler.swift */,
 				84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */,
 				84CCB17D2082CAE80056466B /* TutorSignIn.swift */,
 				8426A16A2055BC3200EAF1A8 /* Constants.swift */,
@@ -1222,9 +1219,9 @@
 			children = (
 				840E75BB201E818C006FC580 /* LearnerSettings.swift */,
 				84F5FD1320A5544200CFDA95 /* CloseAccount.swift */,
+				84C44F5520AE9704009AA5F1 /* CloseAccountChoice.swift */,
 				84F5FD1820A57DA200CFDA95 /* CloseAccountReason.swift */,
 				848E91FB20A60C13002D22AA /* CloseAccountSubmission.swift */,
-				84C44F5520AE9704009AA5F1 /* CloseAccountChoice.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1489,7 +1486,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				3917BCD88F1111FBCE99BF2B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1626,21 +1622,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3917BCD88F1111FBCE99BF2B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1722,7 +1703,6 @@
 				84746324206940EE00B70AD9 /* TutorConnections.swift in Sources */,
 				846252E720637CF8001DD330 /* LearnerMainPage.swift in Sources */,
 				84E4C7DF204E9342009C2FC4 /* ForgotPassword.swift in Sources */,
-				8476C6A62053714400B55C8F /* SignInHandler.swift in Sources */,
 				CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */,
 				CF833B7E207C4BCB00323242 /* TutorUpcomingSessionCell.swift in Sources */,
 				CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */,
