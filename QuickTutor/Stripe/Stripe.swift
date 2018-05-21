@@ -36,7 +36,7 @@ class Stripe {
 			}
 		}
 	}
-	
+
 	class func createConnectAccountToken(ssnLast4: String, line1: String, city: String, state: String, zipcode: String, _ completion: @escaping (STPToken?) -> Void) {
 		
 		let name = CurrentUser.shared.learner.name.split(separator: " ")
@@ -110,7 +110,7 @@ class Stripe {
 							let account : ConnectAccount = try JSONDecoder().decode(ConnectAccount.self, from: data)
 							completion(account)
 						} catch {
-							print("Error: Caught, Connect Account Object Broken.")
+							print("Error: Connect Account Object Broken.")
 							completion(nil)
 						}
 					} else {

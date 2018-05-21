@@ -134,10 +134,11 @@ class CloseAccountSubmission : BaseViewController {
 	}
 	
 	var reason : String!
+	var userId : String = (AccountService.shared.currentUserType == .learner) ? CurrentUser.shared.learner.uid : CurrentUser.shared.tutor.uid
+	var userType : UserType = (AccountService.shared.currentUserType == .learner) ? .learner : .tutor
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 	}
 	
 	override func loadView() {
@@ -150,7 +151,7 @@ class CloseAccountSubmission : BaseViewController {
 	}
 	
 	private func getTutorAccount(_ completion: @escaping ([String]) -> Void) {
-		FirebaseData.manager.getTutor(CurrentUser.shared.learner.uid) { (tutor) in
+		FirebaseData.manager.getTutor(userId) { (tutor) in
 			if let tutor = tutor {
 				CurrentUser.shared.tutor = tutor
 				
@@ -161,91 +162,122 @@ class CloseAccountSubmission : BaseViewController {
 				}
 				completion(subcategories.unique)
 			}
-		}
-	}
-	private func deleteUser() {
-		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
-		Auth.auth().signIn(withEmail: CurrentUser.shared.learner.email!, password: password!) { (user, error) in
-			if let error = error {
-				print(error.localizedDescription)
-			} else if let user = user {
-				user.delete(completion: { (error) in
-					if let error = error {
-						print(error.localizedDescription)
-					}
-					print("here.")
-					self.navigationController?.pushViewController(SignIn(), animated: false)
-				})
-			}
+			completion([])
 		}
 	}
 	
-	private func removeAccount() {
+	private func removeAccount(deleteAccountType: Bool, completion: @escaping (Error?) -> Void) {
 		
-		switch AccountService.shared.currentUserType {
-		case .learner:
-			if CurrentUser.shared.learner.isTutor {
-				
-				getTutorAccount { (subcategories) in
-					FirebaseData.manager.removeBothAccounts(uid: CurrentUser.shared.learner.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
-						if let error = error {
-							print(error.localizedDescription)
-						} else {
-							self.deleteUser()
-
-						}
-					})
-					//also need to remove Connect Account, need to check for balance, if 0 then delete, else payout, if unable to payout warn them, then they will need to give us a valid bank account, then retry. otherwise we take their cash.
-					Stripe.removeCustomer(customerId: CurrentUser.shared.learner.customer) { (error) in
-						if let error = error {
-							print(error.localizedDescription)
-						}
-					}
-					Stripe.removeConnectAccount(accountId: CurrentUser.shared.tutor.acctId, completion: { (error) in
-						if let error = error {
-							print(error.localizedDescription)
-						}
-					})
-				}
-			} else {
-				FirebaseData.manager.removeLearnerAccount(uid: CurrentUser.shared.learner.uid, reason: reason, message: contentView.textView.textView.text) { (error) in
+		switch deleteAccountType {
+		case true:
+			getTutorAccount { (subcategories) in
+				FirebaseData.manager.removeTutorAccount(uid: self.userId, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
 					if let error = error{
-						print(error.localizedDescription)
+						completion(error)
 					}
-					self.deleteUser()
-				}
-				
-				Stripe.removeCustomer(customerId: CurrentUser.shared.learner.customer) { (error) in
-					if let error = error {
-						print(error.localizedDescription)
-					}
-				}
-			}
-			
-		case .tutor:
-			if let currentUser = CurrentUser.shared.tutor {
-				//on tutor side, trying to delete account
-				getTutorAccount { (subcategories) in
-					FirebaseData.manager.removeTutorAccount(uid: currentUser.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
-						if let error = error{
+					self.reauthenticateUser(completion: { (error) in
+						if let error = error {
 							print(error.localizedDescription)
 						} else {
-							self.deleteUser()
+							CurrentUser.shared.learner.isTutor = false
+							self.navigationController?.pushViewController(LearnerPageViewController(), animated: false)
 						}
 					})
-				}
-				Stripe.removeConnectAccount(accountId: CurrentUser.shared.tutor.acctId, completion: { (error) in
+				})
+			}
+			//			Stripe.removeConnectAccount(accountId: CurrentUser.shared.tutor.acctId, completion: { (error) in
+			//				if let error = error {
+			//					print(error.localizedDescription)
+			//				}
+		//			})
+		case false:
+			getTutorAccount { (subcategories) in
+				FirebaseData.manager.removeBothAccounts(uid: self.userId, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
 					if let error = error {
-						print(error.localizedDescription)
+						completion(error)
+					} else {
+						self.reauthenticateUserAndDelete(completion: { (error) in
+							if let error = error {
+								print(error.localizedDescription)
+							} else {
+								try! Auth.auth().signOut()
+								self.navigationController?.pushViewController(SignIn(), animated: false)
+							}
+						})
 					}
 				})
-				//need to send email after this and somehow delete their authentication.
+				//also need to remove Connect Account, need to check for balance, if 0 then delete, else payout, if unable to payout warn them, then they will need to give us a valid bank account, then retry. otherwise we take their cash.
+				//				Stripe.removeCustomer(customerId: CurrentUser.shared.learner.customer) { (error) in
+				//					if let error = error {
+				//						print(error.localizedDescription)
+				//					}
+				//				}
+				//				Stripe.removeConnectAccount(accountId: CurrentUser.shared.tutor.acctId, completion: { (error) in
+				//					if let error = error {
+				//						print(error.localizedDescription)
+				//					}
+				//				})
 			}
 		}
 	}
+	private func reauthenticateUser(completion: @escaping (Error?) -> Void) {
+		let user = Auth.auth().currentUser
+		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
+		let credential : AuthCredential = EmailAuthProvider.credential(withEmail: CurrentUser.shared.learner.email, password: password!)
+		
+		user?.reauthenticate(with: credential, completion: { (error) in
+			if let error = error{
+				completion(error)
+			} else {
+				completion(nil)
+			}
+		})
+	}
+	
+	private func reauthenticateUserAndDelete(completion: @escaping (Error?) -> Void) {
+		let user = Auth.auth().currentUser
+		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
+		let credential : AuthCredential = EmailAuthProvider.credential(withEmail: CurrentUser.shared.learner.email, password: password!)
+		
+		user?.reauthenticate(with: credential, completion: { (error) in
+			if let error = error{
+				completion(error)
+			} else {
+				user?.delete(completion: { (error) in
+					if let error = error {
+						completion(error)
+					} else {
+						completion(nil)
+					}
+				})
+			}
+		})
+	}
+	
 	override func handleNavigation() {
 		if(touchStartView is NavbarButtonSubmit) {
-			removeAccount()
+			if (CurrentUser.shared.learner.isTutor == false) {
+				FirebaseData.manager.removeLearnerAccount(uid: self.userId, reason: self.reason, { (error) in
+					if let error = error {
+						print(error.localizedDescription)
+					} else {
+						self.reauthenticateUserAndDelete(completion: { (error) in
+							if let error = error {
+								print(error.localizedDescription)
+							} else {
+								try! Auth.auth().signOut()
+								self.navigationController?.pushViewController(SignIn(), animated: false)
+							}
+						})
+					}
+				})
+			} else {
+				self.removeAccount(deleteAccountType: DeleteAccount.type) { (error) in
+					if let error = error {
+						print(error.localizedDescription)
+					}
+				}
+			}
 		}
 	}
 }

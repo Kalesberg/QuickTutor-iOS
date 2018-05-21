@@ -232,9 +232,7 @@ class TutorAddSubjects : BaseViewController {
 			}
 		}
 	}
-    
-	
-    
+
     var selectedSubjects : [String] = [] {
         didSet {
             contentView.noSelectedItemsLabel.isHidden = !selectedSubjects.isEmpty
@@ -249,9 +247,7 @@ class TutorAddSubjects : BaseViewController {
     }
     
     var automaticScroll : Bool = false
-    
     var initialSetup : Bool = false
-    
     var filteredSubjects : [(String, String)] = []
     var partialSubjects : [(String, String)] = []
     var allSubjects : [(String, String)] = []
@@ -371,18 +367,13 @@ class TutorAddSubjects : BaseViewController {
         let indexPath = IndexPath(row: item, section: 0)
         
         self.contentView.pickedCollectionView.performBatchUpdates({
-        
             self.contentView.pickedCollectionView.deleteItems(at: [indexPath])
-            
         }) { (finished) in
             
             self.contentView.pickedCollectionView.reloadItems(at:
                 self.contentView.pickedCollectionView.indexPathsForVisibleItems)
-            
             self.contentView.nextButton.label.text = "Next (\(self.selected.count))"
-            
             self.contentView.noSelectedItemsLabel.isHidden = (self.selectedSubjects.count == 0) ? false : true
-            
             self.contentView.tableView.reloadData()
         }
     }
@@ -393,14 +384,11 @@ class TutorAddSubjects : BaseViewController {
     private func backButtonAlert() {
         let alertController = UIAlertController(title: "Are You Sure?", message: "All of your progress will be deleted.", preferredStyle: .alert)
         
-        let okButton = UIAlertAction(title: "Ok", style: .destructive) { (alert) in
+        let okButton = UIAlertAction(title: "Ok", style: .destructive) { (_) in
             self.navigationController?.popViewController(animated: true)
-
         }
         
-        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
-        
-        }
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
         
         alertController.addAction(okButton)
         alertController.addAction(cancelButton)

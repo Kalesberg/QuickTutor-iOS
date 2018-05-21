@@ -299,7 +299,6 @@ class EditBio : BaseViewController {
 	private func saveChanges() {
 	
 		switch AccountService.shared.currentUserType {
-			
 		case .learner:
 			
 				FirebaseData.manager.updateValue(node: "student-info", value: ["bio" : contentView.textView.textView.text!])
@@ -311,6 +310,8 @@ class EditBio : BaseViewController {
 			Tutor.shared.updateValue(value: ["tbio" : contentView.textView.textView.text!])
 			CurrentUser.shared.tutor.tBio = contentView.textView.textView.text!
 			displaySavedAlertController()
+		default:
+			break
 		}
 	}
 	

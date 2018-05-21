@@ -182,7 +182,7 @@ class ChangeEmail : BaseViewController {
 	override func handleNavigation() {
 		if (touchStartView is UpdateEmailButton) {
 			self.dismissKeyboard()
-			verifyUpdate()
+			updateEmail()
 		}
 	}
 	private func displaySavedAlertController() {
@@ -198,30 +198,34 @@ class ChangeEmail : BaseViewController {
 		}
 		
 	}
-	private func verifyUpdate() {
-		let emailText = contentView.textField.text
-		guard let email = emailText, email.emailRegex() else {
+	private func updateEmail() {
+		
+		guard let email = contentView.textField.text, email.emailRegex() else {
 			print("bad email")
 			self.contentView.textField.becomeFirstResponder()
 			return
 		}
+		
+		let user = Auth.auth().currentUser
 		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
-		Auth.auth().signIn(withEmail: CurrentUser.shared.learner.email!, password: password!) { (user, error) in
-			if let error = error {
-				print(error)
+		let credential : AuthCredential = EmailAuthProvider.credential(withEmail: CurrentUser.shared.learner.email!, password: password!)
+		
+		user?.reauthenticate(with: credential, completion: { (error) in
+			if let error = error{
+				print(error.localizedDescription)
 				self.contentView.textField.becomeFirstResponder()
 			} else {
-				user?.updateEmail(to: emailText!, completion: { (error) in
+				user?.updateEmail(to: self.contentView.textField.text!, completion: { (error) in
 					if let error = error {
-						print(error)
+						print(error.localizedDescription)
 					} else {
-						CurrentUser.shared.learner.email = emailText!
-						FirebaseData.manager.updateValue(node : "account", value: ["email" : emailText!])
+						CurrentUser.shared.learner.email = self.contentView.textField.text!
+						FirebaseData.manager.updateValue(node : "account", value: ["em" : self.contentView.textField.text!])
 						self.displaySavedAlertController()
 					}
 				})
 			}
-		}
+		})
 	}
 }
 extension ChangeEmail : UITextFieldDelegate {
@@ -236,7 +240,7 @@ extension ChangeEmail : UITextFieldDelegate {
 	}
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		verifyUpdate()
+		updateEmail()
 		return false
 	}
 	

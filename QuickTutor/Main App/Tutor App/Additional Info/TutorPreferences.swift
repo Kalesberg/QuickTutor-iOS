@@ -138,20 +138,12 @@ class TutorPreferences : BaseViewController {
     
     var price : Int = 5
     var distance : Int = 5
-    
     var inPerson : Bool = true
     var inVideo : Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        contentView.tableView.delegate = self
-        contentView.tableView.dataSource = self
-        
-        contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
-        contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
-        
+        configureDelegates()
     }
     
     override func loadView() {
@@ -162,12 +154,19 @@ class TutorPreferences : BaseViewController {
         super.viewDidAppear(animated)
     }
 
+	private func configureDelegates() {
+		contentView.tableView.delegate = self
+		contentView.tableView.dataSource = self
+		
+		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
+		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
+	}
+	
     @objc
     private func rateSliderValueDidChange(_ sender: UISlider) {
         let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
         
         cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-    
         price  = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
     }
     
@@ -177,7 +176,6 @@ class TutorPreferences : BaseViewController {
         let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
         
         cell.valueLabel.text = "\(value) mi"
-        
         distance = value
     }
     

@@ -138,7 +138,7 @@ class LearnerFilters: BaseViewController {
 		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! ToggleTableViewCell)
 		video = cell.toggle.isOn
 		animateSlider(!video)
-
+		
 	}
 	
 	private func showLocationAlert() {
@@ -170,9 +170,9 @@ class LearnerFilters: BaseViewController {
 			
 			distance = (distance == 0) ? -1 : distance + 10
 			price = (price == 0) ? -1 : price + 10
-
+			
 			self.delegate?.filters = (distance, price, video)
-			self.delegate?.applyFilters()
+			self.delegate?.filterTutors()
 			
 			self.dismiss(animated: true, completion: nil)
 		}
@@ -186,7 +186,7 @@ class LearnerFilters: BaseViewController {
 				cell.valueLabel.text = (self.distance > 0) ? String(self.distance) + " mi" : ""
 			}
 			self.distanceSliderValueDidChange(cell.slider)
-
+			
 		} else {
 			UIView.animate(withDuration: 0.25) {
 				cell.slider.setValue(0.0, animated: true)

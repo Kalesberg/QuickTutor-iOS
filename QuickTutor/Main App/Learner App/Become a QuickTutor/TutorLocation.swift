@@ -11,28 +11,34 @@ import CoreLocation
 
 class TutorLocation {
 	
-	let geoCoder = CLGeocoder()
-	static let shared = TutorLocation()
-	
-	func convertAddressToLatLong(addressString : String, completion: @escaping (Error?) -> Void) {
+	class func convertAddressToLatLong(addressString : String, completion: @escaping (Error?) -> Void) {
+		let geoCoder = CLGeocoder()
 		geoCoder.geocodeAddressString(addressString) { (placemark, error) in
 			if let error = error {
 				completion(error)
 			}
 			if let placemark = placemark?.first {
 				TutorRegistration.location = placemark.location
-				self.formatAddressStringFromLatLong(location: placemark.location!)
-				completion(nil)
+				self.formatAddressStringFromLatLong(location: placemark.location!, { (error) in
+					if let error = error {
+						print("Error: ")
+						completion(error)
+					} else {
+						completion(nil)
+					}
+				})
 			}
 		}
 	}
 	
-	func formatAddressStringFromLatLong(location: CLLocation) {
+	class func formatAddressStringFromLatLong(location: CLLocation,_ completion: @escaping (Error?) -> Void) {
+		let geoCoder = CLGeocoder()
+		
 		geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
 			if let error = error {
 				print(error.localizedDescription)
+				completion(error)
 			}
-		
 			guard let placemark = placemarks, placemark.count > 0 else {
 				print("Reverse Geocode did not work.")
 				return
@@ -47,7 +53,7 @@ class TutorLocation {
 			}
 			if let street = pm.thoroughfare {
 				addressString = line1 + street
-				TutorRegistration.line1 = line1 + street
+				TutorRegistration.line1 = line1 + street + " "
 			}
 			
 			if let city = pm.locality {
@@ -63,6 +69,7 @@ class TutorLocation {
 				TutorRegistration.zipcode = zipcode
 			}
 			TutorRegistration.address = addressString
+			completion(nil)
 		}
 	}
 }

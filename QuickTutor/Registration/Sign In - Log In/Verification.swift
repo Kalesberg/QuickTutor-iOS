@@ -256,6 +256,7 @@ class Verification : BaseViewController {
                 self.view.endEditing(true)
                 self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
                     if snapshot.exists() {
+						UserDefaults.standard.set(true, forKey: "showHomePage")
 							if UserDefaults.standard.bool(forKey: "showHomePage") {
 								FirebaseData.manager.signInLearner(uid: user!.uid) { (successful) in
 									if successful {
@@ -277,6 +278,7 @@ class Verification : BaseViewController {
 						}
                     } else {
 						Registration.uid = user!.uid
+						AccountService.shared.currentUserType = .lRegistration
                         self.navigationController!.pushViewController(Name(), animated: true)
                     }
                 })

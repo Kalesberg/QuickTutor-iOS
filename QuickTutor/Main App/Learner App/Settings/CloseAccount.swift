@@ -283,7 +283,15 @@ class CloseAccount : BaseViewController {
     
     override func handleNavigation() {
         if (touchStartView is ProceedButton) {
-            navigationController?.pushViewController(CloseAccountReason(), animated: true)
+			if AccountService.shared.currentUserType == .learner {
+				if CurrentUser.shared.learner.isTutor {
+					navigationController?.pushViewController(CloseAccountChoice(), animated: true)
+				} else {
+					navigationController?.pushViewController(CloseAccountReason(), animated: true)
+				}
+			} else {
+				navigationController?.pushViewController(CloseAccountChoice(), animated: true)
+			}
 		} else if (touchStartView is CancelButton) {
 			navigationController?.popViewController(animated: true)
 		}

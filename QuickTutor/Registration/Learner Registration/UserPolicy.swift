@@ -212,13 +212,30 @@ class UserPolicy : BaseViewController {
 				if let error = error {
 					print(error.localizedDescription)
 				} else {
-					Registration.setRegistrationDefaults()
-					self.navigationController?.pushViewController(TheChoice(), animated: true)
+					Auth.auth().fetchProviders(forEmail: Registration.email!, completion: { (response, error) in
+						if let error = error {
+							print(error)
+						} else {
+							if response == nil {
+								Auth.auth().currentUser?.link(with: Registration.emailCredential, completion: { (user, _) in
+									if let error = error {
+										print(error.localizedDescription)
+									} else {
+										Registration.setRegistrationDefaults()
+										AccountService.shared.currentUserType = .learner
+										self.navigationController?.pushViewController(TheChoice(), animated: true)
+									}
+								})
+							} else {
+								print("email already in use.")
+							}
+						}
+					})
+					
 				}
 			}
 		}
 	}
-	
 	
 	private func declined() {
 		let alertController = UIAlertController(title: "All your progress will be deleted", message: "By pressing delete your account will not be created.", preferredStyle: UIAlertControllerStyle.alert)
@@ -226,8 +243,13 @@ class UserPolicy : BaseViewController {
 			self.dismiss(animated: true, completion: nil)
 		}
 		let delete = UIAlertAction(title: "Delete", style: .destructive) { (delete) in
-			print("delete")
-			self.navigationController?.popToRootViewController(animated: true)
+			FirebaseData.manager.removeLearnerAccount(uid: Registration.uid!, { (error) in
+				if let error = error{
+					print(error)
+				} else {
+					self.navigationController?.popToRootViewController(animated: true)
+				}
+			})
 		}
 		alertController.addAction(cancel)
 		alertController.addAction(delete)

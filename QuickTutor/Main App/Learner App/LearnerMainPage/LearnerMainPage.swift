@@ -97,13 +97,13 @@ class LearnerMainPage : MainPage {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-		let defaults = UserDefaults.standard
+		AccountService.shared.currentUserType = .learner
 		
-		if defaults.bool(forKey: "showMainPageTutorial1.0") {
-			displayMessagesTutorial()
-			defaults.set(false, forKey: "showMainPageTutorial1.0")
-		}
-		
+		if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
+			UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
+            displayMessagesTutorial()
+        }
+        
         guard let learner = CurrentUser.shared.learner else {
             try! Auth.auth().signOut()
             self.navigationController?.pushViewController(SignIn(), animated: true)
@@ -232,29 +232,29 @@ class LearnerMainPage : MainPage {
             }
         }
     }
-    private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
-        FirebaseData.manager.getTutor(learner.uid) { (tutor) in
-            if let tutor = tutor {
-                CurrentUser.shared.tutor = tutor
-                Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-                    if let account = account {
-                        if !account.verification.fields_needed.isEmpty {
-                            print("field needed: ", account.verification.fields_needed, " due by: ", account.verification.due_by, " details: ", account.verification.disabled_reason)
-                        }
-                        if !account.charges_enabled { print("Charges disabled") }
-                        if !account.payouts_enabled { print("payouts disabled") }
-                        CurrentUser.shared.connectAccount = account
-                        completion(true)
-                    } else {
-                        completion(false)
-                    }
-                })
-            } else {
-                completion(false)
-            }
-        }
-    }
-	
+	private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
+		FirebaseData.manager.getTutor(learner.uid) { (tutor) in
+			if let tutor = tutor {
+				CurrentUser.shared.tutor = tutor
+				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
+					if let account = account {
+						if !account.verification.fields_needed.isEmpty {
+							print("field needed: ", account.verification.fields_needed, " due by: ", account.verification.due_by, " details: ", account.verification.disabled_reason)
+						}
+						if !account.charges_enabled { print("Charges disabled") }
+						if !account.payouts_enabled { print("payouts disabled") }
+						CurrentUser.shared.connectAccount = account
+						completion(true)
+					} else {
+						completion(false)
+					}
+				})
+			} else {
+				completion(false)
+			}
+		}
+	}
+    
     override func handleNavigation() {
         super.handleNavigation()
         
@@ -267,7 +267,11 @@ class LearnerMainPage : MainPage {
             })
             self.contentView.sidebar.isUserInteractionEnabled = true
             showBackground()
-            displaySidebarTutorial()
+			if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
+				displaySidebarTutorial()
+				UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
+			}
+			
         } else if(touchStartView == contentView.backgroundView) {
             self.contentView.sidebar.isUserInteractionEnabled = false
             let startX = self.contentView.sidebar.center.x
@@ -310,19 +314,20 @@ class LearnerMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.becomeQTItem) {
-			if self.learner.isTutor {
-				switchToTutorSide { (success) in
-					if success {
-						AccountService.shared.currentUserType = .tutor
-						self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-					} else {
-						print("Oops.")
-					}
-				}
-			} else {
-				self.navigationController?.pushViewController(BecomeTutor(), animated: true)
-			}
-			hideSidebar()
+            if self.learner.isTutor {
+                switchToTutorSide { (success) in
+                    if success {
+                        AccountService.shared.currentUserType = .tutor
+                        self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+                    } else {
+                        print("Oops.")
+                    }
+                }
+            } else {
+				AccountService.shared.currentUserType = .tRegistration
+                self.navigationController?.pushViewController(BecomeTutor(), animated: true)
+            }
+            hideSidebar()
             hideBackground()
         } else if (touchStartView is SearchBar) {
             
@@ -335,8 +340,8 @@ class LearnerMainPage : MainPage {
             }
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
-			hideSidebar()
-			hideBackground()
+            hideSidebar()
+            hideBackground()
         }
     }
 }

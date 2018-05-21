@@ -181,9 +181,9 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 		if shouldUpdateSearchResults {
 			school = filteredSchools[indexPath.row]
 			self.dismissKeyboard()
+			
 			switch AccountService.shared.currentUserType {
 			case .learner:
-				
 				if !CurrentUser.shared.learner.isTutor {
 					
 					FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
@@ -208,6 +208,8 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 				if CurrentUser.shared.tutor != nil {
 					CurrentUser.shared.tutor.school = school
 				}
+			default:
+				break
 			}
 		}
 	}

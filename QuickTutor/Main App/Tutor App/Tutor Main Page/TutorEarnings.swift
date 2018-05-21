@@ -62,7 +62,8 @@ class TutorEarningsView : TutorLayoutView {
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = Colors.registrationDark
         tableView.isScrollEnabled = true
-        
+        tableView.tableFooterView = UIView()
+		
         return tableView
     }()
     
@@ -146,7 +147,7 @@ class TutorEarnings : BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		dateFormatter.dateFormat = "MM/dd/yyyy"
-		
+
 		Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { (transactions) in
 			if let transactions = transactions {
 				self.datasource = transactions.data.sorted {

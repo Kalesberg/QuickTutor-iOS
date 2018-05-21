@@ -13,7 +13,7 @@ import CoreLocation
 protocol ApplyLearnerFilters {
     var filters : (Int,Int,Bool)! { get set }
     var location : CLLocation? { get set}
-    func applyFilters()
+    func filterTutors()
 }
 
 protocol ConnectButtonPress {
@@ -60,7 +60,6 @@ class TutorConnectView : MainLayoutTwoButton {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
         collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-        //collectionView.backgroundView = TutorCardCollectionViewCell()
 
         return collectionView
     }()
@@ -245,7 +244,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
                 let view = NoResultsView()
                 view.label.text = "No tutors currently available 👨🏽‍🏫"
                 contentView.collectionView.backgroundView = view
-            }
+			} else {
+				contentView.collectionView.backgroundView = nil
+			}
             contentView.collectionView.reloadData()
         }
     }
@@ -256,10 +257,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
                 let view = NoResultsView()
                 view.label.text = "0 results 😭 \nAdjust your filters to get better results"
                 contentView.collectionView.backgroundView = view
-            }
-
-            contentView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
-            
+			} else {
+				contentView.collectionView.backgroundView = nil
+			}
             contentView.collectionView.reloadData()
         }
     }
@@ -274,7 +274,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         didSet {
             QueryData.shared.queryAWTutorBySubcategory(subcategory: subcategory!) { (tutors) in
                 if let tutors = tutors {
-                    self.datasource = tutors.sortWithoutDistance()
+					self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
                 }
             }
         }
@@ -284,7 +284,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         didSet {
             QueryData.shared.queryAWTutorBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
                 if let tutors = tutors {
-                    self.datasource = tutors.sortWithoutDistance()
+					self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
                 }
             }
             
@@ -347,90 +347,59 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         })
     }
 
-    func sortWithDistance(_ tutors: [AWTutor] ) {
-        if tutors.count == 0 {
-            filteredDatasource = []
-            return
-        }
-        
-        guard let currentUserLocation = location else {
-            print("unable to find your location.")
-            filteredDatasource = tutors.sortWithoutDistance()
-            return
-        }
-        
-        var d0 : Double = 150
-        var d1 : Double = 150
-        
-        filteredDatasource = tutors.sorted {
-            if let location1 = $0.location?.location {
-                d0 = location1.distance(from: currentUserLocation)
-            }
-            
-            if let location2 = $1.location?.location {
-                d1 = location2.distance(from: currentUserLocation)
-            }
-            
-            if $0.tRating != $1.tRating {
-                return $0.tRating > $1.tRating
-            } else if $0.price != $1.price {
-                return $0.price < $1.price
-            } else if d0 != d1 {
-                return d0 < d1
-            } else if $0.hours != $1.hours {
-                return $0.hours < $1.hours
-            } else if $0.numSessions != $1.numSessions {
-                return $0.numSessions < $0.numSessions
-            } else {
-                return $0.name < $1.name
-            }
-        }
-    }
-    
-    func applyFilters() {
-        
-        if filters.2 == false && filters.1 == -1 && filters.0 == -1 {
-            hasAppliedFilters = false
-            shouldFilterDatasource = false
-            contentView.collectionView.reloadData()
-            return
-        }
-        
-        var distance : Double = 0.0
-        var tutors =  [AWTutor]()
-        
-        shouldFilterDatasource = true
-        hasAppliedFilters = true
-        
-        if filters.2 {
-            tutors = (filters.1 != -1) ? datasource.filter { ($0.price <= filters.1) } : datasource
-            filteredDatasource = tutors.sortWithoutDistance()
-        } else {
-            tutors = (filters.1 != -1) ? datasource.filter { ($0.price <= filters.1) } : datasource
-            if filters.0 != -1 {
-                tutors = tutors.filter {
-                    if let currentUserLocation = location {
-                        if let tutorLocation = $0.location?.location {
-                            distance = currentUserLocation.distance(from: tutorLocation) * 0.00062137
-                            return (distance <= Double(filters.0))
-                        } else {
-                            return (false)
-                        }
-                    } else {
-                        print("No location for tutor.")
-                        filteredDatasource = tutors.sortWithoutDistance()
-                        return (false)
-                    }
-                }
-                sortWithDistance(tutors)
-            } else {
-                if tutors.count == 0 {
-                    filteredDatasource = []
-                    return
-                }
-                filteredDatasource = tutors.sortWithoutDistance()
-            }
-        }
+	private func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
+		return (v / (v+m)) * ((r + Double((m / (v+m)))) * C)
+	}
+	
+	/* no distance calculation */
+	private func sortTutorsWithWeightedList(tutors: [AWTutor]) -> [AWTutor] {
+		guard tutors.count > 1 else { return tutors }
+		
+		let avg = tutors.map({$0.tRating / 5}).average
+		
+		return tutors.sorted {
+			return bayesianEstimate(C: avg, r: $0.tRating / 5, v: Double($0.numSessions), m: 1) > bayesianEstimate(C: avg, r: $1.tRating / 5, v: Double($1.numSessions), m: 1)
+		}
+	}
+
+	private func filterByPrice(priceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
+		if priceFilter == -1 || tutors.isEmpty {
+			return tutors
+		}
+		return tutors.filter { $0.price <= priceFilter }
+	}
+	private func filterByDistance(distanceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
+		if distanceFilter == -1 || tutors.isEmpty {
+			return tutors
+		}
+		guard let userLocation = location else { return tutors }
+		
+		return tutors.filter {
+			if let tutorLocation = $0.location?.location {
+				return (userLocation.distance(from: tutorLocation) * 0.00062137) <= Double(distanceFilter)
+			}
+			return false
+		}
+	}
+	private func filterBySessionType(searchTheWorld: Bool, tutors: [AWTutor]) -> [AWTutor] {
+		if searchTheWorld {
+			return tutors.filter { $0.preference == 1 || $0.preference == 3 }
+		}
+		return tutors.filter { $0.preference == 2 || $0.preference == 3 }
+	}
+	
+    func filterTutors() {
+		if filters.0 == -1 && filters.1 == -1 && filters.2 == false {
+			hasAppliedFilters = false
+			shouldFilterDatasource = false
+			return
+		}
+		hasAppliedFilters = true
+		shouldFilterDatasource = true
+
+		let filtered = filterBySessionType(searchTheWorld: filters.2, tutors: filterByDistance(distanceFilter: filters.0, tutors: filterByPrice(priceFilter: filters.1, tutors: datasource)))
+		
+		filteredDatasource = sortTutorsWithWeightedList(tutors: filtered)
     }
     
     override func handleNavigation() {
@@ -457,6 +426,17 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     }
 }
 
+extension Array where Element: Numeric {
+	/// Returns the total sum of all elements in the array
+	var total: Element { return reduce(0, +) }
+}
+
+extension Array where Element: FloatingPoint {
+	/// Returns the average of all elements in the array
+	var average: Element {
+		return isEmpty ? 0 : total / Element(count)
+	}
+}
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

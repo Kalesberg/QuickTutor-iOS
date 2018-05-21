@@ -80,7 +80,7 @@ class CloseAccountReason : BaseViewController {
     override var contentView: CloseAccountReasonView {
         return view as! CloseAccountReasonView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -122,7 +122,6 @@ extension CloseAccountReason : UITableViewDataSource, UITableViewDelegate {
         let next = CloseAccountSubmission()
         next.contentView.reasonLabel.text = options[indexPath.row]
 		next.reason = options[indexPath.row]
-		
         navigationController?.pushViewController(next, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)

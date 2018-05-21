@@ -125,7 +125,6 @@ class UploadImageView : RegistrationNavBarView {
     }
 }
 
-
 //Interactables
 class AddImageButton : InteractableView, Interactable {
     
@@ -213,7 +212,6 @@ class UploadImage: BaseViewController {
 			if imagePicked {
 				contentView.looksGoodButton.isUserInteractionEnabled = false
 				guard let image = contentView.imageView.image?.circleMasked! else { return }
-			
 				guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
 				
 				FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in

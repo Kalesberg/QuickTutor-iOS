@@ -26,22 +26,22 @@ class EditLanguageView : EditProfileMainLayout {
 		tableView.showsVerticalScrollIndicator = false
 		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
 		tableView.allowsMultipleSelection = true
-
+		
 		
 	}
 	override func applyConstraints() {
 		super.applyConstraints()
 		
-        tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-            } else {
-                make.bottom.equalToSuperview()
-            }
-            make.centerX.equalToSuperview()
-        }
+		tableView.snp.makeConstraints { (make) in
+			make.top.equalTo(titleLabel.snp.bottom)
+			make.width.equalToSuperview().multipliedBy(0.9)
+			if #available(iOS 11.0, *) {
+				make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+			} else {
+				make.bottom.equalToSuperview()
+			}
+			make.centerX.equalToSuperview()
+		}
 	}
 	override func layoutSubviews() {
 		super.layoutSubviews()
@@ -82,7 +82,7 @@ class EditLanguage : BaseViewController {
 		
 		selectedCells = languages
 	}
-
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 	}
@@ -124,7 +124,7 @@ class EditLanguage : BaseViewController {
 		
 		
 		switch AccountService.shared.currentUserType {
-		
+			
 		case .learner:
 			
 			if !CurrentUser.shared.learner.isTutor {
@@ -153,20 +153,22 @@ class EditLanguage : BaseViewController {
 			if AccountService.shared.currentUserType == .tutor {
 				CurrentUser.shared.tutor.languages = selectedCells
 			}
+		default:
+			break
 		}
 	}
 	
 	private func loadListOfLanguages() {
 		let pathToFile = Bundle.main.path(forResource: "languages", ofType: "txt")
-        if let path = pathToFile {
-            do {
-                let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-                datasource = school.components(separatedBy: ",") as [String]
-            } catch {
-                datasource = nil
-                print("Try-catch error")
-            }
-        }
+		if let path = pathToFile {
+			do {
+				let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
+				datasource = school.components(separatedBy: ",") as [String]
+			} catch {
+				datasource = nil
+				print("Try-catch error")
+			}
+		}
 	}
 }
 extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
@@ -184,7 +186,7 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 		guard let language = datasource?[indexPath.row] else { return  cell }
 		cell.textLabel?.text = language
 		cell.checkbox.isSelected =  selectedCells.contains(language)
-
+		
 		return cell
 	}
 	
@@ -215,12 +217,12 @@ class CustomLanguageCell : UITableViewCell {
 	}
 	
 	let checkbox = RegistrationCheckbox()
-
+	
 	func configureTableViewCell() {
 		addSubview(checkbox)
 		
 		checkbox.isSelected = false
-	
+		
 		let cellBackground = UIView()
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
