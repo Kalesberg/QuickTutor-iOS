@@ -78,7 +78,6 @@
 		846252F320637FA7001DD330 /* BankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F220637FA7001DD330 /* BankManager.swift */; };
 		846252F720637FC5001DD330 /* TutorHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F620637FC5001DD330 /* TutorHelp.swift */; };
 		846252FB206381BD001DD330 /* TaxInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252FA206381BD001DD330 /* TaxInformation.swift */; };
-		84681F922049F30A00F45DFC /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84681F912049F30A00F45DFC /* LocationServices.swift */; };
 		84681FA0204B63DC00F45DFC /* schools.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84681F9F204B63DC00F45DFC /* schools.txt */; };
 		846D9B4E2069E57000302773 /* CategorySelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */; };
 		846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */; };
@@ -392,7 +391,6 @@
 		846252F620637FC5001DD330 /* TutorHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHelp.swift; sourceTree = "<group>"; };
 		846252FA206381BD001DD330 /* TaxInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxInformation.swift; sourceTree = "<group>"; };
 		846466992096BBFD006ABA98 /* TutorAddBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddBank.swift; sourceTree = "<group>"; };
-		84681F912049F30A00F45DFC /* LocationServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServices.swift; sourceTree = "<group>"; };
 		84681F9F204B63DC00F45DFC /* schools.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schools.txt; sourceTree = "<group>"; };
 		846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchCollectionViewLayout.swift; sourceTree = "<group>"; };
 		846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -1016,9 +1014,7 @@
 				8426A1602055B31F00EAF1A8 /* Resources */,
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
-				84681F912049F30A00F45DFC /* LocationServices.swift */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
-				842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */,
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
 			);
 			path = QuickTutor;
@@ -1163,6 +1159,7 @@
 		84F245101FDA0F96006447A8 /* Learner Registration */ = {
 			isa = PBXGroup;
 			children = (
+				842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */,
 				84A37B77200447C800C19397 /* UserPolicy.swift */,
 				84F36ED71FC3603F00E71589 /* Name.swift */,
 				84C96C0C1FCE34A900DBD3A6 /* Email.swift */,
@@ -1716,7 +1713,6 @@
 				CF6F58BE205EE68800ACBD32 /* ConnectionRequestCell.swift in Sources */,
 				84F5FD1120A4DCA900CFDA95 /* TutorServiceFee.swift in Sources */,
 				8479EA632063E63100C5113E /* TutorAddress.swift in Sources */,
-				84681F922049F30A00F45DFC /* LocationServices.swift in Sources */,
 				84716F882087FCC100E80E17 /* EditTutorSubjects.swift in Sources */,
 				CF6F58BF205EE68800ACBD32 /* SystemMessageCell.swift in Sources */,
 				84880A022058603800F204A0 /* TutorHarassment.swift in Sources */,

@@ -242,7 +242,6 @@ class TutorPolicy : BaseViewController {
 		}
 	}
 	private func createConnectAccount(_ completion: @escaping (Bool) -> Void) {
-		//Start animation...
 		Stripe.createConnectAccountToken(ssnLast4: TutorRegistration.last4SSN!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { (token) in
 			if let token = token {
 				Stripe.createConnectAccount(bankAccountToken: TutorRegistration.bankToken!, connectAccountToken: token, { (value) in
@@ -267,6 +266,7 @@ class TutorPolicy : BaseViewController {
 		}
 	}
 	private func accepted() {
+		self.displayLoadingOverlay()
 		createConnectAccount { (success) in
 			if success {
 				self.switchToTutorSide({ (success) in
@@ -279,9 +279,11 @@ class TutorPolicy : BaseViewController {
 					} else {
 						print("failure2.")
 					}
+					self.dismissOverlay()
 				})
 			} else {
 				print("failure1.")
+				self.dismissOverlay()
 			}
 		}
 	}

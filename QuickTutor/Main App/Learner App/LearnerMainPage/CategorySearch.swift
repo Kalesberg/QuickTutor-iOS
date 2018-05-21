@@ -120,25 +120,22 @@ class CategorySearch: BaseViewController {
 	
 	var category : Category! {
 		didSet {
+			self.displayLoadingOverlay()
 			QueryData.shared.queryAWTutorByCategory(category: category, { (tutors) in
 				if let tutors = tutors {
 					self.datasource = tutors
-				} else {
-					print("oops, no tutors.")
 				}
+				self.dismissOverlay()
 			})
 		}
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		contentView.subtitle.category.text = CategorySelected.title
-		
 		contentView.collectionView.delegate = self
 		contentView.collectionView.dataSource = self
 		contentView.collectionView.register(FeaturedTutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
-
 		contentView.searchBar.delegate = self
 	}
 	
@@ -149,7 +146,6 @@ class CategorySearch: BaseViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		
 		contentView.collectionView.reloadData()
 	}
 	

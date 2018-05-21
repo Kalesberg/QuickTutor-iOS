@@ -234,6 +234,7 @@ class TutorAddBank: BaseViewController {
             contentView.rightButton.isUserInteractionEnabled = false
             
             if validAccountData {
+				self.displayLoadingOverlay()
 				addTutorBankAccount(fullname: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (error) in
 					if let error = error {
 						print(error.localizedDescription)
@@ -241,6 +242,7 @@ class TutorAddBank: BaseViewController {
 					} else {
 						self.navigationController?.popBackToTutorMain()
 					}
+					self.dismissKeyboard()
 				}
             } else {
                 contentView.rightButton.isUserInteractionEnabled = true

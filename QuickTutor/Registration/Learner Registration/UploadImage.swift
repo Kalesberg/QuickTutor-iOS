@@ -210,16 +210,19 @@ class UploadImage: BaseViewController {
 			AlertController.cropImageAlert(self, imagePicker: imagePicker)
         } else if (touchStartView == contentView.looksGoodButton) {
 			if imagePicked {
+				self.displayLoadingOverlay()
 				contentView.looksGoodButton.isUserInteractionEnabled = false
 				guard let image = contentView.imageView.image?.circleMasked! else { return }
 				guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
 				
 				FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
 					if let imageUrl = imageUrl {
+						self.dismissOverlay()
 						Registration.studentImageURL = imageUrl
 						Registration.studentImage = image
 						self.navigationController?.pushViewController(UserPolicy(), animated: true)
 					} else {
+						self.dismissOverlay()
 						self.contentView.looksGoodButton.isUserInteractionEnabled = true
 					}
 				}				
@@ -227,7 +230,6 @@ class UploadImage: BaseViewController {
 				print("Select a photo!")
 			}
         } else if (touchStartView == contentView.chooseNewButton) {
-            //alertController()
 			AlertController.cropImageAlert(self, imagePicker: imagePicker)
         }
     }

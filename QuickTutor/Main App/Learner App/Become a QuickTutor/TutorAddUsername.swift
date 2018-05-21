@@ -202,7 +202,7 @@ class TutorAddUsername : BaseViewController {
             let username = contentView.textField.textField.text!
             
             if !doesContainNaughtyWord(text: username, naughtyWords: naughtyWords) && isValidUsername(username: username) && endsWithSpecial(username: username) {
-
+				self.displayLoadingOverlay()
                 checkIfUsernamAlreadyExists(text: username) { (success) in
                     if success {
                         TutorRegistration.username = username
@@ -210,6 +210,7 @@ class TutorAddUsername : BaseViewController {
                     } else {
                         print("username already exists.")
                     }
+					self.dismissOverlay()
                 }
             } else {
                 print("no bueño")

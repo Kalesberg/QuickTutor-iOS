@@ -678,7 +678,6 @@ class TutorMainPage : MainPage {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		
 		guard let tutor = CurrentUser.shared.tutor, let account = CurrentUser.shared.connectAccount  else {
 			self.navigationController?.popBackToMain()
 			AccountService.shared.currentUserType = .learner

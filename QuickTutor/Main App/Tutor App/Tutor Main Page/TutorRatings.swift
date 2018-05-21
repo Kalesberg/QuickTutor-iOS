@@ -89,8 +89,10 @@ class TutorRatings : BaseViewController {
 		guard let tutor = CurrentUser.shared.tutor else { return }
 		self.tutor = tutor
 		
+		self.displayLoadingOverlay()
 		getSubjectsTaught { (subcategoryList) in
 			self.findTopSubject(subjects: subcategoryList)
+			self.dismissOverlay()
 		}
 	}
 	

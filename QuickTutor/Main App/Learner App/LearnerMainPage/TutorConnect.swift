@@ -272,22 +272,25 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     
     var subcategory : String! {
         didSet {
+			self.displayLoadingOverlay()
             QueryData.shared.queryAWTutorBySubcategory(subcategory: subcategory!) { (tutors) in
                 if let tutors = tutors {
 					self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
                 }
+				self.dismissOverlay()
             }
         }
     }
     
     var subject : (String, String)! {
         didSet {
+			self.displayLoadingOverlay()
             QueryData.shared.queryAWTutorBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
                 if let tutors = tutors {
 					self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
                 }
+				self.dismissOverlay()
             }
-            
         }
     }
     
@@ -351,12 +354,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 		return (v / (v+m)) * ((r + Double((m / (v+m)))) * C)
 	}
 	
-	/* no distance calculation */
 	private func sortTutorsWithWeightedList(tutors: [AWTutor]) -> [AWTutor] {
 		guard tutors.count > 1 else { return tutors }
-		
 		let avg = tutors.map({$0.tRating / 5}).average
-		
 		return tutors.sorted {
 			return bayesianEstimate(C: avg, r: $0.tRating / 5, v: Double($0.numSessions), m: 1) > bayesianEstimate(C: avg, r: $1.tRating / 5, v: Double($1.numSessions), m: 1)
 		}
@@ -406,14 +406,12 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         if touchStartView is NavbarButtonFilters {
             
             let next = LearnerFilters()
+			next.delegate = self
             if hasAppliedFilters {
-                
                 next.distance = (filters.0 - 10 >= 0) ? filters.0 - 10 : 0
                 next.price = (filters.1 - 10 >= 0) ? filters.1 - 10 : 0
                 next.video = filters.2
             }
-            
-            next.delegate = self
             self.present(next, animated: true, completion: nil)
             
         } else if touchStartView is NavbarButtonXLight {
@@ -437,6 +435,7 @@ extension Array where Element: FloatingPoint {
 		return isEmpty ? 0 : total / Element(count)
 	}
 }
+
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -467,36 +466,15 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         }
         
         cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
-
         return cell
     }
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         let width = UIScreen.main.bounds.width - 20
-        
         return CGSize(width: width, height: collectionView.frame.height)
     }
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
-    }
-}
-
-extension Array where Element: AWTutor {
-    func sortWithoutDistance() -> [AWTutor] {
-        return sorted {
-            if $0.tRating != $1.tRating {
-                return $0.tRating > $1.tRating
-            } else if $0.price != $1.price {
-                return $0.price < $1.price
-            } else if $0.hours != $1.hours {
-                return $0.hours < $1.hours
-            } else if $0.numSessions != $1.numSessions {
-                return $0.numSessions < $0.numSessions
-            }  else {
-                return $0.name < $1.name
-            }
-        }
     }
 }

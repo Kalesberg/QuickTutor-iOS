@@ -103,13 +103,14 @@ class CardManager : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+		self.displayLoadingOverlay()
 		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
 			if let error = error{
 				print(error.localizedDescription)
 			} else if let customer = customer {
 				self.customer = customer
 			}
+			self.dismissOverlay()
 		}
 		
 		contentView.tableView.delegate = self
@@ -147,10 +148,10 @@ class CardManager : BaseViewController {
 	}
 	
 	// TODO: Check if they have any pending sessions.
-	
 	private func defaultCardAlert(card: STPCard) {
 		let alertController = UIAlertController(title: "Default Payment Method?", message: "Do you want this card to be your default Payment method?", preferredStyle: .actionSheet)
 		let setDefault = UIAlertAction(title: "Set as Default", style: .default) { (alert) in
+			self.displayLoadingOverlay()
 			Stripe.updateDefaultSource(customer: self.customer, new: card, completion: { (customer, error)  in
 				if let error = error {
 					print(error.localizedDescription)
@@ -158,6 +159,7 @@ class CardManager : BaseViewController {
 					print("Default Updated")
 					self.customer = customer
 				}
+				self.dismissOverlay()
 			})
 		}
 		
@@ -166,7 +168,6 @@ class CardManager : BaseViewController {
 		}
 		alertController.addAction(setDefault)
 		alertController.addAction(cancel)
-		
 		present(alertController, animated: true, completion: nil)
 	}
 }
@@ -236,6 +237,7 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
+			self.displayLoadingOverlay()
 			Stripe.dettachSource(customer: self.customer, deleting: cards[indexPath.row]) { (customer, error) in
 				if let error = error {
 					print(error.localizedDescription)
@@ -247,6 +249,7 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 						CurrentUser.shared.learner.hasPayment = false
 					}
 				}
+				self.dismissOverlay()
 			}
 		}
 	}

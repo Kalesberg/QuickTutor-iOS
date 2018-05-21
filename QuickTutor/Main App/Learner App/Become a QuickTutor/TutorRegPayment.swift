@@ -218,6 +218,7 @@ class TutorRegPayment: BaseViewController {
 			contentView.rightButton.isUserInteractionEnabled = false
 			
 			if validAccountData {
+				self.dismissOverlay()
 				Stripe.createBankAccountToken(accountHoldersName: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (token) in
 					if let token = token {
 						TutorRegistration.bankToken = token
@@ -226,6 +227,7 @@ class TutorRegPayment: BaseViewController {
 						print("token error")
 						self.contentView.rightButton.isUserInteractionEnabled = true
 					}
+					self.dismissOverlay()
 				}
 			} else {
 				contentView.rightButton.isUserInteractionEnabled = true

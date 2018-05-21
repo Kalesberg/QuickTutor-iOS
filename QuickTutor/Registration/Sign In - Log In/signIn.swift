@@ -381,6 +381,7 @@ class SignIn: BaseViewController {
 	}
 	
 	private func signIn() {
+		self.displayLoadingOverlay()
 		let phoneNumber = contentView.phoneTextField.textField.text!
 		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { (verificationId, error) in
 			if let error = error {
@@ -393,11 +394,12 @@ class SignIn: BaseViewController {
 				
 				self.navigationController?.pushViewController(Verification(), animated: true)
 			}
+			self.dismissOverlay()
 		}
 	}
 	
 	private func facebookSignIn () {
-		print("facebook")
+		self.displayLoadingOverlay()
 		fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
 			if let error = error {
 				print("Failed to login: \(error.localizedDescription)")
@@ -430,11 +432,9 @@ class SignIn: BaseViewController {
 						}
 					})
 					print("Successful!")
-					//manage users information
-					//then determine where to go from here.
-					//authfil user information?
 				}
 			})
+			self.dismissOverlay()
 		}
 	}
 }

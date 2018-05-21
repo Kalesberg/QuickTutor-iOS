@@ -99,9 +99,10 @@ class CreatePassword: BaseViewController {
 	}
 	private func createEmailAccount() {
 		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
+		self.displayLoadingOverlay()
 		let emailCredential = EmailAuthProvider.credential(withEmail: Registration.email, password: password!)
 		Registration.emailCredential = emailCredential
-		
+		self.dismissOverlay()
 		self.navigationController!.pushViewController(Birthday(), animated: true)
 		self.contentView.createPasswordTextfield.textField.text = ""
 		

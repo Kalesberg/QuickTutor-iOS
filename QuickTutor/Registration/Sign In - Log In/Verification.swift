@@ -238,20 +238,19 @@ class Verification : BaseViewController {
     }
 	
     private func createCredential(_ verificationCode: String) {
-		
 		let verificationId = UserDefaults.standard.value(forKey: Constants.VRFCTN_ID)
-		
 		let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId! as! String, verificationCode: verificationCode)
-        
         signInRegisterWithCredential(credential)
     }
     
     private func signInRegisterWithCredential(_ credential: PhoneAuthCredential) {
+		self.displayLoadingOverlay()
         Auth.auth().signIn(with: credential) { (user, error) in
             if let error = error {
                 print("Error", error.localizedDescription)
                 self.contentView.vcDigit6.textField.isEnabled = true
 				self.contentView.nextButton.isUserInteractionEnabled = true
+				self.dismissKeyboard()
             } else {
                 self.view.endEditing(true)
                 self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -262,6 +261,7 @@ class Verification : BaseViewController {
 									if successful {
 									self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
 									} else {
+										self.dismissKeyboard()
 										try! Auth.auth().signOut()
 										self.navigationController?.pushViewController(SignIn(), animated: true)
 									}
@@ -269,14 +269,20 @@ class Verification : BaseViewController {
 							} else {
 								FirebaseData.manager.signInTutor(uid: user!.uid) { (successful) in
 									if successful {
+										self.dismissKeyboard()
+
 										self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
 									} else {
+										self.dismissKeyboard()
+
 										try! Auth.auth().signOut()
 										self.navigationController?.pushViewController(SignIn(), animated: true)
 									}
 								}
 						}
                     } else {
+						self.dismissKeyboard()
+
 						Registration.uid = user!.uid
 						AccountService.shared.currentUserType = .lRegistration
                         self.navigationController!.pushViewController(Name(), animated: true)
