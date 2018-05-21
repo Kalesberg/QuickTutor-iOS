@@ -389,7 +389,7 @@ class AddBankButton : InteractableView, Interactable {
     let label : UILabel = {
         let label = UILabel()
         
-        label.text = "Add Bank"
+        label.text = "Add Payment"
         label.font = Fonts.createBoldSize(20)
         label.textColor = Colors.backgroundDark
         label.textAlignment = .center
@@ -412,10 +412,9 @@ class AddBankButton : InteractableView, Interactable {
             make.edges.equalToSuperview()
         }
     }
-    
 }
 
-class AddBankModal : InteractableView {
+class AddPaymentModal : InteractableView {
     
     let modal : UIView = {
         let view = UIView()
@@ -486,7 +485,7 @@ class AddBankModal : InteractableView {
         }
         
         addBankButton.snp.makeConstraints { (make) in
-            make.width.equalTo(140)
+            make.width.equalTo(160)
             make.height.equalTo(40)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(10)

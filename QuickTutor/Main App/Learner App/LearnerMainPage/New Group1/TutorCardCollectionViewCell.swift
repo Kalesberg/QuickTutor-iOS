@@ -108,7 +108,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
         tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
         tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
-        tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
+        tableView.register(ExtraInfoCardTableViewCell.self, forCellReuseIdentifier: "extraInfoCardTableViewCell")
         
         reviewLabelContainer.backgroundColor = Colors.yellow
         reviewLabelContainer.layer.cornerRadius = 12
@@ -205,7 +205,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 				self.addTutorWithUid(datasource.uid)
 			} else {
 				let view = (next?.next?.next as! TutorConnect).contentView
-                view.addBankModal.isHidden = false
+                view.addPaymentModal.isHidden = false
 			}
 
         } else if touchStartView is FullProfile {
@@ -251,20 +251,18 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoCardTableViewCell", for: indexPath) as! ExtraInfoCardTableViewCell
             
-            let locationItem : ProfileItem = {
-                let item = ProfileItem()
-                
-                item.imageView.image = #imageLiteral(resourceName: "location")
-                item.label.text = datasource?.region
-                
-                return item
-            }()
+            for view in cell.contentView.subviews {
+                view.snp.removeConstraints()
+            }
+
+            cell.speakItem.removeFromSuperview()
+            cell.studysItem.removeFromSuperview()
             
-            cell.contentView.addSubview(locationItem)
+            cell.locationItem.label.text = datasource?.region
             
-            locationItem.snp.makeConstraints { (make) in
+            cell.locationItem.snp.makeConstraints { (make) in
                 make.left.equalToSuperview().inset(12)
                 make.right.equalToSuperview().inset(20)
                 make.height.equalTo(35)
@@ -281,11 +279,11 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                     make.left.equalToSuperview().inset(12)
                     make.right.equalToSuperview().inset(20)
                     make.height.equalTo(35)
-                    make.top.equalTo(locationItem.snp.bottom)
+                    make.top.equalTo(cell.locationItem.snp.bottom)
                 }
                 
-                if let studys = datasource?.school {
-                    cell.studysItem.label.text = studys
+                if let studies = datasource?.school {
+                    cell.studysItem.label.text = studies
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.speakItem.snp.makeConstraints { (make) in
@@ -313,14 +311,15 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 }
             } else {
                 if let studies = datasource?.school {
-                    cell.studysItem.label.text = "Studies at " + studies
+                    cell.studysItem.label.text = studies
+                    print(studies)
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.tutorItem.snp.makeConstraints { (make) in
                         make.left.equalToSuperview().inset(12)
                         make.right.equalToSuperview().inset(20)
                         make.height.equalTo(35)
-                        make.top.equalTo(locationItem.snp.bottom)
+                        make.top.equalTo(cell.locationItem.snp.bottom)
                     }
                     
                     cell.studysItem.snp.makeConstraints { (make) in
@@ -335,11 +334,14 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                         make.left.equalToSuperview().inset(12)
                         make.right.equalToSuperview().inset(20)
                         make.height.equalTo(35)
-                        make.top.equalTo(locationItem.snp.bottom)
+                        make.top.equalTo(cell.locationItem.snp.bottom)
                         make.bottom.equalToSuperview().inset(10)
                     }
                 }
             }
+            
+            cell.applyConstraints()
+            
             return cell
             
         case 2:

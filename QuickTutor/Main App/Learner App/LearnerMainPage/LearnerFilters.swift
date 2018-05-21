@@ -13,13 +13,13 @@ import CoreLocation
 class LearnerFiltersView : MainLayoutTitleTwoButton {
 	
 	var xButton = NavbarButtonXLight()
-	var applyButton = NavbarButtonText()
+	var applyButton = NavbarButtonApply()
 	
 	override var rightButton: NavbarButton {
 		get {
 			return applyButton
 		} set {
-			applyButton = newValue as! NavbarButtonText
+			applyButton = newValue as! NavbarButtonApply
 		}
 	}
 	
@@ -50,8 +50,6 @@ class LearnerFiltersView : MainLayoutTitleTwoButton {
 		super.configureView()
 		
 		title.label.text = "Filters"
-		applyButton.label.label.text = "Apply"
-		
 	}
 	
 	override func applyConstraints() {

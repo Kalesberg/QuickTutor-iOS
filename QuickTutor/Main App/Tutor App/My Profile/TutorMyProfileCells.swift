@@ -324,6 +324,23 @@ class ExtraInfoTableViewCell : BaseTableViewCell {
     }
 }
 
+class ExtraInfoCardTableViewCell : ExtraInfoTableViewCell {
+    
+    let locationItem : ProfileItem = {
+        let item = ProfileItem()
+        
+        item.imageView.image = #imageLiteral(resourceName: "location")
+
+        return item
+    }()
+    
+    override func configureView() {
+        contentView.addSubview(locationItem)
+        super.configureView()
+        
+    }
+}
+
 
 class AboutMeTableViewCell : UITableViewCell {
     

@@ -102,7 +102,7 @@ extension String {
 		let text : String
 		
 		if self != "0" {
-			text = " - Cancellations: \(self) Hour Notice\n\n"
+			text = " - Cancellation Policy: \(self) Hour Notice\n\n"
 		} else {
 			text = " - No Cancellation Policy.\n"
 		}
