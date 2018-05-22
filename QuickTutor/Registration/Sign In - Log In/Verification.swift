@@ -267,13 +267,8 @@ class Verification : BaseViewController {
                         let digit = (view as! RegistrationDigitTextField)
                         
                         digit.textField.fadeOut(withDuration: 0.3)
-                        digit.textField.text = ""
                         digit.textField.alpha = 1.0
                     }
-                    
-                    self.textFieldController(current: self.contentView.vcDigit6.textField, textFieldToChange: self.contentView.vcDigit1.textField)
-                    self.verificationCode = ""
-                    self.contentView.vcDigit1.textField.becomeFirstResponder()
                 }
             })
         })

@@ -382,15 +382,12 @@ extension InviteOthers : UINavigationControllerDelegate, MFMessageComposeViewCon
 	func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
 		switch result {
 		case .sent:
-			print("sent")
 			controller.dismiss(animated: true, completion: nil)
 
 		case .cancelled:
-			print("cancelled")
 			controller.dismiss(animated: true, completion: nil)
 
 		case .failed:
-			print("failed")
 			controller.dismiss(animated: true, completion: nil)
 		}
 	}
@@ -418,7 +415,6 @@ extension InviteOthers : UITableViewDelegate, UITableViewDataSource {
     }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		print(selectedContacts)
 		guard let cell = tableView.cellForRow(at: indexPath) as? InviteContactsTableViewCell else { return }
 		
 		let data = shouldFilterSearchResults ? filteredContacts[indexPath.row] : datasource[indexPath.row]
