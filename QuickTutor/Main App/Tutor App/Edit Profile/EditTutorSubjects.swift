@@ -201,19 +201,28 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 	}
 }
 
-
 class EditTutorSubjects : BaseViewController {
 	
 	override var contentView: EditTutorSubjectsView {
 		return view as! EditTutorSubjectsView
 	}
+	
 	override func loadView() {
 		view = EditTutorSubjectsView()
 	}
 	
+	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+	
 	let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	
+	var initialSetup : Bool = false
+	var automaticScroll : Bool = false
 	var shouldUpdateSearchResults = false
+
+	
+	var filteredSubjects : [(String, String)] = []
+	var partialSubjects : [(String, String)] = []
+	var allSubjects : [(String, String)] = []
 	
 	var didSelectCategory = false {
 		didSet {
@@ -222,8 +231,6 @@ class EditTutorSubjects : BaseViewController {
 			}
 		}
 	}
-	
-	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
 	var tutor : AWTutor!
 	
@@ -238,14 +245,7 @@ class EditTutorSubjects : BaseViewController {
 			contentView.categoryCollectionView.reloadData()
 		}
 	}
-	
-	var automaticScroll : Bool = false
-	
-	var initialSetup : Bool = false
-	
-	var filteredSubjects : [(String, String)] = []
-	var partialSubjects : [(String, String)] = []
-	var allSubjects : [(String, String)] = []
+
 	
 	var tableViewIsActive : Bool = false {
 		didSet {
@@ -324,25 +324,19 @@ class EditTutorSubjects : BaseViewController {
 	}
 	
 	private func removeItem (item: Int) {
-		
 		selectedSubjects.remove(at: item)
 		selected.remove(at: item)
 		
 		let indexPath = IndexPath(row: item, section: 0)
-		
 		self.contentView.pickedCollectionView.performBatchUpdates({
-			
 			self.contentView.pickedCollectionView.deleteItems(at: [indexPath])
 			
 		}) { (finished) in
 			
 			self.contentView.pickedCollectionView.reloadItems(at:
 				self.contentView.pickedCollectionView.indexPathsForVisibleItems)
-			
 			self.contentView.nextButton.label.text = "Save (\(self.selected.count))"
-
 			self.contentView.noSelectedItemsLabel.isHidden = (self.selectedSubjects.count == 0) ? false : true
-			
 			self.contentView.tableView.reloadData()
 		}
 	}
@@ -357,29 +351,23 @@ class EditTutorSubjects : BaseViewController {
 		var currentSubs: [String] = []
 		var newSubs : [String] = []
 		var subcategoriesToDelete : [String] = []
-		
 		for i in tutor.selected {
 			currentSubs.append(i.path)
 		}
-		
 		for j in selected {
 			newSubs.append(j.path)
 		}
-		
 		for k in currentSubs.unique {
 			if !newSubs.contains(k) {
 				subcategoriesToDelete.append(k)
 			}
 		}
-		
 		for i in 0..<subcategoriesToDelete.count {
 		
 			print("subjectToDelete", subcategoriesToDelete[i])
-			
 			self.ref.child("subcategory").child(subcategoriesToDelete[i].lowercased()).child(Auth.auth().currentUser!.uid).removeValue()
 			self.ref.child("subject").child(Auth.auth().currentUser!.uid).child(subcategoriesToDelete[i].lowercased()).removeValue()
 		}
-		
 		tutor.subjects = self.selectedSubjects
 		tutor.selected = self.selected
 		
@@ -391,7 +379,6 @@ class EditTutorSubjects : BaseViewController {
 		var subjectDict = [String : [String]]()
 		
 		var post : [String : Any] = [:]
-		print(selected)
 		for i in selected {
 			subcategories.append(i.path)
 		}
@@ -420,8 +407,6 @@ class EditTutorSubjects : BaseViewController {
 			
 			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : tutor.price!, "dst" : tutor.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
 		}
-		print("UpdatedSubject: ", updateSubjectValues)
-		
 		post.merge(updateSubjectValues) { (_, last) in last }
 		post.merge(updateSubcategoryValues) { (_, last) in last }
 		
@@ -429,10 +414,8 @@ class EditTutorSubjects : BaseViewController {
 			if let error = error {
 				print(error.localizedDescription)
 			}
-			
 			CurrentUser.shared.tutor.subjects = self.selectedSubjects
 			CurrentUser.shared.tutor.selected = self.selected
-			
 			self.displaySavedAlertController()
 		}
 	}
@@ -441,28 +424,20 @@ class EditTutorSubjects : BaseViewController {
 		let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
 		
 		self.present(alertController, animated: true, completion: nil)
-		
 		let when = DispatchTime.now() + 1
-		
 		DispatchQueue.main.asyncAfter(deadline: when){
 			alertController.dismiss(animated: true){
 				self.navigationController?.popViewController(animated: true)
 			}
 		}
-		
 	}
 	private func backButtonAlert() {
 		let alertController = UIAlertController(title: "Are You Sure?", message: "All of your progress will be deleted.", preferredStyle: .alert)
 		
 		let okButton = UIAlertAction(title: "Ok", style: .destructive) { (alert) in
 			self.navigationController?.popViewController(animated: true)
-			
 		}
-		
-		let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
-			
-		}
-		
+		let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
 		alertController.addAction(okButton)
 		alertController.addAction(cancelButton)
 		
@@ -552,7 +527,6 @@ extension EditTutorSubjects : UICollectionViewDelegate, UICollectionViewDataSour
 			let remove = UIAlertAction(title: "Remove", style: .destructive) { (_) in
 				self.removeItem(item: indexPath.item)
 			}
-			
 			let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 			
 			alert.addAction(remove)
@@ -563,7 +537,6 @@ extension EditTutorSubjects : UICollectionViewDelegate, UICollectionViewDataSour
 	}
 	
 	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-		
 		if collectionView.tag == 0 {
 			return 20
 		}
@@ -574,7 +547,6 @@ extension EditTutorSubjects : UICollectionViewDelegate, UICollectionViewDataSour
 extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 	
 	internal func numberOfSections(in tableView: UITableView) -> Int {
-		
 		if shouldUpdateSearchResults {
 			return filteredSubjects.count
 		}
@@ -593,9 +565,7 @@ extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 			cell.subject.text = filteredSubjects[indexPath.section].0
 			cell.subcategory.text = filteredSubjects[indexPath.section].1
 			cell.selectedIcon.isSelected = selectedSubjects.contains(filteredSubjects[indexPath.section].0)
-			
 		} else {
-			
 			cell.subject.text = allSubjects[indexPath.section].0
 			cell.subcategory.text = allSubjects[indexPath.section].1
 			cell.selectedIcon.isSelected = selectedSubjects.contains(allSubjects[indexPath.section].0)
@@ -613,12 +583,9 @@ extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 		}
 		let view : UIView = {
 			let view  = UIView()
-			
 			view.backgroundColor = Colors.darkBackground
-			
 			return view
 		}()
-		
 		return view
 	}
 	
@@ -639,7 +606,6 @@ extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		if selectedSubjects.count > 20 {
-			
 			print("Too many subjects")
 			tableView.deselectRow(at: indexPath, animated: true)
 			return
@@ -648,41 +614,28 @@ extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 		guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
 		
 		if selectedSubjects.contains(cell.subject.text!) {
-			
 			cell.selectedIcon.isSelected = false
-			
 			removeItem(item: selectedSubjects.index(of: cell.subject.text!)!)
-			
 			tableView.deselectRow(at: indexPath, animated: true)
-			
 			return
 		}
 		
 		cell.selectedIcon.isSelected = true
-		
-		self.contentView.noSelectedItemsLabel.isHidden = true
-		
+		contentView.noSelectedItemsLabel.isHidden = true
 		selectedSubjects.append(cell.subject.text!)
-		
-		self.selected.append(Selected(path: cell.subcategory.text!, subject: cell.subject.text!))
+		selected.append(Selected(path: cell.subcategory.text!, subject: cell.subject.text!))
 		
 		let index = IndexPath(item: selectedSubjects.endIndex - 1, section: 0)
-		
 		contentView.pickedCollectionView.performBatchUpdates({ [weak self] () -> Void in
-			
-			self?.contentView.pickedCollectionView.insertItems(at: [index])
-			
-			},completion: nil)
+			self?.contentView.pickedCollectionView.insertItems(at: [index]) }, completion: nil)
 		
 		let endIndex = IndexPath(item: selectedSubjects.count - 1, section: 0)
-		
 		contentView.pickedCollectionView.scrollToItem(at: endIndex, at: .right, animated: true)
-		
 		contentView.pickedCollectionView.reloadData()
 		
 		tableView.deselectRow(at: indexPath, animated: true)
 		
-		self.contentView.nextButton.label.text = "Save (\(self.selected.count))"
+		contentView.nextButton.label.text = "Save (\(self.selected.count))"
 	}
 }
 
@@ -712,13 +665,13 @@ extension EditTutorSubjects : UISearchBarDelegate {
 		}
 		
 		if didSelectCategory {
-			filteredSubjects = partialSubjects.filter({$0.0.contains(searchText.lowercased())})
+			filteredSubjects = partialSubjects.filter({$0.0.contains(searchText)})
 			contentView.tableView.reloadData()
 			return
 			
 		} else {
 			tableView(shouldDisplay: true) {
-				self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText.lowercased())})
+				self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText)})
 				self.contentView.tableView.reloadData()
 			}
 		}

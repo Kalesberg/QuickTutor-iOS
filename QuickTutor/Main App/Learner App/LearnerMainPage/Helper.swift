@@ -140,6 +140,22 @@ class FeaturedTutorView : BaseView {
 		
 	}
 }
+struct BadWords {
+	static func loadBadWords() -> [String] {
+		do {
+			guard let file = Bundle.main.url(forResource: "badwords", withExtension: "json") else { return [] }
+			let data = try Data(contentsOf: file)
+			let json = try JSONSerialization.jsonObject(with: data, options: [])
+			
+			guard let object = json as? [String : [String]] else { return [] }
+			guard let words = object["badwords"] else { return [] }
+			
+			return words
+		} catch {
+			return []
+		}
+	}
+}
 
 struct SubjectStore {
 
@@ -151,12 +167,10 @@ struct SubjectStore {
 			do {
 				guard let file = Bundle.main.url(forResource: category[i].subcategory.fileToRead, withExtension: "json") else {
 					continue }
-				
 				let data = try Data(contentsOf: file)
 				let json = try JSONSerialization.jsonObject(with: data, options: [])
 				
 				for key in category[i].subcategory.subcategories {
-					
 					guard let object = json as? [String : [String]] else { continue }
 					guard let subjectArray = object[key] else { continue }
 			

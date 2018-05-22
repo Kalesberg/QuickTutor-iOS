@@ -122,7 +122,6 @@ class MainPage : BaseViewController {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-
 		hasPaymentMethod = UserDefaultData.localDataManager.hasPaymentMethod
         hasStudentBio = UserDefaultData.localDataManager.hasBio
 	}
@@ -143,9 +142,7 @@ class MainPage : BaseViewController {
     func updateSideBar() { }
     
     override func handleNavigation() {
-        if (touchStartView == nil) {
-            return
-        } else if(touchStartView == contentView.messagesButton) {
+        if (touchStartView == contentView.messagesButton) {
             let vc = MessagesVC()
             vc.parentPageViewController = parentPageViewController
             parentPageViewController.setViewControllers([vc], direction: .forward, animated: true, completion: nil)

@@ -250,7 +250,7 @@ class Verification : BaseViewController {
                 print("Error", error.localizedDescription)
                 self.contentView.vcDigit6.textField.isEnabled = true
 				self.contentView.nextButton.isUserInteractionEnabled = true
-				self.dismissKeyboard()
+				self.dismissOverlay()
             } else {
                 self.view.endEditing(true)
                 self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -259,9 +259,10 @@ class Verification : BaseViewController {
 							if UserDefaults.standard.bool(forKey: "showHomePage") {
 								FirebaseData.manager.signInLearner(uid: user!.uid) { (successful) in
 									if successful {
+										self.dismissOverlay()
 									self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
 									} else {
-										self.dismissKeyboard()
+										self.dismissOverlay()
 										try! Auth.auth().signOut()
 										self.navigationController?.pushViewController(SignIn(), animated: true)
 									}
@@ -269,20 +270,17 @@ class Verification : BaseViewController {
 							} else {
 								FirebaseData.manager.signInTutor(uid: user!.uid) { (successful) in
 									if successful {
-										self.dismissKeyboard()
-
+										self.dismissOverlay()
 										self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
 									} else {
-										self.dismissKeyboard()
-
+										self.dismissOverlay()
 										try! Auth.auth().signOut()
 										self.navigationController?.pushViewController(SignIn(), animated: true)
 									}
 								}
 						}
                     } else {
-						self.dismissKeyboard()
-
+						self.dismissOverlay()
 						Registration.uid = user!.uid
 						AccountService.shared.currentUserType = .lRegistration
                         self.navigationController!.pushViewController(Name(), animated: true)

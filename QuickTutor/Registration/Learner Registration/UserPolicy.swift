@@ -246,6 +246,7 @@ class UserPolicy : BaseViewController {
 		let alertController = UIAlertController(title: "All your progress will be deleted", message: "By pressing delete your account will not be created.", preferredStyle: UIAlertControllerStyle.alert)
 		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in
 			self.dismiss(animated: true, completion: nil)
+			self.dismissOverlay()
 		}
 		
 		let delete = UIAlertAction(title: "Delete", style: .destructive) { (delete) in
