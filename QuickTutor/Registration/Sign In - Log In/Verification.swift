@@ -243,6 +243,42 @@ class Verification : BaseViewController {
         signInRegisterWithCredential(credential)
     }
     
+    private func displayCredentialError() {
+        UIView.animate(withDuration: 0.5, animations: {
+            for view in self.contentView.leftDigits.subviews + self.contentView.rightDigits.subviews {
+                if view is RegistrationDigitTextField {
+                    let digit = (view as! RegistrationDigitTextField)
+                    
+                    digit.line.backgroundColor = .red
+                }
+            }
+        }, completion: { (value: Bool) in
+            UIView.animate(withDuration: 0.5, animations: {
+                for view in self.contentView.leftDigits.subviews + self.contentView.rightDigits.subviews {
+                    if view is RegistrationDigitTextField {
+                        let digit = (view as! RegistrationDigitTextField)
+                        
+                        digit.line.backgroundColor = .white
+                    }
+                }
+            }, completion: { (value: Bool) in
+                for view in self.contentView.leftDigits.subviews + self.contentView.rightDigits.subviews {
+                    if view is RegistrationDigitTextField {
+                        let digit = (view as! RegistrationDigitTextField)
+                        
+                        digit.textField.fadeOut(withDuration: 0.3)
+                        digit.textField.text = ""
+                        digit.textField.alpha = 1.0
+                    }
+                    
+                    self.textFieldController(current: self.contentView.vcDigit6.textField, textFieldToChange: self.contentView.vcDigit1.textField)
+                    self.verificationCode = ""
+                    self.contentView.vcDigit1.textField.becomeFirstResponder()
+                }
+            })
+        })
+    }
+    
     private func signInRegisterWithCredential(_ credential: PhoneAuthCredential) {
 		self.displayLoadingOverlay()
         Auth.auth().signIn(with: credential) { (user, error) in
@@ -251,6 +287,7 @@ class Verification : BaseViewController {
                 self.contentView.vcDigit6.textField.isEnabled = true
 				self.contentView.nextButton.isUserInteractionEnabled = true
 				self.dismissOverlay()
+                self.displayCredentialError()
             } else {
                 self.view.endEditing(true)
                 self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
