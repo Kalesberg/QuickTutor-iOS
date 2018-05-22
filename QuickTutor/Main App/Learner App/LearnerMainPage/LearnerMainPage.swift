@@ -237,9 +237,9 @@ class LearnerMainPage : MainPage {
                     if finished {
                         self.didLoadMore = false
                     }
-					self.dismissOverlay()
                 })
             }
+			self.dismissOverlay()
         }
     }
 	private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {

@@ -121,12 +121,8 @@ class EditLanguage : BaseViewController {
 	}
 	
 	private func saveLanguages() {
-		
-		
 		switch AccountService.shared.currentUserType {
-			
 		case .learner:
-			
 			if !CurrentUser.shared.learner.isTutor {
 				
 				CurrentUser.shared.learner.languages = selectedCells

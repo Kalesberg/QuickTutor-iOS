@@ -395,7 +395,14 @@ class TutorAddSubjects : BaseViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
-    
+	
+	private func scrollToTop() {
+		contentView.tableView.reloadData()
+		let indexPath = IndexPath(row: 0, section: 0)
+		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+		automaticScroll = false
+	}
+	
     override func handleNavigation() {
         if touchStartView is NavbarButtonXLight {
 				tableViewIsActive ? tableView(shouldDisplay: false) {
@@ -532,9 +539,7 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
         }
         let view : UIView = {
             let view  = UIView()
-            
             view.backgroundColor = Colors.darkBackground
-            
             return view
         }()
         
@@ -581,9 +586,7 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
         selectedSubjects.append(cell.subject.text!)
 
         self.selected.append(Selected(path: cell.subcategory.text!, subject: cell.subject.text!))
-
         let index = IndexPath(item: selectedSubjects.endIndex - 1, section: 0)
-        
         contentView.pickedCollectionView.performBatchUpdates({ [weak self] () -> Void in
             
             self?.contentView.pickedCollectionView.insertItems(at: [index])
@@ -643,6 +646,8 @@ extension TutorAddSubjects : UISearchBarDelegate {
         }
     }
 }
+
+//smooth search/scrolling
 extension TutorAddSubjects : UIScrollViewDelegate {
 	
 	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
@@ -650,17 +655,9 @@ extension TutorAddSubjects : UIScrollViewDelegate {
 			self.view.endEditing(true)
 		}
 	}
-	
-//	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//		let x = scrollView.contentOffset.x
-//		let w = scrollView.bounds.size.width
-//		let currentPage = Int(ceil(x / w))
-//		
-//	}
-	private func scrollToTop() {
-		contentView.tableView.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-		automaticScroll = false
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		if !automaticScroll {
+			self.view.endEditing(true)
+		}
 	}
 }
