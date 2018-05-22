@@ -25,6 +25,7 @@ struct Colors {
     static let divider = UIColor(hex:"121216")
     static let grayText = UIColor(hex:"999999")
     static let green = UIColor(hex:"1EAD4A")
+    static let brightGreen = UIColor(hex:"31d662")
     static let learnerPurple = UIColor(hex:"4E376F")
     static let progressBlue = UIColor(hex:"4B5F8E")
     static let qtRed = UIColor(hex:"AF1C49")

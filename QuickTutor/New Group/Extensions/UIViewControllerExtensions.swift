@@ -38,34 +38,153 @@ extension UIViewController {
 		alertController.addAction(ok)
 		present(alertController, animated: true, completion: nil)
 	}
+    
+    class LoadingScreen : InteractableView {
+        
+        let bigSquare : UIView = {
+            let view = UIView()
+            
+            view.backgroundColor = Colors.darkBackground
+            view.layer.cornerRadius = 8
+            view.layer.borderWidth = 2
+            view.layer.borderColor = Colors.brightGreen.cgColor
+            
+            return view
+        }()
+        
+        let smallSquare : UIView = {
+            let view = UIView()
+            
+            view.backgroundColor = .clear
+            
+            return view
+        }()
+        
+        let dot1 : UIView = {
+            let view = UIView()
+            view.backgroundColor = Colors.brightGreen
+            view.layer.cornerRadius = 10
+            return view
+        }()
+        
+        let dot2 : UIView = {
+            let view = UIView()
+            
+            view.backgroundColor = .gray
+            view.layer.cornerRadius = 10
+            return view
+        }()
+        
+        let dot3 : UIView = {
+            let view = UIView()
+            view.backgroundColor = .gray
+            view.layer.cornerRadius = 10
+            return view
+        }()
+        
+        let dot4 : UIView = {
+            let view = UIView()
+            view.backgroundColor = .gray
+            view.layer.cornerRadius = 10
+            return view
+        }()
+        
+        override func configureView() {
+            addSubview(bigSquare)
+            bigSquare.addSubview(smallSquare)
+            smallSquare.addSubview(dot1)
+            smallSquare.addSubview(dot2)
+            smallSquare.addSubview(dot3)
+            smallSquare.addSubview(dot4)
+            super.configureView()
+            
+            backgroundColor = UIColor.black.withAlphaComponent(0.3)
+            transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+            alpha = 0.0
+            
+            applyConstraints()
+        }
+        
+        override func applyConstraints() {
+            bigSquare.snp.makeConstraints { (make) in
+                make.center.equalToSuperview()
+                make.height.width.equalTo(120)
+            }
+            
+            smallSquare.snp.makeConstraints { (make) in
+                make.center.equalToSuperview()
+                make.height.width.equalTo(70)
+            }
+            
+            dot1.snp.makeConstraints { (make) in
+                make.top.equalToSuperview()
+                make.left.equalToSuperview()
+                make.height.width.equalTo(20)
+            }
+            dot2.snp.makeConstraints { (make) in
+                make.top.equalToSuperview()
+                make.right.equalToSuperview()
+                make.height.width.equalTo(20)
+            }
+            dot3.snp.makeConstraints { (make) in
+                make.bottom.equalToSuperview()
+                make.left.equalToSuperview()
+                make.height.width.equalTo(20)
+            }
+            dot4.snp.makeConstraints { (make) in
+                make.bottom.equalToSuperview()
+                make.right.equalToSuperview()
+                make.height.width.equalTo(20)
+            }
+        }
+    }
+    
 	func displayLoadingOverlay() {
 		if let _ = self.view.viewWithTag(69)  {
 			return
 		}
 		UIApplication.shared.isNetworkActivityIndicatorVisible = true
-		let overlay = UIView()
+		let overlay = LoadingScreen()
 		overlay.tag = 69
-		overlay.frame = self.view.bounds
-		overlay.backgroundColor = UIColor.black
-		overlay.alpha = 0.0
-		overlay.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+        overlay.frame = self.view.bounds
 		
-		UIView.animate(withDuration: 0.2) {
-			overlay.alpha = 0.4
-			overlay.transform = .identity
-		}
+        UIView.animate(withDuration: 0.2, animations: {
+            overlay.alpha = 1.0
+            overlay.transform = .identity
+        }, completion: { (true) in
+            UIView.animateKeyframes(withDuration: 4, delay: 0, options: [.repeat, .calculationModeLinear], animations: {
+                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1, animations: {
+                    overlay.dot2.backgroundColor = Colors.brightGreen
+                    overlay.dot1.backgroundColor = .gray
+                })
+                UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 1, animations: {
+                    overlay.dot4.backgroundColor = Colors.brightGreen
+                    overlay.dot2.backgroundColor = .gray
+                })
+                UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 1, animations: {
+                    overlay.dot3.backgroundColor = Colors.brightGreen
+                    overlay.dot4.backgroundColor = .gray
+                })
+                UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 1, animations: {
+                    overlay.dot1.backgroundColor = Colors.brightGreen
+                    overlay.dot3.backgroundColor = .gray
+                })
+            }, completion: { (true) in
+                
+            })
+        })
 		self.view.addSubview(overlay)
 	}
 	func dismissOverlay() {
-		UIApplication.shared.isNetworkActivityIndicatorVisible = false
-		if let overlay = self.view.viewWithTag(69)  {
-			UIView.animate(withDuration: 0.2, animations: {
-				overlay.alpha = 0.0
-				overlay.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
-			}) { _ in
-				overlay.removeFromSuperview()
-			}
-		}
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//        if let overlay = self.view.viewWithTag(69)  {
+//            UIView.animate(withDuration: 0.2, animations: {
+//                overlay.alpha = 0.0
+//                overlay.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+//            }) { _ in
+//                overlay.removeFromSuperview()
+//            }
+//        }
 	}
 }
 
