@@ -52,10 +52,9 @@ class SubjectTableViewCell : UITableViewCell  {
 		addSubview(subject)
 		addSubview(subcategory)
 		
+		cellBackground.backgroundColor = UIColor.black
 		selectedBackgroundView = cellBackground
-		
 		subcategory.layer.cornerRadius = 5
-		
 		backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
 		
 		applyConstraints()
@@ -78,17 +77,7 @@ class SubjectTableViewCell : UITableViewCell  {
 		}
 	}
 	
-	override func setSelected(_ selected: Bool, animated: Bool) {
-		let color = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-		
-		super.setSelected(selected, animated: animated)
-		
-		if selected {
-			cellBackground.backgroundColor = color
-			subcategory.backgroundColor = Colors.tutorBlue
-		}
-	}
-	
+
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		subcategory.layer.masksToBounds = true

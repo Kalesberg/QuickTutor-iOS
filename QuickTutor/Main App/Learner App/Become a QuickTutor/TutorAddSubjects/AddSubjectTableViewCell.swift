@@ -57,12 +57,9 @@ class AddSubjectsTableViewCell : UITableViewCell  {
 		addSubview(selectedIcon)
 		
 		selectedIcon.isSelected = false
-		
 		selectedBackgroundView = cellBackground
-		
 		subcatContainer.layer.cornerRadius = 9
         subcatContainer.backgroundColor = Colors.tutorBlue
-		
 		backgroundColor = .clear
 		
 		applyConstraints()

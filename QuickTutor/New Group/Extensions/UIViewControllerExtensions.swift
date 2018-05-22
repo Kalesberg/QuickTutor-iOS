@@ -187,15 +187,15 @@ extension UIViewController {
 		self.view.addSubview(overlay)
 	}
 	func dismissOverlay() {
-//        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//        if let overlay = self.view.viewWithTag(69)  {
-//            UIView.animate(withDuration: 0.2, animations: {
-//                overlay.alpha = 0.0
-//                overlay.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
-//            }) { _ in
-//                overlay.removeFromSuperview()
-//            }
-//        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        if let overlay = self.view.viewWithTag(69)  {
+            UIView.animate(withDuration: 0.2, animations: {
+                overlay.alpha = 0.0
+                overlay.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+            }) { _ in
+                overlay.removeFromSuperview()
+            }
+        }
 	}
 }
 
