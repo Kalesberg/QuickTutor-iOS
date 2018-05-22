@@ -12,21 +12,8 @@ import FirebaseAuth
 
 class EditSchoolView : EditProfileMainLayout {
 	
-	var tableView = UITableView()
-	var searchBar = UISearchBar()
-	var header = UIView()
-	
-	override func configureView() {
-		
-		addSubview(tableView)
-		addSubview(header)
-		
-		header.addSubview(searchBar)
-		
-		super.configureView()
-		
-		title.label.text = "School"
-		titleLabel.label.text = "School I attend"
+	let tableView : UITableView = {
+		let tableView = UITableView()
 		
 		tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 44
@@ -35,39 +22,51 @@ class EditSchoolView : EditProfileMainLayout {
 		tableView.showsVerticalScrollIndicator = false
 		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
 		
-		searchBar.sizeToFit()
-		searchBar.searchBarStyle = .minimal
-		searchBar.backgroundImage = UIImage(color: UIColor.clear)
+		return tableView
+	}()
+	
+	let searchTextField : RegistrationTextField = {
+		let textField = RegistrationTextField()
+		textField.placeholder.text = "Search Schools"
+		textField.textField.font = Fonts.createSize(16)
+		textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
+		textField.textField.autocapitalizationType = .words
 		
-		let textField = searchBar.value(forKey: "searchField") as? UITextField
-		textField?.font = Fonts.createSize(18)
-		textField?.textColor = .white
-		textField?.adjustsFontSizeToFitWidth = true
-		textField?.autocapitalizationType = .words
-		textField?.attributedPlaceholder = NSAttributedString(string: "Enter a school", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		textField?.keyboardAppearance = .dark
+		return textField
+	}()
+	
+	var header = UIView()
+	
+	override func configureView() {
+		addSubview(tableView)
+		addSubview(header)
+		header.addSubview(searchTextField)
+		super.configureView()
+		
+		title.label.text = "School"
+		titleLabel.label.text = "School I attend"
 	}
 	
 	override func applyConstraints() {
 		super.applyConstraints()
 		
-		tableView.snp.makeConstraints { (make) in
-			make.top.equalTo(titleLabel.snp.bottom).multipliedBy(1.35)
-			make.width.equalToSuperview().multipliedBy(0.9)
-			make.height.equalToSuperview().multipliedBy(0.5)
-			make.centerX.equalToSuperview()
-		}
 		header.snp.makeConstraints { (make) in
-			make.bottom.equalTo(tableView.snp.top)
-			make.width.equalTo(tableView.snp.width)
+			make.top.equalTo(titleLabel.snp.bottom).inset(-20)
+			make.width.equalToSuperview().multipliedBy(0.9)
 			make.left.equalTo(tableView.snp.left)
-			make.height.equalTo(55)
+			make.height.equalTo(80)
 		}
-		searchBar.snp.makeConstraints { (make) in
+		searchTextField.snp.makeConstraints { (make) in
 			make.width.equalToSuperview()
 			make.height.equalToSuperview()
 			make.centerX.equalToSuperview()
 			make.centerY.equalToSuperview()
+		}
+		tableView.snp.makeConstraints { (make) in
+			make.top.equalTo(header.snp.bottom)
+			make.width.equalToSuperview().multipliedBy(0.95)
+			make.bottom.equalTo(safeAreaLayoutGuide)
+			make.centerX.equalToSuperview()
 		}
 	}
 	override func layoutSubviews() {
@@ -75,11 +74,11 @@ class EditSchoolView : EditProfileMainLayout {
 		if AccountService.shared.currentUserType == .tutor {
 			navbar.backgroundColor = Colors.tutorBlue
 			statusbarView.backgroundColor = Colors.tutorBlue
-			searchBar.tintColor = Colors.tutorBlue
+			searchTextField.tintColor = Colors.tutorBlue
 		} else {
 			navbar.backgroundColor = Colors.learnerPurple
 			statusbarView.backgroundColor = Colors.learnerPurple
-			searchBar.tintColor = Colors.learnerPurple
+			searchTextField.tintColor = Colors.learnerPurple
 		}
 	}
 }
@@ -90,14 +89,23 @@ class EditSchool : BaseViewController {
 		return view as! EditSchoolView
 	}
 	
-	var schoolArray : [String] = []
-	var filteredSchools : [String] = []
-	var shouldUpdateSearchResults = false
+	var schoolArray : [String] = [] {
+		didSet {
+			contentView.tableView.reloadData()
+		}
+	}
+	var filteredSchools : [String] = [] {
+		didSet {
+			contentView.tableView.reloadData()
+		}
+	}
+	var shouldUpdateSearchResults : Bool = false
+	var automaticScroll : Bool = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
-		configure()
+		configureDelegates()
 		loadListOfSchools()
 	}
 	override func loadView() {
@@ -111,14 +119,36 @@ class EditSchool : BaseViewController {
 		super.viewDidAppear(animated)
 		//contentView.searchBar.becomeFirstResponder()
 	}
-	private func configure() {
+	private func configureDelegates() {
 		
-		contentView.searchBar.delegate = self
+		contentView.searchTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
-		
 		contentView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "idCell")
 	}
+	
+	@objc private func textFieldDidChange(_ textField: UITextField) {
+		automaticScroll = true
+		
+		guard let text = textField.text else {
+			automaticScroll = false
+			shouldUpdateSearchResults = false
+			return
+		}
+		if text == "" {
+			automaticScroll = false
+			shouldUpdateSearchResults = false
+			return
+		}
+		
+		shouldUpdateSearchResults = true
+		filteredSchools = self.schoolArray.filter{($0.contains(text))}
+		
+		if filteredSchools.count > 0 {
+			scrollToTop()
+		}
+	}
+	
 	private func displaySavedAlertController() {
 		let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
 		
@@ -131,6 +161,13 @@ class EditSchool : BaseViewController {
 			}
 		}
 	}
+	private func scrollToTop() {
+		contentView.tableView.reloadData()
+		let indexPath = IndexPath(row: 0, section: 0)
+		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+		automaticScroll = false
+	}
+	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonSave) {
 			//save button
@@ -144,7 +181,7 @@ class EditSchool : BaseViewController {
 				let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
 				schoolArray = school.components(separatedBy: "\n") as [String]
 			} catch {
-				schoolArray = [""]
+				schoolArray = []
 				print("Try-catch error")
 			}
 		}
@@ -153,64 +190,53 @@ class EditSchool : BaseViewController {
 
 extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 	
-	func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
-	}
 	internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if shouldUpdateSearchResults {
-			return filteredSchools.count
-		}
-		return 0
+		return shouldUpdateSearchResults ? filteredSchools.count : schoolArray.count
 	}
 	
 	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath)
 		formatTableView(cell)
+		let data = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
 		
-		if shouldUpdateSearchResults {
-			cell.textLabel?.text = (filteredSchools[indexPath.row])
-		}
+		cell.textLabel?.text = data
 		return cell
 	}
 	
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		var school : String
+		school = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
 		
-		if shouldUpdateSearchResults {
-			school = filteredSchools[indexPath.row]
-			self.dismissKeyboard()
-			
-			switch AccountService.shared.currentUserType {
-			case .learner:
-				if !CurrentUser.shared.learner.isTutor {
-					
-					FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
-					CurrentUser.shared.learner.school = school
-					displaySavedAlertController()
-					break
-				}
-				fallthrough
-			case .tutor :
-
-				let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/sch" : school, "/tutor-info/\(AccountService.shared.currentUser.uid!)/sch" : school]
+		switch AccountService.shared.currentUserType {
+		case .learner:
+			if !CurrentUser.shared.learner.isTutor {
 				
-				Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
-					if let error = error {
-						print(error)
-					} else {
-						print("success")
-						self.displaySavedAlertController()
-					}
-				}
+				FirebaseData.manager.updateValue(node: "student-info", value: ["sch" : school])
 				CurrentUser.shared.learner.school = school
-				if CurrentUser.shared.tutor != nil {
-					CurrentUser.shared.tutor.school = school
-				}
-			default:
+				displaySavedAlertController()
 				break
 			}
+			fallthrough
+		case .tutor :
+			
+			let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/sch" : school, "/tutor-info/\(AccountService.shared.currentUser.uid!)/sch" : school]
+			
+			Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
+				if let error = error {
+					print(error)
+				} else {
+					print("success")
+					self.displaySavedAlertController()
+				}
+			}
+			CurrentUser.shared.learner.school = school
+			if CurrentUser.shared.tutor != nil {
+				CurrentUser.shared.tutor.school = school
+			}
+		default:
+			break
 		}
 	}
 	
@@ -218,7 +244,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 		let border = UIView(frame:CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 2))
 		border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		cell.contentView.addSubview(border)
-		cell.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		cell.backgroundColor = Colors.backgroundDark
 		cell.textLabel?.textColor = UIColor.white
 		cell.textLabel?.font = Fonts.createSize(16)
 		
@@ -227,35 +253,15 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 		cell.selectedBackgroundView = cellBackground
 	}
 }
-
-extension EditSchool : UISearchBarDelegate, UIScrollViewDelegate {
-	
-	private func scrollToTop() {
-		contentView.tableView.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-	}
-	
-	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-		
-		if searchText.count < 2 {
-			shouldUpdateSearchResults = false
-			contentView.tableView.reloadData()
-			return
+extension EditSchool : UIScrollViewDelegate {
+	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+		if !automaticScroll {
+			self.view.endEditing(true)
 		}
-		
-		shouldUpdateSearchResults = true
-		if let searchString = contentView.searchBar.text {
-			filteredSchools = schoolArray.filter{($0.contains(searchString))}
-			if filteredSchools.count > 0 {
-				scrollToTop()
-			}
-		}
-		contentView.tableView.reloadData()
 	}
-	
-	func scrollViewDidScroll(_ scrollView: UIScrollView) {
-		self.view.endEditing(true)
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		if !automaticScroll {
+			self.view.endEditing(true)
+		}
 	}
 }
-
