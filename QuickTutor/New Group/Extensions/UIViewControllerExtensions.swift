@@ -47,7 +47,13 @@ extension UIViewController {
             view.backgroundColor = Colors.darkBackground
             view.layer.cornerRadius = 8
             view.layer.borderWidth = 2
-            view.layer.borderColor = Colors.brightGreen.cgColor
+            
+            if AccountService.shared.currentUserType == .learner {
+                view.layer.borderColor = Colors.learnerPurple.cgColor
+            } else {
+                view.layer.borderColor = Colors.tutorBlue.cgColor
+            }
+            
             
             return view
         }()
@@ -154,19 +160,24 @@ extension UIViewController {
         }, completion: { (true) in
             UIView.animateKeyframes(withDuration: 4, delay: 0, options: [.repeat, .calculationModeLinear], animations: {
                 UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1, animations: {
-                    overlay.dot2.backgroundColor = Colors.brightGreen
+                    overlay.dot2.backgroundColor = Colors.yellow
                     overlay.dot1.backgroundColor = .gray
                 })
                 UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 1, animations: {
-                    overlay.dot4.backgroundColor = Colors.brightGreen
+                    overlay.dot4.backgroundColor = Colors.qtRed
                     overlay.dot2.backgroundColor = .gray
                 })
                 UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 1, animations: {
-                    overlay.dot3.backgroundColor = Colors.brightGreen
+                    if AccountService.shared.currentUserType == .learner {
+                        overlay.dot3.backgroundColor = Colors.tutorBlue
+                    } else {
+                        overlay.dot3.backgroundColor = Colors.learnerPurple
+                    }
+                    
                     overlay.dot4.backgroundColor = .gray
                 })
                 UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 1, animations: {
-                    overlay.dot1.backgroundColor = Colors.brightGreen
+                    overlay.dot1.backgroundColor = Colors.green
                     overlay.dot3.backgroundColor = .gray
                 })
             }, completion: { (true) in
