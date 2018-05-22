@@ -168,7 +168,6 @@ class SearchSubjects: BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
 		

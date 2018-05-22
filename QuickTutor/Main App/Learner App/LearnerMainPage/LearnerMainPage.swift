@@ -243,6 +243,7 @@ class LearnerMainPage : MainPage {
         }
     }
 	private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
+		self.displayLoadingOverlay()
 		FirebaseData.manager.getTutor(learner.uid) { (tutor) in
 			if let tutor = tutor {
 				CurrentUser.shared.tutor = tutor
@@ -254,12 +255,15 @@ class LearnerMainPage : MainPage {
 						if !account.charges_enabled { print("Charges disabled") }
 						if !account.payouts_enabled { print("payouts disabled") }
 						CurrentUser.shared.connectAccount = account
+						self.dismissOverlay()
 						completion(true)
 					} else {
+						self.dismissOverlay()
 						completion(false)
 					}
 				})
 			} else {
+				self.dismissOverlay()
 				completion(false)
 			}
 		}
@@ -346,11 +350,11 @@ class LearnerMainPage : MainPage {
             
             let nav = self.navigationController
             let transition = CATransition()
-            
             DispatchQueue.main.async {
                 nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
                 nav?.pushViewController(SearchSubjects(), animated: false)
             }
+			
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
             hideSidebar()

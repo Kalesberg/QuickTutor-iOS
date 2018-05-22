@@ -157,12 +157,14 @@ class TutorAddUsername : BaseViewController {
     
     private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 
-    let naughtyWords = ["fart", "shit"]
-    
+	var naughtyWords = [String]()
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentView.textField.textField.delegate = self
+		
+		contentView.textField.textField.delegate = self
         contentView.textField.textField.becomeFirstResponder()
+		naughtyWords = BadWords.loadBadWords()
     }
     override func loadView() {
         view = TutorAddUsernameView()

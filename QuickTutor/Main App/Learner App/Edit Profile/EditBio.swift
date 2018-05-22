@@ -209,21 +209,22 @@ class EditBio : BaseViewController {
 	}
 	
 	var originalBio : String = ""
+	var naughtyWords = [String]()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		contentView.textView.textView.delegate = self
 		NavbarButtonBack.enabled = false
 		
+		naughtyWords = BadWords.loadBadWords()
+		
 		originalBio = contentView.textView.textView.text
-        
         contentView.characterCount.label.text = String(300 - originalBio.count)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		contentView.textView.textView.becomeFirstResponder()
-
 	}
     
 	override func viewDidDisappear(_ animated: Bool) {
@@ -241,6 +242,10 @@ class EditBio : BaseViewController {
         // Dispose of any resources that can be recreated.
     }
 	
+	func doesContainNaughtyWord(text: String, naughtyWords: [String]) -> Bool {
+		return naughtyWords.reduce(false) {$0 || text.contains ($1.lowercased()) }
+	}
+	
 	private func displaySavedAlertController() {
 		let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
 		
@@ -256,17 +261,7 @@ class EditBio : BaseViewController {
 	
     override func handleNavigation() {
         if (touchStartView is NavbarButtonSave) {
-            if contentView.textView.textView.text.count < 20 {
-                if !contentView.errorLabel.isHidden {
-                    contentView.errorLabel.shake()
-                } else {
-                    contentView.errorLabel.isHidden = false
-                }
-            } else {
-                contentView.errorLabel.isHidden = true
-                self.dismissKeyboard()
-                saveChanges()
-            }
+           checkBio()
 		} else if (touchStartView is NavbarButtonBack) {
             if contentView.textView.textView.text.count <= 20 && !(contentView.textView.textView.text.count == 0) {
                 contentView.errorLabel.isHidden = false
@@ -295,7 +290,25 @@ class EditBio : BaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
     }
-    
+	
+	private func checkBio() {
+		if contentView.textView.textView.text.count < 20 {
+			if !contentView.errorLabel.isHidden {
+				contentView.errorLabel.shake()
+			} else {
+				contentView.errorLabel.isHidden = false
+			}
+		} else {
+			if !doesContainNaughtyWord(text: contentView.textView.textView.text, naughtyWords: naughtyWords) {
+				contentView.errorLabel.isHidden = true
+				self.dismissKeyboard()
+				saveChanges()
+			} else {
+				contentView.errorLabel.text = "Your bio can't contain inappropriate words."
+				contentView.errorLabel.isHidden = false
+			}
+		}
+	}
 	private func saveChanges() {
 	
 		switch AccountService.shared.currentUserType {
@@ -318,7 +331,7 @@ class EditBio : BaseViewController {
 	private func changedEditBioAlert() {
 		let alertController = UIAlertController(title: "Would you like to save your changes?", message: "You have unsaved changes in your bio", preferredStyle: .actionSheet)
 		let save = UIAlertAction(title: "Save", style: .default) { (alert) in
-			self.saveChanges()
+			self.checkBio()
 		}
 		let noThanks = UIAlertAction(title: "No Thanks", style: .default) { (alert) in
 			self.navigationController?.popViewController(animated: true)

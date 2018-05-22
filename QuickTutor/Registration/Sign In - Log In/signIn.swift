@@ -385,16 +385,15 @@ class SignIn: BaseViewController {
 		let phoneNumber = contentView.phoneTextField.textField.text!
 		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { (verificationId, error) in
 			if let error = error {
+				self.dismissOverlay()
 				print("Error:", error.localizedDescription)
 				self.contentView.nextButton.isUserInteractionEnabled = true
 			} else {
-				
+				self.dismissOverlay()
 				UserDefaults.standard.set(verificationId, forKey: Constants.VRFCTN_ID)
 				Registration.phone = phoneNumber.cleanPhoneNumber()
-				
 				self.navigationController?.pushViewController(Verification(), animated: true)
 			}
-			self.dismissOverlay()
 		}
 	}
 	
@@ -416,22 +415,22 @@ class SignIn: BaseViewController {
 			Auth.auth().signIn(with: credential, completion: { (user, error) in
 				if let error = error {
 					print("Login error: \(error.localizedDescription)")
+					self.dismissOverlay()
 					return
 				}else{
 					let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":" id, name, email"])
-					
 					graphRequest.start(completionHandler: { (connection, result, error) -> Void in
-						
 						if let error = error {
 							print(error.localizedDescription)
-						}
-						else
-						{
-							let data:[String:AnyObject] = result as! [String : AnyObject]
+							self.dismissOverlay()
+						} else {
+							self.dismissOverlay()
+							let data : [String : AnyObject] = result as! [String : AnyObject]
 							print(data)
 						}
 					})
 					print("Successful!")
+					self.dismissOverlay()
 				}
 			})
 			self.dismissOverlay()

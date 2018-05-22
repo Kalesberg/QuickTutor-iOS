@@ -538,24 +538,20 @@ class FirebaseData {
 	}
 	
 	public func removeLearnerAccount(uid: String, reason: String,_ completion: @escaping (Error?) -> Void) {
-		
 		var childNodes = [String : Any]()
 		
 		childNodes["/student-info/\(uid)"] = NSNull()
 		childNodes["/account/\(uid)"] = NSNull()
-		childNodes["/deleted/\(uid)"] = ["reason" : reason, "type" : "learner"]
-		
-		print("Child Nodes: ", childNodes)
+		childNodes["/deleted/\(uid)"] = ["reason" : reason,"email": CurrentUser.shared.learner.email, "type" : "learner", "time": NSDate().timeIntervalSince1970]
+
 		self.ref.root.updateChildValues(childNodes) { (error, _) in
 			if let error = error {
 				print(error.localizedDescription)
 				completion(error)
 			} else {
-				print("no error on updated.")
 				self.storageRef.child("student-info").child(uid).child("student-profile-pic1")
 					.delete { (error) in
 						if let error = error {
-							print("Storage: ", error.localizedDescription)
 							completion(error)
 						} else {
 							completion(nil)

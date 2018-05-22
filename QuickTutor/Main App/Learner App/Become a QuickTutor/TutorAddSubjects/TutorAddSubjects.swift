@@ -427,7 +427,6 @@ extension TutorAddSubjects : SelectedSubcategory {
 		tableView(shouldDisplay: true) {
 			self.didSelectCategory = true
 			self.contentView.searchBar.becomeFirstResponder()
-
 			self.scrollToTop()
 			self.contentView.tableView.reloadData()
 		}
@@ -482,7 +481,6 @@ extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSourc
             }
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
             alert.addAction(remove)
             alert.addAction(cancel)
             
@@ -621,7 +619,6 @@ extension TutorAddSubjects : UISearchBarDelegate {
         automaticScroll = true
         
         if searchText == ""  {
-			
 			tableView(shouldDisplay: false) {
 				self.didSelectCategory = false
 				self.contentView.searchBar.text = ""
@@ -631,13 +628,13 @@ extension TutorAddSubjects : UISearchBarDelegate {
         }
 
         if didSelectCategory {
-            filteredSubjects = partialSubjects.filter({$0.0.contains(searchText.lowercased())})
+            filteredSubjects = partialSubjects.filter({$0.0.contains(searchText)})
             contentView.tableView.reloadData()
             return
             
         } else {
 			tableView(shouldDisplay: true) {
-				self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText.lowercased())})
+				self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText)})
 				self.contentView.tableView.reloadData()
 			}
         }
