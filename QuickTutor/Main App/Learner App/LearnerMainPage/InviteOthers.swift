@@ -209,7 +209,6 @@ class InviteOthers : BaseViewController {
     }
     
     private let contactStore = CNContactStore()
-	private let messageController = MFMessageComposeViewController()
 	private var automaticScroll : Bool = false
 	
 	private var shouldFilterSearchResults : Bool = false {
@@ -248,9 +247,7 @@ class InviteOthers : BaseViewController {
 		}
 		
 		contentView.searchTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-		
-		messageController.delegate = self
-		messageController.messageComposeDelegate = self
+	
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(InviteContactsTableViewCell.self, forCellReuseIdentifier: "contactCell")
@@ -327,10 +324,14 @@ class InviteOthers : BaseViewController {
 			return
 		}
 		if (MFMessageComposeViewController.canSendText()) {
-			messageController.body = "Go check out QuickTutor!"
-			let recipientsArray = selectedContacts.filter{ !" \n\t\r".contains($0) }
-			messageController.recipients = recipientsArray
-			self.present(messageController, animated: true, completion: nil)
+			let controller = MFMessageComposeViewController()
+			controller.delegate = self
+			controller.messageComposeDelegate = self
+			controller.body = "Go check out QuickTutor!"
+			controller.recipients = selectedContacts
+			present(controller, animated: true, completion: nil)
+		} else {
+			print("unable to send text")
 		}
 	}
     private func showSettingsAlert(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
@@ -379,11 +380,21 @@ extension InviteOthers : UIScrollViewDelegate {
 extension InviteOthers : UINavigationControllerDelegate, MFMessageComposeViewControllerDelegate {
 	
 	func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-		if result == .sent {
-			print("success")
+		switch result {
+		case .sent:
+			print("sent")
+			controller.dismiss(animated: true, completion: nil)
+
+		case .cancelled:
+			print("cancelled")
+			controller.dismiss(animated: true, completion: nil)
+
+		case .failed:
+			print("failed")
+			controller.dismiss(animated: true, completion: nil)
 		}
-		controller.dismiss(animated: true, completion: nil)
 	}
+	
 }
 extension InviteOthers : UITableViewDelegate, UITableViewDataSource {
     
@@ -405,11 +416,13 @@ extension InviteOthers : UITableViewDelegate, UITableViewDataSource {
 		
 		return cell
     }
+	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		print(selectedContacts)
 		guard let cell = tableView.cellForRow(at: indexPath) as? InviteContactsTableViewCell else { return }
 		
-		guard let phoneNumber = datasource[indexPath.row].phoneNumbers.first?.value.stringValue else {
+		let data = shouldFilterSearchResults ? filteredContacts[indexPath.row] : datasource[indexPath.row]
+		guard let phoneNumber = data.phoneNumbers.first?.value.stringValue else {
 			tableView.deselectRow(at: indexPath, animated: true)
 			return
 		}
