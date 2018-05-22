@@ -247,7 +247,7 @@ class Verification : BaseViewController {
 		self.displayLoadingOverlay()
         Auth.auth().signIn(with: credential) { (user, error) in
             if let error = error {
-                print("Error", error.localizedDescription)
+				print("Error: SIGNING IN WITH CREDENTIAL FAILED", error.localizedDescription)
                 self.contentView.vcDigit6.textField.isEnabled = true
 				self.contentView.nextButton.isUserInteractionEnabled = true
 				self.dismissOverlay()
