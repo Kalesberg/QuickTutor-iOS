@@ -28,7 +28,7 @@ class EmailView: RegistrationNavBarKeyboardView {
         progressBar.applyConstraints()
 		
 		titleLabel.label.text = "Your email?"
-        errorLabel.text = "The provided e-mail is not valid"
+		
 		
 		emailTextField.placeholder.text = "EMAIL"
 		emailTextField.textField.returnKeyType = .next
@@ -97,19 +97,20 @@ class Email: BaseViewController {
 					self.dismissOverlay()
 				} else {
 					if response == nil {
-						print("No password. No active account")
 						self.dismissOverlay()
 						self.contentView.errorLabel.isHidden = true
 						Registration.email = self.contentView.emailTextField.textField.text!
 						self.navigationController?.pushViewController(CreatePassword(), animated: true)
 					} else {
 						self.dismissOverlay()
-						print("Email Account already in use!")
+						self.contentView.errorLabel.isHidden = false
+						self.contentView.errorLabel.text = "Email already in use."
 					}
 				}
 			})
 		} else {
 			contentView.errorLabel.isHidden = false
+			contentView.errorLabel.text = "The provided e-mail is not valid"
 		}
 	}
 	

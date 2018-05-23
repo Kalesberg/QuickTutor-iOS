@@ -60,6 +60,8 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 		addSubview(categoryLabel)
 		addSubview(collectionView)
 		
+		colors.shuffle()
+		
 		collectionView.dataSource = self
 		collectionView.delegate = self
 		collectionView.register(SubjectCollectionViewCell.self, forCellWithReuseIdentifier: "subcategoryCell")
@@ -100,15 +102,9 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
         
 		cell.imageView.image = category.subcategory.icon[indexPath.item]
 		cell.label.text = category.subcategory.subcategories[indexPath.item]
-        
-        let randomIndex = Int(arc4random_uniform(UInt32(colors.count)))
-        cell.contentView.backgroundColor = UIColor(hex: colors[randomIndex])
-        colors.remove(at: randomIndex)
+		
+        cell.contentView.backgroundColor = UIColor(hex: colors[indexPath.item])
 
-        if colors.count == 0 {
-            colors = ["1EAD4A", "3F578C", "524D8C", "E2B700", "F48619", "1EADFC"]
-        }
-        
 		return cell
 	}
 	

@@ -170,27 +170,25 @@ class CloseAccountSubmission : BaseViewController {
 		
 		switch deleteAccountType {
 		case true:
+			print("Deleted tutor account...")
 			getTutorAccount { (subcategories) in
 				FirebaseData.manager.removeTutorAccount(uid: self.userId, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
-					if let error = error{
+					if let error = error {
+						print(error.localizedDescription)
 						completion(error)
 					}
-					self.reauthenticateUser(completion: { (error) in
-						if let error = error {
-							print(error.localizedDescription)
-						} else {
-							CurrentUser.shared.learner.isTutor = false
-							self.navigationController?.pushViewController(LearnerPageViewController(), animated: false)
-						}
-					})
+					CurrentUser.shared.learner.isTutor = false
+					self.navigationController?.pushViewController(LearnerPageViewController(), animated: false)
+					completion(nil)
 				})
 			}
 			//			Stripe.removeConnectAccount(accountId: CurrentUser.shared.tutor.acctId, completion: { (error) in
 			//				if let error = error {
 			//					print(error.localizedDescription)
 			//				}
-		//			})
+		    //			})
 		case false:
+				print("Deleted both accounts...")
 			getTutorAccount { (subcategories) in
 				FirebaseData.manager.removeBothAccounts(uid: self.userId, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
 					if let error = error {
@@ -237,6 +235,7 @@ class CloseAccountSubmission : BaseViewController {
 	private func reauthenticateUserAndDelete(completion: @escaping (Error?) -> Void) {
 		let user = Auth.auth().currentUser
 		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
+		print(CurrentUser.shared.learner.email)
 		let credential : AuthCredential = EmailAuthProvider.credential(withEmail: CurrentUser.shared.learner.email, password: password!)
 		
 		user?.reauthenticate(with: credential, completion: { (error) in

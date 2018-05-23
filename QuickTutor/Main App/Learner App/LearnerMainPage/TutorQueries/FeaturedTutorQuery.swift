@@ -118,7 +118,6 @@ class QueryData {
 						group.enter()
 						FirebaseData.manager.getTutor(uid) { (tutor) in
 							if let tutor = tutor {
-								print(tutor.name)
 								tutors[key.key]!.append(tutor)
 							}
 							group.leave()
@@ -153,7 +152,6 @@ class QueryData {
 			})
 		}
 		group.notify(queue: .main) {
-			print(uids)
 			completion(uids)
 		}
 	}
@@ -172,7 +170,6 @@ class QueryData {
 				group.enter()
 				FirebaseData.manager.getTutor(child.key) { (tutor) in
 					if let tutor = tutor {
-						print(tutor.name)
 						tutors.append(tutor)
 					}
 					group.leave()

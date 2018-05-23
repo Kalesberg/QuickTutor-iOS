@@ -509,12 +509,10 @@ class FirebaseData {
 		for subcat in subcategory {
 			childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
 		}
-		print(childNodes)
 		group.enter()
-		for (index, imageURL) in CurrentUser.shared.learner.images.enumerated() {
+		for imageURL in CurrentUser.shared.learner.images {
 			if imageURL.value == "" { continue }
-			self.storageRef.child("student-info").child(uid).child("student-profile-pic\(index)")
-				.delete { (error) in
+			Storage.storage().reference(forURL: imageURL.value).delete { (error) in
 					if let error = error {
 						completion(error)
 					} else {
@@ -549,13 +547,15 @@ class FirebaseData {
 				print(error.localizedDescription)
 				completion(error)
 			} else {
-				self.storageRef.child("student-info").child(uid).child("student-profile-pic1")
-					.delete { (error) in
+				for imageURL in CurrentUser.shared.learner.images {
+					if imageURL.value == "" { continue }
+					Storage.storage().reference(forURL: imageURL.value).delete { (error) in
 						if let error = error {
 							completion(error)
 						} else {
 							completion(nil)
 						}
+					}
 				}
 			}
 		}

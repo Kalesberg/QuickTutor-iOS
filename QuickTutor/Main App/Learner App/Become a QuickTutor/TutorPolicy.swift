@@ -245,19 +245,14 @@ class TutorPolicy : BaseViewController {
 		Stripe.createConnectAccountToken(ssnLast4: TutorRegistration.last4SSN!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { (token) in
 			if let token = token {
 				Stripe.createConnectAccount(bankAccountToken: TutorRegistration.bankToken!, connectAccountToken: token, { (value) in
-					if let value = value  {
-						TutorRegistration.acctId = value
-						Tutor.shared.initTutor(completion: { (error) in
-							if let error = error {
-								print(error.localizedDescription)
-							} else {
-								completion(true)
-							}
-						})
-					} else {
-						print("invalid token.")
+					guard let value = value, value.prefix(4) == "acct" else {
 						completion(false)
+						return
 					}
+					TutorRegistration.acctId = value
+					Tutor.shared.initTutor(completion: { (error) in
+						completion(error == nil)
+					})
 				})
 			} else {
 				print("invalid bank")
@@ -298,8 +293,7 @@ class TutorPolicy : BaseViewController {
 		} else if (touchStartView == contentView.checkBox) {
 			accepted()
 		} else if (touchStartView == contentView.backButton) {
-			//pop up here that makes sure they want to quit tutor registration
-			print("poasdfjs")
+			navigationController?.popViewController(animated: true)
 		}
 	}
 }
