@@ -161,6 +161,9 @@ class Verification : BaseViewController {
 	var verificationCode : String = ""
 	var index : Int = 0
 	var textFields : [UITextField] = []
+    
+    var timer = Timer()
+    var seconds = 15
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -190,6 +193,27 @@ class Verification : BaseViewController {
 		}
 		textFields[0].isEnabled = true
 	}
+    
+    func runTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateTimer() {
+        seconds -= 1
+        if seconds == -1 {
+            contentView.resendVCButton.label.text = "Resend verification code »"
+            contentView.resendVCButton.isUserInteractionEnabled = true
+            timer.invalidate()
+            seconds = 15
+        } else {
+            if seconds >= 10 {
+                contentView.resendVCButton.label.text = "Resend code in: 0:\(seconds)"
+            } else {
+                contentView.resendVCButton.label.text = "Resend code in: 0:0\(seconds)"
+            }
+            
+        }
+    }
 	
 	@objc private func buildLast4SSN(_ textField: UITextField) {
 		guard let first = textFields[0].text, first != "" else {
@@ -228,6 +252,7 @@ class Verification : BaseViewController {
 			createCredential(verificationCode)
 			contentView.nextButton.isUserInteractionEnabled = false
 		} else if (touchStartView == contentView.resendVCButton){
+            contentView.resendVCButton.isUserInteractionEnabled = false
             resendVCAction()
         }
     }
@@ -326,8 +351,10 @@ class Verification : BaseViewController {
         PhoneAuthProvider.provider().verifyPhoneNumber(Registration.phone, uiDelegate: nil) { (verificationId, error) in
             if let error = error {
                 print("Error: ", error.localizedDescription)
+                self.contentView.resendVCButton.isUserInteractionEnabled = true
                 return
             }else{
+                self.runTimer()
                 UserDefaults.standard.set(verificationId, forKey: Constants.VRFCTN_ID)
                 UserDefaults.standard.synchronize()
             }

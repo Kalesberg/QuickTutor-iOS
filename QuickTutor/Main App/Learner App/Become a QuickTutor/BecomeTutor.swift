@@ -88,7 +88,7 @@ class BecomeTutorView : BaseLayoutView {
         userFreedomBody.text = "With QuickTutor, you are in complete control of your schedule, hourly rate, preferences, policies, and how you communicate with learners."
         
         safetyMattersTitle.label.text = "Your Safety Matters"
-        safetyMattersBody.text = "QuickTutor has a rating and review system, social media connectivity option, and reporting system to ensure your safety as a tutor. Remember to fully analyze a learner's profile before meeting up with them in-person."
+        safetyMattersBody.text = "QuickTutor has a rating, review, and reporting system to ensure your safety as a tutor. Remember to fully analyze a learner's profile before meeting up with them in-person."
         
         applyConstraints()
     }
@@ -139,7 +139,7 @@ class BecomeTutorView : BaseLayoutView {
             make.bottom.equalTo(container.snp.top)
             make.left.equalToSuperview().inset(15)
             make.right.equalToSuperview()
-            make.top.equalTo(becomeQTLabel.snp.bottom)
+            make.top.equalTo(becomeQTLabel.snp.bottom).inset(-15)
         }
         
         earnMoneyTitle.constrainSelf(top: scrollView.snp.top)
