@@ -174,7 +174,7 @@ class TutorPolicyView : BaseLayoutView {
 		}
 		
 		scrollView.snp.makeConstraints { (make) in
-			make.top.equalTo(qtTitle.snp.bottom).inset(-10)
+			make.top.equalTo(qtTitle.snp.bottom).inset(-30)
 			make.bottom.equalTo(pleaseReviewLabel.snp.top)
 			make.width.equalToSuperview().multipliedBy(0.8)
 			make.centerX.equalToSuperview()

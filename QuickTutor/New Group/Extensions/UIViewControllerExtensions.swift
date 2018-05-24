@@ -180,9 +180,7 @@ extension UIViewController {
                     overlay.dot1.backgroundColor = Colors.green
                     overlay.dot3.backgroundColor = .gray
                 })
-            }, completion: { (true) in
-                
-            })
+            }, completion: nil )
         })
 		self.view.addSubview(overlay)
 	}

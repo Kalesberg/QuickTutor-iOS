@@ -40,48 +40,58 @@ class SubjectTableViewCell : UITableViewCell  {
 		
 		label.textColor = .white
 		label.textAlignment = .center
-		label.font = Fonts.createSize(13)
+		label.font = Fonts.createSize(14)
 		label.adjustsFontSizeToFitWidth = true
 		
 		return label
 	}()
 	
+    let subcategoryContainer : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = Colors.tutorBlue
+        view.layer.cornerRadius = 8
+        
+        return view
+    }()
 	let cellBackground = UIView()
 	
-	func configureTableViewCell() {
+    func configureTableViewCell() {
 		addSubview(subject)
-		addSubview(subcategory)
+        addSubview(subcategoryContainer)
+        subcategoryContainer.addSubview(subcategory)
 		
 		cellBackground.backgroundColor = UIColor.black
 		selectedBackgroundView = cellBackground
-		subcategory.layer.cornerRadius = 5
-		backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		
+		backgroundColor = .clear
 		
 		applyConstraints()
 	}
 	
 	func applyConstraints() {
-		
-		subject.snp.makeConstraints { (make) in
-			make.left.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.5)
-			make.height.equalToSuperview()
+		subcategoryContainer.snp.makeConstraints { (make) in
 			make.centerY.equalToSuperview()
+			make.height.equalToSuperview().multipliedBy(0.6)
+            make.right.equalToSuperview().inset(10)
+            make.width.equalTo(140)
 		}
-		
-		subcategory.snp.makeConstraints { (make) in
-			make.left.equalTo(subject.snp.right)
-			make.centerY.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.33)
-			make.height.equalToSuperview().multipliedBy(0.63)
-		}
+        
+        subcategory.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview().inset(4)
+            make.center.equalToSuperview()
+        }
+        
+        subject.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(10)
+            make.right.equalTo(subcategoryContainer.snp.left).inset(-5)
+            make.height.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
 	}
-	
 
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		subcategory.layer.masksToBounds = true
-		subcategory.backgroundColor = Colors.tutorBlue
-		subcategory.layer.cornerRadius = 5
 	}
 }

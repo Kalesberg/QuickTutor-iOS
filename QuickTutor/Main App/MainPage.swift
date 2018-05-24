@@ -84,7 +84,7 @@ class SearchBar: BaseView, Interactable {
         searchIcon.image = UIImage(named: "navbar-search")
         searchIcon.scaleImage()
         
-        searchLabel.label.text = "Search"
+        searchLabel.label.text = "Search for Tutors"
         searchLabel.label.font = Fonts.createSize(18)
         searchLabel.label.textColor = UIColor(red: 128/255, green: 128/255, blue: 128/255, alpha: 1.0)
         searchLabel.applyConstraints()
