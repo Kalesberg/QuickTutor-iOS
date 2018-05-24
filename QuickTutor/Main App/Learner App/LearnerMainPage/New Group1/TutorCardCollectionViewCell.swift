@@ -35,7 +35,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     let reviewLabelContainer = UIView()
     
     let rateLabel : UILabel = {
-        
         let label = UILabel()
         
         label.textAlignment = .center
@@ -46,9 +45,9 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }()
     
     let rateLabelContainer = UIView()
-    
     let distanceLabel = UILabel()
-    let distanceExtraLabel : UILabel = {
+
+	let distanceExtraLabel : UILabel = {
         let label = UILabel()
         
         label.font = Fonts.createBoldSize(12)

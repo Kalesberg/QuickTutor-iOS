@@ -225,10 +225,7 @@ class InviteOthers : BaseViewController {
 
 	private var datasource : [CNContact] = [] {
 		didSet {
-			contentView.tableView.isHidden = (datasource.count == 0)
-			contentView.inviteButton.isHidden = (datasource.count == 0)
-			
-			contentView.tableView.reloadData()
+			//contentView.tableView.isHidden = (datasource.count == 0)
 		}
 	}
 	
@@ -251,7 +248,6 @@ class InviteOthers : BaseViewController {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(InviteContactsTableViewCell.self, forCellReuseIdentifier: "contactCell")
-        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -263,19 +259,24 @@ class InviteOthers : BaseViewController {
         // Dispose of any resources that can be recreated.
     }
 	private func getContactList() {
+		var contacts : [CNContact] = []
 		do {
 			self.displayLoadingOverlay()
-			
 			let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]
 			let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
 			
 			try self.contactStore.enumerateContacts(with: request, usingBlock: { (contact, stop) in
-				self.datasource.append(contact)
+				contacts.append(contact)
 				self.dismissOverlay()
 			})
 		}
 		catch {
 			print("unable to fetch contacts")
+		}
+		DispatchQueue.main.async {
+			self.datasource = contacts
+			self.contentView.inviteButton.isHidden = (self.datasource.count == 0)
+			self.contentView.tableView.reloadData()
 		}
 	}
 	
@@ -290,9 +291,9 @@ class InviteOthers : BaseViewController {
                 if granted {
                     completionHandler(true)
                 } else {
-                    DispatchQueue.main.async {
-                        self.showSettingsAlert(completionHandler)
-                    }
+					DispatchQueue.main.async {
+						self.showSettingsAlert(completionHandler)
+					}
                 }
             }
         }
@@ -311,10 +312,10 @@ class InviteOthers : BaseViewController {
 			return
 		}
 		shouldFilterSearchResults = true
+		
 		self.filteredContacts = self.datasource.filter {
 			let name = "\($0.givenName) \($0.familyName)"
 			return name.lowercased().contains(text.lowercased()) }
-		
 		if filteredContacts.count > 0 {
 			scrollToTop()
 		}
@@ -355,9 +356,12 @@ class InviteOthers : BaseViewController {
         if touchStartView is NavbarButtonInvite {
             messageContacts()
 		} else if touchStartView == contentView.connectContacts.button {
-			requestAccess { (success) in
+			self.requestAccess { (success) in
 				if success {
-					self.getContactList()
+					DispatchQueue.main.async {
+						self.contentView.connectContacts.isHidden = true
+						self.getContactList()
+					}
 				} else {
 					print("unable to get access")
 				}

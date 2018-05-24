@@ -146,6 +146,7 @@ extension UIViewController {
     }
     
 	func displayLoadingOverlay() {
+
 		if let _ = self.view.viewWithTag(69)  {
 			return
 		}
