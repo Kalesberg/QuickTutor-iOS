@@ -164,7 +164,7 @@ class BankManager : BaseViewController {
 				if let account = account {
 					self.bankList = account.data
 				}
-				self.dismissKeyboard()
+				self.dismissOverlay()
 			})
 		}
 		
@@ -195,7 +195,6 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 		if indexPath.row != endIndex {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "bankCell", for: indexPath) as! BankManagerTableViewCell
 			insertBorder(cell: cell)
-			//Not sure what we want to put here. But for now it will have bank name, and bankholder name
 			cell.bankName.text = banks[indexPath.row].bank_name
 			cell.holderName.text = banks[indexPath.row].account_holder_name
 			cell.defaultBank.isHidden = !banks[indexPath.row].default_for_currency
@@ -255,7 +254,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 				} else {
 					print("Oops soemthing went wrong.")
 				}
-				self.dismissKeyboard()
+				self.dismissOverlay()
 			}
 		}
 	}
@@ -320,8 +319,6 @@ class BankManagerTableViewCell : UITableViewCell {
 		let cellBackground = UIView()
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
-	
-		
 		backgroundColor = Colors.backgroundDark
 		
 		applyConstraints()

@@ -163,6 +163,7 @@ class TutorRegPayment: BaseViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		contentView.nameTextfield.becomeFirstResponder()
+		self.contentView.rightButton.isUserInteractionEnabled = true
 	}
 	
 	override func viewDidDisappear(_ animated: Bool) {

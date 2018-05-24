@@ -335,10 +335,8 @@ class LearnerMainPage : MainPage {
                         AccountService.shared.currentUserType = .tutor
 						self.dismissOverlay()
                         self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-                    } else {
-						self.dismissOverlay()
-                        print("Oops.")
                     }
+					self.dismissOverlay()
                 }
             } else {
 				AccountService.shared.currentUserType = .tRegistration
@@ -347,13 +345,9 @@ class LearnerMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if (touchStartView is SearchBar) {
-            
             let nav = self.navigationController
-            let transition = CATransition()
-            DispatchQueue.main.async {
-                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-                nav?.pushViewController(SearchSubjects(), animated: false)
-            }
+			nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
+			nav?.pushViewController(SearchSubjects(), animated: false)
 			
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)

@@ -158,16 +158,16 @@ extension UIViewController {
             overlay.alpha = 1.0
             overlay.transform = .identity
         }, completion: { (true) in
-            UIView.animateKeyframes(withDuration: 3, delay: 0, options: [.repeat, .calculationModeLinear], animations: {
-                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.75, animations: {
+            UIView.animateKeyframes(withDuration: 1.5, delay: 0, options: [.repeat, .calculationModeLinear], animations: {
+                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.375, animations: {
                     overlay.dot2.backgroundColor = Colors.yellow
                     overlay.dot1.backgroundColor = .gray
                 })
-                UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.75, animations: {
+                UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.375, animations: {
                     overlay.dot4.backgroundColor = Colors.qtRed
                     overlay.dot2.backgroundColor = .gray
                 })
-                UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.75, animations: {
+                UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.375, animations: {
                     if AccountService.shared.currentUserType == .learner {
                         overlay.dot3.backgroundColor = Colors.tutorBlue
                     } else {
@@ -176,7 +176,7 @@ extension UIViewController {
                     
                     overlay.dot4.backgroundColor = .gray
                 })
-                UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 0.75, animations: {
+                UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 0.375, animations: {
                     overlay.dot1.backgroundColor = Colors.green
                     overlay.dot3.backgroundColor = .gray
                 })

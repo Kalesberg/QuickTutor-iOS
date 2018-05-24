@@ -215,7 +215,7 @@ class TutorAddUsername : BaseViewController {
 					self.dismissOverlay()
                 }
             } else {
-                print("no bueño")
+                print("Something went wrong, please try again.")
             }
         }
     }

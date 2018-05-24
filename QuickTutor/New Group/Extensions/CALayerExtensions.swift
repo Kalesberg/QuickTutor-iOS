@@ -44,7 +44,7 @@ extension CALayer {
 extension CATransition {
 	
 	func segueFromBottom() -> CATransition {
-		self.duration = 0.44
+		self.duration = 0.375
 		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 		self.type = kCATransitionMoveIn
 		self.subtype = kCATransitionFromTop
@@ -52,7 +52,7 @@ extension CATransition {
 	}
 	
 	func segueFromLeft() -> CATransition {
-		self.duration = 0.44
+		self.duration = 0.1
 		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 		self.type = kCATransitionMoveIn
 		self.subtype = kCATransitionFromLeft
@@ -60,7 +60,7 @@ extension CATransition {
 	}
 	
 	func popFromRight() -> CATransition {
-		self.duration = 0.44
+		self.duration = 0.1
 		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 		self.type = kCATransitionReveal
 		self.subtype = kCATransitionFromRight
@@ -68,7 +68,7 @@ extension CATransition {
 	}
 	
 	func popFromTop() -> CATransition {
-		self.duration = 0.44
+		self.duration = 0.2
 		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 		self.type = kCATransitionReveal
 		self.subtype = kCATransitionFromBottom

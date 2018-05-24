@@ -128,12 +128,19 @@ class TheChoice : BaseViewController {
 				}
 			}
         } else if (touchStartView == contentView.tutorButton) {
-            let next = BecomeTutor()
-            navigationController?.pushViewController(next, animated: true)
-            let endIndex = navigationController?.viewControllers.endIndex
-            navigationController?.viewControllers.removeFirst(endIndex! - 1)
-        } else {
-            
+			self.displayLoadingOverlay()
+			FirebaseData.manager.getLearner(Registration.uid) { (learner) in
+				if let learner = learner {
+					self.dismissOverlay()
+					CurrentUser.shared.learner = learner
+					AccountService.shared.currentUserType = .tRegistration
+					self.navigationController?.pushViewController(BecomeTutor(), animated: true)
+				} else {
+					self.dismissOverlay()
+					try! Auth.auth().signOut()
+					self.navigationController?.pushViewController(SignIn(), animated: true)
+				}
+			}
         }
     }
 }

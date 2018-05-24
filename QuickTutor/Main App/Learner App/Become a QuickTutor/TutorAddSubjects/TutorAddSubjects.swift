@@ -236,13 +236,13 @@ class TutorAddSubjects : BaseViewController {
     var selectedSubjects : [String] = [] {
         didSet {
             contentView.noSelectedItemsLabel.isHidden = !selectedSubjects.isEmpty
-            self.contentView.categoryCollectionView.reloadData()
+            contentView.categoryCollectionView.reloadData()
         }
     }
     
     var selected : [Selected] = [] {
         didSet {
-            self.contentView.categoryCollectionView.reloadData()
+            contentView.categoryCollectionView.reloadData()
         }
     }
     
@@ -256,6 +256,7 @@ class TutorAddSubjects : BaseViewController {
 		didSet {
 			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "xbuttonlight") : #imageLiteral(resourceName: "backButton")
 			contentView.nextButton.isHidden = tableViewIsActive
+			contentView.cancelButton.isHidden = !tableViewIsActive
 			shouldUpdateSearchResults = tableViewIsActive
 		}
 	}

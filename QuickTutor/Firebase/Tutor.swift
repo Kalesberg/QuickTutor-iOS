@@ -102,9 +102,7 @@ class Tutor {
     public func buildSubjectNode() -> ([String : Any], [String : Any]) {
         
         var subcategories : [String] = []
-        
         var subjectDict = [String : [String]]()
-        
         if let subjects = TutorRegistration.subjects {
             
             for (_, value) in subjects.enumerated() {
@@ -129,11 +127,8 @@ class Tutor {
         var updateSubcategoryValues = [String : Any]()
         
         for key in subjectDict {
-            
             let subjects = key.value.compactMap({$0}).joined(separator: "$")
-            
             updateSubjectValues["/subject/\(Auth.auth().currentUser!.uid)/\(key.key.lowercased())"] = ["p": TutorRegistration.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
-            
             updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : TutorRegistration.price!, "dst" : TutorRegistration.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
         }
         return (updateSubjectValues, updateSubcategoryValues)

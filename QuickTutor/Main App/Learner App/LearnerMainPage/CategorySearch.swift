@@ -11,7 +11,6 @@ import UIKit
 class CategorySearchView : MainLayoutTwoButton {
 	
 	var back =  NavbarButtonBack()
-	var filters = NavbarButtonFilters()
 	
 	let subtitle = SectionHeader()
 	
@@ -55,16 +54,7 @@ class CategorySearchView : MainLayoutTwoButton {
 			back = newValue as! NavbarButtonBack
 		}
 	}
-	
-	override var rightButton: NavbarButton {
-		get {
-			return filters
-		} set {
-			filters = newValue as! NavbarButtonFilters
-            
-		}
-	}
-	
+
 	override func configureView() {
 		navbar.addSubview(searchBar)
 		addSubview(subtitle)
