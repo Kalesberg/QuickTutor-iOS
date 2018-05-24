@@ -98,12 +98,21 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategoryCell", for: indexPath) as! SubjectCollectionViewCell
         
-		cell.imageView.image = category.subcategory.icon[indexPath.item]
-		cell.label.text = category.subcategory.subcategories[indexPath.item]
+        let subcat = category.subcategory
         
-        let randomIndex = Int(arc4random_uniform(UInt32(colors.count)))
-        cell.contentView.backgroundColor = UIColor(hex: colors[randomIndex])
-        colors.remove(at: randomIndex)
+		cell.imageView.image = subcat.icon[indexPath.item]
+		cell.label.text = subcat.subcategories[indexPath.item]
+        
+        var index : Int
+        
+        if subcat.subcategories[indexPath.item].count > 11 {
+            index = 0
+        } else {
+            index = colors.count - 1
+        }
+        
+        cell.contentView.backgroundColor = UIColor(hex: colors[index])
+        colors.remove(at: index)
 
         if colors.count == 0 {
             colors = ["1EAD4A", "3F578C", "524D8C", "E2B700", "F48619", "1EADFC"]

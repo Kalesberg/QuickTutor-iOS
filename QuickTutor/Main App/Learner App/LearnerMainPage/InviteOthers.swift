@@ -40,7 +40,8 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
 	let searchTextField : RegistrationTextField = {
 		let textField = RegistrationTextField()
 		textField.placeholder.text = "Search Contacts"
-		textField.textField.font = Fonts.createSize(16)
+        textField.placeholder.font = Fonts.createBoldSize(20)
+		textField.textField.font = Fonts.createBoldSize(20)
 		textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
 		return textField
 	}()
@@ -118,7 +119,7 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
     }
 }
 
-class InviteOthersButton : InteractableView, Interactable {
+class InviteOthersButton : InteractableBackgroundView {
     
     let label : UILabel = {
         let label = UILabel()
@@ -423,6 +424,7 @@ extension InviteOthers : UITableViewDelegate, UITableViewDataSource {
 		selectedContacts.append(phoneNumber)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
+
 }
 
 class InviteContactsTableViewCell : UITableViewCell {
@@ -451,7 +453,7 @@ class InviteContactsTableViewCell : UITableViewCell {
 		
 		checkbox.isSelected = false
 		let cellBackground = UIView()
-		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+		cellBackground.backgroundColor = Colors.grayText
 		selectedBackgroundView = cellBackground
 		backgroundColor = .clear
 		
