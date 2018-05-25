@@ -14,8 +14,8 @@ protocol EndSessionModalDelegate {
 
 class EndSessionModal: BaseCustomModal {
     
-    let endSessionButton: UIButton = {
-        let button = UIButton()
+    let endSessionButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("End Session", for: .normal)
         button.setTitleColor(Colors.qtRed, for: .normal)
         button.layer.borderWidth = 1.5
@@ -25,8 +25,8 @@ class EndSessionModal: BaseCustomModal {
         return button
     }()
     
-    let nevermindButton: UIButton = {
-        let button = UIButton()
+    let nevermindButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Nevermind", for: .normal)
         button.setTitleColor(Colors.green, for: .normal)
         button.layer.borderWidth = 1.5

@@ -70,7 +70,7 @@ class FileReportActionsheet: UIView {
     
 
     func show() {
-        UIViewPropertyAnimator(duration: 0.5, curve: .easeOut) {
+        UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.layoutIfNeeded()
             self.actionSheetBackground.transform = CGAffineTransform(translationX: 0, y: -150)
             self.backgroundBlur.alpha = 1
@@ -78,7 +78,7 @@ class FileReportActionsheet: UIView {
     }
     
     @objc func dismiss() {
-        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeOut) {
+        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.layoutIfNeeded()
             self.actionSheetBackground.transform = CGAffineTransform(translationX: 0, y: 150)
             self.backgroundBlur.alpha = 0

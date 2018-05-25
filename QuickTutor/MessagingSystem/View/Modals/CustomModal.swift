@@ -38,25 +38,28 @@ class CustomModal: BaseCustomModal {
         return label
     }()
     
-    let nevermindButton: UIButton = {
-        let button = UIButton()
+    let nevermindButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Nevermind", for: .normal)
         button.setTitleColor(UIColor(red: 91.0 / 255.0, green: 81.0 / 255.0, blue: 162.0 / 255.0, alpha: 1.0), for: .normal)
         button.layer.borderWidth = 1.5
         button.layer.borderColor = UIColor(red: 91.0 / 255.0, green: 81.0 / 255.0, blue: 162.0 / 255.0, alpha: 1.0).cgColor
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(16)
+        button.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
+
         return button
     }()
     
-    let confirmButton: UIButton = {
-        let button = UIButton()
+    let confirmButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Ok, cancel", for: .normal)
         button.setTitleColor(UIColor(red: 91.0 / 255.0, green: 81.0 / 255.0, blue: 162.0 / 255.0, alpha: 1.0), for: .normal)
         button.layer.borderWidth = 1.5
         button.layer.borderColor = UIColor(red: 91.0 / 255.0, green: 81.0 / 255.0, blue: 162.0 / 255.0, alpha: 1.0).cgColor
         button.titleLabel?.font = Fonts.createSize(16)
         button.layer.cornerRadius = 4
+        button.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
         return button
     }()
     

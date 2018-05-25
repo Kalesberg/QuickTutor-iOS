@@ -76,7 +76,7 @@ class VideoSessionVC: UIViewController {
     func setupViews() {
         setupMainView()
         setupRemoteView()
-        setupPreviewView()
+//        setupPreviewView()
         setupNavBar()
         setupPauseSessionButton()
         setupEndSessionButton()

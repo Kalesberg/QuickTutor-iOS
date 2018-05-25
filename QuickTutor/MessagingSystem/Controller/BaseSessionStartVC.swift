@@ -84,8 +84,8 @@ class BaseSessionStartVC: UIViewController {
         return label
     }()
     
-    let confirmButton: UIButton = {
-        let button = UIButton()
+    let confirmButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Accept Manual Start", for: .normal)
         button.setTitleColor(UIColor(red: 31.0/255.0, green: 177.0/255.0, blue: 74.0/255.0, alpha: 1.0), for: .normal)
         button.layer.borderWidth = 1.5
@@ -97,8 +97,8 @@ class BaseSessionStartVC: UIViewController {
         return button
     }()
     
-    let cancelButton: UIButton = {
-        let button = UIButton()
+    let cancelButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Cancel", for: .normal)
         button.setTitleColor(UIColor(red: 178.0/255.0, green: 27.0/255.0, blue: 74.0/255.0, alpha: 1.0), for: .normal)
         button.layer.borderWidth = 1.5
