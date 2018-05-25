@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import FirebaseAuth
 
-class ForgotPasswordView : MainLayoutHeaderScroll {
+class ForgotPasswordView : MainLayoutHeader {
     
     var forgotPasswordBody = SectionBody()
     var forgotPasswordButton = ForgotPasswordButton()
@@ -21,7 +21,7 @@ class ForgotPasswordView : MainLayoutHeaderScroll {
         super.configureView()
         
         title.label.text = "Help"
-        header.label.text = "I forgot my password"
+        header.text = "I forgot my password"
         
         forgotPasswordBody.text = "If you have forgotten your password, you can visit our password rest link below. You’ll have to enter your email address or your mobile number linked with your QuickTutor account.\n\nWe will email you within a few minutes. This email will include a link to create a new password. If you do not utilize the link within 10 minutes, you have to start over to receive a new link.\n\nTo maintain security on your account, create a unique password and do not share it with others. QuickTutor customer support will never ask for your password. "
     }
@@ -35,9 +35,17 @@ class ForgotPasswordView : MainLayoutHeaderScroll {
             make.top.equalTo(forgotPasswordBody.snp.bottom).offset(20)
             make.width.equalTo(forgotPasswordBody)
             make.centerX.equalToSuperview()
-            make.height.equalTo(30)
         }
     }
+}
+
+
+class HelpScrollView : BaseScrollView {
+    
+    override func handleNavigation() {
+        
+    }
+    
 }
 
 
