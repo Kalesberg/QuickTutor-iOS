@@ -26,8 +26,8 @@ class ViewSessionRequestVC: UIViewController {
         return label
     }()
     
-    let acceptButton: UIButton = {
-        let button = UIButton()
+    let acceptButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Accept", for: .normal)
         button.backgroundColor = Colors.purple
         button.layer.cornerRadius = 25
@@ -36,8 +36,8 @@ class ViewSessionRequestVC: UIViewController {
         return button
     }()
     
-    let declineButton: UIButton = {
-        let button = UIButton()
+    let declineButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Decline", for: .normal)
         button.backgroundColor = Colors.lightGrey
         button.layer.cornerRadius = 25

@@ -14,8 +14,8 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     var startAccepted = false
     
-    let messageButton: UIButton = {
-        let button = UIButton()
+    let messageButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Message", for: .normal)
         button.setTitleColor(Colors.learnerPurple, for: .normal)
         button.layer.borderWidth = 1.5

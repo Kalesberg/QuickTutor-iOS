@@ -44,8 +44,8 @@ class ConnectionRequestView: UIView {
         return label
     }()
     
-    let sendButton: UIButton = {
-        let button = UIButton()
+    let sendButton: DimmableButton = {
+        let button = DimmableButton()
         button.backgroundColor = Colors.purple
         button.layer.cornerRadius = 20
         button.setTitle("Send", for: .normal)

@@ -26,8 +26,8 @@ class CustomTipModal: BaseCustomModal {
         return label
     }()
     
-    let cancelTipButton: UIButton = {
-        let button = UIButton()
+    let cancelTipButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Cancel", for: .normal)
         button.setTitleColor(Colors.qtRed, for: .normal)
         button.layer.borderWidth = 1.5
@@ -37,8 +37,8 @@ class CustomTipModal: BaseCustomModal {
         return button
     }()
     
-    let confirmButton: UIButton = {
-        let button = UIButton()
+    let confirmButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Confirm", for: .normal)
         button.setTitleColor(Colors.green, for: .normal)
         button.layer.borderWidth = 1.5

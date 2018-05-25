@@ -10,8 +10,8 @@ import UIKit
 
 class TipAmountCell: UICollectionViewCell {
     
-    let button: UIButton = {
-        let button = UIButton()
+    let button: DimmableButton = {
+        let button = DimmableButton()
         button.setTitleColor(Colors.learnerPurple, for: .normal)
         button.titleLabel?.font = Fonts.createSize(14)
         button.backgroundColor = .white

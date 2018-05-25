@@ -64,6 +64,7 @@ class BaseSessionsContentCell: BaseContentCell {
                 }
             })
         }
+        
     }
     
     override func setupRefreshControl() {

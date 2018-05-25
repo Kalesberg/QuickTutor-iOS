@@ -44,8 +44,8 @@ class InPersonSessionVC: UIViewController {
         return label
     }()
     
-    let cancelButton: UIButton = {
-        let button = UIButton()
+    let cancelButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("End Session", for: .normal)
         button.setTitleColor(UIColor(red: 178.0/255.0, green: 27.0/255.0, blue: 74.0/255.0, alpha: 1.0), for: .normal)
         button.layer.borderWidth = 1.5

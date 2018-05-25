@@ -113,8 +113,8 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
             index = colors.count - 1
         }
         
-        cell.contentView.backgroundColor = UIColor(hex: colors[index])
-        colors.remove(at: index)
+        cell.contentView.backgroundColor = UIColor.blue
+//        colors.remove(at: index)
 
         return cell
     }

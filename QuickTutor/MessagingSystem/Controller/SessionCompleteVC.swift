@@ -37,8 +37,8 @@ class SessionCompleteVC: UIViewController {
         return box
     }()
     
-    let submitButton: UIButton = {
-        let button = UIButton()
+    let submitButton: DimmableButton = {
+        let button = DimmableButton()
         button.backgroundColor = Colors.learnerPurple
         button.setTitle("Submit", for: .normal)
         button.titleLabel?.font = Fonts.createLightSize(22)
