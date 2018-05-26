@@ -50,6 +50,7 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
 	var accountNumberTitle = SectionTitle()
 	var accountNumberTextfield  = PaymentTextField()
 	
+
 	override func configureView() {
 		addSubview(contentView)
 		contentView.addSubview(nameTitle)
@@ -184,8 +185,6 @@ class TutorRegPayment: BaseViewController {
 			return
 		}
 		contentView.nameTextfield.layer.borderColor = Colors.green.cgColor
-		
-		print("Good Name")
 		guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
 			if contentView.routingNumberTextfield.text!.count > 1 {
 				contentView.routingNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
@@ -195,7 +194,6 @@ class TutorRegPayment: BaseViewController {
 		}
 		contentView.routingNumberTextfield.layer.borderColor = Colors.green.cgColor
 		
-		print("Good routing")
 		guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
 			if contentView.accountNumberTextfield.text!.count > 1 {
 				contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
@@ -204,8 +202,6 @@ class TutorRegPayment: BaseViewController {
 			return
 		}
 		contentView.accountNumberTextfield.layer.borderColor = Colors.green.cgColor
-		
-		print("Good account.")
 		validAccountData = true
 		
 		self.fullName = name
@@ -220,13 +216,12 @@ class TutorRegPayment: BaseViewController {
 			
 			if validAccountData {
 				self.dismissOverlay()
-				Stripe.createBankAccountToken(accountHoldersName: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (token) in
+				Stripe.createBankAccountToken(accountHoldersName: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (token, error)  in
 					if let token = token {
 						TutorRegistration.bankToken = token
 						self.navigationController?.pushViewController(TutorAddress(), animated: true)
 					} else {
-						print("token error")
-						self.contentView.rightButton.isUserInteractionEnabled = true
+						AlertController.genericErrorAlert(self, title: "Bank Account Error", message: error?.localizedDescription ?? "Unable to create bank account. Please verify the information is correct.")
 					}
 					self.dismissOverlay()
 				}

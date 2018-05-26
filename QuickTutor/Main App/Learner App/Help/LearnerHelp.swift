@@ -251,9 +251,6 @@ class LearnerHelp : BaseViewController {
         // Dispose of any resources that can be recreated.
     }
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonBack {
-			navigationController?.popViewController(animated: true)
-		}
 	}
 }
 

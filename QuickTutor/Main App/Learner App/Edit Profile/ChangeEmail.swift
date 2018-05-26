@@ -212,12 +212,12 @@ class ChangeEmail : BaseViewController {
 		
 		user?.reauthenticate(with: credential, completion: { (error) in
 			if let error = error{
-				print(error.localizedDescription)
+				AlertController.genericErrorAlert(self, title: "Unable to Change Email", message: error.localizedDescription)
 				self.contentView.textField.becomeFirstResponder()
 			} else {
 				user?.updateEmail(to: self.contentView.textField.text!, completion: { (error) in
 					if let error = error {
-						print(error.localizedDescription)
+						AlertController.genericErrorAlert(self, title: "Unable to Change Email", message: error.localizedDescription)
 					} else {
 						CurrentUser.shared.learner.email = self.contentView.textField.text!
 						FirebaseData.manager.updateValue(node : "account", value: ["em" : self.contentView.textField.text!])

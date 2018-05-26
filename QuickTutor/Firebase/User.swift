@@ -436,7 +436,7 @@ class FirebaseData {
 	}
 	
 	public func getCompressedImageDataFor(_ image: UIImage) -> Data? {
-		let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: CGFloat(ceil(200 / image.size.width * image.size.height)))))
+		let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 300, height: CGFloat(ceil(300 / image.size.width * image.size.height)))))
 		imageView.contentMode = .scaleAspectFit
 		imageView.image = image
 		
@@ -451,7 +451,7 @@ class FirebaseData {
 			return nil
 		}
 		UIGraphicsEndImageContext()
-		guard let dataToUpload = UIImageJPEGRepresentation(scaledImage, 0.5) else {
+		guard let dataToUpload = UIImageJPEGRepresentation(scaledImage, 0.3) else {
 			print("No data to upload")
 			return nil
 		}

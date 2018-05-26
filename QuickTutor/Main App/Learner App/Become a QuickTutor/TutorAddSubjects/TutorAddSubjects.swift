@@ -25,6 +25,16 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 	let headerView = SectionHeader()
 	
 	let nextButton = TutorPreferencesNextButton()
+	let errorLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createItalicSize(17)
+		label.textColor = .red
+		label.isHidden = true
+		label.textAlignment = .center
+		
+		return label
+	}()
 	
 	let noSelectedItemsLabel : UILabel = {
 		let label = UILabel()
@@ -131,7 +141,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		addSubview(tableView)
 		addSubview(nextButton)
 		addSubview(keyboardView)
-		
+		addSubview(errorLabel)
 		super.configureView()
 		
 		searchTextField = searchBar.value(forKey: "searchField") as? UITextField
@@ -191,6 +201,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
+		
         nextButton.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
@@ -201,6 +212,13 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
                 make.height.equalTo(60)
             }
         }
+		errorLabel.snp.makeConstraints { (make) in
+			make.bottom.equalTo(nextButton.snp.top)
+			make.height.equalTo(45)
+			make.width.equalToSuperview()
+			make.centerX.equalToSuperview()
+		}
+		
     }
     
     override func layoutSubviews() {
@@ -235,6 +253,8 @@ class TutorAddSubjects : BaseViewController {
 
     var selectedSubjects : [String] = [] {
         didSet {
+			contentView.errorLabel.isHidden = !(selectedSubjects.count == 0)
+
             contentView.noSelectedItemsLabel.isHidden = !selectedSubjects.isEmpty
             contentView.categoryCollectionView.reloadData()
         }
@@ -378,6 +398,18 @@ class TutorAddSubjects : BaseViewController {
             self.contentView.tableView.reloadData()
         }
     }
+	private func maxSubjectAlert() {
+		let alertController = UIAlertController(title: "Too Many Subjects!", message: "We currently only allow tutors to select 20 different subjects. You can also edit these later on.", preferredStyle: .alert)
+		
+		let okButton = UIAlertAction(title: "Ok", style: .destructive) { (_) in
+			//alertController.dismiss(animated: true, completion: nil)
+		}
+		let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+		
+		alertController.addAction(okButton)
+		alertController.addAction(cancelButton)
+		self.present(alertController, animated: true, completion: nil)
+	}
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -417,8 +449,13 @@ class TutorAddSubjects : BaseViewController {
 				self.contentView.searchBar.text = ""
 			}
         } else if touchStartView is TutorPreferencesNextButton {
-            TutorRegistration.subjects = selected
-            navigationController?.pushViewController(TutorPreferences(), animated: true)
+			if selectedSubjects.count > 0 {
+            	TutorRegistration.subjects = selected
+            	navigationController?.pushViewController(TutorPreferences(), animated: true)
+			} else {
+				contentView.errorLabel.text = "Must choose atleast 1 subject."
+				contentView.errorLabel.isHidden = false
+			}
         }
     }
 }
@@ -562,16 +599,15 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
     }
     
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if selectedSubjects.count > 20 {
+		guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
 
-            print("Too many subjects")
+        if selectedSubjects.count >= 20 && !cell.selectedIcon.isSelected  {
+			maxSubjectAlert()
             tableView.deselectRow(at: indexPath, animated: true)
             return
         }
         
-        guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
-        
+		
         if selectedSubjects.contains(cell.subject.text!) {
             
             cell.selectedIcon.isSelected = false

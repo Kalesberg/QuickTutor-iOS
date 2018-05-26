@@ -260,6 +260,17 @@ class TutorPolicy : BaseViewController {
 			}
 		}
 	}
+	
+	private func bankErrorAlert(title: String, message: String) {
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		
+		let okButton = UIAlertAction(title: "Ok", style: .destructive) { (_) in }
+		let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+		
+		alertController.addAction(okButton)
+		alertController.addAction(cancelButton)
+		self.present(alertController, animated: true, completion: nil)
+	}
 	private func accepted() {
 		self.displayLoadingOverlay()
 		createConnectAccount { (success) in
@@ -272,12 +283,12 @@ class TutorPolicy : BaseViewController {
 						let endIndex = self.navigationController?.viewControllers.endIndex
 						self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
 					} else {
-						print("failure2.")
+						AlertController.genericErrorAlert(self, title: "Unable to Create Account", message: "Please verify your information was correct.")
 					}
 					self.dismissOverlay()
 				})
 			} else {
-				print("failure1.")
+				AlertController.genericErrorAlert(self, title: "Unable to Create Account", message: "Please verify your information was correct.")
 				self.dismissOverlay()
 			}
 		}

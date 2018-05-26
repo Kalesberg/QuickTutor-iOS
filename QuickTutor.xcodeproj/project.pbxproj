@@ -951,7 +951,6 @@
 				8482AFE02038C27000F6F805 /* EditBio.swift */,
 				8434B82A20468D6F00E16170 /* EditLanguages.swift */,
 				843A1D182047C5BF00299D27 /* EditSchool.swift */,
-				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				84F9CBFF204D3F8F009A2851 /* languages.txt */,
 				84681F9F204B63DC00F45DFC /* schools.txt */,
 			);
@@ -1028,6 +1027,7 @@
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
+				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
 			);
 			path = QuickTutor;

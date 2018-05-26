@@ -16,7 +16,7 @@ class Stripe {
 		print("Stripe initialized.")
 	}
 	
-	class func createBankAccountToken(accountHoldersName: String, routingNumber: String, accountNumber: String, completion: @escaping (STPToken?) -> Void) {
+	class func createBankAccountToken(accountHoldersName: String, routingNumber: String, accountNumber: String, completion: @escaping STPTokenCompletionBlock) {
 		
 		let bankAccountParams = STPBankAccountParams()
 		
@@ -29,10 +29,9 @@ class Stripe {
 		
 		STPAPIClient.shared().createToken(withBankAccount: bankAccountParams) { (token, error) in
 			if let error = error {
-				print(error.localizedDescription)
-				completion(nil)
+				completion(nil, error)
 			} else if let token = token {
-				completion(token)
+				completion(token, nil)
 			}
 		}
 	}
@@ -213,7 +212,7 @@ class Stripe {
 			})
 	}
 	
-	class func attachSource(cusID: String, adding card: STPCardParams, completion: @escaping STPErrorBlock) {
+	class func attachSource(cusID: String, adding card: STPCardParams, completion: @escaping (String?) -> Void) {
 		STPAPIClient.shared().createToken(withCard: card) { (token, error) in
 			if let error = error {
 				print(error.localizedDescription)
@@ -224,12 +223,16 @@ class Stripe {
 				let params : [String : Any] = ["customer" : cusID, "token" :  token]
 				Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 					.validate(statusCode: 200..<300)
-					.responseJSON(completionHandler: { (response) in
+					.responseString(completionHandler: { (response) in
 						switch response.result {
-						case .success:
-							completion(nil)
+						case .success(let value):
+							if value == "success" {
+								completion(nil)
+							} else {
+								completion(value)
+							}
 						case .failure(let error):
-							completion(error)
+							completion(error.localizedDescription)
 						}
 					})
 			}

@@ -224,13 +224,9 @@ class InviteOthers : BaseViewController {
 		}
 	}
 
-	private var datasource : [CNContact] = [] {
-		didSet {
-			//contentView.tableView.isHidden = (datasource.count == 0)
-		}
-	}
+	private var datasource = [CNContact]()
 	
-	private var filteredContacts : [CNContact] = [] {
+	private var filteredContacts = [CNContact]() {
 		didSet {
 			contentView.tableView.reloadData()
 		}
@@ -252,9 +248,7 @@ class InviteOthers : BaseViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
 	}
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -262,17 +256,15 @@ class InviteOthers : BaseViewController {
 	private func getContactList() {
 		var contacts : [CNContact] = []
 		do {
-			self.displayLoadingOverlay()
 			let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]
 			let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
 			
-			try self.contactStore.enumerateContacts(with: request, usingBlock: { (contact, stop) in
+			try self.contactStore.enumerateContacts(with: request) { (contact, stop) in
 				contacts.append(contact)
-				self.dismissOverlay()
-			})
+			}
 		}
 		catch {
-			print("unable to fetch contacts")
+			AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to fetch your contacts.")
 		}
 		DispatchQueue.main.async {
 			self.datasource = contacts
@@ -333,7 +325,7 @@ class InviteOthers : BaseViewController {
 			controller.recipients = selectedContacts
 			present(controller, animated: true, completion: nil)
 		} else {
-			print("unable to send text")
+			AlertController.genericErrorAlert(self, title: "Unable to send text!", message: "Sorry, we can no send SMS messages at this time.")
 		}
 	}
     private func showSettingsAlert(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
@@ -364,7 +356,7 @@ class InviteOthers : BaseViewController {
 						self.getContactList()
 					}
 				} else {
-					print("unable to get access")
+					AlertController.genericErrorAlert(self, title: "Unable to gain access to your contacts", message: "Try going to settings>privacy> and allowing Contacts.")
 				}
 			}
 		}

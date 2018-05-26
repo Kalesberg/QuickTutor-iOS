@@ -258,11 +258,13 @@ class LearnerMainPage : MainPage {
 						self.dismissOverlay()
 						completion(true)
 					} else {
+						AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
 						self.dismissOverlay()
 						completion(false)
 					}
 				})
 			} else {
+				AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
 				self.dismissOverlay()
 				completion(false)
 			}
