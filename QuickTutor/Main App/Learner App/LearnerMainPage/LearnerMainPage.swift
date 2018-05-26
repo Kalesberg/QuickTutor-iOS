@@ -93,6 +93,49 @@ class LearnerMainPage : MainPage {
         super.viewDidLoad()
         queryFeaturedTutors()
         configureView()
+        
+        let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        contentView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
+        if (gestureRecognizer.state == .began || gestureRecognizer.state == .changed) && contentView.sidebar.isUserInteractionEnabled == true {
+            
+            let translation = gestureRecognizer.translation(in: self.view)
+            
+            let sidebar = contentView.sidebar
+            
+            //restrict moving past the boundaries of left side of screen
+            if (sidebar.frame.minX == 0 && translation.x >= 0.0) {
+                return
+            }
+            
+            //snap the left side of sidebar to left side of screen when the translation would cause the sidebar to move past the left side of the screen
+            if (sidebar.frame.minX + translation.x > 0.0) {
+                sidebar.center.x -= sidebar.frame.minX
+                return
+            }
+            
+            //move sidebar
+            sidebar.center.x = sidebar.center.x + translation.x
+            gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
+            
+        } else if gestureRecognizer.state == .ended {
+            if contentView.sidebar.frame.maxX < UIScreen.main.bounds.width / 1.7 {
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.maxX
+                    self.hideBackground()
+                }) { (true) in
+                    self.contentView.sidebar.isUserInteractionEnabled = false
+                    self.contentView.sidebar.alpha = 0
+                }
+                
+            } else {
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.minX
+                })
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -275,19 +318,18 @@ class LearnerMainPage : MainPage {
         super.handleNavigation()
         
         if(touchStartView == contentView.sidebarButton) {
-            let startX = self.contentView.sidebar.center.x
-            self.contentView.sidebar.center.x = (startX * -1)
+            self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.maxX
             self.contentView.sidebar.alpha = 1.0
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.contentView.sidebar.center.x = startX
-            })
             self.contentView.sidebar.isUserInteractionEnabled = true
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.minX
+            })
+            
             showBackground()
 			if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
 				displaySidebarTutorial()
 				UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
 			}
-			
         } else if(touchStartView == contentView.backgroundView) {
             self.contentView.sidebar.isUserInteractionEnabled = false
             let startX = self.contentView.sidebar.center.x

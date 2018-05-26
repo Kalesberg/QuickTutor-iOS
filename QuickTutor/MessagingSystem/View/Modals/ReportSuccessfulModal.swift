@@ -20,8 +20,8 @@ class ReportSuccessfulModal: BaseCustomModal {
         return label
     }()
     
-    let confirmButton: UIButton = {
-        let button = UIButton()
+    let confirmButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Okay", for: .normal)
         button.setTitleColor(UIColor(red: 30.0/255.0, green: 173.0/255.0, blue: 74.0/255.0, alpha: 1.0), for: .normal)
         button.layer.borderWidth = 1.5

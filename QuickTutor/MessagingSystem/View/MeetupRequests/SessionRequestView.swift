@@ -136,6 +136,7 @@ class SessionRequestView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        setInitialTitles()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -208,6 +209,7 @@ class SessionRequestView: UIView {
         resetButton.anchor(top: inPersonToggle.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
         addConstraint(NSLayoutConstraint(item: resetButton, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
         resetButton.addTitleBelow(text: "Reset")
+        resetButton.addTarget(self, action: #selector(resetTitles), for: .touchUpInside)
     }
     
     private func setupConfirmButton() {
@@ -354,6 +356,28 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
         return expirationDate.timeIntervalSince1970
     }
     
+    func setInitialTitles() {
+        titles = ["Select Subject", "Select Date", "Select Start Time", "Select End Time", "Select Price"]
+    }
+    
+    @objc func resetTitles() {
+        setInitialTitles()
+        setAllTitlesWhite()
+        inputTable.reloadData()
+    }
+    
+    func setTitleGreen(index: Int) {
+        guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
+        cell.textLabel?.textColor = Colors.green
+    }
+    
+    func setAllTitlesWhite() {
+        for index in 0...titles.count {
+            guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
+            cell.textLabel?.textColor = .white
+        }
+    }
+    
 }
 
 // MARK: Subject -
@@ -363,6 +387,7 @@ extension SessionRequestView: SubjectPickerDelegate {
         let indexPath = IndexPath(row: 0, section: 0)
         inputTable.reloadRows(at: [indexPath], with: .automatic)
         sessionData["subject"] = title
+        setTitleGreen(index: 0)
     }
 }
 
@@ -370,6 +395,7 @@ extension SessionRequestView: SubjectPickerDelegate {
 extension SessionRequestView: CustomDatePickerDelegate {
     func didSelectDate(_ date: Double) {
         setDateTo(Date(timeIntervalSince1970: date))
+        setTitleGreen(index: 1)
     }
     
     func setDateTo(_ date: Date) {
@@ -389,8 +415,10 @@ extension SessionRequestView {
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         if sender.tag == 0 {
             setStartTime()
+            setTitleGreen(index: 2)
         } else {
             setEndTime()
+            setTitleGreen(index: 3)
         }
     }
     
@@ -437,5 +465,9 @@ extension SessionRequestView: SessionTypeCellDelegate {
 extension SessionRequestView: PriceInputViewDelegate {
     func priceDidChange(_ price: Double) {
         sessionData["price"] = price
+        let priceString = String(format: "%.2f", price)
+        titles[4] = "$\(priceString)"
+        inputTable.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
+        setTitleGreen(index: 4)
     }
 }
