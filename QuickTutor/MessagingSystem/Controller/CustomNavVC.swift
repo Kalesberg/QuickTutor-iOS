@@ -23,7 +23,9 @@ class CustomNavVC: UINavigationController {
     func setupViews() {
         navigationBar.barTintColor = Colors.navBarColor
         navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
-        navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        if #available(iOS 11.0, *) {
+            navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {

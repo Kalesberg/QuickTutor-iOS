@@ -47,7 +47,9 @@ class PauseSessionModal: BaseCustomModal {
     
     override func setupTitleBackground() {
         super.setupTitleBackground()
-        titleBackground.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+        if #available(iOS 11.0, *) {
+            titleBackground.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+        }
     }
     
     override func setupBackgroundBlurView() {

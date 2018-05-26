@@ -114,7 +114,7 @@ extension CustomNavBarDisplayer where Self: UIViewController {
     func addNavBar() {
         navBar.delegate = self
         view.addSubview(navBar)
-        navBar.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -50, paddingRight: 0, width: 0, height: 150)
+        navBar.anchor(top: nil, left: view.leftAnchor, bottom: view.getTopAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -50, paddingRight: 0, width: 0, height: 150)
     }
     
     func handleLeftViewTapped() {

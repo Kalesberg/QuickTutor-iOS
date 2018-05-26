@@ -89,7 +89,7 @@ class VideoSessionVC: UIViewController {
     
     func setupNavBar() {
         view.addSubview(sessionNavBar)
-        sessionNavBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
+        sessionNavBar.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         view.addSubview(statusBarCover)
         statusBarCover.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: sessionNavBar.topAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         navigationController?.navigationBar.isHidden = true
@@ -102,7 +102,7 @@ class VideoSessionVC: UIViewController {
     
     func setupPreviewView() {
         view.addSubview(previewView)
-        previewView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
+        previewView.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
     }
     
     func setupPauseSessionButton() {
@@ -113,7 +113,7 @@ class VideoSessionVC: UIViewController {
     
     func setupEndSessionButton() {
         view.addSubview(endSessionButton)
-        endSessionButton.anchor(top: nil, left: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 15, width: 97, height: 35)
+        endSessionButton.anchor(top: nil, left: nil, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 15, width: 97, height: 35)
         endSessionButton.addTarget(self, action: #selector(showEndModal), for: .touchUpInside)
     }
     
@@ -147,7 +147,7 @@ class VideoSessionVC: UIViewController {
     
     func setupCameraFeedView() {
         view.addSubview(cameraFeedView)
-        cameraFeedView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
+        cameraFeedView.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
     }
     
     func removeStartData() {

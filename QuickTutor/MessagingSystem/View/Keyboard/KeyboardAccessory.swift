@@ -88,13 +88,13 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     
     private func setupSubmitButton() {
         addSubview(submitButton)
-        submitButton.anchor(top: nil, left: nil, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 34, height: 34)
+        submitButton.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 34, height: 34)
         submitButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
     }
 
     private func setupMessageTextfield() {
         addSubview(messageTextview)
-        messageTextview.anchor(top: nil, left: leftAccessoryView.rightAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 12, paddingBottom: 8, paddingRight: 12, width: 0, height: 0)
+        messageTextview.anchor(top: nil, left: leftAccessoryView.rightAnchor, bottom: getBottomAnchor(), right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 12, paddingBottom: 8, paddingRight: 12, width: 0, height: 0)
         addConstraint(NSLayoutConstraint(item: messageTextview, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: submitButton, attribute: .height, multiplier: 0.68, constant: 0))
         messageFieldTopAnchor = messageTextview.topAnchor.constraint(equalTo: topAnchor, constant: 8)
         messageFieldTopAnchor?.isActive = true

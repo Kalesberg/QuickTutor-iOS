@@ -69,7 +69,9 @@ class UserMessageCell: BaseMessageCell {
     }
     
     func setupBubbleViewAsSentMessage() {
-        bubbleView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
+        if #available(iOS 11.0, *) {
+            bubbleView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
+        }
         bubbleView.backgroundColor = Colors.sentMessage
         bubbleViewRightAnchor?.isActive = true
         bubbleViewLeftAnchor?.isActive = false
@@ -79,7 +81,9 @@ class UserMessageCell: BaseMessageCell {
     }
     
     func setupBubbleViewAsReceivedMessage() {
-        bubbleView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
+        if #available(iOS 11.0, *) {
+            bubbleView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
+        }
         bubbleView.backgroundColor = Colors.receivedMessage
         bubbleViewLeftAnchor?.constant = 52
         bubbleViewLeftAnchor?.isActive = true

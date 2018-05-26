@@ -22,7 +22,7 @@ class TeacherKeyboardAccessory: KeyboardAccessory {
     override func setupLeftAccessoryView() {
         leftAccessoryView = sendPictureButton
         addSubview(sendPictureButton)
-        sendPictureButton.anchor(top: nil, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 12, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
+        sendPictureButton.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 12, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
         sendPictureButton.addTarget(self, action: #selector(choosePicture), for: .touchUpInside)
     }
     

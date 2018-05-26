@@ -82,7 +82,7 @@ class SessionCompleteVC: UIViewController {
     
     func setupNavBar() {
         view.addSubview(fakeNavBar)
-        fakeNavBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
+        fakeNavBar.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
     }
     
     func setupPartnerBox() {
@@ -104,7 +104,7 @@ class SessionCompleteVC: UIViewController {
     
     func setupSubmitButton() {
         view.addSubview(submitButton)
-        submitButton.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
+        submitButton.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         submitButton.addTarget(self, action: #selector(SessionCompleteVC.submitRating), for: .touchUpInside)
     }
     

@@ -107,3 +107,21 @@ extension UIView {
     }
 }
 
+extension UIView {
+    func getBottomAnchor() -> NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return self.getBottomAnchor()
+        } else {
+            return self.bottomAnchor
+        }
+    }
+    
+    func getTopAnchor() -> NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return self.safeAreaLayoutGuide.topAnchor
+        } else {
+            return self.topAnchor
+        }
+    }
+}
+

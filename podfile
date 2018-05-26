@@ -22,9 +22,13 @@ target 'QuickTutor' do
   pod 'Stripe'
 
   # Pods for Facebook
-  pod "FBSDKLoginKit", "4.24.0"
-  pod "FBSDKShareKit", "4.24.0"
-  pod "FBSDKCoreKit", "4.24.0"
+#  pod "FBSDKLoginKit", "4.24.0"
+#  pod "FBSDKShareKit", "4.24.0"
+#  pod "FBSDKCoreKit", "4.24.0"
+  
+  pod "FBSDKLoginKit"
+  pod "FBSDKShareKit"
+  pod "FBSDKCoreKit"
   pod 'SnapKit'
   
   # Pods for Sessions
