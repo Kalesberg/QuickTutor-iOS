@@ -200,7 +200,7 @@ extension CreateAccountVC: UIImagePickerControllerDelegate, UINavigationControll
             print("There was no image")
             return
         }
-        let _ = getCompressedImageDataFor(image)
+        _ = getCompressedImageDataFor(image)
         profilePicButton.setImage(image, for: .normal)
         profilePicButton.setTitle("", for: .normal)
         dismiss(animated: true, completion: nil)
@@ -216,7 +216,12 @@ extension CreateAccountVC: UIImagePickerControllerDelegate, UINavigationControll
         }
         
         Storage.storage().reference().child(user.uid).child("profilePic").putData(data, metadata: nil) { metadata, _ in
-            Database.database().reference().child("accounts").child(user.uid).child("profilePicUrl").setValue(metadata?.downloadURL()?.absoluteString)
+            
+            let profilePicRef = Database.database().reference().child("accounts").child(user.uid).child("profilePicUrl")
+            metadata?.storageReference?.downloadURL(completion: { (url, error) in
+                guard let url = url else { return }
+                profilePicRef.setValue(url.absoluteString)
+            })
         }
     }
     

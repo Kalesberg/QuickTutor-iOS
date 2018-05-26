@@ -102,7 +102,7 @@ extension AddTutorVC: UICollectionViewDelegate {
             guard let results = snapshot.value as? [String: Any] else { return }
             results.forEach({ (arg) in
                 
-                let (key, value) = arg
+                let (key, _) = arg
                 guard let uid = Auth.auth().currentUser?.uid, key != uid else { return }
                 DataService.shared.getTutorWithId(key, completion: { (tutor) in
                     self.filteredUsers.append(tutor!)

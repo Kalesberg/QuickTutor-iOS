@@ -363,13 +363,9 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let message = messages[indexPath.item] as? UserMessage, let sessionRequestId = message.sessionRequestId else {
+        guard let message = messages[indexPath.item] as? UserMessage, let _ = message.sessionRequestId else {
             return
         }
-//        let vc = ViewSessionRequestVC()
-//        vc.sessionRequestId = sessionRequestId
-//        vc.senderId = message.senderId
-//        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

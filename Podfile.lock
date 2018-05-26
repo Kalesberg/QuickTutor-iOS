@@ -86,7 +86,7 @@ PODS:
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.5)
-  - Stripe (13.0.1)
+  - Stripe (13.0.2)
   - SwiftKeychainWrapper (3.0.1)
   - TwilioVideo (2.0.0-beta3)
 
@@ -172,10 +172,10 @@ SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
-  Stripe: b3c69e4a269d5ae707916a090ee54b1f6011ccd9
+  Stripe: f52f60e948fbc111c26b83227f7d802adfc64c5e
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
   TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
-PODFILE CHECKSUM: bdd056cf64548c8dcf6f55b3a74be0ab76837772
+PODFILE CHECKSUM: ef086961dbd6a4be5cb53c269dd860ee3d0a51dd
 
 COCOAPODS: 1.5.0

@@ -110,7 +110,7 @@ extension UIView {
 extension UIView {
     func getBottomAnchor() -> NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
-            return self.getBottomAnchor()
+            return self.safeAreaLayoutGuide.bottomAnchor
         } else {
             return self.bottomAnchor
         }
