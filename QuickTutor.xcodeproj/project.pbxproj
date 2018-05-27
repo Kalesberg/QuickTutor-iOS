@@ -39,7 +39,7 @@
 		8425766620712B2A00FD295B /* arts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766520712B2A00FD295B /* arts.json */; };
 		8425766820712C3600FD295B /* auto.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766720712C3600FD295B /* auto.json */; };
 		8425766A20712D0300FD295B /* business.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766920712D0300FD295B /* business.json */; };
-		8425766C20712D9E00FD295B /* experiences.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766B20712D9E00FD295B /* experiences.json */; };
+		8425766C20712D9E00FD295B /* lifestyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766B20712D9E00FD295B /* lifestyle.json */; };
 		8425766E20712E6C00FD295B /* health.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766D20712E6C00FD295B /* health.json */; };
 		842576702071309000FD295B /* language.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766F2071309000FD295B /* language.json */; };
 		842576722071310A00FD295B /* outdoors.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576712071310A00FD295B /* outdoors.json */; };
@@ -359,7 +359,7 @@
 		8425766520712B2A00FD295B /* arts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = arts.json; sourceTree = "<group>"; };
 		8425766720712C3600FD295B /* auto.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auto.json; sourceTree = "<group>"; };
 		8425766920712D0300FD295B /* business.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = business.json; sourceTree = "<group>"; };
-		8425766B20712D9E00FD295B /* experiences.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = experiences.json; sourceTree = "<group>"; };
+		8425766B20712D9E00FD295B /* lifestyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lifestyle.json; sourceTree = "<group>"; };
 		8425766D20712E6C00FD295B /* health.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = health.json; sourceTree = "<group>"; };
 		8425766F2071309000FD295B /* language.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = language.json; sourceTree = "<group>"; };
 		842576712071310A00FD295B /* outdoors.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = outdoors.json; sourceTree = "<group>"; };
@@ -750,7 +750,7 @@
 			isa = PBXGroup;
 			children = (
 				8425766D20712E6C00FD295B /* health.json */,
-				8425766B20712D9E00FD295B /* experiences.json */,
+				8425766B20712D9E00FD295B /* lifestyle.json */,
 				8425766920712D0300FD295B /* business.json */,
 				8425766720712C3600FD295B /* auto.json */,
 				8425766F2071309000FD295B /* language.json */,
@@ -1572,7 +1572,7 @@
 				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
-				8425766C20712D9E00FD295B /* experiences.json in Resources */,
+				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
 				8425766820712C3600FD295B /* auto.json in Resources */,
 				8425766620712B2A00FD295B /* arts.json in Resources */,
 				845980511FD4FD4B007E9339 /* Lato in Resources */,

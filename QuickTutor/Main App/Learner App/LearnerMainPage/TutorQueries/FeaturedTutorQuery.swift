@@ -24,14 +24,14 @@ struct TutorSubjectSearch {
 	init(dictionary: [String : Any]) {
 		
 		rating = dictionary["r"] as? Double ?? 5.0
-
+		
 		subjects = dictionary["sbj"] as? String ?? ""
 		
 		price = dictionary["p"] as? Int ?? 0
 		hours = dictionary["hr"] as? Int ?? 0
 		numSessions = dictionary["nos"] as? Int ?? 0
 		distancePreference = dictionary["dst"] as? Int ?? 0
-
+		
 	}
 }
 
@@ -110,7 +110,6 @@ class QueryData {
 		let group = DispatchGroup()
 		
 		queryAWTutorByUids(categories: categories) { (uids) in
-			
 			if let uids = uids {
 				for key in uids {
 					tutors[key.key] = []
@@ -140,12 +139,10 @@ class QueryData {
 			let categoryString = category.mainPageData.displayName.lowercased()
 			
 			group.enter()
-			
 			self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: categoryString).queryLimited(toFirst: 20).observeSingleEvent(of: .value, with: { (snapshot) in
 				for snap in snapshot.children {
 					guard let child = snap as? DataSnapshot else { continue }
-					if child.key == CurrentUser.shared.learner.uid { continue }
-
+					
 					uids[category]!.append(child.key)
 				}
 				group.leave()
@@ -164,9 +161,7 @@ class QueryData {
 		self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: category.mainPageData.displayName.lowercased()).queryLimited(toFirst: 20).observeSingleEvent(of: .value){ (snapshot) in
 			
 			for snap in snapshot.children {
-				guard let child = snap as? DataSnapshot else { continue }
-				if child.key == CurrentUser.shared.learner.uid { continue }
-
+				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
 				group.enter()
 				FirebaseData.manager.getTutor(child.key) { (tutor) in
 					if let tutor = tutor {
@@ -180,21 +175,18 @@ class QueryData {
 			}
 		}
 	}
-
+	
 	func queryAWTutorBySubject(subcategory: String, subject: String, _ completion: @escaping ([AWTutor]?) -> Void) {
 		
 		var tutors : [AWTutor] = []
 		
-		//var sortedTutors = [FeaturedTutor]()
-		
 		let group = DispatchGroup()
 		
-		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "p").queryStarting(atValue: 10).queryEnding(atValue: 255 + 10).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
+		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "r").queryStarting(atValue: 3.0).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
 			
 			for snap in snapshot.children {
-				guard let child = snap as? DataSnapshot else { continue }
-				if child.key == CurrentUser.shared.learner.uid { continue }
-
+				guard let child = snap as? DataSnapshot,child.key != CurrentUser.shared.learner.uid  else { continue }
+				
 				group.enter()
 				FirebaseData.manager.getTutor(child.key, { (tutor) in
 					if let tutor = tutor {
@@ -214,12 +206,11 @@ class QueryData {
 		var tutors = [AWTutor]()
 		let group = DispatchGroup()
 		
-		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "r").queryStarting(atValue: 3.0).queryLimited(toFirst: 5).observeSingleEvent(of: .value) { (snapshot) in
+		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "r").queryStarting(atValue: 3.0).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
 			
 			for snap in snapshot.children {
-	
-				guard let child = snap as? DataSnapshot else { continue }
-				if child.key == CurrentUser.shared.learner.uid { continue }
+				
+				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
 				
 				group.enter()
 				FirebaseData.manager.getTutor(child.key, { (tutor) in
@@ -234,5 +225,4 @@ class QueryData {
 			}
 		}
 	}
-	
 }

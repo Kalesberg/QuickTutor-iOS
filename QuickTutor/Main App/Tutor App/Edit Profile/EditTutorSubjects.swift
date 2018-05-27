@@ -211,7 +211,7 @@ class EditTutorSubjects : BaseViewController {
 		view = EditTutorSubjectsView()
 	}
 	
-	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+	var categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
 	let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	

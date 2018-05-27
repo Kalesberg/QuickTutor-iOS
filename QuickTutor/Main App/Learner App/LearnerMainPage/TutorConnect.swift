@@ -36,6 +36,7 @@ class TutorConnectView : MainLayoutTwoButton {
         let textField = searchBar.value(forKey: "searchField") as? UITextField
         textField?.font = Fonts.createSize(14)
         textField?.textColor = .white
+		textField?.tintColor = Colors.learnerPurple
         textField?.adjustsFontSizeToFitWidth = true
         textField?.autocapitalizationType = .words
         textField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
@@ -237,26 +238,14 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     
     var datasource = [AWTutor]() {
         didSet {
-            if datasource.count == 0 {
-                let view = NoResultsView()
-                view.label.text = "No tutors currently available 👨🏽‍🏫"
-                contentView.collectionView.backgroundView = view
-			} else {
-				contentView.collectionView.backgroundView = nil
-			}
-            contentView.collectionView.reloadData()
+//			contentView.collectionView.backgroundView = (datasource.count == 0) ? TutorCardCollectionViewBackground() : nil
+			contentView.collectionView.reloadData()
         }
     }
     
     var filteredDatasource = [AWTutor]() {
         didSet {
-            if filteredDatasource.count == 0 {
-                let view = NoResultsView()
-                view.label.text = "0 results 😭 \nAdjust your filters to get better results"
-                contentView.collectionView.backgroundView = view
-			} else {
-				contentView.collectionView.backgroundView = nil
-			}
+//			contentView.collectionView.backgroundView = (filteredDatasource.count == 0) ? TutorCardCollectionViewBackground() : nil
             contentView.collectionView.reloadData()
         }
     }
@@ -348,14 +337,14 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     }
 
 	private func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
-		return (v / (v+m)) * ((r + Double((m / (v+m)))) * C)
+		return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
 	}
 	
 	private func sortTutorsWithWeightedList(tutors: [AWTutor]) -> [AWTutor] {
 		guard tutors.count > 1 else { return tutors }
 		let avg = tutors.map({$0.tRating / 5}).average
 		return tutors.sorted {
-			return bayesianEstimate(C: avg, r: $0.tRating / 5, v: Double($0.numSessions), m: 1) > bayesianEstimate(C: avg, r: $1.tRating / 5, v: Double($1.numSessions), m: 1)
+			return bayesianEstimate(C: avg, r: $0.tRating / 5, v: Double($0.tNumSessions), m: 1) > bayesianEstimate(C: avg, r: $1.tRating / 5, v: Double($1.tNumSessions), m: 1)
 		}
 	}
 

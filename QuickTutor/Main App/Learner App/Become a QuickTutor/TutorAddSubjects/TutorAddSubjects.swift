@@ -239,7 +239,7 @@ class TutorAddSubjects : BaseViewController {
         view = TutorAddSubjectsView()
     }
 	
-	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+	var categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
     var shouldUpdateSearchResults = false
     

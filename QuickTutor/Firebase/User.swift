@@ -33,7 +33,7 @@ class AWLearner {
 	var birthday  : String!
 	var email 	  : String!
 	var phone     : String!
-	
+	var lNumSessions : Int!
 	var customer  : String!
 	
 	var school    : String?
@@ -58,7 +58,7 @@ class AWLearner {
 		phone 	  	= dictionary["phn"] 	as? String ?? ""
 		languages 	= dictionary["lng"] 	as? [String] ?? nil
 		customer 	= dictionary["cus"] 	as? String ?? ""
-		
+		lNumSessions = dictionary["nos"]		as? Int ?? 0
 		lRating 		= dictionary["r"] 		as? Double ?? 0.0
 	}
 }
@@ -76,7 +76,7 @@ class AWTutor : AWLearner {
 	var hours : Int!
 	var distance : Int!
 	var preference : Int!
-	var numSessions : Int!
+	var tNumSessions : Int!
 	
 	var tRating : Double!
 	var earnings : Double!
@@ -103,7 +103,7 @@ class AWTutor : AWLearner {
 		hours 		= dictionary["hr"] 	as? Int ?? 0
 		distance 	= dictionary["dst"] as? Int ?? 0
 		preference 	= dictionary["prf"] as? Int ?? 3
-		numSessions = dictionary["nos"] as? Int ?? 0
+		tNumSessions = dictionary["nos"] as? Int ?? 0
 		
 		tRating 	= dictionary["tr"] 	as? Double ?? 5.0
 		earnings 	= dictionary["ern"] as? Double ?? 0.0
@@ -295,15 +295,17 @@ class FirebaseData {
 		
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else {
+				print("Couldn't find account: ", uid)
 				completion(nil)
 				return
 			}
+			
 			self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot2) in
 				guard let value2 = snapshot2.value as? [String : Any] else {
+					print("Couldn't find tutor-info: ", uid)
 					completion(nil)
 					return
 				}
-				
 				let tutorDict = value.merging(value2, uniquingKeysWith: { (first, last) -> Any in
 					return last
 				})
@@ -312,18 +314,18 @@ class FirebaseData {
 				tutor.uid = uid
 				
 				guard let images = tutorDict["img"] as? [String : String] else {
+					print("Couldn't find images: ", uid)
 					completion(nil)
 					return
 				}
-				
 				tutor.images = images
-				
+
 				self.getTutorLocation(uid: uid, { (location) in
 					if let location = location {
 						tutor.location = location
 					}
 				})
-				
+
 				group.enter()
 				self.loadTutorReviews(uid: uid, { (reviews) in
 					if let reviews = reviews {
@@ -335,17 +337,17 @@ class FirebaseData {
 				self.loadSubjects(uid: uid, { (subcategory) in
 					var subjects : [String] = []
 					var selected : [Selected] = []
-					
+
 					if let subcategory = subcategory {
-						
+
 						for subject in subcategory {
-							
+
 							let this = subject.subjects.split(separator: "$")
-							
+
 							for i in this {
 								selected.append(Selected(path: "\(subject.subcategory)", subject: String(i)))
 								subjects.append(String(i))
-								
+
 							}
 						}
 						tutor.subjects = subjects
@@ -354,9 +356,11 @@ class FirebaseData {
 					group.leave()
 				})
 				group.notify(queue: .main, execute: {
+					print("tutor")
 					completion(tutor)
 				})
 			})
+			
 		})
 		
 	}

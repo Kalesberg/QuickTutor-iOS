@@ -236,7 +236,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
 			
-			cell.tutorItem.label.text = "Has tutored \(tutor.numSessions!) sessions"
+			cell.tutorItem.label.text = "Has tutored \(tutor.tNumSessions!) sessions"
 			
 			if let languages = tutor.languages {
 				cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"

@@ -867,15 +867,22 @@ class TutorMainPage : MainPage {
         } else if (touchStartView == contentView.viewTrendingButton) {
             navigationController?.pushViewController(TrendingCategories(), animated: true)
         } else if (touchStartView == contentView.usernameItem) {
-            contentView.backgroundView.alpha = 0.65
-            contentView.xButton.isHidden = false
-            contentView.leftButton.isHidden = true
-            for view in contentView.subviews {
-                if !(view is NavbarButtonX || view is ShareUsernameModal) {
-                    view.isUserInteractionEnabled = false
-                }
-            }
-            contentView.shareUsernameModal.isHidden = false
+			let text = "Go checkout QuickTutor!"
+			guard let webUrl = URL(string:"https://QuickTutor.com") else { return }
+			let shareAll : [Any] = [text, webUrl]
+			let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+			activityViewController.popoverPresentationController?.sourceView = self.view
+			self.present(activityViewController, animated: true, completion: nil)
+
+//            contentView.backgroundView.alpha = 0.65
+//            contentView.xButton.isHidden = false
+//            contentView.leftButton.isHidden = true
+//            for view in contentView.subviews {
+//                if !(view is NavbarButtonX || view is ShareUsernameModal) {
+//                    view.isUserInteractionEnabled = false
+//                }
+//            }
+//            contentView.shareUsernameModal.isHidden = false
         } else if (touchStartView == contentView.xButton) {
             contentView.backgroundView.alpha = 0
             contentView.xButton.isHidden = true

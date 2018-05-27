@@ -69,8 +69,8 @@ class Tutor {
 					[
 						"nm"  : data.name,
 						"img" : data.images,
-						"sch" : data.school,
-						"lng" : data.languages,
+						"sch" : data.school ?? "",
+						"lng" : data.languages ?? "",
 						"usr" : TutorRegistration.username,
 						"act" : TutorRegistration.acctId,
 						"hr"  : 0,
@@ -81,16 +81,18 @@ class Tutor {
 						"tbio": TutorRegistration.tutorBio,
 						"rg" : "\(TutorRegistration.city!) \(TutorRegistration.state!)",
 						"pol" : "0_0_0_0",
-						"prf" : TutorRegistration.sessionPreference,
-						"tp"  : "Math"],
-				]
+						"prf" : TutorRegistration.sessionPreference],
+					]
 		
-		post.merge(subjectNode.0) { (_, last) in last }
-		post.merge(subjectNode.1) { (_, last) in last }
-		
+		post.merge(subjectNode.0) { (first, last) -> Any in
+			return last
+		}
+		post.merge(subjectNode.1) { (first, last) -> Any in
+			return last
+		}
+	
 		ref.root.updateChildValues(post) { (error, databaseRef) in
 			if let error = error {
-				print(error.localizedDescription)
 				completion(error)
 			} else {
 				self.geoFire(location: TutorRegistration.location)

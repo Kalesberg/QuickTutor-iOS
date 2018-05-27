@@ -319,13 +319,7 @@ class LearnerMyProfile : BaseViewController {
     var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
 	
 	var pageCount : Int {
-		var count = 0
-		learner.images.forEach { (_,value) in
-			if value != "" {
-				count += 1
-			}
-		}
-		return count
+		return learner.images.filter({$0.value != ""}).count
 	}
 
 	var learner : AWLearner! {
@@ -370,6 +364,7 @@ class LearnerMyProfile : BaseViewController {
 		contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
 		contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
 	}
+	
 	private func setUpImages() {
 		var count = 0
 		for number in 1..<5 {
@@ -384,15 +379,15 @@ class LearnerMyProfile : BaseViewController {
 		let imageView = UIImageView()
 		imageView.loadUserImages(by: learner.images["image\(number)"]!)
         imageView.scaleImage()
-		
 		self.horizontalScrollView.addSubview(imageView)
-		
+	
 		imageView.snp.makeConstraints({ (make) in
 			make.top.equalToSuperview()
 			make.height.equalToSuperview()
 			make.width.equalToSuperview()
+			
 			if (count != 1) {
-				make.left.equalTo(horizontalScrollView.subviews[count - 1].snp.right)
+				make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
 			} else {
 				make.centerX.equalToSuperview()
 			}
@@ -406,10 +401,10 @@ class LearnerMyProfile : BaseViewController {
 		horizontalScrollView.showsHorizontalScrollIndicator = false
 		
 		horizontalScrollView.snp.makeConstraints { (make) in
+			make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
 			make.width.equalToSuperview()
 			make.height.equalToSuperview().multipliedBy(0.35)
 			make.centerX.equalToSuperview()
-			make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
 		}
 		contentView.layoutIfNeeded()
 		horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
@@ -503,9 +498,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
-            
-            //cell.tutorItem.label.text = "Tutored in \(LearnerData.userData.numSessions!) sessions"
-            cell.tutorItem.label.text = "Tutored in 0 sessions"
+            cell.tutorItem.label.text = "Tutored in \(0) sessions"
+			
 			if let languages = learner.languages {
                 print("languages")
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"

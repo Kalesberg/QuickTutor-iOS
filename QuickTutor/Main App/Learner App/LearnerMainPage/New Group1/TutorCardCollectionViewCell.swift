@@ -268,7 +268,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 make.top.equalToSuperview().inset(10)
             }
             
-            cell.tutorItem.label.text = "Has tutored \(datasource?.numSessions! ?? 0) sessions"
+            cell.tutorItem.label.text = "Has tutored \(datasource?.tNumSessions! ?? 0) sessions"
             
             if let languages = datasource?.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
