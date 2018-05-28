@@ -50,16 +50,16 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
     
     var editButton = NavbarButtonEdit()
     var backButton = NavbarButtonBack()
-	
-	override var leftButton: NavbarButton{
-		get {
-			return backButton
-		}
-		set {
-			backButton = newValue as! NavbarButtonBack
-		}
-	}
-	
+    
+    override var leftButton: NavbarButton{
+        get {
+            return backButton
+        }
+        set {
+            backButton = newValue as! NavbarButtonBack
+        }
+    }
+    
     override var rightButton: NavbarButton {
         get {
             return editButton
@@ -317,12 +317,12 @@ class LearnerMyProfile : BaseViewController {
     let horizontalScrollView = UIScrollView()
     var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
     var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
-	
-	var pageCount : Int {
-		return learner.images.filter({$0.value != ""}).count
-	}
+    
+    var pageCount : Int {
+        return learner.images.filter({$0.value != ""}).count
+    }
 
-	var learner : AWLearner! {
+    var learner : AWLearner! {
         didSet {
             contentView.tableView.reloadData()
         }
@@ -335,79 +335,79 @@ class LearnerMyProfile : BaseViewController {
     override func viewDidLoad() {
         contentView.addSubview(horizontalScrollView)
         super.viewDidLoad()
-		configureDelegates()
-		
+        configureDelegates()
+        
     }
-	
+    
     override func loadView() {
         view = LearnerMyProfileView()
     }
-	
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-		guard let learner = CurrentUser.shared.learner else {
-			return
-		}
-		self.learner = learner
-		configurePageControl()
-		configureScrollView()
-		setUpImages()
+        guard let learner = CurrentUser.shared.learner else {
+            return
+        }
+        self.learner = learner
+        configurePageControl()
+        configureScrollView()
+        setUpImages()
     }
-	
-	private func configureDelegates() {
-		horizontalScrollView.delegate = self
-		pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
-		
-		contentView.tableView.delegate = self
-		contentView.tableView.dataSource = self
-		contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
-		contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
-		contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
-	}
-	
-	private func setUpImages() {
-		var count = 0
-		for number in 1..<5 {
-			if learner.images["image\(number)"] == "" {
-				continue
-			}
-			count += 1
-			setImage(number, count)
-		}
-	}
-	private func setImage(_ number: Int, _ count: Int) {
-		let imageView = UIImageView()
-		imageView.loadUserImages(by: learner.images["image\(number)"]!)
+    
+    private func configureDelegates() {
+        horizontalScrollView.delegate = self
+        pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
+        
+        contentView.tableView.delegate = self
+        contentView.tableView.dataSource = self
+        contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
+        contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
+        contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
+    }
+    
+    private func setUpImages() {
+        var count = 0
+        for number in 1..<5 {
+            if learner.images["image\(number)"] == "" {
+                continue
+            }
+            count += 1
+            setImage(number, count)
+        }
+    }
+    private func setImage(_ number: Int, _ count: Int) {
+        let imageView = UIImageView()
+        imageView.loadUserImages(by: learner.images["image\(number)"]!)
         imageView.scaleImage()
-		self.horizontalScrollView.addSubview(imageView)
-	
-		imageView.snp.makeConstraints({ (make) in
-			make.top.equalToSuperview()
-			make.height.equalToSuperview()
+        self.horizontalScrollView.addSubview(imageView)
+    
+        imageView.snp.makeConstraints({ (make) in
+            make.top.equalToSuperview()
+            make.height.equalToSuperview()
             make.width.equalTo(UIScreen.main.bounds.width)
-			if (count != 1) {
-				make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
-			} else {
-				make.centerX.equalToSuperview()
-			}
-		})
-		contentView.layoutIfNeeded()
-	}
-	private func configureScrollView() {
-		horizontalScrollView.isUserInteractionEnabled = false
-		horizontalScrollView.isHidden = true
-		horizontalScrollView.isPagingEnabled = true
-		horizontalScrollView.showsHorizontalScrollIndicator = false
-		
-		horizontalScrollView.snp.makeConstraints { (make) in
-			make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.35)
-			make.centerX.equalToSuperview()
-		}
-		contentView.layoutIfNeeded()
-		horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
-	}
+            if (count != 1) {
+                make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
+            } else {
+                make.centerX.equalToSuperview()
+            }
+        })
+        contentView.layoutIfNeeded()
+    }
+    private func configureScrollView() {
+        horizontalScrollView.isUserInteractionEnabled = false
+        horizontalScrollView.isHidden = true
+        horizontalScrollView.isPagingEnabled = true
+        horizontalScrollView.showsHorizontalScrollIndicator = false
+        
+        horizontalScrollView.snp.makeConstraints { (make) in
+            make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.35)
+            make.centerX.equalToSuperview()
+        }
+        contentView.layoutIfNeeded()
+        horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
+    }
     private func configurePageControl() {
         pageControl.numberOfPages = pageCount
         pageControl.currentPage = 0
@@ -433,16 +433,16 @@ class LearnerMyProfile : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView is NavbarButtonEdit) {
-			navigationController?.pushViewController(LearnerEditProfile(), animated: true)
-		} else if(touchStartView == contentView.xButton) {
-			
-			contentView.backgroundView.alpha = 0.0
+            navigationController?.pushViewController(LearnerEditProfile(), animated: true)
+        } else if(touchStartView == contentView.xButton) {
+            
+            contentView.backgroundView.alpha = 0.0
             contentView.xButton.alpha = 0.0
-			contentView.leftButton.isHidden = false
+            contentView.leftButton.isHidden = false
 
-			horizontalScrollView.isUserInteractionEnabled = false
+            horizontalScrollView.isUserInteractionEnabled = false
             horizontalScrollView.isHidden = true
-		}
+        }
     }
 }
 
@@ -472,20 +472,20 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
-			cell.nameLabel.text = learner.name
+            cell.nameLabel.text = learner.name
             cell.locationLabel.text = "Mount Pleasant, MI"
-			cell.profilePicView.loadUserImages(by: learner.images["image1"]!)
+            cell.profilePicView.loadUserImages(by: learner.images["image1"]!)
 
-			return cell
+            return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
 
-			if learner.bio == "" {
-				cell.bioLabel.text = "No bio yet! Add one in Edit Profile\n"
-			} else {
-				cell.bioLabel.text = learner.bio + "\n"
-			}
-			return cell
+            if learner.bio == "" {
+                cell.bioLabel.text = "No bio yet! Add one in Edit Profile\n"
+            } else {
+                cell.bioLabel.text = learner.bio + "\n"
+            }
+            return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
             
@@ -496,8 +496,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
             cell.tutorItem.label.text = "Tutored in \(0) sessions"
-			
-			if let languages = learner.languages {
+            
+            if let languages = learner.languages {
                 print("languages")
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
                 cell.contentView.addSubview(cell.speakItem)
@@ -509,7 +509,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                     make.top.equalToSuperview().inset(10)
                 }
                 
-				if let studies = learner.school {
+                if let studies = learner.school {
                     print("school")
                     cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
@@ -539,7 +539,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             } else {
-				if let studies = learner.school {
+                if let studies = learner.school {
                     print("languages nil & school")
                     cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
@@ -583,8 +583,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
 
 
 extension LearnerMyProfile : UIScrollViewDelegate {
-	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-		let pageNumber = round(horizontalScrollView.contentOffset.x / horizontalScrollView.frame.size.width)
-		pageControl.currentPage = Int(pageNumber)
-	}
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageNumber = round(horizontalScrollView.contentOffset.x / horizontalScrollView.frame.size.width)
+        pageControl.currentPage = Int(pageNumber)
+    }
 }

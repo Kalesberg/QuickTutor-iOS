@@ -143,14 +143,14 @@ class TutorPreferences : BaseViewController {
         super.viewDidAppear(animated)
     }
 
-	private func configureDelegates() {
-		contentView.tableView.delegate = self
-		contentView.tableView.dataSource = self
-		
+    private func configureDelegates() {
+        contentView.tableView.delegate = self
+        contentView.tableView.dataSource = self
+        
         contentView.tableView.register(EditProfileHourlyRateTableViewCell.self, forCellReuseIdentifier: "editProfileHourlyRateTableViewCell")
-		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
-		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
-	}
+        contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
+        contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
+    }
     
     @objc
     private func distanceSliderValueDidChange(_ sender: UISlider) {
@@ -180,8 +180,8 @@ class TutorPreferences : BaseViewController {
     override func handleNavigation() {
         if (touchStartView is NavbarButtonNext) {
             setUserPreferences()
-			let next = TutorBio()
-			navigationController?.pushViewController(next, animated: true)
+            let next = TutorBio()
+            navigationController?.pushViewController(next, animated: true)
         }
     }
 }
