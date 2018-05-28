@@ -293,197 +293,197 @@ struct SubjectStore {
 }
 
 enum Category {
-    
-    case academics
-    case arts
-    case auto
-    case business
-    case lifestyle
-    case health
-    case language
-    case outdoors
-    case remedial
-    case sports
-    case tech
-    case trades
-    
-    static let categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
-    
-    var subcategory : Subcategory {
-        
-        let searchBarPhrases : [String]
-        let subcategories : [String]
-        let icon : [UIImage]
-        let displayName : String
-        let fileToRead : String
-        
-        switch self {
-            
-        case .academics:                displayName = "ACADEMICS"
-        searchBarPhrases = ["search any academic subject"]
-        subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular","Test Preparation"]
-        icon = [#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "language-arts"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "extracurricular"),#imageLiteral(resourceName: "test-prep")]
-        fileToRead = "academics"
-            
-        case .arts:                        displayName = "THE ARTS"
-        searchBarPhrases = ["search for any art"]
-        subcategories = ["Literary Arts", "Visual Arts", "Performing Arts", "Art History", "Applied Arts", "Arts Criticism"]
-        icon = [#imageLiteral(resourceName: "literacy"),#imageLiteral(resourceName: "visual-arts"),#imageLiteral(resourceName: "performing"),#imageLiteral(resourceName: "history"),#imageLiteral(resourceName: "applied-arts"),#imageLiteral(resourceName: "art-criticism")]
-        fileToRead = "arts"
-            
-        case .auto:                     displayName = "AUTO"
-        searchBarPhrases = ["search anything auto-related"]
-        subcategories = ["Automobiles", "Motor Vehicles", "Maintenance", "Repairs", "Upgrades", "Design"]
-        icon = [#imageLiteral(resourceName: "automobiles"),#imageLiteral(resourceName: "motor-vehicles"),#imageLiteral(resourceName: "maintenance"),#imageLiteral(resourceName: "repairs"),#imageLiteral(resourceName: "upgrades"),#imageLiteral(resourceName: "design")]
-        fileToRead = "auto"
-            
-        case .business:                    displayName = "BUSINESS"
-        searchBarPhrases = ["search any business topic"]
-        subcategories = ["Entrepreneurship", "Finance & Law", "Economics & Accounting", "Business Management", "Information Systems","Marketing & Hospitality"]
-        icon = [#imageLiteral(resourceName: "entrepreneurship"),#imageLiteral(resourceName: "finance-law"),#imageLiteral(resourceName: "economics-accounting"),#imageLiteral(resourceName: "management"),#imageLiteral(resourceName: "information-systems"),#imageLiteral(resourceName: "marketing-hospitality")]
-        fileToRead = "business"
-            
-        case .lifestyle:                displayName = "LIFE STYLE"
-        searchBarPhrases = ["search for any life style"]
-        subcategories = ["Motivation/Consulting", "Creations", "Cooking & Baking","Fitness", "Travel Destinations","Careers"]
-        icon = [#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "fitness"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "volunteering")]
-        fileToRead = "life style"
-            
-        case .health:                    displayName = "HEALTH"
-        searchBarPhrases = ["search health and wellness"]
-        subcategories = ["General", "Self-Care", "Nutrition", "Medicines", "Physical Exercise","Illness"]
-        icon = [#imageLiteral(resourceName: "general-health"),#imageLiteral(resourceName: "selfcare"),#imageLiteral(resourceName: "nutrition"),#imageLiteral(resourceName: "medicine"),#imageLiteral(resourceName: "physical-excercise"),#imageLiteral(resourceName: "illness")]
-        fileToRead = "health"
-            
-        case .language:                    displayName = "LANGUAGE"
-        searchBarPhrases = ["search for any language skill"]
-        subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speech","Writing"]
-        icon = [#imageLiteral(resourceName: "esl"),#imageLiteral(resourceName: "listening"),#imageLiteral(resourceName: "reading"),#imageLiteral(resourceName: "sign-language"),#imageLiteral(resourceName: "speech"),#imageLiteral(resourceName: "writing")]
-        fileToRead = "language"
-            
-        case .outdoors:                 displayName = "OUTDOORS"
-        searchBarPhrases = ["discover the outdoors"]
-        subcategories = ["Survival", "Life Identification", "Preparation", "Activities", "Land & Water","Seasonal"]
-        icon = [#imageLiteral(resourceName: "survival"),#imageLiteral(resourceName: "life-identity"),#imageLiteral(resourceName: "preperation"),#imageLiteral(resourceName: "activities"),#imageLiteral(resourceName: "land-water"),#imageLiteral(resourceName: "seasonal")]
-        fileToRead = "outdoors"
-            
-        case .remedial:                 displayName = "REMEDIAL"
-        searchBarPhrases = ["search for help in anything"]
-        subcategories = ["Development", "Conditions", "Impairments", "Disabilities", "Injuries","Special Education"]
-        icon = [#imageLiteral(resourceName: "development"),#imageLiteral(resourceName: "conditions"),#imageLiteral(resourceName: "disabilities"),#imageLiteral(resourceName: "impairments"),#imageLiteral(resourceName: "injuries"),#imageLiteral(resourceName: "special-education")]
-        fileToRead = "remedial"
-            
-        case .sports:                     displayName = "SPORTS"
-        searchBarPhrases = ["search sports and games"]
-        subcategories = ["Physical Sports", "Mind Sports", "Skills Training", "E-Sports", "Fantasy Sports","Extreme Sports"]
-        icon = [#imageLiteral(resourceName: "physical-sports"),#imageLiteral(resourceName: "mind-sports"),#imageLiteral(resourceName: "skill-training"),#imageLiteral(resourceName: "esports"),#imageLiteral(resourceName: "fantasy-sports"),#imageLiteral(resourceName: "extreme-sports")]
-        fileToRead = "sports"
-            
-        case .tech:                        displayName = "TECH"
-        searchBarPhrases = ["search technological topics"]
-        subcategories = ["Programming", "Gaming", "Hardware", "Software", "IT", "Repairs"]
-        icon = [#imageLiteral(resourceName: "programming"),#imageLiteral(resourceName: "gaming"),#imageLiteral(resourceName: "hardware"),#imageLiteral(resourceName: "software"),#imageLiteral(resourceName: "it"),#imageLiteral(resourceName: "repairs")]
-        fileToRead = "tech"
-            
-        case .trades:                    displayName = "TRADES"
-        searchBarPhrases = ["search for any trade"]
-        subcategories = ["Construction", "Industrial", "Motive Power", "Services", "Home", "General"]
-        icon = [#imageLiteral(resourceName: "construction"),#imageLiteral(resourceName: "industry"),#imageLiteral(resourceName: "motive-power"),#imageLiteral(resourceName: "services"),#imageLiteral(resourceName: "home"),#imageLiteral(resourceName: "general")]
-        fileToRead = "trades"
-        }
-        
-        return Subcategory(subcategories: subcategories, icon: icon, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], displayName: displayName, fileToRead: fileToRead)
-    }
-    
-    var mainPageData : MainPageData {
-        
-        let displayName : String
-        let image : UIImage
-        let categoryInfo : String
-        
-        switch self {
-        case .academics:                displayName = "Academics"
-        image = #imageLiteral(resourceName: "academics")
-        categoryInfo = "The classics. Whether you’re a master of mechanical engineering or a math wiz — we have a subject you can tutor. These are the core subjects that have been around since the beginning of time."
-            
-        case .arts:                        displayName = "The Arts"
-        image = #imageLiteral(resourceName: "arts")
-        categoryInfo = "Does the renaissance sing out of your soul? Whether your a dancer, singer or poet — you now have the ability to tutor others in poetry, drama, painting or phantom of the opera — this is where we get the creative juices flowin’."
-            
-        case .auto:                     displayName = "Auto"
-        image = #imageLiteral(resourceName: "auto")
-        categoryInfo = "Interested in teaching others a thing or two about being a gear-head? Are you a skilled repairman or designer? In this category you’ll be able to teach others anything about auto or just make some side cash fixing stuff! "
-            
-        case .business:                    displayName = "Business"
-        image = #imageLiteral(resourceName: "business")
-        categoryInfo = "Are you an entrepreneur, lawyer, accountant, marketer, or economist? Maybe the neighborhood excel expert? Lets talk business. "
-            
-        case .lifestyle:                displayName = "Life Style"
-        image = #imageLiteral(resourceName: "experiences")
-        categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Experiences is where all can tutor the things that warm our hearts and drive our souls."
-            
-        case .health:                    displayName = "Health & Wellness"
-        image = #imageLiteral(resourceName: "health")
-        categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any subject in our health & wellness category."
-            
-        case .language:                    displayName = "Language"
-        image = #imageLiteral(resourceName: "languages")
-        categoryInfo = "Run a tutoring business teaching others your native language or even a language you’ve adopted! Nearly every language in existence — available to tutor with just the tap of a button."
-            
-        case .outdoors:                 displayName = "Outdoors"
-        image = #imageLiteral(resourceName: "outdoors")
-        categoryInfo = "Tutors, it’s time to take your learners outside of the classroom and office. Are you a survivalist? Expert in your neck of the woods? Dad of the year? If so, this is the category for you. "
-            
-        case .remedial:                 displayName = "Remedial"
-        image = #imageLiteral(resourceName: "remedial")
-        categoryInfo = "QuickTutor is for everyone. Remedial is provided and intended for learners who experience difficulties."
-            
-        case .sports:                     displayName = "Sports & Games"
-        image = #imageLiteral(resourceName: "sports")
-        categoryInfo = "Snowboarding, football, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
-            
-        case .tech:                        displayName = "Tech"
-        image = #imageLiteral(resourceName: "tech")
-        categoryInfo = "Programmers, engineers, gamers, and the creators of the future, come all — here’s where you can share your passion and knowledge with those in need. "
-            
-        case .trades:                    displayName = "Trades"
-        image = #imageLiteral(resourceName: "trades")
-        categoryInfo = "Time to become a hands-on tutor in construction, industrial, motive-power, services, home, or anything! Turn your everyday skills into a tutoring business."
-        }
-        return MainPageData(displayName: displayName, image: image, categoryInfo: categoryInfo)
-    }
-    static func category(for string: String) -> Category? {
-        
-        switch string {
-            
-        case "academics":
-            return .academics
-        case "arts":
-            return .arts
-        case "auto":
-            return .auto
-        case "business":
-            return .business
-        case "life style":
-            return .lifestyle
-        case "health":
-            return .health
-        case "language":
-            return .language
-        case "outdoors":
-            return .outdoors
-        case "remedial":
-            return .remedial
-        case "sports":
-            return .sports
-        case "tech":
-            return .tech
-        case "trades":
-            return .trades
-        default:
-            return nil
-        }
-    }
+	
+	case academics
+	case arts
+	case auto
+	case business
+	case lifestyle
+	case health
+	case language
+	case outdoors
+	case remedial
+	case sports
+	case tech
+	case trades
+	
+	static let categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+	
+	var subcategory : Subcategory {
+		
+		let searchBarPhrases : [String]
+		let subcategories : [String]
+		let icon : [UIImage]
+		let displayName : String
+		let fileToRead : String
+		
+		switch self {
+			
+		case .academics:                displayName = "ACADEMICS"
+		searchBarPhrases = ["search any academic subject"]
+		subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular","Test Preparation"]
+		icon = [#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "language-arts"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "extracurricular"),#imageLiteral(resourceName: "test-prep")]
+		fileToRead = "academics"
+			
+		case .arts:                        displayName = "THE ARTS"
+		searchBarPhrases = ["search for any art"]
+		subcategories = ["Literary Arts", "Visual Arts", "Performing Arts", "Art History", "Applied Arts", "Arts Criticism"]
+		icon = [#imageLiteral(resourceName: "literacy"),#imageLiteral(resourceName: "visual-arts"),#imageLiteral(resourceName: "performing"),#imageLiteral(resourceName: "history"),#imageLiteral(resourceName: "applied-arts"),#imageLiteral(resourceName: "art-criticism")]
+		fileToRead = "arts"
+			
+		case .auto:                     displayName = "AUTO"
+		searchBarPhrases = ["search anything auto-related"]
+		subcategories = ["Automobiles", "Motor Vehicles", "Maintenance", "Repairs", "Upgrades", "Design"]
+		icon = [#imageLiteral(resourceName: "automobiles"),#imageLiteral(resourceName: "motor-vehicles"),#imageLiteral(resourceName: "maintenance"),#imageLiteral(resourceName: "repairs"),#imageLiteral(resourceName: "upgrades"),#imageLiteral(resourceName: "design")]
+		fileToRead = "auto"
+			
+		case .business:                    displayName = "BUSINESS"
+		searchBarPhrases = ["search any business topic"]
+		subcategories = ["Entrepreneurship", "Finance & Law", "Economics & Accounting", "Business Management", "Information Systems","Marketing & Hospitality"]
+		icon = [#imageLiteral(resourceName: "entrepreneurship"),#imageLiteral(resourceName: "finance-law"),#imageLiteral(resourceName: "economics-accounting"),#imageLiteral(resourceName: "management"),#imageLiteral(resourceName: "information-systems"),#imageLiteral(resourceName: "marketing-hospitality")]
+		fileToRead = "business"
+			
+		case .lifestyle:                displayName = "LIFE STYLE"
+		searchBarPhrases = ["search for any life style"]
+		subcategories = ["Motivation/Consulting", "Creations", "Cooking & Baking","Fitness", "Travel Destinations","Careers"]
+		icon = [#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "fitness"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "volunteering")]
+		fileToRead = "life style"
+			
+		case .health:                    displayName = "HEALTH"
+		searchBarPhrases = ["search health and wellness"]
+		subcategories = ["General", "Self-Care", "Nutrition", "Medicines", "Physical Exercise","Illness"]
+		icon = [#imageLiteral(resourceName: "general-health"),#imageLiteral(resourceName: "selfcare"),#imageLiteral(resourceName: "nutrition"),#imageLiteral(resourceName: "medicine"),#imageLiteral(resourceName: "physical-excercise"),#imageLiteral(resourceName: "illness")]
+		fileToRead = "health"
+			
+		case .language:                    displayName = "LANGUAGE"
+		searchBarPhrases = ["search for any language skill"]
+		subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speech","Writing"]
+		icon = [#imageLiteral(resourceName: "esl"),#imageLiteral(resourceName: "listening"),#imageLiteral(resourceName: "reading"),#imageLiteral(resourceName: "sign-language"),#imageLiteral(resourceName: "speech"),#imageLiteral(resourceName: "writing")]
+		fileToRead = "language"
+			
+		case .outdoors:                 displayName = "OUTDOORS"
+		searchBarPhrases = ["discover the outdoors"]
+		subcategories = ["Survival", "Life Identification", "Preparation", "Activities", "Land & Water","Seasonal"]
+		icon = [#imageLiteral(resourceName: "survival"),#imageLiteral(resourceName: "life-identity"),#imageLiteral(resourceName: "preperation"),#imageLiteral(resourceName: "activities"),#imageLiteral(resourceName: "land-water"),#imageLiteral(resourceName: "seasonal")]
+		fileToRead = "outdoors"
+			
+		case .remedial:                 displayName = "REMEDIAL"
+		searchBarPhrases = ["search for help in anything"]
+		subcategories = ["Development", "Conditions", "Impairments", "Disabilities", "Injuries","Special Education"]
+		icon = [#imageLiteral(resourceName: "development"),#imageLiteral(resourceName: "conditions"),#imageLiteral(resourceName: "disabilities"),#imageLiteral(resourceName: "impairments"),#imageLiteral(resourceName: "injuries"),#imageLiteral(resourceName: "special-education")]
+		fileToRead = "remedial"
+			
+		case .sports:                     displayName = "SPORTS"
+		searchBarPhrases = ["search sports and games"]
+		subcategories = ["Physical Sports", "Mind Sports", "Skills Training", "eSports", "Fantasy Sports","Extreme Sports"]
+		icon = [#imageLiteral(resourceName: "physical-sports"),#imageLiteral(resourceName: "mind-sports"),#imageLiteral(resourceName: "skill-training"),#imageLiteral(resourceName: "esports"),#imageLiteral(resourceName: "fantasy-sports"),#imageLiteral(resourceName: "extreme-sports")]
+		fileToRead = "sports"
+			
+		case .tech:                        displayName = "TECH"
+		searchBarPhrases = ["search technological topics"]
+		subcategories = ["Programming", "Gaming", "Hardware", "Software", "IT", "Repairs"]
+		icon = [#imageLiteral(resourceName: "programming"),#imageLiteral(resourceName: "gaming"),#imageLiteral(resourceName: "hardware"),#imageLiteral(resourceName: "software"),#imageLiteral(resourceName: "it"),#imageLiteral(resourceName: "repairs")]
+		fileToRead = "tech"
+			
+		case .trades:                    displayName = "TRADES"
+		searchBarPhrases = ["search for any trade"]
+		subcategories = ["Construction", "Industrial", "Motive Power", "Services", "Home", "General"]
+		icon = [#imageLiteral(resourceName: "construction"),#imageLiteral(resourceName: "industry"),#imageLiteral(resourceName: "motive-power"),#imageLiteral(resourceName: "services"),#imageLiteral(resourceName: "home"),#imageLiteral(resourceName: "general")]
+		fileToRead = "trades"
+		}
+		
+		return Subcategory(subcategories: subcategories, icon: icon, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], displayName: displayName, fileToRead: fileToRead)
+	}
+	
+	var mainPageData : MainPageData {
+		
+		let displayName : String
+		let image : UIImage
+		let categoryInfo : String
+		
+		switch self {
+		case .academics:                displayName = "Academics"
+		image = #imageLiteral(resourceName: "academics")
+		categoryInfo = "The classics. Whether you’re a master of mechanical engineering or a math wiz — we have a subject you can tutor. These are the core subjects that have been around since the beginning of time."
+			
+		case .arts:                        displayName = "The Arts"
+		image = #imageLiteral(resourceName: "arts")
+		categoryInfo = "Does the renaissance sing out of your soul? Whether your a dancer, singer or poet — you now have the ability to tutor others in poetry, drama, painting or phantom of the opera — this is where we get the creative juices flowin’."
+			
+		case .auto:                     displayName = "Auto"
+		image = #imageLiteral(resourceName: "auto")
+		categoryInfo = "Interested in teaching others a thing or two about being a gear-head? Are you a skilled repairman or designer? In this category you’ll be able to teach others anything about auto or just make some side cash fixing stuff! "
+			
+		case .business:                    displayName = "Business"
+		image = #imageLiteral(resourceName: "business")
+		categoryInfo = "Are you an entrepreneur, lawyer, accountant, marketer, or economist? Maybe the neighborhood excel expert? Lets talk business. "
+			
+		case .lifestyle:                displayName = "Life Style"
+		image = #imageLiteral(resourceName: "experiences")
+		categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Experiences is where all can tutor the things that warm our hearts and drive our souls."
+			
+		case .health:                    displayName = "Health & Wellness"
+		image = #imageLiteral(resourceName: "health")
+		categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any subject in our health & wellness category."
+			
+		case .language:                    displayName = "Language"
+		image = #imageLiteral(resourceName: "languages")
+		categoryInfo = "Run a tutoring business teaching others your native language or even a language you’ve adopted! Nearly every language in existence — available to tutor with just the tap of a button."
+			
+		case .outdoors:                 displayName = "Outdoors"
+		image = #imageLiteral(resourceName: "outdoors")
+		categoryInfo = "Tutors, it’s time to take your learners outside of the classroom and office. Are you a survivalist? Expert in your neck of the woods? Dad of the year? If so, this is the category for you. "
+			
+		case .remedial:                 displayName = "Remedial"
+		image = #imageLiteral(resourceName: "remedial")
+		categoryInfo = "QuickTutor is for everyone. Remedial is provided and intended for learners who experience difficulties."
+			
+		case .sports:                     displayName = "Sports & Games"
+		image = #imageLiteral(resourceName: "sports")
+		categoryInfo = "Snowboarding, football, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
+			
+		case .tech:                        displayName = "Tech"
+		image = #imageLiteral(resourceName: "tech")
+		categoryInfo = "Programmers, engineers, gamers, and the creators of the future, come all — here’s where you can share your passion and knowledge with those in need. "
+			
+		case .trades:                    displayName = "Trades"
+		image = #imageLiteral(resourceName: "trades")
+		categoryInfo = "Time to become a hands-on tutor in construction, industrial, motive-power, services, home, or anything! Turn your everyday skills into a tutoring business."
+		}
+		return MainPageData(displayName: displayName, image: image, categoryInfo: categoryInfo)
+	}
+	static func category(for string: String) -> Category? {
+		
+		switch string {
+			
+		case "academics":
+			return .academics
+		case "arts":
+			return .arts
+		case "auto":
+			return .auto
+		case "business":
+			return .business
+		case "life style":
+			return .lifestyle
+		case "health":
+			return .health
+		case "language":
+			return .language
+		case "outdoors":
+			return .outdoors
+		case "remedial":
+			return .remedial
+		case "sports":
+			return .sports
+		case "tech":
+			return .tech
+		case "trades":
+			return .trades
+		default:
+			return nil
+		}
+	}
 }
 
 extension Category {

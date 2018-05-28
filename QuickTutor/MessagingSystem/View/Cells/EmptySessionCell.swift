@@ -34,7 +34,7 @@ class EmptySessionCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        backgroundColor = UIColor(hex: "#1E1E26")
+        backgroundColor = Colors.navBarColor
         setupDescriptionLabel()
     }
     

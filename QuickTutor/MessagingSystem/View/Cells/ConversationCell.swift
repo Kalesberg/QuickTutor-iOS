@@ -21,7 +21,7 @@ class ConversationCell: UICollectionViewCell {
     
     let background: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "1E1E26")
+        view.backgroundColor = Colors.navBarColor
         return view
     }()
     
@@ -75,7 +75,7 @@ class ConversationCell: UICollectionViewCell {
     
     let newMessageGradientLayer: CAGradientLayer = {
         let firstColor = Colors.learnerPurple.cgColor
-        let secondColor = UIColor(hex: "1E1E26").cgColor
+        let secondColor = Colors.navBarColor.cgColor
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.cornerRadius = 1
