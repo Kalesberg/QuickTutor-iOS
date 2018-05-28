@@ -100,7 +100,7 @@ class CardManager : BaseViewController {
 		self.displayLoadingOverlay()
 		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
 			if let error = error{
-				print(error.localizedDescription)
+				AlertController.genericErrorAlert(self, title: "Error Retrieving Cards", message: error.localizedDescription)
 			} else if let customer = customer {
 				self.customer = customer
 			}
@@ -148,7 +148,7 @@ class CardManager : BaseViewController {
 			self.displayLoadingOverlay()
 			Stripe.updateDefaultSource(customer: self.customer, new: card, completion: { (customer, error)  in
 				if let error = error {
-					print(error.localizedDescription)
+					AlertController.genericErrorAlert(self, title: "Error Updating Card", message: error.localizedDescription)
 				} else if let customer = customer {
 					print("Default Updated")
 					self.customer = customer
@@ -232,9 +232,10 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
 			self.displayLoadingOverlay()
+			
 			Stripe.dettachSource(customer: self.customer, deleting: cards[indexPath.row]) { (customer, error) in
 				if let error = error {
-					print(error.localizedDescription)
+					AlertController.genericErrorAlert(self, title: "Error Deleting Card", message: error.localizedDescription)
 				} else if let customer = customer {
 					self.cards.remove(at: indexPath.row)
 					tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -325,11 +326,8 @@ class AddCardTableViewCell : UITableViewCell {
 		let cellBackground = UIView()
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
-		
 		footer.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-		
 		backgroundColor = Colors.backgroundDark
-		
 		applyConstraints()
 	}
 	

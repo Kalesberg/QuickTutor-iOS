@@ -143,7 +143,7 @@ class SearchSubjects: BaseViewController {
 		view = SearchSubjectsView()
 	}
 	
-	var categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+	var categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
 	var initialSetup : Bool = false
 	var automaticScroll : Bool = false
@@ -288,7 +288,6 @@ extension SearchSubjects : SelectedSubcategory {
 		
 		next.subcategory = subject.lowercased()
 		next.contentView.searchBar.text = subject
-		next.contentView.searchBar.isUserInteractionEnabled = false
 		
 		DispatchQueue.main.async {
 			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
@@ -304,7 +303,6 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCollectionViewCell", for: indexPath) as! CategorySelectionCollectionViewCell
 		
 		cell.category = categories[indexPath.item]
@@ -314,12 +312,10 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 	
 	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		
 		return CGSize(width: UIScreen.main.bounds.width - 20, height: collectionView.frame.height)
 	}
 	
 	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-		
 		return 20
 	}
 }
@@ -366,7 +362,6 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 		
 		next.subject = (cell.subcategory.text!,cell.subject.text!)
 		next.contentView.searchBar.text = "\(cell.subcategory.text!) • \(cell.subject.text!)"
-		next.contentView.searchBar.isUserInteractionEnabled = false
 		
 		DispatchQueue.main.async {
 			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
@@ -379,14 +374,8 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 			contentView.headerView.category.text = ""
 			return contentView.headerView
 		}
-		let view : UIView = {
-			let view  = UIView()
-			
-			view.backgroundColor = Colors.darkBackground
-			
-			return view
-		}()
-		
+		let view  = UIView()
+		view.backgroundColor = Colors.darkBackground
 		return view
 	}
 	
@@ -413,7 +402,7 @@ extension SearchSubjects : UISearchBarDelegate {
 	
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		if searchBar.text!.count > 0 {
-			tableView(shouldDisplay: true) {}
+			tableView(shouldDisplay: true) {/* 🤭 */}
 		}
 	}
 	
@@ -451,15 +440,5 @@ extension SearchSubjects : UIScrollViewDelegate {
 		let indexPath = IndexPath(row: 0, section: 0)
 		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
 		automaticScroll = false
-	}
-	
-	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//		let x = scrollView.contentOffset.x
-//		let w = scrollView.bounds.size.width
-//		let currentPage = Int(ceil(x / w))
-//
-//		if currentPage < 12 {
-//			contentView.searchBar.placeholder = categories[currentPage].subcategory.phrase
-//		}
 	}
 }

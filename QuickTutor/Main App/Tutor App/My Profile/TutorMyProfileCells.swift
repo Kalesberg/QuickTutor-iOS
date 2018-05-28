@@ -87,7 +87,7 @@ class BaseTableViewCell : UITableViewCell {
 
             if (hitView is Interactable) {
                 print("BEGAN: INTERACTABLE")
-                touchStartView = hitView as? (UIView & Interactable)!
+                touchStartView = hitView as? (UIView & Interactable)
                 touchStartView?.touchStart()
             } else {
                 print("BEGAN: NOT INTERACTABLE")

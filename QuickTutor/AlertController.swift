@@ -60,6 +60,30 @@ class AlertController : NSObject {
 
 		viewController.present(alertController, animated: true, completion: nil)
 	}
+	
+	class func genericErrorAlert(_ viewController: UIViewController, title: String, message: String) {
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		
+		let remove = UIAlertAction(title: "Ok", style: .destructive) { (_) in }
+		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+		
+		alertController.addAction(remove)
+		alertController.addAction(cancel)
+		
+		viewController.present(alertController, animated: true, completion: nil)
+	}
+	
+	class func genericErrorActionSheet(_ viewController: UIViewController, title: String, message: String) {
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+		
+		let remove = UIAlertAction(title: "Ok", style: .destructive) { (_) in }
+		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+		
+		alertController.addAction(remove)
+		alertController.addAction(cancel)
+		
+		viewController.present(alertController, animated: true, completion: nil)
+	}
 }
 
 

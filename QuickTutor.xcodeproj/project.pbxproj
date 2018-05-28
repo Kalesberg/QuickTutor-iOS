@@ -39,7 +39,7 @@
 		8425766620712B2A00FD295B /* arts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766520712B2A00FD295B /* arts.json */; };
 		8425766820712C3600FD295B /* auto.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766720712C3600FD295B /* auto.json */; };
 		8425766A20712D0300FD295B /* business.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766920712D0300FD295B /* business.json */; };
-		8425766C20712D9E00FD295B /* experiences.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766B20712D9E00FD295B /* experiences.json */; };
+		8425766C20712D9E00FD295B /* lifestyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766B20712D9E00FD295B /* lifestyle.json */; };
 		8425766E20712E6C00FD295B /* health.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766D20712E6C00FD295B /* health.json */; };
 		842576702071309000FD295B /* language.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766F2071309000FD295B /* language.json */; };
 		842576722071310A00FD295B /* outdoors.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576712071310A00FD295B /* outdoors.json */; };
@@ -78,6 +78,8 @@
 		846252F320637FA7001DD330 /* BankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F220637FA7001DD330 /* BankManager.swift */; };
 		846252F720637FC5001DD330 /* TutorHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F620637FC5001DD330 /* TutorHelp.swift */; };
 		846252FB206381BD001DD330 /* TaxInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252FA206381BD001DD330 /* TaxInformation.swift */; };
+		8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465E66520BAEA7600F7D72C /* LearnerModel.swift */; };
+		8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465E66720BAEAA800F7D72C /* TutorModel.swift */; };
 		84681FA0204B63DC00F45DFC /* schools.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84681F9F204B63DC00F45DFC /* schools.txt */; };
 		846D9B4E2069E57000302773 /* CategorySelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */; };
 		846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */; };
@@ -359,7 +361,7 @@
 		8425766520712B2A00FD295B /* arts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = arts.json; sourceTree = "<group>"; };
 		8425766720712C3600FD295B /* auto.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auto.json; sourceTree = "<group>"; };
 		8425766920712D0300FD295B /* business.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = business.json; sourceTree = "<group>"; };
-		8425766B20712D9E00FD295B /* experiences.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = experiences.json; sourceTree = "<group>"; };
+		8425766B20712D9E00FD295B /* lifestyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lifestyle.json; sourceTree = "<group>"; };
 		8425766D20712E6C00FD295B /* health.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = health.json; sourceTree = "<group>"; };
 		8425766F2071309000FD295B /* language.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = language.json; sourceTree = "<group>"; };
 		842576712071310A00FD295B /* outdoors.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = outdoors.json; sourceTree = "<group>"; };
@@ -398,6 +400,8 @@
 		846252F620637FC5001DD330 /* TutorHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHelp.swift; sourceTree = "<group>"; };
 		846252FA206381BD001DD330 /* TaxInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxInformation.swift; sourceTree = "<group>"; };
 		846466992096BBFD006ABA98 /* TutorAddBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddBank.swift; sourceTree = "<group>"; };
+		8465E66520BAEA7600F7D72C /* LearnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerModel.swift; sourceTree = "<group>"; };
+		8465E66720BAEAA800F7D72C /* TutorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorModel.swift; sourceTree = "<group>"; };
 		84681F9F204B63DC00F45DFC /* schools.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schools.txt; sourceTree = "<group>"; };
 		846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchCollectionViewLayout.swift; sourceTree = "<group>"; };
 		846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -715,6 +719,7 @@
 		842394051FF4C7CF00827C7D /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
+				8465E66920BAEFCA00F7D72C /* Model */,
 				842394061FF4C7FF00827C7D /* User.swift */,
 				84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */,
 				84CCB17D2082CAE80056466B /* TutorSignIn.swift */,
@@ -750,7 +755,7 @@
 			isa = PBXGroup;
 			children = (
 				8425766D20712E6C00FD295B /* health.json */,
-				8425766B20712D9E00FD295B /* experiences.json */,
+				8425766B20712D9E00FD295B /* lifestyle.json */,
 				8425766920712D0300FD295B /* business.json */,
 				8425766720712C3600FD295B /* auto.json */,
 				8425766F2071309000FD295B /* language.json */,
@@ -912,6 +917,15 @@
 			path = "Tax Information";
 			sourceTree = "<group>";
 		};
+		8465E66920BAEFCA00F7D72C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8465E66520BAEA7600F7D72C /* LearnerModel.swift */,
+				8465E66720BAEAA800F7D72C /* TutorModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		846D9B422069E3A500302773 /* CustomLayouts */ = {
 			isa = PBXGroup;
 			children = (
@@ -953,7 +967,6 @@
 				8482AFE02038C27000F6F805 /* EditBio.swift */,
 				8434B82A20468D6F00E16170 /* EditLanguages.swift */,
 				843A1D182047C5BF00299D27 /* EditSchool.swift */,
-				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				84F9CBFF204D3F8F009A2851 /* languages.txt */,
 				84681F9F204B63DC00F45DFC /* schools.txt */,
 			);
@@ -1030,6 +1043,7 @@
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
+				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
 			);
 			path = QuickTutor;
@@ -1572,7 +1586,7 @@
 				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
-				8425766C20712D9E00FD295B /* experiences.json in Resources */,
+				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
 				8425766820712C3600FD295B /* auto.json in Resources */,
 				8425766620712B2A00FD295B /* arts.json in Resources */,
 				845980511FD4FD4B007E9339 /* Lato in Resources */,
@@ -1680,6 +1694,7 @@
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
+				8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */,
 				CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */,
 				CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */,
 				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
@@ -1831,6 +1846,7 @@
 				843ECCC2207D8D4400C0F622 /* TutorMainTips.swift in Sources */,
 				CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */,
 				CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */,
+				8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */,
 				CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */,
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,

@@ -258,15 +258,14 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
             cell.slider.addTarget(self, action: #selector(rateSliderValueDidChange), for: .valueChanged)
             
             cell.slider.minimumValue = 5
-            cell.slider.maximumValue = 100
+            cell.slider.maximumValue = 300
             
             let formattedString = NSMutableAttributedString()
             formattedString
                 .bold("Hourly Rate  ", 15, .white)
-                .regular("  [$5-$100]", 15, Colors.grayText)
+                .regular("  [$5-$300]", 15, Colors.grayText)
             
             cell.header.attributedText = formattedString
-            
             cell.valueLabel.text = "$5"
             
             return cell

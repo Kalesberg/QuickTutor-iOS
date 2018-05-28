@@ -288,7 +288,7 @@ enum Category {
 	case arts
 	case auto
 	case business
-	case experiences
+	case lifestyle
 	case health
 	case language
 	case outdoors
@@ -297,7 +297,7 @@ enum Category {
 	case tech
 	case trades
 	
-	static let categories : [Category] = [.academics, .arts, .auto, .business, .experiences, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+	static let categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
 	var subcategory : Subcategory {
 		
@@ -333,11 +333,11 @@ enum Category {
 		icon = [#imageLiteral(resourceName: "entrepreneurship"),#imageLiteral(resourceName: "finance-law"),#imageLiteral(resourceName: "economics-accounting"),#imageLiteral(resourceName: "management"),#imageLiteral(resourceName: "information-systems"),#imageLiteral(resourceName: "marketing-hospitality")]
 		fileToRead = "business"
 			
-		case .experiences:                displayName = "EXPERIENCES"
-		searchBarPhrases = ["search for any experience"]
+		case .lifestyle:                displayName = "LIFE STYLE"
+		searchBarPhrases = ["search for any life style"]
 		subcategories = ["Motivation/Consulting", "Creations", "Cooking & Baking","Fitness", "Travel Destinations","Careers"]
 		icon = [#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "fitness"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "volunteering")]
-		fileToRead = "experiences"
+		fileToRead = "life style"
 			
 		case .health:                    displayName = "HEALTH"
 		searchBarPhrases = ["search health and wellness"]
@@ -408,7 +408,7 @@ enum Category {
 		image = #imageLiteral(resourceName: "business")
 		categoryInfo = "Are you an entrepreneur, lawyer, accountant, marketer, or economist? Maybe the neighborhood excel expert? Lets talk business. "
 			
-		case .experiences:                displayName = "Experiences"
+		case .lifestyle:                displayName = "Life Style"
 		image = #imageLiteral(resourceName: "experiences")
 		categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Experiences is where all can tutor the things that warm our hearts and drive our souls."
 			
@@ -454,8 +454,8 @@ enum Category {
 			return .auto
 		case "business":
 			return .business
-		case "experiences":
-			return .experiences
+		case "life style":
+			return .lifestyle
 		case "health":
 			return .health
 		case "language":

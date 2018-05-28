@@ -192,7 +192,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			let formattedString1 = NSMutableAttributedString()
 			
 			formattedString1
-				.bold("\(tutor.numSessions!)\n", 16, .white)
+				.bold("\(tutor.tNumSessions!)\n", 16, .white)
 				.regular("Sessions", 15, Colors.grayText)
 			
 			let paragraphStyle1 = NSMutableParagraphStyle()
@@ -209,7 +209,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			let formattedString2 = NSMutableAttributedString()
 			
 			formattedString2
-				.bold("\(tutor.numSessions!)\n", 16, .white)
+				.bold("\(tutor.tNumSessions!)\n", 16, .white)
 				.regular("5-Stars", 15, Colors.grayText)
 			
 			let paragraphStyle2 = NSMutableParagraphStyle()
