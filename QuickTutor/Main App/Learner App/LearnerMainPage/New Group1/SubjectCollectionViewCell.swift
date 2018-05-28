@@ -52,9 +52,9 @@ class SubjectCollectionViewCell : UICollectionViewCell {
 			make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().inset(-10)
             if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
-                make.height.width.equalToSuperview().multipliedBy(0.6)
+                make.height.width.equalToSuperview().multipliedBy(0.5)
             } else {
-                make.height.width.equalToSuperview().multipliedBy(0.65)
+                make.height.width.equalToSuperview().multipliedBy(0.55)
             }
 		}
 		label.snp.makeConstraints { (make) in

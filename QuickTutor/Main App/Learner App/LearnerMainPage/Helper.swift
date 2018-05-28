@@ -375,7 +375,7 @@ enum Category {
 			
 		case .sports:                     displayName = "SPORTS"
 		searchBarPhrases = ["search sports and games"]
-		subcategories = ["Physical Sports", "Mind Sports", "Skills Training", "E-Sports", "Fantasy Sports","Extreme Sports"]
+		subcategories = ["Physical Sports", "Mind Sports", "Skills Training", "eSports", "Fantasy Sports","Extreme Sports"]
 		icon = [#imageLiteral(resourceName: "physical-sports"),#imageLiteral(resourceName: "mind-sports"),#imageLiteral(resourceName: "skill-training"),#imageLiteral(resourceName: "esports"),#imageLiteral(resourceName: "fantasy-sports"),#imageLiteral(resourceName: "extreme-sports")]
 		fileToRead = "sports"
 			
