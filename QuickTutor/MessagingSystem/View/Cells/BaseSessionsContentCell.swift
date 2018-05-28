@@ -42,7 +42,6 @@ class BaseSessionsContentCell: BaseContentCell {
         pastSessions.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("userSessions").child(uid).observe(.childAdded) { (snapshot) in
-            self.refreshControl.endRefreshing()
             DataService.shared.getSessionById(snapshot.key, completion: { session in
                 guard session.status != "cancelled" && session.status != "declined" else { return }
                 
@@ -69,7 +68,15 @@ class BaseSessionsContentCell: BaseContentCell {
     
     override func setupRefreshControl() {
         collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(fetchSessions), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshSessions), for: .valueChanged)
+    }
+    
+    @objc func refreshSessions() {
+        refreshControl.beginRefreshing()
+        fetchSessions()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            self.refreshControl.endRefreshing()
+        })
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -139,7 +146,7 @@ class BaseSessionsContentCell: BaseContentCell {
         guard let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
         cell.actionView.showActionContainerView()
         if let pastCell = cell as? BasePastSessionCell {
-            pastCell.starView.isHidden = !pastCell.starView.isHidden
+            pastCell.toggleStarViewHidden()
         }
     }
 }

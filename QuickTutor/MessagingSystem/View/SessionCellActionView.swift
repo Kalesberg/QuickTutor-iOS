@@ -15,7 +15,6 @@ class SessionCellActionView: UIView {
     let cellActionContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
-        view.isHidden = true
         return view
     }()
     
@@ -44,6 +43,7 @@ class SessionCellActionView: UIView {
     }()
     
     func setupViews() {
+        self.alpha = 0
         setupActionContainerView()
         setupActionButtonTargets()
     }
@@ -81,11 +81,15 @@ class SessionCellActionView: UIView {
     }
     
     func showActionContainerView() {
-        cellActionContainerView.isHidden = false
+        UIViewPropertyAnimator(duration: 0.2, curve: .easeOut) {
+            self.alpha = 1
+        }.startAnimation()
     }
     
     @objc func hideActionContainerView() {
-        cellActionContainerView.isHidden = true
+        UIViewPropertyAnimator(duration: 0.2, curve: .easeOut) {
+            self.alpha = 0
+        }.startAnimation()
     }
     
     func updateButtonImages(_ images: [UIImage]) {
