@@ -82,15 +82,15 @@ class ConversationCell: UICollectionViewCell {
         gradientLayer.colors = [firstColor, secondColor]
         
         
-        let x: Double! = 90 / 360.0
-        let a = pow(sinf(Float(2.0 * .pi * ((x + 0.75) / 2.0))),2.0);
-        let b = pow(sinf(Float(2 * .pi * ((x+0.0)/2))),2);
-        let c = pow(sinf(Float(2 * .pi * ((x+0.25)/2))),2);
-        let d = pow(sinf(Float(2 * .pi * ((x+0.5)/2))),2);
-
-        gradientLayer.endPoint = CGPoint(x: CGFloat(c),y: CGFloat(d))
-        gradientLayer.startPoint = CGPoint(x: CGFloat(a),y:CGFloat(b))
-        gradientLayer.locations = [0, 0.7, 0.9, 1]
+//        let x: Double! = 90 / 360.0
+//        let a = pow(sinf(Float(2.0 * .pi * ((x + 0.75) / 2.0))),2.0);
+//        let b = pow(sinf(Float(2 * .pi * ((x+0.0)/2))),2);
+//        let c = pow(sinf(Float(2 * .pi * ((x+0.25)/2))),2);
+//        let d = pow(sinf(Float(2 * .pi * ((x+0.5)/2))),2);
+//
+//        gradientLayer.endPoint = CGPoint(x: CGFloat(c),y: CGFloat(d))
+//        gradientLayer.startPoint = CGPoint(x: CGFloat(a),y:CGFloat(b))
+//        gradientLayer.locations = [0, 0.7, 0.9, 1]
         return gradientLayer
     }()
     
@@ -109,6 +109,7 @@ class ConversationCell: UICollectionViewCell {
     }()
     
     var backgroundRightAnchor: NSLayoutConstraint?
+    var animator: UIViewPropertyAnimator?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -127,6 +128,7 @@ class ConversationCell: UICollectionViewCell {
         setupStarLabel()
         setupLine()
         setupNewMessageGradientLayer()
+        animateButtons()
     }
     
     private func setupBackground() {
@@ -135,7 +137,7 @@ class ConversationCell: UICollectionViewCell {
         addConstraint(NSLayoutConstraint(item: background, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0))
         backgroundRightAnchor = background.rightAnchor.constraint(equalTo: rightAnchor, constant: 0)
         backgroundRightAnchor?.isActive = true
-        backgroundColor = UIColor(hex: "1E1E26")
+        backgroundColor = Colors.backgroundDark.darker(by: 2)
     }
     
     private func setupProfilePic() {
@@ -182,13 +184,13 @@ class ConversationCell: UICollectionViewCell {
     
     func setupDisconnectButton() {
         insertSubview(disconnectButton, belowSubview: background)
-        disconnectButton.anchor(top: topAnchor, left: background.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 65, height: 0)
+        disconnectButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 65, height: 0)
         disconnectButton.addTarget(self, action: #selector(handleDisconnect), for: .touchUpInside)
     }
     
     func setupDeleteMessagesButton() {
         insertSubview(deleteMessagesButton, belowSubview: background)
-        deleteMessagesButton.anchor(top: topAnchor, left: disconnectButton.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 65, height: 0)
+        deleteMessagesButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: disconnectButton.leftAnchor, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 65, height: 0)
         deleteMessagesButton.addTarget(self, action: #selector(handleDeleteMessages), for: .touchUpInside)
     }
     
@@ -274,6 +276,13 @@ class ConversationCell: UICollectionViewCell {
         backgroundRightAnchor?.constant = 0
         UIView.animate(withDuration: 0.25) {
             self.layoutIfNeeded()
+        }
+    }
+    
+    func animateButtons() {
+        animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeOut) {
+            self.disconnectButton.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            self.deleteMessagesButton.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
         }
     }
     
