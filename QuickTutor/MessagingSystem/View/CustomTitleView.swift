@@ -68,7 +68,8 @@ class CustomTitleView: UIView {
 
 		} else {
 			let next = LearnerMyProfile()
-			
+			next.learner = learner
+			next.contentView.rightButton.isHidden = true
 			navigationController.pushViewController(next, animated: true)
 		}
     }

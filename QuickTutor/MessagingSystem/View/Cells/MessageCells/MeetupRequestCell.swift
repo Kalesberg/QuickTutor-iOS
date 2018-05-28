@@ -12,6 +12,7 @@ import Firebase
 class SessionRequestCell: UserMessageCell {
     
     var sessionRequest: SessionRequest?
+    var userMessage: UserMessage?
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -80,10 +81,7 @@ class SessionRequestCell: UserMessageCell {
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         getSessionRequestWithId(message.sessionRequestId!)
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        if message.senderId != id {
-            setupAsTeacherView()
-        }
+        self.userMessage = message
     }
     
     func getSessionRequestWithId(_ id: String) {
@@ -109,6 +107,10 @@ class SessionRequestCell: UserMessageCell {
         priceLabel.text = "$\(price)0"
         dateTimeLabel.text = "\(date) @ \(startTime)"
         setStatusLabel()
+        guard let id = Auth.auth().currentUser?.uid else { return }
+        if self.userMessage?.senderId != id {
+            setupAsTeacherView()
+        }
     }
     
     func setStatusLabel() {
@@ -135,7 +137,6 @@ class SessionRequestCell: UserMessageCell {
         setupPriceLabel()
         setupStatusBackground()
         setupStatusLabel()
-        
     }
     
     private func setupTitleLabel() {

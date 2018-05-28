@@ -85,6 +85,7 @@ class TutorSettings : BaseViewController {
     }
 	
 	var tutor : AWTutor!
+	var wasHidden : Bool!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +95,9 @@ class TutorSettings : BaseViewController {
 		
 		guard let tutor = CurrentUser.shared.tutor else { return }
 		self.tutor = tutor
+		wasHidden = tutor.isVisible
+		
+		contentView.visibleOnQT.toggle.addTarget(self, action: #selector(toggleSwitched(_:)), for: .touchUpInside)
 		
 		contentView.profileView.imageView.loadUserImages(by: tutor.images["image1"]!)
 		contentView.profileView.label.text = "\(tutor.name!)\n\(tutor.phone.formatPhoneNumber())\n\(tutor.email!)"
@@ -101,10 +105,25 @@ class TutorSettings : BaseViewController {
     override func loadView() {
         view = TutorSettingsView()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		contentView.visibleOnQT.toggle.isOn = tutor.isVisible
     }
-    
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		updateTutorVisibilityIfNeeded()
+	}
+	
+	@objc private func toggleSwitched(_ sender : UISwitch) {
+		tutor.isVisible = sender.isOn
+	}
+	
+	private func updateTutorVisibilityIfNeeded() {
+		if wasHidden != tutor.isVisible {
+			FirebaseData.manager.updateTutorVisibility(uid: tutor.uid, status: (tutor.isVisible) ? 0 : 1)
+		}
+	}
     override func handleNavigation() {
 		
     }

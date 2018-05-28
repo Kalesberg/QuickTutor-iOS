@@ -74,11 +74,18 @@ class MessagesContentCell: BaseContentCell {
     
     override func setupRefreshControl() {
         collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(fetchConversations), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshMessages), for: .valueChanged)
+    }
+    
+    @objc func refreshMessages() {
+        refreshControl.beginRefreshing()
+        fetchConversations()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            self.refreshControl.endRefreshing()
+        })
     }
     
     @objc func fetchConversations() {
-        refreshControl.beginRefreshing()
         conversationsDictionary.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("conversations").child(uid).observe(.childAdded) { snapshot in
@@ -87,7 +94,6 @@ class MessagesContentCell: BaseContentCell {
                 let messageId = snapshot.key
                 self.getMessageById(messageId)
             })
-            self.refreshControl.endRefreshing()
         }
     }
     
@@ -149,14 +155,17 @@ class MessagesContentCell: BaseContentCell {
     func handleSwipeLeft(cell: ConversationCell, distance: CGFloat) {
         guard distance > -130 else { return }
         cell.backgroundRightAnchor?.constant = distance
+        cell.animator?.fractionComplete = abs(distance / 130)
         cell.layoutIfNeeded()
     }
     
     func handlePanEnd(cell: ConversationCell, distance: CGFloat) {
         if distance > -65 {
             cell.backgroundRightAnchor?.constant = 0
+            cell.animator?.fractionComplete = 0
         } else {
             cell.backgroundRightAnchor?.constant = -130
+            cell.animator?.fractionComplete = 100
         }
         
         UIView.animate(withDuration: 0.25) {

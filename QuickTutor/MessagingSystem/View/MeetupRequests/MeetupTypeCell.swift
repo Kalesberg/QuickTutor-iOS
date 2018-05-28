@@ -26,8 +26,8 @@ class SessionTypeCell: UIView {
         return label
     }()
     
-    let selectionButton: UIButton = {
-        let button = UIButton()
+    let selectionButton: DimmableButton = {
+        let button = DimmableButton()
         button.layer.borderColor = UIColor(hex: "89898D").cgColor
         button.layer.borderWidth = 1.5
         button.layer.cornerRadius = 9

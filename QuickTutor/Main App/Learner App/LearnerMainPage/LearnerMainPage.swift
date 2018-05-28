@@ -98,10 +98,10 @@ class LearnerMainPage : MainPage {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-		AccountService.shared.currentUserType = .learner
-		
-		if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
-			UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
+        AccountService.shared.currentUserType = .learner
+        
+        if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
+            UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
             displayMessagesTutorial()
         }
         
@@ -227,7 +227,7 @@ class LearnerMainPage : MainPage {
     }
     
     private func queryFeaturedTutors() {
-		self.displayLoadingOverlay()
+        self.displayLoadingOverlay()
         QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
             if let datasource = datasource {
                 self.contentView.tableView.performBatchUpdates({
@@ -240,35 +240,37 @@ class LearnerMainPage : MainPage {
                     }
                 })
             }
-			self.dismissOverlay()
+            self.dismissOverlay()
         }
     }
-	private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
-		self.displayLoadingOverlay()
-		FirebaseData.manager.getTutor(learner.uid) { (tutor) in
-			if let tutor = tutor {
-				CurrentUser.shared.tutor = tutor
-				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-					if let account = account {
-						if !account.verification.fields_needed.isEmpty {
-							print("field needed: ", account.verification.fields_needed, " due by: ", account.verification.due_by, " details: ", account.verification.disabled_reason)
-						}
-						if !account.charges_enabled { print("Charges disabled") }
-						if !account.payouts_enabled { print("payouts disabled") }
-						CurrentUser.shared.connectAccount = account
-						self.dismissOverlay()
-						completion(true)
-					} else {
-						self.dismissOverlay()
-						completion(false)
-					}
-				})
-			} else {
-				self.dismissOverlay()
-				completion(false)
-			}
-		}
-	}
+    private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
+        self.displayLoadingOverlay()
+		FirebaseData.manager.getTutor(learner.uid, isQuery: false) { (tutor) in
+            if let tutor = tutor {
+                CurrentUser.shared.tutor = tutor
+                Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
+                    if let account = account {
+                        if !account.verification.fields_needed.isEmpty {
+                            print("field needed: ", account.verification.fields_needed, " due by: ", account.verification.due_by, " details: ", account.verification.disabled_reason)
+                        }
+                        if !account.charges_enabled { print("Charges disabled") }
+                        if !account.payouts_enabled { print("payouts disabled") }
+                        CurrentUser.shared.connectAccount = account
+                        self.dismissOverlay()
+                        completion(true)
+                    } else {
+                        AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
+                        self.dismissOverlay()
+                        completion(false)
+                    }
+                })
+            } else {
+                AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
+                self.dismissOverlay()
+                completion(false)
+            }
+        }
+    }
     
     override func handleNavigation() {
         super.handleNavigation()
@@ -282,10 +284,10 @@ class LearnerMainPage : MainPage {
             })
             
             showBackground()
-			if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
-				displaySidebarTutorial()
-				UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
-			}
+            if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
+                displaySidebarTutorial()
+                UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
+            }
         } else if(touchStartView == contentView.backgroundView) {
             self.contentView.sidebar.isUserInteractionEnabled = false
             let startX = self.contentView.sidebar.center.x
@@ -329,26 +331,26 @@ class LearnerMainPage : MainPage {
             hideBackground()
         } else if(touchStartView == contentView.sidebar.becomeQTItem) {
             if self.learner.isTutor {
-				self.displayLoadingOverlay()
+                self.displayLoadingOverlay()
                 switchToTutorSide { (success) in
                     if success {
                         AccountService.shared.currentUserType = .tutor
-						self.dismissOverlay()
+                        self.dismissOverlay()
                         self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
                     }
-					self.dismissOverlay()
+                    self.dismissOverlay()
                 }
             } else {
-				AccountService.shared.currentUserType = .tRegistration
+                AccountService.shared.currentUserType = .tRegistration
                 self.navigationController?.pushViewController(BecomeTutor(), animated: true)
             }
             hideSidebar()
             hideBackground()
         } else if (touchStartView is SearchBar) {
             let nav = self.navigationController
-			nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
-			nav?.pushViewController(SearchSubjects(), animated: false)
-			
+            nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
+            nav?.pushViewController(SearchSubjects(), animated: false)
+            
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
             hideSidebar()

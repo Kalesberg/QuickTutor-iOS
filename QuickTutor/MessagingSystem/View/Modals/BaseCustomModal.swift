@@ -19,6 +19,7 @@ class BaseCustomModal: UIView {
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
+        view.alpha = 0
         return view
     }()
     
@@ -40,6 +41,8 @@ class BaseCustomModal: UIView {
         return label
     }()
     
+    var backgroundCenterYAnchor: NSLayoutConstraint?
+    
     func setupViews() {
         setupBackgroundBlurView()
         setupBackground()
@@ -50,8 +53,8 @@ class BaseCustomModal: UIView {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(background)
         background.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 207)
-        window.addConstraint(NSLayoutConstraint(item: background, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
-        background.alpha = 0
+        backgroundCenterYAnchor = background.centerYAnchor.constraint(equalTo: window.centerYAnchor, constant: 500)
+        backgroundCenterYAnchor?.isActive = true
     }
     
     func setupBackgroundBlurView() {
@@ -74,12 +77,33 @@ class BaseCustomModal: UIView {
     }
     
     func show() {
-        background.alpha = 1
+        let backgroundAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
+            self.backgroundBlurView.alpha = 1
+        }
+        
+        let contentAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
+            self.background.alpha = 1
+            self.background.transform = CGAffineTransform(translationX: 0, y: -500)
+        }
+        
+        backgroundAnimator.addCompletion { (position) in
+            contentAnimator.startAnimation()
+        }
+        backgroundAnimator.startAnimation()
     }
     
     @objc func dismiss() {
-        background.alpha = 0
-        backgroundBlurView.alpha = 0
+        let backgroundAnimator = UIViewPropertyAnimator(duration: 0.5, curve: .easeOut) {
+            self.backgroundBlurView.alpha = 0
+        }
+        
+        let contentAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
+            self.background.alpha = 0
+            self.background.transform = CGAffineTransform(translationX: 0, y: 500)
+        }
+        
+        contentAnimator.startAnimation()
+        backgroundAnimator.startAnimation()
     }
     
     override init(frame: CGRect) {

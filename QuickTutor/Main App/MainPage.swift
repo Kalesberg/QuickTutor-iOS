@@ -122,8 +122,7 @@ class MainPage : BaseViewController {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		hasPaymentMethod = UserDefaultData.localDataManager.hasPaymentMethod
-        hasStudentBio = UserDefaultData.localDataManager.hasBio
+
 	}
     
     override func viewDidLoad() {

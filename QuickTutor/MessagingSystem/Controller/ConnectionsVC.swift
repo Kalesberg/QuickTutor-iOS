@@ -17,7 +17,9 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     var navBar: ZFNavBar = {
         let bar = ZFNavBar()
         bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
-        bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "addTutorByUsernameButton"), for: .normal)
+        if AccountService.shared.currentUserType == .learner {
+            bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "addTutorByUsernameButton"), for: .normal)
+        }
         return bar
     }()
     

@@ -102,8 +102,8 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
         
         let subcat = category.subcategory
         
-		cell.imageView.image = subcat.icon[indexPath.item]
-		cell.label.text = subcat.subcategories[indexPath.item]
+        cell.imageView.image = subcat.icon[indexPath.item]
+        cell.label.text = subcat.subcategories[indexPath.item]
         
         var index : Int
         
@@ -126,6 +126,5 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
     internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         delegate?.didSelectSubcategory(resource: category.subcategory.fileToRead, subject: category.subcategory.subcategories[indexPath.item], index: indexPath.item)
-
     }
 }

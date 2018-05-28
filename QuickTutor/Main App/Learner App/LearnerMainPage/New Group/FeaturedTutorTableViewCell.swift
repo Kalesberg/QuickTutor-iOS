@@ -108,7 +108,6 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 			
 			next.featuredTutor = tutor
 			next.contentView.rightButton.isHidden = true
-			next.contentView.searchBar.isUserInteractionEnabled = false
 			next.contentView.searchBar.placeholder = "\(category.mainPageData.displayName) • \(tutor.topSubject!)"
 			
 			let transition = CATransition()

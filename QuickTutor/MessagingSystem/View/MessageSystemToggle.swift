@@ -21,7 +21,7 @@ protocol SegmentedViewDelegate {
 
 class MessagingSystemToggle: UIView {
     
-    var sections = ["Tutors", "Sessions"]
+    var sections = ["Messages", "Sessions"]
     var delegate: SegmentedViewDelegate?
     
     lazy var cv: UICollectionView = {
@@ -46,6 +46,7 @@ class MessagingSystemToggle: UIView {
     func setupViews() {
         setupCollectionView()
         setupSeparator()
+        setupForUserType()
     }
     
     private func setupCollectionView() {
@@ -65,8 +66,8 @@ class MessagingSystemToggle: UIView {
         cv.selectItem(at: selectedIndexPath as IndexPath, animated: false, scrollPosition: [])
     }
     
-    func setupForUserType(_ userType: UserType) {
-        sections[0] = userType == .learner ? "Tutors" : "Learners"
+    func setupForUserType() {
+        sections[0] = AccountService.shared.currentUserType == .learner ? "Messages" : "Messages"
         cv.reloadData()
         selectFirstSection()
     }

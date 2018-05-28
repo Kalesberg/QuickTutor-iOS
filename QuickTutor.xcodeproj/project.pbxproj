@@ -39,7 +39,7 @@
 		8425766620712B2A00FD295B /* arts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766520712B2A00FD295B /* arts.json */; };
 		8425766820712C3600FD295B /* auto.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766720712C3600FD295B /* auto.json */; };
 		8425766A20712D0300FD295B /* business.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766920712D0300FD295B /* business.json */; };
-		8425766C20712D9E00FD295B /* experiences.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766B20712D9E00FD295B /* experiences.json */; };
+		8425766C20712D9E00FD295B /* lifestyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766B20712D9E00FD295B /* lifestyle.json */; };
 		8425766E20712E6C00FD295B /* health.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766D20712E6C00FD295B /* health.json */; };
 		842576702071309000FD295B /* language.json in Resources */ = {isa = PBXBuildFile; fileRef = 8425766F2071309000FD295B /* language.json */; };
 		842576722071310A00FD295B /* outdoors.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576712071310A00FD295B /* outdoors.json */; };
@@ -78,6 +78,8 @@
 		846252F320637FA7001DD330 /* BankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F220637FA7001DD330 /* BankManager.swift */; };
 		846252F720637FC5001DD330 /* TutorHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F620637FC5001DD330 /* TutorHelp.swift */; };
 		846252FB206381BD001DD330 /* TaxInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252FA206381BD001DD330 /* TaxInformation.swift */; };
+		8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465E66520BAEA7600F7D72C /* LearnerModel.swift */; };
+		8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465E66720BAEAA800F7D72C /* TutorModel.swift */; };
 		84681FA0204B63DC00F45DFC /* schools.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84681F9F204B63DC00F45DFC /* schools.txt */; };
 		846D9B4E2069E57000302773 /* CategorySelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */; };
 		846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */; };
@@ -301,6 +303,7 @@
 		CF8BBCBC20A0251F0043D231 /* TwilioSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8BBCBB20A0251F0043D231 /* TwilioSettings.swift */; };
 		CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */; };
 		CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */; };
+		CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */; };
 		CFB60617207FA6B80029CFE4 /* FileReportActionsheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */; };
 		CFB60619207FB60C0029CFE4 /* FileReportActionsheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */; };
 		CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */; };
@@ -358,7 +361,7 @@
 		8425766520712B2A00FD295B /* arts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = arts.json; sourceTree = "<group>"; };
 		8425766720712C3600FD295B /* auto.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auto.json; sourceTree = "<group>"; };
 		8425766920712D0300FD295B /* business.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = business.json; sourceTree = "<group>"; };
-		8425766B20712D9E00FD295B /* experiences.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = experiences.json; sourceTree = "<group>"; };
+		8425766B20712D9E00FD295B /* lifestyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lifestyle.json; sourceTree = "<group>"; };
 		8425766D20712E6C00FD295B /* health.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = health.json; sourceTree = "<group>"; };
 		8425766F2071309000FD295B /* language.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = language.json; sourceTree = "<group>"; };
 		842576712071310A00FD295B /* outdoors.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = outdoors.json; sourceTree = "<group>"; };
@@ -397,6 +400,8 @@
 		846252F620637FC5001DD330 /* TutorHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHelp.swift; sourceTree = "<group>"; };
 		846252FA206381BD001DD330 /* TaxInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxInformation.swift; sourceTree = "<group>"; };
 		846466992096BBFD006ABA98 /* TutorAddBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddBank.swift; sourceTree = "<group>"; };
+		8465E66520BAEA7600F7D72C /* LearnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerModel.swift; sourceTree = "<group>"; };
+		8465E66720BAEAA800F7D72C /* TutorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorModel.swift; sourceTree = "<group>"; };
 		84681F9F204B63DC00F45DFC /* schools.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schools.txt; sourceTree = "<group>"; };
 		846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchCollectionViewLayout.swift; sourceTree = "<group>"; };
 		846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -629,6 +634,7 @@
 		CF8BBCBB20A0251F0043D231 /* TwilioSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSettings.swift; sourceTree = "<group>"; };
 		CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemToggleCell.swift; sourceTree = "<group>"; };
 		CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSystemToggle.swift; sourceTree = "<group>"; };
+		CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableButton.swift; sourceTree = "<group>"; };
 		CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheet.swift; sourceTree = "<group>"; };
 		CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheetCell.swift; sourceTree = "<group>"; };
 		CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectModal.swift; sourceTree = "<group>"; };
@@ -713,6 +719,7 @@
 		842394051FF4C7CF00827C7D /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
+				8465E66920BAEFCA00F7D72C /* Model */,
 				842394061FF4C7FF00827C7D /* User.swift */,
 				84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */,
 				84CCB17D2082CAE80056466B /* TutorSignIn.swift */,
@@ -748,7 +755,7 @@
 			isa = PBXGroup;
 			children = (
 				8425766D20712E6C00FD295B /* health.json */,
-				8425766B20712D9E00FD295B /* experiences.json */,
+				8425766B20712D9E00FD295B /* lifestyle.json */,
 				8425766920712D0300FD295B /* business.json */,
 				8425766720712C3600FD295B /* auto.json */,
 				8425766F2071309000FD295B /* language.json */,
@@ -910,6 +917,15 @@
 			path = "Tax Information";
 			sourceTree = "<group>";
 		};
+		8465E66920BAEFCA00F7D72C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8465E66520BAEA7600F7D72C /* LearnerModel.swift */,
+				8465E66720BAEAA800F7D72C /* TutorModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		846D9B422069E3A500302773 /* CustomLayouts */ = {
 			isa = PBXGroup;
 			children = (
@@ -951,7 +967,6 @@
 				8482AFE02038C27000F6F805 /* EditBio.swift */,
 				8434B82A20468D6F00E16170 /* EditLanguages.swift */,
 				843A1D182047C5BF00299D27 /* EditSchool.swift */,
-				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				84F9CBFF204D3F8F009A2851 /* languages.txt */,
 				84681F9F204B63DC00F45DFC /* schools.txt */,
 			);
@@ -1028,6 +1043,7 @@
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
+				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
 			);
 			path = QuickTutor;
@@ -1290,6 +1306,7 @@
 				CF177BCA208FB8E0006DD50B /* RatingStarView.swift */,
 				CF177BCC208FB94B006DD50B /* EndSessionProfileBox.swift */,
 				CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */,
+				CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1501,7 +1518,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				8F3757479BBC2A89959B3B45 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1570,7 +1586,7 @@
 				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
-				8425766C20712D9E00FD295B /* experiences.json in Resources */,
+				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
 				8425766820712C3600FD295B /* auto.json in Resources */,
 				8425766620712B2A00FD295B /* arts.json in Resources */,
 				845980511FD4FD4B007E9339 /* Lato in Resources */,
@@ -1637,21 +1653,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8F3757479BBC2A89959B3B45 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1693,6 +1694,7 @@
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
+				8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */,
 				CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */,
 				CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */,
 				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
@@ -1844,6 +1846,7 @@
 				843ECCC2207D8D4400C0F622 /* TutorMainTips.swift in Sources */,
 				CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */,
 				CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */,
+				8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */,
 				CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */,
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
@@ -1863,6 +1866,7 @@
 				84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */,
 				84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */,
 				CF833B7C207C4BB300323242 /* LearnerUpcomingSessionCell.swift in Sources */,
+				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
@@ -2106,6 +2110,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = "$(SRCROOT)/QuickTutor/New Group/Info.plist";
@@ -2113,6 +2118,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -2128,6 +2134,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = "$(SRCROOT)/QuickTutor/New Group/Info.plist";
@@ -2135,6 +2142,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

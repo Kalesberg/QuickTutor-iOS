@@ -19,8 +19,8 @@ class PauseSessionModal: BaseCustomModal {
     var delegate: PauseSessionModalDelegate?
     var partnerUsername: String?
     
-    let unpauseButton: UIButton = {
-        let button = UIButton()
+    let unpauseButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Unpause", for: .normal)
         button.setTitleColor(Colors.green, for: .normal)
         button.layer.borderWidth = 1.5

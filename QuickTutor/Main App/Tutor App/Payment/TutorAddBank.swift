@@ -237,12 +237,12 @@ class TutorAddBank: BaseViewController {
 				self.displayLoadingOverlay()
 				addTutorBankAccount(fullname: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (error) in
 					if let error = error {
-						print(error.localizedDescription)
+						AlertController.genericErrorActionSheet(self, title: "Unable to Add Payout Method", message: error.localizedDescription)
 						self.contentView.rightButton.isUserInteractionEnabled = true
 					} else {
 						self.navigationController?.popBackToTutorMain()
 					}
-					self.dismissKeyboard()
+					self.dismissOverlay()
 				}
             } else {
                 contentView.rightButton.isUserInteractionEnabled = true

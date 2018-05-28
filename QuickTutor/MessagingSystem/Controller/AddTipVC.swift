@@ -87,8 +87,8 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         return label
     }()
     
-    let submitButton: UIButton = {
-        let button = UIButton()
+    let submitButton: DimmableButton = {
+        let button = DimmableButton()
         button.backgroundColor = Colors.learnerPurple
         button.setTitle("Next", for: .normal)
         button.titleLabel?.font = Fonts.createLightSize(22)

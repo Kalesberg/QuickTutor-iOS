@@ -99,9 +99,6 @@ class Message : BaseViewController {
 	}
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		//temporary
-		hasPaymentMethod = UserDefaultData.localDataManager.hasPaymentMethod
-		hasStudentBio = UserDefaultData.localDataManager.hasBio
 		
 	}
 	

@@ -38,13 +38,7 @@ class TutorMyProfile : BaseViewController {
 	}
 	
 	var pageCount : Int {
-		var count = 0
-		tutor.images.forEach { (_,value) in
-			if value != "" {
-				count += 1
-			}
-		}
-		return count
+		return tutor.images.filter({$0.value != ""}).count
 	}
 	
 	override func viewDidLoad() {
@@ -67,14 +61,8 @@ class TutorMyProfile : BaseViewController {
 		configureScrollView()
 		configurePageControl()
 		setUpImages()
-		scrollToFirstRow()
 	}
-
-	func scrollToFirstRow() {
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
-	}
-
+	
 	private func configureDelegates() {
 		horizontalScrollView.delegate = self
 		
@@ -236,7 +224,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
 			
-			cell.tutorItem.label.text = "Has tutored \(tutor.numSessions!) sessions"
+			cell.tutorItem.label.text = "Has tutored \(tutor.tNumSessions!) sessions"
 			
 			if let languages = tutor.languages {
 				cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
@@ -362,5 +350,11 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			break
 		}
 		return UITableViewCell()
+	}
+}
+extension TutorMyProfile : UIScrollViewDelegate {
+	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+		let pageNumber = round(horizontalScrollView.contentOffset.x / horizontalScrollView.frame.size.width)
+		pageControl.currentPage = Int(pageNumber)
 	}
 }

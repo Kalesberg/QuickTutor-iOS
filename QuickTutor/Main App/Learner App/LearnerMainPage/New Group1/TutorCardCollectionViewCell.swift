@@ -34,7 +34,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     let reviewLabelContainer = UIView()
     
     let rateLabel : UILabel = {
-        
         let label = UILabel()
         
         label.textAlignment = .center
@@ -45,9 +44,9 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }()
     
     let rateLabelContainer = UIView()
-    
     let distanceLabel = UILabel()
-    let distanceExtraLabel : UILabel = {
+
+	let distanceExtraLabel : UILabel = {
         let label = UILabel()
         
         label.font = Fonts.createBoldSize(12)
@@ -268,7 +267,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 make.top.equalToSuperview().inset(10)
             }
             
-            cell.tutorItem.label.text = "Has tutored \(datasource?.numSessions! ?? 0) sessions"
+            cell.tutorItem.label.text = "Has tutored \(datasource?.tNumSessions! ?? 0) sessions"
             
             if let languages = datasource?.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"

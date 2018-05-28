@@ -119,7 +119,7 @@ class BankManager : BaseViewController {
 			if let bankList = bankList {
 				self.bankList = bankList.data
 			}
-			self.dismissKeyboard()
+			self.dismissOverlay()
 		})
 		
 		contentView.tableView.delegate = self
@@ -252,7 +252,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 						CurrentUser.shared.tutor.hasPayoutMethod = false
 					}
 				} else {
-					print("Oops soemthing went wrong.")
+					AlertController.genericErrorAlert(self, title: "Error Removing Bank", message: "Unable to remove bank.")
 				}
 				self.dismissOverlay()
 			}

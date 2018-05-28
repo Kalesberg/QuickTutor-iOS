@@ -151,7 +151,7 @@ class CloseAccountSubmission : BaseViewController {
 	}
 	
 	private func getTutorAccount(_ completion: @escaping ([String]) -> Void) {
-		FirebaseData.manager.getTutor(userId) { (tutor) in
+		FirebaseData.manager.getTutor(userId, isQuery: false) { (tutor) in
 			if let tutor = tutor {
 				CurrentUser.shared.tutor = tutor
 				

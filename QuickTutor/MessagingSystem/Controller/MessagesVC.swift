@@ -245,5 +245,7 @@ extension MessagesVC: CustomModalDelegate {
     func handleCancel(id: String) {
         Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
         cancelSessionModal?.dismiss()
+        guard let cell = mainCollectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? BaseSessionsContentCell else { return }
+        cell.fetchSessions()
     }
 }

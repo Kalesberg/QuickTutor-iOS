@@ -102,23 +102,23 @@ class ForgotPassword : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView == contentView.forgotPasswordButton) {
-			Auth.auth().sendPasswordReset(withEmail: CurrentUser.shared.learner.email, completion: { (error) in
-				if let error = error {
-					print(error.localizedDescription)
-				} else{
-					self.alertMessage()
-				}
-			})
+            Auth.auth().sendPasswordReset(withEmail: CurrentUser.shared.learner.email, completion: { (error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else{
+                    self.alertMessage()
+                }
+            })
         }
     }
-	private func alertMessage() {
-		let alertController = UIAlertController(title: "Check your e-mail", message: "We have sent a password reset form to:\n\(CurrentUser.shared.learner.email)", preferredStyle: .actionSheet)
+    private func alertMessage() {
+        let alertController = UIAlertController(title: "Check your e-mail", message: "We have sent a password reset form to:\n\(CurrentUser.shared.learner.email)", preferredStyle: .actionSheet)
 
-		let cancel = UIAlertAction(title: "Ok", style: .cancel) { (alert) in
-			alertController.dismiss(animated: true, completion: nil)
-		}
-	
-		alertController.addAction(cancel)
-		present(alertController, animated: true, completion: nil)
-	}
+        let cancel = UIAlertAction(title: "Ok", style: .cancel) { (alert) in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+    
+        alertController.addAction(cancel)
+        present(alertController, animated: true, completion: nil)
+    }
 }
