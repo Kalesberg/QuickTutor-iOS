@@ -36,7 +36,7 @@ class TutorConnectView : MainLayoutTwoButton {
         let textField = searchBar.value(forKey: "searchField") as? UITextField
         textField?.font = Fonts.createSize(14)
         textField?.textColor = .white
-		textField?.tintColor = Colors.learnerPurple
+        textField?.tintColor = Colors.learnerPurple
         textField?.adjustsFontSizeToFitWidth = true
         textField?.autocapitalizationType = .words
         textField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
@@ -238,14 +238,14 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     
     var datasource = [AWTutor]() {
         didSet {
-//			contentView.collectionView.backgroundView = (datasource.count == 0) ? TutorCardCollectionViewBackground() : nil
-			contentView.collectionView.reloadData()
+//            contentView.collectionView.backgroundView = (datasource.count == 0) ? TutorCardCollectionViewBackground() : nil
+            contentView.collectionView.reloadData()
         }
     }
     
     var filteredDatasource = [AWTutor]() {
         didSet {
-//			contentView.collectionView.backgroundView = (filteredDatasource.count == 0) ? TutorCardCollectionViewBackground() : nil
+//            contentView.collectionView.backgroundView = (filteredDatasource.count == 0) ? TutorCardCollectionViewBackground() : nil
             contentView.collectionView.reloadData()
         }
     }
@@ -258,24 +258,24 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     
     var subcategory : String! {
         didSet {
-			self.displayLoadingOverlay()
+            self.displayLoadingOverlay()
             QueryData.shared.queryAWTutorBySubcategory(subcategory: subcategory!) { (tutors) in
                 if let tutors = tutors {
-					self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
+                    self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
                 }
-				self.dismissOverlay()
+                self.dismissOverlay()
             }
         }
     }
     
     var subject : (String, String)! {
         didSet {
-			self.displayLoadingOverlay()
+            self.displayLoadingOverlay()
             QueryData.shared.queryAWTutorBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
                 if let tutors = tutors {
-					self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
+                    self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
                 }
-				self.dismissOverlay()
+                self.dismissOverlay()
             }
         }
     }
@@ -291,12 +291,12 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-		
-		let defaults = UserDefaults.standard
-		if defaults.bool(forKey: "showTutorCardTutorial1.0") {
-			displayTutorial()
-			defaults.set(false, forKey: "showTutorCardTutorial1.0")
-		}  
+        
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: "showTutorCardTutorial1.0") {
+            displayTutorial()
+            defaults.set(false, forKey: "showTutorCardTutorial1.0")
+        }  
     }
     
     override func viewDidLayoutSubviews() {
@@ -336,63 +336,63 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         })
     }
 
-	private func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
-		return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
-	}
-	
-	private func sortTutorsWithWeightedList(tutors: [AWTutor]) -> [AWTutor] {
-		guard tutors.count > 1 else { return tutors }
-		let avg = tutors.map({$0.tRating / 5}).average
-		return tutors.sorted {
-			return bayesianEstimate(C: avg, r: $0.tRating / 5, v: Double($0.tNumSessions), m: 1) > bayesianEstimate(C: avg, r: $1.tRating / 5, v: Double($1.tNumSessions), m: 1)
-		}
-	}
+    private func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
+        return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
+    }
+    
+    private func sortTutorsWithWeightedList(tutors: [AWTutor]) -> [AWTutor] {
+        guard tutors.count > 1 else { return tutors }
+        let avg = tutors.map({$0.tRating / 5}).average
+        return tutors.sorted {
+            return bayesianEstimate(C: avg, r: $0.tRating / 5, v: Double($0.tNumSessions), m: 1) > bayesianEstimate(C: avg, r: $1.tRating / 5, v: Double($1.tNumSessions), m: 1)
+        }
+    }
 
-	private func filterByPrice(priceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
-		if priceFilter == -1 || tutors.isEmpty {
-			return tutors
-		}
-		return tutors.filter { $0.price <= priceFilter }
-	}
-	private func filterByDistance(distanceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
-		if distanceFilter == -1 || tutors.isEmpty {
-			return tutors
-		}
-		guard let userLocation = location else { return tutors }
-		
-		return tutors.filter {
-			if let tutorLocation = $0.location?.location {
-				return (userLocation.distance(from: tutorLocation) * 0.00062137) <= Double(distanceFilter)
-			}
-			return false
-		}
-	}
-	private func filterBySessionType(searchTheWorld: Bool, tutors: [AWTutor]) -> [AWTutor] {
-		if searchTheWorld {
-			return tutors.filter { $0.preference == 1 || $0.preference == 3 }
-		}
-		return tutors.filter { $0.preference == 2 || $0.preference == 3 }
-	}
-	
+    private func filterByPrice(priceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
+        if priceFilter == -1 || tutors.isEmpty {
+            return tutors
+        }
+        return tutors.filter { $0.price <= priceFilter }
+    }
+    private func filterByDistance(distanceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
+        if distanceFilter == -1 || tutors.isEmpty {
+            return tutors
+        }
+        guard let userLocation = location else { return tutors }
+        
+        return tutors.filter {
+            if let tutorLocation = $0.location?.location {
+                return (userLocation.distance(from: tutorLocation) * 0.00062137) <= Double(distanceFilter)
+            }
+            return false
+        }
+    }
+    private func filterBySessionType(searchTheWorld: Bool, tutors: [AWTutor]) -> [AWTutor] {
+        if searchTheWorld {
+            return tutors.filter { $0.preference == 1 || $0.preference == 3 }
+        }
+        return tutors.filter { $0.preference == 2 || $0.preference == 3 }
+    }
+    
     func filterTutors() {
-		if filters.0 == -1 && filters.1 == -1 && filters.2 == false {
-			hasAppliedFilters = false
-			shouldFilterDatasource = false
-			return
-		}
-		hasAppliedFilters = true
-		shouldFilterDatasource = true
+        if filters.0 == -1 && filters.1 == -1 && filters.2 == false {
+            hasAppliedFilters = false
+            shouldFilterDatasource = false
+            return
+        }
+        hasAppliedFilters = true
+        shouldFilterDatasource = true
 
-		let filtered = filterBySessionType(searchTheWorld: filters.2, tutors: filterByDistance(distanceFilter: filters.0, tutors: filterByPrice(priceFilter: filters.1, tutors: datasource)))
-		
-		filteredDatasource = sortTutorsWithWeightedList(tutors: filtered)
+        let filtered = filterBySessionType(searchTheWorld: filters.2, tutors: filterByDistance(distanceFilter: filters.0, tutors: filterByPrice(priceFilter: filters.1, tutors: datasource)))
+        
+        filteredDatasource = sortTutorsWithWeightedList(tutors: filtered)
     }
     
     override func handleNavigation() {
         if touchStartView is NavbarButtonFilters {
             
             let next = LearnerFilters()
-			next.delegate = self
+            next.delegate = self
             if hasAppliedFilters {
                 next.distance = (filters.0 - 10 >= 0) ? filters.0 - 10 : 0
                 next.price = (filters.1 - 10 >= 0) ? filters.1 - 10 : 0
@@ -416,15 +416,15 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 }
 
 extension Array where Element: Numeric {
-	/// Returns the total sum of all elements in the array
-	var total: Element { return reduce(0, +) }
+    /// Returns the total sum of all elements in the array
+    var total: Element { return reduce(0, +) }
 }
 
 extension Array where Element: FloatingPoint {
-	/// Returns the average of all elements in the array
-	var average: Element {
-		return isEmpty ? 0 : total / Element(count)
-	}
+    /// Returns the average of all elements in the array
+    var average: Element {
+        return isEmpty ? 0 : total / Element(count)
+    }
 }
 
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {

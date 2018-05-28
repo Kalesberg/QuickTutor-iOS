@@ -14,7 +14,7 @@ class MainPageView : MainLayoutTwoButton {
     var sidebarButton  = NavbarButtonLines()
     var messagesButton = NavbarButtonMessages()
     var backgroundView = InteractableObject()
-	
+    
     override var leftButton: NavbarButton {
         get {
             return sidebarButton
@@ -40,13 +40,13 @@ class MainPageView : MainLayoutTwoButton {
         navbar.addSubview(messagesButton)
         
         insertSubview(sidebar, aboveSubview: navbar)
-		super.configureView()
+        super.configureView()
         
         backgroundView.backgroundColor = .black
         backgroundView.alpha = 0.0
         
         sidebar.alpha = 0.0
-	
+    
     }
     
     override func applyConstraints() {
@@ -107,35 +107,35 @@ class SearchBar: BaseView, Interactable {
 
 
 class MainPage : BaseViewController {
-	
+    
     override var contentView: MainPageView {
         return view as! MainPageView
     }
     override func loadView() {
         view = MainPageView()
     }
-	
-	var hasPaymentMethod : Bool!
-	var hasStudentBio : Bool!
-	
-	var parentPageViewController : PageViewController!
+    
+    var hasPaymentMethod : Bool!
+    var hasStudentBio : Bool!
+    
+    var parentPageViewController : PageViewController!
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
 
-	}
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         contentView.addGestureRecognizer(gestureRecognizer)
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		updateSideBar()
-	}
-	
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateSideBar()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -213,7 +213,7 @@ class MainPage : BaseViewController {
 }
 
 extension MainPage : PageObservation {
-	func getParentPageViewController(parentRef: PageViewController) {
-		parentPageViewController = parentRef
-	}
+    func getParentPageViewController(parentRef: PageViewController) {
+        parentPageViewController = parentRef
+    }
 }

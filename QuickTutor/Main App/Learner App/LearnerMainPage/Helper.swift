@@ -11,88 +11,88 @@ import UIKit
 import SnapKit
 
 class SectionHeader : BaseView {
-	
-	var category = UILabel()
-	
-	override func configureView() {
-		addSubview(category)
-		super.configureView()
-		
-		category.textAlignment = .left
-		category.font = Fonts.createBoldSize(20)
-		category.textColor = .white
-		category.adjustsFontSizeToFitWidth = true
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		
-		category.snp.makeConstraints { (make) in
-			make.left.equalToSuperview().inset(15)
-			make.centerY.equalToSuperview().inset(5)
-			make.height.equalToSuperview()
-			make.width.equalToSuperview()
-		}
-	}
+    
+    var category = UILabel()
+    
+    override func configureView() {
+        addSubview(category)
+        super.configureView()
+        
+        category.textAlignment = .left
+        category.font = Fonts.createBoldSize(20)
+        category.textColor = .white
+        category.adjustsFontSizeToFitWidth = true
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        
+        category.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(15)
+            make.centerY.equalToSuperview().inset(5)
+            make.height.equalToSuperview()
+            make.width.equalToSuperview()
+        }
+    }
 }
 
 class FeaturedTutorView : BaseView {
-	
-	let imageView  : UIImageView = {
-		let imageView = UIImageView()
-		
-		imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
-		imageView.scaleImage()
-		imageView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 3, height: 2), radius: 5)
-		
-		return imageView
-	}()
-	
-	let subject : UILabel = {
-		let label = UILabel()
-		
-		label.textAlignment = .left
-		label.textColor = .white
-		label.font = Fonts.createSize(17)
-		label.adjustsFontSizeToFitWidth = true
-		
-		return label
-	}()
-	
-	let region : UILabel = {
-		let label = UILabel()
-		
-		label.textAlignment = .left
-		label.textColor = Colors.grayText
-		label.font = Fonts.createSize(13)
-		label.adjustsFontSizeToFitWidth = true
-		
-		return label
-	}()
-	
-	let namePrice : UILabel = {
-		let label = UILabel()
-		
-		label.textAlignment = .left
-		label.textColor = Colors.grayText
-		label.font = Fonts.createSize(13)
-		label.adjustsFontSizeToFitWidth = true
-		
-		return label
-	}()
-	
-	let ratingLabel : UILabel = {
+    
+    let imageView  : UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+        imageView.scaleImage()
+        imageView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 3, height: 2), radius: 5)
+        
+        return imageView
+    }()
+    
+    let subject : UILabel = {
         let label = UILabel()
-		
-		label.textAlignment = .left
-		label.textColor = Colors.yellow
-		label.font = Fonts.createSize(14)
-		label.adjustsFontSizeToFitWidth = true
+        
+        label.textAlignment = .left
+        label.textColor = .white
+        label.font = Fonts.createSize(17)
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
+    
+    let region : UILabel = {
+        let label = UILabel()
+        
+        label.textAlignment = .left
+        label.textColor = Colors.grayText
+        label.font = Fonts.createSize(13)
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
+    
+    let namePrice : UILabel = {
+        let label = UILabel()
+        
+        label.textAlignment = .left
+        label.textColor = Colors.grayText
+        label.font = Fonts.createSize(13)
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
+    
+    let ratingLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textAlignment = .left
+        label.textColor = Colors.yellow
+        label.font = Fonts.createSize(14)
+        label.adjustsFontSizeToFitWidth = true
         label.text = "4.4"
         
-		return label
-	}()
+        return label
+    }()
     
     let starImage : UIImageView = {
         let view = UIImageView()
@@ -102,43 +102,43 @@ class FeaturedTutorView : BaseView {
         
         return view
     }()
-	
-	override func configureView() {
-		addSubview(imageView)
-		addSubview(subject)
-		addSubview(region)
-		addSubview(namePrice)
-		addSubview(ratingLabel)
-        addSubview(starImage)
-		super.configureView()
-		
-		backgroundColor = Colors.backgroundDark
-		
-		applyConstraints()
-	}
     
-	override func applyConstraints() {
-		imageView.snp.makeConstraints { (make) in
-			make.top.equalToSuperview().inset(14)
-			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.47)
-			make.width.equalToSuperview().multipliedBy(0.77)
-		}
-		subject.snp.makeConstraints { (make) in
-			make.top.equalTo(imageView.snp.bottom).inset(-2)
-			make.centerX.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.92)
-		}
-		region.snp.makeConstraints { (make) in
-			make.top.equalTo(subject.snp.bottom).inset(-2)
-			make.centerX.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.92)
-		}
-		namePrice.snp.makeConstraints { (make) in
-			make.top.equalTo(region.snp.bottom)
-			make.centerX.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.92)
-		}
+    override func configureView() {
+        addSubview(imageView)
+        addSubview(subject)
+        addSubview(region)
+        addSubview(namePrice)
+        addSubview(ratingLabel)
+        addSubview(starImage)
+        super.configureView()
+        
+        backgroundColor = Colors.backgroundDark
+        
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        imageView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().inset(14)
+            make.centerX.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.47)
+            make.width.equalToSuperview().multipliedBy(0.77)
+        }
+        subject.snp.makeConstraints { (make) in
+            make.top.equalTo(imageView.snp.bottom).inset(-2)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.92)
+        }
+        region.snp.makeConstraints { (make) in
+            make.top.equalTo(subject.snp.bottom).inset(-2)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.92)
+        }
+        namePrice.snp.makeConstraints { (make) in
+            make.top.equalTo(region.snp.bottom)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.92)
+        }
         starImage.snp.makeConstraints { (make) in
             make.left.equalTo(namePrice)
             make.top.equalTo(namePrice.snp.bottom).inset(-2)
@@ -148,148 +148,148 @@ class FeaturedTutorView : BaseView {
             make.left.equalTo(starImage.snp.right).inset(-3)
             make.centerY.equalTo(starImage).inset(1)
         }
-	}
+    }
 }
 struct BadWords {
-	static func loadBadWords() -> [String] {
-		do {
-			guard let file = Bundle.main.url(forResource: "badwords", withExtension: "json") else { return [] }
-			let data = try Data(contentsOf: file)
-			let json = try JSONSerialization.jsonObject(with: data, options: [])
-			
-			guard let object = json as? [String : [String]] else { return [] }
-			guard let words = object["badwords"] else { return [] }
-			
-			return words
-		} catch {
-			return []
-		}
-	}
+    static func loadBadWords() -> [String] {
+        do {
+            guard let file = Bundle.main.url(forResource: "badwords", withExtension: "json") else { return [] }
+            let data = try Data(contentsOf: file)
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            
+            guard let object = json as? [String : [String]] else { return [] }
+            guard let words = object["badwords"] else { return [] }
+            
+            return words
+        } catch {
+            return []
+        }
+    }
 }
 
 struct SubjectStore {
 
-	static func loadTotalSubjectList() -> [(String, String)]? {
-		
-		var totalSubjects : [(String, String)] = []
-		
-		for i in 0..<category.count {
-			do {
-				guard let file = Bundle.main.url(forResource: category[i].subcategory.fileToRead, withExtension: "json") else {
-					continue }
-				let data = try Data(contentsOf: file)
-				let json = try JSONSerialization.jsonObject(with: data, options: [])
-				
-				for key in category[i].subcategory.subcategories {
-					guard let object = json as? [String : [String]] else { continue }
-					guard let subjectArray = object[key] else { continue }
-			
-					for subject in subjectArray {
-						totalSubjects.append((subject, key))
-					}
-				}
-			} catch {
-				return nil
-			}
-		}
-		return totalSubjects
-	}
-	
-	static func readSubcategory(resource: String, subjectString: String) -> [(String, String)]? {
-		
-		var subjects : [(String, String)] = []
-		
-		do {
-			guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }
-			
-			let data = try Data(contentsOf: file)
-			
-			let json = try JSONSerialization.jsonObject(with: data, options: [])
-			
-			guard let object = json as? [String : [String]] else { return nil }
-			
-			guard let subjectArray = object[subjectString] else { return nil }
-			
-			for subject in subjectArray {
-				subjects.append((subject, subjectString))
-			}
-		} catch {
-			return nil
-		}
-		return subjects
-	}
-	
-	static func readCategory(resource: String) -> [(String, String)]? {
-		
-		var subjects : [(String, String)] = []
+    static func loadTotalSubjectList() -> [(String, String)]? {
+        
+        var totalSubjects : [(String, String)] = []
+        
+        for i in 0..<category.count {
+            do {
+                guard let file = Bundle.main.url(forResource: category[i].subcategory.fileToRead, withExtension: "json") else {
+                    continue }
+                let data = try Data(contentsOf: file)
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                
+                for key in category[i].subcategory.subcategories {
+                    guard let object = json as? [String : [String]] else { continue }
+                    guard let subjectArray = object[key] else { continue }
+            
+                    for subject in subjectArray {
+                        totalSubjects.append((subject, key))
+                    }
+                }
+            } catch {
+                return nil
+            }
+        }
+        return totalSubjects
+    }
+    
+    static func readSubcategory(resource: String, subjectString: String) -> [(String, String)]? {
+        
+        var subjects : [(String, String)] = []
+        
+        do {
+            guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }
+            
+            let data = try Data(contentsOf: file)
+            
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            
+            guard let object = json as? [String : [String]] else { return nil }
+            
+            guard let subjectArray = object[subjectString] else { return nil }
+            
+            for subject in subjectArray {
+                subjects.append((subject, subjectString))
+            }
+        } catch {
+            return nil
+        }
+        return subjects
+    }
+    
+    static func readCategory(resource: String) -> [(String, String)]? {
+        
+        var subjects : [(String, String)] = []
 
-		do {
-			guard let file =  Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return [] }
-			
-			let data = try Data(contentsOf: file)
-			
-			let json = try JSONSerialization.jsonObject(with: data, options: [])
-			
-			for key in Category.category(for: resource)!.subcategory.subcategories {
-				
-				guard let object = json as? [String : [String]] else { continue }
-				
-				guard let subjectArray = object[key] else { continue }
-				
-				for subject in subjectArray {
-					subjects.append((subject, resource))
-				}
-			}
-		} catch {
-			return []
-		}
-		return subjects
-	}
-	
-	static func findSubcategoryImage(subcategory: String) -> (String, UIImage) {
-		
-		for i in 0..<category.count {
-			for key in category[i].subcategory.subcategories {
-				if key.lowercased() == subcategory {
+        do {
+            guard let file =  Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return [] }
+            
+            let data = try Data(contentsOf: file)
+            
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            
+            for key in Category.category(for: resource)!.subcategory.subcategories {
+                
+                guard let object = json as? [String : [String]] else { continue }
+                
+                guard let subjectArray = object[key] else { continue }
+                
+                for subject in subjectArray {
+                    subjects.append((subject, resource))
+                }
+            }
+        } catch {
+            return []
+        }
+        return subjects
+    }
+    
+    static func findSubcategoryImage(subcategory: String) -> (String, UIImage) {
+        
+        for i in 0..<category.count {
+            for key in category[i].subcategory.subcategories {
+                if key.lowercased() == subcategory {
 
-					let subcategories = category[i].subcategory.subcategories.map { $0.lowercased()}
-					
-					let indexOfImage = subcategories.index(of: key.lowercased())
-					let image = category[i].subcategory.icon[indexOfImage!]
-					
-					let indexOfSubcategory = subcategories.index(of: key.lowercased())
-					let subcategory = category[i].subcategory.subcategories[indexOfSubcategory!]
-					
-					return (subcategory, image)
-				}
-			}
-		}
-		return ("No top subject.", #imageLiteral(resourceName: "defaultProfileImage"))
-	}
-	
-	static func findSubCategory(resource: String, subject: String) -> String? {
-		do {
-			guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }
-			
-			let data = try Data(contentsOf: file)
-			
-			let json = try JSONSerialization.jsonObject(with: data, options: [])
-			
-			for key in Category.category(for: resource)!.subcategory.subcategories {
-				
-				guard let object = json as? [String : [String]] else { continue }
-				
-				guard let subjectArray = object[key] else { continue }
-				
-				if subjectArray.contains(subject) {
-					return key
-				}
-			}
-		} catch {
-			return nil
-		}
-		return nil
-	}
+                    let subcategories = category[i].subcategory.subcategories.map { $0.lowercased()}
+                    
+                    let indexOfImage = subcategories.index(of: key.lowercased())
+                    let image = category[i].subcategory.icon[indexOfImage!]
+                    
+                    let indexOfSubcategory = subcategories.index(of: key.lowercased())
+                    let subcategory = category[i].subcategory.subcategories[indexOfSubcategory!]
+                    
+                    return (subcategory, image)
+                }
+            }
+        }
+        return ("No top subject.", #imageLiteral(resourceName: "defaultProfileImage"))
+    }
+    
+    static func findSubCategory(resource: String, subject: String) -> String? {
+        do {
+            guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }
+            
+            let data = try Data(contentsOf: file)
+            
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            
+            for key in Category.category(for: resource)!.subcategory.subcategories {
+                
+                guard let object = json as? [String : [String]] else { continue }
+                
+                guard let subjectArray = object[key] else { continue }
+                
+                if subjectArray.contains(subject) {
+                    return key
+                }
+            }
+        } catch {
+            return nil
+        }
+        return nil
+    }
 }
 
 enum Category {
@@ -487,18 +487,18 @@ enum Category {
 }
 
 extension Category {
-	
-	struct MainPageData {
-		let displayName : String
-		let image : UIImage
-		let categoryInfo : String
-	}
-	
-	struct Subcategory {
-		let subcategories : [String]
-		let icon : [UIImage]
-		let phrase : String
-		let displayName : String
-		let fileToRead : String
-	}
+    
+    struct MainPageData {
+        let displayName : String
+        let image : UIImage
+        let categoryInfo : String
+    }
+    
+    struct Subcategory {
+        let subcategories : [String]
+        let icon : [UIImage]
+        let phrase : String
+        let displayName : String
+        let fileToRead : String
+    }
 }
