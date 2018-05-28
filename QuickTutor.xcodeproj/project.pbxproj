@@ -78,6 +78,8 @@
 		846252F320637FA7001DD330 /* BankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F220637FA7001DD330 /* BankManager.swift */; };
 		846252F720637FC5001DD330 /* TutorHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F620637FC5001DD330 /* TutorHelp.swift */; };
 		846252FB206381BD001DD330 /* TaxInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252FA206381BD001DD330 /* TaxInformation.swift */; };
+		8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465E66520BAEA7600F7D72C /* LearnerModel.swift */; };
+		8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465E66720BAEAA800F7D72C /* TutorModel.swift */; };
 		84681FA0204B63DC00F45DFC /* schools.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84681F9F204B63DC00F45DFC /* schools.txt */; };
 		846D9B4E2069E57000302773 /* CategorySelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */; };
 		846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */; };
@@ -398,6 +400,8 @@
 		846252F620637FC5001DD330 /* TutorHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHelp.swift; sourceTree = "<group>"; };
 		846252FA206381BD001DD330 /* TaxInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxInformation.swift; sourceTree = "<group>"; };
 		846466992096BBFD006ABA98 /* TutorAddBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddBank.swift; sourceTree = "<group>"; };
+		8465E66520BAEA7600F7D72C /* LearnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerModel.swift; sourceTree = "<group>"; };
+		8465E66720BAEAA800F7D72C /* TutorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorModel.swift; sourceTree = "<group>"; };
 		84681F9F204B63DC00F45DFC /* schools.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schools.txt; sourceTree = "<group>"; };
 		846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchCollectionViewLayout.swift; sourceTree = "<group>"; };
 		846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -715,6 +719,7 @@
 		842394051FF4C7CF00827C7D /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
+				8465E66920BAEFCA00F7D72C /* Model */,
 				842394061FF4C7FF00827C7D /* User.swift */,
 				84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */,
 				84CCB17D2082CAE80056466B /* TutorSignIn.swift */,
@@ -910,6 +915,15 @@
 				846252FA206381BD001DD330 /* TaxInformation.swift */,
 			);
 			path = "Tax Information";
+			sourceTree = "<group>";
+		};
+		8465E66920BAEFCA00F7D72C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8465E66520BAEA7600F7D72C /* LearnerModel.swift */,
+				8465E66720BAEAA800F7D72C /* TutorModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		846D9B422069E3A500302773 /* CustomLayouts */ = {
@@ -1680,6 +1694,7 @@
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
+				8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */,
 				CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */,
 				CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */,
 				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
@@ -1831,6 +1846,7 @@
 				843ECCC2207D8D4400C0F622 /* TutorMainTips.swift in Sources */,
 				CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */,
 				CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */,
+				8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */,
 				CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */,
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,

@@ -287,7 +287,7 @@ class LearnerMainPage : MainPage {
     }
     private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
         self.displayLoadingOverlay()
-        FirebaseData.manager.getTutor(learner.uid) { (tutor) in
+		FirebaseData.manager.getTutor(learner.uid, isQuery: false) { (tutor) in
             if let tutor = tutor {
                 CurrentUser.shared.tutor = tutor
                 Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in

@@ -867,13 +867,16 @@ class TutorMainPage : MainPage {
         } else if (touchStartView == contentView.viewTrendingButton) {
             navigationController?.pushViewController(TrendingCategories(), animated: true)
         } else if (touchStartView == contentView.usernameItem) {
-			let text = "Go checkout QuickTutor!"
-			guard let webUrl = URL(string:"https://QuickTutor.com") else { return }
-			let shareAll : [Any] = [text, webUrl]
-			let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
-			activityViewController.popoverPresentationController?.sourceView = self.view
-			self.present(activityViewController, animated: true, completion: nil)
-
+			
+			DispatchQueue.main.async {
+				let text = "Go checkout QuickTutor!"
+				guard let webUrl = URL(string:"https://QuickTutor.com") else { return }
+				let shareAll : [Any] = [text, webUrl]
+				let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+				activityViewController.popoverPresentationController?.sourceView = self.view
+				self.present(activityViewController, animated: true, completion: nil)
+			}
+			
 //            contentView.backgroundView.alpha = 0.65
 //            contentView.xButton.isHidden = false
 //            contentView.leftButton.isHidden = true

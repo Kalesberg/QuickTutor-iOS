@@ -115,7 +115,7 @@ class QueryData {
 					tutors[key.key] = []
 					for uid in key.value {
 						group.enter()
-						FirebaseData.manager.getTutor(uid) { (tutor) in
+						FirebaseData.manager.getTutor(uid, isQuery: true) { (tutor) in
 							if let tutor = tutor {
 								tutors[key.key]!.append(tutor)
 							}
@@ -163,7 +163,7 @@ class QueryData {
 			for snap in snapshot.children {
 				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
 				group.enter()
-				FirebaseData.manager.getTutor(child.key) { (tutor) in
+				FirebaseData.manager.getTutor(child.key, isQuery: true) { (tutor) in
 					if let tutor = tutor {
 						tutors.append(tutor)
 					}
@@ -188,7 +188,7 @@ class QueryData {
 				guard let child = snap as? DataSnapshot,child.key != CurrentUser.shared.learner.uid  else { continue }
 				
 				group.enter()
-				FirebaseData.manager.getTutor(child.key, { (tutor) in
+				FirebaseData.manager.getTutor(child.key, isQuery: true, { (tutor) in
 					if let tutor = tutor {
 						tutors.append(tutor)
 					}
@@ -213,7 +213,7 @@ class QueryData {
 				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
 				
 				group.enter()
-				FirebaseData.manager.getTutor(child.key, { (tutor) in
+				FirebaseData.manager.getTutor(child.key, isQuery: true, { (tutor) in
 					if let tutor = tutor {
 						tutors.append(tutor)
 					}

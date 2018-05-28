@@ -19,142 +19,142 @@ protocol SelectedSubcategory {
 }
 
 class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
-	
-	var keyboardComponent = ViewComponent()
-	
-	let headerView = SectionHeader()
-	
-	let nextButton = TutorPreferencesNextButton()
-	let errorLabel : UILabel = {
-		let label = UILabel()
-		
-		label.font = Fonts.createItalicSize(17)
-		label.textColor = .red
-		label.isHidden = true
-		label.textAlignment = .center
-		
-		return label
-	}()
-	
-	let noSelectedItemsLabel : UILabel = {
-		let label = UILabel()
-		
-		label.textColor = .white
-		label.textAlignment = .center
-		label.font = Fonts.createSize(16)
-		label.adjustsFontSizeToFitWidth = true
-		label.text = "Add subjects you would like to teach"
-		
-		return label
-	}()
-	
-	var searchTextField : UITextField!
+    
+    var keyboardComponent = ViewComponent()
+    
+    let headerView = SectionHeader()
+    
+    let nextButton = TutorPreferencesNextButton()
+    let errorLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createItalicSize(17)
+        label.textColor = .red
+        label.isHidden = true
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    let noSelectedItemsLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = Fonts.createSize(16)
+        label.adjustsFontSizeToFitWidth = true
+        label.text = "Add subjects you would like to teach"
+        
+        return label
+    }()
+    
+    var searchTextField : UITextField!
 
-	let searchBar : UISearchBar = {
-		let searchBar = UISearchBar()
-		
-		searchBar.sizeToFit()
-		searchBar.searchBarStyle = .minimal
-		searchBar.backgroundImage = UIImage(color: UIColor.clear)
-	
-		return searchBar
-	}()
-	
-	let categoryCollectionView : UICollectionView = {
-		let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-		let layout = UICollectionViewFlowLayout()
-		
-		layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-		layout.scrollDirection = .horizontal
-		layout.minimumInteritemSpacing = 0.0
-		
-		collectionView.backgroundColor = Colors.backgroundDark
-		collectionView.collectionViewLayout = layout
-		collectionView.backgroundColor = .clear
-		collectionView.showsVerticalScrollIndicator = false
-		collectionView.showsHorizontalScrollIndicator = false
-		collectionView.isPagingEnabled = true
-		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-		
-		collectionView.tag = 0
-		
-		return collectionView
-	}()
-	
-	let pickedCollectionView : UICollectionView = {
-		let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-		let layout = UICollectionViewFlowLayout()
-		
-		layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-		layout.scrollDirection = .horizontal
-		layout.minimumInteritemSpacing = 5.0
-		layout.minimumLineSpacing = 5.0
-		layout.itemSize.width = 40
-		
-		collectionView.collectionViewLayout = layout
-		collectionView.backgroundColor = .clear
-		collectionView.showsVerticalScrollIndicator = false
-		collectionView.showsHorizontalScrollIndicator = false
-		collectionView.tag = 1
-		
-		return collectionView
-	}()
+    let searchBar : UISearchBar = {
+        let searchBar = UISearchBar()
+        
+        searchBar.sizeToFit()
+        searchBar.searchBarStyle = .minimal
+        searchBar.backgroundImage = UIImage(color: UIColor.clear)
+    
+        return searchBar
+    }()
+    
+    let categoryCollectionView : UICollectionView = {
+        let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        let layout = UICollectionViewFlowLayout()
+        
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0.0
+        
+        collectionView.backgroundColor = Colors.backgroundDark
+        collectionView.collectionViewLayout = layout
+        collectionView.backgroundColor = .clear
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
+        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+        
+        collectionView.tag = 0
+        
+        return collectionView
+    }()
+    
+    let pickedCollectionView : UICollectionView = {
+        let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        let layout = UICollectionViewFlowLayout()
+        
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 5.0
+        layout.minimumLineSpacing = 5.0
+        layout.itemSize.width = 40
+        
+        collectionView.collectionViewLayout = layout
+        collectionView.backgroundColor = .clear
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.tag = 1
+        
+        return collectionView
+    }()
 
-	let tableView : UITableView = {
-		let tblView = UITableView.init(frame: .zero, style: .grouped)
-		
-		tblView.rowHeight = 55
-		tblView.separatorInset.left = 0
-		tblView.separatorStyle = .none
-		tblView.showsVerticalScrollIndicator = false
-		tblView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-		tblView.allowsMultipleSelection = true
-		tblView.alpha = 0.0
-		
-		return tblView
-	}()
-	
-	var backButton = NavbarButtonXLight()
-	var cancelButton = NavbarButtonDone()
+    let tableView : UITableView = {
+        let tblView = UITableView.init(frame: .zero, style: .grouped)
+        
+        tblView.rowHeight = 55
+        tblView.separatorInset.left = 0
+        tblView.separatorStyle = .none
+        tblView.showsVerticalScrollIndicator = false
+        tblView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+        tblView.allowsMultipleSelection = true
+        tblView.alpha = 0.0
+        
+        return tblView
+    }()
+    
+    var backButton = NavbarButtonXLight()
+    var cancelButton = NavbarButtonDone()
 
-	override var leftButton : NavbarButton {
-		get {
-			return backButton
-		} set {
-			backButton = newValue as! NavbarButtonXLight
-		}
-	}
-	override var rightButton: NavbarButton  {
-		get {
-			return cancelButton
-		} set {
-			cancelButton = newValue as! NavbarButtonDone
-		}
-	}
+    override var leftButton : NavbarButton {
+        get {
+            return backButton
+        } set {
+            backButton = newValue as! NavbarButtonXLight
+        }
+    }
+    override var rightButton: NavbarButton  {
+        get {
+            return cancelButton
+        } set {
+            cancelButton = newValue as! NavbarButtonDone
+        }
+    }
 
-	
-	override func configureView() {
-		navbar.addSubview(searchBar)
-		addSubview(noSelectedItemsLabel)
-		addSubview(categoryCollectionView)
-		addSubview(pickedCollectionView)
-		addSubview(tableView)
-		addSubview(nextButton)
-		addSubview(keyboardView)
-		addSubview(errorLabel)
-		super.configureView()
-		
-		searchTextField = searchBar.value(forKey: "searchField") as? UITextField
-		
-		searchTextField?.font = Fonts.createSize(16)
-		searchTextField?.textColor = .white
-		searchTextField?.adjustsFontSizeToFitWidth = true
-		searchTextField?.autocapitalizationType = .words
-		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Search for anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-		searchTextField?.keyboardAppearance = .dark
-		
-		backButton.image.image = #imageLiteral(resourceName: "backButton")
-		headerView.backgroundColor = Colors.backgroundDark
+    
+    override func configureView() {
+        navbar.addSubview(searchBar)
+        addSubview(noSelectedItemsLabel)
+        addSubview(categoryCollectionView)
+        addSubview(pickedCollectionView)
+        addSubview(tableView)
+        addSubview(nextButton)
+        addSubview(keyboardView)
+        addSubview(errorLabel)
+        super.configureView()
+        
+        searchTextField = searchBar.value(forKey: "searchField") as? UITextField
+        
+        searchTextField?.font = Fonts.createSize(16)
+        searchTextField?.textColor = .white
+        searchTextField?.adjustsFontSizeToFitWidth = true
+        searchTextField?.autocapitalizationType = .words
+        searchTextField?.attributedPlaceholder = NSAttributedString(string: "Search for anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        searchTextField?.keyboardAppearance = .dark
+        
+        backButton.image.image = #imageLiteral(resourceName: "backButton")
+        headerView.backgroundColor = Colors.backgroundDark
         cancelButton.label.label.text = "Add"
 
         applyConstraints()
@@ -201,7 +201,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-		
+        
         nextButton.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
@@ -212,13 +212,13 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
                 make.height.equalTo(60)
             }
         }
-		errorLabel.snp.makeConstraints { (make) in
-			make.bottom.equalTo(nextButton.snp.top)
-			make.height.equalTo(45)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-		}
-		
+        errorLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(nextButton.snp.top)
+            make.height.equalTo(45)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        
     }
     
     override func layoutSubviews() {
@@ -238,22 +238,22 @@ class TutorAddSubjects : BaseViewController {
     override func loadView() {
         view = TutorAddSubjectsView()
     }
-	
-	var categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
-	
+    
+    var categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+    
     var shouldUpdateSearchResults = false
     
-	var didSelectCategory = false {
-		didSet {
-			if didSelectCategory == false {
-				contentView.headerView.category.text = ""
-			}
-		}
-	}
+    var didSelectCategory = false {
+        didSet {
+            if didSelectCategory == false {
+                contentView.headerView.category.text = ""
+            }
+        }
+    }
 
     var selectedSubjects : [String] = [] {
         didSet {
-			contentView.errorLabel.isHidden = !(selectedSubjects.count == 0)
+            contentView.errorLabel.isHidden = !(selectedSubjects.count == 0)
 
             contentView.noSelectedItemsLabel.isHidden = !selectedSubjects.isEmpty
             contentView.categoryCollectionView.reloadData()
@@ -272,14 +272,14 @@ class TutorAddSubjects : BaseViewController {
     var partialSubjects : [(String, String)] = []
     var allSubjects : [(String, String)] = []
     
-	var tableViewIsActive : Bool = false {
-		didSet {
-			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "xbuttonlight") : #imageLiteral(resourceName: "backButton")
-			contentView.nextButton.isHidden = tableViewIsActive
-			contentView.cancelButton.isHidden = !tableViewIsActive
-			shouldUpdateSearchResults = tableViewIsActive
-		}
-	}
+    var tableViewIsActive : Bool = false {
+        didSet {
+            contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "xbuttonlight") : #imageLiteral(resourceName: "backButton")
+            contentView.nextButton.isHidden = tableViewIsActive
+            contentView.cancelButton.isHidden = !tableViewIsActive
+            shouldUpdateSearchResults = tableViewIsActive
+        }
+    }
     
     var selectedCategory : Int = 6 {
         didSet {
@@ -366,8 +366,8 @@ class TutorAddSubjects : BaseViewController {
         contentView.searchBar.delegate = self
     }
     
-	private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {
-		tableViewIsActive = bool
+    private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {
+        tableViewIsActive = bool
         UIView.animate(withDuration: 0.25, animations: {
             self.contentView.categoryCollectionView.alpha = bool ? 0.0 : 1.0
             return
@@ -375,7 +375,7 @@ class TutorAddSubjects : BaseViewController {
         
         UIView.animate(withDuration: 0.25, animations: {
             self.contentView.tableView.alpha = bool ? 1.0 : 0.0
-			completion()
+            completion()
             return
         })
     }
@@ -398,18 +398,18 @@ class TutorAddSubjects : BaseViewController {
             self.contentView.tableView.reloadData()
         }
     }
-	private func maxSubjectAlert() {
-		let alertController = UIAlertController(title: "Too Many Subjects!", message: "We currently only allow tutors to select 20 different subjects. You can also edit these later on.", preferredStyle: .alert)
-		
-		let okButton = UIAlertAction(title: "Ok", style: .destructive) { (_) in
-			//alertController.dismiss(animated: true, completion: nil)
-		}
-		let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
-		
-		alertController.addAction(okButton)
-		alertController.addAction(cancelButton)
-		self.present(alertController, animated: true, completion: nil)
-	}
+    private func maxSubjectAlert() {
+        let alertController = UIAlertController(title: "Too Many Subjects!", message: "We currently only allow tutors to select 20 different subjects. You can also edit these later on.", preferredStyle: .alert)
+        
+        let okButton = UIAlertAction(title: "Ok", style: .destructive) { (_) in
+            //alertController.dismiss(animated: true, completion: nil)
+        }
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        
+        alertController.addAction(okButton)
+        alertController.addAction(cancelButton)
+        self.present(alertController, animated: true, completion: nil)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -428,54 +428,54 @@ class TutorAddSubjects : BaseViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
-	
-	private func scrollToTop() {
-		contentView.tableView.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-		automaticScroll = false
-	}
-	
+    
+    private func scrollToTop() {
+        contentView.tableView.reloadData()
+        let indexPath = IndexPath(row: 0, section: 0)
+        contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        automaticScroll = false
+    }
+    
     override func handleNavigation() {
         if touchStartView is NavbarButtonXLight {
-				tableViewIsActive ? tableView(shouldDisplay: false) {
-					self.didSelectCategory = false
-					self.contentView.searchBar.text = ""
-					} : backButtonAlert()
+                tableViewIsActive ? tableView(shouldDisplay: false) {
+                    self.didSelectCategory = false
+                    self.contentView.searchBar.text = ""
+                    } : backButtonAlert()
 
         } else if touchStartView is NavbarButtonDone {
-			tableView(shouldDisplay: false) {
-				self.didSelectCategory = false
-				self.contentView.searchBar.text = ""
-			}
+            tableView(shouldDisplay: false) {
+                self.didSelectCategory = false
+                self.contentView.searchBar.text = ""
+            }
         } else if touchStartView is TutorPreferencesNextButton {
-			if selectedSubjects.count > 0 {
-            	TutorRegistration.subjects = selected
-            	navigationController?.pushViewController(TutorPreferences(), animated: true)
-			} else {
-				contentView.errorLabel.text = "Must choose atleast 1 subject."
-				contentView.errorLabel.isHidden = false
-			}
+            if selectedSubjects.count > 0 {
+                TutorRegistration.subjects = selected
+                navigationController?.pushViewController(TutorPreferences(), animated: true)
+            } else {
+                contentView.errorLabel.text = "Must choose atleast 1 subject."
+                contentView.errorLabel.isHidden = false
+            }
         }
     }
 }
 extension TutorAddSubjects : SelectedSubcategory {
-	
-	func didSelectSubcategory(resource: String, subject: String, index: Int) {
-		
-		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
-			self.partialSubjects = subjects
-			self.filteredSubjects = self.partialSubjects
-			self.contentView.headerView.category.text = subject
-		}
-		
-		tableView(shouldDisplay: true) {
-			self.didSelectCategory = true
-			self.contentView.searchBar.becomeFirstResponder()
-			self.scrollToTop()
-			self.contentView.tableView.reloadData()
-		}
-	}
+    
+    func didSelectSubcategory(resource: String, subject: String, index: Int) {
+        
+        if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
+            self.partialSubjects = subjects
+            self.filteredSubjects = self.partialSubjects
+            self.contentView.headerView.category.text = subject
+        }
+        
+        tableView(shouldDisplay: true) {
+            self.didSelectCategory = true
+            self.contentView.searchBar.becomeFirstResponder()
+            self.scrollToTop()
+            self.contentView.tableView.reloadData()
+        }
+    }
 }
 
 extension TutorAddSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -564,9 +564,9 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
             cell.subcategory.text = filteredSubjects[indexPath.section].1
             cell.selectedIcon.isSelected = selectedSubjects.contains(filteredSubjects[indexPath.section].0)
         } else {
-			cell.subject.text = allSubjects[indexPath.section].0
+            cell.subject.text = allSubjects[indexPath.section].0
             cell.subcategory.text = allSubjects[indexPath.section].1
-			cell.selectedIcon.isSelected = selectedSubjects.contains(allSubjects[indexPath.section].0)
+            cell.selectedIcon.isSelected = selectedSubjects.contains(allSubjects[indexPath.section].0)
         }
         return cell
     }
@@ -599,15 +599,15 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
     }
     
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
+        guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
 
         if selectedSubjects.count >= 20 && !cell.selectedIcon.isSelected  {
-			maxSubjectAlert()
+            maxSubjectAlert()
             tableView.deselectRow(at: indexPath, animated: true)
             return
         }
         
-		
+        
         if selectedSubjects.contains(cell.subject.text!) {
             
             cell.selectedIcon.isSelected = false
@@ -648,10 +648,10 @@ extension TutorAddSubjects : UISearchBarDelegate {
         
         if searchBar.text!.count < 1 {
             if didSelectCategory {
-				contentView.tableView.reloadData()
+                contentView.tableView.reloadData()
             }
         } else {
-			tableView(shouldDisplay: true) {}
+            tableView(shouldDisplay: true) {}
         }
     }
     
@@ -659,11 +659,11 @@ extension TutorAddSubjects : UISearchBarDelegate {
         automaticScroll = true
         
         if searchText == ""  {
-			tableView(shouldDisplay: false) {
-				self.didSelectCategory = false
-				self.contentView.searchBar.text = ""
-				self.automaticScroll = false
-			}
+            tableView(shouldDisplay: false) {
+                self.didSelectCategory = false
+                self.contentView.searchBar.text = ""
+                self.automaticScroll = false
+            }
             return
         }
 
@@ -673,10 +673,10 @@ extension TutorAddSubjects : UISearchBarDelegate {
             return
             
         } else {
-			tableView(shouldDisplay: true) {
-				self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText)})
-				self.contentView.tableView.reloadData()
-			}
+            tableView(shouldDisplay: true) {
+                self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText)})
+                self.contentView.tableView.reloadData()
+            }
         }
         if filteredSubjects.count > 0 {
             scrollToTop()
@@ -686,15 +686,15 @@ extension TutorAddSubjects : UISearchBarDelegate {
 
 //smooth search/scrolling
 extension TutorAddSubjects : UIScrollViewDelegate {
-	
-	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-		if !automaticScroll {
-			self.view.endEditing(true)
-		}
-	}
-	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-		if !automaticScroll {
-			self.view.endEditing(true)
-		}
-	}
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        if !automaticScroll {
+            self.view.endEditing(true)
+        }
+    }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if !automaticScroll {
+            self.view.endEditing(true)
+        }
+    }
 }
