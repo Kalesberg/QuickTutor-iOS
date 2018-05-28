@@ -22,7 +22,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     let header = TutorCardHeader()
     
     let reviewLabel : UILabel = {
-        
         let label = UILabel()
         
         label.textAlignment = .center
@@ -196,7 +195,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         tableViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 22)
         
-        header.imageView.applyDefaultShadow()
+        header.profilePics.applyDefaultShadow()
     }
     override func handleNavigation() {
         if touchStartView is ConnectButton {
@@ -418,12 +417,10 @@ class TutorCardHeader : InteractableView {
     
     let distance = TutorDistanceView()
     
-    var imageView : UIImageView = {
-        var imageView = UIImageView()
+    var profilePics : UIButton = {
+        var button = UIButton()
         
-        imageView.scaleImage()
-        
-        return imageView
+        return button
     }()
     
     var name : UILabel = {
@@ -438,7 +435,7 @@ class TutorCardHeader : InteractableView {
     }()
     
     override func configureView() {
-        addSubview(imageView)
+        addSubview(profilePics)
         addSubview(name)
         super.configureView()
         
@@ -448,7 +445,7 @@ class TutorCardHeader : InteractableView {
     }
     
     override func applyConstraints() {
-        imageView.snp.makeConstraints { (make) in
+        profilePics.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(8)
             make.centerX.equalToSuperview()
             if UIScreen.main.bounds.height == 480 {
@@ -459,7 +456,7 @@ class TutorCardHeader : InteractableView {
             
         }
         name.snp.makeConstraints { (make) in
-            make.top.equalTo(imageView.snp.bottom)
+            make.top.equalTo(profilePics.snp.bottom)
             make.bottom.equalToSuperview().inset(5)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()

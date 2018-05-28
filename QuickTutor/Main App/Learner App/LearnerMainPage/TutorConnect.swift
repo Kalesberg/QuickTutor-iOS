@@ -409,6 +409,10 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             navigationController?.pushViewController(CardManager(), animated: true)
         }
     }
+    
+    @objc func changeProfilePic() {
+        
+    }
 }
 
 extension Array where Element: Numeric {
@@ -437,8 +441,13 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         let data = (shouldFilterDatasource) ? filteredDatasource : datasource
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
-
-        cell.header.imageView.loadUserImages(by: data[indexPath.row].images["image1"]!)
+        
+        cell.header.profilePics.addTarget(self, action: #selector(changeProfilePic), for: [.touchUpInside, .touchUpOutside])
+        
+        let imageView = UIImageView()
+        imageView.loadUserImages(by: data[indexPath.row].images["image1"]!)
+        cell.header.profilePics.setImage(imageView.image, for: .normal)
+        
         cell.header.name.text = data[indexPath.row].name.formatName()
         cell.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
         cell.rateLabel.text = data[indexPath.row].price.formatPrice()

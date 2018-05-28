@@ -88,6 +88,13 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		cell.featuredTutor.namePrice.text = datasource![indexPath.item].name
 		cell.featuredTutor.region.text = datasource![indexPath.item].region
 		cell.featuredTutor.subject.text = datasource![indexPath.item].topSubject
+        
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .bold("\(datasource![indexPath.item].tRating!) ", 14, Colors.yellow)
+            //.regular("(" + String(datasource![indexPath.item].reviews?.count) + "ratings)", 14, Colors.yellow)
+        
+        cell.featuredTutor.ratingLabel.attributedText = formattedString
 		
 		return cell
 	}
