@@ -50,94 +50,104 @@ class FeaturedTutorView : BaseView {
 	}()
 	
 	let subject : UILabel = {
-		let subject = UILabel()
+		let label = UILabel()
 		
-		subject.textAlignment = .left
-		subject.textColor = .white
-		subject.text = "Psychology"
-		subject.font = Fonts.createSize(17)
-		subject.adjustsFontSizeToFitWidth = true
+		label.textAlignment = .left
+		label.textColor = .white
+		label.font = Fonts.createSize(17)
+		label.adjustsFontSizeToFitWidth = true
 		
-		return subject
+		return label
 	}()
 	
 	let region : UILabel = {
-		let region = UILabel()
+		let label = UILabel()
 		
-		region.textAlignment = .left
-		region.textColor = Colors.grayText
-		region.text = "Grand Rapids, MI"
-		region.font = Fonts.createSize(13)
-		region.adjustsFontSizeToFitWidth = true
+		label.textAlignment = .left
+		label.textColor = Colors.grayText
+		label.font = Fonts.createSize(13)
+		label.adjustsFontSizeToFitWidth = true
 		
-		return region
+		return label
 	}()
 	
 	let namePrice : UILabel = {
-		let namePrice = UILabel()
+		let label = UILabel()
 		
-		namePrice.textAlignment = .left
-		namePrice.textColor = Colors.grayText
-		namePrice.text = "Toto, Sob"
-		namePrice.font = Fonts.createSize(13)
-		namePrice.adjustsFontSizeToFitWidth = true
+		label.textAlignment = .left
+		label.textColor = Colors.grayText
+		label.font = Fonts.createSize(13)
+		label.adjustsFontSizeToFitWidth = true
 		
-		return namePrice
+		return label
 	}()
 	
-	let stars : UILabel = {
-		let stars = UILabel()
+	let ratingLabel : UILabel = {
+        let label = UILabel()
 		
-		stars.textAlignment = .left
-		stars.textColor = Colors.grayText
-		stars.text = "+ + + + + +"
-		stars.font = Fonts.createSize(14)
-		stars.adjustsFontSizeToFitWidth = true
-		
-		return stars
+		label.textAlignment = .left
+		label.textColor = Colors.yellow
+		label.font = Fonts.createSize(14)
+		label.adjustsFontSizeToFitWidth = true
+        label.text = "4.4"
+        
+		return label
 	}()
+    
+    let starImage : UIImageView = {
+        let view = UIImageView()
+        
+        view.image = #imageLiteral(resourceName: "yellow-star")
+        view.scaleImage()
+        
+        return view
+    }()
 	
 	override func configureView() {
 		addSubview(imageView)
 		addSubview(subject)
 		addSubview(region)
 		addSubview(namePrice)
-		addSubview(stars)
+		addSubview(ratingLabel)
+        addSubview(starImage)
 		super.configureView()
 		
 		backgroundColor = Colors.backgroundDark
 		
 		applyConstraints()
 	}
+    
 	override func applyConstraints() {
 		imageView.snp.makeConstraints { (make) in
 			make.top.equalToSuperview().inset(14)
 			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.5)
-			make.width.equalToSuperview().multipliedBy(0.8)
+			make.height.equalToSuperview().multipliedBy(0.47)
+			make.width.equalToSuperview().multipliedBy(0.77)
 		}
 		subject.snp.makeConstraints { (make) in
-			make.top.equalTo(imageView.snp.bottom)
+			make.top.equalTo(imageView.snp.bottom).inset(-2)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview().multipliedBy(0.92)
 		}
 		region.snp.makeConstraints { (make) in
-			make.top.equalTo(subject.snp.bottom)
+			make.top.equalTo(subject.snp.bottom).inset(-2)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview().multipliedBy(0.92)
 		}
 		namePrice.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview().inset(8)
+			make.top.equalTo(region.snp.bottom)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview().multipliedBy(0.92)
 		}
-		//        stars.snp.makeConstraints { (make) in
-		//            make.top.equalTo(namePrice.snp.bottom)
-		//            make.width.equalToSuperview()
-		//            make.height.equalToSuperview().multipliedBy(0.1)
-		//            make.centerX.equalToSuperview()
-		//        }
-		
+        starImage.snp.makeConstraints { (make) in
+            make.left.equalTo(namePrice)
+            make.top.equalTo(namePrice.snp.bottom).inset(-2)
+            make.height.equalTo(14)
+        }
+        ratingLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(starImage.snp.right).inset(-3)
+            make.centerY.equalTo(starImage).inset(1)
+        }
 	}
 }
 struct BadWords {

@@ -390,9 +390,9 @@ class LearnerMyProfile : BaseViewController {
 		imageView.snp.makeConstraints({ (make) in
 			make.top.equalToSuperview()
 			make.height.equalToSuperview()
-			make.width.equalToSuperview()
+            make.width.equalTo(UIScreen.main.bounds.width)
 			if (count != 1) {
-				make.left.equalTo(horizontalScrollView.subviews[count - 1].snp.right)
+				make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
 			} else {
 				make.centerX.equalToSuperview()
 			}
@@ -415,7 +415,6 @@ class LearnerMyProfile : BaseViewController {
 		horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
 	}
     private func configurePageControl() {
-        // The total number of pages that are available is based on how many available colors we have.
         pageControl.numberOfPages = pageCount
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .white
@@ -427,8 +426,7 @@ class LearnerMyProfile : BaseViewController {
             make.top.equalTo(horizontalScrollView.snp.bottom).inset(-10)
         }
     }
-    
-    // MARK : TO CHANGE WHILE CLICKING ON PAGE CONTROL
+
     @objc func changePage(sender: AnyObject) -> () {
         let x = CGFloat(pageControl.currentPage) * horizontalScrollView.frame.size.width
         horizontalScrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)

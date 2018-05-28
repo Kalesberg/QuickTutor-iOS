@@ -159,6 +159,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 		contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
 		contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
 		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
+        contentView.tableView.register(EditProfileHourlyRateTableViewCell.self, forCellReuseIdentifier: "editProfileHourlyRateTableViewCell")
 		contentView.tableView.register(EditProfilePersonCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfilePersonCheckboxTableViewCell")
 		contentView.tableView.register(EditProfileVideoCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileVideoCheckboxTableViewCell")
 		
@@ -203,15 +204,6 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 				self.displaySavedAlertController()
 			}
 		}
-	}
-	
-    @objc
-    private func rateSliderValueDidChange(_ sender: UISlider!) {
-		
-        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 8, section: 0)) as! EditProfileSliderTableViewCell)
-        
-        cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-		price = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
 	}
     
     @objc
@@ -313,8 +305,6 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             return 75
         case 17:
             return 75
-//        case 18:
-//            return 50
         default:
             break
         }
@@ -386,21 +376,16 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             return cell
         case 8:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
-            
-            cell.slider.addTarget(self, action: #selector(rateSliderValueDidChange), for: .valueChanged)
-			cell.slider.minimumValue = 5
-			cell.slider.maximumValue = 100
-			
-			cell.slider.value = Float(tutor.price!)
-			cell.valueLabel.text = "$\(tutor.price!)"
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileHourlyRateTableViewCell
 
 			let formattedString = NSMutableAttributedString()
             formattedString
                 .bold("Hourly Rate  ", 15, .white)
-                .regular("  [$5-$100]", 15, Colors.grayText)
+                .regular("  [$5-$1000]", 15, Colors.grayText)
             
             cell.header.attributedText = formattedString
+            //TODO: set label to their actual rate
+            cell.rateLabel.text = "$0.00"
             
             return cell
         case 9:
@@ -411,12 +396,12 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             cell.slider.minimumValue = 5
             cell.slider.maximumValue = 150
 			
-			cell.slider.value = Float(tutor.distance!)
-			cell.valueLabel.text = "\(tutor.distance!) mi"
+            cell.slider.value = Float(tutor.distance!)
+            cell.valueLabel.text = "\(tutor.distance!) mi"
 			
             let formattedString = NSMutableAttributedString()
             formattedString
-                .bold("Travel Distance  ", 15, .white)
+                .bold("\nTravel Distance  ", 15, .white)
                 .regular("  [0-150 mi]", 15, Colors.grayText)
             
             cell.header.attributedText = formattedString
@@ -488,12 +473,6 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             }
             
             return cell
-//        case 18:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-//
-//            cell.label.text = "Connections"
-//
-//            return cell
         default:
             break
         }

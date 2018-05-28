@@ -155,7 +155,7 @@ class TutorMyProfile : BaseViewController {
 			make.height.equalToSuperview()
 			make.width.equalToSuperview()
 			if (count != 1) {
-				make.left.equalTo(horizontalScrollView.subviews[count - 1].snp.right)
+				make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
 			} else {
 				make.centerX.equalToSuperview()
 			}

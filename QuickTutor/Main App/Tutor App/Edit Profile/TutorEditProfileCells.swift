@@ -362,7 +362,7 @@ class BaseSlider : UISlider {
             width = 280
         }
         
-        let rect:CGRect = CGRect(x: 0, y: 0, width: width, height: 12)
+        let rect:CGRect = CGRect(x: 0, y: 0, width: width, height: 20)
 		
         return rect
     }
@@ -378,6 +378,8 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
     
     let header : UILabel = {
         let label = UILabel()
+        
+        label.numberOfLines = 0
         
         return label
     }()
@@ -426,7 +428,6 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
             make.top.equalToSuperview()
             make.right.equalToSuperview()
             make.left.equalToSuperview().inset(3)
-            make.height.equalTo(20)
         }
         
         valueLabel.snp.makeConstraints { (make) in
@@ -437,10 +438,134 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
         
         slider.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(4)
-            make.top.equalTo(header.snp.bottom).inset(-20)
+            make.top.equalTo(header.snp.bottom).inset(-25)
             make.width.equalTo(width)
             make.height.equalTo(40)
             make.bottom.equalToSuperview()
+        }
+    }
+}
+
+
+class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
+    
+    let header : UILabel = {
+        let label = UILabel()
+        
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
+    let container : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = Colors.registrationDark
+        view.layer.cornerRadius = 6
+        
+        return view
+    }()
+    
+    let rateLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(32)
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    let decreaseButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "decreaseButton"), for: .normal)
+        return button
+    }()
+    
+    let increaseButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "increaseButton"), for: .normal)
+        return button
+    }()
+    
+    var increasePriceTimer: Timer?
+    var decreasePriceTimer: Timer?
+    
+    var currentPrice = 0
+    
+    override func configureView() {
+        contentView.addSubview(header)
+        contentView.addSubview(container)
+        container.addSubview(rateLabel)
+        container.addSubview(increaseButton)
+        container.addSubview(decreaseButton)
+        
+        backgroundColor = .clear
+        selectionStyle = .none
+        
+        decreaseButton.addTarget(self, action: #selector(decreasePrice), for: .touchDown)
+        decreaseButton.addTarget(self, action: #selector(endDecreasePrice), for: [.touchUpInside, .touchUpOutside])
+        increaseButton.addTarget(self, action: #selector(increasePrice), for: .touchDown)
+        increaseButton.addTarget(self, action: #selector(endIncreasePrice), for: [.touchUpInside, .touchUpOutside])
+        
+        applyConstraints()
+    }
+    
+    @objc func decreasePrice() {
+        guard currentPrice > 0 else { return }
+        decreasePriceTimer =  Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { (timer) in
+            guard self.currentPrice > 0 else { return }
+            self.currentPrice -= 1
+            self.rateLabel.text = "$\(self.currentPrice).00"
+        }
+        decreasePriceTimer?.fire()
+    }
+    
+    @objc func endDecreasePrice() {
+        decreasePriceTimer?.invalidate()
+    }
+    
+    @objc func increasePrice() {
+        self.currentPrice += 1
+        self.rateLabel.text = "$\(self.currentPrice).00"
+        increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { (timer) in
+            self.currentPrice += 1
+            self.rateLabel.text = "$\(self.currentPrice).00"
+        })
+    }
+    
+    @objc func endIncreasePrice() {
+        increasePriceTimer?.invalidate()
+    }
+    
+    override func applyConstraints() {
+        
+        header.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.right.equalToSuperview()
+            make.left.equalToSuperview().inset(3)
+        }
+        
+        container.snp.makeConstraints { (make) in
+            make.top.equalTo(header.snp.bottom).inset(-20)
+            make.width.centerX.bottom.equalToSuperview()
+            make.height.equalTo(70)
+        }
+        
+        rateLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(25)
+            make.centerY.equalToSuperview()
+        }
+        
+        decreaseButton.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().inset(17)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
+        
+        increaseButton.snp.makeConstraints { (make) in
+            make.right.equalTo(decreaseButton.snp.left).inset(-17)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
         }
     }
 }
