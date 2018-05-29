@@ -316,7 +316,6 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             } else {
                 if let studies = datasource?.school {
                     cell.studysItem.label.text = studies
-                    print(studies)
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.tutorItem.snp.makeConstraints { (make) in

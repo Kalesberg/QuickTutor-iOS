@@ -142,7 +142,6 @@ class QueryData {
 			self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: categoryString).queryLimited(toFirst: 20).observeSingleEvent(of: .value, with: { (snapshot) in
 				for snap in snapshot.children {
 					guard let child = snap as? DataSnapshot else { continue }
-					
 					uids[category]!.append(child.key)
 				}
 				group.leave()

@@ -337,6 +337,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 				formattedString
 					.regular(tutor.distance.distancePreference(tutor.preference), 14, .white)
 					.regular(tutor.preference.preferenceNormalization(), 14, .white)
+					.regular(String(policies[0]).lateNotice(), 14, .white)
 					.regular(String(policies[2]).cancelNotice(), 14, .white)
 					.regular(String(policies[1]).lateFee(), 13, Colors.qtRed)
 					.regular(String(policies[3]).cancelFee(), 13, Colors.qtRed)

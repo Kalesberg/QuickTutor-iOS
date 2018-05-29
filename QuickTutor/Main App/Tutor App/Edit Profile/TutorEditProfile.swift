@@ -159,7 +159,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 		contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
 		contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
 		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
-        contentView.tableView.register(EditProfileHourlyRateTableViewCell.self, forCellReuseIdentifier: "editProfileHourlyRateTableViewCell")
+        contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileHourlyRateTableViewCell")
 		contentView.tableView.register(EditProfilePersonCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfilePersonCheckboxTableViewCell")
 		contentView.tableView.register(EditProfileVideoCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileVideoCheckboxTableViewCell")
 		
@@ -219,15 +219,17 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 	@objc private func firstNameValueChanged(_ textField : UITextField) {
 		
 		guard textField.text!.count > 0 else { return }
-		
 		firstName = textField.text
 	}
 	
 	@objc private func lastNameValueChanged(_ textField : UITextField) {
 		
 		guard textField.text!.count > 0 else { return }
-		
 		lastName = textField.text
+	}
+	
+	@objc private func rateLabelValueChange(_ textField: UITextField) {
+		print(".")
 	}
 	
 	private func displaySavedAlertController() {
@@ -264,7 +266,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 18
+        return 15
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -288,22 +290,16 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         case 8:
             return UITableViewAutomaticDimension
         case 9:
-            return UITableViewAutomaticDimension
+            return 50
         case 10:
-            return 40
+            return 75
         case 11:
-            return 40
+            return 75
         case 12:
             return 50
         case 13:
             return 75
         case 14:
-            return 75
-        case 15:
-            return 50
-        case 16:
-            return 75
-        case 17:
             return 75
         default:
             break
@@ -376,60 +372,19 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             return cell
         case 8:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileHourlyRateTableViewCell
-
-			let formattedString = NSMutableAttributedString()
-            formattedString
-                .bold("Hourly Rate  ", 15, .white)
-                .regular("  [$5-$1000]", 15, Colors.grayText)
-            
-            cell.header.attributedText = formattedString
-            //TODO: set label to their actual rate
-            cell.rateLabel.text = "$0.00"
-            
-            return cell
-        case 9:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
-            
-            cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
-
-            cell.slider.minimumValue = 5
-            cell.slider.maximumValue = 150
-			
-            cell.slider.value = Float(tutor.distance!)
-            cell.valueLabel.text = "\(tutor.distance!) mi"
-			
-            let formattedString = NSMutableAttributedString()
-            formattedString
-                .bold("\nTravel Distance  ", 15, .white)
-                .regular("  [0-150 mi]", 15, Colors.grayText)
-            
-            cell.header.attributedText = formattedString
-            
-            return cell
-        case 10:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfilePersonCheckboxTableViewCell", for: indexPath) as! EditProfilePersonCheckboxTableViewCell
-            
-            cell.label.text = "Tutoring In-Person Sessions?"
-			cell.checkbox.isSelected = inPerson
-			cell.delegate = self
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			cell.infoLabel.label.text = "Preferences"
+			cell.textField.attributedText = NSAttributedString(string: "Manage Preferences",
+															   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 			
 			return cell
-        case 11:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileVideoCheckboxTableViewCell", for: indexPath) as! EditProfileVideoCheckboxTableViewCell
-
-			cell.label.text = "Tutoring Online (Video Call) Sessions?"
-			cell.checkbox.isSelected = inVideo
-			cell.delegate = self
-			
-            return cell
-        case 12:
+        case 9:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-            
+
             cell.label.text = "Private Information"
-            
+
             return cell
-        case 13:
+        case 10:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Mobile Number"
@@ -437,7 +392,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
-        case 14:
+        case 11:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Email"
@@ -445,13 +400,13 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
-        case 15:
+        case 12:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
             
             cell.label.text = "Optional Information"
             
             return cell
-        case 16:
+        case 13:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Languages I Speak"
@@ -459,7 +414,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
-        case 17:
+        case 14:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "School"
@@ -493,13 +448,19 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 			let next = TutorManagePolicies()
 			next.tutor = tutor
 			navigationController?.pushViewController(next, animated: true)
-		case 13:
+		case 8:
+			let next = TutorManagePreferences()
+			next.tutor = tutor
+			navigationController?.pushViewController(next, animated: true)
+		//case 9: private information
+		case 10:
 			navigationController?.pushViewController(EditPhone(), animated: true)
-		case 14:
+		case 11:
 			navigationController?.pushViewController(ChangeEmail(), animated: true)
-		case 16:
+		//case 12: optional information
+		case 13:
 			navigationController?.pushViewController(EditLanguage(), animated: true)
-		case 17:
+		case 14:
 			navigationController?.pushViewController(EditSchool(), animated: true)
 		default:
 			break
@@ -507,7 +468,6 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 		}
 	}
 }
-
 extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
 	
 	func circleCropDidCropImage(_ image: UIImage) {
@@ -576,13 +536,14 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 }
 
 extension TutorEditProfile : UIScrollViewDelegate {
-	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
 		if !automaticScroll {
 			self.view.endEditing(true)
 		}
 	}
-	
-	func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-		automaticScroll = false
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		if !automaticScroll {
+			self.view.endEditing(true)
+		}
 	}
 }
