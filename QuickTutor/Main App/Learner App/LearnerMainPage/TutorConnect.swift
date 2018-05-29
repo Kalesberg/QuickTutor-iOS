@@ -83,10 +83,20 @@ class TutorConnectView : MainLayoutTwoButton {
     
     let addPaymentModal = AddPaymentModal()
     
+    let backgroundView : InteractableObject = {
+        let view = InteractableObject()
+        
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        view.isHidden = true
+        
+        return view
+    }()
+    
     override func configureView() {
         navbar.addSubview(searchBar)
         addSubview(collectionView)
         addSubview(addPaymentModal)
+        addSubview(backgroundView)
         super.configureView()
         
         applyConstraints()
@@ -109,6 +119,9 @@ class TutorConnectView : MainLayoutTwoButton {
             make.centerX.equalToSuperview()
         }
         addPaymentModal.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        backgroundView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
     }
@@ -236,6 +249,15 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     var hasAppliedFilters = false
     var shouldShowTutorial = false
     
+    let horizontalScrollView = UIScrollView()
+    var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
+    var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
+    
+    var pageCount : Int {
+        return 0
+        //return learner.images.filter({$0.value != ""}).count
+    }
+    
     var datasource = [AWTutor]() {
         didSet {
 //            contentView.collectionView.backgroundView = (datasource.count == 0) ? TutorCardCollectionViewBackground() : nil
@@ -283,6 +305,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
+        
+        horizontalScrollView.delegate = self
+        pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
 
         contentView.collectionView.dataSource = self
         contentView.collectionView.delegate = self
@@ -296,12 +321,80 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         if defaults.bool(forKey: "showTutorCardTutorial1.0") {
             displayTutorial()
             defaults.set(false, forKey: "showTutorCardTutorial1.0")
-        }  
+        }
+        
+        configureScrollView()
+        configurePageControl()
+        setUpImages()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         contentView.collectionView.reloadData()
+    }
+    
+    private func setUpImages() {
+        var count = 0
+        for number in 1..<5 {
+//            if learner.images["image\(number)"] == "" {
+//                continue
+//            }
+            count += 1
+            setImage(number, count)
+        }
+    }
+    private func setImage(_ number: Int, _ count: Int) {
+        let imageView = UIImageView()
+        //imageView.loadUserImages(by: learner.images["image\(number)"]!)
+        imageView.scaleImage()
+        self.horizontalScrollView.addSubview(imageView)
+        
+        imageView.snp.makeConstraints({ (make) in
+            make.top.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalTo(UIScreen.main.bounds.width)
+            if (count != 1) {
+                make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
+            } else {
+                make.centerX.equalToSuperview()
+            }
+        })
+        contentView.layoutIfNeeded()
+    }
+    private func configureScrollView() {
+        contentView.insertSubview(horizontalScrollView, aboveSubview: contentView.backgroundView)
+        horizontalScrollView.isUserInteractionEnabled = false
+        horizontalScrollView.isHidden = true
+        horizontalScrollView.isPagingEnabled = true
+        horizontalScrollView.showsHorizontalScrollIndicator = false
+        
+        horizontalScrollView.backgroundColor = .yellow
+        
+        horizontalScrollView.snp.makeConstraints { (make) in
+            make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.35)
+            make.centerX.equalToSuperview()
+        }
+        contentView.layoutIfNeeded()
+        horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
+    }
+    private func configurePageControl() {
+        pageControl.numberOfPages = pageCount
+        pageControl.currentPage = 0
+        pageControl.pageIndicatorTintColor = .white
+        pageControl.currentPageIndicatorTintColor = Colors.learnerPurple
+        contentView.addSubview(pageControl)
+        
+        pageControl.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(horizontalScrollView.snp.bottom).inset(-10)
+        }
+    }
+    
+    @objc func changePage(sender: AnyObject) -> () {
+        let x = CGFloat(pageControl.currentPage) * horizontalScrollView.frame.size.width
+        horizontalScrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -407,11 +500,10 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         } else if touchStartView is AddBankButton {
             contentView.addPaymentModal.isHidden = true
             navigationController?.pushViewController(CardManager(), animated: true)
+        } else if touchStartView is InteractableObject {
+            contentView.backgroundView.isHidden = true
+            horizontalScrollView.isHidden = true
         }
-    }
-    
-    @objc func changeProfilePic() {
-        
     }
 }
 
@@ -442,12 +534,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
         
-        cell.header.profilePics.addTarget(self, action: #selector(changeProfilePic), for: [.touchUpInside, .touchUpOutside])
-        
-        let imageView = UIImageView()
-        imageView.loadUserImages(by: data[indexPath.row].images["image1"]!)
-        cell.header.profilePics.setImage(imageView.image, for: .normal)
-        
+        cell.header.profilePics.loadUserImages(by: data[indexPath.row].images["image1"]!)
         cell.header.name.text = data[indexPath.row].name.formatName()
         cell.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
         cell.rateLabel.text = data[indexPath.row].price.formatPrice()

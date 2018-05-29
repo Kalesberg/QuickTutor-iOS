@@ -321,7 +321,7 @@ enum Category {
 			
 		case .academics:                displayName = "ACADEMICS"
 		searchBarPhrases = ["search any academic subject"]
-		subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular","Test Preparation"]
+		subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular","Test Prep"]
 		icon = [#imageLiteral(resourceName: "mathematics"),#imageLiteral(resourceName: "language-arts"),#imageLiteral(resourceName: "social-studies"),#imageLiteral(resourceName: "science"),#imageLiteral(resourceName: "extracurricular"),#imageLiteral(resourceName: "test-prep")]
 		fileToRead = "academics"
 			
@@ -333,7 +333,7 @@ enum Category {
 			
 		case .auto:                     displayName = "AUTO"
 		searchBarPhrases = ["search anything auto-related"]
-		subcategories = ["Automobiles", "Motor Vehicles", "Maintenance", "Repairs", "Upgrades", "Design"]
+		subcategories = ["Automobiles", "Motor Vehicles", "Vehicle Maintenance", "Auto Repairs", "Auto Upgrades", "Auto Design"]
 		icon = [#imageLiteral(resourceName: "automobiles"),#imageLiteral(resourceName: "motor-vehicles"),#imageLiteral(resourceName: "maintenance"),#imageLiteral(resourceName: "repairs"),#imageLiteral(resourceName: "upgrades"),#imageLiteral(resourceName: "design")]
 		fileToRead = "auto"
 			
@@ -343,27 +343,27 @@ enum Category {
 		icon = [#imageLiteral(resourceName: "entrepreneurship"),#imageLiteral(resourceName: "finance-law"),#imageLiteral(resourceName: "economics-accounting"),#imageLiteral(resourceName: "management"),#imageLiteral(resourceName: "information-systems"),#imageLiteral(resourceName: "marketing-hospitality")]
 		fileToRead = "business"
 			
-		case .lifestyle:                displayName = "LIFE STYLE"
-		searchBarPhrases = ["search for any life style"]
+		case .lifestyle:                displayName = "LIFESTYLE"
+		searchBarPhrases = ["search for any lifestyle"]
 		subcategories = ["Motivation/Consulting", "Creations", "Cooking & Baking","Fitness", "Travel Destinations","Careers"]
 		icon = [#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "fitness"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "volunteering")]
 		fileToRead = "life style"
 			
 		case .health:                    displayName = "HEALTH"
 		searchBarPhrases = ["search health and wellness"]
-		subcategories = ["General", "Self-Care", "Nutrition", "Medicines", "Physical Exercise","Illness"]
+		subcategories = ["General Health", "Self-Care", "Nutrition", "Medicines", "Physical Exercise","Illness"]
 		icon = [#imageLiteral(resourceName: "general-health"),#imageLiteral(resourceName: "selfcare"),#imageLiteral(resourceName: "nutrition"),#imageLiteral(resourceName: "medicine"),#imageLiteral(resourceName: "physical-excercise"),#imageLiteral(resourceName: "illness")]
 		fileToRead = "health"
 			
 		case .language:                    displayName = "LANGUAGE"
 		searchBarPhrases = ["search for any language skill"]
-		subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speech","Writing"]
+		subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speaking","Writing"]
 		icon = [#imageLiteral(resourceName: "esl"),#imageLiteral(resourceName: "listening"),#imageLiteral(resourceName: "reading"),#imageLiteral(resourceName: "sign-language"),#imageLiteral(resourceName: "speech"),#imageLiteral(resourceName: "writing")]
 		fileToRead = "language"
 			
 		case .outdoors:                 displayName = "OUTDOORS"
 		searchBarPhrases = ["discover the outdoors"]
-		subcategories = ["Survival", "Life Identification", "Preparation", "Activities", "Land & Water","Seasonal"]
+		subcategories = ["Survival", "Life Identification", "Outdoors Prep", "Outdoor Activities", "Land & Water","Seasonal"]
 		icon = [#imageLiteral(resourceName: "survival"),#imageLiteral(resourceName: "life-identity"),#imageLiteral(resourceName: "preperation"),#imageLiteral(resourceName: "activities"),#imageLiteral(resourceName: "land-water"),#imageLiteral(resourceName: "seasonal")]
 		fileToRead = "outdoors"
 			
@@ -381,13 +381,13 @@ enum Category {
 			
 		case .tech:                        displayName = "TECH"
 		searchBarPhrases = ["search technological topics"]
-		subcategories = ["Programming", "Gaming", "Hardware", "Software", "IT", "Repairs"]
+		subcategories = ["Programming", "Gaming", "Hardware", "Software", "IT", "Tech Repairs"]
 		icon = [#imageLiteral(resourceName: "programming"),#imageLiteral(resourceName: "gaming"),#imageLiteral(resourceName: "hardware"),#imageLiteral(resourceName: "software"),#imageLiteral(resourceName: "it"),#imageLiteral(resourceName: "repairs")]
 		fileToRead = "tech"
 			
 		case .trades:                    displayName = "TRADES"
 		searchBarPhrases = ["search for any trade"]
-		subcategories = ["Construction", "Industrial", "Motive Power", "Services", "Home", "General"]
+		subcategories = ["Construction", "Industrial Trades", "Motive Power", "Service Trades", "Home Trades", "General Trades"]
 		icon = [#imageLiteral(resourceName: "construction"),#imageLiteral(resourceName: "industry"),#imageLiteral(resourceName: "motive-power"),#imageLiteral(resourceName: "services"),#imageLiteral(resourceName: "home"),#imageLiteral(resourceName: "general")]
 		fileToRead = "trades"
 		}
@@ -412,15 +412,15 @@ enum Category {
 			
 		case .auto:                     displayName = "Auto"
 		image = #imageLiteral(resourceName: "auto")
-		categoryInfo = "Interested in teaching others a thing or two about being a gear-head? Are you a skilled repairman or designer? In this category you’ll be able to teach others anything about auto or just make some side cash fixing stuff! "
+		categoryInfo = "Interested in teaching others a thing or two about being a gear-head? Are you a skilled repairman or designer? In this category you’ll be able to teach others anything about auto! Or just make some side cash teaching others how to fix stuff! "
 			
 		case .business:                    displayName = "Business"
 		image = #imageLiteral(resourceName: "business")
 		categoryInfo = "Are you an entrepreneur, lawyer, accountant, marketer, or economist? Maybe the neighborhood excel expert? Lets talk business. "
 			
-		case .lifestyle:                displayName = "Life Style"
+		case .lifestyle:                displayName = "Lifestyle"
 		image = #imageLiteral(resourceName: "experiences")
-		categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Experiences is where all can tutor the things that warm our hearts and drive our souls."
+		categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Lifestyle is where all can tutor the things that warm our hearts and drive our souls."
 			
 		case .health:                    displayName = "Health & Wellness"
 		image = #imageLiteral(resourceName: "health")
@@ -436,11 +436,11 @@ enum Category {
 			
 		case .remedial:                 displayName = "Remedial"
 		image = #imageLiteral(resourceName: "remedial")
-		categoryInfo = "QuickTutor is for everyone. Remedial is provided and intended for learners who experience difficulties."
+		categoryInfo = "QuickTutor is a learning and teaching community built for everyone. Remedial is provided and intended for people who experience learning difficulties, or who would like to learn/teach about special education."
 			
 		case .sports:                     displayName = "Sports & Games"
 		image = #imageLiteral(resourceName: "sports")
-		categoryInfo = "Snowboarding, football, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
+		categoryInfo = "Snowboarding, video games, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
 			
 		case .tech:                        displayName = "Tech"
 		image = #imageLiteral(resourceName: "tech")
