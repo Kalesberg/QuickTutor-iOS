@@ -138,18 +138,6 @@ class FileReportSessionView : BaseView {
     }
     
     override func applyConstraints() {
-        dayLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(15)
-            make.centerY.equalToSuperview()
-            make.width.equalTo(40)
-        }
-	
-        monthLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(dayLabel.snp.bottom)
-            make.left.equalTo(dayLabel)
-            make.width.equalTo(dayLabel)
-        }
-        
         profilePic.snp.makeConstraints { (make) in
             make.left.equalTo(monthLabel.snp.right)
             make.centerY.equalToSuperview()
@@ -157,9 +145,21 @@ class FileReportSessionView : BaseView {
             make.width.equalTo(85)
         }
         
+        dayLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(15)
+            make.bottom.equalTo(profilePic.snp.centerY)
+            make.width.equalTo(40)
+        }
+        
+        monthLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(dayLabel.snp.bottom)
+            make.left.equalTo(dayLabel)
+            make.width.equalTo(dayLabel)
+        }
+        
         subjectLabel.snp.makeConstraints { (make) in
             make.left.equalTo(profilePic.snp.right)
-            make.top.equalTo(monthLabel)
+            make.centerY.equalToSuperview()
         }
         
         nameLabel.snp.makeConstraints { (make) in
@@ -168,7 +168,7 @@ class FileReportSessionView : BaseView {
         }
         
         sessionInfoLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(dayLabel)
+            make.bottom.equalTo(subjectLabel.snp.top)
             make.left.equalTo(subjectLabel)
         }
     }
