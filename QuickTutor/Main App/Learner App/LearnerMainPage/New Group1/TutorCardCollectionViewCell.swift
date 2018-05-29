@@ -210,6 +210,12 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             if let current = UIApplication.getPresentedViewController() {
                 current.present(ViewFullProfile(), animated: true, completion: nil)
             }
+        } else if touchStartView is TutorCardProfilePic {
+            let vc = (next?.next?.next as! TutorConnect)
+            
+            vc.contentView.backgroundView.isHidden = false
+            vc.horizontalScrollView.isHidden = false
+            vc.horizontalScrollView.isUserInteractionEnabled = true
         }
     }
 }
@@ -413,14 +419,20 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
     }
 }
 
+class TutorCardProfilePic : UIImageView, Interactable {
+    
+}
+
 class TutorCardHeader : InteractableView {
     
     let distance = TutorDistanceView()
     
-    var profilePics : UIButton = {
-        var button = UIButton()
+    var profilePics : TutorCardProfilePic = {
+        let view = TutorCardProfilePic()
         
-        return button
+        view.isUserInteractionEnabled = true
+        
+        return view
     }()
     
     var name : UILabel = {
