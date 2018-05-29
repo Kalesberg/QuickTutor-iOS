@@ -125,7 +125,6 @@ class TutorPreferences : BaseViewController {
         return view as! TutorPreferencesView
     }
     
-    var price : Int = 5
     var distance : Int = 5
     var inPerson : Bool = true
     var inVideo : Bool = true
@@ -160,10 +159,15 @@ class TutorPreferences : BaseViewController {
         cell.valueLabel.text = "\(value) mi"
         distance = value
     }
-    
+
     private func setUserPreferences() {
-        
-        TutorRegistration.price = price
+        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileHourlyRateTableViewCell)
+		guard let price = Int(cell.amount) else {
+			//show error
+			return
+		}
+		
+      	TutorRegistration.price = price
         TutorRegistration.distance = distance
         
         if inPerson && inVideo {
@@ -176,7 +180,7 @@ class TutorPreferences : BaseViewController {
             TutorRegistration.sessionPreference = 0
         }
     }
-    
+	
     override func handleNavigation() {
         if (touchStartView is NavbarButtonNext) {
             setUserPreferences()
@@ -215,8 +219,7 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileHourlyRateTableViewCell
-            
-            
+
             let formattedString = NSMutableAttributedString()
             formattedString
                 .regular("\n", 5, .white)
@@ -226,8 +229,7 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
                 .regular("Please set your general hourly rate.\n\nAlthough you have a set rate, individual sessions can be negotiable.", 14, Colors.grayText)
             
             cell.header.attributedText = formattedString
-            cell.rateLabel.text = "$0.00"
-            
+            cell.textField.text = "$0"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
@@ -246,7 +248,6 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
                 .regular("Please set the maximum number of miles you are willing to travel for a tutoring session.", 14, Colors.grayText)
             
             cell.header.attributedText = formattedString
-            
             cell.valueLabel.text = "5 mi"
             
             return cell

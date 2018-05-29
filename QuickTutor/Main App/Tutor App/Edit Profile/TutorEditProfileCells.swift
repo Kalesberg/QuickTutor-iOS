@@ -466,15 +466,8 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
         return view
     }()
     
-    let rateLabel : UILabel = {
-        let label = UILabel()
-        
-        label.font = Fonts.createBoldSize(32)
-        label.textColor = .white
-        
-        return label
-    }()
-    
+    var textField = NoPasteTextField()
+		
     let decreaseButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "decreaseButton"), for: .normal)
@@ -491,15 +484,24 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
     var decreasePriceTimer: Timer?
     
     var currentPrice = 0
-    
+	var amount : String = ""
+	
     override func configureView() {
         contentView.addSubview(header)
         contentView.addSubview(container)
-        container.addSubview(rateLabel)
+        container.addSubview(textField)
         container.addSubview(increaseButton)
         container.addSubview(decreaseButton)
-        
-        backgroundColor = .clear
+		
+		textField.delegate = self
+		textField.font = Fonts.createBoldSize(32)
+		textField.textColor = .white
+		textField.textAlignment = .left
+		textField.keyboardType = .numberPad
+		textField.keyboardAppearance = .dark
+		textField.tintColor = Colors.tutorBlue
+		
+		backgroundColor = .clear
         selectionStyle = .none
         
         decreaseButton.addTarget(self, action: #selector(decreasePrice), for: .touchDown)
@@ -509,13 +511,30 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
         
         applyConstraints()
     }
-    
+	
+	private func updateTextField(_ amount: String) {
+		guard let this = Int(amount) else { return }
+		guard let number = this as NSNumber? else {
+			return
+		}
+		currentPrice = this
+		textField.text = "$\(number)"
+	}
+
     @objc func decreasePrice() {
-        guard currentPrice > 0 else { return }
+        guard currentPrice > 0 else {
+			self.amount = ""
+			return
+		}
         decreasePriceTimer =  Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { (timer) in
-            guard self.currentPrice > 0 else { return }
+			guard self.currentPrice > 0 else {
+				self.amount = String(self.currentPrice)
+				return
+			}
             self.currentPrice -= 1
-            self.rateLabel.text = "$\(self.currentPrice).00"
+            self.textField.text = "$\(self.currentPrice)"
+			self.amount = String(self.currentPrice)
+
         }
         decreasePriceTimer?.fire()
     }
@@ -525,11 +544,21 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
     }
     
     @objc func increasePrice() {
+		guard currentPrice < 1000 else {
+			self.amount = String(currentPrice)
+			return
+		}
         self.currentPrice += 1
-        self.rateLabel.text = "$\(self.currentPrice).00"
+        self.textField.text = "$\(self.currentPrice)"
+		self.amount = String(currentPrice)
         increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { (timer) in
-            self.currentPrice += 1
-            self.rateLabel.text = "$\(self.currentPrice).00"
+			guard self.currentPrice < 1000 else {
+				self.amount = String(self.currentPrice)
+				return
+			}
+			self.currentPrice += 1
+            self.textField.text = "$\(self.currentPrice)"
+			self.amount = String(self.currentPrice)
         })
     }
     
@@ -551,7 +580,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
             make.height.equalTo(70)
         }
         
-        rateLabel.snp.makeConstraints { (make) in
+        textField.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(25)
             make.centerY.equalToSuperview()
         }
@@ -569,7 +598,40 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
         }
     }
 }
-
+extension EditProfileHourlyRateTableViewCell : UITextFieldDelegate {
+	
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		let aSet = NSCharacterSet(charactersIn:"0123456789").inverted
+		let compSepByCharInSet = string.components(separatedBy: aSet)
+		let numberFiltered = compSepByCharInSet.joined(separator: "")
+		
+		if string == "" && amount.count == 1 {
+			textField.text = "$0"
+			amount = ""
+			currentPrice = 0
+			return false
+		}
+		if string == "" && amount.count > 0 {
+			amount.removeLast()
+			updateTextField(amount)
+		}
+		
+		if string == numberFiltered {
+			let temp = (amount + string)
+			guard let number = Int(temp), number < 1001 else {
+				//showError
+				return false
+			}
+			amount = temp
+			updateTextField(amount)
+		}
+		
+		return false
+	}
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		return true
+	}
+}
 
 class EditProfileCheckboxTableViewCell : BaseTableViewCell {
     

@@ -121,7 +121,57 @@ class FirebaseData {
             }
         }
     }
-    
+	
+	public func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int,_ completion: @escaping (Error?) -> Void) {
+		let post : [String: Any] = ["p" : price, "dst" : distance, "prf": preference]
+		self.ref.child("tutor-info").child(uid).updateChildValues(post) { (error, _) in
+			if let error = error {
+				completion(error)
+			} else {
+				completion(nil)
+			}
+		}
+	}
+
+	public func getUserSessions(uid: String,_ completion: @escaping ([UserSession]) -> Void) {
+		var sessions = [UserSession]()
+		let group = DispatchGroup()
+		
+		self.ref.child("userSessions").child("Gtdytoqr7YepYr0qg4l4eN2IMMJ3").observeSingleEvent(of: .value) { (snapshot) in
+			guard let value = snapshot.value as? [String: Any], value.count > 0 else { return }
+			for autoId in value.keys {
+				group.enter()
+				self.ref.child("sessions").child(autoId).observeSingleEvent(of: .value, with: { (snapshot) in
+					guard let value = snapshot.value as? [String : Any] else {
+						group.leave()
+						return
+					}
+					var session = UserSession(dictionary: value)
+					self.ref.child("student-info").child(session.otherId).observeSingleEvent(of: .value, with: { (snapshot) in
+						
+						guard let value = snapshot.value as? [String : Any] else {
+							group.leave()
+							return
+						}
+						session.name = value["nm"] as? String ?? ""
+						guard let images = value["img"] as? [String : String] else {
+							sessions.append(session)
+							group.leave()
+							return
+						}
+						
+						session.imageURl = images["image1"]!
+						sessions.append(session)
+						group.leave()
+					})
+				})
+			}
+			group.notify(queue: .main, execute: {
+				completion(sessions)
+			})
+		}
+	}
+
     public func getLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
         
         let group = DispatchGroup()
@@ -308,7 +358,7 @@ class FirebaseData {
             completion(subcategories)
         })
     }
-    
+	
     public func getLearnerConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
         var uids = [String]()
         self.ref.child("connections").child(uid).observeSingleEvent(of: .value) { (snapshot) in
@@ -372,7 +422,7 @@ class FirebaseData {
             }
         }
     }
-    
+	
     public func removeBothAccounts(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
         
         let group = DispatchGroup()
@@ -395,6 +445,7 @@ class FirebaseData {
         for subcat in subcategory {
             childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
         }
+		
         group.enter()
         for imageURL in CurrentUser.shared.learner.images {
             if imageURL.value == "" { continue }

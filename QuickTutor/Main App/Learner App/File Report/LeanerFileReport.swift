@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import Firebase
 
 enum FileReportClass : String {
 	
@@ -65,53 +66,74 @@ class LearnerFileReportView : MainLayoutHeader {
 
 class FileReportSessionView : BaseView {
     
-    var monthLabel = UILabel()
-    var dayLabel = UILabel()
-    var dayOfWeekLabel = UILabel()
-    var profilePic = UIImageView()
-    var subjectLabel = UILabel()
-    var nameLabel = UILabel()
-    var sessionInfoLabel = UILabel()
+	let monthLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createSize(20)
+		label.textColor = .white
+		label.text = "Dec"
+		label.textAlignment = .center
+		label.adjustsFontSizeToFitWidth = true
+		
+		return label
+	}()
+	
+	var dayLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createBoldSize(25)
+		label.textColor = .white
+		label.text = "28"
+		label.textAlignment = .center
+		
+		return label
+	}()
+	
+	var profilePic : UIImageView = {
+		let imageView = UIImageView()
+		imageView.scaleImage()
+		
+		return imageView
+	}()
+	
+	var subjectLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createBoldSize(14)
+		label.textColor = .white
+		label.text = "Mathematics"
+		
+		return label
+	}()
+	
+	var nameLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createSize(13)
+		label.textColor = .white
+		label.text = "with Alex Zoltowski"
+		
+		return label
+	}()
+	var sessionInfoLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createSize(13)
+		label.textColor = .white
+		label.text = "3:00-6:00, $18.50"
+		
+		return label
+	}()
     
     override func configureView() {
         addSubview(monthLabel)
         addSubview(dayLabel)
-        addSubview(dayOfWeekLabel)
         addSubview(profilePic)
         addSubview(subjectLabel)
         addSubview(nameLabel)
         addSubview(sessionInfoLabel)
         super.configureView()
 
-        monthLabel.font = Fonts.createSize(14)
-        monthLabel.textColor = .white
-        monthLabel.text = "Dec"
-        monthLabel.textAlignment = .center
-        
-        dayLabel.font = Fonts.createBoldSize(20)
-        dayLabel.textColor = .white
-        dayLabel.text = "28"
-        dayLabel.textAlignment = .center
-        
-        dayOfWeekLabel.font = Fonts.createSize(14)
-        dayOfWeekLabel.textColor = .white
-        dayOfWeekLabel.text = "Tue"
-        dayOfWeekLabel.textAlignment = .center
-		
-        profilePic.scaleImage()
-        
-        subjectLabel.font = Fonts.createBoldSize(14)
-        subjectLabel.textColor = .white
-        subjectLabel.text = "Mathematics"
-        
-        nameLabel.font = Fonts.createSize(13)
-        nameLabel.textColor = .white
-        nameLabel.text = "with Alex Zoltowski"
-        
-        sessionInfoLabel.font = Fonts.createSize(13)
-        sessionInfoLabel.textColor = .white
-        sessionInfoLabel.text = "3:00-6:00, $18.50"
-        
         applyConstraints()
     }
     
@@ -121,17 +143,11 @@ class FileReportSessionView : BaseView {
             make.centerY.equalToSuperview()
             make.width.equalTo(40)
         }
-        
+	
         monthLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(dayLabel.snp.top)
+            make.top.equalTo(dayLabel.snp.bottom)
             make.left.equalTo(dayLabel)
             make.width.equalTo(dayLabel)
-        }
-        
-        dayOfWeekLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(dayLabel.snp.bottom)
-            make.left.equalTo(monthLabel)
-            make.width.equalTo(monthLabel)
         }
         
         profilePic.snp.makeConstraints { (make) in
@@ -152,7 +168,7 @@ class FileReportSessionView : BaseView {
         }
         
         sessionInfoLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(dayOfWeekLabel)
+            make.bottom.equalTo(dayLabel)
             make.left.equalTo(subjectLabel)
         }
     }
@@ -476,15 +492,54 @@ class FileReportYesNoLayout : MainLayoutHeader {
         }
     }
 }
+struct UserSession {
+	
+	let date : Double
+	let endTime : Int
+	let expiration : Double
+	let price : Int
+	var otherId : String
+	let startTime : Int
+	let status : String
+	let subject : String
+	let type : String
+	
+	var name : String = ""
+	var imageURl : String = ""
+	
+	init(dictionary: [String: Any]) {
+		date = dictionary["date"] as? Double ?? 0.0
+		endTime = dictionary["endTime"] as? Int ?? 0
+		expiration = dictionary["expiration"] as? Double ?? 0.0
+		price = dictionary["price"] as? Int ?? 0
+		startTime = dictionary["startTime"] as? Int ?? 0
+		status = dictionary["status"] as? String ?? ""
+		subject = dictionary["subject"] as? String ?? ""
+		type = dictionary["type"] as? String ?? ""
+		otherId = (AccountService.shared.currentUserType == .learner) ? dictionary["receiverId"] as? String ?? "" : dictionary["senderId"] as? String ?? ""
+	}
+	
+}
 
 class LearnerFileReport : BaseViewController {
     
     override var contentView: LearnerFileReportView {
         return view as! LearnerFileReportView
     }
-    
+	
+	var datasource = [UserSession]() {
+		didSet {
+			contentView.tableView.reloadData()
+		}
+	}
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		
+		
+		FirebaseData.manager.getUserSessions(uid: CurrentUser.shared.learner.uid) { (sessions) in
+			self.datasource = sessions
+		}
 		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
@@ -492,15 +547,31 @@ class LearnerFileReport : BaseViewController {
 		
 		contentView.tableView.reloadData()
     }
-    
-    override func viewDidLayoutSubviews() {
-
-	}
-    
+	
     override func loadView() {
         view = LearnerFileReportView()
     }
-    
+	
+	private func getStartTime(unixTime: TimeInterval) -> String {
+		let date = Date(timeIntervalSince1970: unixTime)
+		let dateFormatter = DateFormatter()
+		dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+		dateFormatter.locale = NSLocale.current
+		dateFormatter.dateFormat = "hh:mm a"
+		
+		return dateFormatter.string(from: date)
+	}
+	
+	private func getDateAndEndTime(unixTime: TimeInterval) -> (String, String, String) {
+		let date = Date(timeIntervalSince1970: unixTime)
+		let dateFormatter = DateFormatter()
+		dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+		dateFormatter.locale = NSLocale.current
+		dateFormatter.dateFormat = "d-MMM-hh:mm a"
+		let dateString = dateFormatter.string(from: date).split(separator: "-")
+		return (String(dateString[0]), String(dateString[1]), String(dateString[2]))
+	}
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -514,7 +585,6 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return 1
-		
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -523,19 +593,34 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
-		
+
 		cell.textLabel?.text = "File a report with this session"
-		
 		return cell
 	}
 	
     func numberOfSections(in tableView: UITableView) -> Int {
-		return 3
+		return datasource.count
 	}
 
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = FileReportSessionView()
-		view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 85) )
+		view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 85))
+		
+		let endTimeString = getDateAndEndTime(unixTime: TimeInterval(datasource[section].endTime))
+		
+		view.nameLabel.text = "with \(datasource[section].name)"
+		view.profilePic.loadUserImages(by: datasource[section].imageURl)
+		view.subjectLabel.text = datasource[section].subject
+		view.monthLabel.text = endTimeString.1
+		view.dayLabel.text = endTimeString.0
+		
+		let startTime = getStartTime(unixTime: TimeInterval(datasource[section].startTime))
+		let formatter = NumberFormatter()
+		formatter.numberStyle = .currency
+		if let amount = formatter.string(from: datasource[section].price as NSNumber) {
+			view.sessionInfoLabel.text = "\(startTime) - \(endTimeString.2) \(amount)"
+		}
+		
 		return view
 	}
 	
@@ -544,7 +629,9 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		self.navigationController?.pushViewController(SessionDetails(), animated: true)
+		let next = SessionDetails()
+		next.datasource = datasource[indexPath.section]
+		self.navigationController?.pushViewController(next, animated: true)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }
@@ -574,55 +661,4 @@ class CustomFileReportTableViewCell : UITableViewCell {
 		
 		accessoryType = .disclosureIndicator
 	}
-}
-
-protocol AlertableView {
-	
-	// Use handler if need catch cancel alert action
-	typealias CompletionHandler = (() -> Void)
-	
-	func displayAlert(with title: String, message: String, actions: [UIAlertAction]?)
-	func displayAlert(with title: String, message: String, style: UIAlertControllerStyle, actions: [UIAlertAction]?, completion: CompletionHandler?)
-}
-
-extension AlertableView where Self: UIViewController {
-	
-	func displayAlert(with title: String, message: String, actions: [UIAlertAction]?) {
-		self.displayAlert(with: title, message: message, style: .alert, actions: actions, completion: nil)
-	}
-	
-	func displayAlert(with title: String, message: String, style: UIAlertControllerStyle, actions: [UIAlertAction]?, completion: CompletionHandler?) {
-		
-		let alertCancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-			
-			guard let completion = completion else { return }
-			completion()
-		}
-		
-		let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-		
-		if let actions = actions {
-			
-			for action in actions {
-				alertController.addAction(action)
-			}
-			
-			alertController.addAction(alertCancelAction)
-			
-		} else {
-			
-			// If not any custom actions, we add OK alert button
-			
-			let alertOkAction = UIAlertAction(title: "OK", style: .cancel) { (action) in
-				
-				guard let completion = completion else { return }
-				completion()
-			}
-			
-			alertController.addAction(alertOkAction)
-		}
-		
-		self.present(alertController, animated: true, completion: nil)
-	}
-	
 }

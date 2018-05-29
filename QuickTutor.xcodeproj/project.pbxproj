@@ -56,6 +56,7 @@
 		8430A8E61FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8430A8E51FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift */; };
 		8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431A38D1FF8A0F20090AEF2 /* RegistrationCheckbox.swift */; };
 		8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434B82A20468D6F00E16170 /* EditLanguages.swift */; };
+		84367EEE20BCEABF007F3556 /* TutorManagePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84367EED20BCEABF007F3556 /* TutorManagePreferences.swift */; };
 		843709CE20AA27220070FCDD /* BankList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843709CD20AA27220070FCDD /* BankList.swift */; };
 		843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A1D182047C5BF00299D27 /* EditSchool.swift */; };
 		843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA323205513F4000C7054 /* UIColorExtensions.swift */; };
@@ -378,6 +379,7 @@
 		8430A8E51FFED725002FD8A3 /* RegistrationNavBarKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationNavBarKeyboardView.swift; sourceTree = "<group>"; };
 		8431A38D1FF8A0F20090AEF2 /* RegistrationCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCheckbox.swift; sourceTree = "<group>"; };
 		8434B82A20468D6F00E16170 /* EditLanguages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLanguages.swift; sourceTree = "<group>"; };
+		84367EED20BCEABF007F3556 /* TutorManagePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorManagePreferences.swift; sourceTree = "<group>"; };
 		843709CD20AA27220070FCDD /* BankList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankList.swift; sourceTree = "<group>"; };
 		843A1D182047C5BF00299D27 /* EditSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSchool.swift; sourceTree = "<group>"; };
 		843BA3212055088B000C7054 /* LearnerReviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerReviews.swift; sourceTree = "<group>"; };
@@ -868,6 +870,7 @@
 			children = (
 				84F431952070786F00030BD4 /* TutorEditProfile.swift */,
 				84716F872087FCC100E80E17 /* EditTutorSubjects.swift */,
+				84367EED20BCEABF007F3556 /* TutorManagePreferences.swift */,
 				84F431942070786F00030BD4 /* TutorEditProfileCells.swift */,
 				84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */,
 			);
@@ -1518,7 +1521,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				5FDA7C23AB0EF6EA1A324114 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1650,21 +1652,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5FDA7C23AB0EF6EA1A324114 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -1867,6 +1854,7 @@
 				CF6F58CF205EE68800ACBD32 /* CustomNavBar.swift in Sources */,
 				84BDE2BF20AB9168003E66D5 /* AccountVerification.swift in Sources */,
 				CF833B87207C4D3000323242 /* SessionCellActionView.swift in Sources */,
+				84367EEE20BCEABF007F3556 /* TutorManagePreferences.swift in Sources */,
 				843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */,
 				84CFDDF2207357B5001CA9BF /* TutorEarnings.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,

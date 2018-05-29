@@ -194,8 +194,8 @@ class DataService {
         let metaData = StorageMetadata(dictionary: metaDataDictionary)
         
         Storage.storage().reference().child(imageName).putData(data, metadata: metaData) { metadata, _ in
-            guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
-            completion(imageUrl)
+            //guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
+            completion("imageUrl")
         }
     }
 }
