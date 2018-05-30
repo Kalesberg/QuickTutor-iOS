@@ -177,7 +177,7 @@ class CreateAccountVC: UIViewController {
                 print(error.debugDescription)
                 return
             }
-            self.saveUserToDatabase(user)
+//            self.saveUserToDatabase(user)
             Auth.auth().signIn(withEmail: email, password: password, completion: { user, _ in
                 guard user != nil else { return }
                 self.addNotificationSettingsToFirebase()
@@ -215,9 +215,9 @@ extension CreateAccountVC: UIImagePickerControllerDelegate, UINavigationControll
             return
         }
         
-        Storage.storage().reference().child(user.uid).child("profilePic").putData(data, metadata: nil) { metadata, _ in
-            Database.database().reference().child("accounts").child(user.uid).child("profilePicUrl").setValue(metadata?.downloadURL()?.absoluteString)
-        }
+//        Storage.storage().reference().child(user.uid).child("profilePic").putData(data, metadata: nil) { metadata, _ in
+//            Database.database().reference().child("accounts").child(user.uid).child("profilePicUrl").setValue(metadata?.downloadURL()?.absoluteString)
+//        }
     }
     
     func getCompressedImageDataFor(_ image: UIImage) -> Data? {

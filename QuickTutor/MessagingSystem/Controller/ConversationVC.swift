@@ -53,9 +53,31 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
 	var tutor : AWTutor!
 	var learner : AWLearner!
 	
-    lazy var emptyCellBackground: EmptyMessagesBackground = {
-        let background = EmptyMessagesBackground()
-        return background
+    lazy var emptyCellBackground: UIView = {
+        let contentView = UIView()
+        let icon: UIImageView = {
+            let iv = UIImageView()
+            iv.image = #imageLiteral(resourceName: "emptyChatImage")
+            iv.contentMode = .scaleAspectFill
+            return iv
+        }()
+        
+        let textLabel: UILabel = {
+            let label = UILabel()
+            label.textColor = Colors.border
+            label.textAlignment = .center
+            label.numberOfLines = 0
+            label.font = Fonts.createSize(11)
+            label.text = "Select a custom message, or introduce yourself by typing a message. A tutor must accept your connection request before you are able to message them again"
+            return label
+        }()
+        
+        contentView.addSubview(icon)
+        contentView.addSubview(textLabel)
+        icon.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 140)
+        textLabel.anchor(top: icon.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 100)
+        contentView.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0))
+        return contentView
     }()
     
     var actionSheet: FileReportActionsheet?
@@ -100,7 +122,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
-        emptyCellBackground.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
+        emptyCellBackground.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
     }
     
     private func setupNavBar() {

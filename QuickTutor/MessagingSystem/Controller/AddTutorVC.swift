@@ -98,7 +98,7 @@ extension AddTutorVC: UICollectionViewDelegate {
     func searchForUsername(_ username: String) {
         self.filteredUsers.removeAll()
         let ref = Database.database().reference().child("tutor-info")
-        ref.queryOrdered(byChild: "nm").queryEqual(toValue: username).observeSingleEvent(of: .value) { (snapshot) in
+        ref.queryOrdered(byChild: "nm").queryEqual(toValue: username.capitalized).observeSingleEvent(of: .value) { (snapshot) in
             guard let results = snapshot.value as? [String: Any] else { return }
             results.forEach({ (arg) in
                 
