@@ -54,9 +54,6 @@ class TutorMyProfile : BaseViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-
-		guard let tutor = CurrentUser.shared.tutor else { return }
-		self.tutor = tutor
 		
 		configureScrollView()
 		configurePageControl()

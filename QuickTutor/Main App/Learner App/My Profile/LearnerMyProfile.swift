@@ -345,10 +345,7 @@ class LearnerMyProfile : BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let learner = CurrentUser.shared.learner else {
-            return
-        }
-        self.learner = learner
+
         configurePageControl()
         configureScrollView()
         setUpImages()

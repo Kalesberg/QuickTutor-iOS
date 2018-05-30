@@ -63,6 +63,7 @@ class TutorManagePreferences : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.hideKeyboardWhenTappedAround()
 		configureDelegates()
 	}
 	

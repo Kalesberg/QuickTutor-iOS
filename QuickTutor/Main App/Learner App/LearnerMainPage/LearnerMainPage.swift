@@ -91,26 +91,35 @@ class LearnerMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		AccountService.shared.currentUserType = .learner
+		guard let learner = CurrentUser.shared.learner else {
+			try! Auth.auth().signOut()
+			self.navigationController?.pushViewController(SignIn(), animated: true)
+			return
+		}
+		self.learner = learner
+		
+		Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
+			if let error = error {
+				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+			} else if let customer = customer {
+				self.learner.hasPayment = (customer.sources.count > 0)
+			}
+		}
+
         queryFeaturedTutors()
         configureView()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        AccountService.shared.currentUserType = .learner
-        
+		
         if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
             UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
             displayMessagesTutorial()
         }
         
-        guard let learner = CurrentUser.shared.learner else {
-            try! Auth.auth().signOut()
-            self.navigationController?.pushViewController(SignIn(), animated: true)
-            return
-        }
-        self.learner = learner
+		
         self.configureSideBarView()
     }
     
@@ -307,7 +316,9 @@ class LearnerMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
-            navigationController?.pushViewController(LearnerMyProfile(), animated: true)
+			let next = LearnerMyProfile()
+			next.learner = CurrentUser.shared.learner
+            navigationController?.pushViewController(next, animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.reportItem) {

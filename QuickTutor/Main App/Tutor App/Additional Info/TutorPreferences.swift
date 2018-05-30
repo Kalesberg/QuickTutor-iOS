@@ -132,6 +132,7 @@ class TutorPreferences : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
+		self.hideKeyboardWhenTappedAround()
     }
     
     override func loadView() {

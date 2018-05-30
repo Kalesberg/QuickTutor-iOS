@@ -156,6 +156,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
         backButton.image.image = #imageLiteral(resourceName: "backButton")
         headerView.backgroundColor = Colors.backgroundDark
         cancelButton.label.label.text = "Add"
+		cancelButton.isHidden = true
 
         applyConstraints()
     }
@@ -300,10 +301,12 @@ class TutorAddSubjects : BaseViewController {
         }
     }
 
-    
-    override func viewDidAppear(_ animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        displayTutorial()
+		if UserDefaults.standard.bool(forKey: "showBecomeTutorTutorial1.0") {
+			displayTutorial()
+			UserDefaults.standard.set(false, forKey: "showBecomeTutorTutorial1.0")
+		}
     }
     
     override func viewDidLayoutSubviews() {
