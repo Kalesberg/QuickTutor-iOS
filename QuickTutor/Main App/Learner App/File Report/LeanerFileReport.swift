@@ -338,7 +338,6 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
         errorLabel.snp.makeConstraints { (make) in
             make.left.equalTo(characterCount.snp.right).inset(-10)
             make.bottom.equalToSuperview().inset(10)
-            make.right.equalToSuperview().inset(5)
         }
     }
     

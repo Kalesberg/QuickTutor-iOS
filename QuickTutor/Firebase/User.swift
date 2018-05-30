@@ -145,7 +145,7 @@ class FirebaseData {
 		var sessions : [UserSession] = []
 		let group = DispatchGroup()
 		group.enter()
-		self.ref.child("userSessions").child("2HBjfcL6y7Miwrq47ZfMQssNy2Q2").observeSingleEvent(of: .value) { (snapshot) in
+		self.ref.child("userSessions").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let value = snapshot.value as? [String: Any], value.count > 0 else {
 				completion(nil)
 				group.leave()

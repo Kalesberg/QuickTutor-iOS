@@ -23,6 +23,10 @@ class LearnerLateView : FileReportCheckboxLayout {
 		cb2.label.text = "Learner arrived extensively late"
 		cb3.label.text = "Lerner didn't show up"
 	}
+	override func layoutSubviews() {
+		statusbarView.backgroundColor = Colors.tutorBlue
+		navbar.backgroundColor = Colors.tutorBlue
+	}
 }
 
 class LearnerLate : BaseViewController {
@@ -67,7 +71,7 @@ class LearnerLate : BaseViewController {
 	}
 	private func submitReport() {
 		guard let reason = getReason() else {
-			print("Select an option!")
+			AlertController.genericErrorAlert(self, title: "Select an Option!", message: "In order to better process your report, we suggest that you select an option.")
 			return
 		}
 		
@@ -75,10 +79,9 @@ class LearnerLate : BaseViewController {
 		let value : [String : Any] = ["reason" : reason]
 		
 		FirebaseData.manager.fileReport(sessionId: "SessionID1231", reportClass: node, value: value) { (error) in
-			if let error = error{
-				print(error)
-			} else{
-				print("Submitted!")
+			if  error != nil {
+				AlertController.genericErrorAlert(self, title: "Error Processing Report", message: "Something went wrong, please try again.")
+			} else {
 				self.customerServiceAlert {
 					self.navigationController?.popBackToMain()
 				}
