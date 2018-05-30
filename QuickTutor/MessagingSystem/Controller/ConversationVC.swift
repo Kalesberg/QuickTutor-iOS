@@ -49,10 +49,10 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         cv.register(ConnectionRequestCell.self, forCellWithReuseIdentifier: "connectionRequest")
         return cv
     }()
-	
-	var tutor : AWTutor!
-	var learner : AWLearner!
-	
+    
+    var tutor : AWTutor!
+    var learner : AWLearner!
+    
     lazy var emptyCellBackground: UIView = {
         let contentView = UIView()
         let icon: UIImageView = {
@@ -136,13 +136,13 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         if let partner = chatPartner {
             titleView.updateUI(user: partner)
         }
-		
-		if AccountService.shared.currentUserType == .learner {
-			titleView.tutor = tutor
-		} else {
-			titleView.learner = learner
-		}
-		
+        
+        if AccountService.shared.currentUserType == .learner {
+            titleView.tutor = tutor
+        } else {
+            titleView.learner = learner
+        }
+        
         navBar.addSubview(titleView)
         titleView.anchor(top: navBar.titleView.topAnchor, left: nil, bottom: navBar.titleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
