@@ -62,7 +62,7 @@ class TutorConnectView : MainLayoutTwoButton {
         collectionView.isPagingEnabled = true
         collectionView.decelerationRate = UIScrollViewDecelerationRateFast
 
-        return collectionView
+		return collectionView
     }()
     
     override var leftButton : NavbarButton {
@@ -91,7 +91,8 @@ class TutorConnectView : MainLayoutTwoButton {
         
         return view
     }()
-    
+	
+	
     override func configureView() {
         navbar.addSubview(searchBar)
         addSubview(collectionView)
@@ -165,11 +166,13 @@ class TutorCardCollectionViewBackground : BaseView {
     override func applyConstraints() {
         label.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.75)
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
         
         imageView.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.5)
+			make.height.equalTo(200)
             make.bottom.equalTo(label.snp.top)
         }
     }
@@ -253,21 +256,22 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
     var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
     
-    var pageCount : Int {
-        return 0
-        //return learner.images.filter({$0.value != ""}).count
-    }
-    
+	var pageCount : Int = 0 {
+		didSet {
+			configurePageControl()
+		}
+	}
+	
     var datasource = [AWTutor]() {
         didSet {
-//            contentView.collectionView.backgroundView = (datasource.count == 0) ? TutorCardCollectionViewBackground() : nil
+            contentView.collectionView.backgroundView = (datasource.count == 0) ? TutorCardCollectionViewBackground() : nil
             contentView.collectionView.reloadData()
         }
     }
     
     var filteredDatasource = [AWTutor]() {
         didSet {
-//            contentView.collectionView.backgroundView = (filteredDatasource.count == 0) ? TutorCardCollectionViewBackground() : nil
+            contentView.collectionView.backgroundView = (filteredDatasource.count == 0) ? TutorCardCollectionViewBackground() : nil
             contentView.collectionView.reloadData()
         }
     }
@@ -308,8 +312,8 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         
         horizontalScrollView.delegate = self
         pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
-
-        contentView.collectionView.dataSource = self
+		
+		contentView.collectionView.dataSource = self
         contentView.collectionView.delegate = self
         contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
     }
@@ -324,51 +328,44 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         }
         
         configureScrollView()
-        configurePageControl()
-        setUpImages()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         contentView.collectionView.reloadData()
     }
-    
-    private func setUpImages() {
-        var count = 0
-        for number in 1..<5 {
-//            if learner.images["image\(number)"] == "" {
-//                continue
-//            }
-            count += 1
-            setImage(number, count)
-        }
-    }
-    private func setImage(_ number: Int, _ count: Int) {
-        let imageView = UIImageView()
-        //imageView.loadUserImages(by: learner.images["image\(number)"]!)
-        imageView.scaleImage()
-        self.horizontalScrollView.addSubview(imageView)
-        
-        imageView.snp.makeConstraints({ (make) in
-            make.top.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalTo(UIScreen.main.bounds.width)
-            if (count != 1) {
-                make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
-            } else {
-                make.centerX.equalToSuperview()
-            }
-        })
-        contentView.layoutIfNeeded()
-    }
+	func setUpImages(images: [String]) {
+		pageCount = images.count
+		var count = 1
+		images.forEach({
+			let imageView = UIImageView()
+			imageView.loadUserImages(by: $0)
+			imageView.scaleImage()
+			self.horizontalScrollView.addSubview(imageView)
+			
+			imageView.snp.makeConstraints({ (make) in
+				make.top.equalToSuperview()
+				make.height.equalToSuperview()
+				make.width.equalTo(UIScreen.main.bounds.width)
+				if (count != 1) {
+					make.left.equalTo(self.horizontalScrollView.subviews[count - 2].snp.right)
+				} else {
+					make.centerX.equalToSuperview()
+				}
+			})
+			count += 1
+		})
+		contentView.layoutIfNeeded()
+	}
+
     private func configureScrollView() {
         contentView.insertSubview(horizontalScrollView, aboveSubview: contentView.backgroundView)
         horizontalScrollView.isUserInteractionEnabled = false
         horizontalScrollView.isHidden = true
         horizontalScrollView.isPagingEnabled = true
         horizontalScrollView.showsHorizontalScrollIndicator = false
-        
-        horizontalScrollView.backgroundColor = .yellow
+		
+//        horizontalScrollView.backgroundColor = .yellow
         
         horizontalScrollView.snp.makeConstraints { (make) in
             make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)

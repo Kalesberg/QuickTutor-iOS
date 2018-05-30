@@ -159,16 +159,16 @@ class FileReportSessionView : BaseView {
         
         subjectLabel.snp.makeConstraints { (make) in
             make.left.equalTo(profilePic.snp.right)
-            make.centerY.equalToSuperview()
+			make.bottom.equalTo(nameLabel.snp.top)
         }
         
         nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(subjectLabel.snp.bottom)
+			make.centerY.equalToSuperview()
             make.left.equalTo(subjectLabel)
         }
         
         sessionInfoLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(subjectLabel.snp.top)
+            make.top.equalTo(nameLabel.snp.bottom)
             make.left.equalTo(subjectLabel)
         }
     }
@@ -338,7 +338,6 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
         errorLabel.snp.makeConstraints { (make) in
             make.left.equalTo(characterCount.snp.right).inset(-10)
             make.bottom.equalToSuperview().inset(10)
-            make.right.equalToSuperview().inset(5)
         }
     }
     
@@ -529,16 +528,28 @@ class LearnerFileReport : BaseViewController {
 	
 	var datasource = [UserSession]() {
 		didSet {
+			if datasource.count == 0 {
+				let view = TutorCardCollectionViewBackground()
+				let formattedString = NSMutableAttributedString()
+				
+				formattedString
+					.bold("No past sessions!", 22, .white)
+				
+				view.label.attributedText = formattedString
+				view.label.textAlignment = .center
+				view.label.numberOfLines = 0
+				contentView.tableView.backgroundView = view
+			}
 			contentView.tableView.reloadData()
 		}
 	}
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		
-		
+
 		FirebaseData.manager.getUserSessions(uid: CurrentUser.shared.learner.uid) { (sessions) in
-			self.datasource = sessions
+			if let sessions = sessions {
+				self.datasource = sessions
+			}
 		}
 		
 		contentView.tableView.delegate = self
@@ -607,8 +618,9 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 		view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 85))
 		
 		let endTimeString = getDateAndEndTime(unixTime: TimeInterval(datasource[section].endTime))
+		let name = datasource[section].name.split(separator: " ")
 		
-		view.nameLabel.text = "with \(datasource[section].name)"
+		view.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
 		view.profilePic.loadUserImages(by: datasource[section].imageURl)
 		view.subjectLabel.text = datasource[section].subject
 		view.monthLabel.text = endTimeString.1

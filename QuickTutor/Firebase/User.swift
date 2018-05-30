@@ -51,11 +51,13 @@ class FirebaseData {
     public func linkEmail(email: String) {
         let password: String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
         let credential = EmailAuthProvider.credential(withEmail: email, password: password!)
-        user.link(with: credential, completion: { (user, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        })
+		user.linkAndRetrieveData(with: credential) { (result, error) in
+			if let error = error {
+				print(error.localizedDescription)
+			} else if let result = result {
+				print(result)
+			}
+		}
     }
     
     public func uploadUser(_ completion: @escaping (Error?) -> Void) {
@@ -108,7 +110,13 @@ class FirebaseData {
             }
         }
     }
-    
+	public func getProfileImagesFor(uid: String,_ competion: @escaping ([String]?) -> Void) {
+		self.ref.child("tutor-info").child(uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
+			guard let value = snapshot.value as? [String : String] else { return }
+			competion(value.values.filter({$0 != ""}))
+		}
+	}
+	
     public func fileReport(sessionId: String, reportClass: String, value: [String : Any], completion: @escaping (Error?) -> Void) {
         var values = value
         
@@ -133,12 +141,16 @@ class FirebaseData {
 		}
 	}
 
-	public func getUserSessions(uid: String,_ completion: @escaping ([UserSession]) -> Void) {
-		var sessions = [UserSession]()
+	public func getUserSessions(uid: String,_ completion: @escaping ([UserSession]?) -> Void) {
+		var sessions : [UserSession] = []
 		let group = DispatchGroup()
-		
-		self.ref.child("userSessions").child("Gtdytoqr7YepYr0qg4l4eN2IMMJ3").observeSingleEvent(of: .value) { (snapshot) in
-			guard let value = snapshot.value as? [String: Any], value.count > 0 else { return }
+		group.enter()
+		self.ref.child("userSessions").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+			guard let value = snapshot.value as? [String: Any], value.count > 0 else {
+				completion(nil)
+				group.leave()
+				return
+			}
 			for autoId in value.keys {
 				group.enter()
 				self.ref.child("sessions").child(autoId).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -147,6 +159,7 @@ class FirebaseData {
 						return
 					}
 					var session = UserSession(dictionary: value)
+					group.enter()
 					self.ref.child("student-info").child(session.otherId).observeSingleEvent(of: .value, with: { (snapshot) in
 						
 						guard let value = snapshot.value as? [String : Any] else {
@@ -164,12 +177,14 @@ class FirebaseData {
 						sessions.append(session)
 						group.leave()
 					})
+					group.leave()
 				})
 			}
-			group.notify(queue: .main, execute: {
-				completion(sessions)
-			})
+			group.leave()
 		}
+		group.notify(queue: .main, execute: {
+			completion(sessions)
+		})
 	}
 
     public func getLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
@@ -287,8 +302,6 @@ class FirebaseData {
                     group.leave()
                 })
                 group.notify(queue: .main, execute: {
-                    print("tutor")
-					print("isHidde: ", tutor.uid ," ", tutor.isVisible)
                     completion(tutor)
                 })
             })
@@ -446,9 +459,9 @@ class FirebaseData {
             childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
         }
 		
-        group.enter()
         for imageURL in CurrentUser.shared.learner.images {
             if imageURL.value == "" { continue }
+			group.enter()
             Storage.storage().reference(forURL: imageURL.value).delete { (error) in
                     if let error = error {
                         completion(error)

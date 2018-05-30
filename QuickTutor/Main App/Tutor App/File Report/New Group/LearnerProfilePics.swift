@@ -25,6 +25,10 @@ class LearnerProfilePicsView : FileReportSubmissionLayout {
     override func applyConstraints() {
         super.applyConstraints()
     }
+	override func layoutSubviews() {
+		statusbarView.backgroundColor = Colors.tutorBlue
+		navbar.backgroundColor = Colors.tutorBlue
+	}
 }
 
 class LearnerProfilePics : SubmissionViewController {

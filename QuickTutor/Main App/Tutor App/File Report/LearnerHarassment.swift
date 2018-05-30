@@ -46,7 +46,6 @@ class LearnerHarassment : SubmissionViewController {
 	
 	override func handleNavigation() {
 		if (touchStartView is SubmitButton) {
-			print("hi")
 			if contentView.textView.textView.text!.count > 20 {
 				submitReport()
 			} else {
@@ -60,9 +59,8 @@ class LearnerHarassment : SubmissionViewController {
 		let value : [String : Any] = ["reason" : contentView.textView.textView.text!]
 		
 		FirebaseData.manager.fileReport(sessionId: "SessionID1231", reportClass: node, value: value) { (error) in
-			if let error = error {
-				print(error)
-			} else {
+			if error != nil {
+				AlertController.genericErrorAlert(self, title: "Error Processing Report", message: "Something went wrong, please try again")
 				self.customerServiceAlert {
 					self.navigationController?.popBackToMain()
 				}

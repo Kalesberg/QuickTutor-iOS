@@ -24,6 +24,10 @@ class LearnerRudeView : FileReportSubmissionLayout {
     override func applyConstraints() {
         super.applyConstraints()
     }
+	override func layoutSubviews() {
+		statusbarView.backgroundColor = Colors.tutorBlue
+		navbar.backgroundColor = Colors.tutorBlue
+	}
 }
 
 class LearnerRude : SubmissionViewController {

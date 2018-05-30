@@ -90,7 +90,9 @@ class SessionDetails : BaseViewController {
 	
 	private func getStartTime(unixTime: TimeInterval) -> String {
 		let date = Date(timeIntervalSince1970: unixTime)
+		
 		let dateFormatter = DateFormatter()
+		
 		dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
 		dateFormatter.locale = NSLocale.current
 		dateFormatter.dateFormat = "hh:mm a"
@@ -110,8 +112,9 @@ class SessionDetails : BaseViewController {
 	
 	private func setHeader() {
 		let endTimeString = getDateAndEndTime(unixTime: TimeInterval(datasource.endTime))
+		let name = datasource.name.split(separator: " ")
 		
-		contentView.sessionHeader.nameLabel.text = "with \(datasource.name)"
+		contentView.sessionHeader.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
 		contentView.sessionHeader.profilePic.loadUserImages(by: datasource.imageURl)
 		contentView.sessionHeader.subjectLabel.text = datasource.subject
 		contentView.sessionHeader.monthLabel.text = endTimeString.1
