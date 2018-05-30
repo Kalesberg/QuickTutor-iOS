@@ -156,6 +156,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
         backButton.image.image = #imageLiteral(resourceName: "backButton")
         headerView.backgroundColor = Colors.backgroundDark
         cancelButton.label.label.text = "Add"
+		cancelButton.isHidden = true
 
         applyConstraints()
     }

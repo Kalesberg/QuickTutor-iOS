@@ -381,8 +381,8 @@ class SignIn: BaseViewController {
 	}
 	
 	private func signIn() {
-		self.displayLoadingOverlay()
 		let phoneNumber = contentView.phoneTextField.textField.text!
+		self.displayLoadingOverlay()
 		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { (verificationId, error) in
 			if let error = error {
 				self.dismissOverlay()
