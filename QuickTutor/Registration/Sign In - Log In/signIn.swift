@@ -386,7 +386,7 @@ class SignIn: BaseViewController {
 		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { (verificationId, error) in
 			if let error = error {
 				self.dismissOverlay()
-				print("Error:", error.localizedDescription)
+				AlertController.genericErrorAlert(self, title: "Error:", message: error.localizedDescription)
 				self.contentView.nextButton.isUserInteractionEnabled = true
 			} else {
 				self.dismissOverlay()

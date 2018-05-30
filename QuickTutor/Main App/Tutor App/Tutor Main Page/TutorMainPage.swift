@@ -824,7 +824,9 @@ class TutorMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
-            navigationController?.pushViewController(TutorMyProfile(), animated: true)
+			let next = TutorMyProfile()
+			next.tutor = CurrentUser.shared.tutor
+            navigationController?.pushViewController(next, animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.reportItem) {
@@ -898,7 +900,7 @@ class TutorMainPage : MainPage {
             contentView.shareUsernameModal.isHidden = true
         } else if (touchStartView == contentView.shareUsernameModal.twitterImage) {
             
-            let tweetText = "Follow me on Quicktutor!"
+            let tweetText = "Follow me on Quicktutor! \(CurrentUser.shared.tutor.username)"
             let usernameURL = "http://QuickTutor.com/"
             let shareString = "https://twitter.com/intent/tweet?text=\(tweetText)&url=\(usernameURL)"
             

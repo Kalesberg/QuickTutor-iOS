@@ -300,10 +300,12 @@ class TutorAddSubjects : BaseViewController {
         }
     }
 
-    
-    override func viewDidAppear(_ animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        displayTutorial()
+		if UserDefaults.standard.bool(forKey: "showBecomeTutorTutorial1.0") {
+			displayTutorial()
+			UserDefaults.standard.set(false, forKey: "showBecomeTutorTutorial1.0")
+		}
     }
     
     override func viewDidLayoutSubviews() {
