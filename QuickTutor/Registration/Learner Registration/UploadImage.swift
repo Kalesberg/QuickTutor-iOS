@@ -206,13 +206,12 @@ class UploadImage: BaseViewController {
 				}
 			}
         } else if (touchStartView == contentView.addImageButton) {
-			//alertController()
 			AlertController.cropImageAlert(self, imagePicker: imagePicker)
         } else if (touchStartView == contentView.looksGoodButton) {
 			if imagePicked {
 				self.displayLoadingOverlay()
 				contentView.looksGoodButton.isUserInteractionEnabled = false
-				guard let image = contentView.imageView.image?.circleMasked! else { return }
+				guard let image = contentView.imageView.image else { return }
 				guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
 				
 				FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
