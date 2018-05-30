@@ -204,6 +204,8 @@ extension MessagesContentCell: ConversationCellDelegate {
     func conversationCellShouldDisconnect(_ conversationCell: ConversationCell) {
         guard let uid = Auth.auth().currentUser?.uid, let id = conversationCell.chatPartner.uid else { return }
         let conversationRef = Database.database().reference().child("conversations").child(uid).child(id)
+        Database.database().reference().child("connections").child(uid).child(id).removeValue()
+        Database.database().reference().child("connections").child(id).child(uid).removeValue()
         conversationRef.removeValue()
         conversationRef.childByAutoId().setValue(["removed": true, "removedAt": Date().timeIntervalSince1970])
         let indexPath = collectionView.indexPath(for: conversationCell)!
