@@ -29,6 +29,19 @@ class FileReportActionsheetCell: UICollectionViewCell {
         backgroundColor = UIColor(hex: "272731")
     }
     
+    @objc func darken() {
+        backgroundColor = backgroundColor?.darker(by: 15)
+        titleLabel.textColor = titleLabel.textColor.darker(by: 15)
+    }
+    
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                darken()
+            }
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

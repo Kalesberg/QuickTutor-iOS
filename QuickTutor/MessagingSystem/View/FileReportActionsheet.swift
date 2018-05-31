@@ -37,6 +37,7 @@ class FileReportActionsheet: UIView {
         cv.register(FileReportActionsheetCell.self, forCellWithReuseIdentifier: "cellId")
         cv.backgroundColor = UIColor(hex: "131317")
         cv.layer.cornerRadius = 8
+        cv.isScrollEnabled = false
         cv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return cv
     }()
