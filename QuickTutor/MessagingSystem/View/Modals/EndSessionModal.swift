@@ -49,15 +49,6 @@ class EndSessionModal: BaseCustomModal {
         titleLabel.text = "END THIS SESSION?"
     }
     
-    override func setupBackground() {
-        guard let window = UIApplication.shared.keyWindow else { return }
-        window.addSubview(background)
-        background.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 125)
-        window.addConstraint(NSLayoutConstraint(item: background, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
-        background.alpha = 0
-        background.layer.cornerRadius = 8
-    }
-    
     func setupEndSessionButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(endSessionButton)

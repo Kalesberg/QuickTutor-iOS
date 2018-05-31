@@ -15,7 +15,13 @@ protocol SessionRequestViewDelegate {
 
 class SessionRequestView: UIView {
     
-    var chatPartnerId: String!
+    var chatPartnerId: String! {
+        didSet {
+            loadSubjectsForUserWithId(chatPartnerId) {
+                
+            }
+        }
+    }
     var delegate: SessionRequestViewDelegate?
     var subject: String?
     var date: Date?
@@ -375,6 +381,18 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
         for index in 0...titles.count {
             guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
             cell.textLabel?.textColor = .white
+        }
+        
+    }
+    
+    func loadSubjectsForUserWithId(_ id: String, completion: @escaping() -> Void) {
+        Database.database().reference().child("subject").child(id).observeSingleEvent(of: .value) { (snapshot) in
+            if let value = snapshot.value as? [[String:Any]] {
+                print("bye")
+            } else {
+              print("hey")
+            }
+            
         }
     }
     

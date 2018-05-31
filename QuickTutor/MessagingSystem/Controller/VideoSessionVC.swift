@@ -129,6 +129,12 @@ class VideoSessionVC: UIViewController {
     }
     
     @objc func showPauseModal(pausedById: String) {
+        room?.localParticipant?.localVideoTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = false
+        })
+        room?.localParticipant?.localAudioTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = false
+        })
         guard let uid = Auth.auth().currentUser?.uid else { return }
         sessionNavBar.timeLabel.timer?.invalidate()
         pauseSessionModal?.delegate = self
@@ -228,12 +234,22 @@ class VideoSessionVC: UIViewController {
         socket.on(SocketEvents.unpauseSession) { _, _ in
             self.pauseSessionModal?.dismiss()
             self.sessionNavBar.timeLabel.startTimer()
+            self.resumeSession()
         }
         
         socket.on(SocketEvents.endSession) { _, _ in
             self.showEndSession()
         }
         
+    }
+    
+    func resumeSession() {
+        room?.localParticipant?.localVideoTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = true
+        })
+        room?.localParticipant?.localAudioTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = true
+        })
     }
     
     @objc func showEndSession() {

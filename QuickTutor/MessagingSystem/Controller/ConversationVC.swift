@@ -89,10 +89,11 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         return animator
     }()
     
-    lazy var imageMessageSender: ImageMessageSender = {
-        let sender = ImageMessageSender(parentViewController: self)
-        return sender
-    }()
+//    lazy var imageMessageSender: ImageMessageSender = {
+//        let sender = ImageMessageSender(parentViewController: self)
+//        sender.receiverId = receiverId
+//        return sender
+//    }()
     
     var containerViewBottomAnchor: NSLayoutConstraint?
     
@@ -392,11 +393,73 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     
 }
 
+extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func handleSendingImage() {
+        studentKeyboardAccessory.hideActionView()
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+            imagePicker.sourceType = .camera
+            self.present(imagePicker, animated: true, completion: nil)
+        }))
+        ac.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
+            imagePicker.sourceType = .photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+        }))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+        }))
+        present(ac, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        var image: UIImage?
+        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            image = editedImage
+        } else if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            image = originalImage
+        }
+        guard let imageToUplaod = image else { return }
+        uploadImageToFirebase(image: imageToUplaod)
+    }
+    
+    func uploadImageToFirebase(image: UIImage) {
+        dismiss(animated: true, completion: nil)
+        guard let data = UIImageJPEGRepresentation(image, 0.2) else {
+            return
+        }
+        let imageName = NSUUID().uuidString
+        
+        let metaDataDictionary = ["width": image.size.width, "height": image.size.height]
+        let metaData = StorageMetadata(dictionary: metaDataDictionary)
+        
+        let storageRef = Storage.storage().reference().child(imageName)
+        
+        storageRef.putData(data, metadata: metaData) { metadataIn, _ in
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            guard let imageMeta = metadataIn else { return }
+            storageRef.downloadURL(completion: { (url, error) in
+                if error != nil {
+                    print(error.debugDescription)
+                }
+                guard let imageUrl = url else { return }
+                let timestamp = Date().timeIntervalSince1970
+                
+                let message = UserMessage(dictionary: ["imageUrl": imageUrl, "timestamp": timestamp, "senderId": uid, "receiverId": self.receiverId])
+                message.imageUrl = imageUrl.absoluteString
+                message.data["imageWidth"] = image.size.width
+                message.data["imageHeight"] = image.size.width
+                self.sendMessage(message: message)
+            })
+
+        }
+    }
+}
+
 // MARK: Plus button actions -
 extension ConversationVC: KeyboardAccessoryViewDelegate {
-    func handleSendingImage() {
-        imageMessageSender.handleSendingImage()
-    }
     
     func handleSessionRequest() {
         studentKeyboardAccessory.messageTextview.resignFirstResponder()

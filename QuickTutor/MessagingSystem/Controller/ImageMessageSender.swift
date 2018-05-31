@@ -12,7 +12,7 @@ import Firebase
 class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var parentViewController: UIViewController!
-    var recieverId: String!
+    var receiverId: String!
     
     func handleSendingImage() {
         let imagePicker = UIImagePickerController()
@@ -44,10 +44,18 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         DataService.shared.uploadImageToFirebase(image: imageToUplaod) { imageUrl in
             guard let uid = Auth.auth().currentUser?.uid else { return }
             let timestamp = Date().timeIntervalSince1970
-//            let message = UserMessage(dictionary: ["imageUrl": imageUrl, "timestamp": timestamp, "senderId": uid, "receiverId": self.receiverId])
-//            message.data["imageWidth"] = image.size.width
-//            message.data["imageHeight"] = image.size.width
-//            self.sendMessage(message: message)
+            let message = UserMessage(dictionary: ["imageUrl": imageUrl, "timestamp": timestamp, "senderId": uid, "receiverId": self.receiverId])
+            message.data["imageWidth"] = image?.size.width
+            message.data["imageHeight"] = image?.size.width
+            self.sendMessage(message: message)
+        }
+    }
+    
+    func sendMessage(message: UserMessage) {
+        if let url = message.imageUrl {
+            DataService.shared.sendImageMessage(imageUrl: url, imageWidth: message.data["imageWidth"] as! CGFloat, imageHeight: message.data["imageHeight"] as! CGFloat, receiverId: receiverId, completion: {
+            })
+            return
         }
     }
     
