@@ -285,15 +285,11 @@ class FirebaseData {
                     var selected : [Selected] = []
 
                     if let subcategory = subcategory {
-
                         for subject in subcategory {
-
                             let this = subject.subjects.split(separator: "$")
-
                             for i in this {
                                 selected.append(Selected(path: "\(subject.subcategory)", subject: String(i)))
                                 subjects.append(String(i))
-
                             }
                         }
                         tutor.subjects = subjects

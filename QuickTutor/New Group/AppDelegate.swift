@@ -108,14 +108,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         let firebaseAuth = Auth.auth()
         
         //At development time we use .sandbox
-        firebaseAuth.setAPNSToken(deviceToken, type: AuthAPNSTokenType.sandbox)
+        firebaseAuth.setAPNSToken(deviceToken, type: .prod)
         
         //At time of production it will be set to .prod
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let firebaseAuth = Auth.auth()
-        
+		
         if (firebaseAuth.canHandleNotification(userInfo)){
             print(userInfo)
             return

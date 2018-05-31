@@ -191,7 +191,6 @@ class CreateAccountVC: UIViewController {
         let data = ["connectionRequests": true, "messages": true, "sessionRequests": true]
         Database.database().reference().child("notificationPreferences").child(uid).updateChildValues(data)
     }
-    
 }
 
 extension CreateAccountVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
