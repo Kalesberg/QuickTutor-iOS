@@ -88,9 +88,10 @@ class MessagesContentCell: BaseContentCell {
     @objc func fetchConversations() {
         conversationsDictionary.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("conversations").child(uid).observe(.childAdded) { snapshot in
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("conversations").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
             let userId = snapshot.key
-            Database.database().reference().child("conversations").child(uid).child(userId).observe(.childAdded, with: { snapshot in
+            Database.database().reference().child("conversations").child(uid).child(userTypeString).child(userId).observe(.childAdded, with: { snapshot in
                 let messageId = snapshot.key
                 self.getMessageById(messageId)
             })
@@ -139,9 +140,12 @@ class MessagesContentCell: BaseContentCell {
             distance < 0 ? handleSwipeLeft(cell: cell, distance: distance) : handleSwipeRight(cell: cell, distance: distance)
         case .ended:
             handlePanEnd(cell: cell, distance: distance)
+        case .cancelled:
+            handlePanEnd(cell: cell, distance: distance)
         default:
             break
         }
+        
         
     }
     
@@ -154,6 +158,7 @@ class MessagesContentCell: BaseContentCell {
     
     func handleSwipeLeft(cell: ConversationCell, distance: CGFloat) {
         guard distance > -130 else { return }
+        guard cell.backgroundRightAnchor?.constant != -130 else { return }
         cell.backgroundRightAnchor?.constant = distance
         cell.animator?.fractionComplete = abs(distance / 130)
         cell.layoutIfNeeded()
@@ -203,7 +208,8 @@ extension MessagesContentCell {
 extension MessagesContentCell: ConversationCellDelegate {
     func conversationCellShouldDisconnect(_ conversationCell: ConversationCell) {
         guard let uid = Auth.auth().currentUser?.uid, let id = conversationCell.chatPartner.uid else { return }
-        let conversationRef = Database.database().reference().child("conversations").child(uid).child(id)
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let conversationRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
         Database.database().reference().child("connections").child(uid).child(id).removeValue()
         Database.database().reference().child("connections").child(id).child(uid).removeValue()
         conversationRef.removeValue()
@@ -217,7 +223,8 @@ extension MessagesContentCell: ConversationCellDelegate {
     
     func conversationCellShouldDeleteMessages(_ conversationCell: ConversationCell) {
         guard let uid = Auth.auth().currentUser?.uid, let id = conversationCell.chatPartner.uid else { return }
-        let conversationRef = Database.database().reference().child("conversations").child(uid).child(id)
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let conversationRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
         conversationRef.removeValue()
         conversationRef.childByAutoId().setValue(["removed": true, "removedAt": Date().timeIntervalSince1970])
         let indexPath = collectionView.indexPath(for: conversationCell)!

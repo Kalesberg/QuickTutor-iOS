@@ -206,7 +206,8 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     func loadMessages() {
         let uid = AccountService.shared.currentUser.uid!
-        Database.database().reference().child("conversations").child(uid).child(receiverId).observe(.childAdded) { snapshot in
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId).observe(.childAdded) { snapshot in
             self.teardownConnectionRequest()
             let messageId = snapshot.key
             DataService.shared.getMessageById(messageId, completion: { message in
@@ -228,7 +229,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         let uid = AccountService.shared.currentUser.uid!
         if message.connectionRequestId != nil {
             self.canSendMessages = false
-            Database.database().reference().child("connections").child(uid).child(message.partnerId()).observeSingleEvent(of: .value, with: { (snapshot) in
+            Database.database().reference().child("connections").child(uid).child(message.partnerId()).observe(.value, with: { (snapshot) in
                 guard let value = snapshot.value as? Bool else {
                     return
                 }
@@ -245,7 +246,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     func checkForConnection(completion: @escaping (Bool) ->() ) {
         let uid = AccountService.shared.currentUser.uid!
-        Database.database().reference().child("connections").child(uid).child(receiverId).observeSingleEvent(of: .value) { snapshot in
+        Database.database().reference().child("connections").child(uid).child(receiverId).observe(.value) { (snapshot) in
             guard (snapshot.value as? Int) != nil else {
                 self.connectionRequestAccepted = false
                 completion(false)
@@ -327,13 +328,14 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         if message.sessionRequestId != nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestCell
             cell.updateUI(message: message)
+            cell.bubbleWidthAnchor?.constant = 220
             cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
             return cell
         }
         
         if message.connectionRequestId != nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "connectionRequest", for: indexPath) as! ConnectionRequestCell
-            cell.bubbleWidthAnchor?.constant = 200
+            cell.bubbleWidthAnchor?.constant = 220
             cell.chatPartner = chatPartner
             cell.updateUI(message: message)
             cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
