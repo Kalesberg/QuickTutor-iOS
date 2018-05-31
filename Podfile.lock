@@ -101,7 +101,7 @@ DEPENDENCIES:
   - TwilioVideo (= 2.0.0-beta3)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AAPhotoCircleCrop
     - Alamofire
     - Bolts
@@ -169,4 +169,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e41169277de89fc8fc14d85711bae95a138d94aa
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.0
