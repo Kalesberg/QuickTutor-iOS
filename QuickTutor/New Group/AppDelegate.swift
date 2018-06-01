@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
             if defaults.bool(forKey: "showHomePage") {
                 FirebaseData.manager.signInLearner(uid: user.uid) { (successful) in
                     if successful {
-                        self.configureRootViewController(controller: LearnerPageViewController())
+                        self.configureRootViewController(controller: LearnerRude())
                     } else {
 //                        try! Auth.auth().signOut()
                         self.configureRootViewController(controller: SignIn())

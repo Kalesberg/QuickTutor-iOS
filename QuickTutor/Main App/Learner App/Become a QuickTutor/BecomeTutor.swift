@@ -80,7 +80,7 @@ class BecomeTutorView : BaseLayoutView {
         makeMoneyLabel.font = Fonts.createSize(15)
         makeMoneyLabel.numberOfLines = 0
         
-        earnMoneyTitle.label.text = "Earn money as a QuickTutor"
+        earnMoneyTitle.label.text = "Earn money tutoring"
         
         earnMoneyBody.text = "No matter who you are, QuickTutor enables you to simply run a freelance tutoring business. QuickTutor makes it simple and safe to earn money and teach people around the world - either in-person with people near you or video call globally."
         

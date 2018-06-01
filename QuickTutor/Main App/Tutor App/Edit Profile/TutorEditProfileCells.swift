@@ -585,14 +585,14 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
             make.centerY.equalToSuperview()
         }
         
-        decreaseButton.snp.makeConstraints { (make) in
+        increaseButton.snp.makeConstraints { (make) in
             make.right.equalToSuperview().inset(17)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(40)
         }
         
-        increaseButton.snp.makeConstraints { (make) in
-            make.right.equalTo(decreaseButton.snp.left).inset(-17)
+        decreaseButton.snp.makeConstraints { (make) in
+            make.right.equalTo(increaseButton.snp.left).inset(-17)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(40)
         }
