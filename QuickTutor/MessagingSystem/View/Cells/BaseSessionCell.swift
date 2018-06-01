@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol SessionCellDelgate {
+    func sessionCell(_ sessionCell: BaseSessionCell, shouldReloadSessionWith id: String)
+}
+
 class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     var session: Session!
+    var delegate: SessionCellDelgate?
     
     let monthLabel: UILabel = {
         let label = UILabel()

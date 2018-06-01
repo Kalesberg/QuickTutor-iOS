@@ -82,15 +82,15 @@ class ConversationCell: UICollectionViewCell {
         gradientLayer.colors = [firstColor, secondColor]
         
         
-//        let x: Double! = 90 / 360.0
-//        let a = pow(sinf(Float(2.0 * .pi * ((x + 0.75) / 2.0))),2.0);
-//        let b = pow(sinf(Float(2 * .pi * ((x+0.0)/2))),2);
-//        let c = pow(sinf(Float(2 * .pi * ((x+0.25)/2))),2);
-//        let d = pow(sinf(Float(2 * .pi * ((x+0.5)/2))),2);
-//
-//        gradientLayer.endPoint = CGPoint(x: CGFloat(c),y: CGFloat(d))
-//        gradientLayer.startPoint = CGPoint(x: CGFloat(a),y:CGFloat(b))
-//        gradientLayer.locations = [0, 0.7, 0.9, 1]
+        let x: Double! = 90 / 360.0
+        let a = pow(sinf(Float(2.0 * .pi * ((x + 0.75) / 2.0))),2.0);
+        let b = pow(sinf(Float(2 * .pi * ((x+0.0)/2))),2);
+        let c = pow(sinf(Float(2 * .pi * ((x+0.25)/2))),2);
+        let d = pow(sinf(Float(2 * .pi * ((x+0.5)/2))),2);
+
+        gradientLayer.endPoint = CGPoint(x: CGFloat(c),y: CGFloat(d))
+        gradientLayer.startPoint = CGPoint(x: CGFloat(a),y:CGFloat(b))
+        gradientLayer.locations = [0, 0.7, 0.9, 1]
         return gradientLayer
     }()
     

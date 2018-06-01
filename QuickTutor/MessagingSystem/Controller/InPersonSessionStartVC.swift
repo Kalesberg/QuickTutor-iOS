@@ -13,6 +13,8 @@ import SocketIO
 class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     var startAccepted = false
+    var confirmedByParnter = false
+    var confirmedByUser = false
     
     let messageButton: DimmableButton = {
         let button = DimmableButton()
@@ -27,8 +29,10 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
         return button
     }()
     
+    
     override func setupViews() {
         super.setupViews()
+        socket = SocketClient.shared.socket
         setupMessageButton()
         setupObservers()
     }
@@ -51,7 +55,19 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
         }
         
         socket.on(SocketEvents.meetupConfirmed) { (data, ack) in
-            self.proceedToSession()
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            guard let value = data[0] as? [String: Any] else { return }
+            if let confirmedBy = value["confirmedBy"] as? String {
+                if confirmedBy != uid {
+                    self.confirmedByParnter = true
+                } else {
+                    self.confirmedByUser = true
+                }
+                
+                if self.confirmedByUser && self.confirmedByParnter {
+                    self.proceedToSession()
+                }
+            }
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(pushConversationVC(notification:)), name: NSNotification.Name(rawValue: "sendMessage"), object: nil)
@@ -99,7 +115,7 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     
     func showConfirmMeetupButton() {
-        guard let uid = Auth.auth().currentUser?.uid, let id = session?.id, let partnerId = partnerId, !startAccepted else { return }
+        guard let _ = Auth.auth().currentUser?.uid, let _ = session?.id, let _ = partnerId, !startAccepted else { return }
         messageButton.isHidden = false
         confirmButton.isHidden = false
         startAccepted = true
@@ -109,10 +125,11 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     }
     
     @objc func confirmMeetup() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         statusLabel.text = "Waiting for your partner to confirm meet-up..."
         statusLabel.isHidden = false
         confirmButton.isHidden = true
-        socket.emit(SocketEvents.meetupConfirmed, ["roomKey": sessionId!])
+        socket.emit(SocketEvents.meetupConfirmed, ["roomKey": sessionId!, "confirmedBy": uid])
     }
     
 }

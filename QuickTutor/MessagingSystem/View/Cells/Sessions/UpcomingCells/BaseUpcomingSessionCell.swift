@@ -11,7 +11,6 @@ import Firebase
 
 class BaseUpcomingSessionCell: BaseSessionCell, MessageButtonDelegate, CancelSessionButtonDelegate {
     
-    
     override func setupViews() {
         super.setupViews()
         actionView.setupAsTripleButton()
@@ -22,6 +21,7 @@ class BaseUpcomingSessionCell: BaseSessionCell, MessageButtonDelegate, CancelSes
     
     override func handleButton1() {
         cancelSession(id: session.id)
+        delegate?.sessionCell(self, shouldReloadSessionWith: session.id)
     }
     
     override func handleButton2() {

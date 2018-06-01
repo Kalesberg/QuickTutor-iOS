@@ -168,8 +168,7 @@ class VideoSessionVC: UIViewController {
             self.partnerId = session.partnerId()
             self.session = session
             self.sessionLengthInSeconds = session.endTime - session.startTime
-            print("Session lasts", self.sessionLengthInSeconds, "seconds.")
-//            self.expireSession()
+            self.expireSession()
         }
     }
     
