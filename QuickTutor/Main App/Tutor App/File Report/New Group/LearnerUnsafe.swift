@@ -47,10 +47,11 @@ class LearnerUnsafe : SubmissionViewController {
     
     override func handleNavigation() {
         if touchStartView is SubmitButton {
-            if contentView.textView.textView.text!.count > 20 {
-                submitReport()
+            if contentView.textView.textView.text!.count < 20 {
+                contentView.errorLabel.isHidden = false
             } else {
-                print("Please give us a breif description of what happened.")
+                contentView.errorLabel.isHidden = true
+                submitReport()
             }
         }
     }
