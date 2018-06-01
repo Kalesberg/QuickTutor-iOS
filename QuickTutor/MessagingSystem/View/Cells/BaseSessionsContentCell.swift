@@ -25,6 +25,7 @@ class BaseSessionsContentCell: BaseContentCell {
     override func setupViews() {
         super.setupViews()
         fetchSessions()
+        listenForSessionUpdates()
     }
     
     override func setupCollectionView() {
@@ -44,27 +45,62 @@ class BaseSessionsContentCell: BaseContentCell {
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { (snapshot) in
             DataService.shared.getSessionById(snapshot.key, completion: { session in
-                guard session.status != "cancelled" && session.status != "declined" else { return }
+                guard session.status != "cancelled" && session.status != "declined" else {
+                    self.collectionView.reloadData()
+                    return
+                }
                 
                 if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
-                    self.pendingSessions.append(session)
+                    if !self.pendingSessions.contains(where: { $0.id == session.id }) {
+                        self.pendingSessions.append(session)
+                    }
                     self.collectionView.reloadData()
                     return
                 }
                 
                 if session.startTime < Date().timeIntervalSince1970 {
-                    self.pastSessions.append(session)
+                    if !self.pastSessions.contains(where: { $0.id == session.id }) {
+                        self.pastSessions.append(session)
+                    }
                     self.collectionView.reloadData()
                     return
                 }
                 
                 if session.status == "accepted" {
-                    self.upcomingSessions.append(session)
+                    if !self.upcomingSessions.contains(where: { $0.id == session.id }) {
+                        self.upcomingSessions.append(session)
+                    }
                     self.collectionView.reloadData()
                 }
             })
         }
         
+    }
+    
+    func listenForSessionUpdates() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { (snapshot) in
+            print("Data needs reload")
+            self.reloadSessionWithId(snapshot.ref.key)
+            snapshot.ref.setValue(1)
+        }
+        
+    }
+    
+    func reloadSessionWithId(_ id: String) {
+        DataService.shared.getSessionById(id) { (session) in
+            if let fooOffset = self.pendingSessions.index(where: {$0.id == id}) {
+                // do something with fooOffset
+                self.pendingSessions.remove(at: fooOffset)
+                if session.status == "accepted" {
+                    self.upcomingSessions.append(session)
+                }
+                self.collectionView.reloadData()
+            } else {
+                // item could not be found
+            }
+        }
     }
     
     override func setupRefreshControl() {

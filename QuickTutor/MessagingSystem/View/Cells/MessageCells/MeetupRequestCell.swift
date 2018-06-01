@@ -27,8 +27,6 @@ class SessionRequestCell: UserMessageCell {
     let titleBackground: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 60.0/255.0, green: 54.0/255.0, blue: 88.0/255.0, alpha: 1.0)
-        view.layer.cornerRadius = 4
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return view
     }()
     
@@ -145,6 +143,8 @@ class SessionRequestCell: UserMessageCell {
             statusLabel.text = "Session Request Accepted"
         case "expired":
             statusLabel.text = "Session Request Expired"
+        case "cancelled":
+            statusLabel.text = "Session Request Cancelled"
         default:
             break
         }

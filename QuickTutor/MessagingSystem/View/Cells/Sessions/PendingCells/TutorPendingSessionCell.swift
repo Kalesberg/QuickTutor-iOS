@@ -25,9 +25,21 @@ class TutorPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate {
     
     override func handleButton2() {
         Database.database().reference().child("sessions").child(session.id).child("status").setValue("declined")
+        markSessionDataStale()
     }
     
     override func handleButton3() {
         Database.database().reference().child("sessions").child(session.id).child("status").setValue("accepted")
+        markSessionDataStale()
+    }
+    
+    func markSessionDataStale() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        Database.database().reference().child("userSessions").child(uid)
+            .child(userTypeString).child(session.id).setValue(0)
+        Database.database().reference().child("userSessions").child(session.partnerId())
+            .child(otherUserTypeString).child(session.id).setValue(0)
     }
 }
