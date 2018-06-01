@@ -28,7 +28,8 @@ class ConversationManager {
     func loadMessages() {
         messages = [BaseMessage]()
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("conversations").child(uid).child(chatPartnerId ?? "").observe(.childAdded) { snapshot in
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("conversations").child(uid).child(userTypeString).child(chatPartnerId ?? "").observe(.childAdded) { snapshot in
             let messageId = snapshot.key
             DataService.shared.getMessageById(messageId, completion: { message in
                 

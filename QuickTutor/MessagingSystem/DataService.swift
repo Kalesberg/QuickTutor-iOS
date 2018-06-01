@@ -105,9 +105,11 @@ class DataService {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         let timestamp = Date().timeIntervalSince1970
         let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": receiverId])
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
-            let senderRef = Database.database().reference().child("conversations").child(uid).child(receiverId)
-            let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(uid)
+            let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId)
+            let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(otherUserTypeString).child(uid)
             
             let messageId = ref.key
             ref.updateChildValues(["uid": ref.key])
@@ -121,9 +123,11 @@ class DataService {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         let timestamp = Date().timeIntervalSince1970
         let message = UserMessage(dictionary: ["imageUrl": imageUrl, "timestamp": timestamp, "senderId": uid, "receiverId": receiverId, "imageWidth": imageWidth, "imageHeight": imageHeight])
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
-            let senderRef = Database.database().reference().child("conversations").child(uid).child(receiverId)
-            let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(uid)
+            let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId)
+            let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(otherUserTypeString).child(uid)
             
             let messageId = ref.key
             ref.updateChildValues(["uid": ref.key])
@@ -139,13 +143,14 @@ class DataService {
         
         guard let expiration = Calendar.current.date(byAdding: .day, value: 7, to: Date())?.timeIntervalSince1970 else { return }
         let values: [String: Any] = ["expiration": expiration, "status": "pending"]
-        
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         let timestamp = Date().timeIntervalSince1970
         Database.database().reference().child("connectionRequests").childByAutoId().setValue(values) { (error, ref) in
             let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": id, "connectionRequestId": ref.key])
             Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
-                let senderRef = Database.database().reference().child("conversations").child(uid).child(id)
-                let receiverRef = Database.database().reference().child("conversations").child(id).child(uid)
+                let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
+                let receiverRef = Database.database().reference().child("conversations").child(id).child(otherUserTypeString).child(uid)
                 
                 let messageId = ref.key
                 ref.updateChildValues(["uid": ref.key])
@@ -161,16 +166,18 @@ class DataService {
         guard let expiration = Calendar.current.date(byAdding: .day, value: 7, to: Date())?.timeIntervalSince1970 else { return }
         
         let _: [String: Any] = ["expiration": expiration, "status": "pending"]
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         
         let timestamp = Date().timeIntervalSince1970
         Database.database().reference().child("sessions").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { (error, ref1) in
             let message = UserMessage(dictionary: ["timestamp": timestamp, "senderId": uid, "receiverId": id, "sessionRequestId": ref1.key])
             Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
-                let senderRef = Database.database().reference().child("conversations").child(uid).child(id)
-                let receiverRef = Database.database().reference().child("conversations").child(id).child(uid)
+                let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
+                let receiverRef = Database.database().reference().child("conversations").child(id).child(otherUserTypeString).child(uid)
                 
-                let senderSessionRef = Database.database().reference().child("userSessions").child(uid)
-                let receiverSessionRef = Database.database().reference().child("userSessions").child(id)
+                let senderSessionRef = Database.database().reference().child("userSessions").child(uid).child(userTypeString)
+                let receiverSessionRef = Database.database().reference().child("userSessions").child(id).child(otherUserTypeString)
                 
                 let messageId = ref.key
                 ref.updateChildValues(["uid": ref.key])

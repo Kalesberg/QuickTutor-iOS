@@ -41,7 +41,8 @@ class BaseSessionsContentCell: BaseContentCell {
         upcomingSessions.removeAll()
         pastSessions.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("userSessions").child(uid).observe(.childAdded) { (snapshot) in
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { (snapshot) in
             DataService.shared.getSessionById(snapshot.key, completion: { session in
                 guard session.status != "cancelled" && session.status != "declined" else { return }
                 

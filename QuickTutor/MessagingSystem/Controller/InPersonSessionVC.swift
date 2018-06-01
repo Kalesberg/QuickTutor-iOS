@@ -132,7 +132,13 @@ class InPersonSessionVC: UIViewController {
             self.receieverBox.subjectLabel.text = session.subject
             self.receieverBox.updateUI(uid: session.partnerId())
             self.partnerId = session.partnerId()
+            self.expireSession()
         }
+    }
+    
+    func expireSession() {
+        guard let id = sessionId else { return }
+        Database.database().reference().child("sessions").child(id).child("status").setValue("expired")
     }
     
     override func viewDidLoad() {
