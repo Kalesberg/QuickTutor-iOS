@@ -387,12 +387,21 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     
     func loadSubjectsForUserWithId(_ id: String, completion: @escaping() -> Void) {
         Database.database().reference().child("subject").child(id).observeSingleEvent(of: .value) { (snapshot) in
-            if let value = snapshot.value as? [[String:Any]] {
-                print("bye")
-            } else {
-              print("hey")
+            guard let children = snapshot.children.allObjects as? [DataSnapshot] else { return }
+            for child in children {
+                guard let value = child.value as? [String: Any] else { continue }
+                if let subjectList = value["sbj"] as? String {
+                    let subjects = subjectList.split(separator: "$")
+                    var finalSubjects = [String]()
+                    for subject in subjects {
+                        print(subject, "\n")
+                        finalSubjects.append(String(subject))
+                        self.subjectPicker.subjects = finalSubjects
+                        self.subjectPicker.reloadAllComponents()
+                    }
+                }
             }
-            
+
         }
     }
     

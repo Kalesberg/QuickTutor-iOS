@@ -71,8 +71,6 @@ class SessionRequestCell: UserMessageCell {
     let statusBackground: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "1E1E25")
-        view.layer.cornerRadius = 4
-        view.layer.maskedCorners = [.layerMinXMaxYCorner]
         return view
     }()
     
