@@ -14,7 +14,7 @@ protocol SubjectPickerDelegate {
 
 class SubjectPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    let subjects = ["Mathematics", "Science", "History", "English", "Writing"]
+    var subjects = ["Mathematics", "Science", "History", "English", "Writing"]
     var subjectDelegate: SubjectPickerDelegate?
     
     override init(frame: CGRect) {
