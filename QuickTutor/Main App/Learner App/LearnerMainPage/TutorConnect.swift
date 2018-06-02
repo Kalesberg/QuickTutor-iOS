@@ -170,10 +170,11 @@ class TutorCardCollectionViewBackground : BaseView {
         }
         
         imageView.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.6)
 			make.width.equalToSuperview().multipliedBy(0.5)
 			make.height.equalTo(200)
-            make.bottom.equalTo(label.snp.top)
+            make.bottom.equalTo(label.snp.top).inset(-25)
         }
     }
 }

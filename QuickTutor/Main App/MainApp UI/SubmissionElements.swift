@@ -39,5 +39,13 @@ class SubmitButton : InteractableView, Interactable {
             make.centerX.equalToSuperview()
         }
     }
+    
+    func touchStart() {
+        alpha = 0.6
+    }
+    
+    func touchEndOnStart() {
+        alpha = 1
+    }
 }
 

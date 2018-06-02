@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol SessionCellDelgate {
+    func sessionCell(_ sessionCell: BaseSessionCell, shouldReloadSessionWith id: String)
+}
+
 class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     var session: Session!
+    var delegate: SessionCellDelgate?
     
     let monthLabel: UILabel = {
         let label = UILabel()
@@ -92,7 +97,22 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         updateMonthLabel()
         updateTimeAndPriceLabel()
         subjectLabel.text = session.subject
+        AccountService.shared.currentUserType == .learner ? getTutor() : getLearner()
+
+    }
+    
+    func getTutor() {
         DataService.shared.getTutorWithId(session.partnerId()) { tutor in
+            guard let username = tutor?.username.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
+            self.tutorLabel.text = "with \(username)"
+            self.profileImage.imageView.loadImage(urlString: profilePicUrl)
+            guard let rating  = tutor?.rating else { return }
+            self.updateRatingLabel(rating: rating)
+        }
+    }
+    
+    func getLearner() {
+        DataService.shared.getStudentWithId(session.partnerId()) { tutor in
             guard let username = tutor?.username.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
             self.profileImage.imageView.loadImage(urlString: profilePicUrl)

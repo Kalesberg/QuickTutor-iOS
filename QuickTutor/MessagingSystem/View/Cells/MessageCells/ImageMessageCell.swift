@@ -42,6 +42,16 @@ class ImageMessageCell: UserMessageCell {
         addZoomGestureRecognizer()
     }
     
+    override func setupBubbleViewAsSentMessage() {
+        super.setupBubbleViewAsSentMessage()
+        bubbleView.backgroundColor = .clear
+    }
+    
+    override func setupBubbleViewAsReceivedMessage() {
+        super.setupBubbleViewAsReceivedMessage()
+        bubbleView.backgroundColor = .clear
+    }
+    
     private func setupImageView() {
         bubbleView.addSubview(imageView)
         imageView.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

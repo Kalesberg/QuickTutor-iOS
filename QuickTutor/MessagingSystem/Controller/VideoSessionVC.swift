@@ -41,6 +41,13 @@ class VideoSessionVC: UIViewController {
         return view
     }()
     
+    let previewBorderView: UIView = {
+        let view = UIView()
+        view.layer.borderColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple.cgColor : Colors.tutorBlue.cgColor
+        view.layer.borderWidth = 3
+        return view
+    }()
+    
     lazy var sessionNavBar: SessionNavBar = {
         let bar = SessionNavBar()
         bar.timeLabel.delegate = self
@@ -67,20 +74,14 @@ class VideoSessionVC: UIViewController {
         return button
     }()
     
-    let cameraFeedView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .blue
-        return view
-    }()
-    
     func setupViews() {
         setupMainView()
         setupRemoteView()
-//        setupPreviewView()
+        setupPreviewView()
+        setupPreviewBorderView()
         setupNavBar()
         setupPauseSessionButton()
         setupEndSessionButton()
-        setupCameraFeedView()
     }
     
     func setupMainView() {
@@ -102,7 +103,12 @@ class VideoSessionVC: UIViewController {
     
     func setupPreviewView() {
         view.addSubview(previewView)
-        previewView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
+        previewView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 3, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
+    }
+    
+    func setupPreviewBorderView() {
+        view.insertSubview(previewBorderView, belowSubview: previewBorderView)
+        previewBorderView.anchor(top: previewView.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: previewView.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: -3, width: 0, height: 0)
     }
     
     func setupPauseSessionButton() {
@@ -129,6 +135,12 @@ class VideoSessionVC: UIViewController {
     }
     
     @objc func showPauseModal(pausedById: String) {
+        room?.localParticipant?.localVideoTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = false
+        })
+        room?.localParticipant?.localAudioTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = false
+        })
         guard let uid = Auth.auth().currentUser?.uid else { return }
         sessionNavBar.timeLabel.timer?.invalidate()
         pauseSessionModal?.delegate = self
@@ -145,11 +157,6 @@ class VideoSessionVC: UIViewController {
         }
     }
     
-    func setupCameraFeedView() {
-        view.addSubview(cameraFeedView)
-        cameraFeedView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
-    }
-    
     func removeStartData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("sessionStarts").child(uid).removeValue()
@@ -161,8 +168,13 @@ class VideoSessionVC: UIViewController {
             self.partnerId = session.partnerId()
             self.session = session
             self.sessionLengthInSeconds = session.endTime - session.startTime
-            print("Session lasts", self.sessionLengthInSeconds, "seconds.")
+            self.expireSession()
         }
+    }
+    
+    func expireSession() {
+        guard let id = self.session?.id else { return }
+        Database.database().reference().child("sessions").child(id).child("status").setValue("expired")
     }
     
     func fetchToken() {
@@ -228,12 +240,22 @@ class VideoSessionVC: UIViewController {
         socket.on(SocketEvents.unpauseSession) { _, _ in
             self.pauseSessionModal?.dismiss()
             self.sessionNavBar.timeLabel.startTimer()
+            self.resumeSession()
         }
         
         socket.on(SocketEvents.endSession) { _, _ in
             self.showEndSession()
         }
         
+    }
+    
+    func resumeSession() {
+        room?.localParticipant?.localVideoTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = true
+        })
+        room?.localParticipant?.localAudioTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = true
+        })
     }
     
     @objc func showEndSession() {

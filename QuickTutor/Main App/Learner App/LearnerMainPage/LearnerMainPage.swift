@@ -55,7 +55,7 @@ class LearnerMainPageView : MainPageView {
         super.applyConstraints()
         
         search.snp.makeConstraints { (make) in
-            make.height.equalTo(35)
+            make.height.equalTo(30)
             make.width.equalToSuperview().multipliedBy(0.65)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()

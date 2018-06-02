@@ -50,13 +50,14 @@ class LearnerHarassment : SubmissionViewController {
 	}
 	
 	override func handleNavigation() {
-		if (touchStartView is SubmitButton) {
-			if contentView.textView.textView.text!.count > 20 {
-				submitReport()
-			} else {
-				print("Please give us a breif description of what happened.")
-			}
-		}
+        if touchStartView is SubmitButton {
+            if contentView.textView.textView.text!.count < 20 {
+                contentView.errorLabel.isHidden = false
+            } else {
+                contentView.errorLabel.isHidden = true
+                submitReport()
+            }
+        }
 	}
 	
 	private func submitReport() {

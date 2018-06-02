@@ -26,7 +26,8 @@ class ConnectionRequestCell: UserMessageCell {
         label.textAlignment = .center
         label.textColor = .white
         label.font = Fonts.createSize(16)
-        label.text = "Request Pending"
+        label.text = "Connection Request Pending"
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -75,7 +76,7 @@ class ConnectionRequestCell: UserMessageCell {
     
     private func setupStatusLabel() {
         addSubview(statusLabel)
-        statusLabel.anchor(top: actionBackground.topAnchor, left: actionBackground.leftAnchor, bottom: actionBackground.bottomAnchor, right: actionBackground.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        statusLabel.anchor(top: actionBackground.topAnchor, left: actionBackground.leftAnchor, bottom: actionBackground.bottomAnchor, right: actionBackground.rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
     }
     
     func setupAcceptButton() {
@@ -143,11 +144,11 @@ class ConnectionRequestCell: UserMessageCell {
         case "pending":
             break
         case "declined":
-            statusLabel.text = "DECLINED"
+            statusLabel.text = "Connection Request Declined"
         case "accepted":
-            statusLabel.text = "ACCEPTED"
+            statusLabel.text = "Connection Request Accepted"
         case "expired":
-            statusLabel.text = "EXPIRED"
+            statusLabel.text = "Connection Request Expired"
         default:
             break
         }
