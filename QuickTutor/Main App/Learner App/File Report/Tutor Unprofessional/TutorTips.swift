@@ -35,7 +35,11 @@ class TutorTips : BaseViewController {
     override var contentView: TutorTipsView {
         return view as! TutorTipsView
     }
-    
+	var datasource : UserSession! {
+		didSet {
+			print("didSet")
+		}
+	}
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -58,16 +62,20 @@ class TutorTips : BaseViewController {
 	}
 	
 	private func wasHelpful(_ bool : Bool) {
-		let node = FileReportClass.TutorTips.rawValue
-		let value : [String : Any] = ["was_helpful" : bool ]
+		let value : [String : Any] = [
+			"reportee" : datasource.otherId,
+			"reason" : "Was helpful:  \(bool)",
+			"type" : FileReportClass.TutorCancelled.rawValue,
+			]
 		
-		FirebaseData.manager.fileReport(sessionId: "SessionID1231", reportClass: node, value: value) { (error) in
-			if let error = error {
-				print(error)
-			} else {
-				self.customerServiceYesNoAlert{
+		FirebaseData.manager.fileReport(sessionId: datasource.id, value: value) { (error) in
+			if error != nil {
+				AlertController.genericErrorAlert(self, title: "Error Filing Report", message: "Something went wrong, please try again.")
+			} else{
+				self.customerServiceAlert {
 					self.navigationController?.popBackToMain()
-				}			}
+				}
+			}
 		}
 	}
 }

@@ -117,14 +117,13 @@ class FirebaseData {
 		}
 	}
 	
-    public func fileReport(sessionId: String, reportClass: String, value: [String : Any], completion: @escaping (Error?) -> Void) {
-        var values = value
-        
-        values["timestamp"] = NSDate().timeIntervalSince1970
-        self.ref.child("filereport").child(user.uid).child(sessionId).child(reportClass).updateChildValues(values) { (error, reference) in
+	public func fileReport(sessionId: String, value: [String : Any], completion: @escaping (Error?) -> Void) {
+		//make a check to see if they have already filed a report for this sessionId.
+		
+        self.ref.child("filereport").child(user.uid).child(sessionId).updateChildValues(value) { (error, reference) in
             if let error = error {
                 completion(error)
-            } else {
+			} else {
                 completion(nil)
             }
         }
@@ -140,7 +139,6 @@ class FirebaseData {
 			}
 		}
 	}
-
 	public func getUserSessions(uid: String,_ completion: @escaping ([UserSession]?) -> Void) {
 		var sessions : [UserSession] = []
 		let group = DispatchGroup()
@@ -151,14 +149,15 @@ class FirebaseData {
 				group.leave()
 				return
 			}
-			for autoId in value.keys {
+			for child in value {
 				group.enter()
-				self.ref.child("sessions").child(autoId).observeSingleEvent(of: .value, with: { (snapshot) in
+				self.ref.child("sessions").child(child.key).observeSingleEvent(of: .value, with: { (snapshot) in
 					guard let value = snapshot.value as? [String : Any] else {
 						group.leave()
 						return
 					}
 					var session = UserSession(dictionary: value)
+					session.id = child.key
 					group.enter()
 					self.ref.child("student-info").child(session.otherId).observeSingleEvent(of: .value, with: { (snapshot) in
 						
@@ -172,7 +171,6 @@ class FirebaseData {
 							group.leave()
 							return
 						}
-						
 						session.imageURl = images["image1"]!
 						sessions.append(session)
 						group.leave()

@@ -34,7 +34,12 @@ class TutorDidNotHelp : BaseViewController {
     override var contentView: TutorDidNotHelpView {
         return view as! TutorDidNotHelpView
     }
-    
+	
+	var datasource : UserSession! {
+		didSet {
+			print("datasource set")
+		}
+	}
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -50,7 +55,6 @@ class TutorDidNotHelp : BaseViewController {
     
     override func handleNavigation() {
 		if touchStartView == contentView.yesButton {
-			print("???")
 			wasHelpful(true)
 		} else if touchStartView == contentView.noButton {
 			wasHelpful(false)
@@ -58,14 +62,17 @@ class TutorDidNotHelp : BaseViewController {
     }
 	
 	private func wasHelpful(_ bool : Bool) {
-		let node = FileReportClass.TutorDidNotHelp.rawValue
-		let value : [String : Any] = ["was_helpful" : bool ]
+		let value : [String : Any] = [
+			"reportee" : datasource.otherId,
+			"reason" : "Was helpful:  \(bool)",
+			"type" : FileReportClass.TutorCancelled.rawValue,
+			]
 		
-		FirebaseData.manager.fileReport(sessionId: "SessionID1231", reportClass: node, value: value) { (error) in
-			if let error = error {
-				print(error)
-			} else {
-				self.customerServiceYesNoAlert{
+		FirebaseData.manager.fileReport(sessionId: datasource.id, value: value) { (error) in
+			if error != nil {
+				AlertController.genericErrorAlert(self, title: "Error Filing Report", message: "Something went wrong, please try again.")
+			} else{
+				self.customerServiceAlert {
 					self.navigationController?.popBackToMain()
 				}
 			}

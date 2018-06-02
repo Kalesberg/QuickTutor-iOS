@@ -54,7 +54,12 @@ class TutorUnprofessional : BaseViewController {
     }
     
     var options = ["My tutor was rude", "My tutor made me feel unsafe", "My tutor didn't help me", "Is my tutor allowed to ask for tips?", "My tutor didn't match their profile picture(s)"]
-    
+	
+	var datasource : UserSession! {
+		didSet{
+			print("didSet")
+		}
+	}
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -98,15 +103,25 @@ extension TutorUnprofessional : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch (indexPath.row) {
         case 0:
-            navigationController?.pushViewController(TutorRude(), animated: true)
+			let next = TutorRude()
+			next.datasource = datasource
+            navigationController?.pushViewController(next, animated: true)
         case 1:
-            navigationController?.pushViewController(TutorUnsafe(), animated: true)
+			let next = TutorUnsafe()
+			next.datasource = datasource
+			navigationController?.pushViewController(next, animated: true)
         case 2:
-            navigationController?.pushViewController(TutorDidNotHelp(), animated: true)
+			let next = TutorDidNotHelp()
+			next.datasource = datasource
+			navigationController?.pushViewController(next, animated: true)
         case 3:
-            navigationController?.pushViewController(TutorTips(), animated: true)
+			let next = TutorTips()
+			next.datasource = datasource
+			navigationController?.pushViewController(next, animated: true)
         case 4:
-			navigationController?.pushViewController(TutorProfilePics(), animated: true)
+			let next = TutorProfilePics()
+			next.datasource = datasource
+			navigationController?.pushViewController(next, animated: true)
         default:
             return
         }

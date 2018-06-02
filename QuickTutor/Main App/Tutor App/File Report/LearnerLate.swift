@@ -35,6 +35,11 @@ class LearnerLate : BaseViewController {
 		return view as! LearnerLateView
 	}
 	var type = 0
+	var datasource : UserSession! {
+		didSet {
+			print("datasource set.")
+		}
+	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
 	}
@@ -75,13 +80,16 @@ class LearnerLate : BaseViewController {
 			return
 		}
 		
-		let node = FileReportClass.TutorLate.rawValue
-		let value : [String : Any] = ["reason" : reason]
+		let value : [String : Any] = [
+			"reportee" : datasource.otherId,
+			"reason" : reason,
+			"type" : FileReportClass.TutorCancelled.rawValue,
+			]
 		
-		FirebaseData.manager.fileReport(sessionId: "SessionID1231", reportClass: node, value: value) { (error) in
-			if  error != nil {
-				AlertController.genericErrorAlert(self, title: "Error Processing Report", message: "Something went wrong, please try again.")
-			} else {
+		FirebaseData.manager.fileReport(sessionId: datasource.id, value: value) { (error) in
+			if error != nil {
+				AlertController.genericErrorAlert(self, title: "Error Filing Report", message: "Something went wrong, please try again.")
+			} else{
 				self.customerServiceAlert {
 					self.navigationController?.popBackToMain()
 				}

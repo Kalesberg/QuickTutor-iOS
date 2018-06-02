@@ -31,7 +31,13 @@ class LearnerUnprofessional : BaseViewController {
     }
     
     var options = ["My learner was rude", "My learner made me feel unsafe", "My learner didn't match their profile picture(s)"]
-    
+	
+	var datasource : UserSession! {
+		didSet {
+			print("datasource set")
+		}
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,11 +81,17 @@ extension LearnerUnprofessional : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch (indexPath.row) {
         case 0:
-            navigationController?.pushViewController(LearnerRude(), animated: true)
+			let next = LearnerRude()
+			next.datasource = self.datasource
+            navigationController?.pushViewController(next, animated: true)
         case 1:
-            navigationController?.pushViewController(LearnerUnsafe(), animated: true)
+			let next = LearnerUnsafe()
+			next.datasource = self.datasource
+            navigationController?.pushViewController(next, animated: true)
         case 2:
-            navigationController?.pushViewController(LearnerProfilePics(), animated: true)
+			let next = LearnerProfilePics()
+			next.datasource = self.datasource
+            navigationController?.pushViewController(next, animated: true)
         default:
             return
         }

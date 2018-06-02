@@ -45,6 +45,8 @@ class TutorCancelled : BaseViewController {
 	
 	var type = 0
 	
+	var datasource : UserSession!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -65,7 +67,6 @@ class TutorCancelled : BaseViewController {
     override func handleNavigation() {
 		if touchStartView == contentView.cb1.checkbox {
 			type = 1
-
 			contentView.cb2.checkbox.isSelected = false
 			contentView.cb3.checkbox.isSelected = false
 		} else if touchStartView == contentView.cb2.checkbox {
@@ -82,14 +83,17 @@ class TutorCancelled : BaseViewController {
     }
 	private func submitReport() {
 		guard let reason = getReason() else {
-			AlertController.genericErrorAlert(self, title: "Select an Option!!", message: "In order to better process your report, we suggest that you select an option.")
+			AlertController.genericErrorAlert(self, title: "Select an Option!", message: "In order to better process your report, we suggest that you select an option.")
 			return
 		}
 		
-		let node = FileReportClass.TutorCancelled.rawValue
-		let value : [String : Any] = ["reason" : reason]
+		let value : [String : Any] = [
+				"reportee" : datasource.otherId,
+				"reason" : reason,
+				"type" : FileReportClass.TutorCancelled.rawValue,
+			]
 		
-		FirebaseData.manager.fileReport(sessionId: "SessionID1231", reportClass: node, value: value) { (error) in
+		FirebaseData.manager.fileReport(sessionId: datasource.id, value: value) { (error) in
 			if error != nil {
 				AlertController.genericErrorAlert(self, title: "Error Filing Report", message: "Something went wrong, please try again.")
 			} else{

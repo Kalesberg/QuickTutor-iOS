@@ -491,34 +491,6 @@ class FileReportYesNoLayout : MainLayoutHeader {
         }
     }
 }
-struct UserSession {
-	
-	let date : Double
-	let endTime : Int
-	let expiration : Double
-	let price : Int
-	var otherId : String
-	let startTime : Int
-	let status : String
-	let subject : String
-	let type : String
-	
-	var name : String = ""
-	var imageURl : String = ""
-	
-	init(dictionary: [String: Any]) {
-		date = dictionary["date"] as? Double ?? 0.0
-		endTime = dictionary["endTime"] as? Int ?? 0
-		expiration = dictionary["expiration"] as? Double ?? 0.0
-		price = dictionary["price"] as? Int ?? 0
-		startTime = dictionary["startTime"] as? Int ?? 0
-		status = dictionary["status"] as? String ?? ""
-		subject = dictionary["subject"] as? String ?? ""
-		type = dictionary["type"] as? String ?? ""
-		otherId = (AccountService.shared.currentUserType == .learner) ? dictionary["receiverId"] as? String ?? "" : dictionary["senderId"] as? String ?? ""
-	}
-	
-}
 
 class LearnerFileReport : BaseViewController {
     
@@ -604,7 +576,6 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
-
 		cell.textLabel?.text = "File a report with this session"
 		return cell
 	}
