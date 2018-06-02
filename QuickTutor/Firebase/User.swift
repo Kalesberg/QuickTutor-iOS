@@ -511,6 +511,7 @@ class FirebaseData {
         getLearner(uid) { (learner) in
             if let learner = learner {
                 CurrentUser.shared.learner = learner
+                AccountService.shared.loadUser()
                 AccountService.shared.currentUserType = .learner
                 Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
                     if let error = error {
@@ -533,6 +534,7 @@ class FirebaseData {
 				self.getTutor(learner.uid, isQuery: false) { (tutor) in
                     if let tutor = tutor {
                         CurrentUser.shared.tutor = tutor
+                        AccountService.shared.loadUser()
                         AccountService.shared.currentUserType = .tutor
                         Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account) in
                             if let account = account {
