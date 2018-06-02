@@ -148,7 +148,7 @@ class CreateAccountVC: UIViewController {
     
     private func setupNoAccountButton() {
         view.addSubview(hasAccountButton)
-        hasAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 75, paddingBottom: 50, paddingRight: 75, width: 0, height: 30)
+        hasAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 75, paddingBottom: 50, paddingRight: 75, width: 0, height: 30)
         hasAccountButton.addTarget(self, action: #selector(showLogin), for: .touchUpInside)
     }
     

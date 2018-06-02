@@ -103,12 +103,12 @@ class VideoSessionVC: UIViewController {
     
     func setupPreviewView() {
         view.addSubview(previewView)
-        previewView.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 3, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
+        previewView.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 3, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
     }
     
     func setupPreviewBorderView() {
         view.insertSubview(previewBorderView, belowSubview: previewBorderView)
-        previewBorderView.anchor(top: previewView.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: previewView.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: -3, width: 0, height: 0)
+        previewBorderView.anchor(top: previewView.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: previewView.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: -3, width: 0, height: 0)
     }
     
     func setupPauseSessionButton() {
