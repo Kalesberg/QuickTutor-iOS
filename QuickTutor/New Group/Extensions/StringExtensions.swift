@@ -96,8 +96,6 @@ extension String {
 		return regexTest.evaluate(with: self)
 	}
 	
-
-	//We can do more with these, add new phrases, cases, etc.
 	func cancelNotice() -> String {
 		let text : String
 		
@@ -143,6 +141,13 @@ extension String {
 		let name = self.components(separatedBy: " ")
 		return "\(name[0])  \(name[1].prefix(1))."
 	}
+	
+	public func getIntIndex(of char: Character) -> Int? {
+		if let idx = self.index(of: char) {
+			return self.distance(from: startIndex, to: idx)
+		}
+		return nil
+	}
 }
 
 extension MutableCollection {
@@ -152,7 +157,7 @@ extension MutableCollection {
 		guard c > 1 else { return }
 		
 		for (firstUnshuffled, unshuffledCount) in zip(indices, stride(from: c, to: 1, by: -1)) {
-			let d: IndexDistance = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
+			let d: Int = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
 			let i = index(firstUnshuffled, offsetBy: d)
 			swapAt(firstUnshuffled, i)
 		}

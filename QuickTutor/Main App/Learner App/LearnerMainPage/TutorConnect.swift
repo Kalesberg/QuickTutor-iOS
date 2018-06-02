@@ -36,6 +36,7 @@ class TutorConnectView : MainLayoutTwoButton {
         let textField = searchBar.value(forKey: "searchField") as? UITextField
         textField?.font = Fonts.createSize(14)
         textField?.textColor = .white
+        textField?.tintColor = Colors.learnerPurple
         textField?.adjustsFontSizeToFitWidth = true
         textField?.autocapitalizationType = .words
         textField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
@@ -61,7 +62,7 @@ class TutorConnectView : MainLayoutTwoButton {
         collectionView.isPagingEnabled = true
         collectionView.decelerationRate = UIScrollViewDecelerationRateFast
 
-        return collectionView
+		return collectionView
     }()
     
     override var leftButton : NavbarButton {
@@ -82,10 +83,21 @@ class TutorConnectView : MainLayoutTwoButton {
     
     let addPaymentModal = AddPaymentModal()
     
+    let backgroundView : InteractableObject = {
+        let view = InteractableObject()
+        
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        view.isHidden = true
+        
+        return view
+    }()
+	
+	
     override func configureView() {
         navbar.addSubview(searchBar)
         addSubview(collectionView)
         addSubview(addPaymentModal)
+        addSubview(backgroundView)
         super.configureView()
         
         applyConstraints()
@@ -108,6 +120,9 @@ class TutorConnectView : MainLayoutTwoButton {
             make.centerX.equalToSuperview()
         }
         addPaymentModal.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        backgroundView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
     }
@@ -151,12 +166,15 @@ class TutorCardCollectionViewBackground : BaseView {
     override func applyConstraints() {
         label.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.75)
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
         
         imageView.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.bottom.equalTo(label.snp.top)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.6)
+			make.width.equalToSuperview().multipliedBy(0.5)
+			make.height.equalTo(200)
+            make.bottom.equalTo(label.snp.top).inset(-25)
         }
     }
 }
@@ -235,28 +253,26 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     var hasAppliedFilters = false
     var shouldShowTutorial = false
     
+    let horizontalScrollView = UIScrollView()
+    var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
+    var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
+    
+	var pageCount : Int = 0 {
+		didSet {
+			configurePageControl()
+		}
+	}
+	
     var datasource = [AWTutor]() {
         didSet {
-            if datasource.count == 0 {
-                let view = NoResultsView()
-                view.label.text = "No tutors currently available 👨🏽‍🏫"
-                contentView.collectionView.backgroundView = view
-			} else {
-				contentView.collectionView.backgroundView = nil
-			}
+            contentView.collectionView.backgroundView = (datasource.count == 0) ? TutorCardCollectionViewBackground() : nil
             contentView.collectionView.reloadData()
         }
     }
     
     var filteredDatasource = [AWTutor]() {
         didSet {
-            if filteredDatasource.count == 0 {
-                let view = NoResultsView()
-                view.label.text = "0 results 😭 \nAdjust your filters to get better results"
-                contentView.collectionView.backgroundView = view
-			} else {
-				contentView.collectionView.backgroundView = nil
-			}
+            contentView.collectionView.backgroundView = (filteredDatasource.count == 0) ? TutorCardCollectionViewBackground() : nil
             contentView.collectionView.reloadData()
         }
     }
@@ -269,24 +285,24 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     
     var subcategory : String! {
         didSet {
-			self.displayLoadingOverlay()
+            self.displayLoadingOverlay()
             QueryData.shared.queryAWTutorBySubcategory(subcategory: subcategory!) { (tutors) in
                 if let tutors = tutors {
-					self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
+                    self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
                 }
-				self.dismissOverlay()
+                self.dismissOverlay()
             }
         }
     }
     
     var subject : (String, String)! {
         didSet {
-			self.displayLoadingOverlay()
+            self.displayLoadingOverlay()
             QueryData.shared.queryAWTutorBySubject(subcategory: subject.0, subject: subject.1) { (tutors) in
                 if let tutors = tutors {
-					self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
+                    self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
                 }
-				self.dismissOverlay()
+                self.dismissOverlay()
             }
         }
     }
@@ -294,25 +310,89 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-
-        contentView.collectionView.dataSource = self
+        
+        horizontalScrollView.delegate = self
+        pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
+		
+		contentView.collectionView.dataSource = self
         contentView.collectionView.delegate = self
         contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-		
-		let defaults = UserDefaults.standard
-		if defaults.bool(forKey: "showTutorCardTutorial1.0") {
-			displayTutorial()
-			defaults.set(false, forKey: "showTutorCardTutorial1.0")
-		}  
+        
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: "showTutorCardTutorial1.0") {
+            displayTutorial()
+            defaults.set(false, forKey: "showTutorCardTutorial1.0")
+        }
+        
+        configureScrollView()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         contentView.collectionView.reloadData()
+    }
+	func setUpImages(images: [String]) {
+		pageCount = images.count
+		var count = 1
+		images.forEach({
+			let imageView = UIImageView()
+			imageView.loadUserImages(by: $0)
+			imageView.scaleImage()
+			self.horizontalScrollView.addSubview(imageView)
+			
+			imageView.snp.makeConstraints({ (make) in
+				make.top.equalToSuperview()
+				make.height.equalToSuperview()
+				make.width.equalTo(UIScreen.main.bounds.width)
+				if (count != 1) {
+					make.left.equalTo(self.horizontalScrollView.subviews[count - 2].snp.right)
+				} else {
+					make.centerX.equalToSuperview()
+				}
+			})
+			count += 1
+		})
+		contentView.layoutIfNeeded()
+	}
+
+    private func configureScrollView() {
+        contentView.insertSubview(horizontalScrollView, aboveSubview: contentView.backgroundView)
+        horizontalScrollView.isUserInteractionEnabled = false
+        horizontalScrollView.isHidden = true
+        horizontalScrollView.isPagingEnabled = true
+        horizontalScrollView.showsHorizontalScrollIndicator = false
+		
+//        horizontalScrollView.backgroundColor = .yellow
+        
+        horizontalScrollView.snp.makeConstraints { (make) in
+            make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.35)
+            make.centerX.equalToSuperview()
+        }
+        contentView.layoutIfNeeded()
+        horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
+    }
+    private func configurePageControl() {
+        pageControl.numberOfPages = pageCount
+        pageControl.currentPage = 0
+        pageControl.pageIndicatorTintColor = .white
+        pageControl.currentPageIndicatorTintColor = Colors.learnerPurple
+        contentView.addSubview(pageControl)
+        
+        pageControl.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(horizontalScrollView.snp.bottom).inset(-10)
+        }
+    }
+    
+    @objc func changePage(sender: AnyObject) -> () {
+        let x = CGFloat(pageControl.currentPage) * horizontalScrollView.frame.size.width
+        horizontalScrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -347,63 +427,63 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         })
     }
 
-	private func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
-		return (v / (v+m)) * ((r + Double((m / (v+m)))) * C)
-	}
-	
-	private func sortTutorsWithWeightedList(tutors: [AWTutor]) -> [AWTutor] {
-		guard tutors.count > 1 else { return tutors }
-		let avg = tutors.map({$0.tRating / 5}).average
-		return tutors.sorted {
-			return bayesianEstimate(C: avg, r: $0.tRating / 5, v: Double($0.numSessions), m: 1) > bayesianEstimate(C: avg, r: $1.tRating / 5, v: Double($1.numSessions), m: 1)
-		}
-	}
+    private func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
+        return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
+    }
+    
+    private func sortTutorsWithWeightedList(tutors: [AWTutor]) -> [AWTutor] {
+        guard tutors.count > 1 else { return tutors }
+        let avg = tutors.map({$0.tRating / 5}).average
+        return tutors.sorted {
+            return bayesianEstimate(C: avg, r: $0.tRating / 5, v: Double($0.tNumSessions), m: 1) > bayesianEstimate(C: avg, r: $1.tRating / 5, v: Double($1.tNumSessions), m: 1)
+        }
+    }
 
-	private func filterByPrice(priceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
-		if priceFilter == -1 || tutors.isEmpty {
-			return tutors
-		}
-		return tutors.filter { $0.price <= priceFilter }
-	}
-	private func filterByDistance(distanceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
-		if distanceFilter == -1 || tutors.isEmpty {
-			return tutors
-		}
-		guard let userLocation = location else { return tutors }
-		
-		return tutors.filter {
-			if let tutorLocation = $0.location?.location {
-				return (userLocation.distance(from: tutorLocation) * 0.00062137) <= Double(distanceFilter)
-			}
-			return false
-		}
-	}
-	private func filterBySessionType(searchTheWorld: Bool, tutors: [AWTutor]) -> [AWTutor] {
-		if searchTheWorld {
-			return tutors.filter { $0.preference == 1 || $0.preference == 3 }
-		}
-		return tutors.filter { $0.preference == 2 || $0.preference == 3 }
-	}
-	
+    private func filterByPrice(priceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
+        if priceFilter == -1 || tutors.isEmpty {
+            return tutors
+        }
+        return tutors.filter { $0.price <= priceFilter }
+    }
+    private func filterByDistance(distanceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
+        if distanceFilter == -1 || tutors.isEmpty {
+            return tutors
+        }
+        guard let userLocation = location else { return tutors }
+        
+        return tutors.filter {
+            if let tutorLocation = $0.location?.location {
+                return (userLocation.distance(from: tutorLocation) * 0.00062137) <= Double(distanceFilter)
+            }
+            return false
+        }
+    }
+    private func filterBySessionType(searchTheWorld: Bool, tutors: [AWTutor]) -> [AWTutor] {
+        if searchTheWorld {
+            return tutors.filter { $0.preference == 1 || $0.preference == 3 }
+        }
+        return tutors.filter { $0.preference == 2 || $0.preference == 3 }
+    }
+    
     func filterTutors() {
-		if filters.0 == -1 && filters.1 == -1 && filters.2 == false {
-			hasAppliedFilters = false
-			shouldFilterDatasource = false
-			return
-		}
-		hasAppliedFilters = true
-		shouldFilterDatasource = true
+        if filters.0 == -1 && filters.1 == -1 && filters.2 == false {
+            hasAppliedFilters = false
+            shouldFilterDatasource = false
+            return
+        }
+        hasAppliedFilters = true
+        shouldFilterDatasource = true
 
-		let filtered = filterBySessionType(searchTheWorld: filters.2, tutors: filterByDistance(distanceFilter: filters.0, tutors: filterByPrice(priceFilter: filters.1, tutors: datasource)))
-		
-		filteredDatasource = sortTutorsWithWeightedList(tutors: filtered)
+        let filtered = filterBySessionType(searchTheWorld: filters.2, tutors: filterByDistance(distanceFilter: filters.0, tutors: filterByPrice(priceFilter: filters.1, tutors: datasource)))
+        
+        filteredDatasource = sortTutorsWithWeightedList(tutors: filtered)
     }
     
     override func handleNavigation() {
         if touchStartView is NavbarButtonFilters {
             
             let next = LearnerFilters()
-			next.delegate = self
+            next.delegate = self
             if hasAppliedFilters {
                 next.distance = (filters.0 - 10 >= 0) ? filters.0 - 10 : 0
                 next.price = (filters.1 - 10 >= 0) ? filters.1 - 10 : 0
@@ -418,20 +498,23 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         } else if touchStartView is AddBankButton {
             contentView.addPaymentModal.isHidden = true
             navigationController?.pushViewController(CardManager(), animated: true)
+        } else if touchStartView is InteractableObject {
+            contentView.backgroundView.isHidden = true
+            horizontalScrollView.isHidden = true
         }
     }
 }
 
 extension Array where Element: Numeric {
-	/// Returns the total sum of all elements in the array
-	var total: Element { return reduce(0, +) }
+    /// Returns the total sum of all elements in the array
+    var total: Element { return reduce(0, +) }
 }
 
 extension Array where Element: FloatingPoint {
-	/// Returns the average of all elements in the array
-	var average: Element {
-		return isEmpty ? 0 : total / Element(count)
-	}
+    /// Returns the average of all elements in the array
+    var average: Element {
+        return isEmpty ? 0 : total / Element(count)
+    }
 }
 
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
@@ -448,8 +531,8 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         let data = (shouldFilterDatasource) ? filteredDatasource : datasource
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
-
-        cell.header.imageView.loadUserImages(by: data[indexPath.row].images["image1"]!)
+        
+        cell.header.profilePics.loadUserImages(by: data[indexPath.row].images["image1"]!)
         cell.header.name.text = data[indexPath.row].name.formatName()
         cell.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
         cell.rateLabel.text = data[indexPath.row].price.formatPrice()

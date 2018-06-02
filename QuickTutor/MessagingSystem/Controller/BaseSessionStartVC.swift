@@ -19,7 +19,7 @@ class BaseSessionStartVC: UIViewController {
     var partner: User?
     var partnerUsername: String?
     var meetupConfirmed = false
-    let socket = SocketClient.shared.socket!
+    var socket: SocketIOClient!
     
     var session: Session?
     
@@ -238,6 +238,7 @@ class BaseSessionStartVC: UIViewController {
     @objc func confirmManualStart() {
         let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType" : session?.type]
         socket.emit(SocketEvents.manualStartAccetped, data)
+        print("ZACH: Data emiited when start accepted:", data, "\n\n\nFinished")
     }
     
     private func removeStartData() {
@@ -245,12 +246,19 @@ class BaseSessionStartVC: UIViewController {
         Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
     }
     
+    func setupSocket() {
+        guard let id = sessionId else { return }
+        socket = SocketClient.shared.socket
+        socket.on(clientEvent: .connect) { (data, ack) in
+            self.socket.emit("joinRoom", id);            
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         updateUI()
-        guard let id = sessionId else { return }
-        socket.emit("joinRoom", id);
+        setupSocket()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

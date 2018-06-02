@@ -55,7 +55,7 @@ class LearnerMainPageView : MainPageView {
         super.applyConstraints()
         
         search.snp.makeConstraints { (make) in
-            make.height.equalTo(35)
+            make.height.equalTo(30)
             make.width.equalToSuperview().multipliedBy(0.65)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -91,68 +91,35 @@ class LearnerMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		AccountService.shared.currentUserType = .learner
+		guard let learner = CurrentUser.shared.learner else {
+			try! Auth.auth().signOut()
+			self.navigationController?.pushViewController(SignIn(), animated: true)
+			return
+		}
+		self.learner = learner
+		
+		Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
+			if let error = error {
+				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+			} else if let customer = customer {
+				self.learner.hasPayment = (customer.sources.count > 0)
+			}
+		}
+
         queryFeaturedTutors()
         configureView()
-        
-        let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        contentView.addGestureRecognizer(gestureRecognizer)
-    }
-    
-    @objc func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
-        if (gestureRecognizer.state == .began || gestureRecognizer.state == .changed) && contentView.sidebar.isUserInteractionEnabled == true {
-            
-            let translation = gestureRecognizer.translation(in: self.view)
-            
-            let sidebar = contentView.sidebar
-            
-            //restrict moving past the boundaries of left side of screen
-            if (sidebar.frame.minX == 0 && translation.x >= 0.0) {
-                return
-            }
-            
-            //snap the left side of sidebar to left side of screen when the translation would cause the sidebar to move past the left side of the screen
-            if (sidebar.frame.minX + translation.x > 0.0) {
-                sidebar.center.x -= sidebar.frame.minX
-                return
-            }
-            
-            //move sidebar
-            sidebar.center.x = sidebar.center.x + translation.x
-            gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
-            
-        } else if gestureRecognizer.state == .ended {
-            if contentView.sidebar.frame.maxX < UIScreen.main.bounds.width / 1.7 {
-                UIView.animate(withDuration: 0.25, animations: {
-                    self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.maxX
-                    self.hideBackground()
-                }) { (true) in
-                    self.contentView.sidebar.isUserInteractionEnabled = false
-                    self.contentView.sidebar.alpha = 0
-                }
-                
-            } else {
-                UIView.animate(withDuration: 0.25, animations: {
-                    self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.minX
-                })
-            }
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-		AccountService.shared.currentUserType = .learner
 		
-		if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
-			UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
+        if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
+            UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
             displayMessagesTutorial()
         }
         
-        guard let learner = CurrentUser.shared.learner else {
-            try! Auth.auth().signOut()
-            self.navigationController?.pushViewController(SignIn(), animated: true)
-            return
-        }
-        self.learner = learner
+		
         self.configureSideBarView()
     }
     
@@ -269,7 +236,7 @@ class LearnerMainPage : MainPage {
     }
     
     private func queryFeaturedTutors() {
-		self.displayLoadingOverlay()
+        self.displayLoadingOverlay()
         QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
             if let datasource = datasource {
                 self.contentView.tableView.performBatchUpdates({
@@ -282,35 +249,37 @@ class LearnerMainPage : MainPage {
                     }
                 })
             }
-			self.dismissOverlay()
+            self.dismissOverlay()
         }
     }
-	private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
-		self.displayLoadingOverlay()
-		FirebaseData.manager.getTutor(learner.uid) { (tutor) in
-			if let tutor = tutor {
-				CurrentUser.shared.tutor = tutor
-				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-					if let account = account {
-						if !account.verification.fields_needed.isEmpty {
-							print("field needed: ", account.verification.fields_needed, " due by: ", account.verification.due_by, " details: ", account.verification.disabled_reason)
-						}
-						if !account.charges_enabled { print("Charges disabled") }
-						if !account.payouts_enabled { print("payouts disabled") }
-						CurrentUser.shared.connectAccount = account
-						self.dismissOverlay()
-						completion(true)
-					} else {
-						self.dismissOverlay()
-						completion(false)
-					}
-				})
-			} else {
-				self.dismissOverlay()
-				completion(false)
-			}
-		}
-	}
+    private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
+        self.displayLoadingOverlay()
+        FirebaseData.manager.getTutor(learner.uid, isQuery: false) { (tutor) in
+            if let tutor = tutor {
+                CurrentUser.shared.tutor = tutor
+                Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
+                    if let account = account {
+//                        if !account.verification.fields_needed.isEmpty {
+//                            print("field needed: ", account.verification.fields_needed, " due by: ", account.verification.due_by, " details: ", account.verification.disabled_reason)
+//                        }
+//                        if !account.charges_enabled { print("Charges disabled") }
+//                        if !account.payouts_enabled { print("payouts disabled") }
+                        CurrentUser.shared.connectAccount = account
+                        self.dismissOverlay()
+                        completion(true)
+                    } else {
+                        AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
+                        self.dismissOverlay()
+                        completion(false)
+                    }
+                })
+            } else {
+                AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
+                self.dismissOverlay()
+                completion(false)
+            }
+        }
+    }
     
     override func handleNavigation() {
         super.handleNavigation()
@@ -324,10 +293,10 @@ class LearnerMainPage : MainPage {
             })
             
             showBackground()
-			if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
-				displaySidebarTutorial()
-				UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
-			}
+            if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
+                displaySidebarTutorial()
+                UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
+            }
         } else if(touchStartView == contentView.backgroundView) {
             self.contentView.sidebar.isUserInteractionEnabled = false
             let startX = self.contentView.sidebar.center.x
@@ -347,7 +316,9 @@ class LearnerMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
-            navigationController?.pushViewController(LearnerMyProfile(), animated: true)
+			let next = LearnerMyProfile()
+			next.learner = CurrentUser.shared.learner
+            navigationController?.pushViewController(next, animated: true)
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.reportItem) {
@@ -371,26 +342,26 @@ class LearnerMainPage : MainPage {
             hideBackground()
         } else if(touchStartView == contentView.sidebar.becomeQTItem) {
             if self.learner.isTutor {
-				self.displayLoadingOverlay()
+                self.displayLoadingOverlay()
                 switchToTutorSide { (success) in
                     if success {
                         AccountService.shared.currentUserType = .tutor
-						self.dismissOverlay()
+                        self.dismissOverlay()
                         self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
                     }
-					self.dismissOverlay()
+                    self.dismissOverlay()
                 }
             } else {
-				AccountService.shared.currentUserType = .tRegistration
+                AccountService.shared.currentUserType = .tRegistration
                 self.navigationController?.pushViewController(BecomeTutor(), animated: true)
             }
             hideSidebar()
             hideBackground()
         } else if (touchStartView is SearchBar) {
             let nav = self.navigationController
-			nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
-			nav?.pushViewController(SearchSubjects(), animated: false)
-			
+            nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
+            nav?.pushViewController(SearchSubjects(), animated: false)
+            
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
             hideSidebar()
@@ -413,7 +384,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
                 return 210
             }
         } else {
-            return 170.0
+            return 190
         }
     }
     

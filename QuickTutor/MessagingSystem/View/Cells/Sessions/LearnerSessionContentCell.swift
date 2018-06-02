@@ -19,16 +19,6 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
         collectionView.register(SessionHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
     }
     
-    override func setupViews() {
-        super.setupViews()
-        setupRequestSessionButton()
-    }
-    
-    func setupRequestSessionButton() {
-        addSubview(requestSessionButton)
-        requestSessionButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 50, paddingRight: 20, width: 71, height: 60)
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             guard !pendingSessions.isEmpty else {

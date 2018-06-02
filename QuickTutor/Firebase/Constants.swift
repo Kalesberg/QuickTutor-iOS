@@ -29,7 +29,7 @@ struct Colors {
     static let learnerPurple = UIColor(hex:"4E376F")
     static let progressBlue = UIColor(hex:"4B5F8E")
     static let qtRed = UIColor(hex:"AF1C49")
-    static let registrationDark = UIColor(hex:"1E1E26")
+    static let registrationDark = UIColor(hex:"1B1B26")
     static let remainderProgressDark = UIColor(hex:"2A2A2F")
     static let sidebarPurple = UIColor(hex:"544177")
     static let tutorBlue = UIColor(hex:"3E5486")
@@ -41,8 +41,7 @@ struct Colors {
     static let receivedMessage = UIColor(hex:"4C5E8D")
     static let sentMessage = UIColor(hex: "544177")
     static let border = UIColor(hex: "818186")
-    static let navBarColor = UIColor(hex: "1E1E26")
-
+    static let navBarColor = UIColor(hex: "1B1B26")
 }
 
 struct Fonts {

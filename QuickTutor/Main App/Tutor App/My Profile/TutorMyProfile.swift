@@ -38,13 +38,7 @@ class TutorMyProfile : BaseViewController {
 	}
 	
 	var pageCount : Int {
-		var count = 0
-		tutor.images.forEach { (_,value) in
-			if value != "" {
-				count += 1
-			}
-		}
-		return count
+		return tutor.images.filter({$0.value != ""}).count
 	}
 	
 	override func viewDidLoad() {
@@ -60,21 +54,12 @@ class TutorMyProfile : BaseViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-
-		guard let tutor = CurrentUser.shared.tutor else { return }
-		self.tutor = tutor
 		
 		configureScrollView()
 		configurePageControl()
 		setUpImages()
-		scrollToFirstRow()
 	}
-
-	func scrollToFirstRow() {
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
-	}
-
+	
 	private func configureDelegates() {
 		horizontalScrollView.delegate = self
 		
@@ -155,7 +140,7 @@ class TutorMyProfile : BaseViewController {
 			make.height.equalToSuperview()
 			make.width.equalToSuperview()
 			if (count != 1) {
-				make.left.equalTo(horizontalScrollView.subviews[count - 1].snp.right)
+				make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
 			} else {
 				make.centerX.equalToSuperview()
 			}
@@ -236,7 +221,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
 			
-			cell.tutorItem.label.text = "Has tutored \(tutor.numSessions!) sessions"
+			cell.tutorItem.label.text = "Has tutored \(tutor.tNumSessions!) sessions"
 			
 			if let languages = tutor.languages {
 				cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
@@ -349,6 +334,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 				formattedString
 					.regular(tutor.distance.distancePreference(tutor.preference), 14, .white)
 					.regular(tutor.preference.preferenceNormalization(), 14, .white)
+					.regular(String(policies[0]).lateNotice(), 14, .white)
 					.regular(String(policies[2]).cancelNotice(), 14, .white)
 					.regular(String(policies[1]).lateFee(), 13, Colors.qtRed)
 					.regular(String(policies[3]).cancelFee(), 13, Colors.qtRed)
@@ -362,5 +348,11 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			break
 		}
 		return UITableViewCell()
+	}
+}
+extension TutorMyProfile : UIScrollViewDelegate {
+	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+		let pageNumber = round(horizontalScrollView.contentOffset.x / horizontalScrollView.frame.size.width)
+		pageControl.currentPage = Int(pageNumber)
 	}
 }

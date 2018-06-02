@@ -231,7 +231,7 @@ class HideMeButton : InteractableView, Interactable {
         
         label.font = Fonts.createBoldSize(20)
         label.textAlignment = .center
-        label.text = "Hide me from QuickTutor"
+        label.text = "Hide me on QuickTutor"
         label.textColor = .white
         
         return label
@@ -271,7 +271,7 @@ class CloseAccount : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+	
     override func loadView() {
         view = CloseAccountView()
     }
@@ -280,7 +280,18 @@ class CloseAccount : BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+	private func hideAccountAlert() {
+		let alert = UIAlertController(title: "Hide Account?", message: "Your account will be hidden from search results. You will still be able to message and have sessions with your existing clients.", preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
+			CurrentUser.shared.tutor.isVisible = false
+			FirebaseData.manager.updateTutorVisibility(uid: CurrentUser.shared.tutor.uid, status: 1)
+			self.navigationController?.popViewController(animated: true)
+		})
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { action in
+			self.dismiss(animated: true, completion: nil)
+		})
+		present(alert, animated: true)
+	}
     override func handleNavigation() {
         if (touchStartView is ProceedButton) {
 			if AccountService.shared.currentUserType == .learner {
@@ -294,6 +305,8 @@ class CloseAccount : BaseViewController {
 			}
 		} else if (touchStartView is CancelButton) {
 			navigationController?.popViewController(animated: true)
+		} else if touchStartView is HideMeButton {
+			hideAccountAlert()
 		}
     }
 }

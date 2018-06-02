@@ -24,10 +24,16 @@ class SessionRequestCell: UserMessageCell {
         return label
     }()
     
+    let titleBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 60.0/255.0, green: 54.0/255.0, blue: 88.0/255.0, alpha: 1.0)
+        return view
+    }()
+    
     let subjectLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.font = Fonts.createSize(15)
         return label
     }()
@@ -42,9 +48,12 @@ class SessionRequestCell: UserMessageCell {
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .green
-        label.textAlignment = .right
+        label.textColor = .white
+        label.backgroundColor = Colors.brightGreen
+        label.textAlignment = .center
+        label.layer.cornerRadius = 10
         label.font = Fonts.createSize(12)
+        label.clipsToBounds = true
         return label
     }()
     
@@ -53,6 +62,7 @@ class SessionRequestCell: UserMessageCell {
         label.textColor = .white
         label.textAlignment = .center
         label.font = Fonts.createSize(16)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -77,6 +87,8 @@ class SessionRequestCell: UserMessageCell {
         button.tag = 1
         return button
     }()
+    
+    var priceLabelWidthAnchor: NSLayoutConstraint?
     
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
@@ -107,6 +119,11 @@ class SessionRequestCell: UserMessageCell {
         priceLabel.text = "$\(price)0"
         dateTimeLabel.text = "\(date) @ \(startTime)"
         setStatusLabel()
+        if let constant = priceLabel.text?.estimateFrameForFontSize(12).width {
+            priceLabelWidthAnchor = priceLabel.widthAnchor.constraint(equalToConstant: constant + 10)
+            priceLabelWidthAnchor?.isActive = true
+            self.layoutIfNeeded()
+        }
         guard let id = Auth.auth().currentUser?.uid else { return }
         if self.userMessage?.senderId != id {
             setupAsTeacherView()
@@ -117,13 +134,15 @@ class SessionRequestCell: UserMessageCell {
         guard let status = self.sessionRequest?.status else { return }
         switch status {
         case "pending":
-            statusLabel.text = "REQUEST PENDING"
+            statusLabel.text = "Session Request Pending"
         case "declined":
-            statusLabel.text = "DECLINED"
+            statusLabel.text = "Session Request Declines"
         case "accepted":
-            statusLabel.text = "ACCEPTED"
+            statusLabel.text = "Session Request Accepted"
         case "expired":
-            statusLabel.text = "EXPIRED"
+            statusLabel.text = "Session Request Expired"
+        case "cancelled":
+            statusLabel.text = "Session Request Cancelled"
         default:
             break
         }
@@ -131,7 +150,9 @@ class SessionRequestCell: UserMessageCell {
     
     override func setupViews() {
         super.setupViews()
+        setupMainView()
         setupTitleLabel()
+        setupTitleBackground()
         setupSubjectLabel()
         setupDateTimeLabel()
         setupPriceLabel()
@@ -139,14 +160,24 @@ class SessionRequestCell: UserMessageCell {
         setupStatusLabel()
     }
     
+    private func setupMainView() {
+        bubbleView.clipsToBounds = true
+        bubbleView.layer.cornerRadius = 8
+    }
+    
     private func setupTitleLabel() {
         addSubview(titleLabel)
         titleLabel.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 35)
     }
     
+    private func setupTitleBackground() {
+        insertSubview(titleBackground, belowSubview: titleLabel)
+        titleBackground.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
+    }
+    
     private func setupSubjectLabel() {
         addSubview(subjectLabel)
-        subjectLabel.anchor(top: titleLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
+        subjectLabel.anchor(top: titleLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 15, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
     }
     
     private func setupDateTimeLabel() {
@@ -156,7 +187,7 @@ class SessionRequestCell: UserMessageCell {
     
     private func setupPriceLabel() {
         addSubview(priceLabel)
-        priceLabel.anchor(top: subjectLabel.bottomAnchor, left: nil, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 80, height: 20)
+        priceLabel.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 22.5, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 20)
     }
     
     private func setupStatusBackground() {
@@ -166,7 +197,7 @@ class SessionRequestCell: UserMessageCell {
     
     private func setupStatusLabel() {
         statusBackground.addSubview(statusLabel)
-        statusLabel.anchor(top: statusBackground.topAnchor, left: statusBackground.leftAnchor, bottom: statusBackground.bottomAnchor, right: statusBackground.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        statusLabel.anchor(top: statusBackground.topAnchor, left: statusBackground.leftAnchor, bottom: statusBackground.bottomAnchor, right: statusBackground.rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
     }
     
     func setupAsTeacherView() {
@@ -195,5 +226,7 @@ class SessionRequestCell: UserMessageCell {
         statusLabel.isHidden = false
         statusLabel.text = sender.tag == 0 ? "ACCEPTED" : "DECLINED"
     }
+    
+    
     
 }

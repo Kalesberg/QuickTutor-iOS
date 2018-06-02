@@ -13,6 +13,8 @@ import SocketIO
 class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     var startAccepted = false
+    var confirmedByParnter = false
+    var confirmedByUser = false
     
     let messageButton: DimmableButton = {
         let button = DimmableButton()
@@ -27,8 +29,10 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
         return button
     }()
     
+    
     override func setupViews() {
         super.setupViews()
+        socket = SocketClient.shared.socket
         setupMessageButton()
         setupObservers()
     }
@@ -50,8 +54,20 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
             self.showConfirmMeetupButton()
         }
         
-        socket.on(SocketEvents.meetupConfirmed) { _, _ in
-            self.proceedToSession()
+        socket.on(SocketEvents.meetupConfirmed) { (data, ack) in
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            guard let value = data[0] as? [String: Any] else { return }
+            if let confirmedBy = value["confirmedBy"] as? String {
+                if confirmedBy != uid {
+                    self.confirmedByParnter = true
+                } else {
+                    self.confirmedByUser = true
+                }
+                
+                if self.confirmedByUser && self.confirmedByParnter {
+                    self.proceedToSession()
+                }
+            }
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(pushConversationVC(notification:)), name: NSNotification.Name(rawValue: "sendMessage"), object: nil)
@@ -107,10 +123,11 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     }
     
     @objc func confirmMeetup() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         statusLabel.text = "Waiting for your partner to confirm meet-up..."
         statusLabel.isHidden = false
         confirmButton.isHidden = true
-        socket.emit(SocketEvents.meetupConfirmed, ["roomKey": sessionId!])
+        socket.emit(SocketEvents.meetupConfirmed, ["roomKey": sessionId!, "confirmedBy": uid])
     }
     
 }

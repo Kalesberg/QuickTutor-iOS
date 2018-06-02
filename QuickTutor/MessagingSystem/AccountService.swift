@@ -16,6 +16,7 @@ class AccountService {
 	var currentUserType: UserType = .learner {
 		didSet{
 			UserDefaults.standard.set(currentUserType == .learner, forKey: "showHomePage")
+			print("I am now a ", currentUserType.rawValue)
 		}
 	}
     

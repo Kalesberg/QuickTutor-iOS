@@ -151,7 +151,7 @@ class CloseAccountSubmission : BaseViewController {
 	}
 	
 	private func getTutorAccount(_ completion: @escaping ([String]) -> Void) {
-		FirebaseData.manager.getTutor(userId) { (tutor) in
+		FirebaseData.manager.getTutor(userId, isQuery: false) { (tutor) in
 			if let tutor = tutor {
 				CurrentUser.shared.tutor = tutor
 				
@@ -170,7 +170,6 @@ class CloseAccountSubmission : BaseViewController {
 		
 		switch deleteAccountType {
 		case true:
-			print("Deleted tutor account...")
 			getTutorAccount { (subcategories) in
 				FirebaseData.manager.removeTutorAccount(uid: self.userId, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
 					if let error = error {
@@ -178,6 +177,7 @@ class CloseAccountSubmission : BaseViewController {
 						completion(error)
 					}
 					CurrentUser.shared.learner.isTutor = false
+					UserDefaults.standard.set(true, forKey: "showHomePage")
 					self.navigationController?.pushViewController(LearnerPageViewController(), animated: false)
 					completion(nil)
 				})
@@ -188,7 +188,6 @@ class CloseAccountSubmission : BaseViewController {
 			//				}
 		    //			})
 		case false:
-				print("Deleted both accounts...")
 			getTutorAccount { (subcategories) in
 				FirebaseData.manager.removeBothAccounts(uid: self.userId, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
 					if let error = error {

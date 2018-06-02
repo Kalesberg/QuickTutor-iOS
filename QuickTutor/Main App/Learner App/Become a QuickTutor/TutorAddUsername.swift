@@ -33,6 +33,7 @@ class TutorAddUsernameTextfield : InteractableView {
         return label
     }()
     
+
     let textField : NoPasteTextField = {
         let textField = NoPasteTextField()
         
@@ -105,6 +106,7 @@ class TutorAddUsernameTextfield : InteractableView {
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
+        
     }
 }
 
@@ -116,10 +118,22 @@ class TutorAddUsernameView : TutorRegistrationLayout, Keyboardable {
     let contentView = UIView()
     let textField = TutorAddUsernameTextfield()
     
+    let errorLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createItalicSize(17)
+        label.textColor = .red
+        label.isHidden = true
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
     override func configureView() {
         addKeyboardView()
         addSubview(contentView)
         contentView.addSubview(textField)
+        addSubview(errorLabel)
         super.configureView()
         
         title.label.text = "Create a Username"
@@ -145,6 +159,12 @@ class TutorAddUsernameView : TutorRegistrationLayout, Keyboardable {
             make.height.equalTo(120)
             make.width.equalToSuperview().multipliedBy(0.85)
         }
+        errorLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(textField.characterLabel.snp.bottom).inset(-10)
+            make.height.equalTo(50)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
     }
 }
 
@@ -157,14 +177,14 @@ class TutorAddUsername : BaseViewController {
     
     private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 
-	var naughtyWords = [String]()
-	
+    var naughtyWords = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		contentView.textField.textField.delegate = self
+        
+        contentView.textField.textField.delegate = self
         contentView.textField.textField.becomeFirstResponder()
-		naughtyWords = BadWords.loadBadWords()
+        naughtyWords = BadWords.loadBadWords()
     }
     override func loadView() {
         view = TutorAddUsernameView()
@@ -204,18 +224,22 @@ class TutorAddUsername : BaseViewController {
             let username = contentView.textField.textField.text!
             
             if !doesContainNaughtyWord(text: username, naughtyWords: naughtyWords) && isValidUsername(username: username) && endsWithSpecial(username: username) {
-				self.displayLoadingOverlay()
+                self.displayLoadingOverlay()
                 checkIfUsernamAlreadyExists(text: username) { (success) in
                     if success {
                         TutorRegistration.username = username
                         self.navigationController?.pushViewController(TutorPolicy(), animated: true)
+                        self.contentView.errorLabel.isHidden = true
+
                     } else {
-                        print("username already exists.")
+                        self.contentView.errorLabel.isHidden = false
+                        self.contentView.errorLabel.text = "username already exists."
                     }
-					self.dismissOverlay()
+                    self.dismissOverlay()
                 }
             } else {
-                print("Something went wrong, please try again.")
+                self.contentView.errorLabel.isHidden = false
+                self.contentView.errorLabel.text = "Soemthing went wrong. Please try again."
             }
         }
     }

@@ -36,10 +36,20 @@ class EndSessionModal: BaseCustomModal {
         return button
     }()
     
+    let messageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Please make sure that your learner is ready to end the session early."
+        label.textColor = .white
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.font = Fonts.createSize(14)
+        return label
+    }()
     var delegate: EndSessionModalDelegate?
     
     override func setupViews() {
         super.setupViews()
+        setupMessageLabel()
         setupEndSessionButton()
         setupNevermindButton()
     }
@@ -49,12 +59,13 @@ class EndSessionModal: BaseCustomModal {
         titleLabel.text = "END THIS SESSION?"
     }
     
+    func setupMessageLabel() {
+        background.addSubview(messageLabel)
+        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 75)
+    }
+    
     override func setupBackground() {
-        guard let window = UIApplication.shared.keyWindow else { return }
-        window.addSubview(background)
-        background.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 125)
-        window.addConstraint(NSLayoutConstraint(item: background, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
-        background.alpha = 0
+        super.setupBackground()
         background.layer.cornerRadius = 8
     }
     

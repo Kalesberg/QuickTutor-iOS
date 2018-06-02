@@ -108,14 +108,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         let firebaseAuth = Auth.auth()
         
         //At development time we use .sandbox
-        firebaseAuth.setAPNSToken(deviceToken, type: AuthAPNSTokenType.sandbox)
+        firebaseAuth.setAPNSToken(deviceToken, type: .prod)
         
         //At time of production it will be set to .prod
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let firebaseAuth = Auth.auth()
-        
+		
         if (firebaseAuth.canHandleNotification(userInfo)){
             print(userInfo)
             return
@@ -130,7 +130,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-		print("Did Enter Background")
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {

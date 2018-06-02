@@ -22,6 +22,10 @@ class LearnerOtherView : FileReportSubmissionLayout {
 	override func applyConstraints() {
 		super.applyConstraints()
 	}
+	override func layoutSubviews() {
+		statusbarView.backgroundColor = Colors.tutorBlue
+		navbar.backgroundColor = Colors.tutorBlue
+	}
 }
 
 class LearnerOther : SubmissionViewController {
@@ -45,13 +49,14 @@ class LearnerOther : SubmissionViewController {
 	}
 	
 	override func handleNavigation() {
-		if touchStartView == contentView.submitButton {
-			if contentView.textView.textView.text!.count > 20 {
-				submitReport()
-			} else {
-				print("Please give us a breif description of what happened.")
-			}
-		}
+        if touchStartView is SubmitButton {
+            if contentView.textView.textView.text!.count < 20 {
+                contentView.errorLabel.isHidden = false
+            } else {
+                contentView.errorLabel.isHidden = true
+                submitReport()
+            }
+        }
 	}
 	
 	private func submitReport() {

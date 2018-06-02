@@ -27,6 +27,10 @@ class TutorLateView : FileReportCheckboxLayout {
     override func applyConstraints() {
         super.applyConstraints()
     }
+	override func layoutSubviews() {
+		statusbarView.backgroundColor = Colors.learnerPurple
+		navbar.backgroundColor = Colors.learnerPurple
+	}
 }
 
 class TutorLate : BaseViewController {
@@ -71,7 +75,7 @@ class TutorLate : BaseViewController {
 	}
 	private func submitReport() {
 		guard let reason = getReason() else {
-			print("Select an option!")
+			AlertController.genericErrorAlert(self, title: "Select an Option!!", message: "In order to better process your report, we suggest that you select an option.")
 			return
 		}
 		
@@ -82,7 +86,6 @@ class TutorLate : BaseViewController {
 			if let error = error{
 				print(error)
 			} else{
-				print("Submitted!")
 				self.customerServiceAlert {
 					self.navigationController?.popBackToMain()
 				}

@@ -28,7 +28,7 @@ class TutorSessionContentCell: BaseSessionsContentCell {
         if indexPath.section == 0 {
             guard !pendingSessions.isEmpty else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
-                cell.setLabelToPending()
+                cell.setLabelToRequests()
                 return cell
             }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pendingSessionCell", for: indexPath) as! TutorPendingSessionCell

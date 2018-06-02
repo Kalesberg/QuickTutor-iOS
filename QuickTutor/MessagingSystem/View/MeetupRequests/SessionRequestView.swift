@@ -15,7 +15,13 @@ protocol SessionRequestViewDelegate {
 
 class SessionRequestView: UIView {
     
-    var chatPartnerId: String!
+    var chatPartnerId: String! {
+        didSet {
+            loadSubjectsForUserWithId(chatPartnerId) {
+                
+            }
+        }
+    }
     var delegate: SessionRequestViewDelegate?
     var subject: String?
     var date: Date?
@@ -160,7 +166,7 @@ class SessionRequestView: UIView {
     }
     
     private func setupMainView() {
-        backgroundColor = UIColor(hex: "1E1E26")
+        backgroundColor = Colors.navBarColor
         layer.cornerRadius = 8
         clipsToBounds = true
         switchAccessoryViewTo(subjectPicker)
@@ -375,6 +381,27 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
         for index in 0...titles.count {
             guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
             cell.textLabel?.textColor = .white
+        }
+        
+    }
+    
+    func loadSubjectsForUserWithId(_ id: String, completion: @escaping() -> Void) {
+        Database.database().reference().child("subject").child(id).observeSingleEvent(of: .value) { (snapshot) in
+            guard let children = snapshot.children.allObjects as? [DataSnapshot] else { return }
+            for child in children {
+                guard let value = child.value as? [String: Any] else { continue }
+                if let subjectList = value["sbj"] as? String {
+                    let subjects = subjectList.split(separator: "$")
+                    var finalSubjects = [String]()
+                    for subject in subjects {
+                        print(subject, "\n")
+                        finalSubjects.append(String(subject))
+                        self.subjectPicker.subjects = finalSubjects
+                        self.subjectPicker.reloadAllComponents()
+                    }
+                }
+            }
+
         }
     }
     

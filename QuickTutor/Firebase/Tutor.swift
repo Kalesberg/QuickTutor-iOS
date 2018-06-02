@@ -60,41 +60,44 @@ class Tutor {
     
     public func initTutor(completion: @escaping (Error?) -> Void) {
         
-		guard let data = CurrentUser.shared.learner else { return }
-		let subjectNode = buildSubjectNode()
-		
-		var post : [String : Any] =
-			[
-				"/tutor-info/\(user.uid)" :
-					[
-						"nm"  : data.name,
-						"img" : data.images,
-						"sch" : data.school,
-						"lng" : data.languages,
-						"usr" : TutorRegistration.username,
-						"act" : TutorRegistration.acctId,
-						"hr"  : 0,
-						"tr"  : 5,
-						"nos" : 0,
-						"p"	  : TutorRegistration.price,
-						"dst" : TutorRegistration.distance,
-						"tbio": TutorRegistration.tutorBio,
-						"rg" : "\(TutorRegistration.city!) \(TutorRegistration.state!)",
-						"pol" : "0_0_0_0",
-						"prf" : TutorRegistration.sessionPreference,
-						"tp"  : "Math"],
-				]
-		
-		post.merge(subjectNode.0) { (_, last) in last }
-		post.merge(subjectNode.1) { (_, last) in last }
-		
-		ref.root.updateChildValues(post) { (error, databaseRef) in
-			if let error = error {
-				print(error.localizedDescription)
-				completion(error)
-			} else {
-				self.geoFire(location: TutorRegistration.location)
-				completion(nil)
+        guard let data = CurrentUser.shared.learner else { return }
+        let subjectNode = buildSubjectNode()
+        
+        var post : [String : Any] =
+            [
+                "/tutor-info/\(user.uid)" :
+                    [
+                        "nm"  : data.name,
+                        "img" : data.images,
+                        "sch" : data.school ?? "",
+                        "lng" : data.languages ?? "",
+                        "usr" : TutorRegistration.username,
+                        "act" : TutorRegistration.acctId,
+                        "hr"  : 0,
+                        "tr"  : 5,
+                        "nos" : 0,
+                        "p"   : TutorRegistration.price,
+                        "dst" : TutorRegistration.distance,
+                        "tbio": TutorRegistration.tutorBio,
+                        "rg"  : "\(TutorRegistration.city!) \(TutorRegistration.state!)",
+                        "pol" : "0_0_0_0",
+                        "prf" : TutorRegistration.sessionPreference,
+						"h" : 0]
+                    ]
+        
+        post.merge(subjectNode.0) { (first, last) -> Any in
+            return last
+        }
+        post.merge(subjectNode.1) { (first, last) -> Any in
+            return last
+        }
+    
+        ref.root.updateChildValues(post) { (error, databaseRef) in
+            if let error = error {
+                completion(error)
+            } else {
+                self.geoFire(location: TutorRegistration.location)
+                completion(nil)
             }
         }
     }

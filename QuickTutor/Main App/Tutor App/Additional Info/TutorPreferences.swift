@@ -109,17 +109,6 @@ class TutorPreferencesView : TutorRegistrationLayout {
     
     override func applyConstraints() {
         super.applyConstraints()
-//
-//        nextButton.snp.makeConstraints { (make) in
-//            make.bottom.equalToSuperview()
-//            make.width.equalToSuperview()
-//            make.centerX.equalToSuperview()
-//            if (UIScreen.main.bounds.height == 812) {
-//                make.height.equalTo(80)
-//            } else {
-//                make.height.equalTo(60)
-//            }
-//        }
         
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom).inset(-8)
@@ -136,7 +125,6 @@ class TutorPreferences : BaseViewController {
         return view as! TutorPreferencesView
     }
     
-    var price : Int = 5
     var distance : Int = 5
     var inPerson : Bool = true
     var inVideo : Bool = true
@@ -144,6 +132,7 @@ class TutorPreferences : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
+		self.hideKeyboardWhenTappedAround()
     }
     
     override func loadView() {
@@ -154,34 +143,32 @@ class TutorPreferences : BaseViewController {
         super.viewDidAppear(animated)
     }
 
-	private func configureDelegates() {
-		contentView.tableView.delegate = self
-		contentView.tableView.dataSource = self
-		
-		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
-		contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
-	}
-	
-    @objc
-    private func rateSliderValueDidChange(_ sender: UISlider) {
-        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
+    private func configureDelegates() {
+        contentView.tableView.delegate = self
+        contentView.tableView.dataSource = self
         
-        cell.valueLabel.text = "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-        price  = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
+        contentView.tableView.register(EditProfileHourlyRateTableViewCell.self, forCellReuseIdentifier: "editProfileHourlyRateTableViewCell")
+        contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
+        contentView.tableView.register(EditProfileCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileCheckboxTableViewCell")
     }
     
     @objc
     private func distanceSliderValueDidChange(_ sender: UISlider) {
-        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! EditProfileSliderTableViewCell)
+        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
         let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
         
         cell.valueLabel.text = "\(value) mi"
         distance = value
     }
-    
+
     private func setUserPreferences() {
-        
-        TutorRegistration.price = price
+        let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileHourlyRateTableViewCell)
+		guard let price = Int(cell.amount) else {
+			//show error
+			return
+		}
+		
+      	TutorRegistration.price = price
         TutorRegistration.distance = distance
         
         if inPerson && inVideo {
@@ -194,12 +181,12 @@ class TutorPreferences : BaseViewController {
             TutorRegistration.sessionPreference = 0
         }
     }
-    
+	
     override func handleNavigation() {
         if (touchStartView is NavbarButtonNext) {
             setUserPreferences()
-			let next = TutorBio()
-			navigationController?.pushViewController(next, animated: true)
+            let next = TutorBio()
+            navigationController?.pushViewController(next, animated: true)
         }
     }
 }
@@ -208,22 +195,19 @@ class TutorPreferences : BaseViewController {
 extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 4
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.row) {
+
         case 0:
-            return 100
+            return UITableViewAutomaticDimension
         case 1:
             return UITableViewAutomaticDimension
         case 2:
-            return 55
-        case 3:
-            return UITableViewAutomaticDimension
-        case 4:
             return 40
-        case 5:
+        case 3:
             return 40
         default:
             break
@@ -235,60 +219,20 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
         
         switch (indexPath.row) {
         case 0:
-            let cell = UITableViewCell()
-            cell.backgroundColor = .clear
-            cell.selectionStyle = .none
-            
-            let label = UILabel()
-            label.font = Fonts.createSize(14)
-            label.textColor = Colors.grayText
-            label.numberOfLines = 0
-            label.text = "Please set your general hourly rate.\n\nAlthough you have a set rate, individual sessions can be negotiable."
-            
-            cell.addSubview(label)
-            
-            label.snp.makeConstraints { (make) in
-                make.edges.equalToSuperview()
-            }
-            
-            return cell
-        case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
-            
-            cell.slider.addTarget(self, action: #selector(rateSliderValueDidChange), for: .valueChanged)
-            
-            cell.slider.minimumValue = 5
-            cell.slider.maximumValue = 100
-            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileHourlyRateTableViewCell
+
             let formattedString = NSMutableAttributedString()
             formattedString
-                .bold("Hourly Rate  ", 15, .white)
-                .regular("  [$5-$100]", 15, Colors.grayText)
+                .regular("\n", 5, .white)
+                .bold("\nHourly Rate  ", 15, .white)
+                .regular("  [$5-$1000]\n", 15, Colors.grayText)
+                .regular("\n", 8, .white)
+                .regular("Please set your general hourly rate.\n\nAlthough you have a set rate, individual sessions can be negotiable.", 14, Colors.grayText)
             
             cell.header.attributedText = formattedString
-            
-            cell.valueLabel.text = "$5"
-            
+            cell.textField.text = "$0"
             return cell
-        case 2:
-            let cell = UITableViewCell()
-            cell.backgroundColor = .clear
-            cell.selectionStyle = .none
-            
-            let label = UILabel()
-            label.font = Fonts.createSize(14)
-            label.textColor = Colors.grayText
-            label.numberOfLines = 0
-            label.text = "Please set the maximum number of miles you are willing to travel for a tutoring session."
-            
-            cell.addSubview(label)
-            
-            label.snp.makeConstraints { (make) in
-                make.edges.equalToSuperview()
-            }
-            
-            return cell
-        case 3:
+        case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
             
             cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
@@ -298,21 +242,23 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
             
             let formattedString = NSMutableAttributedString()
             formattedString
-                .bold("Travel Distance  ", 15, .white)
-                .regular("  [0-150 mi]", 15, Colors.grayText)
+                .regular("\n", 5, .white)
+                .bold("\nTravel Distance  ", 15, .white)
+                .regular("  [0-150 mi]\n", 15, Colors.grayText)
+                .regular("\n", 8, .white)
+                .regular("Please set the maximum number of miles you are willing to travel for a tutoring session.", 14, Colors.grayText)
             
             cell.header.attributedText = formattedString
-            
             cell.valueLabel.text = "5 mi"
             
             return cell
-        case 4:
+        case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell", for: indexPath) as! EditProfileCheckboxTableViewCell
             
             cell.label.text = "Tutoring In-Person Sessions?"
             
             return cell
-        case 5:
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCheckboxTableViewCell", for: indexPath) as! EditProfileCheckboxTableViewCell
             
             cell.label.text = "Tutoring Online (Video Call) Sessions?"

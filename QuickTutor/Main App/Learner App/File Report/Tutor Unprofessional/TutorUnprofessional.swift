@@ -39,7 +39,11 @@ class TutorUnprofessionalView : MainLayoutHeader {
 			make.centerX.equalToSuperview()
 			make.bottom.equalTo(safeAreaLayoutGuide)
 		}
-    }
+	}
+	override func layoutSubviews() {
+		statusbarView.backgroundColor = Colors.learnerPurple
+		navbar.backgroundColor = Colors.learnerPurple
+	}
 }
 
 

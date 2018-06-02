@@ -49,13 +49,35 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         cv.register(ConnectionRequestCell.self, forCellWithReuseIdentifier: "connectionRequest")
         return cv
     }()
-	
-	var tutor : AWTutor!
-	var learner : AWLearner!
-	
-    lazy var emptyCellBackground: EmptyMessagesBackground = {
-        let background = EmptyMessagesBackground()
-        return background
+    
+    var tutor : AWTutor!
+    var learner : AWLearner!
+    
+    lazy var emptyCellBackground: UIView = {
+        let contentView = UIView()
+        let icon: UIImageView = {
+            let iv = UIImageView()
+            iv.image = #imageLiteral(resourceName: "emptyChatImage")
+            iv.contentMode = .scaleAspectFill
+            return iv
+        }()
+        
+        let textLabel: UILabel = {
+            let label = UILabel()
+            label.textColor = Colors.border
+            label.textAlignment = .center
+            label.numberOfLines = 0
+            label.font = Fonts.createSize(11)
+            label.text = "Select a custom message, or introduce yourself by typing a message. A tutor must accept your connection request before you are able to message them again"
+            return label
+        }()
+        
+        contentView.addSubview(icon)
+        contentView.addSubview(textLabel)
+        icon.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 140)
+        textLabel.anchor(top: icon.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 100)
+        contentView.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0))
+        return contentView
     }()
     
     var actionSheet: FileReportActionsheet?
@@ -67,10 +89,11 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         return animator
     }()
     
-    lazy var imageMessageSender: ImageMessageSender = {
-        let sender = ImageMessageSender(parentViewController: self)
-        return sender
-    }()
+//    lazy var imageMessageSender: ImageMessageSender = {
+//        let sender = ImageMessageSender(parentViewController: self)
+//        sender.receiverId = receiverId
+//        return sender
+//    }()
     
     var containerViewBottomAnchor: NSLayoutConstraint?
     
@@ -100,7 +123,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
-        emptyCellBackground.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
+        emptyCellBackground.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
     }
     
     private func setupNavBar() {
@@ -114,13 +137,13 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         if let partner = chatPartner {
             titleView.updateUI(user: partner)
         }
-		
-		if AccountService.shared.currentUserType == .learner {
-			titleView.tutor = tutor
-		} else {
-			titleView.learner = learner
-		}
-		
+        
+        if AccountService.shared.currentUserType == .learner {
+            titleView.tutor = tutor
+        } else {
+            titleView.learner = learner
+        }
+        
         navBar.addSubview(titleView)
         titleView.anchor(top: navBar.titleView.topAnchor, left: nil, bottom: navBar.titleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
@@ -187,7 +210,8 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     func loadMessages() {
         let uid = AccountService.shared.currentUser.uid!
-        Database.database().reference().child("conversations").child(uid).child(receiverId).observe(.childAdded) { snapshot in
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId).observe(.childAdded) { snapshot in
             self.teardownConnectionRequest()
             let messageId = snapshot.key
             DataService.shared.getMessageById(messageId, completion: { message in
@@ -209,7 +233,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         let uid = AccountService.shared.currentUser.uid!
         if message.connectionRequestId != nil {
             self.canSendMessages = false
-            Database.database().reference().child("connections").child(uid).child(message.partnerId()).observeSingleEvent(of: .value, with: { (snapshot) in
+            Database.database().reference().child("connections").child(uid).child(message.partnerId()).observe(.value, with: { (snapshot) in
                 guard let value = snapshot.value as? Bool else {
                     return
                 }
@@ -226,7 +250,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     func checkForConnection(completion: @escaping (Bool) ->() ) {
         let uid = AccountService.shared.currentUser.uid!
-        Database.database().reference().child("connections").child(uid).child(receiverId).observeSingleEvent(of: .value) { snapshot in
+        Database.database().reference().child("connections").child(uid).child(receiverId).observe(.value) { (snapshot) in
             guard (snapshot.value as? Int) != nil else {
                 self.connectionRequestAccepted = false
                 completion(false)
@@ -308,13 +332,14 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         if message.sessionRequestId != nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestCell
             cell.updateUI(message: message)
+            cell.bubbleWidthAnchor?.constant = 220
             cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
             return cell
         }
         
         if message.connectionRequestId != nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "connectionRequest", for: indexPath) as! ConnectionRequestCell
-            cell.bubbleWidthAnchor?.constant = 200
+            cell.bubbleWidthAnchor?.constant = 220
             cell.chatPartner = chatPartner
             cell.updateUI(message: message)
             cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
@@ -370,11 +395,73 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     
 }
 
+extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func handleSendingImage() {
+        studentKeyboardAccessory.hideActionView()
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+            imagePicker.sourceType = .camera
+            self.present(imagePicker, animated: true, completion: nil)
+        }))
+        ac.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
+            imagePicker.sourceType = .photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+        }))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+        }))
+        present(ac, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        var image: UIImage?
+        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            image = editedImage
+        } else if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            image = originalImage
+        }
+        guard let imageToUplaod = image else { return }
+        uploadImageToFirebase(image: imageToUplaod)
+    }
+    
+    func uploadImageToFirebase(image: UIImage) {
+        dismiss(animated: true, completion: nil)
+        guard let data = UIImageJPEGRepresentation(image, 0.2) else {
+            return
+        }
+        let imageName = NSUUID().uuidString
+        
+        let metaDataDictionary = ["width": image.size.width, "height": image.size.height]
+        let metaData = StorageMetadata(dictionary: metaDataDictionary)
+        
+        let storageRef = Storage.storage().reference().child(imageName)
+        
+        storageRef.putData(data, metadata: metaData) { metadataIn, _ in
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            guard let imageMeta = metadataIn else { return }
+            storageRef.downloadURL(completion: { (url, error) in
+                if error != nil {
+                    print(error.debugDescription)
+                }
+                guard let imageUrl = url else { return }
+                let timestamp = Date().timeIntervalSince1970
+                
+                let message = UserMessage(dictionary: ["imageUrl": imageUrl, "timestamp": timestamp, "senderId": uid, "receiverId": self.receiverId])
+                message.imageUrl = imageUrl.absoluteString
+                message.data["imageWidth"] = image.size.width
+                message.data["imageHeight"] = image.size.width
+                self.sendMessage(message: message)
+            })
+
+        }
+    }
+}
+
 // MARK: Plus button actions -
 extension ConversationVC: KeyboardAccessoryViewDelegate {
-    func handleSendingImage() {
-        imageMessageSender.handleSendingImage()
-    }
     
     func handleSessionRequest() {
         studentKeyboardAccessory.messageTextview.resignFirstResponder()

@@ -148,7 +148,7 @@ class CreateAccountVC: UIViewController {
     
     private func setupNoAccountButton() {
         view.addSubview(hasAccountButton)
-        hasAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 75, paddingBottom: 50, paddingRight: 75, width: 0, height: 30)
+        hasAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 75, paddingBottom: 50, paddingRight: 75, width: 0, height: 30)
         hasAccountButton.addTarget(self, action: #selector(showLogin), for: .touchUpInside)
     }
     
@@ -177,7 +177,7 @@ class CreateAccountVC: UIViewController {
                 print(error.debugDescription)
                 return
             }
-            self.saveUserToDatabase(user)
+//            self.saveUserToDatabase(user)
             Auth.auth().signIn(withEmail: email, password: password, completion: { user, _ in
                 guard user != nil else { return }
                 self.addNotificationSettingsToFirebase()
@@ -191,7 +191,6 @@ class CreateAccountVC: UIViewController {
         let data = ["connectionRequests": true, "messages": true, "sessionRequests": true]
         Database.database().reference().child("notificationPreferences").child(uid).updateChildValues(data)
     }
-    
 }
 
 extension CreateAccountVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -215,14 +214,9 @@ extension CreateAccountVC: UIImagePickerControllerDelegate, UINavigationControll
             return
         }
         
-        Storage.storage().reference().child(user.uid).child("profilePic").putData(data, metadata: nil) { metadata, _ in
-            
-            let profilePicRef = Database.database().reference().child("accounts").child(user.uid).child("profilePicUrl")
-            metadata?.storageReference?.downloadURL(completion: { (url, error) in
-                guard let url = url else { return }
-                profilePicRef.setValue(url.absoluteString)
-            })
-        }
+//        Storage.storage().reference().child(user.uid).child("profilePic").putData(data, metadata: nil) { metadata, _ in
+//            Database.database().reference().child("accounts").child(user.uid).child("profilePicUrl").setValue(metadata?.downloadURL()?.absoluteString)
+//        }
     }
     
     func getCompressedImageDataFor(_ image: UIImage) -> Data? {

@@ -224,16 +224,9 @@ class InviteOthers : BaseViewController {
 		}
 	}
 
-	private var datasource : [CNContact] = [] {
-		didSet {
-			contentView.tableView.isHidden = (datasource.count == 0)
-			contentView.inviteButton.isHidden = (datasource.count == 0)
-			
-			contentView.tableView.reloadData()
-		}
-	}
+	private var datasource = [CNContact]()
 	
-	private var filteredContacts : [CNContact] = [] {
+	private var filteredContacts = [CNContact]() {
 		didSet {
 			contentView.tableView.reloadData()
 		}
@@ -252,31 +245,31 @@ class InviteOthers : BaseViewController {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(InviteContactsTableViewCell.self, forCellReuseIdentifier: "contactCell")
-        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
 	}
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 	private func getContactList() {
+		var contacts : [CNContact] = []
 		do {
-			self.displayLoadingOverlay()
-			
 			let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]
 			let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
 			
-			try self.contactStore.enumerateContacts(with: request, usingBlock: { (contact, stop) in
-				self.datasource.append(contact)
-				self.dismissOverlay()
-			})
+			try self.contactStore.enumerateContacts(with: request) { (contact, stop) in
+				contacts.append(contact)
+			}
 		}
 		catch {
-			print("unable to fetch contacts")
+			AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to fetch your contacts.")
+		}
+		DispatchQueue.main.async {
+			self.datasource = contacts
+			self.contentView.inviteButton.isHidden = (self.datasource.count == 0)
+			self.contentView.tableView.reloadData()
 		}
 	}
 	
@@ -291,9 +284,9 @@ class InviteOthers : BaseViewController {
                 if granted {
                     completionHandler(true)
                 } else {
-                    DispatchQueue.main.async {
-                        self.showSettingsAlert(completionHandler)
-                    }
+					DispatchQueue.main.async {
+						self.showSettingsAlert(completionHandler)
+					}
                 }
             }
         }
@@ -312,10 +305,10 @@ class InviteOthers : BaseViewController {
 			return
 		}
 		shouldFilterSearchResults = true
+		
 		self.filteredContacts = self.datasource.filter {
 			let name = "\($0.givenName) \($0.familyName)"
 			return name.lowercased().contains(text.lowercased()) }
-		
 		if filteredContacts.count > 0 {
 			scrollToTop()
 		}
@@ -332,7 +325,7 @@ class InviteOthers : BaseViewController {
 			controller.recipients = selectedContacts
 			present(controller, animated: true, completion: nil)
 		} else {
-			print("unable to send text")
+			AlertController.genericErrorAlert(self, title: "Unable to send text!", message: "Sorry, we can no send SMS messages at this time.")
 		}
 	}
     private func showSettingsAlert(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
@@ -356,11 +349,14 @@ class InviteOthers : BaseViewController {
         if touchStartView is NavbarButtonInvite {
             messageContacts()
 		} else if touchStartView == contentView.connectContacts.button {
-			requestAccess { (success) in
+			self.requestAccess { (success) in
 				if success {
-					self.getContactList()
+					DispatchQueue.main.async {
+						self.contentView.connectContacts.isHidden = true
+						self.getContactList()
+					}
 				} else {
-					print("unable to get access")
+					AlertController.genericErrorAlert(self, title: "Unable to gain access to your contacts", message: "Try going to settings>privacy> and allowing Contacts.")
 				}
 			}
 		}

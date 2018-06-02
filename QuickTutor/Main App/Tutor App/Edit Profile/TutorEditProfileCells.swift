@@ -362,7 +362,7 @@ class BaseSlider : UISlider {
             width = 280
         }
         
-        let rect:CGRect = CGRect(x: 0, y: 0, width: width, height: 12)
+        let rect:CGRect = CGRect(x: 0, y: 0, width: width, height: 20)
 		
         return rect
     }
@@ -378,6 +378,8 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
     
     let header : UILabel = {
         let label = UILabel()
+        
+        label.numberOfLines = 0
         
         return label
     }()
@@ -426,7 +428,6 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
             make.top.equalToSuperview()
             make.right.equalToSuperview()
             make.left.equalToSuperview().inset(3)
-            make.height.equalTo(20)
         }
         
         valueLabel.snp.makeConstraints { (make) in
@@ -437,7 +438,7 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
         
         slider.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(4)
-            make.top.equalTo(header.snp.bottom).inset(-20)
+            make.top.equalTo(header.snp.bottom).inset(-25)
             make.width.equalTo(width)
             make.height.equalTo(40)
             make.bottom.equalToSuperview()
@@ -445,6 +446,192 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
     }
 }
 
+
+class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
+    
+    let header : UILabel = {
+        let label = UILabel()
+        
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
+    let container : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = Colors.registrationDark
+        view.layer.cornerRadius = 6
+        
+        return view
+    }()
+    
+    var textField = NoPasteTextField()
+		
+    let decreaseButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "decreaseButton"), for: .normal)
+        return button
+    }()
+    
+    let increaseButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "increaseButton"), for: .normal)
+        return button
+    }()
+    
+    var increasePriceTimer: Timer?
+    var decreasePriceTimer: Timer?
+    
+    var currentPrice = 0
+	var amount : String = ""
+	
+    override func configureView() {
+        contentView.addSubview(header)
+        contentView.addSubview(container)
+        container.addSubview(textField)
+        container.addSubview(increaseButton)
+        container.addSubview(decreaseButton)
+		
+		textField.delegate = self
+		textField.font = Fonts.createBoldSize(32)
+		textField.textColor = .white
+		textField.textAlignment = .left
+		textField.keyboardType = .numberPad
+		textField.keyboardAppearance = .dark
+		textField.tintColor = Colors.tutorBlue
+		
+		backgroundColor = .clear
+        selectionStyle = .none
+        
+        decreaseButton.addTarget(self, action: #selector(decreasePrice), for: .touchDown)
+        decreaseButton.addTarget(self, action: #selector(endDecreasePrice), for: [.touchUpInside, .touchUpOutside])
+        increaseButton.addTarget(self, action: #selector(increasePrice), for: .touchDown)
+        increaseButton.addTarget(self, action: #selector(endIncreasePrice), for: [.touchUpInside, .touchUpOutside])
+        
+        applyConstraints()
+    }
+	
+	private func updateTextField(_ amount: String) {
+		guard let this = Int(amount) else { return }
+		guard let number = this as NSNumber? else {
+			return
+		}
+		currentPrice = this
+		textField.text = "$\(number)"
+	}
+
+    @objc func decreasePrice() {
+        guard currentPrice > 0 else {
+			self.amount = ""
+			return
+		}
+        decreasePriceTimer =  Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { (timer) in
+			guard self.currentPrice > 0 else {
+				self.amount = String(self.currentPrice)
+				return
+			}
+            self.currentPrice -= 1
+            self.textField.text = "$\(self.currentPrice)"
+			self.amount = String(self.currentPrice)
+
+        }
+        decreasePriceTimer?.fire()
+    }
+    
+    @objc func endDecreasePrice() {
+        decreasePriceTimer?.invalidate()
+    }
+    
+    @objc func increasePrice() {
+		guard currentPrice < 1000 else {
+			self.amount = String(currentPrice)
+			return
+		}
+        self.currentPrice += 1
+        self.textField.text = "$\(self.currentPrice)"
+		self.amount = String(currentPrice)
+        increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { (timer) in
+			guard self.currentPrice < 1000 else {
+				self.amount = String(self.currentPrice)
+				return
+			}
+			self.currentPrice += 1
+            self.textField.text = "$\(self.currentPrice)"
+			self.amount = String(self.currentPrice)
+        })
+    }
+    
+    @objc func endIncreasePrice() {
+        increasePriceTimer?.invalidate()
+    }
+    
+    override func applyConstraints() {
+        
+        header.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.right.equalToSuperview()
+            make.left.equalToSuperview().inset(3)
+        }
+        
+        container.snp.makeConstraints { (make) in
+            make.top.equalTo(header.snp.bottom).inset(-20)
+            make.width.centerX.bottom.equalToSuperview()
+            make.height.equalTo(70)
+        }
+        
+        textField.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(25)
+            make.centerY.equalToSuperview()
+        }
+        
+        increaseButton.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().inset(17)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
+        
+        decreaseButton.snp.makeConstraints { (make) in
+            make.right.equalTo(increaseButton.snp.left).inset(-17)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
+    }
+}
+extension EditProfileHourlyRateTableViewCell : UITextFieldDelegate {
+	
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		let aSet = NSCharacterSet(charactersIn:"0123456789").inverted
+		let compSepByCharInSet = string.components(separatedBy: aSet)
+		let numberFiltered = compSepByCharInSet.joined(separator: "")
+		
+		if string == "" && amount.count == 1 {
+			textField.text = "$0"
+			amount = ""
+			currentPrice = 0
+			return false
+		}
+		if string == "" && amount.count > 0 {
+			amount.removeLast()
+			updateTextField(amount)
+		}
+		
+		if string == numberFiltered {
+			let temp = (amount + string)
+			guard let number = Int(temp), number < 1001 else {
+				//showError
+				return false
+			}
+			amount = temp
+			updateTextField(amount)
+		}
+		
+		return false
+	}
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		return true
+	}
+}
 
 class EditProfileCheckboxTableViewCell : BaseTableViewCell {
     

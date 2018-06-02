@@ -22,7 +22,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     let header = TutorCardHeader()
     
     let reviewLabel : UILabel = {
-        
         let label = UILabel()
         
         label.textAlignment = .center
@@ -35,7 +34,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     let reviewLabelContainer = UIView()
     
     let rateLabel : UILabel = {
-        
         let label = UILabel()
         
         label.textAlignment = .center
@@ -46,8 +44,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }()
     
     let rateLabelContainer = UIView()
-    
     let distanceLabel = UILabel()
+
     let distanceExtraLabel : UILabel = {
         let label = UILabel()
         
@@ -57,7 +55,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         return label
     }()
-	
+    
     let distanceLabelContainer = UIView()
     let connectButton = ConnectButton()
     let tableViewContainer = UIView()
@@ -86,41 +84,13 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }
     
     func configureCollectionViewCell() {
-        addSubview(header)
-        addSubview(tableViewContainer)
-        tableViewContainer.addSubview(tableView)
-        addSubview(reviewLabelContainer)
-        reviewLabelContainer.addSubview(reviewLabel)
-        addSubview(rateLabelContainer)
-        rateLabelContainer.addSubview(rateLabel)
-        addSubview(distanceLabelContainer)
-        distanceLabelContainer.addSubview(distanceLabel)
-        distanceLabelContainer.addSubview(distanceExtraLabel)
-        addSubview(connectButton)
-        
-        tableViewContainer.backgroundColor = UIColor(hex: "1B1B26")
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-
-        tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
-        tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
-        tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
-        tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
-        tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
-        tableView.register(ExtraInfoCardTableViewCell.self, forCellReuseIdentifier: "extraInfoCardTableViewCell")
-        
-        reviewLabelContainer.backgroundColor = Colors.yellow
-        reviewLabelContainer.layer.cornerRadius = 12
-        
-        rateLabelContainer.backgroundColor = Colors.green
-        rateLabelContainer.layer.cornerRadius = 12
-        
-        distanceLabelContainer.backgroundColor = .white
-        distanceLabelContainer.layer.cornerRadius = 28
-        distanceLabelContainer.isHidden = true
-        distanceLabel.numberOfLines  = 0
-        applyConstraints()
+		configureViews()
+		configureDelegates()
+		
+		distanceLabelContainer.isHidden = true
+		distanceLabel.numberOfLines  = 0
+		
+		applyConstraints()
     }
     
     func applyConstraints(){
@@ -190,29 +160,71 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         applyDefaultShadow()
-        
         header.roundCorners([.topLeft, .topRight], radius: 22)
-        
         tableViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 22)
-        
-        header.imageView.applyDefaultShadow()
+        header.profilePics.applyDefaultShadow()
     }
+	private func configureDelegates() {
+		tableView.dataSource = self
+		tableView.delegate = self
+		
+		tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
+		tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
+		tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+		tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
+		tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
+		tableView.register(ExtraInfoCardTableViewCell.self, forCellReuseIdentifier: "extraInfoCardTableViewCell")
+	}
+	private func configureViews() {
+		addSubview(header)
+		addSubview(tableViewContainer)
+		tableViewContainer.addSubview(tableView)
+		addSubview(reviewLabelContainer)
+		reviewLabelContainer.addSubview(reviewLabel)
+		addSubview(rateLabelContainer)
+		rateLabelContainer.addSubview(rateLabel)
+		addSubview(distanceLabelContainer)
+		distanceLabelContainer.addSubview(distanceLabel)
+		distanceLabelContainer.addSubview(distanceExtraLabel)
+		addSubview(connectButton)
+		
+		tableViewContainer.backgroundColor = UIColor(hex: "1B1B26")
+
+		reviewLabelContainer.backgroundColor = Colors.yellow
+		reviewLabelContainer.layer.cornerRadius = 12
+		
+		rateLabelContainer.backgroundColor = Colors.green
+		rateLabelContainer.layer.cornerRadius = 12
+		
+		distanceLabelContainer.backgroundColor = .white
+		distanceLabelContainer.layer.cornerRadius = 28
+	
+	}
     override func handleNavigation() {
         if touchStartView is ConnectButton {
-			if CurrentUser.shared.learner.hasPayment {
-				self.addTutorWithUid(datasource.uid)
-			} else {
-				let view = (next?.next?.next as! TutorConnect).contentView
+            if CurrentUser.shared.learner.hasPayment {
+                self.addTutorWithUid(datasource.uid)
+            } else {
+                let view = (next?.next?.next as! TutorConnect).contentView
                 view.addPaymentModal.isHidden = false
-			}
+            }
 
         } else if touchStartView is FullProfile {
             if let current = UIApplication.getPresentedViewController() {
                 current.present(ViewFullProfile(), animated: true, completion: nil)
             }
-        }
+        } else if touchStartView is TutorCardProfilePic {
+            let vc = (next?.next?.next as! TutorConnect)
+			FirebaseData.manager.getProfileImagesFor(uid: datasource.uid) { (imageUrls) in
+				if let imageUrls = imageUrls {
+					vc.setUpImages(images: imageUrls)
+				}
+			}
+            vc.contentView.backgroundView.isHidden = false
+            vc.horizontalScrollView.isHidden = false
+            vc.horizontalScrollView.isUserInteractionEnabled = true
+		}
     }
 }
 
@@ -269,7 +281,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 make.top.equalToSuperview().inset(10)
             }
             
-            cell.tutorItem.label.text = "Has tutored \(datasource?.numSessions! ?? 0) sessions"
+            cell.tutorItem.label.text = "Has tutored \(datasource?.tNumSessions! ?? 0) sessions"
             
             if let languages = datasource?.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
@@ -312,7 +324,6 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             } else {
                 if let studies = datasource?.school {
                     cell.studysItem.label.text = studies
-                    print(studies)
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.tutorItem.snp.makeConstraints { (make) in
@@ -379,7 +390,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                     .regular(datasource.distance.distancePreference(datasource.preference), 14, .white)
                     .regular(datasource.preference.preferenceNormalization(), 14, .white)
                     .regular(String(policies[2]).cancelNotice(), 14, .white)
-					.regular(String(policies[0]).lateNotice(), 14, .white)
+                    .regular(String(policies[0]).lateNotice(), 14, .white)
                     .regular(String(policies[1]).lateFee(), 13, Colors.qtRed)
                     .regular(String(policies[3]).cancelFee(), 13, Colors.qtRed)
                 
@@ -415,16 +426,20 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
     }
 }
 
+class TutorCardProfilePic : UIImageView, Interactable {
+    
+}
+
 class TutorCardHeader : InteractableView {
     
     let distance = TutorDistanceView()
     
-    var imageView : UIImageView = {
-        var imageView = UIImageView()
+    var profilePics : TutorCardProfilePic = {
+        let view = TutorCardProfilePic()
         
-        imageView.scaleImage()
+        view.isUserInteractionEnabled = true
         
-        return imageView
+        return view
     }()
     
     var name : UILabel = {
@@ -439,7 +454,7 @@ class TutorCardHeader : InteractableView {
     }()
     
     override func configureView() {
-        addSubview(imageView)
+        addSubview(profilePics)
         addSubview(name)
         super.configureView()
         
@@ -449,7 +464,7 @@ class TutorCardHeader : InteractableView {
     }
     
     override func applyConstraints() {
-        imageView.snp.makeConstraints { (make) in
+        profilePics.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(8)
             make.centerX.equalToSuperview()
             if UIScreen.main.bounds.height == 480 {
@@ -460,7 +475,7 @@ class TutorCardHeader : InteractableView {
             
         }
         name.snp.makeConstraints { (make) in
-            make.top.equalTo(imageView.snp.bottom)
+            make.top.equalTo(profilePics.snp.bottom)
             make.bottom.equalToSuperview().inset(5)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()

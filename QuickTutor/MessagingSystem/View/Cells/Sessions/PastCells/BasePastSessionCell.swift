@@ -50,13 +50,20 @@ class BasePastSessionCell: BaseSessionCell {
     
     override func cellActionView(_ actionView: SessionCellActionView, didSelectButtonAt position: Int) {
         super.cellActionView(actionView, didSelectButtonAt: position)
-        starView.isHidden = !starView.isHidden
+        toggleStarViewHidden()
     }
     
     override func cellActionViewDidSelectBackground(_ actionView: SessionCellActionView) {
         super.cellActionViewDidSelectBackground(actionView)
-        starView.isHidden = !starView.isHidden
-
+        toggleStarViewHidden()
     }
+    
+    func toggleStarViewHidden() {
+        UIViewPropertyAnimator(duration: 0.2, curve: .easeOut) {
+            self.starView.alpha = self.starView.alpha == 0 ? 1 : 0
+        }.startAnimation()
+    }
+    
+    
 
 }

@@ -25,6 +25,7 @@ class BaseSessionsContentCell: BaseContentCell {
     override func setupViews() {
         super.setupViews()
         fetchSessions()
+        listenForSessionUpdates()
     }
     
     override func setupCollectionView() {
@@ -41,25 +42,34 @@ class BaseSessionsContentCell: BaseContentCell {
         upcomingSessions.removeAll()
         pastSessions.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("userSessions").child(uid).observe(.childAdded) { (snapshot) in
-            self.refreshControl.endRefreshing()
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { (snapshot) in
             DataService.shared.getSessionById(snapshot.key, completion: { session in
-                guard session.status != "cancelled" && session.status != "declined" else { return }
+                guard session.status != "cancelled" && session.status != "declined" else {
+                    self.collectionView.reloadData()
+                    return
+                }
                 
                 if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
-                    self.pendingSessions.append(session)
+                    if !self.pendingSessions.contains(where: { $0.id == session.id }) {
+                        self.pendingSessions.append(session)
+                    }
                     self.collectionView.reloadData()
                     return
                 }
                 
                 if session.startTime < Date().timeIntervalSince1970 {
-                    self.pastSessions.append(session)
+                    if !self.pastSessions.contains(where: { $0.id == session.id }) {
+                        self.pastSessions.append(session)
+                    }
                     self.collectionView.reloadData()
                     return
                 }
                 
                 if session.status == "accepted" {
-                    self.upcomingSessions.append(session)
+                    if !self.upcomingSessions.contains(where: { $0.id == session.id }) {
+                        self.upcomingSessions.append(session)
+                    }
                     self.collectionView.reloadData()
                 }
             })
@@ -67,9 +77,43 @@ class BaseSessionsContentCell: BaseContentCell {
         
     }
     
+    func listenForSessionUpdates() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { (snapshot) in
+            print("Data needs reload")
+            self.reloadSessionWithId(snapshot.ref.key)
+            snapshot.ref.setValue(1)
+        }
+        
+    }
+    
+    func reloadSessionWithId(_ id: String) {
+        DataService.shared.getSessionById(id) { (session) in
+            if let fooOffset = self.pendingSessions.index(where: {$0.id == id}) {
+                // do something with fooOffset
+                self.pendingSessions.remove(at: fooOffset)
+                if session.status == "accepted" {
+                    self.upcomingSessions.append(session)
+                }
+                self.collectionView.reloadData()
+            } else {
+                // item could not be found
+            }
+        }
+    }
+    
     override func setupRefreshControl() {
         collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(fetchSessions), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshSessions), for: .valueChanged)
+    }
+    
+    @objc func refreshSessions() {
+        refreshControl.beginRefreshing()
+        fetchSessions()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            self.refreshControl.endRefreshing()
+        })
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -139,7 +183,7 @@ class BaseSessionsContentCell: BaseContentCell {
         guard let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
         cell.actionView.showActionContainerView()
         if let pastCell = cell as? BasePastSessionCell {
-            pastCell.starView.isHidden = !pastCell.starView.isHidden
+            pastCell.toggleStarViewHidden()
         }
     }
 }
