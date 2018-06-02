@@ -67,6 +67,7 @@ class SessionDetails : BaseViewController {
 			setHeader()
 		}
 	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		
@@ -145,15 +146,25 @@ extension SessionDetails : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
             case 0:
-                navigationController?.pushViewController(TutorCancelled(), animated: true)
+				let next = TutorCancelled()
+				next.datasource = self.datasource
+                navigationController?.pushViewController(next, animated: true)
             case 1:
-                navigationController?.pushViewController(TutorLate(), animated: true)
+				let next = TutorLate()
+				next.datasource = self.datasource
+				navigationController?.pushViewController(next, animated: true)
             case 2:
-                navigationController?.pushViewController(TutorUnprofessional(), animated: true)
+				let next = TutorUnprofessional()
+				next.datasource = self.datasource
+				navigationController?.pushViewController(next, animated: true)
             case 3:
-                navigationController?.pushViewController(TutorHarassment(), animated: true)
+				let next = TutorHarassment()
+				next.datasource = self.datasource
+				navigationController?.pushViewController(next, animated: true)
             case 4:
-                navigationController?.pushViewController(TutorOther(), animated: true)
+				let next = TutorOther()
+				next.datasource = self.datasource
+				navigationController?.pushViewController(next, animated: true)
             default:
                 break
         }

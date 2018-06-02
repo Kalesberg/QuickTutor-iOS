@@ -171,10 +171,10 @@ class SearchSubjects: BaseViewController {
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
 		
-		if let subjects = SubjectStore.loadTotalSubjectList() {
-			self.allSubjects = subjects
-			self.allSubjects.shuffle()
-		}
+//		if let subjects = SubjectStore.loadTotalSubjectList() {
+//			self.allSubjects = subjects
+//			self.allSubjects.shuffle()
+//		}
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -183,9 +183,8 @@ class SearchSubjects: BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		
 		contentView.searchTextField.text = ""
-		tableView(shouldDisplay: false) {}
+		tableView(shouldDisplay: false) { }
 		
 		let defaults = UserDefaults.standard
 		

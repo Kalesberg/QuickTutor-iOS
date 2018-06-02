@@ -111,15 +111,25 @@ extension TutorSessionDetails : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
             case 0:
-                navigationController?.pushViewController(LearnerCancelled(), animated: true)
+				let next = LearnerCancelled()
+				next.datasource = self.datasource
+                navigationController?.pushViewController(next, animated: true)
             case 1:
-                navigationController?.pushViewController(LearnerLate(), animated: true)
+				let next = LearnerLate()
+				next.datasource = self.datasource
+				navigationController?.pushViewController(next, animated: true)
             case 2:
-                navigationController?.pushViewController(LearnerUnprofessional(), animated: true)
+				let next = LearnerUnprofessional()
+				next.datasource = self.datasource
+				navigationController?.pushViewController(next, animated: true)
             case 3:
-                navigationController?.pushViewController(LearnerHarassment(), animated: true)
+				let next = LearnerHarassment()
+				next.datasource = self.datasource
+				navigationController?.pushViewController(next, animated: true)
             case 4:
-                navigationController?.pushViewController(LearnerOther(), animated: true)
+				let next = LearnerOther()
+				next.datasource = self.datasource
+				navigationController?.pushViewController(next, animated: true)
             default:
                 break
         }
@@ -127,5 +137,3 @@ extension TutorSessionDetails : UITableViewDelegate, UITableViewDataSource {
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }
-
-

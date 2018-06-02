@@ -36,7 +36,13 @@ class LearnerProfilePics : SubmissionViewController {
     override var contentView: LearnerProfilePicsView {
         return view as! LearnerProfilePicsView
     }
-    
+	
+	var datasource : UserSession! {
+		didSet {
+			print("datasource set.")
+		}
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
@@ -63,17 +69,20 @@ class LearnerProfilePics : SubmissionViewController {
     
     private func submitReport() {
         
-        let node = FileReportClass.DidNotMatch.rawValue
-        let value : [String : Any] = ["reason" : contentView.textView.textView.text!]
-        
-        FirebaseData.manager.fileReport(sessionId: "SessionID1231", reportClass: node, value: value) { (error) in
-            if let error = error {
-                print(error)
-            } else {
-                self.customerServiceAlert {
-                    self.navigationController?.popBackToMain()
-                }
-            }
-        }
+		let value : [String : Any] = [
+			"reportee" : datasource.otherId,
+			"reason" : contentView.textView.textView.text,
+			"type" : FileReportClass.TutorCancelled.rawValue,
+			]
+		
+		FirebaseData.manager.fileReport(sessionId: datasource.id, value: value) { (error) in
+			if error != nil {
+				AlertController.genericErrorAlert(self, title: "Error Filing Report", message: "Something went wrong, please try again.")
+			} else{
+				self.customerServiceAlert {
+					self.navigationController?.popBackToMain()
+				}
+			}
+		}
     }
 }

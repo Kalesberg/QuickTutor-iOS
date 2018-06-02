@@ -93,7 +93,6 @@ class Stripe {
 				}
 			})
 	}
-
 	class func retrieveConnectAccount(acctId: String, _ completion: @escaping (ConnectAccount?) -> Void) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrieveconnect.php"
 		let params : [String : Any] = ["acct" : acctId]

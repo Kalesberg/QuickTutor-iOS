@@ -30,6 +30,11 @@ class LearnerHarassment : SubmissionViewController {
 		return view as! LearnerHarassmentView
 	}
 	
+	var datasource : UserSession! {
+		didSet {
+			print("datasource set.")
+		}
+	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
@@ -55,16 +60,21 @@ class LearnerHarassment : SubmissionViewController {
 	}
 	
 	private func submitReport() {
-		let node = FileReportClass.Harassment.rawValue
-		let value : [String : Any] = ["reason" : contentView.textView.textView.text!]
+		let value : [String : Any] = [
+			"reportee" : datasource.otherId,
+			"reason" : contentView.textView.textView.text,
+			"type" : FileReportClass.TutorCancelled.rawValue,
+			]
 		
-		FirebaseData.manager.fileReport(sessionId: "SessionID1231", reportClass: node, value: value) { (error) in
+		FirebaseData.manager.fileReport(sessionId: datasource.id, value: value) { (error) in
 			if error != nil {
-				AlertController.genericErrorAlert(self, title: "Error Processing Report", message: "Something went wrong, please try again")
+				AlertController.genericErrorAlert(self, title: "Error Filing Report", message: "Something went wrong, please try again.")
+			} else{
 				self.customerServiceAlert {
 					self.navigationController?.popBackToMain()
 				}
 			}
 		}
+
 	}
 }
