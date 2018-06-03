@@ -114,7 +114,11 @@ class TutorPreferencesView : TutorRegistrationLayout {
             make.top.equalTo(navbar.snp.bottom).inset(-8)
             make.leading.equalTo(layoutMarginsGuide.snp.leading)
             make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
     }
 }

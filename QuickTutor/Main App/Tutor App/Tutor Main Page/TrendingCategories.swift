@@ -57,7 +57,11 @@ class TrendingCategoriesView : MainLayoutTitleBackButton {
             make.top.equalTo(titleLabel.snp.bottom).inset(-10)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
     }
 }

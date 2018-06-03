@@ -109,12 +109,20 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(searchTextField.snp.bottom)
             make.width.centerX.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
 		connectContacts.snp.makeConstraints { (make) in
 			make.top.equalTo(container.snp.bottom).inset(-20)
 			make.width.centerX.equalToSuperview()
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
 		}
     }
 }

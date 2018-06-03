@@ -65,7 +65,11 @@ class EditSchoolView : EditProfileMainLayout {
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(header.snp.bottom)
 			make.width.equalToSuperview().multipliedBy(0.95)
-			make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
 			make.centerX.equalToSuperview()
 		}
 	}

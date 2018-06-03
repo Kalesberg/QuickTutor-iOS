@@ -125,7 +125,11 @@ class TutorPolicyView : BaseLayoutView {
         super.applyConstraints()
         
         backButton.snp.makeConstraints { (make) in
-            make.top.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.top.equalToSuperview()
+            }
             make.left.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.1)
             make.width.equalToSuperview().multipliedBy(0.2)
@@ -140,7 +144,11 @@ class TutorPolicyView : BaseLayoutView {
         
         bottomView.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
-            make.top.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.height.equalTo(0)
+            }
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }

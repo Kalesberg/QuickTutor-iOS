@@ -239,15 +239,19 @@ class LearnerMainPage : MainPage {
         self.displayLoadingOverlay()
         QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
             if let datasource = datasource {
-                self.contentView.tableView.performBatchUpdates({
-                    self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-                    self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
-                    
-                }, completion: { (finished) in
-                    if finished {
-                        self.didLoadMore = false
-                    }
-                })
+                if #available(iOS 11.0, *) {
+                    self.contentView.tableView.performBatchUpdates({
+                        self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+                        self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+                        
+                    }, completion: { (finished) in
+                        if finished {
+                            self.didLoadMore = false
+                        }
+                    })
+                } else {
+                    // Fallback on earlier versions
+                }
             }
             self.dismissOverlay()
         }

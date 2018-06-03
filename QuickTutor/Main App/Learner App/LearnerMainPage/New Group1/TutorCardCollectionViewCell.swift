@@ -141,7 +141,11 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         tableViewContainer.snp.makeConstraints { (make) in
             make.top.equalTo(header.snp.bottom)
             make.width.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(23)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide).inset(23)
+            } else {
+                make.bottom.equalToSuperview().inset(23)
+            }
             make.centerX.equalToSuperview()
         }
         connectButton.snp.makeConstraints { (make) in

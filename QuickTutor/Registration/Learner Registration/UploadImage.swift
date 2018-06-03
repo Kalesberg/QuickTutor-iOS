@@ -42,7 +42,11 @@ class UploadImageView : RegistrationNavBarView {
         titleLabel.label.textAlignment = .center
         
         imageView.image = UIImage(named: "registration-image-placeholder")
-        imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
+        if #available(iOS 11.0, *) {
+            imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
+        } else {
+            // Fallback on earlier versions
+        }
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         

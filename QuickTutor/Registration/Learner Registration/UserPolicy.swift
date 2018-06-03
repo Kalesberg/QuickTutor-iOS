@@ -53,7 +53,11 @@ class UserPolicyView : RegistrationGradientView {
 		super.applyConstraints()
 		
 		titleLabel.snp.makeConstraints { (make) in
-			make.top.equalTo(safeAreaLayoutGuide.snp.top)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(safeAreaLayoutGuide.snp.top)
+            } else {
+                make.top.equalTo(titleLabel.snp.top).inset(DeviceInfo.statusbarHeight)
+            }
 			make.bottom.equalTo(textLabel.snp.top)
 			make.width.equalToSuperview().multipliedBy(0.8)
 			make.centerX.equalToSuperview()
@@ -81,7 +85,11 @@ class UserPolicyView : RegistrationGradientView {
 		
 		buttonView.snp.makeConstraints { (make) in
 			make.height.equalToSuperview().multipliedBy(0.3)
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
 			make.left.equalToSuperview()
 			make.right.equalToSuperview()
 		}

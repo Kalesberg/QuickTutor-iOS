@@ -44,7 +44,11 @@ class SessionDetailsView : MainLayoutHeader {
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.top.equalTo(sessionHeader.snp.bottom)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
     }
 	override func layoutSubviews() {

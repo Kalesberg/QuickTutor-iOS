@@ -89,7 +89,11 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		super.applyConstraints()
 		
 		backButton.snp.makeConstraints { (make) in
-			make.top.equalTo(safeAreaLayoutGuide.snp.top)
+			if #available(iOS 11.0, *) {
+				make.top.equalTo(safeAreaLayoutGuide.snp.top)
+			} else {
+				make.top.equalToSuperview().inset(DeviceInfo.statusbarHeight)
+			}
 			make.width.equalToSuperview().multipliedBy(0.25)
 			make.height.equalToSuperview().multipliedBy(0.13)
 			make.left.equalToSuperview()
@@ -104,7 +108,11 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		
 		quicktutorText.snp.makeConstraints { (make) in
 			make.centerX.equalToSuperview()
-			make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(15)
+			if #available(iOS 11.0, *) {
+				make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(15)
+			} else {
+				make.top.equalTo(backButton).inset(15)
+			}
 		}
 		
 		learnAnythingLabel.snp.makeConstraints { (make) in
@@ -121,7 +129,11 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		
 		infoLabel.snp.makeConstraints { (make) in
 			make.width.equalToSuperview().multipliedBy(0.8)
-			make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
+			if #available(iOS 11.0, *) {
+				make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
+			} else {
+				make.bottom.equalToSuperview().inset(15)
+			}
 			make.centerX.equalToSuperview()
 		}
 		

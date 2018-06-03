@@ -37,7 +37,11 @@ class MainLayoutView: BaseLayoutView {
             if UIScreen.main.bounds.height == 480 {
                 make.height.equalTo(0)
             } else {
-                make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+                if #available(iOS 11.0, *) {
+                    make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+                } else {
+                    make.bottom.equalTo(statusbarView.snp.top).inset(DeviceInfo.statusbarHeight)
+                }
             }
         }
         

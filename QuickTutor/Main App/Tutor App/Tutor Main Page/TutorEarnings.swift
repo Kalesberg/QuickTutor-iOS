@@ -116,7 +116,11 @@ class TutorEarningsView : TutorLayoutView {
             make.top.equalTo(recentStatementsLabel.snp.bottom)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
     }
 }
