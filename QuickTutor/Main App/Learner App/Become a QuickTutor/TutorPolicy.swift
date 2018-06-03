@@ -128,7 +128,7 @@ class TutorPolicyView : BaseLayoutView {
             if #available(iOS 11.0, *) {
                 make.top.equalTo(safeAreaLayoutGuide)
             } else {
-                make.top.equalToSuperview()
+                make.top.equalToSuperview().inset(DeviceInfo.statusbarHeight)
             }
             make.left.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.1)

@@ -116,7 +116,7 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
             }
         }
 		connectContacts.snp.makeConstraints { (make) in
-			make.top.equalTo(container.snp.bottom).inset(-20)
+			make.top.equalTo(container.snp.bottom).inset(-100)
 			make.width.centerX.equalToSuperview()
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)

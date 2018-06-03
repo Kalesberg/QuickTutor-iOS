@@ -48,7 +48,7 @@ class SubmitButton : InteractableView, Interactable {
         alpha = 0.6
     }
     
-    func touchEndOnStart() {
+    func didDragOff() {
         alpha = 1
     }
 }

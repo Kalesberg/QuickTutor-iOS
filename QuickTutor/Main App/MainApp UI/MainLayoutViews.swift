@@ -40,7 +40,7 @@ class MainLayoutView: BaseLayoutView {
                 if #available(iOS 11.0, *) {
                     make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
                 } else {
-                    make.bottom.equalTo(statusbarView.snp.top).inset(DeviceInfo.statusbarHeight)
+                    make.height.equalTo(DeviceInfo.statusbarHeight)
                 }
             }
         }
