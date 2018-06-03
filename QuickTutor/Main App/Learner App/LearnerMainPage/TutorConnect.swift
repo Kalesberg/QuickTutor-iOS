@@ -329,7 +329,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         }
         configureScrollView()
 		contentView.collectionView.reloadData()
-
     }
     
     override func viewDidLayoutSubviews() {

@@ -518,7 +518,7 @@ class LearnerFileReport : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		FirebaseData.manager.getUserSessions(uid: "LWLbKC5S28Vse9ovPEqmcQFHNaj1", type: "learner") { (sessions) in
+		FirebaseData.manager.getUserSessions(uid: CurrentUser.shared.learner.uid, type: "learner") { (sessions) in
 			if let sessions = sessions {
 				self.datasource = sessions
 			}
