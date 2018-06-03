@@ -44,7 +44,6 @@ class TutorCancelled : BaseViewController {
     }
 	
 	var type = 0
-	
 	var datasource : UserSession!
 	
     override func viewDidLoad() {
@@ -93,7 +92,7 @@ class TutorCancelled : BaseViewController {
 				"type" : FileReportClass.TutorCancelled.rawValue,
 			]
 		
-		FirebaseData.manager.fileReport(sessionId: datasource.id, value: value) { (error) in
+		FirebaseData.manager.fileReport(sessionId: datasource.id, reportStatus: datasource.reportStatus.reportStatusUpdate(type: "learner"), value: value) { (error) in
 			if error != nil {
 				AlertController.genericErrorAlert(self, title: "Error Filing Report", message: "Something went wrong, please try again.")
 			} else{

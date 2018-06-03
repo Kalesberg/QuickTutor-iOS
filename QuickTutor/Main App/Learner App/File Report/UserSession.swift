@@ -21,9 +21,12 @@ struct UserSession {
 	let expiration : Double
 	let price : Int
 	
+	//0 = no reports, 1 = learner reported, 2 = tutor reported, 3 = both reported
+	let reportStatus : Int
+
 	var name : String = ""
 	var imageURl : String = ""
-	var reportStatus : Int = 1
+	
 	init(dictionary: [String: Any]) {
 		date = dictionary["date"] as? Double ?? 0.0
 		endTime = dictionary["endTime"] as? Int ?? 0
@@ -34,6 +37,7 @@ struct UserSession {
 		subject = dictionary["subject"] as? String ?? ""
 		type = dictionary["type"] as? String ?? ""
 		otherId = (AccountService.shared.currentUserType == .learner) ? dictionary["receiverId"] as? String ?? "" : dictionary["senderId"] as? String ?? ""
+		reportStatus = dictionary["reported"] as? Int ?? 0
 	}
 	
 }

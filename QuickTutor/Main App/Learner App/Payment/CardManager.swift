@@ -92,6 +92,8 @@ class CardManager : BaseViewController {
 		}
 	}
 	
+	var popToMain : Bool = true
+	
 	private var cards = [STPCard]()
 	private var defaultCard : STPCard?
 	
@@ -202,7 +204,9 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 				print("too many cards")
 				return
 			}
-			navigationController?.pushViewController(LearnerPayment(), animated: true)
+			let next = LearnerPayment()
+			next.popToMain = self.popToMain
+			navigationController?.pushViewController(next, animated: true)
 		} else {
 			if cards[indexPath.row] != defaultCard {
 				defaultCardAlert(card: cards[indexPath.row])

@@ -117,13 +117,12 @@ class FirebaseData {
 		}
 	}
 	
-	public func fileReport(sessionId: String, value: [String : Any], completion: @escaping (Error?) -> Void) {
-		//make a check to see if they have already filed a report for this sessionId.
-		
+	public func fileReport(sessionId: String, reportStatus: Int, value: [String : Any], completion: @escaping (Error?) -> Void) {
         self.ref.child("filereport").child(user.uid).child(sessionId).updateChildValues(value) { (error, reference) in
             if let error = error {
                 completion(error)
 			} else {
+				self.ref.child("sessions").child(sessionId).updateChildValues(["reported" : reportStatus])
                 completion(nil)
             }
         }
@@ -139,50 +138,66 @@ class FirebaseData {
 			}
 		}
 	}
-	public func getUserSessions(uid: String,_ completion: @escaping ([UserSession]?) -> Void) {
-		var sessions : [UserSession] = []
-		let group = DispatchGroup()
-		group.enter()
-		self.ref.child("userSessions").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-			guard let value = snapshot.value as? [String: Any], value.count > 0 else {
+	
+	private func fetchSessions(uid: String, type: String,_ completion: @escaping ([String]?) -> Void) {
+		self.ref.child("userSessions").child(uid).child(type).observeSingleEvent(of: .value) { (snapshot) in
+			guard let value = snapshot.value as? [String : Any] else {
 				completion(nil)
-				group.leave()
 				return
 			}
-			for child in value {
-				group.enter()
-				self.ref.child("sessions").child(child.key).observeSingleEvent(of: .value, with: { (snapshot) in
-					guard let value = snapshot.value as? [String : Any] else {
-						group.leave()
-						return
-					}
-					var session = UserSession(dictionary: value)
-					session.id = child.key
+			completion(value.compactMap({$0.key}))
+		}
+	}
+	
+	public func getUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]?) -> Void) {
+		var sessions : [UserSession] = []
+		let group = DispatchGroup()
+		//add a check to see if they have reported the session already.
+		fetchSessions(uid: uid, type: type) { (sessionIds) in
+			if let sessionIds = sessionIds {
+				for id in sessionIds {
 					group.enter()
-					self.ref.child("student-info").child(session.otherId).observeSingleEvent(of: .value, with: { (snapshot) in
-						
+					self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
 						guard let value = snapshot.value as? [String : Any] else {
 							group.leave()
 							return
 						}
-						session.name = value["nm"] as? String ?? ""
-						guard let images = value["img"] as? [String : String] else {
-							sessions.append(session)
+						var session = UserSession(dictionary: value)
+						session.id = id
+						//this will be used to check for 'pending' or 'filed' reports later. For now it just dumps the current session.
+						if type == "learner" && (session.reportStatus == 1 || session.reportStatus == 3) {
 							group.leave()
 							return
 						}
-						session.imageURl = images["image1"]!
-						sessions.append(session)
+						if type == "tutor" && (session.reportStatus == 2 || session.reportStatus == 3) {
+							group.leave()
+							return
+						}
+						group.enter()
+						self.ref.child("student-info").child(session.otherId).child("nm").observeSingleEvent(of: .value, with: { (snapshot) in
+							if let name = snapshot.value as? String {
+								session.name = name
+							}
+							group.leave()
+						})
+						group.enter()
+						self.ref.child("student-info").child(session.otherId).child("img").child("image1").observeSingleEvent(of: .value, with: { (snapshot) in
+							if let imageURL = snapshot.value as? String {
+								session.imageURl = imageURL
+							}
+							sessions.append(session)
+							group.leave()
+						})
 						group.leave()
 					})
-					group.leave()
+				}
+				group.notify(queue: .main, execute: {
+					completion(sessions)
 				})
+			} else {
+				completion(nil)
 			}
-			group.leave()
 		}
-		group.notify(queue: .main, execute: {
-			completion(sessions)
-		})
 	}
 
     public func getLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
