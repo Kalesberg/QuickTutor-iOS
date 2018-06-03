@@ -375,7 +375,9 @@ class LearnerPayment : BaseViewController {
     override var contentView: LearnerPaymentView {
         return view as! LearnerPaymentView
     }
-    
+	
+	var popToMain : Bool!
+	
     override func loadView() {
         view = LearnerPaymentView()
     }
@@ -572,7 +574,11 @@ class LearnerPayment : BaseViewController {
 					CurrentUser.shared.learner.hasPayment = true
 					DispatchQueue.main.async {
 						nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-						nav?.popBackToMain()
+						if self.popToMain {
+							nav?.popBackToMain()
+						} else {
+							nav?.popBackToTutorConnect()
+						}
 					}
                 }
 				self.dismissOverlay()

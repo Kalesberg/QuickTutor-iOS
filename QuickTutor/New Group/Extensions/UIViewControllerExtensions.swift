@@ -208,7 +208,16 @@ extension UINavigationController {
 			}
 		}
 	}
-    
+	
+	func popBackToTutorConnect() {
+		for controller in self.viewControllers {
+			if controller is TutorConnect {
+				self.popToViewController(controller, animated: false)
+				break
+			}
+		}
+	}
+	
     func popBackToMainAnimated() {
         for controller in self.viewControllers {
             if controller is MessagesVC {

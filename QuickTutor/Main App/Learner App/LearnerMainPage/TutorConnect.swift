@@ -327,8 +327,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             displayTutorial()
             defaults.set(false, forKey: "showTutorCardTutorial1.0")
         }
-        
         configureScrollView()
+		contentView.collectionView.reloadData()
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -497,7 +498,9 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             navigationController?.popViewController(animated: false)
         } else if touchStartView is AddBankButton {
             contentView.addPaymentModal.isHidden = true
-            navigationController?.pushViewController(CardManager(), animated: true)
+			let next = CardManager()
+			next.popToMain = false
+            navigationController?.pushViewController(next, animated: true)
         } else if touchStartView is InteractableObject {
             contentView.backgroundView.isHidden = true
             horizontalScrollView.isHidden = true

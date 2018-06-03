@@ -80,7 +80,30 @@ extension Int {
 		let date = Date(timeIntervalSince1970: TimeInterval(self))
 		return dateFormatter.string(from: date)
 	}
-	
+	func reportStatusUpdate(type: String) -> Int {
+		
+		switch type {
+			
+		case "learner":
+			if self == 0  || self == 1{
+				return 1
+			}
+			if self == 2  || self == 3 {
+				return 3
+			}
+		case "tutor":
+			if self == 1  || self == 2 {
+				return 2
+			}
+			if self == 2  || self == 3 {
+				return 3
+			}
+		default:
+			break
+		}
+		return 0
+	}
+
 	func currencyFormat() -> String {
 		
 		let number = (Double(self) / 100) as NSNumber
