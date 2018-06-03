@@ -37,7 +37,7 @@ class TutorFileReport : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		FirebaseData.manager.getUserSessions(uid: "LWLbKC5S28Vse9ovPEqmcQFHNaj1", type: "tutor") { (sessions) in
+		FirebaseData.manager.getUserSessions(uid: CurrentUser.shared.tutor.uid, type: "tutor") { (sessions) in
 			if let sessions = sessions {
 				self.datasource = sessions
 			}
