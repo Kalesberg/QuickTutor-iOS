@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 
+protocol UpdatedTutorCallBack : class {
+	func tutorWasUpdated(tutor: AWTutor!)
+}
+
+
 class TutorMyProfileView : LearnerMyProfileView {
     
     override func configureView() {
@@ -21,7 +26,9 @@ class TutorMyProfileView : LearnerMyProfileView {
     
 }
 
-class TutorMyProfile : BaseViewController {
+class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
+	
+	
 	
 	override var contentView: TutorMyProfileView {
 		return view as! TutorMyProfileView
@@ -31,19 +38,23 @@ class TutorMyProfile : BaseViewController {
 	var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
 	var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
 	
+	func tutorWasUpdated(tutor: AWTutor!) {
+		self.tutor = tutor
+	}
+	
 	var tutor : AWTutor! {
 		didSet {
+			pageCount = tutor.images.filter({$0.value != ""}).count
 			contentView.tableView.reloadData()
 		}
 	}
 	
-	var pageCount : Int = 0
+	var pageCount : Int!
 	
 	override func viewDidLoad() {
 		contentView.addSubview(horizontalScrollView)
 		super.viewDidLoad()
 		configureDelegates()
-		
 	}
 	
 	override func loadView() {
@@ -111,10 +122,11 @@ class TutorMyProfile : BaseViewController {
 		let x = CGFloat(pageControl.currentPage) * horizontalScrollView.frame.size.width
 		horizontalScrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
 	}
+	
 	private func setUpImages() {
 		var count = 1
 		let tutorImages = tutor.images.filter({$0.value != ""})
-		pageCount = tutorImages.count
+
 		tutorImages.forEach({
 			let imageView = UIImageView()
 			imageView.loadUserImages(by: $0.value)
@@ -135,44 +147,12 @@ class TutorMyProfile : BaseViewController {
 		})
 		contentView.layoutIfNeeded()
 	}
-//	private func setUpImages() {
-//		var count = 0
-//
-//		for number in 1..<5 {
-//			if tutor.images["image\(number)"] == "" {
-//				continue
-//			}
-//			print("found image\(number)")
-//			count += 1
-//			setImage(number, count)
-//		}
-//	}
-//
-//	private func setImage(_ number: Int, _ count: Int) {
-//
-//		let imageView = UIImageView()
-//		imageView.loadUserImages(by: tutor.images["image\(number)"]!)
-//		imageView.scaleImage()
-//
-//		self.horizontalScrollView.addSubview(imageView)
-//
-//		imageView.snp.makeConstraints({ (make) in
-//			make.top.equalToSuperview()
-//			make.height.equalToSuperview()
-//			make.width.equalToSuperview()
-//			if (count != 1) {
-//				make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
-//			} else {
-//				make.centerX.equalToSuperview()
-//			}
-//		})
-//		contentView.layoutIfNeeded()
-//	}
 	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonEdit) {
 			let next = TutorEditProfile()
-			next.tutor = CurrentUser.shared.tutor
+			next.tutor = self.tutor
+			next.delegate = self
 			navigationController?.pushViewController(next, animated: true)
 		} else if(touchStartView == contentView.xButton) {
 
@@ -220,12 +200,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 			
 			cell.nameLabel.text = tutor.name
 			cell.locationLabel.text = tutor.region
-			
-			if AccountService.shared.currentUserType == .learner {
-				cell.profilePicView.loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
-			} else {
-				cell.profilePicView.loadUserImages(by: CurrentUser.shared.tutor.images["image1"]!)
-			}
+			cell.profilePicView.loadUserImages(by: tutor.images["image1"]!)
 			
 			return cell
 		case 1:
@@ -257,8 +232,8 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 					make.top.equalToSuperview().inset(10)
 				}
 				
-				if let studies = tutor.school {
-					cell.studysItem.label.text = "Studies at " + studies
+				if tutor.school != "" {
+					cell.studysItem.label.text = "Studies at " + tutor.school!
 					cell.contentView.addSubview(cell.studysItem)
 					
 					cell.speakItem.snp.makeConstraints { (make) in
@@ -285,8 +260,8 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
 					}
 				}
 			} else {
-				if let studies = tutor.school {
-					cell.studysItem.label.text = "Studies at " + studies
+				if tutor.school != "" {
+					cell.studysItem.label.text = "Studies at " + tutor.school!
 					cell.contentView.addSubview(cell.studysItem)
 					
 					cell.tutorItem.snp.makeConstraints { (make) in

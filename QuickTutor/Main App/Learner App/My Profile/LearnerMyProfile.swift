@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import SnapKit
 
+protocol LearnerWasUpdatedCallBack {
+	func learnerWasUpdated(learner: AWLearner!)
+}
+
 class SeeAllButton: InteractableView, Interactable {
     
     var label = UILabel()
@@ -312,18 +316,20 @@ class ReviewLabel : BaseView {
 }
 
 
-class LearnerMyProfile : BaseViewController {
+class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     
     let horizontalScrollView = UIScrollView()
     var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
     var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
     
-    var pageCount : Int {
-        return learner.images.filter({$0.value != ""}).count
-    }
-
+    var pageCount : Int!
+	
+	func learnerWasUpdated(learner: AWLearner!) {
+		self.learner = learner
+	}
     var learner : AWLearner! {
         didSet {
+			pageCount = learner.images.filter({$0.value != ""}).count
             contentView.tableView.reloadData()
         }
     }
@@ -361,35 +367,31 @@ class LearnerMyProfile : BaseViewController {
         contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
     }
-    
-    private func setUpImages() {
-        var count = 0
-        for number in 1..<5 {
-            if learner.images["image\(number)"] == "" {
-                continue
-            }
-            count += 1
-            setImage(number, count)
-        }
-    }
-    private func setImage(_ number: Int, _ count: Int) {
-        let imageView = UIImageView()
-        imageView.loadUserImages(by: learner.images["image\(number)"]!)
-        imageView.scaleImage()
-        self.horizontalScrollView.addSubview(imageView)
-    
-        imageView.snp.makeConstraints({ (make) in
-            make.top.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalTo(UIScreen.main.bounds.width)
-            if (count != 1) {
-                make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
-            } else {
-                make.centerX.equalToSuperview()
-            }
-        })
-        contentView.layoutIfNeeded()
-    }
+	private func setUpImages() {
+		var count = 1
+		let learnerImages = learner.images.filter({$0.value != ""})
+		
+		learnerImages.forEach({
+			let imageView = UIImageView()
+			imageView.loadUserImages(by: $0.value)
+			imageView.scaleImage()
+			self.horizontalScrollView.addSubview(imageView)
+			
+			imageView.snp.makeConstraints({ (make) in
+				make.top.equalToSuperview()
+				make.height.equalToSuperview()
+				make.width.equalTo(UIScreen.main.bounds.width)
+				if (count != 1) {
+					make.left.equalTo(self.horizontalScrollView.subviews[count - 2].snp.right)
+				} else {
+					make.centerX.equalToSuperview()
+				}
+			})
+			count += 1
+		})
+		contentView.layoutIfNeeded()
+	}
+
     private func configureScrollView() {
         horizontalScrollView.isUserInteractionEnabled = false
         horizontalScrollView.isHidden = true
@@ -430,7 +432,9 @@ class LearnerMyProfile : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView is NavbarButtonEdit) {
-            navigationController?.pushViewController(LearnerEditProfile(), animated: true)
+			let next = LearnerEditProfile()
+			next.delegate = self
+            navigationController?.pushViewController(next, animated: true)
         } else if(touchStartView == contentView.xButton) {
             
             contentView.backgroundView.alpha = 0.0
@@ -495,7 +499,6 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             cell.tutorItem.label.text = "Tutored in \(0) sessions"
             
             if let languages = learner.languages {
-                print("languages")
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
                 cell.contentView.addSubview(cell.speakItem)
                 
@@ -507,7 +510,6 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 if let studies = learner.school {
-                    print("school")
                     cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
                     
@@ -526,7 +528,6 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                         make.bottom.equalToSuperview().inset(10)
                     }
                 } else {
-                    print("school nil")
                     cell.speakItem.snp.makeConstraints { (make) in
                         make.left.equalToSuperview().inset(12)
                         make.right.equalToSuperview().inset(20)
@@ -537,7 +538,6 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
             } else {
                 if let studies = learner.school {
-                    print("languages nil & school")
                     cell.studysItem.label.text = "Studies at " + studies
                     cell.contentView.addSubview(cell.studysItem)
                     
@@ -556,7 +556,6 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                         make.bottom.equalToSuperview().inset(10)
                     }
                 } else {
-                    print("all nil")
                     cell.tutorItem.snp.makeConstraints { (make) in
                         make.left.equalToSuperview().inset(12)
                         make.right.equalToSuperview().inset(20)
@@ -566,9 +565,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             }
-            
             cell.applyConstraints()
-
             return cell
             
         default:

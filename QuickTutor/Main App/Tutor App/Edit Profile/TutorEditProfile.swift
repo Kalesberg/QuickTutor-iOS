@@ -15,10 +15,19 @@ protocol TutorPreferenceChange {
 	func inVideoPressed()
 }
 
-class TutorEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
+class TutorEditProfileView : MainLayoutTitleTwoButton, Keyboardable {
     
-    var editButton = NavbarButtonEdit()
-    
+    var saveButton = NavbarButtonSave()
+	var backButton = NavbarButtonBack()
+	
+	override var leftButton: NavbarButton {
+		get {
+			return backButton
+		} set {
+			backButton = newValue as! NavbarButtonBack
+		}
+	}
+	
     override var rightButton: NavbarButton {
         get {
             return saveButton
@@ -97,15 +106,17 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
         
         hideKeyboardWhenTappedAround()
         configureDelegates()
-	
-    }
+	}
 	
     override func loadView() {
         view = TutorEditProfileView()
     }
+	
+	var delegate : UpdatedTutorCallBack?
+	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		//scrollToFirstRow()
+		
 		guard let tutor = CurrentUser.shared.tutor else { return }
 		self.tutor = tutor
 		
@@ -201,6 +212,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 				CurrentUser.shared.tutor.price = self.price
 				CurrentUser.shared.tutor.preference = self.preference
 				
+				self.delegate?.tutorWasUpdated(tutor: CurrentUser.shared.tutor)
 				self.displaySavedAlertController()
 			}
 		}
@@ -227,11 +239,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 		guard textField.text!.count > 0 else { return }
 		lastName = textField.text
 	}
-	
-	@objc private func rateLabelValueChange(_ textField: UITextField) {
-		print(".")
-	}
-	
+
 	private func displaySavedAlertController() {
 		let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
 		
@@ -239,7 +247,8 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 		
 		let when = DispatchTime.now() + 1
 		DispatchQueue.main.asyncAfter(deadline: when){
-			alertController.dismiss(animated: true){
+			alertController.dismiss(animated: true) {
+				self.delegate?.tutorWasUpdated(tutor: CurrentUser.shared.tutor)
 				self.navigationController?.popViewController(animated: true)
 			}
 		}
@@ -251,7 +260,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 		
 		Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
 			if let error = error {
-				print(error)
+				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
 			}
 		})
 	}
@@ -259,6 +268,8 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonSave {
 			saveChanges()
+		} else if touchStartView is NavbarButtonBack {
+			self.delegate?.tutorWasUpdated(tutor: CurrentUser.shared.tutor)
 		}
 	}
 }
@@ -312,6 +323,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! ProfileImagesTableViewCell
+			
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
@@ -419,11 +431,11 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "School"
             
-            if let school = tutor.school {
-                cell.textField.attributedText = NSAttributedString(string: school,
+            if tutor.school != "" {
+                cell.textField.attributedText = NSAttributedString(string: tutor.school!,
                                                                    attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             } else {
-                cell.textField.attributedText = NSAttributedString(string: "Enter School",
+                cell.textField.attributedText = NSAttributedString(string: "Add A School",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             }
             

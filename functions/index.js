@@ -16,7 +16,6 @@ const mailTransport = nodemailer.createTransport({
     pass: gmailPassword,
   },
 });
-
 exports.sendFileReportEmail = functions.database.ref('/filereport/{id}').onCreate((snapshot, context) => {
     var dataObject = Object.keys(snapshot.val());
     var sessionId = dataObject[0];
@@ -36,7 +35,7 @@ exports.sendFileReportEmail = functions.database.ref('/filereport/{id}').onCreat
       const reporter = generateUserReport(snapshots[0].val(), snapshots[1].val(), context.params.id);
       const reportee = generateUserReport(snapshots[2].val(), snapshots[3].val(), reporteeId);
       const session  = generateSessionData(snapshots[4].val(), type, reason, sessionId);
-      return sendTestEmail(reporter, reportee, session, id);
+      return sendReportEmail(reporter, reportee, session, id);
     });
 });
 // [END onWrite]
@@ -61,7 +60,7 @@ function generateSessionData(session, type, reason, id) {
   + "\n Reason for report: " + reason
 }
 //sends an email to QuickTutor customer service.
-function sendTestEmail(reporter, reportee, session, type) {
+function sendReportEmail(reporter, reportee, session, type) {
   const mailOptions = {
     from: 'QuickTutor FileReport <noreply@firebase.com>',
     to: 'customerservice@quicktutor.com',
