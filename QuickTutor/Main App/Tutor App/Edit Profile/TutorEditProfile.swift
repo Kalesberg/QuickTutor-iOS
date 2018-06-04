@@ -440,9 +440,9 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 			navigationController?.pushViewController(EditBio(), animated: true)
 		case 6:
 			let next = EditTutorSubjects()
-			next.selectedSubjects = CurrentUser.shared.tutor.subjects!
-			next.selected = CurrentUser.shared.tutor.selected
-			next.tutor = CurrentUser.shared.tutor
+			next.selectedSubjects = self.tutor.subjects!
+			next.selected = self.tutor.selected
+			next.tutor = self.tutor
 			navigationController?.pushViewController(next, animated: true)
 		case 7:
 			let next = TutorManagePolicies()
@@ -450,9 +450,9 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 			navigationController?.pushViewController(next, animated: true)
 		case 8:
 			let next = TutorManagePreferences()
-			next.tutor = tutor
+			next.tutor = self.tutor
 			navigationController?.pushViewController(next, animated: true)
-		//case 9: private information
+		//case 9:
 		case 10:
 			navigationController?.pushViewController(EditPhone(), animated: true)
 		case 11:
@@ -480,7 +480,7 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 			
 			FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
 				if let imageUrl = imageUrl {
-					CurrentUser.shared.tutor.images["image1"] = imageUrl
+					self.tutor.images["image1"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "1")
 				}
 			}
@@ -488,7 +488,7 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 		case 2:
 			FirebaseData.manager.uploadImage(data: data, number: "2") { (imageUrl) in
 				if let imageUrl = imageUrl {
-					CurrentUser.shared.tutor.images["image2"] = imageUrl
+					self.tutor.images["image2"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "2")
 				}
 			}
@@ -496,7 +496,7 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 		case 3:
 			FirebaseData.manager.uploadImage(data: data, number: "3") { (imageUrl) in
 				if let imageUrl = imageUrl {
-					CurrentUser.shared.tutor.images["image3"] = imageUrl
+					self.tutor.images["image3"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "3")
 				}
 			}
@@ -504,7 +504,7 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 		case 4:
 			FirebaseData.manager.uploadImage(data: data, number: "4") { (imageUrl) in
 				if let imageUrl = imageUrl {
-					CurrentUser.shared.tutor.images["image4"] = imageUrl
+					self.tutor.images["image4"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "4")
 				}
 			}

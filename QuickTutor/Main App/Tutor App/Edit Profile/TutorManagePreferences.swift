@@ -131,7 +131,7 @@ class TutorManagePreferences : BaseViewController {
 		} else {
 			preference = 0
 		}
-		FirebaseData.manager.updateTutorPreferences(uid: tutor.uid, price: price, distance: distance, preference: preference) { (error) in
+		FirebaseData.manager.updateTutorPreferences(uid: tutor.uid, price: price, distance: self.distance, preference: preference) { (error) in
 			if let error = error {
 				AlertController.genericErrorAlert(self, title: "Error Uploading Preferences", message: error.localizedDescription)
 			} else {
@@ -213,6 +213,7 @@ extension TutorManagePreferences : UITableViewDelegate, UITableViewDataSource {
 			cell.header.attributedText = formattedString
 			cell.valueLabel.text = "\(tutor.distance!) mi"
 			cell.slider.value = Float(tutor.distance!)
+			self.distance = tutor.distance
 			
 			return cell
 		case 2:

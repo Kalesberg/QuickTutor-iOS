@@ -37,9 +37,7 @@ class TutorMyProfile : BaseViewController {
 		}
 	}
 	
-	var pageCount : Int {
-		return tutor.images.filter({$0.value != ""}).count
-	}
+	var pageCount : Int = 0
 	
 	override func viewDidLoad() {
 		contentView.addSubview(horizontalScrollView)
@@ -113,44 +111,69 @@ class TutorMyProfile : BaseViewController {
 		let x = CGFloat(pageControl.currentPage) * horizontalScrollView.frame.size.width
 		horizontalScrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
 	}
-	
 	private func setUpImages() {
-		var count = 0
-		
-		for number in 1..<5 {
-			if tutor.images["image\(number)"] == "" {
-				continue
-			}
-			print("found image\(number)")
+		var count = 1
+		let tutorImages = tutor.images.filter({$0.value != ""})
+		pageCount = tutorImages.count
+		tutorImages.forEach({
+			let imageView = UIImageView()
+			imageView.loadUserImages(by: $0.value)
+			imageView.scaleImage()
+			self.horizontalScrollView.addSubview(imageView)
+			
+			imageView.snp.makeConstraints({ (make) in
+				make.top.equalToSuperview()
+				make.height.equalToSuperview()
+				make.width.equalTo(UIScreen.main.bounds.width)
+				if (count != 1) {
+					make.left.equalTo(self.horizontalScrollView.subviews[count - 2].snp.right)
+				} else {
+					make.centerX.equalToSuperview()
+				}
+			})
 			count += 1
-			setImage(number, count)
-		}
-	}
-	
-	private func setImage(_ number: Int, _ count: Int) {
-		
-		let imageView = UIImageView()
-		imageView.loadUserImages(by: tutor.images["image\(number)"]!)
-		imageView.scaleImage()
-		
-		self.horizontalScrollView.addSubview(imageView)
-		
-		imageView.snp.makeConstraints({ (make) in
-			make.top.equalToSuperview()
-			make.height.equalToSuperview()
-			make.width.equalToSuperview()
-			if (count != 1) {
-				make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
-			} else {
-				make.centerX.equalToSuperview()
-			}
 		})
 		contentView.layoutIfNeeded()
 	}
+//	private func setUpImages() {
+//		var count = 0
+//
+//		for number in 1..<5 {
+//			if tutor.images["image\(number)"] == "" {
+//				continue
+//			}
+//			print("found image\(number)")
+//			count += 1
+//			setImage(number, count)
+//		}
+//	}
+//
+//	private func setImage(_ number: Int, _ count: Int) {
+//
+//		let imageView = UIImageView()
+//		imageView.loadUserImages(by: tutor.images["image\(number)"]!)
+//		imageView.scaleImage()
+//
+//		self.horizontalScrollView.addSubview(imageView)
+//
+//		imageView.snp.makeConstraints({ (make) in
+//			make.top.equalToSuperview()
+//			make.height.equalToSuperview()
+//			make.width.equalToSuperview()
+//			if (count != 1) {
+//				make.left.equalTo(horizontalScrollView.subviews[count - 2].snp.right)
+//			} else {
+//				make.centerX.equalToSuperview()
+//			}
+//		})
+//		contentView.layoutIfNeeded()
+//	}
 	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonEdit) {
-			navigationController?.pushViewController(TutorEditProfile(), animated: true)
+			let next = TutorEditProfile()
+			next.tutor = CurrentUser.shared.tutor
+			navigationController?.pushViewController(next, animated: true)
 		} else if(touchStartView == contentView.xButton) {
 
 			contentView.backgroundView.alpha = 0.0
