@@ -15,10 +15,18 @@ import SwiftKeychainWrapper
 let imagePicker = UIImagePickerController()
 var imageToChange : Int = 0
 
-class LearnerEditProfileView : MainLayoutTitleBackSaveButton, Keyboardable {
+class LearnerEditProfileView : MainLayoutTitleTwoButton, Keyboardable {
     
-    var editButton = NavbarButtonEdit()
-    
+	var saveButton = NavbarButtonSave()
+	var backButton = NavbarButtonBack()
+	
+	override var leftButton: NavbarButton {
+		get {
+			return backButton
+		} set {
+			backButton = newValue as! NavbarButtonBack
+		}
+	}
     override var rightButton: NavbarButton {
         get {
             return saveButton
@@ -312,13 +320,15 @@ class LearnerEditProfile : BaseViewController {
     override func loadView() {
         view = LearnerEditProfileView()
     }
-    
+	
 	var learner : AWLearner! {
 		didSet {
 			contentView.tableView.reloadData()
 		}
 	}
-    
+	
+	var delegate : LearnerWasUpdatedCallBack?
+	
     var firstName : String!
     var lastName : String!
 	
@@ -329,14 +339,15 @@ class LearnerEditProfile : BaseViewController {
 		
 		self.hideKeyboardWhenTappedAround()
         configureDelegates()
-	
         definesPresentationContext = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+		
 		guard let learner = CurrentUser.shared.learner else { return }
 		self.learner = learner
+		
 		let name = learner.name.split(separator: " ")
 		firstName = String(name[0])
 		lastName = String(name[1])
@@ -353,7 +364,8 @@ class LearnerEditProfile : BaseViewController {
 		
 		let when = DispatchTime.now() + 1
 		DispatchQueue.main.asyncAfter(deadline: when){
-			alertController.dismiss(animated: true){
+			alertController.dismiss(animated: true) {
+				self.delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
 				self.navigationController?.popViewController(animated: true)
 			}
 		}
@@ -371,7 +383,9 @@ class LearnerEditProfile : BaseViewController {
     override func handleNavigation() {
         if (touchStartView is NavbarButtonSave) {
             saveChanges()
-        }
+		} else if touchStartView is NavbarButtonBack {
+			delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
+		}
     }
     
     @objc private func firstNameValueChanged(_ textField : UITextField) {
@@ -384,8 +398,7 @@ class LearnerEditProfile : BaseViewController {
     @objc private func lastNameValueChanged(_ textField : UITextField) {
         
         guard textField.text!.count > 0 else { return }
-        
-        lastName = textField.text
+		lastName = textField.text
     }
 	
     private func uploadImageUrl(imageUrl: String, number: String) {
@@ -409,21 +422,24 @@ class LearnerEditProfile : BaseViewController {
     private func saveChanges() {
         
         if firstName.count < 1 || lastName.count < 1 {
-            print("invalid name!")
+           AlertController.genericErrorAlert(self, title: "Invalid Name", message: "Your first and last name must contain atleast 1 character.")
             return
         }
-        
-        let sharedUpdateValues : [String : Any] = [
-            "/tutor-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName,
-            "/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName
-        ]
-        
-        Tutor.shared.updateSharedValues(multiWriteNode: sharedUpdateValues) { (error) in
+		
+		let payload : [String : Any]
+		if CurrentUser.shared.learner.isTutor {
+			payload = [
+				"/tutor-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName,
+				"/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName
+			]
+		} else {
+			payload = ["/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName]
+		}
+        Tutor.shared.updateSharedValues(multiWriteNode: payload) { (error) in
             if let error = error {
-                print(error)
+                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else {
                 CurrentUser.shared.learner.name = self.firstName + " " + self.lastName
-                
                 self.displaySavedAlertController()
             }
         }
@@ -484,7 +500,7 @@ extension LearnerEditProfile : UITableViewDelegate, UITableViewDataSource {
             cell.textField.addTarget(self, action: #selector(firstNameValueChanged(_:)), for: .editingChanged)
             
             cell.infoLabel.label.text = "First Name"
-            guard let firstName = firstName else { print("hi"); return cell }
+            guard let firstName = firstName else { return cell }
             cell.textField.attributedText = NSAttributedString(string: "\(firstName)",
                 attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
@@ -595,7 +611,6 @@ extension LearnerEditProfile : UIScrollViewDelegate {
 extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
 
     func circleCropDidCropImage(_ image: UIImage) {
-		print("here")
 		let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
 
 		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { print("return"); return }
@@ -649,14 +664,12 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
             let circleCropController = AACircleCropViewController()
             circleCropController.image = image
             circleCropController.delegate = self
-			print("here.")
             self.navigationController?.pushViewController(circleCropController, animated: true)
             imagePicker.dismiss(animated: true, completion: nil)
         }
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-		print("hre.")
         dismiss(animated: true, completion: nil)
     }
 }

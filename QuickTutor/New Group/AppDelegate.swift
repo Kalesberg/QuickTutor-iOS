@@ -60,6 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         //Facebook init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame: UIScreen.main.bounds)
+		window?.rootViewController = LaunchScreen()
+		window?.makeKeyAndVisible()
 
         if let user = Auth.auth().currentUser {
             self.listenForData()

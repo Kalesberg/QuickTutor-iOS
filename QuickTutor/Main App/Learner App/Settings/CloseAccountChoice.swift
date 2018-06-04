@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 struct DeleteAccount {
-	static var type : Bool!
+	static var type : Bool = true
 }
 
 class CloseAccountChoiceView : MainLayoutTitleBackButton {
@@ -164,11 +164,9 @@ class CloseAccountChoice : BaseViewController {
     
     override func handleNavigation() {
         if touchStartView is TutorOnlyChoiceButton {
-            let next = CloseAccountReason()
 			DeleteAccount.type = false
 			navigationController?.pushViewController(CloseAccountReason(), animated: true)
         } else if touchStartView is TutorAndLearnerChoiceButton {
-			let next = CloseAccountReason()
 			DeleteAccount.type = true
 			navigationController?.pushViewController(CloseAccountReason(), animated: true)
 		}

@@ -166,16 +166,18 @@ class CloseAccountSubmission : BaseViewController {
 		}
 	}
 	
-	private func removeAccount(deleteAccountType: Bool, completion: @escaping (Error?) -> Void) {
+	private func removeAccount(authResult: AuthDataResult, deleteAccountType: Bool, completion: @escaping (Error?) -> Void) {
 		
 		switch deleteAccountType {
+			
 		case true:
+			self.displayLoadingOverlay()
 			getTutorAccount { (subcategories) in
-				FirebaseData.manager.removeTutorAccount(uid: self.userId, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
+				FirebaseData.manager.removeTutorAccount(uid: authResult.user.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
 					if let error = error {
-						print(error.localizedDescription)
 						completion(error)
 					}
+					self.dismissOverlay()
 					CurrentUser.shared.learner.isTutor = false
 					UserDefaults.standard.set(true, forKey: "showHomePage")
 					self.navigationController?.pushViewController(LearnerPageViewController(), animated: false)
@@ -186,23 +188,22 @@ class CloseAccountSubmission : BaseViewController {
 			//				if let error = error {
 			//					print(error.localizedDescription)
 			//				}
-		    //			})
+		//			})
 		case false:
-			getTutorAccount { (subcategories) in
-				FirebaseData.manager.removeBothAccounts(uid: self.userId, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
-					if let error = error {
-						completion(error)
-					} else {
-						self.reauthenticateUserAndDelete(completion: { (error) in
+			self.displayLoadingOverlay()
+			authResult.user.delete { (error) in
+				if let error = error {
+					completion(error)
+				} else {
+					self.getTutorAccount { (subcategories) in
+						FirebaseData.manager.removeBothAccounts(uid: authResult.user.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
 							if let error = error {
-								print(error.localizedDescription)
-							} else {
-								try! Auth.auth().signOut()
-								self.navigationController?.pushViewController(SignIn(), animated: false)
+								completion(error)
 							}
 						})
 					}
-				})
+				}
+				self.dismissOverlay()
 				//also need to remove Connect Account, need to check for balance, if 0 then delete, else payout, if unable to payout warn them, then they will need to give us a valid bank account, then retry. otherwise we take their cash.
 				//				Stripe.removeCustomer(customerId: CurrentUser.shared.learner.customer) { (error) in
 				//					if let error = error {
@@ -217,66 +218,77 @@ class CloseAccountSubmission : BaseViewController {
 			}
 		}
 	}
-	private func reauthenticateUser(completion: @escaping (Error?) -> Void) {
-		let user = Auth.auth().currentUser
-		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
-		let credential : AuthCredential = EmailAuthProvider.credential(withEmail: CurrentUser.shared.learner.email, password: password!)
+
+	private func getUserCredentialsAlert(_ completion: @escaping (AuthDataResult?) -> Void) {
+		let alertController = UIAlertController(title: "Highly Sensitive Operation", message: "In order to remove your account we will need to verify your account.", preferredStyle: .alert)
+		alertController.addTextField { (textField) in
+			textField.placeholder = "Email"
+			textField.keyboardType = .emailAddress
+		}
 		
-		user?.reauthenticate(with: credential, completion: { (error) in
-			if let error = error{
-				completion(error)
-			} else {
-				completion(nil)
-			}
-		})
-	}
-	
-	private func reauthenticateUserAndDelete(completion: @escaping (Error?) -> Void) {
-		let user = Auth.auth().currentUser
-		let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
-		print(CurrentUser.shared.learner.email)
-		let credential : AuthCredential = EmailAuthProvider.credential(withEmail: CurrentUser.shared.learner.email, password: password!)
+		alertController.addTextField { (textField) in
+			textField.placeholder = "Password"
+			textField.isSecureTextEntry = true
+		}
 		
-		user?.reauthenticate(with: credential, completion: { (error) in
-			if let error = error{
-				completion(error)
-			} else {
-				user?.delete(completion: { (error) in
-					if let error = error {
-						completion(error)
-					} else {
-						completion(nil)
-					}
-				})
-			}
-		})
+		let credentialAction = UIAlertAction(title: "Verify", style: .default) { (_) in
+			let user = Auth.auth().currentUser
+			let emailTextField = alertController.textFields![0]
+			let passwordTextField = alertController.textFields![1]
+			
+			let credential : AuthCredential = EmailAuthProvider.credential(withEmail: emailTextField.text!, password: passwordTextField.text!)
+			
+			user?.reauthenticateAndRetrieveData(with: credential, completion: { (authResult, error) in
+				if error != nil {
+					completion(nil)
+				} else if let result = authResult {
+					completion(result)
+				} else {
+					 completion(nil)
+					self.dismiss(animated: true, completion: nil)
+				}
+			})
+		}
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		alertController.addAction(credentialAction)
+		alertController.addAction(cancelAction)
+		
+		self.present(alertController, animated: true, completion: nil)
 	}
-	
 	override func handleNavigation() {
 		if(touchStartView is NavbarButtonSubmit) {
-			self.displayLoadingOverlay()
+			print("ere")
 			if (CurrentUser.shared.learner.isTutor == false) {
-				FirebaseData.manager.removeLearnerAccount(uid: self.userId, reason: self.reason, { (error) in
-					if let error = error {
-						print(error.localizedDescription)
-					} else {
-						self.reauthenticateUserAndDelete(completion: { (error) in
+				
+				getUserCredentialsAlert { (result) in
+					if let result = result {
+						result.user.delete(completion: { (error) in
 							if let error = error {
-								print(error.localizedDescription)
+								AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
 							} else {
-								try! Auth.auth().signOut()
-								self.navigationController?.pushViewController(SignIn(), animated: false)
+								self.displayLoadingOverlay()
+								FirebaseData.manager.removeLearnerAccount(uid: result.user.uid, reason: self.reason, { (error) in
+									if let error = error {
+										AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+									} else {
+										try! Auth.auth().signOut()
+										self.navigationController?.pushViewController(SignIn(), animated: false)
+									}
+									self.dismissOverlay()
+								})
 							}
 						})
 					}
-					self.dismissOverlay()
-				})
-			} else {
-				self.removeAccount(deleteAccountType: DeleteAccount.type) { (error) in
-					if let error = error {
-						print(error.localizedDescription)
+				}
+			}
+		} else {
+			getUserCredentialsAlert { (result) in
+				if let result = result {
+					self.removeAccount(authResult: result, deleteAccountType: DeleteAccount.type) { (error) in
+						if let error = error {
+							AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+						}
 					}
-					self.dismissOverlay()
 				}
 			}
 		}

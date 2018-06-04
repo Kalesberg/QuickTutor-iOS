@@ -127,7 +127,7 @@ class FirebaseData {
             }
         }
     }
-	
+
 	public func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int,_ completion: @escaping (Error?) -> Void) {
 		let post : [String: Any] = ["p" : price, "dst" : distance, "prf": preference]
 		self.ref.child("tutor-info").child(uid).updateChildValues(post) { (error, _) in

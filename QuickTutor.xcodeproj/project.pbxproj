@@ -95,6 +95,7 @@
 		84746324206940EE00B70AD9 /* TutorConnections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84746323206940EE00B70AD9 /* TutorConnections.swift */; };
 		847463262069425C00B70AD9 /* TutorSessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847463252069425C00B70AD9 /* TutorSessions.swift */; };
 		847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847463272069482D00B70AD9 /* TutorHandbook.swift */; };
+		8474C9AB20C47FB800CDB45B /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */; };
 		8479EA632063E63100C5113E /* TutorAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA622063E63100C5113E /* TutorAddress.swift */; };
 		8479EA652063E66400C5113E /* TutorPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA642063E66400C5113E /* TutorPolicy.swift */; };
 		847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */; };
@@ -421,6 +422,7 @@
 		84746323206940EE00B70AD9 /* TutorConnections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorConnections.swift; sourceTree = "<group>"; };
 		847463252069425C00B70AD9 /* TutorSessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSessions.swift; sourceTree = "<group>"; };
 		847463272069482D00B70AD9 /* TutorHandbook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHandbook.swift; sourceTree = "<group>"; };
+		8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		8479EA622063E63100C5113E /* TutorAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddress.swift; sourceTree = "<group>"; };
 		8479EA642063E66400C5113E /* TutorPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPolicy.swift; sourceTree = "<group>"; };
 		847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCells.swift; sourceTree = "<group>"; };
@@ -1048,6 +1050,7 @@
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
+				8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */,
 				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
 			);
@@ -1882,6 +1885,7 @@
 				CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */,
 				84F431962070786F00030BD4 /* TutorEditProfileCells.swift in Sources */,
 				846252F120637F9D001DD330 /* TutorMyProfile.swift in Sources */,
+				8474C9AB20C47FB800CDB45B /* LaunchScreen.swift in Sources */,
 				CFEF943920B3287100413727 /* ConnectionsVC.swift in Sources */,
 				8425BA08202E1BB100B2C5A7 /* CardManager.swift in Sources */,
 				CFEF943D20B355C200413727 /* ImageMessageAnimator.swift in Sources */,

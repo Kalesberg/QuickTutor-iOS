@@ -135,6 +135,7 @@ class EditSchool : BaseViewController {
 			shouldUpdateSearchResults = false
 			return
 		}
+		
 		if text == "" {
 			automaticScroll = false
 			shouldUpdateSearchResults = false
