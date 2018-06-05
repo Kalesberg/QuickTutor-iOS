@@ -308,7 +308,6 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCollectionViewCell", for: indexPath) as! CategorySelectionCollectionViewCell
-		
 		cell.category = categories[indexPath.item]
 		cell.delegate = self
 		

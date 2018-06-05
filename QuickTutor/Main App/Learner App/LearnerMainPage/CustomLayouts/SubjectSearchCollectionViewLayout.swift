@@ -23,11 +23,11 @@ class SubjectSearchCollectionViewLayout: UICollectionViewFlowLayout {
                 
                 return CGSize(width: itemWidth, height: itemWidth)
             } else {
-                // Fallback on earlier versions
-                //make sure to handle return properly
-                return CGSize()
+				let marginsAndInsets = sectionInset.left + sectionInset.right + collectionView.layoutMargins.left + collectionView.layoutMargins.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+				
+				let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+				return CGSize(width: itemWidth, height: itemWidth)
             }
-			
 		}
 		set {
 			super.itemSize = newValue

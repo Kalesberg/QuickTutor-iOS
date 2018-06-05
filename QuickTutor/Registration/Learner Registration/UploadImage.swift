@@ -186,13 +186,16 @@ class UploadImage: BaseViewController {
     override func loadView() {
         view = UploadImageView()
     }
-    
-    let imagePicker = UIImagePickerController()
+
+	let circleCropController = AACircleCropViewController()
+    let profilePicker = UIImagePickerController()
     var imagePicked : Bool = false
 
 	override func viewDidLoad() {
         super.viewDidLoad()
-        imagePicker.delegate = self
+        profilePicker.delegate = self
+		circleCropController.delegate = self
+		profilePicker.allowsEditing = false
     }
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -210,7 +213,7 @@ class UploadImage: BaseViewController {
 				}
 			}
         } else if (touchStartView == contentView.addImageButton) {
-			AlertController.cropImageAlert(self, imagePicker: imagePicker)
+			AlertController.cropImageAlert(self, imagePicker: profilePicker)
         } else if (touchStartView == contentView.looksGoodButton) {
 			if imagePicked {
 				self.displayLoadingOverlay()
@@ -233,7 +236,7 @@ class UploadImage: BaseViewController {
 				print("Select a photo!")
 			}
         } else if (touchStartView == contentView.chooseNewButton) {
-			AlertController.cropImageAlert(self, imagePicker: imagePicker)
+			AlertController.cropImageAlert(self, imagePicker: profilePicker)
         }
     }
 
@@ -259,21 +262,23 @@ extension UploadImage : UIImagePickerControllerDelegate, UINavigationControllerD
 		let image = UIImage(named: "registration-image-placeholder")
 		contentView.imageView.image = image
 	}
-    
-    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+
+	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+
 		if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.imagePicked = true
-			let circleCropController = AACircleCropViewController()
 			circleCropController.image = image
-			circleCropController.delegate = self
 			circleCropController.selectTitle = NSLocalizedString("Done", comment: "select")
 			
-			self.navigationController?.pushViewController(circleCropController, animated: true)
-			imagePicker.dismiss(animated: true, completion: nil)
-        }
+			profilePicker.dismiss(animated: true, completion: nil)
+			DispatchQueue.main.async {
+				self.present(self.circleCropController, animated: true, completion: nil)
+			}
+		}
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-
+		DispatchQueue.main.async {
+			self.dismiss(animated: true, completion: nil)
+		}
 	}
 }

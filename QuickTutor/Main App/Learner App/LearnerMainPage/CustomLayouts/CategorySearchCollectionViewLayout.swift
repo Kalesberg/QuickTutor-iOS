@@ -24,12 +24,10 @@ class CategorySearchCollectionViewLayout: UICollectionViewFlowLayout {
                 
                 return CGSize(width: itemWidth, height: itemWidth * 1.3)
             } else {
-                // Fallback on earlier versions
-                // make sure to handle the return properly here
-                return CGSize()
+				let marginsAndInsets = sectionInset.left + sectionInset.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+				let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+				return CGSize(width: itemWidth, height: itemWidth * 1.3)
             }
-			
-			
         }
 		set {
 			super.itemSize = newValue
