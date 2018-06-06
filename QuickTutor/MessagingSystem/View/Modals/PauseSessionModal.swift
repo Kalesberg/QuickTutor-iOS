@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 protocol PauseSessionModalDelegate {
-    func unpauseSession()
+    func pauseSessionModalDidUnpause(_ pauseSessionModal: PauseSessionModal)
 }
 
 class PauseSessionModal: BaseCustomModal {
@@ -79,7 +79,7 @@ class PauseSessionModal: BaseCustomModal {
     }
     
     @objc func unpauseSession() {
-        delegate?.unpauseSession()
+        delegate?.pauseSessionModalDidUnpause(self)
         dismiss()
     }
     

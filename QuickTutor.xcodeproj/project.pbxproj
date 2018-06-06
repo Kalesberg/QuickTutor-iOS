@@ -316,6 +316,7 @@
 		CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */; };
 		CFCA549F209AD6DC00FC83A1 /* AddTipVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCA549E209AD6DC00FC83A1 /* AddTipVC.swift */; };
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
+		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
 		CFEF943920B3287100413727 /* ConnectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943820B3287100413727 /* ConnectionsVC.swift */; };
 		CFEF943B20B32B7C00413727 /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943A20B32B7C00413727 /* ConnectionCell.swift */; };
 		CFEF943D20B355C200413727 /* ImageMessageAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */; };
@@ -652,6 +653,7 @@
 		CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTypeModal.swift; sourceTree = "<group>"; };
 		CFCA549E209AD6DC00FC83A1 /* AddTipVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTipVC.swift; sourceTree = "<group>"; };
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
+		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
 		CFEF943820B3287100413727 /* ConnectionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsVC.swift; sourceTree = "<group>"; };
 		CFEF943A20B32B7C00413727 /* ConnectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
 		CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageAnimator.swift; sourceTree = "<group>"; };
@@ -1434,6 +1436,7 @@
 		CF6F58B4205EE68800ACBD32 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CFDBD8EA20C88D0400182E1C /* SessionManagers */,
 				CF6F58B5205EE68800ACBD32 /* QuickChatViewDelegate.swift */,
 				CF6F58B6205EE68800ACBD32 /* SystemMessage.swift */,
 				CF6F58B7205EE68800ACBD32 /* UserMessage.swift */,
@@ -1525,8 +1528,16 @@
 			children = (
 				CF6325EC208011750037F8AA /* VideoSessionVC.swift */,
 				CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */,
+				CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */,
 			);
 			path = VideoSessionVC;
+			sourceTree = "<group>";
+		};
+		CFDBD8EA20C88D0400182E1C /* SessionManagers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SessionManagers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1875,6 +1886,7 @@
 				CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */,
 				849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
+				CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */,
 				CF6F58CF205EE68800ACBD32 /* CustomNavBar.swift in Sources */,
 				84BDE2BF20AB9168003E66D5 /* AccountVerification.swift in Sources */,
 				CF833B87207C4D3000323242 /* SessionCellActionView.swift in Sources */,

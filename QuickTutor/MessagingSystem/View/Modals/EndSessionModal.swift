@@ -9,7 +9,7 @@
 import UIKit
 
 protocol EndSessionModalDelegate {
-    func endSession()
+    func endSessionModalDidConfirm(_ endSessionModal: EndSessionModal)
 }
 
 class EndSessionModal: BaseCustomModal {
@@ -78,7 +78,7 @@ class EndSessionModal: BaseCustomModal {
     }
     
     @objc func endSession() {
-        delegate?.endSession()
+        delegate?.endSessionModalDidConfirm(self)
         dismiss()
         removeFromSuperview()
     }

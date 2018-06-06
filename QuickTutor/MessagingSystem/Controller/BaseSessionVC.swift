@@ -18,7 +18,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, CountdownTimerDeleg
     
     lazy var sessionNavBar: SessionNavBar = {
         let bar = SessionNavBar()
-        bar.timeLabel.delegate = self
+//        bar.timeLabel.delegate = self
         return bar
     }()
     
@@ -138,12 +138,16 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, CountdownTimerDeleg
 }
 
 extension BaseSessionVC: PauseSessionModalDelegate {
-    func unpauseSession() {
+    func pauseSessionModalDidUnpause(_ pauseSessionModal: PauseSessionModal) {
         socket.emit(SocketEvents.unpauseSession, ["roomKey": sessionId!])
     }
 }
 
 extension BaseSessionVC: EndSessionModalDelegate {
+    func endSessionModalDidConfirm(_ endSessionModal: EndSessionModal) {
+        socket.emit(SocketEvents.endSession, ["roomKey": sessionId!])
+    }
+    
     func endSession() {
         socket.emit(SocketEvents.endSession, ["roomKey": sessionId!])
     }
