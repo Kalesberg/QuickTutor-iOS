@@ -38,9 +38,7 @@ class TutorFileReport : BaseViewController {
         super.viewDidLoad()
 		
 		FirebaseData.manager.getUserSessions(uid: CurrentUser.shared.tutor.uid, type: "tutor") { (sessions) in
-			if let sessions = sessions {
-				self.datasource = sessions
-			}
+			self.datasource = sessions
 		}
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self

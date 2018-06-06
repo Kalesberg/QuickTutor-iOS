@@ -14,7 +14,6 @@ import FirebaseAuth
 class CloseAccountSubmissionView : MainLayoutTitleBackTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
-	
 	var submitButton = NavbarButtonSubmit()
 	
 	override var rightButton: NavbarButton {
@@ -128,17 +127,17 @@ class SubmissionTextView : EditBioTextView {
 
 
 class CloseAccountSubmission : BaseViewController {
-	
+
 	override var contentView: CloseAccountSubmissionView {
 		return view as! CloseAccountSubmissionView
 	}
 	
 	var reason : String!
-	var userId : String = (AccountService.shared.currentUserType == .learner) ? CurrentUser.shared.learner.uid : CurrentUser.shared.tutor.uid
-	var userType : UserType = (AccountService.shared.currentUserType == .learner) ? .learner : .tutor
+	private var verificationId : String?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.hideKeyboardWhenTappedAround()
 	}
 	
 	override func loadView() {
@@ -151,12 +150,10 @@ class CloseAccountSubmission : BaseViewController {
 	}
 	
 	private func getTutorAccount(_ completion: @escaping ([String]) -> Void) {
-		FirebaseData.manager.getTutor(userId, isQuery: false) { (tutor) in
+		FirebaseData.manager.getTutor(AccountService.shared.currentUser.uid, isQuery: false) { (tutor) in
 			if let tutor = tutor {
 				CurrentUser.shared.tutor = tutor
-				
 				var subcategories = [String]()
-				
 				for (_, value) in tutor.selected.enumerated() {
 					subcategories.append(value.path)
 				}
@@ -165,132 +162,136 @@ class CloseAccountSubmission : BaseViewController {
 			completion([])
 		}
 	}
-	
-	private func removeAccount(authResult: AuthDataResult, deleteAccountType: Bool, completion: @escaping (Error?) -> Void) {
-		
-		switch deleteAccountType {
-			
-		case true:
-			self.displayLoadingOverlay()
-			getTutorAccount { (subcategories) in
-				FirebaseData.manager.removeTutorAccount(uid: authResult.user.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
-					if let error = error {
-						completion(error)
-					}
+	private func removeTutorAccount() {
+		displayLoadingOverlay()
+		getTutorAccount { (subcategories) in
+			FirebaseData.manager.removeTutorAccount(uid: AccountService.shared.currentUser.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
+				if let error = error {
+					self.dismissOverlay()
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else {
 					self.dismissOverlay()
 					CurrentUser.shared.learner.isTutor = false
 					UserDefaults.standard.set(true, forKey: "showHomePage")
-					self.navigationController?.pushViewController(LearnerPageViewController(), animated: false)
-					completion(nil)
-				})
-			}
-			//			Stripe.removeConnectAccount(accountId: CurrentUser.shared.tutor.acctId, completion: { (error) in
-			//				if let error = error {
-			//					print(error.localizedDescription)
-			//				}
-		//			})
-		case false:
-			self.displayLoadingOverlay()
-			authResult.user.delete { (error) in
-				if let error = error {
-					completion(error)
-				} else {
-					self.getTutorAccount { (subcategories) in
-						FirebaseData.manager.removeBothAccounts(uid: authResult.user.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
-							if let error = error {
-								completion(error)
-							}
-						})
-					}
-				}
-				self.dismissOverlay()
-				//also need to remove Connect Account, need to check for balance, if 0 then delete, else payout, if unable to payout warn them, then they will need to give us a valid bank account, then retry. otherwise we take their cash.
-				//				Stripe.removeCustomer(customerId: CurrentUser.shared.learner.customer) { (error) in
-				//					if let error = error {
-				//						print(error.localizedDescription)
-				//					}
-				//				}
-				//				Stripe.removeConnectAccount(accountId: CurrentUser.shared.tutor.acctId, completion: { (error) in
-				//					if let error = error {
-				//						print(error.localizedDescription)
-				//					}
-				//				})
-			}
-		}
-	}
-
-	private func getUserCredentialsAlert(_ completion: @escaping (AuthDataResult?) -> Void) {
-		let alertController = UIAlertController(title: "Highly Sensitive Operation", message: "In order to remove your account we will need to verify your account.", preferredStyle: .alert)
-		alertController.addTextField { (textField) in
-			textField.placeholder = "Email"
-			textField.keyboardType = .emailAddress
-		}
-		
-		alertController.addTextField { (textField) in
-			textField.placeholder = "Password"
-			textField.isSecureTextEntry = true
-		}
-		
-		let credentialAction = UIAlertAction(title: "Verify", style: .default) { (_) in
-			let user = Auth.auth().currentUser
-			let emailTextField = alertController.textFields![0]
-			let passwordTextField = alertController.textFields![1]
-			
-			let credential : AuthCredential = EmailAuthProvider.credential(withEmail: emailTextField.text!, password: passwordTextField.text!)
-			
-			user?.reauthenticateAndRetrieveData(with: credential, completion: { (authResult, error) in
-				if error != nil {
-					completion(nil)
-				} else if let result = authResult {
-					completion(result)
-				} else {
-					 completion(nil)
-					self.dismiss(animated: true, completion: nil)
+					self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
 				}
 			})
 		}
-		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-		alertController.addAction(credentialAction)
-		alertController.addAction(cancelAction)
-		
-		self.present(alertController, animated: true, completion: nil)
 	}
-	override func handleNavigation() {
-		if(touchStartView is NavbarButtonSubmit) {
-			print("ere")
-			if (CurrentUser.shared.learner.isTutor == false) {
-				
-				getUserCredentialsAlert { (result) in
-					if let result = result {
-						result.user.delete(completion: { (error) in
-							if let error = error {
-								AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-							} else {
-								self.displayLoadingOverlay()
-								FirebaseData.manager.removeLearnerAccount(uid: result.user.uid, reason: self.reason, { (error) in
-									if let error = error {
-										AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-									} else {
-										try! Auth.auth().signOut()
-										self.navigationController?.pushViewController(SignIn(), animated: false)
-									}
-									self.dismissOverlay()
-								})
+	private func removeBothAccounts() {
+		guard let currentUser = Auth.auth().currentUser else { return }
+		self.getTutorAccount({ (subcategories) in
+			FirebaseData.manager.removeBothAccounts(uid: currentUser.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text!, { (error) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else {
+					currentUser.delete { (error) in
+						if let error = error {
+							let errorCode = AuthErrorCode(rawValue: error._code)
+							if errorCode == AuthErrorCode.requiresRecentLogin {
+								self.getUserCredentialsAlert()
 							}
-						})
+						} else {
+							try! Auth.auth().signOut()
+							self.navigationController?.pushViewController(SignIn(), animated: false)
+						}
+					}
+				}
+			})
+		})
+	}
+	
+	private func stripeish(deleteAccountType: Bool, completion: @escaping (Error?) -> Void) {
+		
+		//also need to remove Connect Account, need to check for balance, if 0 then delete, else payout, if unable to payout warn them, then they will need to give us a valid bank account, then retry. otherwise we take their cash.
+		//				Stripe.removeCustomer(customerId: CurrentUser.shared.learner.customer) { (error) in
+		//					if let error = error {
+		//						print(error.localizedDescription)
+		//					}
+		//				}
+		//				Stripe.removeConnectAccount(accountId: CurrentUser.shared.tutor.acctId, completion: { (error) in
+		//					if let error = error {
+		//						print(error.localizedDescription)
+		//					}
+		//				})
+	}
+	
+	private func removeLearner() {
+		guard let currentUser = Auth.auth().currentUser else { return }
+		
+		FirebaseData.manager.removeLearnerAccount(uid: currentUser.uid, reason: self.reason, { (error) in
+			if let error = error {
+				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+			} else {
+				currentUser.delete { (error) in
+					if let error = error {
+						let errorCode = AuthErrorCode(rawValue: error._code)
+						if errorCode == AuthErrorCode.requiresRecentLogin {
+							self.getUserCredentialsAlert()
+						}
+					} else {
+						try! Auth.auth().signOut()
+						self.navigationController?.pushViewController(SignIn(), animated: false)
 					}
 				}
 			}
-		} else {
-			getUserCredentialsAlert { (result) in
-				if let result = result {
-					self.removeAccount(authResult: result, deleteAccountType: DeleteAccount.type) { (error) in
-						if let error = error {
-							AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+		})
+	}
+	private func reauthenticateUser(code: String, completion: @escaping (Error?) -> Void) {
+		guard let id = self.verificationId else { return }
+		let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: id, verificationCode: code)
+		let currentUser = Auth.auth().currentUser
+		currentUser?.reauthenticateAndRetrieveData(with: credential, completion: { (_, error) in
+			if let error = error {
+				completion(error)
+			} else {
+				completion(nil)
+			}
+		})
+	}
+	private func getUserCredentialsAlert() {
+		let phoneNumber = CurrentUser.shared.learner.phone.cleanPhoneNumber()
+		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationId, error) in
+			if let error = error {
+				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+			} else if let id = verificationId {
+				self.verificationId = id
+				self.displayPhoneVerificationAlert(message: "Please enter the verifcation code sent to: \(CurrentUser.shared.learner.phone.formatPhoneNumber())")
+			} else {
+				AlertController.genericErrorAlert(self, title: "Error", message: "Something went wrong, please try again.")
+			}
+		}
+	}
+	
+	override func handleNavigation() {
+		if(touchStartView is NavbarButtonSubmit) {
+			getUserCredentialsAlert()
+		} else if touchStartView is PhoneAuthenicationActionCancel {
+			self.dismissPhoneAuthenticationAlert()
+		
+		} else if touchStartView is PhoneAuthenicationAction {
+			if let view = self.view.viewWithTag(321) as? PhoneAuthenticationAlertView {
+				guard let verificationCode = view.verificationTextField.text, !verificationCode.contains("—") else { return }
+				reauthenticateUser(code: verificationCode) { (error) in
+					if let error = error {
+						view.errorLabel.isHidden = false
+						view.errorLabel.text = error.localizedDescription
+					} else {
+						view.errorLabel.isHidden = true
+						if CurrentUser.shared.learner.isTutor == false {
+							self.removeLearner()
+						} else {
+							if DeleteAccount.type == true {
+								self.removeTutorAccount()
+							} else {
+								self.removeBothAccounts()
+							}
 						}
+						self.dismissPhoneAuthenticationAlert()
 					}
 				}
 			}
 		}
 	}
 }
+
