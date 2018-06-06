@@ -10,6 +10,8 @@ import UIKit
 
 class AddTimeModal: CustomTipModal {
     
+    var delegate: AddTimeModalDelegate?
+    
     override func setupTitleLabel() {
         super.setupTitleLabel()
         titleLabel.text = "ADD TIME"
@@ -25,5 +27,10 @@ class AddTimeModal: CustomTipModal {
         priceInput.inputMode = .minutes
         priceInput.getFormattedMinutes()
     }
+    
+    override func handleConfirm() {
+        delegate?.addTimeModal(self, didAdd: Int(self.priceInput.currentPrice))
+    }
+    
     
 }

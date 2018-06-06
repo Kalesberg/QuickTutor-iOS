@@ -10,7 +10,8 @@ import UIKit
 import Firebase
 import TwilioVideo
 
-class VideoSessionVC: UIViewController {
+
+class VideoSessionVC: BaseSessionVC {
     
     let tokenUrl = "http://api.tidycoder.com/token"
     var accessToken = ""
@@ -19,142 +20,12 @@ class VideoSessionVC: UIViewController {
     var localVideoTrack: TVILocalVideoTrack?
     var localAudioTrack: TVILocalAudioTrack?
     var remoteParticipant: TVIRemoteParticipant?
-    var endSessionModal: EndSessionModal?
-    var pauseSessionModal: PauseSessionModal?
-    var partnerId: String?
-    var sessionId: String?
-    var session: Session?
-    var sessionLengthInSeconds: Double?
-    let socket = SocketClient.shared.socket!
+
+    let videoSessionView = VideoSessionView()
     
-    var remoteView: TVIVideoView = {
-        let view = TVIVideoView()
-        view.contentMode = .scaleAspectFill
-        view.shouldMirror = true
-        return view
-    }()
-    
-    let previewView: TVIVideoView = {
-        let view = TVIVideoView()
-        view.contentMode = .scaleAspectFill
-        view.shouldMirror = true
-        return view
-    }()
-    
-    let previewBorderView: UIView = {
-        let view = UIView()
-        view.layer.borderColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple.cgColor : Colors.tutorBlue.cgColor
-        view.layer.borderWidth = 3
-        return view
-    }()
-    
-    lazy var sessionNavBar: SessionNavBar = {
-        let bar = SessionNavBar()
-        bar.timeLabel.delegate = self
-        return bar
-    }()
-    
-    let statusBarCover: UIView = {
-        let view = UIView()
-        view.backgroundColor = Colors.learnerPurple
-        return view
-    }()
-    
-    let pauseSessionButton: UIButton = {
-        let button = UIButton()
-        button.contentMode = .scaleAspectFit
-        button.setImage(#imageLiteral(resourceName: "pauseSessionButton"), for: .normal)
-        return button
-    }()
-    
-    let endSessionButton: UIButton = {
-        let button = UIButton()
-        button.contentMode = .scaleAspectFill
-        button.setImage(#imageLiteral(resourceName: "endSessionButton"), for: .normal)
-        return button
-    }()
-    
-    func setupViews() {
-        setupMainView()
-        setupRemoteView()
-        setupPreviewView()
-        setupPreviewBorderView()
-        setupNavBar()
-        setupPauseSessionButton()
-        setupEndSessionButton()
-    }
-    
-    func setupMainView() {
-        view.backgroundColor = .black
-    }
-    
-    func setupNavBar() {
-        view.addSubview(sessionNavBar)
-        sessionNavBar.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
-        view.addSubview(statusBarCover)
-        statusBarCover.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: sessionNavBar.topAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        navigationController?.navigationBar.isHidden = true
-    }
-    
-    func setupRemoteView() {
-        view.addSubview(remoteView)
-        remoteView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    }
-    
-    func setupPreviewView() {
-        view.addSubview(previewView)
-        previewView.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 3, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
-    }
-    
-    func setupPreviewBorderView() {
-        view.insertSubview(previewBorderView, belowSubview: previewBorderView)
-        previewBorderView.anchor(top: previewView.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: previewView.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: -3, width: 0, height: 0)
-    }
-    
-    func setupPauseSessionButton() {
-        view.addSubview(pauseSessionButton)
-        pauseSessionButton.anchor(top: sessionNavBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
-        pauseSessionButton.addTarget(self, action: #selector(pauseSession), for: .touchUpInside)
-    }
-    
-    func setupEndSessionButton() {
-        view.addSubview(endSessionButton)
-        endSessionButton.anchor(top: nil, left: nil, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 15, width: 97, height: 35)
-        endSessionButton.addTarget(self, action: #selector(showEndModal), for: .touchUpInside)
-    }
-    
-    @objc func showEndModal() {
-        endSessionModal = EndSessionModal(frame: .zero)
-        endSessionModal?.delegate = self
-        endSessionModal?.show()
-    }
-    
-    @objc func pauseSession() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        socket.emit(SocketEvents.pauseSession, ["pausedBy": uid, "roomKey": sessionId!])
-    }
-    
-    @objc func showPauseModal(pausedById: String) {
-        room?.localParticipant?.localVideoTracks.forEach({ (publication) in
-            publication.localTrack?.isEnabled = false
-        })
-        room?.localParticipant?.localAudioTracks.forEach({ (publication) in
-            publication.localTrack?.isEnabled = false
-        })
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        sessionNavBar.timeLabel.timer?.invalidate()
-        pauseSessionModal?.delegate = self
-        DataService.shared.getUserOfOppositeTypeWithId(partnerId ?? "") { user in
-            guard let username = user?.username else { return }
-            self.pauseSessionModal = PauseSessionModal(frame: .zero)
-            if pausedById == uid {
-                self.pauseSessionModal?.pausedByCurrentUser()
-            }
-            self.pauseSessionModal?.partnerUsername = username
-            self.pauseSessionModal?.delegate = self
-            self.pauseSessionModal?.pausedById = pausedById
-            self.pauseSessionModal?.show()
-        }
+    override func addTimeModal(_ addTimeModal: AddTimeModal, didAdd minutes: Int) {
+        super.addTimeModal(addTimeModal, didAdd: minutes)
+        sessionNavBar.timeLabel.timeInSeconds += (minutes * 60)
     }
     
     func removeStartData() {
@@ -167,8 +38,9 @@ class VideoSessionVC: UIViewController {
         DataService.shared.getSessionById(id) { session in
             self.partnerId = session.partnerId()
             self.session = session
+            self.sessionId = session.id
             self.sessionLengthInSeconds = session.endTime - session.startTime
-            self.expireSession()
+//            self.expireSession()
         }
     }
     
@@ -225,7 +97,16 @@ class VideoSessionVC: UIViewController {
         
     }
     
-    func observeSessionEvents() {
+    override func didUpdateTime(_ time: Int) {
+        super.didUpdateTime(time)
+        guard let length = sessionLengthInSeconds else { return }
+        if time == Int(length) {
+            stopTwilio()
+        }
+    }
+    
+    override func observeSessionEvents() {
+        super.observeSessionEvents()
         socket.on(SocketEvents.pauseSession) { data, _ in
             print("Printing data:", data)
             guard let dict = data[0] as? [String: Any] else {
@@ -233,23 +114,20 @@ class VideoSessionVC: UIViewController {
             }
             guard let pausedById = dict["pausedBy"] as? String else { return }
             self.showPauseModal(pausedById: pausedById)
-            self.sessionNavBar.timeLabel.timer?.invalidate()
-            self.sessionNavBar.timeLabel.timer = nil
         }
         
         socket.on(SocketEvents.unpauseSession) { _, _ in
             self.pauseSessionModal?.dismiss()
             self.sessionNavBar.timeLabel.startTimer()
-            self.resumeSession()
+            self.resumeTwilio()
         }
         
         socket.on(SocketEvents.endSession) { _, _ in
             self.showEndSession()
         }
-        
     }
     
-    func resumeSession() {
+    func resumeTwilio() {
         room?.localParticipant?.localVideoTracks.forEach({ (publication) in
             publication.localTrack?.isEnabled = true
         })
@@ -279,12 +157,12 @@ class VideoSessionVC: UIViewController {
             print("Failed to create video track")
         } else {
             // Add renderer to video track for local preview
-            localVideoTrack!.addRenderer(previewView)
+            localVideoTrack!.addRenderer(videoSessionView.previewView)
             
             // We will flip camera on tap.
             DispatchQueue.main.sync {
                 let tap = UITapGestureRecognizer(target: self, action: #selector(VideoSessionVC.flipCamera))
-                self.previewView.addGestureRecognizer(tap)
+                self.videoSessionView.previewView.addGestureRecognizer(tap)
             }
         }
     }
@@ -311,17 +189,38 @@ class VideoSessionVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
-        removeStartData()
+        self.view = videoSessionView
+        setupButtonActions()
+        //        removeStartData()
         fetchToken()
-        observeSessionEvents()
         loadSession()
+    }
+    
+    func setupButtonActions() {
+        videoSessionView.endSessionButton.addTarget(self, action: #selector(showEndModal), for: .touchUpInside)
+        videoSessionView.pauseSessionButton.addTarget(self, action: #selector(pauseSession), for: .touchUpInside)
+        videoSessionView.sessionNavBar.timeLabel.delegate = self
+    }
+    
+    func stopTwilio() {
+        room?.localParticipant?.localVideoTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = false
+        })
+        room?.localParticipant?.localAudioTracks.forEach({ (publication) in
+            publication.localTrack?.isEnabled = false
+        })
+    }
+    
+    override func showPauseModal(pausedById: String) {
+        super.showPauseModal(pausedById: pausedById)
+        stopTwilio()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         room?.disconnect()
     }
+    
 }
 
 extension VideoSessionVC: TVIRoomDelegate {
@@ -352,7 +251,7 @@ extension VideoSessionVC: TVIRoomDelegate {
         if remoteParticipant != nil {
             if (remoteParticipant?.videoTracks.count)! > 0 {
                 let remoteVideoTrack = remoteParticipant?.remoteVideoTracks[0].remoteTrack
-                remoteVideoTrack?.removeRenderer(remoteView)
+                remoteVideoTrack?.removeRenderer(videoSessionView.remoteView)
             }
         }
     }
@@ -362,35 +261,16 @@ extension VideoSessionVC: TVIRemoteParticipantDelegate, TVICameraCapturerDelegat
     func subscribed(to videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
         
         if remoteParticipant == participant {
-            videoTrack.addRenderer(remoteView)
+            videoTrack.addRenderer(videoSessionView.remoteView)
         }
     }
     
     func unsubscribed(from videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
         if remoteParticipant == participant {
-            videoTrack.removeRenderer(remoteView)
+            videoTrack.removeRenderer(videoSessionView.remoteView)
         }
     }
     
 }
 
-extension VideoSessionVC: PauseSessionModalDelegate {
-    func unpauseSession() {
-        socket.emit(SocketEvents.unpauseSession, ["roomKey": sessionId!])
-    }
-}
 
-extension VideoSessionVC: EndSessionModalDelegate {
-    func endSession() {
-        socket.emit(SocketEvents.endSession, ["roomKey": sessionId!])
-    }
-}
-
-extension VideoSessionVC: CountdownTimerDelegate {
-    func didUpdateTime(_ time: Int) {
-        guard let length = sessionLengthInSeconds else { return }
-        if time == Int(length) {
-            print("Time's up")
-        }
-    }
-}

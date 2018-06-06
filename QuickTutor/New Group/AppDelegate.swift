@@ -34,7 +34,7 @@ func setDeviceInfo() -> (Double, Double, Double, Double) {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
+class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, MessagingDelegate {
     
     var window: UIWindow?
     
@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
         //White status bar throughout
         UIApplication.shared.statusBarStyle = .lightContent
         
-        application.registerForRemoteNotifications()
+        registerForPushNotifications(application: application)
         
         //Firebase init
         FirebaseApp.configure()
@@ -68,6 +68,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
             if defaults.bool(forKey: "showHomePage") {
                 FirebaseData.manager.signInLearner(uid: user.uid) { (successful) in
                     if successful {
+                        if let fcmToken = Messaging.messaging().fcmToken {
+                            self.saveFCMToken(fcmToken)
+                        }
                         self.configureRootViewController(controller: LearnerPageViewController())
                     } else {
 //                        try! Auth.auth().signOut()
@@ -77,6 +80,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
             } else {
                 FirebaseData.manager.signInTutor(uid: user.uid) { (successful) in
                     if successful {
+                        if let fcmToken = Messaging.messaging().fcmToken {
+                            self.saveFCMToken(fcmToken)
+                        }
                         self.configureRootViewController(controller: TutorPageViewController())
                     } else {
 //                        try! Auth.auth().signOut()
@@ -101,6 +107,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData {
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         return handled
+    }
+    
+    private func registerForPushNotifications(application: UIApplication) {
+        print("Attempting to register for push notifications")
+        Messaging.messaging().delegate = self
+        
+        
+        let options: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { (granted, error) in
+            guard error == nil else {
+                print("User did not grant permission:", error.debugDescription)
+                return
+            }
+            print("Access granted")
+        }
+        application.registerForRemoteNotifications()
+    }
+    
+    private func saveFCMToken(_ token: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("account").child(uid).child("fcmToken").setValue(token)
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

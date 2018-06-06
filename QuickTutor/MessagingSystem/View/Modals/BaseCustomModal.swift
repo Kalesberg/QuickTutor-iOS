@@ -10,6 +10,8 @@ import UIKit
 
 class BaseCustomModal: UIView {
     
+    var isShown = false
+    
     let backgroundBlurView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -79,6 +81,8 @@ class BaseCustomModal: UIView {
     }
     
     func show() {
+        guard !isShown else { return }
+        isShown = true
         let backgroundAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.backgroundBlurView.alpha = 1
         }
@@ -95,6 +99,7 @@ class BaseCustomModal: UIView {
     }
     
     @objc func dismiss() {
+        isShown = false
         let backgroundAnimator = UIViewPropertyAnimator(duration: 0.5, curve: .easeOut) {
             self.backgroundBlurView.alpha = 0
         }
