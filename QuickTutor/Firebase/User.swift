@@ -149,28 +149,30 @@ class FirebaseData {
 		}
 	}
 	
-	public func getUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]?) -> Void) {
+	public func getUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]) -> Void) {
 		var sessions : [UserSession] = []
 		let group = DispatchGroup()
 		//add a check to see if they have reported the session already.
 		fetchSessions(uid: uid, type: type) { (sessionIds) in
 			if let sessionIds = sessionIds {
+				print("here.")
 				for id in sessionIds {
 					group.enter()
 					self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
 						guard let value = snapshot.value as? [String : Any] else {
 							group.leave()
+							print("left.")
 							return
 						}
 						var session = UserSession(dictionary: value)
 						session.id = id
 						//this will be used to check for 'pending' or 'filed' reports later. For now it just dumps the current session.
 						if type == "learner" && (session.reportStatus == 1 || session.reportStatus == 3) {
-							group.leave()
+							print("return")
 							return
 						}
 						if type == "tutor" && (session.reportStatus == 2 || session.reportStatus == 3) {
-							group.leave()
+							print("return")
 							return
 						}
 						group.enter()
@@ -192,10 +194,11 @@ class FirebaseData {
 					})
 				}
 				group.notify(queue: .main, execute: {
+					print("here.")
 					completion(sessions)
 				})
 			} else {
-				completion(nil)
+				completion([])
 			}
 		}
 	}
