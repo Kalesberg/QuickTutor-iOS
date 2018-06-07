@@ -30,6 +30,21 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     var conversationRead = false
     var shouldRequestSession = false
     var canSendMessages = true
+    var canUserActionView = true {
+        didSet {
+            if !canUserActionView {
+                if let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory {
+                    keyboardAccessory.actionButton.isEnabled = false
+                    keyboardAccessory.actionButton.adjustsImageWhenDisabled = true
+                }
+            } else {
+                if let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory {
+                    keyboardAccessory.actionButton.isEnabled = true
+                    keyboardAccessory.actionButton.adjustsImageWhenDisabled = true
+                }
+            }
+        }
+    }
     
     // MARK: Layout Views -
     let messagesCollection: UICollectionView = {
@@ -123,7 +138,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
-        emptyCellBackground.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
+        emptyCellBackground.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 60, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
     }
     
     private func setupNavBar() {
@@ -155,6 +170,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     func teardownConnectionRequest() {
         self.studentKeyboardAccessory.hideQuickChatView()
         self.emptyCellBackground.removeFromSuperview()
+        self.canUserActionView = true
     }
     
     func handleLeftViewTapped() {
@@ -201,6 +217,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         
         if shouldSetupForConnectionRequest {
             self.studentKeyboardAccessory.showQuickChatView()
+            canUserActionView = false
         }
     }
     
@@ -223,6 +240,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
                 }
                 self.checkIfMessageIsConnectionRequest(message)
                 self.studentKeyboardAccessory.hideQuickChatView()
+                self.canUserActionView = true
                 self.scrollToBottom(animated: false)
             })
             self.markConversationRead()
@@ -235,12 +253,14 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             self.canSendMessages = false
             Database.database().reference().child("connections").child(uid).child(message.partnerId()).observe(.value, with: { (snapshot) in
                 guard let value = snapshot.value as? Bool else {
+                    self.canUserActionView = false
                     return
                 }
                 if value {
                     self.canSendMessages = true
                 } else {
                     self.canSendMessages = false
+                    self.canUserActionView = false
                 }
             })
             self.connectionRequestAccepted = true
