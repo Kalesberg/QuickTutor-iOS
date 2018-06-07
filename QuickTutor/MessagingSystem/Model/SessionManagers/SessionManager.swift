@@ -23,8 +23,8 @@ class SessionManager {
     var sessionId: String!
     var session: Session!
     
-    var sessionLengthInSeconds = 0.0
-    var sessionRuntime = 0.0
+    var sessionLengthInSeconds = 0
+    var sessionRuntime = 0
     var timer: Timer?
     
     var delegate: SessionManagerDelegate?
@@ -35,7 +35,7 @@ class SessionManager {
         DataService.shared.getSessionById(sessionId) { session in
             self.session = session
             self.sessionId = session.id
-            self.sessionLengthInSeconds = session.endTime - session.startTime
+            self.sessionLengthInSeconds = Int(session.endTime - session.startTime)
         }
     }
     
@@ -83,19 +83,24 @@ class SessionManager {
             delegate?.sessionManagerSessionTimeDidExpire(self)
             return
         }
-        sessionRuntime += 1.0
+        sessionRuntime += 1
+        
+        print(getFormattedRuntimeString())
         postUpdatedTimeNotification()
     }
     
     func postUpdatedTimeNotification() {
         let info = ["timeString": getFormattedRuntimeString()]
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "com.qt.updateTime"), object: nil, userInfo: info))
+        let notification = Notification(name: Notification.Name(rawValue: "com.qt.updateTime"), object: nil, userInfo: info)
+        NotificationCenter.default.post(notification)
     }
     
     func getFormattedRuntimeString() -> String {
-        let hours = sessionLengthInSeconds / 60 / 60
-        let minutes = (sessionLengthInSeconds - hours * 60 * 60) / 60
-        let seconds = sessionLengthInSeconds - (sessionLengthInSeconds - hours * 60 * 60) - (sessionLengthInSeconds - minutes * 60)
+        print("Session runtime", sessionRuntime)
+        let hours = sessionRuntime / 60 / 60
+        let minutes = (sessionRuntime - hours * 60 * 60) / 60
+        let seconds = sessionRuntime - (sessionRuntime - hours * 60 * 60) - (sessionRuntime - minutes * 60)
+        print("seconds: \(seconds)")
         return "\(hours):\(minutes):\(seconds * -1)"
     }
     
@@ -123,6 +128,7 @@ class SessionManager {
         self.sessionId = sessionId
         loadSession()
         observeSocketEvents()
+        startSessionRuntime()
         
     }
     
