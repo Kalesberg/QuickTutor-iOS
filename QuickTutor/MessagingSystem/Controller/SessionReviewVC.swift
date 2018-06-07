@@ -48,7 +48,7 @@ class SessionReviewVC: UIViewController {
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createSize(10)
-        label.text = "• How was your time with {name}?\n\n• What did you enjoy most?\n\n• Was Collin easy to work with?"
+        label.text = "• How was your time with {name}?\n\n• What did you enjoy most?\n\n• Was {name} easy to work with?"
         label.numberOfLines = 0
         return label
     }()
@@ -91,6 +91,7 @@ class SessionReviewVC: UIViewController {
         setupInputView()
         setupCharacterCountLabel()
         setupSubmitButton()
+        view.bringSubview(toFront: fakeNavBar)
     }
     
     func setupMainView() {
@@ -159,8 +160,26 @@ class SessionReviewVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         updateUI()
+        setupKeyboardObserversIfNeeded()
     }
     
+    func setupKeyboardObserversIfNeeded() {
+        guard UIScreen.main.bounds.height <= 667 else { return }
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification:NSNotification){
+        
+        var userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        self.view.transform = CGAffineTransform(translationX: 0, y: -75)
+    }
+    
+    @objc func keyboardWillHide(notification:NSNotification){
+        self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+    }
 }
 
 extension SessionReviewVC: UITextViewDelegate {

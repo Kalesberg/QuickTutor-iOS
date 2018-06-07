@@ -52,7 +52,9 @@ class VideoSessionView: UIView {
     
     let endSessionButton: UIButton = {
         let button = UIButton()
-        button.contentMode = .scaleAspectFill
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.imageView?.contentMode = .scaleAspectFit
         button.setImage(#imageLiteral(resourceName: "endSessionButton"), for: .normal)
         return button
     }()
@@ -86,11 +88,11 @@ class VideoSessionView: UIView {
     
     func setupPreviewView() {
         addSubview(previewView)
-        previewView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 3, paddingRight: 0, width: 150, height: 150 * (16 / 9) - 30)
+        previewView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 3, paddingRight: 0, width: 112.5, height: 112.5 * (16 / 9) - 30)
     }
     
     func setupPreviewBorderView() {
-        insertSubview(previewBorderView, belowSubview: previewBorderView)
+        insertSubview(previewBorderView, belowSubview: previewView)
         previewBorderView.anchor(top: previewView.topAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: previewView.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: -3, width: 0, height: 0)
     }
     
@@ -101,7 +103,7 @@ class VideoSessionView: UIView {
     
     func setupEndSessionButton() {
         addSubview(endSessionButton)
-        endSessionButton.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 15, width: 97, height: 35)
+        endSessionButton.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 15, width: 169.75, height: 61.25)
     }
     
     override init(frame: CGRect) {

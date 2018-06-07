@@ -89,13 +89,15 @@ class TwilioSessionManager: NSObject {
             
             // We will flip camera on tap.
             DispatchQueue.main.sync {
-                let tap = UITapGestureRecognizer(target: self, action: #selector(flipCamera))
+                let tap = UITapGestureRecognizer(target: self, action: #selector(TwilioSessionManager.flipCamera))
+                tap.numberOfTapsRequired = 1
                 self.previewView.addGestureRecognizer(tap)
             }
         }
     }
     
     @objc func flipCamera() {
+        print("tapping")
         if camera?.source == .frontCamera {
             camera?.selectSource(.backCameraWide)
         } else {
