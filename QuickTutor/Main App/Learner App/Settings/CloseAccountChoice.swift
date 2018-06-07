@@ -69,7 +69,11 @@ class CloseAccountChoiceView : MainLayoutTitleBackButton {
         container.snp.makeConstraints { (make) in
             make.top.equalTo(label.snp.bottom)
             make.width.centerX.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
         
         orLabel.snp.makeConstraints { (make) in

@@ -95,7 +95,11 @@ class BecomeTutorView : BaseLayoutView {
     
     override func applyConstraints() {
         backButton.snp.makeConstraints { (make) in
-            make.top.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.top.equalToSuperview().inset(DeviceInfo.statusbarHeight)
+            }
             make.left.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.1)
             make.width.equalToSuperview().multipliedBy(0.2)
@@ -112,7 +116,11 @@ class BecomeTutorView : BaseLayoutView {
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.top.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.height.equalTo(0)
+            }
         }
         
         container.snp.makeConstraints { (make) in

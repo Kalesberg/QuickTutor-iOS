@@ -17,7 +17,6 @@ public struct Constants {
 	
 	static var showSwipeTutorial : Bool = false
 	static var showMainPageTutorial : Bool = false
-	
 }
 
 struct Colors {

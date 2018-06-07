@@ -51,7 +51,11 @@ class TutorRatingsView : TutorHeaderLayoutView {
             make.top.equalTo(navbar.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
     }
 }

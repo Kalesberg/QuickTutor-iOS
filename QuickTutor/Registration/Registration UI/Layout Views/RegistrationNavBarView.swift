@@ -33,7 +33,11 @@ class RegistrationNavBarView: RegistrationGradientView {
             make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+            } else {
+                make.bottom.equalTo(statusbarView.snp.top).inset(DeviceInfo.statusbarHeight)
+            }
         }
         
         progressBar.snp.makeConstraints { (make) in

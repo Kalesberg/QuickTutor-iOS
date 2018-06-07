@@ -59,7 +59,11 @@ class LearnerFileReportView : MainLayoutHeader {
 			make.top.equalTo(header.snp.bottom)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
 		}
 	}
 }
@@ -247,7 +251,11 @@ class FileReportCheckboxLayout : MainLayoutHeader {
         submitButton.snp.makeConstraints { (make) in
             make.height.equalTo(44)
             make.width.equalTo(250)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
+            } else {
+                make.bottom.equalToSuperview().inset(15)
+            }
             make.centerX.equalToSuperview()
         }
     }
@@ -332,7 +340,11 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
             make.height.equalTo(44)
             make.width.equalTo(250)
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
+            } else {
+                make.bottom.equalToSuperview().inset(20)
+            }
         }
         
         errorLabel.snp.makeConstraints { (make) in

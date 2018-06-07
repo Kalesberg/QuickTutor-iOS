@@ -49,7 +49,6 @@ class PageViewController : UIPageViewController {
 	}
 	private func configureView() {
 		self.view.backgroundColor = Colors.backgroundDark
-        
 	}
 }
 

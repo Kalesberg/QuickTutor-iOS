@@ -50,7 +50,7 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     func setupObservers() {
         
-        socket.on(SocketEvents.manualStartAccetped) { (data, ack) in
+        socket.on(SocketEvents.manualStartAccetped) { _, _ in
             self.showConfirmMeetupButton()
         }
         
@@ -71,7 +71,7 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(pushConversationVC(notification:)), name: NSNotification.Name(rawValue: "sendMessage"), object: nil)
-
+        
     }
     
     @objc func pushConversationVC(notification: Notification) {
@@ -83,36 +83,34 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     @objc func proceedToSession() {
         let vc = InPersonSessionVC()
-        vc.sessionId = self.sessionId
+        vc.sessionId = sessionId
         navigationController?.pushViewController(vc, animated: true)
     }
     
     override func updateTitleLabel() {
         guard let uid = Auth.auth().currentUser?.uid, let username = partnerUsername else { return }
-        //In-person Automatic
+        // In-person Automatic
         if startType == "automatic" && session?.type == "in-person" {
-            self.titleLabel.text = "Time to meet up!"
+            titleLabel.text = "Time to meet up!"
         }
         
-        //In-person Manual Started By Current User
+        // In-person Manual Started By Current User
         if startType == "manual" && session?.type == "in-person" && initiatorId == uid {
-            self.titleLabel.text = "Time to meet up!"
-            self.statusLabel.text = "Waiting for your partner to accept the manual start..."
-            self.statusLabel.isHidden = false
+            titleLabel.text = "Time to meet up!"
+            statusLabel.text = "Waiting for your partner to accept the manual start..."
+            statusLabel.isHidden = false
         }
         
-        //In-person Manual Started By Other User
+        // In-person Manual Started By Other User
         if startType == "manual" && session?.type == "in-person" && initiatorId != uid {
             titleLabel.text = "\(username) wants to meet up early!"
-            self.confirmButton.isHidden = false
+            confirmButton.isHidden = false
         }
     }
     
     override func confirmManualStart() {
         socket.emit(SocketEvents.manualStartAccetped, ["roomKey": sessionId!])
     }
-    
-    
     
     func showConfirmMeetupButton() {
         guard let _ = Auth.auth().currentUser?.uid, let _ = session?.id, let _ = partnerId, !startAccepted else { return }
@@ -133,4 +131,3 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     }
     
 }
-

@@ -206,11 +206,11 @@ class SessionRequestCell: UserMessageCell {
             return
         }
         addSubview(acceptButton)
-        acceptButton.anchor(top: statusBackground.topAnchor, left: statusBackground.leftAnchor, bottom: statusBackground.bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 20, paddingBottom: 4, paddingRight: 0, width: 35, height: 0)
+        acceptButton.anchor(top: statusBackground.topAnchor, left: statusBackground.leftAnchor, bottom: statusBackground.bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 20, paddingBottom: 4, paddingRight: 0, width: 25, height: 0)
         acceptButton.addTarget(self, action: #selector(handleButtonAction(sender:)), for: .touchUpInside)
         
         addSubview(declineButton)
-        declineButton.anchor(top: statusBackground.topAnchor, left: nil, bottom: statusBackground.bottomAnchor, right: statusBackground.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 4, paddingRight: 20, width: 35, height: 0)
+        declineButton.anchor(top: statusBackground.topAnchor, left: nil, bottom: statusBackground.bottomAnchor, right: statusBackground.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 4, paddingRight: 20, width: 25, height: 0)
         acceptButton.addTarget(self, action: #selector(handleButtonAction(sender:)), for: .touchUpInside)
         statusLabel.isHidden = true
     }

@@ -57,7 +57,11 @@ class TutorMainTipsView : MainLayoutTitleBackButton {
         textView.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.9)
             make.top.equalTo(navbar.snp.bottom).inset(-20)
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
             make.centerX.equalToSuperview()
         }
     }

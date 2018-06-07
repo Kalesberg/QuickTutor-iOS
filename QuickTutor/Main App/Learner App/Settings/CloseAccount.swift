@@ -73,7 +73,11 @@ class CloseAccountView : MainLayoutTitleBackButton {
             }
             
             proceedButton.snp.makeConstraints { (make) in
-                make.bottom.equalTo(safeAreaLayoutGuide)
+                if #available(iOS 11.0, *) {
+                    make.bottom.equalTo(safeAreaLayoutGuide)
+                } else {
+                    make.bottom.equalToSuperview()
+                }
                 make.width.equalToSuperview()
                 make.height.equalTo(50)
             }
@@ -108,7 +112,11 @@ class CloseAccountView : MainLayoutTitleBackButton {
             }
             
             proceedButton.snp.makeConstraints { (make) in
-                make.bottom.equalTo(safeAreaLayoutGuide)
+                if #available(iOS 11.0, *) {
+                    make.bottom.equalTo(safeAreaLayoutGuide)
+                } else {
+                    make.bottom.equalToSuperview()
+                }
                 make.width.equalToSuperview()
                 make.height.equalTo(50)
             }

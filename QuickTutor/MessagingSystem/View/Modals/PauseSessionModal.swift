@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 protocol PauseSessionModalDelegate {
-    func unpauseSession()
+    func pauseSessionModalDidUnpause(_ pauseSessionModal: PauseSessionModal)
 }
 
 class PauseSessionModal: BaseCustomModal {
@@ -47,7 +47,9 @@ class PauseSessionModal: BaseCustomModal {
     
     override func setupTitleBackground() {
         super.setupTitleBackground()
-        titleBackground.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+        if #available(iOS 11.0, *) {
+            titleBackground.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+        }
     }
     
     override func setupBackgroundBlurView() {
@@ -77,7 +79,7 @@ class PauseSessionModal: BaseCustomModal {
     }
     
     @objc func unpauseSession() {
-        delegate?.unpauseSession()
+        delegate?.pauseSessionModalDidUnpause(self)
         dismiss()
     }
     

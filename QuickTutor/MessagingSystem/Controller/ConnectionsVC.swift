@@ -98,7 +98,6 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = connections[indexPath.item].uid
-        let tappedCell = collectionView.cellForItem(at: indexPath) as! ConnectionCell
         vc.navigationItem.title = connections[indexPath.item].username
         vc.chatPartner = connections[indexPath.item]
         navigationController?.pushViewController(vc, animated: true)

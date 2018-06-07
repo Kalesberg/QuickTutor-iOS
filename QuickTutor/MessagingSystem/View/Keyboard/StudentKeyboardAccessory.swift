@@ -59,7 +59,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
     override func setupLeftAccessoryView() {
         leftAccessoryView = actionButton
         addSubview(actionButton)
-        actionButton.anchor(top: nil, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
+        actionButton.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
     }
     
     private func setupActionView() {

@@ -35,7 +35,11 @@ class SubmitButton : InteractableView, Interactable {
         self.snp.makeConstraints { (make) in
             make.height.equalTo(40)
             make.width.equalTo(250)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
             make.centerX.equalToSuperview()
         }
     }
@@ -44,7 +48,7 @@ class SubmitButton : InteractableView, Interactable {
         alpha = 0.6
     }
     
-    func touchEndOnStart() {
+    func didDragOff() {
         alpha = 1
     }
 }

@@ -17,12 +17,18 @@ class CategorySearchCollectionViewLayout: UICollectionViewFlowLayout {
 		get {
 			guard let collectionView = collectionView else { return super.itemSize }
 			
-			let marginsAndInsets = sectionInset.left + sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
-			
-			let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
-		
-			return CGSize(width: itemWidth, height: itemWidth * 1.3)
-		}
+            if #available(iOS 11.0, *) {
+                let marginsAndInsets = sectionInset.left + sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+                
+                let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+                
+                return CGSize(width: itemWidth, height: itemWidth * 1.3)
+            } else {
+				let marginsAndInsets = sectionInset.left + sectionInset.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+				let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+				return CGSize(width: itemWidth, height: itemWidth * 1.3)
+            }
+        }
 		set {
 			super.itemSize = newValue
 		}

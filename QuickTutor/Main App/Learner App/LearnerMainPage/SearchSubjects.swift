@@ -119,7 +119,11 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom)
-			make.bottom.equalTo(safeAreaLayoutGuide)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
@@ -303,7 +307,6 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCollectionViewCell", for: indexPath) as! CategorySelectionCollectionViewCell
-		
 		cell.category = categories[indexPath.item]
 		cell.delegate = self
 		

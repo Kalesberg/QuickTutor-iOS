@@ -91,6 +91,7 @@ class LearnerMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 		AccountService.shared.currentUserType = .learner
 		guard let learner = CurrentUser.shared.learner else {
 			try! Auth.auth().signOut()
@@ -118,8 +119,6 @@ class LearnerMainPage : MainPage {
             UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
             displayMessagesTutorial()
         }
-        
-		
         self.configureSideBarView()
     }
     
@@ -142,9 +141,8 @@ class LearnerMainPage : MainPage {
         contentView.sidebar.profileView.profilePicView.loadUserImages(by: learner.images["image1"]!)
         contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
     }
-    
+
     private func configureView() {
-        
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         
@@ -239,15 +237,23 @@ class LearnerMainPage : MainPage {
         self.displayLoadingOverlay()
         QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
             if let datasource = datasource {
-                self.contentView.tableView.performBatchUpdates({
-                    self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-                    self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
-                    
-                }, completion: { (finished) in
-                    if finished {
-                        self.didLoadMore = false
-                    }
-                })
+                if #available(iOS 11.0, *) {
+                    self.contentView.tableView.performBatchUpdates({
+                        self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+                        self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+                        
+                    }, completion: { (finished) in
+                        if finished {
+                            self.didLoadMore = false
+                        }
+                    })
+                } else {
+                    self.contentView.tableView.beginUpdates()
+					self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+					self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+					self.contentView.tableView.endUpdates()
+					self.didLoadMore = false
+                }
             }
             self.dismissOverlay()
         }

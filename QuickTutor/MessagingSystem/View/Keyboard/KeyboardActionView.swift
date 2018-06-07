@@ -29,7 +29,9 @@ class KeyboardActionView: UIView {
     
     func setupMainView() {
         layer.cornerRadius = 12
-        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        if #available(iOS 11.0, *) {
+            layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        }
         backgroundColor = Colors.darkBackground
     }
     

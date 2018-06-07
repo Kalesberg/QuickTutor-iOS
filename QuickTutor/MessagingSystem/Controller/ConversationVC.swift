@@ -118,7 +118,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
         collectionView = messagesCollection
-        collectionView?.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView?.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     private func setupEmptyBackground() {
@@ -172,7 +172,11 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     @objc func showReportSheet() {
         becomeFirstResponder()
         resignFirstResponder()
-        actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom)
+        if #available(iOS 11.0, *) {
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom)
+        } else {
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0)
+        }
         actionSheet?.partnerId = chatPartner.uid
         actionSheet?.show()
     }
@@ -384,13 +388,9 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let message = messages[indexPath.item] as? UserMessage, let sessionRequestId = message.sessionRequestId else {
+        guard let message = messages[indexPath.item] as? UserMessage, let _ = message.sessionRequestId else {
             return
         }
-//        let vc = ViewSessionRequestVC()
-//        vc.sessionRequestId = sessionRequestId
-//        vc.senderId = message.senderId
-//        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

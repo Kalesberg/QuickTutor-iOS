@@ -59,7 +59,11 @@ class LearnerSettingsView : MainLayoutTitleBackButton {
             make.top.equalTo(navbar.snp.bottom)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
         }
         
         profileView.snp.makeConstraints { (make) in

@@ -173,7 +173,7 @@ class BaseSessionStartVC: UIViewController {
     
     func setupTitleLabel() {
         view.addSubview(titleLabel)
-        titleLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
+        titleLabel.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
     }
     
     func setupInfoBox() {
@@ -229,7 +229,9 @@ class BaseSessionStartVC: UIViewController {
     func setupNavBar() {
         navigationController?.navigationBar.barTintColor = Colors.learnerPurple
         navigationItem.title = "Attempting to Start Session"
-        navigationController?.navigationBar.prefersLargeTitles = false
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = false
+        }
     }
     
     

@@ -9,19 +9,7 @@
 import UIKit
 import Firebase
 
-class InPersonSessionVC: UIViewController {
-    
-    var endSessionModal: EndSessionModal?
-    var sessionId: String?
-    var partnerId: String?
-    let socket = SocketClient.shared.socket!
-    
-    let sessionNavBar: SessionNavBar = {
-        let bar = SessionNavBar()
-        bar.sessionTypeIcon.image = #imageLiteral(resourceName: "inPersonIcon")
-        bar.sessionTypeLabel.text = "In-Person"
-        return bar
-    }()
+class InPersonSessionVC: BaseSessionVC {
     
     let statusBarCover: UIView = {
         let view = UIView()
@@ -72,10 +60,12 @@ class InPersonSessionVC: UIViewController {
     
     func setupNavBar()  {
         view.addSubview(sessionNavBar)
-        sessionNavBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
+        sessionNavBar.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         view.addSubview(statusBarCover)
         statusBarCover.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: sessionNavBar.topAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         navigationController?.navigationBar.isHidden = true
+        sessionNavBar.sessionTypeIcon.image = #imageLiteral(resourceName: "inPersonIcon")
+        sessionNavBar.sessionTypeLabel.text = "In-Person"
     }
     
     func setupReceiverBox() {
@@ -109,11 +99,11 @@ class InPersonSessionVC: UIViewController {
     
     func observeEvents() {
         socket.on(SocketEvents.endSession) { _, _ in
-            self.showEndSession()
+            self.continueOutOfSession()
         }
     }
     
-    @objc func showEndSession() {
+    @objc override func continueOutOfSession() {
         if AccountService.shared.currentUserType == .learner {
             let vc = AddTipVC()
             vc.partnerId = partnerId
@@ -147,12 +137,6 @@ class InPersonSessionVC: UIViewController {
         removeStartData()
         updateUI()
         observeEvents()
-    }
-}
-
-extension InPersonSessionVC: EndSessionModalDelegate {
-    func endSession() {
-        socket.emit(SocketEvents.endSession, ["roomKey": sessionId!])
     }
 }
 
