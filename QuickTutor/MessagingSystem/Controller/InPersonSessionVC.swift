@@ -99,11 +99,11 @@ class InPersonSessionVC: BaseSessionVC {
     
     func observeEvents() {
         socket.on(SocketEvents.endSession) { _, _ in
-            self.showEndSession()
+            self.continueOutOfSession()
         }
     }
     
-    @objc func showEndSession() {
+    @objc override func continueOutOfSession() {
         if AccountService.shared.currentUserType == .learner {
             let vc = AddTipVC()
             vc.partnerId = partnerId

@@ -18,96 +18,38 @@ class VideoSessionVC: BaseSessionVC {
     
     override func addTimeModal(_ addTimeModal: AddTimeModal, didAdd minutes: Int) {
         super.addTimeModal(addTimeModal, didAdd: minutes)
-        sessionNavBar.timeLabel.timeInSeconds += (minutes * 60)
-    }
-    
-    func removeStartData() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("sessionStarts").child(uid).removeValue()
-    }
-    
-    override func stopSessionTime() {
-        videoSessionView.sessionNavBar.timeLabel.timer?.invalidate()
-        videoSessionView.sessionNavBar.timeLabel.timer = nil    }
-    
-    func loadSession() {
-        guard let id = sessionId else { return }
-        DataService.shared.getSessionById(id) { session in
-            self.partnerId = session.partnerId()
-            self.session = session
-            self.sessionId = session.id
-            self.sessionLengthInSeconds = session.endTime - session.startTime
-//            self.expireSession()
-        }
-    }
-    
-    func expireSession() {
-        guard let id = self.session?.id else { return }
-        Database.database().reference().child("sessions").child(id).child("status").setValue("expired")
-    }
-    
-    override func didUpdateTime(_ time: Int) {
-        super.didUpdateTime(time)
-        guard let length = sessionLengthInSeconds else { return }
-        if time == Int(length) {
-            twilioSessionManager?.stop()
-        }
-    }
-    
-    override func observeSessionEvents() {
-        super.observeSessionEvents()
-        socket.on(SocketEvents.pauseSession) { data, _ in
-            print("Printing data:", data)
-            self.stopSessionTime()
-            guard let dict = data[0] as? [String: Any] else {
-                return
-            }
-            guard let pausedById = dict["pausedBy"] as? String else { return }
-            self.showPauseModal(pausedById: pausedById)
-        }
-        
-        socket.on(SocketEvents.unpauseSession) { _, _ in
-            self.pauseSessionModal?.dismiss()
-            self.videoSessionView.sessionNavBar.timeLabel.startTimer()
-            self.twilioSessionManager?.resume()
-        }
-        
-        socket.on(SocketEvents.endSession) { _, _ in
-            self.showEndSession()
-        }
-    }
-
-    
-    @objc func showEndSession() {
-        if AccountService.shared.currentUserType == .learner {
-            let vc = AddTipVC()
-            vc.partnerId = partnerId
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = SessionCompleteVC()
-            vc.partnerId = partnerId
-            navigationController?.pushViewController(vc, animated: true)
-        }
+//        sessionNavBar.timeLabel.timeInSeconds += (minutes * 60)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = videoSessionView
+        setupView()
         setupButtonActions()
-        //        removeStartData()
         setupTwilio()
-        loadSession()
+    }
+    
+    func setupView() {
+        self.view = videoSessionView
     }
     
     func setupTwilio() {
-        twilioSessionManager = TwilioSessionManager(previewView: videoSessionView.previewView, remoteView: videoSessionView.remoteView)
-
+        guard let id = sessionId else { return }
+        twilioSessionManager = TwilioSessionManager(previewView: videoSessionView.previewView, remoteView: videoSessionView.remoteView, sessionId: id)
     }
     
     func setupButtonActions() {
-        videoSessionView.endSessionButton.addTarget(self, action: #selector(showEndModal), for: .touchUpInside)
-        videoSessionView.pauseSessionButton.addTarget(self, action: #selector(pauseSession), for: .touchUpInside)
-        videoSessionView.sessionNavBar.timeLabel.delegate = self
+        videoSessionView.endSessionButton.addTarget(self, action: #selector(VideoSessionVC.handleEndSession), for: .touchUpInside)
+        videoSessionView.pauseSessionButton.addTarget(self, action: #selector(VideoSessionVC.handleSessionPause), for: .touchUpInside)
+    }
+    
+    @objc func handleEndSession() {
+        guard let manager = sessionManager else { return }
+        manager.endSession()
+    }
+    
+    @objc func handleSessionPause() {
+        guard let manager = sessionManager else { return }
+        manager.pauseSession()
     }
     
     override func showPauseModal(pausedById: String) {
@@ -120,4 +62,15 @@ class VideoSessionVC: BaseSessionVC {
         twilioSessionManager?.room?.disconnect()
     }
     
+    override func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager) {
+        
+    }
+    
+    override func sessionManager(_ sessionManager: SessionManager, didUnpause session: Session) {
+        super.sessionManager(sessionManager, didUnpause: session)
+        self.twilioSessionManager?.resume()
+    }
+
 }
+
+

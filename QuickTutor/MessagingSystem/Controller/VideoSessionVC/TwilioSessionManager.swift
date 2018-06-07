@@ -16,6 +16,7 @@ protocol TwilioSessionManagerDelegate {
 class TwilioSessionManager: NSObject {
     
     let tokenUrl = "http://api.tidycoder.com/token"
+    var sessionId: String!
     var accessToken = ""
     var room: TVIRoom?
     var camera: TVICameraCapturer?
@@ -67,7 +68,7 @@ class TwilioSessionManager: NSObject {
             
             // The name of the Room where the Client will attempt to connect to. Please note that if you pass an empty
             // Room `name`, the Client will create one for you. You can get the name or sid from any connected Room.
-            builder.roomName = "This"
+            builder.roomName = self.sessionId
         }
         
         // Connect to the Room using the options we provided.
@@ -125,10 +126,11 @@ class TwilioSessionManager: NSObject {
     
     private override init() {}
     
-    init(previewView: TVIVideoView, remoteView: TVIVideoView) {
+    init(previewView: TVIVideoView, remoteView: TVIVideoView, sessionId: String) {
         super.init()
         self.previewView = previewView
         self.remoteView = remoteView
+        self.sessionId = sessionId
         fetchAccessToken()
     }
     
