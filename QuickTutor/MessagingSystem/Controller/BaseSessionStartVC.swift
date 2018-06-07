@@ -212,6 +212,7 @@ class BaseSessionStartVC: UIViewController {
         view.addSubview(cancelButton)
         cancelButton.anchor(top: nil, left: nil, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 52.5, paddingRight: 0, width: 270, height: 50)
         view.addConstraint(NSLayoutConstraint(item: cancelButton, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
+        cancelButton.addTarget(self, action: #selector(BaseSessionStartVC.cancelSession), for: .touchUpInside)
     }
     
     func setupConfirmButton() {
@@ -234,6 +235,10 @@ class BaseSessionStartVC: UIViewController {
         }
     }
     
+    @objc func cancelSession() {
+        guard let id = sessionId else { return }
+        socket.emit(SocketEvents.cancelSession, ["roomKey": id])
+    }
     
     @objc func confirmManualStart() {
         let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType" : session?.type]
@@ -251,6 +256,11 @@ class BaseSessionStartVC: UIViewController {
         socket = SocketClient.shared.socket
         socket.on(clientEvent: .connect) { (data, ack) in
             self.socket.emit("joinRoom", id);            
+        }
+        
+        socket.on(SocketEvents.cancelSession) { (data, ack) in
+            print("should cancel session")
+            self.navigationController?.popViewController(animated: true)
         }
     }
     

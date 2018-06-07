@@ -72,4 +72,5 @@ struct SocketEvents {
     static let meetupConfirmed = "meetupConfirmed"
     static let requestAddTime = "requestAddTime"
     static let addTimeRequestAnswered = "addTimeRequestAnswered"
+    static let cancelSession = "cancelSession"
 }
