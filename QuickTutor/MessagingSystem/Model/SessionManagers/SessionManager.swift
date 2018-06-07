@@ -84,8 +84,6 @@ class SessionManager {
             return
         }
         sessionRuntime += 1
-        
-        print(getFormattedRuntimeString())
         postUpdatedTimeNotification()
     }
     
@@ -96,11 +94,9 @@ class SessionManager {
     }
     
     func getFormattedRuntimeString() -> String {
-        print("Session runtime", sessionRuntime)
         let hours = sessionRuntime / 60 / 60
         let minutes = (sessionRuntime - hours * 60 * 60) / 60
         let seconds = sessionRuntime - (sessionRuntime - hours * 60 * 60) - (sessionRuntime - minutes * 60)
-        print("seconds: \(seconds)")
         return "\(hours):\(minutes):\(seconds * -1)"
     }
     
