@@ -39,7 +39,7 @@ class VideoSessionView: UIView {
     
     let statusBarCover: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.learnerPurple
+        view.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
         return view
     }()
     
