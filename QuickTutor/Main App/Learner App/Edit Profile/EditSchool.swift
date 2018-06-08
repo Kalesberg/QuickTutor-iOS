@@ -25,8 +25,8 @@ class EditSchoolView : EditProfileMainLayout {
 		return tableView
 	}()
 	
-	let searchTextField : RegistrationTextField = {
-		let textField = RegistrationTextField()
+	let searchTextField : SearchTextField = {
+		let textField = SearchTextField()
 		textField.placeholder.text = "Search Schools"
 		textField.textField.font = Fonts.createSize(16)
 		textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue

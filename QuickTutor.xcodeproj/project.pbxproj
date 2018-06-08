@@ -82,6 +82,7 @@
 		8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465E66520BAEA7600F7D72C /* LearnerModel.swift */; };
 		8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465E66720BAEAA800F7D72C /* TutorModel.swift */; };
 		84681FA0204B63DC00F45DFC /* schools.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84681F9F204B63DC00F45DFC /* schools.txt */; };
+		8469512320CA243D00325995 /* TutorAgreementWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469512220CA243D00325995 /* TutorAgreementWebView.swift */; };
 		846D9B4E2069E57000302773 /* CategorySelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */; };
 		846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */; };
 		846D9B522069E57400302773 /* SubjectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B512069E57400302773 /* SubjectCollectionViewCell.swift */; };
@@ -414,6 +415,7 @@
 		8465E66520BAEA7600F7D72C /* LearnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerModel.swift; sourceTree = "<group>"; };
 		8465E66720BAEAA800F7D72C /* TutorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorModel.swift; sourceTree = "<group>"; };
 		84681F9F204B63DC00F45DFC /* schools.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schools.txt; sourceTree = "<group>"; };
+		8469512220CA243D00325995 /* TutorAgreementWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAgreementWebView.swift; sourceTree = "<group>"; };
 		846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchCollectionViewLayout.swift; sourceTree = "<group>"; };
 		846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchCollectionViewLayout.swift; sourceTree = "<group>"; };
 		846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectionCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1021,6 +1023,7 @@
 				8479EA642063E66400C5113E /* TutorPolicy.swift */,
 				849AAEA92060846800B9CFD7 /* TutorLocation.swift */,
 				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
+				8469512220CA243D00325995 /* TutorAgreementWebView.swift */,
 			);
 			path = "Become a QuickTutor";
 			sourceTree = "<group>";
@@ -1564,6 +1567,7 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
+				9CCDF79DB95A463F01BFD04B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1697,6 +1701,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9CCDF79DB95A463F01BFD04B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1725,6 +1744,7 @@
 				845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */,
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
 				84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */,
+				8469512320CA243D00325995 /* TutorAgreementWebView.swift in Sources */,
 				845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */,
 				842576602070295C00FD295B /* AddSubjectTableViewCell.swift in Sources */,
 				CFF5017B206990B20085B0E9 /* LearnerReviews.swift in Sources */,
