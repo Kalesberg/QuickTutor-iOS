@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CustomDatePickerDelegate {
-    func didSelectDate(_ date: Double)
+    func customDatePicker(_ customDatePicker: CustomDatePicker, didSelect date: Double)
 }
 
 class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -52,8 +52,7 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         self.selectRow(currentMonth - 1, inComponent: 0, animated: true)
         self.selectRow(currentDay - 1, inComponent: 1, animated: true)
         updateDate()
-
-        customDelegate?.didSelectDate((self.date?.timeIntervalSince1970)!)
+        customDelegate?.customDatePicker(self, didSelect: (self.date?.timeIntervalSince1970)!)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -89,8 +88,7 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         let daysToAdd = selectedRow(inComponent: 1) - (currentDay - 1)
         guard let dateWithDaysAdded = Calendar.current.date(byAdding: .day, value: daysToAdd, to: dateWithMonthsAdded) else { return }
         self.date = dateWithDaysAdded
-
-        customDelegate?.didSelectDate(dateWithDaysAdded.timeIntervalSince1970)
+        customDelegate?.customDatePicker(self, didSelect: dateWithDaysAdded.timeIntervalSince1970)
     }
     
     required init?(coder aDecoder: NSCoder) {

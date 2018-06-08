@@ -26,10 +26,17 @@ class CustomTitleView: UIView {
     
     let activeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Active 1 ago"
+        label.text = "Active 1m ago"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 10)
         return label
+    }()
+    
+    let arrow: UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "titleViewArrow")
+        iv.contentMode = .scaleAspectFit
+        return iv
     }()
 	
 	var tutor : AWTutor!
@@ -51,6 +58,7 @@ class CustomTitleView: UIView {
         setupImageView()
         setupTitleView()
         setupActiveLabel()
+        setupArrow()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(showProfile))
         addGestureRecognizer(tap)
@@ -89,6 +97,11 @@ class CustomTitleView: UIView {
         activeLabel.anchor(top: titleLabel.bottomAnchor, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 2, paddingLeft: 4, paddingBottom: 0, paddingRight: 0, width: 0, height: 12)
     }
     
+    private func setupArrow() {
+        addSubview(arrow)
+        arrow.anchor(top: nil, left: titleLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 6, paddingBottom: 0, paddingRight: 0, width: 7, height: 10)
+        addConstraint(NSLayoutConstraint(item: arrow, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+    }
     private func updateOnlineStatusIndicator() {
         imageView.onlineStatusIndicator.backgroundColor = user.isOnline ? .green : .red
     }

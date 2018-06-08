@@ -390,7 +390,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         }
         
         if message.sessionRequestId != nil {
-            height = 145
+            height = 158
         }
         
         if message.connectionRequestId != nil {
