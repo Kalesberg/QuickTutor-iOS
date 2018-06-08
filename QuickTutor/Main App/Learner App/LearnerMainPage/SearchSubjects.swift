@@ -175,10 +175,10 @@ class SearchSubjects: BaseViewController {
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
 		
-//		if let subjects = SubjectStore.loadTotalSubjectList() {
-//			self.allSubjects = subjects
-//			self.allSubjects.shuffle()
-//		}
+		if let subjects = SubjectStore.loadTotalSubjectList() {
+			self.allSubjects = subjects
+			self.allSubjects.shuffle()
+		}
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -420,7 +420,7 @@ extension SearchSubjects : UISearchBarDelegate {
 			return
 		}
 		tableView(shouldDisplay: true) {
-			self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText)})
+			self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
 			self.contentView.tableView.reloadData()
 		}
 		

@@ -73,7 +73,11 @@ extension String {
 		let fullNameTest = NSPredicate(format:"SELF MATCHES %@", fullNameRegex)
 		return fullNameTest.evaluate(with: self)
 	}
-
+	func fullNamePaymentRegex() -> Bool {
+		let fullNameRegex = "[a-zA-z]+ [a-zA-z]+ [a-zA-z]+"
+		let fullNameTest = NSPredicate(format:"SELF MATCHES %@", fullNameRegex)
+		return fullNameTest.evaluate(with: self)
+	}
 	func zipcodeRegex() -> Bool {
 		let regex = "^[0-9]{5}([- /]?[0-9]{4})?$"
 		let regexTest = NSPredicate(format: "SELF MATCHES %@", regex)

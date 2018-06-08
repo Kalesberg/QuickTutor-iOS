@@ -474,9 +474,9 @@ extension TutorAddSubjects : SelectedSubcategory {
         
         tableView(shouldDisplay: true) {
             self.didSelectCategory = true
-            self.contentView.searchBar.becomeFirstResponder()
-            self.scrollToTop()
             self.contentView.tableView.reloadData()
+			self.contentView.searchBar.becomeFirstResponder()
+			self.scrollToTop()
         }
     }
 }
@@ -671,13 +671,13 @@ extension TutorAddSubjects : UISearchBarDelegate {
         }
 
         if didSelectCategory {
-            filteredSubjects = partialSubjects.filter({$0.0.contains(searchText)})
+            filteredSubjects = partialSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
             contentView.tableView.reloadData()
             return
             
         } else {
             tableView(shouldDisplay: true) {
-                self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText)})
+                self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
                 self.contentView.tableView.reloadData()
             }
         }
