@@ -220,6 +220,7 @@ class TutorPolicy : BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     private func declineButtonAlert() {
         let alertController = UIAlertController(title: "Are You Sure?", message: "All of your progress will be deleted.", preferredStyle: .alert)
         
@@ -307,7 +308,7 @@ class TutorPolicy : BaseViewController {
     
     override func handleNavigation() {
         if (touchStartView == contentView.tutorAgreementButton) {
-            //to website
+            navigationController?.pushViewController(TutorAgreementWebVC(), animated: true)
         } else if (touchStartView == contentView.checkBox) {
             accepted()
         } else if (touchStartView == contentView.backButton) {

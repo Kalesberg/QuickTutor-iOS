@@ -48,7 +48,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		//container.addSubview(facebookButton2)
 		addSubview(nextButton)
 		super.configureView()
-		insertSubview(nextButton, aboveSubview: quicktutorFlame)
+		insertSubview(nextButton, aboveSubview: container)
 	
 		backButton.alpha = 0.0
 		backButton.isUserInteractionEnabled = false
@@ -343,8 +343,6 @@ class SignIn: BaseViewController {
 			})
 			
 			contentView.nextButton.isUserInteractionEnabled = true
-			//contentView.nextButton.button.isUserInteractionEnabled = false
-			
 		} else if(touchStartView is RegistrationBackButton) {
 			
 			contentView.backButton.isUserInteractionEnabled = false
@@ -359,7 +357,7 @@ class SignIn: BaseViewController {
 			
 			contentView.phoneTextField.snp.remakeConstraints { (make) in
 				make.width.equalToSuperview()
-				make.centerY.equalToSuperview().multipliedBy(0.7)
+				make.centerY.equalToSuperview()
 				make.height.equalTo(60)
 				make.centerX.equalToSuperview()
 			}

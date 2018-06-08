@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 import SnapKit
 
-class LaunchScreenView : BaseView {
+class LaunchScreenView : BaseLayoutView {
 	
 	let imageView : UIImageView = {
 		let imageView = UIImageView()
 		
-		imageView.image = #imageLiteral(resourceName: "social-email")
+		imageView.image = #imageLiteral(resourceName: "launchScreenImage")
 		
 		return imageView
 	}()
@@ -24,26 +24,26 @@ class LaunchScreenView : BaseView {
 	override func configureView() {
 		addSubview(imageView)
 		super.configureView()
-		backgroundColor = Colors.backgroundDark
-		
+        
+        backgroundColor = UIColor.init(hex: "272730")
+        
 		applyConstraints()
 	}
 	override func applyConstraints() {
 		imageView.snp.makeConstraints { (make) in
-			make.center.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.5)
-			make.width.equalToSuperview().multipliedBy(0.5)
+			make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
 		}
 	}
 }
 
 class LaunchScreen : BaseViewController {
-	override var contentView: LaunchScreenView {
-		return view as! LaunchScreenView
-	}
-	override func loadView() {
-		view = LaunchScreenView()
-	}
+    override var contentView: LaunchScreenView {
+        return view as! LaunchScreenView
+    }
+    override func loadView() {
+        view = LaunchScreenView()
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
