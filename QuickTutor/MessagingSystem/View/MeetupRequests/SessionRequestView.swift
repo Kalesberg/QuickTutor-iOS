@@ -17,9 +17,7 @@ class SessionRequestView: UIView {
     
     var chatPartnerId: String! {
         didSet {
-            loadSubjectsForUserWithId(chatPartnerId) {
-                
-            }
+            loadSubjectsForUserWithId(chatPartnerId) {}
         }
     }
     var delegate: SessionRequestViewDelegate?
@@ -343,10 +341,6 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
         sessionData["senderId"] = uid
         sessionData["receiverId"] = chatPartnerId
         
-//        do {
-//            let encodedData = try JSONEncoder().encode(<#T##value: Encodable##Encodable#>)
-//        }
-        
         guard let _ = sessionData["subject"], let _ = sessionData["date"], let _ = sessionData["startTime"], let _ = sessionData["endTime"], let _ = sessionData["status"], let _ = sessionData["type"], let _ = sessionData["price"] else {
             return
         }
@@ -375,6 +369,11 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     func setTitleGreen(index: Int) {
         guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
         cell.textLabel?.textColor = Colors.green
+    }
+    
+    func setTitleBlue(index: Int) {
+        guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
+        cell.textLabel?.textColor = Colors.tutorBlue
     }
     
     func setAllTitlesWhite() {
@@ -420,7 +419,7 @@ extension SessionRequestView: SubjectPickerDelegate {
 
 // MARK: Date -
 extension SessionRequestView: CustomDatePickerDelegate {
-    func didSelectDate(_ date: Double) {
+    func customDatePicker(_ customDatePicker: CustomDatePicker, didSelect date: Double) {
         setDateTo(Date(timeIntervalSince1970: date))
         setTitleGreen(index: 1)
     }
@@ -464,7 +463,8 @@ extension SessionRequestView {
     }
     
     func setEndTime() {
-        endTimePicker.minimumDate = startTimePicker.date
+        endTimePicker.minimumDate = Calendar.current.date(byAdding: .minute, value: 15, to: startTimePicker.date)
+        endTimePicker.date = endTimePicker.minimumDate ?? Date()
         reloadTitleForEndTime()
     }
     

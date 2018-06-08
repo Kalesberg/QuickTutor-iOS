@@ -13,7 +13,7 @@ class InPersonSessionVC: BaseSessionVC {
     
     let statusBarCover: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.learnerPurple
+        view.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
         return view
     }()
     
@@ -97,24 +97,6 @@ class InPersonSessionVC: BaseSessionVC {
         Database.database().reference().child("sessionStarts").child(uid).removeValue()
     }
     
-    func observeEvents() {
-        socket.on(SocketEvents.endSession) { _, _ in
-            self.continueOutOfSession()
-        }
-    }
-    
-    @objc override func continueOutOfSession() {
-        if AccountService.shared.currentUserType == .learner {
-            let vc = AddTipVC()
-            vc.partnerId = partnerId
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = SessionCompleteVC()
-            vc.partnerId = partnerId
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-    
     func updateUI() {
         guard let id = sessionId else { return }
         DataService.shared.getSessionById(id) { (session) in
@@ -136,7 +118,6 @@ class InPersonSessionVC: BaseSessionVC {
         setupViews()
         removeStartData()
         updateUI()
-        observeEvents()
     }
 }
 

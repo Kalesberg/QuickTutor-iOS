@@ -37,11 +37,14 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         return label
     }()
 	
-	let searchTextField : RegistrationTextField = {
-		let textField = RegistrationTextField()
-		textField.placeholder.text = "Search Contacts"
+	let searchTextField : SearchTextField = {
+		let textField = SearchTextField()
+        
+		textField.placeholder.text = "Search"
+        textField.textField.attributedPlaceholder = NSAttributedString(string: "Your Contacts",
+                                                                       attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         textField.placeholder.font = Fonts.createBoldSize(20)
-		textField.textField.font = Fonts.createBoldSize(20)
+		textField.textField.font = Fonts.createSize(20)
 		textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
 		return textField
 	}()
