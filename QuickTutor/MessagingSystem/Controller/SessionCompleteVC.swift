@@ -139,6 +139,7 @@ class SessionCompleteVC: UIViewController {
 extension SessionCompleteVC: RatingStarViewDelegate {
     func didUpdateRating(rating: Int) {
         self.descriptionLabel.text = ratingDescriptions[rating - 1]
+        SessionService.shared.rating = rating
         submitButtonCover.removeFromSuperview()
     }
 }
