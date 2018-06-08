@@ -43,6 +43,7 @@ class SessionRequestCell: UserMessageCell {
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createSize(12)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -114,10 +115,10 @@ class SessionRequestCell: UserMessageCell {
     }
     
     func loadFromRequest() {
-        guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime() else { return }
+        guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime() else { return }
         subjectLabel.text = subject
         priceLabel.text = "$\(price)0"
-        dateTimeLabel.text = "\(date) @ \(startTime)"
+        dateTimeLabel.text = "\(date) \n\(startTime) - \(endTime)"
         setStatusLabel()
         if let constant = priceLabel.text?.estimateFrameForFontSize(12).width {
             priceLabelWidthAnchor = priceLabel.widthAnchor.constraint(equalToConstant: constant + 10)
@@ -177,22 +178,22 @@ class SessionRequestCell: UserMessageCell {
     
     private func setupSubjectLabel() {
         addSubview(subjectLabel)
-        subjectLabel.anchor(top: titleLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 15, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
+        subjectLabel.anchor(top: titleLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 18)
     }
     
     private func setupDateTimeLabel() {
         addSubview(dateTimeLabel)
-        dateTimeLabel.anchor(top: subjectLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 140, height: 20)
+        dateTimeLabel.anchor(top: subjectLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 140, height: 40)
     }
     
     private func setupPriceLabel() {
         addSubview(priceLabel)
-        priceLabel.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 22.5, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 20)
+        priceLabel.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 26, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 20)
     }
     
     private func setupStatusBackground() {
         addSubview(statusBackground)
-        statusBackground.anchor(top: dateTimeLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        statusBackground.anchor(top: dateTimeLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     private func setupStatusLabel() {
