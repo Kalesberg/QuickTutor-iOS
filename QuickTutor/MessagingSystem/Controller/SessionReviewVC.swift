@@ -11,7 +11,7 @@ import Firebase
 
 class SessionReviewVC: UIViewController {
     
-    var partnerId: String? = "l7HJ6tG12SXkUTGpz2x9S5T7ctC3"
+    var partnerId: String?
     var rating: Int? = 2
     
     lazy var fakeNavBar: UIView = {
@@ -152,8 +152,41 @@ class SessionReviewVC: UIViewController {
     @objc func subtmitReview() {
         guard let text = reviewInputView.text else { return }
         guard let id = partnerId else { return }
-        Database.database().reference().child("review").child(id).childByAutoId().setValue(text)
-        navigationController?.pushViewController(LearnerPageViewController(), animated: true)
+        
+        let session = SessionService.shared.session
+        
+        var reviewDict = [String: Any]()
+        guard let date = session?.startTime,
+        let subject = session?.subject,
+        let price = session?.price else {
+                print("ERROR: Could not prepare session for review")
+                return
+        }
+        let rating = Double(SessionService.shared.rating)
+        let duration = SessionService.shared.session.lengthInMinutes()
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        DataService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
+            guard let name = user?.username,
+                let profilePicUrl = user?.profilePicUrl else {
+                    print("ERROR: could not fetch name and pic for current user")
+                    return
+            }
+            reviewDict["dte"] = date
+            reviewDict["p"] = price
+            reviewDict["m"] = text
+            reviewDict["sbj"] = subject
+            reviewDict["dur"] = duration
+            reviewDict["img"] = profilePicUrl
+            reviewDict["nm"] = name
+            reviewDict["r"] = rating
+            
+            Database.database().reference().child("review").child(id).childByAutoId().setValue(reviewDict)
+            let vc = AccountService.shared.currentUserType == .tutor ? TutorPageViewController() : LearnerPageViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+
     }
     
     override func viewDidLoad() {

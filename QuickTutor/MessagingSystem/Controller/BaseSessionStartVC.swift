@@ -114,6 +114,7 @@ class BaseSessionStartVC: UIViewController {
         DataService.shared.getSessionById(sessionId) { (sessionIn) in
             self.session = sessionIn
 //            self.removeStartData()
+            SessionService.shared.session = sessionIn
             self.partnerId = self.session?.partnerId()
             self.subjectLabel.text = self.session?.subject
             self.infoLabel.text = self.getFormattedInfoLabelString()
