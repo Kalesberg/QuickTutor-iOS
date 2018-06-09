@@ -13,12 +13,12 @@ class AccountService {
     static let shared = AccountService()
     private(set) var currentUser: User!
     
-	var currentUserType: UserType = .learner {
-		didSet{
-			UserDefaults.standard.set(currentUserType == .learner, forKey: "showHomePage")
-			print("I am now a ", currentUserType.rawValue)
-		}
-	}
+    var currentUserType: UserType = .learner {
+        didSet{
+            UserDefaults.standard.set(currentUserType == .learner, forKey: "showHomePage")
+            print("I am now a ", currentUserType.rawValue)
+        }
+    }
     
     private init() {
         loadUser()
