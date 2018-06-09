@@ -23,9 +23,9 @@ class LearnerMainPageView : MainPageView {
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = Colors.backgroundDark
         tableView.estimatedSectionHeaderHeight = 50
         tableView.sectionHeaderHeight = 50
+        tableView.backgroundColor = .clear
         tableView.translatesAutoresizingMaskIntoConstraints = true
         
         return tableView
@@ -47,20 +47,18 @@ class LearnerMainPageView : MainPageView {
         navbar.addSubview(search)
         addSubview(tableView)
         super.configureView()
-        
-        applyConstraints()
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-        
+
         search.snp.makeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalToSuperview().multipliedBy(0.65)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
-        
+
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom).inset(-2)
             make.bottom.equalToSuperview()

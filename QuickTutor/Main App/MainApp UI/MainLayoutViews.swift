@@ -16,7 +16,6 @@ class MainLayoutView: BaseLayoutView {
     
     override func configureView() {
         super.configureView()
-
         insertSubview(statusbarView, at: 0)
         insertSubview(navbar, at: 1)
         
@@ -34,20 +33,17 @@ class MainLayoutView: BaseLayoutView {
         statusbarView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
             if UIScreen.main.bounds.height == 480 {
                 make.height.equalTo(0)
             } else {
-                if #available(iOS 11.0, *) {
-                    make.bottom.equalTo(safeAreaLayoutGuide.snp.top)
-                } else {
-                    make.height.equalTo(DeviceInfo.statusbarHeight)
-                }
+                make.height.equalTo(DeviceInfo.statusbarHeight)
             }
         }
-        
+
         navbar.snp.makeConstraints { (make) in
             make.top.equalTo(statusbarView.snp.bottom)
-            make.width.equalToSuperview()
+            make.width.centerX.equalToSuperview()
             make.height.equalTo(50)
         }
     }
