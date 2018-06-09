@@ -790,19 +790,18 @@ class TutorMainPage : MainPage {
         super.handleNavigation()
         
         if(touchStartView == contentView.sidebarButton) {
-            let startX = self.contentView.sidebar.center.x
-            self.contentView.sidebar.center.x = (startX * -1)
+            self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.maxX
             self.contentView.sidebar.alpha = 1.0
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.contentView.sidebar.center.x = startX
-            })
             self.contentView.sidebar.isUserInteractionEnabled = true
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.minX
+            })
+            
             showBackground()
-			let defaults = UserDefaults.standard
-			if defaults.bool(forKey: "showTutorSideBarTutorial1.0") {
-				displaySidebarTutorial()
-				defaults.set(false, forKey: "showTutorSideBarTutorial1.0")
-			}			
+            if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
+                displaySidebarTutorial()
+                UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
+            }
         } else if(touchStartView == contentView.backgroundView) {
             self.contentView.sidebar.isUserInteractionEnabled = false
             let startX = self.contentView.sidebar.center.x

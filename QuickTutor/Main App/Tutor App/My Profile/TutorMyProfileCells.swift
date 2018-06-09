@@ -250,20 +250,16 @@ class ProfilePicTableViewCell : BaseTableViewCell {
                 if current is TutorMyProfile {
                     let vc = (current as! TutorMyProfile)
                     
-                    vc.contentView.backgroundView.alpha = 0.65
-                    vc.contentView.xButton.alpha = 1.0
+                    vc.contentView.backgroundView.isHidden = false
                     vc.horizontalScrollView.isUserInteractionEnabled = true
                     vc.horizontalScrollView.isHidden = false
-                    vc.contentView.leftButton.isHidden = true
                     
                 } else {
                     let vc = (current as! LearnerMyProfile)
                     
-                    vc.contentView.backgroundView.alpha = 0.65
-                    vc.contentView.xButton.alpha = 1.0
+                    vc.contentView.backgroundView.isHidden = false
                     vc.horizontalScrollView.isUserInteractionEnabled = true
                     vc.horizontalScrollView.isHidden = false
-                    vc.contentView.leftButton.isHidden = true
                 }
             }
         }
