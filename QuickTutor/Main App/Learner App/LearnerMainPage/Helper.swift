@@ -357,7 +357,7 @@ enum Category {
 			
 		case .language:                    displayName = "LANGUAGE"
 		searchBarPhrases = ["search for any language skill"]
-		subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speech","Writing"]
+		subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speaking","Writing"]
 		icon = [#imageLiteral(resourceName: "esl"),#imageLiteral(resourceName: "listening"),#imageLiteral(resourceName: "reading"),#imageLiteral(resourceName: "sign-language"),#imageLiteral(resourceName: "speech"),#imageLiteral(resourceName: "writing")]
 		fileToRead = "language"
 			
