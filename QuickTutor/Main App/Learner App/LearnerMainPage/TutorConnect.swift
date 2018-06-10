@@ -334,6 +334,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         super.viewDidLayoutSubviews()
         contentView.collectionView.reloadData()
     }
+	
 	func setUpImages(images: [String]) {
 		pageCount = images.count
 		var count = 1

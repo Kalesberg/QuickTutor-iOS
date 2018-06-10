@@ -219,6 +219,7 @@ class SearchSubjects: BaseViewController {
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(SubjectTableViewCell.self, forCellReuseIdentifier: "subjectTableViewCell")
+		
 		contentView.searchBar.delegate = self
 		
 	}

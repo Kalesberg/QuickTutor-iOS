@@ -126,10 +126,10 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
 	private func setUpImages() {
 		var count = 1
 		let tutorImages = tutor.images.filter({$0.value != ""})
-
-		tutorImages.forEach({
+		
+		for key in tutorImages.keys.sorted(by: (<)) {
 			let imageView = UIImageView()
-			imageView.loadUserImages(by: $0.value)
+			imageView.loadUserImages(by: tutorImages[key]!)
 			imageView.scaleImage()
 			self.horizontalScrollView.addSubview(imageView)
 			
@@ -144,7 +144,7 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
 				}
 			})
 			count += 1
-		})
+		}
 		contentView.layoutIfNeeded()
 	}
 	

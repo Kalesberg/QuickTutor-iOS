@@ -322,17 +322,17 @@ class FirebaseData {
         
     }
     
-    public func uploadImage(data: Data, number: String,_ completion: @escaping (String?) -> Void) {
+    public func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
         self.storageRef.child("student-info").child(user.uid).child("student-profile-pic" + number).putData(data, metadata: nil) { (meta, error) in
-            if error != nil {
-                completion(nil)
+            if let error = error {
+                completion(error, nil)
             } else {
                 self.storageRef.child("student-info").child(self.user.uid).child("student-profile-pic" + number).downloadURL(completion: { (url, error) in
-                    if error != nil {
-                        completion(nil)
+                    if let error = error {
+                        completion(error,nil)
                     } else {
                         guard let imageUrl = url?.absoluteString else { return }
-                        completion(imageUrl)
+                        completion(nil, imageUrl)
                     }
                 })
             }

@@ -219,21 +219,15 @@ class UploadImage: BaseViewController {
 				self.displayLoadingOverlay()
 				contentView.looksGoodButton.isUserInteractionEnabled = false
 				guard let image = contentView.imageView.image else { return }
-				guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
-				
-				FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
-					if let imageUrl = imageUrl {
-						self.dismissOverlay()
-						Registration.studentImageURL = imageUrl
-						Registration.studentImage = image
-						self.navigationController?.pushViewController(UserPolicy(), animated: true)
-					} else {
-						self.dismissOverlay()
-						self.contentView.looksGoodButton.isUserInteractionEnabled = true
-					}
-				}				
+				guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
+					AlertController.genericErrorAlert(self, title: "Error", message: "Please choose a new photo")
+					return
+				}
+				Registration.imageData = data
+				self.navigationController?.pushViewController(UserPolicy(), animated: true)
 			} else {
-				print("Select a photo!")
+				AlertController.genericErrorAlert(self, title: "Please Select A Photo", message: "")
+				contentView.looksGoodButton.isUserInteractionEnabled = true
 			}
         } else if (touchStartView == contentView.chooseNewButton) {
 			AlertController.cropImageAlert(self, imagePicker: profilePicker)

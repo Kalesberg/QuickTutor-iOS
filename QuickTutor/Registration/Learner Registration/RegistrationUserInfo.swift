@@ -27,6 +27,8 @@ struct Registration {
     static var studentImageURL : String!
 	static var dob : String!
 	static var emailCredential : AuthCredential!
+	static var imageData : Data!
+	static var customerId : String!
 	
 	static func setRegistrationDefaults(){
 		

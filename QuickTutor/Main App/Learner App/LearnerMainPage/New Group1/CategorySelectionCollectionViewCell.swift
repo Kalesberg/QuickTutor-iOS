@@ -61,7 +61,6 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
         addSubview(collectionView)
         
         colors.shuffle()
-        
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(SubjectCollectionViewCell.self, forCellWithReuseIdentifier: "subcategoryCell")

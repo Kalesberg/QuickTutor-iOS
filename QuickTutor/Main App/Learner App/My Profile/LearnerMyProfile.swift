@@ -370,10 +370,9 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
 	private func setUpImages() {
 		var count = 1
 		let learnerImages = learner.images.filter({$0.value != ""})
-		
-		learnerImages.forEach({
+		for key in learnerImages.keys.sorted(by: (<)) {
 			let imageView = UIImageView()
-			imageView.loadUserImages(by: $0.value)
+			imageView.loadUserImages(by: learnerImages[key]!)
 			imageView.scaleImage()
 			self.horizontalScrollView.addSubview(imageView)
 			
@@ -388,7 +387,7 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
 				}
 			})
 			count += 1
-		})
+		}
 		contentView.layoutIfNeeded()
 	}
 
