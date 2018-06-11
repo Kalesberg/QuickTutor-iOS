@@ -172,7 +172,6 @@ class MainPage : BaseViewController {
                     self.contentView.sidebar.isUserInteractionEnabled = false
                     self.contentView.sidebar.alpha = 0
                 }
-                
             } else {
                 UIView.animate(withDuration: 0.25, animations: {
                     self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.minX

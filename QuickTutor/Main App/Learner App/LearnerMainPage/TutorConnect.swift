@@ -258,6 +258,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     
 	var pageCount : Int = 0 {
 		didSet {
+            horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
 			configurePageControl()
 		}
 	}
@@ -311,6 +312,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         hideKeyboardWhenTappedAround()
         
         horizontalScrollView.delegate = self
+        contentView.addSubview(horizontalScrollView)
         pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
 		
 		contentView.collectionView.dataSource = self
@@ -360,14 +362,10 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
 	}
 
     private func configureScrollView() {
-        contentView.insertSubview(horizontalScrollView, aboveSubview: contentView.backgroundView)
-        horizontalScrollView.isUserInteractionEnabled = false
         horizontalScrollView.isHidden = true
         horizontalScrollView.isPagingEnabled = true
         horizontalScrollView.showsHorizontalScrollIndicator = false
-		
-//        horizontalScrollView.backgroundColor = .yellow
-        
+
         horizontalScrollView.snp.makeConstraints { (make) in
             make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
             make.width.equalToSuperview()
@@ -375,14 +373,13 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             make.centerX.equalToSuperview()
         }
         contentView.layoutIfNeeded()
-        horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
     }
     private func configurePageControl() {
         pageControl.numberOfPages = pageCount
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .white
         pageControl.currentPageIndicatorTintColor = Colors.learnerPurple
-        contentView.addSubview(pageControl)
+        contentView.backgroundView.addSubview(pageControl)
         
         pageControl.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -559,6 +556,11 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageNumber = round(horizontalScrollView.contentOffset.x / horizontalScrollView.frame.size.width)
+        pageControl.currentPage = Int(pageNumber)
     }
 }
 

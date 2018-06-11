@@ -227,7 +227,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 			}
             vc.contentView.backgroundView.isHidden = false
             vc.horizontalScrollView.isHidden = false
-            vc.horizontalScrollView.isUserInteractionEnabled = true
 		}
     }
 }

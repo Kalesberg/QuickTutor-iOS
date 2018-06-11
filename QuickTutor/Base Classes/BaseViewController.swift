@@ -39,7 +39,7 @@ public class BaseViewController: UIViewController {
         
         if let firstTouch = touches.first {
             if let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event) {
-                print(hitView)
+   
                 if (hitView is Interactable) {
                     print("BEGAN: INTERACTABLE")
                     touchStartView = (hitView as! (UIView & Interactable))
