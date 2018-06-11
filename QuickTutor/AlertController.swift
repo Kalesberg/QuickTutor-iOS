@@ -17,7 +17,7 @@ class AlertController : NSObject {
 				imagePicker.allowsEditing = false
 				viewController.present(imagePicker, animated: true, completion: nil)
 			} else {
-				print("Photo library is not available...")
+				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Photo Library is not available")
 			}
 		}
 		let takePhoto = UIAlertAction(title: "Take Photo", style: .default) { (alert) in
@@ -28,7 +28,7 @@ class AlertController : NSObject {
 				
 				viewController.present(imagePicker,animated: true, completion: nil)
 			} else {
-				print("not available")
+				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Camera is not available at this time.")
 			}
 		}
 		
@@ -61,7 +61,7 @@ class AlertController : NSObject {
 		viewController.present(alertController, animated: true, completion: nil)
 	}
 	
-	class func genericErrorAlert(_ viewController: UIViewController, title: String, message: String) {
+	class func genericErrorAlert(_ viewController: UIViewController, title: String, message: String?) {
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		
 		let remove = UIAlertAction(title: "Ok", style: .destructive) { (_) in }
@@ -73,7 +73,7 @@ class AlertController : NSObject {
 		viewController.present(alertController, animated: true, completion: nil)
 	}
 	
-	class func genericErrorActionSheet(_ viewController: UIViewController, title: String, message: String) {
+	class func genericErrorActionSheet(_ viewController: UIViewController, title: String, message: String?) {
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
 		
 		let remove = UIAlertAction(title: "Ok", style: .destructive) { (_) in }
@@ -83,5 +83,17 @@ class AlertController : NSObject {
 		alertController.addAction(cancel)
 		
 		viewController.present(alertController, animated: true, completion: nil)
+	}
+	
+	class func genericSavedAlert(_ viewController: UIViewController, title: String, message: String?) {
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		viewController.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 1
+			DispatchQueue.main.asyncAfter(deadline: when){
+				alertController.dismiss(animated: true){
+					viewController.navigationController?.popViewController(animated: true)
+				}
+			}
 	}
 }

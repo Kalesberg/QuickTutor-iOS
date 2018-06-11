@@ -401,18 +401,7 @@ class TutorAddSubjects : BaseViewController {
             self.contentView.tableView.reloadData()
         }
     }
-    private func maxSubjectAlert() {
-        let alertController = UIAlertController(title: "Too Many Subjects!", message: "We currently only allow tutors to select 20 different subjects. You can also edit these later on.", preferredStyle: .alert)
-        
-        let okButton = UIAlertAction(title: "Ok", style: .destructive) { (_) in
-            //alertController.dismiss(animated: true, completion: nil)
-        }
-        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
-        
-        alertController.addAction(okButton)
-        alertController.addAction(cancelButton)
-        self.present(alertController, animated: true, completion: nil)
-    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -605,8 +594,8 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
 
         if selectedSubjects.count >= 20 && !cell.selectedIcon.isSelected  {
-            maxSubjectAlert()
-            tableView.deselectRow(at: indexPath, animated: true)
+			AlertController.genericErrorAlert(self, title: "Too Many Subjects", message: "We currently only allow tutors to choose 20 subjects. These can be changed later on.")
+			tableView.deselectRow(at: indexPath, animated: true)
             return
         }
         

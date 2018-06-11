@@ -112,7 +112,10 @@ class ProfilePicImageView : InteractableView, Interactable {
 class ProfileImage1 : ProfilePicImageView {
     override func configureView() {
         super.configureView()
-		picView.loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
+		if AccountService.shared.currentUserType == .learner {
+			picView.loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
+		}
+		picView.loadUserImages(by: CurrentUser.shared.tutor.images["image1"]!)
     }
 }
 
@@ -124,7 +127,10 @@ class ProfileImage2 : ProfilePicImageView {
     override func configureView() {
         super.configureView()
 		
-		picView.loadUserImages(by: CurrentUser.shared.learner.images["image2"]!)
+		if AccountService.shared.currentUserType == .learner {
+			picView.loadUserImages(by: CurrentUser.shared.learner.images["image2"]!)
+		}
+		picView.loadUserImages(by: CurrentUser.shared.tutor.images["image2"]!)
 
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
@@ -148,7 +154,10 @@ class ProfileImage3 : ProfilePicImageView {
     override func configureView() {
         super.configureView()
 		
-		picView.loadUserImages(by: CurrentUser.shared.learner.images["image3"]!)
+		if AccountService.shared.currentUserType == .learner {
+			picView.loadUserImages(by: CurrentUser.shared.learner.images["image3"]!)
+		}
+		picView.loadUserImages(by: CurrentUser.shared.tutor.images["image3"]!)
 
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
@@ -158,7 +167,6 @@ class ProfileImage3 : ProfilePicImageView {
     @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             AlertController.removeImageAlert(current!, number) { () in
-               // self.picView.image = LocalImageCache.localImageManager.image3
             }
         }
     }
@@ -172,7 +180,10 @@ class ProfileImage4 : ProfilePicImageView {
     override func configureView() {
         super.configureView()
         
-		picView.loadUserImages(by: CurrentUser.shared.learner.images["image4"]!)
+		if AccountService.shared.currentUserType == .learner {
+			picView.loadUserImages(by: CurrentUser.shared.learner.images["image4"]!)
+		}
+		picView.loadUserImages(by: CurrentUser.shared.tutor.images["image4"]!)
     
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
