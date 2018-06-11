@@ -250,20 +250,16 @@ class ProfilePicTableViewCell : BaseTableViewCell {
                 if current is TutorMyProfile {
                     let vc = (current as! TutorMyProfile)
                     
-                    vc.contentView.backgroundView.alpha = 0.65
-                    vc.contentView.xButton.alpha = 1.0
+                    vc.contentView.backgroundView.isHidden = false
                     vc.horizontalScrollView.isUserInteractionEnabled = true
                     vc.horizontalScrollView.isHidden = false
-                    vc.contentView.leftButton.isHidden = true
                     
                 } else {
                     let vc = (current as! LearnerMyProfile)
                     
-                    vc.contentView.backgroundView.alpha = 0.65
-                    vc.contentView.xButton.alpha = 1.0
+                    vc.contentView.backgroundView.isHidden = false
                     vc.horizontalScrollView.isUserInteractionEnabled = true
                     vc.horizontalScrollView.isHidden = false
-                    vc.contentView.leftButton.isHidden = true
                 }
             }
         }
@@ -613,7 +609,7 @@ class RatingTableViewCell : BaseTableViewCell {
 	
     let seeAllButton : SeeAllButton = {
         let button = SeeAllButton()
-        
+       
         return button
     }()
 	
@@ -633,7 +629,6 @@ class RatingTableViewCell : BaseTableViewCell {
 	
         backgroundColor = .clear
         selectionStyle = .none
-		
 		
 		applyConstraints()
     }
@@ -727,6 +722,12 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
 		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
+        
+        if tableView.numberOfSections == 1 {
+            self.tableView.snp.updateConstraints { (make) in
+                make.height.equalTo(120)
+            }
+        }
 		
 		let data = datasource?[indexPath.row]
 		

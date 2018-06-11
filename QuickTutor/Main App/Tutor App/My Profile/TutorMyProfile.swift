@@ -23,12 +23,9 @@ class TutorMyProfileView : LearnerMyProfileView {
         statusbarView.backgroundColor = Colors.tutorBlue
         navbar.backgroundColor = Colors.tutorBlue
     }
-    
 }
 
 class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
-	
-	
 	
 	override var contentView: TutorMyProfileView {
 		return view as! TutorMyProfileView
@@ -154,13 +151,11 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
 			next.tutor = self.tutor
 			next.delegate = self
 			navigationController?.pushViewController(next, animated: true)
-		} else if(touchStartView == contentView.xButton) {
+		} else if(touchStartView is InteractableObject) {
 
-			contentView.backgroundView.alpha = 0.0
-			contentView.xButton.alpha = 0.0
+			contentView.backgroundView.isHidden = true
 			horizontalScrollView.isUserInteractionEnabled = false
 			horizontalScrollView.isHidden = true
-			contentView.leftButton.isHidden = false
 		}
 	}
 }

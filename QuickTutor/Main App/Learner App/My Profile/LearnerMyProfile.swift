@@ -72,19 +72,11 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
         }
     }
     
-    let xButton : NavbarButtonX = {
-        let xButton = NavbarButtonX()
+    let backgroundView : InteractableObject = {
+        let view = InteractableObject()
         
-        xButton.alpha = 0
-        
-        return xButton
-    }()
-    
-    let backgroundView : UIView = {
-        let view = UIView()
-        
-        view.backgroundColor = .black
-        view.alpha = 0.0
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        view.isHidden = true
         
         return view
     }()
@@ -105,7 +97,6 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
     override func configureView() {
         addSubview(tableView)
         addSubview(backgroundView)
-        addSubview(xButton)
         super.configureView()
         
         title.label.text = "My Profile"
@@ -121,13 +112,6 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
             make.centerX.equalToSuperview()
             make.width.equalToSuperview()
             make.bottom.equalToSuperview()
-        }
-        
-        xButton.snp.makeConstraints { (make) in
-            make.width.equalToSuperview().multipliedBy(0.175)
-            make.top.equalTo(navbar).inset(10)
-            make.bottom.equalTo(navbar).inset(10)
-            make.left.equalToSuperview()
         }
         
         tableView.snp.makeConstraints { (make) in
@@ -322,7 +306,7 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
     var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
     
-    var pageCount : Int!
+    var  pageCount : Int!
 	
 	func learnerWasUpdated(learner: AWLearner!) {
 		self.learner = learner
@@ -434,12 +418,8 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
 			let next = LearnerEditProfile()
 			next.delegate = self
             navigationController?.pushViewController(next, animated: true)
-        } else if(touchStartView == contentView.xButton) {
-            
-            contentView.backgroundView.alpha = 0.0
-            contentView.xButton.alpha = 0.0
-            contentView.leftButton.isHidden = false
-
+        } else if(touchStartView is InteractableObject) {
+            contentView.backgroundView.isHidden = true
             horizontalScrollView.isUserInteractionEnabled = false
             horizontalScrollView.isHidden = true
         }
