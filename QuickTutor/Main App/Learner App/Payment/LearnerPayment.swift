@@ -465,7 +465,7 @@ class LearnerPayment : BaseViewController {
         contentView.isCardNumberValid(true)
         
         guard
-            let fullName = contentView.frontOfCard.fullName.text, fullName.fullNameRegex()
+            let fullName = contentView.frontOfCard.fullName.text, fullName.count <= 30, fullName.count >= 2
             else {
                 contentView.frontOfCard.fullName.textColor = .red
                 contentView.invalidInformation()

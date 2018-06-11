@@ -618,32 +618,40 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
 		switch imageToChange {
 		case 1:
 			
-			FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
-				if let imageUrl = imageUrl {
+			FirebaseData.manager.uploadImage(data: data, number: "1") { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
 					CurrentUser.shared.learner.images["image1"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "1")
 				}
 			}
 			cell.image1.picView.image = image
 		case 2:
-			FirebaseData.manager.uploadImage(data: data, number: "2") { (imageUrl) in
-				if let imageUrl = imageUrl {
+			FirebaseData.manager.uploadImage(data: data, number: "2") { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
 					CurrentUser.shared.learner.images["image2"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "2")
 				}
 			}
 			cell.image2.picView.image = image
 		case 3:
-			FirebaseData.manager.uploadImage(data: data, number: "3") { (imageUrl) in
-				if let imageUrl = imageUrl {
+			FirebaseData.manager.uploadImage(data: data, number: "3") { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
 					CurrentUser.shared.learner.images["image3"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "3")
 				}
 			}
 			cell.image3.picView.image = image
 		case 4:
-			FirebaseData.manager.uploadImage(data: data, number: "4") { (imageUrl) in
-				if let imageUrl = imageUrl {
+			FirebaseData.manager.uploadImage(data: data, number: "4") { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
 					CurrentUser.shared.learner.images["image4"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "4")
 				}

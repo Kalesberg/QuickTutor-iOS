@@ -298,8 +298,8 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                     make.top.equalTo(cell.locationItem.snp.bottom)
                 }
                 
-                if let studies = datasource?.school {
-                    cell.studysItem.label.text = studies
+                if datasource?.school != ""  {
+                    cell.studysItem.label.text = datasource.school
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.speakItem.snp.makeConstraints { (make) in
@@ -326,8 +326,8 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                     }
                 }
             } else {
-                if let studies = datasource?.school {
-                    cell.studysItem.label.text = studies
+                if datasource?.school != "" {
+                    cell.studysItem.label.text = datasource.school
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.tutorItem.snp.makeConstraints { (make) in

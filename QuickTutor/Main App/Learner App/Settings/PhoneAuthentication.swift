@@ -220,6 +220,9 @@ class PhoneAuthenticationAlertView : InteractableView {
 	}
 	override func layoutSubviews() {
 		alertView.layer.cornerRadius = 10
+		verifyAction.layer.addBorder(edge: .top, color: .black, thickness: 1.0)
+		cancelAction.layer.addBorder(edge: .top, color: .black, thickness: 1.0)
+		cancelAction.layer.addBorder(edge: .right, color: .black, thickness: 1.0)
 	}
 	
 	private func configureDelegates() {

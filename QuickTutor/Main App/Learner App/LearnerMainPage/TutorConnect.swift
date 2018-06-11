@@ -252,7 +252,6 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     var shouldFilterDatasource = false
     var hasAppliedFilters = false
     var shouldShowTutorial = false
-    
     let horizontalScrollView = UIScrollView()
     var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
     var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
@@ -335,6 +334,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         super.viewDidLayoutSubviews()
         contentView.collectionView.reloadData()
     }
+	
 	func setUpImages(images: [String]) {
 		pageCount = images.count
 		var count = 1
@@ -561,3 +561,4 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         return 20
     }
 }
+
