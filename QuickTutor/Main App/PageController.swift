@@ -31,6 +31,8 @@ class PageViewController : UIPageViewController {
 		configureViewControllers()
 		configureDelegates()
 		configureView()
+        
+        automaticallyAdjustsScrollViewInsets = false
 	}
 	
     func configureViewControllers() { }
