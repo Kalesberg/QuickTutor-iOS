@@ -114,8 +114,9 @@ class ProfileImage1 : ProfilePicImageView {
         super.configureView()
 		if AccountService.shared.currentUserType == .learner {
 			picView.loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
+		} else {
+			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image1"]!)
 		}
-		picView.loadUserImages(by: CurrentUser.shared.tutor.images["image1"]!)
     }
 }
 
@@ -129,10 +130,11 @@ class ProfileImage2 : ProfilePicImageView {
 		
 		if AccountService.shared.currentUserType == .learner {
 			picView.loadUserImages(by: CurrentUser.shared.learner.images["image2"]!)
+		} else {
+			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image2"]!)
 		}
-		picView.loadUserImages(by: CurrentUser.shared.tutor.images["image2"]!)
 
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
+		let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
         self.addGestureRecognizer(longPressRecognizer)
     }
@@ -140,7 +142,6 @@ class ProfileImage2 : ProfilePicImageView {
     @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             AlertController.removeImageAlert(current!, number) { () in
-               // self.picView.image = LocalImageCache.localImageManager.image2
             }
         }
     }
@@ -156,8 +157,9 @@ class ProfileImage3 : ProfilePicImageView {
 		
 		if AccountService.shared.currentUserType == .learner {
 			picView.loadUserImages(by: CurrentUser.shared.learner.images["image3"]!)
+		} else {
+			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image3"]!)
 		}
-		picView.loadUserImages(by: CurrentUser.shared.tutor.images["image3"]!)
 
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
@@ -182,9 +184,10 @@ class ProfileImage4 : ProfilePicImageView {
         
 		if AccountService.shared.currentUserType == .learner {
 			picView.loadUserImages(by: CurrentUser.shared.learner.images["image4"]!)
+		} else {
+			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image4"]!)
 		}
-		picView.loadUserImages(by: CurrentUser.shared.tutor.images["image4"]!)
-    
+
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
         self.addGestureRecognizer(longPressRecognizer)
@@ -193,7 +196,6 @@ class ProfileImage4 : ProfilePicImageView {
     @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             AlertController.removeImageAlert(current!, number) { () in
-                //self.picView.image = LocalImageCache.localImageManager.image4
             }
         }
     }
@@ -637,7 +639,7 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
 					self.uploadImageUrl(imageUrl: imageUrl, number: "1")
 				}
 			}
-			cell.image1.picView.image = image
+			cell.image1.picView.image = image.circleMasked
 		case 2:
 			FirebaseData.manager.uploadImage(data: data, number: "2") { (error, imageUrl) in
 				if let error = error {
@@ -647,7 +649,7 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
 					self.uploadImageUrl(imageUrl: imageUrl, number: "2")
 				}
 			}
-			cell.image2.picView.image = image
+			cell.image2.picView.image = image.circleMasked
 		case 3:
 			FirebaseData.manager.uploadImage(data: data, number: "3") { (error, imageUrl) in
 				if let error = error {
@@ -657,7 +659,7 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
 					self.uploadImageUrl(imageUrl: imageUrl, number: "3")
 				}
 			}
-			cell.image3.picView.image = image
+			cell.image3.picView.image = image.circleMasked
 		case 4:
 			FirebaseData.manager.uploadImage(data: data, number: "4") { (error, imageUrl) in
 				if let error = error {
@@ -667,7 +669,7 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
 					self.uploadImageUrl(imageUrl: imageUrl, number: "4")
 				}
 			}
-			cell.image4.picView.image = image
+			cell.image4.picView.image = image.circleMasked
 		default:
 			break
 		}

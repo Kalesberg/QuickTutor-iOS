@@ -319,7 +319,8 @@ class InviteOthers : BaseViewController {
 		
 		self.filteredContacts = self.datasource.filter {
 			let name = "\($0.givenName) \($0.familyName)"
-			return name.lowercased().contains(text.lowercased()) }
+			return name.localizedCaseInsensitiveContains(text)
+		}
 		if filteredContacts.count > 0 {
 			scrollToTop()
 		}

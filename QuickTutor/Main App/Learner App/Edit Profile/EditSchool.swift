@@ -147,7 +147,7 @@ class EditSchool : BaseViewController {
         }
         
         shouldUpdateSearchResults = true
-        filteredSchools = self.schoolArray.filter{($0.contains(text))}
+        filteredSchools = self.schoolArray.filter{($0.localizedCaseInsensitiveContains(text))}
         
         if filteredSchools.count > 0 {
             scrollToTop()
@@ -232,7 +232,6 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
                 if let error = error {
                     print(error)
                 } else {
-                    print("success")
                     self.displaySavedAlertController()
                 }
             }

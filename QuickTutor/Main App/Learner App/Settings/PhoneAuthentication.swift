@@ -281,10 +281,8 @@ extension UIViewController {
 		alert.tag = 321
 		alert.frame = self.view.bounds
 		alert.message.text = message
-		UIView.animate(withDuration: 0.2, animations: {
-			alert.alpha = 1.0
-			alert.transform = .identity
-		})
+		
+		alert.growShrink()
 		alert.verificationTextField.becomeFirstResponder()
 		self.view.addSubview(alert)
 	}

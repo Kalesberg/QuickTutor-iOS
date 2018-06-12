@@ -174,15 +174,15 @@ class SearchSubjects: BaseViewController {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
-		
-		if let subjects = SubjectStore.loadTotalSubjectList() {
-			self.allSubjects = subjects
-			self.allSubjects.shuffle()
-		}
+	
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+		if let subjects = SubjectStore.loadTotalSubjectList() {
+			self.allSubjects = subjects
+			self.allSubjects.shuffle()
+		}
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {

@@ -11,7 +11,7 @@ import UIKit
 import SnapKit
 
 protocol LearnerWasUpdatedCallBack {
-	func learnerWasUpdated(learner: AWLearner!)
+    func learnerWasUpdated(learner: AWLearner!)
 }
 
 class SeeAllButton: InteractableView, Interactable {
@@ -301,19 +301,12 @@ class ReviewLabel : BaseView {
 
 
 class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
-    
-    let horizontalScrollView = UIScrollView()
-    var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
-    var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
-    
-    var  pageCount : Int!
 	
-	func learnerWasUpdated(learner: AWLearner!) {
-		self.learner = learner
-	}
+    func learnerWasUpdated(learner: AWLearner!) {
+        self.learner = learner
+    }
     var learner : AWLearner! {
         didSet {
-			pageCount = learner.images.filter({$0.value != ""}).count
             contentView.tableView.reloadData()
         }
     }
@@ -323,7 +316,6 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     }
     
     override func viewDidLoad() {
-        contentView.addSubview(horizontalScrollView)
         super.viewDidLoad()
         configureDelegates()
         
@@ -336,76 +328,14 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        configurePageControl()
-        configureScrollView()
-        setUpImages()
     }
     
     private func configureDelegates() {
-        horizontalScrollView.delegate = self
-        pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
-        
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
         contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
-    }
-	private func setUpImages() {
-		var count = 1
-		let learnerImages = learner.images.filter({$0.value != ""})
-		for key in learnerImages.keys.sorted(by: (<)) {
-			let imageView = UIImageView()
-			imageView.loadUserImages(by: learnerImages[key]!)
-			imageView.scaleImage()
-			self.horizontalScrollView.addSubview(imageView)
-			
-			imageView.snp.makeConstraints({ (make) in
-				make.top.equalToSuperview()
-				make.height.equalToSuperview()
-				make.width.equalTo(UIScreen.main.bounds.width)
-				if (count != 1) {
-					make.left.equalTo(self.horizontalScrollView.subviews[count - 2].snp.right)
-				} else {
-					make.centerX.equalToSuperview()
-				}
-			})
-			count += 1
-		}
-		contentView.layoutIfNeeded()
-	}
-
-    private func configureScrollView() {
-        horizontalScrollView.isUserInteractionEnabled = false
-        horizontalScrollView.isHidden = true
-        horizontalScrollView.isPagingEnabled = true
-        horizontalScrollView.showsHorizontalScrollIndicator = false
-        
-        horizontalScrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.35)
-            make.centerX.equalToSuperview()
-        }
-        contentView.layoutIfNeeded()
-        horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
-    }
-    private func configurePageControl() {
-        pageControl.numberOfPages = pageCount
-        pageControl.currentPage = 0
-        pageControl.pageIndicatorTintColor = .white
-        pageControl.currentPageIndicatorTintColor = Colors.learnerPurple
-        contentView.backgroundView.addSubview(pageControl)
-
-        pageControl.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(horizontalScrollView.snp.bottom).inset(-10)
-        }
-    }
-
-    @objc func changePage(sender: AnyObject) -> () {
-        let x = CGFloat(pageControl.currentPage) * horizontalScrollView.frame.size.width
-        horizontalScrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -415,15 +345,19 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     
     override func handleNavigation() {
         if(touchStartView is NavbarButtonEdit) {
-			let next = LearnerEditProfile()
-			next.delegate = self
+            let next = LearnerEditProfile()
+            next.delegate = self
             navigationController?.pushViewController(next, animated: true)
         } else if(touchStartView is InteractableObject) {
-            contentView.backgroundView.isHidden = true
-            horizontalScrollView.isUserInteractionEnabled = false
-            horizontalScrollView.isHidden = true
+            self.displayAWImageViewer(images: learner.images.filter({$0.value != ""}))
         }
     }
+}
+
+extension LearnerMyProfile : AWImageViewer {
+	func dismiss() {
+		self.dismissAWImageViewer()
+	}
 }
 
 extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
@@ -551,13 +485,5 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             break
         }
         return UITableViewCell()
-    }
-}
-
-
-extension LearnerMyProfile : UIScrollViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let pageNumber = round(horizontalScrollView.contentOffset.x / horizontalScrollView.frame.size.width)
-        pageControl.currentPage = Int(pageNumber)
     }
 }

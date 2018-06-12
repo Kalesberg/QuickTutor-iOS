@@ -72,7 +72,7 @@ class LearnerMainPageView : MainPageView {
         super.layoutSubviews()
         
         sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: sidebar.bounds)
-        tableView.layoutSubviews()
+		tableView.layoutSubviews()
         tableView.layoutIfNeeded()
     }
 }
@@ -91,7 +91,6 @@ class LearnerMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 		AccountService.shared.currentUserType = .learner
 		guard let learner = CurrentUser.shared.learner else {
 			try! Auth.auth().signOut()
@@ -363,11 +362,21 @@ class LearnerMainPage : MainPage {
             }
             hideSidebar()
             hideBackground()
-        } else if (touchStartView is SearchBar) {
-            let nav = self.navigationController
-            nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
-            nav?.pushViewController(SearchSubjects(), animated: false)
-            
+		} else if (touchStartView is SearchBar) {
+			UIView.animate(withDuration: 0.1, animations: {
+				self.contentView.search.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+			}) { (finished) in
+				UIView.animate(withDuration: 0.1, animations: {
+					self.contentView.search.transform = CGAffineTransform.identity
+				}) { (finished ) in
+					let nav = self.navigationController
+					let transition = CATransition()
+					DispatchQueue.main.async {
+						nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+						nav?.pushViewController(SearchSubjects(), animated: false)
+					}
+				}
+			}
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
             hideSidebar()
