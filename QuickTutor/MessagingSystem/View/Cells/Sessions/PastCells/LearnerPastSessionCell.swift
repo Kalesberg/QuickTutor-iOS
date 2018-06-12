@@ -29,7 +29,12 @@ class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, Reques
     
     override func handleButton3() {
         super.handleButton3()
-        let vc = ViewFullProfile()
-        navigationController.pushViewController(vc, animated: true)
+        FirebaseData.manager.getTutor(session.partnerId(), isQuery: false, { (tutor) in
+            guard let tutor = tutor else { return }
+            let vc = TutorMyProfile()
+            vc.tutor = tutor
+            vc.contentView.rightButton.isHidden = true
+            navigationController.pushViewController(vc, animated: true)
+        })
     }
 }

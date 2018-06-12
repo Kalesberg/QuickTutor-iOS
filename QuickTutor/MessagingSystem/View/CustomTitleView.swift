@@ -69,16 +69,21 @@ class CustomTitleView: UIView {
         let type = AccountService.shared.currentUserType
 		
 		if type == .learner {
-			let next = TutorMyProfile()
-			next.tutor = tutor
-			next.contentView.rightButton.isHidden = true	
-			navigationController.pushViewController(next, animated: true)
-
+            FirebaseData.manager.getTutor(user.uid, isQuery: false, { (tutor) in
+                guard let tutor = tutor else { return }
+                let vc = TutorMyProfile()
+                vc.tutor = tutor
+                vc.contentView.rightButton.isHidden = true
+                navigationController.pushViewController(vc, animated: true)
+            })
 		} else {
-			let next = LearnerMyProfile()
-			next.learner = learner
-			next.contentView.rightButton.isHidden = true
-			navigationController.pushViewController(next, animated: true)
+            FirebaseData.manager.getLearner(user.uid) { (learner) in
+                guard let learner = learner else { return }
+                let vc = LearnerMyProfile()
+                vc.learner = learner
+                vc.contentView.rightButton.isHidden = true
+                navigationController.pushViewController(vc, animated: true)
+            }
 		}
     }
 

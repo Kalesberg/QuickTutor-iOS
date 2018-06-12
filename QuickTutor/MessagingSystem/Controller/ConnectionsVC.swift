@@ -20,6 +20,7 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         if AccountService.shared.currentUserType == .learner {
             bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "addTutorByUsernameButton"), for: .normal)
         }
+        bar.backgroundColor = Colors.navBarGreen
         return bar
     }()
     

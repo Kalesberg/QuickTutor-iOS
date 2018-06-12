@@ -16,6 +16,7 @@ class AddTutorVC: UIViewController, ShowsConversation, CustomNavBarDisplayer {
         bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         bar.search.removeFromSuperview()
         bar.setupTitleLabelWithText("Add Tutor by Username")
+        bar.backgroundColor = Colors.navBarGreen
         return bar
     }()
 
@@ -36,6 +37,7 @@ class AddTutorVC: UIViewController, ShowsConversation, CustomNavBarDisplayer {
         field.backgroundColor = .white
         field.keyboardAppearance = .dark
         field.layer.cornerRadius = 17
+        field.autocapitalizationType = .none
         return field
     }()
     
@@ -98,7 +100,7 @@ extension AddTutorVC: UICollectionViewDelegate {
     func searchForUsername(_ username: String) {
         self.filteredUsers.removeAll()
         let ref = Database.database().reference().child("tutor-info")
-        ref.queryOrdered(byChild: "nm").queryEqual(toValue: username.capitalized).observeSingleEvent(of: .value) { (snapshot) in
+        ref.queryOrdered(byChild: "usr").queryEqual(toValue: username.lowercased()).observeSingleEvent(of: .value) { (snapshot) in
             guard let results = snapshot.value as? [String: Any] else { return }
             results.forEach({ (arg) in
                 
