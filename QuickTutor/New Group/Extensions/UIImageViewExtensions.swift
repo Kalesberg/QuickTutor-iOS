@@ -18,9 +18,7 @@ extension UIImageView {
         layer.minificationFilter = kCAFilterTrilinear
         clipsToBounds = true
     }
-	
-	
-	
+
 	func loadImages(urlString: String) {
 		
 		

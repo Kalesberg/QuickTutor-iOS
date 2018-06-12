@@ -257,10 +257,11 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 	private func uploadImageUrl(imageUrl: String, number: String) {
 		
 		let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images]
-		
 		Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
 			if let error = error {
 				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+			} else {
+				CurrentUser.shared.learner.images = CurrentUser.shared.tutor.images
 			}
 		})
 	}
@@ -269,7 +270,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 		if touchStartView is NavbarButtonSave {
 			saveChanges()
 		} else if touchStartView is NavbarButtonBack {
-			self.delegate?.tutorWasUpdated(tutor: CurrentUser.shared.tutor)
+			self.delegate?.tutorWasUpdated(tutor: self.tutor)
 		}
 	}
 }
@@ -323,7 +324,6 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! ProfileImagesTableViewCell
-			
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
@@ -485,7 +485,10 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 	func circleCropDidCropImage(_ image: UIImage) {
 		let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
 		
-		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
+		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
+			AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
+			return
+		}
 		
 		switch imageToChange {
 		case 1:

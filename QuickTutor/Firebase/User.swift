@@ -110,10 +110,13 @@ class FirebaseData {
             }
         }
     }
-	public func getProfileImagesFor(uid: String,_ competion: @escaping ([String]?) -> Void) {
+	public func getProfileImagesFor(uid: String,_ completion: @escaping ([String : String]?) -> Void) {
 		self.ref.child("tutor-info").child(uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
-			guard let value = snapshot.value as? [String : String] else { return }
-			competion(value.values.filter({$0 != ""}))
+			guard let value = snapshot.value as? [String : String] else {
+				completion(nil)
+				return
+			}
+			completion(value.filter({ $0.value != "" }))
 		}
 	}
 	

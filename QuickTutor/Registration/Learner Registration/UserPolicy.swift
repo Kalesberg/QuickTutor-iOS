@@ -282,14 +282,11 @@ class UserPolicy : BaseViewController {
 	}
 	
 	private func declined() {
-		self.displayLoadingOverlay()
 		let alertController = UIAlertController(title: "All your progress will be deleted", message: "By pressing delete your account will not be created.", preferredStyle: UIAlertControllerStyle.alert)
-		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in
-			self.dismiss(animated: true, completion: nil)
-			self.dismissOverlay()
-		}
+		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in }
 		
 		let delete = UIAlertAction(title: "Delete", style: .destructive) { (delete) in
+			self.displayLoadingOverlay()
 			FirebaseData.manager.removeLearnerAccount(uid: Registration.uid!, reason: "declined policy", { (error) in
 				if let error = error{
 					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -310,7 +307,6 @@ class UserPolicy : BaseViewController {
 			contentView.acceptButton.isUserInteractionEnabled = false
 		} else if (touchStartView == contentView.declineButton) {
 			declined()
-			print("decline")
 		} else if (touchStartView == contentView.learnMoreButton) {
 			guard let url = URL(string: "https://www.quicktutor.com") else {
 				return

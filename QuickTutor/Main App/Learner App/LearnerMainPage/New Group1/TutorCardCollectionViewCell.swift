@@ -76,7 +76,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }()
     
     var delegate : AddTutorButtonDelegate?
-    
+	
     var datasource : AWTutor! {
         didSet{
             tableView.reloadData()
@@ -84,13 +84,13 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }
     
     func configureCollectionViewCell() {
-		configureViews()
-		configureDelegates()
-		
-		distanceLabelContainer.isHidden = true
-		distanceLabel.numberOfLines  = 0
-		
-		applyConstraints()
+        configureViews()
+        configureDelegates()
+        
+        distanceLabelContainer.isHidden = true
+        distanceLabel.numberOfLines  = 0
+        
+        applyConstraints()
     }
     
     func applyConstraints(){
@@ -169,65 +169,63 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         tableViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 22)
         header.profilePics.applyDefaultShadow()
     }
-	private func configureDelegates() {
-		tableView.dataSource = self
-		tableView.delegate = self
-		
-		tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
-		tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
-		tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
-		tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
-		tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
-		tableView.register(ExtraInfoCardTableViewCell.self, forCellReuseIdentifier: "extraInfoCardTableViewCell")
-	}
-	private func configureViews() {
-		addSubview(header)
-		addSubview(tableViewContainer)
-		tableViewContainer.addSubview(tableView)
-		addSubview(reviewLabelContainer)
-		reviewLabelContainer.addSubview(reviewLabel)
-		addSubview(rateLabelContainer)
-		rateLabelContainer.addSubview(rateLabel)
-		addSubview(distanceLabelContainer)
-		distanceLabelContainer.addSubview(distanceLabel)
-		distanceLabelContainer.addSubview(distanceExtraLabel)
-		addSubview(connectButton)
-		
-		tableViewContainer.backgroundColor = UIColor(hex: "1B1B26")
+    private func configureDelegates() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
+        tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
+        tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+        tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
+        tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
+        tableView.register(ExtraInfoCardTableViewCell.self, forCellReuseIdentifier: "extraInfoCardTableViewCell")
+    }
+    private func configureViews() {
+        addSubview(header)
+        addSubview(tableViewContainer)
+        tableViewContainer.addSubview(tableView)
+        addSubview(reviewLabelContainer)
+        reviewLabelContainer.addSubview(reviewLabel)
+        addSubview(rateLabelContainer)
+        rateLabelContainer.addSubview(rateLabel)
+        addSubview(distanceLabelContainer)
+        distanceLabelContainer.addSubview(distanceLabel)
+        distanceLabelContainer.addSubview(distanceExtraLabel)
+        addSubview(connectButton)
+        
+        tableViewContainer.backgroundColor = UIColor(hex: "1B1B26")
 
-		reviewLabelContainer.backgroundColor = Colors.yellow
-		reviewLabelContainer.layer.cornerRadius = 12
-		
-		rateLabelContainer.backgroundColor = Colors.green
-		rateLabelContainer.layer.cornerRadius = 12
-		
-		distanceLabelContainer.backgroundColor = .white
-		distanceLabelContainer.layer.cornerRadius = 28
-	
-	}
+        reviewLabelContainer.backgroundColor = Colors.yellow
+        reviewLabelContainer.layer.cornerRadius = 12
+        
+        rateLabelContainer.backgroundColor = Colors.green
+        rateLabelContainer.layer.cornerRadius = 12
+        
+        distanceLabelContainer.backgroundColor = .white
+        distanceLabelContainer.layer.cornerRadius = 28
+    
+    }
     override func handleNavigation() {
         if touchStartView is ConnectButton {
             if CurrentUser.shared.learner.hasPayment {
                 self.addTutorWithUid(datasource.uid)
             } else {
-                let view = (next?.next?.next as! TutorConnect).contentView
-                view.addPaymentModal.isHidden = false
+				let vc = next?.next?.next as! TutorConnect
+				vc.displayAddPaymentMethod()
+				
             }
-
         } else if touchStartView is FullProfile {
             if let current = UIApplication.getPresentedViewController() {
                 current.present(ViewFullProfile(), animated: true, completion: nil)
             }
         } else if touchStartView is TutorCardProfilePic {
             let vc = (next?.next?.next as! TutorConnect)
-			FirebaseData.manager.getProfileImagesFor(uid: datasource.uid) { (imageUrls) in
-				if let imageUrls = imageUrls {
-					vc.setUpImages(images: imageUrls)
-				}
-			}
-            vc.contentView.backgroundView.isHidden = false
-            vc.horizontalScrollView.isHidden = false
-		}
+            FirebaseData.manager.getProfileImagesFor(uid: datasource.uid) { (imageUrls) in
+                if let imageUrls = imageUrls {
+					vc.displayAWImageViewer(images: imageUrls)
+                }
+            }
+        }
     }
 }
 
@@ -723,6 +721,9 @@ class ConnectButton : InteractableView, Interactable {
     func didDragOff() {
         alpha = 1.0
     }
+	func touchEndOnStart() {
+		growShrink()
+	}
 }
 class FullProfile : InteractableView, Interactable {
     

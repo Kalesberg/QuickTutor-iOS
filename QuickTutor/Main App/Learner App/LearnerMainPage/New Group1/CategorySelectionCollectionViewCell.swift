@@ -121,7 +121,16 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
     }
     
     internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        delegate?.didSelectSubcategory(resource: category.subcategory.fileToRead, subject: category.subcategory.subcategories[indexPath.item], index: indexPath.item)
+		let cell = collectionView.cellForItem(at: indexPath) as! SubjectCollectionViewCell
+		
+		UIView.animate(withDuration: 0.1, animations: {
+			cell.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+		}) { (finished) in
+			UIView.animate(withDuration: 0.1, animations: {
+				cell.transform = CGAffineTransform.identity
+			}) { (finished ) in
+				self.delegate?.didSelectSubcategory(resource: self.category.subcategory.fileToRead, subject: self.category.subcategory.subcategories[indexPath.item], index: indexPath.item)
+			}
+		}
     }
 }

@@ -384,116 +384,9 @@ class TutorMainPageUsernameItem : TutorMainPageItem {
     }
 }
 
-class AddBankButton : InteractableView, Interactable {
-    
-    let label : UILabel = {
-        let label = UILabel()
-        
-        label.text = "Add Payment"
-        label.font = Fonts.createBoldSize(20)
-        label.textColor = Colors.backgroundDark
-        label.textAlignment = .center
-        
-        return label
-    }()
-    
-    override func configureView() {
-        addSubview(label)
-        super.configureView()
-        
-        layer.cornerRadius = 8
-        backgroundColor = .white
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        label.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-    }
-}
-
-class AddPaymentModal : InteractableView {
-    
-    let modal : UIView = {
-        let view = UIView()
-        
-        view.layer.cornerRadius = 8
-        view.backgroundColor = Colors.backgroundDark
-        view.clipsToBounds = true
-        
-        return view
-    }()
-    
-    let addBankLabel : UILabel = {
-        let label = UILabel()
-        
-        label.text = "PAYMENT METHOD"
-        label.font = Fonts.createBoldSize(18)
-        label.textColor = .white
-        label.backgroundColor = UIColor(hex: "4C5E8D")
-        label.textAlignment = .center
-        
-        return label
-    }()
-    
-    let infoLabel : UILabel = {
-        let label = UILabel()
-        
-        label.font = Fonts.createSize(18)
-        label.textColor = .white
-        label.text = "Hey! Before connecting with tutors, we need to make sure you have a payment method!"
-        label.numberOfLines = 0
-        
-        return label
-    }()
-    
-    let addBankButton = AddBankButton()
-    
-    override func configureView () {
-        addSubview(modal)
-        modal.addSubview(addBankLabel)
-        modal.addSubview(infoLabel)
-        modal.addSubview(addBankButton)
-        super.configureView()
-        
-        backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        isHidden = true
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        modal.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().inset(-20)
-            make.width.equalToSuperview().multipliedBy(0.85)
-            make.height.equalTo(200)
-        }
-        
-        addBankLabel.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
-            make.height.equalTo(45)
-        }
-        
-        infoLabel.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.9)
-        }
-        
-        addBankButton.snp.makeConstraints { (make) in
-            make.width.equalTo(160)
-            make.height.equalTo(40)
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(10)
-        }
-    }
-}
-
-
+/*
+	MARK: (Depreciated) Replaced with UIActivityController
+*/
 class ShareUsernameModal : InteractableView {
     
     let shareUsernameLabel : UILabel = {
@@ -674,18 +567,18 @@ class TutorMainPage : MainPage {
         
         contentView.sidebar.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
     }
-	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		guard let tutor = CurrentUser.shared.tutor, let account = CurrentUser.shared.connectAccount  else {
-			self.navigationController?.popBackToMain()
-			AccountService.shared.currentUserType = .learner
-			return
-		}
-		self.tutor = tutor
-		self.account = account
-		self.configureSideBarView()
-	}
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let tutor = CurrentUser.shared.tutor, let account = CurrentUser.shared.connectAccount  else {
+            self.navigationController?.popBackToMain()
+            AccountService.shared.currentUserType = .learner
+            return
+        }
+        self.tutor = tutor
+        self.account = account
+        self.configureSideBarView()
+    }
     
     private func configureSideBarView() {
         let formattedString = NSMutableAttributedString()
@@ -708,8 +601,8 @@ class TutorMainPage : MainPage {
     }
     
     func displaySidebarTutorial() {
-		Constants.showMainPageTutorial = false
-		let item = BecomeQTSidebarItem()
+        Constants.showMainPageTutorial = false
+        let item = BecomeQTSidebarItem()
         item.label.label.text = "Start Learning"
         item.isUserInteractionEnabled = false
         item.icon.isHidden = true
@@ -785,7 +678,7 @@ class TutorMainPage : MainPage {
             })
         })
     }
-	
+    
     override func handleNavigation() {
         super.handleNavigation()
         
@@ -813,7 +706,7 @@ class TutorMainPage : MainPage {
             })
             hideBackground()
         } else if(touchStartView == contentView.sidebar.paymentItem) {
-		
+        
             navigationController?.pushViewController(BankManager(), animated: true)
             hideSidebar()
             hideBackground()
@@ -823,8 +716,8 @@ class TutorMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
-			let next = TutorMyProfile()
-			next.tutor = CurrentUser.shared.tutor
+            let next = TutorMyProfile()
+            next.tutor = CurrentUser.shared.tutor
             navigationController?.pushViewController(next, animated: true)
             hideSidebar()
             hideBackground()
@@ -861,23 +754,23 @@ class TutorMainPage : MainPage {
             next.tutor = self.tutor
             navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.earningsButton) {
-			
+            
             navigationController?.pushViewController(TutorEarnings(), animated: true)
         } else if (touchStartView == contentView.improveItem) {
             navigationController?.pushViewController(TutorMainTips(), animated: true)
         } else if (touchStartView == contentView.viewTrendingButton) {
             navigationController?.pushViewController(TrendingCategories(), animated: true)
         } else if (touchStartView == contentView.usernameItem) {
-			
-			DispatchQueue.main.async {
-				let text = "Go checkout QuickTutor!"
-				guard let webUrl = URL(string:"https://QuickTutor.com") else { return }
-				let shareAll : [Any] = [text, webUrl]
-				let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
-				activityViewController.popoverPresentationController?.sourceView = self.view
-				self.present(activityViewController, animated: true, completion: nil)
-			}
-			
+            
+            DispatchQueue.main.async {
+                let text = "Go checkout QuickTutor!"
+                guard let webUrl = URL(string:"https://QuickTutor.com") else { return }
+                let shareAll : [Any] = [text, webUrl]
+                let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+                activityViewController.popoverPresentationController?.sourceView = self.view
+                self.present(activityViewController, animated: true, completion: nil)
+            }
+            
 //            contentView.backgroundView.alpha = 0.65
 //            contentView.xButton.isHidden = false
 //            contentView.leftButton.isHidden = true
@@ -925,7 +818,7 @@ class TutorMainPage : MainPage {
             dialog.shareContent = content
             dialog.mode = FBSDKShareDialogMode.automatic
             dialog.show()
-			
+            
         } else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
             if (MFMessageComposeViewController.canSendText()) {
                 let controller = MFMessageComposeViewController()
@@ -945,8 +838,8 @@ class TutorMainPage : MainPage {
             }
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
-			hideSidebar()
-			hideBackground()
+            hideSidebar()
+            hideBackground()
         }
     }
     

@@ -190,7 +190,9 @@ class UploadImage: BaseViewController {
 	let circleCropController = AACircleCropViewController()
     let profilePicker = UIImagePickerController()
     var imagePicked : Bool = false
-
+	
+	var chosenImage: UIImage?
+	
 	override func viewDidLoad() {
         super.viewDidLoad()
         profilePicker.delegate = self
@@ -218,7 +220,7 @@ class UploadImage: BaseViewController {
 			if imagePicked {
 				self.displayLoadingOverlay()
 				contentView.looksGoodButton.isUserInteractionEnabled = false
-				guard let image = contentView.imageView.image else { return }
+				guard let image = chosenImage else { print("Image not chosen"); return }
 				guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
 					AlertController.genericErrorAlert(self, title: "Error", message: "Please choose a new photo")
 					return
@@ -244,7 +246,9 @@ class UploadImage: BaseViewController {
 extension UploadImage : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
 	
 	func circleCropDidCropImage(_ image: UIImage) {
-		contentView.imageView.image = image
+		//get the original image unmasked.
+		chosenImage = image
+		contentView.imageView.image = image.circleMasked
 		imagePicked = true
 		contentView.info.isHidden = true
 		contentView.addImageButton.isHidden = true

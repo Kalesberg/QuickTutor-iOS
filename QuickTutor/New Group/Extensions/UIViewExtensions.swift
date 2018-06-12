@@ -115,4 +115,15 @@ extension UIView {
         mask.path = path.cgPath        
         self.layer.mask = mask
     }
+	
+	func growShrink() {
+		UIView.animate(withDuration: 0.1, animations: {
+			self.alpha = 1.0
+			self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+		}) { (finished) in
+			UIView.animate(withDuration: 0.2, animations: {
+				self.transform = CGAffineTransform.identity
+			})
+		}
+	}
 }

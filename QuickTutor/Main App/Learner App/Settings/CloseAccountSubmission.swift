@@ -193,7 +193,6 @@ class CloseAccountSubmission : BaseViewController {
 							}
 						} else {
 							try! Auth.auth().signOut()
-							print("Heu")
 							self.navigationController?.pushViewController(SignIn(), animated: false)
 						}
 					}
@@ -232,7 +231,6 @@ class CloseAccountSubmission : BaseViewController {
 						}
 					} else {
 						try! Auth.auth().signOut()
-						print("hi.")
 						self.navigationController?.pushViewController(SignIn(), animated: false)
 					}
 				}

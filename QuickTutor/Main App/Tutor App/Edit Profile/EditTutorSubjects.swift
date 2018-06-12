@@ -137,6 +137,8 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		backButton.image.image = #imageLiteral(resourceName: "backButton")
 		nextButton.label.text = "Save"
 		cancelButton.label.label.text = "Add"
+		cancelButton.isHidden = true
+		
 		headerView.backgroundColor = Colors.backgroundDark
 		
 		applyConstraints()
@@ -242,6 +244,7 @@ class EditTutorSubjects : BaseViewController {
 		didSet {
 			contentView.noSelectedItemsLabel.isHidden = !selectedSubjects.isEmpty
 			contentView.categoryCollectionView.reloadData()
+			contentView.nextButton.label.text = "Save (\(selectedSubjects.count))"
 		}
 	}
 	var selected : [Selected] = [] {
@@ -435,6 +438,7 @@ class EditTutorSubjects : BaseViewController {
 			}
 		}
 	}
+	
 	private func backButtonAlert() {
 		let alertController = UIAlertController(title: "Are You Sure?", message: "All of your progress will be deleted.", preferredStyle: .alert)
 		
@@ -473,7 +477,6 @@ extension EditTutorSubjects : SelectedSubcategory {
 			self.partialSubjects = subjects
 			self.filteredSubjects = self.partialSubjects
 			self.contentView.headerView.category.text = subject
-			
 		}
 		
 		tableView(shouldDisplay: true) {
@@ -608,14 +611,13 @@ extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
 		
-		if selectedSubjects.count > 20 {
-			print("Too many subjects")
+		if selectedSubjects.count >= 20 && !cell.selectedIcon.isSelected  {
+			AlertController.genericErrorAlert(self, title: "Too Many Subjects", message: "We currently only allow tutors to choose 20 subjects.")
 			tableView.deselectRow(at: indexPath, animated: true)
 			return
 		}
-		
-		guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
 		
 		if selectedSubjects.contains(cell.subject.text!) {
 			cell.selectedIcon.isSelected = false
