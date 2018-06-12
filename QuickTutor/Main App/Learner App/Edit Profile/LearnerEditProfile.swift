@@ -569,7 +569,7 @@ extension LearnerEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Languages I Speak"
-            cell.textField.attributedText = NSAttributedString(string: "Add",
+            cell.textField.attributedText = NSAttributedString(string: "Edit",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell

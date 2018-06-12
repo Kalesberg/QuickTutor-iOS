@@ -422,7 +422,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Languages I Speak"
-            cell.textField.attributedText = NSAttributedString(string: "Add",
+            cell.textField.attributedText = NSAttributedString(string: "Edit",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
@@ -449,7 +449,16 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		switch indexPath.row {
 		case 4:
-			navigationController?.pushViewController(EditBio(), animated: true)
+            let next = EditBio()
+            let attributedString = NSMutableAttributedString(string: "·  What Experience and Expertise do you have?\n·  Any certifications or awards earned?\n·  What are you looking for in learners?")
+            
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 6
+            attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+            
+            next.contentView.infoLabel.label.attributedText = attributedString;
+            next.contentView.infoLabel.label.font = Fonts.createSize(14)
+			navigationController?.pushViewController(next, animated: true)
 		case 6:
 			let next = EditTutorSubjects()
 			next.selectedSubjects = self.tutor.subjects!
