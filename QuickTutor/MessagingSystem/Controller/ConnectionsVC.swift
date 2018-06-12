@@ -92,14 +92,14 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         if indexPath.item % 2 != 0 {
             cell.backgroundColor = Colors.navBarColor
         }
-        cell.titleLabel.text = connections[indexPath.item].username
+        cell.titleLabel.text = connections[indexPath.item].formattedName
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = connections[indexPath.item].uid
-        vc.navigationItem.title = connections[indexPath.item].username
+        vc.navigationItem.title = connections[indexPath.item].formattedName
         vc.chatPartner = connections[indexPath.item]
         navigationController?.pushViewController(vc, animated: true)
     }

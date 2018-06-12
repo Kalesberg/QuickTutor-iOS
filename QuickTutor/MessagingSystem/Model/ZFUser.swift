@@ -17,6 +17,14 @@ class User: Decodable {
     var type: String!
     var isOnline: Bool!
     
+    var formattedName: String {
+        get {
+            let name = username.split(separator: " ")
+            let formatted = "\(name[0]) \(String(name[1]).prefix(1))."
+            return formatted
+        }
+    }
+    
     init(dictionary: [String: Any]) {
         username = (dictionary["username"] as? String)?.capitalized ?? ""
         profilePicUrl = dictionary["profilePicUrl"] as? String ?? ""

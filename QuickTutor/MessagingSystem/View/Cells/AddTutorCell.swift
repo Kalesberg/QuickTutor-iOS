@@ -104,7 +104,7 @@ class AddTutorCell: UICollectionViewCell {
         DataService.shared.getTutorWithId(uid) { (tutorIn) in
             guard let tutor = tutorIn else { return }
             self.profileImageView.imageView.loadImage(urlString: tutor.profilePicUrl)
-            self.nameLabel.text = tutor.username.capitalized
+            self.nameLabel.text = tutor.formattedName.capitalized
             self.locationLabel.text = tutor.region
             guard let hours = tutor.hoursTaught, let sessions = tutor.totalSessions else {
                 return

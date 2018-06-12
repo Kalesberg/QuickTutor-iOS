@@ -124,7 +124,7 @@ class BaseSessionStartVC: UIViewController {
             self.receieverBox.updateUI(uid: receiverId)
             DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { (user) in
                 self.partner = user
-                self.partnerUsername = user?.username
+                self.partnerUsername = user?.formattedName
                 self.updateTitleLabel()
             })
         }

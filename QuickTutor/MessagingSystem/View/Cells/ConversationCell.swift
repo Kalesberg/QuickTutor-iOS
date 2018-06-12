@@ -229,7 +229,7 @@ class ConversationCell: UICollectionViewCell {
     }
     
     private func updateUsernameLabel() {
-        self.usernameLabel.text = chatPartner.username.capitalized
+        self.usernameLabel.text = chatPartner.formattedName.capitalized
     }
     
     private func updateOnlineStatusIndicator() {

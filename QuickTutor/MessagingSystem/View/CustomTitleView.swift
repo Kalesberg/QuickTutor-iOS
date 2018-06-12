@@ -51,7 +51,7 @@ class CustomTitleView: UIView {
     func updateUI(user: User) {
         self.user = user
         updateOnlineStatusIndicator()
-        titleLabel.text = user.username
+        titleLabel.text = user.formattedName
     }
     
     func setupViews() {

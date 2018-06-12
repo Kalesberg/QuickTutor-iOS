@@ -144,7 +144,7 @@ class SessionReviewVC: UIViewController {
         profileBox.updateUI(uid: id)
         stars.setRatingTo(rating)
         DataService.shared.getUserOfOppositeTypeWithId(id) { (user) in
-            guard let username = user?.username else { return }
+            guard let username = user?.formattedName else { return }
             self.infoLabel.text = self.infoLabel.text?.replacingOccurrences(of: "{name}", with: username)
         }
     }
@@ -167,7 +167,7 @@ class SessionReviewVC: UIViewController {
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         DataService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
-            guard let name = user?.username,
+            guard let name = user?.formattedName,
                 let profilePicUrl = user?.profilePicUrl else {
                     print("ERROR: could not fetch name and pic for current user")
                     return
