@@ -220,6 +220,9 @@ class PhoneAuthenticationAlertView : InteractableView {
 	}
 	override func layoutSubviews() {
 		alertView.layer.cornerRadius = 10
+		verifyAction.layer.addBorder(edge: .top, color: .black, thickness: 1.0)
+		cancelAction.layer.addBorder(edge: .top, color: .black, thickness: 1.0)
+		cancelAction.layer.addBorder(edge: .right, color: .black, thickness: 1.0)
 	}
 	
 	private func configureDelegates() {
@@ -278,10 +281,8 @@ extension UIViewController {
 		alert.tag = 321
 		alert.frame = self.view.bounds
 		alert.message.text = message
-		UIView.animate(withDuration: 0.2, animations: {
-			alert.alpha = 1.0
-			alert.transform = .identity
-		})
+		
+		alert.growShrink()
 		alert.verificationTextField.becomeFirstResponder()
 		self.view.addSubview(alert)
 	}

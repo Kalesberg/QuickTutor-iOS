@@ -98,6 +98,7 @@
 		847463262069425C00B70AD9 /* TutorSessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847463252069425C00B70AD9 /* TutorSessions.swift */; };
 		847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847463272069482D00B70AD9 /* TutorHandbook.swift */; };
 		8474C9AB20C47FB800CDB45B /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */; };
+		8476F7C720D00DB100C8D52D /* AddPaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8476F7C620D00DB100C8D52D /* AddPaymentMethod.swift */; };
 		8479EA632063E63100C5113E /* TutorAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA622063E63100C5113E /* TutorAddress.swift */; };
 		8479EA652063E66400C5113E /* TutorPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA642063E66400C5113E /* TutorPolicy.swift */; };
 		847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */; };
@@ -149,6 +150,8 @@
 		84C9C00D20A2374C000DE1C9 /* ConnectAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9C00C20A2374C000DE1C9 /* ConnectAccount.swift */; };
 		84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */; };
 		84CA83C620B3BEAE00B2FBD2 /* badwords.json in Resources */ = {isa = PBXBuildFile; fileRef = 84CA83C520B3BEAE00B2FBD2 /* badwords.json */; };
+		84CB7AD520CF607800274473 /* TutorProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB7AD420CF607800274473 /* TutorProfileImageView.swift */; };
+		84CB7AD720CF97FE00274473 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */; };
 		84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC341A1FCE2979008E7A0B /* StringExtensions.swift */; };
 		84CCB17E2082CAE80056466B /* TutorSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CCB17D2082CAE80056466B /* TutorSignIn.swift */; };
 		84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */; };
@@ -433,6 +436,7 @@
 		847463252069425C00B70AD9 /* TutorSessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSessions.swift; sourceTree = "<group>"; };
 		847463272069482D00B70AD9 /* TutorHandbook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHandbook.swift; sourceTree = "<group>"; };
 		8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
+		8476F7C620D00DB100C8D52D /* AddPaymentMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentMethod.swift; sourceTree = "<group>"; };
 		8479EA622063E63100C5113E /* TutorAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddress.swift; sourceTree = "<group>"; };
 		8479EA642063E66400C5113E /* TutorPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPolicy.swift; sourceTree = "<group>"; };
 		847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCells.swift; sourceTree = "<group>"; };
@@ -487,6 +491,8 @@
 		84C9C00C20A2374C000DE1C9 /* ConnectAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectAccount.swift; sourceTree = "<group>"; };
 		84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceTransaction.swift; sourceTree = "<group>"; };
 		84CA83C520B3BEAE00B2FBD2 /* badwords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = badwords.json; sourceTree = "<group>"; };
+		84CB7AD420CF607800274473 /* TutorProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorProfileImageView.swift; sourceTree = "<group>"; };
+		84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		84CC341A1FCE2979008E7A0B /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		84CCB17D2082CAE80056466B /* TutorSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSignIn.swift; sourceTree = "<group>"; };
 		84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorManagePolicies.swift; sourceTree = "<group>"; };
@@ -980,6 +986,16 @@
 			path = "QuickTutor Guide";
 			sourceTree = "<group>";
 		};
+		8476F7C520D00CE900C8D52D /* TutorConnect */ = {
+			isa = PBXGroup;
+			children = (
+				84D8C9332067116C003C3AEA /* TutorConnect.swift */,
+				84CB7AD420CF607800274473 /* TutorProfileImageView.swift */,
+				8476F7C620D00DB100C8D52D /* AddPaymentMethod.swift */,
+			);
+			path = TutorConnect;
+			sourceTree = "<group>";
+		};
 		8482AFDF2038C25B00F6F805 /* Edit Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -989,6 +1005,7 @@
 				84D55E99204F638D00BB899C /* EditPhoneVerification.swift */,
 				8482AFE02038C27000F6F805 /* EditBio.swift */,
 				8434B82A20468D6F00E16170 /* EditLanguages.swift */,
+				84E283582004940600B004E7 /* TheChoice.swift */,
 				843A1D182047C5BF00299D27 /* EditSchool.swift */,
 				84F9CBFF204D3F8F009A2851 /* languages.txt */,
 				84681F9F204B63DC00F45DFC /* schools.txt */,
@@ -1123,6 +1140,7 @@
 				8449DDE91FFDD40600FC38CB /* CALayerExtensions.swift */,
 				84CC341A1FCE2979008E7A0B /* StringExtensions.swift */,
 				84F141A2207F0D7B003D3193 /* IntExtensions.swift */,
+				84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1148,7 +1166,7 @@
 				843ECCC3207DD06E00C0F622 /* LearnerFilters.swift */,
 				84D8C92F2066E8CC003C3AEA /* SearchSubjects.swift */,
 				84D8C93120670EC0003C3AEA /* CategorySearch.swift */,
-				84D8C9332067116C003C3AEA /* TutorConnect.swift */,
+				8476F7C520D00CE900C8D52D /* TutorConnect */,
 				84EA5E9F20A7F4C50008292B /* InviteOthers.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
 				84BC21D7206DB333002B4721 /* ViewFullProfile.swift */,
@@ -1221,7 +1239,6 @@
 				844A6A8B1FCE5B91003992C3 /* CreatePassword.swift */,
 				84C255681FC2563A0012C0AA /* Birthday.swift */,
 				84F2450E1FDA0F59006447A8 /* UploadImage.swift */,
-				84E283582004940600B004E7 /* TheChoice.swift */,
 			);
 			path = "Learner Registration";
 			sourceTree = "<group>";
@@ -1762,6 +1779,7 @@
 				CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */,
 				CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */,
 				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
+				8476F7C720D00DB100C8D52D /* AddPaymentMethod.swift in Sources */,
 				848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */,
 				846D9B562069E57C00302773 /* FeaturedTutorTableViewCell.swift in Sources */,
 				845B3BA02069E81B009F8E04 /* CategoryCollectViewCell.swift in Sources */,
@@ -1850,6 +1868,7 @@
 				8423940F1FF4CA1D00827C7D /* NoPasteTextField.swift in Sources */,
 				CF6F58E7205EE68800ACBD32 /* KeyboardAccessoryViewDelegate.swift in Sources */,
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
+				84CB7AD720CF97FE00274473 /* ArrayExtensions.swift in Sources */,
 				CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */,
 				CF833B6E207C4AE800323242 /* TutorSessionContentCell.swift in Sources */,
 				CF6F58E9205EE68800ACBD32 /* BaseMessage.swift in Sources */,
@@ -1864,6 +1883,7 @@
 				848809F7205770D000F204A0 /* TutorUnprofessional.swift in Sources */,
 				CF6F58DE205EE68800ACBD32 /* SettingsVC.swift in Sources */,
 				CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */,
+				84CB7AD520CF607800274473 /* TutorProfileImageView.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
 				CF2D9772207A7F7D00914B27 /* AddTutorVC.swift in Sources */,

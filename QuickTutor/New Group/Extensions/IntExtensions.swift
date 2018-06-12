@@ -114,6 +114,16 @@ extension Int {
 		
 		return currency
 	}
+	func timeIntervalToReviewDateFormat() -> String {
+		var localTimeZoneAbbreviation: String { return TimeZone.current.abbreviation() ?? "" }
+
+		let date = Date(timeIntervalSince1970: TimeInterval(self))
+		let dateFormatter = DateFormatter()
+		
+		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
+		dateFormatter.dateFormat = "MMMM dd"
+		return dateFormatter.string(from: date)
+	}
 }
 extension Double {
 	func formatDistance() -> NSMutableAttributedString {
@@ -141,4 +151,5 @@ extension Double {
 		
 		return formattedString
 	}
+	
 }

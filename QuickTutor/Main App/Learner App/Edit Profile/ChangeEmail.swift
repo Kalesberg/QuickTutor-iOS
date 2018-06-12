@@ -26,9 +26,9 @@ class ChangeEmailView : MainLayoutTitleBackButton, Keyboardable {
         textField.addSubview(line)
         super.configureView()
         
-        title.label.text = "Change E-mail"
+        title.label.text = "Change Email"
         
-        subtitle.label.text = "Enter new e-mail adress"
+        subtitle.label.text = "Enter new email address"
         subtitle.label.font = Fonts.createBoldSize(18)
         subtitle.label.numberOfLines = 2
         
@@ -133,7 +133,7 @@ fileprivate class UpdateEmailButton : InteractableView, Interactable {
         
         isUserInteractionEnabled = true
         
-        title.text = "Update Email"
+        title.text = "Change Email"
         title.textColor = UIColor.white
         title.font = Fonts.createSize(20)
         title.textAlignment = .center
@@ -163,6 +163,9 @@ class ChangeEmail : BaseViewController {
     override func loadView() {
         view = ChangeEmailView()
     }
+	
+	var verificationId : String?
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.textField.delegate = self
@@ -178,13 +181,35 @@ class ChangeEmail : BaseViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    override func handleNavigation() {
-        if (touchStartView is UpdateEmailButton) {
-            self.dismissKeyboard()
-            updateEmail()
-        }
-    }
+	
+	private func reauthenticateUser(code: String, completion: @escaping (Error?) -> Void) {
+		guard let id = self.verificationId else { return }
+		let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: id, verificationCode: code)
+		let currentUser = Auth.auth().currentUser
+		currentUser?.reauthenticateAndRetrieveData(with: credential, completion: { (_, error) in
+			if let error = error {
+				completion(error)
+			} else {
+				completion(nil)
+			}
+		})
+	}
+	
+	private func getUserCredentialsAlert() {
+		let phoneNumber = CurrentUser.shared.learner.phone.cleanPhoneNumber()
+		
+		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationId, error) in
+			if let error = error {
+				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+			} else if let id = verificationId {
+				self.verificationId = id
+				self.displayPhoneVerificationAlert(message: "Please enter the verifcation code sent to: \(CurrentUser.shared.learner.phone.formatPhoneNumber())")
+			} else {
+				AlertController.genericErrorAlert(self, title: "Error", message: "Something went wrong, please try again.")
+			}
+		}
+	}
+	
     private func displaySavedAlertController() {
         let alertController = UIAlertController(title: "Saved!", message: "Your email update has been saved", preferredStyle: .alert)
         
@@ -198,35 +223,33 @@ class ChangeEmail : BaseViewController {
         }
         
     }
-    private func updateEmail() {
-        
-        guard let email = contentView.textField.text, email.emailRegex() else {
-            print("bad email")
-            self.contentView.textField.becomeFirstResponder()
-            return
-        }
-        
-        let user = Auth.auth().currentUser
-        let password : String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
-        let credential : AuthCredential = EmailAuthProvider.credential(withEmail: CurrentUser.shared.learner.email!, password: password!)
-        
-        user?.reauthenticate(with: credential, completion: { (error) in
-            if let error = error{
-                AlertController.genericErrorAlert(self, title: "Unable to Change Email", message: error.localizedDescription)
-                self.contentView.textField.becomeFirstResponder()
-            } else {
-                user?.updateEmail(to: self.contentView.textField.text!, completion: { (error) in
-                    if let error = error {
-                        AlertController.genericErrorAlert(self, title: "Unable to Change Email", message: error.localizedDescription)
-                    } else {
-                        CurrentUser.shared.learner.email = self.contentView.textField.text!
-                        FirebaseData.manager.updateValue(node : "account", value: ["em" : self.contentView.textField.text!])
-                        self.displaySavedAlertController()
-                    }
-                })
-            }
-        })
-    }
+	override func handleNavigation() {
+		if (touchStartView is UpdateEmailButton) {
+			guard let email = contentView.textField.text, email.emailRegex() else {
+				AlertController.genericErrorAlert(self, title: "Invalid Email", message: "")
+				self.contentView.textField.becomeFirstResponder()
+				return
+			}
+			getUserCredentialsAlert()
+		} else if touchStartView is PhoneAuthenicationActionCancel {
+			self.dismissPhoneAuthenticationAlert()
+		} else if touchStartView is PhoneAuthenicationAction {
+			if let view = self.view.viewWithTag(321) as? PhoneAuthenticationAlertView {
+				guard let verificationCode = view.verificationTextField.text, !verificationCode.contains("—") else { return }
+				reauthenticateUser(code: verificationCode) { (error) in
+					if let error = error {
+						view.errorLabel.isHidden = false
+						view.errorLabel.text = error.localizedDescription
+					} else {
+						CurrentUser.shared.learner.email = self.contentView.textField.text!
+						FirebaseData.manager.updateValue(node : "account", value: ["em" : self.contentView.textField.text!])
+						self.dismissPhoneAuthenticationAlert()
+						self.displaySavedAlertController()
+					}
+				}
+			}
+		}
+	}
 }
 extension ChangeEmail : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -240,8 +263,7 @@ extension ChangeEmail : UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        updateEmail()
-        return false
+        return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

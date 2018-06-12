@@ -158,8 +158,9 @@ class CloseAccountSubmission : BaseViewController {
 					subcategories.append(value.path)
 				}
 				completion(subcategories.unique)
+			} else {
+				completion([])
 			}
-			completion([])
 		}
 	}
 	private func removeTutorAccount() {
@@ -172,7 +173,6 @@ class CloseAccountSubmission : BaseViewController {
 				} else {
 					self.dismissOverlay()
 					CurrentUser.shared.learner.isTutor = false
-					UserDefaults.standard.set(true, forKey: "showHomePage")
 					self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
 				}
 			})
@@ -268,25 +268,28 @@ class CloseAccountSubmission : BaseViewController {
 			getUserCredentialsAlert()
 		} else if touchStartView is PhoneAuthenicationActionCancel {
 			self.dismissPhoneAuthenticationAlert()
-		
 		} else if touchStartView is PhoneAuthenicationAction {
 			if let view = self.view.viewWithTag(321) as? PhoneAuthenticationAlertView {
 				guard let verificationCode = view.verificationTextField.text, !verificationCode.contains("—") else { return }
+				view.verifyAction.isUserInteractionEnabled = false
+				
 				reauthenticateUser(code: verificationCode) { (error) in
 					if let error = error {
 						view.errorLabel.isHidden = false
 						view.errorLabel.text = error.localizedDescription
+						view.verifyAction.isUserInteractionEnabled = true
 					} else {
 						view.errorLabel.isHidden = true
 						if CurrentUser.shared.learner.isTutor == false {
 							self.removeLearner()
 						} else {
-							if DeleteAccount.type == true {
+							if DeleteAccount.type {
 								self.removeTutorAccount()
 							} else {
 								self.removeBothAccounts()
 							}
 						}
+						view.verifyAction.isUserInteractionEnabled = true
 						self.dismissPhoneAuthenticationAlert()
 					}
 				}

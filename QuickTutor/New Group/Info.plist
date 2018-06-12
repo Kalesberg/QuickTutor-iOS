@@ -46,6 +46,8 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbauth2</string>
+		<string>fb</string>
+		<string>fbapi</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

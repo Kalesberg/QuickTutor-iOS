@@ -17,7 +17,7 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 	let headerView = SectionHeader()
 	
 	let nextButton = TutorPreferencesNextButton()
-
+	
 	let noSelectedItemsLabel : UILabel = {
 		let label = UILabel()
 		
@@ -41,7 +41,7 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return searchBar
 	}()
 	
-
+	
 	let pickedCollectionView : UICollectionView = {
 		let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		let layout = UICollectionViewFlowLayout()
@@ -137,6 +137,8 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		backButton.image.image = #imageLiteral(resourceName: "backButton")
 		nextButton.label.text = "Save"
 		cancelButton.label.label.text = "Add"
+		cancelButton.isHidden = true
+		
 		headerView.backgroundColor = Colors.backgroundDark
 		
 		applyConstraints()
@@ -150,39 +152,39 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 			make.height.equalToSuperview()
 			make.centerY.equalTo(backButton.image)
 		}
-        
+		
 		noSelectedItemsLabel.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-6)
 			make.height.equalTo(45)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
-        
+		
 		pickedCollectionView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-6)
 			make.height.equalTo(45)
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
-
+		
 		categoryCollectionView.snp.makeConstraints { (make) in
 			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-6)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-            if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
-                make.height.equalTo(235)
-            } else {
-                make.height.equalTo(295)
-            }
+			if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
+				make.height.equalTo(235)
+			} else {
+				make.height.equalTo(295)
+			}
 		}
 		
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-10)
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide)
-            } else {
-                make.bottom.equalToSuperview()
-            }
+			if #available(iOS 11.0, *) {
+				make.bottom.equalTo(safeAreaLayoutGuide)
+			} else {
+				make.bottom.equalToSuperview()
+			}
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
@@ -222,7 +224,7 @@ class EditTutorSubjects : BaseViewController {
 	var initialSetup : Bool = false
 	var automaticScroll : Bool = false
 	var shouldUpdateSearchResults = false
-
+	
 	
 	var filteredSubjects : [(String, String)] = []
 	var partialSubjects : [(String, String)] = []
@@ -242,6 +244,7 @@ class EditTutorSubjects : BaseViewController {
 		didSet {
 			contentView.noSelectedItemsLabel.isHidden = !selectedSubjects.isEmpty
 			contentView.categoryCollectionView.reloadData()
+			contentView.nextButton.label.text = "Save (\(selectedSubjects.count))"
 		}
 	}
 	var selected : [Selected] = [] {
@@ -249,7 +252,7 @@ class EditTutorSubjects : BaseViewController {
 			contentView.categoryCollectionView.reloadData()
 		}
 	}
-
+	
 	
 	var tableViewIsActive : Bool = false {
 		didSet {
@@ -345,7 +348,7 @@ class EditTutorSubjects : BaseViewController {
 			self.contentView.tableView.reloadData()
 		}
 	}
-
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
@@ -368,14 +371,13 @@ class EditTutorSubjects : BaseViewController {
 			}
 		}
 		for i in 0..<subcategoriesToDelete.count {
-		
+			
 			print("subjectToDelete", subcategoriesToDelete[i])
 			self.ref.child("subcategory").child(subcategoriesToDelete[i].lowercased()).child(Auth.auth().currentUser!.uid).removeValue()
 			self.ref.child("subject").child(Auth.auth().currentUser!.uid).child(subcategoriesToDelete[i].lowercased()).removeValue()
 		}
 		tutor.subjects = self.selectedSubjects
 		tutor.selected = self.selected
-		
 	}
 	
 	private func saveSubjects() {
@@ -387,7 +389,7 @@ class EditTutorSubjects : BaseViewController {
 		for i in selected {
 			subcategories.append(i.path)
 		}
-
+		
 		for subcategory in subcategories.unique {
 			
 			let path = subcategory
@@ -436,6 +438,7 @@ class EditTutorSubjects : BaseViewController {
 			}
 		}
 	}
+	
 	private func backButtonAlert() {
 		let alertController = UIAlertController(title: "Are You Sure?", message: "All of your progress will be deleted.", preferredStyle: .alert)
 		
@@ -469,19 +472,18 @@ class EditTutorSubjects : BaseViewController {
 extension EditTutorSubjects : SelectedSubcategory {
 	
 	func didSelectSubcategory(resource: String, subject: String, index: Int) {
-
+		
 		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
 			self.partialSubjects = subjects
 			self.filteredSubjects = self.partialSubjects
 			self.contentView.headerView.category.text = subject
-			
 		}
 		
 		tableView(shouldDisplay: true) {
 			self.didSelectCategory = true
+			self.contentView.tableView.reloadData()
 			self.contentView.searchBar.becomeFirstResponder()
 			self.scrollToTop()
-			self.contentView.tableView.reloadData()
 		}
 	}
 }
@@ -609,14 +611,13 @@ extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
 		
-		if selectedSubjects.count > 20 {
-			print("Too many subjects")
+		if selectedSubjects.count >= 20 && !cell.selectedIcon.isSelected  {
+			AlertController.genericErrorAlert(self, title: "Too Many Subjects", message: "We currently only allow tutors to choose 20 subjects.")
 			tableView.deselectRow(at: indexPath, animated: true)
 			return
 		}
-		
-		guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
 		
 		if selectedSubjects.contains(cell.subject.text!) {
 			cell.selectedIcon.isSelected = false
@@ -670,13 +671,13 @@ extension EditTutorSubjects : UISearchBarDelegate {
 		}
 		
 		if didSelectCategory {
-			filteredSubjects = partialSubjects.filter({$0.0.contains(searchText)})
+			filteredSubjects = partialSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
 			contentView.tableView.reloadData()
 			return
 			
 		} else {
 			tableView(shouldDisplay: true) {
-				self.filteredSubjects = self.allSubjects.filter({$0.0.contains(searchText)})
+				self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
 				self.contentView.tableView.reloadData()
 			}
 		}
@@ -694,12 +695,12 @@ extension EditTutorSubjects : UIScrollViewDelegate {
 		}
 	}
 	
-//	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//		let x = scrollView.contentOffset.x
-//		let w = scrollView.bounds.size.width
-//		let currentPage = Int(ceil(x / w))
-//
-//	}
+	//	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+	//		let x = scrollView.contentOffset.x
+	//		let w = scrollView.bounds.size.width
+	//		let currentPage = Int(ceil(x / w))
+	//
+	//	}
 	private func scrollToTop() {
 		contentView.tableView.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)

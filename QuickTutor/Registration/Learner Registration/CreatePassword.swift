@@ -126,7 +126,6 @@ class CreatePassword: BaseViewController {
 		if contentView.createPasswordTextfield.textField.text!.count >= 8 {
 			return KeychainWrapper.standard.set(self.contentView.createPasswordTextfield.textField.text!, forKey: "emailAccountPassword")
 		}
-		print("error message")
 		return false
 	}
 }
@@ -139,7 +138,6 @@ extension CreatePassword : UITextFieldDelegate {
 		if length <= maxlength {
 			return true
 		} else {
-			print("Password is too long!")
 			return false
 		}
 	}

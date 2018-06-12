@@ -209,7 +209,7 @@ class EditPhone : BaseViewController {
         super.didReceiveMemoryWarning()
     }
     private func displaySavedAlertController() {
-        let alertController = UIAlertController(title: "Saved!", message: "Your changed have been saved", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
         
         self.present(alertController, animated: true, completion: nil)
         
@@ -234,7 +234,7 @@ class EditPhone : BaseViewController {
                 }
             })
         } else {
-            print("Bad Phone")
+           AlertController.genericErrorAlert(self, title: "Unable to Verify Phone", message: "")
             contentView.phoneTextField.textField.becomeFirstResponder()
         }
     }

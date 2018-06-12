@@ -327,7 +327,7 @@ enum Category {
 			
 		case .arts:                        displayName = "THE ARTS"
 		searchBarPhrases = ["search for any art"]
-		subcategories = ["Literary Arts", "Visual Arts", "Performing Arts", "Art History", "Applied Arts", "Arts Criticism"]
+		subcategories = ["Literary Arts", "Visual Arts", "Performing Arts", "Art History", "Applied Arts", "Art Criticism"]
 		icon = [#imageLiteral(resourceName: "literacy"),#imageLiteral(resourceName: "visual-arts"),#imageLiteral(resourceName: "performing"),#imageLiteral(resourceName: "history"),#imageLiteral(resourceName: "applied-arts"),#imageLiteral(resourceName: "art-criticism")]
 		fileToRead = "arts"
 			
@@ -345,13 +345,13 @@ enum Category {
 			
 		case .lifestyle:                displayName = "LIFESTYLE"
 		searchBarPhrases = ["search for any lifestyle"]
-		subcategories = ["Motivation/Consulting", "Creations", "Cooking & Baking","Fitness", "Travel Destinations","Careers"]
+		subcategories = ["Motivation & Consulting", "Creations", "Cooking & Baking","Fitness", "Travel Destinations","Careers"]
 		icon = [#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "fitness"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "volunteering")]
 		fileToRead = "life style"
 			
 		case .health:                    displayName = "HEALTH"
 		searchBarPhrases = ["search health and wellness"]
-		subcategories = ["General Health", "Self-Care", "Nutrition", "Medicines", "Physical Exercise","Illness"]
+		subcategories = ["General Health", "Self-Care", "Nutrition", "Medicine", "Physical Exercise","Illness"]
 		icon = [#imageLiteral(resourceName: "general-health"),#imageLiteral(resourceName: "selfcare"),#imageLiteral(resourceName: "nutrition"),#imageLiteral(resourceName: "medicine"),#imageLiteral(resourceName: "physical-excercise"),#imageLiteral(resourceName: "illness")]
 		fileToRead = "health"
 			
@@ -382,7 +382,7 @@ enum Category {
 		case .tech:                        displayName = "TECH"
 		searchBarPhrases = ["search technological topics"]
 		subcategories = ["Programming", "Gaming", "Hardware", "Software", "IT", "Tech Repairs"]
-		icon = [#imageLiteral(resourceName: "programming"),#imageLiteral(resourceName: "gaming"),#imageLiteral(resourceName: "hardware"),#imageLiteral(resourceName: "software"),#imageLiteral(resourceName: "it"),#imageLiteral(resourceName: "repairs")]
+		icon = [#imageLiteral(resourceName: "programming"),#imageLiteral(resourceName: "gaming"),#imageLiteral(resourceName: "hardware"),#imageLiteral(resourceName: "software"),#imageLiteral(resourceName: "it"),#imageLiteral(resourceName: "tech-repairs")]
 		fileToRead = "tech"
 			
 		case .trades:                    displayName = "TRADES"
@@ -408,15 +408,15 @@ enum Category {
 			
 		case .arts:                        displayName = "The Arts"
 		image = #imageLiteral(resourceName: "arts")
-		categoryInfo = "Does the renaissance sing out of your soul? Whether your a dancer, singer or poet — you now have the ability to tutor others in poetry, drama, painting or phantom of the opera — this is where we get the creative juices flowin’."
+		categoryInfo = "Does the renaissance sing out of your soul? Whether you're a dancer, singer or poet — you now have the ability to tutor others in poetry, drama, painting or phantom of the opera — this is where we get the creative juices flowin’."
 			
 		case .auto:                     displayName = "Auto"
 		image = #imageLiteral(resourceName: "auto")
-		categoryInfo = "Interested in teaching others a thing or two about being a gear-head? Are you a skilled repairman or designer? In this category you’ll be able to teach others anything about auto! Or just make some side cash teaching others how to fix stuff! "
+		categoryInfo = "Interested in teaching others a thing or two about being a gear-head? Are you a skilled repairman or designer? In this category, you’ll be able to teach others anything about auto!"
 			
 		case .business:                    displayName = "Business"
 		image = #imageLiteral(resourceName: "business")
-		categoryInfo = "Are you an entrepreneur, lawyer, accountant, marketer, or economist? Maybe the neighborhood excel expert? Lets talk business. "
+		categoryInfo = "Are you an entrepreneur, lawyer, accountant, marketer, or economist? Maybe the neighborhood excel expert? Let's talk business. "
 			
 		case .lifestyle:                displayName = "Lifestyle"
 		image = #imageLiteral(resourceName: "experiences")
@@ -436,7 +436,7 @@ enum Category {
 			
 		case .remedial:                 displayName = "Remedial"
 		image = #imageLiteral(resourceName: "remedial")
-		categoryInfo = "QuickTutor is a learning and teaching community built for everyone. Remedial is provided and intended for people who experience learning difficulties, or who would like to learn/teach about special education."
+		categoryInfo = "QuickTutor is a learning and teaching community built for everyone. Remedial is provided and intended for people who experience learning difficulties, or who would like to teach others about special education."
 			
 		case .sports:                     displayName = "Sports & Games"
 		image = #imageLiteral(resourceName: "sports")

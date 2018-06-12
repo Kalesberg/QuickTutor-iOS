@@ -128,7 +128,7 @@ class TutorPreferences : BaseViewController {
     override var contentView: TutorPreferencesView {
         return view as! TutorPreferencesView
     }
-    
+	var price  : Int = 0
     var distance : Int = 5
     var inPerson : Bool = true
     var inVideo : Bool = true
@@ -165,11 +165,11 @@ class TutorPreferences : BaseViewController {
         distance = value
     }
 
-    private func setUserPreferences() {
+    private func setUserPreferences() -> Bool {
         let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileHourlyRateTableViewCell)
 		guard let price = Int(cell.amount) else {
-			//show error
-			return
+			AlertController.genericErrorAlert(self, title: "Please choose an hourly rate.", message: "")
+			return false
 		}
 		
       	TutorRegistration.price = price
@@ -184,13 +184,17 @@ class TutorPreferences : BaseViewController {
         } else {
             TutorRegistration.sessionPreference = 0
         }
+		if distance < 5 || price < 1 { return false }
+		return true
     }
 	
     override func handleNavigation() {
         if (touchStartView is NavbarButtonNext) {
-            setUserPreferences()
-            let next = TutorBio()
-            navigationController?.pushViewController(next, animated: true)
+			if setUserPreferences() {
+		
+            	let next = TutorBio()
+            	navigationController?.pushViewController(next, animated: true)
+			}
         }
     }
 }

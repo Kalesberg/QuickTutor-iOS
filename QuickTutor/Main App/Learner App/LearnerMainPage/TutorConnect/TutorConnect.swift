@@ -62,7 +62,7 @@ class TutorConnectView : MainLayoutTwoButton {
         collectionView.isPagingEnabled = true
         collectionView.decelerationRate = UIScrollViewDecelerationRateFast
 
-		return collectionView
+        return collectionView
     }()
     
     override var leftButton : NavbarButton {
@@ -91,8 +91,8 @@ class TutorConnectView : MainLayoutTwoButton {
         
         return view
     }()
-	
-	
+    
+    
     override func configureView() {
         navbar.addSubview(searchBar)
         addSubview(collectionView)
@@ -172,8 +172,8 @@ class TutorCardCollectionViewBackground : BaseView {
         imageView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.6)
-			make.width.equalToSuperview().multipliedBy(0.5)
-			make.height.equalTo(200)
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalTo(200)
             make.bottom.equalTo(label.snp.top).inset(-25)
         }
     }
@@ -252,17 +252,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     var shouldFilterDatasource = false
     var hasAppliedFilters = false
     var shouldShowTutorial = false
-    
-    let horizontalScrollView = UIScrollView()
-    var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
-    var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:50,y: 300, width:200, height:50))
-    
-	var pageCount : Int = 0 {
-		didSet {
-			configurePageControl()
-		}
-	}
-	
+
     var datasource = [AWTutor]() {
         didSet {
             contentView.collectionView.backgroundView = (datasource.count == 0) ? TutorCardCollectionViewBackground() : nil
@@ -310,11 +300,8 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-        
-        horizontalScrollView.delegate = self
-        pageControl.addTarget(self, action: #selector(self.changePage(sender:)), for: UIControlEvents.valueChanged)
-		
-		contentView.collectionView.dataSource = self
+	
+        contentView.collectionView.dataSource = self
         contentView.collectionView.delegate = self
         contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
     }
@@ -327,74 +314,14 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             displayTutorial()
             defaults.set(false, forKey: "showTutorCardTutorial1.0")
         }
-        configureScrollView()
-		contentView.collectionView.reloadData()
+        contentView.collectionView.reloadData()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         contentView.collectionView.reloadData()
     }
-	func setUpImages(images: [String]) {
-		pageCount = images.count
-		var count = 1
-		images.forEach({
-			let imageView = UIImageView()
-			imageView.loadUserImages(by: $0)
-			imageView.scaleImage()
-			self.horizontalScrollView.addSubview(imageView)
-			
-			imageView.snp.makeConstraints({ (make) in
-				make.top.equalToSuperview()
-				make.height.equalToSuperview()
-				make.width.equalTo(UIScreen.main.bounds.width)
-				if (count != 1) {
-					make.left.equalTo(self.horizontalScrollView.subviews[count - 2].snp.right)
-				} else {
-					make.centerX.equalToSuperview()
-				}
-			})
-			count += 1
-		})
-		contentView.layoutIfNeeded()
-	}
-
-    private func configureScrollView() {
-        contentView.insertSubview(horizontalScrollView, aboveSubview: contentView.backgroundView)
-        horizontalScrollView.isUserInteractionEnabled = false
-        horizontalScrollView.isHidden = true
-        horizontalScrollView.isPagingEnabled = true
-        horizontalScrollView.showsHorizontalScrollIndicator = false
-		
-//        horizontalScrollView.backgroundColor = .yellow
-        
-        horizontalScrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(contentView.navbar.snp.bottom).inset(-15)
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.35)
-            make.centerX.equalToSuperview()
-        }
-        contentView.layoutIfNeeded()
-        horizontalScrollView.contentSize = CGSize(width: horizontalScrollView.frame.size.width * CGFloat(pageCount), height: horizontalScrollView.frame.size.height)
-    }
-    private func configurePageControl() {
-        pageControl.numberOfPages = pageCount
-        pageControl.currentPage = 0
-        pageControl.pageIndicatorTintColor = .white
-        pageControl.currentPageIndicatorTintColor = Colors.learnerPurple
-        contentView.addSubview(pageControl)
-        
-        pageControl.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(horizontalScrollView.snp.bottom).inset(-10)
-        }
-    }
-    
-    @objc func changePage(sender: AnyObject) -> () {
-        let x = CGFloat(pageControl.currentPage) * horizontalScrollView.frame.size.width
-        horizontalScrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
-    }
-    
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -493,32 +420,31 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             
         } else if touchStartView is NavbarButtonXLight {
             let transition = CATransition()
-            navigationController?.view.layer.add(transition.popFromTop(), forKey: nil)
-            navigationController?.popViewController(animated: false)
+			let nav = self.navigationController
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+				nav?.popViewController(animated: false)
+			}
         } else if touchStartView is AddBankButton {
-            contentView.addPaymentModal.isHidden = true
-			let next = CardManager()
-			next.popToMain = false
+			self.dismissPaymentModal()
+            let next = CardManager()
+            next.popToMain = false
             navigationController?.pushViewController(next, animated: true)
-        } else if touchStartView is InteractableObject {
-            contentView.backgroundView.isHidden = true
-            horizontalScrollView.isHidden = true
         }
     }
 }
 
-extension Array where Element: Numeric {
-    /// Returns the total sum of all elements in the array
-    var total: Element { return reduce(0, +) }
+extension TutorConnect : AWImageViewer {
+	func dismiss() {
+		self.dismissAWImageViewer()
+	}
 }
+extension TutorConnect : AddPaymentButtonPress {
+	func dismissPaymentModal() {
+		self.dismissAddPaymentMethod()
+	}
 
-extension Array where Element: FloatingPoint {
-    /// Returns the average of all elements in the array
-    var average: Element {
-        return isEmpty ? 0 : total / Element(count)
-    }
 }
-
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -561,3 +487,4 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         return 20
     }
 }
+

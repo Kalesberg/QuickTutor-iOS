@@ -70,8 +70,8 @@ struct TutorReview {
 	let duration : Int
 	
 	init(dictionary : [String : Any]) {
-		
-		date 		= dictionary["dte"] as? String ?? ""
+		let timestamp = dictionary["dte"] as? Int ?? 0
+		date 		= timestamp.timeIntervalToReviewDateFormat()
 		price 		= dictionary["p"] as? Int ?? 0
 		message 	= dictionary["m"] as? String ?? ""
 		subject 	= dictionary["sbj"] as? String ?? ""

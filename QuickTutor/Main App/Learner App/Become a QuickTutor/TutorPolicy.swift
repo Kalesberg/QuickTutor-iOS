@@ -243,7 +243,9 @@ class TutorPolicy : BaseViewController {
                     if let account = account {
                         CurrentUser.shared.connectAccount = account
                         completion(true)
-                    }
+					} else {
+						print("could not retrieve connect account")
+					}
                 })
             } else {
                 completion(false)

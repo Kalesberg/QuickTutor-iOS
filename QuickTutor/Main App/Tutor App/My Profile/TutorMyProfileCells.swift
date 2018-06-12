@@ -170,7 +170,7 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     
     let profilePicView : InteractableUIImageView = {
         let imageView = InteractableUIImageView()
-		
+        
         imageView.isUserInteractionEnabled = true
         
         imageView.scaleImage()
@@ -184,7 +184,7 @@ class ProfilePicTableViewCell : BaseTableViewCell {
         
         label.font = Fonts.createBoldSize(20)
         label.textColor = .white
-		
+        
         return label
     }()
     
@@ -249,21 +249,11 @@ class ProfilePicTableViewCell : BaseTableViewCell {
                 
                 if current is TutorMyProfile {
                     let vc = (current as! TutorMyProfile)
-                    
-                    vc.contentView.backgroundView.alpha = 0.65
-                    vc.contentView.xButton.alpha = 1.0
-                    vc.horizontalScrollView.isUserInteractionEnabled = true
-                    vc.horizontalScrollView.isHidden = false
-                    vc.contentView.leftButton.isHidden = true
+                    vc.displayAWImageViewer(images: vc.tutor.images.filter({$0.value != ""}))
                     
                 } else {
                     let vc = (current as! LearnerMyProfile)
-                    
-                    vc.contentView.backgroundView.alpha = 0.65
-                    vc.contentView.xButton.alpha = 1.0
-                    vc.horizontalScrollView.isUserInteractionEnabled = true
-                    vc.horizontalScrollView.isHidden = false
-                    vc.contentView.leftButton.isHidden = true
+					vc.displayAWImageViewer(images: vc.learner.images.filter({$0.value != ""}))
                 }
             }
         }
@@ -527,23 +517,23 @@ class SubjectsTableViewCell : UITableViewCell {
         
         return collectionView
     }()
-	
-	var datasource : [String]? {
-		didSet {
-			subjectCollectionView.reloadData()
-		}
-	}
-	
-	let label : UILabel = {
-		let label = UILabel()
-		
-		label.text = "Subjects"
-		label.textColor = .white
-		label.font = Fonts.createBoldSize(18)
-		
-		return label
-	}()
-	
+    
+    var datasource : [String]? {
+        didSet {
+            subjectCollectionView.reloadData()
+        }
+    }
+    
+    let label : UILabel = {
+        let label = UILabel()
+        
+        label.text = "Subjects"
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(18)
+        
+        return label
+    }()
+    
     func configureView() {
         addSubview(label)
         addSubview(subjectCollectionView)
@@ -585,68 +575,67 @@ extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectSelectionCollectionViewCell", for: indexPath) as! SubjectSelectionCollectionViewCell
         
-		cell.label.text = datasource?[indexPath.row]
+        cell.label.text = datasource?[indexPath.row]
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: (datasource![indexPath.row] as NSString).size(withAttributes: nil).width + 35, height: 30)
+        return CGSize(width: (datasource![indexPath.row] as NSString).size(withAttributes: nil).width + 35, height: 30)
     }
 }
 
 class RatingTableViewCell : BaseTableViewCell {
 
-	let tableView : UITableView = {
-		let tableView = UITableView()
-		
-		tableView.backgroundColor = .clear
-		tableView.estimatedRowHeight = 60
-		tableView.isScrollEnabled = false
-		tableView.separatorInset.left = 0
-		tableView.separatorStyle = .none
-		tableView.allowsSelection = false
-		tableView.estimatedSectionHeaderHeight = 30
-		
-		return tableView
-	}()
-	
+    let tableView : UITableView = {
+        let tableView = UITableView()
+        
+        tableView.backgroundColor = .clear
+        tableView.estimatedRowHeight = 60
+        tableView.isScrollEnabled = false
+        tableView.separatorInset.left = 0
+        tableView.separatorStyle = .none
+        tableView.allowsSelection = false
+        tableView.estimatedSectionHeaderHeight = 30
+        
+        return tableView
+    }()
+    
     let seeAllButton : SeeAllButton = {
         let button = SeeAllButton()
-        
+       
         return button
     }()
-	
-	var datasource : [TutorReview]! {
-		didSet {
-			tableView.reloadData()
-		}
-	}
-	
-	override func configureView() {
-		contentView.addSubview(tableView)
+    
+    var datasource : [TutorReview]! {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    override func configureView() {
+        contentView.addSubview(tableView)
         contentView.addSubview(seeAllButton)
-		
-		tableView.delegate = self
-		tableView.dataSource = self
-		tableView.register(TutorMyProfileReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
-	
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(TutorMyProfileReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
+    
         backgroundColor = .clear
         selectionStyle = .none
-		
-		
-		applyConstraints()
+        
+        applyConstraints()
     }
     
     override func applyConstraints() {
-		
-		tableView.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.95)
+        
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.95)
             make.height.equalTo(190)
-			make.centerX.equalToSuperview()
-		}
-		
+            make.centerX.equalToSuperview()
+        }
+        
         seeAllButton.snp.makeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalTo(80)
@@ -655,15 +644,15 @@ class RatingTableViewCell : BaseTableViewCell {
             make.bottom.equalTo(contentView)
         }
     }
-	override func handleNavigation() {
-		if touchStartView is SeeAllButton {
-			if let current = UIApplication.getPresentedViewController() {
-				let next = LearnerReviews()
-				next.datasource = datasource
-				current.present(next, animated: true, completion: nil)
-			}
-		}
-	}
+    override func handleNavigation() {
+        if touchStartView is SeeAllButton {
+            if let current = UIApplication.getPresentedViewController() {
+                let next = LearnerReviews()
+                next.datasource = datasource
+                current.present(next, animated: true, completion: nil)
+            }
+        }
+    }
 }
 
 class NoRatingsTableViewCell : BaseTableViewCell {
@@ -717,150 +706,156 @@ class NoRatingsTableViewCell : BaseTableViewCell {
 }
 
 extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
-	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return (datasource.count >= 2) ? 2 : 1
-	}
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 70
-	}
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return (datasource.count >= 2) ? 2 : 1
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
-		
-		let data = datasource?[indexPath.row]
-		
-		cell.nameLabel.text = data?.studentName ?? ""
-		cell.reviewTextLabel.text = data?.message ?? ""
-		cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "")"
-		cell.profilePic.loadUserImages(by: datasource![indexPath.row].imageURL)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
+        
+        if tableView.numberOfSections == 1 {
+            self.tableView.snp.updateConstraints { (make) in
+                make.height.equalTo(120)
+            }
+        }
+        
+        let data = datasource?[indexPath.row]
+        
+        cell.nameLabel.text = data?.studentName ?? ""
+        cell.reviewTextLabel.text = data?.message ?? ""
+        cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "")"
+        cell.profilePic.loadUserImages(by: datasource![indexPath.row].imageURL)
 
-		return cell
-	}
-	
-	func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
-	}
-	
-	func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
-		return 10
-	}
+        return cell
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+        return 10
+    }
 
-	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-		
-		cell.backgroundColor = .clear
-	}
-	
-	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-	
-		let label = UILabel()
-		
-		label.font = Fonts.createBoldSize(18)
-		label.text = "Reviews \((datasource?.count ?? 0))"
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        cell.backgroundColor = .clear
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(18)
+        label.text = "Reviews \((datasource?.count ?? 0))"
         label.textColor = .white
-		
-		return label
-	}
-	
-	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 50
-	}
+        
+        return label
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
 }
 
 class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
-	
-	let profilePic : UIImageView = {
-		
-		let imageView = UIImageView()
-		
-		imageView.scaleImage()
-		
-		return imageView
-	}()
-	
-	
-	let nameLabel : UILabel = {
-		let label = UILabel()
-		
-		label.textColor = .white
-		label.font = Fonts.createBoldSize(16)
-		
-		return label
-	}()
-	let dateSubjectLabel : UILabel = {
-		let label = UILabel()
-		
-		label.textColor = Colors.grayText
-		label.font = Fonts.createSize(13)
-		
-		return label
-	}()
-	
-	let reviewTextLabel : UILabel = {
-		let label = UILabel()
-		
-		label.textColor = Colors.grayText
-		label.font = Fonts.createItalicSize(14)
-		
-		return label
-	}()
+    
+    let profilePic : UIImageView = {
+        
+        let imageView = UIImageView()
+        
+        imageView.scaleImage()
+        
+        return imageView
+    }()
+    
+    
+    let nameLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(16)
+        
+        return label
+    }()
+    let dateSubjectLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = Colors.grayText
+        label.font = Fonts.createSize(13)
+        
+        return label
+    }()
+    
+    let reviewTextLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = Colors.grayText
+        label.font = Fonts.createItalicSize(14)
+        
+        return label
+    }()
     
     let container = UIView()
-	
-	override func configureView() {
+    
+    override func configureView() {
         addSubview(container)
-		container.addSubview(profilePic)
-		container.addSubview(nameLabel)
-		container.addSubview(dateSubjectLabel)
-		container.addSubview(reviewTextLabel)
-		super.configureView()
-		
-//		if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-//			profilePic.image = image
-//		} else {
-//			//set to some arbitrary image.
-//		}
-		
-		applyConstraints()
-		container.layer.cornerRadius = 15
-		container.layer.borderWidth = 1.5
-		container.layer.borderColor = Colors.sidebarPurple.cgColor
+        container.addSubview(profilePic)
+        container.addSubview(nameLabel)
+        container.addSubview(dateSubjectLabel)
+        container.addSubview(reviewTextLabel)
+        super.configureView()
+        
+//        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
+//            profilePic.image = image
+//        } else {
+//            //set to some arbitrary image.
+//        }
+        
+        applyConstraints()
+        container.layer.cornerRadius = 15
+        container.layer.borderWidth = 1.5
+        container.layer.borderColor = Colors.sidebarPurple.cgColor
 
-		contentView.backgroundColor = .clear
+        contentView.backgroundColor = .clear
 
-		selectionStyle = .none
+        selectionStyle = .none
 
-	}
-	
-	override func applyConstraints() {
+    }
+    
+    override func applyConstraints() {
         
         container.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.centerY.equalToSuperview()
             make.height.equalTo(60)
         }
-		
-		profilePic.snp.makeConstraints { (make) in
-			make.left.equalToSuperview().inset(7)
-			make.centerY.equalToSuperview()
-			make.height.equalTo(50)
-			make.width.equalTo(50)
-		}
-		
-		nameLabel.snp.makeConstraints { (make) in
-			make.left.equalTo(profilePic.snp.right).inset(-10)
-			make.centerY.equalToSuperview().multipliedBy(0.7)
-		}
-		
-		dateSubjectLabel.snp.makeConstraints { (make) in
-			make.left.equalTo(nameLabel.snp.right).inset(-8)
-			make.centerY.equalTo(nameLabel)
-		}
-		
-		reviewTextLabel.snp.makeConstraints { (make) in
-			make.left.equalTo(profilePic.snp.right).inset(-10)
-			make.centerY.equalToSuperview().multipliedBy(1.4)
-			make.right.equalToSuperview().inset(3)
-		}
-	}
+        
+        profilePic.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(7)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(50)
+            make.width.equalTo(50)
+        }
+        
+        nameLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(profilePic.snp.right).inset(-10)
+            make.centerY.equalToSuperview().multipliedBy(0.7)
+        }
+        
+        dateSubjectLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(nameLabel.snp.right).inset(-8)
+            make.centerY.equalTo(nameLabel)
+        }
+        
+        reviewTextLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(profilePic.snp.right).inset(-10)
+            make.centerY.equalToSuperview().multipliedBy(1.4)
+            make.right.equalToSuperview().inset(3)
+        }
+    }
 }

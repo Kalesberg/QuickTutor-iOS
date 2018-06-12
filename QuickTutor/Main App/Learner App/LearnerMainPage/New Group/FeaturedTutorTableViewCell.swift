@@ -108,23 +108,31 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+		
         if let _ = UIApplication.getPresentedViewController() {
-            
-            let next = TutorConnect()
-            let tutor = datasource![indexPath.item]
-            
-            next.featuredTutor = tutor
-            next.contentView.rightButton.isHidden = true
-            next.contentView.searchBar.placeholder = "\(category.mainPageData.displayName) • \(tutor.topSubject!)"
-            
-            let transition = CATransition()
-            
-            DispatchQueue.main.async {
-                let nav = navigationController
-                nav.view.layer.add(transition.segueFromBottom(), forKey: nil)
-                nav.pushViewController(next, animated: false)
-            }
+			UIView.animate(withDuration: 0.1, animations: {
+				cell.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+			}) { (finished) in
+				UIView.animate(withDuration: 0.1, animations: {
+					cell.transform = CGAffineTransform.identity
+				}) { (finished ) in
+					let next = TutorConnect()
+					let tutor = self.datasource![indexPath.item]
+					
+					next.featuredTutor = tutor
+					next.contentView.rightButton.isHidden = true
+					next.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(tutor.topSubject!)"
+					
+					let transition = CATransition()
+					
+					DispatchQueue.main.async {
+						let nav = navigationController
+						nav.view.layer.add(transition.segueFromBottom(), forKey: nil)
+						nav.pushViewController(next, animated: false)
+					}
+				}
+			}
         }
     }
     

@@ -257,10 +257,11 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 	private func uploadImageUrl(imageUrl: String, number: String) {
 		
 		let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images]
-		
 		Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
 			if let error = error {
 				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+			} else {
+				CurrentUser.shared.learner.images = CurrentUser.shared.tutor.images
 			}
 		})
 	}
@@ -269,7 +270,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 		if touchStartView is NavbarButtonSave {
 			saveChanges()
 		} else if touchStartView is NavbarButtonBack {
-			self.delegate?.tutorWasUpdated(tutor: CurrentUser.shared.tutor)
+			self.delegate?.tutorWasUpdated(tutor: self.tutor)
 		}
 	}
 }
@@ -323,7 +324,6 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! ProfileImagesTableViewCell
-			
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
@@ -422,7 +422,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
             cell.infoLabel.label.text = "Languages I Speak"
-            cell.textField.attributedText = NSAttributedString(string: "Add",
+            cell.textField.attributedText = NSAttributedString(string: "Edit",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell
@@ -449,7 +449,16 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		switch indexPath.row {
 		case 4:
-			navigationController?.pushViewController(EditBio(), animated: true)
+            let next = EditBio()
+            let attributedString = NSMutableAttributedString(string: "·  What Experience and Expertise do you have?\n·  Any certifications or awards earned?\n·  What are you looking for in learners?")
+            
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 6
+            attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+            
+            next.contentView.infoLabel.label.attributedText = attributedString;
+            next.contentView.infoLabel.label.font = Fonts.createSize(14)
+			navigationController?.pushViewController(next, animated: true)
 		case 6:
 			let next = EditTutorSubjects()
 			next.selectedSubjects = self.tutor.subjects!
@@ -485,37 +494,48 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 	func circleCropDidCropImage(_ image: UIImage) {
 		let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
 		
-		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { return }
+		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
+			AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
+			return
+		}
 		
 		switch imageToChange {
 		case 1:
 			
-			FirebaseData.manager.uploadImage(data: data, number: "1") { (imageUrl) in
-				if let imageUrl = imageUrl {
+			FirebaseData.manager.uploadImage(data: data, number: "1") { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
 					self.tutor.images["image1"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "1")
 				}
 			}
 			cell.image1.picView.image = image
 		case 2:
-			FirebaseData.manager.uploadImage(data: data, number: "2") { (imageUrl) in
-				if let imageUrl = imageUrl {
+			FirebaseData.manager.uploadImage(data: data, number: "2") { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
 					self.tutor.images["image2"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "2")
 				}
 			}
 			cell.image2.picView.image = image
 		case 3:
-			FirebaseData.manager.uploadImage(data: data, number: "3") { (imageUrl) in
-				if let imageUrl = imageUrl {
+			FirebaseData.manager.uploadImage(data: data, number: "3") { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
 					self.tutor.images["image3"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "3")
 				}
 			}
 			cell.image3.picView.image = image
 		case 4:
-			FirebaseData.manager.uploadImage(data: data, number: "4") { (imageUrl) in
-				if let imageUrl = imageUrl {
+			FirebaseData.manager.uploadImage(data: data, number: "4") { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
 					self.tutor.images["image4"] = imageUrl
 					self.uploadImageUrl(imageUrl: imageUrl, number: "4")
 				}
