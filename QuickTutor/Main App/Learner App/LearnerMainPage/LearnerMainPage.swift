@@ -83,12 +83,13 @@ class LearnerMainPage : MainPage {
         view = LearnerMainPageView()
     }
     
-    var datasource = [Category : [AWTutor]]()
+    var datasource = [Category : [FeaturedTutor]]()
     var didLoadMore = false
     var learner : AWLearner!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		
 		AccountService.shared.currentUserType = .learner
 		guard let learner = CurrentUser.shared.learner else {
 			try! Auth.auth().signOut()
@@ -412,7 +413,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
             
-            cell.datasource = self.datasource[category[indexPath.section - 1]]
+			cell.datasource = self.datasource[category[indexPath.section - 1]]!
             cell.category =  category[indexPath.section - 1]
             
             return cell

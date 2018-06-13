@@ -72,3 +72,22 @@ function sendReportEmail(reporter, reportee, session, type) {
     return console.log("File report email sent.")
   });
 }
+
+/*
+  Weekly CronJob to remove outdated "Featured Tutor" Data.
+*/
+
+exports.weekly_job = functions.pubsub.topic('weekly-tick').onPublish((event) => {
+    var ref = db.ref("/featured/");
+    var now = Date.now();
+    var cutoff = now - 604800;
+    var inactive = ref.orderByChild("t").endAt(cutoff);
+    return inactive.once('value', function(snapshot) {
+      console.log(snapshot.val());
+      var updates = {};
+      snapshot.forEach(function(child) {
+        updates[child.key] = null
+      });
+      return ref.update(updates);
+    })
+});

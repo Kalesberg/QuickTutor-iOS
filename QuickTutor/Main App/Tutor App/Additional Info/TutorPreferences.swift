@@ -275,7 +275,18 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
-        
         return UITableViewCell()
     }
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		switch indexPath.row {
+		case 0:
+			let cell = tableView.cellForRow(at: indexPath) as! EditProfileHourlyRateTableViewCell
+			if !cell.textField.isFirstResponder {
+				cell.textField.becomeFirstResponder()
+			}
+			
+		default:
+			break
+		}
+	}
 }

@@ -560,6 +560,7 @@ class TutorMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -770,16 +771,6 @@ class TutorMainPage : MainPage {
                 activityViewController.popoverPresentationController?.sourceView = self.view
                 self.present(activityViewController, animated: true, completion: nil)
             }
-            
-//            contentView.backgroundView.alpha = 0.65
-//            contentView.xButton.isHidden = false
-//            contentView.leftButton.isHidden = true
-//            for view in contentView.subviews {
-//                if !(view is NavbarButtonX || view is ShareUsernameModal) {
-//                    view.isUserInteractionEnabled = false
-//                }
-//            }
-//            contentView.shareUsernameModal.isHidden = false
         } else if (touchStartView == contentView.xButton) {
             contentView.backgroundView.alpha = 0
             contentView.xButton.isHidden = true
@@ -790,7 +781,11 @@ class TutorMainPage : MainPage {
                 }
             }
             contentView.shareUsernameModal.isHidden = true
-        } else if (touchStartView == contentView.shareUsernameModal.twitterImage) {
+        }
+		/*
+			MARK: // Depreciated
+		*/
+		else if (touchStartView == contentView.shareUsernameModal.twitterImage) {
             
             let tweetText = "Follow me on Quicktutor! \(CurrentUser.shared.tutor.username)"
             let usernameURL = "http://QuickTutor.com/"
@@ -807,7 +802,11 @@ class TutorMainPage : MainPage {
             } else {
                 UIApplication.shared.openURL(url)
             }
-        } else if (touchStartView == contentView.shareUsernameModal.facebookImage) {
+        }
+		/*
+			MARK: // Depreciated
+		*/
+		else if (touchStartView == contentView.shareUsernameModal.facebookImage) {
             let content = FBSDKShareLinkContent()
             
             content.contentURL =  URL(string: "https://quicktutor.com")
@@ -819,14 +818,22 @@ class TutorMainPage : MainPage {
             dialog.mode = FBSDKShareDialogMode.automatic
             dialog.show()
             
-        } else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
+        }
+		/*
+			MARK: // Depreciated
+		*/
+		else if (touchStartView == contentView.shareUsernameModal.messagesImage) {
             if (MFMessageComposeViewController.canSendText()) {
                 let controller = MFMessageComposeViewController()
                 controller.body = "Follow me on QuickTutor! "
                 controller.messageComposeDelegate = self
                 self.present(controller, animated: true, completion: nil)
             }
-        } else if (touchStartView == contentView.shareUsernameModal.emailImage) {
+        }
+		/*
+			MARK: // Depreciated
+		*/
+		else if (touchStartView == contentView.shareUsernameModal.emailImage) {
             if MFMailComposeViewController.canSendMail() {
                 let mail = MFMailComposeViewController()
                 mail.mailComposeDelegate = self

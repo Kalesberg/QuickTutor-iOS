@@ -15,11 +15,13 @@ struct TopSubcategory {
 	let hours : Int
 	let numSessions : Int
 	let rating : Double
+	let subjects : String
 	
 	init(dictionary : [String : Any]) {
 		hours = dictionary["hr"] as? Int ?? 0
 		numSessions = dictionary["nos"] as? Int ?? 0
 		rating = dictionary["r"] as? Double ?? 0.0
+		subjects = dictionary["sbj"] as? String ?? ""
 	}
 	
 }
@@ -94,8 +96,8 @@ class TutorRatings : BaseViewController {
 		self.tutor = tutor
 		
 		self.displayLoadingOverlay()
-		getSubjectsTaught { (subcategoryList) in
-			self.findTopSubject(subjects: subcategoryList)
+		FirebaseData.manager.getSubjectsTaught(uid: tutor.uid) { (subjectList) in
+			self.findTopSubject(subjects: subjectList)
 			self.dismissOverlay()
 		}
 	}
@@ -121,24 +123,6 @@ class TutorRatings : BaseViewController {
 		contentView.tableView.register(TutorMainPageTopSubjectCell.self, forCellReuseIdentifier: "tutorMainPageTopSubjectCell")
 		contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
 		contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
-	}
-	
-	private func getSubjectsTaught(_ completion: @escaping ([TopSubcategory]) -> Void) {
-		
-		var subjectsTaught = [TopSubcategory]()
-		
-		ref.child("subject").child(CurrentUser.shared.tutor.uid).observeSingleEvent(of: .value) { (snapshot) in
-			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
-			
-			for child in snap {
-				guard let value = child.value as? [String : Any] else { return }
-				
-				var topSubjects = TopSubcategory(dictionary: value)
-				topSubjects.subcategory = child.key
-				subjectsTaught.append(topSubjects)
-			}
-			completion(subjectsTaught)
-		}
 	}
 	
 	private func findTopSubject(subjects: [TopSubcategory]) {

@@ -102,7 +102,7 @@ class CategorySearch: BaseViewController {
 		view = CategorySearchView()
 	}
 	
-	var datasource = [AWTutor]() {
+	var datasource = [FeaturedTutor]() {
 		didSet {
 			contentView.collectionView.reloadData()
 		}
@@ -144,9 +144,6 @@ class CategorySearch: BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonBack {
-			self.navigationController?.popViewController(animated: true)
-		}
 	}
 }
 
@@ -161,10 +158,17 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		
 		cell.price.text = datasource[indexPath.item].price.priceFormat()
-		cell.featuredTutor.imageView.loadUserImages(by: datasource[indexPath.item].images["image1"]!)
+		cell.featuredTutor.imageView.loadUserImages(by: datasource[indexPath.item].imageUrl)
 		cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
 		cell.featuredTutor.region.text = datasource[indexPath.item].region
-		cell.featuredTutor.subject.text = datasource[indexPath.item].topSubject
+		cell.featuredTutor.subject.text = datasource[indexPath.item].subject
+		
+		let formattedString = NSMutableAttributedString()
+		
+		formattedString
+			.bold("\(datasource[indexPath.item].rating) ", 14, Colors.yellow)
+			.regular("(\(datasource[indexPath.item].reviews) ratings)", 14, Colors.yellow)
+		cell.featuredTutor.ratingLabel.attributedText = formattedString
 		
 		return cell
 	}
@@ -173,7 +177,7 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
 		cell.growSemiShrink {
 			let next = TutorConnect()
-			next.featuredTutor = self.datasource[indexPath.item]
+			next.featuredTutorUid = self.datasource[indexPath.item].uid
 			
 			let nav = self.navigationController
 			let transition = CATransition()
@@ -185,6 +189,7 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		}
 	}
 }
+
 extension CategorySearch : UISearchBarDelegate {
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		let next = SearchSubjects()

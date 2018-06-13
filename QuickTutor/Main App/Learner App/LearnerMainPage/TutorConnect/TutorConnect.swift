@@ -267,9 +267,19 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         }
     }
     
-    var featuredTutor : AWTutor! {
+    var featuredTutorUid : String! {
         didSet {
-            self.datasource.append(featuredTutor)
+			displayLoadingOverlay()
+			FirebaseData.manager.getTutor(featuredTutorUid, isQuery: false) { (tutor) in
+				if let tutor = tutor {
+					self.datasource.append(tutor)
+					self.contentView.rightButton.isHidden = true
+				} else {
+					AlertController.genericErrorAlert(self, title: "Error", message: "Unable to load tutor.")
+					self.navigationController?.popViewController(animated: true)
+				}
+				self.dismissOverlay()
+			}
         }
     }
     

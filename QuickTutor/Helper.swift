@@ -266,7 +266,30 @@ struct SubjectStore {
         }
         return ("No top subject.", #imageLiteral(resourceName: "defaultProfileImage"))
     }
-    
+	static func findCategory(subject: String) -> String? {
+		for i in 0..<category.count {
+			do {
+				guard let file = Bundle.main.url(forResource: category[i].subcategory.fileToRead, withExtension: "json") else {
+					continue }
+				let data = try Data(contentsOf: file)
+				let json = try JSONSerialization.jsonObject(with: data, options: [])
+				
+				for key in category[i].subcategory.subcategories {
+					guard let object = json as? [String : [String]] else { continue }
+					guard let subjectArray = object[key] else { continue }
+					
+					for value in subjectArray {
+						if subject == value {
+							return category[i].subcategory.fileToRead
+						}
+					}
+				}
+			} catch {
+				return nil
+			}
+		}
+		return nil
+	}
     static func findSubCategory(resource: String, subject: String) -> String? {
         do {
             guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }

@@ -38,7 +38,7 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		return collectionView
 	}()
 	
-	var datasource : [AWTutor]? {
+	var datasource = [FeaturedTutor]() {
 		didSet {
 			collectionView.reloadData()
 		}
@@ -76,32 +76,24 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return datasource?.count ?? 0
+		return datasource.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		
-		cell.price.text = datasource![indexPath.item].price.priceFormat()
-		cell.featuredTutor.imageView.loadUserImages(by: datasource![indexPath.item].images["image1"]!)
-		cell.featuredTutor.namePrice.text = datasource![indexPath.item].name
-		cell.featuredTutor.region.text = datasource![indexPath.item].region
-		cell.featuredTutor.subject.text = datasource![indexPath.item].topSubject
+		cell.price.text = datasource[indexPath.item].price.priceFormat()
+		cell.featuredTutor.imageView.loadUserImages(by: datasource[indexPath.item].imageUrl)
+		cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
+		cell.featuredTutor.region.text = datasource[indexPath.item].region
+		cell.featuredTutor.subject.text = datasource[indexPath.item].subject
 		
 		let formattedString = NSMutableAttributedString()
-		guard let reviews = datasource![indexPath.item].reviews else {
-			formattedString
-				.bold("\(datasource![indexPath.item].tRating!) ", 14, Colors.yellow)
-				.regular("(n/a ratings)", 14, Colors.yellow)
-			
-			cell.featuredTutor.ratingLabel.attributedText = formattedString
-			return cell
-		}
-		formattedString
-			.bold("\(datasource![indexPath.item].tRating!) ", 14, Colors.yellow)
-			.regular("(\(reviews.count) ratings)", 14, Colors.yellow)
 		
+		formattedString
+			.bold("\(datasource[indexPath.item].rating) ", 14, Colors.yellow)
+			.regular("(\(datasource[indexPath.item].reviews) ratings)", 14, Colors.yellow)
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
 		
 		return cell
@@ -113,12 +105,8 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		if let _ = UIApplication.getPresentedViewController() {
 			cell.growSemiShrink {
 				let next = TutorConnect()
-				let tutor = self.datasource![indexPath.item]
-				
-				next.featuredTutor = tutor
-				next.contentView.rightButton.isHidden = true
-				next.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(tutor.topSubject!)"
-				
+				next.featuredTutorUid = self.datasource[indexPath.item].uid
+				next.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
 				let transition = CATransition()
 				
 				DispatchQueue.main.async {
