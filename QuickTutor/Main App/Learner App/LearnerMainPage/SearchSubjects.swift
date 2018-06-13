@@ -162,14 +162,8 @@ class SearchSubjects: BaseViewController {
 		}
 	}
 	
-	var selectedCategory : Int = 6 {
-		didSet {
-			DispatchQueue.main.async {
-				self.contentView.categoryCollectionView.reloadData()
-			}
-		}
-	}
-	
+	var initialIndex : IndexPath? = IndexPath(item: 6, section: 0)
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
@@ -201,9 +195,7 @@ class SearchSubjects: BaseViewController {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		
-		let initialIndex : IndexPath! = IndexPath(item: categories.count / 2, section: 0)
-		
-		if !initialSetup && initialIndex != nil{
+		if !initialSetup && initialIndex != nil {
 			contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
 			initialSetup = true
 		}

@@ -37,7 +37,7 @@ class CategorySearchView : MainLayoutTwoButton {
 		
 		let collectionView  = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		
-		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 2, minimumInteritemSpacing: 5, minimumLineSpacing: 40, sectionInset: UIEdgeInsets(top: 10, left: 5, bottom: 1, right: 5))
+		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 2, minimumInteritemSpacing: 5, minimumLineSpacing: 40, sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
 		
 		collectionView.collectionViewLayout = customLayout
 		collectionView.backgroundColor = .clear
@@ -102,7 +102,7 @@ class CategorySearch: BaseViewController {
 		view = CategorySearchView()
 	}
 	
-	var datasource : [AWTutor]? {
+	var datasource = [AWTutor]() {
 		didSet {
 			contentView.collectionView.reloadData()
 		}
@@ -145,7 +145,7 @@ class CategorySearch: BaseViewController {
 	
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonBack {
-			self.dismiss(animated: true, completion: nil)
+			self.navigationController?.popViewController(animated: true)
 		}
 	}
 }
@@ -153,35 +153,47 @@ class CategorySearch: BaseViewController {
 extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return datasource?.count ?? 0
+		return datasource.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
-		if let datasource = datasource {
-			cell.price.text = datasource[indexPath.item].price.priceFormat()
-			cell.featuredTutor.imageView.loadUserImages(by: datasource[indexPath.item].images["image1"]!)
-			cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
-			cell.featuredTutor.region.text = datasource[indexPath.item].region
-			cell.featuredTutor.subject.text = datasource[indexPath.item].topSubject
-		}
+		
+		cell.price.text = datasource[indexPath.item].price.priceFormat()
+		cell.featuredTutor.imageView.loadUserImages(by: datasource[indexPath.item].images["image1"]!)
+		cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
+		cell.featuredTutor.region.text = datasource[indexPath.item].region
+		cell.featuredTutor.subject.text = datasource[indexPath.item].topSubject
+		
 		return cell
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		if let current = UIApplication.getPresentedViewController() {
+		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+		cell.growSemiShrink {
 			let next = TutorConnect()
+			next.featuredTutor = self.datasource[indexPath.item]
 			
-			next.datasource = [datasource![indexPath.item]]
+			let nav = self.navigationController
+			let transition = CATransition()
 			
-			current.present(next, animated: true, completion: nil)
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav?.pushViewController(next, animated: false)
+			}
 		}
 	}
 }
 extension CategorySearch : UISearchBarDelegate {
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-		navigationController?.pushViewController(SearchSubjects(), animated: true)
+		let next = SearchSubjects()
+		if let index = Category.categories.index(of: category) {
+			next.initialIndex = IndexPath(item: index, section: 0)
+			navigationController?.pushViewController(next, animated: true)
+		} else{
+			navigationController?.pushViewController(next, animated: true)
+		}
 	}
 }
 

@@ -373,7 +373,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             }
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-            
+			
             cell.seeAllButton.isHidden = !(datasource.count > 2)
             cell.datasource = datasource
             
