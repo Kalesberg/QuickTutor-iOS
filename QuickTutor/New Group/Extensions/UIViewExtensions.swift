@@ -126,4 +126,16 @@ extension UIView {
 			})
 		}
 	}
+	func growSemiShrink(_ completion: @escaping () -> ()) {
+		UIView.animate(withDuration: 0.1, animations: {
+			self.alpha = 1.0
+			self.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+		}) { (finished) in
+			UIView.animate(withDuration: 0.2, animations: {
+				self.transform = CGAffineTransform.identity
+			}) { (finished) in
+				completion()
+			}
+		}
+	}
 }

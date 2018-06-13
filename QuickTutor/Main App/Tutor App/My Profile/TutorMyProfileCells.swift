@@ -751,7 +751,7 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
         let label = UILabel()
         
         label.font = Fonts.createBoldSize(18)
-        label.text = "Reviews \((datasource?.count ?? 0))"
+        label.text = "Reviews (\((datasource?.count ?? 0)))"
         label.textColor = .white
         
         return label
