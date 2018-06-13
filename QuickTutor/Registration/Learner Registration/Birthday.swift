@@ -52,9 +52,10 @@ class BirthdayView: RegistrationNavBarView {
         
         let date = Date()
         
-        birthdayPicker.datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: 0, to: date)
+        birthdayPicker.datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: 1, to: date)
         birthdayPicker.datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: -90, to: date)
-        
+		birthdayPicker.datePicker.setDate(date, animated: true)
+		
         birthdayInfoBig.label.font = Fonts.createSize(18)
         birthdayInfoBig.label.text = "Others will not be able to see your birthday"
         birthdayInfoBig.label.numberOfLines = 2
@@ -151,7 +152,6 @@ class Birthday: BaseViewController {
         let age = birthdate.dateComponents([.year], from: contentView.birthdayPicker.datePicker.date, to: date)
         
         if age.year! > 0 {
-            //need more checks here...
             Registration.age = age.year!
             Registration.dob = String("\(birthday.day!)/\(birthday.month!)/\(birthday.year!)")
             contentView.errorLabel.isHidden = true
