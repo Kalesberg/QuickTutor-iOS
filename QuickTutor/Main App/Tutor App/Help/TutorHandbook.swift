@@ -91,7 +91,7 @@ class TutorHandookView : MainLayoutHeaderScroll {
         
         privateInfoTitle.label.text = "Never disclose private information"
         
-        privateInfoBody.text = "Never disclose private information like your last name, e-mail address, home address, phone number, or other information in your biography or through the messaging system. Immediately stop communicating with and report any tutor who pressures you for private or financial information, or attempts in any way to manipulate you into revealing private information.\n\n"
+        privateInfoBody.text = "Never disclose private information like your last name, Email address, home address, phone number, or other information in your biography or through the messaging system. Immediately stop communicating with and report any tutor who pressures you for private or financial information, or attempts in any way to manipulate you into revealing private information.\n\n"
     }
     
     override func applyConstraints() {

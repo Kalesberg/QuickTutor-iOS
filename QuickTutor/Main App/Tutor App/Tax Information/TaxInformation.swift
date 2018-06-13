@@ -220,8 +220,8 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
         case 10:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
             
-            cell.infoLabel.label.text = "Zipcode"
-            cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Zipcode",
+            cell.infoLabel.label.text = "ZIP Code"
+            cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter ZIP Code",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
             return cell

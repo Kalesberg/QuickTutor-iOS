@@ -27,7 +27,7 @@ class EmailView: RegistrationNavBarKeyboardView {
         progressBar.progress = 0.4
         progressBar.applyConstraints()
 		
-		titleLabel.label.text = "Your email?"
+		titleLabel.label.text = "Your Email?"
 		
 		
 		emailTextField.placeholder.text = "EMAIL"
@@ -110,7 +110,7 @@ class Email: BaseViewController {
 			})
 		} else {
 			contentView.errorLabel.isHidden = false
-			contentView.errorLabel.text = "The provided e-mail is not valid"
+			contentView.errorLabel.text = "The provided Email is not valid"
 		}
 	}
 	

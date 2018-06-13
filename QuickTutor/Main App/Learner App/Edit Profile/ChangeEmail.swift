@@ -28,7 +28,7 @@ class ChangeEmailView : MainLayoutTitleBackButton, Keyboardable {
         
         title.label.text = "Change Email"
         
-        subtitle.label.text = "Enter new email address"
+        subtitle.label.text = "Enter new Email address"
         subtitle.label.font = Fonts.createBoldSize(18)
         subtitle.label.numberOfLines = 2
         

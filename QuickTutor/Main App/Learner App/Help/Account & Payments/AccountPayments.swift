@@ -12,7 +12,7 @@ import SnapKit
 class AccountPaymentsView : LearnerHelpView {
     override func configureView() {
         super.configureView()
-        title.label.text = "Account & Payments"
+        title.label.text = "Help"
     }
     override func applyConstraints() {
         super.applyConstraints()

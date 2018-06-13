@@ -28,7 +28,7 @@ class PaymentOptionsView : MainLayoutHeaderScroll {
         scrollView.addSubview(gratuityBody)
         super.configureView()
         
-        title.label.text = "Payments & Earnings"
+        title.label.text = "Help"
         header.label.text = "Payment Options"
         
         cardTitle.label.text = "DEBIT AND CREDIT CARD"

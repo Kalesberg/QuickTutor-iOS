@@ -28,7 +28,7 @@ class UpdatePaymentView : MainLayoutHeaderScroll {
         scrollView.addSubview(updateCardBody)
         super.configureView()
         
-        title.label.text = "Payments & Earnings"
+        title.label.text = "Help"
         header.label.text = "Updating a payment method"
         
         addPaymentTitle.label.text = "ADD A PAYMENT METHOD"

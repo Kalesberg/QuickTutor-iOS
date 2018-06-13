@@ -85,7 +85,7 @@ class LearnerHandookView : MainLayoutHeaderScroll {
         adultsBody.text = "QuickTutor will eventually have parent/guardian and minor accounts, but for now an adult should always be present for tutoring sessions if a learner is under the age of eighteen."
         
         privateInfoSubtitle.label.text = "Never disclose private information"
-        privateInfoBody.text = "Never disclose private information like your last name, e-mail address, home address, phone number, or other information in your biography or through the messaging system. Immediately stop communicating with and report any tutor who pressures you for private or financial information, or attempts in any way to manipulate you into revealing private information."
+        privateInfoBody.text = "Never disclose private information like your last name, Email address, home address, phone number, or other information in your biography or through the messaging system. Immediately stop communicating with and report any tutor who pressures you for private or financial information, or attempts in any way to manipulate you into revealing private information."
     }
     
     override func applyConstraints() {
