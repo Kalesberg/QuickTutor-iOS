@@ -117,6 +117,7 @@ class ProfileImage1 : ProfilePicImageView {
 		} else {
 			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image1"]!)
 		}
+		buttonImageView.image = UIImage(named: "remove-image")
     }
 }
 
@@ -133,7 +134,9 @@ class ProfileImage2 : ProfilePicImageView {
 		} else {
 			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image2"]!)
 		}
-
+		
+		buttonImageView.image = (picView.image == #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "add-image-profile") : UIImage(named: "remove-image")
+		
 		let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
         self.addGestureRecognizer(longPressRecognizer)
@@ -161,6 +164,8 @@ class ProfileImage3 : ProfilePicImageView {
 			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image3"]!)
 		}
 
+		buttonImageView.image = (picView.image == #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "add-image-profile") : UIImage(named: "remove-image")
+
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7
         self.addGestureRecognizer(longPressRecognizer)
@@ -187,6 +192,8 @@ class ProfileImage4 : ProfilePicImageView {
 		} else {
 			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image4"]!)
 		}
+		
+		buttonImageView.image = (picView.image == #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "add-image-profile") : UIImage(named: "remove-image")
 
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.7

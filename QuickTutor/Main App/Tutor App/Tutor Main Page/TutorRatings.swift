@@ -79,7 +79,7 @@ class TutorRatings : BaseViewController {
 		}
 	}
 
-	var topSubject : (String, UIImage)! {
+	var topSubject : (String, UIImage)? {
 		didSet {
 			if topSubject == nil {
 				//TODO create backgroundView
@@ -94,12 +94,7 @@ class TutorRatings : BaseViewController {
 		
 		guard let tutor = CurrentUser.shared.tutor else { return }
 		self.tutor = tutor
-		
-		self.displayLoadingOverlay()
-		FirebaseData.manager.getSubjectsTaught(uid: tutor.uid) { (subjectList) in
-			self.findTopSubject(subjects: subjectList)
-			self.dismissOverlay()
-		}
+		findTopSubjects()
 	}
 	
     override func viewDidLayoutSubviews() {
@@ -125,18 +120,24 @@ class TutorRatings : BaseViewController {
 		contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
 	}
 	
-	private func findTopSubject(subjects: [TopSubcategory]) {
-		//Will later be used to get a list of top subjects in order.
-		let sortedSubjects = subjects.sorted {
-			if $0.rating != $1.rating {
-				return $0.rating > $1.rating
-			} else if $0.numSessions != $1.numSessions {
-				return $0.numSessions > $1.numSessions
-			} else {
-				return $0.hours > $1.hours
-			}
+	private func findTopSubjects() {
+		func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
+			return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
 		}
-		topSubject = SubjectStore.findSubcategoryImage(subcategory: sortedSubjects[0].subcategory)
+	
+		FirebaseData.manager.getSubjectsTaught(uid: tutor.uid) { (subcategoryList) in
+			let avg = subcategoryList.map({$0.rating / 5}).average
+			
+			let topSubcategory = subcategoryList.sorted {
+				return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 10) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
+				}.first
+			
+			guard let subcategory = topSubcategory?.subcategory else {
+				self.topSubject = nil
+				return
+			}
+			self.topSubject = SubjectStore.findSubcategoryImage(subcategory: subcategory)
+		}
 	}
 }
 
@@ -237,10 +238,14 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageTopSubjectCell", for: indexPath) as! TutorMainPageTopSubjectCell
 
-			if topSubject != nil {
-				cell.subjectLabel.text = topSubject.0
-				cell.icon.image = topSubject.1
+			guard let topSubject = topSubject else {
+				cell.icon.image = #imageLiteral(resourceName: "cameraIcon")
+				cell.subjectLabel.text = "No top subject yet."
+				return cell
 			}
+			
+			cell.subjectLabel.text = topSubject.0
+			cell.icon.image = topSubject.1
 	
 			return cell
         case 4:
