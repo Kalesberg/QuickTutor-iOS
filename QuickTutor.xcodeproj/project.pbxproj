@@ -333,7 +333,6 @@
 		CFF5017720698F620085B0E9 /* LearnerHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C5201E8500006FC580 /* LearnerHelp.swift */; };
 		CFF50178206990060085B0E9 /* LearnerEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2F02720354E4700F921C9 /* LearnerEditProfile.swift */; };
 		CFF50179206990590085B0E9 /* LearnerMyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BD201E8245006FC580 /* LearnerMyProfile.swift */; };
-		CFF5017A206990810085B0E9 /* LeanerMessaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422F2F2205AC6390061ACE4 /* LeanerMessaging.swift */; };
 		CFF5017B206990B20085B0E9 /* LearnerReviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA3212055088B000C7054 /* LearnerReviews.swift */; };
 /* End PBXBuildFile section */
 
@@ -356,7 +355,6 @@
 		841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPaymentEarnings.swift; sourceTree = "<group>"; };
 		8421007D207A7E0800422A31 /* FeaturedTutorQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTutorQuery.swift; sourceTree = "<group>"; };
 		8422F2F0205AB6480061ACE4 /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
-		8422F2F2205AC6390061ACE4 /* LeanerMessaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeanerMessaging.swift; sourceTree = "<group>"; };
 		842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfo.swift; sourceTree = "<group>"; };
 		842394061FF4C7FF00827C7D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		842394081FF4C94F00827C7D /* BaseViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViews.swift; sourceTree = "<group>"; };
@@ -1256,7 +1254,6 @@
 			isa = PBXGroup;
 			children = (
 				84D8C9262066A8AE003C3AEA /* LearnerMainPage */,
-				8422F2F2205AC6390061ACE4 /* LeanerMessaging.swift */,
 				843BA3202055087D000C7054 /* My Profile */,
 				8482AFDF2038C25B00F6F805 /* Edit Profile */,
 				8426A1712055C4BE00EAF1A8 /* Payment */,
@@ -1717,6 +1714,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		5D677D2761908BD937829C39 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1749,7 +1761,6 @@
 				845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */,
 				842576602070295C00FD295B /* AddSubjectTableViewCell.swift in Sources */,
 				CFF5017B206990B20085B0E9 /* LearnerReviews.swift in Sources */,
-				CFF5017A206990810085B0E9 /* LeanerMessaging.swift in Sources */,
 				CFF50179206990590085B0E9 /* LearnerMyProfile.swift in Sources */,
 				CF387EBD2088314B00087449 /* Notifications.swift in Sources */,
 				CF6325ED208011750037F8AA /* VideoSessionVC.swift in Sources */,

@@ -34,7 +34,7 @@ class AccountInfoView : MainLayoutHeaderScroll {
         strings = ["1.  Select the navigation bar in the main app menu.\n", "2.  Tap the profile bar that displays your information.\n", "3.  Tap \"Edit\" in the top right of the screen.\n", "4.  Select the the information you would like to change.\n", "5.  When you’ve changed your information, click save."]
 
         let attributesDictionary = [NSAttributedStringKey.font : infoChangeBody.font]
-        let fullAttributedString = NSMutableAttributedString(string: "To update or change your name, biography, email, place of work, university, or languages you speak:\n\n", attributes: attributesDictionary)
+        let fullAttributedString = NSMutableAttributedString(string: "To update or change your name, biography, email, university, or languages you speak:\n\n", attributes: attributesDictionary)
         
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)

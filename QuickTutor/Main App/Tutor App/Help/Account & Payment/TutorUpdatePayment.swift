@@ -25,12 +25,12 @@ class TutorUpdatePaymentView : MainLayoutHeaderScroll {
         scrollView.addSubview(yourBankBody)
         super.configureView()
         
-        title.label.text = "Payments & Earnings"
+        title.label.text = "Help"
         header.label.text = "Updating your bank"
         
         addBankTitle.label.text = "ADD A BANK"
         
-        addBankBody.text = "Adding a bank account allows you to get paid for tutoring.\n\nWhen a session ends, the funds will be deposited into your QuickTutor wallet. You will be paid in accordance to the session price and length of the session. You can cash-out at anytime.\n"
+        addBankBody.text = "Adding a bank account allows you to get paid for tutoring.\n\nWhen a session ends, the funds will be deposited into your bank account. You will be paid in accordance to the price and length of a session.\n"
         
         yourBankSubtitle.label.text = "To add your bank:"
         

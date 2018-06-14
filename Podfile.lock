@@ -100,35 +100,6 @@ DEPENDENCIES:
   - SwiftKeychainWrapper
   - TwilioVideo (= 2.0.0-beta3)
 
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - AAPhotoCircleCrop
-    - Alamofire
-    - Bolts
-    - FBSDKCoreKit
-    - FBSDKLoginKit
-    - FBSDKShareKit
-    - Firebase
-    - FirebaseAnalytics
-    - FirebaseAuth
-    - FirebaseCore
-    - FirebaseDatabase
-    - FirebaseDynamicLinks
-    - FirebaseInstanceID
-    - FirebaseMessaging
-    - FirebaseStorage
-    - GoogleToolboxForMac
-    - GTMSessionFetcher
-    - leveldb-library
-    - nanopb
-    - Protobuf
-    - SnapKit
-    - Socket.IO-Client-Swift
-    - Starscream
-    - Stripe
-    - SwiftKeychainWrapper
-    - TwilioVideo
-
 EXTERNAL SOURCES:
   GeoFire:
     :git: https://github.com/firebase/geofire-objc.git
@@ -169,4 +140,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 33615cbb0ff3b1813537082ae66195511895d884
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.4.0
