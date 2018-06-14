@@ -79,15 +79,14 @@ class LearnerEditProfileView : MainLayoutTitleTwoButton, Keyboardable {
 
 class ProfilePicImageView : InteractableView, Interactable {
     
-    var picView = UIImageView()
+	var picView = UIImageView()
     var buttonImageView = UIImageView()
-    
+	
     override func configureView() {
         addSubview(picView)
         picView.addSubview(buttonImageView)
-        picView.scaleImage()
-        
-        buttonImageView.image = UIImage(named: "add-image-profile")
+		picView.scaleImage()
+	
         buttonImageView.scaleImage()
         
         applyConstraints()
@@ -108,106 +107,6 @@ class ProfilePicImageView : InteractableView, Interactable {
         }
     }
 }
-
-class ProfileImage1 : ProfilePicImageView {
-    override func configureView() {
-        super.configureView()
-		if AccountService.shared.currentUserType == .learner {
-			picView.loadUserImages(by: CurrentUser.shared.learner.images["image1"]!)
-		} else {
-			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image1"]!)
-		}
-		buttonImageView.image = UIImage(named: "remove-image")
-    }
-}
-
-class ProfileImage2 : ProfilePicImageView {
-    
-    var number : String = "2"
-    let current = UIApplication.getPresentedViewController()
-    
-    override func configureView() {
-        super.configureView()
-		
-		if AccountService.shared.currentUserType == .learner {
-			picView.loadUserImages(by: CurrentUser.shared.learner.images["image2"]!)
-		} else {
-			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image2"]!)
-		}
-		
-		buttonImageView.image = (picView.image == #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "add-image-profile") : UIImage(named: "remove-image")
-		
-		let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
-        longPressRecognizer.minimumPressDuration = 0.7
-        self.addGestureRecognizer(longPressRecognizer)
-    }
-    
-    @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .began {
-            AlertController.removeImageAlert(current!, number) { () in
-            }
-        }
-    }
-}
-
-class ProfileImage3 : ProfilePicImageView {
-    
-    var number : String = "3"
-    let current = UIApplication.getPresentedViewController()
-    
-    override func configureView() {
-        super.configureView()
-		
-		if AccountService.shared.currentUserType == .learner {
-			picView.loadUserImages(by: CurrentUser.shared.learner.images["image3"]!)
-		} else {
-			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image3"]!)
-		}
-
-		buttonImageView.image = (picView.image == #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "add-image-profile") : UIImage(named: "remove-image")
-
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
-        longPressRecognizer.minimumPressDuration = 0.7
-        self.addGestureRecognizer(longPressRecognizer)
-    }
-    
-    @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .began {
-            AlertController.removeImageAlert(current!, number) { () in
-            }
-        }
-    }
-}
-
-class ProfileImage4 : ProfilePicImageView {
-    
-    var number : String = "4"
-    let current = UIApplication.getPresentedViewController()
-    
-    override func configureView() {
-        super.configureView()
-        
-		if AccountService.shared.currentUserType == .learner {
-			picView.loadUserImages(by: CurrentUser.shared.learner.images["image4"]!)
-		} else {
-			picView.loadUserImages(by: CurrentUser.shared.tutor.images["image4"]!)
-		}
-		
-		buttonImageView.image = (picView.image == #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "add-image-profile") : UIImage(named: "remove-image")
-
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
-        longPressRecognizer.minimumPressDuration = 0.7
-        self.addGestureRecognizer(longPressRecognizer)
-    }
-    
-    @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .began {
-            AlertController.removeImageAlert(current!, number) { () in
-            }
-        }
-    }
-}
-
 
 //class EditProfileConnectInsta : InteractableView, Interactable {
 //
@@ -632,54 +531,39 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
 
     func circleCropDidCropImage(_ image: UIImage) {
 		let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
-
-		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else { print("return"); return }
-
-		switch imageToChange {
-		case 1:
-			
-			FirebaseData.manager.uploadImage(data: data, number: "1") { (error, imageUrl) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				} else if let imageUrl = imageUrl {
-					CurrentUser.shared.learner.images["image1"] = imageUrl
-					self.uploadImageUrl(imageUrl: imageUrl, number: "1")
-				}
-			}
-			cell.image1.picView.image = image.circleMasked
-		case 2:
-			FirebaseData.manager.uploadImage(data: data, number: "2") { (error, imageUrl) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				} else if let imageUrl = imageUrl {
-					CurrentUser.shared.learner.images["image2"] = imageUrl
-					self.uploadImageUrl(imageUrl: imageUrl, number: "2")
-				}
-			}
-			cell.image2.picView.image = image.circleMasked
-		case 3:
-			FirebaseData.manager.uploadImage(data: data, number: "3") { (error, imageUrl) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				} else if let imageUrl = imageUrl {
-					CurrentUser.shared.learner.images["image3"] = imageUrl
-					self.uploadImageUrl(imageUrl: imageUrl, number: "3")
-				}
-			}
-			cell.image3.picView.image = image.circleMasked
-		case 4:
-			FirebaseData.manager.uploadImage(data: data, number: "4") { (error, imageUrl) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				} else if let imageUrl = imageUrl {
-					CurrentUser.shared.learner.images["image4"] = imageUrl
-					self.uploadImageUrl(imageUrl: imageUrl, number: "4")
-				}
-			}
-			cell.image4.picView.image = image.circleMasked
-		default:
-			break
+		let imageViews = [cell.image1, cell.image2, cell.image3, cell.image4]
+		
+		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
+			AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
+			return
 		}
+		
+		func checkForEmptyImagesBeforeCurrentIndex() -> Int {
+			for (index, imageView) in imageViews.enumerated() {
+				if imageView.picView.image == nil || imageView.picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+					return index
+				}
+			}
+			return imageToChange - 1
+		}
+		
+		func setAndSaveImage() {
+			var index = imageToChange - 1
+			if imageViews[index].picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+				index = checkForEmptyImagesBeforeCurrentIndex()
+			}
+			FirebaseData.manager.uploadImage(data: data, number: String(index + 1)) { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
+					self.learner.images["image\(index+1)"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: String(index+1))
+				}
+			}
+			imageViews[index].picView.image = image.circleMasked
+			imageViews[index].buttonImageView.image = UIImage(named: "remove-image")
+		}
+		setAndSaveImage()
 	}
 
     func circleCropDidCancel() {

@@ -82,7 +82,20 @@ class FirebaseData {
     }
     
     public func removeUserImage(_ number: String) {
-        let imageRef = Storage.storage().reference().child("student/\(user.uid)/student-profile-pic\(number)")
+		if AccountService.shared.currentUserType == .learner {
+			if CurrentUser.shared.learner.isTutor {
+				self.ref.child("tutor-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+			}
+			self.ref.child("student-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+			CurrentUser.shared.learner.images["image"+number] = ""
+		} else {
+			self.ref.child("tutor-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+			self.ref.child("student-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+			CurrentUser.shared.learner.images["image"+number] = ""
+			CurrentUser.shared.tutor.images["image"+number] = ""
+		}
+
+        let imageRef = Storage.storage().reference().child("student-info/\(user.uid)/student-profile-pic\(number)")
         imageRef.delete { (error) in
             if let error = error {
                 print(error.localizedDescription)

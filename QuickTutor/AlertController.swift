@@ -42,22 +42,43 @@ class AlertController : NSObject {
 		
 		viewController.present(alertController, animated: true, completion: nil)
 	}
-	
-	class func removeImageAlert(_ viewController: UIViewController,_ number: String, competion: @escaping () -> Void) {
+	class func cropImageWithRemoveAlert(_ viewController: UIViewController, imagePicker: UIImagePickerController,_ completion: @escaping (Bool) -> Void) {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+		let chooseExisting = UIAlertAction(title: "Choose Exisiting", style: .default) { (alert) in
+			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+				imagePicker.sourceType = .photoLibrary
+				imagePicker.allowsEditing = false
+				viewController.present(imagePicker, animated: true, completion: nil)
+			} else {
+				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Photo Library is not available")
+			}
+			completion(false)
+		}
+		let takePhoto = UIAlertAction(title: "Take Photo", style: .default) { (alert) in
+			if UIImagePickerController.isSourceTypeAvailable(.camera) {
+				imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+				imagePicker.cameraCaptureMode =  UIImagePickerControllerCameraCaptureMode.photo
+				imagePicker.modalPresentationStyle = .custom
+				
+				viewController.present(imagePicker,animated: true, completion: nil)
+			} else {
+				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Camera is not available at this time.")
+			}
+			completion(false)
+		}
 		
 		let remove = UIAlertAction(title: "Remove", style: .destructive) { (alert) in
-			competion()
+			completion(true)
 		}
 		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
-			alertController.dismiss(animated: true, completion: nil)
-			competion()
+			completion(false)
 		}
 		
-		remove.setValue(UIColor.red, forKey: "titleTextColor")
+		alertController.addAction(chooseExisting)
+		alertController.addAction(takePhoto)
 		alertController.addAction(remove)
 		alertController.addAction(cancel)
-
+		
 		viewController.present(alertController, animated: true, completion: nil)
 	}
 	

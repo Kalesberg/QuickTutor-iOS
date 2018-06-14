@@ -16,8 +16,8 @@ protocol TutorPreferenceChange {
 }
 
 class TutorEditProfileView : MainLayoutTitleTwoButton, Keyboardable {
-    
-    var saveButton = NavbarButtonSave()
+	
+	var saveButton = NavbarButtonSave()
 	var backButton = NavbarButtonBack()
 	
 	override var leftButton: NavbarButton {
@@ -28,61 +28,61 @@ class TutorEditProfileView : MainLayoutTitleTwoButton, Keyboardable {
 		}
 	}
 	
-    override var rightButton: NavbarButton {
-        get {
-            return saveButton
-        } set {
-            saveButton = newValue as! NavbarButtonSave
-        }
-    }
-    
-    var keyboardComponent = ViewComponent()
-    
-    let tableView : UITableView = {
-        let tableView = UITableView()
-        
-        tableView.backgroundColor = .clear
-        tableView.estimatedRowHeight = 250
-        tableView.isScrollEnabled = true
-        tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        
-        return tableView
-    }()
-    
-    override func configureView() {
-        addKeyboardView()
-        addSubview(tableView)
-        super.configureView()
-        
-        title.label.text = "Edit Profile"
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
-    }
-    
-    override func applyConstraints() {
-        super.applyConstraints()
-        
-        tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom)
-            make.leading.equalTo(layoutMarginsGuide.snp.leading)
-            make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-            } else {
-                make.bottom.equalToSuperview()
-            }
-        }
-    }
+	override var rightButton: NavbarButton {
+		get {
+			return saveButton
+		} set {
+			saveButton = newValue as! NavbarButtonSave
+		}
+	}
+	
+	var keyboardComponent = ViewComponent()
+	
+	let tableView : UITableView = {
+		let tableView = UITableView()
+		
+		tableView.backgroundColor = .clear
+		tableView.estimatedRowHeight = 250
+		tableView.isScrollEnabled = true
+		tableView.separatorInset.left = 0
+		tableView.separatorStyle = .none
+		tableView.showsVerticalScrollIndicator = false
+		
+		return tableView
+	}()
+	
+	override func configureView() {
+		addKeyboardView()
+		addSubview(tableView)
+		super.configureView()
+		
+		title.label.text = "Edit Profile"
+		navbar.backgroundColor = Colors.tutorBlue
+		statusbarView.backgroundColor = Colors.tutorBlue
+	}
+	
+	override func applyConstraints() {
+		super.applyConstraints()
+		
+		tableView.snp.makeConstraints { (make) in
+			make.top.equalTo(navbar.snp.bottom)
+			make.leading.equalTo(layoutMarginsGuide.snp.leading)
+			make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
+			if #available(iOS 11.0, *) {
+				make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+			} else {
+				make.bottom.equalToSuperview()
+			}
+		}
+	}
 }
 
 class TutorEditProfile : BaseViewController, TutorPreferenceChange {
-
-    override var contentView: TutorEditProfileView {
-        return view as! TutorEditProfileView
-    }
-    
+	
+	override var contentView: TutorEditProfileView {
+		return view as! TutorEditProfileView
+	}
+	
 	var tutor : AWTutor! {
 		didSet {
 			contentView.tableView.reloadData()
@@ -100,17 +100,17 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 	var inVideo : Bool!
 	
 	var automaticScroll = false
-
+	
 	override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        hideKeyboardWhenTappedAround()
-        configureDelegates()
+		super.viewDidLoad()
+		
+		hideKeyboardWhenTappedAround()
+		configureDelegates()
 	}
 	
-    override func loadView() {
-        view = TutorEditProfileView()
-    }
+	override func loadView() {
+		view = TutorEditProfileView()
+	}
 	
 	var delegate : UpdatedTutorCallBack?
 	
@@ -142,10 +142,10 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 			inVideo = false
 		}
 	}
-
+	
 	override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
+		super.viewDidAppear(animated)
+	}
 	func inPersonPressed() {
 		self.inPerson = !self.inPerson
 	}
@@ -170,7 +170,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 		contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
 		contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
 		contentView.tableView.register(EditProfileSliderTableViewCell.self, forCellReuseIdentifier: "editProfileSliderTableViewCell")
-        contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileHourlyRateTableViewCell")
+		contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileHourlyRateTableViewCell")
 		contentView.tableView.register(EditProfilePersonCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfilePersonCheckboxTableViewCell")
 		contentView.tableView.register(EditProfileVideoCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileVideoCheckboxTableViewCell")
 		
@@ -199,7 +199,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 			"/tutor-info/\(AccountService.shared.currentUser.uid!)/prf" : preference,
 			"/tutor-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName,
 			"/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName
-
+			
 		]
 		
 		Tutor.shared.updateSharedValues(multiWriteNode: sharedUpdateValues) { (error) in
@@ -217,16 +217,16 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 			}
 		}
 	}
-    
-    @objc
-    private func distanceSliderValueDidChange(_ sender: UISlider!) {
+	
+	@objc
+	private func distanceSliderValueDidChange(_ sender: UISlider!) {
 		
 		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 9, section: 0)) as! EditProfileSliderTableViewCell)
-        let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
+		let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
 		
 		cell.valueLabel.text = String(value) + " mi"
 		distance = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
-    }
+	}
 	
 	@objc private func firstNameValueChanged(_ textField : UITextField) {
 		
@@ -239,7 +239,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 		guard textField.text!.count > 0 else { return }
 		lastName = textField.text
 	}
-
+	
 	private func displaySavedAlertController() {
 		let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
 		
@@ -253,7 +253,6 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 			}
 		}
 	}
-	
 	private func uploadImageUrl(imageUrl: String, number: String) {
 		
 		let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images]
@@ -276,188 +275,189 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 }
 
 extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch (indexPath.row) {
-        case 0:
-            return 100
-        case 1:
-            return 50
-        case 2:
-            return 75
-        case 3:
-            return 75
-        case 4:
-            return 75
-        case 5:
-            return 50
-        case 6:
-            return 75
-        case 7:
-            return 75
-        case 8:
-            return UITableViewAutomaticDimension
-        case 9:
-            return 50
-        case 10:
-            return 75
-        case 11:
-            return 75
-        case 12:
-            return 50
-        case 13:
-            return 75
-        case 14:
-            return 75
-        default:
-            break
-        }
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        switch (indexPath.row) {
-        case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! ProfileImagesTableViewCell
-            return cell
-        case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-            
-            cell.label.text = "About Me"
-            
-            return cell
-        case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
+	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return 15
+	}
+	
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		switch (indexPath.row) {
+		case 0:
+			return 100
+		case 1:
+			return 50
+		case 2:
+			return 75
+		case 3:
+			return 75
+		case 4:
+			return 75
+		case 5:
+			return 50
+		case 6:
+			return 75
+		case 7:
+			return 75
+		case 8:
+			return UITableViewAutomaticDimension
+		case 9:
+			return 50
+		case 10:
+			return 75
+		case 11:
+			return 75
+		case 12:
+			return 50
+		case 13:
+			return 75
+		case 14:
+			return 75
+		default:
+			break
+		}
+		return 0
+	}
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		
+		switch (indexPath.row) {
+		case 0:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! ProfileImagesTableViewCell
+			
+			return cell
+		case 1:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
+			
+			cell.label.text = "About Me"
+			
+			return cell
+		case 2:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
 			
 			cell.textField.addTarget(self, action: #selector(firstNameValueChanged(_:)), for: .editingChanged)
 			
-            cell.infoLabel.label.text = "First Name"
+			cell.infoLabel.label.text = "First Name"
 			guard let firstName = firstName else { return cell }
-            cell.textField.attributedText = NSAttributedString(string: "\(firstName)",
-                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            
-            return cell
-        case 3:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
+			cell.textField.attributedText = NSAttributedString(string: "\(firstName)",
+				attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			
+			return cell
+		case 3:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
 			
 			cell.textField.addTarget(self, action: #selector(lastNameValueChanged(_:)), for: .editingChanged)
-
-            cell.infoLabel.label.text = "Last Name"
+			
+			cell.infoLabel.label.text = "Last Name"
 			guard let lastName = lastName else { return cell }
-            cell.textField.attributedText = NSAttributedString(string: "\(lastName)",
-                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            
-            return cell
-        case 4:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
-            
-            cell.infoLabel.label.text = "Basic Info"
-            cell.textField.attributedText = NSAttributedString(string: "Edit",
-                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            
-            return cell
-        case 5:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-            
-            cell.label.text = "Tutoring"
-            
-            return cell
-        case 6:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
-            
-            cell.infoLabel.label.text = "Subjects"
-            cell.textField.attributedText = NSAttributedString(string: "Manage Subjects",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            
-            return cell
-        case 7:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
-            
-            cell.infoLabel.label.text = "Policies"
-            cell.textField.attributedText = NSAttributedString(string: "Manage Policies",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            
-            return cell
-        case 8:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			cell.textField.attributedText = NSAttributedString(string: "\(lastName)",
+				attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			
+			return cell
+		case 4:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			
+			cell.infoLabel.label.text = "Basic Info"
+			cell.textField.attributedText = NSAttributedString(string: "Edit",
+															   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			
+			return cell
+		case 5:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
+			
+			cell.label.text = "Tutoring"
+			
+			return cell
+		case 6:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			
+			cell.infoLabel.label.text = "Subjects"
+			cell.textField.attributedText = NSAttributedString(string: "Manage Subjects",
+															   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			
+			return cell
+		case 7:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			
+			cell.infoLabel.label.text = "Policies"
+			cell.textField.attributedText = NSAttributedString(string: "Manage Policies",
+															   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			
+			return cell
+		case 8:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
 			cell.infoLabel.label.text = "Preferences"
 			cell.textField.attributedText = NSAttributedString(string: "Manage Preferences",
 															   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 			
 			return cell
-        case 9:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-
-            cell.label.text = "Private Information"
-
-            return cell
-        case 10:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
-            
-            cell.infoLabel.label.text = "Mobile Number"
-            cell.textField.attributedText = NSAttributedString(string: tutor.phone.formatPhoneNumber(),
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            
-            return cell
-        case 11:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
-            
-            cell.infoLabel.label.text = "Email"
-            cell.textField.attributedText = NSAttributedString(string: tutor.email,
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            
-            return cell
-        case 12:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-            
-            cell.label.text = "Optional Information"
-            
-            return cell
-        case 13:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
-            
-            cell.infoLabel.label.text = "Languages I Speak"
-            cell.textField.attributedText = NSAttributedString(string: "Edit",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            
-            return cell
-        case 14:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
-            
-            cell.infoLabel.label.text = "School"
-            
-            if tutor.school != "" {
-                cell.textField.attributedText = NSAttributedString(string: tutor.school!,
-                                                                   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            } else {
-                cell.textField.attributedText = NSAttributedString(string: "Add A School",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            }
-            
-            return cell
-        default:
-            break
-        }
-        
-        return UITableViewCell()
-    }
+		case 9:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
+			
+			cell.label.text = "Private Information"
+			
+			return cell
+		case 10:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			
+			cell.infoLabel.label.text = "Mobile Number"
+			cell.textField.attributedText = NSAttributedString(string: tutor.phone.formatPhoneNumber(),
+															   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			
+			return cell
+		case 11:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			
+			cell.infoLabel.label.text = "Email"
+			cell.textField.attributedText = NSAttributedString(string: tutor.email,
+															   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			
+			return cell
+		case 12:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
+			
+			cell.label.text = "Optional Information"
+			
+			return cell
+		case 13:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			
+			cell.infoLabel.label.text = "Languages I Speak"
+			cell.textField.attributedText = NSAttributedString(string: "Edit",
+															   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			
+			return cell
+		case 14:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			
+			cell.infoLabel.label.text = "School"
+			
+			if tutor.school != "" {
+				cell.textField.attributedText = NSAttributedString(string: tutor.school!,
+																   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			} else {
+				cell.textField.attributedText = NSAttributedString(string: "Add A School",
+																   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+			}
+			
+			return cell
+		default:
+			break
+		}
+		
+		return UITableViewCell()
+	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		switch indexPath.row {
 		case 4:
-            let next = EditBio()
-            let attributedString = NSMutableAttributedString(string: "·  What Experience and Expertise do you have?\n·  Any certifications or awards earned?\n·  What are you looking for in learners?")
-            
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 6
-            attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-            
-            next.contentView.infoLabel.label.attributedText = attributedString;
-            next.contentView.infoLabel.label.font = Fonts.createSize(14)
+			let next = EditBio()
+			let attributedString = NSMutableAttributedString(string: "·  What Experience and Expertise do you have?\n·  Any certifications or awards earned?\n·  What are you looking for in learners?")
+			
+			let paragraphStyle = NSMutableParagraphStyle()
+			paragraphStyle.lineSpacing = 6
+			attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+			
+			next.contentView.infoLabel.label.attributedText = attributedString;
+			next.contentView.infoLabel.label.font = Fonts.createSize(14)
 			navigationController?.pushViewController(next, animated: true)
 		case 6:
 			let next = EditTutorSubjects()
@@ -485,7 +485,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
 			navigationController?.pushViewController(EditSchool(), animated: true)
 		default:
 			break
-		
+			
 		}
 	}
 }
@@ -493,57 +493,39 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 	
 	func circleCropDidCropImage(_ image: UIImage) {
 		let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
+		let imageViews = [cell.image1, cell.image2, cell.image3, cell.image4]
 		
 		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
 			AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
 			return
 		}
 		
-		switch imageToChange {
-		case 1:
-			
-			FirebaseData.manager.uploadImage(data: data, number: "1") { (error, imageUrl) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				} else if let imageUrl = imageUrl {
-					self.tutor.images["image1"] = imageUrl
-					self.uploadImageUrl(imageUrl: imageUrl, number: "1")
+		func checkForEmptyImagesBeforeCurrentIndex() -> Int {
+			for (index, imageView) in imageViews.enumerated() {
+				if imageView.picView.image == nil || imageView.picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+					return index
 				}
 			}
-			cell.image1.picView.image = image
-		case 2:
-			FirebaseData.manager.uploadImage(data: data, number: "2") { (error, imageUrl) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				} else if let imageUrl = imageUrl {
-					self.tutor.images["image2"] = imageUrl
-					self.uploadImageUrl(imageUrl: imageUrl, number: "2")
-				}
-			}
-			cell.image2.picView.image = image
-		case 3:
-			FirebaseData.manager.uploadImage(data: data, number: "3") { (error, imageUrl) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				} else if let imageUrl = imageUrl {
-					self.tutor.images["image3"] = imageUrl
-					self.uploadImageUrl(imageUrl: imageUrl, number: "3")
-				}
-			}
-			cell.image3.picView.image = image
-		case 4:
-			FirebaseData.manager.uploadImage(data: data, number: "4") { (error, imageUrl) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				} else if let imageUrl = imageUrl {
-					self.tutor.images["image4"] = imageUrl
-					self.uploadImageUrl(imageUrl: imageUrl, number: "4")
-				}
-			}
-			cell.image4.picView.image = image
-		default:
-			break
+			return imageToChange - 1
 		}
+		
+		func setAndSaveImage() {
+			var index = imageToChange - 1
+			if imageViews[index].picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+				index = checkForEmptyImagesBeforeCurrentIndex()
+			}
+			FirebaseData.manager.uploadImage(data: data, number: String(index + 1)) { (error, imageUrl) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let imageUrl = imageUrl {
+					self.tutor.images["image\(index+1)"] = imageUrl
+					self.uploadImageUrl(imageUrl: imageUrl, number: String(index+1))
+				}
+			}
+			imageViews[index].picView.image = image.circleMasked
+			imageViews[index].buttonImageView.image = UIImage(named: "remove-image")
+		}
+		setAndSaveImage()
 	}
 	
 	func circleCropDidCancel() {
