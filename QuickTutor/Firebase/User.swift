@@ -82,7 +82,20 @@ class FirebaseData {
     }
     
     public func removeUserImage(_ number: String) {
-        let imageRef = Storage.storage().reference().child("student/\(user.uid)/student-profile-pic\(number)")
+		if AccountService.shared.currentUserType == .learner {
+			if CurrentUser.shared.learner.isTutor {
+				self.ref.child("tutor-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+			}
+			self.ref.child("student-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+			CurrentUser.shared.learner.images["image"+number] = ""
+		} else {
+			self.ref.child("tutor-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+			self.ref.child("student-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+			CurrentUser.shared.learner.images["image"+number] = ""
+			CurrentUser.shared.tutor.images["image"+number] = ""
+		}
+
+        let imageRef = Storage.storage().reference().child("student-info/\(user.uid)/student-profile-pic\(number)")
         imageRef.delete { (error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -249,7 +262,63 @@ class FirebaseData {
             })
         })
     }
-    
+	
+	public func getSubjectsTaught(uid: String, _ completion: @escaping ([TopSubcategory]) -> Void) {
+		
+		var subjectsTaught = [TopSubcategory]()
+		
+		ref.child("subject").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
+			
+			for child in snap {
+				guard let value = child.value as? [String : Any] else { return }
+				
+				var topSubjects = TopSubcategory(dictionary: value)
+				topSubjects.subcategory = child.key
+				subjectsTaught.append(topSubjects)
+			}
+			completion(subjectsTaught)
+		}
+	}
+	
+	
+	
+	public func addUpdateFeaturedTutor(tutor: AWTutor,_ completion: @escaping (Error?) -> Void) {
+		func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
+			return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
+		}
+		
+		getSubjectsTaught(uid: tutor.uid) { (subcategoryList) in
+			let avg = subcategoryList.map({$0.rating / 5}).average
+			
+			let topSubcategory = subcategoryList.sorted {
+				return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 10) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
+			}.first
+			
+			guard let subjects = topSubcategory?.subjects.split(separator: "$") else { return }
+			guard let category = SubjectStore.findCategory(subject: String(subjects[0])) else { return }
+
+			let post : [String : Any] = ["c" : category, "img" : tutor.images["image1"]!,"nm" : tutor.name, "p" : tutor.price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subjects[0], "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
+			
+			self.ref.child("featured").child(tutor.uid).updateChildValues(post) { (error, _) in
+				if let error = error {
+					completion(error)
+				} else {
+					completion(nil)
+				}
+			}
+		}
+	}
+	
+	public func getFeaturedTutor(_ uid: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
+		self.ref.child("featured").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+			guard let value = snapshot.value as? [String : Any] else { return }
+			var featuredTutor = FeaturedTutor(dictionary: value)
+			featuredTutor.uid = snapshot.key
+			
+			completion(featuredTutor)
+		}
+	}
 	public func getTutor(_ uid: String, isQuery: Bool,_ completion: @escaping (AWTutor?) -> Void) {
         
         let group = DispatchGroup()

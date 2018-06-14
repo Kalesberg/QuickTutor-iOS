@@ -1082,6 +1082,7 @@
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
+				84D8C92B2066A965003C3AEA /* Helper.swift */,
 				8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */,
 				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
@@ -1166,7 +1167,6 @@
 				84D8C93120670EC0003C3AEA /* CategorySearch.swift */,
 				8476F7C520D00CE900C8D52D /* TutorConnect */,
 				84EA5E9F20A7F4C50008292B /* InviteOthers.swift */,
-				84D8C92B2066A965003C3AEA /* Helper.swift */,
 				84BC21D7206DB333002B4721 /* ViewFullProfile.swift */,
 				8421007C207A7DEE00422A31 /* TutorQueries */,
 				845B3BA22069E8D1009F8E04 /* CollectionViewCells */,
@@ -1581,7 +1581,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				5D677D2761908BD937829C39 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1665,21 +1664,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		095D18CADB8717DDD3D423F1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

@@ -83,6 +83,32 @@ struct TutorReview {
 		
 	}
 }
+struct FeaturedTutor {
+	
+	var uid : String = ""
+	
+	let name : String
+	let price : Int
+	let imageUrl : String
+	let region : String
+	let rating : Double
+	let reviews : Int
+	let subject : String
+	
+	init(dictionary : [String : Any]) {
+		price = dictionary["p"] as? Int ?? 0
+		imageUrl = dictionary["img"] as? String ?? ""
+		region = dictionary["rg"] as? String ?? ""
+		rating = dictionary["r"] as? Double ?? 5.0
+		reviews = dictionary["rv"] as? Int ?? 0
+		subject = dictionary["sbj"] as? String ?? ""
+		if let nameSplit = (dictionary["nm"] as? String)?.split(separator: " ") {
+			name = "\(nameSplit[0]) \(String(nameSplit[1]).prefix(1))."
+		} else {
+			name = ""
+		}
+	}
+}
 
 struct TutorLocation1 {
 	let geohash : String?
@@ -104,9 +130,9 @@ class QueryData {
 	
 	private var ref : DatabaseReference? = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	
-	public func queryAWTutorsByFeaturedCategory(categories: [Category],_ completion: @escaping ([Category : [AWTutor]]?) -> Void) {
+	public func queryAWTutorsByFeaturedCategory(categories: [Category],_ completion: @escaping ([Category : [FeaturedTutor]]?) -> Void) {
 		
-		var tutors = [Category : [AWTutor]]()
+		var tutors = [Category : [FeaturedTutor]]()
 		let group = DispatchGroup()
 		
 		queryAWTutorByUids(categories: categories) { (uids) in
@@ -115,12 +141,18 @@ class QueryData {
 					tutors[key.key] = []
 					for uid in key.value {
 						group.enter()
-						FirebaseData.manager.getTutor(uid, isQuery: true) { (tutor) in
+						FirebaseData.manager.getFeaturedTutor(uid, { (tutor) in
 							if let tutor = tutor {
 								tutors[key.key]!.append(tutor)
 							}
 							group.leave()
-						}
+						})
+//						FirebaseData.manager.getTutor(uid, isQuery: true) { (tutor) in
+//							if let tutor = tutor {
+//								tutors[key.key]!.append(tutor)
+//							}
+//							group.leave()
+//						}
 					}
 				}
 				group.notify(queue: .main) {
@@ -152,9 +184,9 @@ class QueryData {
 		}
 	}
 	
-	func queryAWTutorByCategory(category: Category, _ completion: @escaping ([AWTutor]?) -> Void) {
+	func queryAWTutorByCategory(category: Category, _ completion: @escaping ([FeaturedTutor]?) -> Void) {
 		
-		var tutors : [AWTutor] = []
+		var tutors : [FeaturedTutor] = []
 		let group = DispatchGroup()
 		
 		self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: category.mainPageData.displayName.lowercased()).queryLimited(toFirst: 20).observeSingleEvent(of: .value){ (snapshot) in
@@ -162,12 +194,12 @@ class QueryData {
 			for snap in snapshot.children {
 				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
 				group.enter()
-				FirebaseData.manager.getTutor(child.key, isQuery: true) { (tutor) in
+				FirebaseData.manager.getFeaturedTutor(child.key, { (tutor) in
 					if let tutor = tutor {
 						tutors.append(tutor)
 					}
 					group.leave()
-				}
+				})
 			}
 			group.notify(queue: .main) {
 				completion(tutors)
