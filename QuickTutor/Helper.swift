@@ -39,14 +39,12 @@ class SectionHeader : BaseView {
 
 class FeaturedTutorView : BaseView {
     
-    let imageView  : UIImageView = {
-        let imageView = UIImageView()
+    let imageView : UIImageView = {
+        let view = UIImageView()
         
-        imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
-        imageView.scaleImage()
-        imageView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 3, height: 2), radius: 5)
+        view.backgroundColor = .clear
         
-        return imageView
+        return view
     }()
     
     let subject : UILabel = {
@@ -54,7 +52,7 @@ class FeaturedTutorView : BaseView {
         
         label.textAlignment = .left
         label.textColor = .white
-        label.font = Fonts.createSize(17)
+        label.font = Fonts.createBoldSize(15.5)
         label.adjustsFontSizeToFitWidth = true
         
         return label
@@ -65,7 +63,7 @@ class FeaturedTutorView : BaseView {
         
         label.textAlignment = .left
         label.textColor = Colors.grayText
-        label.font = Fonts.createSize(13)
+        label.font = Fonts.createSize(12)
         label.adjustsFontSizeToFitWidth = true
         
         return label
@@ -76,7 +74,7 @@ class FeaturedTutorView : BaseView {
         
         label.textAlignment = .left
         label.textColor = Colors.grayText
-        label.font = Fonts.createSize(13)
+        label.font = Fonts.createSize(12)
         label.adjustsFontSizeToFitWidth = true
         
         return label
@@ -97,7 +95,7 @@ class FeaturedTutorView : BaseView {
     let starImage : UIImageView = {
         let view = UIImageView()
         
-        view.image = #imageLiteral(resourceName: "yellow-star")
+        view.image = #imageLiteral(resourceName: "gold-star")
         view.scaleImage()
         
         return view
@@ -111,41 +109,44 @@ class FeaturedTutorView : BaseView {
         addSubview(ratingLabel)
         addSubview(starImage)
         super.configureView()
-        
-        backgroundColor = Colors.backgroundDark
-        
+
         applyConstraints()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.roundCorners([.topRight, .topLeft], radius: 6)
     }
     
     override func applyConstraints() {
         imageView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(14)
+            make.top.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.47)
-            make.width.equalToSuperview().multipliedBy(0.77)
+            make.height.equalToSuperview().multipliedBy(0.55)
+            make.width.equalToSuperview()
         }
         subject.snp.makeConstraints { (make) in
-            make.top.equalTo(imageView.snp.bottom).inset(-2)
+            make.top.equalTo(imageView.snp.bottom).inset(-7)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.92)
+            make.width.equalToSuperview().multipliedBy(0.88)
         }
         region.snp.makeConstraints { (make) in
-            make.top.equalTo(subject.snp.bottom).inset(-2)
+            make.top.equalTo(subject.snp.bottom)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.92)
+            make.width.equalToSuperview().multipliedBy(0.88)
         }
         namePrice.snp.makeConstraints { (make) in
             make.top.equalTo(region.snp.bottom)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.92)
+            make.width.equalToSuperview().multipliedBy(0.88)
         }
         starImage.snp.makeConstraints { (make) in
-            make.left.equalTo(namePrice)
-            make.top.equalTo(namePrice.snp.bottom).inset(-2)
-            make.height.equalTo(14)
+            make.left.equalTo(namePrice).inset(-4)
+            make.bottom.equalToSuperview().inset(9)
+            make.height.equalTo(13)
         }
         ratingLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(starImage.snp.right).inset(-3)
+            make.left.equalTo(starImage.snp.right).inset(-1)
             make.centerY.equalTo(starImage).inset(1)
         }
     }

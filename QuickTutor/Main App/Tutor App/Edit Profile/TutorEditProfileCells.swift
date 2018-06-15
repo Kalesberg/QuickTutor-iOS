@@ -631,6 +631,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 		
 		textField.snp.makeConstraints { (make) in
 			make.left.equalToSuperview().inset(25)
+            make.width.equalToSuperview().multipliedBy(0.4)
 			make.centerY.equalToSuperview()
 		}
 		
