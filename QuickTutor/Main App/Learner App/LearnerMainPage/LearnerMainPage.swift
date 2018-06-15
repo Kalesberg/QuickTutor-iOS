@@ -398,7 +398,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
                 return 210
             }
         } else {
-            return 190
+            return 210
         }
     }
     

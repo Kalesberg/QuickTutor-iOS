@@ -193,7 +193,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         distanceLabelContainer.addSubview(distanceExtraLabel)
         addSubview(connectButton)
         
-        tableViewContainer.backgroundColor = UIColor(hex: "1B1B26")
+        tableViewContainer.backgroundColor = Colors.registrationDark
 
         reviewLabelContainer.backgroundColor = Colors.yellow
         reviewLabelContainer.layer.cornerRadius = 12

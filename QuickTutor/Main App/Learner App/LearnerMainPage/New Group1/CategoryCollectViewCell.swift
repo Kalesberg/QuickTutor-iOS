@@ -12,12 +12,20 @@ import SnapKit
 
 class CategoryCollectionViewCell : UICollectionViewCell {
     
+    let view : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = Colors.navBarColor
+        
+        return view
+    }()
+    
     let label : UILabel = {
         let label = UILabel()
         
         label.textColor = .white
         label.textAlignment = .center
-        label.font = Fonts.createSize(17)
+        label.font = Fonts.createBoldSize(14)
         label.adjustsFontSizeToFitWidth = true
         label.adjustsFontForContentSizeCategory = true
         
@@ -26,8 +34,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
 
     let imageView : UIImageView = {
         let imageView = UIImageView()
-    
-        imageView.layer.cornerRadius = 12
+
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
         
@@ -42,9 +49,14 @@ class CategoryCollectionViewCell : UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    override func layoutSubviews() {
+        roundCorners([.topRight, .topLeft], radius: 7)
+        view.layer.cornerRadius = 7
+    }
     func configureView() {
-        addSubview(imageView)
+        addSubview(view)
         addSubview(label)
+        addSubview(imageView)
         
         applyConstraints()
     }
@@ -55,11 +67,16 @@ class CategoryCollectionViewCell : UICollectionViewCell {
             make.height.equalToSuperview().multipliedBy(0.8)
             make.centerX.equalToSuperview()
         }
-        label.snp.makeConstraints { (make) in
+        view.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.top.equalTo(imageView.snp.bottom)
+            make.bottom.equalToSuperview().inset(10)
+            make.top.equalTo(imageView.snp.bottom).inset(5)
+        }
+        label.snp.makeConstraints { (make) in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).inset(2)
+            make.width.equalToSuperview().inset(4)
         }
     }
 }

@@ -48,7 +48,7 @@ class TutorAgreementWebVC : BaseViewController {
     }
     
     func loadAgreementPdf() {
-        let url = URL(string: "http://www.pdf995.com/samples/pdf.pdf")
+        let url = URL(string: "https://quicktutor.now.sh/ita.pdf")
         
         displayLoadingOverlay()
         if let unwrappedURL = url {

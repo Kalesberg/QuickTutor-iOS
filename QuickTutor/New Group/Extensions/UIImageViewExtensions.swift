@@ -75,6 +75,37 @@ extension UIImageView {
 			}.resume()
 		}
 	}
+    func loadUserImagesWithoutMask(by url: String) {
+        
+        self.image = nil
+        
+        if url == "" {
+            self.image = #imageLiteral(resourceName: "registration-image-placeholder")
+            return
+        }
+        if let image = userImageCache[url] {
+            self.image = image
+            return
+        }
+        
+        if let imageUrl = URL(string: url) {
+            URLSession.shared.dataTask(with: imageUrl) { (data, response, error) in
+                if error != nil {
+                    print("error")
+                    return
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    if let image = UIImage(data: data!) {
+                        userImageCache[url] = image
+                        self.image = image
+                    } else  {
+                        self.image = #imageLiteral(resourceName: "registration-image-placeholder")
+                    }
+                })
+                }.resume()
+        }
+    }
 	func loadUserImagesWithCompletion(by url: String,_ completion: @escaping () -> Void) {
 		if url == "" {
 			self.image = #imageLiteral(resourceName: "registration-image-placeholder")

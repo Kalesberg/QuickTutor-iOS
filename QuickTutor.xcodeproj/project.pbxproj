@@ -1581,6 +1581,7 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
+				A6D6E0BA031496F536024D64 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1714,7 +1715,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5D677D2761908BD937829C39 /* [CP] Copy Pods Resources */ = {
+		A6D6E0BA031496F536024D64 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

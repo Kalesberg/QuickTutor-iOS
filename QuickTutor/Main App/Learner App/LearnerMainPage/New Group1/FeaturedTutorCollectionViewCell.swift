@@ -16,7 +16,7 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 	
 	let view : UIView = {
 		let view = UIView()
-		view.backgroundColor = Colors.learnerPurple
+		view.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 192/255, alpha: 1.0)
 		view.layer.cornerRadius = 10
 		return view
 	}()
@@ -33,15 +33,6 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		return label
 	}()
 	
-	let background : UIView = {
-		let view = UIView()
-		
-		view.backgroundColor = Colors.registrationDark
-		view.layer.cornerRadius = 8
-		
-		return view
-	}()
-	
 	required override init(frame: CGRect) {
 		super.init(frame: .zero)
 		configureView()
@@ -51,20 +42,17 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	func configureView() {
-		addSubview(background)
-		background.addSubview(featuredTutor)
-		addSubview(view)
+		contentView.addSubview(featuredTutor)
+		contentView.addSubview(view)
 		view.addSubview(price)
-		
+        
+        backgroundColor = Colors.navBarColor
+        applyDefaultShadow()
+
 		featuredTutor.backgroundColor = .clear
 		applyConstraints()
 	}
 	func applyConstraints(){
-		background.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.width.equalToSuperview()
-			make.center.equalToSuperview()
-		}
 		featuredTutor.snp.makeConstraints { (make) in
 			make.width.equalToSuperview()
 			make.center.equalToSuperview()
