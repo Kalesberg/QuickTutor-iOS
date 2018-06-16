@@ -118,6 +118,7 @@ class LearnerMainPage : MainPage {
             displayMessagesTutorial()
         }
         self.configureSideBarView()
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func configureSideBarView(){

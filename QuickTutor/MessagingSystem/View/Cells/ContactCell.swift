@@ -57,7 +57,7 @@ class ContactCell: UICollectionViewCell {
     
     func updateUI(user: User) {
         self.user = user
-        usernameLabel.text = user.username
+        usernameLabel.text = user.formattedName
         profileImageView.loadImage(urlString: user.profilePicUrl)
     }
     

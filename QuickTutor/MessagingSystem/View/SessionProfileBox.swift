@@ -61,7 +61,7 @@ class SessionProfileBox: UIView {
         guard let myUid = Auth.auth().currentUser?.uid, uid != myUid else {
             DataService.shared.getStudentWithId(uid) { (userIn) in
                 guard let user = userIn else { return }
-                self.nameLabel.text = user.username.capitalized
+                self.nameLabel.text = user.formattedName.capitalized
                 self.imageView.loadImage(urlString: user.profilePicUrl)
             }
             return
@@ -69,7 +69,7 @@ class SessionProfileBox: UIView {
         
         DataService.shared.getUserOfOppositeTypeWithId(uid) { (userIn) in
             guard let user = userIn else { return }
-            self.nameLabel.text = user.username.capitalized
+            self.nameLabel.text = user.formattedName.capitalized
             self.imageView.loadImage(urlString: user.profilePicUrl)
         }
     }
