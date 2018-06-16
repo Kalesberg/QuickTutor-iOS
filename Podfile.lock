@@ -77,7 +77,7 @@ PODS:
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.5)
-  - Stripe (13.0.3)
+  - Stripe (13.0.2)
   - SwiftKeychainWrapper (3.0.1)
   - TwilioVideo (2.0.0-beta3)
 
@@ -101,7 +101,7 @@ DEPENDENCIES:
   - TwilioVideo (= 2.0.0-beta3)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AAPhotoCircleCrop
     - Alamofire
     - Bolts
@@ -163,10 +163,10 @@ SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
-  Stripe: 76c203e21555089b708e6cbe972a3e3baf1ab4d8
+  Stripe: f52f60e948fbc111c26b83227f7d802adfc64c5e
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
   TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
 PODFILE CHECKSUM: 33615cbb0ff3b1813537082ae66195511895d884
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.5.0

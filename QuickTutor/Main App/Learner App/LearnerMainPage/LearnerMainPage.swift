@@ -118,6 +118,7 @@ class LearnerMainPage : MainPage {
             displayMessagesTutorial()
         }
         self.configureSideBarView()
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func configureSideBarView(){
@@ -391,7 +392,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
                 return 210
             }
         } else {
-            return 190
+            return 210
         }
     }
     

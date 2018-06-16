@@ -578,6 +578,7 @@ class TutorMainPage : MainPage {
         self.tutor = tutor
         self.account = account
         self.configureSideBarView()
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func configureSideBarView() {

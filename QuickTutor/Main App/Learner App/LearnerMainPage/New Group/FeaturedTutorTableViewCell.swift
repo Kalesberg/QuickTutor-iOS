@@ -71,7 +71,7 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 			make.height.equalToSuperview()
 			make.width.equalToSuperview()
 		}
-	}
+    }
 }
 
 extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -85,7 +85,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		
 		cell.price.text = datasource[indexPath.item].price.priceFormat()
-		cell.featuredTutor.imageView.loadUserImages(by: datasource[indexPath.item].imageUrl)
+		cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: datasource[indexPath.item].imageUrl)
 		cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
 		cell.featuredTutor.region.text = datasource[indexPath.item].region
 		cell.featuredTutor.subject.text = datasource[indexPath.item].subject
@@ -93,9 +93,11 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		let formattedString = NSMutableAttributedString()
 		
 		formattedString
-			.bold("\(datasource[indexPath.item].rating) ", 14, Colors.yellow)
-			.regular("(\(datasource[indexPath.item].reviews) ratings)", 14, Colors.yellow)
+            .bold("\(datasource[indexPath.item].rating)  ", 14, UIColor(hex: "FAAB1A"))
+			.regular("(\(datasource[indexPath.item].reviews) ratings)", 13, UIColor(hex: "FAAB1A"))
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
+        
+        cell.layer.cornerRadius = 6
 		
 		return cell
 	}
@@ -135,7 +137,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
 		let screen = UIScreen.main.bounds
-		let width = (screen.width / 3) - 13
+		let width = (screen.width / 2.5) - 13
 		let height = collectionView.frame.height - 15
 		
 		return CGSize(width: width, height: height)

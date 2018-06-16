@@ -137,6 +137,7 @@ class CategorySearch: BaseViewController {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		contentView.collectionView.reloadData()
+    
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -166,10 +167,10 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		let formattedString = NSMutableAttributedString()
 		
 		formattedString
-			.bold("\(datasource[indexPath.item].rating) ", 14, Colors.yellow)
-			.regular("(\(datasource[indexPath.item].reviews) ratings)", 14, Colors.yellow)
+			.bold("\(datasource[indexPath.item].rating)  ", 14, Colors.yellow)
+			.regular("(\(datasource[indexPath.item].reviews) ratings)", 12, Colors.yellow)
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
-		
+        
 		return cell
 	}
 	

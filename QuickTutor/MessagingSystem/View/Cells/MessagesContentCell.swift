@@ -86,12 +86,11 @@ class MessagesContentCell: BaseContentCell {
     }
     
     @objc func fetchConversations() {
-        conversationsDictionary.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("conversations").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
             let userId = snapshot.key
-            Database.database().reference().child("conversations").child(uid).child(userTypeString).child(userId).observe(.childAdded, with: { snapshot in
+            Database.database().reference().child("conversations").child(uid).child(userTypeString).child(userId).observe( .childAdded, with: { (snapshot) in
                 let messageId = snapshot.key
                 self.getMessageById(messageId)
             })
@@ -103,16 +102,32 @@ class MessagesContentCell: BaseContentCell {
             guard let value = snapshot.value as? [String: Any] else { return }
             let message = UserMessage(dictionary: value)
             message.uid = snapshot.key
-            self.conversationsDictionary[message.partnerId()] = message
-            self.messages = Array(self.conversationsDictionary.values)
-            self.messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
-            self.collectionView.reloadData()
-            
+            DataService.shared.getUserOfOppositeTypeWithId(message.partnerId(), completion: { (user) in
+                message.user = user
+                self.conversationsDictionary[message.partnerId()] = message
+                self.attemptReloadOfTable()
+            })
         }
+    }
+    
+    fileprivate func attemptReloadOfTable() {
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    }
+    
+    var timer: Timer?
+   @objc func handleReloadTable() {
+        self.messages = Array(self.conversationsDictionary.values)
+        self.messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
+
+        DispatchQueue.main.async(execute: {
+            self.collectionView.reloadData()
+        })
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
+//        cell.clearData()
         cell.updateUI(message: messages[indexPath.item])
         cell.delegate = self
         return cell
@@ -122,6 +137,7 @@ class MessagesContentCell: BaseContentCell {
         emptyBackround.isHidden = !messages.isEmpty
         return messages.count
     }
+    
     
     func setupSwipeActions() {
         swipeRecognizer = UIPanDirectionGestureRecognizer(direction: .horizontal, target: self, action: #selector(handleSwipe(sender:)))
