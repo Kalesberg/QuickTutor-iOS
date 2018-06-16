@@ -458,7 +458,6 @@ class TutorCardHeader : InteractableView {
         addSubview(profilePics)
         addSubview(name)
         super.configureView()
-        
         backgroundColor = Colors.tutorBlue
         
         applyConstraints()

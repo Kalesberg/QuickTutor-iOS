@@ -187,7 +187,6 @@ class UploadImage: BaseViewController {
         view = UploadImageView()
     }
 
-	let circleCropController = AACircleCropViewController()
     let profilePicker = UIImagePickerController()
     var imagePicked : Bool = false
 	
@@ -196,7 +195,6 @@ class UploadImage: BaseViewController {
 	override func viewDidLoad() {
         super.viewDidLoad()
         profilePicker.delegate = self
-		circleCropController.delegate = self
 		profilePicker.allowsEditing = false
     }
 	
@@ -246,7 +244,6 @@ class UploadImage: BaseViewController {
 extension UploadImage : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
 	
 	func circleCropDidCropImage(_ image: UIImage) {
-		//get the original image unmasked.
 		chosenImage = image
 		contentView.imageView.image = image.circleMasked
 		imagePicked = true
@@ -259,18 +256,23 @@ extension UploadImage : UIImagePickerControllerDelegate, UINavigationControllerD
 		imagePicked = false
 		let image = UIImage(named: "registration-image-placeholder")
 		contentView.imageView.image = image
+		contentView.info.isHidden = false
+		contentView.addImageButton.isHidden = false
+		contentView.buttonView.isHidden = true
 	}
 
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 
 		if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.imagePicked = true
+			let circleCropController = AACircleCropViewController()
+			circleCropController.delegate = self
 			circleCropController.image = image
 			circleCropController.selectTitle = NSLocalizedString("Done", comment: "select")
 			
 			profilePicker.dismiss(animated: true, completion: nil)
 			DispatchQueue.main.async {
-				self.present(self.circleCropController, animated: true, completion: nil)
+				self.present(circleCropController, animated: true, completion: nil)
 			}
 		}
     }

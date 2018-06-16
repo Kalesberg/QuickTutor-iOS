@@ -97,16 +97,10 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 		CategorySelected.title = category[indexPath.item].mainPageData.displayName
 		let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
 		
-		UIView.animate(withDuration: 0.1, animations: {
-			cell.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-		}) { (finished) in
-			UIView.animate(withDuration: 0.1, animations: {
-				cell.transform = CGAffineTransform.identity
-			}) { (finished) in
-				let next = CategorySearch()
-				next.category = category[indexPath.item]
-				navigationController.pushViewController(next, animated: true)
-			}
+		cell.growSemiShrink {
+			let next = CategorySearch()
+			next.category = category[indexPath.item]
+			navigationController.pushViewController(next, animated: true)
 		}
 	}
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

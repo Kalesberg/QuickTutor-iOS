@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct CategorySelected {
+	static var title : String!
+}
+
+
 class CategorySearchView : MainLayoutTwoButton {
 	
 	var back =  NavbarButtonBack()
@@ -102,24 +107,31 @@ class CategorySearch: BaseViewController {
 		view = CategorySearchView()
 	}
 	
-	var datasource = [FeaturedTutor]() {
-		didSet {
-			contentView.collectionView.reloadData()
-		}
-	}
-	
+	var datasource = [FeaturedTutor]()
+	var didLoadMore : Bool = false
+
 	var category : Category! {
 		didSet {
-			self.displayLoadingOverlay()
-			QueryData.shared.queryAWTutorByCategory(category: category, { (tutors) in
-				if let tutors = tutors {
-					self.datasource = tutors
-				}
-				self.dismissOverlay()
-			})
+			queryTutorsByCategory()
 		}
 	}
 	
+	private func queryTutorsByCategory() {
+		QueryData.shared.queryAWTutorByCategory(category: category, { (tutors) in
+			if let tutors = tutors {
+				let startIndex = self.datasource.count
+				self.datasource.append(contentsOf: tutors)
+				let endIndex = self.datasource.count
+				
+				self.contentView.collectionView.performBatchUpdates({
+					let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
+					self.contentView.collectionView.insertItems(at: insertPaths)
+				}, completion: { (finished) in
+					self.didLoadMore = false
+				})
+			}
+		})
+	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		contentView.subtitle.category.text = CategorySelected.title
@@ -158,8 +170,8 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		
+		cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: datasource[indexPath.item].imageUrl)
 		cell.price.text = datasource[indexPath.item].price.priceFormat()
-		cell.featuredTutor.imageView.loadUserImages(by: datasource[indexPath.item].imageUrl)
 		cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
 		cell.featuredTutor.region.text = datasource[indexPath.item].region
 		cell.featuredTutor.subject.text = datasource[indexPath.item].subject
@@ -172,6 +184,16 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
         
 		return cell
+	}
+	func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+		cell.shrink()
+	}
+	func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+		UIView.animate(withDuration: 0.2) {
+			cell.transform = CGAffineTransform.identity
+		}
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -201,8 +223,4 @@ extension CategorySearch : UISearchBarDelegate {
 			navigationController?.pushViewController(next, animated: true)
 		}
 	}
-}
-
-struct CategorySelected {
-	static var title : String!
 }

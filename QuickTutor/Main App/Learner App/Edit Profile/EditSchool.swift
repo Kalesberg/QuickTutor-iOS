@@ -257,6 +257,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
         cell.selectedBackgroundView = cellBackground
     }
 }
+
 extension EditSchool : UIScrollViewDelegate {
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         if !automaticScroll {

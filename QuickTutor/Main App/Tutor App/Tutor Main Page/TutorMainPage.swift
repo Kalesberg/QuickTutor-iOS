@@ -560,6 +560,7 @@ class TutorMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
     }
     
     override func viewDidLayoutSubviews() {

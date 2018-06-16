@@ -375,11 +375,16 @@ class SocialMediaIcon : InteractableView, Interactable {
     
     func touchStart() {
         imageView.alpha = 0.8
+		shrink()
     }
     
     func didDragOff() {
         imageView.alpha = 1.0
+		self.transform = CGAffineTransform.identity
     }
+	func touchEndOnStart() {
+		growShrink()
+	}
 }
 
 class TwitterIcon : SocialMediaIcon {

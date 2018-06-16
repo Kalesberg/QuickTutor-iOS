@@ -106,12 +106,14 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
 		cell.shrink()
 	}
+	
 	func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
 		UIView.animate(withDuration: 0.2) {
 			cell.transform = CGAffineTransform.identity
 		}
 	}
+	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
 		cell.growSemiShrink {
