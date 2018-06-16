@@ -130,6 +130,7 @@ class QueryData {
 	
 	private var ref : DatabaseReference? = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	
+	
 	public func queryAWTutorsByFeaturedCategory(categories: [Category],_ completion: @escaping ([Category : [FeaturedTutor]]?) -> Void) {
 		
 		var tutors = [Category : [FeaturedTutor]]()
@@ -147,12 +148,6 @@ class QueryData {
 							}
 							group.leave()
 						})
-//						FirebaseData.manager.getTutor(uid, isQuery: true) { (tutor) in
-//							if let tutor = tutor {
-//								tutors[key.key]!.append(tutor)
-//							}
-//							group.leave()
-//						}
 					}
 				}
 				group.notify(queue: .main) {
@@ -160,6 +155,13 @@ class QueryData {
 				}
 			}
 		}
+	}
+	
+	public func queryTheNextPage(lastKey: String,_ completion: @escaping(Error?) -> Void) {
+		
+//		self.ref?.child("featured").queryOrderedByKey().queryStarting(atValue: "NjQ4LyORJPdkb94wP7hfVluXjw33").queryLimited(toLast: 2).observeSingleEvent(of: .value, with: { (snapshot) in
+//			print(snapshot.value)
+//		})
 	}
 	private func queryAWTutorByUids(categories: [Category],_ completion: @escaping ([Category : [String]]?) -> Void) {
 		var uids = [Category : [String]]()
@@ -171,7 +173,7 @@ class QueryData {
 			let categoryString = category.mainPageData.displayName.lowercased()
 			
 			group.enter()
-			self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: categoryString).queryLimited(toFirst: 20).observeSingleEvent(of: .value, with: { (snapshot) in
+			self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: categoryString).queryLimited(toFirst: 100).observeSingleEvent(of: .value, with: { (snapshot) in
 				for snap in snapshot.children {
 					guard let child = snap as? DataSnapshot else { continue }
 					uids[category]!.append(child.key)
@@ -192,7 +194,7 @@ class QueryData {
 		self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: category.mainPageData.displayName.lowercased()).queryLimited(toFirst: 20).observeSingleEvent(of: .value){ (snapshot) in
 			
 			for snap in snapshot.children {
-				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
+				guard let child = snap as? DataSnapshot else { continue }
 				group.enter()
 				FirebaseData.manager.getFeaturedTutor(child.key, { (tutor) in
 					if let tutor = tutor {

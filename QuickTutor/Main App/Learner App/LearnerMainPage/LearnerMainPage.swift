@@ -89,7 +89,9 @@ class LearnerMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		
+		QueryData.shared.queryTheNextPage(lastKey: "") { (_) in
+			print("fesg")
+		}
 		AccountService.shared.currentUserType = .learner
 		guard let learner = CurrentUser.shared.learner else {
 			try! Auth.auth().signOut()
@@ -239,7 +241,7 @@ class LearnerMainPage : MainPage {
                 if #available(iOS 11.0, *) {
                     self.contentView.tableView.performBatchUpdates({
                         self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-                        self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+                        self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1), with: .fade )
                         
                     }, completion: { (finished) in
                         if finished {
@@ -363,19 +365,12 @@ class LearnerMainPage : MainPage {
             hideSidebar()
             hideBackground()
 		} else if (touchStartView is SearchBar) {
-			UIView.animate(withDuration: 0.1, animations: {
-				self.contentView.search.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-			}) { (finished) in
-				UIView.animate(withDuration: 0.1, animations: {
-					self.contentView.search.transform = CGAffineTransform.identity
-				}) { (finished ) in
-					let nav = self.navigationController
-					let transition = CATransition()
-					DispatchQueue.main.async {
-						nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-						nav?.pushViewController(SearchSubjects(), animated: false)
-					}
-				}
+			
+			let nav = self.navigationController
+			let transition = CATransition()
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav?.pushViewController(SearchSubjects(), animated: false)
 			}
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
@@ -413,7 +408,8 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
-            
+			
+			
 			cell.datasource = self.datasource[category[indexPath.section - 1]]!
             cell.category =  category[indexPath.section - 1]
             

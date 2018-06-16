@@ -280,22 +280,13 @@ class UserPolicy : BaseViewController {
 			}
 		}
 	}
-	
 	private func declined() {
 		let alertController = UIAlertController(title: "All your progress will be deleted", message: "By pressing delete your account will not be created.", preferredStyle: UIAlertControllerStyle.alert)
 		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in }
 		
 		let delete = UIAlertAction(title: "Delete", style: .destructive) { (delete) in
 			self.displayLoadingOverlay()
-			FirebaseData.manager.removeLearnerAccount(uid: Registration.uid!, reason: "declined policy", { (error) in
-				if let error = error{
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-					self.dismissOverlay()
-				} else {
-					self.dismissOverlay()
-					self.navigationController?.popToRootViewController(animated: true)
-				}
-			})
+			self.navigationController?.popToRootViewController(animated: true)
 		}
 		alertController.addAction(cancel)
 		alertController.addAction(delete)

@@ -206,7 +206,8 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         listenForReadReceipts()
         setupKeyboardObservers()
         studentKeyboardAccessory.chatView.delegate = self
-        displayTutorial()
+		
+		
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -220,8 +221,10 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             self.studentKeyboardAccessory.showQuickChatView()
             canUserActionView = false
         }
-        
-        displayTutorial()
+		if UserDefaults.standard.bool(forKey: "showMessagingSystemTutorial1.0") {
+			displayTutorial()
+			UserDefaults.standard.set(false, forKey: "showMessagingSystemTutorial1.0")
+		}
     }
     
     override func viewWillDisappear(_ animated: Bool) {

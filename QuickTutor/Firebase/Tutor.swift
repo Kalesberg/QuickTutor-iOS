@@ -54,8 +54,7 @@ class Tutor {
     
     private var ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
     private var storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
-    private var user = Auth.auth().currentUser!
-    
+	
     static let shared = Tutor()
     
     public func initTutor(completion: @escaping (Error?) -> Void) {
@@ -65,7 +64,7 @@ class Tutor {
         
         var post : [String : Any] =
             [
-                "/tutor-info/\(user.uid)" :
+                "/tutor-info/\(AccountService.shared.currentUser.uid!)" :
                     [
                         "nm"  : data.name,
                         "img" : data.images,
@@ -131,8 +130,8 @@ class Tutor {
         
         for key in subjectDict {
             let subjects = key.value.compactMap({$0}).joined(separator: "$")
-            updateSubjectValues["/subject/\(Auth.auth().currentUser!.uid)/\(key.key.lowercased())"] = ["p": TutorRegistration.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
-            updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : TutorRegistration.price!, "dst" : TutorRegistration.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
+            updateSubjectValues["/subject/\(AccountService.shared.currentUser.uid!)/\(key.key.lowercased())"] = ["p": TutorRegistration.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
+            updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(AccountService.shared.currentUser.uid!)"] = ["r" : 5, "p" : TutorRegistration.price!, "dst" : TutorRegistration.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
         }
         return (updateSubjectValues, updateSubcategoryValues)
     }
@@ -148,7 +147,7 @@ class Tutor {
     }
     
     public func updateValue(value: [String : Any]) {
-        self.ref.child("tutor-info").child(user.uid).updateChildValues(value) { (error, reference) in
+        self.ref.child("tutor-info").child(AccountService.shared.currentUser.uid!).updateChildValues(value) { (error, reference) in
             if let error = error {
                 print(error.localizedDescription)
             }
@@ -157,7 +156,7 @@ class Tutor {
     
     public func geoFire(location: CLLocation) {
         let geoFire = GeoFire(firebaseRef: ref.child("tutor_loc"))
-        geoFire.setLocation(location, forKey: user.uid)
+        geoFire.setLocation(location, forKey: AccountService.shared.currentUser.uid!)
     }
 }
 

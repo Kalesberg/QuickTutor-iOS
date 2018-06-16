@@ -25,7 +25,7 @@ class PaymentDeclinedView : MainLayoutHeader {
         
         strings = ["•  “Card Declined”.\n", "•  “Payment method invalid. Please review your settings.”\n", "•  “Transaction error.”"]
         
-        let attributesDictionary = [NSAttributedStringKey.font : paymentDeclinedBody.font]
+		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : paymentDeclinedBody.font]
         let fullAttributedString = NSMutableAttributedString(string: "You’ll be unable to request a session with a tutor if your payment for a past session was declined by your debit or credit card.\n\nIf one of the following error messages was displayed when you attempted to request a session, your payment method may have declined the transaction.\n\n", attributes: attributesDictionary)
         
         for string: String in strings {
@@ -46,7 +46,6 @@ class PaymentDeclinedView : MainLayoutHeader {
         super.applyConstraints()
         
         paymentDeclinedBody.constrainSelf(top: header.snp.bottom)
-        
         paymentDeclinedBody2.constrainSelf(top: paymentDeclinedBody.snp.bottom)
     }
 }

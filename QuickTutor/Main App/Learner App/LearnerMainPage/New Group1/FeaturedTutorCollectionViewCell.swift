@@ -68,4 +68,5 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 			make.edges.equalToSuperview()
 		}
 	}
+
 }

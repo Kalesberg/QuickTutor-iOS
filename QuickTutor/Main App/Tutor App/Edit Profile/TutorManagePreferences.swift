@@ -64,7 +64,7 @@ class TutorManagePreferences : BaseViewController {
 		}
 	}
 	var distance: Int!
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.hideKeyboardWhenTappedAround()
@@ -77,6 +77,10 @@ class TutorManagePreferences : BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
 	}
 	
 	private func configureDelegates() {
@@ -237,5 +241,19 @@ extension TutorManagePreferences : UITableViewDelegate, UITableViewDataSource {
 		}
 		
 		return UITableViewCell()
+	}
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		switch indexPath.row {
+		case 0:
+			let cell = tableView.cellForRow(at: indexPath) as! EditProfileHourlyRateTableViewCell
+			cell.textField.becomeFirstResponder()
+		default:
+			break
+		}
+	}
+}
+extension TutorManagePreferences : UIScrollViewDelegate {
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		self.view.endEditing(true)
 	}
 }

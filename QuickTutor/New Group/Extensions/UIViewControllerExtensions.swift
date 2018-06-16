@@ -228,7 +228,16 @@ extension UINavigationController {
             }
         }
     }
-    
+	
+	func popOrPushSearchSubjects() {
+		for controller in self.viewControllers {
+			if controller is TutorConnect {
+				self.popToViewController(controller, animated: true)
+				return
+			}
+		}
+	}
+	
 	func popBackToMainWithAddTutor(){
 		for controller in self.viewControllers {
 			if controller is LearnerPageViewController {

@@ -91,11 +91,11 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
 
 extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 6
     }
 
-    internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategoryCell", for: indexPath) as! SubjectCollectionViewCell
         
@@ -122,18 +122,22 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
 		
 		return cell
     }
-    
-    internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+	
+	func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath) as! SubjectCollectionViewCell
-		
-		UIView.animate(withDuration: 0.1, animations: {
-			cell.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-		}) { (finished) in
-			UIView.animate(withDuration: 0.1, animations: {
-				cell.transform = CGAffineTransform.identity
-			}) { (finished ) in
-				self.delegate?.didSelectSubcategory(resource: self.category.subcategory.fileToRead, subject: self.category.subcategory.subcategories[indexPath.item], index: indexPath.item)
-			}
+		cell.shrink()
+	}
+	func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! SubjectCollectionViewCell
+		UIView.animate(withDuration: 0.2) {
+			cell.transform = CGAffineTransform.identity
+		}
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! SubjectCollectionViewCell
+		cell.growSemiShrink {
+			self.delegate?.didSelectSubcategory(resource: self.category.subcategory.fileToRead, subject: self.category.subcategory.subcategories[indexPath.item], index: indexPath.item)
 		}
     }
 }

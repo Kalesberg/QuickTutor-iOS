@@ -508,7 +508,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	
 	let container : UIView = {
 		let view = UIView()
-		
+
 		view.backgroundColor = Colors.registrationDark
 		view.layer.cornerRadius = 6
 		

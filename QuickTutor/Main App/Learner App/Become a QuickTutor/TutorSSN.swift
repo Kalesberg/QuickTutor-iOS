@@ -149,8 +149,8 @@ class TutorSSN : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        
-        if (!(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480)) {
+		
+		if (!(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480)) {
             contentView.digit1.textField.becomeFirstResponder()
         }
         
@@ -218,7 +218,6 @@ class TutorSSN : BaseViewController {
 			return
 		}
 		last4SSN = first + second + third + forth
-		print(last4SSN)
 	}
 	
 	private func textFieldController(current: UITextField, textFieldToChange: UITextField) {
@@ -230,14 +229,6 @@ class TutorSSN : BaseViewController {
 			TutorRegistration.last4SSN = last4SSN
 			
 			self.navigationController?.pushViewController(TutorRegPayment(), animated: true)
-		} else if touchStartView is NavbarButtonBack {
-			let transition = CATransition()
-			let nav = self.navigationController
-			
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-				nav?.popViewController(animated: false)
-			}
 		}
 	}
 }

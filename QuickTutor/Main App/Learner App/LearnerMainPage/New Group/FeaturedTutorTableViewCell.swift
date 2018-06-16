@@ -40,6 +40,7 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 	
 	var datasource = [FeaturedTutor]() {
 		didSet {
+			datasource.shuffle()
 			collectionView.reloadData()
 		}
 	}
@@ -101,21 +102,30 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		return cell
 	}
 	
+	func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+		cell.shrink()
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+		UIView.animate(withDuration: 0.2) {
+			cell.transform = CGAffineTransform.identity
+		}
+	}
+	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
-		
-		if let _ = UIApplication.getPresentedViewController() {
-			cell.growSemiShrink {
-				let next = TutorConnect()
-				next.featuredTutorUid = self.datasource[indexPath.item].uid
-				next.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
-				let transition = CATransition()
-				
-				DispatchQueue.main.async {
-					let nav = navigationController
-					nav.view.layer.add(transition.segueFromBottom(), forKey: nil)
-					nav.pushViewController(next, animated: false)
-				}
+		cell.growSemiShrink {
+			let next = TutorConnect()
+			next.featuredTutorUid = self.datasource[indexPath.item].uid
+			next.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
+			let transition = CATransition()
+			
+			DispatchQueue.main.async {
+				let nav = navigationController
+				nav.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav.pushViewController(next, animated: false)
 			}
 		}
 	}

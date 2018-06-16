@@ -390,8 +390,8 @@ class Verification : BaseViewController {
     private func resendVCAction() {
         PhoneAuthProvider.provider().verifyPhoneNumber(Registration.phone, uiDelegate: nil) { (verificationId, error) in
             if let error = error {
-                print("Error: ", error.localizedDescription)
-                self.contentView.resendVCButton.isUserInteractionEnabled = true
+				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				self.contentView.resendVCButton.isUserInteractionEnabled = true
                 return
             }else{
                 self.runTimer()
