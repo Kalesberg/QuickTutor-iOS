@@ -32,11 +32,11 @@ class TutorConnectView : MainLayoutTwoButton {
         searchBar.sizeToFit()
         searchBar.searchBarStyle = .minimal
         searchBar.backgroundImage = UIImage(color: UIColor.clear)
-        
+        searchBar.showsCancelButton = false
         let textField = searchBar.value(forKey: "searchField") as? UITextField
         textField?.font = Fonts.createSize(14)
         textField?.textColor = .white
-        textField?.tintColor = Colors.learnerPurple
+        textField?.tintColor = UIColor.clear
         textField?.adjustsFontSizeToFitWidth = true
         textField?.autocapitalizationType = .words
         textField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
@@ -311,6 +311,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
 	
+		contentView.searchBar.delegate = self
         contentView.collectionView.dataSource = self
         contentView.collectionView.delegate = self
         contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
@@ -499,6 +500,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
 }
 extension TutorConnect : UISearchBarDelegate {
 	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-		self.navigationController
+		searchBar.resignFirstResponder()
+		self.navigationController?.popOrPushSearchSubjects()
 	}
 }

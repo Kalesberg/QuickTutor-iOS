@@ -231,11 +231,12 @@ extension UINavigationController {
 	
 	func popOrPushSearchSubjects() {
 		for controller in self.viewControllers {
-			if controller is TutorConnect {
+			if controller is SearchSubjects {
 				self.popToViewController(controller, animated: true)
 				return
 			}
 		}
+		pushViewController(SearchSubjects(), animated: true)
 	}
 	
 	func popBackToMainWithAddTutor(){
