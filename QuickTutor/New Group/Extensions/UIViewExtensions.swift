@@ -138,4 +138,10 @@ extension UIView {
 			}
 		}
 	}
+	
+	func shrink() {
+		UIView.animate(withDuration: 0.2, animations: {
+			self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+		})
+	}
 }

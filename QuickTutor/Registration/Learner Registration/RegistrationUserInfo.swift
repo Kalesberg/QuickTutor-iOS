@@ -44,6 +44,7 @@ struct Registration {
 		defaults.set(true, forKey: "showHomePage")
 		defaults.set(true, forKey: "showLearnerSideBarTutorial1.0")
 		defaults.set(true, forKey: "showBecomeTutorTutorial1.0")
+		defaults.set(true, forKey: "showMessagingSystemTutorial1.0")
 	}
 }
 

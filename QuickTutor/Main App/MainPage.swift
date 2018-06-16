@@ -103,6 +103,14 @@ class SearchBar: BaseView, Interactable {
             make.edges.equalToSuperview()
         }
     }
+	func touchStart() {
+		self.shrink()
+	}
+	func didDragOff() {
+		UIView.animate(withDuration: 0.2) {
+			self.transform = CGAffineTransform.identity
+		}
+	}
 }
 
 

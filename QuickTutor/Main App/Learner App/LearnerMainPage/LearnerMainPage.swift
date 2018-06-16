@@ -362,19 +362,12 @@ class LearnerMainPage : MainPage {
             hideSidebar()
             hideBackground()
 		} else if (touchStartView is SearchBar) {
-			UIView.animate(withDuration: 0.1, animations: {
-				self.contentView.search.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-			}) { (finished) in
-				UIView.animate(withDuration: 0.1, animations: {
-					self.contentView.search.transform = CGAffineTransform.identity
-				}) { (finished ) in
-					let nav = self.navigationController
-					let transition = CATransition()
-					DispatchQueue.main.async {
-						nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-						nav?.pushViewController(SearchSubjects(), animated: false)
-					}
-				}
+			
+			let nav = self.navigationController
+			let transition = CATransition()
+			DispatchQueue.main.async {
+				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav?.pushViewController(SearchSubjects(), animated: false)
 			}
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
