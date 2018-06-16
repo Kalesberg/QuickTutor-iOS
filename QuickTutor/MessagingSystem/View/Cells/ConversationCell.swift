@@ -195,37 +195,22 @@ class ConversationCell: UICollectionViewCell {
     }
     
     func updateUI(message: UserMessage) {
-        AccountService.shared.currentUserType == .learner ? handleAsLearner(message: message) : handleAsTutor(message: message)
+        guard let user = message.user else { return }
+        self.chatPartner = user
+        self.updateUsernameLabel()
+        self.updateOnlineStatusIndicator()
+        self.updateProfileImage()
+        self.updateTimestampLabel(message: message)
+        self.updateProfileImage()
+        self.updateLastMessageLabel(message: message)
+        self.updateRating()
     }
     
-    private func handleAsTutor(message: UserMessage) {
-        DataService.shared.getStudentWithId(message.partnerId()) { (userIn) in
-            guard let user = userIn else { return }
-            self.chatPartner = user
-            
-            self.updateUsernameLabel()
-            self.updateOnlineStatusIndicator()
-            self.updateProfileImage()
-            self.updateTimestampLabel(message: message)
-            self.updateProfileImage()
-            self.updateLastMessageLabel(message: message)
-            self.updateRating()
-        }
-    }
-    
-    private func handleAsLearner(message: UserMessage) {
-        DataService.shared.getTutorWithId(message.partnerId()) { (userIn) in
-            guard let user = userIn else { return }
-            self.chatPartner = user
-            
-            self.updateUsernameLabel()
-            self.updateOnlineStatusIndicator()
-            self.updateProfileImage()
-            self.updateTimestampLabel(message: message)
-            self.updateProfileImage()
-            self.updateLastMessageLabel(message: message)
-            self.updateRating()
-        }
+    func clearData() {
+        profileImageView.imageView.image = nil
+        usernameLabel.text = nil
+        timestampLabel.text = nil
+        lastMessageLabel.text = nil
     }
     
     private func updateUsernameLabel() {

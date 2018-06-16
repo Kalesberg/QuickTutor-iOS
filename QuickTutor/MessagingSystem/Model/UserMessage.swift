@@ -19,6 +19,7 @@ class UserMessage: BaseMessage {
     var imageUrl: String?
     var sessionRequestId: String?
     var connectionRequestId: String?
+    var user: User?
 
     init(dictionary: [String: Any]) {
         data = dictionary
