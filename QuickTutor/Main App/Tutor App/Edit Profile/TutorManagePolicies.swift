@@ -287,7 +287,7 @@ class TutorManagePolicies : BaseViewController {
 	
 	var tutor : AWTutor!
 	
-	var datasource : [String]? {
+	var datasource = [String]() {
 		didSet {
 			pickerView.reloadAllComponents()
 		}
@@ -307,10 +307,10 @@ class TutorManagePolicies : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
 		loadTutorPolicy()
+		
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
 	}
@@ -327,7 +327,8 @@ class TutorManagePolicies : BaseViewController {
 	private func configureDelegates() {
 		pickerView.delegate = self
 		pickerView.dataSource = self
-		
+
+		contentView.scrollView.delegate = self
 		contentView.latePolicy.textField.delegate = self
 		contentView.lateFee.textField.delegate = self
 		contentView.cancelNotice.textField.delegate = self
@@ -430,16 +431,18 @@ extension TutorManagePolicies : UITextFieldDelegate {
 			
 		case contentView.latePolicy.textField:
 			self.datasource = self.latePolicy
-			
+			pickerView.selectRow(0, inComponent: 0, animated: true)
+			contentView.scrollView.setContentOffset(CGPoint(x: 0, y: 50), animated: true)
 		case contentView.lateFee.textField:
 			datasource = lateFee
+			contentView.scrollView.setContentOffset(CGPoint(x: 0, y: 100), animated: true)
 
 		case contentView.cancelNotice.textField:
 			datasource = cancelNotice
-
+			contentView.scrollView.setContentOffset(CGPoint(x: 0, y: 150), animated: true)
 		case contentView.cancelFee.textField:
 			datasource = cancelFee
-			contentView.scrollView.setContentOffset(CGPoint(x: 0, y: 100), animated: true)
+			contentView.scrollView.setContentOffset(CGPoint(x: 0, y: 175), animated: true)
 		default:
 			break
 		}
@@ -447,18 +450,28 @@ extension TutorManagePolicies : UITextFieldDelegate {
 }
 
 extension TutorManagePolicies : UIPickerViewDelegate, UIPickerViewDataSource {
+	func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+		let attributedString = NSAttributedString(string: datasource[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.font : Fonts.createSize(20)])
+		return attributedString
+	}
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
+		pickerView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
 		return 1
 	}
 	
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-		return datasource?.count ?? 0
+		return datasource.count
 	}
 	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-		return datasource?[row]
+		return datasource[row]
 	}
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		selectedTextField.text = datasource![row]
+		selectedTextField.text = datasource[row]
 		
+	}
+}
+extension TutorManagePolicies : UIScrollViewDelegate {
+	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+		self.view.endEditing(true)
 	}
 }

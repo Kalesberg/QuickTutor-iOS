@@ -54,7 +54,6 @@ class TutorTaxInfo : BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         hideKeyboardWhenTappedAround()
         
         contentView.tableView.delegate = self
@@ -72,6 +71,10 @@ class TutorTaxInfo : BaseViewController {
     override func handleNavigation() {
         
     }
+	
+	@objc private func SSNTextFieldDidBegin(_ textField : UITextField) {
+		contentView.tableView.setContentOffset(CGPoint(x: 0, y: 500), animated: true)
+	}
 }
 
 
@@ -237,8 +240,9 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
             cell.infoLabel.label.text = ""
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Social Security Number",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
-            
-            return cell
+			cell.textField.addTarget(self, action: #selector(SSNTextFieldDidBegin(_:)), for: .editingDidBegin)
+			
+			return cell
         case 13:
             let cell = UITableViewCell()
             
@@ -293,7 +297,12 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
-        
         return UITableViewCell()
     }
+}
+
+extension TutorTaxInfo : UIScrollViewDelegate {
+	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+		self.view.endEditing(true)
+	}
 }
