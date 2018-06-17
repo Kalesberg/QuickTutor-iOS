@@ -173,7 +173,7 @@ struct SubjectStore {
     static func loadTotalSubjectList() -> [(String, String)]? {
         
         var totalSubjects : [(String, String)] = []
-        
+
         for i in 0..<category.count {
             do {
                 guard let file = Bundle.main.url(forResource: category[i].subcategory.fileToRead, withExtension: "json") else {
@@ -371,7 +371,7 @@ enum Category {
         searchBarPhrases = ["search for any lifestyle"]
         subcategories = ["Motivation & Consulting", "Creations", "Cooking & Baking","Fitness", "Travel Destinations","Careers"]
         icon = [#imageLiteral(resourceName: "motivation"),#imageLiteral(resourceName: "life_lessons"),#imageLiteral(resourceName: "cooking-baking"),#imageLiteral(resourceName: "fitness"),#imageLiteral(resourceName: "travel-destinations"),#imageLiteral(resourceName: "volunteering")]
-        fileToRead = "life style"
+        fileToRead = "lifestyle"
             
         case .health:                    displayName = "HEALTH"
         searchBarPhrases = ["search health and wellness"]

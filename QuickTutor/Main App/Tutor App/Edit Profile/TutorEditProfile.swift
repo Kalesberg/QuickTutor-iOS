@@ -255,7 +255,7 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
 	}
 	private func uploadImageUrl(imageUrl: String, number: String) {
 		
-		let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.tutor.images]
+		let newNodes = ["/student-info/\(CurrentUser.shared.learner.uid)/img/" : CurrentUser.shared.tutor.images, "/tutor-info/\(CurrentUser.shared.learner.uid)/img/" : CurrentUser.shared.tutor.images]
 		Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
 			if let error = error {
 				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)

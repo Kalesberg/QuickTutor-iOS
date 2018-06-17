@@ -89,9 +89,9 @@ class LearnerMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		QueryData.shared.queryTheNextPage(lastKey: "") { (_) in
-			print("fesg")
-		}
+		
+		SubjectStore.loadTotalSubjectList()
+		
 		AccountService.shared.currentUserType = .learner
 		guard let learner = CurrentUser.shared.learner else {
 			try! Auth.auth().signOut()

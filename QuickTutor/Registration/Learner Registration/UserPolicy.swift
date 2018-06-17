@@ -221,7 +221,6 @@ class UserPolicy : BaseViewController {
 		group.enter()
 		checkEmailIsInUse { (error, message) in
 			if let error = error {
-				print("error2")
 				completion(error)
 			} else if message != message {
 				let error = NSError(domain: "", code: 12, userInfo: nil)
@@ -235,18 +234,14 @@ class UserPolicy : BaseViewController {
 		group.enter()
 		FirebaseData.manager.uploadImage(data: Registration.imageData, number: "1") { (error, imageUrl) in
 			if let error = error {
-				print("error3")
 				completion(error)
 			} else if let imageUrl = imageUrl {
 				Registration.studentImageURL = imageUrl
-				print("image uploaded.")
-
 			}
 			group.leave()
 		}
 		
 		group.notify(queue: .main) {
-			print("completed.")
 			completion(nil)
 		}
 	}

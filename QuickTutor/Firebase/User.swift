@@ -394,12 +394,19 @@ class FirebaseData {
         
     }
     
-    public func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
-        self.storageRef.child("student-info").child(AccountService.shared.currentUser.uid).child("student-profile-pic" + number).putData(data, metadata: nil) { (meta, error) in
+	public func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
+		let userId : String
+		
+		if AccountService.shared.currentUserType == .lRegistration {
+			userId = Registration.uid
+		} else {
+			userId = CurrentUser.shared.learner.uid
+		}
+		self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).putData(data, metadata: nil) { (meta, error) in
             if let error = error {
                 completion(error, nil)
             } else {
-                self.storageRef.child("student-info").child(AccountService.shared.currentUser.uid).child("student-profile-pic" + number).downloadURL(completion: { (url, error) in
+                self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).downloadURL(completion: { (url, error) in
                     if let error = error {
                         completion(error,nil)
                     } else {

@@ -326,7 +326,7 @@ class LearnerEditProfile : BaseViewController {
             self.learner.images = CurrentUser.shared.learner.images
         } else {
 
-            let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images, "/tutor-info/\(AccountService.shared.currentUser.uid!)/img/" : CurrentUser.shared.learner.images]
+            let newNodes = ["/student-info/\(CurrentUser.shared.learner.uid)/img/" : CurrentUser.shared.learner.images, "/tutor-info/\(CurrentUser.shared.learner.uid)/img/" : CurrentUser.shared.learner.images]
 
             Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
                 if let error = error {
