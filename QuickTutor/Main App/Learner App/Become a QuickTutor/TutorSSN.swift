@@ -146,6 +146,7 @@ class TutorSSN : BaseViewController {
 	var last4SSN : String = ""
 	var index : Int = 0
 	var textFields : [UITextField] = []
+	var isValid : Bool = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -203,20 +204,27 @@ class TutorSSN : BaseViewController {
 	@objc private func buildLast4SSN(_ textField: UITextField) {
 		guard let first = textFields[0].text, first != "" else {
 			print("not valid")
+			isValid = false
 			return
 		}
 		guard let second = textFields[1].text, second != "" else {
 			print("not valid")
+			isValid = false
+
 			return
 		}
 		guard let third = textFields[2].text, third != "" else {
 			print("not valid")
+			isValid = false
+
 			return
 		}
 		guard let forth = textFields[3].text, forth != "" else {
 			print("not valid")
+			isValid = false
 			return
 		}
+		isValid = true
 		last4SSN = first + second + third + forth
 	}
 	
@@ -224,11 +232,15 @@ class TutorSSN : BaseViewController {
 		current.isEnabled = false
 		textFieldToChange.isEnabled = true
 	}
+	
 	override func handleNavigation() {
 		if(touchStartView is NavbarButtonNext) {
-			TutorRegistration.last4SSN = last4SSN
-			
-			self.navigationController?.pushViewController(TutorRegPayment(), animated: true)
+			if isValid == true {
+				TutorRegistration.last4SSN = last4SSN
+				self.navigationController?.pushViewController(TutorRegPayment(), animated: true)
+			} else {
+				AlertController.genericErrorAlert(self, title: "Invalid SSN", message: nil)
+			}
 		}
 	}
 }
@@ -256,6 +268,7 @@ extension TutorSSN : UITextFieldDelegate {
 
 		if isBackSpace == Constants.BCK_SPACE {
 			textFields[index].text = ""
+			isValid = false
 			textFieldController(current: textFields[index], textFieldToChange: textFields[index - 1])
 			textFields[index - 1].becomeFirstResponder()
 			index -= 1

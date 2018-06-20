@@ -147,7 +147,7 @@ class Tutor {
     }
     
     public func updateValue(value: [String : Any]) {
-        self.ref.child("tutor-info").child(AccountService.shared.currentUser.uid!).updateChildValues(value) { (error, reference) in
+        self.ref.child("tutor-info").child(CurrentUser.shared.learner.uid).updateChildValues(value) { (error, reference) in
             if let error = error {
                 print(error.localizedDescription)
             }
@@ -156,7 +156,7 @@ class Tutor {
     
     public func geoFire(location: CLLocation) {
         let geoFire = GeoFire(firebaseRef: ref.child("tutor_loc"))
-        geoFire.setLocation(location, forKey: AccountService.shared.currentUser.uid!)
+        geoFire.setLocation(location, forKey: CurrentUser.shared.learner.uid)
     }
 }
 

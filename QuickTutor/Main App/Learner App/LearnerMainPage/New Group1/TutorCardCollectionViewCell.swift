@@ -561,9 +561,7 @@ class TutorCardReviewCell : UITableViewCell {
     
     let profilePic : UIImageView  = {
         let imageView = UIImageView()
-        
-        //imageView.image = LocalImageCache.localImageManager.getImage(number: "1")
-        
+		
         return imageView
     }()
     

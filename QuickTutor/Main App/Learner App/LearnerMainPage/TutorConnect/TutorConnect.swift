@@ -470,7 +470,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         let data = (shouldFilterDatasource) ? filteredDatasource : datasource
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
-	
+
         cell.header.profilePics.loadUserImages(by: data[indexPath.row].images["image1"]!)
         cell.header.name.text = data[indexPath.row].name.formatName()
         cell.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)

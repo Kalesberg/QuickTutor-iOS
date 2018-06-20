@@ -129,54 +129,27 @@ class QueryData {
 	static let shared = QueryData()
 	
 	private var ref : DatabaseReference? = Database.database().reference(fromURL: Constants.DATABASE_URL)
-	
-	
-	public func queryAWTutorsByFeaturedCategory(categories: [Category],_ completion: @escaping ([Category : [FeaturedTutor]]?) -> Void) {
-		
-		var tutors = [Category : [FeaturedTutor]]()
-		let group = DispatchGroup()
-		
-		queryAWTutorByUids(categories: categories) { (uids) in
-			if let uids = uids {
-				for key in uids {
-					tutors[key.key] = []
-					for uid in key.value {
-						group.enter()
-						FirebaseData.manager.getFeaturedTutor(uid, { (tutor) in
-							if let tutor = tutor {
-								tutors[key.key]!.append(tutor)
-							}
-							group.leave()
-						})
-					}
-				}
-				group.notify(queue: .main) {
-					completion(tutors)
-				}
-			}
-		}
-	}
-	
-	public func queryTheNextPage(lastKey: String,_ completion: @escaping(Error?) -> Void) {
-		
-//		self.ref?.child("featured").queryOrderedByKey().queryStarting(atValue: "NjQ4LyORJPdkb94wP7hfVluXjw33").queryLimited(toLast: 2).observeSingleEvent(of: .value, with: { (snapshot) in
-//			print(snapshot.value)
-//		})
-	}
-	private func queryAWTutorByUids(categories: [Category],_ completion: @escaping ([Category : [String]]?) -> Void) {
-		var uids = [Category : [String]]()
+
+	public func queryFeaturedTutors(categories: [Category],_ completion: @escaping ([Category : [FeaturedTutor]]?) -> Void) {
+		var uids = [Category : [FeaturedTutor]]()
 		let group = DispatchGroup()
 		
 		for category in categories {
 			
 			uids[category] = []
-			let categoryString = category.mainPageData.displayName.lowercased()
+			let categoryString = category.subcategory.fileToRead
 			
 			group.enter()
-			self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: categoryString).queryLimited(toFirst: 100).observeSingleEvent(of: .value, with: { (snapshot) in
+			self.ref?.child("featured").child(categoryString).queryOrderedByKey().queryLimited(toFirst: 5).observeSingleEvent(of: .value, with: { (snapshot) in
 				for snap in snapshot.children {
 					guard let child = snap as? DataSnapshot else { continue }
-					uids[category]!.append(child.key)
+					group.enter()
+					FirebaseData.manager.getFeaturedTutor(child.key, category: category.subcategory.fileToRead, { (tutor) in
+						if let tutor = tutor {
+							uids[category]!.append(tutor)
+						}
+						group.leave()
+					})
 				}
 				group.leave()
 			})
@@ -186,17 +159,23 @@ class QueryData {
 		}
 	}
 	
-	func queryAWTutorByCategory(category: Category, _ completion: @escaping ([FeaturedTutor]?) -> Void) {
-		
+	func queryAWTutorByCategory(category: Category, lastKnownKey: String?, limit: UInt, _ completion: @escaping ([FeaturedTutor]?) -> Void) {
 		var tutors : [FeaturedTutor] = []
 		let group = DispatchGroup()
 		
-		self.ref?.child("featured").queryOrdered(byChild: "c").queryEqual(toValue: category.mainPageData.displayName.lowercased()).queryLimited(toFirst: 20).observeSingleEvent(of: .value){ (snapshot) in
-			
+		let query : DatabaseQuery!
+		
+		if let lastKnownKey = lastKnownKey {
+			query = self.ref?.child("featured").child(category.subcategory.fileToRead).queryOrderedByKey().queryStarting(atValue: lastKnownKey).queryLimited(toFirst: limit)
+		} else {
+			query = self.ref?.child("featured").child(category.subcategory.fileToRead).queryOrderedByKey().queryLimited(toFirst: limit)
+		}
+		
+		query.observeSingleEvent(of: .value){ (snapshot) in
 			for snap in snapshot.children {
 				guard let child = snap as? DataSnapshot else { continue }
 				group.enter()
-				FirebaseData.manager.getFeaturedTutor(child.key, { (tutor) in
+				FirebaseData.manager.getFeaturedTutor(child.key, category: category.subcategory.fileToRead, { (tutor) in
 					if let tutor = tutor {
 						tutors.append(tutor)
 					}
@@ -204,6 +183,9 @@ class QueryData {
 				})
 			}
 			group.notify(queue: .main) {
+				if lastKnownKey != nil {
+					tutors.removeFirst()
+				}
 				completion(tutors)
 			}
 		}
@@ -212,7 +194,6 @@ class QueryData {
 	func queryAWTutorBySubject(subcategory: String, subject: String, _ completion: @escaping ([AWTutor]?) -> Void) {
 		
 		var tutors : [AWTutor] = []
-		
 		let group = DispatchGroup()
 		
 		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "r").queryStarting(atValue: 3.0).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in

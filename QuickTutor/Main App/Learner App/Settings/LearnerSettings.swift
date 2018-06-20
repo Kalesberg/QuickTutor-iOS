@@ -520,7 +520,7 @@ class SettingsScrollView : BaseScrollView {
                 navigationController.pushViewController(next, animated: true)
             }
         } else if (touchStartView is CommunityGuidelines) {
-            guard let url = URL(string: "https://www.quicktutor.com") else {
+            guard let url = URL(string: "https://www.quicktutor.com/community/community-guidelines") else {
                 return
             }
             if #available(iOS 10, *) {
@@ -529,7 +529,7 @@ class SettingsScrollView : BaseScrollView {
                 UIApplication.shared.openURL(url)
             }
         } else if (touchStartView is UserSafety) {
-            guard let url = URL(string: "https://www.quicktutor.com") else {
+            guard let url = URL(string: "https://www.quicktutor.com/community/user-safety") else {
                 return
             }
             if #available(iOS 10, *) {
