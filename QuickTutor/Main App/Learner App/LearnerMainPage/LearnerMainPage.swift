@@ -89,7 +89,6 @@ class LearnerMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
 		AccountService.shared.currentUserType = .learner
 		guard let learner = CurrentUser.shared.learner else {
 			try! Auth.auth().signOut()
@@ -234,6 +233,7 @@ class LearnerMainPage : MainPage {
     
     private func queryFeaturedTutors() {
         self.displayLoadingOverlay()
+		
         QueryData.shared.queryFeaturedTutors(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
             if let datasource = datasource {
                 if #available(iOS 11.0, *) {
