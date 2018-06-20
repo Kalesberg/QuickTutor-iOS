@@ -67,6 +67,7 @@
 		8448C574204BC87100C3247D /* EditPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8448C573204BC87100C3247D /* EditPhone.swift */; };
 		8449DDEA1FFDD40600FC38CB /* CALayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449DDE91FFDD40600FC38CB /* CALayerExtensions.swift */; };
 		844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A6A8B1FCE5B91003992C3 /* CreatePassword.swift */; };
+		8454890220D987D300932D8D /* AddTutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8454890120D987D300932D8D /* AddTutor.swift */; };
 		845980511FD4FD4B007E9339 /* Lato in Resources */ = {isa = PBXBuildFile; fileRef = 845980501FD4FD4B007E9339 /* Lato */; };
 		845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C93120670EC0003C3AEA /* CategorySearch.swift */; };
 		845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */; };
@@ -403,6 +404,7 @@
 		8448C573204BC87100C3247D /* EditPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhone.swift; sourceTree = "<group>"; };
 		8449DDE91FFDD40600FC38CB /* CALayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayerExtensions.swift; sourceTree = "<group>"; };
 		844A6A8B1FCE5B91003992C3 /* CreatePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePassword.swift; sourceTree = "<group>"; };
+		8454890120D987D300932D8D /* AddTutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutor.swift; sourceTree = "<group>"; };
 		845980501FD4FD4B007E9339 /* Lato */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Lato; sourceTree = "<group>"; };
 		845B3B9F2069E81B009F8E04 /* CategoryCollectViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCollectViewCell.swift; sourceTree = "<group>"; };
 		845D403C2079A30F00EFFC6C /* TutorAddUsername.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddUsername.swift; sourceTree = "<group>"; };
@@ -1162,6 +1164,7 @@
 			isa = PBXGroup;
 			children = (
 				846252E620637CF8001DD330 /* LearnerMainPage.swift */,
+				8454890120D987D300932D8D /* AddTutor.swift */,
 				843ECCC3207DD06E00C0F622 /* LearnerFilters.swift */,
 				84D8C92F2066E8CC003C3AEA /* SearchSubjects.swift */,
 				84D8C93120670EC0003C3AEA /* CategorySearch.swift */,
@@ -1975,6 +1978,7 @@
 				84C96C0D1FCE34A900DBD3A6 /* Email.swift in Sources */,
 				847463222068B97900B70AD9 /* TutorQTGuide.swift in Sources */,
 				CF833B7A207C4B9D00323242 /* BaseUpcomingSessionCell.swift in Sources */,
+				8454890220D987D300932D8D /* AddTutor.swift in Sources */,
 				84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */,
 				CFEF943B20B32B7C00413727 /* ConnectionCell.swift in Sources */,
 				CF6F58D9205EE68800ACBD32 /* StudentKeyboardAccessory.swift in Sources */,

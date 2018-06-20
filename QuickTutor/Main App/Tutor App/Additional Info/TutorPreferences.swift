@@ -168,7 +168,9 @@ class TutorPreferences : BaseViewController {
     private func setUserPreferences() -> Bool {
         let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileHourlyRateTableViewCell)
 		guard let price = Int(cell.amount) else {
-			AlertController.genericErrorAlert(self, title: "Please choose an hourly rate.", message: "")
+			let alertController = UIAlertController(title: "Please choose an hourly rate", message: nil, preferredStyle: .alert)
+			alertController.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+			self.present(alertController, animated: true)
 			return false
 		}
 		

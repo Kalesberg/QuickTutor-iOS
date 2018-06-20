@@ -9,6 +9,11 @@
 import UIKit
 import Firebase
 
+
+/*
+	MARK: // AddTutorVC is depreciated. Replaced with AddTutor
+*/
+
 class AddTutorVC: UIViewController, ShowsConversation, CustomNavBarDisplayer {
     
     var navBar: ZFNavBar = {

@@ -190,6 +190,7 @@ class SearchSubjects: BaseViewController {
 			displayTutorial()
 			defaults.set(false, forKey: "showSubjectTutorial1.0")
 		}
+		contentView.searchBar.becomeFirstResponder()
 	}
 	
 	override func viewDidLayoutSubviews() {

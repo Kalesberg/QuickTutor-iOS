@@ -590,7 +590,6 @@ class LearnerPayment : BaseViewController {
         if (touchStartView == nil) {
             return
         } else if (touchStartView == contentView.nextButton){
-            print("pressed")
             nextButtonPressed()
             contentView.nextButton.isUserInteractionEnabled = false
         } else if (touchStartView == contentView.flipToFront) {

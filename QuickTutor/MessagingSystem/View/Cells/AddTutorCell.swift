@@ -112,8 +112,7 @@ class AddTutorCell: UICollectionViewCell {
             self.statsLabel.text = "\(hours) hours taught, \(sessions) complete sessions"
         }
     }
-    
-    
+	
     @objc func addTutor() {
         guard let uid = userId else { return }
         delegate?.addTutorWithUid(uid)

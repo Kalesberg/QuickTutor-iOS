@@ -607,7 +607,7 @@ class RatingTableViewCell : BaseTableViewCell {
         return button
     }()
     
-    var datasource : [TutorReview]! {
+    var datasource = [TutorReview]() {
         didSet {
             tableView.reloadData()
         }
@@ -723,12 +723,12 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
             }
         }
         
-        let data = datasource?[indexPath.row]
+        let data = datasource[indexPath.row]
         
-        cell.nameLabel.text = data?.studentName ?? ""
-        cell.reviewTextLabel.text = data?.message ?? ""
-        cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "")"
-        cell.profilePic.loadUserImages(by: datasource![indexPath.row].imageURL)
+        cell.nameLabel.text = data.studentName
+        cell.reviewTextLabel.text = data.message
+        cell.dateSubjectLabel.text = "\(data.date) - \(data.subject)"
+        cell.profilePic.loadUserImages(by: datasource[indexPath.row].imageURL)
 
         return cell
     }
@@ -751,7 +751,7 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
         let label = UILabel()
         
         label.font = Fonts.createBoldSize(18)
-        label.text = "Reviews (\((datasource?.count ?? 0)))"
+        label.text = "Reviews (\((datasource.count)))"
         label.textColor = .white
         
         return label
