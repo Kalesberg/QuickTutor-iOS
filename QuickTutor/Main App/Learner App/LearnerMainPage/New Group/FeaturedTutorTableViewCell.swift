@@ -34,13 +34,16 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		collectionView.backgroundColor = .clear
 		collectionView.showsVerticalScrollIndicator = false
 		collectionView.showsHorizontalScrollIndicator = false
-		
+		collectionView.alwaysBounceHorizontal = true
 		return collectionView
 	}()
 	
+	let itemsPerBatch : UInt = 6
+	var allTutorsQueried : Bool = false
+	var didLoadMore : Bool = false
+	
 	var datasource = [FeaturedTutor]() {
 		didSet {
-			datasource.shuffle()
 			collectionView.reloadData()
 		}
 	}
@@ -58,7 +61,6 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		
 		collectionView.delegate = self
 		collectionView.dataSource = self
-		
 		collectionView.register(FeaturedTutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
 		
 		applyConstraints()
@@ -72,6 +74,26 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 			make.width.equalToSuperview()
 		}
     }
+	
+	private func queryTutorsByCategory(lastKnownKey: String?) {
+		QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { (tutors) in
+			if let tutors = tutors {
+				
+				self.allTutorsQueried = tutors.count != self.itemsPerBatch
+				
+				let startIndex = self.datasource.count
+				self.collectionView.performBatchUpdates({
+					self.datasource.append(contentsOf: tutors)
+					let endIndex = self.datasource.count
+					
+					let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
+					self.collectionView.insertItems(at: insertPaths)
+				}, completion: { (finished) in
+					self.didLoadMore = false
+				})
+			}
+		})
+	}
 }
 
 extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -83,7 +105,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
-		
+
 		cell.price.text = datasource[indexPath.item].price.priceFormat()
 		cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: datasource[indexPath.item].imageUrl)
 		cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
@@ -96,7 +118,6 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
             .bold("\(datasource[indexPath.item].rating)  ", 14, Colors.gold)
 			.regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
-        
         cell.layer.cornerRadius = 6
 		
 		return cell
@@ -136,6 +157,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		attributes?.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
 		return attributes
 	}
+	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
 		let screen = UIScreen.main.bounds
@@ -143,5 +165,18 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		let height = collectionView.frame.height - 15
 		
 		return CGSize(width: width, height: height)
+	}
+}
+
+extension FeaturedTutorTableViewCell : UIScrollViewDelegate {
+	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		if allTutorsQueried { return }
+		
+		let currentOffset = scrollView.contentOffset.x
+		let maximumOffset = scrollView.contentSize.width - scrollView.frame.size.width
+
+		if maximumOffset - currentOffset <= -50.0 && datasource.count > 0 {
+			queryTutorsByCategory(lastKnownKey: datasource[datasource.endIndex - 1].uid)
+		}
 	}
 }

@@ -77,7 +77,7 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     }
     
     func handleRightViewTapped() {
-        navigationController?.pushViewController(AddTutorVC(), animated: true)
+        navigationController?.pushViewController(AddTutor(), animated: true)
     }
     
 }

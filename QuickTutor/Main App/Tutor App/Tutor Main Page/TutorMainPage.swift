@@ -587,11 +587,11 @@ class TutorMainPage : MainPage {
         
         let name = tutor.name.split(separator: " ")
         contentView.nameLabel.text = "Welcome back, \(name[0])"
-        
-        if let school = tutor.school {
+	
+        if tutor.school != "" {
             formattedString
                 .bold(tutor.name + "\n", 17, .white)
-                .regular(school, 14, Colors.grayText)
+                .regular(tutor.school!, 14, Colors.grayText)
         } else {
             formattedString
                 .bold(tutor.name, 17, .white)
@@ -729,7 +729,7 @@ class TutorMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.legalItem) {
-            guard let url = URL(string: "https://www.quicktutor.com") else {
+            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else {
                 return
             }
             if #available(iOS 10, *) {
