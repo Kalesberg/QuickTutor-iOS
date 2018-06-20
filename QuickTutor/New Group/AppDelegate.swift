@@ -37,6 +37,7 @@ func setDeviceInfo() -> (Double, Double, Double, Double) {
 class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, MessagingDelegate {
     
     var window: UIWindow?
+    let launchScreen = LaunchScreen()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         //Get device info
@@ -61,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        window?.rootViewController = LaunchScreen()
+        window?.rootViewController = launchScreen
         window?.makeKeyAndVisible()
 
         if let user = Auth.auth().currentUser {
@@ -86,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                         if let fcmToken = Messaging.messaging().fcmToken {
                             self.saveFCMToken(fcmToken)
                         }
-                        self.configureRootViewController(controller: TutorPageViewController())
+                        self.configureRootViewController(controller: TutorPreferences())
                     } else {
 //                        try! Auth.auth().signOut()
                         self.configureRootViewController(controller: SignIn())
@@ -101,10 +102,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     }
     
     func configureRootViewController(controller: UIViewController) {
-        navigationController = CustomNavVC(rootViewController: controller)
-        navigationController.navigationBar.isHidden = true
-        self.window?.makeKeyAndVisible()
-        self.window?.rootViewController = navigationController
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: [], animations: {
+            self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        }) { (true) in
+            UIView.animate(withDuration: 0.3, delay: 0.0, options: [], animations: {
+                self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                self.launchScreen.contentView.icon.alpha = 0.0
+            }) { (true) in
+                navigationController = CustomNavVC(rootViewController: controller)
+                navigationController.navigationBar.isHidden = true
+                self.window?.makeKeyAndVisible()
+                self.window?.rootViewController = navigationController
+            }
+        }
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {

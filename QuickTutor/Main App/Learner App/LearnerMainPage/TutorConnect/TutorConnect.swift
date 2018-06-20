@@ -146,7 +146,7 @@ class TutorCardCollectionViewBackground : BaseView {
         
         formattedString
             .bold("No Tutors Found", 22, .white)
-            .regular("\n\nSorry! We couldn't find anything, try adjusting your filters to improve your search results.", 17, .white)
+            .regular("\n\nSorry! We couldn't find anything, try adjusting your filters in the top right of the screen to improve your search results.", 17, .white)
         
         label.attributedText = formattedString
         label.textAlignment = .center

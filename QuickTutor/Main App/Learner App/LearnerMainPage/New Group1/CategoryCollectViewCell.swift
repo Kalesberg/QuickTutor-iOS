@@ -37,6 +37,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
 
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         
         return imageView
     }()

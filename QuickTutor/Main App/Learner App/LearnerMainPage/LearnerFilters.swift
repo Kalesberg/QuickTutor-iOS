@@ -317,7 +317,7 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 			
 			let formattedString = NSMutableAttributedString()
 			formattedString
-				.bold("Maximum Travel Distance  ", 15, .white)
+				.bold("Distance Setting  ", 15, .white)
 				.regular("  [0-150 mi]", 15, Colors.grayText)
 			
 			cell.header.attributedText = formattedString
@@ -341,12 +341,12 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 			
 			let formattedString = NSMutableAttributedString()
 			formattedString
+                .bold("Maximum Hourly Rate\n", 16, .white)
+                .regular("We'll provide you with tutors who are within your price range. However, each individual session is negotiable to any price -- message a tutor to figure out the details.\n\n", 15, Colors.grayText)
 				.bold("Distance Setting\n", 16, .white)
 				.regular("You will only be able to view tutors who are within your set maximum distance setting.\n\n", 15, Colors.grayText)
-				.bold("Video Calls - Search the World\n", 16, .white)
-				.regular("This option enables you to also view tutors around the world, so you can connect for video call sessions.\n\n", 15, Colors.grayText)
-				.bold("Hourly Rate\n", 16, .white)
-				.regular("We'll provide you with tutors who are within your price range. However, each individual session is negotiable to any price.", 15, Colors.grayText)
+				.bold("Search Online Tutors\n", 16, .white)
+				.regular("This option enables you also to view tutors around the world who are outside your distance setting so that you can connect for video call sessions.\n\n", 15, Colors.grayText)
 			
 			label.attributedText = formattedString
 			label.numberOfLines = 0

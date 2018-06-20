@@ -133,6 +133,7 @@ class LearnerMainPage : MainPage {
                 .bold(learner.name + "\n", 17, .white)
                 .regular(school, 14, Colors.grayText)
         } else {
+            print("sdfsfd")
             formattedString
                 .bold(learner.name, 17, .white)
         }
@@ -391,7 +392,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
             if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
                 return 180
             } else {
-                return 210
+                return 200
             }
         } else {
             return 210

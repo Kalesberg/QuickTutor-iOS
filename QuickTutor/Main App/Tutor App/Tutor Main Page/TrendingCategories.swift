@@ -93,7 +93,7 @@ extension TrendingCategories : UITableViewDelegate, UITableViewDataSource {
         if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
             return 180
         } else {
-            return 210
+            return 200
         }
         
     }

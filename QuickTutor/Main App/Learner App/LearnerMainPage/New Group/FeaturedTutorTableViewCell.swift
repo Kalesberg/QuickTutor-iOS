@@ -93,8 +93,8 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		let formattedString = NSMutableAttributedString()
 		
 		formattedString
-            .bold("\(datasource[indexPath.item].rating)  ", 14, UIColor(hex: "FAAB1A"))
-			.regular("(\(datasource[indexPath.item].reviews) ratings)", 13, UIColor(hex: "FAAB1A"))
+            .bold("\(datasource[indexPath.item].rating)  ", 14, Colors.gold)
+			.regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
         
         cell.layer.cornerRadius = 6
@@ -139,7 +139,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
 		let screen = UIScreen.main.bounds
-		let width = (screen.width / 2.5) - 13
+		let width = (screen.width / 3) - 13
 		let height = collectionView.frame.height - 15
 		
 		return CGSize(width: width, height: height)

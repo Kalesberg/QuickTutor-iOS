@@ -42,6 +42,7 @@ struct Colors {
     static let sentMessage = UIColor(hex: "544177")
     static let border = UIColor(hex: "818186")
     static let navBarColor = UIColor(hex: "1B1B26")
+    static let gold = UIColor(hex: "FAAB1A")
 }
 
 struct Fonts {

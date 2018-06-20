@@ -61,12 +61,18 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		learnAnythingLabel.label.text = "Learn Anything. Teach Anyone."
 		learnAnythingLabel.label.font = Fonts.createLightSize(20)
 		
-		infoLabel.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Terms of Service, Privacy Policy, and Nondiscrimination Policy. Patent Pending."
-		infoLabel.font = Fonts.createLightSize(14)
-		infoLabel.textColor = .white
-		infoLabel.textAlignment = .left
+		let formattedString = NSMutableAttributedString()
+		formattedString
+			.regular("By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy.\n", 13, .white)
+			.bold("Patent Pending.", 15, Colors.grayText)
+		
+		infoLabel.attributedText = formattedString
+		
+//		infoLabel.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy. Patent Pending."
+		//infoLabel.font = Fonts.createLightSize(14)
+		//infoLabel.textColor = .white
 		infoLabel.numberOfLines = 0
-		infoLabel.sizeToFit()
+		//infoLabel.sizeToFit()
 		
 		quicktutorFlame.image = UIImage(named: "qt-flame")
 		
