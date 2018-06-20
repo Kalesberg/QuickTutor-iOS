@@ -43,21 +43,21 @@ class FirebaseData {
             }
         }
     }
-	
-	public func updateTutorVisibility(uid: String, status: Int) {
-		self.ref.child("tutor-info").child(uid).updateChildValues(["h" : status])
-	}
-	
+    
+    public func updateTutorVisibility(uid: String, status: Int) {
+        self.ref.child("tutor-info").child(uid).updateChildValues(["h" : status])
+    }
+    
     public func linkEmail(email: String) {
         let password: String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
         let credential = EmailAuthProvider.credential(withEmail: email, password: password!)
-		user.linkAndRetrieveData(with: credential) { (result, error) in
-			if let error = error {
-				print(error.localizedDescription)
-			} else if let result = result {
-				print(result)
-			}
-		}
+        user.linkAndRetrieveData(with: credential) { (result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let result = result {
+                print(result)
+            }
+        }
     }
     
     public func uploadUser(_ completion: @escaping (Error?) -> Void) {
@@ -82,18 +82,18 @@ class FirebaseData {
     }
     
     public func removeUserImage(_ number: String) {
-		if AccountService.shared.currentUserType == .learner {
-			if CurrentUser.shared.learner.isTutor {
-				self.ref.child("tutor-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
-			}
-			self.ref.child("student-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
-			CurrentUser.shared.learner.images["image"+number] = ""
-		} else {
-			self.ref.child("tutor-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
-			self.ref.child("student-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
-			CurrentUser.shared.learner.images["image"+number] = ""
-			CurrentUser.shared.tutor.images["image"+number] = ""
-		}
+        if AccountService.shared.currentUserType == .learner {
+            if CurrentUser.shared.learner.isTutor {
+                self.ref.child("tutor-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+            }
+            self.ref.child("student-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+            CurrentUser.shared.learner.images["image"+number] = ""
+        } else {
+            self.ref.child("tutor-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+            self.ref.child("student-info").child(user.uid).child("img").updateChildValues(["image" + number : ""])
+            CurrentUser.shared.learner.images["image"+number] = ""
+            CurrentUser.shared.tutor.images["image"+number] = ""
+        }
 
         let imageRef = Storage.storage().reference().child("student-info/\(user.uid)/student-profile-pic\(number)")
         imageRef.delete { (error) in
@@ -123,101 +123,101 @@ class FirebaseData {
             }
         }
     }
-	public func getProfileImagesFor(uid: String,_ completion: @escaping ([String : String]?) -> Void) {
-		self.ref.child("tutor-info").child(uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
-			guard let value = snapshot.value as? [String : String] else {
-				completion(nil)
-				return
-			}
-			completion(value.filter({ $0.value != "" }))
-		}
-	}
-	
-	public func fileReport(sessionId: String, reportStatus: Int, value: [String : Any], completion: @escaping (Error?) -> Void) {
+    public func getProfileImagesFor(uid: String,_ completion: @escaping ([String : String]?) -> Void) {
+        self.ref.child("tutor-info").child(uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String : String] else {
+                completion(nil)
+                return
+            }
+            completion(value.filter({ $0.value != "" }))
+        }
+    }
+    
+    public func fileReport(sessionId: String, reportStatus: Int, value: [String : Any], completion: @escaping (Error?) -> Void) {
         self.ref.child("filereport").child(user.uid).child(sessionId).updateChildValues(value) { (error, reference) in
             if let error = error {
                 completion(error)
-			} else {
-				self.ref.child("sessions").child(sessionId).updateChildValues(["reported" : reportStatus])
+            } else {
+                self.ref.child("sessions").child(sessionId).updateChildValues(["reported" : reportStatus])
                 completion(nil)
             }
         }
     }
 
-	public func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int,_ completion: @escaping (Error?) -> Void) {
-		let post : [String: Any] = ["p" : price, "dst" : distance, "prf": preference]
-		self.ref.child("tutor-info").child(uid).updateChildValues(post) { (error, _) in
-			if let error = error {
-				completion(error)
-			} else {
-				completion(nil)
-			}
-		}
-	}
-	
-	private func fetchSessions(uid: String, type: String,_ completion: @escaping ([String]?) -> Void) {
-		self.ref.child("userSessions").child(uid).child(type).observeSingleEvent(of: .value) { (snapshot) in
-			guard let value = snapshot.value as? [String : Any] else {
-				completion(nil)
-				return
-			}
-			completion(value.compactMap({$0.key}))
-		}
-	}
-	
-	public func getUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]) -> Void) {
-		var sessions : [UserSession] = []
-		let group = DispatchGroup()
-		//add a check to see if they have reported the session already.
-		fetchSessions(uid: uid, type: type) { (sessionIds) in
-			if let sessionIds = sessionIds {
-				print("here.")
-				for id in sessionIds {
-					group.enter()
-					self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
-						guard let value = snapshot.value as? [String : Any] else {
-							group.leave()
-							print("left.")
-							return
-						}
-						var session = UserSession(dictionary: value)
-						session.id = id
-						//this will be used to check for 'pending' or 'filed' reports later. For now it just dumps the current session.
-						if type == "learner" && (session.reportStatus == 1 || session.reportStatus == 3) {
-							print("return")
-							return
-						}
-						if type == "tutor" && (session.reportStatus == 2 || session.reportStatus == 3) {
-							print("return")
-							return
-						}
-						group.enter()
-						self.ref.child("student-info").child(session.otherId).child("nm").observeSingleEvent(of: .value, with: { (snapshot) in
-							if let name = snapshot.value as? String {
-								session.name = name
-							}
-							group.leave()
-						})
-						group.enter()
-						self.ref.child("student-info").child(session.otherId).child("img").child("image1").observeSingleEvent(of: .value, with: { (snapshot) in
-							if let imageURL = snapshot.value as? String {
-								session.imageURl = imageURL
-							}
-							sessions.append(session)
-							group.leave()
-						})
-						group.leave()
-					})
-				}
-				group.notify(queue: .main, execute: {
-					print("here.")
-					completion(sessions)
-				})
-			} else {
-				completion([])
-			}
-		}
-	}
+    public func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int,_ completion: @escaping (Error?) -> Void) {
+        let post : [String: Any] = ["p" : price, "dst" : distance, "prf": preference]
+        self.ref.child("tutor-info").child(uid).updateChildValues(post) { (error, _) in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    private func fetchSessions(uid: String, type: String,_ completion: @escaping ([String]?) -> Void) {
+        self.ref.child("userSessions").child(uid).child(type).observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String : Any] else {
+                completion(nil)
+                return
+            }
+            completion(value.compactMap({$0.key}))
+        }
+    }
+    
+    public func getUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]) -> Void) {
+        var sessions : [UserSession] = []
+        let group = DispatchGroup()
+        //add a check to see if they have reported the session already.
+        fetchSessions(uid: uid, type: type) { (sessionIds) in
+            if let sessionIds = sessionIds {
+                print("here.")
+                for id in sessionIds {
+                    group.enter()
+                    self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+                        guard let value = snapshot.value as? [String : Any] else {
+                            group.leave()
+                            print("left.")
+                            return
+                        }
+                        var session = UserSession(dictionary: value)
+                        session.id = id
+                        //this will be used to check for 'pending' or 'filed' reports later. For now it just dumps the current session.
+                        if type == "learner" && (session.reportStatus == 1 || session.reportStatus == 3) {
+                            print("return")
+                            return
+                        }
+                        if type == "tutor" && (session.reportStatus == 2 || session.reportStatus == 3) {
+                            print("return")
+                            return
+                        }
+                        group.enter()
+                        self.ref.child("student-info").child(session.otherId).child("nm").observeSingleEvent(of: .value, with: { (snapshot) in
+                            if let name = snapshot.value as? String {
+                                session.name = name
+                            }
+                            group.leave()
+                        })
+                        group.enter()
+                        self.ref.child("student-info").child(session.otherId).child("img").child("image1").observeSingleEvent(of: .value, with: { (snapshot) in
+                            if let imageURL = snapshot.value as? String {
+                                session.imageURl = imageURL
+                            }
+                            sessions.append(session)
+                            group.leave()
+                        })
+                        group.leave()
+                    })
+                }
+                group.notify(queue: .main, execute: {
+                    print("here.")
+                    completion(sessions)
+                })
+            } else {
+                completion([])
+            }
+        }
+    }
 
     public func getLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
         
@@ -240,7 +240,7 @@ class FirebaseData {
                 
                 let learner = AWLearner(dictionary: learnerData)
                 learner.uid = uid
-				
+                
                 group.enter()
                 self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
                     learner.isTutor = snapshot.exists()
@@ -262,64 +262,64 @@ class FirebaseData {
             })
         })
     }
-	
-	public func getSubjectsTaught(uid: String, _ completion: @escaping ([TopSubcategory]) -> Void) {
-		
-		var subjectsTaught = [TopSubcategory]()
-		
-		ref.child("subject").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
-			
-			for child in snap {
-				guard let value = child.value as? [String : Any] else { return }
-				
-				var topSubjects = TopSubcategory(dictionary: value)
-				topSubjects.subcategory = child.key
-				subjectsTaught.append(topSubjects)
-			}
-			completion(subjectsTaught)
-		}
-	}
-	
-	
-	
-	public func addUpdateFeaturedTutor(tutor: AWTutor,_ completion: @escaping (Error?) -> Void) {
-		func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
-			return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
-		}
-		
-		getSubjectsTaught(uid: tutor.uid) { (subcategoryList) in
-			let avg = subcategoryList.map({$0.rating / 5}).average
-			
-			let topSubcategory = subcategoryList.sorted {
-				return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 10) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
-			}.first
-			
-			guard let subjects = topSubcategory?.subjects.split(separator: "$") else { return }
-			guard let category = SubjectStore.findCategory(subject: String(subjects[0])) else { return }
+    
+    public func getSubjectsTaught(uid: String, _ completion: @escaping ([TopSubcategory]) -> Void) {
+        
+        var subjectsTaught = [TopSubcategory]()
+        
+        ref.child("subject").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
+            
+            for child in snap {
+                guard let value = child.value as? [String : Any] else { return }
+                
+                var topSubjects = TopSubcategory(dictionary: value)
+                topSubjects.subcategory = child.key
+                subjectsTaught.append(topSubjects)
+            }
+            completion(subjectsTaught)
+        }
+    }
+    
+    
+    
+    public func addUpdateFeaturedTutor(tutor: AWTutor,_ completion: @escaping (Error?) -> Void) {
+        func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
+            return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
+        }
+        
+        getSubjectsTaught(uid: tutor.uid) { (subcategoryList) in
+            let avg = subcategoryList.map({$0.rating / 5}).average
+            
+            let topSubcategory = subcategoryList.sorted {
+                return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 10) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
+            }.first
+            
+            guard let subjects = topSubcategory?.subjects.split(separator: "$") else { return }
+            guard let category = SubjectStore.findCategory(subject: String(subjects[0])) else { return }
 
-			let post : [String : Any] = ["img" : tutor.images["image1"]!,"nm" : tutor.name, "p" : tutor.price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subjects[0], "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
-			
-			self.ref.child("featured").child(category).child(tutor.uid).updateChildValues(post) { (error, _) in
-				if let error = error {
-					completion(error)
-				} else {
-					completion(nil)
-				}
-			}
-		}
-	}
-	
-	public func getFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
-		self.ref.child("featured").child(category).child(uid).observeSingleEvent(of: .value) { (snapshot) in
-			guard let value = snapshot.value as? [String : Any] else { return }
-			var featuredTutor = FeaturedTutor(dictionary: value)
-			featuredTutor.uid = snapshot.key
-			
-			completion(featuredTutor)
-		}
-	}
-	public func getTutor(_ uid: String, isQuery: Bool,_ completion: @escaping (AWTutor?) -> Void) {
+            let post : [String : Any] = ["img" : tutor.images["image1"]!,"nm" : tutor.name, "p" : tutor.price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subjects[0], "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
+            
+            self.ref.child("featured").child(category).child(tutor.uid).updateChildValues(post) { (error, _) in
+                if let error = error {
+                    completion(error)
+                } else {
+                    completion(nil)
+                }
+            }
+        }
+    }
+    
+    public func getFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
+        self.ref.child("featured").child(category).child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String : Any] else { return }
+            var featuredTutor = FeaturedTutor(dictionary: value)
+            featuredTutor.uid = snapshot.key
+            
+            completion(featuredTutor)
+        }
+    }
+    public func getTutor(_ uid: String, isQuery: Bool,_ completion: @escaping (AWTutor?) -> Void) {
         
         let group = DispatchGroup()
         
@@ -337,15 +337,15 @@ class FirebaseData {
                 let tutorDict = value.merging(value2, uniquingKeysWith: { (first, last) -> Any in
                     return last
                 })
-				
-				
+                
+                
                 let tutor = AWTutor(dictionary: tutorDict)
                 tutor.uid = uid
-				
-				if isQuery && (tutorDict["h"] as? Int == 1) {
-					completion(nil)
-					return
-				}
+                
+                if isQuery && (tutorDict["h"] as? Int == 1) {
+                    completion(nil)
+                    return
+                }
 
                 guard let images = tutorDict["img"] as? [String : String] else {
                     print("Couldn't find images: ", uid)
@@ -392,15 +392,15 @@ class FirebaseData {
         })
     }
     
-	public func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
-		let userId : String
-		
-		if AccountService.shared.currentUserType == .lRegistration {
-			userId = Registration.uid
-		} else {
-			userId = CurrentUser.shared.learner.uid
-		}
-		self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).putData(data, metadata: nil) { (meta, error) in
+    public func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
+        let userId : String
+        
+        if AccountService.shared.currentUserType == .lRegistration {
+            userId = Registration.uid
+        } else {
+            userId = CurrentUser.shared.learner.uid
+        }
+        self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).putData(data, metadata: nil) { (meta, error) in
             if let error = error {
                 completion(error, nil)
             } else {
@@ -460,7 +460,7 @@ class FirebaseData {
             completion(subcategories)
         })
     }
-	
+    
     public func getLearnerConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
         var uids = [String]()
         self.ref.child("connections").child(uid).observeSingleEvent(of: .value) { (snapshot) in
@@ -524,7 +524,7 @@ class FirebaseData {
             }
         }
     }
-	
+    
     public func removeBothAccounts(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
         
         let group = DispatchGroup()
@@ -547,10 +547,10 @@ class FirebaseData {
         for subcat in subcategory {
             childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
         }
-		
+        
         for imageURL in CurrentUser.shared.learner.images {
             if imageURL.value == "" { continue }
-			group.enter()
+            group.enter()
             Storage.storage().reference(forURL: imageURL.value).delete { (error) in
                     if let error = error {
                         completion(error)
@@ -624,7 +624,7 @@ class FirebaseData {
         getLearner(uid) { (learner) in
             if let learner = learner {
                 CurrentUser.shared.learner = learner
-				self.getTutor(learner.uid, isQuery: false) { (tutor) in
+                self.getTutor(learner.uid, isQuery: false) { (tutor) in
                     if let tutor = tutor {
                         CurrentUser.shared.tutor = tutor
                         AccountService.shared.loadUser()
