@@ -254,8 +254,7 @@ extension TutorRegPayment : UITextFieldDelegate {
         
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        
-        
+		
         switch textField {
         case contentView.nameTextfield:
             if string == "" { return true }

@@ -89,9 +89,7 @@ class LearnerMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		QueryData.shared.queryTheNextPage(lastKey: "") { (_) in
-			print("fesg")
-		}
+
 		AccountService.shared.currentUserType = .learner
 		guard let learner = CurrentUser.shared.learner else {
 			try! Auth.auth().signOut()
@@ -236,7 +234,7 @@ class LearnerMainPage : MainPage {
     
     private func queryFeaturedTutors() {
         self.displayLoadingOverlay()
-        QueryData.shared.queryAWTutorsByFeaturedCategory(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
+        QueryData.shared.queryFeaturedTutors(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
             if let datasource = datasource {
                 if #available(iOS 11.0, *) {
                     self.contentView.tableView.performBatchUpdates({
@@ -335,7 +333,7 @@ class LearnerMainPage : MainPage {
         } else if(touchStartView == contentView.sidebar.legalItem) {
             hideSidebar()
             hideBackground()
-            guard let url = URL(string: "https://www.quicktutor.com") else {
+            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else {
                 return
             }
             if #available(iOS 10, *) {
@@ -400,15 +398,11 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            
             let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
-            
             return cell
-            
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
-			
 			
 			cell.datasource = self.datasource[category[indexPath.section - 1]]!
             cell.category =  category[indexPath.section - 1]
@@ -437,15 +431,14 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 }
 
 extension LearnerMainPage : UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        if (scrollView.contentOffset.y - 60 >= (scrollView.contentSize.height - scrollView.frame.size.height))  && contentView.tableView.numberOfSections > 1 {
-            
-            if !didLoadMore && datasource.count < 12 {
-                didLoadMore = true
-                queryFeaturedTutors()
-            }
-        }
-    }
+	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		let currentOffset = scrollView.contentOffset.y
+		let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+		if maximumOffset - currentOffset <= 70.0 && contentView.tableView.numberOfSections > 1 {
+			if !didLoadMore && datasource.count < 12 {
+				didLoadMore = true
+				queryFeaturedTutors()
+			}
+		}
+	}
 }

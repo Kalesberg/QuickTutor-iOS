@@ -163,7 +163,7 @@ class TutorAddBank: BaseViewController {
 	
 	@objc private func textFieldDidChange(_ textField: UITextField) {
 		
-        guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
+        guard let name = contentView.nameTextfield.text, name.count <= 30, name.count >= 2 else {
 			contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
 			validAccountData = false
             return

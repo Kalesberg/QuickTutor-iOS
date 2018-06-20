@@ -42,12 +42,13 @@ class CategorySearchView : MainLayoutTwoButton {
 		
 		let collectionView  = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		
-		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 2, minimumInteritemSpacing: 5, minimumLineSpacing: 40, sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
+		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 5, minimumLineSpacing: 50, sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
 		
 		collectionView.collectionViewLayout = customLayout
 		collectionView.backgroundColor = .clear
 		collectionView.showsVerticalScrollIndicator = false
 		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.alwaysBounceVertical = true
 		
 		return collectionView
 	}()
@@ -106,32 +107,18 @@ class CategorySearch: BaseViewController {
 	override func loadView() {
 		view = CategorySearchView()
 	}
+	let itemsPerBatch : UInt = 6
 	
 	var datasource = [FeaturedTutor]()
 	var didLoadMore : Bool = false
-
+	var allTutorsQueried: Bool = false
+	
 	var category : Category! {
 		didSet {
-			queryTutorsByCategory()
+			queryTutorsByCategory(lastKnownKey: nil)
 		}
 	}
-	
-	private func queryTutorsByCategory() {
-		QueryData.shared.queryAWTutorByCategory(category: category, { (tutors) in
-			if let tutors = tutors {
-				let startIndex = self.datasource.count
-				self.datasource.append(contentsOf: tutors)
-				let endIndex = self.datasource.count
-				
-				self.contentView.collectionView.performBatchUpdates({
-					let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
-					self.contentView.collectionView.insertItems(at: insertPaths)
-				}, completion: { (finished) in
-					self.didLoadMore = false
-				})
-			}
-		})
-	}
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		contentView.subtitle.category.text = CategorySelected.title
@@ -152,11 +139,33 @@ class CategorySearch: BaseViewController {
     
 	}
 	
+	private func queryTutorsByCategory(lastKnownKey: String?) {
+		self.displayLoadingOverlay()
+		QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { (tutors) in
+			if let tutors = tutors {
+				self.allTutorsQueried = tutors.count != self.itemsPerBatch
+				
+				let startIndex = self.datasource.count
+				self.datasource.append(contentsOf: tutors)
+				let endIndex = self.datasource.count
+				
+				self.contentView.collectionView.performBatchUpdates({
+					let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
+					self.contentView.collectionView.insertItems(at: insertPaths)
+				}, completion: { (finished) in
+					self.didLoadMore = false
+					self.dismissOverlay()
+				})
+			}
+		})
+	}
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 	}
 	
 	override func handleNavigation() {
+		
 	}
 }
 
@@ -185,10 +194,21 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
         
 		return cell
 	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
+		let screen = UIScreen.main.bounds
+		let width = (screen.width / 3) - 13
+		let height = (screen.height / 3) - contentView.subtitle.frame.height
+		
+		return CGSize(width: width, height: height)
+	}
+	
 	func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
 		cell.shrink()
 	}
+	
 	func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
 		UIView.animate(withDuration: 0.2) {
@@ -219,8 +239,21 @@ extension CategorySearch : UISearchBarDelegate {
 		if let index = Category.categories.index(of: category) {
 			next.initialIndex = IndexPath(item: index, section: 0)
 			navigationController?.pushViewController(next, animated: true)
-		} else{
+		} else {
 			navigationController?.pushViewController(next, animated: true)
+		}
+	}
+}
+
+extension CategorySearch : UIScrollViewDelegate {
+	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		if allTutorsQueried { return }
+		
+		let currentOffset = scrollView.contentOffset.y
+		let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+		
+		if maximumOffset - currentOffset <= 100.0 {
+			queryTutorsByCategory(lastKnownKey: datasource[datasource.endIndex - 1].uid)
 		}
 	}
 }

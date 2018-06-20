@@ -298,9 +298,9 @@ class FirebaseData {
 			guard let subjects = topSubcategory?.subjects.split(separator: "$") else { return }
 			guard let category = SubjectStore.findCategory(subject: String(subjects[0])) else { return }
 
-			let post : [String : Any] = ["c" : category, "img" : tutor.images["image1"]!,"nm" : tutor.name, "p" : tutor.price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subjects[0], "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
+			let post : [String : Any] = ["img" : tutor.images["image1"]!,"nm" : tutor.name, "p" : tutor.price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subjects[0], "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
 			
-			self.ref.child("featured").child(tutor.uid).updateChildValues(post) { (error, _) in
+			self.ref.child("featured").child(category).child(tutor.uid).updateChildValues(post) { (error, _) in
 				if let error = error {
 					completion(error)
 				} else {
@@ -310,8 +310,8 @@ class FirebaseData {
 		}
 	}
 	
-	public func getFeaturedTutor(_ uid: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
-		self.ref.child("featured").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+	public func getFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
+		self.ref.child("featured").child(category).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return }
 			var featuredTutor = FeaturedTutor(dictionary: value)
 			featuredTutor.uid = snapshot.key
@@ -389,9 +389,7 @@ class FirebaseData {
                     completion(tutor)
                 })
             })
-            
         })
-        
     }
     
     public func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
@@ -484,7 +482,7 @@ class FirebaseData {
             return nil
         }
         UIGraphicsEndImageContext()
-        guard let dataToUpload = UIImageJPEGRepresentation(scaledImage, 0.3) else {
+        guard let dataToUpload = UIImageJPEGRepresentation(scaledImage, 0.6) else {
             print("No data to upload")
             return nil
         }
