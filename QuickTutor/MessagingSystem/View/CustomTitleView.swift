@@ -29,6 +29,7 @@ class CustomTitleView: UIView {
         label.text = "Active 1m ago"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 10)
+        label.textAlignment = .center
         return label
     }()
     
@@ -50,8 +51,12 @@ class CustomTitleView: UIView {
     
     func updateUI(user: User) {
         self.user = user
-        updateOnlineStatusIndicator()
         titleLabel.text = user.formattedName
+        OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { (result) in
+            guard let result = result else { return }
+            self.activeLabel.text = result
+            self.updateOnlineStatusIndicator()
+        }
     }
     
     func setupViews() {
@@ -108,7 +113,7 @@ class CustomTitleView: UIView {
         addConstraint(NSLayoutConstraint(item: arrow, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     private func updateOnlineStatusIndicator() {
-        imageView.onlineStatusIndicator.backgroundColor = user.isOnline ? .green : .red
+        imageView.onlineStatusIndicator.backgroundColor = OnlineStatusService.shared.isActive ? Colors.green : Colors.qtRed
     }
     
     required init?(coder aDecoder: NSCoder) {
