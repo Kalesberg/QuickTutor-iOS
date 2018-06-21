@@ -82,22 +82,11 @@ class TutorConnectView : MainLayoutTwoButton {
     }
     
     let addPaymentModal = AddPaymentModal()
-    
-    let backgroundView : InteractableObject = {
-        let view = InteractableObject()
-        
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        view.isHidden = true
-        
-        return view
-    }()
-    
-    
+	
     override func configureView() {
         navbar.addSubview(searchBar)
         addSubview(collectionView)
         addSubview(addPaymentModal)
-        addSubview(backgroundView)
         super.configureView()
         
         applyConstraints()
@@ -120,9 +109,6 @@ class TutorConnectView : MainLayoutTwoButton {
             make.centerX.equalToSuperview()
         }
         addPaymentModal.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        backgroundView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
     }
@@ -450,11 +436,11 @@ extension TutorConnect : AWImageViewer {
 		self.dismissAWImageViewer()
 	}
 }
+
 extension TutorConnect : AddPaymentButtonPress {
 	func dismissPaymentModal() {
 		self.dismissAddPaymentMethod()
 	}
-
 }
 extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     

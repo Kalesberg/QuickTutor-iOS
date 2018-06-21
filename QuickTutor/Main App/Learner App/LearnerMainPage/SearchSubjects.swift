@@ -90,7 +90,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		searchTextField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		searchTextField?.keyboardAppearance = .dark
 		
-		
+		backButton.image.image = #imageLiteral(resourceName: "back-button")
 		headerView.backgroundColor = Colors.backgroundDark
 		
 		applyConstraints()
@@ -158,6 +158,7 @@ class SearchSubjects: BaseViewController {
 	
 	var tableViewIsActive : Bool = false {
 		didSet {
+			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "xbuttonlight") : #imageLiteral(resourceName: "back-button")
 			shouldUpdateSearchResults = tableViewIsActive
 		}
 	}
@@ -166,6 +167,11 @@ class SearchSubjects: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+	
+		if let subjects = SubjectStore.loadTotalSubjectList() {
+			self.allSubjects = subjects
+			self.allSubjects.shuffle()
+		}
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
 	
@@ -173,19 +179,13 @@ class SearchSubjects: BaseViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		if let subjects = SubjectStore.loadTotalSubjectList() {
-			self.allSubjects = subjects
-			self.allSubjects.shuffle()
-		}
+		
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		contentView.searchTextField.text = ""
-		tableView(shouldDisplay: false) { }
 		
 		let defaults = UserDefaults.standard
-		
 		if defaults.bool(forKey: "showSubjectTutorial1.0") {
 			displayTutorial()
 			defaults.set(false, forKey: "showSubjectTutorial1.0")
@@ -363,6 +363,7 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
 			nav?.pushViewController(next, animated: false)
 		}
+		tableView.deselectRow(at: indexPath, animated: true)
 	}
 	
 	internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

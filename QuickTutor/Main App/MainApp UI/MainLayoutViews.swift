@@ -49,7 +49,6 @@ class MainLayoutView: BaseLayoutView {
     }
 }
 
-
 class MainLayoutOneButton: MainLayoutView {
 
     var leftButton = NavbarButton()
@@ -80,8 +79,6 @@ class MainLayoutTwoButton: MainLayoutOneButton {
         rightButton.allignRight()
     }
 }
-
-
 
 struct TitleComponent {
     var title = CenterTextLabel()
