@@ -11,8 +11,17 @@ import UIKit
 import SnapKit
 
 class LaunchScreenView : BaseLayoutView {
+    
+    let background : UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.image = #imageLiteral(resourceName: "launchScreenBackground")
+        imageView.contentMode = .scaleAspectFill
+        
+        return imageView
+    }()
 	
-	let imageView : UIImageView = {
+	let icon : UIImageView = {
 		let imageView = UIImageView()
 		
 		imageView.image = #imageLiteral(resourceName: "launchScreenImage")
@@ -22,15 +31,18 @@ class LaunchScreenView : BaseLayoutView {
 	
 	
 	override func configureView() {
-		addSubview(imageView)
+		addSubview(background)
+        addSubview(icon)
 		super.configureView()
-        
-        backgroundColor = UIColor.init(hex: "272730")
         
 		applyConstraints()
 	}
 	override func applyConstraints() {
-		imageView.snp.makeConstraints { (make) in
+        background.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+		icon.snp.makeConstraints { (make) in
 			make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
 		}

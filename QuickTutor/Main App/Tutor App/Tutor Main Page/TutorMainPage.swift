@@ -598,6 +598,7 @@ class TutorMainPage : MainPage {
         } else {
             formattedString
                 .bold(tutor.name, 17, .white)
+            print("sdfsfd")
         }
         
         contentView.sidebar.ratingView.ratingLabel.text = String(tutor.tRating)

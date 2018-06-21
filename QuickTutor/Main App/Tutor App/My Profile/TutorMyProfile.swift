@@ -118,6 +118,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             cell.nameLabel.text = tutor.name
             cell.locationLabel.text = tutor.region
             cell.profilePicView.loadUserImages(by: tutor.images["image1"]!)
+            cell.ratingLabel.text = String(tutor.tRating)
             
             return cell
         case 1:

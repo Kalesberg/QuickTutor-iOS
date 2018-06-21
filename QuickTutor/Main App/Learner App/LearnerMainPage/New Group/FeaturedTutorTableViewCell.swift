@@ -115,8 +115,8 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		let formattedString = NSMutableAttributedString()
 		
 		formattedString
-            .bold("\(datasource[indexPath.item].rating)  ", 14, UIColor(hex: "FAAB1A"))
-			.regular("(\(datasource[indexPath.item].reviews) ratings)", 13, UIColor(hex: "FAAB1A"))
+            .bold("\(datasource[indexPath.item].rating)  ", 14, Colors.gold)
+			.regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
         cell.layer.cornerRadius = 6
 		
