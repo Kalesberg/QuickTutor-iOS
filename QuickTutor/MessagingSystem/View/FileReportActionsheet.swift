@@ -37,6 +37,7 @@ class FileReportActionsheet: UIView {
         cv.register(FileReportActionsheetCell.self, forCellWithReuseIdentifier: "cellId")
         cv.backgroundColor = UIColor(hex: "131317")
         cv.layer.cornerRadius = 8
+        cv.isScrollEnabled = false
         if #available(iOS 11.0, *) {
             cv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
@@ -129,16 +130,6 @@ class FileReportActionsheet: UIView {
 
 extension FileReportActionsheet: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.item {
-        case 0:
-            handleReportButton()
-        case 1:
-            handleDisconnectButton()
-        case 2:
-            handleCancelButton()
-        default:
-            break
-        }
     }
 }
 
@@ -149,7 +140,9 @@ extension FileReportActionsheet: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! FileReportActionsheetCell
-        cell.titleLabel.text = titles[indexPath.item]
+        cell.button.setTitle(titles[indexPath.item], for: .normal)
+        cell.delegate = self
+        cell.tag = indexPath.item
         return cell
     }
 }
@@ -163,4 +156,19 @@ extension FileReportActionsheet: UICollectionViewDelegateFlowLayout {
         return 0.5
     }
 
+}
+
+extension FileReportActionsheet: FileReportActionsheetCellDelegate {
+    func fileReportActionSheetCellDidSelect(_ fileReportActionSheetCell: FileReportActionsheetCell) {
+        switch fileReportActionSheetCell.tag {
+        case 0:
+            handleReportButton()
+        case 1:
+            handleDisconnectButton()
+        case 2:
+            handleCancelButton()
+        default:
+            break
+        }
+    }
 }

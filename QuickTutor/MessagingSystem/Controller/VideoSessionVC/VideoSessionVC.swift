@@ -34,7 +34,7 @@ class VideoSessionVC: BaseSessionVC {
     
     func setupTwilio() {
         guard let id = sessionId else { return }
-        twilioSessionManager = TwilioSessionManager(previewView: videoSessionView.previewView, remoteView: videoSessionView.remoteView, sessionId: id)
+        twilioSessionManager = TwilioSessionManager(previewView: videoSessionView.cameraPreviewView, remoteView: videoSessionView.partnerCameraFeed, sessionId: id)
     }
     
     func setupButtonActions() {

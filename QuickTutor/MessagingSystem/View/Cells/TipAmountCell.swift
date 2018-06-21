@@ -16,7 +16,7 @@ class TipAmountCell: UICollectionViewCell {
         button.titleLabel?.font = Fonts.createSize(14)
         button.backgroundColor = .white
         button.setTitle("$6", for: .normal)
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.adjustsFontSizeToFitWidth = false
         button.layer.cornerRadius = 21
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 2)
         button.isUserInteractionEnabled = false

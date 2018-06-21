@@ -20,7 +20,7 @@ class User: Decodable {
     var formattedName: String {
         get {
             let name = username.split(separator: " ")
-            let formatted = "\(name[0]) \(String(name[1]).prefix(1))."
+            let formatted = "\(name[0]) \(String(name[1]).prefix(1))"
             return formatted
         }
     }
