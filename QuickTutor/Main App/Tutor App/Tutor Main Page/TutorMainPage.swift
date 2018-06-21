@@ -561,6 +561,9 @@ class TutorMainPage : MainPage {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		FirebaseData.manager.addUpdateFeaturedTutor(tutor: CurrentUser.shared.tutor) { (_) in
+			
+		}
     }
     
     override func viewDidLayoutSubviews() {

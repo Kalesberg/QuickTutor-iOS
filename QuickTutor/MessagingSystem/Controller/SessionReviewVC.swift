@@ -185,8 +185,6 @@ class SessionReviewVC: UIViewController {
             let vc = AccountService.shared.currentUserType == .tutor ? TutorPageViewController() : LearnerPageViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        
-
     }
     
     override func viewDidLoad() {
