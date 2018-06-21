@@ -43,6 +43,12 @@ struct Colors {
     static let border = UIColor(hex: "818186")
     static let navBarColor = UIColor(hex: "1B1B26")
     static let gold = UIColor(hex: "FAAB1A")
+    static func currentUserColor() -> UIColor {
+        return AccountService.shared.currentUserType == .tutor ? tutorBlue : learnerPurple
+    }
+    static func otherUserColor() -> UIColor {
+        return AccountService.shared.currentUserType == .tutor ? learnerPurple : tutorBlue
+    }
 }
 
 struct Fonts {

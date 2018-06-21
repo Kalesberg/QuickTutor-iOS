@@ -69,7 +69,7 @@ class LearnerMainPageView : MainPageView {
     override func layoutSubviews() {
         super.layoutSubviews()
         sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: sidebar.bounds)
-		tableView.layoutSubviews()
+        tableView.layoutSubviews()
         tableView.layoutIfNeeded()
     }
 }
@@ -89,28 +89,28 @@ class LearnerMainPage : MainPage {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		AccountService.shared.currentUserType = .learner
-		guard let learner = CurrentUser.shared.learner else {
-			try! Auth.auth().signOut()
-			self.navigationController?.pushViewController(SignIn(), animated: true)
-			return
-		}
-		self.learner = learner
-		
-		Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
-			if let error = error {
-				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-			} else if let customer = customer {
-				self.learner.hasPayment = (customer.sources.count > 0)
-			}
-		}
+        AccountService.shared.currentUserType = .learner
+        guard let learner = CurrentUser.shared.learner else {
+            try! Auth.auth().signOut()
+            self.navigationController?.pushViewController(SignIn(), animated: true)
+            return
+        }
+        self.learner = learner
+        
+        Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
+            if let error = error {
+                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+            } else if let customer = customer {
+                self.learner.hasPayment = (customer.sources.count > 0)
+            }
+        }
         queryFeaturedTutors()
         configureView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-		
+        
         if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
             UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
             displayMessagesTutorial()
@@ -232,7 +232,7 @@ class LearnerMainPage : MainPage {
     
     private func queryFeaturedTutors() {
         self.displayLoadingOverlay()
-		
+        
         QueryData.shared.queryFeaturedTutors(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
             if let datasource = datasource {
                 if #available(iOS 11.0, *) {
@@ -247,16 +247,16 @@ class LearnerMainPage : MainPage {
                     })
                 } else {
                     self.contentView.tableView.beginUpdates()
-					self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-					self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
-					self.contentView.tableView.endUpdates()
-					self.didLoadMore = false
+                    self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+                    self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+                    self.contentView.tableView.endUpdates()
+                    self.didLoadMore = false
                 }
             }
             self.dismissOverlay()
         }
     }
-	
+    
     private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
         self.displayLoadingOverlay()
         FirebaseData.manager.getTutor(learner.uid, isQuery: false) { (tutor) in
@@ -321,8 +321,8 @@ class LearnerMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.profileView) {
-			let next = LearnerMyProfile()
-			next.learner = CurrentUser.shared.learner
+            let next = LearnerMyProfile()
+            next.learner = CurrentUser.shared.learner
             navigationController?.pushViewController(next, animated: true)
             hideSidebar()
             hideBackground()
@@ -362,14 +362,14 @@ class LearnerMainPage : MainPage {
             }
             hideSidebar()
             hideBackground()
-		} else if (touchStartView is SearchBar) {
-			
-			let nav = self.navigationController
-			let transition = CATransition()
-			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-				nav?.pushViewController(SearchSubjects(), animated: false)
-			}
+        } else if (touchStartView is SearchBar) {
+            
+            let nav = self.navigationController
+            let transition = CATransition()
+            DispatchQueue.main.async {
+                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+                nav?.pushViewController(SearchSubjects(), animated: false)
+            }
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
             hideSidebar()
@@ -403,7 +403,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
-			cell.datasource = self.datasource[category[indexPath.section - 1]]!
+            cell.datasource = self.datasource[category[indexPath.section - 1]]!
             cell.category =  category[indexPath.section - 1]
             
             return cell
@@ -430,14 +430,14 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
 }
 
 extension LearnerMainPage : UIScrollViewDelegate {
-	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-		let currentOffset = scrollView.contentOffset.y
-		let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-		if maximumOffset - currentOffset <= 70.0 && contentView.tableView.numberOfSections > 1 {
-			if !didLoadMore && datasource.count < 12 {
-				didLoadMore = true
-				queryFeaturedTutors()
-			}
-		}
-	}
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        if maximumOffset - currentOffset <= 70.0 && contentView.tableView.numberOfSections > 1 {
+            if !didLoadMore && datasource.count < 12 {
+                didLoadMore = true
+                queryFeaturedTutors()
+            }
+        }
+    }
 }
