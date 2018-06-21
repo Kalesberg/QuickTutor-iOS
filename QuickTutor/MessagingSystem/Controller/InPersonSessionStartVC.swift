@@ -97,7 +97,8 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
         // In-person Manual Started By Current User
         if startType == "manual" && session?.type == "in-person" && initiatorId == uid {
             titleLabel.text = "Time to meet up!"
-            statusLabel.text = "Waiting for your partner to accept the manual start..."
+            let userType = AccountService.shared.currentUserType == .learner ? "tutor" : "learner"
+            statusLabel.text = "Waiting for your \(userType) to accept the manual start..."
             statusLabel.isHidden = false
         }
         
@@ -124,7 +125,8 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     @objc func confirmMeetup() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        statusLabel.text = "Waiting for your partner to confirm meet-up..."
+        let userType = AccountService.shared.currentUserType == .learner ? "tutor" : "learner"
+        statusLabel.text = "Waiting for your \(userType) to confirm meet-up..."
         statusLabel.isHidden = false
         confirmButton.isHidden = true
         socket.emit(SocketEvents.meetupConfirmed, ["roomKey": sessionId!, "confirmedBy": uid])

@@ -11,14 +11,15 @@ import Firebase
 
 class AddTipVC: UIViewController, CustomTipPresenter {
     
-    var partnerId: String! = "iIuS1w4jGcPVJwFSehBEznnkHc53"
+    var partnerId: String!
     
     let tipTitles = ["No tip", "$2", "$4", "$6", "Custom"]
     var paymentMethodCount = 1
     var tipAmounts: [Double] = [0,2,4,6,8]
+    var costOfSession = 0.0
     var amountToTip = 0.0 {
         didSet {
-            let priceString = String(format: "%.2f", amountToTip)
+            let priceString = String(format: "%.2f", amountToTip + costOfSession)
             totalLabel.text = "Total: $\(priceString)"
         }
     }
@@ -192,6 +193,9 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    func chargeStripe() {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -208,6 +212,12 @@ extension AddTipVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == tipAmountCV {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tipCell", for: indexPath) as! TipAmountCell
+            if indexPath.item == 0 {
+                cell.button.titleLabel?.font = Fonts.createSize(12)
+            }
+            if indexPath.item == 4 {
+                cell.button.titleLabel?.font = Fonts.createSize(10)
+            }
             cell.button.setTitle(tipTitles[indexPath.item], for: .normal)
             return cell
         } else {

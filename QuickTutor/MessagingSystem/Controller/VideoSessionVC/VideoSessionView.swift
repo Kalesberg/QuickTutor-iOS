@@ -16,18 +16,26 @@ class VideoSessionView: UIView {
         return bar
     }()
     
-    var remoteView: TVIVideoView = {
+    var partnerCameraFeed: TVIVideoView = {
         let view = TVIVideoView()
         view.contentMode = .scaleAspectFill
         view.shouldMirror = true
         return view
     }()
     
-    let previewView: TVIVideoView = {
+    let cameraPreviewView: TVIVideoView = {
         let view = TVIVideoView()
         view.contentMode = .scaleAspectFill
         view.shouldMirror = true
         return view
+    }()
+    
+    let flipCameraIcon: UIImageView = {
+        let iv = UIImageView(image: #imageLiteral(resourceName: "cameraFlipIcon"))
+        iv.contentMode = .scaleAspectFit
+        iv.alpha = 0.75
+        iv.isUserInteractionEnabled = false
+        return iv
     }()
     
     let previewBorderView: UIView = {
@@ -61,8 +69,9 @@ class VideoSessionView: UIView {
     
     func setupViews() {
         setupMainView()
-        setupRemoteView()
-        setupPreviewView()
+        setupPartnerCameraFeed()
+        setupCameraPreviewView()
+        setupFlipCameraIcon()
         setupPreviewBorderView()
         setupNavBar()
         setupPauseSessionButton()
@@ -81,19 +90,26 @@ class VideoSessionView: UIView {
         navigationController.navigationBar.isHidden = true
     }
     
-    func setupRemoteView() {
-        addSubview(remoteView)
-        remoteView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    func setupPartnerCameraFeed() {
+        addSubview(partnerCameraFeed)
+        partnerCameraFeed.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
-    func setupPreviewView() {
-        addSubview(previewView)
-        previewView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 3, paddingRight: 0, width: 112.5, height: 112.5 * (16 / 9) - 30)
+    func setupCameraPreviewView() {
+        addSubview(cameraPreviewView)
+        cameraPreviewView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 3, paddingRight: 0, width: 112.5, height: 112.5 * (16 / 9) - 30)
+        
+    }
+    
+    func setupFlipCameraIcon() {
+        addSubview(flipCameraIcon)
+        flipCameraIcon.anchor(top: nil, left: nil, bottom: cameraPreviewView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 6, paddingRight: 0, width: 30, height: 20)
+        addConstraint(NSLayoutConstraint(item: flipCameraIcon, attribute: .centerX, relatedBy: .equal, toItem: cameraPreviewView, attribute: .centerX, multiplier: 1, constant: 0))
     }
     
     func setupPreviewBorderView() {
-        insertSubview(previewBorderView, belowSubview: previewView)
-        previewBorderView.anchor(top: previewView.topAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: previewView.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: -3, width: 0, height: 0)
+        insertSubview(previewBorderView, belowSubview: cameraPreviewView)
+        previewBorderView.anchor(top: cameraPreviewView.topAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: cameraPreviewView.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: -3, width: 0, height: 0)
     }
     
     func setupPauseSessionButton() {

@@ -24,26 +24,26 @@ class CustomModal: BaseCustomModal {
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.font = Fonts.createSize(12)
+        label.font = Fonts.createSize(14)
         return label
     }()
     
     let noteLabel: UILabel = {
         let label = UILabel()
-        label.text = "NOTE: IF YOU CANCEL THIS TUTOR'S CANCELLATION POLICY, YOU MAY BE SUBJECT TO A CANCELLATION FEE"
+        label.text = "NOTE: IF YOU CANCEL, YOU MAY BE DISOBEYING THIS TUTOR'S CANCELLATION POLICY, YOU MAY BE SUBJECT TO A CANCELLATION FEE"
         label.textColor = .white
         label.textAlignment = .center
-        label.font = Fonts.createBoldSize(12)
+        label.font = Fonts.createBoldSize(11)
         label.numberOfLines = 0
         return label
     }()
     
     let nevermindButton: DimmableButton = {
         let button = DimmableButton()
-        button.setTitle("Nevermind", for: .normal)
-        button.setTitleColor(UIColor(red: 91.0 / 255.0, green: 81.0 / 255.0, blue: 162.0 / 255.0, alpha: 1.0), for: .normal)
+        button.setTitle("Never mind", for: .normal)
+        button.setTitleColor(Colors.qtRed, for: .normal)
         button.layer.borderWidth = 1.5
-        button.layer.borderColor = UIColor(red: 91.0 / 255.0, green: 81.0 / 255.0, blue: 162.0 / 255.0, alpha: 1.0).cgColor
+        button.layer.borderColor = Colors.qtRed.cgColor
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(16)
         button.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
@@ -54,9 +54,9 @@ class CustomModal: BaseCustomModal {
     let confirmButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Ok, cancel", for: .normal)
-        button.setTitleColor(UIColor(red: 91.0 / 255.0, green: 81.0 / 255.0, blue: 162.0 / 255.0, alpha: 1.0), for: .normal)
+        button.setTitleColor(Colors.green, for: .normal)
         button.layer.borderWidth = 1.5
-        button.layer.borderColor = UIColor(red: 91.0 / 255.0, green: 81.0 / 255.0, blue: 162.0 / 255.0, alpha: 1.0).cgColor
+        button.layer.borderColor = Colors.green.cgColor
         button.titleLabel?.font = Fonts.createSize(16)
         button.layer.cornerRadius = 4
         button.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
