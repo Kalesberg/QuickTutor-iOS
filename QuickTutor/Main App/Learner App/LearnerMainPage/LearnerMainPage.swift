@@ -68,7 +68,6 @@ class LearnerMainPageView : MainPageView {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: sidebar.bounds)
 		tableView.layoutSubviews()
         tableView.layoutIfNeeded()
@@ -105,7 +104,6 @@ class LearnerMainPage : MainPage {
 				self.learner.hasPayment = (customer.sources.count > 0)
 			}
 		}
-
         queryFeaturedTutors()
         configureView()
     }
@@ -145,7 +143,6 @@ class LearnerMainPage : MainPage {
     private func configureView() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-        
         contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
         contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
     }
@@ -259,6 +256,7 @@ class LearnerMainPage : MainPage {
             self.dismissOverlay()
         }
     }
+	
     private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
         self.displayLoadingOverlay()
         FirebaseData.manager.getTutor(learner.uid, isQuery: false) { (tutor) in
@@ -405,7 +403,6 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
-			
 			cell.datasource = self.datasource[category[indexPath.section - 1]]!
             cell.category =  category[indexPath.section - 1]
             

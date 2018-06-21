@@ -175,9 +175,11 @@ class DataService {
     func sendSessionRequestToId(sessionRequest: SessionRequest, _ id: String) {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         
-        guard let expiration = Calendar.current.date(byAdding: .day, value: 7, to: Date())?.timeIntervalSince1970 else { return }
+        guard let endTime = sessionRequest.endTime else { return }
+        let expiration = (endTime - Date().timeIntervalSince1970) / 2
+        let expirationDate = Date().addingTimeInterval(expiration).timeIntervalSince1970
         
-        let _: [String: Any] = ["expiration": expiration, "status": "pending"]
+        let _: [String: Any] = ["expiration": expirationDate, "status": "pending"]
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         

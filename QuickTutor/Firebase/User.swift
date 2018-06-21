@@ -296,7 +296,7 @@ class FirebaseData {
             }.first
             
             guard let subjects = topSubcategory?.subjects.split(separator: "$") else { return }
-            guard let category = SubjectStore.findCategory(subject: String(subjects[0])) else { return }
+            guard let category = SubjectStore.findCategoryBy(subject: String(subjects[0])) else { return }
 
             let post : [String : Any] = ["img" : tutor.images["image1"]!,"nm" : tutor.name, "p" : tutor.price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subjects[0], "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
             
@@ -502,7 +502,6 @@ class FirebaseData {
         
         childNodes["/connections/\(uid)"] = NSNull()
         childNodes["/conversations/\(uid)"] = NSNull()
-        childNodes["/featured/\(uid)"] = NSNull()
         childNodes["/readReceipts/\(uid)"] = NSNull()
         childNodes["/review/\(uid)"] = NSNull()
         childNodes["/subject/\(uid)"] = NSNull()
@@ -513,6 +512,8 @@ class FirebaseData {
         
         for subcat in subcategory {
             childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
+			guard let category = SubjectStore.findCategoryBy(subcategory: subcat) else {print("continue"); continue }
+			childNodes["/featured/\(category)/\(uid)"] = NSNull()
         }
         
         self.ref.root.updateChildValues(childNodes) { (error, _) in
@@ -533,7 +534,6 @@ class FirebaseData {
         
         childNodes["/account/\(uid)"] = NSNull()
         childNodes["/connections/\(uid)"] = NSNull()
-        childNodes["/featured/\(uid)"] = NSNull()
         childNodes["/notificationPreferences/\(uid)"] = NSNull()
         childNodes["/readReceipts/\(uid)"] = NSNull()
         childNodes["/review/\(uid)"] = NSNull()
@@ -546,6 +546,8 @@ class FirebaseData {
         
         for subcat in subcategory {
             childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
+			guard let category = SubjectStore.findCategoryBy(subcategory: subcat) else {print("continue"); continue }
+			childNodes["/featured/\(category)/\(uid)"] = NSNull()
         }
         
         for imageURL in CurrentUser.shared.learner.images {

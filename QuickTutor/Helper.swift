@@ -205,11 +205,8 @@ struct SubjectStore {
             guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }
             
             let data = try Data(contentsOf: file)
-            
             let json = try JSONSerialization.jsonObject(with: data, options: [])
-            
             guard let object = json as? [String : [String]] else { return nil }
-            
             guard let subjectArray = object[subjectString] else { return nil }
             
             for subject in subjectArray {
@@ -249,7 +246,6 @@ struct SubjectStore {
     }
     
     static func findSubcategoryImage(subcategory: String) -> (String, UIImage) {
-        
         for i in 0..<category.count {
             for key in category[i].subcategory.subcategories {
                 if key.lowercased() == subcategory {
@@ -268,7 +264,19 @@ struct SubjectStore {
         }
         return ("No top subject.", #imageLiteral(resourceName: "defaultProfileImage"))
     }
-    static func findCategory(subject: String) -> String? {
+	
+	static func findCategoryBy(subcategory: String) -> String? {
+		for category in category {
+			let lowercased = category.subcategory.subcategories.map({$0.lowercased()})
+			print(lowercased)
+			if lowercased.contains(subcategory) {
+				return category.subcategory.fileToRead
+			}
+		}
+		return nil
+	}
+	
+    static func findCategoryBy(subject: String) -> String? {
         for i in 0..<category.count {
             do {
                 guard let file = Bundle.main.url(forResource: category[i].subcategory.fileToRead, withExtension: "json") else {
@@ -297,13 +305,9 @@ struct SubjectStore {
             guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }
             
             let data = try Data(contentsOf: file)
-            
             let json = try JSONSerialization.jsonObject(with: data, options: [])
-            
             for key in Category.category(for: resource)!.subcategory.subcategories {
-                
                 guard let object = json as? [String : [String]] else { continue }
-                
                 guard let subjectArray = object[key] else { continue }
                 
                 if subjectArray.contains(subject) {

@@ -125,8 +125,6 @@ class SessionManager {
         loadSession()
         observeSocketEvents()
         startSessionRuntime()
-        
     }
-    
     
 }
