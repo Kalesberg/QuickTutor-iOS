@@ -127,6 +127,8 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         edgesForExtendedLayout = []
         studentKeyboardAccessory.delegate = self
         teacherKeyboardAccessory.delegate = self
+        studentKeyboardAccessory.messageTextview.delegate = self
+        teacherKeyboardAccessory.messageTextview.delegate = self
     }
     
     private func setupMessagesCollection() {
@@ -584,4 +586,10 @@ extension ConversationVC: QuickChatViewDelegate {
         sendMessage(message: message)
     }
     
+}
+
+extension ConversationVC: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return canSendMessages
+    }
 }

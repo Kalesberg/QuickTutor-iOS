@@ -27,7 +27,7 @@ class BaseCustomModal: UIView {
     
     let titleBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 76.0 / 255.0, green: 94.0 / 255.0, blue: 141.0 / 255.0, alpha: 1.0)
+        view.backgroundColor = Colors.currentUserColor()
         view.layer.cornerRadius = 8
         if #available(iOS 11.0, *) {
             view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

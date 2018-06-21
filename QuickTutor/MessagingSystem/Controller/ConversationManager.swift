@@ -24,6 +24,7 @@ class ConversationManager {
     var readByIds: [String]?
     var messages: [BaseMessage]?
     var chatPartnerId: String?
+    var chatPartner: User?
     
     func loadMessages() {
         messages = [BaseMessage]()

@@ -194,6 +194,10 @@ class MessagesContentCell: BaseContentCell {
         }
     }
     
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         fetchConversations()

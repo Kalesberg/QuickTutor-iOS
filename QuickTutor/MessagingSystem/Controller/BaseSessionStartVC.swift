@@ -78,7 +78,7 @@ class BaseSessionStartVC: UIViewController {
         label.textAlignment = .center
         label.textColor = .white
         label.font = Fonts.createSize(16)
-        label.text = "Waiting for your partner to accept the manual start..."
+        label.text = "Waiting for your {partner} to accept the manual start..."
         label.adjustsFontSizeToFitWidth = true
         label.isHidden = true
         return label
@@ -115,6 +115,8 @@ class BaseSessionStartVC: UIViewController {
             self.session = sessionIn
 //            self.removeStartData()
             SessionService.shared.session = sessionIn
+            let userType = AccountService.shared.currentUserType == .learner ? "tutor" : "learner"
+            self.statusLabel.text = "Waiting for your \(userType) to accept the manual start..."
             self.partnerId = self.session?.partnerId()
             self.subjectLabel.text = self.session?.subject
             self.infoLabel.text = self.getFormattedInfoLabelString()
