@@ -51,6 +51,7 @@ class AddTutorView : MainLayoutTitleBackButton {
 	
 	let searchTextField : SearchTextField = {
 		let textField = SearchTextField()
+        textField.placeholder.font = Fonts.createBoldSize(18)
 		textField.placeholder.text = "Search Usernames"
 		textField.textField.font = Fonts.createSize(16)
 		textField.textField.tintColor = Colors.learnerPurple
@@ -72,7 +73,7 @@ class AddTutorView : MainLayoutTitleBackButton {
 	override func applyConstraints() {
 		super.applyConstraints()
 		searchTextField.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom)
+			make.top.equalTo(navbar.snp.bottom).inset(-5)
 			make.width.equalToSuperview().multipliedBy(0.9)
 			make.height.equalTo(80)
 			make.centerX.equalToSuperview()
@@ -253,6 +254,7 @@ class AddTutorTableViewCell : UITableViewCell {
 	let profileImageView : UIImageView = {
 		let imageView = UIImageView()
 		
+        imageView.scaleImage()
 		imageView.image = #imageLiteral(resourceName: "defaultProfileImage")
 		
 		return imageView
@@ -309,15 +311,13 @@ class AddTutorTableViewCell : UITableViewCell {
 	func applyConstraints() {
 		profileImageView.snp.makeConstraints { (make) in
 			make.centerY.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.15)
-			make.height.equalToSuperview().multipliedBy(0.9)
+			make.width.height.equalTo(50)
 			make.left.equalToSuperview().inset(10)
 		}
 		addTutorButton.snp.makeConstraints { (make) in
 			make.right.equalToSuperview().inset(10)
 			make.centerY.equalToSuperview()
-			make.width.equalToSuperview().multipliedBy(0.10)
-			make.height.equalToSuperview().multipliedBy(0.7)
+			make.width.height.equalTo(30)
 		}
 		usernameLabel.snp.makeConstraints { (make) in
 			make.left.equalTo(profileImageView.snp.right).inset(-20)

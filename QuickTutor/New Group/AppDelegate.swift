@@ -87,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                         if let fcmToken = Messaging.messaging().fcmToken {
                             self.saveFCMToken(fcmToken)
                         }
-                        self.configureRootViewController(controller: TutorPreferences())
+                        self.configureRootViewController(controller: TutorPageViewController())
                     } else {
 //                        try! Auth.auth().signOut()
                         self.configureRootViewController(controller: SignIn())

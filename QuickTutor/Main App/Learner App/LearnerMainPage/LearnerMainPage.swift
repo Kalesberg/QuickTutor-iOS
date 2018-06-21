@@ -90,8 +90,6 @@ class LearnerMainPage : MainPage {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		SubjectStore.loadTotalSubjectList()
-		
 		AccountService.shared.currentUserType = .learner
 		guard let learner = CurrentUser.shared.learner else {
 			try! Auth.auth().signOut()
@@ -396,7 +394,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
                 return 200
             }
         } else {
-            return 210
+            return 205
         }
     }
     

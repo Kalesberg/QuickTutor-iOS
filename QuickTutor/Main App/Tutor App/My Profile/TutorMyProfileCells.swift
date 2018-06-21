@@ -206,11 +206,30 @@ class ProfilePicTableViewCell : BaseTableViewCell {
 
         return label
     }()
+    
+    let ratingLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = Colors.yellow
+        label.font = Fonts.createBoldSize(14)
+        
+        return label
+    }()
+    
+    let star : UIImageView = {
+        let view = UIImageView()
+        
+        view.image = #imageLiteral(resourceName: "yellow-star")
+        
+        return view
+    }()
     override func configureView() {
         contentView.addSubview(profilePicView)
         addSubview(nameLabel)
         addSubview(locationImage)
         addSubview(locationLabel)
+        addSubview(ratingLabel)
+        addSubview(star)
         
         backgroundColor = .clear
         
@@ -239,6 +258,15 @@ class ProfilePicTableViewCell : BaseTableViewCell {
             make.centerY.equalTo(locationLabel)
             make.height.equalTo(17)
             make.width.equalTo(17)
+        }
+        star.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().inset(15)
+            make.height.width.equalTo(15)
+            make.top.equalTo(profilePicView)
+        }
+        ratingLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(star.snp.left).inset(-5)
+            make.centerY.equalTo(star).inset(1)
         }
     }
     

@@ -123,7 +123,7 @@ class FeaturedTutorView : BaseView {
         imageView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.55)
             make.width.equalToSuperview()
         }
         subject.snp.makeConstraints { (make) in
