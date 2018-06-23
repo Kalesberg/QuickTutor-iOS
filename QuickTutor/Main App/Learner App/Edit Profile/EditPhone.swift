@@ -225,7 +225,7 @@ class EditPhone : BaseViewController {
         let phoneNumber = contentView.phoneTextField.textField.text!.cleanPhoneNumber()
         
         if phoneNumber.phoneRegex() {
-            FirebaseData.manager.changeMobileNumberRequest(phone: phoneNumber, completion: { (error) in
+            FirebaseData.manager.updateMobileNumber(phone: phoneNumber, completion: { (error) in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Unable to Update", message: error.localizedDescription)
                 } else {

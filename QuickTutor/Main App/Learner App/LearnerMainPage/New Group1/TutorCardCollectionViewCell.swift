@@ -220,7 +220,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             }
         } else if touchStartView is TutorCardProfilePic {
             let vc = (next?.next?.next as! TutorConnect)
-            FirebaseData.manager.getProfileImagesFor(uid: datasource.uid) { (imageUrls) in
+            FirebaseData.manager.fetchProfileImages(uid: datasource.uid) { (imageUrls) in
                 if let imageUrls = imageUrls {
 					vc.displayAWImageViewer(images: imageUrls)
                 }

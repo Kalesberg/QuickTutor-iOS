@@ -127,7 +127,6 @@ struct TutorLocation1 {
 class QueryData {
 	
 	static let shared = QueryData()
-	
 	private var ref : DatabaseReference? = Database.database().reference(fromURL: Constants.DATABASE_URL)
 
 	public func queryFeaturedTutors(categories: [Category],_ completion: @escaping ([Category : [FeaturedTutor]]?) -> Void) {
@@ -142,9 +141,9 @@ class QueryData {
 			group.enter()
 			self.ref?.child("featured").child(categoryString).queryOrderedByKey().queryLimited(toFirst: 5).observeSingleEvent(of: .value, with: { (snapshot) in
 				for snap in snapshot.children {
-					guard let child = snap as? DataSnapshot else { continue }
+					guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
 					group.enter()
-					FirebaseData.manager.getFeaturedTutor(child.key, category: category.subcategory.fileToRead, { (tutor) in
+					FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.subcategory.fileToRead, { (tutor) in
 						if let tutor = tutor {
 							uids[category]!.append(tutor)
 						}
@@ -175,7 +174,7 @@ class QueryData {
 			for snap in snapshot.children {
 				guard let child = snap as? DataSnapshot else { continue }
 				group.enter()
-				FirebaseData.manager.getFeaturedTutor(child.key, category: category.subcategory.fileToRead, { (tutor) in
+				FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.subcategory.fileToRead, { (tutor) in
 					if let tutor = tutor {
 						tutors.append(tutor)
 					}
@@ -202,7 +201,7 @@ class QueryData {
 				guard let child = snap as? DataSnapshot,child.key != CurrentUser.shared.learner.uid  else { continue }
 				
 				group.enter()
-				FirebaseData.manager.getTutor(child.key, isQuery: true, { (tutor) in
+				FirebaseData.manager.fetchTutor(child.key, isQuery: true, { (tutor) in
 					if let tutor = tutor {
 						tutors.append(tutor)
 					}
@@ -227,7 +226,7 @@ class QueryData {
 				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
 				
 				group.enter()
-				FirebaseData.manager.getTutor(child.key, isQuery: true, { (tutor) in
+				FirebaseData.manager.fetchTutor(child.key, isQuery: true, { (tutor) in
 					if let tutor = tutor {
 						tutors.append(tutor)
 					}

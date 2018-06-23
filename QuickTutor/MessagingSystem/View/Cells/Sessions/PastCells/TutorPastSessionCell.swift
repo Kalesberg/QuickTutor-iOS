@@ -20,7 +20,7 @@ class TutorPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestS
         showConversationWithUID(session.partnerId())
     }
     override func handleButton2() {
-        FirebaseData.manager.getLearner(session.partnerId()) { (learner) in
+        FirebaseData.manager.fetchLearner(session.partnerId()) { (learner) in
             guard let learner = learner else { return }
             let vc = LearnerMyProfile()
             vc.learner = learner

@@ -63,7 +63,7 @@ class TutorHandookView : MainLayoutHeaderScroll {
         
         strings = ["1.  Profile Pictures\n      Upload one-to-four pictures of yourself. Note: all user profile pictures are subject to moderation.\n\n", "2.  Biography\n      Make sure your bio clearly describes you, your experience/expertise, lists any certifications you may have, and what you are looking for in a learner.\n\n", "3.  Courses Completed\n      If you’re currently a university student or have been, you can use our courses completed feature to insert the class codes of specific classes you’ve completed.\n\n", "4.  Social Connect\n      QuickTutor enables you to connect your Instagram account so that learners can see your Instagram pictures. To connect your Instagram, just scroll to the bottom of your profile and press “connect Instagram”."]
         
-        let attributesDictionary = [NSAttributedStringKey.font : earnBody.font]
+		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : earnBody.font]
         let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
         
         for string: String in strings {

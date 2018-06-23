@@ -89,7 +89,7 @@ class LearnerMainPage : MainPage {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-        AccountService.shared.currentUserType = .learner
+		AccountService.shared.currentUserType = .learner
         guard let learner = CurrentUser.shared.learner else {
             try! Auth.auth().signOut()
             self.navigationController?.pushViewController(SignIn(), animated: true)
@@ -100,10 +100,12 @@ class LearnerMainPage : MainPage {
         Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				self.learner.hasPayment = false
             } else if let customer = customer {
                 self.learner.hasPayment = (customer.sources.count > 0)
             }
         }
+		
         queryFeaturedTutors()
         configureView()
     }
@@ -129,7 +131,6 @@ class LearnerMainPage : MainPage {
                 .bold(learner.name + "\n", 17, .white)
                 .regular(school, 14, Colors.grayText)
         } else {
-            print("sdfsfd")
             formattedString
                 .bold(learner.name, 17, .white)
         }
@@ -259,7 +260,7 @@ class LearnerMainPage : MainPage {
     
     private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
         self.displayLoadingOverlay()
-        FirebaseData.manager.getTutor(learner.uid, isQuery: false) { (tutor) in
+        FirebaseData.manager.fetchTutor(learner.uid, isQuery: false) { (tutor) in
             if let tutor = tutor {
                 CurrentUser.shared.tutor = tutor
                 Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
