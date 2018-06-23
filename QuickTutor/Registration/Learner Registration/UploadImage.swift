@@ -176,7 +176,6 @@ class AddImageButton : InteractableView, Interactable {
     }
 }
 
-
 class UploadImage: BaseViewController {
     
     override var contentView: UploadImageView {
@@ -218,7 +217,7 @@ class UploadImage: BaseViewController {
 			if imagePicked {
 				self.displayLoadingOverlay()
 				contentView.looksGoodButton.isUserInteractionEnabled = false
-				guard let image = chosenImage else { print("Image not chosen"); return }
+				guard let image = chosenImage else { return }
 				guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
 					AlertController.genericErrorAlert(self, title: "Error", message: "Please choose a new photo")
 					return

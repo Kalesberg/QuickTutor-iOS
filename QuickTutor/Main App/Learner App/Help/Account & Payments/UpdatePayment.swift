@@ -35,7 +35,7 @@ class UpdatePaymentView : MainLayoutHeaderScroll {
         
         strings = ["1.  Select Payment from the navigation bar menu.\n", "2.  Tap add payment method.\n", "3.  Add a payment method by scanning a card or manually entering card info."]
         
-        let attributesDictionary = [NSAttributedStringKey.font : addPaymentBody.font]
+		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : addPaymentBody.font]
         var fullAttributedString = NSMutableAttributedString(string: "Adding a payment method will allow you to connect, communicate and schedule sessions with tutors.\n\nYou can add payment methods such as debit or credit cards. When a session ends, your payment method is charged in accordance to the session price and length of the session.\n\n", attributes: attributesDictionary)
         
         for string: String in strings {

@@ -256,7 +256,7 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
     var featuredTutorUid : String! {
         didSet {
 			displayLoadingOverlay()
-			FirebaseData.manager.getTutor(featuredTutorUid, isQuery: false) { (tutor) in
+			FirebaseData.manager.fetchTutor(featuredTutorUid, isQuery: false) { (tutor) in
 				if let tutor = tutor {
 					self.datasource.append(tutor)
 					self.contentView.rightButton.isHidden = true

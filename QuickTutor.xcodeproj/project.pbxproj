@@ -20,6 +20,10 @@
 		841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */; };
 		841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */; };
 		8421007E207A7E0800422A31 /* FeaturedTutorQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421007D207A7E0800422A31 /* FeaturedTutorQuery.swift */; };
+		8421AB3A20DED0FF005B652B /* TutorMainPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3920DED0FF005B652B /* TutorMainPageTableViewCell.swift */; };
+		8421AB3C20DED10B005B652B /* TutorMainPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */; };
+		8421AB3E20DED118005B652B /* TutorMainPageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */; };
+		8421AB4020DEDD34005B652B /* TutorialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3F20DEDD34005B652B /* TutorialFactory.swift */; };
 		8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422F2F0205AB6480061ACE4 /* PageController.swift */; };
 		842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */; };
 		842394071FF4C7FF00827C7D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394061FF4C7FF00827C7D /* User.swift */; };
@@ -154,7 +158,6 @@
 		84CB7AD520CF607800274473 /* TutorProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB7AD420CF607800274473 /* TutorProfileImageView.swift */; };
 		84CB7AD720CF97FE00274473 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */; };
 		84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC341A1FCE2979008E7A0B /* StringExtensions.swift */; };
-		84CCB17E2082CAE80056466B /* TutorSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CCB17D2082CAE80056466B /* TutorSignIn.swift */; };
 		84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */; };
 		84CFDDF0207357AB001CA9BF /* TutorRatings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDEF207357AB001CA9BF /* TutorRatings.swift */; };
 		84CFDDF2207357B5001CA9BF /* TutorEarnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */; };
@@ -356,6 +359,10 @@
 		841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorUpdatePayment.swift; sourceTree = "<group>"; };
 		841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPaymentEarnings.swift; sourceTree = "<group>"; };
 		8421007D207A7E0800422A31 /* FeaturedTutorQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTutorQuery.swift; sourceTree = "<group>"; };
+		8421AB3920DED0FF005B652B /* TutorMainPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageTableViewCell.swift; sourceTree = "<group>"; };
+		8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCollectionViewCell.swift; sourceTree = "<group>"; };
+		8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageFactory.swift; sourceTree = "<group>"; };
+		8421AB3F20DEDD34005B652B /* TutorialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialFactory.swift; sourceTree = "<group>"; };
 		8422F2F0205AB6480061ACE4 /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfo.swift; sourceTree = "<group>"; };
 		842394061FF4C7FF00827C7D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -495,7 +502,6 @@
 		84CB7AD420CF607800274473 /* TutorProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorProfileImageView.swift; sourceTree = "<group>"; };
 		84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		84CC341A1FCE2979008E7A0B /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
-		84CCB17D2082CAE80056466B /* TutorSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSignIn.swift; sourceTree = "<group>"; };
 		84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorManagePolicies.swift; sourceTree = "<group>"; };
 		84CFDDEF207357AB001CA9BF /* TutorRatings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatings.swift; sourceTree = "<group>"; };
 		84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorEarnings.swift; sourceTree = "<group>"; };
@@ -728,6 +734,16 @@
 			path = TutorQueries;
 			sourceTree = "<group>";
 		};
+		8421AB3820DED0BE005B652B /* TutorMainPageFactory */ = {
+			isa = PBXGroup;
+			children = (
+				8421AB3920DED0FF005B652B /* TutorMainPageTableViewCell.swift */,
+				8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */,
+				8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */,
+			);
+			path = TutorMainPageFactory;
+			sourceTree = "<group>";
+		};
 		842393FE1FF4BA7D00827C7D /* Registration UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -752,7 +768,6 @@
 				8465E66920BAEFCA00F7D72C /* Model */,
 				842394061FF4C7FF00827C7D /* User.swift */,
 				84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */,
-				84CCB17D2082CAE80056466B /* TutorSignIn.swift */,
 				8426A16A2055BC3200EAF1A8 /* Constants.swift */,
 			);
 			path = Firebase;
@@ -1087,6 +1102,7 @@
 				842394051FF4C7CF00827C7D /* Firebase */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
+				8421AB3F20DEDD34005B652B /* TutorialFactory.swift */,
 				8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */,
 				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
@@ -1158,6 +1174,7 @@
 				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
 				843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */,
 				8441E650208922C60087AE11 /* TrendingCategories.swift */,
+				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 				8441E65220892D510087AE11 /* CategoryInfo.swift */,
 			);
 			path = "Tutor Main Page";
@@ -1587,7 +1604,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				F3B0C0C123BE1A781AF1AA11 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1739,21 +1755,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F3B0C0C123BE1A781AF1AA11 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1822,6 +1823,7 @@
 				84E4C7DF204E9342009C2FC4 /* ForgotPassword.swift in Sources */,
 				CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */,
 				CF833B7E207C4BCB00323242 /* TutorUpcomingSessionCell.swift in Sources */,
+				8421AB3E20DED118005B652B /* TutorMainPageFactory.swift in Sources */,
 				CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */,
 				CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */,
 				CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */,
@@ -1872,6 +1874,7 @@
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
 				84CB7AD720CF97FE00274473 /* ArrayExtensions.swift in Sources */,
 				CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */,
+				8421AB3C20DED10B005B652B /* TutorMainPageCollectionViewCell.swift in Sources */,
 				CF833B6E207C4AE800323242 /* TutorSessionContentCell.swift in Sources */,
 				CF6F58E9205EE68800ACBD32 /* BaseMessage.swift in Sources */,
 				84E4C7DB204E91F6009C2FC4 /* UpdatePayment.swift in Sources */,
@@ -1903,7 +1906,6 @@
 				846D9B522069E57400302773 /* SubjectCollectionViewCell.swift in Sources */,
 				CF6F58E2205EE68800ACBD32 /* ConversationVC.swift in Sources */,
 				846252EC20637F22001DD330 /* TutorSettings.swift in Sources */,
-				84CCB17E2082CAE80056466B /* TutorSignIn.swift in Sources */,
 				846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */,
 				847463262069425C00B70AD9 /* TutorSessions.swift in Sources */,
 				84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */,
@@ -1924,6 +1926,7 @@
 				CF6F58D4205EE68800ACBD32 /* QuickChatView.swift in Sources */,
 				CF1C6115209ED011009B7B0E /* SocketClient.swift in Sources */,
 				CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */,
+				8421AB4020DEDD34005B652B /* TutorialFactory.swift in Sources */,
 				847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */,
 				84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */,
@@ -1981,6 +1984,7 @@
 				CFEF944120B35BA500413727 /* ConversationManager.swift in Sources */,
 				CF6F58D5205EE68800ACBD32 /* KeyboardActionView.swift in Sources */,
 				CF6F58C5205EE68800ACBD32 /* ContactCell.swift in Sources */,
+				8421AB3A20DED0FF005B652B /* TutorMainPageTableViewCell.swift in Sources */,
 				84D433B3204EF2DB00A3EAD2 /* AlertController.swift in Sources */,
 				84E91B5C20573E5100D1F613 /* SessionDetails.swift in Sources */,
 				84BC21D8206DB333002B4721 /* ViewFullProfile.swift in Sources */,

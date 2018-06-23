@@ -255,7 +255,6 @@ class LearnerEditProfile : BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		
 		self.hideKeyboardWhenTappedAround()
         configureDelegates()
         definesPresentationContext = true
@@ -308,21 +307,22 @@ class LearnerEditProfile : BaseViewController {
     }
     
     @objc private func firstNameValueChanged(_ textField : UITextField) {
-        
         guard textField.text!.count > 0 else { return }
-        
         firstName = textField.text
     }
     
     @objc private func lastNameValueChanged(_ textField : UITextField) {
-        
         guard textField.text!.count > 0 else { return }
 		lastName = textField.text
     }
 	
     private func uploadImageUrl(imageUrl: String, number: String) {
         if !self.learner.isTutor {
-            FirebaseData.manager.updateValue(node: "student-info", value: ["img" : CurrentUser.shared.learner.images])
+			FirebaseData.manager.updateValue(node: "student-info", value: ["img" : CurrentUser.shared.learner.images]) { (error) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				}
+			}
             self.learner.images = CurrentUser.shared.learner.images
         } else {
 
@@ -345,16 +345,16 @@ class LearnerEditProfile : BaseViewController {
             return
         }
 		
-		let payload : [String : Any]
+		let newNodes : [String : Any]
 		if CurrentUser.shared.learner.isTutor {
-			payload = [
+			newNodes = [
 				"/tutor-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName,
 				"/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName
 			]
 		} else {
-			payload = ["/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName]
+			newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName]
 		}
-        Tutor.shared.updateSharedValues(multiWriteNode: payload) { (error) in
+        Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else {

@@ -70,7 +70,7 @@ class TutorRatings : BaseViewController {
     override func loadView() {
         view = TutorRatingsView()
     }
-	
+
 	private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 
 	var tutor : AWTutor! {
@@ -125,7 +125,7 @@ class TutorRatings : BaseViewController {
 			return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
 		}
 	
-		FirebaseData.manager.getSubjectsTaught(uid: tutor.uid) { (subcategoryList) in
+		FirebaseData.manager.fetchSubjectsTaught(uid: tutor.uid) { (subcategoryList) in
 			let avg = subcategoryList.map({$0.rating / 5}).average
 			
 			let topSubcategory = subcategoryList.sorted {

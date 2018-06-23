@@ -251,7 +251,11 @@ class ChangeEmail : BaseViewController {
 							CurrentUser.shared.learner.email =  self.contentView.textField.text!
 
 						}
-						FirebaseData.manager.updateValue(node : "account", value: ["em" : self.contentView.textField.text!])
+						FirebaseData.manager.updateValue(node: "account", value: ["em" : self.contentView.textField.text!], { (error) in
+							if let error = error {
+								AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+							}
+						})
 						self.dismissPhoneAuthenticationAlert()
 						self.displaySavedAlertController()
 					}

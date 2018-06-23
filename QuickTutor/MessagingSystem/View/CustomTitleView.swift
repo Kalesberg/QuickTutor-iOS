@@ -74,7 +74,7 @@ class CustomTitleView: UIView {
         let type = AccountService.shared.currentUserType
 		
 		if type == .learner {
-            FirebaseData.manager.getTutor(user.uid, isQuery: false, { (tutor) in
+            FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { (tutor) in
                 guard let tutor = tutor else { return }
                 let vc = TutorMyProfile()
                 vc.tutor = tutor
@@ -83,7 +83,7 @@ class CustomTitleView: UIView {
                 navigationController.pushViewController(vc, animated: true)
             })
 		} else {
-            FirebaseData.manager.getLearner(user.uid) { (learner) in
+            FirebaseData.manager.fetchLearner(user.uid) { (learner) in
                 guard let learner = learner else { return }
                 let vc = LearnerMyProfile()
                 vc.learner = learner

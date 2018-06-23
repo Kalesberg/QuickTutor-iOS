@@ -236,7 +236,7 @@ class TutorPolicy : BaseViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
-		FirebaseData.manager.getTutor(CurrentUser.shared.learner.uid, isQuery: false) { (tutor) in
+		FirebaseData.manager.fetchTutor(CurrentUser.shared.learner.uid, isQuery: false) { (tutor) in
             if let tutor = tutor {
                 CurrentUser.shared.tutor = tutor
                 Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in

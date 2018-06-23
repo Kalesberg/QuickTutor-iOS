@@ -532,10 +532,10 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
         print("cancelled")
     }
     
-    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            
-            let circleCropController = AACircleCropViewController()
+
+			let circleCropController = AACircleCropViewController()
             circleCropController.image = image
             circleCropController.delegate = self
             

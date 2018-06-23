@@ -52,7 +52,7 @@ class TutorSessionsView : MainLayoutHeaderScroll {
         
         strings = ["1.  Tapping the “accept” button on a session request in the particular message thread it was sent in.\n\n", "2.  Tapping on a session in the “Requests” section of your “Sessions” tab, and then selecting: “accept”. "]
         
-        let attributesDictionary = [NSAttributedStringKey.font : acceptSessionBody.font]
+		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : acceptSessionBody.font]
         let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
         
         for string: String in strings {

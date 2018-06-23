@@ -37,7 +37,7 @@ class TutorFileReport : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		FirebaseData.manager.getUserSessions(uid: CurrentUser.shared.tutor.uid, type: "tutor") { (sessions) in
+		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.tutor.uid, type: "tutor") { (sessions) in
 			self.datasource = sessions
 		}
         contentView.tableView.delegate = self

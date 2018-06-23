@@ -113,7 +113,7 @@ class TheChoice : BaseViewController {
     override func handleNavigation() {
         if(touchStartView == contentView.continueButton) {
 			self.displayLoadingOverlay()
-			FirebaseData.manager.getLearner(Registration.uid) { (learner) in
+			FirebaseData.manager.fetchLearner(Registration.uid) { (learner) in
 				if let learner = learner {
 					self.dismissOverlay()
 					CurrentUser.shared.learner = learner
@@ -129,7 +129,7 @@ class TheChoice : BaseViewController {
 			}
         } else if (touchStartView == contentView.tutorButton) {
 			self.displayLoadingOverlay()
-			FirebaseData.manager.getLearner(Registration.uid) { (learner) in
+			FirebaseData.manager.fetchLearner(Registration.uid) { (learner) in
 				if let learner = learner {
 					self.dismissOverlay()
 					CurrentUser.shared.learner = learner

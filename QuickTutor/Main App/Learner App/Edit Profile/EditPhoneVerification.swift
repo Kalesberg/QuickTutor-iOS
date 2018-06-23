@@ -244,7 +244,11 @@ class EditPhoneVerification : BaseViewController {
 				print(error.localizedDescription)
 			} else{
 				CurrentUser.shared.learner.phone = EditPhoneVerification.phoneNumber
-				FirebaseData.manager.updateValue(node: "account",value: ["phn": CurrentUser.shared.learner.phone.cleanPhoneNumber()])
+				FirebaseData.manager.updateValue(node: "account", value: ["phn": CurrentUser.shared.learner.phone.cleanPhoneNumber()], { (error) in
+					if let error = error {
+						AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+					}
+				})
 				self.navigationController?.popToViewController(LearnerEditProfile(), animated: true)
 			}
 		})

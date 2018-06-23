@@ -53,7 +53,7 @@ class SessionsView : MainLayoutHeaderScroll {
         
         strings = ["1.  Tapping the “+” icon in your messages with a tutor, selecting the “Request Session” button, and then filling in the session details.\n\n", "2.  Selecting the “Request Session” button in the bottom right of the “Sessions” tab in messenger, selecting a tutor, and then filling in the session details.\n"]
         
-        let attributesDictionary = [NSAttributedStringKey.font : sendRequestBody.font]
+		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : sendRequestBody.font]
         let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
         
         for string: String in strings {

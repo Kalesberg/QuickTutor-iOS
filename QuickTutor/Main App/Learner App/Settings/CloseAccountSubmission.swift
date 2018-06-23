@@ -150,7 +150,7 @@ class CloseAccountSubmission : BaseViewController {
 	}
 	
 	private func getTutorAccount(_ completion: @escaping ([String]) -> Void) {
-		FirebaseData.manager.getTutor(CurrentUser.shared.learner.uid, isQuery: false) { (tutor) in
+		FirebaseData.manager.fetchTutor(CurrentUser.shared.learner.uid, isQuery: false) { (tutor) in
 			if let tutor = tutor {
 				CurrentUser.shared.tutor = tutor
 				var subcategories = [String]()
@@ -166,7 +166,7 @@ class CloseAccountSubmission : BaseViewController {
 	private func removeTutorAccount() {
 		displayLoadingOverlay()
 		getTutorAccount { (subcategories) in
-			FirebaseData.manager.removeTutorAccount(uid: AccountService.shared.currentUser.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
+			FirebaseData.manager.removeTutorAccount(uid: CurrentUser.shared.learner.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text, { (error) in
 				if let error = error {
 					self.dismissOverlay()
 					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -181,7 +181,7 @@ class CloseAccountSubmission : BaseViewController {
 	private func removeBothAccounts() {
 		guard let currentUser = Auth.auth().currentUser else { return }
 		self.getTutorAccount({ (subcategories) in
-			FirebaseData.manager.removeBothAccounts(uid: currentUser.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text!, { (error) in
+			FirebaseData.manager.removeBothAccounts(uid: CurrentUser.shared.learner.uid, reason: self.reason, subcategory: subcategories, message: self.contentView.textView.textView.text!, { (error) in
 				if let error = error {
 					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
 				} else {
@@ -219,7 +219,7 @@ class CloseAccountSubmission : BaseViewController {
 	private func removeLearner() {
 		guard let currentUser = Auth.auth().currentUser else { return }
 		
-		FirebaseData.manager.removeLearnerAccount(uid: currentUser.uid, reason: self.reason, { (error) in
+		FirebaseData.manager.removeLearnerAccount(uid: CurrentUser.shared.learner.uid, reason: self.reason, { (error) in
 			if let error = error {
 				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
 			} else {

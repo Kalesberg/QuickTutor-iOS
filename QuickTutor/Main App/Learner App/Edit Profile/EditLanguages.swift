@@ -126,7 +126,11 @@ class EditLanguage : BaseViewController {
 			if !CurrentUser.shared.learner.isTutor {
 				
 				CurrentUser.shared.learner.languages = selectedCells
-				FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedCells])
+				FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedCells]) { (error) in
+					if let error = error {
+						AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+					}
+				}
 				displaySavedAlertController()
 				break
 				
