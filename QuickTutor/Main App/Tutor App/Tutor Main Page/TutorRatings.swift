@@ -70,7 +70,7 @@ class TutorRatings : BaseViewController {
     override func loadView() {
         view = TutorRatingsView()
     }
-	
+
 	private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 
 	var tutor : AWTutor! {

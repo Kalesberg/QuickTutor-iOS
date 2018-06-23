@@ -404,7 +404,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
-            cell.datasource = self.datasource[category[indexPath.section - 1]]!
+            cell.datasource = datasource[category[indexPath.section - 1]]!
             cell.category =  category[indexPath.section - 1]
             
             return cell
