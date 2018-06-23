@@ -6,12 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "earnings@2x.png",
+      "filename" : "ratings@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "earnings.png",
+      "filename" : "ratings.png",
       "scale" : "3x"
     }
   ],
