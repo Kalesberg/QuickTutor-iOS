@@ -26,14 +26,23 @@ class TutorMainPageView : MainPageView {
         }
     }
     
-    var qtText = UIImageView()
-    
-    let nameLabel : UILabel = {
+    let titleLabel : UILabel = {
         let label = UILabel()
         
-        label.font = Fonts.createBoldSize(18)
+        label.textColor = .white
+        label.text = "Home"
+        label.font = Fonts.createBoldSize(22)
+        
+        return label
+    }()
+    
+    let menuLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(22)
         label.textColor = .white
         label.textAlignment = .center
+        label.text = "Your Menu"
         
         return label
     }()
@@ -48,21 +57,23 @@ class TutorMainPageView : MainPageView {
     
     let viewTrendingButton = ViewTrendingButton()
     let buttonContainer = UIView()
-    //let leaderboardButton = TutorMainPageLeaderButton()
+    let trendingButton = TutorMainPageTrendingButton()
     let ratingButton = TutorMainPageRatingButton()
     let earningsButton = TutorMainPageEarningsButton()
     let improveItem = TutorMainPageImproveItem()
     let usernameItem = TutorMainPageUsernameItem()
+    let listingsItem = TutorMainPageListingsItem()
     let shareUsernameModal = ShareUsernameModal()
     
     override func configureView() {
-        navbar.addSubview(qtText)
-        addSubview(nameLabel)
+        navbar.addSubview(titleLabel)
+        addSubview(menuLabel)
         addSubview(viewTrendingButton)
         addSubview(buttonContainer)
-        //buttonContainer.addSubview(leaderboardButton)
+        buttonContainer.addSubview(trendingButton)
         buttonContainer.addSubview(ratingButton)
         buttonContainer.addSubview(earningsButton)
+        addSubview(listingsItem)
         addSubview(improveItem)
         addSubview(usernameItem)
         insertSubview(xButton, aboveSubview: backgroundView)
@@ -71,22 +82,20 @@ class TutorMainPageView : MainPageView {
         insertSubview(xButton, aboveSubview: backgroundView)
         insertSubview(shareUsernameModal, aboveSubview: backgroundView)
         backgroundView.isUserInteractionEnabled = false
-        qtText.image = #imageLiteral(resourceName: "qt-small-text")
+        
     }
     
     override func applyConstraints() {
         super.applyConstraints()
         
-        qtText.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+        titleLabel.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
         }
         
-        nameLabel.snp.makeConstraints { (make) in
+        menuLabel.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
             make.left.equalToSuperview().inset(20)
-            make.right.equalToSuperview().inset(20)
-            make.height.equalToSuperview().multipliedBy(0.11)
+            make.height.equalToSuperview().multipliedBy(0.1)
         }
         
         xButton.snp.makeConstraints { (make) in
@@ -96,58 +105,55 @@ class TutorMainPageView : MainPageView {
             make.left.equalToSuperview()
         }
         
-        viewTrendingButton.snp.makeConstraints { (make) in
-            make.top.equalTo(nameLabel.snp.bottom).inset(-8)
-            make.width.equalTo(140)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(35)
-        }
-        
         buttonContainer.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.13)
-            make.right.equalToSuperview().inset(10)
-            make.left.equalToSuperview().inset(10)
-            make.top.equalTo(viewTrendingButton.snp.bottom).inset(-50)
+            if(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
+                make.height.equalToSuperview().multipliedBy(0.25)
+            } else {
+                make.height.equalToSuperview().multipliedBy(0.22)
+            }
+            make.width.equalToSuperview().multipliedBy(0.93)
+            make.top.equalTo(menuLabel.snp.bottom)
+            make.centerX.equalToSuperview()
         }
         
-//        leaderboardButton.snp.makeConstraints { (make) in
-//            make.width.equalTo(size)
-//            make.left.equalToSuperview()
-//            make.height.equalToSuperview()
-//            make.centerY.equalToSuperview()
-//        }
+        trendingButton.snp.makeConstraints { (make) in
+            make.width.equalToSuperview().multipliedBy(0.3)
+            make.height.equalToSuperview()
+            make.center.equalToSuperview()
+        }
         
         ratingButton.snp.makeConstraints { (make) in
-            make.width.height.equalTo(110)
-            make.centerX.equalToSuperview().inset(-80)
+            make.width.equalToSuperview().multipliedBy(0.3)
+            make.height.equalToSuperview()
+            make.left.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
         earningsButton.snp.makeConstraints { (make) in
-            make.width.height.equalTo(110)
-            make.centerX.equalToSuperview().inset(80)
+            make.width.equalToSuperview().multipliedBy(0.3)
+            make.right.equalToSuperview()
+            make.height.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
-        var height : Int
-        
-        if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
-            height = 75
-        } else {
-            height = 100
+        listingsItem.snp.makeConstraints { (make) in
+            make.top.equalTo(buttonContainer.snp.bottom).inset(-25)
+            make.height.equalTo(70)
+            make.width.equalToSuperview().multipliedBy(0.93)
+            make.centerX.equalToSuperview()
         }
         
         improveItem.snp.makeConstraints { (make) in
-            make.top.equalTo(earningsButton.snp.bottom).inset(-40)
-            make.height.equalTo(height)
-            make.width.equalToSuperview().inset(-4)
+            make.top.equalTo(listingsItem.snp.bottom).inset(-8)
+            make.height.equalTo(70)
+            make.width.equalToSuperview().multipliedBy(0.93)
             make.centerX.equalToSuperview()
         }
         
         usernameItem.snp.makeConstraints { (make) in
-            make.top.equalTo(improveItem.snp.bottom).inset(1)
-            make.height.equalTo(height)
-            make.width.equalToSuperview().inset(-4)
+            make.top.equalTo(improveItem.snp.bottom).inset(-8)
+            make.height.equalTo(70)
+            make.width.equalToSuperview().multipliedBy(0.93)
             make.centerX.equalToSuperview()
         }
         
@@ -211,6 +217,8 @@ class TutorMainPageButton : InteractableView, Interactable {
         label.font = Fonts.createSize(13)
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
+        label.backgroundColor = Colors.navBarColor
         
         return label
     }()
@@ -220,22 +228,23 @@ class TutorMainPageButton : InteractableView, Interactable {
         addSubview(label)
         super.configureView()
         
-        layer.borderWidth = 2
-        layer.cornerRadius = 6
+        clipsToBounds = true
+        layer.cornerRadius = 4
+        
         applyConstraints()
-
     }
     
     override func applyConstraints() {
         imageView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().inset(-5)
+            make.centerY.equalToSuperview().inset(-15)
         }
         
         label.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
+            make.height.equalTo(30)
         }
     }
     
@@ -249,32 +258,26 @@ class TutorMainPageButton : InteractableView, Interactable {
 }
 
 
-class TutorMainPageLeaderButton : TutorMainPageButton {
-    
+class TutorMainPageTrendingButton : TutorMainPageButton {
     override func configureView() {
         super.configureView()
         
-        label.text = "Leaderboards"
-        label.textColor = UIColor(hex: "1FAA96")
-        
-        layer.borderColor = UIColor(hex: "1FAA96").cgColor
-        
-        imageView.image = #imageLiteral(resourceName: "leaderboard")
+        backgroundColor = UIColor(hex: "5785D4")
+        label.text = "View Trending"
+        label.textColor = UIColor(hex: "5785D4")
+        imageView.image = #imageLiteral(resourceName: "trending")
     }
 }
 
 
 class TutorMainPageRatingButton : TutorMainPageButton {
-    
     override func configureView() {
         super.configureView()
         
+        backgroundColor = Colors.gold
         label.text = "Your Ratings"
-        label.textColor = Colors.yellow
-        
-        layer.borderColor = Colors.yellow.cgColor
-        
-        imageView.image = #imageLiteral(resourceName: "rating")
+        label.textColor = Colors.gold
+        imageView.image = #imageLiteral(resourceName: "ratings")
     }
 }
 
@@ -283,11 +286,9 @@ class TutorMainPageEarningsButton : TutorMainPageButton {
     override func configureView() {
         super.configureView()
         
+        backgroundColor = Colors.green
         label.text = "Your Earnings"
         label.textColor = Colors.green
-        
-        layer.borderColor = Colors.green.cgColor
-        
         imageView.image = #imageLiteral(resourceName: "earnings")
     }
 }
@@ -326,31 +327,63 @@ class TutorMainPageItem : InteractableView, Interactable {
         return label
     }()
     
+    let blueView : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = UIColor(hex: "5785D4")
+        view.clipsToBounds = true
+        
+        return view
+    }()
+    
+    let arrow : UILabel = {
+        let label = UILabel()
+        
+        label.text = "»"
+        label.font = Fonts.createSize(40)
+        label.textColor = UIColor(hex: "5785D4")
+        
+        return label
+    }()
+    
     override func configureView() {
         addSubview(label)
+        addSubview(blueView)
+        addSubview(arrow)
         super.configureView()
 
-        layer.borderWidth = 1
-        layer.borderColor = Colors.divider.cgColor
+        backgroundColor = Colors.navBarColor
+        layer.cornerRadius = 4
+        clipsToBounds = true
+        applyDefaultShadow()
         
         applyConstraints()
     }
     
     override func applyConstraints() {
+        blueView.snp.makeConstraints { (make) in
+            make.left.equalToSuperview()
+            make.width.equalTo(3)
+            make.height.centerY.equalToSuperview()
+        }
+        arrow.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview().inset(-4)
+            make.right.equalToSuperview().inset(10)
+        }
         label.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.95)
-            make.centerX.equalToSuperview()
+            make.left.equalToSuperview().inset(15)
+            make.right.equalTo(arrow.snp.left)
         }
     }
     
     func touchStart() {
-        backgroundColor = Colors.registrationDark
+        alpha = 0.7
     }
     
     func didDragOff() {
-        backgroundColor = .clear
+        alpha = 1.0
     }
 }
 
@@ -361,9 +394,9 @@ class TutorMainPageImproveItem : TutorMainPageItem {
         
         let formattedString = NSMutableAttributedString()
         formattedString
-            .bold("Looking to improve?\n\n", 16, .white)
-            .regular("See tips on how to become a better tutor! ", 14, .white)
-            .bold("»", 17, .white)
+            .bold("Looking to improve?\n", 18, UIColor(hex: "5785D4"))
+            .regular("\n", 5, .white)
+            .regular("See tips on how to become a better tutor! ", 13, Colors.grayText)
         
         label.attributedText = formattedString
     }
@@ -376,9 +409,24 @@ class TutorMainPageUsernameItem : TutorMainPageItem {
         
         let formattedString = NSMutableAttributedString()
         formattedString
-            .bold("Share your username!\n\n", 16, .white)
-            .regular("Post your username to other platforms! ", 14, .white)
-            .bold("»", 17, .white)
+            .bold("Share your username!\n", 18, UIColor(hex: "5785D4"))
+            .regular("\n", 5, .white)
+            .regular("Post your username to other platforms! ", 13, Colors.grayText)
+        
+        label.attributedText = formattedString
+    }
+}
+
+class TutorMainPageListingsItem : TutorMainPageItem {
+    
+    override func configureView() {
+        super.configureView()
+        
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .bold("Want to get featured?\n", 18, UIColor(hex: "5785D4"))
+            .regular("\n", 5, .white)
+            .regular("Learn more about hitting the front page.", 13, Colors.grayText)
         
         label.attributedText = formattedString
     }
@@ -587,9 +635,6 @@ class TutorMainPage : MainPage {
     
     private func configureSideBarView() {
         let formattedString = NSMutableAttributedString()
-        
-        let name = tutor.name.split(separator: " ")
-        contentView.nameLabel.text = "Welcome back, \(name[0])"
 	
         if tutor.school != "" {
             formattedString
@@ -764,7 +809,7 @@ class TutorMainPage : MainPage {
             navigationController?.pushViewController(TutorEarnings(), animated: true)
         } else if (touchStartView == contentView.improveItem) {
             navigationController?.pushViewController(TutorMainTips(), animated: true)
-        } else if (touchStartView == contentView.viewTrendingButton) {
+        } else if (touchStartView == contentView.trendingButton) {
             navigationController?.pushViewController(TrendingCategories(), animated: true)
         } else if (touchStartView == contentView.usernameItem) {
             
