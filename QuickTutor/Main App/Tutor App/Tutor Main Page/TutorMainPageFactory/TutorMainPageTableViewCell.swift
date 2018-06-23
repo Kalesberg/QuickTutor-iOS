@@ -89,14 +89,12 @@ class TutorMainPageTableViewCell : UITableViewCell {
 			make.right.equalToSuperview()
 		}
 		title.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.5)
+			make.centerY.equalToSuperview().multipliedBy(0.6)
 			make.left.equalToSuperview().inset(15)
 			make.right.equalTo(arrow.snp.left)
 		}
 		subtitle.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.5)
+            make.centerY.equalToSuperview().multipliedBy(1.4)
 			make.left.equalToSuperview().inset(15)
 			make.right.equalTo(arrow.snp.left)
 		}

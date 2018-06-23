@@ -20,7 +20,13 @@ class TutorMainPageCollectionViewCell : UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	let imageView = UIImageView()
+    let imageView : UIImageView = {
+        let view = UIImageView()
+        
+        view.scaleImage()
+        
+        return view
+    }()
 	
 	let label : UILabel = {
 		let label = UILabel()
@@ -46,10 +52,8 @@ class TutorMainPageCollectionViewCell : UICollectionViewCell {
 	
 	func applyConstraints() {
 		imageView.snp.makeConstraints { (make) in
-			make.centerY.equalToSuperview().multipliedBy(0.8)
+			make.centerY.equalToSuperview().inset(-15)
 			make.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.5)
-			make.width.equalToSuperview().multipliedBy(0.7)
 		}
 		
 		label.snp.makeConstraints { (make) in
