@@ -62,7 +62,7 @@ class TutorMainPageView : MainPageView {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		let layout = UICollectionViewFlowLayout()
 		
-		layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+		layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
 		layout.scrollDirection = .horizontal
 		layout.minimumInteritemSpacing = 0.0
 		
@@ -71,6 +71,7 @@ class TutorMainPageView : MainPageView {
 		collectionView.showsVerticalScrollIndicator = false
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.alwaysBounceHorizontal = true
+        collectionView.isScrollEnabled = false
 		
 		return collectionView
 	}()
@@ -102,11 +103,11 @@ class TutorMainPageView : MainPageView {
 
 		collectionView.snp.makeConstraints { (make) in
 			if(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
-				make.height.equalToSuperview().multipliedBy(0.30)
+				make.height.equalToSuperview().multipliedBy(0.27)
 			} else {
-				make.height.equalToSuperview().multipliedBy(0.28)
+				make.height.equalToSuperview().multipliedBy(0.24)
 			}
-			make.width.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.93)
 			make.top.equalTo(menuLabel.snp.bottom)
 			make.centerX.equalToSuperview()
 		}
@@ -451,7 +452,7 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
 		
 		let screenWidth = UIScreen.main.bounds.width
 		let width = (screenWidth / 3) - 15
-		return CGSize(width: width, height: collectionView.frame.height - 20)
+		return CGSize(width: width, height: collectionView.frame.height)
 	}
 }
 
