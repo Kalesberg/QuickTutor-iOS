@@ -265,26 +265,17 @@ class LearnerMainPage : MainPage {
                 CurrentUser.shared.tutor = tutor
                 Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
                     if let account = account {
-//                        if !account.verification.fields_needed.isEmpty {
-//                            print("field needed: ", account.verification.fields_needed, " due by: ", account.verification.due_by, " details: ", account.verification.disabled_reason)
-//                        }
-//                        if !account.charges_enabled { print("Charges disabled") }
-//                        if !account.payouts_enabled { print("payouts disabled") }
                         CurrentUser.shared.connectAccount = account
-                        self.dismissOverlay()
-                        completion(true)
-                    } else {
-                        AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
-                        self.dismissOverlay()
-                        completion(false)
+                        return completion(true)
                     }
+					AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
+					return completion(false)
                 })
-            } else {
-                AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
-                self.dismissOverlay()
-                completion(false)
-            }
-        }
+			} else {
+				AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
+				return completion(false)
+			}
+		}
     }
     
     override func handleNavigation() {

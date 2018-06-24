@@ -320,7 +320,7 @@ class BankManagerTableViewCell : UITableViewCell {
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
 		backgroundColor = Colors.backgroundDark
-		
+
 		applyConstraints()
 	}
 	

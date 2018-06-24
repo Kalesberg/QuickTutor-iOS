@@ -24,6 +24,7 @@
 		8421AB3C20DED10B005B652B /* TutorMainPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */; };
 		8421AB3E20DED118005B652B /* TutorMainPageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */; };
 		8421AB4020DEDD34005B652B /* TutorialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3F20DEDD34005B652B /* TutorialFactory.swift */; };
+		8421AB4220DFD75B005B652B /* TutorAccountWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB4120DFD75B005B652B /* TutorAccountWarning.swift */; };
 		8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422F2F0205AB6480061ACE4 /* PageController.swift */; };
 		842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */; };
 		842394071FF4C7FF00827C7D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394061FF4C7FF00827C7D /* User.swift */; };
@@ -363,6 +364,7 @@
 		8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageFactory.swift; sourceTree = "<group>"; };
 		8421AB3F20DEDD34005B652B /* TutorialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialFactory.swift; sourceTree = "<group>"; };
+		8421AB4120DFD75B005B652B /* TutorAccountWarning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAccountWarning.swift; sourceTree = "<group>"; };
 		8422F2F0205AB6480061ACE4 /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfo.swift; sourceTree = "<group>"; };
 		842394061FF4C7FF00827C7D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -740,6 +742,7 @@
 				8421AB3920DED0FF005B652B /* TutorMainPageTableViewCell.swift */,
 				8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */,
 				8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */,
+				8421AB4120DFD75B005B652B /* TutorAccountWarning.swift */,
 			);
 			path = TutorMainPageFactory;
 			sourceTree = "<group>";
@@ -1604,7 +1607,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				820BE5D320E7CA7E333682DD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1736,21 +1738,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		820BE5D320E7CA7E333682DD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -1914,6 +1901,7 @@
 				847D77A91FBE6B69009F4D42 /* Verification.swift in Sources */,
 				CF6F58D6205EE68800ACBD32 /* QuickChatKeyboardAccessory.swift in Sources */,
 				848E643B2059EE0A000CD921 /* BecomeTutor.swift in Sources */,
+				8421AB4220DFD75B005B652B /* TutorAccountWarning.swift in Sources */,
 				846D9B4E2069E57000302773 /* CategorySelectionCollectionViewCell.swift in Sources */,
 				8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */,
 				8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */,

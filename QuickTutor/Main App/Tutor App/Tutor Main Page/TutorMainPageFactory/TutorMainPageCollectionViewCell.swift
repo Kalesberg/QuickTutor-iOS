@@ -46,7 +46,7 @@ class TutorMainPageCollectionViewCell : UICollectionViewCell {
 		
 		clipsToBounds = true
 		layer.cornerRadius = 4
-		
+		applyDefaultShadow()
 		applyConstraints()
 	}
 	

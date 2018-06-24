@@ -12,7 +12,6 @@ struct CategorySelected {
 	static var title : String!
 }
 
-
 class CategorySearchView : MainLayoutTwoButton {
 	
 	var back =  NavbarButtonBack()
