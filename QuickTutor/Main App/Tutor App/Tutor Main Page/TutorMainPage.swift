@@ -51,7 +51,7 @@ class TutorMainPageView : MainPageView {
 		tableView.showsVerticalScrollIndicator = false
 		tableView.sectionHeaderHeight = 0
 		tableView.backgroundColor = .clear
-		tableView.rowHeight = 70
+		tableView.rowHeight = 60
 		tableView.translatesAutoresizingMaskIntoConstraints = true
 		
 		return tableView
