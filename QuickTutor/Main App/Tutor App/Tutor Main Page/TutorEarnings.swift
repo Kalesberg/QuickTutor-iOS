@@ -61,9 +61,8 @@ class TutorEarningsView : TutorLayoutView {
         tableView.separatorColor = Colors.divider
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = Colors.registrationDark
-        tableView.isScrollEnabled = true
         tableView.tableFooterView = UIView()
-		
+		tableView.alwaysBounceVertical = true
         return tableView
     }()
     
@@ -153,14 +152,12 @@ class TutorEarnings : BaseViewController {
 		dateFormatter.dateFormat = "MM/dd/yyyy"
 		
 		self.displayLoadingOverlay()
-		Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { (transactions) in
-			if let transactions = transactions {
-				self.datasource = transactions.data.sorted {
-					return $0.created < $1.created
-				}
-			}
-			self.dismissOverlay()
+		
+		Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { (error, transactions) in
+			guard let transactions = transactions else { return }
+			self.datasource = transactions.data.sorted { return $0.created < $1.created }
 		}
+		self.dismissOverlay()
 		
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self

@@ -1177,8 +1177,8 @@
 				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
 				843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */,
 				8441E650208922C60087AE11 /* TrendingCategories.swift */,
-				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 				8441E65220892D510087AE11 /* CategoryInfo.swift */,
+				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 			);
 			path = "Tutor Main Page";
 			sourceTree = "<group>";

@@ -9,12 +9,15 @@ import Stripe
 import Alamofire
 
 class Stripe {
-
-	static let stripeManager = Stripe()
 	
 	private init() {
 		print("Stripe initialized.")
 	}
+	
+	typealias AWConnectedAccountErrorBlock = (Error?, ConnectAccount?) -> Void
+	typealias AWErrorValueCompletionblock = (Error?, String?) -> Void
+	typealias AWExternalAccountErrorBlock = (Error?, ExternalAccounts?) -> Void
+	typealias AWBalanceTransactionErrorBlock = (Error?, BalanceTransaction?) -> Void
 	
 	class func createBankAccountToken(accountHoldersName: String, routingNumber: String, accountNumber: String, completion: @escaping STPTokenCompletionBlock) {
 		
@@ -35,15 +38,15 @@ class Stripe {
 			}
 		}
 	}
-
-	class func createConnectAccountToken(ssnLast4: String, line1: String, city: String, state: String, zipcode: String, _ completion: @escaping (STPToken?) -> Void) {
+	
+	class func createConnectAccountToken(ssnLast4: String, line1: String, city: String, state: String, zipcode: String, _ completion: @escaping STPTokenCompletionBlock) {
 		
 		let name = CurrentUser.shared.learner.name.split(separator: " ")
 		
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = "dd/mm/yyyy"
 		let date = dateFormatter.date(from: CurrentUser.shared.learner.birthday!)
-
+		
 		let legalEntityParams = STPLegalEntityParams()
 		
 		legalEntityParams.businessName = "QuickTutor - Tutor - \(CurrentUser.shared.learner.name!)"
@@ -64,20 +67,21 @@ class Stripe {
 		address.postalCode = TutorRegistration.zipcode
 		
 		legalEntityParams.address = address
-
+		
 		let connectAccountParams = STPConnectAccountParams(tosShownAndAccepted: true, legalEntity: legalEntityParams)
 		
 		STPAPIClient.shared().createToken(withConnectAccount: connectAccountParams) { (token, error) in
 			if let error = error {
-				print(error.localizedDescription)
-				completion(nil)
+				completion(nil, error)
 			} else if let token = token {
-				completion(token)
+				completion(token, nil)
+			} else {
+				completion(nil,nil)
 			}
 		}
 	}
 	
-	class func createConnectAccount(bankAccountToken: STPToken, connectAccountToken: STPToken, _ completion: @escaping (String?) -> Void) {
+	class func createConnectAccount(bankAccountToken: STPToken, connectAccountToken: STPToken, _ completion: @escaping AWErrorValueCompletionblock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/connect.php"
 		let params = ["acct_token" : connectAccountToken, "bank_token" : bankAccountToken]
 		
@@ -87,37 +91,31 @@ class Stripe {
 				switch response.result {
 				case .success(var value):
 					value = String(value.filter{ !" \n\t\r".contains($0)})
-					completion(value)
-				case .failure:
-					completion(nil)
+					completion(nil, value)
+				case .failure(let error):
+					completion(error, nil)
 				}
 			})
 	}
-	class func retrieveConnectAccount(acctId: String, _ completion: @escaping (ConnectAccount?) -> Void) {
+	class func retrieveConnectAccount(acctId: String, _ completion: @escaping AWConnectedAccountErrorBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrieveconnect.php"
 		let params : [String : Any] = ["acct" : acctId]
-
+		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
 			.responseString(completionHandler: { (response) in
-
+				
 				switch response.result {
 				case .success:
-					if let data = response.data {
+					guard let data = response.data else { return completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]), nil) }
 						do {
 							let account : ConnectAccount = try JSONDecoder().decode(ConnectAccount.self, from: data)
-							completion(account)
+							completion(nil, account)
 						} catch {
-							print("Error: Connect Account Object Broken.")
-							completion(nil)
+							completion(NSError(domain: "Error", code: 1, userInfo: ["description" : "Unable to find connect account object."]), nil)
 						}
-					} else {
-						print("Error: 2")
-						completion(nil)
-					}
 				case .failure(let error):
-					print("Error: ", error)
-					completion(nil)
+					completion(error, nil)
 				}
 			})
 	}
@@ -139,7 +137,7 @@ class Stripe {
 			})
 	}
 	
-	class func retrieveBankList(acctId: String, _ completion: @escaping (ExternalAccounts?) -> Void) {
+	class func retrieveBankList(acctId: String, _ completion: @escaping AWExternalAccountErrorBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievebank.php"
 		let params : [String : Any] = ["acct" : acctId]
 		
@@ -152,17 +150,17 @@ class Stripe {
 					
 					do {
 						let externalAccounts : ExternalAccounts = try JSONDecoder().decode(ExternalAccounts.self, from: data)
-						completion(externalAccounts)
+						completion(nil, externalAccounts)
 					} catch {
-						completion(nil)
+						completion(NSError(domain: "Error loading data", code: 3, userInfo: ["description" : "Unable to load external accounts."]), nil)
 					}
-				case .failure:
-					completion(nil)
+				case .failure(let error):
+					completion(error, nil)
 				}
 			})
 	}
 	
-	class func retrieveBalanceTransactionList(acctId: String, _ completion: @escaping (BalanceTransaction?) -> Void) {
+	class func retrieveBalanceTransactionList(acctId: String, _ completion: @escaping AWBalanceTransactionErrorBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/transfer.php"
 		let params : [String : Any] = ["acct" : acctId]
 		
@@ -171,20 +169,15 @@ class Stripe {
 			.responseString(completionHandler: { (response) in
 				switch response.result {
 				case .success:
-					print(response.value!)
-					if let data = response.data {
+					guard let data = response.data else { return completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]), nil) }
 						do {
 							let transaction : BalanceTransaction = try JSONDecoder().decode(BalanceTransaction.self, from: data)
-							completion(transaction)
+							completion(nil,transaction)
 						} catch {
-							completion(nil)
+							completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]), nil)
 						}
-					} else {
-						completion(nil)
-					}
 				case .failure(let error):
-					print("Error: ", error.localizedDescription)
-					completion(nil)
+					completion(error,nil)
 				}
 			})
 	}
@@ -237,7 +230,7 @@ class Stripe {
 			}
 		}
 	}
-	class func updateDefaultBank(account: String, bankId: String, completion: @escaping (ExternalAccounts?) -> Void) {
+	class func updateDefaultBank(account: String, bankId: String, completion: @escaping AWExternalAccountErrorBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultbankaccount.php"
 		let params : [String : Any] = ["acct" : account, "bankId" : bankId ]
 		
@@ -246,28 +239,20 @@ class Stripe {
 			.responseString(completionHandler: { (response) in
 				switch response.result {
 				case .success:
-					print(response.value!)
-					if let data = response.data {
-						do {
-							let externalAccounts : ExternalAccounts = try JSONDecoder().decode(ExternalAccounts.self, from: data)
-							completion(externalAccounts)
-						} catch {
-							print("Error1: ")
-							completion(nil)
-						}
-					} else {
-						print("Error2: ")
-						completion(nil)
+					guard let data = response.data else { return completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]), nil) }
+					do {
+						let externalAccounts : ExternalAccounts = try JSONDecoder().decode(ExternalAccounts.self, from: data)
+						return completion(nil, externalAccounts)
+					} catch {
+						return completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]), nil)
 					}
 				case .failure(let error):
-					print("Error3: ", error.localizedDescription)
-					completion(nil)
+					return completion(error, nil)
 				}
-				
 			})
 	}
-
-	class func removeBank(account: String, bankId: String, completion: @escaping (ExternalAccounts?) -> Void) {
+	
+	class func removeBank(account: String, bankId: String, completion: @escaping AWExternalAccountErrorBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/removebank.php"
 		let params : [String : Any] = ["acct" : account, "bankId" : bankId ]
 		
@@ -276,24 +261,16 @@ class Stripe {
 			.responseString(completionHandler: { (response) in
 				switch response.result {
 				case .success:
-					print(response.value!)
-					if let data = response.data {
-						do {
-							let externalAccounts : ExternalAccounts = try JSONDecoder().decode(ExternalAccounts.self, from: data)
-							completion(externalAccounts)
-						} catch {
-							print("Error: 1")
-							completion(nil)
-						}
-					} else {
-						print("Error: 2")
-						completion(nil)
+					guard let data = response.data else { return completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]), nil) }
+					do {
+						let externalAccounts : ExternalAccounts = try JSONDecoder().decode(ExternalAccounts.self, from: data)
+						completion(nil, externalAccounts)
+					} catch {
+						completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]),nil)
 					}
 				case .failure(let error):
-					print("Error: ", error.localizedDescription)
-					completion(nil)
+					completion(error,nil)
 				}
-
 			})
 	}
 	class func dettachSource(customer: STPCustomer, deleting card: STPCard, completion: @escaping STPCustomerCompletionBlock) {
@@ -366,10 +343,8 @@ class Stripe {
 			.responseString(completionHandler: { (response) in
 				switch response.result {
 				case .success(let value):
-					print("Value: ", value)
 					completion(nil)
 				case .failure(let error):
-					print("Error: ", error)
 					completion(error)
 				}
 			})

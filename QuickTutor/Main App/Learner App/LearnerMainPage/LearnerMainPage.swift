@@ -263,14 +263,15 @@ class LearnerMainPage : MainPage {
         FirebaseData.manager.fetchTutor(learner.uid, isQuery: false) { (tutor) in
             if let tutor = tutor {
                 CurrentUser.shared.tutor = tutor
-                Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-                    if let account = account {
-                        CurrentUser.shared.connectAccount = account
-                        return completion(true)
-                    }
-					AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
-					return completion(false)
-                })
+				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (error, account) in
+					if let error = error {
+						AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+						return completion(false)
+					} else if let account = account {
+						CurrentUser.shared.connectAccount = account
+						return completion(true)
+					}
+				})
 			} else {
 				AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
 				return completion(false)
