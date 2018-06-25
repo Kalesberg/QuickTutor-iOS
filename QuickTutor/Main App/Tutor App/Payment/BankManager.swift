@@ -115,12 +115,14 @@ class BankManager : BaseViewController {
 		super.viewDidLoad()
 		
 		self.displayLoadingOverlay()
-		Stripe.retrieveBankList(acctId: CurrentUser.shared.tutor.acctId, { (bankList) in
-			if let bankList = bankList {
-				self.bankList = bankList.data
+		Stripe.retrieveBankList(acctId: CurrentUser.shared.tutor.acctId) { (error, list) in
+			if let error = error {
+				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+			} else if let list = list {
+				self.bankList = list.data
 			}
 			self.dismissOverlay()
-		})
+		}
 		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
@@ -160,8 +162,10 @@ class BankManager : BaseViewController {
 		let alertController = UIAlertController(title: "Default Payout Method?", message: "Do you want this card to be your default payout method?", preferredStyle: .actionSheet)
 		let setDefault = UIAlertAction(title: "Set as Default", style: .default) { (alert) in
 			self.displayLoadingOverlay()
-			Stripe.updateDefaultBank(account: self.acctId, bankId: bankId, completion: { (account) in
-				if let account = account {
+			Stripe.updateDefaultBank(account: CurrentUser.shared.tutor.acctId, bankId: bankId, completion: { (error, account) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let account = account {
 					self.bankList = account.data
 				}
 				self.dismissOverlay()
@@ -243,16 +247,14 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
 			self.displayLoadingOverlay()
-			Stripe.removeBank(account: acctId, bankId: banks[indexPath.row].id) { (bankList) in
-				if let bankList = bankList {
+			Stripe.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { (error, bankList) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+				} else if let bankList = bankList {
 					self.banks.remove(at: indexPath.row)
 					tableView.deleteRows(at: [indexPath], with: .automatic)
 					self.bankList = bankList.data
-					if self.bankList.count == 0 {
-						CurrentUser.shared.tutor.hasPayoutMethod = false
-					}
-				} else {
-					AlertController.genericErrorAlert(self, title: "Error Removing Bank", message: "Unable to remove bank.")
+					guard self.bankList.count > 0 else { return CurrentUser.shared.tutor.hasPayoutMethod = false }
 				}
 				self.dismissOverlay()
 			}
@@ -320,7 +322,7 @@ class BankManagerTableViewCell : UITableViewCell {
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
 		backgroundColor = Colors.backgroundDark
-		
+
 		applyConstraints()
 	}
 	

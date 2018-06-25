@@ -272,6 +272,7 @@ extension CategoryInfo : UITableViewDelegate, UITableViewDataSource {
         
         switch (indexPath.row) {
         case 0:
+			
             let cell = UITableViewCell()
             
             cell.selectionStyle = .none
@@ -289,7 +290,7 @@ extension CategoryInfo : UITableViewDelegate, UITableViewDataSource {
                 
                 return view
             }()
-            
+
             cell.contentView.addSubview(imageView)
             
             imageView.snp.makeConstraints { (make) in

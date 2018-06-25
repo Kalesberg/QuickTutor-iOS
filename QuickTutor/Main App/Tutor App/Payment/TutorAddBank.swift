@@ -12,17 +12,17 @@ import Stripe
 import Alamofire
 
 class TutorAddBankView : MainLayoutTitleBackTwoButton, Keyboardable {
-    
-    var nextButton = NavbarButtonNext()
-    
-    override var rightButton: NavbarButton {
-        get {
-            return nextButton
-        }
-        set {
-            nextButton = newValue as! NavbarButtonNext
-        }
-    }
+	
+	var nextButton = NavbarButtonNext()
+	
+	override var rightButton: NavbarButton {
+		get {
+			return nextButton
+		}
+		set {
+			nextButton = newValue as! NavbarButtonNext
+		}
+	}
 	
 	var keyboardComponent = ViewComponent()
 	var contentView = UIView()
@@ -163,41 +163,41 @@ class TutorAddBank: BaseViewController {
 	
 	@objc private func textFieldDidChange(_ textField: UITextField) {
 		
-        guard let name = contentView.nameTextfield.text, name.count <= 30, name.count >= 2 else {
+		guard let name = contentView.nameTextfield.text, name.count <= 30, name.count >= 2 else {
 			contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
 			validAccountData = false
-            return
-        }
+			return
+		}
 		contentView.nameTextfield.layer.borderColor = Colors.green.cgColor
-
-        print("Good Name")
-        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
+		
+		print("Good Name")
+		guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
 			if contentView.routingNumberTextfield.text!.count > 1 {
 				contentView.routingNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
 			}
 			validAccountData = false
-            return
-        }
+			return
+		}
 		contentView.routingNumberTextfield.layer.borderColor = Colors.green.cgColor
-
-        print("Good routing")
-        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
+		
+		print("Good routing")
+		guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
 			if contentView.accountNumberTextfield.text!.count > 1 {
 				contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
 			}
 			validAccountData = false
-            return
-        }
+			return
+		}
 		contentView.accountNumberTextfield.layer.borderColor = Colors.green.cgColor
-
-        print("Good account.")
+		
+		print("Good account.")
 		validAccountData = true
 		
 		self.fullName = name
 		self.routingNumber = routingNumber
 		self.accountNumber = accountNumber
 	}
-
+	
 	private func addTutorBankAccount(fullname: String, routingNumber: String, accountNumber: String,_ completion: @escaping (Error?) -> Void) {
 		
 		let bankAccount = STPBankAccountParams()
@@ -208,45 +208,39 @@ class TutorAddBank: BaseViewController {
 		bankAccount.country = "US"
 		
 		STPAPIClient.shared().createToken(withBankAccount: bankAccount) { (token, error) in
-			if let error = error {
-				print(error.localizedDescription)
-			} else if let token = token {
-				let requestString = "https://aqueous-taiga-32557.herokuapp.com/addbank.php"
-				let params : [String : Any] = ["acct" : CurrentUser.shared.tutor.acctId!, "token" : token]
-				
-				Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
-					.validate(statusCode: 200..<300)
-					.responseString(completionHandler: { (response) in
-						switch response.result {
-						case .success:
-							CurrentUser.shared.tutor.hasPayoutMethod = true
-							completion(nil)
-						case .failure(let error):
-							completion(error)
-						}
+			guard let token = token else { return completion(error) }
+			
+			let requestString = "https://aqueous-taiga-32557.herokuapp.com/addbank.php"
+			let params : [String : Any] = ["acct" : CurrentUser.shared.tutor.acctId!, "token" : token]
+			
+			Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+				.validate(statusCode: 200..<300)
+				.responseString(completionHandler: { (response) in
+					switch response.result {
+					case .success:
+						CurrentUser.shared.tutor.hasPayoutMethod = true
+						return completion(nil)
+					case .failure(let error):
+						return completion(error)
+					}
 				})
-			}
 		}
 	}
 	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonNext) {
-            contentView.rightButton.isUserInteractionEnabled = false
-            
-            if validAccountData {
-				self.displayLoadingOverlay()
-				addTutorBankAccount(fullname: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (error) in
-					if let error = error {
-						AlertController.genericErrorActionSheet(self, title: "Unable to Add Payout Method", message: error.localizedDescription)
-						self.contentView.rightButton.isUserInteractionEnabled = true
-					} else {
-						self.navigationController?.popBackToTutorMain()
-					}
-					self.dismissOverlay()
+			contentView.rightButton.isUserInteractionEnabled = false
+			guard validAccountData else { return contentView.rightButton.isHidden = true }
+			self.displayLoadingOverlay()
+			addTutorBankAccount(fullname: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (error) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Unable to Add Payout Method", message: error.localizedDescription)
+					self.contentView.rightButton.isUserInteractionEnabled = true
+				} else {
+					self.navigationController?.popBackToTutorMain()
 				}
-            } else {
-                contentView.rightButton.isUserInteractionEnabled = true
-            }
+				self.dismissOverlay()
+			}
 		}
 	}
 }

@@ -576,13 +576,10 @@ class FirebaseData {
 				CurrentUser.shared.tutor = tutor
 				AccountService.shared.loadUser()
 				AccountService.shared.currentUserType = .tutor
-				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account) in
-					if let account = account {
-						CurrentUser.shared.connectAccount = account
-						completion(true)
-					} else {
-						completion(false)
-					}
+				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (error, account) in
+					guard let account = account else { return completion(false) }
+					CurrentUser.shared.connectAccount = account
+					return completion(true)
 				})
 			}
 		}
