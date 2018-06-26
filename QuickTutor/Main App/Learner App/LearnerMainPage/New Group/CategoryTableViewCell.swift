@@ -71,13 +71,6 @@ class CategoryTableViewCell : UITableViewCell  {
 	}
 }
 
-extension CategoryTableViewCell : UIPopoverPresentationControllerDelegate {
-	func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-		return .none
-	}
-}
-
-
 extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -86,10 +79,8 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoryCollectionViewCell		
-		
 		cell.label.text = category[indexPath.row].mainPageData.displayName
 		cell.imageView.image = category[indexPath.row].mainPageData.image
-		
 		return cell
 	}
 
