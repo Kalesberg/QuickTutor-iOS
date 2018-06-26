@@ -25,7 +25,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
         
         label.textColor = .white
         label.textAlignment = .center
-        label.font = Fonts.createBoldSize(20)
+        label.font = Fonts.createBoldSize(14)
         label.adjustsFontSizeToFitWidth = true
         label.adjustsFontForContentSizeCategory = true
         
