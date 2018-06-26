@@ -15,6 +15,7 @@ target 'QuickTutor' do
   pod 'Firebase/Database'
   pod 'Firebase/DynamicLinks'
   pod 'Firebase/Messaging'
+  pod 'GoogleAnalytics'
   
   # Pods for backend
   pod 'Alamofire', '~>4.5'
