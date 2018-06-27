@@ -357,10 +357,10 @@ class TutorMainPage : MainPage {
             AccountService.shared.currentUserType = .learner
             hideSidebar()
             hideBackground()
-        } else if(touchStartView == contentView.tutorSidebar.taxItem) {
-            navigationController?.pushViewController(TutorTaxInfo(), animated: true)
-            hideSidebar()
-            hideBackground()
+//        } else if(touchStartView == contentView.tutorSidebar.taxItem) {
+//            navigationController?.pushViewController(TutorTaxInfo(), animated: true)
+//            hideSidebar()
+//            hideBackground()
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
             hideSidebar()

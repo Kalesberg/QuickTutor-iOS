@@ -342,7 +342,7 @@ class Stripe {
 			.validate(statusCode: 200..<300)
 			.responseString(completionHandler: { (response) in
 				switch response.result {
-				case .success(let value):
+				case .success:
 					completion(nil)
 				case .failure(let error):
 					completion(error)
