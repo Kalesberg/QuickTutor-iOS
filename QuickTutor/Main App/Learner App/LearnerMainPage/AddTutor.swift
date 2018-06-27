@@ -40,7 +40,7 @@ class AddTutorView : MainLayoutTitleBackButton {
 	let tableView : UITableView = {
 		let tableView = UITableView()
 		
-		tableView.rowHeight = 44
+		tableView.rowHeight = 60
 		tableView.separatorInset.left = 10
 		tableView.separatorStyle = .none
 		tableView.showsVerticalScrollIndicator = false
@@ -193,7 +193,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
 		let name = filteredUsername[indexPath.section].name.split(separator: " ")
 		
 		cell.usernameLabel.text = "@\(filteredUsername[indexPath.section].username)"
-		cell.nameLabel.text = (connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "\(name[0]) \(String(name[1]).prefix(1)) – Connected" : "\(name[0]) \(String(name[1]).prefix(1))"
+		cell.nameLabel.text = (connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "\(name[0]) \(String(name[1]).prefix(1)). – Connected" : "\(name[0]) \(String(name[1]).prefix(1))."
 		cell.profileImageView.loadUserImages(by: filteredUsername[indexPath.section].imageUrl)
 		cell.delegate = self
 		cell.uid = filteredUsername[indexPath.section].uid
