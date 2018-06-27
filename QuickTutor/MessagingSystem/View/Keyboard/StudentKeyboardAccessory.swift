@@ -25,6 +25,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         button.setImage(#imageLiteral(resourceName: "plusButton"), for: .normal)
         button.applyDefaultShadow()
         button.layer.cornerRadius = 17
+        button.adjustsImageWhenDisabled = true
         return button
     }()
     
@@ -41,6 +42,18 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         return view
     }()
     
+    let textViewCover: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .left
+        label.text = "Unable to send message until tutor accepts connection request."
+        label.font = Fonts.createItalicSize(12)
+        label.adjustsFontSizeToFitWidth = true
+        label.backgroundColor = Colors.navBarColor
+        label.isHidden = true
+        return label
+    }()
+    
     let chatView: QuickChatView = {
         let chat = QuickChatView()
         return chat
@@ -50,6 +63,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
     
     override func setupViews() {
         super.setupViews()
+        setupTextFieldCover()
         setupBackgroundBlurView()
         setupActionView()
         setupQuickChatView()
@@ -77,6 +91,11 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(toggleActionView))
         dismissTap.numberOfTapsRequired = 1
         backgroundBlurView.addGestureRecognizer(dismissTap)
+    }
+    
+    func setupTextFieldCover() {
+        addSubview(textViewCover)
+        textViewCover.anchor(top: messageTextview.topAnchor, left: messageTextview.leftAnchor, bottom: messageTextview.bottomAnchor, right: messageTextview.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     @objc func toggleActionView() {
@@ -150,6 +169,13 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         }).startAnimation()
     }
     
+    func hideTextViewCover() {
+        textViewCover.isHidden = true
+    }
+    
+    func showTextViewCover() {
+        textViewCover.isHidden = false
+    }
 }
 
 extension StudentKeyboardAccessory: QuickChatViewDelegate {

@@ -199,6 +199,7 @@ class AddTipVC: UIViewController, CustomTipPresenter {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        amountToTip = 0.0
     }
     
 }

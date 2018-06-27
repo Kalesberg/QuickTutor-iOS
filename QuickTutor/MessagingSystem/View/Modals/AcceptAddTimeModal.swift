@@ -103,6 +103,7 @@ class AcceptAddTimeModal: BaseCustomModal {
     }
     
     @objc func handleConfirmButton() {
+        dismiss()
         delegate?.didAccept()
     }
 }

@@ -238,7 +238,6 @@ extension TutorCardCollectionViewCell : AddTutorButtonDelegate {
             
             vc.receiverId = uid
             vc.chatPartner = tutor
-            vc.shouldSetupForConnectionRequest = true
             vc.tutor = self.datasource
             
             navigationController.pushViewController(vc, animated: true)

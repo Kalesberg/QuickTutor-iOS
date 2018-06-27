@@ -36,6 +36,7 @@ class SessionManager {
             self.session = session
             self.sessionId = session.id
             self.sessionLengthInSeconds = Int(session.endTime - session.startTime)
+            self.startSessionRuntime()
         }
     }
     
@@ -81,6 +82,8 @@ class SessionManager {
     @objc func incrementSessionRuntime() {
         guard !sessionRuntimeExpired() else {
             delegate?.sessionManagerSessionTimeDidExpire(self)
+            timer?.invalidate()
+            timer = nil
             return
         }
         sessionRuntime += 1
@@ -124,7 +127,6 @@ class SessionManager {
         self.sessionId = sessionId
         loadSession()
         observeSocketEvents()
-        startSessionRuntime()
     }
     
 }

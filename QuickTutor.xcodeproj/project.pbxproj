@@ -330,6 +330,7 @@
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
 		CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8EF20C8921900182E1C /* SessionManager.swift */; };
+		CFEC492320E2AA8F00060E48 /* MessagingSystemTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */; };
 		CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEDF90220D57FF100457E77 /* OnlineStatusService.swift */; };
 		CFEF943920B3287100413727 /* ConnectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943820B3287100413727 /* ConnectionsVC.swift */; };
 		CFEF943B20B32B7C00413727 /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943A20B32B7C00413727 /* ConnectionCell.swift */; };
@@ -679,6 +680,7 @@
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
 		CFDBD8EF20C8921900182E1C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemTutorial.swift; sourceTree = "<group>"; };
 		CFEDF90220D57FF100457E77 /* OnlineStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusService.swift; sourceTree = "<group>"; };
 		CFEF943820B3287100413727 /* ConnectionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsVC.swift; sourceTree = "<group>"; };
 		CFEF943A20B32B7C00413727 /* ConnectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
@@ -1077,6 +1079,7 @@
 		8491C28E1FBE62350036FC12 = {
 			isa = PBXGroup;
 			children = (
+				CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */,
 				8491C2991FBE62350036FC12 /* QuickTutor */,
 				8491C2981FBE62350036FC12 /* Products */,
 				1ADD82B9544686C1B1CC7BF9 /* Pods */,
@@ -1928,6 +1931,7 @@
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBio.swift in Sources */,
 				CF6F58D4205EE68800ACBD32 /* QuickChatView.swift in Sources */,
+				CFEC492320E2AA8F00060E48 /* MessagingSystemTutorial.swift in Sources */,
 				CF1C6115209ED011009B7B0E /* SocketClient.swift in Sources */,
 				CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */,
 				8421AB4020DEDD34005B652B /* TutorialFactory.swift in Sources */,

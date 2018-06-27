@@ -80,18 +80,23 @@ class ConversationCell: UICollectionViewCell {
         let gradientLayer = CAGradientLayer()
         gradientLayer.cornerRadius = 1
         gradientLayer.colors = [firstColor, secondColor]
-        
-        
-        let x: Double! = 90 / 360.0
-        let a = pow(sinf(Float(2.0 * .pi * ((x + 0.75) / 2.0))),2.0);
-        let b = pow(sinf(Float(2 * .pi * ((x+0.0)/2))),2);
-        let c = pow(sinf(Float(2 * .pi * ((x+0.25)/2))),2);
-        let d = pow(sinf(Float(2 * .pi * ((x+0.5)/2))),2);
 
-        gradientLayer.endPoint = CGPoint(x: CGFloat(c),y: CGFloat(d))
-        gradientLayer.startPoint = CGPoint(x: CGFloat(a),y:CGFloat(b))
-        gradientLayer.locations = [0, 0.7, 0.9, 1]
+        gradientLayer.startPoint = CGPoint(x: 0,y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        gradientLayer.locations = [0, 0.7]
         return gradientLayer
+    }()
+    
+    let disconnectButtonView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#851537")
+        return view
+    }()
+    
+    let deleteMessagesButtonView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#AF1C49")
+        return view
     }()
     
     let disconnectButton: UIButton = {
@@ -105,6 +110,7 @@ class ConversationCell: UICollectionViewCell {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "deleteMessagesButton"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
+        button.backgroundColor = UIColor(hex: "#AF1C49")
         return button
     }()
     
@@ -118,7 +124,9 @@ class ConversationCell: UICollectionViewCell {
     
     func setupViews() {
         setupBackground()
+        setupDisconnectButtonView()
         setupDisconnectButton()
+        setupDeleteMessagesButtonView()
         setupDeleteMessagesButton()
         setupProfilePic()
         setupTimestampLabel()
@@ -182,15 +190,29 @@ class ConversationCell: UICollectionViewCell {
         newMessageGradientLayer.frame = CGRect(x: 0, y: 0, width: 100, height: bounds.height)
     }
     
+    func setupDisconnectButtonView() {
+        insertSubview(disconnectButtonView, belowSubview: background)
+        disconnectButtonView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 65, height: 0)
+    }
+    
     func setupDisconnectButton() {
-        insertSubview(disconnectButton, belowSubview: background)
-        disconnectButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 65, height: 0)
+        disconnectButtonView.addSubview(disconnectButton)
+        disconnectButton.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 30, height: 30)
+        addConstraint(NSLayoutConstraint(item: disconnectButton, attribute: .centerX, relatedBy: .equal, toItem: disconnectButtonView, attribute: .centerX, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: disconnectButton, attribute: .centerY, relatedBy: .equal, toItem: disconnectButtonView, attribute: .centerY, multiplier: 1, constant: 0))
         disconnectButton.addTarget(self, action: #selector(handleDisconnect), for: .touchUpInside)
     }
     
+    func setupDeleteMessagesButtonView() {
+        insertSubview(deleteMessagesButtonView, belowSubview: background)
+        deleteMessagesButtonView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: disconnectButtonView.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 65, height: 0)
+    }
+    
     func setupDeleteMessagesButton() {
-        insertSubview(deleteMessagesButton, belowSubview: background)
-        deleteMessagesButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: disconnectButton.leftAnchor, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 65, height: 0)
+        deleteMessagesButtonView.addSubview(deleteMessagesButton)
+        deleteMessagesButton.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 30, height: 30)
+        addConstraint(NSLayoutConstraint(item: deleteMessagesButton, attribute: .centerX, relatedBy: .equal, toItem: deleteMessagesButtonView, attribute: .centerX, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: deleteMessagesButton, attribute: .centerY, relatedBy: .equal, toItem: deleteMessagesButtonView, attribute: .centerY, multiplier: 1, constant: 0))
         deleteMessagesButton.addTarget(self, action: #selector(handleDeleteMessages), for: .touchUpInside)
     }
     
