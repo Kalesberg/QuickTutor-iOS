@@ -40,6 +40,10 @@ class Session: Codable {
         return Int(lengthInSeconds / 60)
     }
     
+    func ratePerSecond() -> Double {
+        return price / Double(lengthInMinutes()) / 60
+    }
+    
     func partnerId() -> String {
         guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
         return receiverId == uid ? senderId : receiverId

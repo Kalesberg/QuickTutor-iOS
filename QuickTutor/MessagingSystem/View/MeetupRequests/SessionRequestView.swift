@@ -464,7 +464,6 @@ extension SessionRequestView {
     
     func setEndTime() {
         endTimePicker.minimumDate = Calendar.current.date(byAdding: .minute, value: 15, to: startTimePicker.date)
-        endTimePicker.date = endTimePicker.minimumDate ?? Date()
         reloadTitleForEndTime()
     }
     
