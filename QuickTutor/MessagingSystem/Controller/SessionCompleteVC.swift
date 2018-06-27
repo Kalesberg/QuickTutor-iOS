@@ -120,7 +120,7 @@ class SessionCompleteVC: UIViewController {
     
     @objc func submitRating() {
         guard let id = partnerId else { return }
-        let infoNode = AccountService.shared.currentUserType == .learner ? "tutor-info" : "learner-info"
+        let infoNode = AccountService.shared.currentUserType == .learner ? "tutor-info" : "student-info"
         Database.database().reference().child(infoNode).child(id).child("r").setValue(ratingView.rating)
         let vc = SessionReviewVC()
         vc.partnerId = partnerId
@@ -128,10 +128,24 @@ class SessionCompleteVC: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    func updateNumberOfSessions() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType == .learner ? "learner-info" : "student-info"
+        let ref = Database.database().reference().child(uid).child(userTypeString).child("nos")
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? Int else {
+                ref.setValue(1)
+                return
+            }
+            ref.setValue(value + 1)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         updateUI()
+        updateNumberOfSessions()
     }
     
 }

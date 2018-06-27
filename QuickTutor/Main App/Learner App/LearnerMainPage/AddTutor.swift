@@ -73,7 +73,7 @@ class AddTutorView : MainLayoutTitleBackButton {
 	override func applyConstraints() {
 		super.applyConstraints()
 		searchTextField.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).inset(-5)
+			make.top.equalTo(navbar.snp.bottom)
 			make.width.equalToSuperview().multipliedBy(0.9)
 			make.height.equalTo(80)
 			make.centerX.equalToSuperview()
@@ -116,7 +116,7 @@ class AddTutor : BaseViewController, ShowsConversation {
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
 		
-		FirebaseData.manager.fetchLearnerConnections(uid: CurrentUser.shared.learner.uid) { (connectedIds) in
+		FirebaseData.manager.getLearnerConnections(uid: CurrentUser.shared.learner.uid) { (connectedIds) in
 			if let connectedIds = connectedIds {
 				self.connectedIds = connectedIds
 				print(connectedIds)
@@ -233,7 +233,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
+		FirebaseData.manager.getTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
 			guard let tutor = tutor else { return }
 			let next = TutorMyProfile()
 			next.tutor = tutor
@@ -251,7 +251,6 @@ extension AddTutor : AddTutorButtonDelegate {
 			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
 			vc.receiverId = uid
 			vc.chatPartner = tutor
-			vc.shouldSetupForConnectionRequest = true
 			self.navigationController?.pushViewController(vc, animated: true)
 		}
 	}
@@ -332,7 +331,8 @@ class AddTutorTableViewCell : UITableViewCell {
 	func applyConstraints() {
 		profileImageView.snp.makeConstraints { (make) in
 			make.centerY.equalToSuperview()
-			make.width.height.equalTo(50)
+			make.width.equalToSuperview().multipliedBy(0.15)
+			make.height.equalToSuperview().multipliedBy(0.9)
 			make.left.equalToSuperview().inset(10)
 		}
 		addTutorButton.snp.makeConstraints { (make) in

@@ -147,7 +147,6 @@ extension AddTutorVC: AddTutorButtonDelegate {
             let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
             vc.receiverId = uid
             vc.chatPartner = tutor
-            vc.shouldSetupForConnectionRequest = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
