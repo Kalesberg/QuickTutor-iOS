@@ -538,16 +538,16 @@ class SettingsScrollView : BaseScrollView {
                 UIApplication.shared.openURL(url)
             }
         } else if(touchStartView is RateUs) {
-            SocialMedia.socialMediaManager.rateApp(appUrl: "itms-apps://itunes.apple.com/", webUrl: "", completion: { (success) in
+            SocialMedia.rateApp(appUrl: "itms-apps://itunes.apple.com/", webUrl: "", completion: { (success) in
             })
         }  else if(touchStartView is TwitterIcon) {
-            SocialMedia.socialMediaManager.rateApp(appUrl:  "twitter://user?screen_name=QuickTutorApp", webUrl: "https://twitter.com/QuickTutorApp", completion: { (success) in
+            SocialMedia.rateApp(appUrl:  "twitter://user?screen_name=QuickTutorApp", webUrl: "https://twitter.com/QuickTutorApp", completion: { (success) in
             })
         } else if(touchStartView is InstagramIcon) {
-            SocialMedia.socialMediaManager.rateApp(appUrl:  "instagram://user?username=QuickTutor", webUrl: "https://www.instagram.com/quicktutor/", completion: { (success) in
+            SocialMedia.rateApp(appUrl:  "instagram://user?username=QuickTutor", webUrl: "https://www.instagram.com/quicktutor/", completion: { (success) in
             })
         } else if(touchStartView is FacebookIcon) {
-            SocialMedia.socialMediaManager.rateApp(appUrl:  "fb://profile/QuickTutorApp/", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { (success) in
+            SocialMedia.rateApp(appUrl:  "fb://profile/QuickTutorApp/", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { (success) in
             })
         } else if(touchStartView is SignOutButton) {
 			signOutAlert()

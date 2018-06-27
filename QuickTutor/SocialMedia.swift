@@ -23,9 +23,7 @@
 import UIKit
 class SocialMedia {
 	
-	static let socialMediaManager = SocialMedia()
-	
-	func rateApp(appUrl: String, webUrl : String, completion: @escaping ((_ success : Bool) -> ())) {
+	class func rateApp(appUrl: String, webUrl : String, completion: @escaping ((_ success : Bool) -> ())) {
 		guard let url = URL(string: appUrl) else {
 			completion(false)
 			return
