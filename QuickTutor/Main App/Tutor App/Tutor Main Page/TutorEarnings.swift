@@ -152,7 +152,6 @@ class TutorEarnings : BaseViewController {
 		dateFormatter.dateFormat = "MM/dd/yyyy"
 		
 		self.displayLoadingOverlay()
-		
 		Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { (error, transactions) in
 			guard let transactions = transactions else { return }
 			self.datasource = transactions.data.sorted { return $0.created < $1.created }
@@ -235,27 +234,23 @@ class TutorEarnings : BaseViewController {
 	
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         contentView.infoContainer.layer.addBorder(edge: .top, color: Colors.divider, thickness: 1)
         contentView.infoContainer.layer.addBorder(edge: .bottom, color: Colors.divider, thickness: 1)
     }
 }
 
 extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
-	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return datasource.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "tutorEarningsTableCellView", for: indexPath) as! TutorEarningsTableCellView
 		
 		cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - \(datasource[indexPath.row].description ?? "Session")"
 		if let net = datasource[indexPath.row].net {
 			cell.rightLabel.text = net.currencyFormat()
 		}
-		
 		return cell
 	}
 }
@@ -300,7 +295,6 @@ class TutorEarningsTableCellView : BaseTableViewCell {
             make.height.centerY.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
         }
-        
         rightLabel.snp.makeConstraints { (make) in
             make.left.equalTo(leftLabel.snp.right)
             make.centerY.height.equalToSuperview()

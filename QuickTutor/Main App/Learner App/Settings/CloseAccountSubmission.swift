@@ -6,7 +6,6 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SwiftKeychainWrapper
 import FirebaseAuth
@@ -110,9 +109,7 @@ class CloseAccountSubmissionView : MainLayoutTitleBackTwoButton, Keyboardable {
 	}
 }
 
-
 class SubmissionTextView : EditBioTextView {
-	
 	override func configureView() {
 		addSubview(textView)
 		
@@ -192,7 +189,6 @@ class CloseAccountSubmission : BaseViewController {
 								self.getUserCredentialsAlert()
 							}
 						} else {
-							try! Auth.auth().signOut()
 							self.navigationController?.pushViewController(SignIn(), animated: false)
 						}
 					}
@@ -201,7 +197,7 @@ class CloseAccountSubmission : BaseViewController {
 		})
 	}
 	
-	private func stripeish(deleteAccountType: Bool, completion: @escaping (Error?) -> Void) {
+	private func stripe_ish(deleteAccountType: Bool, completion: @escaping (Error?) -> Void) {
 		
 		//also need to remove Connect Account, need to check for balance, if 0 then delete, else payout, if unable to payout warn them, then they will need to give us a valid bank account, then retry. otherwise we take their cash.
 		//				Stripe.removeCustomer(customerId: CurrentUser.shared.learner.customer) { (error) in
@@ -230,7 +226,6 @@ class CloseAccountSubmission : BaseViewController {
 							self.getUserCredentialsAlert()
 						}
 					} else {
-						try! Auth.auth().signOut()
 						self.navigationController?.pushViewController(SignIn(), animated: false)
 					}
 				}

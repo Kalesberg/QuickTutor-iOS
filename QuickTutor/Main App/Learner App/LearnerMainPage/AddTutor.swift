@@ -66,7 +66,10 @@ class AddTutorView : MainLayoutTitleBackButton {
 		super.configureView()
 		
 		title.label.text = "Add Tutor by Username"
+		title.label.textAlignment = .center
 		
+		navbar.backgroundColor = Colors.learnerPurple
+		statusbarView.backgroundColor = Colors.learnerPurple
 		
 	}
 	
@@ -104,6 +107,7 @@ class AddTutor : BaseViewController, ShowsConversation {
 	var searchTimer = Timer()
 	var connectedIds = [String]()
 	var queriedIds = [String]()
+	var pendingIds = [String]()
 	
 	var filteredUsername = [UsernameQuery]() {
 		didSet {
@@ -115,13 +119,7 @@ class AddTutor : BaseViewController, ShowsConversation {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
-		
-		FirebaseData.manager.fetchLearnerConnections(uid: CurrentUser.shared.learner.uid) { (connectedIds) in
-			if let connectedIds = connectedIds {
-				self.connectedIds = connectedIds
-				print(connectedIds)
-			}
-		}
+	
 	}
 	
 	override func loadView() {
@@ -136,6 +134,22 @@ class AddTutor : BaseViewController, ShowsConversation {
 		contentView.searchTextField.textField.becomeFirstResponder()
 	}
 	
+	override func viewWillAppear(_ animated: Bool) {
+		FirebaseData.manager.fetchLearnerConnections(uid: CurrentUser.shared.learner.uid) { (connectedIds) in
+			if let connectedIds = connectedIds {
+				self.connectedIds = connectedIds
+			}
+			FirebaseData.manager.fetchPendingRequests(uid: CurrentUser.shared.learner.uid) { (ids) in
+				guard let ids = ids else { return }
+				ids.forEach({
+					if !self.connectedIds.contains($0) {
+						self.pendingIds.append($0)
+					}
+				})
+				self.contentView.tableView.reloadData()
+			}
+		}
+	}
 	private func configureDelegates() {
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
@@ -168,7 +182,7 @@ class AddTutor : BaseViewController, ShowsConversation {
 		ref.queryOrdered(byChild: "usr").queryStarting(atValue: searchText).queryEnding(atValue: searchText + "\u{f8ff}").queryLimited(toFirst: 20).observeSingleEvent(of: .value) { (snapshot) in
 			
 			for snap in snapshot.children {
-				guard let child = snap as? DataSnapshot else { continue }
+				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
 				let usernameQuery = UsernameQuery(snapshot: child)
 				queriedUsername.append(usernameQuery)
 				self.queriedIds.append(child.key)
@@ -192,13 +206,21 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
 		
 		let name = filteredUsername[indexPath.section].name.split(separator: " ")
 		
-		cell.usernameLabel.text = "@\(filteredUsername[indexPath.section].username)"
-		cell.nameLabel.text = (connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "\(name[0]) \(String(name[1]).prefix(1)). – Connected" : "\(name[0]) \(String(name[1]).prefix(1))."
-		cell.profileImageView.loadUserImages(by: filteredUsername[indexPath.section].imageUrl)
-		cell.addTutorButton.setTitle((connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "Message" : "Connect", for: .normal)
-		
 		cell.delegate = self
+		cell.usernameLabel.text = "@\(filteredUsername[indexPath.section].username)"
+		cell.profileImageView.loadUserImages(by: filteredUsername[indexPath.section].imageUrl)
 		cell.uid = filteredUsername[indexPath.section].uid
+		
+		if pendingIds.contains(filteredUsername[indexPath.section].uid) {
+			cell.nameLabel.text = "\(name[0]) \(String(name[1]).prefix(1)). – Pending"
+			cell.addTutorButton.setTitle("Pending", for: .normal)
+		} else if connectedIds.contains(filteredUsername[indexPath.section].uid) {
+			cell.nameLabel.text = "\(name[0]) \(String(name[1]).prefix(1)). – Connected"
+			cell.addTutorButton.setTitle("Message", for: .normal)
+		} else {
+			cell.nameLabel.text = "\(name[0]) \(String(name[1]).prefix(1))."
+			cell.addTutorButton.setTitle("Connect", for: .normal)
+		}
 		
 		return cell
 	}
@@ -241,6 +263,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
 			next.contentView.title.label.text = "@\(self.filteredUsername[indexPath.section].username)"
 			self.navigationController?.pushViewController(next, animated: true)
 		}
+		
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }
@@ -300,9 +323,10 @@ class AddTutorTableViewCell : UITableViewCell {
 	
 	let addTutorButton : UIButton = {
 		let button = UIButton()
-		button.backgroundColor = UIColor.clear
-		button.layer.borderColor = UIColor.white.cgColor
-		button.layer.borderWidth = 0.5
+//		button.backgroundColor = UIColor.clear
+//		button.layer.borderColor = UIColor.white.cgColor
+//		button.layer.borderWidth = 0.5
+		button.backgroundColor = Colors.learnerPurple
 		button.setTitleColor(.white, for: .normal)
 		button.titleLabel?.textAlignment = .center
 		button.titleLabel?.font = Fonts.createSize(14)
@@ -358,6 +382,10 @@ class AddTutorTableViewCell : UITableViewCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		addTutorButton.layer.cornerRadius = addTutorButton.frame.height / 2
+		addTutorButton.layer.shadowColor = UIColor.black.cgColor
+		addTutorButton.layer.shadowOffset = CGSize(width: 1, height: 2)
+		addTutorButton.layer.shadowOpacity = 0.4
+		addTutorButton.layer.shadowRadius = 3
 	}
 	
 	@objc func addTutorButtonPressed(_ sender: UIButton) {

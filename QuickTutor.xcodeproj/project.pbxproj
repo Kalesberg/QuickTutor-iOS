@@ -1012,8 +1012,8 @@
 			isa = PBXGroup;
 			children = (
 				84D8C9332067116C003C3AEA /* TutorConnect.swift */,
-				84CB7AD420CF607800274473 /* TutorProfileImageView.swift */,
 				8476F7C620D00DB100C8D52D /* AddPaymentMethod.swift */,
+				84CB7AD420CF607800274473 /* TutorProfileImageView.swift */,
 			);
 			path = TutorConnect;
 			sourceTree = "<group>";

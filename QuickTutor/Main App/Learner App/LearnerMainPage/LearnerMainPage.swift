@@ -47,6 +47,9 @@ class LearnerMainPageView : MainPageView {
         navbar.addSubview(search)
         addSubview(tableView)
         super.configureView()
+
+		navbar.backgroundColor = Colors.learnerPurple
+		statusbarView.backgroundColor = Colors.learnerPurple
     }
     
     override func applyConstraints() {
@@ -91,12 +94,10 @@ class LearnerMainPage : MainPage {
 		
 		AccountService.shared.currentUserType = .learner
         guard let learner = CurrentUser.shared.learner else {
-            try! Auth.auth().signOut()
             self.navigationController?.pushViewController(SignIn(), animated: true)
             return
         }
         self.learner = learner
-        
         Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -105,14 +106,12 @@ class LearnerMainPage : MainPage {
                 self.learner.hasPayment = (customer.sources.count > 0)
             }
         }
-		
         queryFeaturedTutors()
         configureView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
             UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
             displayMessagesTutorial()
@@ -122,7 +121,6 @@ class LearnerMainPage : MainPage {
     }
     
     private func configureSideBarView(){
-        
         let formattedString = NSMutableAttributedString()
         contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become a QuickTutor"
         

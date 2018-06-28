@@ -360,8 +360,18 @@ class FirebaseData {
 			})
 		})
 	}
+	public func fetchPendingRequests(uid:  String,_ completion: @escaping ([String]?) -> Void) {
+		var conversationId = [String]()		
+		self.ref.child("conversations").child(uid).child("learner").observe(.value) { (snapshot) in
+			for snap in snapshot.children {
+				guard let child = snap as? DataSnapshot else { continue }
+				conversationId.append(child.key)
+			}
+			return completion(conversationId)
+		}
+	}
 	
-	public func fetchSubjectsTaught(uid: String, _ completion: @escaping ([TopSubcategory]) -> Void) {
+	public func fetchSubjectsTaught(uid: String,_ completion: @escaping ([TopSubcategory]) -> Void) {
 		var subjectsTaught = [TopSubcategory]()
 		
 		ref.child("subject").child(uid).observeSingleEvent(of: .value) { (snapshot) in
