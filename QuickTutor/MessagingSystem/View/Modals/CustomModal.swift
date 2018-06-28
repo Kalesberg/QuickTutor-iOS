@@ -33,7 +33,7 @@ class CustomModal: BaseCustomModal {
         label.text = "NOTE: IF YOU CANCEL, YOU MAY BE DISOBEYING THIS TUTOR'S CANCELLATION POLICY, YOU MAY BE SUBJECT TO A CANCELLATION FEE"
         label.textColor = .white
         label.textAlignment = .center
-        label.font = Fonts.createBoldSize(11)
+        label.font = Fonts.createBoldSize(14)
         label.numberOfLines = 0
         return label
     }()
@@ -65,26 +65,33 @@ class CustomModal: BaseCustomModal {
     
     override func setupViews() {
         super.setupViews()
+        setupHeight()
         setupMessageLabel()
         setupNoteLabel()
         setupNevermindButton()
         setupConfirmButton()
     }
     
+    func setupHeight() {
+        backgroundHeightAnchor = background.heightAnchor.constraint(equalToConstant: 180)
+        backgroundHeightAnchor?.isActive = true
+        background.layoutIfNeeded()
+    }
+    
     func setupMessageLabel() {
         background.addSubview(messageLabel)
-        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 17)
+        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 12)
     }
     
     func setupNoteLabel() {
         background.addSubview(noteLabel)
-        noteLabel.anchor(top: messageLabel.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 7, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 45)
+        noteLabel.anchor(top: messageLabel.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 7, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 30)
     }
     
     func setupNevermindButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(nevermindButton)
-        nevermindButton.anchor(top: noteLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 11, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 35)
+        nevermindButton.anchor(top: noteLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 35)
         window.addConstraint(NSLayoutConstraint(item: nevermindButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))
         nevermindButton.addTarget(self, action: #selector(handleNevermindButton), for: .touchUpInside)
     }
@@ -92,7 +99,7 @@ class CustomModal: BaseCustomModal {
     func setupConfirmButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(confirmButton)
-        confirmButton.anchor(top: noteLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 11, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 35)
+        confirmButton.anchor(top: noteLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 35)
         window.addConstraint(NSLayoutConstraint(item: confirmButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 75))
         confirmButton.addTarget(self, action: #selector(handleConfirmButton), for: .touchUpInside)
     }

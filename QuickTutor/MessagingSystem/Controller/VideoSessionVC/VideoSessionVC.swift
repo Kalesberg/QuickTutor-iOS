@@ -70,5 +70,4 @@ class VideoSessionVC: BaseSessionVC {
         super.sessionManager(sessionManager, didUnpause: session)
         self.twilioSessionManager?.resume()
     }
-
 }

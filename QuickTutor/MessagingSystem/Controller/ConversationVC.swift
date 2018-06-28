@@ -638,7 +638,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
         sessionView.chatPartnerId = receiverId
         window.addSubview(sessionView)
         resignFirstResponder()
-        sessionView.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 600)
+        sessionView.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         window.addConstraint(NSLayoutConstraint(item: sessionView, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
     }
     

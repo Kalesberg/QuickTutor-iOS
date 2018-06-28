@@ -22,6 +22,7 @@ class BaseCustomModal: UIView {
         let view = UIView()
         view.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
         view.alpha = 0
+        view.layer.cornerRadius = 4
         return view
     }()
     
@@ -46,6 +47,7 @@ class BaseCustomModal: UIView {
     }()
     
     var backgroundCenterYAnchor: NSLayoutConstraint?
+    var backgroundHeightAnchor: NSLayoutConstraint?
     
     func setupViews() {
         setupBackgroundBlurView()
@@ -56,8 +58,10 @@ class BaseCustomModal: UIView {
     func setupBackground() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(background)
-        background.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 207)
+        background.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 0)
         backgroundCenterYAnchor = background.centerYAnchor.constraint(equalTo: window.centerYAnchor, constant: 500)
+        backgroundHeightAnchor = background.heightAnchor.constraint(equalToConstant: 207)
+        backgroundHeightAnchor?.isActive = true
         backgroundCenterYAnchor?.isActive = true
     }
     
@@ -78,6 +82,12 @@ class BaseCustomModal: UIView {
     func setupTitleLabel() {
         background.addSubview(titleLabel)
         titleLabel.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
+    }
+    
+    func setHeightTo(_ height: CGFloat) {
+        backgroundHeightAnchor = background.heightAnchor.constraint(equalToConstant: height)
+        backgroundHeightAnchor?.isActive = true
+        background.layoutIfNeeded()
     }
     
     func show() {
