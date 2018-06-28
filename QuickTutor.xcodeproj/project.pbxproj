@@ -24,6 +24,7 @@
 		8421AB3C20DED10B005B652B /* TutorMainPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */; };
 		8421AB3E20DED118005B652B /* TutorMainPageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */; };
 		8421AB4020DEDD34005B652B /* TutorialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3F20DEDD34005B652B /* TutorialFactory.swift */; };
+		8421AB4220DFD75B005B652B /* TutorAccountWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB4120DFD75B005B652B /* TutorAccountWarning.swift */; };
 		8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422F2F0205AB6480061ACE4 /* PageController.swift */; };
 		842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */; };
 		842394071FF4C7FF00827C7D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394061FF4C7FF00827C7D /* User.swift */; };
@@ -239,6 +240,7 @@
 		CF387EC12088EE1000087449 /* InPersonSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */; };
 		CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */; };
 		CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */; };
+		CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */; };
 		CF50ADE420A2C1770035A702 /* TutorAddBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846466992096BBFD006ABA98 /* TutorAddBank.swift */; };
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
@@ -330,6 +332,7 @@
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
 		CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8EF20C8921900182E1C /* SessionManager.swift */; };
+		CFEC492320E2AA8F00060E48 /* MessagingSystemTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */; };
 		CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEDF90220D57FF100457E77 /* OnlineStatusService.swift */; };
 		CFEF943920B3287100413727 /* ConnectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943820B3287100413727 /* ConnectionsVC.swift */; };
 		CFEF943B20B32B7C00413727 /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943A20B32B7C00413727 /* ConnectionCell.swift */; };
@@ -364,6 +367,7 @@
 		8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageFactory.swift; sourceTree = "<group>"; };
 		8421AB3F20DEDD34005B652B /* TutorialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialFactory.swift; sourceTree = "<group>"; };
+		8421AB4120DFD75B005B652B /* TutorAccountWarning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAccountWarning.swift; sourceTree = "<group>"; };
 		8422F2F0205AB6480061ACE4 /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfo.swift; sourceTree = "<group>"; };
 		842394061FF4C7FF00827C7D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -589,6 +593,7 @@
 		CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonSessionStartVC.swift; sourceTree = "<group>"; };
 		CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlesSessionStartData.swift; sourceTree = "<group>"; };
 		CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
+		CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "phone-ring.mp3"; sourceTree = "<group>"; };
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
 		CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionStartVC.swift; sourceTree = "<group>"; };
 		CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProfileBox.swift; sourceTree = "<group>"; };
@@ -679,6 +684,7 @@
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
 		CFDBD8EF20C8921900182E1C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemTutorial.swift; sourceTree = "<group>"; };
 		CFEDF90220D57FF100457E77 /* OnlineStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusService.swift; sourceTree = "<group>"; };
 		CFEF943820B3287100413727 /* ConnectionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsVC.swift; sourceTree = "<group>"; };
 		CFEF943A20B32B7C00413727 /* ConnectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
@@ -742,6 +748,7 @@
 				8421AB3920DED0FF005B652B /* TutorMainPageTableViewCell.swift */,
 				8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */,
 				8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */,
+				8421AB4120DFD75B005B652B /* TutorAccountWarning.swift */,
 			);
 			path = TutorMainPageFactory;
 			sourceTree = "<group>";
@@ -825,6 +832,7 @@
 				8491C29A1FBE62350036FC12 /* AppDelegate.swift */,
 				8491C2A91FBE62350036FC12 /* Info.plist */,
 				8426A1682055B8DD00EAF1A8 /* GoogleService-Info.plist */,
+				CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */,
 				8491C2A11FBE62350036FC12 /* QuickTutor.xcdatamodeld */,
 				84472EAB1FC0DDED007DCD71 /* QuickTutor.entitlements */,
 				8491C2A61FBE62350036FC12 /* LaunchScreen.storyboard */,
@@ -1076,6 +1084,7 @@
 		8491C28E1FBE62350036FC12 = {
 			isa = PBXGroup;
 			children = (
+				CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */,
 				8491C2991FBE62350036FC12 /* QuickTutor */,
 				8491C2981FBE62350036FC12 /* Products */,
 				1ADD82B9544686C1B1CC7BF9 /* Pods */,
@@ -1176,7 +1185,6 @@
 				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
 				843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */,
 				8441E650208922C60087AE11 /* TrendingCategories.swift */,
-				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 				8441E65220892D510087AE11 /* CategoryInfo.swift */,
 				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 				84F12F6120E3008D00EB14E8 /* TutorListings.swift */,
@@ -1608,7 +1616,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				820BE5D320E7CA7E333682DD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1682,6 +1689,7 @@
 				8425766620712B2A00FD295B /* arts.json in Resources */,
 				845980511FD4FD4B007E9339 /* Lato in Resources */,
 				8426A1692055B8DD00EAF1A8 /* GoogleService-Info.plist in Resources */,
+				CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */,
 				84D3A8AD201149DF000C2031 /* Assets.xcassets in Resources */,
 				842576722071310A00FD295B /* outdoors.json in Resources */,
 				842576762071325400FD295B /* sports.json in Resources */,
@@ -1740,21 +1748,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		820BE5D320E7CA7E333682DD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -1945,6 +1938,7 @@
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBio.swift in Sources */,
 				CF6F58D4205EE68800ACBD32 /* QuickChatView.swift in Sources */,
+				CFEC492320E2AA8F00060E48 /* MessagingSystemTutorial.swift in Sources */,
 				CF1C6115209ED011009B7B0E /* SocketClient.swift in Sources */,
 				CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */,
 				8421AB4020DEDD34005B652B /* TutorialFactory.swift in Sources */,

@@ -34,6 +34,8 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     var acceptAddTimeModal: AcceptAddTimeModal?
     var endSessionModal: EndSessionModal?
     var pauseSessionModal: PauseSessionModal?
+    
+    var minutesToAdd = 0
 
     @objc func showEndModal() {
         endSessionModal = EndSessionModal(frame: .zero)
@@ -75,19 +77,29 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         acceptAddTimeModal?.show()
     }
     
+    func showSessionOnHoldModal() {
+        sessionOnHoldModal = SessionOnHoldModal(frame: .zero)
+        sessionOnHoldModal?.delegate = self
+        sessionOnHoldModal?.show()
+    }
+    
     func observeSessionEvents() {
-        socket.on("requestAddTime") { (data, ack) in
+        socket.on(SocketEvents.requestAddTime) { (data, ack) in
             guard let dict = data[0] as? [String: Any] else { return }
             guard let id = dict["id"] as? String else { return }
             guard id != Auth.auth().currentUser?.uid else { return }
+            guard let seconds = dict["seconds"] as? Int else { return }
+            self.minutesToAdd = seconds / 60
             self.showAcceptAddTimeModal()
+            self.sessionOnHoldModal?.dismiss()
         }
         
         socket.on(SocketEvents.addTimeRequestAnswered) { (data, ack) in
             guard let dict = data[0] as? [String: Any] else { return }
             guard let answer = dict["didAccept"] as? Bool else { return }
             if answer {
-                
+                self.sessionManager?.sessionLengthInSeconds += (self.minutesToAdd * 60)
+                self.sessionManager?.startSessionRuntime()
             } else {
                 self.continueOutOfSession()
             }
@@ -102,41 +114,32 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         guard let id = sessionId else { return }
         sessionManager = SessionManager(sessionId: id)
         sessionManager?.delegate = self
+        expireSession()
     }
     
     func addTimeModalDidDecline(_ addTimeModal: AddTimeModal) {
         addTimeModal.dismiss()
         sessionOnHoldModal?.dismiss()
-        continueOutOfSession()
+        sessionManager?.endSocketSession()
     }
     
     func addTimeModal(_ addTimeModal: AddTimeModal, didAdd minutes: Int) {
         print("Should add time.")
+        minutesToAdd += minutes
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let id = session?.id else { return }
+        guard let id = sessionManager?.session?.id else { return }
         addTimeModal.dismiss()
         sessionOnHoldModal?.dismiss()
-        socket.emit(SocketEvents.requestAddTime, ["id": uid, "roomKey": id])
+        socket.emit(SocketEvents.requestAddTime, ["id": uid, "roomKey": id, "seconds": minutes * 60])
     }
     
-//    func didUpdateTime(_ time: Int) {
-//        print("Time: \(time), Length in seconds: \(sessionLengthInSeconds)")
-//        guard let length = sessionLengthInSeconds else { return }
-//        if time == Int(length) {
-//            stopSessionTime()
-//            
-//            guard AccountService.shared.currentUserType == .learner else {
-//                sessionOnHoldModal = SessionOnHoldModal(frame: .zero)
-//                sessionOnHoldModal?.show()
-//                return
-//            }
-//            showAddTimeModal()
-//        }
-//    }
-    
     @objc func continueOutOfSession() {
+        sessionOnHoldModal?.dismiss()
+        pauseSessionModal?.dismiss()
         if AccountService.shared.currentUserType == .learner {
             let vc = AddTipVC()
+            guard let runtime = sessionManager?.sessionRuntime, let rate = sessionManager?.session.ratePerSecond() else { return }
+            vc.costOfSession = Double(runtime) * rate
             vc.partnerId = sessionManager?.session.partnerId()
             navigationController?.pushViewController(vc, animated: true)
         } else {
@@ -146,8 +149,13 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         }
     }
     
+    func expireSession() {
+        guard let id = sessionId else { return }
+        Database.database().reference().child("sessions").child(id).child("status").setValue("expired")
+    }
+    
     func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager) {
-        
+        AccountService.shared.currentUserType == .learner ? showAddTimeModal() : showSessionOnHoldModal()
     }
     
     func sessionManager(_ sessionManager: SessionManager, userId: String, didPause session: Session) {
@@ -179,15 +187,16 @@ extension BaseSessionVC: EndSessionModalDelegate {
     func endSessionModalDidConfirm(_ endSessionModal: EndSessionModal) {
         sessionManager?.endSocketSession()
     }
-
 }
 
 extension BaseSessionVC: AcceptAddTimeDelegate {
     func didAccept() {
-        socket.emit(SocketEvents.addTimeRequestAnswered, [])
+        guard let id = sessionManager?.session.id else { return }
+        socket.emit(SocketEvents.addTimeRequestAnswered, ["didAccept": true, "roomKey": id])
     }
     
     func didDecline() {
-        socket.emit(SocketEvents.addTimeRequestAnswered, [])
+        guard let id = sessionManager?.session.id else { return }
+        socket.emit(SocketEvents.addTimeRequestAnswered, ["didAccept": false, "roomKey": id])
     }
 }

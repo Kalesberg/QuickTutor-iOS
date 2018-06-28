@@ -46,7 +46,7 @@ class BaseSessionsContentCell: BaseContentCell {
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { (snapshot) in
             DataService.shared.getSessionById(snapshot.key, completion: { session in
                 guard session.status != "cancelled" && session.status != "declined" else {
-                    self.collectionView.reloadData()
+                    self.attemptReloadOfTable()
                     return
                 }
                 
@@ -54,7 +54,7 @@ class BaseSessionsContentCell: BaseContentCell {
                     if !self.pendingSessions.contains(where: { $0.id == session.id }) {
                         self.pendingSessions.append(session)
                     }
-                    self.collectionView.reloadData()
+                    self.attemptReloadOfTable()
                     return
                 }
                 
@@ -62,7 +62,7 @@ class BaseSessionsContentCell: BaseContentCell {
                     if !self.pastSessions.contains(where: { $0.id == session.id }) {
                         self.pastSessions.append(session)
                     }
-                    self.collectionView.reloadData()
+                    self.attemptReloadOfTable()
                     return
                 }
                 
@@ -70,11 +70,23 @@ class BaseSessionsContentCell: BaseContentCell {
                     if !self.upcomingSessions.contains(where: { $0.id == session.id }) {
                         self.upcomingSessions.append(session)
                     }
-                    self.collectionView.reloadData()
+                    self.attemptReloadOfTable()
                 }
             })
         }
         
+    }
+    
+    fileprivate func attemptReloadOfTable() {
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    }
+    
+    var timer: Timer?
+    @objc func handleReloadTable() {
+        DispatchQueue.main.async(execute: {
+            self.collectionView.reloadData()
+        })
     }
     
     func listenForSessionUpdates() {

@@ -26,11 +26,23 @@ class AddTimeModal: CustomTipModal {
         super.setupViews()
         priceInput.inputMode = .minutes
         priceInput.getFormattedMinutes()
+        setHeightTo(207)
+    }
+    
+    override func setupCancelButton() {
+        guard let window = UIApplication.shared.keyWindow else { return }
+        background.addSubview(cancelTipButton)
+        cancelTipButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 122, height: 35)
+        window.addConstraint(NSLayoutConstraint(item: cancelTipButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))
+        cancelTipButton.addTarget(self, action: #selector(handleDecline), for: .touchUpInside)
     }
     
     override func handleConfirm() {
-        delegate?.addTimeModal(self, didAdd: Int(self.priceInput.currentPrice))
+        delegate?.addTimeModal(self, didAdd: Int(priceInput.currentPrice))
     }
     
-    
+    @objc func handleDecline() {
+        delegate?.addTimeModalDidDecline(self)
+        dismiss()
+    }
 }

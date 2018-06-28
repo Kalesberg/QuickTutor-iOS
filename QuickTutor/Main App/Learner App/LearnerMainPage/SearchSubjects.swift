@@ -149,6 +149,7 @@ class SearchSubjects: BaseViewController {
 	
 	var categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
+	var searchTimer = Timer()
 	var initialSetup : Bool = false
 	var automaticScroll : Bool = false
 	var shouldUpdateSearchResults = false
@@ -195,7 +196,6 @@ class SearchSubjects: BaseViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		
 		if !initialSetup && initialIndex != nil {
 			contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
 			initialSetup = true
@@ -214,7 +214,6 @@ class SearchSubjects: BaseViewController {
 		contentView.tableView.register(SubjectTableViewCell.self, forCellReuseIdentifier: "subjectTableViewCell")
 		
 		contentView.searchBar.delegate = self
-		
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -224,16 +223,14 @@ class SearchSubjects: BaseViewController {
 
 	private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {
 		tableViewIsActive = bool
-		UIView.animate(withDuration: 0.25, animations: {
+		UIView.animate(withDuration: 0.15, animations: {
 			self.contentView.categoryCollectionView.alpha = bool ? 0.0 : 1.0
-			return
-		})
-		
-		UIView.animate(withDuration: 0.25, animations: {
-			self.contentView.tableView.alpha = bool ? 1.0 : 0.0
-			completion()
-			return
-		})
+		}) { (_) in
+			UIView.animate(withDuration: 0.15, animations: {
+				self.contentView.tableView.alpha = bool ? 1.0 : 0.0
+				return completion()
+			})
+		}
 	}
     
     func displayTutorial() {
@@ -318,37 +315,29 @@ extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource,
 
 extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 	
-	internal func numberOfSections(in tableView: UITableView) -> Int {
-		
-		if shouldUpdateSearchResults {
-			return filteredSubjects.count
-		}
-		return allSubjects.count
+	func numberOfSections(in tableView: UITableView) -> Int {
+		return shouldUpdateSearchResults ? filteredSubjects.count : allSubjects.count
 	}
 	
-	internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return 1
 	}
 	
-	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "subjectTableViewCell", for: indexPath) as! SubjectTableViewCell
 		
 		if shouldUpdateSearchResults {
-			
 			cell.subject.text = filteredSubjects[indexPath.section].0
 			cell.subcategory.text = filteredSubjects[indexPath.section].1
-			
 		} else {
-			
 			cell.subject.text = allSubjects[indexPath.section].0
 			cell.subcategory.text = allSubjects[indexPath.section].1
-			
 		}
 		return cell
 	}
 	
-	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		guard let cell = tableView.cellForRow(at: indexPath) as? SubjectTableViewCell else { return }
 		
@@ -377,10 +366,7 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		if section == 0 {
-			return 50
-		}
-		return 5
+		return (section == 0) ? 50 : 5
 	}
 	
 	internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -388,50 +374,49 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	internal func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-		if section != 0{
-			return 5
-		}
-		return 0
+		return (section != 0) ? 5 : 0
 	}
 }
 
 extension SearchSubjects : UISearchBarDelegate {
 	
-	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		if searchBar.text!.count > 0 {
 			tableView(shouldDisplay: true) {/* 🤭 */}
 		}
 	}
 	
-	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		automaticScroll = true
-		
-		if searchText == ""  {
-			
-			tableView(shouldDisplay: false) {
+		searchTimer.invalidate()
+		guard searchText != "", searchText.count > 0 else {
+			return tableView(shouldDisplay: false) {
 				self.contentView.searchBar.text = ""
 				self.automaticScroll = false
 			}
-			return
 		}
+		func startTimer(){
+			searchTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(searchSubjects(_:)), userInfo: searchText, repeats: true)
+		}
+		startTimer()
+	}
+	
+	@objc private func searchSubjects(_ sender: Timer) {
+		guard let searchText = sender.userInfo as? String else { return }
+		searchTimer.invalidate()
 		tableView(shouldDisplay: true) {
-			self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
+			self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)}).sorted(by: <)
+			if self.filteredSubjects.count > 0 { self.scrollToTop() }
 			self.contentView.tableView.reloadData()
-		}
-		
-		if filteredSubjects.count > 0 {
-			scrollToTop()
 		}
 	}
 }
 extension SearchSubjects : UIScrollViewDelegate {
-	
 	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
 		if !automaticScroll {
 			self.view.endEditing(true)
 		}
 	}
-	
 	private func scrollToTop() {
 		contentView.tableView.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)

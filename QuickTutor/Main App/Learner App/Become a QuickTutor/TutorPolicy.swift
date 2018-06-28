@@ -239,36 +239,40 @@ class TutorPolicy : BaseViewController {
 		FirebaseData.manager.fetchTutor(CurrentUser.shared.learner.uid, isQuery: false) { (tutor) in
             if let tutor = tutor {
                 CurrentUser.shared.tutor = tutor
-                Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account)  in
-                    if let account = account {
-                        CurrentUser.shared.connectAccount = account
-                        completion(true)
+				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (error, account) in
+					if let error = error {
+						AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+						completion(false)
+					} else if let account = account {
+						CurrentUser.shared.connectAccount = account
+						completion(true)
 					} else {
-						print("could not retrieve connect account")
+						completion(false)
 					}
-                })
+				})
             } else {
                 completion(false)
             }
         }
     }
     private func createConnectAccount(_ completion: @escaping (Bool) -> Void) {
-        Stripe.createConnectAccountToken(ssnLast4: TutorRegistration.last4SSN!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { (token) in
-            if let token = token {
-                Stripe.createConnectAccount(bankAccountToken: TutorRegistration.bankToken!, connectAccountToken: token, { (value) in
-                    guard let value = value, value.prefix(4) == "acct" else {
-                        completion(false)
-                        return
-                    }
-                    TutorRegistration.acctId = value
-                    Tutor.shared.initTutor(completion: { (error) in
-                        completion(error == nil)
-                    })
-                })
-            } else {
-                completion(false)
-            }
-        }
+		Stripe.createConnectAccountToken(ssnLast4: TutorRegistration.last4SSN!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { (token, error) in
+			if let error = error {
+				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+			} else if let token = token {
+				Stripe.createConnectAccount(bankAccountToken: TutorRegistration.bankToken!, connectAccountToken: token, { (error, value) in
+					if let error = error {
+						AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+						return completion(false)
+					}
+					guard let value = value, value.prefix(4) == "acct" else { return completion(false) }
+					TutorRegistration.acctId = value
+					Tutor.shared.initTutor(completion: { (error) in
+						return completion(error == nil)
+					})
+				})
+			}
+		}
     }
     
     private func bankErrorAlert(title: String, message: String) {

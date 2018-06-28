@@ -298,92 +298,44 @@ class Verification : BaseViewController {
     
     private func signInRegisterWithCredential(_ credential: PhoneAuthCredential) {
 		self.displayLoadingOverlay()
-		
-//		Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
-//			if error != nil {
-//				self.contentView.vcDigit6.textField.isEnabled = true
-//				self.contentView.nextButton.isUserInteractionEnabled = true
-//				self.dismissOverlay()
-//				self.displayCredentialError()
-//			} else if let authResult = authResult {
-//				self.view.endEditing(true)
-//				self.ref.child("student-info").child(authResult.user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
-//					if snapshot.exists() {
-//						UserDefaults.standard.set(true, forKey: "showHomePage")
-//						if UserDefaults.standard.bool(forKey: "showHomePage") {
-//							FirebaseData.manager.signInLearner(uid: user!.uid) { (successful) in
-//								if successful {
-//									self.dismissOverlay()
-//									self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
-//								} else {
-//									self.dismissOverlay()
-//									try! Auth.auth().signOut()
-//									self.navigationController?.pushViewController(SignIn(), animated: true)
-//								}
-//							}
-//						} else {
-//							FirebaseData.manager.signInTutor(uid: user!.uid) { (successful) in
-//								if successful {
-//									self.dismissOverlay()
-//									self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-//								} else {
-//									self.dismissOverlay()
-//									try! Auth.auth().signOut()
-//									self.navigationController?.pushViewController(SignIn(), animated: true)
-//								}
-//							}
-//						}
-//					} else {
-//						self.dismissOverlay()
-//						Registration.uid = user!.uid
-//						AccountService.shared.currentUserType = .lRegistration
-//						self.navigationController!.pushViewController(Name(), animated: true)
-//					}
-//				})
-//			}
-//		}
-        Auth.auth().signIn(with: credential) { (user, error) in
+       Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
             if error != nil {
 				self.contentView.vcDigit6.textField.isEnabled = true
 				self.contentView.nextButton.isUserInteractionEnabled = true
-				self.dismissOverlay()
 				self.displayCredentialError()
             } else {
                 self.view.endEditing(true)
-                self.ref.child("student-info").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+				guard let user = authResult?.user else { return }
+                self.ref.child("student-info").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
                     if snapshot.exists() {
 						UserDefaults.standard.set(true, forKey: "showHomePage")
 							if UserDefaults.standard.bool(forKey: "showHomePage") {
-								FirebaseData.manager.signInLearner(uid: user!.uid) { (successful) in
+								FirebaseData.manager.signInLearner(uid: user.uid) { (successful) in
 									if successful {
-										self.dismissOverlay()
 									self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
 									} else {
-										self.dismissOverlay()
 										try! Auth.auth().signOut()
 										self.navigationController?.pushViewController(SignIn(), animated: true)
 									}
 								}
 							} else {
-								FirebaseData.manager.signInTutor(uid: user!.uid) { (successful) in
+								FirebaseData.manager.signInTutor(uid: user.uid) { (successful) in
 									if successful {
-										self.dismissOverlay()
 										self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
 									} else {
-										self.dismissOverlay()
 										try! Auth.auth().signOut()
 										self.navigationController?.pushViewController(SignIn(), animated: true)
 									}
 								}
 						}
                     } else {
-						self.dismissOverlay()
-						Registration.uid = user!.uid
+						Registration.uid = user.uid
 						AccountService.shared.currentUserType = .lRegistration
                         self.navigationController!.pushViewController(Name(), animated: true)
                     }
                 })
             }
+			self.dismissOverlay()
         }
     }
 

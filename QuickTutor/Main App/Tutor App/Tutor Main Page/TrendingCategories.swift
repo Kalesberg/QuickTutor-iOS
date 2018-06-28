@@ -21,28 +21,28 @@ class TrendingCategoriesView : MainLayoutTitleBackButton {
         
         return label
     }()
-    
-    let tableView : UITableView = {
-        let tableView = UITableView()
-        
-        tableView.backgroundColor = .clear
-        tableView.estimatedRowHeight = 250
-        tableView.isScrollEnabled = true
-        tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        
-        return tableView
-    }()
 
+	let collectionView : UICollectionView =  {
+		
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+		
+		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 2, minimumInteritemSpacing: 5, minimumLineSpacing: 50, sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
+
+		collectionView.collectionViewLayout = customLayout
+		collectionView.backgroundColor = .clear
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.showsHorizontalScrollIndicator = false
+		
+		return collectionView
+	}()
     
     override func configureView() {
         addSubview(titleLabel)
-        addSubview(tableView)
+		addSubview(collectionView)
         super.configureView()
         
         title.label.text = "Trending Categories"
-
+		
     }
     
     override func applyConstraints() {
@@ -52,17 +52,16 @@ class TrendingCategoriesView : MainLayoutTitleBackButton {
             make.top.equalTo(navbar.snp.bottom).inset(-20)
             make.left.equalToSuperview().inset(15)
         }
-        
-        tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).inset(-10)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide)
-            } else {
-                make.bottom.equalToSuperview()
-            }
-        }
+		collectionView.snp.makeConstraints { (make) in
+			make.top.equalTo(titleLabel.snp.bottom).inset(-10)
+			make.width.equalToSuperview()
+			make.centerX.equalToSuperview()
+			if #available(iOS 11.0, *) {
+				make.bottom.equalTo(safeAreaLayoutGuide)
+			} else {
+				make.bottom.equalToSuperview()
+			}
+		}
     }
 }
 
@@ -76,45 +75,52 @@ class TrendingCategories : BaseViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        contentView.tableView.delegate = self
-        contentView.tableView.dataSource = self
-        contentView.tableView.register(TrendingCategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
+        contentView.collectionView.delegate = self
+		contentView.collectionView.dataSource = self
+		contentView.collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "trendingCell")
     }
 }
-
-extension TrendingCategories : UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
-            return 180
-        } else {
-            return 200
-        }
-        
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! TrendingCategoryTableViewCell
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-class TrendingCategoryTableViewCell : CategoryTableViewCell {}
-
-extension TrendingCategoryTableViewCell {
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let next = CategoryInfo()
-        next.category = category[indexPath.item]
-        navigationController.pushViewController(next, animated: true)
-    }
+extension TrendingCategories : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return category.count
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingCell", for: indexPath) as! CategoryCollectionViewCell
+		
+		cell.label.text = category[indexPath.item].mainPageData.displayName
+		cell.imageView.image = category[indexPath.item].mainPageData.image
+		
+		return cell
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
+		cell.growSemiShrink {
+			let next = CategoryInfo()
+			next.category = category[indexPath.item]
+			self.navigationController?.pushViewController(next, animated: true)
+		}
+		collectionView.deselectItem(at: indexPath, animated: true)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
+		cell.shrink()
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
+		UIView.animate(withDuration: 0.2) {
+			cell.transform = CGAffineTransform.identity
+		}
+	}
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
+		let screen = UIScreen.main.bounds
+		let width = (screen.width / 2) - 25
+		let height = (screen.height / 3)
+		
+		return CGSize(width: width, height: height)
+	}
 }

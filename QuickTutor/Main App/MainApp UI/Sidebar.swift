@@ -12,10 +12,10 @@ import SnapKit
 
 class TutorSideBar : Sidebar {
     
-    var taxItem = TaxSidebarItem()
+   // var taxItem = TaxSidebarItem()
     
     override func configureView() {
-        itemContainer.addSubview(taxItem)
+       // itemContainer.addSubview(taxItem)
         super.configureView()
         
         becomeQTItem.label.label.text = "Start Learning"
@@ -83,16 +83,14 @@ class TutorSideBar : Sidebar {
             make.height.equalToSuperview().multipliedBy(0.125)
         }
         
-        taxItem.snp.makeConstraints { (make) in
-            make.top.equalTo(helpItem.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.125)
-        }
+//        taxItem.snp.makeConstraints { (make) in
+//            make.top.equalTo(helpItem.snp.bottom)
+//            make.left.equalToSuperview()
+//            make.right.equalToSuperview()
+//            make.height.equalToSuperview().multipliedBy(0.125)
+//        }
     }
-    
 }
-
 
 class LearnerSideBar : Sidebar {
     

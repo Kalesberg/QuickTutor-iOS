@@ -137,10 +137,26 @@ class SessionRequestView: UIView {
         return input
     }()
     
+    let sessionLengthLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.border
+        label.textAlignment = .center
+        label.text = "The earliest you can schedule a session is 15 minutes in advance. However, you can attempt to manually start any session early."
+        label.numberOfLines = 0
+        label.font = Fonts.createItalicSize(12)
+//        label.adjustsFontSizeToFitWidth = true
+        label.backgroundColor = Colors.navBarColor
+        label.isHidden = true
+        return label
+    }()
+    
+    var backgroundHeightAnchor: NSLayoutConstraint?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
         setInitialTitles()
+        setHeightTo(600, animated: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -161,6 +177,7 @@ class SessionRequestView: UIView {
         setupStartTimePicker()
         setupEndTimePicker()
         setupPriceInput()
+        setupSessionLengthLabel()
     }
     
     private func setupMainView() {
@@ -223,13 +240,18 @@ class SessionRequestView: UIView {
         confirmButton.addTarget(self, action: #selector(sendRequest), for: .touchUpInside)
     }
     
-    func setupBackgroundBlurView() {
+    private func setupBackgroundBlurView() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.insertSubview(backgroundBlurView, belowSubview: self)
         backgroundBlurView.anchor(top: window.topAnchor, left: window.leftAnchor, bottom: window.bottomAnchor, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(dismiss))
         dismissTap.numberOfTapsRequired = 1
         backgroundBlurView.addGestureRecognizer(dismissTap)
+    }
+    
+    private func setupSessionLengthLabel() {
+        addSubview(sessionLengthLabel)
+        sessionLengthLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 0, width: 0, height: 35)
     }
     
     @objc func dismiss() {
@@ -268,6 +290,21 @@ class SessionRequestView: UIView {
         priceInput.delegate = self
     }
     
+    func setHeightTo(_ height: CGFloat, animated: Bool) {
+        guard let window = UIApplication.shared.keyWindow else { return }
+        if let anchor = backgroundHeightAnchor {
+            removeConstraint(anchor)
+        }
+        backgroundHeightAnchor = heightAnchor.constraint(equalToConstant: height)
+        backgroundHeightAnchor?.isActive = true
+        if animated {
+            UIView.animate(withDuration: 0.25) {
+                window.layoutIfNeeded()
+            }
+        } else {
+            window.layoutIfNeeded()
+        }
+    }
 }
 
 extension UIButton {
@@ -303,6 +340,10 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row != 3 {
+            setHeightTo(600, animated: true)
+            sessionLengthLabel.isHidden = true
+        }
         switch indexPath.row {
         case 0:
             switchAccessoryViewTo(subjectPicker)
@@ -326,7 +367,7 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
             self.accessoryView.removeFromSuperview()
             self.accessoryView = view
             self.addSubview(view)
-            view.anchor(top: self.resetButton.bottomAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
+            view.anchor(top: self.resetButton.bottomAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 0, height: 129)
             self.accessoryView.alpha = 1
         }
         
@@ -443,6 +484,14 @@ extension SessionRequestView {
             setStartTime()
             setTitleGreen(index: 2)
         } else {
+            if sender.date == sender.minimumDate! {
+                setHeightTo(630, animated: true)
+                sessionLengthLabel.isHidden = false
+                endTimePicker.bottomAnchor
+            } else {
+                setHeightTo(600, animated: true)
+                sessionLengthLabel.isHidden = true
+            }
             setEndTime()
             setTitleGreen(index: 3)
         }
@@ -464,7 +513,6 @@ extension SessionRequestView {
     
     func setEndTime() {
         endTimePicker.minimumDate = Calendar.current.date(byAdding: .minute, value: 15, to: startTimePicker.date)
-        endTimePicker.date = endTimePicker.minimumDate ?? Date()
         reloadTitleForEndTime()
     }
     

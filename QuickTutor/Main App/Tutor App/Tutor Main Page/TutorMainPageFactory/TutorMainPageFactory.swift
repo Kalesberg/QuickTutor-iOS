@@ -11,12 +11,9 @@ import UIKit
 
 enum TutorMainPageButtonFactory {
 	
-	case tutorRating
-	case tutorTrending
-	case tutorEarning
-	//case tutorListing
+	case tutorRating, tutorTrending, tutorEarning
 	
-	static let tutorMainPageButtons : [TutorMainPageButtonFactory] = [.tutorRating, .tutorTrending, .tutorEarning]
+	static let buttons : [TutorMainPageButtonFactory] = [.tutorRating, .tutorTrending, .tutorEarning]
 	
 	var mainPageButton : MainPageButton {
 		switch self {
@@ -50,11 +47,9 @@ struct MainPageButton {
 }
 
 enum TutorMainPageCellFactory {
-	case featured
-	case improve
-	case shareUsername
-	
-	static let tutorMainPageCells : [TutorMainPageCellFactory] = [.featured, .improve, .shareUsername]
+	case featured, improve, shareUsername
+
+	static let cells : [TutorMainPageCellFactory] = [.featured, .improve, .shareUsername]
 	
 	var mainPageCell : MainPageCell {
 		switch self {

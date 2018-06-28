@@ -38,7 +38,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        
+
         return imageView
     }()
     
@@ -58,7 +58,13 @@ class CategoryCollectionViewCell : UICollectionViewCell {
         addSubview(view)
         addSubview(label)
         addSubview(imageView)
-        
+		
+	
+		layer.shadowOffset = CGSize(width: 1, height: 3)
+		layer.shadowRadius = 5
+		layer.shadowColor = UIColor.black.cgColor
+		layer.shadowOpacity = 0.5
+		
         applyConstraints()
     }
     func applyConstraints(){

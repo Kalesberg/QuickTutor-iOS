@@ -71,7 +71,9 @@ class SessionDetails : BaseViewController {
 			setHeader()
 		}
 	}
-	
+	var localTimeZoneAbbreviation: String {
+		return TimeZone.current.abbreviation() ?? ""
+	}
     override func viewDidLoad() {
         super.viewDidLoad()
 		
@@ -94,17 +96,14 @@ class SessionDetails : BaseViewController {
     }
 	
 	private func getStartTime(unixTime: TimeInterval) -> String {
+		
 		let date = Date(timeIntervalSince1970: unixTime)
-		
 		let dateFormatter = DateFormatter()
-		
-		dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
-		dateFormatter.locale = NSLocale.current
+		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
 		dateFormatter.dateFormat = "hh:mm a"
 		
 		return dateFormatter.string(from: date)
 	}
-	
 	private func getDateAndEndTime(unixTime: TimeInterval) -> (String, String, String) {
 		let date = Date(timeIntervalSince1970: unixTime)
 		let dateFormatter = DateFormatter()

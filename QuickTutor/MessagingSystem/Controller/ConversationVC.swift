@@ -26,25 +26,9 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     var chatPartner: User!
     var statusMessageIndex = -1
     var connectionRequestAccepted = false
-    var shouldSetupForConnectionRequest = false
     var conversationRead = false
     var shouldRequestSession = false
     var canSendMessages = true
-    var canUserActionView = true {
-        didSet {
-            if !canUserActionView {
-                if let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory {
-                    keyboardAccessory.actionButton.isEnabled = false
-                    keyboardAccessory.actionButton.adjustsImageWhenDisabled = true
-                }
-            } else {
-                if let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory {
-                    keyboardAccessory.actionButton.isEnabled = true
-                    keyboardAccessory.actionButton.adjustsImageWhenDisabled = true
-                }
-            }
-        }
-    }
     
     // MARK: Layout Views -
     let messagesCollection: UICollectionView = {
@@ -65,8 +49,8 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         return cv
     }()
     
-    var tutor : AWTutor!
-    var learner : AWLearner!
+    var tutor: AWTutor!
+    var learner: AWLearner!
     
     lazy var emptyCellBackground: UIView = {
         let contentView = UIView()
@@ -104,11 +88,11 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         return animator
     }()
     
-//    lazy var imageMessageSender: ImageMessageSender = {
-//        let sender = ImageMessageSender(parentViewController: self)
-//        sender.receiverId = receiverId
-//        return sender
-//    }()
+    //    lazy var imageMessageSender: ImageMessageSender = {
+    //        let sender = ImageMessageSender(parentViewController: self)
+    //        sender.receiverId = receiverId
+    //        return sender
+    //    }()
     
     var containerViewBottomAnchor: NSLayoutConstraint?
     
@@ -116,7 +100,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         setupNavBar()
         setupMainView()
         setupMessagesCollection()
-        setupEmptyBackground()
         conversationManager.chatPartnerId = receiverId
         conversationManager.loadMessages()
         conversationManager.delegate = ConversationManagerFacade()
@@ -166,13 +149,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.loadImage(urlString: profilePicUrl)
-
-    }
-    
-    func teardownConnectionRequest() {
-        self.studentKeyboardAccessory.hideQuickChatView()
-        self.emptyCellBackground.removeFromSuperview()
-        self.canUserActionView = true
+        
     }
     
     func handleLeftViewTapped() {
@@ -199,10 +176,28 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         actionSheet?.show()
     }
     
+    func enterConnectionRequestMode() {
+        studentKeyboardAccessory.showQuickChatView()
+        setupEmptyBackground()
+        setActionViewUsable(false)
+    }
+    
+    func exitConnectionRequestMode() {
+        studentKeyboardAccessory.hideQuickChatView()
+        emptyCellBackground.removeFromSuperview()
+    }
+    
+    func setActionViewUsable(_ result: Bool) {
+        if let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory {
+            keyboardAccessory.actionButton.isEnabled = result
+        }
+    }
+    
     // MARK: Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        checkForConnection { _ in }
         loadMessages()
         scrollToBottom(animated: false)
         listenForReadReceipts()
@@ -219,9 +214,9 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             handleSessionRequest()
         }
         
-        if shouldSetupForConnectionRequest {
-            self.studentKeyboardAccessory.showQuickChatView()
-            canUserActionView = false
+        if UserDefaults.standard.bool(forKey: "showMessagingSystemTutorial1.0") {
+            displayTutorial()
+            UserDefaults.standard.set(false, forKey: "showMessagingSystemTutorial1.0")
         }
 		if UserDefaults.standard.bool(forKey: "showMessagingSystemTutorial1.0") {
 			displayTutorial()
@@ -241,7 +236,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         window?.addSubview(tutorial)
         window?.bringSubview(toFront: tutorial)
         
-        tutorial.snp.makeConstraints { (make) in
+        tutorial.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
@@ -255,7 +250,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         case 0:
             UIView.animate(withDuration: 0.5, animations: {
                 self.tutorial.label.alpha = 0
-            }, completion: { (true) in
+            }, completion: { _ in
                 self.tutorial.label.text = self.tutorial.phrases[1]
                 UIView.animate(withDuration: 0.5, animations: {
                     self.tutorial.label.alpha = 1
@@ -264,13 +259,13 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         case 1:
             UIView.animate(withDuration: 0.5, animations: {
                 self.tutorial.label.alpha = 0
-            }, completion: { (true) in
+            }, completion: { _ in
                 self.tutorial.label.text = self.tutorial.phrases[2]
                 UIView.animate(withDuration: 0.5, animations: {
                     self.tutorial.label.alpha = 1
                     self.tutorial.view.alpha = 1
                     self.tutorial.image.alpha = 1
-                }, completion: {(true) in
+                }, completion: { _ in
                     UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
                         self.tutorial.image.center.y += 10
                     })
@@ -291,8 +286,8 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         let uid = AccountService.shared.currentUser.uid!
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId).observe(.childAdded) { snapshot in
-            self.teardownConnectionRequest()
             let messageId = snapshot.key
+            self.exitConnectionRequestMode()
             DataService.shared.getMessageById(messageId, completion: { message in
                 self.messages.append(message)
                 self.messagesCollection.reloadData()
@@ -302,7 +297,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
                 }
                 self.checkIfMessageIsConnectionRequest(message)
                 self.studentKeyboardAccessory.hideQuickChatView()
-                self.canUserActionView = true
+                self.setActionViewUsable(true)
                 self.scrollToBottom(animated: false)
             })
             self.markConversationRead()
@@ -312,33 +307,47 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     func checkIfMessageIsConnectionRequest(_ message: UserMessage) {
         let uid = AccountService.shared.currentUser.uid!
         if message.connectionRequestId != nil {
-            self.canSendMessages = false
-            Database.database().reference().child("connections").child(uid).child(message.partnerId()).observe(.value, with: { (snapshot) in
+            canSendMessages = false
+            Database.database().reference().child("connections").child(uid).child(message.partnerId()).observe(.value, with: { snapshot in
                 guard let value = snapshot.value as? Bool else {
-                    self.canUserActionView = false
+                    self.setActionViewUsable(false)
+                    self.setMessageTextViewCoverHidden(false)
+                    self.exitConnectionRequestMode()
                     return
                 }
                 if value {
                     self.canSendMessages = true
+                    self.exitConnectionRequestMode()
+                    self.setMessageTextViewCoverHidden(true)
                 } else {
                     self.canSendMessages = false
-                    self.canUserActionView = false
+                    self.setActionViewUsable(false)
+                    self.setMessageTextViewCoverHidden(false)
                 }
             })
-            self.connectionRequestAccepted = true
+            connectionRequestAccepted = true
         }
-
+        
     }
     
-    func checkForConnection(completion: @escaping (Bool) ->() ) {
+    func setMessageTextViewCoverHidden(_ result: Bool) {
+        guard let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory else { return }
+        result ? keyboardAccessory.hideTextViewCover() : keyboardAccessory.showTextViewCover()
+    }
+    
+    func checkForConnection(completion: @escaping (Bool) -> ()) {
         let uid = AccountService.shared.currentUser.uid!
-        Database.database().reference().child("connections").child(uid).child(receiverId).observe(.value) { (snapshot) in
-            guard (snapshot.value as? Int) != nil else {
+        Database.database().reference().child("connections").child(uid).child(receiverId).observe(.value) { snapshot in
+            guard let _ = snapshot.value as? Int else {
                 self.connectionRequestAccepted = false
+                self.enterConnectionRequestMode()
                 completion(false)
                 return
             }
             self.connectionRequestAccepted = true
+            self.exitConnectionRequestMode()
+            self.setActionViewUsable(true)
+            self.setMessageTextViewCoverHidden(true)
             completion(true)
         }
     }
@@ -390,76 +399,76 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
 }
 
-class MessagingSystemTutorial : UIButton {
-    
-    let view : UIButton = {
-        let view = UIButton()
-        view.backgroundColor = Colors.purple
-        view.setImage(#imageLiteral(resourceName: "plusButton"), for: .normal)
-        view.applyDefaultShadow()
-        view.layer.cornerRadius = 17
-        view.isUserInteractionEnabled = false
-        view.alpha = 0
-        return view
-    }()
-    
-    let label : UILabel = {
-        let label = UILabel()
-        
-        label.font = Fonts.createBoldSize(18)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.textColor = .white
-        
-        return label
-    }()
-    
-    let image : UIImageView = {
-        let view = UIImageView()
-        
-        view.image = #imageLiteral(resourceName: "finger")
-        view.transform = CGAffineTransform(scaleX: 1, y: -1)
-        view.scaleImage()
-        view.alpha = 0
-        
-        return view
-    }()
-    
-    var count : Int = 0
-    
-    let phrases = ["Your first message is a connection request. Write something friendly!", "You can continue messaging the tutor once they have accepted your connection request.", "Once they accept your connection request, you can use this button to schedule sessions or send images!"]
-    
-    required init() {
-        super.init(frame: .zero)
-
-        configureView()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configureView() {
-        addSubview(view)
-        addSubview(label)
-        addSubview(image)
-        backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        alpha = 0
-        label.text = phrases[0]
-        applyConstraints()
-    }
-    
-    func applyConstraints() {
-        label.snp.makeConstraints { (make) in
-            make.width.equalToSuperview().inset(15)
-            make.center.equalToSuperview()
-        }
-        
-        view.anchor(top: nil, left: self.leftAnchor, bottom: self.getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
-        
-        image.anchor(top: nil, left: self.leftAnchor, bottom: view.topAnchor, right: nil, paddingTop: 0, paddingLeft: 1, paddingBottom: 15, paddingRight: 0, width: 60, height: 60)
-    }
-}
+//class MessagingSystemTutorial : UIButton {
+//    
+//    let view : UIButton = {
+//        let view = UIButton()
+//        view.backgroundColor = Colors.purple
+//        view.setImage(#imageLiteral(resourceName: "plusButton"), for: .normal)
+//        view.applyDefaultShadow()
+//        view.layer.cornerRadius = 17
+//        view.isUserInteractionEnabled = false
+//        view.alpha = 0
+//        return view
+//    }()
+//    
+//    let label : UILabel = {
+//        let label = UILabel()
+//        
+//        label.font = Fonts.createBoldSize(18)
+//        label.textAlignment = .center
+//        label.numberOfLines = 0
+//        label.textColor = .white
+//        
+//        return label
+//    }()
+//    
+//    let image : UIImageView = {
+//        let view = UIImageView()
+//        
+//        view.image = #imageLiteral(resourceName: "finger")
+//        view.transform = CGAffineTransform(scaleX: 1, y: -1)
+//        view.scaleImage()
+//        view.alpha = 0
+//        
+//        return view
+//    }()
+//    
+//    var count : Int = 0
+//    
+//    let phrases = ["Your first message is a connection request. Write something friendly!", "You can continue messaging the tutor once they have accepted your connection request.", "Once they accept your connection request, you can use this button to schedule sessions or send images!"]
+//    
+//    required init() {
+//        super.init(frame: .zero)
+//
+//        configureView()
+//    }
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//    
+//    func configureView() {
+//        addSubview(view)
+//        addSubview(label)
+//        addSubview(image)
+//        backgroundColor = UIColor.black.withAlphaComponent(0.8)
+//        alpha = 0
+//        label.text = phrases[0]
+//        applyConstraints()
+//    }
+//    
+//    func applyConstraints() {
+//        label.snp.makeConstraints { (make) in
+//            make.width.equalToSuperview().inset(15)
+//            make.center.equalToSuperview()
+//        }
+//        
+//        view.anchor(top: nil, left: self.leftAnchor, bottom: self.getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
+//        
+//        image.anchor(top: nil, left: self.leftAnchor, bottom: view.topAnchor, right: nil, paddingTop: 0, paddingLeft: 1, paddingBottom: 15, paddingRight: 0, width: 60, height: 60)
+//    }
+//}
 
 extension ConversationVC: UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -595,7 +604,7 @@ extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControlle
         storageRef.putData(data, metadata: metaData) { metadataIn, _ in
             guard let uid = Auth.auth().currentUser?.uid else { return }
             guard let imageMeta = metadataIn else { return }
-            storageRef.downloadURL(completion: { (url, error) in
+            storageRef.downloadURL(completion: { url, error in
                 if error != nil {
                     print(error.debugDescription)
                 }
@@ -608,7 +617,7 @@ extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControlle
                 message.data["imageHeight"] = image.size.width
                 self.sendMessage(message: message)
             })
-
+            
         }
     }
 }
@@ -629,7 +638,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
         sessionView.chatPartnerId = receiverId
         window.addSubview(sessionView)
         resignFirstResponder()
-        sessionView.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 600)
+        sessionView.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         window.addConstraint(NSLayoutConstraint(item: sessionView, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
@@ -661,7 +670,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
         
         guard connectionRequestAccepted else {
             DataService.shared.sendConnectionRequestToId(text: text, receiverId)
-            self.emptyCellBackground.removeFromSuperview()
+            exitConnectionRequestMode()
             return
         }
         

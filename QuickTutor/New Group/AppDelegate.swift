@@ -40,6 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     let launchScreen = LaunchScreen()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+		guard let gai = GAI.sharedInstance() else {
+			assert(false, "Google Analytics not configured correctly")
+		}
+		gai.tracker(withTrackingId: "UA-121323472-1")
         //Get device info
         let (keyboardHeight, statusbarHeight, fontSize, multiplier) = setDeviceInfo()
         

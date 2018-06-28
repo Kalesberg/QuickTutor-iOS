@@ -467,8 +467,7 @@ class FirebaseData {
 		let account : [String : Any] = ["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
 		
 		let studentInfo : [String : Any] = ["nm" : Registration.name, "r" : 5.0,
-											"img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]
-		]
+											"img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]]
 		
 		let newUser = ["/account/\(user.uid)/" : account, "/student-info/\(user.uid)/" : studentInfo]
 		
@@ -576,13 +575,10 @@ class FirebaseData {
 				CurrentUser.shared.tutor = tutor
 				AccountService.shared.loadUser()
 				AccountService.shared.currentUserType = .tutor
-				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (account) in
-					if let account = account {
-						CurrentUser.shared.connectAccount = account
-						completion(true)
-					} else {
-						completion(false)
-					}
+				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (error, account) in
+					guard let account = account else { return completion(false) }
+					CurrentUser.shared.connectAccount = account
+					return completion(true)
 				})
 			}
 		}

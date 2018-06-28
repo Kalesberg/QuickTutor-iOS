@@ -131,7 +131,7 @@ class BaseTableViewCell : UITableViewCell {
         else {
             if let firstTouch = touches.first {
                 let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event)
-                print(hitView)
+				print(hitView as Any)
                 if (touchStartView == hitView) {
                     print("ENDED: ON START")
                     touchStartView?.touchEndOnStart()

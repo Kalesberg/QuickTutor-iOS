@@ -40,6 +40,7 @@ class ZFTutor: User {
     var rating: Double?
     var hoursTaught: Int?
     var totalSessions: Int?
+    var stripeAccountId: String?
     
     override init(dictionary: [String : Any]) {
         super.init(dictionary: dictionary)
@@ -47,6 +48,7 @@ class ZFTutor: User {
         rating = dictionary["r"] as? Double
         hoursTaught = dictionary["hr"] as? Int
         totalSessions = dictionary["nos"] as? Int
+        stripeAccountId = dictionary["act"] as? String
     }
     
     required init(from decoder: Decoder) throws {

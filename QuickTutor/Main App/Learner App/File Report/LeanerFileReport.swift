@@ -509,7 +509,10 @@ class LearnerFileReport : BaseViewController {
     override var contentView: LearnerFileReportView {
         return view as! LearnerFileReportView
     }
-	
+	var localTimeZoneAbbreviation: String {
+		return TimeZone.current.abbreviation() ?? ""
+	}
+
 	var datasource = [UserSession]() {
 		didSet {
 			if datasource.count == 0 {
@@ -546,10 +549,10 @@ class LearnerFileReport : BaseViewController {
     }
 	
 	private func getStartTime(unixTime: TimeInterval) -> String {
+
 		let date = Date(timeIntervalSince1970: unixTime)
 		let dateFormatter = DateFormatter()
-		dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
-		dateFormatter.locale = NSLocale.current
+		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
 		dateFormatter.dateFormat = "hh:mm a"
 		
 		return dateFormatter.string(from: date)
@@ -558,8 +561,7 @@ class LearnerFileReport : BaseViewController {
 	private func getDateAndEndTime(unixTime: TimeInterval) -> (String, String, String) {
 		let date = Date(timeIntervalSince1970: unixTime)
 		let dateFormatter = DateFormatter()
-		dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
-		dateFormatter.locale = NSLocale.current
+		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
 		dateFormatter.dateFormat = "d-MMM-hh:mm a"
 		let dateString = dateFormatter.string(from: date).split(separator: "-")
 		return (String(dateString[0]), String(dateString[1]), String(dateString[2]))
