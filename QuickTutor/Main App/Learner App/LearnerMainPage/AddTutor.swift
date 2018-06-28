@@ -17,9 +17,9 @@ struct UsernameQuery {
 	let name : String
 	let username : String
 	let imageUrl : String
-	
+
 	var isConnected : Bool = false
-	
+
 	init(snapshot: DataSnapshot) {
 		uid = snapshot.key
 		//ewy
@@ -40,7 +40,7 @@ class AddTutorView : MainLayoutTitleBackButton {
 	let tableView : UITableView = {
 		let tableView = UITableView()
 		
-		tableView.rowHeight = 60
+		tableView.rowHeight = 44
 		tableView.separatorInset.left = 10
 		tableView.separatorStyle = .none
 		tableView.showsVerticalScrollIndicator = false
@@ -51,7 +51,6 @@ class AddTutorView : MainLayoutTitleBackButton {
 	
 	let searchTextField : SearchTextField = {
 		let textField = SearchTextField()
-		textField.placeholder.font = Fonts.createBoldSize(18)
 		textField.placeholder.text = "Search Usernames"
 		textField.textField.font = Fonts.createSize(16)
 		textField.textField.tintColor = Colors.learnerPurple
@@ -64,9 +63,9 @@ class AddTutorView : MainLayoutTitleBackButton {
 		addSubview(tableView)
 		addSubview(searchTextField)
 		super.configureView()
-		
+
 		title.label.text = "Add Tutor by Username"
-		
+
 		
 	}
 	
@@ -155,7 +154,7 @@ class AddTutor : BaseViewController, ShowsConversation {
 		}
 		startTimer()
 	}
-	
+
 	@objc func searchUsername(_ sender: Timer) {
 		guard let searchText = sender.userInfo as? String else { return }
 		filteredUsername.removeAll()
@@ -166,7 +165,7 @@ class AddTutor : BaseViewController, ShowsConversation {
 		
 		let ref : DatabaseReference! = Database.database().reference().child("tutor-info")
 		ref.queryOrdered(byChild: "usr").queryStarting(atValue: searchText).queryEnding(atValue: searchText + "\u{f8ff}").queryLimited(toFirst: 20).observeSingleEvent(of: .value) { (snapshot) in
-			
+		
 			for snap in snapshot.children {
 				guard let child = snap as? DataSnapshot else { continue }
 				let usernameQuery = UsernameQuery(snapshot: child)
@@ -193,10 +192,8 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
 		let name = filteredUsername[indexPath.section].name.split(separator: " ")
 		
 		cell.usernameLabel.text = "@\(filteredUsername[indexPath.section].username)"
-		cell.nameLabel.text = (connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "\(name[0]) \(String(name[1]).prefix(1)). – Connected" : "\(name[0]) \(String(name[1]).prefix(1))."
+		cell.nameLabel.text = (connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "\(name[0]) \(String(name[1]).prefix(1)) – Connected" : "\(name[0]) \(String(name[1]).prefix(1))"
 		cell.profileImageView.loadUserImages(by: filteredUsername[indexPath.section].imageUrl)
-		cell.addTutorButton.setTitle((connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "Message" : "Connect", for: .normal)
-		
 		cell.delegate = self
 		cell.uid = filteredUsername[indexPath.section].uid
 		
@@ -204,36 +201,21 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 60
+		return 44
 	}
-	
+
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return section == 0 ? 16 : 0
+		return 16
 	}
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 16))
-		headerView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-		if section == 0 {
-			let resultsLabel : UILabel = {
-				let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 16))
-				label.font = Fonts.createLightSize(14)
-				label.adjustsFontSizeToFitWidth = true
-				label.textColor = .white
-				label.textAlignment = .center
-				label.text = "\(filteredUsername.count) Results"
-				return label
-			}()
-			headerView.addSubview(resultsLabel)
-			return headerView
-		} else {
-			headerView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-			return headerView
-		}
+		let headerView = UIView()
+		headerView.backgroundColor = UIColor.clear
+		return headerView
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
+        FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
 			guard let tutor = tutor else { return }
 			let next = TutorMyProfile()
 			next.tutor = tutor
@@ -257,7 +239,7 @@ extension AddTutor : AddTutorButtonDelegate {
 }
 
 class AddTutorTableViewCell : UITableViewCell {
-	
+
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		configureTableViewCell()
@@ -270,7 +252,6 @@ class AddTutorTableViewCell : UITableViewCell {
 	let profileImageView : UIImageView = {
 		let imageView = UIImageView()
 		
-		imageView.scaleImage()
 		imageView.image = #imageLiteral(resourceName: "defaultProfileImage")
 		
 		return imageView
@@ -289,24 +270,20 @@ class AddTutorTableViewCell : UITableViewCell {
 	
 	let nameLabel : UILabel = {
 		let label = UILabel()
-		
+
 		label.font = Fonts.createLightSize(14)
 		label.adjustsFontSizeToFitWidth = true
 		label.textColor = .white
 		label.textAlignment = .left
-		
+
 		return label
 	}()
 	
+	
+	
 	let addTutorButton : UIButton = {
 		let button = UIButton()
-		button.backgroundColor = UIColor.clear
-		button.layer.borderColor = UIColor.white.cgColor
-		button.layer.borderWidth = 0.5
-		button.setTitleColor(.white, for: .normal)
-		button.titleLabel?.textAlignment = .center
-		button.titleLabel?.font = Fonts.createSize(14)
-		button.titleLabel?.adjustsFontSizeToFitWidth = true
+		button.setImage(#imageLiteral(resourceName: "increaseButton"), for: .normal)
 		return button
 	}()
 	
@@ -325,7 +302,7 @@ class AddTutorTableViewCell : UITableViewCell {
 		
 		backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
 		addTutorButton.addTarget(self, action: #selector(addTutorButtonPressed(_:)), for: .touchUpInside)
-		
+
 		applyConstraints()
 	}
 	func applyConstraints() {
@@ -336,35 +313,32 @@ class AddTutorTableViewCell : UITableViewCell {
 			make.left.equalToSuperview().inset(10)
 		}
 		addTutorButton.snp.makeConstraints { (make) in
-			make.height.equalToSuperview().multipliedBy(0.5)
 			make.right.equalToSuperview().inset(10)
 			make.centerY.equalToSuperview()
-			make.width.height.equalTo(100)
+			make.width.equalToSuperview().multipliedBy(0.10)
+			make.height.equalToSuperview().multipliedBy(0.7)
 		}
 		usernameLabel.snp.makeConstraints { (make) in
 			make.left.equalTo(profileImageView.snp.right).inset(-20)
 			make.top.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.65)
+			make.height.equalToSuperview().multipliedBy(0.5)
 			make.right.equalTo(addTutorButton.snp.left)
 		}
 		nameLabel.snp.makeConstraints { (make) in
 			make.left.equalTo(profileImageView.snp.right).inset(-20)
 			make.bottom.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.65)
+			make.height.equalToSuperview().multipliedBy(0.5)
 			make.right.equalTo(addTutorButton.snp.left)
 		}
 	}
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		addTutorButton.layer.cornerRadius = addTutorButton.frame.height / 2
 	}
 	
 	@objc func addTutorButtonPressed(_ sender: UIButton) {
-		addTutorButton.growSemiShrink {
-			guard let uid = self.uid else { return }
-			self.delegate?.addTutorWithUid(uid)
-		}
+		guard let uid = self.uid else { return }
+		delegate?.addTutorWithUid(uid)
 	}
 }
 extension AddTutor : UIScrollViewDelegate {

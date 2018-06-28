@@ -52,6 +52,7 @@ class EndSessionModal: BaseCustomModal {
         setupMessageLabel()
         setupEndSessionButton()
         setupNevermindButton()
+        setHeightTo(170)
     }
     
     override func setupTitleLabel() {
@@ -61,7 +62,7 @@ class EndSessionModal: BaseCustomModal {
     
     func setupMessageLabel() {
         background.addSubview(messageLabel)
-        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 75)
+        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 50)
     }
     
     override func setupBackground() {

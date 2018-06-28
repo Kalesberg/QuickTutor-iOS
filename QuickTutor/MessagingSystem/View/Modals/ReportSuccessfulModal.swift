@@ -16,7 +16,7 @@ class ReportSuccessfulModal: BaseCustomModal {
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.font = Fonts.createSize(12)
+        label.font = Fonts.createSize(14)
         return label
     }()
     
@@ -35,6 +35,7 @@ class ReportSuccessfulModal: BaseCustomModal {
         super.setupViews()
         setupMessageLabel()
         setupConfirmButton()
+        setHeightTo(180)
     }
     
     override func setupTitleBackground() {
@@ -49,13 +50,13 @@ class ReportSuccessfulModal: BaseCustomModal {
     
     func setupMessageLabel() {
         background.addSubview(messageLabel)
-        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 75)
+        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 75)
     }
     
     func setupConfirmButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(confirmButton)
-        confirmButton.anchor(top: messageLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 11, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 35)
+        confirmButton.anchor(top: messageLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 6, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 35)
         window.addConstraint(NSLayoutConstraint(item: confirmButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 0))
         confirmButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
     }
