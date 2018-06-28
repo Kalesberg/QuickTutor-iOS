@@ -7,14 +7,7 @@
 //
 //	Purpose: This class shows the user his current payment methods. The user can Delete or add cards here.
 //	Maximum of 5 cards per user. The add payment button will be disabled when they have 5 cards.
-//
-/*	TODO: Design
-- Warn User when they delete last card.
-Backend
-- ...
-Future
-- ...
-*/
+
 
 import UIKit.UITableView
 import Stripe
@@ -128,19 +121,6 @@ class CardManager : BaseViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		contentView.tableView.reloadData()
-	}
-	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-	}
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-	
-	override func handleNavigation() {
-		
 	}
 	
 	// TODO: Check if they have any pending sessions.

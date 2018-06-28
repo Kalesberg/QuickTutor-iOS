@@ -356,7 +356,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
-            cell.infoLabel.label.text = "Basic Info"
+            cell.infoLabel.label.text = "Biography"
             cell.textField.attributedText = NSAttributedString(string: "Edit",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             

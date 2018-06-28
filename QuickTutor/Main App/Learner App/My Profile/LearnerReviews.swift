@@ -52,7 +52,6 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
 		subtitleLabel.label.textAlignment = .left
 		subtitleLabel.label.font = Fonts.createBoldSize(20)
 		
-		
 		applyConstraints()
     }
 	override func applyConstraints() {
@@ -60,14 +59,14 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
 		
 		subtitleLabel.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom)
-			make.width.equalToSuperview().multipliedBy(0.85)
+			make.width.equalToSuperview().multipliedBy(0.9)
 			make.height.equalToSuperview().multipliedBy(0.1)
 			make.centerX.equalToSuperview()
 		}
 		
 		tableView.snp.makeConstraints { (make) in
-			make.top.equalTo(subtitleLabel.snp.bottom).inset(-20)
-			make.width.equalToSuperview()
+			make.top.equalTo(subtitleLabel.snp.bottom)
+			make.width.equalToSuperview().multipliedBy(0.9)
 			make.height.equalToSuperview().multipliedBy(0.8)
 			make.centerX.equalToSuperview()
 		}
@@ -95,7 +94,7 @@ class LearnerReviews : BaseViewController {
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
 		
-		contentView.tableView.register(TutorMyProfileReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
+		contentView.tableView.register(TutorMyProfileLongReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
     }
     
     override func loadView() {
@@ -120,12 +119,8 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 		return datasource?.count ?? 0
 	}
 	
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return tableView.estimatedRowHeight
-	}
-	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileLongReviewTableViewCell
 		
 		let data = datasource?[indexPath.row]
 		
@@ -134,10 +129,11 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 		cell.backgroundColor = .clear
 		
 		cell.nameLabel.text = data?.studentName ?? ""
-		cell.reviewTextLabel.text = data?.message ?? ""
+		cell.reviewTextLabel.text = data?.message ?? "\n\n"
 		cell.dateSubjectLabel.text = "\(data?.date ?? "") - \(data?.subject ?? "")"
 		cell.profilePic.loadUserImages(by: data?.imageURL ?? "")
-		
+        cell.applyConstraints()
+    
 		return cell
 	}
 	
@@ -145,11 +141,6 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 		//would probably want to show a message here saying that this will set the new card as Default.
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
-	
-	func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-		return "Remove Card"
-	}
-	
 	
 	func insertBorder(cell: UITableViewCell) {
 		let border = UIView(frame:CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))

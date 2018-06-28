@@ -28,7 +28,6 @@ class EditPhoneView : MainLayoutTitleBackButton, Keyboardable {
         subtitle.label.text = "Phone Number"
         subtitle.label.font = Fonts.createBoldSize(18)
         subtitle.label.numberOfLines = 2
-        
     }
     
     override func applyConstraints() {
