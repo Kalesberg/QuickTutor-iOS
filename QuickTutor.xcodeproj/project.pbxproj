@@ -193,6 +193,7 @@
 		84E91B64205761A600D1F613 /* TutorLate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B63205761A600D1F613 /* TutorLate.swift */; };
 		84EA5EA020A7F4C50008292B /* InviteOthers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA5E9F20A7F4C50008292B /* InviteOthers.swift */; };
 		84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */; };
+		84F12F6220E3008D00EB14E8 /* TutorListings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F12F6120E3008D00EB14E8 /* TutorListings.swift */; };
 		84F141A1207E490D003D3193 /* TutorPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A0207E490D003D3193 /* TutorPreferences.swift */; };
 		84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A2207F0D7B003D3193 /* IntExtensions.swift */; };
 		84F2450F1FDA0F59006447A8 /* UploadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2450E1FDA0F59006447A8 /* UploadImage.swift */; };
@@ -540,6 +541,7 @@
 		84E91B63205761A600D1F613 /* TutorLate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLate.swift; sourceTree = "<group>"; };
 		84EA5E9F20A7F4C50008292B /* InviteOthers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteOthers.swift; sourceTree = "<group>"; };
 		84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPayment.swift; sourceTree = "<group>"; };
+		84F12F6120E3008D00EB14E8 /* TutorListings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorListings.swift; sourceTree = "<group>"; };
 		84F141A0207E490D003D3193 /* TutorPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutorPreferences.swift; path = "../../Tutor App/Additional Info/TutorPreferences.swift"; sourceTree = "<group>"; };
 		84F141A2207F0D7B003D3193 /* IntExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtensions.swift; sourceTree = "<group>"; };
 		84F2450E1FDA0F59006447A8 /* UploadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImage.swift; sourceTree = "<group>"; };
@@ -1176,6 +1178,7 @@
 				8441E650208922C60087AE11 /* TrendingCategories.swift */,
 				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 				8441E65220892D510087AE11 /* CategoryInfo.swift */,
+				84F12F6120E3008D00EB14E8 /* TutorListings.swift */,
 			);
 			path = "Tutor Main Page";
 			sourceTree = "<group>";
@@ -1914,6 +1917,7 @@
 				847D77A91FBE6B69009F4D42 /* Verification.swift in Sources */,
 				CF6F58D6205EE68800ACBD32 /* QuickChatKeyboardAccessory.swift in Sources */,
 				848E643B2059EE0A000CD921 /* BecomeTutor.swift in Sources */,
+				84F12F6220E3008D00EB14E8 /* TutorListings.swift in Sources */,
 				846D9B4E2069E57000302773 /* CategorySelectionCollectionViewCell.swift in Sources */,
 				8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */,
 				8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */,

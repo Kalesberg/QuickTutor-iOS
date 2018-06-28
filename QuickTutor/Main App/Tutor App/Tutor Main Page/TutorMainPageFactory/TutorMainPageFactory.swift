@@ -69,7 +69,7 @@ enum TutorMainPageCellFactory {
 	var viewController : UIViewController {
 		switch self {
 		case .improve: return TutorMainTips()
-		case .featured: return TutorRatings()
+		case .featured: return TutorListings()
 		case .shareUsername:
 			let text = "Go checkout QuickTutor!"
 			let webUrl = URL(string:"https://QuickTutor.com")

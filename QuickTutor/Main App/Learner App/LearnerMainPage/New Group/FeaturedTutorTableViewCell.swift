@@ -161,10 +161,12 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
 		let screen = UIScreen.main.bounds
-		let width = (screen.width / 3) - 13
-		let height = collectionView.frame.height - 15
-		
-		return CGSize(width: width, height: height)
+        
+        if screen.height == 568 || screen.height == 480 {
+            return CGSize(width: (screen.width / 2.5) - 13, height: collectionView.frame.height - 15)
+        } else {
+            return CGSize(width: (screen.width / 3) - 13, height: collectionView.frame.height - 15)
+        }
 	}
 }
 

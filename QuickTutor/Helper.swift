@@ -88,7 +88,6 @@ class FeaturedTutorView : BaseView {
         label.textColor = Colors.yellow
         label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
-        label.text = "4.4"
         
         return label
     }()
@@ -142,13 +141,14 @@ class FeaturedTutorView : BaseView {
             make.width.equalToSuperview().multipliedBy(0.88)
         }
         starImage.snp.makeConstraints { (make) in
-            make.left.equalTo(namePrice).inset(-4)
+            make.left.equalTo(namePrice)
             make.bottom.equalToSuperview().inset(9)
-            make.height.equalTo(13)
+            make.height.width.equalTo(13)
         }
         ratingLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(starImage.snp.right).inset(-1)
+            make.left.equalTo(starImage.snp.right).inset(-3)
             make.centerY.equalTo(starImage).inset(1)
+            make.right.equalToSuperview().inset(2)
         }
     }
 }

@@ -188,7 +188,7 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		let formattedString = NSMutableAttributedString()
 		
 		formattedString
-			.bold("\(datasource[indexPath.item].rating)  ", 14, Colors.yellow)
+			.bold("\(datasource[indexPath.item].rating) ", 14, Colors.yellow)
 			.regular("(\(datasource[indexPath.item].reviews) ratings)", 12, Colors.yellow)
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
         
@@ -197,11 +197,13 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
-		let screen = UIScreen.main.bounds
-		let width = (screen.width / 3) - 13
-		let height = (screen.height / 3) - contentView.subtitle.frame.height
-		
-		return CGSize(width: width, height: height)
+        let screen = UIScreen.main.bounds
+        
+        if screen.height == 568 || screen.height == 480 {
+            return CGSize(width: (screen.width / 2.5) - 13, height: 190)
+        } else {
+            return CGSize(width: (screen.width / 3) - 13, height: 190)
+        }
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {

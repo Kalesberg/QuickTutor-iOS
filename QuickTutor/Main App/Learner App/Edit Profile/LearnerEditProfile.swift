@@ -438,7 +438,7 @@ extension LearnerEditProfile : UITableViewDelegate, UITableViewDataSource {
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             
-            cell.infoLabel.label.text = "Basic Info"
+            cell.infoLabel.label.text = "Biography"
             cell.textField.attributedText = NSAttributedString(string: "Edit",
                                                                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
             
@@ -585,60 +585,3 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
         dismiss(animated: true, completion: nil)
     }
 }
-//extension LearnerEditProfile : UITextFieldDelegate {
-//
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//
-//        switch textField {
-//        case contentView.firstNameItem.textField, contentView.lastNameItem.textField:
-//            let char = string.cString(using: String.Encoding.utf8)!
-//            let isBackSpace = strcmp(char, "\\b")
-//
-//            if isBackSpace == Constants.BCK_SPACE {
-//                textField.text!.removeLast()
-//            }
-//            if textField.text!.count <= 24 {
-//                if string.rangeOfCharacter(from: .letters) != nil { return true }
-//                return false
-//            } else {
-//                print("Your name is too long!")
-//                return false
-//            }
-//        case contentView.emailItem.textField:
-//            let maxlength = 40
-//            guard let text = textField.text else { return true }
-//            let length = text.count + string.count - range.length
-//
-//            if length <= maxlength { return true }
-//            else {
-//                print("MAX LENGTH")
-//                return false
-//            }
-//        default:
-//            break
-//        }
-//        return false
-//    }
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        resignFirstResponder()
-//        textField.becomeFirstResponder()
-//        switch textField {
-//        case contentView.firstNameItem.textField:
-//            automaticScroll = true
-//            contentView.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-//        case contentView.lastNameItem.textField:
-//            automaticScroll = true
-//            contentView.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-//        case contentView.emailItem.textField:
-//            automaticScroll = true
-//            contentView.scrollView.setContentOffset(CGPoint(x: 0, y: 350), animated: true)
-//        default:
-//            break
-//        }
-//    }
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        return true
-//    }
-//}
-

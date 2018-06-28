@@ -67,12 +67,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 			.bold("Patent Pending.", 15, Colors.grayText)
 		
 		infoLabel.attributedText = formattedString
-		
-//		infoLabel.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy. Patent Pending."
-		//infoLabel.font = Fonts.createLightSize(14)
-		//infoLabel.textColor = .white
 		infoLabel.numberOfLines = 0
-		//infoLabel.sizeToFit()
 		
 		quicktutorFlame.image = UIImage(named: "qt-flame")
 		
