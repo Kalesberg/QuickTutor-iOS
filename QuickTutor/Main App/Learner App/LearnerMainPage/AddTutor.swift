@@ -115,7 +115,7 @@ class AddTutor : BaseViewController, ShowsConversation {
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
 		
-		FirebaseData.manager.getLearnerConnections(uid: CurrentUser.shared.learner.uid) { (connectedIds) in
+		FirebaseData.manager.fetchLearnerConnections(uid: CurrentUser.shared.learner.uid) { (connectedIds) in
 			if let connectedIds = connectedIds {
 				self.connectedIds = connectedIds
 				print(connectedIds)
@@ -215,7 +215,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		FirebaseData.manager.getTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
+        FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
 			guard let tutor = tutor else { return }
 			let next = TutorMyProfile()
 			next.tutor = tutor

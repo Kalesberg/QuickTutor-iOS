@@ -108,11 +108,6 @@ class InPersonSessionVC: BaseSessionVC {
         }
     }
     
-    func expireSession() {
-        guard let id = sessionId else { return }
-        Database.database().reference().child("sessions").child(id).child("status").setValue("expired")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()

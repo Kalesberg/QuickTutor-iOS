@@ -34,7 +34,7 @@ class SessionRequestCell: UserMessageCell {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .left
-        label.font = Fonts.createSize(15)
+        label.font = Fonts.createBoldSize(15)
         return label
     }()
     
@@ -50,7 +50,7 @@ class SessionRequestCell: UserMessageCell {
     let priceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.backgroundColor = Colors.brightGreen
+        label.backgroundColor = Colors.green
         label.textAlignment = .center
         label.layer.cornerRadius = 10
         label.font = Fonts.createSize(12)
@@ -75,17 +75,29 @@ class SessionRequestCell: UserMessageCell {
     
     let acceptButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "confirmButton"), for: .normal)
-        button.contentMode = .scaleAspectFit
+        button.setTitle("Accept", for: .normal)
+        button.setTitleColor(Colors.green, for: .normal)
         button.tag = 0
+        button.backgroundColor = Colors.navBarColor
+        button.titleLabel?.font = Fonts.createBoldSize(12)
+        if #available(iOS 11.0, *) {
+            button.layer.cornerRadius = 4
+            button.layer.maskedCorners = [.layerMaxXMaxYCorner]
+        }
         return button
     }()
     
     let declineButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "cancelButton"), for: .normal)
-        button.contentMode = .scaleAspectFit
+        button.setTitleColor(Colors.qtRed, for: .normal)
+        button.setTitle("Decline", for: .normal)
         button.tag = 1
+        button.backgroundColor = Colors.navBarColor
+        button.titleLabel?.font = Fonts.createBoldSize(12)
+        if #available(iOS 11.0, *) {
+            button.layer.cornerRadius = 4
+            button.layer.maskedCorners = [.layerMinXMaxYCorner]
+        }
         return button
     }()
     
@@ -121,7 +133,7 @@ class SessionRequestCell: UserMessageCell {
         dateTimeLabel.text = "\(date) \n\(startTime) - \(endTime)"
         setStatusLabel()
         if let constant = priceLabel.text?.estimateFrameForFontSize(12).width {
-            priceLabelWidthAnchor = priceLabel.widthAnchor.constraint(equalToConstant: constant + 10)
+            priceLabelWidthAnchor = priceLabel.widthAnchor.constraint(equalToConstant: constant + 15)
             priceLabelWidthAnchor?.isActive = true
             self.layoutIfNeeded()
         }
@@ -164,6 +176,7 @@ class SessionRequestCell: UserMessageCell {
     private func setupMainView() {
         bubbleView.clipsToBounds = true
         bubbleView.layer.cornerRadius = 8
+        bubbleView.backgroundColor = Colors.learnerPurple
     }
     
     private func setupTitleLabel() {
@@ -183,7 +196,7 @@ class SessionRequestCell: UserMessageCell {
     
     private func setupDateTimeLabel() {
         addSubview(dateTimeLabel)
-        dateTimeLabel.anchor(top: subjectLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 140, height: 40)
+        dateTimeLabel.anchor(top: subjectLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 140, height: 40)
     }
     
     private func setupPriceLabel() {
@@ -207,11 +220,13 @@ class SessionRequestCell: UserMessageCell {
             return
         }
         addSubview(acceptButton)
-        acceptButton.anchor(top: statusBackground.topAnchor, left: statusBackground.leftAnchor, bottom: statusBackground.bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 20, paddingBottom: 4, paddingRight: 0, width: 25, height: 0)
+        addSubview(acceptButton)
+        acceptButton.anchor(top: nil, left: nil, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
         acceptButton.addTarget(self, action: #selector(handleButtonAction(sender:)), for: .touchUpInside)
         
         addSubview(declineButton)
-        declineButton.anchor(top: statusBackground.topAnchor, left: nil, bottom: statusBackground.bottomAnchor, right: statusBackground.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 4, paddingRight: 20, width: 25, height: 0)
+        addSubview(declineButton)
+        declineButton.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
         acceptButton.addTarget(self, action: #selector(handleButtonAction(sender:)), for: .touchUpInside)
         statusLabel.isHidden = true
     }

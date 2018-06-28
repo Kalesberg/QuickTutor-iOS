@@ -17,7 +17,11 @@ class ConnectionRequestCell: UserMessageCell {
     
     let actionBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.navBarColor
+        view.backgroundColor = UIColor(hex: "1E1E25")
+        if #available(iOS 11.0, *) {
+            view.layer.cornerRadius = 4
+            view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
         return view
     }()
     
@@ -33,19 +37,31 @@ class ConnectionRequestCell: UserMessageCell {
     
     let acceptButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "confirmButton"), for: .normal)
-        button.contentMode = .scaleAspectFit
+        button.setTitle("Accept", for: .normal)
+        button.setTitleColor(Colors.green, for: .normal)
         button.tag = 0
         button.isHidden = true
+        button.backgroundColor = Colors.navBarColor
+        button.titleLabel?.font = Fonts.createBoldSize(12)
+        if #available(iOS 11.0, *) {
+            button.layer.cornerRadius = 4
+            button.layer.maskedCorners = [.layerMaxXMaxYCorner]
+        }
         return button
     }()
     
     let declineButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "cancelButton"), for: .normal)
-        button.contentMode = .scaleAspectFit
+        button.setTitleColor(Colors.qtRed, for: .normal)
+        button.setTitle("Decline", for: .normal)
         button.tag = 1
         button.isHidden = true
+        button.backgroundColor = Colors.navBarColor
+        button.titleLabel?.font = Fonts.createBoldSize(12)
+        if #available(iOS 11.0, *) {
+            button.layer.cornerRadius = 4
+            button.layer.maskedCorners = [.layerMinXMaxYCorner]
+        }
         return button
     }()
     
@@ -55,6 +71,9 @@ class ConnectionRequestCell: UserMessageCell {
         setupStatusLabel()
         setupAcceptButton()
         setupDeclineButton()
+        if #available(iOS 11.0, *) {
+            bubbleView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        }
     }
     
     override func updateUI(message: UserMessage) {
@@ -71,7 +90,7 @@ class ConnectionRequestCell: UserMessageCell {
     
     private func setupActionBackground() {
         addSubview(actionBackground)
-        actionBackground.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+        actionBackground.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
     }
     
     private func setupStatusLabel() {
@@ -81,13 +100,13 @@ class ConnectionRequestCell: UserMessageCell {
     
     func setupAcceptButton() {
         addSubview(acceptButton)
-        acceptButton.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 30, paddingBottom: 4, paddingRight: 0, width: 35, height: 35)
+        acceptButton.anchor(top: nil, left: nil, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
         acceptButton.addTarget(self, action: #selector(approveConnectionRequest), for: .touchUpInside)
     }
     
     func setupDeclineButton() {
         addSubview(declineButton)
-        declineButton.anchor(top: nil, left: nil, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 4, paddingRight: 30, width: 35, height: 35)
+        declineButton.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
         declineButton.addTarget(self, action: #selector(denyConnectionRequest), for: .touchUpInside)
     }
     

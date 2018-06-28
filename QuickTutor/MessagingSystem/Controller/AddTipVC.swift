@@ -53,7 +53,8 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         label.textColor = .white
         label.textAlignment = .center
         label.font = Fonts.createBoldSize(14)
-        label.text = "How much would you like to tip Alex?"
+        label.text = "How much would you like to tip {username}"
+        label.isHidden = true
         return label
     }()
     
@@ -200,6 +201,11 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         super.viewDidLoad()
         setupViews()
         amountToTip = 0.0
+        DataService.shared.getUserOfOppositeTypeWithId(partnerId) { (user) in
+            guard let username = user?.formattedName else { return }
+            self.descriptionLabel.text = self.descriptionLabel.text?.replacingOccurrences(of: "{username}", with: username)
+            self.descriptionLabel.isHidden = false
+        }
     }
     
 }
