@@ -1178,6 +1178,7 @@
 				8441E650208922C60087AE11 /* TrendingCategories.swift */,
 				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 				8441E65220892D510087AE11 /* CategoryInfo.swift */,
+				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 				84F12F6120E3008D00EB14E8 /* TutorListings.swift */,
 			);
 			path = "Tutor Main Page";
