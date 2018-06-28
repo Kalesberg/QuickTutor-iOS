@@ -207,38 +207,38 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 }
 
 class CustomLanguageCell : UITableViewCell {
-	
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		configureTableViewCell()
-	}
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	
-	let checkbox = RegistrationCheckbox()
-	
-	func configureTableViewCell() {
-		addSubview(checkbox)
-		
-		checkbox.isSelected = false
-		
-		let cellBackground = UIView()
-		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-		selectedBackgroundView = cellBackground
-		
-		backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-		textLabel?.textColor = UIColor.white
-		textLabel?.font = Fonts.createSize(16)
-		
-		applyConstraints()
-	}
-	
-	func applyConstraints() {
-		checkbox.snp.makeConstraints { (make) in
-			make.right.equalToSuperview()
-			make.centerY.equalToSuperview()
-			make.width.equalTo(50)
-		}
-	}
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureTableViewCell()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    let checkbox = RegistrationCheckbox()
+    
+    func configureTableViewCell() {
+        addSubview(checkbox)
+        
+        checkbox.isSelected = false
+        
+        let cellBackground = UIView()
+        cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        selectedBackgroundView = cellBackground
+        
+        backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+        textLabel?.textColor = UIColor.white
+        textLabel?.font = Fonts.createSize(16)
+        
+        applyConstraints()
+    }
+    
+    func applyConstraints() {
+        checkbox.snp.makeConstraints { (make) in
+            make.right.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(50)
+        }
+    }
 }

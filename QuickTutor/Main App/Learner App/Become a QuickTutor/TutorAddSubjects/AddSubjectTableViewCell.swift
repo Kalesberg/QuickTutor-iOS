@@ -73,17 +73,6 @@ class AddSubjectsTableViewCell : UITableViewCell  {
             make.centerY.equalToSuperview()
             make.height.equalToSuperview()
         }
-		
-//        subcategory.snp.makeConstraints { (make) in
-//            make.center.equalToSuperview()
-//        }
-//
-//        subcatContainer.snp.makeConstraints { (make) in
-//            make.width.equalTo(subcategory).inset(-12)
-//            make.centerY.equalToSuperview()
-//            make.right.equalTo(selectedIcon.snp.left)
-//            make.height.equalTo(30)
-//        }
         
         subject.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(12)

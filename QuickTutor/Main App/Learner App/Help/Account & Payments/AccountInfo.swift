@@ -31,10 +31,10 @@ class AccountInfoView : MainLayoutHeaderScroll {
         title.label.text = "Help"
         header.label.text = "Changing my account setttings"
         
-        strings = ["1.  Select the navigation bar in the main app menu.\n", "2.  Tap the profile bar that displays your information.\n", "3.  Tap \"Edit\" in the top right of the screen.\n", "4.  Select the the information you would like to change.\n", "5.  When you’ve changed your information, click save."]
+        strings = ["1.  Tap the three lines in the top left of the home page.\n", "2.  Tap the profile bar that displays your name and photo.\n", "3.  Tap \"Edit\" in the top right of the screen.\n", "4.  Select the the information you would like to change.\n", "5.  When you’ve changed your information, click save."]
 
-		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : infoChangeBody.font]
-        let fullAttributedString = NSMutableAttributedString(string: "To update or change your name, biography, email, university, or languages you speak:\n\n", attributes: attributesDictionary)
+		var attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : infoChangeBody.font]
+        var fullAttributedString = NSMutableAttributedString(string: "To update or change your name, biography, email, or languages you speak:\n\n", attributes: attributesDictionary)
         
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
@@ -50,11 +50,27 @@ class AccountInfoView : MainLayoutHeaderScroll {
         infoChangeTitle.label.text = "INFO CHANGE"
         
         passwordTitle.label.text = "PASSWORD"
-        passwordBody.text = "If you change your password, you’ll receive a verification code via text message. Enter the code in your app to confirm the change.\n\nIf you change your password, you’ll be prompted to enter your current password. Passwords must be at least eight characters long."
+        passwordBody.text = "If you forget your password, please visit the Forgot your password page from the Accounts & Payments frame and follow the instructions."
+        
+        strings = ["1.  Tap the three lines in the top left of the home page.\n",
+            "2.  Then, tap \"Edit\" in the top right of the screen.\n",
+            "3.  You can add, change, or remove photos by selecting the \"+\" or \"x\".\n"]
+        
+        attributesDictionary = [NSAttributedStringKey.font : profilePictureBody.font]
+        fullAttributedString = NSMutableAttributedString(string: "To change or add a profile picture:\n\n", attributes: attributesDictionary)
+        
+        for string: String in strings {
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
+            
+            let paragraphStyle = createParagraphAttribute()
+            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            
+            fullAttributedString.append(attributedString)
+        }
+        
+        profilePictureBody.attributedText = fullAttributedString
         
         profilePictureTitle.label.text = "PROFILE PICTURE(S)"
-        profilePictureBody.text = "To change or add a profile picture, select your profile bar from the navigation menu or settings tab and then tap “Edit” in the top right of the screen. You can add, replace, or remove photos by selecting the “+” or “x”.\n\n"
-        
     }
     
     override func applyConstraints() {

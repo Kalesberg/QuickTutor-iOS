@@ -149,56 +149,6 @@ class ProfilePicInteractable : UIImageView, Interactable, BaseViewProtocol {
 }
 
 
-
-//class ImageContainer : InteractableView {
-//
-//    var profilePicImageView = ProfilePicInteractable()
-//    var star = UIImageView()
-//    var ratingLabel = UILabel()
-//
-//    override func configureView() {
-//        addSubview(profilePicImageView)
-//        addSubview(star)
-//        addSubview(ratingLabel)
-//        super.configureView()
-//
-//        ratingLabel.textColor = .white
-//        ratingLabel.font = Fonts.createSize(12)
-//        ratingLabel.numberOfLines = 0
-//        ratingLabel.text = "4.71"
-//        ratingLabel.textAlignment = .right
-//
-//        star.image = UIImage(named: "sidebar-star")
-//        star.scaleImage()
-//
-//        applyConstraints()
-//    }
-//
-//    override func applyConstraints() {
-//        profilePicImageView.snp.makeConstraints { (make) in
-//            make.height.equalToSuperview().multipliedBy(0.8)
-//            make.bottom.equalToSuperview().inset(5)
-//            make.width.equalToSuperview().multipliedBy(0.4)
-//            make.centerX.equalToSuperview()
-//        }
-//
-//        star.snp.makeConstraints { (make) in
-//            make.right.equalToSuperview()
-//            make.top.equalTo(profilePicImageView)
-//            make.height.equalTo(12)
-//            make.width.equalTo(20)
-//        }
-//
-//        ratingLabel.snp.makeConstraints { (make) in
-//            make.right.equalTo(star.snp.left)
-//            make.top.equalTo(star)
-//            make.width.equalTo(50)
-//            make.height.equalTo(star)
-//        }
-//    }
-//}
-
-
 class ProfileItem : BaseView {
 
     var imageView = UIImageView()
@@ -246,55 +196,6 @@ class ProfileItem : BaseView {
             make.right.equalToSuperview().inset(20)
             make.height.equalTo(40)
             make.bottom.equalToSuperview()
-        }
-    }
-}
-
-class ReviewLabel : BaseView {
-    
-    var reviewlabel = UILabel()
-    var starImage = UIImageView()
-    var ratingLabel = UILabel()
-    
-    override func configureView() {
-        addSubview(reviewlabel)
-        addSubview(starImage)
-        addSubview(ratingLabel)
-        super.configureView()
-        
-        layer.borderWidth = 1
-        layer.borderColor = Colors.yellow.cgColor
-        layer.cornerRadius = 15
-        
-        reviewlabel.textColor = Colors.yellow
-        reviewlabel.font = Fonts.createSize(14)
-        reviewlabel.sizeToFit()
-        
-        starImage.image = UIImage(named: "yellow-star")
-        starImage.scaleImage()
-        
-        ratingLabel.textColor = Colors.yellow
-        ratingLabel.font = Fonts.createSize(14)
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        reviewlabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(10)
-            make.centerY.equalToSuperview()
-        }
-        
-        starImage.snp.makeConstraints { (make) in
-            make.height.equalTo(reviewlabel)
-            make.width.equalTo(30)
-            make.centerY.equalToSuperview()
-            make.left.equalTo(reviewlabel.snp.right)
-        }
-        
-        ratingLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(starImage.snp.right)
-            make.centerY.equalToSuperview()
         }
     }
 }
@@ -397,7 +298,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
 
             if learner.bio == "" {
-                cell.bioLabel.text = "No bio yet! Add one in Edit Profile\n"
+                cell.bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen.\n"
             } else {
                 cell.bioLabel.text = learner.bio + "\n"
             }

@@ -40,22 +40,22 @@ class SearchTutorView : MainLayoutHeaderScroll {
         title.label.text = "Searching for a Tutor"
         header.label.text = "Searching"
         
-        searchBody.text = "You can search for tutors by tapping on the search bar (center) on the home page and then either typing in a subject you’d like to learn, or browsing our categories and tapping on one of the six subcategories associated with that category.\n\nYou can do a quick search by tapping on one of our twelve categories on the home page, which will then filter all tutors who teach subjects in that category."
+        searchBody.text = "You can search for tutors by tapping on the search bar (top, center) on the home page and then either typing in a subject you'd like to learn or tapping on one of the six subcategories associated within each category.\n\nYou can do a quick search by tapping on one of our twelve categories on the home page, which will then filter all tutors who teach subjects in that category."
         
         pickingTutorTitle.label.text = "Picking the right tutor"
         pickingTutorBody.text = "Selecting a tutor can sometimes be a difficult decision. Our search algorithm is built to ensure you are connected with the highest rated and most experienced tutors.\n\nHere are some tips to ensure you have the best experience possible: "
         
         tutorBioSubtitle.label.text = "1.  Thoroughly read a tutor's biography"
-        tutorBioBody.text = "Tutors are asked to describe their expertise, experience, and abilities in their biography. As well as if they have received any awards or certifications in their tutoring field. Tutors also list what they are seeking in a learner, take your learning style into note when reading a tutor’s biography."
+        tutorBioBody.text = "Tutors are asked to describe their expertise, knowledge, and abilities in their biography. As well as if they have received any awards or certifications in their particular field. Tutors also list what they are seeking in a learner, so make sure to take your learning style to note when reading a tutor's biography."
         
         tutorAvailSubtitle.label.text = "2.  Check a tutor's availability"
-        tutorAvailBody.text = "Ensuring that a tutor is available on the day or days you need tutoring is extremely important for your selection. Most tutors are busy with several learners, so make sure to check a tutor’s availability and communicate frequently."
+        tutorAvailBody.text = "Ensuring that a tutor is available on the day or days, you need tutoring is extremely important for your selection. Most tutors are busy with several learners, so make sure to check a tutor's availability and communicate frequently."
         
         tutorPolicySubtitle.label.text = "3.  Be aware of a tutor's policies and preferences"
-        tutorPolicyBody.text = "Tutor’s have the ability to set their own tutoring policies, and list their preferences for price, traveling and online tutoring. Be aware of a tutor’s policies so you don’t violate them, and make sure their preferences fit your expectations."
+        tutorPolicyBody.text = "Tutors can set tutoring policies and list their preferences for price, traveling and online tutoring. A tutor's cancellation policy and late policy could cause a dispute that will charge your payment method if you violate their policies. Be aware of a tutor's policies, so you don't break them, and make sure a tutor's preferences fit your expectations."
         
         examineProfileTitle.label.text = "4.  Examine profile pictures and social media"
-        examineProfileBody.text = "QuickTutor enables all users to upload up to four profile pictures and connect their instagram accounts. Please examine a tutor’s pictures and their social media footprint for your safety.\n\n"
+        examineProfileBody.text = "QuickTutor enables all users to upload up to four profile pictures. Please examine a tutor's photographs and make the best decision you can when choosing whether or not to have an in-person tutoring session.\n\n"
     }
     
     override func applyConstraints() {

@@ -33,7 +33,10 @@ class UpdatePaymentView : MainLayoutHeaderScroll {
         
         addPaymentTitle.label.text = "ADD A PAYMENT METHOD"
         
-        strings = ["1.  Select Payment from the navigation bar menu.\n", "2.  Tap add payment method.\n", "3.  Add a payment method by scanning a card or manually entering card info."]
+        strings = ["1.  Tap the three lines in the top left corner of the home page.\n",
+            "2.  Select payment from the side bar menu.\n",
+            "3.  Tap \"Add Payment Method\".\n",
+            "4.  Add a payment method by manually entering your card information.\n"]
         
 		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : addPaymentBody.font]
         var fullAttributedString = NSMutableAttributedString(string: "Adding a payment method will allow you to connect, communicate and schedule sessions with tutors.\n\nYou can add payment methods such as debit or credit cards. When a session ends, your payment method is charged in accordance to the session price and length of the session.\n\n", attributes: attributesDictionary)
@@ -68,7 +71,9 @@ class UpdatePaymentView : MainLayoutHeaderScroll {
         
         updateCardTitle.label.text = "UPDATING CARD INFO"
         
-        strings = ["1.  Select “Payment” from your app menu.\n", "2.  Select the payment option you’d like to update.\n", "3.  Make changes, then tap save when you’re done.\n\n"]
+        strings = ["1.  Tap the three lines in the top left corner of the home page.\n",
+            "2.  Select payment from the side bar menu.\n",
+            "3.  Make changes, then tap save when you’re done.\n"]
         
         fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
         
@@ -91,11 +96,11 @@ class UpdatePaymentView : MainLayoutHeaderScroll {
         
         addPaymentBody.constrainSelf(top: addPaymentTitle.snp.bottom)
         
-        scanCardTitle.constrainSelf(top: addPaymentBody.snp.bottom)
+        //scanCardTitle.constrainSelf(top: addPaymentBody.snp.bottom)
         
-        scanCardBody.constrainSelf(top: scanCardTitle.snp.bottom)
+        //scanCardBody.constrainSelf(top: scanCardTitle.snp.bottom)
         
-        updateCardTitle.constrainSelf(top: scanCardBody.snp.bottom)
+        updateCardTitle.constrainSelf(top: addPaymentBody.snp.bottom)
         
         updateCardBody.constrainSelf(top: updateCardTitle.snp.bottom)
     }

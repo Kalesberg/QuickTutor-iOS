@@ -838,12 +838,6 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
         container.addSubview(reviewTextLabel)
         super.configureView()
         
-//        if let image = LocalImageCache.localImageManager.getImage(number: "1") {
-//            profilePic.image = image
-//        } else {
-//            //set to some arbitrary image.
-//        }
-        
         applyConstraints()
         container.layer.cornerRadius = 15
         container.layer.borderWidth = 1.5
@@ -884,6 +878,97 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
             make.left.equalTo(profilePic.snp.right).inset(-10)
             make.centerY.equalToSuperview().multipliedBy(1.4)
             make.right.equalToSuperview().inset(3)
+        }
+    }
+}
+
+class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
+    
+    let profilePic : UIImageView = {
+        
+        let imageView = UIImageView()
+        
+        imageView.scaleImage()
+        
+        return imageView
+    }()
+    
+    
+    let nameLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(16)
+        
+        return label
+    }()
+    let dateSubjectLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = Colors.grayText
+        label.font = Fonts.createSize(13)
+        
+        return label
+    }()
+    
+    let reviewTextLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = Colors.grayText
+        label.font = Fonts.createItalicSize(14)
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    let container = UIView()
+    
+    override func configureView() {
+        contentView.addSubview(container)
+        container.addSubview(profilePic)
+        container.addSubview(nameLabel)
+        container.addSubview(dateSubjectLabel)
+        container.addSubview(reviewTextLabel)
+        super.configureView()
+    
+        container.layer.cornerRadius = 15
+        container.layer.borderWidth = 1.5
+        container.layer.borderColor = Colors.sidebarPurple.cgColor
+        
+        contentView.backgroundColor = .clear
+        
+        selectionStyle = .none
+    }
+    
+    override func applyConstraints() {
+        
+        container.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(contentView)
+            make.top.equalTo(contentView).inset(10)
+            make.bottom.equalTo(reviewTextLabel).inset(-10)
+        }
+        
+        profilePic.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(7)
+            make.height.width.equalTo(50)
+            make.top.equalTo(container).inset(7)
+        }
+        
+        nameLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(profilePic.snp.right).inset(-10)
+            make.top.equalTo(profilePic).inset(5)
+        }
+        
+        dateSubjectLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(nameLabel.snp.right).inset(-8)
+            make.centerY.equalTo(nameLabel)
+        }
+        
+        reviewTextLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(profilePic.snp.right).inset(-10)
+            make.right.equalToSuperview().inset(5)
+            make.top.equalTo(nameLabel.snp.bottom).inset(-5)
         }
     }
 }
