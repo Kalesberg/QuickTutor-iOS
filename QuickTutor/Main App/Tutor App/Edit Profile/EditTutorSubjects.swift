@@ -35,7 +35,7 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		let searchBar = UISearchBar()
 		
 		searchBar.sizeToFit()
-		searchBar.searchBarStyle = .minimal
+		searchBar.searchBarStyle = .prominent
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
 		
 		return searchBar
@@ -132,7 +132,8 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		searchTextField?.autocapitalizationType = .words
 		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Search for anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		searchTextField?.keyboardAppearance = .dark
-		
+		searchTextField.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+
 		
 		backButton.image.image = #imageLiteral(resourceName: "backButton")
 		nextButton.label.text = "Save"
@@ -373,8 +374,8 @@ class EditTutorSubjects : BaseViewController {
 		for i in 0..<subcategoriesToDelete.count {
 			
 			print("subjectToDelete", subcategoriesToDelete[i])
-			self.ref.child("subcategory").child(subcategoriesToDelete[i].lowercased()).child(Auth.auth().currentUser!.uid).removeValue()
-			self.ref.child("subject").child(Auth.auth().currentUser!.uid).child(subcategoriesToDelete[i].lowercased()).removeValue()
+			self.ref.child("subcategory").child(subcategoriesToDelete[i].lowercased()).child(CurrentUser.shared.learner.uid).removeValue()
+			self.ref.child("subject").child(CurrentUser.shared.learner.uid).child(subcategoriesToDelete[i].lowercased()).removeValue()
 		}
 		tutor.subjects = self.selectedSubjects
 		tutor.selected = self.selected
@@ -410,9 +411,9 @@ class EditTutorSubjects : BaseViewController {
 			
 			let subjects = key.value.compactMap({$0}).joined(separator: "$")
 			
-			updateSubjectValues["/subject/\(Auth.auth().currentUser!.uid)/\(key.key.lowercased())"] = ["p": tutor.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
+			updateSubjectValues["/subject/\(CurrentUser.shared.learner.uid)/\(key.key.lowercased())"] = ["p": tutor.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
 			
-			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(Auth.auth().currentUser!.uid)"] = ["r" : 5, "p" : tutor.price!, "dst" : tutor.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
+			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(CurrentUser.shared.learner.uid)"] = ["r" : 5, "p" : tutor.price!, "dst" : tutor.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
 		}
 		post.merge(updateSubjectValues) { (_, last) in last }
 		post.merge(updateSubcategoryValues) { (_, last) in last }

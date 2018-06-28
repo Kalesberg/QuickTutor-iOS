@@ -22,7 +22,7 @@ class CategorySearchView : MainLayoutTwoButton {
 		let searchBar = UISearchBar()
 		
 		searchBar.sizeToFit()
-		searchBar.searchBarStyle = .minimal
+		searchBar.searchBarStyle = .prominent
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
 		
 		let textField = searchBar.value(forKey: "searchField") as? UITextField
@@ -32,6 +32,8 @@ class CategorySearchView : MainLayoutTwoButton {
 		textField?.adjustsFontSizeToFitWidth = true
 		textField?.autocapitalizationType = .words
 		textField?.attributedPlaceholder = NSAttributedString(string: CategorySelected.title, attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		textField?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+
 		textField?.keyboardAppearance = .dark
 		
 		return searchBar

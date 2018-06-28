@@ -393,7 +393,7 @@ class TutorManagePolicies : BaseViewController {
         
         let policyString = "\(latePolicy)_\(lateFee)_\(cancelNotice)_\(cancelFee)"
         
-        self.ref.child("tutor-info").child(Auth.auth().currentUser!.uid).updateChildValues(["pol" : policyString]) { (error, _) in
+        self.ref.child("tutor-info").child(CurrentUser.shared.learner.uid).updateChildValues(["pol" : policyString]) { (error, _) in
             if let error = error {
                 print(error)
             } else {

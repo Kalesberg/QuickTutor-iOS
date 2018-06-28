@@ -53,7 +53,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		let searchBar = UISearchBar()
 		
 		searchBar.sizeToFit()
-		searchBar.searchBarStyle = .minimal
+		searchBar.searchBarStyle = .prominent
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
 		
 		return searchBar
@@ -150,7 +150,8 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		searchTextField?.autocapitalizationType = .words
 		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Search for anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		searchTextField?.keyboardAppearance = .dark
-		
+		searchTextField.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+
 		backButton.image.image = #imageLiteral(resourceName: "backButton")
 		headerView.backgroundColor = Colors.backgroundDark
 		cancelButton.label.label.text = "Add"
