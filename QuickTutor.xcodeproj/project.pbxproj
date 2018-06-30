@@ -235,6 +235,7 @@
 		CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */; };
 		CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */; };
 		CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */; };
+		CF4EA10E20E687E2007010F0 /* CardPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4EA10D20E687E2007010F0 /* CardPaymentCell.swift */; };
 		CF50ADE420A2C1770035A702 /* TutorAddBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846466992096BBFD006ABA98 /* TutorAddBank.swift */; };
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
@@ -584,6 +585,7 @@
 		CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlesSessionStartData.swift; sourceTree = "<group>"; };
 		CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "phone-ring.mp3"; sourceTree = "<group>"; };
+		CF4EA10D20E687E2007010F0 /* CardPaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentCell.swift; sourceTree = "<group>"; };
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
 		CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionStartVC.swift; sourceTree = "<group>"; };
 		CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProfileBox.swift; sourceTree = "<group>"; };
@@ -1385,6 +1387,7 @@
 				CF1C6110209EA5BD009B7B0E /* PaymentMethodCell.swift */,
 				CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */,
 				CFEF943A20B32B7C00413727 /* ConnectionCell.swift */,
+				CF4EA10D20E687E2007010F0 /* CardPaymentCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1828,6 +1831,7 @@
 				CF6F58BF205EE68800ACBD32 /* SystemMessageCell.swift in Sources */,
 				84880A022058603800F204A0 /* TutorHarassment.swift in Sources */,
 				846D9B542069E57A00302773 /* CategoryTableViewCell.swift in Sources */,
+				CF4EA10E20E687E2007010F0 /* CardPaymentCell.swift in Sources */,
 				841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */,
 				CF1E43C520705F8D0033F845 /* StarView.swift in Sources */,
 				CF8E88A220C619A90044344D /* BaseSessionVC.swift in Sources */,

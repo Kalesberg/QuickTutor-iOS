@@ -237,7 +237,7 @@ class SessionRequestView: UIView {
         addSubview(confirmButton)
         confirmButton.anchor(top: inPersonToggle.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 40, height: 40)
         confirmButton.addTitleBelow(text: "Confirm")
-        confirmButton.addTarget(self, action: #selector(sendRequest), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(confirmRow), for: .touchUpInside)
     }
     
     private func setupBackgroundBlurView() {
@@ -374,6 +374,40 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
         animator.startAnimation()
     }
     
+    @objc func confirmRow() {
+        guard let rowIndex = inputTable.indexPathForSelectedRow?.item else { return }
+        setTitleGreen(index: rowIndex)
+        
+        switch rowIndex {
+        case 0:
+            let title = subjectPicker.subjects[subjectPicker.selectedRow(inComponent: 0)]
+            titles[0] = title
+            let indexPath = IndexPath(row: 0, section: 0)
+            inputTable.reloadRows(at: [indexPath], with: .automatic)
+            sessionData["subject"] = title
+            setTitleGreen(index: 0)
+        case 1:
+            guard let date = datePicker.date?.timeIntervalSince1970 else { return }
+            setDateTo(Date(timeIntervalSince1970: date))
+            setTitleGreen(index: 1)
+        case 2:
+            setStartTime()
+            setTitleGreen(index: 2)
+        case 3:
+            setEndTime()
+            setTitleGreen(index: 3)
+        case 4:
+            let price = priceInput.currentPrice
+            sessionData["price"] = price
+            let priceString = String(format: "%.2f", price)
+            titles[4] = "$\(priceString)"
+            inputTable.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
+            setTitleGreen(index: 4)
+        default:
+            break
+        }
+    }
+    
     @objc func sendRequest() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         sessionData["status"] = "pending"
@@ -450,19 +484,19 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
 // MARK: Subject -
 extension SessionRequestView: SubjectPickerDelegate {
     func didSelectSubject(title: String) {
-        titles[0] = title
-        let indexPath = IndexPath(row: 0, section: 0)
-        inputTable.reloadRows(at: [indexPath], with: .automatic)
-        sessionData["subject"] = title
-        setTitleGreen(index: 0)
+//        titles[0] = title
+//        let indexPath = IndexPath(row: 0, section: 0)
+//        inputTable.reloadRows(at: [indexPath], with: .automatic)
+//        sessionData["subject"] = title
+//        setTitleGreen(index: 0)
     }
 }
 
 // MARK: Date -
 extension SessionRequestView: CustomDatePickerDelegate {
     func customDatePicker(_ customDatePicker: CustomDatePicker, didSelect date: Double) {
-        setDateTo(Date(timeIntervalSince1970: date))
-        setTitleGreen(index: 1)
+//        setDateTo(Date(timeIntervalSince1970: date))
+//        setTitleGreen(index: 1)
     }
     
     func setDateTo(_ date: Date) {
@@ -481,8 +515,8 @@ extension SessionRequestView: CustomDatePickerDelegate {
 extension SessionRequestView {
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         if sender.tag == 0 {
-            setStartTime()
-            setTitleGreen(index: 2)
+//            setStartTime()
+//            setTitleGreen(index: 2)
         } else {
             if sender.date == sender.minimumDate! {
                 setHeightTo(630, animated: true)
@@ -492,8 +526,8 @@ extension SessionRequestView {
                 setHeightTo(600, animated: true)
                 sessionLengthLabel.isHidden = true
             }
-            setEndTime()
-            setTitleGreen(index: 3)
+//            setEndTime()
+//            setTitleGreen(index: 3)
         }
     }
     
@@ -539,10 +573,10 @@ extension SessionRequestView: SessionTypeCellDelegate {
 // MARK: Price -
 extension SessionRequestView: PriceInputViewDelegate {
     func priceDidChange(_ price: Double) {
-        sessionData["price"] = price
-        let priceString = String(format: "%.2f", price)
-        titles[4] = "$\(priceString)"
-        inputTable.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
-        setTitleGreen(index: 4)
+//        sessionData["price"] = price
+//        let priceString = String(format: "%.2f", price)
+//        titles[4] = "$\(priceString)"
+//        inputTable.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
+//        setTitleGreen(index: 4)
     }
 }

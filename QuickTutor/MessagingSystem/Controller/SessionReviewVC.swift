@@ -16,7 +16,7 @@ class SessionReviewVC: UIViewController {
     
     lazy var fakeNavBar: UIView = {
         let bar = UIView()
-        bar.backgroundColor = Colors.learnerPurple
+        bar.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
         
         let titleLabel: UILabel = {
             let label = UILabel()
