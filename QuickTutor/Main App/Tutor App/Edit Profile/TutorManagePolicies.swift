@@ -284,9 +284,7 @@ class TutorManagePolicies : BaseViewController {
     var ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
     
     let pickerView = UIPickerView()
-    
     var tutor : AWTutor!
-    
     var datasource = [String]() {
         didSet {
             pickerView.reloadAllComponents()
@@ -413,7 +411,6 @@ class TutorManagePolicies : BaseViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         }
-        
     }
     override func handleNavigation() {
         if touchStartView is NavbarButtonSave {
@@ -423,12 +420,9 @@ class TutorManagePolicies : BaseViewController {
 }
 extension TutorManagePolicies : UITextFieldDelegate {
     
-    internal func textFieldDidBeginEditing(_ textField: UITextField) {
-        
+	func textFieldDidBeginEditing(_ textField: UITextField) {
         selectedTextField = textField
-
         switch textField {
-            
         case contentView.latePolicy.textField:
             self.datasource = self.latePolicy
             pickerView.selectRow(0, inComponent: 0, animated: true)
