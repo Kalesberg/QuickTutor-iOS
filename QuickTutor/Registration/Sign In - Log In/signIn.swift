@@ -385,27 +385,20 @@ class SignIn: BaseViewController {
 		}
 	}
 	
-	private func phoneRegex(_ phone: String) -> Bool {
-		let phoneRegex = "^((\\+)|(00))[0-9]{6,14}$"
-		let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
-		return phoneTest.evaluate(with: phone)
-	}
-	
 	private func signIn() {
 		let phoneNumber = contentView.phoneTextField.textField.text!
 		self.displayLoadingOverlay()
 		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { (verificationId, error) in
 			if let error = error {
-				self.dismissOverlay()
 				AlertController.genericErrorAlert(self, title: "Error:", message: error.localizedDescription)
 				self.contentView.nextButton.isUserInteractionEnabled = true
 			} else {
-				self.dismissOverlay()
 				UserDefaults.standard.set(verificationId, forKey: Constants.VRFCTN_ID)
 				Registration.phone = phoneNumber.cleanPhoneNumber()
 				self.navigationController?.pushViewController(Verification(), animated: true)
 			}
 		}
+		self.dismissOverlay()
 	}
 	
 	private func facebookSignIn () {
@@ -415,36 +408,36 @@ class SignIn: BaseViewController {
 				print("Failed to login: \(error.localizedDescription)")
 				return
 			}
-			guard let accessToken = FBSDKAccessToken.current() else {
-				print("Failed to get access token")
-				return
-			}
+//			guard let accessToken = FBSDKAccessToken.current() else {
+//				print("Failed to get access token")
+//				return
+//			}
 			
-			let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+			//let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
 			
 			// Perform login by calling Firebase APIs
-			Auth.auth().signIn(with: credential, completion: { (user, error) in
-				if let error = error {
-					print("Login error: \(error.localizedDescription)")
-					self.dismissOverlay()
-					return
-				}else{
-					let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":" id, name, email"])
-					graphRequest.start(completionHandler: { (connection, result, error) -> Void in
-						if let error = error {
-							print(error.localizedDescription)
-							self.dismissOverlay()
-						} else {
-							self.dismissOverlay()
-							let data : [String : AnyObject] = result as! [String : AnyObject]
-							print(data)
-						}
-					})
-					print("Successful!")
-					self.dismissOverlay()
-				}
-			})
-			self.dismissOverlay()
+//			Auth.auth().signIn(with: credential, completion: { (user, error) in
+//				if let error = error {
+//					print("Login error: \(error.localizedDescription)")
+//					self.dismissOverlay()
+//					return
+//				}else{
+//					let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":" id, name, email"])
+//					graphRequest.start(completionHandler: { (connection, result, error) -> Void in
+//						if let error = error {
+//							print(error.localizedDescription)
+//							self.dismissOverlay()
+//						} else {
+//							self.dismissOverlay()
+//							let data : [String : AnyObject] = result as! [String : AnyObject]
+//							print(data)
+//						}
+//					})
+//					print("Successful!")
+//					self.dismissOverlay()
+//				}
+//			})
+//			self.dismissOverlay()
 		}
 	}
 }

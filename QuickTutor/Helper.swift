@@ -153,28 +153,25 @@ class FeaturedTutorView : BaseView {
     }
 }
 struct BadWords {
-    static func loadBadWords() -> [String] {
-        do {
-            guard let file = Bundle.main.url(forResource: "badwords", withExtension: "json") else { return [] }
-            let data = try Data(contentsOf: file)
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
-            
-            guard let object = json as? [String : [String]] else { return [] }
-            guard let words = object["badwords"] else { return [] }
-            
-            return words
-        } catch {
-            return []
-        }
-    }
+	static func loadBadWords() -> [String] {
+		let pathToFile = Bundle.main.path(forResource: "badwords", ofType: "txt")
+		if let path = pathToFile {
+			do {
+				let badWords = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
+				return badWords.components(separatedBy: ",").filter{ !" \n\t\r".contains($0)} as [String]
+			} catch {
+				print("Try-catch error")
+				return []
+			}
+		} else {
+			return []
+		}
+	}
 }
 
 struct SubjectStore {
-
     static func loadTotalSubjectList() -> [(String, String)]? {
-        
         var totalSubjects : [(String, String)] = []
-
         for i in 0..<category.count {
             do {
                 guard let file = Bundle.main.url(forResource: category[i].subcategory.fileToRead, withExtension: "json") else {

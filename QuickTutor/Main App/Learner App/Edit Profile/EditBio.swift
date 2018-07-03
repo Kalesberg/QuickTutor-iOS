@@ -217,7 +217,6 @@ class EditBio : BaseViewController {
 		NavbarButtonBack.enabled = false
 		
 		naughtyWords = BadWords.loadBadWords()
-		
 		originalBio = contentView.textView.textView.text
 		contentView.characterCount.label.text = String(300 - originalBio.count)
 	}

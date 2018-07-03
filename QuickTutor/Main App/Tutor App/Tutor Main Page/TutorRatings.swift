@@ -32,12 +32,11 @@ class TutorRatingsView : TutorHeaderLayoutView {
         
         tableView.backgroundColor = .clear
         tableView.estimatedRowHeight = 250
-        tableView.isScrollEnabled = true
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        
-        return tableView
+
+		return tableView
     }()
     
     override func configureView() {

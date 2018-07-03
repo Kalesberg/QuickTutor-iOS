@@ -31,7 +31,14 @@ class TutorEarningsView : TutorLayoutView {
         return label
     }()
 	
-	let label = UILabel()
+	let label : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = .white
+		
+		return label
+	}()
+	
     let earningsLabel = UILabel()
 	
     let infoContainer : UIView = {
@@ -171,14 +178,12 @@ class TutorEarnings : BaseViewController {
 
 		if let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1)) {
 			let firstDay = firstOfYear.timeIntervalSince1970
-			for transaction in datasource {
+ 			for transaction in datasource {
 				guard let net = transaction.net else { continue }
 				if transaction.created > Int(firstDay) {
 					thisYearTotal += net
 				}
 			}
-			contentView.label.textColor = .white
-
 			let formattedString = NSMutableAttributedString()
 
 			formattedString
@@ -200,8 +205,8 @@ class TutorEarnings : BaseViewController {
 		var last30Days : Int = 0
 		var allTime : Int = 0
 
-		let lastWeek = NSDate().timeIntervalSince1970 - 604800
-		let lastMonth = NSDate().timeIntervalSince1970 - 2629743
+		let lastWeek = NSDate().timeIntervalSince1970 - 604800 // subctract 7 days
+		let lastMonth = NSDate().timeIntervalSince1970 - 2629743 // substract 30 days
 
 		for transaction in datasource {
 			guard let net = transaction.net else { continue }
@@ -228,6 +233,7 @@ class TutorEarnings : BaseViewController {
 		contentView.earningsLabel.attributedText = formattedString
 		contentView.earningsLabel.numberOfLines = 0
 		contentView.earningsLabel.textAlignment = .right
+		
 		return
 	}
 	

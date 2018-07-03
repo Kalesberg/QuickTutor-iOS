@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1C82977B331519FA0EC418E5 /* Pods_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A3B0EC84A5F4A56226BC1D /* Pods_QuickTutor.framework */; };
+		8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8404F43A20EAE6EB00747C01 /* badwords.txt */; };
+		8404F43D20EBB3AE00747C01 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8404F43C20EBB3AE00747C01 /* CustomError.swift */; };
 		84052F0E206BCC03007B1248 /* LearnerCancelled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84052F0D206BCC03007B1248 /* LearnerCancelled.swift */; };
 		84052F10206BCC3D007B1248 /* LearnerHarassment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84052F0F206BCC3D007B1248 /* LearnerHarassment.swift */; };
 		84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84052F11206BCC9A007B1248 /* LearnerLate.swift */; };
@@ -156,7 +158,6 @@
 		84C96C0D1FCE34A900DBD3A6 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C96C0C1FCE34A900DBD3A6 /* Email.swift */; };
 		84C9C00D20A2374C000DE1C9 /* ConnectAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9C00C20A2374C000DE1C9 /* ConnectAccount.swift */; };
 		84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */; };
-		84CA83C620B3BEAE00B2FBD2 /* badwords.json in Resources */ = {isa = PBXBuildFile; fileRef = 84CA83C520B3BEAE00B2FBD2 /* badwords.json */; };
 		84CB7AD520CF607800274473 /* TutorProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB7AD420CF607800274473 /* TutorProfileImageView.swift */; };
 		84CB7AD720CF97FE00274473 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */; };
 		84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC341A1FCE2979008E7A0B /* StringExtensions.swift */; };
@@ -347,6 +348,8 @@
 
 /* Begin PBXFileReference section */
 		415D84F57EAD7371F3D03D9C /* Pods-QuickTutor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor.debug.xcconfig"; sourceTree = "<group>"; };
+		8404F43A20EAE6EB00747C01 /* badwords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badwords.txt; sourceTree = "<group>"; };
+		8404F43C20EBB3AE00747C01 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		84052F0D206BCC03007B1248 /* LearnerCancelled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerCancelled.swift; sourceTree = "<group>"; };
 		84052F0F206BCC3D007B1248 /* LearnerHarassment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerHarassment.swift; sourceTree = "<group>"; };
 		84052F11206BCC9A007B1248 /* LearnerLate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerLate.swift; sourceTree = "<group>"; };
@@ -504,7 +507,6 @@
 		84C96C0C1FCE34A900DBD3A6 /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 		84C9C00C20A2374C000DE1C9 /* ConnectAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectAccount.swift; sourceTree = "<group>"; };
 		84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceTransaction.swift; sourceTree = "<group>"; };
-		84CA83C520B3BEAE00B2FBD2 /* badwords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = badwords.json; sourceTree = "<group>"; };
 		84CB7AD420CF607800274473 /* TutorProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorProfileImageView.swift; sourceTree = "<group>"; };
 		84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		84CC341A1FCE2979008E7A0B /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -822,7 +824,7 @@
 				842576792071339500FD295B /* trades.json */,
 				84257677207132DD00FD295B /* tech.json */,
 				8425766520712B2A00FD295B /* arts.json */,
-				84CA83C520B3BEAE00B2FBD2 /* badwords.json */,
+				8404F43A20EAE6EB00747C01 /* badwords.txt */,
 			);
 			path = SearchContent;
 			sourceTree = "<group>";
@@ -1114,6 +1116,7 @@
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
+				8404F43C20EBB3AE00747C01 /* CustomError.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
 				8421AB3F20DEDD34005B652B /* TutorialFactory.swift */,
 				8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */,
@@ -1680,9 +1683,9 @@
 				842576702071309000FD295B /* language.json in Resources */,
 				842576642070773D00FD295B /* academics.json in Resources */,
 				8425766E20712E6C00FD295B /* health.json in Resources */,
+				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
 				84257678207132DD00FD295B /* tech.json in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
-				84CA83C620B3BEAE00B2FBD2 /* badwords.json in Resources */,
 				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
@@ -2086,6 +2089,7 @@
 				CF833B83207C4C2600323242 /* LearnerPastSessionCell.swift in Sources */,
 				CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */,
 				CF6F58E5205EE68800ACBD32 /* UserMessage.swift in Sources */,
+				8404F43D20EBB3AE00747C01 /* CustomError.swift in Sources */,
 				CF6F58C3205EE68800ACBD32 /* BaseMessageCell.swift in Sources */,
 				CF50ADE420A2C1770035A702 /* TutorAddBank.swift in Sources */,
 				8471FED520C82E6F006E062C /* PhoneAuthentication.swift in Sources */,

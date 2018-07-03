@@ -26,7 +26,7 @@ class BankManagerView : MainLayoutTitleOneButton {
 	let tableView : UITableView = {
 		let tableView = UITableView()
 		
-		tableView.estimatedRowHeight = 44
+		tableView.estimatedRowHeight = 50
 		tableView.isScrollEnabled = false
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
@@ -219,7 +219,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.row == banks.count {
 			if banks.count == 5 {
-				print("too many banks")
+				AlertController.genericErrorAlert(self, title: "Too Many Payout Methods", message: "We currently only allow users to have 5 payout methods.")
 				return
 			}
 			navigationController?.pushViewController(TutorAddBank(), animated: true)
@@ -283,7 +283,7 @@ class BankManagerTableViewCell : UITableViewCell {
 		
 		label.textAlignment = .left
 		label.adjustsFontSizeToFitWidth = true
-		label.font = Fonts.createBoldSize(16)
+		label.font = Fonts.createSize(16)
 		label.textColor = .white
 		
 		return label
@@ -294,7 +294,7 @@ class BankManagerTableViewCell : UITableViewCell {
 		
 		label.textAlignment = .left
 		label.adjustsFontSizeToFitWidth = true
-		label.font = Fonts.createBoldSize(16)
+		label.font = Fonts.createSize(15)
 		label.textColor = .white
 		
 		return label

@@ -112,7 +112,8 @@ class Stripe {
 							let account : ConnectAccount = try JSONDecoder().decode(ConnectAccount.self, from: data)
 							completion(nil, account)
 						} catch {
-							completion(NSError(domain: "Error", code: 1, userInfo: ["description" : "Unable to find connect account object."]), nil)
+							let error : Error = StripeError.retrieveConnectAccountError
+							completion(error, nil)
 						}
 				case .failure(let error):
 					completion(error, nil)
@@ -128,8 +129,7 @@ class Stripe {
 			.validate(statusCode: 200..<300)
 			.responseString(completionHandler: { (response) in
 				switch response.result {
-				case .success(let value):
-					print(value)
+				case .success:
 					completion(nil)
 				case .failure(let error):
 					completion(error)
@@ -152,7 +152,8 @@ class Stripe {
 						let externalAccounts : ExternalAccounts = try JSONDecoder().decode(ExternalAccounts.self, from: data)
 						completion(nil, externalAccounts)
 					} catch {
-						completion(NSError(domain: "Error loading data", code: 3, userInfo: ["description" : "Unable to load external accounts."]), nil)
+						let error : Error = StripeError.bankListError
+						completion(error, nil)
 					}
 				case .failure(let error):
 					completion(error, nil)
@@ -174,10 +175,11 @@ class Stripe {
 							let transaction : BalanceTransaction = try JSONDecoder().decode(BalanceTransaction.self, from: data)
 							completion(nil,transaction)
 						} catch {
-							completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]), nil)
+							let error : Error = StripeError.balanceTransactionError
+							completion(error, nil)
 						}
 				case .failure(let error):
-					completion(error,nil)
+					completion(error, nil)
 				}
 			})
 	}
@@ -244,7 +246,8 @@ class Stripe {
 						let externalAccounts : ExternalAccounts = try JSONDecoder().decode(ExternalAccounts.self, from: data)
 						return completion(nil, externalAccounts)
 					} catch {
-						return completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]), nil)
+						let error : Error = StripeError.updateBankError
+						return completion(error, nil)
 					}
 				case .failure(let error):
 					return completion(error, nil)
@@ -266,7 +269,8 @@ class Stripe {
 						let externalAccounts : ExternalAccounts = try JSONDecoder().decode(ExternalAccounts.self, from: data)
 						completion(nil, externalAccounts)
 					} catch {
-						completion(NSError(domain: "Error Loading Data", code: 4, userInfo: ["description" : "Unable to update default bank account."]),nil)
+						let error : Error = StripeError.removeBankAccountError
+						completion(error, nil)
 					}
 				case .failure(let error):
 					completion(error,nil)
