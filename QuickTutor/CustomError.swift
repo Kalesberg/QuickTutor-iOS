@@ -10,7 +10,6 @@ import Foundation
 
 public enum StripeError : Error {
 	case removeBankAccountError, bankListError, balanceTransactionError, updateBankError, retrieveConnectAccountError
-	
 }
 extension StripeError : LocalizedError {
 	public var errorDescription : String? {

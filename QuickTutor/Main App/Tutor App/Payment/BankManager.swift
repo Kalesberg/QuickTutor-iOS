@@ -200,7 +200,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "bankCell", for: indexPath) as! BankManagerTableViewCell
 			insertBorder(cell: cell)
 			cell.bankName.text = banks[indexPath.row].bank_name
-			cell.holderName.text = banks[indexPath.row].account_holder_name
+			cell.accountLast4.text = "•••• \(banks[indexPath.row].last4)"
 			cell.defaultBank.isHidden = !banks[indexPath.row].default_for_currency
 			
 			return cell
@@ -289,7 +289,7 @@ class BankManagerTableViewCell : UITableViewCell {
 		return label
 	}()
 	
-	let holderName : UILabel = {
+	let accountLast4 : UILabel = {
 		let label = UILabel()
 		
 		label.textAlignment = .left
@@ -316,8 +316,9 @@ class BankManagerTableViewCell : UITableViewCell {
 	
 	func configureTableViewCell() {
 		addSubview(bankName)
-		addSubview(holderName)
+		addSubview(accountLast4)
 		addSubview(defaultBank)
+		
 		let cellBackground = UIView()
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
@@ -333,7 +334,7 @@ class BankManagerTableViewCell : UITableViewCell {
 			make.left.equalToSuperview()
 			make.centerY.equalToSuperview()
 		}
-		holderName.snp.makeConstraints { (make) in
+		accountLast4.snp.makeConstraints { (make) in
 			make.width.equalToSuperview().multipliedBy(0.5)
 			make.height.equalToSuperview()
 			make.left.equalTo(bankName.snp.right)

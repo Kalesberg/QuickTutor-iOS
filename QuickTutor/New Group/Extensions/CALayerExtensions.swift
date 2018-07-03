@@ -50,6 +50,13 @@ extension CATransition {
 		self.subtype = kCATransitionFromTop
 		return self
 	}
+	func segueFromTop() -> CATransition {
+		self.duration = 0.375
+		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		self.type = kCATransitionMoveIn
+		self.subtype = kCATransitionFromBottom
+		return self
+	}
 	
 	func segueFromLeft() -> CATransition {
 		self.duration = 0.1
