@@ -25,10 +25,10 @@ class TutorConnectionsView : MainLayoutHeaderScroll {
         title.label.text = "Connections"
         header.label.text = "Connecting"
         
-        connectingBody.text = "After registration, the first step to connecting with a learner is fully filling out your profile, by tapping on the red progress on the home page. Once you list your preferences, policies, availability, and courses completed — you’ll be visible to learners.\n\nConnection requests will sent by learners through the messaging system, which can be sent with manually typed messages or custom messages.\n\nConnection requests that have not yet been accepted will appear in your “Learners” tab in the messenger. Once you accept a learner’s connection request, you’ll be able to communicate freely and schedule tutoring sessions. "
+        connectingBody.text = "After tutor registration, you can connect with learners.\n\nLearners will send connection requests through the messenger, which will be delivered to you with manually typed messages or custom messages.\n\nConnection requests that have not yet been accepted will appear in your \"messages\" tab in the messenger. This is where you can see all your message threads with learners.  Once you accept a learner's connection request, you'll be able to communicate freely and schedule tutoring sessions."
         
         onceConnectedTitle.label.text = "Once connected"
-        onceConnectedBody.text = "Once you are connected with a learner, you can go to your “Learners” tab in the messenger. This is where you can see all your message threads with learners, which display the learner’s location or university, the past sessions you’ve had with them, their rating, and the last message sent between you two.\n\nTo message a learner, simply tap on their message thread in the “Learners” tab and your messages with them will open. Remember, until you accept a connection request, you will not be able to message a tutor freely."
+        onceConnectedBody.text = "Once you are connected with a learner, you can go to your \"messages\" tab in the messenger. This is where you can see all your message threads with learners.\n\nTo message a learner, tap on their message thread in the \"messages\" tab and your messages with them will open. Remember, until you accept a connection request, you will not be able to message a learner freely, send images or schedule sessions."
     }
     
     override func applyConstraints() {

@@ -49,19 +49,19 @@ class TutorHandookView : MainLayoutHeaderScroll {
         title.label.text = "Tutor Handbook"
         header.label.text = "Set your own schedule"
         
-        setScheduleBody.text = "You can tutor whenever you want – day or night, 365 days a year. When you tutor is always up to you, so it won’t interfere with the most important things in life. Sessions can be scheduled as early as fifteen minutes in the future or up to thirty days in advance. "
+        setScheduleBody.text = "You can tutor whenever you want – day or night, 365 days a year. When you tutor is always up to you so that it won’t interfere with the most important things in life. Sessions can be scheduled as early as fifteen minutes in the future or up to thirty days in advance."
         
         earnTitle.label.text = "Earn what you want"
         
-        earnBody.text = "With QuickTutor, you can charge whatever you’d like. For your first fifteen hours of tutoring, a 10% service fee will be subtracted from your fare. After fifteen hours of tutoring, the fee becomes only 7.5%. The fee helps us maintain the QuickTutor platform and make continuous investments to improve our technologies."
+        earnBody.text = "With QuickTutor you can charge whatever you’d like and each session can be any price. For your first fifteen hours of tutoring, we will take 10% of your fare. After that, we’ll just take 7.5% of your fare."
         
         toolTitle.label.text = "The ultimate biz management tool"
         
-        toolBody.text = "Tap and tutor. All you have to do is build up your profile and wait -- learners will send you connection requests, you message them, coordinate session details and then accept their requests for tutoring sessions. You can also send photos back and forth in case they have a quick question. "
+        toolBody.text = "Tap and tutor. All you have to do is build up your profile and wait. Learners will send you connection requests, and once you accept them, you can coordinate session details and accept session requests from learners. You can also send photos back and forth in case they have a quick question before a session."
         
         easyProfileTitle.label.text = "Easy profile setup:"
         
-        strings = ["1.  Profile Pictures\n      Upload one-to-four pictures of yourself. Note: all user profile pictures are subject to moderation.\n\n", "2.  Biography\n      Make sure your bio clearly describes you, your experience/expertise, lists any certifications you may have, and what you are looking for in a learner.\n\n", "3.  Courses Completed\n      If you’re currently a university student or have been, you can use our courses completed feature to insert the class codes of specific classes you’ve completed.\n\n", "4.  Social Connect\n      QuickTutor enables you to connect your Instagram account so that learners can see your Instagram pictures. To connect your Instagram, just scroll to the bottom of your profile and press “connect Instagram”."]
+        strings = ["•  Profile Pictures\n      Upload one-to-four pictures of yourself. Note: all user profile pictures are subject to moderation.\n\n", "•  Biography\n      Make sure your bio clearly describes you, your experience/expertise, lists any certifications you may have, and what you are looking for in a learner.\n\n", "•  Preferences & Policies\n      You set your own subjects, rate, schedule, policies, and preferences. Your profile is the face of your business."]
         
 		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : earnBody.font]
         let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)

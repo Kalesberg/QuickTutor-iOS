@@ -29,16 +29,16 @@ class PaymentOptionsView : MainLayoutHeaderScroll {
         super.configureView()
         
         title.label.text = "Help"
-        header.label.text = "Payment Options"
+        header.label.text = "Payments and earnings"
         
         cardTitle.label.text = "DEBIT AND CREDIT CARD"
-        cardBody.text = "Adding a debit card or credit card is the only way to pay for tutoring sessions for now. Adding a payment method in the form of a debit or credit card will allow you to connect, communicate and schedule sessions with tutors.\n\nQuickTutor is free to download and use. You must enter a payment method to participate in tutoring sessions. Most often -- tutoring sessions will cost you money. You will not be charged when you schedule a tutoring session — you are charged after a tutoring session, for the time that you used. Therefore, if you schedule a sixty-minute session for $60.00 and leave after 30 mins, your payment method will only be charged $30.00. Easy as pie.\n\nQuickTutor operates with Stripe API, which handle billions of dollars every year for forward-thinking businesses around the world. All you have to do is input your card information once, and payments are directly distributed to tutors after sessions."
+        cardBody.text = "Learners adding their debit or credit card is the only way to pay for tutoring sessions for now.\n\nQuickTutor operates with Stripe API, which handles billions of dollars every year for forward-thinking businesses around the world. All you have to do is input your bank information once, and your earnings as a tutor are directly distributed to you after sessions."
         
         cashTitle.label.text = "CASH"
-        cashBody.text = "QuickTutor is designed for a cashless exchange between two individuals. Your payment method is charged immediately following the end of a session. Your receipt is emailed to you, and your sessions tab is updated under “Past” with all the details regarding the session. "
+        cashBody.text = "QuickTutor is designed for a cashless exchange between two individuals. After each session, your earnings will be virtually deposited into your bank account. Your receipt will then emailed to you, and your sessions tab is updated under the “past” section with all the details regarding the session."
         
         gratuityTitle.label.text = "GRATUITY"
-        gratuityBody.text = "Tipping tutors is not required for sessions. Giving a tip is optional.\n\n"
+        gratuityBody.text = "You are allowed to ask for tips as a tutor. Learners tipping tutors is not required after a session. Tipping a tutor is entirely optional. Tips are added to the total of the session. Tips are subject to our 10% or 7.5% service fee (depending on your hours completed). \n\n"
     }
     
     override func applyConstraints() {

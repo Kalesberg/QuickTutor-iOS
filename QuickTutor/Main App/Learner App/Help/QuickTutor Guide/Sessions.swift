@@ -14,7 +14,6 @@ class SessionsView : MainLayoutHeaderScroll {
     var requestingSessionsBody = SectionBody()
     var sendRequestSubtitle = SectionSubTitle()
     var sendRequestBody = SectionBody()
-    var sendRequestBody2 = SectionBody()
     var startingSessionsTitle = SectionTitle()
     var startingSessionsBody = SectionBody()
     var automaticSessionsTitle = SectionTitle()
@@ -31,7 +30,6 @@ class SessionsView : MainLayoutHeaderScroll {
         scrollView.addSubview(requestingSessionsBody)
         scrollView.addSubview(sendRequestSubtitle)
         scrollView.addSubview(sendRequestBody)
-        scrollView.addSubview(sendRequestBody2)
         scrollView.addSubview(startingSessionsTitle)
         scrollView.addSubview(startingSessionsBody)
         scrollView.addSubview(automaticSessionsTitle)
@@ -47,42 +45,26 @@ class SessionsView : MainLayoutHeaderScroll {
         title.label.text = "Sessions"
         header.label.text = "Requesting Sessions"
         
-        requestingSessionsBody.text = "Once you have connected with a tutor, you can send session requests. Session requests can be scheduled as early as fifteen minutes in the future, and up to thirty days in advance. "
+        requestingSessionsBody.text = "Once you have connected with a tutor, you can send session requests. Session requests can be scheduled as early as fifteen minutes in the future, and up to thirty days in advance.\n\nAlthough a tutor has a set hourly rate, you can negotiate with them in the messaging system and schedule a session for any price up to $12,000, at a maximum session length of 12 hours."
         
-        sendRequestSubtitle.label.text = "There are two ways to send a session request:"
+        sendRequestSubtitle.label.text = "How to schedule a tutoring session:"
         
-        strings = ["1.  Tapping the “+” icon in your messages with a tutor, selecting the “Request Session” button, and then filling in the session details.\n\n", "2.  Selecting the “Request Session” button in the bottom right of the “Sessions” tab in messenger, selecting a tutor, and then filling in the session details.\n"]
-        
-		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : sendRequestBody.font]
-        let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
-        
-        for string: String in strings {
-            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
-            
-            let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
-            
-            fullAttributedString.append(attributedString)
-        }
-        
-        sendRequestBody.attributedText = fullAttributedString
-        
-        sendRequestBody2.text = "Session requests that have not yet been accepted will appear under the “Pending” section in the “Sessions” tab of your messenger. They will remain here until a tutor accepts your session request. Once accepted, they will appear under the “Upcoming” section in the “Sessions” tab."
+        sendRequestBody.text = "Tap the \"+\" icon in the bottom left of your messages with a tutor, select the “Request Session” button, and then fill in the session details and tap the “Send” button at the bottom.\n\nThe session request will then be sent to the tutor, and it will say \"pending\" until it is accepted by the tutor. You can find your pending session requests under the \"Pending\" section in the \"Sessions\" tab of your messenger."
         
         startingSessionsTitle.label.text = "Manually starting sessions"
-        startingSessionsBody.text = "Sometimes you and a tutor may agree to start your session before the scheduled time. Both you or your tutor can manually start sessions by going to the “Sessions” tab, tapping on the particular session in the “Upcoming” section, and then tapping “Start”.\n\nOnce you manually start a session, the tutor will have to accept your manual start before the session can occur."
+        startingSessionsBody.text = "Sometimes you and a tutor may agree to start your session before the scheduled time. Both you or your tutor can attempt to manually start tutoring sessions by going to the \"Sessions\" tab in your messenger, tapping on the particular session in the \"Upcoming\" section, and then tapping the green \"Start\" button.\n\nOnce you press the start button it will notify your tutor. The tutor will have to accept your manual start before the session starts. Once the tutor accepts the manual start request, the session will begin instantly."
         
         automaticSessionsTitle.label.text = "Automatic starting sessions"
         automaticSessionsBody.text = "When it is time for a session to begin, it will simply begin."
         
         startingTitle.label.text = "Sessions starting"
-        startingBody.text = "Whether your session is started manually or automatically — if you are outside of the app, you will receive a push notification that will take you into the session menu. If you are inside the app when your session is manually or automatically started, you will be taken directly to the session menu.\n\nVideo (online) tutoring sessions begin automatically when accepted. If your session is in-person, you and your tutor will both be asked to confirm the meet-up. Once the meet-up is confirmed by both you and your tutor, your session will begin and you will start being charged for tutoring."
+        startingBody.text = "Whether your session is started manually or automatically — if you are outside of the app, you will receive a push notification that will take you into the session menu.\n\nVideo (online) tutoring sessions begin automatically when accepted by both users.\n\nIf your session is in-person, you and your tutor will both be asked to confirm the meet-up. Once the meet-up is confirmed by both you and your tutor, your session will begin and you will begin being charged for tutoring. "
         
         inSessionTitle.label.text = "In-Session"
-        inSessionBody.text = "In-person and online/video QuickTutor sessions are exactly the same. Both tutors and learners can leave or pause sessions at anytime. You can pause a session by tapping on the “||” symbol. Learners are not penalized for leaving sessions early. Tutors are subject to disciplinary action if leaving sessions early becomes a trend.\n\nYou can report a tutor for canceling, being late to a session, or leaving a session early in the “File Report” tab of the settings bar.\n\nWhen a session’s time is up, we will ask you if you’d like to keep going or end the session immediately.\n\nIf you choose to keep going, you have the option to choose how much more time the session will be. A tutor will have to accept this time addition on their end, and then the session can continue. If a tutor denies the time addition, the session ends immediately."
+        inSessionBody.text = "In-person and online/video sessions are exactly the same. Both tutors and learners can pause or leave sessions at anytime. When a session is paused — the clock is completely stopped, learners are not being charged and tutors are not being paid while a session is paused. You can pause a session by tapping on the \"||\" icon in the top left of the screen during both video call and in-person sessions.\n\nLearners are not penalized for leaving sessions early. Tutors may be subject to disciplinary if leaving sessions becomes a consistent occurrence.\n\nYou can report a tutor for canceling, being late or leaving a session early in the \"File Report\" tab of the side bar menu.\n\nWhen a session’s time is up, we will ask you whether you’d like to keep the session going or end it immediately.\n\nIf you choose to keep going, you have the option to choose how much more time the session will be. A tutor will have to accept your time addition on their end, and then the session can continue. If a tutor denies the time addition — the session will end. "
         
         postSessionTitle.label.text = "Post-Session"
-        postSessionBody.text = "After a session, you will be asked if you would like to tip your tutor. While tips are a very generous way of gifting your tutor, they are not mandatory.\n\nAfter a session, you will also be asked to rate and review your tutor. When rating and reviewing a tutor, please remember to be honest and leave an accurate review — this will help other learners, increase the QuickTutor platform quality, and get rid of fraud tutors. Ratings and reviews are extremely important and should be taken seriously.\n\n"
+        postSessionBody.text = "After a session, you will be asked if you would like to tip your tutor. While tips are a very generous way of gifting your tutor, they are not mandatory.\n\nAfter a session, you will also be asked to rate and write a review on your tutor. When rating and reviewing a tutor, please remember to be honest and leave an accurate review — this will help other learners, increase the quality of the QuickTutor platform, and get rid of fraudulent tutors. Ratings and reviews are extremely important and should be taken seriously.\n\n"
     }
     
     override func applyConstraints() {
@@ -91,8 +73,7 @@ class SessionsView : MainLayoutHeaderScroll {
         requestingSessionsBody.constrainSelf(top: header.snp.bottom)
         sendRequestSubtitle.constrainSelf(top: requestingSessionsBody.snp.bottom)
         sendRequestBody.constrainSelf(top: sendRequestSubtitle.snp.bottom)
-        sendRequestBody2.constrainSelf(top: sendRequestBody.snp.bottom)
-        startingSessionsTitle.constrainSelf(top: sendRequestBody2.snp.bottom)
+        startingSessionsTitle.constrainSelf(top: sendRequestBody.snp.bottom)
         startingSessionsBody.constrainSelf(top: startingSessionsTitle.snp.bottom)
         automaticSessionsTitle.constrainSelf(top: startingSessionsBody.snp.bottom)
         automaticSessionsBody.constrainSelf(top: automaticSessionsTitle.snp.bottom)

@@ -29,7 +29,7 @@ class AccountInfoView : MainLayoutHeaderScroll {
         super.configureView()
         
         title.label.text = "Help"
-        header.label.text = "Changing my account setttings"
+        header.label.text = "Changing my account information"
         
         strings = ["1.  Tap the three lines in the top left of the home page.\n", "2.  Tap the profile bar that displays your name and photo.\n", "3.  Tap \"Edit\" in the top right of the screen.\n", "4.  Select the the information you would like to change.\n", "5.  When you’ve changed your information, click save."]
 
