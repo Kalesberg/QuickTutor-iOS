@@ -472,8 +472,8 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
                 cell.distanceLabel.attributedText = distance.formatDistance()
             }
         }
-        
-        cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
+		cell.connectButton.connect.text = "Connect"
+//        cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
         return cell
     }
     

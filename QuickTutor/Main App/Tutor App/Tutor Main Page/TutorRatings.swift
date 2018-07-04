@@ -276,7 +276,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			cell.seeAllButton.snp.updateConstraints { (make) in
 				make.bottom.equalToSuperview().inset(15)
 			}
-			cell.seeAllButton.isHidden = !(datasource.count > 2)
+			cell.seeAllButton.isHidden = datasource.count < 2
 			cell.datasource = datasource
 			
 			return cell

@@ -189,8 +189,20 @@ class AddTutor : BaseViewController, ShowsConversation {
             self.filteredUsername = queriedUsername
         }
     }
+	override func handleNavigation() {
+		if touchStartView is AddBankButton {
+			self.dismissPaymentModal()
+			let next = CardManager()
+			next.popBackTo = AddTutor()
+			navigationController?.pushViewController(next, animated: true)
+		}
+	}
 }
-
+extension AddTutor : AddPaymentButtonPress {
+	func dismissPaymentModal() {
+		self.dismissAddPaymentMethod()
+	}
+}
 extension AddTutor : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -209,7 +221,6 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
         cell.usernameLabel.text = "@\(filteredUsername[indexPath.section].username)"
         cell.nameLabel.text = (connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "\(name[0]) \(String(name[1]).prefix(1)) – Connected" : "\(name[0]) \(String(name[1]).prefix(1))"
         cell.profileImageView.loadUserImages(by: filteredUsername[indexPath.section].imageUrl)
-        cell.delegate = self
         cell.uid = filteredUsername[indexPath.section].uid
         
         if pendingIds.contains(filteredUsername[indexPath.section].uid) {
@@ -305,14 +316,10 @@ class AddTutorTableViewCell : UITableViewCell {
 
         return label
     }()
-    
-    
-    
+	
     let addTutorButton : UIButton = {
         let button = UIButton()
-//		button.backgroundColor = UIColor.clear
-//		button.layer.borderColor = UIColor.white.cgColor
-//		button.layer.borderWidth = 0.5
+		
 		button.backgroundColor = Colors.learnerPurple
 		button.setTitleColor(.white, for: .normal)
 		button.titleLabel?.textAlignment = .center
@@ -375,11 +382,17 @@ class AddTutorTableViewCell : UITableViewCell {
         addTutorButton.layer.shadowRadius = 3
     }
     
-    @objc func addTutorButtonPressed(_ sender: UIButton) {
-        guard let uid = self.uid else { return }
-        delegate?.addTutorWithUid(uid)
+    @objc func addTutorButtonPressed(_ sender: Any) {
+		if CurrentUser.shared.learner.hasPayment {
+			guard let uid = self.uid else { return }
+			delegate?.addTutorWithUid(uid)
+		} else {
+			let vc = next?.next?.next as! AddTutor
+			vc.displayAddPaymentMethod()
+		}
     }
 }
+
 extension AddTutor : UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)

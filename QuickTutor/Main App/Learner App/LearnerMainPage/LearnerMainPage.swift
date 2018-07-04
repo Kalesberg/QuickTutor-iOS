@@ -54,7 +54,6 @@ class LearnerMainPageView : MainPageView {
     
     override func applyConstraints() {
         super.applyConstraints()
-
         search.snp.makeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalToSuperview().multipliedBy(0.65)
@@ -120,7 +119,7 @@ class LearnerMainPage : MainPage {
         navigationController?.navigationBar.isHidden = true
     }
     
-    private func configureSideBarView(){
+    private func configureSideBarView() {
         let formattedString = NSMutableAttributedString()
         contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become a QuickTutor"
         
