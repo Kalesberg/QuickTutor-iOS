@@ -75,9 +75,9 @@ class AddPaymentModal : InteractableView, Interactable {
 	let infoLabel : UILabel = {
 		let label = UILabel()
 		
-		label.font = Fonts.createSize(18)
+		label.font = Fonts.createSize(14)
 		label.textColor = .white
-		label.text = "Hey! Before connecting with tutors, we need to make sure you have a payment method!"
+		label.text = "Hey! Before connecting with tutors we need to make sure you have a payment method on file! There are no subscriptions or upfront payments. When you have a session -- your payment method will be charged at an hourly rate of your preselected choice."
 		label.numberOfLines = 0
 		
 		return label
@@ -104,8 +104,8 @@ class AddPaymentModal : InteractableView, Interactable {
 		modal.snp.makeConstraints { (make) in
 			make.centerX.equalToSuperview()
 			make.centerY.equalToSuperview().inset(-20)
-			make.width.equalToSuperview().multipliedBy(0.85)
-			make.height.equalTo(200)
+			make.width.equalToSuperview().multipliedBy(0.9)
+			make.height.equalTo(240)
 		}
 		
 		addBankLabel.snp.makeConstraints { (make) in
