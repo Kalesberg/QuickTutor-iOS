@@ -507,6 +507,7 @@
 		84C96C0C1FCE34A900DBD3A6 /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 		84C9C00C20A2374C000DE1C9 /* ConnectAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectAccount.swift; sourceTree = "<group>"; };
 		84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceTransaction.swift; sourceTree = "<group>"; };
+		84CA83C520B3BEAE00B2FBD2 /* badwords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = badwords.json; sourceTree = "<group>"; };
 		84CB7AD420CF607800274473 /* TutorProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorProfileImageView.swift; sourceTree = "<group>"; };
 		84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		84CC341A1FCE2979008E7A0B /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -734,6 +735,7 @@
 				84D8C9292066A93B003C3AEA /* FeaturedTutorTableViewCell.swift */,
 				84D8C9272066A8E8003C3AEA /* CategoryTableViewCell.swift */,
 				84F12F6120E3008D00EB14E8 /* TutorListings.swift */,
+				84CA83C520B3BEAE00B2FBD2 /* badwords.json */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";

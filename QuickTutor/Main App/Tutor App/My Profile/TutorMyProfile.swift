@@ -115,8 +115,9 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
             
-            cell.nameLabel.text = tutor.name
-            cell.locationLabel.text = tutor.region
+			let name = tutor.name.split(separator: " ")
+			cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+			cell.locationLabel.text = tutor.region
             cell.profilePicView.loadUserImages(by: tutor.images["image1"]!)
             cell.ratingLabel.text = String(tutor.tRating)
             
@@ -206,7 +207,6 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             }
-            
             cell.applyConstraints()
             
             return cell

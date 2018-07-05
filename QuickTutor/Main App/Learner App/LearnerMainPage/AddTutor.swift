@@ -40,7 +40,7 @@ class AddTutorView : MainLayoutTitleBackButton {
     let tableView : UITableView = {
         let tableView = UITableView()
         
-        tableView.rowHeight = 44
+        tableView.rowHeight = 50
         tableView.separatorInset.left = 10
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
@@ -100,11 +100,11 @@ class AddTutor : BaseViewController, ShowsConversation {
     
     override var contentView: AddTutorView {
         return view as! AddTutorView
-        
     }
     
     var searchTimer = Timer()
-    var connectedIds = [String]()
+
+	var connectedIds = [String]()
     var queriedIds = [String]()
     var pendingIds = [String]()
     
@@ -233,12 +233,11 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
             cell.nameLabel.text = "\(name[0]) \(String(name[1]).prefix(1))."
             cell.addTutorButton.setTitle("Connect", for: .normal)
         }
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        return 50
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -260,7 +259,6 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
             next.contentView.title.label.text = "@\(self.filteredUsername[indexPath.section].username)"
             self.navigationController?.pushViewController(next, animated: true)
         }
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -325,6 +323,7 @@ class AddTutorTableViewCell : UITableViewCell {
 		button.titleLabel?.textAlignment = .center
 		button.titleLabel?.font = Fonts.createSize(14)
 		button.titleLabel?.adjustsFontSizeToFitWidth = true
+		
         return button
     }()
     
@@ -346,17 +345,18 @@ class AddTutorTableViewCell : UITableViewCell {
 
         applyConstraints()
     }
+	
     func applyConstraints() {
         profileImageView.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.15)
-            make.height.equalToSuperview().multipliedBy(0.9)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
             make.left.equalToSuperview().inset(10)
         }
         addTutorButton.snp.makeConstraints { (make) in
             make.right.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.10)
+            make.width.equalTo(100)
             make.height.equalToSuperview().multipliedBy(0.7)
         }
         usernameLabel.snp.makeConstraints { (make) in
