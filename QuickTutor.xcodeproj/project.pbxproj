@@ -153,7 +153,6 @@
 		84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */; };
 		84C4E93F206B61C2000C7A2F /* LearnerProfilePics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */; };
 		84C4E940206B61C2000C7A2F /* LearnerUnsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */; };
-		84C82FE220ED99C700E526B4 /* YourListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C82FE120ED99C700E526B4 /* YourListing.swift */; };
 		84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */; };
 		84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E31FF8997400737A59 /* TextLabel.swift */; };
 		84C96C0D1FCE34A900DBD3A6 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C96C0C1FCE34A900DBD3A6 /* Email.swift */; };
@@ -738,6 +737,7 @@
 				84D8C9272066A8E8003C3AEA /* CategoryTableViewCell.swift */,
 				84F12F6120E3008D00EB14E8 /* TutorListings.swift */,
 				84CA83C520B3BEAE00B2FBD2 /* badwords.json */,
+				84C82FE120ED99C700E526B4 /* YourListing.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1910,7 +1910,6 @@
 				84F2451E1FDA119E006447A8 /* TutorMainPage.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessional.swift in Sources */,
 				CF6F58DE205EE68800ACBD32 /* SettingsVC.swift in Sources */,
-				84C82FE220ED99C700E526B4 /* YourListing.swift in Sources */,
 				CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */,
 				84CB7AD520CF607800274473 /* TutorProfileImageView.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
