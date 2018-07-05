@@ -516,6 +516,7 @@ class FirebaseData {
 			
 			let post : [String : Any] = ["img" : tutor.images["image1"]!,"nm" : tutor.name, "p" : tutor.price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subjects[0], "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
 			
+			
 			self.ref.child("featured").child(category).child(tutor.uid).updateChildValues(post) { (error, _) in
 				if let error = error {
 					return completion(error)
