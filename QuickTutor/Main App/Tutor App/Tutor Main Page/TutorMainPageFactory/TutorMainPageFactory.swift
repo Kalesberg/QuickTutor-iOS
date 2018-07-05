@@ -11,9 +11,9 @@ import UIKit
 
 enum TutorMainPageButtonFactory {
 	
-	case tutorRating, tutorTrending, tutorEarning
+	case tutorRating, tutorTrending, tutorEarning, tutorListing
 	
-	static let buttons : [TutorMainPageButtonFactory] = [.tutorRating, .tutorTrending, .tutorEarning]
+	static let buttons : [TutorMainPageButtonFactory] = [.tutorRating, .tutorTrending, .tutorEarning, .tutorListing]
 	
 	var mainPageButton : MainPageButton {
 		switch self {
@@ -23,6 +23,8 @@ enum TutorMainPageButtonFactory {
 			return MainPageButton(icon: #imageLiteral(resourceName: "trending"), label: "View Trending", color: UIColor(hex: "5785D4"))
 		case .tutorEarning:
 			return MainPageButton(icon: #imageLiteral(resourceName: "earnings"), label: "Your Earnings", color: Colors.green)
+        case .tutorListing:
+            return MainPageButton(icon: #imageLiteral(resourceName: "clipboard"), label: "Your Listings", color: Colors.tutorBlue)
 		}
 	}
 	var viewController : UIViewController {
@@ -30,6 +32,7 @@ enum TutorMainPageButtonFactory {
 		case .tutorRating: return TutorRatings()
 		case .tutorEarning: return TutorEarnings()
 		case .tutorTrending: return TrendingCategories()
+        case .tutorListing: return YourListing()
 		}
 	}
 }
