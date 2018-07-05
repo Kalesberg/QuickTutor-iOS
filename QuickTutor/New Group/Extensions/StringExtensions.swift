@@ -106,7 +106,7 @@ extension String {
 		if self != "0" {
 			text = " - Cancellation Policy: \(self) Hour Notice\n\n"
 		} else {
-			text = " - No Cancellation Policy.\n"
+			text = " - No Cancellation Policy.\n\n"
 		}
 		return text
 	}
@@ -146,7 +146,7 @@ extension String {
 		return "\(name[0])  \(name[1].prefix(1))."
 	}
 	
-	public func getIntIndex(of char: Character) -> Int? {
+	func getIntIndex(of char: Character) -> Int? {
 		if let idx = self.index(of: char) {
 			return self.distance(from: startIndex, to: idx)
 		}

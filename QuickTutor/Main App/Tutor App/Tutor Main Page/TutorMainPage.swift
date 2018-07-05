@@ -58,7 +58,6 @@ class TutorMainPageView : MainPageView {
     }()
     
     let collectionView : UICollectionView =  {
-        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         let layout = UICollectionViewFlowLayout()
         
@@ -159,10 +158,7 @@ class TutorMainPage : MainPage {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
-        
-        FirebaseData.manager.addUpdateFeaturedTutor(tutor: CurrentUser.shared.tutor) { (_) in
-            
-        }
+		
     }
     
     override func viewDidLayoutSubviews() {
@@ -173,7 +169,7 @@ class TutorMainPage : MainPage {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard let tutor = CurrentUser.shared.tutor, let account = CurrentUser.shared.connectAccount  else {
+        guard let tutor = CurrentUser.shared.tutor, let account = CurrentUser.shared.connectAccount else {
             self.navigationController?.popBackToMain()
             AccountService.shared.currentUserType = .learner
             return
@@ -181,6 +177,8 @@ class TutorMainPage : MainPage {
         self.tutor = tutor
         self.account = account
         self.configureSideBarView()
+		FirebaseData.manager.addUpdateFeaturedTutor(tutor: CurrentUser.shared.tutor) { (_) in }
+		
         navigationController?.navigationBar.isHidden = true
     }
     
@@ -194,7 +192,6 @@ class TutorMainPage : MainPage {
         } else {
             formattedString
                 .bold(tutor.name, 17, .white)
-            print("sdfsfd")
         }
         
         contentView.sidebar.ratingView.ratingLabel.text = String(tutor.tRating)
@@ -301,7 +298,6 @@ class TutorMainPage : MainPage {
             UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
                 self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.minX
             })
-            
             showBackground()
             if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
                 displaySidebarTutorial()

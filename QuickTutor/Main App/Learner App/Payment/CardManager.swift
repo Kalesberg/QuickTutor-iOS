@@ -86,6 +86,7 @@ class CardManager : BaseViewController {
 	}
 	
 	var popToMain : Bool = true
+	var popBackTo : UIViewController?
 	
 	private var cards = [STPCard]()
 	private var defaultCard : STPCard?
@@ -186,6 +187,7 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 			}
 			let next = LearnerPayment()
 			next.popToMain = self.popToMain
+			next.popBackTo = self.popBackTo
 			navigationController?.pushViewController(next, animated: true)
 		} else {
 			if cards[indexPath.row] != defaultCard {

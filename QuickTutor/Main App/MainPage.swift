@@ -51,8 +51,8 @@ class MainPageView : MainLayoutTwoButton {
         
         backgroundView.backgroundColor = .black
         backgroundView.alpha = 0.0
-        
-        sidebar.alpha = 0.0
+
+		sidebar.alpha = 0.0
     
     }
     
@@ -60,8 +60,8 @@ class MainPageView : MainLayoutTwoButton {
         super.applyConstraints()
         
         sidebarButton.allignLeft()
-        
         messagesButton.allignRight()
+
         
         backgroundView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()

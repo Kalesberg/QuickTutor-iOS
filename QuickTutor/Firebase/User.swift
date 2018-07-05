@@ -360,8 +360,18 @@ class FirebaseData {
 			})
 		})
 	}
+	public func fetchPendingRequests(uid:  String,_ completion: @escaping ([String]?) -> Void) {
+		var conversationId = [String]()		
+		self.ref.child("conversations").child(uid).child("learner").observe(.value) { (snapshot) in
+			for snap in snapshot.children {
+				guard let child = snap as? DataSnapshot else { continue }
+				conversationId.append(child.key)
+			}
+			return completion(conversationId)
+		}
+	}
 	
-	public func fetchSubjectsTaught(uid: String, _ completion: @escaping ([TopSubcategory]) -> Void) {
+	public func fetchSubjectsTaught(uid: String,_ completion: @escaping ([TopSubcategory]) -> Void) {
 		var subjectsTaught = [TopSubcategory]()
 		
 		ref.child("subject").child(uid).observeSingleEvent(of: .value) { (snapshot) in
@@ -505,6 +515,7 @@ class FirebaseData {
 			guard let category = SubjectStore.findCategoryBy(subject: String(subjects[0])) else { return }
 			
 			let post : [String : Any] = ["img" : tutor.images["image1"]!,"nm" : tutor.name, "p" : tutor.price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subjects[0], "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
+			
 			
 			self.ref.child("featured").child(category).child(tutor.uid).updateChildValues(post) { (error, _) in
 				if let error = error {

@@ -31,7 +31,14 @@ class TutorEarningsView : TutorLayoutView {
         return label
     }()
 	
-	let label = UILabel()
+	let label : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = .white
+		
+		return label
+	}()
+	
     let earningsLabel = UILabel()
 	
     let infoContainer : UIView = {
@@ -152,7 +159,6 @@ class TutorEarnings : BaseViewController {
 		dateFormatter.dateFormat = "MM/dd/yyyy"
 		
 		self.displayLoadingOverlay()
-		
 		Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { (error, transactions) in
 			guard let transactions = transactions else { return }
 			self.datasource = transactions.data.sorted { return $0.created < $1.created }
@@ -172,14 +178,12 @@ class TutorEarnings : BaseViewController {
 
 		if let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1)) {
 			let firstDay = firstOfYear.timeIntervalSince1970
-			for transaction in datasource {
+ 			for transaction in datasource {
 				guard let net = transaction.net else { continue }
 				if transaction.created > Int(firstDay) {
 					thisYearTotal += net
 				}
 			}
-			contentView.label.textColor = .white
-
 			let formattedString = NSMutableAttributedString()
 
 			formattedString
@@ -201,8 +205,8 @@ class TutorEarnings : BaseViewController {
 		var last30Days : Int = 0
 		var allTime : Int = 0
 
-		let lastWeek = NSDate().timeIntervalSince1970 - 604800
-		let lastMonth = NSDate().timeIntervalSince1970 - 2629743
+		let lastWeek = NSDate().timeIntervalSince1970 - 604800 // subctract 7 days
+		let lastMonth = NSDate().timeIntervalSince1970 - 2629743 // substract 30 days
 
 		for transaction in datasource {
 			guard let net = transaction.net else { continue }
@@ -229,33 +233,30 @@ class TutorEarnings : BaseViewController {
 		contentView.earningsLabel.attributedText = formattedString
 		contentView.earningsLabel.numberOfLines = 0
 		contentView.earningsLabel.textAlignment = .right
+		
 		return
 	}
 	
 	
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         contentView.infoContainer.layer.addBorder(edge: .top, color: Colors.divider, thickness: 1)
         contentView.infoContainer.layer.addBorder(edge: .bottom, color: Colors.divider, thickness: 1)
     }
 }
 
 extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
-	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return datasource.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "tutorEarningsTableCellView", for: indexPath) as! TutorEarningsTableCellView
 		
 		cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - \(datasource[indexPath.row].description ?? "Session")"
 		if let net = datasource[indexPath.row].net {
 			cell.rightLabel.text = net.currencyFormat()
 		}
-		
 		return cell
 	}
 }
@@ -300,7 +301,6 @@ class TutorEarningsTableCellView : BaseTableViewCell {
             make.height.centerY.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
         }
-        
         rightLabel.snp.makeConstraints { (make) in
             make.left.equalTo(leftLabel.snp.right)
             make.centerY.height.equalToSuperview()

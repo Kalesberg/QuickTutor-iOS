@@ -284,9 +284,7 @@ class TutorManagePolicies : BaseViewController {
     var ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
     
     let pickerView = UIPickerView()
-    
     var tutor : AWTutor!
-    
     var datasource = [String]() {
         didSet {
             pickerView.reloadAllComponents()
@@ -393,7 +391,7 @@ class TutorManagePolicies : BaseViewController {
         
         let policyString = "\(latePolicy)_\(lateFee)_\(cancelNotice)_\(cancelFee)"
         
-        self.ref.child("tutor-info").child(Auth.auth().currentUser!.uid).updateChildValues(["pol" : policyString]) { (error, _) in
+        self.ref.child("tutor-info").child(CurrentUser.shared.learner.uid).updateChildValues(["pol" : policyString]) { (error, _) in
             if let error = error {
                 print(error)
             } else {
@@ -413,7 +411,6 @@ class TutorManagePolicies : BaseViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         }
-        
     }
     override func handleNavigation() {
         if touchStartView is NavbarButtonSave {
@@ -423,12 +420,9 @@ class TutorManagePolicies : BaseViewController {
 }
 extension TutorManagePolicies : UITextFieldDelegate {
     
-    internal func textFieldDidBeginEditing(_ textField: UITextField) {
-        
+	func textFieldDidBeginEditing(_ textField: UITextField) {
         selectedTextField = textField
-
         switch textField {
-            
         case contentView.latePolicy.textField:
             self.datasource = self.latePolicy
             pickerView.selectRow(0, inComponent: 0, animated: true)

@@ -47,11 +47,13 @@ class LearnerMainPageView : MainPageView {
         navbar.addSubview(search)
         addSubview(tableView)
         super.configureView()
+
+		navbar.backgroundColor = Colors.learnerPurple
+		statusbarView.backgroundColor = Colors.learnerPurple
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-
         search.snp.makeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalToSuperview().multipliedBy(0.65)
@@ -91,12 +93,10 @@ class LearnerMainPage : MainPage {
 		
 		AccountService.shared.currentUserType = .learner
         guard let learner = CurrentUser.shared.learner else {
-            try! Auth.auth().signOut()
             self.navigationController?.pushViewController(SignIn(), animated: true)
             return
         }
         self.learner = learner
-        
         Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -105,14 +105,12 @@ class LearnerMainPage : MainPage {
                 self.learner.hasPayment = (customer.sources.count > 0)
             }
         }
-		
         queryFeaturedTutors()
         configureView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
             UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
             displayMessagesTutorial()
@@ -121,8 +119,7 @@ class LearnerMainPage : MainPage {
         navigationController?.navigationBar.isHidden = true
     }
     
-    private func configureSideBarView(){
-        
+    private func configureSideBarView() {
         let formattedString = NSMutableAttributedString()
         contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become a QuickTutor"
         
@@ -235,22 +232,21 @@ class LearnerMainPage : MainPage {
         self.displayLoadingOverlay()
         
         QueryData.shared.queryFeaturedTutors(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
-            if let datasource = datasource {
-                if #available(iOS 11.0, *) {
-                    self.contentView.tableView.performBatchUpdates({
-                        self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-                        self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1), with: .fade )
-                    }, completion: { (_) in
-						self.didLoadMore = false
-                    })
-                } else {
-                    self.contentView.tableView.beginUpdates()
-                    self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-                    self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
-                    self.contentView.tableView.endUpdates()
-                    self.didLoadMore = false
-                }
-            }
+			guard let datasource = datasource else { return }
+			if #available(iOS 11.0, *) {
+				self.contentView.tableView.performBatchUpdates({
+					self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+					self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1), with: .fade )
+				}, completion: { (_) in
+					self.didLoadMore = false
+				})
+			} else {
+				self.contentView.tableView.beginUpdates()
+				self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+				self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+				self.contentView.tableView.endUpdates()
+				self.didLoadMore = false
+			}
             self.dismissOverlay()
         }
     }
@@ -258,28 +254,27 @@ class LearnerMainPage : MainPage {
     private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
         self.displayLoadingOverlay()
         FirebaseData.manager.fetchTutor(learner.uid, isQuery: false) { (tutor) in
-            if let tutor = tutor {
-                CurrentUser.shared.tutor = tutor
-				Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (error, account) in
-					if let error = error {
-						AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-						return completion(false)
-					} else if let account = account {
-						CurrentUser.shared.connectAccount = account
-						return completion(true)
-					}
-				})
-			} else {
-				AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to load your tutor account. Please try again.")
+			guard let tutor = tutor else {
+				AlertController.genericErrorAlert(self, title: "Oops!", message: "Unable to find your tutor account! Please try again.")
 				return completion(false)
 			}
+			CurrentUser.shared.tutor = tutor
+			Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (error, account) in
+				if let error = error {
+					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+					return completion(false)
+				} else if let account = account {
+					CurrentUser.shared.connectAccount = account
+					return completion(true)
+				}
+			})
 		}
 		self.dismissOverlay()
     }
     
     override func handleNavigation() {
         super.handleNavigation()
-        
+
         if(touchStartView == contentView.sidebarButton) {
             self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.maxX
             self.contentView.sidebar.alpha = 1.0
@@ -324,9 +319,7 @@ class LearnerMainPage : MainPage {
         } else if(touchStartView == contentView.sidebar.legalItem) {
             hideSidebar()
             hideBackground()
-            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else {
-                return
-            }
+            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else { return }
             if #available(iOS 10, *) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else {
@@ -377,14 +370,9 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
-                return 180
-            } else {
-                return 200
-            }
-        } else {
-            return 205
+			return (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) ? 180 : 200
         }
+		return 205
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

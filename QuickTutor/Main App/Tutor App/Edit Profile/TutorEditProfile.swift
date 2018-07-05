@@ -194,11 +194,11 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
         
         let sharedUpdateValues : [String : Any] = [
             
-            "/tutor-info/\(AccountService.shared.currentUser.uid!)/p" : price,
-            "/tutor-info/\(AccountService.shared.currentUser.uid!)/dst" : distance,
-            "/tutor-info/\(AccountService.shared.currentUser.uid!)/prf" : preference,
-            "/tutor-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName,
-            "/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName
+            "/tutor-info/\(CurrentUser.shared.learner.uid)/p" : price,
+            "/tutor-info/\(CurrentUser.shared.learner.uid)/dst" : distance,
+            "/tutor-info/\(CurrentUser.shared.learner.uid)/prf" : preference,
+            "/tutor-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName,
+            "/student-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName
             
         ]
         

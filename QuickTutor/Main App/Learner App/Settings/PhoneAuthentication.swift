@@ -224,7 +224,6 @@ class PhoneAuthenticationAlertView : InteractableView {
 		cancelAction.layer.addBorder(edge: .top, color: .black, thickness: 1.0)
 		cancelAction.layer.addBorder(edge: .right, color: .black, thickness: 1.0)
 	}
-	
 	private func configureDelegates() {
 		verificationTextField.delegate = self
 	}

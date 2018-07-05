@@ -30,7 +30,7 @@ class TutorConnectView : MainLayoutTwoButton {
         let searchBar = UISearchBar()
         
         searchBar.sizeToFit()
-        searchBar.searchBarStyle = .minimal
+        searchBar.searchBarStyle = .prominent
         searchBar.backgroundImage = UIImage(color: UIColor.clear)
         searchBar.showsCancelButton = false
         let textField = searchBar.value(forKey: "searchField") as? UITextField
@@ -40,6 +40,8 @@ class TutorConnectView : MainLayoutTwoButton {
         textField?.adjustsFontSizeToFitWidth = true
         textField?.autocapitalizationType = .words
         textField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		textField?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+
         textField?.keyboardAppearance = .dark
         
         return searchBar
@@ -470,8 +472,8 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
                 cell.distanceLabel.attributedText = distance.formatDistance()
             }
         }
-        
-        cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
+		cell.connectButton.connect.text = "Connect"
+//        cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
         return cell
     }
     

@@ -212,6 +212,8 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
         }
     }
 
+	var isViewing : Bool = false
+	
     override var contentView: LearnerMyProfileView {
         return view as! LearnerMyProfileView
     }
@@ -289,7 +291,9 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
             
             cell.locationImage.isHidden = true
-            cell.nameLabel.text = learner.name
+			let name = learner.name.split(separator: " ")
+            cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+
             cell.profilePicView.loadUserImages(by: learner.images["image1"]!)
             cell.ratingLabel.text = String(learner.lRating)
 
@@ -297,11 +301,14 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
 
-            if learner.bio == "" {
+            if learner.bio == "" && !isViewing {
                 cell.bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen.\n"
-            } else {
-                cell.bioLabel.text = learner.bio + "\n"
-            }
+            } else if learner.bio == "" && isViewing {
+				let name = learner.name.split(separator: " ")
+				cell.bioLabel.text = "\(String(name[0])) has not yet entered a biography. \n"
+			} else {
+				cell.bioLabel.text = learner.bio + "\n"
+			}
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
