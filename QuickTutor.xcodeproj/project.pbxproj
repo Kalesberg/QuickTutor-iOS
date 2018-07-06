@@ -151,6 +151,7 @@
 		84C4E93F206B61C2000C7A2F /* LearnerProfilePics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */; };
 		84C4E940206B61C2000C7A2F /* LearnerUnsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */; };
 		84C82FE220ED99C700E526B4 /* YourListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C82FE120ED99C700E526B4 /* YourListing.swift */; };
+		84C82FE420F0068A00E526B4 /* EditListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C82FE320F0068A00E526B4 /* EditListing.swift */; };
 		84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */; };
 		84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E31FF8997400737A59 /* TextLabel.swift */; };
 		84C96C0D1FCE34A900DBD3A6 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C96C0C1FCE34A900DBD3A6 /* Email.swift */; };
@@ -500,6 +501,7 @@
 		84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerProfilePics.swift; sourceTree = "<group>"; };
 		84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerUnsafe.swift; sourceTree = "<group>"; };
 		84C82FE120ED99C700E526B4 /* YourListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourListing.swift; sourceTree = "<group>"; };
+		84C82FE320F0068A00E526B4 /* EditListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListing.swift; sourceTree = "<group>"; };
 		84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDigitTextField.swift; sourceTree = "<group>"; };
 		84C8F5E31FF8997400737A59 /* TextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
 		84C96C0C1FCE34A900DBD3A6 /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
@@ -1191,6 +1193,7 @@
 				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 				84F12F6120E3008D00EB14E8 /* TutorListings.swift */,
 				84C82FE120ED99C700E526B4 /* YourListing.swift */,
+				84C82FE320F0068A00E526B4 /* EditListing.swift */,
 			);
 			path = "Tutor Main Page";
 			sourceTree = "<group>";
@@ -1999,6 +2002,7 @@
 				CF833B7C207C4BB300323242 /* LearnerUpcomingSessionCell.swift in Sources */,
 				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
+				84C82FE420F0068A00E526B4 /* EditListing.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBio.swift in Sources */,
