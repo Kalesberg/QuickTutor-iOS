@@ -42,6 +42,7 @@ class SubjectSelectionCollectionViewCell : UICollectionViewCell {
         labelContainer.backgroundColor = Colors.tutorBlue
         labelContainer.layer.cornerRadius = 10
         labelContainer.clipsToBounds = true
+        labelContainer.layer.borderColor = UIColor.white.cgColor
         
         applyConstraints()
     }
