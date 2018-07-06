@@ -8,6 +8,7 @@
 import UIKit
 
 class TutorMainPageView : MainPageView {
+    
     var tutorSidebar = TutorSideBar()
     
     override var sidebar: Sidebar {
