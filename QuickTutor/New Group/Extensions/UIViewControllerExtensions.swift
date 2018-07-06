@@ -208,7 +208,14 @@ extension UINavigationController {
 			}
 		}
 	}
-	
+	func popBackToAddTutor() {
+		for controller in self.viewControllers {
+			if controller is AddTutor {
+				self.popToViewController(controller, animated: false)
+				break
+			}
+		}
+	}
 	func popBackToTutorConnect() {
 		for controller in self.viewControllers {
 			if controller is TutorConnect {

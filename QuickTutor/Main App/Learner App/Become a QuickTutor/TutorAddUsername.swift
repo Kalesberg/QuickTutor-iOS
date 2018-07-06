@@ -230,7 +230,6 @@ class TutorAddUsername : BaseViewController {
                         TutorRegistration.username = username
                         self.navigationController?.pushViewController(TutorPolicy(), animated: true)
                         self.contentView.errorLabel.isHidden = true
-
                     } else {
                         self.contentView.errorLabel.isHidden = false
                         self.contentView.errorLabel.text = "username already exists."

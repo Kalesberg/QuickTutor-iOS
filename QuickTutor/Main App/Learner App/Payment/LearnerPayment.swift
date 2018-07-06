@@ -377,6 +377,7 @@ class LearnerPayment : BaseViewController {
     }
 	
 	var popToMain : Bool!
+	var popBackTo : UIViewController?
 	
     override func loadView() {
         view = LearnerPaymentView()
@@ -574,7 +575,9 @@ class LearnerPayment : BaseViewController {
 					CurrentUser.shared.learner.hasPayment = true
 					DispatchQueue.main.async {
 						nav?.view.layer.add(transition.popFromTop(), forKey: nil)
-						if self.popToMain {
+						if self.popBackTo != nil {
+							nav?.popBackToAddTutor()
+						} else if self.popToMain {
 							nav?.popBackToMain()
 						} else {
 							nav?.popBackToTutorConnect()

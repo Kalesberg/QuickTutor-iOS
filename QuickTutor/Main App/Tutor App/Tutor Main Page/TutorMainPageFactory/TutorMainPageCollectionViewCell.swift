@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SnapKit
+
 class TutorMainPageCollectionViewCell : UICollectionViewCell {
 	
 	required override init(frame: CGRect) {

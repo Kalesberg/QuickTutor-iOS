@@ -230,7 +230,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
             fallthrough
         case .tutor :
             
-            let newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/sch" : school, "/tutor-info/\(AccountService.shared.currentUser.uid!)/sch" : school]
+            let newNodes = ["/student-info/\(CurrentUser.shared.learner.uid)/sch" : school, "/tutor-info/\(CurrentUser.shared.learner.uid)/sch" : school]
             
             Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
                 if let error = error {

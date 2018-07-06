@@ -26,7 +26,7 @@ class BankManagerView : MainLayoutTitleOneButton {
 	let tableView : UITableView = {
 		let tableView = UITableView()
 		
-		tableView.estimatedRowHeight = 44
+		tableView.estimatedRowHeight = 50
 		tableView.isScrollEnabled = false
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
@@ -200,7 +200,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "bankCell", for: indexPath) as! BankManagerTableViewCell
 			insertBorder(cell: cell)
 			cell.bankName.text = banks[indexPath.row].bank_name
-			cell.holderName.text = banks[indexPath.row].account_holder_name
+			cell.accountLast4.text = "•••• \(banks[indexPath.row].last4)"
 			cell.defaultBank.isHidden = !banks[indexPath.row].default_for_currency
 			
 			return cell
@@ -219,7 +219,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.row == banks.count {
 			if banks.count == 5 {
-				print("too many banks")
+				AlertController.genericErrorAlert(self, title: "Too Many Payout Methods", message: "We currently only allow users to have 5 payout methods.")
 				return
 			}
 			navigationController?.pushViewController(TutorAddBank(), animated: true)
@@ -283,18 +283,18 @@ class BankManagerTableViewCell : UITableViewCell {
 		
 		label.textAlignment = .left
 		label.adjustsFontSizeToFitWidth = true
-		label.font = Fonts.createBoldSize(16)
+		label.font = Fonts.createSize(16)
 		label.textColor = .white
 		
 		return label
 	}()
 	
-	let holderName : UILabel = {
+	let accountLast4 : UILabel = {
 		let label = UILabel()
 		
 		label.textAlignment = .left
 		label.adjustsFontSizeToFitWidth = true
-		label.font = Fonts.createBoldSize(16)
+		label.font = Fonts.createSize(15)
 		label.textColor = .white
 		
 		return label
@@ -316,8 +316,9 @@ class BankManagerTableViewCell : UITableViewCell {
 	
 	func configureTableViewCell() {
 		addSubview(bankName)
-		addSubview(holderName)
+		addSubview(accountLast4)
 		addSubview(defaultBank)
+		
 		let cellBackground = UIView()
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
@@ -333,7 +334,7 @@ class BankManagerTableViewCell : UITableViewCell {
 			make.left.equalToSuperview()
 			make.centerY.equalToSuperview()
 		}
-		holderName.snp.makeConstraints { (make) in
+		accountLast4.snp.makeConstraints { (make) in
 			make.width.equalToSuperview().multipliedBy(0.5)
 			make.height.equalToSuperview()
 			make.left.equalTo(bankName.snp.right)

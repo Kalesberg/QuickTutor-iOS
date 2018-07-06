@@ -32,12 +32,11 @@ class TutorRatingsView : TutorHeaderLayoutView {
         
         tableView.backgroundColor = .clear
         tableView.estimatedRowHeight = 250
-        tableView.isScrollEnabled = true
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        
-        return tableView
+
+		return tableView
     }()
     
     override func configureView() {
@@ -277,6 +276,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			cell.seeAllButton.snp.updateConstraints { (make) in
 				make.bottom.equalToSuperview().inset(15)
 			}
+			cell.seeAllButton.isHidden = datasource.count < 2
 			cell.datasource = datasource
 			
 			return cell

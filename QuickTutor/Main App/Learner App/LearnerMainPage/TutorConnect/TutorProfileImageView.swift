@@ -60,6 +60,12 @@ class TutorProfileImageView : InteractableView, Interactable {
 		super.configureView()
 		alpha = 0.0
 		pageControl.addTarget(self, action: #selector(changePage(_:)), for: UIControlEvents.valueChanged)
+		let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapScrollView(_:)))
+		tapRecognizer.numberOfTapsRequired = 1
+		tapRecognizer.isEnabled = true
+		tapRecognizer.cancelsTouchesInView = false
+		horizontalScrollView.addGestureRecognizer(tapRecognizer)
+		
 		horizontalScrollView.delegate = self
 		backgroundColor = UIColor.black.withAlphaComponent(0.5)
 		applyConstraints()
@@ -80,7 +86,9 @@ class TutorProfileImageView : InteractableView, Interactable {
 	override func layoutSubviews() {
 		self.horizontalScrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(pageCount),height: horizontalScrollView.frame.size.height)
 	}
-
+	@objc private func didTapScrollView(_ sender: UITapGestureRecognizer) {
+		delegate?.dismiss()
+	}
 	private func setupImages(images: [String : String]) {
 		var count = 1
 		for key in images.keys.sorted(by: (<)) {

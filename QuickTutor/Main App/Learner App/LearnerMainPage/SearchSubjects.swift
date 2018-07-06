@@ -31,7 +31,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		let searchBar = UISearchBar()
 		
 		searchBar.sizeToFit()
-		searchBar.searchBarStyle = .minimal
+		searchBar.searchBarStyle = .prominent
 		searchBar.backgroundImage = UIImage(color: UIColor.clear)
 	
 		return searchBar
@@ -89,6 +89,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		searchTextField?.autocapitalizationType = .words
 		searchTextField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
 		searchTextField?.keyboardAppearance = .dark
+		searchTextField.backgroundColor = UIColor.black.withAlphaComponent(0.5)
 		
 		backButton.image.image = #imageLiteral(resourceName: "back-button")
 		headerView.backgroundColor = Colors.backgroundDark
@@ -168,7 +169,6 @@ class SearchSubjects: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-	
 		if let subjects = SubjectStore.loadTotalSubjectList() {
 			self.allSubjects = subjects
 			self.allSubjects.shuffle()
