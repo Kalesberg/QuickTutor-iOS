@@ -41,7 +41,7 @@ class FeaturedTutorView : BaseView {
     
     let imageView : UIImageView = {
         let view = UIImageView()
-        
+		
         view.backgroundColor = .clear
         view.contentMode = .scaleAspectFill
         
