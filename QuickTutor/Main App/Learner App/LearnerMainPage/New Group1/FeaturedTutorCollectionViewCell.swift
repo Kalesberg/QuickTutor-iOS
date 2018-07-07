@@ -16,14 +16,16 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 	
 	let view : UIView = {
 		let view = UIView()
+		
 		view.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 192/255, alpha: 1.0)
 		view.layer.cornerRadius = 10
+		
 		return view
 	}()
 	
 	let price : UILabel = {
 		let label = UILabel()
-		
+
 		label.textAlignment = .center
 		label.textColor = .white
 		label.font = Fonts.createSize(13)
@@ -68,5 +70,4 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 			make.edges.equalToSuperview()
 		}
 	}
-
 }

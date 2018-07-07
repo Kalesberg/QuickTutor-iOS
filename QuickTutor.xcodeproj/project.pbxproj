@@ -140,6 +140,7 @@
 		84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */; };
 		84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */; };
 		84A7E5D01FCE4FDE002EABD5 /* Tutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */; };
+		84AD7F5720EE9A480012CAA3 /* YourListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AD7F5620EE9A480012CAA3 /* YourListing.swift */; };
 		84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B09D40205050E000BC8F80 /* ChangeEmail.swift */; };
 		84B8D67A20E5A53C0026132C /* TutorListings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B8D67920E5A53C0026132C /* TutorListings.swift */; };
 		84BC21D8206DB333002B4721 /* ViewFullProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC21D7206DB333002B4721 /* ViewFullProfile.swift */; };
@@ -488,6 +489,7 @@
 		84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDatePicker.swift; sourceTree = "<group>"; };
 		84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTextView.swift; sourceTree = "<group>"; };
 		84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutor.swift; sourceTree = "<group>"; };
+		84AD7F5620EE9A480012CAA3 /* YourListing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourListing.swift; sourceTree = "<group>"; };
 		84B09D40205050E000BC8F80 /* ChangeEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmail.swift; sourceTree = "<group>"; };
 		84B2F02720354E4700F921C9 /* LearnerEditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerEditProfile.swift; sourceTree = "<group>"; };
 		84B8D67920E5A53C0026132C /* TutorListings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorListings.swift; sourceTree = "<group>"; };
@@ -1192,6 +1194,7 @@
 				84CFDDEF207357AB001CA9BF /* TutorRatings.swift */,
 				84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */,
 				84B8D67920E5A53C0026132C /* TutorListings.swift */,
+				84AD7F5620EE9A480012CAA3 /* YourListing.swift */,
 				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
 				843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */,
 				8441E650208922C60087AE11 /* TrendingCategories.swift */,
@@ -1871,6 +1874,7 @@
 				CF6F58C4205EE68800ACBD32 /* QuickChatViewCell.swift in Sources */,
 				CFCA549F209AD6DC00FC83A1 /* AddTipVC.swift in Sources */,
 				CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */,
+				84AD7F5720EE9A480012CAA3 /* YourListing.swift in Sources */,
 				CF6F58C9205EE68800ACBD32 /* MeetupTypeCell.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfo.swift in Sources */,
 				84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */,

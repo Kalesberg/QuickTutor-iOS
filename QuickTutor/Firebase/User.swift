@@ -269,6 +269,27 @@ class FirebaseData {
 		}
 	}
 	
+	public func fetchTutorListings(uid: String,_ completion: @escaping ([Category: FeaturedTutor]?) -> Void) {
+		var listings = [Category : FeaturedTutor]()
+		let group = DispatchGroup()
+		
+		for category in Category.categories {
+			group.enter()
+			self.ref.child("featured").child(category.subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
+				if snapshot.exists() {
+					guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+					var featuredTutor = FeaturedTutor(dictionary: value)
+					featuredTutor.uid = snapshot.key
+					listings[category] = featuredTutor
+				}
+				group.leave()
+			}
+		}
+		group.notify(queue: .main) {
+			return completion(listings)
+		}
+	}
+	
 	public func fetchUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]) -> Void) {
 		var sessions : [UserSession] = []
 		let group = DispatchGroup()
