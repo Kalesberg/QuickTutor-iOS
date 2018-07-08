@@ -154,7 +154,6 @@
 		84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */; };
 		84C4E93F206B61C2000C7A2F /* LearnerProfilePics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */; };
 		84C4E940206B61C2000C7A2F /* LearnerUnsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */; };
-		84C82FE220ED99C700E526B4 /* YourListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C82FE120ED99C700E526B4 /* YourListing.swift */; };
 		84C82FE420F0068A00E526B4 /* EditListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C82FE320F0068A00E526B4 /* EditListing.swift */; };
 		84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */; };
 		84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E31FF8997400737A59 /* TextLabel.swift */; };
@@ -1198,14 +1197,12 @@
 				84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */,
 				84B8D67920E5A53C0026132C /* TutorListings.swift */,
 				84AD7F5620EE9A480012CAA3 /* YourListing.swift */,
+				84C82FE320F0068A00E526B4 /* EditListing.swift */,
 				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
 				843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */,
 				8441E650208922C60087AE11 /* TrendingCategories.swift */,
 				8441E65220892D510087AE11 /* CategoryInfo.swift */,
 				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
-				84F12F6120E3008D00EB14E8 /* TutorListings.swift */,
-				84C82FE120ED99C700E526B4 /* YourListing.swift */,
-				84C82FE320F0068A00E526B4 /* EditListing.swift */,
 			);
 			path = "Tutor Main Page";
 			sourceTree = "<group>";

@@ -43,7 +43,7 @@ class CategorySearchView : MainLayoutTwoButton {
 		
 		let collectionView  = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		
-		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 5, minimumLineSpacing: 50, sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
+		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 5, minimumLineSpacing: 50, sectionInset: UIEdgeInsets(top: 15, left: 10, bottom: 0, right: 10))
 		
 		collectionView.collectionViewLayout = customLayout
 		collectionView.backgroundColor = .clear

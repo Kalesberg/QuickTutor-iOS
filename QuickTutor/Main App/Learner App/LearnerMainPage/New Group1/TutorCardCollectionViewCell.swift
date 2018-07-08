@@ -357,7 +357,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-            cell.datasource = datasource?.subjects
+			cell.datasource = datasource.subjects!
             return cell
         case 3:
             

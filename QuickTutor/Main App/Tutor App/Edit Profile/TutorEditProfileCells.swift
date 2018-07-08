@@ -85,7 +85,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 		}
 		if touchStartView == image1 {
 			image1.picView.growShrink()
-			AlertController.cropImageAlert(current, imagePicker: imagePicker)
+			AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
 			imageToChange = 1
 		} else if touchStartView == image2 {
 			image2.picView.growShrink()
@@ -99,7 +99,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 					}
 				}
 			} else {
-				AlertController.cropImageAlert(current, imagePicker: imagePicker)
+				AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
 			}
 			imageToChange = 2
 		} else if touchStartView == image3 {
@@ -114,7 +114,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 					}
 				}
 			} else {
-				AlertController.cropImageAlert(current, imagePicker: imagePicker)
+				AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
 			}
 			imageToChange = 3
 		} else if touchStartView == image4 {
@@ -128,7 +128,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 					}
 				}
 			} else {
-				AlertController.cropImageAlert(current, imagePicker: imagePicker)
+				AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
 			}
 			imageToChange = 4
 		}
@@ -495,7 +495,6 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
 	}
 }
 
-
 class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	
 	let header : UILabel = {
@@ -648,6 +647,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 		}
 	}
 }
+
 extension EditProfileHourlyRateTableViewCell : UITextFieldDelegate {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

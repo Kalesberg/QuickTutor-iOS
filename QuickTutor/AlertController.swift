@@ -9,12 +9,12 @@ import UIKit
 
 class AlertController : NSObject {
 	
-	class func cropImageAlert(_ viewController: UIViewController, imagePicker: UIImagePickerController) {
+	class func cropImageAlert(_ viewController: UIViewController, imagePicker: UIImagePickerController, allowsEditing: Bool) {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		let chooseExisting = UIAlertAction(title: "Choose Exisiting", style: .default) { (alert) in
 			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
 				imagePicker.sourceType = .photoLibrary
-				imagePicker.allowsEditing = false
+				imagePicker.allowsEditing = allowsEditing
 				viewController.present(imagePicker, animated: true, completion: nil)
 			} else {
 				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Photo Library is not available")

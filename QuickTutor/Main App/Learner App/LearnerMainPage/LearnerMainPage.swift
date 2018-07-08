@@ -268,8 +268,9 @@ class LearnerMainPage : MainPage {
 					return completion(true)
 				}
 			})
+			self.dismissOverlay()
 		}
-		self.dismissOverlay()
+		
     }
     
     override func handleNavigation() {

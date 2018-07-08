@@ -185,7 +185,7 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 		
 		guard let language = datasource?[indexPath.row] else { return  cell }
 		cell.textLabel?.text = language
-		cell.checkbox.isSelected =  selectedCells.contains(language)
+		cell.checkbox.isSelected = selectedCells.contains(language)
 		
 		return cell
 	}

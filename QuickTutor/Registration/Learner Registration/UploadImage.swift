@@ -212,7 +212,7 @@ class UploadImage: BaseViewController {
 				}
 			}
         } else if (touchStartView == contentView.addImageButton) {
-			AlertController.cropImageAlert(self, imagePicker: profilePicker)
+			AlertController.cropImageAlert(self, imagePicker: profilePicker, allowsEditing: false)
         } else if (touchStartView == contentView.looksGoodButton) {
 			if imagePicked {
 				self.displayLoadingOverlay()
@@ -229,7 +229,7 @@ class UploadImage: BaseViewController {
 				contentView.looksGoodButton.isUserInteractionEnabled = true
 			}
         } else if (touchStartView == contentView.chooseNewButton) {
-			AlertController.cropImageAlert(self, imagePicker: profilePicker)
+			AlertController.cropImageAlert(self, imagePicker: profilePicker, allowsEditing: false)
         }
     }
 
