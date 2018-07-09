@@ -34,7 +34,7 @@ class SubjectSelectionCollectionViewCell : UICollectionViewCell {
     }()
     
     let labelContainer = UIView()
-    
+	
     func configureView() {
         addSubview(labelContainer)
         labelContainer.addSubview(label)
@@ -43,9 +43,13 @@ class SubjectSelectionCollectionViewCell : UICollectionViewCell {
         labelContainer.layer.cornerRadius = 10
         labelContainer.clipsToBounds = true
         labelContainer.layer.borderColor = UIColor.white.cgColor
-        
+		
+		layer.borderWidth = 2
+		layer.borderColor = UIColor.clear.cgColor
+		layer.cornerRadius = 10
+		
         applyConstraints()
-    }
+	}
     
     func applyConstraints(){
         label.snp.makeConstraints { (make) in
@@ -397,7 +401,7 @@ class AboutMeTableViewCell : UITableViewCell {
     
     let divider1 = BaseView()
     let divider2 = BaseView()
-    
+	
     let container = UIView()
     
     func configureView() {
@@ -529,7 +533,6 @@ class SubjectsTableViewCell : UITableViewCell {
     }
     
     let subjectCollectionView : UICollectionView = {
-        
         let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         let layout = UICollectionViewFlowLayout()
         
@@ -547,7 +550,7 @@ class SubjectsTableViewCell : UITableViewCell {
         return collectionView
     }()
     
-    var datasource : [String]? {
+    var datasource = [String]() {
         didSet {
             subjectCollectionView.reloadData()
         }
@@ -598,19 +601,19 @@ class SubjectsTableViewCell : UITableViewCell {
 extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return datasource?.count ?? 0
+        return datasource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectSelectionCollectionViewCell", for: indexPath) as! SubjectSelectionCollectionViewCell
         
-        cell.label.text = datasource?[indexPath.row]
+        cell.label.text = datasource[indexPath.row]
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (datasource![indexPath.row] as NSString).size(withAttributes: nil).width + 35, height: 30)
+        return CGSize(width: (datasource[indexPath.row] as NSString).size(withAttributes: nil).width + 35, height: 30)
     }
 }
 

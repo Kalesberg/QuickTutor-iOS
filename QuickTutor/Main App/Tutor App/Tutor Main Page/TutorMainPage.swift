@@ -177,7 +177,6 @@ class TutorMainPage : MainPage {
         self.tutor = tutor
         self.account = account
         self.configureSideBarView()
-		FirebaseData.manager.addUpdateFeaturedTutor(tutor: CurrentUser.shared.tutor) { (_) in }
 		
         navigationController?.navigationBar.isHidden = true
     }

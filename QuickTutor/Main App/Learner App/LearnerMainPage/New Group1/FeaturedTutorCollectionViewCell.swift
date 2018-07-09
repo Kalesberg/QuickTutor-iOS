@@ -22,7 +22,7 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		
 		return view
 	}()
-	
+
 	let price : UILabel = {
 		let label = UILabel()
 
@@ -47,21 +47,20 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		contentView.addSubview(featuredTutor)
 		contentView.addSubview(view)
 		view.addSubview(price)
-        
-        backgroundColor = Colors.navBarColor
+		backgroundColor = Colors.navBarColor
         applyDefaultShadow()
 
 		featuredTutor.backgroundColor = .clear
 		applyConstraints()
 	}
-	func applyConstraints(){
+	func applyConstraints() {
 		featuredTutor.snp.makeConstraints { (make) in
-			make.width.equalToSuperview()
-			make.center.equalToSuperview()
-			make.height.equalToSuperview()
+			make.width.height.equalToSuperview()
+			make.centerX.equalToSuperview()
+			make.centerY.equalToSuperview().inset(-3)
 		}
 		view.snp.makeConstraints { (make) in
-			make.top.equalToSuperview().inset(-10)
+			make.top.equalToSuperview().inset(-13)
 			make.left.equalToSuperview().inset(-5)
 			make.width.equalTo(60)
 			make.height.equalTo(20)

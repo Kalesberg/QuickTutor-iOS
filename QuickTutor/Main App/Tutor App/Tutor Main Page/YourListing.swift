@@ -12,6 +12,9 @@ import UIKit
 protocol CreateListing {
 	func createListingButtonPressed()
 }
+protocol UpdateListingCallBack {
+	func updateListingCallBack(price: Int, subject: String, image: UIImage)
+}
 
 class YourListingView : MainLayoutTitleBackTwoButton {
     var editButton = NavbarButtonEdit()
@@ -124,7 +127,6 @@ class NoListingView : BaseView {
 	
 	let noListingsImageView : UIImageView = {
 		let imageView = UIImageView()
-		
 		imageView.image = UIImage(named: "sad-face")
 		return imageView
 	}()
@@ -176,7 +178,7 @@ class NoListingView : BaseView {
 		super.configureView()
 		
 		isUserInteractionEnabled = true
-
+		applyConstraints()
 	}
 	override func applyConstraints() {
 		noListingsImageView.snp.makeConstraints { (make) in
@@ -241,13 +243,16 @@ class YourListing : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		guard let tutor = CurrentUser.shared.tutor else { return }
-		self.tutor = tutor
-		
+		self.tutor = tutor		
 		configureDelegates()
-		fetchTutorListings()
     }
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		fetchTutorListings()
+	}
 	private func fetchTutorListings() {
+		self.displayLoadingOverlay()
 		FirebaseData.manager.fetchTutorListings(uid: tutor.uid) { (listings) in
 			if let listings = listings {
 				self.listings = Array(listings.values)
@@ -258,6 +263,7 @@ class YourListing : BaseViewController {
 				self.contentView.collectionView.backgroundView = view
 				self.contentView.editButton.isHidden = true
 			}
+			self.dismissOverlay()
 		}
 	}
 	
@@ -269,13 +275,50 @@ class YourListing : BaseViewController {
 	
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonEdit {
-			print("Edit.")
+			let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeaturedTutorCollectionViewCell
+			
+			let next = EditListing()
+			next.price = listings[0].price
+			next.image = cell.featuredTutor.imageView.image
+			next.subject = listings[0].subject
+			next.category = categories[0].subcategory.fileToRead
+			next.delegate = self
+			navigationController?.pushViewController(next, animated: true)
 		}
+	}
+}
+extension YourListing : UpdateListingCallBack {
+	func updateListingCallBack(price: Int, subject: String, image: UIImage) {
+		let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeaturedTutorCollectionViewCell
+		cell.price.text = "$\(price)/hr"
+		cell.featuredTutor.subject.text = subject
+		cell.featuredTutor.imageView.image = image
 	}
 }
 extension YourListing : CreateListing {
 	func createListingButtonPressed() {
-		self.navigationController?.pushViewController(TutorRatings(), animated: true)
+		findTopSubjects { (category) in
+			if let category = category {
+				let next = EditListing()
+				next.category = category
+				self.navigationController?.pushViewController(next, animated: true)
+			}
+		}
+	}
+	private func findTopSubjects(_ completion: @escaping (String?) -> Void){
+		func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
+			return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
+		}
+		FirebaseData.manager.fetchSubjectsTaught(uid: tutor.uid) { (subcategoryList) in
+			let avg = subcategoryList.map({$0.rating / 5}).average
+			
+			let topSubcategory = subcategoryList.sorted {
+				return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 10) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
+				}.first
+			
+			guard let subcategory = topSubcategory?.subcategory else { return completion(nil) }
+			completion(SubjectStore.findCategoryBy(subcategory: subcategory))
+		}
 	}
 }
 
@@ -287,13 +330,13 @@ extension YourListing : UICollectionViewDelegate, UICollectionViewDataSource, UI
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
-		
+
         cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: listings[indexPath.item].imageUrl)
         cell.price.text = listings[indexPath.item].price.priceFormat()
         cell.featuredTutor.namePrice.text = listings[indexPath.item].name
         cell.featuredTutor.region.text = listings[indexPath.item].region
         cell.featuredTutor.subject.text = listings[indexPath.item].subject
-
+		
 		let formattedString = NSMutableAttributedString()
         formattedString
             .bold("\(listings[indexPath.item].rating) ", 14, Colors.yellow)
