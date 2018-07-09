@@ -239,6 +239,8 @@ class YourListing : BaseViewController {
 				view.delegate = self
 				self.contentView.collectionView.backgroundView = view
 				self.contentView.editButton.isHidden = true
+			} else {
+				self.contentView.collectionView.backgroundView = nil
 			}
 			contentView.collectionView.reloadData()
 		}
@@ -284,6 +286,7 @@ class YourListing : BaseViewController {
 			next.subject = listings[0].subject
 			next.category = categories[0].subcategory.fileToRead
 			next.delegate = self
+			
 			navigationController?.pushViewController(next, animated: true)
 		}
 	}

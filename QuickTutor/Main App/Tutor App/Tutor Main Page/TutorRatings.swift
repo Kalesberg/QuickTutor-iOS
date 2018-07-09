@@ -126,11 +126,9 @@ class TutorRatings : BaseViewController {
 	
 		FirebaseData.manager.fetchSubjectsTaught(uid: tutor.uid) { (subcategoryList) in
 			let avg = subcategoryList.map({$0.rating / 5}).average
-			
 			let topSubcategory = subcategoryList.sorted {
-				return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 10) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
+				return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 0) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
 				}.first
-			
 			guard let subcategory = topSubcategory?.subcategory else {
 				self.topSubject = nil
 				return

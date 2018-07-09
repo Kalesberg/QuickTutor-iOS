@@ -555,7 +555,7 @@ class SubjectsTableViewCell : UITableViewCell {
             subjectCollectionView.reloadData()
         }
     }
-    
+	
     let label : UILabel = {
         let label = UILabel()
         
@@ -581,7 +581,6 @@ class SubjectsTableViewCell : UITableViewCell {
     }
     
     func applyConstraints() {
-        
         label.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(10)
             make.height.equalTo(55)
