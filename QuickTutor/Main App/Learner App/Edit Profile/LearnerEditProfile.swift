@@ -9,7 +9,6 @@
 
 import UIKit
 import SnapKit
-import AAPhotoCircleCrop
 import SwiftKeychainWrapper
 
 let imagePicker = UIImagePickerController()

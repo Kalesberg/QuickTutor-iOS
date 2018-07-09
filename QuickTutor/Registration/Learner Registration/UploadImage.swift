@@ -8,7 +8,6 @@
 
 import UIKit
 import FirebaseAuth
-import AAPhotoCircleCrop
 
 class UploadImageView : RegistrationNavBarView {
     
