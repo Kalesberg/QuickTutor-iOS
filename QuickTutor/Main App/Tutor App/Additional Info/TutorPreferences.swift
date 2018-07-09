@@ -193,7 +193,6 @@ class TutorPreferences : BaseViewController {
     override func handleNavigation() {
         if (touchStartView is NavbarButtonNext) {
 			if setUserPreferences() {
-		
             	let next = TutorBio()
             	navigationController?.pushViewController(next, animated: true)
 			}
@@ -211,13 +210,9 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.row) {
 
-        case 0:
+        case 0,1:
             return UITableViewAutomaticDimension
-        case 1:
-            return UITableViewAutomaticDimension
-        case 2:
-            return 40
-        case 3:
+        case 2,3:
             return 40
         default:
             break

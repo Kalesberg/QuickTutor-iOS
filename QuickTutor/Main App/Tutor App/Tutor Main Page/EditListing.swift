@@ -73,7 +73,7 @@ class EditListing : BaseViewController {
 	var category : String!
 	var delegate : UpdateListingCallBack?
 	
-	var selectedIndexPath : IndexPath? = nil
+	var selectedIndexPath : IndexPath?
 	let listingPicker = UIImagePickerController()
 	
     override func viewDidLoad() {
@@ -84,7 +84,15 @@ class EditListing : BaseViewController {
 		
 		guard let tutorSubjects = tutor.subjects else { return }
 		guard let subject = subject, let index = tutorSubjects.index(of: subject) else { return }
-		selectedIndexPath = IndexPath(row: index, section: 0)
+		selectedIndexPath = IndexPath(item: index, section: 0)
+	}
+	override func viewWillAppear(_ animated: Bool) {
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardWillHide, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		NotificationCenter.default.removeObserver(self)
 	}
 	
 	private func configureDelegates() {
@@ -111,30 +119,32 @@ class EditListing : BaseViewController {
 			return
 		}
 		FirebaseData.manager.updateListing(tutor: self.tutor, category: category, image: image, price: price, subject: subject) { (success) in
-			if !success {
-				AlertController.genericErrorAlertWithoutCancel(self, title: "Error uploading listing", message: "Something went wrong, please try again.")
-			} else {
+			if success {
 				AlertController.genericSavedAlert(self, title: "Your listing has been saved!", message: nil)
 				self.delegate?.updateListingCallBack(price: price, subject: subject, image: image)
 				self.navigationController?.popViewController(animated: true)
+			} else {
+				AlertController.genericErrorAlertWithoutCancel(self, title: "Error uploading listing", message: "Something went wrong, please try again.")
 			}
 		}
 	}
-    @objc func handleAddButton() {
+    @objc private func handleAddButton() {
 		AlertController.cropImageAlert(self, imagePicker: listingPicker, allowsEditing: false)
     }
-	override func handleNavigation() {
-		if touchStartView is NavbarButtonSave {
-			saveListing()
-		}
+
+	@objc private func keyboardWillAppear(_ notification: NSNotification) {
+		contentView.tableView.setContentOffset(CGPoint(x: 0, y: 170), animated: true)
+	}
+	
+	@objc private func keyboardWillDisappear(_ notification: NSNotification) {
+		contentView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
 	}
 	private func subcategoriesForCategory() -> [String]? {
 		guard let subcategories =  Category.category(for: self.category)?.subcategory.subcategories else { return nil }
-		return subcategories.map{$0.lowercased()}
+		return subcategories.map{ $0.lowercased() }
 	}
 	private func getSubjectsForCategory() -> [String]? {
 		guard let subcategories = subcategoriesForCategory() else { return nil }
-		
 		var subjectsToDisplay = [String]()
 		for subject in tutor.selected {
 			if subcategories.contains(subject.path) {
@@ -143,9 +153,21 @@ class EditListing : BaseViewController {
 		}
 		return subjectsToDisplay
 	}
+	override func handleNavigation() {
+		if touchStartView is NavbarButtonSave {
+			saveListing()
+		}
+	}
+}
+protocol AmountTextFieldDidChange {
+	func amountTextFieldDidChange(amount: Int)
+}
+extension EditListing : AmountTextFieldDidChange {
+	func amountTextFieldDidChange(amount: Int) {
+		self.price = amount
+	}
 }
 extension EditListing : UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
@@ -178,7 +200,6 @@ extension EditListing : UITableViewDelegate, UITableViewDataSource {
             
             cell.label.text = "Choose featured subject:"
 			cell.selectedSubject = self.subject
-			cell.selectedIndexPath = selectedIndexPath
 			cell.delegate = self
 			guard let subjectsToDisplay = getSubjectsForCategory() else { return cell }
 			cell.datasource = subjectsToDisplay
@@ -186,7 +207,7 @@ extension EditListing : UITableViewDelegate, UITableViewDataSource {
 			return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileHourlyRateTableViewCell
-	
+			
             let formattedString = NSMutableAttributedString()
             formattedString
                 .regular("\n", 12, .white)
@@ -198,6 +219,8 @@ extension EditListing : UITableViewDelegate, UITableViewDataSource {
                 .regular("Please set your listing rate.\n\nThis is the rate that learners will see on your listing.", 14, Colors.grayText)
             
             cell.header.attributedText = formattedString
+			cell.textFieldObserver = self
+			
 			if let price = price {
 				cell.textField.text = "$\(price)"
 				cell.currentPrice = price
@@ -223,6 +246,9 @@ extension EditListing : UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
     }
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		self.view.endEditing(true)
+	}
 }
 extension EditListing : ListingSubject {
 	func listingSubjectPicked(subject: String?) {
@@ -263,7 +289,7 @@ protocol ListingSubject {
 }
 
 class EditListingsSubjectsTableViewCell : SubjectsTableViewCell {
-	var selectedIndexPath : IndexPath? = nil
+	var selectedIndexPath : IndexPath?
 	var selectedSubject : String?
 	var delegate : ListingSubject?
 }
@@ -280,6 +306,7 @@ extension EditListingsSubjectsTableViewCell  {
 		if let subject = selectedSubject {
 			if cell.label.text == subject {
 				cell.layer.borderColor = UIColor.white.cgColor
+				selectedIndexPath = indexPath
 			}
 		}
 		return cell

@@ -175,7 +175,6 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
         
     }
     private func saveChanges() {
-        
         if firstName.count < 1 || lastName.count < 0 {
             print("invalid name!")
             return
@@ -219,10 +218,8 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
     
     @objc
     private func distanceSliderValueDidChange(_ sender: UISlider!) {
-        
         let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 9, section: 0)) as! EditProfileSliderTableViewCell)
         let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-        
         cell.valueLabel.text = String(value) + " mi"
         distance = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
     }
@@ -283,34 +280,12 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             return 100
-        case 1:
+        case 1,5,9,12:
             return 50
-        case 2:
-            return 75
-        case 3:
-            return 75
-        case 4:
-            return 75
-        case 5:
-            return 50
-        case 6:
-            return 75
-        case 7:
+        case 2,3,4,6,7,10,11,13,14:
             return 75
         case 8:
             return UITableViewAutomaticDimension
-        case 9:
-            return 50
-        case 10:
-            return 75
-        case 11:
-            return 75
-        case 12:
-            return 50
-        case 13:
-            return 75
-        case 14:
-            return 75
         default:
             break
         }

@@ -533,7 +533,8 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	
 	var currentPrice = 0
 	var amount : String = ""
-	
+	var textFieldObserver : AmountTextFieldDidChange?
+
 	override func configureView() {
 		contentView.addSubview(header)
 		contentView.addSubview(container)
@@ -567,6 +568,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 		}
 		currentPrice = this
 		textField.text = "$\(number)"
+		textFieldObserver?.amountTextFieldDidChange(amount: this)
 	}
 	
 	@objc func decreasePrice() {
@@ -582,7 +584,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 			self.currentPrice -= 1
 			self.textField.text = "$\(self.currentPrice)"
 			self.amount = String(self.currentPrice)
-			
+			self.textFieldObserver?.amountTextFieldDidChange(amount: self.currentPrice)
 		}
 		decreasePriceTimer?.fire()
 	}
@@ -596,9 +598,10 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 			self.amount = String(currentPrice)
 			return
 		}
-		self.currentPrice += 1
-		self.textField.text = "$\(self.currentPrice)"
-		self.amount = String(currentPrice)
+		currentPrice += 1
+		textField.text = "$\(self.currentPrice)"
+		amount = String(currentPrice)
+		textFieldObserver?.amountTextFieldDidChange(amount: currentPrice)
 		increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { (timer) in
 			guard self.currentPrice < 1000 else {
 				self.amount = String(self.currentPrice)
@@ -607,6 +610,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 			self.currentPrice += 1
 			self.textField.text = "$\(self.currentPrice)"
 			self.amount = String(self.currentPrice)
+			self.textFieldObserver?.amountTextFieldDidChange(amount: self.currentPrice)
 		})
 	}
 	
@@ -675,7 +679,6 @@ extension EditProfileHourlyRateTableViewCell : UITextFieldDelegate {
 			amount = temp
 			updateTextField(amount)
 		}
-		
 		return false
 	}
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
