@@ -1,6 +1,5 @@
 PODS:
-  - AAPhotoCircleCrop (1.3.0)
-  - Alamofire (4.7.3)
+  - Alamofire (4.7.2)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -101,6 +100,35 @@ DEPENDENCIES:
   - SwiftKeychainWrapper
   - TwilioVideo (= 2.0.0-beta3)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Bolts
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseAuth
+    - FirebaseCore
+    - FirebaseDatabase
+    - FirebaseDynamicLinks
+    - FirebaseInstanceID
+    - FirebaseMessaging
+    - FirebaseStorage
+    - GoogleAnalytics
+    - GoogleToolboxForMac
+    - GTMSessionFetcher
+    - leveldb-library
+    - nanopb
+    - Protobuf
+    - SnapKit
+    - Socket.IO-Client-Swift
+    - Starscream
+    - Stripe
+    - SwiftKeychainWrapper
+    - TwilioVideo
+
 EXTERNAL SOURCES:
   GeoFire:
     :git: https://github.com/firebase/geofire-objc.git
@@ -111,8 +139,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/firebase/geofire-objc.git
 
 SPEC CHECKSUMS:
-  AAPhotoCircleCrop: 9ad008dbe3f86c61032b0888f01a95055c346c20
-  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   FBSDKCoreKit: f8c9eb0dd34a9cd277c7b60da4b32226d142502d
   FBSDKLoginKit: 1214c6d5a1c4995b694d8db8a9ba6910c6028acf
