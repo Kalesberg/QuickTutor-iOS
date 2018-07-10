@@ -153,7 +153,6 @@
 		84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */; };
 		84C4E93F206B61C2000C7A2F /* LearnerProfilePics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */; };
 		84C4E940206B61C2000C7A2F /* LearnerUnsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */; };
-		84C82FE220ED99C700E526B4 /* YourListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C82FE120ED99C700E526B4 /* YourListing.swift */; };
 		84C82FE420F0068A00E526B4 /* EditListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C82FE320F0068A00E526B4 /* EditListing.swift */; };
 		84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */; };
 		84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E31FF8997400737A59 /* TextLabel.swift */; };
@@ -1631,6 +1630,7 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
+				2B7CF33E5C0751404A22B718 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1763,6 +1763,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2B7CF33E5C0751404A22B718 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
