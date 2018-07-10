@@ -24,6 +24,14 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         return view
     }()
     
+    let imageView : UIImageView = {
+        let view = UIImageView()
+        
+        view.image = #imageLiteral(resourceName: "invite-contacts")
+        
+        return view
+    }()
+    
     let label : UILabel = {
         let label = UILabel()
         
@@ -31,7 +39,7 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         label.textAlignment = .center
         label.textColor = .white
         label.text = "Share QuickTutor with your friends and family. Invite them to join the party! 🎉"
-        label.numberOfLines = 3
+        label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
         
         return label
@@ -78,6 +86,7 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
     
     override func configureView() {
         addSubview(container)
+        addSubview(imageView)
         container.addSubview(label)
 		addSubview(searchTextField)
         addSubview(tableView)
@@ -92,11 +101,16 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
     override func applyConstraints() {
         super.applyConstraints()
         
+        imageView.snp.makeConstraints { (make) in
+            make.top.equalTo(navbar.snp.bottom).inset(-10)
+            make.centerX.equalToSuperview()
+        }
+        
         container.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalTo(70)
             make.centerX.equalToSuperview()
-            make.top.equalTo(navbar.snp.bottom).inset(-20)
+            make.top.equalTo(imageView.snp.bottom).inset(15)
         }
         
         label.snp.makeConstraints { (make) in
@@ -104,7 +118,7 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
             make.left.right.equalToSuperview().inset(5)
         }
 		searchTextField.snp.makeConstraints { (make) in
-			make.top.equalTo(container.snp.bottom).inset(-20)
+			make.top.equalTo(container.snp.bottom).inset(-5)
 			make.width.equalToSuperview().multipliedBy(0.95)
 			make.centerX.equalToSuperview()
 			make.height.equalTo(80)
@@ -169,8 +183,7 @@ class InviteOthersBackgroundView : InteractableView, Interactable {
         let formattedString = NSMutableAttributedString()
         
         formattedString
-            .bold("Connect your Contacts", 24, .white)
-            .regular("\n\nConnect your phone contacts to invite some peeps!", 17, .white)
+            .bold("Connect your phone contacts to invite some peeps!", 19, .white)
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
