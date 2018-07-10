@@ -85,7 +85,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 		}
 		if touchStartView == image1 {
 			image1.picView.growShrink()
-			AlertController.cropImageAlert(current, imagePicker: imagePicker)
+			AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
 			imageToChange = 1
 		} else if touchStartView == image2 {
 			image2.picView.growShrink()
@@ -99,7 +99,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 					}
 				}
 			} else {
-				AlertController.cropImageAlert(current, imagePicker: imagePicker)
+				AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
 			}
 			imageToChange = 2
 		} else if touchStartView == image3 {
@@ -114,7 +114,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 					}
 				}
 			} else {
-				AlertController.cropImageAlert(current, imagePicker: imagePicker)
+				AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
 			}
 			imageToChange = 3
 		} else if touchStartView == image4 {
@@ -128,7 +128,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 					}
 				}
 			} else {
-				AlertController.cropImageAlert(current, imagePicker: imagePicker)
+				AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
 			}
 			imageToChange = 4
 		}
@@ -495,7 +495,6 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
 	}
 }
 
-
 class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	
 	let header : UILabel = {
@@ -534,7 +533,8 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	
 	var currentPrice = 0
 	var amount : String = ""
-	
+	var textFieldObserver : AmountTextFieldDidChange?
+
 	override func configureView() {
 		contentView.addSubview(header)
 		contentView.addSubview(container)
@@ -568,6 +568,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 		}
 		currentPrice = this
 		textField.text = "$\(number)"
+		textFieldObserver?.amountTextFieldDidChange(amount: this)
 	}
 	
 	@objc func decreasePrice() {
@@ -583,7 +584,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 			self.currentPrice -= 1
 			self.textField.text = "$\(self.currentPrice)"
 			self.amount = String(self.currentPrice)
-			
+			self.textFieldObserver?.amountTextFieldDidChange(amount: self.currentPrice)
 		}
 		decreasePriceTimer?.fire()
 	}
@@ -597,9 +598,10 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 			self.amount = String(currentPrice)
 			return
 		}
-		self.currentPrice += 1
-		self.textField.text = "$\(self.currentPrice)"
-		self.amount = String(currentPrice)
+		currentPrice += 1
+		textField.text = "$\(self.currentPrice)"
+		amount = String(currentPrice)
+		textFieldObserver?.amountTextFieldDidChange(amount: currentPrice)
 		increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { (timer) in
 			guard self.currentPrice < 1000 else {
 				self.amount = String(self.currentPrice)
@@ -608,6 +610,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 			self.currentPrice += 1
 			self.textField.text = "$\(self.currentPrice)"
 			self.amount = String(self.currentPrice)
+			self.textFieldObserver?.amountTextFieldDidChange(amount: self.currentPrice)
 		})
 	}
 	
@@ -648,6 +651,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 		}
 	}
 }
+
 extension EditProfileHourlyRateTableViewCell : UITextFieldDelegate {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -675,7 +679,6 @@ extension EditProfileHourlyRateTableViewCell : UITextFieldDelegate {
 			amount = temp
 			updateTextField(amount)
 		}
-		
 		return false
 	}
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {

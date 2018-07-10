@@ -195,11 +195,11 @@ class EditSchool : BaseViewController {
 
 extension EditSchool : UITableViewDelegate, UITableViewDataSource {
     
-    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return shouldUpdateSearchResults ? filteredSchools.count : schoolArray.count
     }
     
-    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath)
         formatTableView(cell)
@@ -209,7 +209,7 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         var school : String
         school = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]

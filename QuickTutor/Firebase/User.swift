@@ -269,6 +269,27 @@ class FirebaseData {
 		}
 	}
 	
+	public func fetchTutorListings(uid: String,_ completion: @escaping ([Category: FeaturedTutor]?) -> Void) {
+		var listings = [Category : FeaturedTutor]()
+		let group = DispatchGroup()
+		
+		for category in Category.categories {
+			group.enter()
+			self.ref.child("featured").child(category.subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
+				if snapshot.exists() {
+					guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+					var featuredTutor = FeaturedTutor(dictionary: value)
+					featuredTutor.uid = snapshot.key
+					listings[category] = featuredTutor
+				}
+				group.leave()
+			}
+		}
+		group.notify(queue: .main) {
+			return completion(listings)
+		}
+	}
+	
 	public func fetchUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]) -> Void) {
 		var sessions : [UserSession] = []
 		let group = DispatchGroup()
@@ -496,6 +517,33 @@ class FirebaseData {
 			}
 			self.ref.child("sessions").child(sessionId).updateChildValues(["reported" : reportStatus])
 			return completion(nil)
+		}
+	}
+	public func updateListing(tutor: AWTutor, category: String, image: UIImage, price: Int, subject: String,_ completion: @escaping (Bool) -> Void) {
+		func uploadFeaturedImage(_ completion: @escaping(String?) -> Void) {
+			guard let data = getCompressedImageDataFor(image) else { return completion(nil) }
+			self.storageRef.child("featured").child(tutor.uid).child("featuredImage").putData(data, metadata: nil) { (meta, error) in
+				if error != nil {
+					return completion(nil)
+				}
+				self.storageRef.child("featured").child(tutor.uid).child("featuredImage").downloadURL(completion: { (url, error) in
+					if error != nil {
+						return completion(nil)
+					}
+					guard let imageUrl = url?.absoluteString else { return completion(nil) }
+					return completion(imageUrl)
+				})
+			}
+		}
+		uploadFeaturedImage { (imageUrl) in
+			if let imageUrl = imageUrl {
+			let post : [String : Any] = ["img" : imageUrl, "nm" : tutor.name, "p" : price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subject, "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
+		
+				self.ref.child("featured").child(category).child(tutor.uid).updateChildValues(post)
+				completion(true)
+			} else {
+				completion(false)
+			}
 		}
 	}
 	

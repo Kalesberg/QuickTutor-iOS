@@ -16,14 +16,16 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 	
 	let view : UIView = {
 		let view = UIView()
+		
 		view.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 192/255, alpha: 1.0)
 		view.layer.cornerRadius = 10
+		
 		return view
 	}()
-	
+
 	let price : UILabel = {
 		let label = UILabel()
-		
+
 		label.textAlignment = .center
 		label.textColor = .white
 		label.font = Fonts.createSize(13)
@@ -45,21 +47,20 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 		contentView.addSubview(featuredTutor)
 		contentView.addSubview(view)
 		view.addSubview(price)
-        
-        backgroundColor = Colors.navBarColor
+		backgroundColor = Colors.navBarColor
         applyDefaultShadow()
 
 		featuredTutor.backgroundColor = .clear
 		applyConstraints()
 	}
-	func applyConstraints(){
+	func applyConstraints() {
 		featuredTutor.snp.makeConstraints { (make) in
-			make.width.equalToSuperview()
-			make.center.equalToSuperview()
-			make.height.equalToSuperview()
+			make.width.height.equalToSuperview()
+			make.centerX.equalToSuperview()
+			make.centerY.equalToSuperview().inset(-3)
 		}
 		view.snp.makeConstraints { (make) in
-			make.top.equalToSuperview().inset(-10)
+			make.top.equalToSuperview().inset(-13)
 			make.left.equalToSuperview().inset(-5)
 			make.width.equalTo(60)
 			make.height.equalTo(20)
@@ -68,5 +69,4 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 			make.edges.equalToSuperview()
 		}
 	}
-
 }

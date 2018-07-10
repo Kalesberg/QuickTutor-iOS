@@ -129,7 +129,6 @@ class TutorLayoutView : MainLayoutTitleBackButton {
     override func configureView() {
         navbar.addSubview(qtText)
         super.configureView()
-        
         qtText.image = #imageLiteral(resourceName: "qt-small-text")
     }
     
@@ -178,7 +177,6 @@ class TutorMainPage : MainPage {
         self.tutor = tutor
         self.account = account
         self.configureSideBarView()
-		FirebaseData.manager.addUpdateFeaturedTutor(tutor: CurrentUser.shared.tutor) { (_) in }
 		
         navigationController?.navigationBar.isHidden = true
     }
@@ -416,19 +414,31 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainPageCollectionViewCell", for: indexPath) as! TutorMainPageCollectionViewCell
-        
+		
         cell.imageView.image = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.icon
         cell.backgroundColor = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.color
         cell.label.text = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.label
         cell.label.textColor = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.color
-        
+
+		if indexPath.item == 3 && (tutor.hours! < 30 || tutor.tRating! < 4.5) {
+			let lockView = UnlockCellView()
+			lockView.frame.size.height = cell.bounds.height - 30
+			lockView.frame.size.width = cell.bounds.width
+			cell.addSubview(lockView)
+		}
         return cell
     }
+	
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! TutorMainPageCollectionViewCell
+		let cell = collectionView.cellForItem(at: indexPath) as! TutorMainPageCollectionViewCell
+		
         cell.growSemiShrink {
-            let viewController = TutorMainPageButtonFactory.buttons[indexPath.item].viewController
-			self.navigationController?.pushViewController(viewController, animated: true)
+			if indexPath.item == 3 && (self.tutor.hours < 30 || self.tutor.tRating! < 4.5) {
+				AlertController.genericErrorAlertWithoutCancel(self, title: "This Feature is locked", message: "\'Your Listings\' will be unlocked after you have completed 30 hours of tutoring while maintaining at least a 4.5 rating.")
+			} else {
+				let viewController = TutorMainPageButtonFactory.buttons[indexPath.item].viewController
+				self.navigationController?.pushViewController(viewController, animated: true)
+			}
         }
         collectionView.deselectItem(at: indexPath, animated: true)
     }
@@ -445,11 +455,32 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         let screenWidth = UIScreen.main.bounds.width
         let width = (screenWidth / 3) - 15
         return CGSize(width: width, height: collectionView.frame.height - 10 )
     }
+}
+
+class UnlockCellView : BaseView {
+	let lockImageView : UIImageView = {
+		let imageView = UIImageView()
+		imageView.image = UIImage(named: "registration-ssn-lock")
+		return imageView
+	}()
+	
+	override func configureView() {
+		addSubview(lockImageView)
+		super.configureView()
+		
+		backgroundColor = UIColor.black.withAlphaComponent(0.8)
+		applyConstraints()
+	}
+	override func applyConstraints() {
+		lockImageView.snp.makeConstraints { (make) in
+			make.center.equalToSuperview()
+			make.width.height.equalTo(35)
+		}
+	}
 }
 
 class TutorHeaderLayoutView : TutorLayoutView {

@@ -140,9 +140,15 @@
 		84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */; };
 		84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */; };
 		84A7E5D01FCE4FDE002EABD5 /* Tutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */; };
+		84AD7F5720EE9A480012CAA3 /* YourListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AD7F5620EE9A480012CAA3 /* YourListing.swift */; };
 		84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B09D40205050E000BC8F80 /* ChangeEmail.swift */; };
 		84B8D67A20E5A53C0026132C /* TutorListings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B8D67920E5A53C0026132C /* TutorListings.swift */; };
 		84BC21D8206DB333002B4721 /* ViewFullProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC21D7206DB333002B4721 /* ViewFullProfile.swift */; };
+		84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D520F31A430039E054 /* AACircleCropViewController.swift */; };
+		84BC77DB20F31A470039E054 /* AACircleCropCutterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D620F31A440039E054 /* AACircleCropCutterView.swift */; };
+		84BC77DC20F31A470039E054 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D720F31A450039E054 /* UIImage+Extension.swift */; };
+		84BC77DD20F31A470039E054 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D820F31A460039E054 /* UIViewController+Extension.swift */; };
+		84BC77DE20F31A470039E054 /* AACircleCropScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D920F31A470039E054 /* AACircleCropScrollView.swift */; };
 		84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B620AB1991003E66D5 /* LegalEntity.swift */; };
 		84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */; };
 		84BDE2BF20AB9168003E66D5 /* AccountVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */; };
@@ -489,10 +495,16 @@
 		84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDatePicker.swift; sourceTree = "<group>"; };
 		84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTextView.swift; sourceTree = "<group>"; };
 		84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutor.swift; sourceTree = "<group>"; };
+		84AD7F5620EE9A480012CAA3 /* YourListing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourListing.swift; sourceTree = "<group>"; };
 		84B09D40205050E000BC8F80 /* ChangeEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmail.swift; sourceTree = "<group>"; };
 		84B2F02720354E4700F921C9 /* LearnerEditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerEditProfile.swift; sourceTree = "<group>"; };
 		84B8D67920E5A53C0026132C /* TutorListings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorListings.swift; sourceTree = "<group>"; };
 		84BC21D7206DB333002B4721 /* ViewFullProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFullProfile.swift; sourceTree = "<group>"; };
+		84BC77D520F31A430039E054 /* AACircleCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACircleCropViewController.swift; sourceTree = "<group>"; };
+		84BC77D620F31A440039E054 /* AACircleCropCutterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACircleCropCutterView.swift; sourceTree = "<group>"; };
+		84BC77D720F31A450039E054 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		84BC77D820F31A460039E054 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		84BC77D920F31A470039E054 /* AACircleCropScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACircleCropScrollView.swift; sourceTree = "<group>"; };
 		84BDE2B620AB1991003E66D5 /* LegalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalEntity.swift; sourceTree = "<group>"; };
 		84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAccounts.swift; sourceTree = "<group>"; };
 		84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerification.swift; sourceTree = "<group>"; };
@@ -1122,6 +1134,7 @@
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
+				84BC77D420F31A320039E054 /* ImageCropper */,
 				8404F43C20EBB3AE00747C01 /* CustomError.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
 				8421AB3F20DEDD34005B652B /* TutorialFactory.swift */,
@@ -1141,6 +1154,18 @@
 				84F245101FDA0F96006447A8 /* Learner Registration */,
 			);
 			path = Registration;
+			sourceTree = "<group>";
+		};
+		84BC77D420F31A320039E054 /* ImageCropper */ = {
+			isa = PBXGroup;
+			children = (
+				84BC77D620F31A440039E054 /* AACircleCropCutterView.swift */,
+				84BC77D920F31A470039E054 /* AACircleCropScrollView.swift */,
+				84BC77D520F31A430039E054 /* AACircleCropViewController.swift */,
+				84BC77D720F31A450039E054 /* UIImage+Extension.swift */,
+				84BC77D820F31A460039E054 /* UIViewController+Extension.swift */,
+			);
+			path = ImageCropper;
 			sourceTree = "<group>";
 		};
 		84C4E938206B61AC000C7A2F /* LearnerUnprofessional */ = {
@@ -1194,14 +1219,13 @@
 				84CFDDEF207357AB001CA9BF /* TutorRatings.swift */,
 				84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */,
 				84B8D67920E5A53C0026132C /* TutorListings.swift */,
+				84AD7F5620EE9A480012CAA3 /* YourListing.swift */,
+				84C82FE320F0068A00E526B4 /* EditListing.swift */,
 				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
 				843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */,
 				8441E650208922C60087AE11 /* TrendingCategories.swift */,
 				8441E65220892D510087AE11 /* CategoryInfo.swift */,
 				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
-				84F12F6120E3008D00EB14E8 /* TutorListings.swift */,
-				84C82FE120ED99C700E526B4 /* YourListing.swift */,
-				84C82FE320F0068A00E526B4 /* EditListing.swift */,
 			);
 			path = "Tutor Main Page";
 			sourceTree = "<group>";
@@ -1850,6 +1874,7 @@
 				CF6F58EE205EE6B300ACBD32 /* AccountService.swift in Sources */,
 				84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */,
 				CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */,
+				84BC77DC20F31A470039E054 /* UIImage+Extension.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
 				CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */,
 				CF360D3A208D48DB0096617C /* PauseSessionModal.swift in Sources */,
@@ -1872,6 +1897,7 @@
 				CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */,
 				CF6F58DD205EE68800ACBD32 /* LoginVC.swift in Sources */,
 				CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */,
+				84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */,
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestion.swift in Sources */,
 				84B8D67A20E5A53C0026132C /* TutorListings.swift in Sources */,
 				842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */,
@@ -1892,6 +1918,7 @@
 				CF6F58C4205EE68800ACBD32 /* QuickChatViewCell.swift in Sources */,
 				CFCA549F209AD6DC00FC83A1 /* AddTipVC.swift in Sources */,
 				CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */,
+				84AD7F5720EE9A480012CAA3 /* YourListing.swift in Sources */,
 				CF6F58C9205EE68800ACBD32 /* MeetupTypeCell.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfo.swift in Sources */,
 				84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */,
@@ -2016,6 +2043,7 @@
 				8423942B1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift in Sources */,
 				84F2451A1FDA1143006447A8 /* TutorSSN.swift in Sources */,
 				8430A8E41FFED70D002FD8A3 /* RegistrationNavBarView.swift in Sources */,
+				84BC77DD20F31A470039E054 /* UIViewController+Extension.swift in Sources */,
 				CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */,
 				84F431962070786F00030BD4 /* TutorEditProfileCells.swift in Sources */,
 				846252F120637F9D001DD330 /* TutorMyProfile.swift in Sources */,
@@ -2074,6 +2102,7 @@
 				CF1C6111209EA5BD009B7B0E /* PaymentMethodCell.swift in Sources */,
 				84E4C7D2204E80E4009C2FC4 /* AccountPayments.swift in Sources */,
 				CF6F58C8205EE68800ACBD32 /* PriceInputView.swift in Sources */,
+				84BC77DE20F31A470039E054 /* AACircleCropScrollView.swift in Sources */,
 				843709CE20AA27220070FCDD /* BankList.swift in Sources */,
 				842394131FF4CAC600827C7D /* RegistrationTextField.swift in Sources */,
 				84E1E4381FBE630200678531 /* signIn.swift in Sources */,
@@ -2108,6 +2137,7 @@
 				CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */,
 				84E4C7D4204E8317009C2FC4 /* QTGuide.swift in Sources */,
 				CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */,
+				84BC77DB20F31A470039E054 /* AACircleCropCutterView.swift in Sources */,
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
 				84052F16206BCCD7007B1248 /* TutorSessionDetails.swift in Sources */,
 				84052F10206BCC3D007B1248 /* LearnerHarassment.swift in Sources */,

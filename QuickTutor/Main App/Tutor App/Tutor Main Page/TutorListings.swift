@@ -66,6 +66,7 @@ class TutorListingsView : MainLayoutTitleBackButton {
         scrollView.addSubview(imageView)
         scrollView.addSubview(bodyLabel)
         super.configureView()
+		
         insertSubview(backgroundImageView, belowSubview: statusbarView)
         title.label.text = "Getting Featured"
     }

@@ -214,7 +214,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
             
-            cell.datasource = tutor.subjects
+			cell.datasource = tutor.subjects!
             
             return cell
             
