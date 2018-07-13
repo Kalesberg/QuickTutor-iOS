@@ -35,12 +35,9 @@ class EditSchoolView : EditProfileMainLayout {
         return textField
     }()
     
-    var header = UIView()
-    
     override func configureView() {
         addSubview(tableView)
-        addSubview(header)
-        header.addSubview(searchTextField)
+        addSubview(searchTextField)
         super.configureView()
         
         title.label.text = "School"
@@ -50,21 +47,15 @@ class EditSchoolView : EditProfileMainLayout {
     override func applyConstraints() {
         super.applyConstraints()
         
-        header.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).inset(-20)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.left.equalTo(tableView.snp.left)
-            make.height.equalTo(80)
-        }
         searchTextField.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.height.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom).inset(15)
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.height.equalTo(80)
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
         }
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(header.snp.bottom)
-            make.width.equalToSuperview().multipliedBy(0.95)
+            make.top.equalTo(searchTextField.snp.bottom)
+            make.width.equalToSuperview().multipliedBy(0.9)
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide)
             } else {

@@ -341,7 +341,6 @@ class EditListingPhotoView : BaseView {
 		let view = UIImageView()
 		
 		view.image = #imageLiteral(resourceName: "registration-image-placeholder")
-		view.backgroundColor = .white
 		view.layer.cornerRadius = 15
 		
 		return view
@@ -377,7 +376,6 @@ class EditListingPhotoView : BaseView {
 		labelContainer.addSubview(listingLabel)
 		super.configureView()
 
-		
 		applyConstraints()
 	}
 	
@@ -385,11 +383,8 @@ class EditListingPhotoView : BaseView {
 		super.layoutSubviews()
 		
 		container.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 0, frame: container.bounds)
-		
 		labelContainer.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 90, frame: labelContainer.bounds)
-		
 		listingImage.roundCorners([.topRight, .topLeft], radius: 6)
-		
 	}
 	
 	override func applyConstraints() {
@@ -437,7 +432,6 @@ class EditListingPhotoTableViewCell : UITableViewCell {
         let view = UIImageView()
         
         view.image = #imageLiteral(resourceName: "registration-image-placeholder")
-        view.backgroundColor = .white
         view.layer.cornerRadius = 15
         
         return view
