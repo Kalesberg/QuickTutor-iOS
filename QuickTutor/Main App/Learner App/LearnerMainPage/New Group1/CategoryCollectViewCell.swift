@@ -58,6 +58,7 @@ class CategoryCollectionViewCell : UICollectionViewCell {
         addSubview(view)
         addSubview(label)
         addSubview(imageView)
+		
 		applyDefaultShadow()
 		
 		applyConstraints()
