@@ -232,7 +232,6 @@ class FirebaseData {
 	}
 	
 	public func fetchTutorSubjects(uid: String, _ completion: @escaping ([TutorSubcategory]?) -> Void) {
-		
 		var subcategories : [TutorSubcategory] = []
 		self.ref?.child("subject").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
@@ -246,6 +245,20 @@ class FirebaseData {
 			}
 			return completion(subcategories)
 		})
+	}
+	
+	public func fetchTutorSessionPreferences(uid: String,_ completion: @escaping([String : Any]?) -> Void) {
+		self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+			var sessionDetails = [String : Any]()
+			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+			
+			sessionDetails["name"] = value["nm"] ?? ""
+			sessionDetails["price"] = value["p"] ?? 20
+			sessionDetails["preference"] = value["prf"] ?? 3
+			sessionDetails["distance"] = value["dst"] ?? 150
+			
+			completion(sessionDetails)
+		}
 	}
 	
 	public func fetchLearnerConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
@@ -290,6 +303,42 @@ class FirebaseData {
 		}
 	}
 	
+	public func fetchRequestSessionData(uid: String,_ completion: @escaping (TutorPreferenceData?) -> Void) {
+		var requestData = [String : Any]()
+		let group = DispatchGroup()
+		
+		group.enter()
+		fetchTutorSubjects(uid: uid) { (subcategory) in
+			var subjects = [String]()
+			guard let subcategory = subcategory else { return }
+			for subject in subcategory {
+				let subjectArray = subject.subjects.split(separator: "$")
+				for i in subjectArray {
+					subjects.append(String(i))
+				}
+				requestData["subjects"] = ["Choose a subject"] + subjects
+			}
+			group.leave()
+		}
+		group.enter()
+		fetchTutorSessionPreferences(uid: uid, { (preferences) in
+			guard let preferences = preferences else { return group.leave() }
+			guard let price = preferences["price"] as? Int else { return group.leave() }
+			guard let name = preferences["name"] as? String else { return group.leave() }
+			guard let distance = preferences["distance"] as? Int else { return group.leave() }
+			guard let preference = preferences["preference"] as? Int else { return  group.leave() }
+			
+			requestData["price"] = price
+			requestData["session"] = preference
+			requestData["distance"] = distance
+			requestData["name"] = String(name.split(separator: " ")[0])
+			
+			group.leave()
+		})
+		group.notify(queue: .main) {
+			completion(TutorPreferenceData(dictionary: requestData))
+		}
+	}
 	public func fetchUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]) -> Void) {
 		var sessions : [UserSession] = []
 		let group = DispatchGroup()

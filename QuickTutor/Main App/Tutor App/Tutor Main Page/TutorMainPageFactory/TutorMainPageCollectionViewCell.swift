@@ -44,9 +44,7 @@ class TutorMainPageCollectionViewCell : UICollectionViewCell {
 	func configureView() {
 		addSubview(imageView)
 		addSubview(label)
-		
-		
-		
+
 		clipsToBounds = true
 		layer.cornerRadius = 4
 		applyDefaultShadow()

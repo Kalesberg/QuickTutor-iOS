@@ -166,9 +166,10 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
         if screen.height == 568 || screen.height == 480 {
             return CGSize(width: (screen.width / 2.5) - 13, height: collectionView.frame.height - 15)
         } else {
-            return CGSize(width: (screen.width / 3) - 13, height: collectionView.frame.height - 15)
+            return CGSize(width: (screen.width / 2.5) - 13, height: collectionView.frame.height - 15)
         }
 	}
+
 }
 
 extension FeaturedTutorTableViewCell : UIScrollViewDelegate {

@@ -375,13 +375,22 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func sendRequest() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        sessionData["status"] = "pending"
-        sessionData["type"] = onlineToggle.selectionButton.isSelected ? "online" : "in-person"
-        sessionData["expiration"] = getExpiration()
-        sessionData["senderId"] = uid
-        sessionData["receiverId"] = chatPartnerId
-        
+		var sessionData = [String: Any]()
+
+//		guard let type = RequestSessionData.isOnline else { print("Please choose a session Type."); return }
+//		guard let subject = RequestSessionData.subject else { print("Please choose a subject"); return }
+//		guard let startTime = RequestSessionData.startTime else { print("Please choose a start time"); return }
+//		guard let endTime = RequestSessionData.endTime else { print("Please choose an end time"); return }
+//		guard let price = RequestSessionData.price else { print("Please choose a hourly rate."); return }
+//		
+//		sessionData["status"] = "pending"
+//		sessionData["type"] = type ? "online" : "in-person"
+//        sessionData["expiration"] = getExpiration()
+//        sessionData["senderId"] = CurrentUser.shared.learner.uid
+//        sessionData["receiverId"] = chatPartnerId
+//        sessionData["subject"] = subject
+//		sessionData
+		
         guard let _ = sessionData["subject"], let _ = sessionData["date"], let _ = sessionData["startTime"], let _ = sessionData["endTime"], let _ = sessionData["status"], let _ = sessionData["type"], let _ = sessionData["price"] else {
             return
         }
@@ -441,7 +450,6 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             }
-
         }
     }
     

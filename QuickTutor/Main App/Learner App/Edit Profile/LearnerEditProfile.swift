@@ -16,16 +16,16 @@ var imageToChange : Int = 0
 
 class LearnerEditProfileView : MainLayoutTitleTwoButton, Keyboardable {
     
-	var saveButton = NavbarButtonSave()
-	var backButton = NavbarButtonBack()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		} set {
-			backButton = newValue as! NavbarButtonBack
-		}
-	}
+    var saveButton = NavbarButtonSave()
+    var backButton = NavbarButtonBack()
+    
+    override var leftButton: NavbarButton {
+        get {
+            return backButton
+        } set {
+            backButton = newValue as! NavbarButtonBack
+        }
+    }
     override var rightButton: NavbarButton {
         get {
             return saveButton
@@ -78,14 +78,14 @@ class LearnerEditProfileView : MainLayoutTitleTwoButton, Keyboardable {
 
 class ProfilePicImageView : InteractableView, Interactable {
     
-	var picView = UIImageView()
+    var picView = UIImageView()
     var buttonImageView = UIImageView()
-	
+    
     override func configureView() {
         addSubview(picView)
         picView.addSubview(buttonImageView)
-		picView.scaleImage()
-	
+        picView.scaleImage()
+    
         buttonImageView.scaleImage()
         
         applyConstraints()
@@ -139,56 +139,56 @@ class LearnerEditProfile : BaseViewController {
     override func loadView() {
         view = LearnerEditProfileView()
     }
-	
-	var learner : AWLearner! {
-		didSet {
-			contentView.tableView.reloadData()
-		}
-	}
-	
-	var delegate : LearnerWasUpdatedCallBack?
-	
+    
+    var learner : AWLearner! {
+        didSet {
+            contentView.tableView.reloadData()
+        }
+    }
+    
+    var delegate : LearnerWasUpdatedCallBack?
+    
     var firstName : String!
     var lastName : String!
-	
+    
     var automaticScroll = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		self.hideKeyboardWhenTappedAround()
+        self.hideKeyboardWhenTappedAround()
         configureDelegates()
         definesPresentationContext = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-		
-		guard let learner = CurrentUser.shared.learner else { return }
-		self.learner = learner
-		
-		let name = learner.name.split(separator: " ")
-		firstName = String(name[0])
-		lastName = String(name[1])
+        
+        guard let learner = CurrentUser.shared.learner else { return }
+        self.learner = learner
+        
+        let name = learner.name.split(separator: " ")
+        firstName = String(name[0])
+        lastName = String(name[1])
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-	private func displaySavedAlertController() {
-		let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
-		
-		self.present(alertController, animated: true, completion: nil)
-		
-		let when = DispatchTime.now() + 1
-		DispatchQueue.main.asyncAfter(deadline: when){
-			alertController.dismiss(animated: true) {
-				self.delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
-				self.navigationController?.popViewController(animated: true)
-			}
-		}
-	}
-	private func configureDelegates() {
+    private func displaySavedAlertController() {
+        let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
+        
+        self.present(alertController, animated: true, completion: nil)
+        
+        let when = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: when){
+            alertController.dismiss(animated: true) {
+                self.delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    private func configureDelegates() {
         imagePicker.delegate = self
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
@@ -197,13 +197,13 @@ class LearnerEditProfile : BaseViewController {
         contentView.tableView.register(EditProfileDotItemTableViewCell.self, forCellReuseIdentifier: "editProfileDotItemTableViewCell")
         contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
         contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
-	}
+    }
     override func handleNavigation() {
         if (touchStartView is NavbarButtonSave) {
             saveChanges()
-		} else if touchStartView is NavbarButtonBack {
-			delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
-		}
+        } else if touchStartView is NavbarButtonBack {
+            delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
+        }
     }
     
     @objc private func firstNameValueChanged(_ textField : UITextField) {
@@ -213,16 +213,16 @@ class LearnerEditProfile : BaseViewController {
     
     @objc private func lastNameValueChanged(_ textField : UITextField) {
         guard textField.text!.count > 0 else { return }
-		lastName = textField.text
+        lastName = textField.text
     }
-	
+    
     private func uploadImageUrl(imageUrl: String, number: String) {
         if !self.learner.isTutor {
-			FirebaseData.manager.updateValue(node: "student-info", value: ["img" : CurrentUser.shared.learner.images]) { (error) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				}
-			}
+            FirebaseData.manager.updateValue(node: "student-info", value: ["img" : CurrentUser.shared.learner.images]) { (error) in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                }
+            }
             self.learner.images = CurrentUser.shared.learner.images
         } else {
 
@@ -237,23 +237,23 @@ class LearnerEditProfile : BaseViewController {
             })
         }
     }
-	
+    
     private func saveChanges() {
         
         if firstName.count < 1 || lastName.count < 1 {
            AlertController.genericErrorAlert(self, title: "Invalid Name", message: "Your first and last name must contain atleast 1 character.")
             return
         }
-		
-		let newNodes : [String : Any]
-		if CurrentUser.shared.learner.isTutor {
-			newNodes = [
-				"/tutor-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName,
-				"/student-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName
-			]
-		} else {
-			newNodes = ["/student-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName]
-		}
+        
+        let newNodes : [String : Any]
+        if CurrentUser.shared.learner.isTutor {
+            newNodes = [
+                "/tutor-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName,
+                "/student-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName
+            ]
+        } else {
+            newNodes = ["/student-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName]
+        }
         Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -430,41 +430,41 @@ extension LearnerEditProfile : UIScrollViewDelegate {
 extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
 
     func circleCropDidCropImage(_ image: UIImage) {
-		let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
-		let imageViews = [cell.image1, cell.image2, cell.image3, cell.image4]
-		
-		guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
-			AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
-			return
-		}
-		
-		func checkForEmptyImagesBeforeCurrentIndex() -> Int {
-			for (index, imageView) in imageViews.enumerated() {
-				if imageView.picView.image == nil || imageView.picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
-					return index
-				}
-			}
-			return imageToChange - 1
-		}
-		
-		func setAndSaveImage() {
-			var index = imageToChange - 1
-			if imageViews[index].picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
-				index = checkForEmptyImagesBeforeCurrentIndex()
-			}
-			FirebaseData.manager.uploadImage(data: data, number: String(index + 1)) { (error, imageUrl) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				} else if let imageUrl = imageUrl {
-					self.learner.images["image\(index+1)"] = imageUrl
-					self.uploadImageUrl(imageUrl: imageUrl, number: String(index+1))
-				}
-			}
-			imageViews[index].picView.image = image.circleMasked
-			imageViews[index].buttonImageView.image = UIImage(named: "remove-image")
-		}
-		setAndSaveImage()
-	}
+        let cell = contentView.tableView.cellForRow(at: IndexPath(row:0, section:0)) as! ProfileImagesTableViewCell
+        let imageViews = [cell.image1, cell.image2, cell.image3, cell.image4]
+        
+        guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
+            AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
+            return
+        }
+        
+        func checkForEmptyImagesBeforeCurrentIndex() -> Int {
+            for (index, imageView) in imageViews.enumerated() {
+                if imageView.picView.image == nil || imageView.picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+                    return index
+                }
+            }
+            return imageToChange - 1
+        }
+        
+        func setAndSaveImage() {
+            var index = imageToChange - 1
+            if imageViews[index].picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+                index = checkForEmptyImagesBeforeCurrentIndex()
+            }
+            FirebaseData.manager.uploadImage(data: data, number: String(index + 1)) { (error, imageUrl) in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                } else if let imageUrl = imageUrl {
+                    self.learner.images["image\(index+1)"] = imageUrl
+                    self.uploadImageUrl(imageUrl: imageUrl, number: String(index+1))
+                }
+            }
+            imageViews[index].picView.image = image.circleMasked
+            imageViews[index].buttonImageView.image = UIImage(named: "remove-image")
+        }
+        setAndSaveImage()
+    }
 
     func circleCropDidCancel() {
         print("cancelled")

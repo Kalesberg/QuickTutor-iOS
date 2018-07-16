@@ -512,7 +512,6 @@ class LearnerFileReport : BaseViewController {
 	var localTimeZoneAbbreviation: String {
 		return TimeZone.current.abbreviation() ?? ""
 	}
-
 	var datasource = [UserSession]() {
 		didSet {
 			if datasource.count == 0 {

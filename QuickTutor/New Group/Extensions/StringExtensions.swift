@@ -10,11 +10,11 @@ import Foundation
 import UIKit
 
 extension String {
-    
-    func containsSwearWord(swearWords: [String]) -> Bool {
-        return swearWords
-            .reduce(false) { $0 || self.contains($1.lowercased()) }
-    }
+	
+	func containsSwearWord(swearWords: [String]) -> Bool {
+		return swearWords
+			.reduce(false) { $0 || self.contains($1.lowercased()) }
+	}
 	
 	func emailRegex () -> Bool {
 		let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
@@ -29,10 +29,10 @@ extension String {
 		return phoneTest.evaluate(with: self)
 	}
 	
-    func cleanPhoneNumber() -> String{
-        let string = "+1\(self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())"
-        return string
-    }
+	func cleanPhoneNumber() -> String{
+		let string = "+1\(self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())"
+		return string
+	}
 	
 	func formatPhoneNumber() -> String {
 		let cleanPhoneNumber = self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
@@ -52,7 +52,7 @@ extension String {
 				result.append(ch)
 			}
 		}
-        
+		
 		return result
 	}
 	
@@ -151,6 +151,13 @@ extension String {
 			return self.distance(from: startIndex, to: idx)
 		}
 		return nil
+	}
+	func removeCharacters(from forbiddenChars: CharacterSet) -> String {
+		let passed = self.unicodeScalars.filter { !forbiddenChars.contains($0) }
+		return String(String.UnicodeScalarView(passed))
+	}
+	func removeCharacters(from: String) -> String {
+		return removeCharacters(from: CharacterSet(charactersIn: from))
 	}
 }
 

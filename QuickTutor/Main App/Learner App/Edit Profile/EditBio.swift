@@ -105,7 +105,7 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
 		paragraphStyle.lineSpacing = 6
 		attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
 		
-		infoLabel.label.attributedText = attributedString;
+		infoLabel.label.attributedText = attributedString
 		infoLabel.label.font = Fonts.createSize(14)
 	}
 	

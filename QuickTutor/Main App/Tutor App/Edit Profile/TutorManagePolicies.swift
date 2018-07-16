@@ -211,7 +211,6 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
         navbar.backgroundColor = Colors.tutorBlue
         statusbarView.backgroundColor = Colors.tutorBlue
         
-        
         applyConstraints()
     }
     
@@ -461,7 +460,6 @@ extension TutorManagePolicies : UIPickerViewDelegate, UIPickerViewDataSource {
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedTextField.text = datasource[row]
-        
     }
 }
 extension TutorManagePolicies : UIScrollViewDelegate {

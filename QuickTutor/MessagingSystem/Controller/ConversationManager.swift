@@ -41,9 +41,6 @@ class ConversationManager {
             })
         }
     }
-    
-    
-    
 }
 
 struct Conversation {

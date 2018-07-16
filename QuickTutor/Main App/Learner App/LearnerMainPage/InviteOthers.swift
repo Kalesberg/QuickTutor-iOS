@@ -258,7 +258,7 @@ class InviteOthers : BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		
+		hideKeyboardWhenTappedAround()
 		if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
 			contentView.connectContacts.removeFromSuperview()
 			getContactList()

@@ -348,11 +348,10 @@ class LearnerMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if (touchStartView is SearchBar) {
-            
             let nav = self.navigationController
             let transition = CATransition()
             DispatchQueue.main.async {
-                nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+                nav?.view.layer.add(transition.segueFromTop(), forKey: nil)
                 nav?.pushViewController(SearchSubjects(), animated: false)
             }
         } else if (touchStartView is InviteButton) {
