@@ -15,9 +15,7 @@ struct CategorySelected {
 class CategorySearchView : MainLayoutTwoButton {
 	
 	var back =  NavbarButtonBack()
-	
-	let subtitle = SectionHeader()
-	
+	let subtitle = SectionHeader()	
 	let searchBar : UISearchBar = {
 		let searchBar = UISearchBar()
 		

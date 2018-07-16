@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import CoreLocation
 
 class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
@@ -617,7 +618,6 @@ extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControlle
                 message.data["imageHeight"] = image.size.width
                 self.sendMessage(message: message)
             })
-            
         }
     }
 }
@@ -630,16 +630,15 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
         studentKeyboardAccessory.hideActionView()
         showSessionRequestView()
     }
-    
+
     func showSessionRequestView() {
-        guard let window = UIApplication.shared.keyWindow else { return }
-        let sessionView = SessionRequestView()
-        sessionView.delegate = self
-        sessionView.chatPartnerId = receiverId
-        window.addSubview(sessionView)
-        resignFirstResponder()
-        sessionView.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
-        window.addConstraint(NSLayoutConstraint(item: sessionView, attribute: .centerY, relatedBy: .equal, toItem: window, attribute: .centerY, multiplier: 1, constant: 0))
+		FirebaseData.manager.fetchRequestSessionData(uid: receiverId) { (requestData) in
+			guard let requestData = requestData else { return }
+			let requestSessionModal = RequestSessionModal(uid: self.receiverId, requestData: requestData)
+			requestSessionModal.frame = self.view.bounds
+			self.view.addSubview(requestSessionModal)
+		}
+		resignFirstResponder()
     }
     
     func shareUsernameForUserId() {
@@ -680,7 +679,6 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
             self.scrollToBottom(animated: true)
         }
     }
-    
 }
 
 extension ConversationVC: SessionRequestViewDelegate {

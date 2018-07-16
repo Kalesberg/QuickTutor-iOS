@@ -149,7 +149,7 @@ class SessionRequestCell: UserMessageCell {
         case "pending":
             statusLabel.text = "Session Request Pending"
         case "declined":
-            statusLabel.text = "Session Request Declines"
+            statusLabel.text = "Session Request Declined"
         case "accepted":
             statusLabel.text = "Session Request Accepted"
         case "expired":

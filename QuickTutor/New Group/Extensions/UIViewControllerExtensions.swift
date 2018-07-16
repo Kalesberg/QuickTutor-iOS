@@ -196,6 +196,14 @@ extension UIViewController {
             }
         }
 	}
+	func displaySessionRequestModal() {
+		if let _ = self.view.viewWithTag(696969) {
+			return
+		}
+		//let requestSessionModal = RequestSessionModal()
+		
+		
+	}
 }
 
 extension UINavigationController {

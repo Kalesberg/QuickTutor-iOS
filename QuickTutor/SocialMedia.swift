@@ -36,8 +36,7 @@ class SocialMedia {
 			}
 		} else {
 			guard let url = URL(string: webUrl) else {
-				completion(false)
-				return
+				return completion(false)
 			}
 			if #available(iOS 10, *) {
 				UIApplication.shared.open(url, options: [:], completionHandler: completion)

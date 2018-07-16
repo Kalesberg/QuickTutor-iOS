@@ -547,7 +547,7 @@ class SettingsScrollView : BaseScrollView {
             SocialMedia.rateApp(appUrl:  "instagram://user?username=QuickTutor", webUrl: "https://www.instagram.com/quicktutor/", completion: { (success) in
             })
         } else if(touchStartView is FacebookIcon) {
-            SocialMedia.rateApp(appUrl:  "fb://profile/QuickTutorApp/", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { (success) in
+            SocialMedia.rateApp(appUrl:  "fb://profile/QuickTutorApp", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { (success) in
             })
         } else if(touchStartView is SignOutButton) {
 			signOutAlert()

@@ -21,6 +21,7 @@
 		841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */; };
 		841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */; };
 		841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */; };
+		841DF2D320F83A1D00DADD5A /* DurationPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DF2D220F83A1D00DADD5A /* DurationPickerCell.swift */; };
 		8421007E207A7E0800422A31 /* FeaturedTutorQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421007D207A7E0800422A31 /* FeaturedTutorQuery.swift */; };
 		8421AB3A20DED0FF005B652B /* TutorMainPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3920DED0FF005B652B /* TutorMainPageTableViewCell.swift */; };
 		8421AB3C20DED10B005B652B /* TutorMainPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */; };
@@ -69,6 +70,13 @@
 		843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA323205513F4000C7054 /* UIColorExtensions.swift */; };
 		843ECCC2207D8D4400C0F622 /* TutorMainTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */; };
 		843ECCC4207DD06E00C0F622 /* LearnerFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ECCC3207DD06E00C0F622 /* LearnerFilters.swift */; };
+		8440539020F4E614003F0606 /* SubjectPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440538F20F4E614003F0606 /* SubjectPickerCell.swift */; };
+		8440539320F4E65D003F0606 /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440539220F4E65D003F0606 /* DatePickerCell.swift */; };
+		8440539520F4E672003F0606 /* PricePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440539420F4E672003F0606 /* PricePickerCell.swift */; };
+		8440539720F4E69C003F0606 /* RequestSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440539620F4E69C003F0606 /* RequestSessionCell.swift */; };
+		8440539A20F525E0003F0606 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440539920F525E0003F0606 /* DateExtensions.swift */; };
+		8440539E20F55B77003F0606 /* SendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440539D20F55B77003F0606 /* SendRequestView.swift */; };
+		844053A020F55BDA003F0606 /* RequestSessionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440539F20F55BDA003F0606 /* RequestSessionTableView.swift */; };
 		8441E651208922C60087AE11 /* TrendingCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8441E650208922C60087AE11 /* TrendingCategories.swift */; };
 		8441E65320892D510087AE11 /* CategoryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8441E65220892D510087AE11 /* CategoryInfo.swift */; };
 		8448C574204BC87100C3247D /* EditPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8448C573204BC87100C3247D /* EditPhone.swift */; };
@@ -149,6 +157,8 @@
 		84BC77DC20F31A470039E054 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D720F31A450039E054 /* UIImage+Extension.swift */; };
 		84BC77DD20F31A470039E054 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D820F31A460039E054 /* UIViewController+Extension.swift */; };
 		84BC77DE20F31A470039E054 /* AACircleCropScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D920F31A470039E054 /* AACircleCropScrollView.swift */; };
+		84BC77E120F3F0E10039E054 /* RequestSessionCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77E020F3F0E10039E054 /* RequestSessionCellFactory.swift */; };
+		84BC77E320F3F3B20039E054 /* RequestSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77E220F3F3B20039E054 /* RequestSessionModal.swift */; };
 		84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B620AB1991003E66D5 /* LegalEntity.swift */; };
 		84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */; };
 		84BDE2BF20AB9168003E66D5 /* AccountVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */; };
@@ -202,6 +212,7 @@
 		84E91B622057421900D1F613 /* TutorCancelled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B612057421900D1F613 /* TutorCancelled.swift */; };
 		84E91B64205761A600D1F613 /* TutorLate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B63205761A600D1F613 /* TutorLate.swift */; };
 		84EA5EA020A7F4C50008292B /* InviteOthers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA5E9F20A7F4C50008292B /* InviteOthers.swift */; };
+		84EB7CD320F6FD7600EB7291 /* SessionTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EB7CD220F6FD7600EB7291 /* SessionTypeCell.swift */; };
 		84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */; };
 		84F141A1207E490D003D3193 /* TutorPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A0207E490D003D3193 /* TutorPreferences.swift */; };
 		84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A2207F0D7B003D3193 /* IntExtensions.swift */; };
@@ -372,6 +383,7 @@
 		841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAccountPayments.swift; sourceTree = "<group>"; };
 		841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorUpdatePayment.swift; sourceTree = "<group>"; };
 		841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPaymentEarnings.swift; sourceTree = "<group>"; };
+		841DF2D220F83A1D00DADD5A /* DurationPickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPickerCell.swift; sourceTree = "<group>"; };
 		8421007D207A7E0800422A31 /* FeaturedTutorQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTutorQuery.swift; sourceTree = "<group>"; };
 		8421AB3920DED0FF005B652B /* TutorMainPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageTableViewCell.swift; sourceTree = "<group>"; };
 		8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -421,6 +433,13 @@
 		843BA323205513F4000C7054 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainTips.swift; sourceTree = "<group>"; };
 		843ECCC3207DD06E00C0F622 /* LearnerFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerFilters.swift; sourceTree = "<group>"; };
+		8440538F20F4E614003F0606 /* SubjectPickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectPickerCell.swift; sourceTree = "<group>"; };
+		8440539220F4E65D003F0606 /* DatePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
+		8440539420F4E672003F0606 /* PricePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricePickerCell.swift; sourceTree = "<group>"; };
+		8440539620F4E69C003F0606 /* RequestSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSessionCell.swift; sourceTree = "<group>"; };
+		8440539920F525E0003F0606 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		8440539D20F55B77003F0606 /* SendRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestView.swift; sourceTree = "<group>"; };
+		8440539F20F55BDA003F0606 /* RequestSessionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSessionTableView.swift; sourceTree = "<group>"; };
 		8441E650208922C60087AE11 /* TrendingCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCategories.swift; sourceTree = "<group>"; };
 		8441E65220892D510087AE11 /* CategoryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInfo.swift; sourceTree = "<group>"; };
 		84472EAB1FC0DDED007DCD71 /* QuickTutor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuickTutor.entitlements; sourceTree = "<group>"; };
@@ -505,6 +524,8 @@
 		84BC77D720F31A450039E054 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		84BC77D820F31A460039E054 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		84BC77D920F31A470039E054 /* AACircleCropScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACircleCropScrollView.swift; sourceTree = "<group>"; };
+		84BC77E020F3F0E10039E054 /* RequestSessionCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSessionCellFactory.swift; sourceTree = "<group>"; };
+		84BC77E220F3F3B20039E054 /* RequestSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSessionModal.swift; sourceTree = "<group>"; };
 		84BDE2B620AB1991003E66D5 /* LegalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalEntity.swift; sourceTree = "<group>"; };
 		84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAccounts.swift; sourceTree = "<group>"; };
 		84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerification.swift; sourceTree = "<group>"; };
@@ -563,6 +584,7 @@
 		84E91B612057421900D1F613 /* TutorCancelled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCancelled.swift; sourceTree = "<group>"; };
 		84E91B63205761A600D1F613 /* TutorLate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLate.swift; sourceTree = "<group>"; };
 		84EA5E9F20A7F4C50008292B /* InviteOthers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteOthers.swift; sourceTree = "<group>"; };
+		84EB7CD220F6FD7600EB7291 /* SessionTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTypeCell.swift; sourceTree = "<group>"; };
 		84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPayment.swift; sourceTree = "<group>"; };
 		84F12F6120E3008D00EB14E8 /* TutorListings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorListings.swift; sourceTree = "<group>"; };
 		84F141A0207E490D003D3193 /* TutorPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutorPreferences.swift; path = "../../Tutor App/Additional Info/TutorPreferences.swift"; sourceTree = "<group>"; };
@@ -906,6 +928,30 @@
 			path = "My Profile";
 			sourceTree = "<group>";
 		};
+		8440539120F4E645003F0606 /* RequestSessionCells */ = {
+			isa = PBXGroup;
+			children = (
+				8440539620F4E69C003F0606 /* RequestSessionCell.swift */,
+				8440538F20F4E614003F0606 /* SubjectPickerCell.swift */,
+				8440539420F4E672003F0606 /* PricePickerCell.swift */,
+				84EB7CD220F6FD7600EB7291 /* SessionTypeCell.swift */,
+				8440539220F4E65D003F0606 /* DatePickerCell.swift */,
+				841DF2D220F83A1D00DADD5A /* DurationPickerCell.swift */,
+			);
+			path = RequestSessionCells;
+			sourceTree = "<group>";
+		};
+		8440539820F51DAD003F0606 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8440539D20F55B77003F0606 /* SendRequestView.swift */,
+				8440539F20F55BDA003F0606 /* RequestSessionTableView.swift */,
+				84BC77E220F3F3B20039E054 /* RequestSessionModal.swift */,
+				8440539120F4E645003F0606 /* RequestSessionCells */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		845B3BA12069E8C3009F8E04 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1168,6 +1214,15 @@
 			path = ImageCropper;
 			sourceTree = "<group>";
 		};
+		84BC77DF20F3F0BF0039E054 /* RequestSession */ = {
+			isa = PBXGroup;
+			children = (
+				84BC77E020F3F0E10039E054 /* RequestSessionCellFactory.swift */,
+				8440539820F51DAD003F0606 /* View */,
+			);
+			path = RequestSession;
+			sourceTree = "<group>";
+		};
 		84C4E938206B61AC000C7A2F /* LearnerUnprofessional */ = {
 			isa = PBXGroup;
 			children = (
@@ -1197,6 +1252,7 @@
 			isa = PBXGroup;
 			children = (
 				848E87E52043EB5D007935BE /* UIViewExtensions.swift */,
+				8440539920F525E0003F0606 /* DateExtensions.swift */,
 				84DFD898204C5AE600BA8A3F /* UIViewControllerExtensions.swift */,
 				8482AFE2203A9E1300F6F805 /* UIImageViewExtensions.swift */,
 				847CF8E7202A7738003BB4FA /* UIScrollViewExtensions.swift */,
@@ -1237,6 +1293,7 @@
 				8454890120D987D300932D8D /* AddTutor.swift */,
 				843ECCC3207DD06E00C0F622 /* LearnerFilters.swift */,
 				84D8C92F2066E8CC003C3AEA /* SearchSubjects.swift */,
+				84BC77DF20F3F0BF0039E054 /* RequestSession */,
 				84D8C93120670EC0003C3AEA /* CategorySearch.swift */,
 				8476F7C520D00CE900C8D52D /* TutorConnect */,
 				84EA5E9F20A7F4C50008292B /* InviteOthers.swift */,
@@ -1867,6 +1924,7 @@
 				84B09D41205050E000BC8F80 /* ChangeEmail.swift in Sources */,
 				84E4C7E3204E9425009C2FC4 /* PaymentDeclined.swift in Sources */,
 				84E91B5E205740CC00D1F613 /* SubmissionElements.swift in Sources */,
+				84BC77E320F3F3B20039E054 /* RequestSessionModal.swift in Sources */,
 				84E91B64205761A600D1F613 /* TutorLate.swift in Sources */,
 				84CFDDF0207357AB001CA9BF /* TutorRatings.swift in Sources */,
 				84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */,
@@ -1874,6 +1932,7 @@
 				846252E720637CF8001DD330 /* LearnerMainPage.swift in Sources */,
 				84E4C7DF204E9342009C2FC4 /* ForgotPassword.swift in Sources */,
 				CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */,
+				8440539320F4E65D003F0606 /* DatePickerCell.swift in Sources */,
 				CF833B7E207C4BCB00323242 /* TutorUpcomingSessionCell.swift in Sources */,
 				8421AB3E20DED118005B652B /* TutorMainPageFactory.swift in Sources */,
 				CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */,
@@ -1882,6 +1941,7 @@
 				CF6F58DD205EE68800ACBD32 /* LoginVC.swift in Sources */,
 				CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */,
 				84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */,
+				8440539A20F525E0003F0606 /* DateExtensions.swift in Sources */,
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestion.swift in Sources */,
 				84B8D67A20E5A53C0026132C /* TutorListings.swift in Sources */,
 				842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */,
@@ -1903,6 +1963,7 @@
 				CFCA549F209AD6DC00FC83A1 /* AddTipVC.swift in Sources */,
 				CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */,
 				84AD7F5720EE9A480012CAA3 /* YourListing.swift in Sources */,
+				841DF2D320F83A1D00DADD5A /* DurationPickerCell.swift in Sources */,
 				CF6F58C9205EE68800ACBD32 /* MeetupTypeCell.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfo.swift in Sources */,
 				84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */,
@@ -1915,6 +1976,7 @@
 				8482AFE3203A9E1300F6F805 /* UIImageViewExtensions.swift in Sources */,
 				840E75C2201E8419006FC580 /* LeanerFileReport.swift in Sources */,
 				84257662207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift in Sources */,
+				8440539E20F55B77003F0606 /* SendRequestView.swift in Sources */,
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
 				CF8E88A020C5A1FB0044344D /* SessionOnHoldModal.swift in Sources */,
@@ -1936,6 +1998,7 @@
 				8470995A20082DA5000DCFD0 /* Sidebar.swift in Sources */,
 				CF6F58D2205EE68800ACBD32 /* CustomImageView.swift in Sources */,
 				84F36ED81FC3603F00E71589 /* Name.swift in Sources */,
+				8440539020F4E614003F0606 /* SubjectPickerCell.swift in Sources */,
 				CF8E88A620C72BFD0044344D /* AcceptAddTimeModal.swift in Sources */,
 				847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */,
 				84E4C7EC204E9829009C2FC4 /* Sessions.swift in Sources */,
@@ -1951,6 +2014,7 @@
 				CF6F58C2205EE68800ACBD32 /* MeetupRequestCell.swift in Sources */,
 				846252F720637FC5001DD330 /* TutorHelp.swift in Sources */,
 				847D77A91FBE6B69009F4D42 /* Verification.swift in Sources */,
+				84EB7CD320F6FD7600EB7291 /* SessionTypeCell.swift in Sources */,
 				CF6F58D6205EE68800ACBD32 /* QuickChatKeyboardAccessory.swift in Sources */,
 				848E643B2059EE0A000CD921 /* BecomeTutor.swift in Sources */,
 				8421AB4220DFD75B005B652B /* TutorAccountWarning.swift in Sources */,
@@ -1995,6 +2059,7 @@
 				CF6F58CB205EE68800ACBD32 /* SubjectPicker.swift in Sources */,
 				843ECCC2207D8D4400C0F622 /* TutorMainTips.swift in Sources */,
 				CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */,
+				8440539720F4E69C003F0606 /* RequestSessionCell.swift in Sources */,
 				CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */,
 				8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */,
 				CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */,
@@ -2019,7 +2084,9 @@
 				84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */,
 				CF833B7C207C4BB300323242 /* LearnerUpcomingSessionCell.swift in Sources */,
 				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
+				8440539520F4E672003F0606 /* PricePickerCell.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
+				844053A020F55BDA003F0606 /* RequestSessionTableView.swift in Sources */,
 				84C82FE420F0068A00E526B4 /* EditListing.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
@@ -2128,6 +2195,7 @@
 				CF177BC9208E920E006DD50B /* SessionCompleteVC.swift in Sources */,
 				CF833B83207C4C2600323242 /* LearnerPastSessionCell.swift in Sources */,
 				CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */,
+				84BC77E120F3F0E10039E054 /* RequestSessionCellFactory.swift in Sources */,
 				CF6F58E5205EE68800ACBD32 /* UserMessage.swift in Sources */,
 				8404F43D20EBB3AE00747C01 /* CustomError.swift in Sources */,
 				CF6F58C3205EE68800ACBD32 /* BaseMessageCell.swift in Sources */,
