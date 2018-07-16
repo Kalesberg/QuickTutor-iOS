@@ -19,6 +19,9 @@ extension Date {
 		default: return "th"
 		}
 	}
+	func adding(days: Int) -> Date {
+		return Calendar.current.date(byAdding: .day , value: days, to: self)!
+	}
 	func adding(hours: Int) -> Date {
 		return Calendar.current.date(byAdding: .hour, value: hours, to: self)!
 	}

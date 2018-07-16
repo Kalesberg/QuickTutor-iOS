@@ -97,7 +97,7 @@ extension CategoryTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let screenWidth = UIScreen.main.bounds.width
 		let width = (screenWidth / 3) - 10
-		return CGSize(width: width, height: contentView.frame.height)
+		return CGSize(width: width, height: contentView.frame.height - 10)
 	}
 }
 extension CategoryTableViewCell : UIScrollViewDelegate {

@@ -94,6 +94,7 @@ struct FeaturedTutor {
 	let rating : Double
 	let reviews : Int
 	let subject : String
+	let isHidden : Int
 	
 	init(dictionary : [String : Any]) {
 		price = dictionary["p"] as? Int ?? 0
@@ -102,6 +103,8 @@ struct FeaturedTutor {
 		rating = dictionary["r"] as? Double ?? 5.0
 		reviews = dictionary["rv"] as? Int ?? 0
 		subject = dictionary["sbj"] as? String ?? ""
+		isHidden = dictionary["h"] as? Int ?? 0
+
 		if let nameSplit = (dictionary["nm"] as? String)?.split(separator: " ") {
 			name = "\(nameSplit[0]) \(String(nameSplit[1]).prefix(1))."
 		} else {
@@ -134,7 +137,6 @@ class QueryData {
 		let group = DispatchGroup()
 		
 		for category in categories {
-			
 			uids[category] = []
 			let categoryString = category.subcategory.fileToRead
 			
@@ -145,7 +147,9 @@ class QueryData {
 					group.enter()
 					FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.subcategory.fileToRead, { (tutor) in
 						if let tutor = tutor {
-							uids[category]!.append(tutor)
+							if tutor.isHidden == 0 {
+								uids[category]!.append(tutor)
+							}
 						}
 						group.leave()
 					})
@@ -161,7 +165,6 @@ class QueryData {
 	func queryAWTutorByCategory(category: Category, lastKnownKey: String?, limit: UInt, _ completion: @escaping ([FeaturedTutor]?) -> Void) {
 		var tutors : [FeaturedTutor] = []
 		let group = DispatchGroup()
-		
 		let query : DatabaseQuery!
 		
 		if let lastKnownKey = lastKnownKey {
@@ -176,7 +179,9 @@ class QueryData {
 				group.enter()
 				FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.subcategory.fileToRead, { (tutor) in
 					if let tutor = tutor {
-						tutors.append(tutor)
+						if tutor.isHidden == 0 {
+							tutors.append(tutor)
+						}
 					}
 					group.leave()
 				})
