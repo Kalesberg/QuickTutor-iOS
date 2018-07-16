@@ -81,7 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                         }
                         self.configureRootViewController(controller: LearnerPageViewController())
                     } else {
-//                        try! Auth.auth().signOut()
                         self.configureRootViewController(controller: SignIn())
                     }
                 }
@@ -93,13 +92,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                         }
                         self.configureRootViewController(controller: TutorPageViewController())
                     } else {
-//                        try! Auth.auth().signOut()
                         self.configureRootViewController(controller: SignIn())
                     }
                 }
             }
         } else {
-//            try! Auth.auth().signOut()
             configureRootViewController(controller: SignIn())
         }
         return true

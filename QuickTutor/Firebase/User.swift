@@ -94,7 +94,7 @@ class FirebaseData {
 		childNodes["/tutor-info/\(uid)"] = NSNull()
 		childNodes["/tutor_loc/\(uid)"] = NSNull()
 		childNodes["/userSessions/\(uid)"] = NSNull()
-		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "both"]
+		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "tutor"]
 		
 		for subcat in subcategory {
 			guard let category = SubjectStore.findCategoryBy(subcategory: subcat) else { continue }
@@ -460,6 +460,7 @@ class FirebaseData {
 	public func fetchFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
 		self.ref.child("featured").child(category).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+
 			var featuredTutor = FeaturedTutor(dictionary: value)
 			featuredTutor.uid = snapshot.key
 			return completion(featuredTutor)
@@ -586,7 +587,7 @@ class FirebaseData {
 		}
 		uploadFeaturedImage { (imageUrl) in
 			if let imageUrl = imageUrl {
-			let post : [String : Any] = ["img" : imageUrl, "nm" : tutor.name, "p" : price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subject, "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
+				let post : [String : Any] = ["img" : imageUrl, "nm" : tutor.name, "p" : price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subject, "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0), "h" : 0]
 		
 				self.ref.child("featured").child(category).child(tutor.uid).updateChildValues(post)
 				completion(true)
@@ -594,6 +595,11 @@ class FirebaseData {
 				completion(false)
 			}
 		}
+	}
+	
+	public func hideListing(uid: String, category: String, isHidden: Int) {
+		let value = ["h" : isHidden == 0 ? 0 : 1]
+		self.ref.child("featured").child(category).child(uid).updateChildValues(value)
 	}
 	
 	public func addUpdateFeaturedTutor(tutor: AWTutor,_ completion: @escaping (Error?) -> Void) {

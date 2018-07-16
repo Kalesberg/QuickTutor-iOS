@@ -119,10 +119,8 @@ class FeaturedTutorView : BaseView {
     
     override func applyConstraints() {
         imageView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.top.centerX.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.55)
-            make.width.equalToSuperview()
         }
         subject.snp.makeConstraints { (make) in
             make.top.equalTo(imageView.snp.bottom).inset(-7)
@@ -140,14 +138,13 @@ class FeaturedTutorView : BaseView {
             make.width.equalToSuperview().multipliedBy(0.88)
         }
         starImage.snp.makeConstraints { (make) in
-            make.left.equalTo(namePrice)
+            make.left.equalTo(namePrice.snp.left)
             make.bottom.equalToSuperview().inset(9)
             make.height.width.equalTo(13)
         }
         ratingLabel.snp.makeConstraints { (make) in
             make.left.equalTo(starImage.snp.right).inset(-3)
-            make.centerY.equalTo(starImage).inset(1)
-            make.right.equalToSuperview().inset(2)
+            make.centerY.equalTo(starImage.snp.centerY).inset(1)
         }
     }
 }
