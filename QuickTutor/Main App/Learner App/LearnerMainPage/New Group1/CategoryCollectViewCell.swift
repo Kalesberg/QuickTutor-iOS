@@ -59,13 +59,9 @@ class CategoryCollectionViewCell : UICollectionViewCell {
         addSubview(label)
         addSubview(imageView)
 		
-	
-//		layer.shadowOffset = CGSize(width: 1, height: 3)
-//		layer.shadowRadius = 5
-//		layer.shadowColor = UIColor.black.cgColor
-//		layer.shadowOpacity = 0.5
+		applyDefaultShadow()
 		
-        applyConstraints()
+		applyConstraints()
     }
     func applyConstraints(){
         imageView.snp.makeConstraints { (make) in
