@@ -80,12 +80,24 @@ class YourListingView : MainLayoutTitleBackTwoButton {
         return label
     }()
     
+    let hideButton : UIButton = {
+        let button = UIButton()
+        
+        button.setTitle("Hide Listing", for: .normal)
+        button.backgroundColor = Colors.tutorBlue
+        button.layer.cornerRadius = 7
+        button.titleLabel?.font = Fonts.createBoldSize(18)
+        
+        return button
+    }()
+    
     override func configureView() {
         addSubview(scrollView)
 		addSubview(collectionView)
 		collectionView.addSubview(imageView)
 		imageView.addSubview(categoryLabel)
         scrollView.addSubview(infoLabel)
+        scrollView.addSubview(hideButton)
         super.configureView()
 		
 		title.label.text = "Your Listing"
@@ -120,6 +132,13 @@ class YourListingView : MainLayoutTitleBackTwoButton {
 			make.top.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
+        }
+        
+        hideButton.snp.makeConstraints { (make) in
+            make.width.equalTo(150)
+            make.height.equalTo(45)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(infoLabel.snp.bottom)
         }
     }
 }
@@ -253,6 +272,12 @@ class YourListing : BaseViewController {
 		guard let tutor = CurrentUser.shared.tutor else { return }
 		self.tutor = tutor		
 		configureDelegates()
+        
+        contentView.hideButton.addTarget(self, action: #selector(handleHideButton), for: .touchUpInside)
+    }
+    
+    @objc func handleHideButton() {
+        print("sdf")
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -349,7 +374,8 @@ extension YourListing : UICollectionViewDelegate, UICollectionViewDataSource, UI
 		
 		contentView.categoryLabel.text = categories[indexPath.row].mainPageData.displayName
 		contentView.imageView.image = UIImage(named: "\(categories[indexPath.row].subcategory.fileToRead)-pattern")
-		
+		cell.layer.cornerRadius = 6
+        
         return cell
     }
     

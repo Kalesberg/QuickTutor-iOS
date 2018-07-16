@@ -107,73 +107,6 @@ class ProfilePicImageView : InteractableView, Interactable {
     }
 }
 
-//class EditProfileConnectInsta : InteractableView, Interactable {
-//
-//    var instaPic = UIImageView()
-//    var infoLabel = LeftTextLabel()
-//    var sideLabel = RightTextLabel()
-//    var divider = UIView()
-//
-//    override func configureView() {
-//        addSubview(instaPic)
-//        addSubview(infoLabel)
-//        addSubview(sideLabel)
-//        addSubview(divider)
-//        super.configureView()
-//
-//        instaPic.image = UIImage(named: "connect-insta")
-//
-//        infoLabel.label.font = Fonts.createSize(16)
-//        infoLabel.label.text = "Connect Instagram"
-//
-//        sideLabel.label.font = Fonts.createBoldSize(25)
-//        sideLabel.label.text = "›"
-//
-//        divider.backgroundColor = Colors.divider
-//
-//        applyConstraints()
-//    }
-//
-//    override func applyConstraints() {
-//        instaPic.snp.makeConstraints { (make) in
-//            make.left.equalToSuperview()
-//            make.centerY.equalToSuperview()
-//        }
-//
-//        infoLabel.snp.makeConstraints { (make) in
-//            make.left.equalToSuperview().inset(30)
-//            make.height.equalToSuperview()
-//            make.right.equalTo(sideLabel.snp.left)
-//            make.centerY.equalToSuperview()
-//        }
-//
-//        sideLabel.snp.makeConstraints { (make) in
-//            make.right.equalToSuperview()
-//            make.height.equalTo(20)
-//            make.centerY.equalToSuperview()
-//            make.width.equalTo(15)
-//        }
-//
-//        divider.snp.makeConstraints { (make) in
-//            make.bottom.equalToSuperview()
-//            make.height.equalTo(1)
-//            make.left.equalToSuperview()
-//            make.right.equalToSuperview()
-//        }
-//    }
-//
-//    func touchStart() {
-//        divider.backgroundColor = .white
-//        divider.alpha = 1.0
-//        divider.fadeIn(withDuration: 0.1, alpha: 1.0)
-//    }
-//
-//    func didDragOff() {
-//        divider.backgroundColor = Colors.divider
-//    }
-//}
-
-
 class EditProfileMainLayout : MainLayoutTitleBackSaveButton {
     
     var titleLabel = LeftTextLabel()
@@ -191,43 +124,11 @@ class EditProfileMainLayout : MainLayoutTitleBackSaveButton {
         titleLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(navbar.snp.bottom)
-            make.width.equalToSuperview().multipliedBy(0.85)
+            make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalTo(70)
-        }
-        
-        titleLabel.label.snp.remakeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.25)
-            make.width.equalToSuperview()
         }
     }
 }
-
-
-//fileprivate class EditProfileScrollView : BaseScrollView {
-//
-//    let current = UIApplication.getPresentedViewController()
-//
-//    override func handleNavigation() {
-//        if (touchStartView is ProfileImage1) {
-//            AlertController.cropImageAlert(current!, imagePicker: imagePicker)
-//            imageToChange = 1
-//        } else if (touchStartView is ProfileImage2) {
-//            AlertController.cropImageAlert(current!, imagePicker: imagePicker)
-//            imageToChange = 2
-//        } else if (touchStartView is ProfileImage3) {
-//            AlertController.cropImageAlert(current!, imagePicker: imagePicker)
-//            imageToChange = 3
-//
-//        } else if (touchStartView is ProfileImage4) {
-//            AlertController.cropImageAlert(current!, imagePicker: imagePicker)
-//            imageToChange = 4
-//
-//        } else if (touchStartView is EditProfileConnectInsta) {
-//
-//        }
-//    }
-//}
 
 class LearnerEditProfile : BaseViewController {
     
@@ -347,11 +248,11 @@ class LearnerEditProfile : BaseViewController {
 		let newNodes : [String : Any]
 		if CurrentUser.shared.learner.isTutor {
 			newNodes = [
-				"/tutor-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName,
-				"/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName
+				"/tutor-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName,
+				"/student-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName
 			]
 		} else {
-			newNodes = ["/student-info/\(AccountService.shared.currentUser.uid!)/nm" : firstName + " " + lastName]
+			newNodes = ["/student-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName]
 		}
         Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
             if let error = error {

@@ -119,6 +119,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 			.regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
         cell.layer.cornerRadius = 6
+        cell.featuredTutor.applyDefaultShadow()
 		
 		return cell
 	}
