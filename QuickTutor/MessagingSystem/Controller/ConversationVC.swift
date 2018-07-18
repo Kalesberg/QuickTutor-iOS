@@ -88,12 +88,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         return animator
     }()
     
-    //    lazy var imageMessageSender: ImageMessageSender = {
-    //        let sender = ImageMessageSender(parentViewController: self)
-    //        sender.receiverId = receiverId
-    //        return sender
-    //    }()
-    
     var containerViewBottomAnchor: NSLayoutConstraint?
     
     func setupViews() {
@@ -579,6 +573,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
     }
     
     func sendMessage(message: UserMessage) {
+        message.user = AccountService.shared.currentUser
         guard canSendMessages else { return }
         if let url = message.imageUrl {
             DataService.shared.sendImageMessage(imageUrl: url, imageWidth: message.data["imageWidth"] as! CGFloat, imageHeight: message.data["imageHeight"] as! CGFloat, receiverId: receiverId, completion: {

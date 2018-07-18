@@ -127,6 +127,8 @@ class DataService {
             ref.updateChildValues(["uid": ref.key])
             senderRef.updateChildValues([messageId: 1])
             receiverRef.updateChildValues([messageId: 1])
+            self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+
             completion()
         }
     }
@@ -145,6 +147,7 @@ class DataService {
             ref.updateChildValues(["uid": ref.key])
             senderRef.updateChildValues([messageId: 1])
             receiverRef.updateChildValues([messageId: 1])
+            self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
             completion()
         }
     }
@@ -168,6 +171,8 @@ class DataService {
                 ref.updateChildValues(["uid": ref.key])
                 senderRef.updateChildValues([messageId: 1])
                 receiverRef.updateChildValues([messageId: 1])
+                self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+
             }
         }
     }
@@ -200,9 +205,26 @@ class DataService {
                 
                 senderSessionRef.updateChildValues([ref1.key: 1])
                 receiverSessionRef.updateChildValues([ref1.key: 1])
+                self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
                 
             }
         }
+    }
+    
+    func updateConversationMetaData(message: UserMessage, partnerId: String, messageId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        var metaData = [String: Any]()
+        metaData["lastUpdatedAt"] = message.timeStamp
+        metaData["lastMessageSenderId"] = uid
+        metaData["lastMessageContent"] = message.text ?? ""
+        metaData["lastMessageProfilePicUrl"] = message.user?.profilePicUrl ?? ""
+        metaData["lastMessageUsername"] = message.user?.username ?? ""
+        metaData["lastMessageId"] = messageId
+        
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(partnerId).setValue(metaData)
+        Database.database().reference().child("conversationMetaData").child(partnerId).child(otherUserTypeString).child(uid).setValue(metaData)
     }
     
     func uploadImageToFirebase(image: UIImage, completion: @escaping(String) -> Void) {

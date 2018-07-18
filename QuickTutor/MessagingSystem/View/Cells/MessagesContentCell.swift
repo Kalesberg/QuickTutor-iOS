@@ -7,41 +7,7 @@
 //
 
 import UIKit
-import UIKit.UIGestureRecognizerSubclass
 import Firebase
-
-enum PanDirection {
-    case vertical
-    case horizontal
-}
-
-class UIPanDirectionGestureRecognizer: UIPanGestureRecognizer {
-    
-    let direction : PanDirection
-    
-    init(direction: PanDirection, target: AnyObject, action: Selector) {
-        self.direction = direction
-        super.init(target: target, action: action)
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesMoved(touches, with: event)
-        
-        if state == .began {
-            
-            let vel = velocity(in: self.view!)
-            switch direction {
-            case .horizontal where fabs(vel.y) > fabs(vel.x):
-                state = .cancelled
-            case .vertical where fabs(vel.x) > fabs(vel.y):
-                state = .cancelled
-            default:
-                break
-            }
-        }
-    }
-}
-
 
 class MessagesContentCell: BaseContentCell {
     
@@ -58,7 +24,6 @@ class MessagesContentCell: BaseContentCell {
     
     override func setupViews() {
         super.setupViews()
-        setupEmptyBackground()
     }
     
     override func setupCollectionView() {
@@ -88,10 +53,17 @@ class MessagesContentCell: BaseContentCell {
     @objc func fetchConversations() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
-        Database.database().reference().child("conversations").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
+        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
+            self.setupEmptyBackground()
+            if snapshot.exists() {
+                self.emptyBackround.removeFromSuperview()
+            }
             let userId = snapshot.key
-            Database.database().reference().child("conversations").child(uid).child(userTypeString).child(userId).observe( .childAdded, with: { (snapshot) in
-                let messageId = snapshot.key
+            
+            Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe( .value, with: { (snapshot) in
+                guard let metaData = snapshot.value as? [String: Any] else { return }
+                guard let messageId = metaData["lastMessageId"] as? String else { return }
+    
                 self.getMessageById(messageId)
             })
         }
@@ -102,6 +74,7 @@ class MessagesContentCell: BaseContentCell {
             guard let value = snapshot.value as? [String: Any] else { return }
             let message = UserMessage(dictionary: value)
             message.uid = snapshot.key
+            
             DataService.shared.getUserOfOppositeTypeWithId(message.partnerId(), completion: { (user) in
                 message.user = user
                 self.conversationsDictionary[message.partnerId()] = message
@@ -129,6 +102,11 @@ class MessagesContentCell: BaseContentCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
 //        cell.clearData()
         cell.updateUI(message: messages[indexPath.item])
+        if messages[indexPath.item].connectionRequestId != nil {
+            cell.disconnectButtonWidthAnchor?.constant = 0
+        } else {
+            cell.disconnectButtonWidthAnchor?.constant = 75
+        }
         cell.delegate = self
         return cell
     }
@@ -166,27 +144,25 @@ class MessagesContentCell: BaseContentCell {
     }
     
     func handleSwipeRight(cell: ConversationCell, distance: CGFloat) {
-        cell.backgroundRightAnchor?.constant = 0
-        UIView.animate(withDuration: 0.25) {
-            cell.layoutIfNeeded()
-        }
+        cell.closeSwipeActions()
     }
     
     func handleSwipeLeft(cell: ConversationCell, distance: CGFloat) {
-        guard distance > -130 else { return }
-        guard cell.backgroundRightAnchor?.constant != -130 else { return }
-        cell.backgroundRightAnchor?.constant = distance
-        cell.animator?.fractionComplete = abs(distance / 130)
-        cell.layoutIfNeeded()
+        cell.showAccessoryButtons(distance: distance)
     }
     
     func handlePanEnd(cell: ConversationCell, distance: CGFloat) {
-        if distance > -65 {
+        if distance > -75 {
             cell.backgroundRightAnchor?.constant = 0
             cell.animator?.fractionComplete = 0
         } else {
-            cell.backgroundRightAnchor?.constant = -130
-            cell.animator?.fractionComplete = 100
+            if cell.disconnectButtonWidthAnchor?.constant == 0 {
+                cell.backgroundRightAnchor?.constant = -75
+                cell.animator?.fractionComplete = 100
+            } else {
+                cell.backgroundRightAnchor?.constant = -150
+                cell.animator?.fractionComplete = 100
+            }
         }
         
         UIView.animate(withDuration: 0.25) {
@@ -219,6 +195,7 @@ extension MessagesContentCell {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = messages[indexPath.item].partnerId()
         let tappedCell = collectionView.cellForItem(at: indexPath) as! ConversationCell
+        tappedCell.newMessageGradientLayer.isHidden = true
         vc.navigationItem.title = tappedCell.usernameLabel.text
         vc.chatPartner = tappedCell.chatPartner
         navigationController.pushViewController(vc, animated: true)

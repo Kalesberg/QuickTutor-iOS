@@ -73,6 +73,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.6.0)
+  - Reveal-SDK (16)
   - SnapKit (4.0.0)
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
@@ -94,6 +95,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/Storage
   - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
+  - Reveal-SDK
   - SnapKit
   - Socket.IO-Client-Swift (~> 13.1.0)
   - Stripe
@@ -122,6 +124,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - Protobuf
+    - Reveal-SDK
     - SnapKit
     - Socket.IO-Client-Swift
     - Starscream
@@ -160,6 +163,7 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
+  Reveal-SDK: ed36bdbb3cbf90b94ae5da0dbcb3c7ae6738c51f
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
@@ -167,6 +171,6 @@ SPEC CHECKSUMS:
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
   TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
-PODFILE CHECKSUM: 33615cbb0ff3b1813537082ae66195511895d884
+PODFILE CHECKSUM: a3873b4f7f8d478abc47a05d307d39cfddec4251
 
 COCOAPODS: 1.5.0
