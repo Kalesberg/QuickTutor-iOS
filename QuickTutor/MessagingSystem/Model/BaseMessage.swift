@@ -11,6 +11,7 @@ import Foundation
 class BaseMessage {
     var uid: String!
     var timestamp: NSNumber!
+    var isRead = false
 }
 
 protocol Messageable {

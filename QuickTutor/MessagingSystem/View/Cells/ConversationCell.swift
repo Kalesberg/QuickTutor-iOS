@@ -80,10 +80,13 @@ class ConversationCell: UICollectionViewCell {
         let gradientLayer = CAGradientLayer()
         gradientLayer.cornerRadius = 1
         gradientLayer.colors = [firstColor, secondColor]
-
-        gradientLayer.startPoint = CGPoint(x: 0,y: 0.5)
+        
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
         gradientLayer.locations = [0, 0.7]
+        
+        gradientLayer.isHidden = true
+        
         return gradientLayer
     }()
     
@@ -116,6 +119,7 @@ class ConversationCell: UICollectionViewCell {
     
     var backgroundRightAnchor: NSLayoutConstraint?
     var animator: UIViewPropertyAnimator?
+    var disconnectButtonWidthAnchor: NSLayoutConstraint?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -192,7 +196,9 @@ class ConversationCell: UICollectionViewCell {
     
     func setupDisconnectButtonView() {
         insertSubview(disconnectButtonView, belowSubview: background)
-        disconnectButtonView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 65, height: 0)
+        disconnectButtonView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        disconnectButtonWidthAnchor = disconnectButtonView.widthAnchor.constraint(equalToConstant: 75)
+        disconnectButtonWidthAnchor?.isActive = true
     }
     
     func setupDisconnectButton() {
@@ -205,7 +211,7 @@ class ConversationCell: UICollectionViewCell {
     
     func setupDeleteMessagesButtonView() {
         insertSubview(deleteMessagesButtonView, belowSubview: background)
-        deleteMessagesButtonView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: disconnectButtonView.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 65, height: 0)
+        deleteMessagesButtonView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: disconnectButtonView.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 75, height: 0)
     }
     
     func setupDeleteMessagesButton() {
@@ -218,14 +224,15 @@ class ConversationCell: UICollectionViewCell {
     
     func updateUI(message: UserMessage) {
         guard let user = message.user else { return }
-        self.chatPartner = user
-        self.updateUsernameLabel()
-        self.updateOnlineStatusIndicator()
-        self.updateProfileImage()
-        self.updateTimestampLabel(message: message)
-        self.updateProfileImage()
-        self.updateLastMessageLabel(message: message)
-        self.updateRating()
+        chatPartner = user
+        updateUsernameLabel()
+        updateOnlineStatusIndicator()
+        updateProfileImage()
+        updateTimestampLabel(message: message)
+        updateProfileImage()
+        updateLastMessageLabel(message: message)
+        updateRating()
+        checkConversationReadStatus(partnerId: message.partnerId())
     }
     
     func clearData() {
@@ -236,15 +243,15 @@ class ConversationCell: UICollectionViewCell {
     }
     
     private func updateUsernameLabel() {
-        self.usernameLabel.text = chatPartner.formattedName.capitalized
+        usernameLabel.text = chatPartner.formattedName.capitalized
     }
     
     private func updateOnlineStatusIndicator() {
-        self.profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? .green : .red
+        profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? .green : .red
     }
     
     private func updateProfileImage() {
-        self.profileImageView.imageView.loadImage(urlString: chatPartner.profilePicUrl)
+        profileImageView.imageView.loadImage(urlString: chatPartner.profilePicUrl)
     }
     
     private func updateTimestampLabel(message: UserMessage) {
@@ -257,16 +264,16 @@ class ConversationCell: UICollectionViewCell {
             lastMessageLabel.text = text
         }
         if message.imageUrl != nil {
-            self.lastMessageLabel.text = "Attachment: 1 image"
+            lastMessageLabel.text = "Attachment: 1 image"
         }
         if message.sessionRequestId != nil {
-            self.lastMessageLabel.text = "Session Request"
+            lastMessageLabel.text = "Session Request"
         }
     }
     
     private func updateRating() {
         guard let tutor = chatPartner as? ZFTutor, let rating = tutor.rating else { return }
-        self.starLabel.text = "\(rating)"
+        starLabel.text = "\(rating)"
     }
     
     @objc func handleDisconnect() {
@@ -277,6 +284,22 @@ class ConversationCell: UICollectionViewCell {
     @objc func handleDeleteMessages() {
         closeSwipeActions()
         delegate?.conversationCellShouldDeleteMessages(self)
+    }
+    
+    func showAccessoryButtons(distance: CGFloat) {
+        if disconnectButtonWidthAnchor?.constant == 0 {
+            guard distance > -75 else { return }
+            guard backgroundRightAnchor?.constant != -75 else { return }
+            backgroundRightAnchor?.constant = distance
+            animator?.fractionComplete = abs(distance / 75)
+            layoutIfNeeded()
+        } else {
+            guard distance > -150 else { return }
+            guard backgroundRightAnchor?.constant != -150 else { return }
+            backgroundRightAnchor?.constant = distance
+            animator?.fractionComplete = abs(distance / 150)
+            layoutIfNeeded()
+        }
     }
     
     func closeSwipeActions() {
@@ -293,8 +316,15 @@ class ConversationCell: UICollectionViewCell {
         }
     }
     
+    func checkConversationReadStatus(partnerId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("readReceipts").child(partnerId).child(uid).observeSingleEvent(of: .value) { snapshot in
+            guard let value = snapshot.value as? Bool else { return }
+            self.newMessageGradientLayer.isHidden = value
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
-

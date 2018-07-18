@@ -215,20 +215,36 @@ class SessionRequestCell: UserMessageCell {
     }
     
     func setupAsTeacherView() {
+        updateStatusAndTitleLabels()
+        addAcceptButton()
+        addDeclineButton()
+//        rearrangeInfoLabels()
+    }
+    
+    func updateStatusAndTitleLabels() {
         titleLabel.text = "You received a session request"
-        guard sessionRequest?.status == "pending" else {
-            return
-        }
-        addSubview(acceptButton)
+        guard sessionRequest?.status == "pending" else { return }
+        statusLabel.isHidden = true
+    }
+    
+    func addAcceptButton() {
         addSubview(acceptButton)
         acceptButton.anchor(top: nil, left: nil, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
         acceptButton.addTarget(self, action: #selector(handleButtonAction(sender:)), for: .touchUpInside)
-        
-        addSubview(declineButton)
+    }
+    
+    func addDeclineButton() {
         addSubview(declineButton)
         declineButton.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
-        acceptButton.addTarget(self, action: #selector(handleButtonAction(sender:)), for: .touchUpInside)
-        statusLabel.isHidden = true
+        declineButton.addTarget(self, action: #selector(handleButtonAction(sender:)), for: .touchUpInside)
+    }
+    
+    func rearrangeInfoLabels() {
+        priceLabel.removeConstraints(priceLabel.constraints)
+        priceLabel.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 50, paddingRight: 30, width: 0, height: 20)
+        
+//        statusBackground.removeConstraints(statusBackground.constraints)
+        statusBackground.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
     }
     
     @objc func handleButtonAction(sender: UIButton) {

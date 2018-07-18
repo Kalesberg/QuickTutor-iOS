@@ -8,21 +8,29 @@
 
 import UIKit
 import Firebase
+import Stripe
 
 class AddTipVC: UIViewController, CustomTipPresenter {
     
     var partnerId: String!
-    
     let tipTitles = ["No tip", "$2", "$4", "$6", "Custom"]
-    var paymentMethodCount = 1
     var tipAmounts: [Double] = [0,2,4,6,8]
     var costOfSession = 0.0
     var amountToTip = 0.0 {
         didSet {
             let priceString = String(format: "%.2f", amountToTip + costOfSession)
             totalLabel.text = "Total: $\(priceString)"
+            amountToPay = Int(amountToTip + costOfSession)
         }
     }
+    
+    var amountToPay = 0
+    
+    var customer: STPCustomer!
+    var cards = [STPCard]()
+    var defaultCard : STPCard?
+    var selectedCard: STPCard?
+    var showingAllCards = false
     
     lazy var fakeNavBar: UIView = {
         let bar = UIView()
@@ -67,15 +75,16 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         return cv
     }()
     
-    let paymentMethodCV: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(PaymentMethodCell.self, forCellWithReuseIdentifier: "paymentCell")
-        cv.backgroundColor = Colors.darkBackground
-        return cv
+    let tableView : UITableView = {
+        let tableView = UITableView()
+        tableView.estimatedRowHeight = 44
+        tableView.isScrollEnabled = false
+        tableView.separatorInset.left = 0
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = Colors.backgroundDark
+        tableView.register(CardPaymentCell.self, forCellReuseIdentifier: "cardCell")
+        return tableView
     }()
-    
     
     let totalLabel: UILabel = {
         let label = UILabel()
@@ -150,17 +159,17 @@ class AddTipVC: UIViewController, CustomTipPresenter {
     }
     
     func setupPaymentMethodCV () {
-        view.addSubview(paymentMethodCV)
-        paymentMethodCV.anchor(top: tipAmountCV.bottomAnchor, left: tipAmountCV.leftAnchor, bottom: nil, right: tipAmountCV.rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        paymentMethodHeightAnchor = paymentMethodCV.heightAnchor.constraint(equalToConstant: 50)
+        view.addSubview(tableView)
+        tableView.anchor(top: tipAmountCV.bottomAnchor, left: tipAmountCV.leftAnchor, bottom: nil, right: tipAmountCV.rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        paymentMethodHeightAnchor = tableView.heightAnchor.constraint(equalToConstant: 50)
         paymentMethodHeightAnchor?.isActive = true
-        paymentMethodCV.delegate = self
-        paymentMethodCV.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     func setupTotalLabel() {
-        view.insertSubview(totalLabel, belowSubview: paymentMethodCV)
-        totalLabel.anchor(top: paymentMethodCV.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 170, height: 50)
+        view.insertSubview(totalLabel, belowSubview: tableView)
+        totalLabel.anchor(top: tableView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 170, height: 50)
         view.addConstraint(NSLayoutConstraint(item: totalLabel, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
     }
     
@@ -182,19 +191,78 @@ class AddTipVC: UIViewController, CustomTipPresenter {
     }
     
     func showPaymentMethods() {
-        paymentMethodCount = 4
-        paymentMethodCV.reloadSections(IndexSet(integer: 0))
-//        paymentMethodHeightAnchor?.constant = 200
-//        view.layoutIfNeeded()
+        paymentMethodHeightAnchor?.constant = CGFloat(cards.count * 50)
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func hidePaymentMethods() {
+        paymentMethodHeightAnchor?.constant = 50
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
+        tableView.reloadData()
+    }
+    
+    func togglePaymentMethods() {
+        showingAllCards ? hidePaymentMethods() : showPaymentMethods()
+        showingAllCards = !showingAllCards
     }
     
     @objc func handleSubmitButton() {
-        let vc = SessionCompleteVC()
-        vc.partnerId = partnerId
-        navigationController?.pushViewController(vc, animated: true)
+        chargeStripe { (result) in
+            guard result else {
+                print("Failed to charge Stripe")
+                return
+            }
+            let vc = SessionCompleteVC()
+            vc.partnerId = self.partnerId
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
-    func chargeStripe() {
+    func fetchCustomer() {
+        Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
+            guard let customer = customer, error == nil else {
+                AlertController.genericErrorAlert(self, title: "Error Charging Card", message: error?.localizedDescription)
+                return
+            }
+            self.customer = customer
+            self.fetchCustomerCards()
+        }
+    }
+    
+    func fetchCustomerCards() {
+        guard let cards = customer.sources as? [STPCard] else { return }
+        self.cards = cards
+        guard let defaultCard = customer.defaultSource as? STPCard else { return }
+        self.defaultCard = defaultCard
+        self.selectedCard = defaultCard
+        self.tableView.reloadData()
+    }
+    
+    func chargeStripe(completion: @escaping(Bool) -> ()) {
+        DataService.shared.getTutorWithId(partnerId) { (tutor) in
+            guard let tutor = tutor, let id = tutor.stripeAccountId else {
+                print("Erorr getting tutor stripe id")
+                return
+            }
+            guard let sourceId = self.selectedCard?.stripeID else {
+                print("Erorr getting source ID")
+                return
+            }
+            print("Amount to pay:", self.amountToPay)
+            print("Fee amount:", self.amountToPay * 100)
+            Stripe.destinationCharge(acctId: id, customerId: self.customer.stripeID, sourceId: sourceId, amount: self.amountToPay * 100, fee: self.amountToPay, description: "Session with Tutor", { (error) in
+                guard error == nil else {
+                    print(error.debugDescription)
+                    completion(false)
+                    return
+                }
+                completion(true)
+            })
+        }
     }
     
     override func viewDidLoad() {
@@ -206,18 +274,50 @@ class AddTipVC: UIViewController, CustomTipPresenter {
             self.descriptionLabel.text = self.descriptionLabel.text?.replacingOccurrences(of: "{username}", with: username)
             self.descriptionLabel.isHidden = false
         }
+        fetchCustomer()
     }
     
+}
+
+extension AddTipVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cards.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! CardPaymentCell
+        insertBorder(cell: cell)
+        cell.last4.text = cards[indexPath.row].last4
+        cell.brand.image = STPImageLibrary.brandImage(for: cards[indexPath.row].brand)
+        cell.defaultcard.isHidden = !(cards[indexPath.row] == defaultCard)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCard = cards[indexPath.item]
+        cards.remove(at: indexPath.item)
+        cards.insert(selectedCard!, at: 0)
+        togglePaymentMethods()
+    }
+    
+    func insertBorder(cell: UITableViewCell) {
+        let border = UIView(frame:CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
+        border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        cell.contentView.addSubview(border)
+    }
 }
 
 extension AddTipVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionView == tipAmountCV ? 5 : paymentMethodCount
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == tipAmountCV {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tipCell", for: indexPath) as! TipAmountCell
             if indexPath.item == 0 {
                 cell.button.titleLabel?.font = Fonts.createSize(12)
@@ -227,20 +327,14 @@ extension AddTipVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             }
             cell.button.setTitle(tipTitles[indexPath.item], for: .normal)
             return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paymentCell", for: indexPath) as! PaymentMethodCell
-            return cell
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let tipSize = CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
-        let paymentMethodSize = CGSize(width: collectionView.frame.width, height: 45)
-        return collectionView == tipAmountCV ? tipSize : paymentMethodSize
+        return tipSize
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard collectionView == tipAmountCV else { return }
         let cell = collectionView.cellForItem(at: indexPath) as! TipAmountCell
         cell.isSelected = true
         submitButtonCover.isHidden = true
@@ -252,11 +346,7 @@ extension AddTipVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if collectionView == paymentMethodCV {
-            return 1
-        } else {
-            return 10
-        }
+        return 10
     }
     
 }

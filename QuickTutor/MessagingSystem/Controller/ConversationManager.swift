@@ -45,6 +45,19 @@ class ConversationManager {
 
 struct Conversation {
     
+    var uid: String!
+    var members: (currentUser: User, chatPartner: User)!
+    var memberIds: [String]!
+    var lastMessageId: String!
+    var lastReadMessageIds: (currentUser: String, chatPartner: String)!
+    var lastUpdated: Double!
+    var lastMessage: UserMessage?
+    var chatPartnerProfilePicUrl: String!
+    var chatPartnerUsername: String!
+    
+    init(dictionary: [String: Any]) {
+        
+    }
 }
 
 protocol ConversationManagerDelegate {

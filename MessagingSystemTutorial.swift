@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UIKit.UIGestureRecognizerSubclass
 
 class MessagingSystemTutorial : UIButton {
     
@@ -78,3 +79,36 @@ class MessagingSystemTutorial : UIButton {
         image.anchor(top: nil, left: self.leftAnchor, bottom: view.topAnchor, right: nil, paddingTop: 0, paddingLeft: 1, paddingBottom: 15, paddingRight: 0, width: 60, height: 60)
     }
 }
+
+enum PanDirection {
+    case vertical
+    case horizontal
+}
+
+class UIPanDirectionGestureRecognizer: UIPanGestureRecognizer {
+    
+    let direction : PanDirection
+    
+    init(direction: PanDirection, target: AnyObject, action: Selector) {
+        self.direction = direction
+        super.init(target: target, action: action)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesMoved(touches, with: event)
+        
+        if state == .began {
+            
+            let vel = velocity(in: self.view!)
+            switch direction {
+            case .horizontal where fabs(vel.y) > fabs(vel.x):
+                state = .cancelled
+            case .vertical where fabs(vel.x) > fabs(vel.y):
+                state = .cancelled
+            default:
+                break
+            }
+        }
+    }
+}
+

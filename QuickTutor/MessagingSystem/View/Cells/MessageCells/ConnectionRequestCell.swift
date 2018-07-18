@@ -149,6 +149,12 @@ class ConnectionRequestCell: UserMessageCell {
         statusLabel.isHidden = false
         self.status = "declined"
         setStatusLabel()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        guard let partnerId = chatPartner?.uid else { return }
+        Database.database().reference().child("conversations").child(userTypeString).child(uid).child(partnerId).removeValue()
+        Database.database().reference().child("conversations").child(otherUserTypeString).child(partnerId).child(id).removeValue()
     }
     
     func setStatusLabel() {
