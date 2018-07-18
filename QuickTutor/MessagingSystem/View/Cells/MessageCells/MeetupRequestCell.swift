@@ -218,7 +218,7 @@ class SessionRequestCell: UserMessageCell {
         updateStatusAndTitleLabels()
         addAcceptButton()
         addDeclineButton()
-        rearrangeInfoLabels()
+//        rearrangeInfoLabels()
     }
     
     func updateStatusAndTitleLabels() {
@@ -240,11 +240,11 @@ class SessionRequestCell: UserMessageCell {
     }
     
     func rearrangeInfoLabels() {
-//        priceLabel.removeConstraints(priceLabel.constraints)
-//        priceLabel.anchor(top: dateTimeLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 8, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 20)
+        priceLabel.removeConstraints(priceLabel.constraints)
+        priceLabel.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 50, paddingRight: 30, width: 0, height: 20)
         
 //        statusBackground.removeConstraints(statusBackground.constraints)
-//        statusBackground.anchor(top: dateTimeLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 28, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        statusBackground.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
     }
     
     @objc func handleButtonAction(sender: UIButton) {
