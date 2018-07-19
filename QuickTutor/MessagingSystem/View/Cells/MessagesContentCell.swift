@@ -53,8 +53,8 @@ class MessagesContentCell: BaseContentCell {
     @objc func fetchConversations() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
+        self.setupEmptyBackground()
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
-            self.setupEmptyBackground()
             if snapshot.exists() {
                 self.emptyBackround.removeFromSuperview()
             }
@@ -100,7 +100,6 @@ class MessagesContentCell: BaseContentCell {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
-//        cell.clearData()
         cell.updateUI(message: messages[indexPath.item])
         if messages[indexPath.item].connectionRequestId != nil {
             cell.disconnectButtonWidthAnchor?.constant = 0
@@ -116,6 +115,15 @@ class MessagesContentCell: BaseContentCell {
         return messages.count
     }
     
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
+        cell.background.backgroundColor = cell.background.backgroundColor?.darker(by: 15)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
+        cell.background.backgroundColor = cell.background.backgroundColor?.lighter(by: 15)
+    }
     
     func setupSwipeActions() {
         swipeRecognizer = UIPanDirectionGestureRecognizer(direction: .horizontal, target: self, action: #selector(handleSwipe(sender:)))

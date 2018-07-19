@@ -1,5 +1,4 @@
 PODS:
-  - AAPhotoCircleCrop (1.3.0)
   - Alamofire (4.7.2)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -60,6 +59,7 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.1)
   - GeoFire (3.0.0):
     - Firebase/Database (~> 5.0)
+  - GoogleAnalytics (3.17.0)
   - GoogleToolboxForMac/Defines (2.1.4)
   - GoogleToolboxForMac/Logger (2.1.4):
     - GoogleToolboxForMac/Defines (= 2.1.4)
@@ -83,7 +83,6 @@ PODS:
   - TwilioVideo (2.0.0-beta3)
 
 DEPENDENCIES:
-  - AAPhotoCircleCrop
   - Alamofire (~> 4.5)
   - FBSDKCoreKit (= 4.24.0)
   - FBSDKLoginKit (= 4.24.0)
@@ -95,6 +94,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/Storage
   - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
+  - GoogleAnalytics
   - Reveal-SDK
   - SnapKit
   - Socket.IO-Client-Swift (~> 13.1.0)
@@ -104,7 +104,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - AAPhotoCircleCrop
     - Alamofire
     - Bolts
     - FBSDKCoreKit
@@ -119,6 +118,7 @@ SPEC REPOS:
     - FirebaseInstanceID
     - FirebaseMessaging
     - FirebaseStorage
+    - GoogleAnalytics
     - GoogleToolboxForMac
     - GTMSessionFetcher
     - leveldb-library
@@ -142,7 +142,6 @@ CHECKOUT OPTIONS:
     :git: https://github.com/firebase/geofire-objc.git
 
 SPEC CHECKSUMS:
-  AAPhotoCircleCrop: 9ad008dbe3f86c61032b0888f01a95055c346c20
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   FBSDKCoreKit: f8c9eb0dd34a9cd277c7b60da4b32226d142502d
@@ -158,6 +157,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 6894b8fe0a0cf26c3b13dad729f1131654ae0bdb
   FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
   GeoFire: e3ae6f4be3f2466c3467ef6c1c203db3af935c59
+  GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
@@ -171,6 +171,6 @@ SPEC CHECKSUMS:
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
   TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
-PODFILE CHECKSUM: a3873b4f7f8d478abc47a05d307d39cfddec4251
+PODFILE CHECKSUM: 7f34b9bc765406096375c8ca2728658ed935f9fa
 
 COCOAPODS: 1.5.0

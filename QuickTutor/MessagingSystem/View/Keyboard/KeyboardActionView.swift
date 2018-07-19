@@ -33,13 +33,14 @@ class KeyboardActionView: UIView {
             layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
         backgroundColor = Colors.darkBackground
+        clipsToBounds = true
     }
     
     private func setupActionCollection() {
         actionCV.delegate = self
         actionCV.dataSource = self
         addSubview(actionCV)
-        actionCV.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
+        actionCV.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     override init(frame: CGRect) {
@@ -73,7 +74,7 @@ extension KeyboardActionView: UICollectionViewDelegate, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (UIScreen.main.bounds.width - 24) / 3, height: 90)
+        return CGSize(width: collectionView.frame.size.width / 3, height: collectionView.frame.size.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -84,6 +85,16 @@ extension KeyboardActionView: UICollectionViewDelegate, UICollectionViewDelegate
         } else {
             delegate?.shareUsernameForUserId()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? KeyboardActionViewCell else { return }
+        cell.backgroundColor = cell.backgroundColor?.darker(by: 15)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? KeyboardActionViewCell else { return }
+        cell.backgroundColor = cell.backgroundColor?.lighter(by: 15)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
