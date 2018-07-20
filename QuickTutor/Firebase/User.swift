@@ -102,7 +102,7 @@ class FirebaseData {
 			childNodes["/featured/\(category)/\(uid)"] = NSNull()
 		}
 		
-		return self.ref.root.updateChildValues(childNodes) { (error, _) in
+		return self.ref.updateChildValues(childNodes) { (error, _) in
 			if let error = error {
 				return completion(error)
 			}
@@ -117,7 +117,7 @@ class FirebaseData {
 		
 		childNodes["/account/\(uid)"] = NSNull()
 		childNodes["/connections/\(uid)"] = NSNull()
-		childNodes["/notificationPreferences/\(uid)"] = NSNull()
+//		childNodes["/notificationPreferences/\(uid)"] = NSNull()
 		childNodes["/readReceipts/\(uid)"] = NSNull()
 		childNodes["/review/\(uid)"] = NSNull()
 		childNodes["/student-info/\(uid)"] = NSNull()
@@ -126,7 +126,7 @@ class FirebaseData {
 		childNodes["/tutor_loc/\(uid)"] = NSNull()
 		childNodes["/userSessions/\(uid)"] = NSNull()
 		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "both"]
-		
+
 		for subcat in subcategory {
 			childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
 			guard let category = SubjectStore.findCategoryBy(subcategory: subcat) else { continue }
@@ -143,7 +143,7 @@ class FirebaseData {
 			})
 		}
 		
-		self.ref.root.updateChildValues(childNodes) { (error, _) in
+		self.ref.updateChildValues(childNodes) { (error, _) in
 			if let error = error {
 				return completion(error)
 			}
@@ -169,7 +169,7 @@ class FirebaseData {
 				})
 			})
 		}
-		self.ref.root.updateChildValues(childNodes) { (error, _) in
+		self.ref.updateChildValues(childNodes) { (error, _) in
 			if let error = error {
 				return completion(error)
 			}

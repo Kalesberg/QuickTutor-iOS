@@ -10,8 +10,18 @@ import Foundation
 import UIKit
 
 
-class TutorListingsView : MainLayoutTitleBackButton {
-    
+class TutorListingsView : MainLayoutTitleOneButton {
+	
+	var backButton = NavbarButtonImage()
+	
+	override var leftButton: NavbarButton{
+		get {
+			return backButton
+		}
+		set {
+			backButton = newValue as! NavbarButtonImage
+		}
+	}
     let titleLabel : UILabel = {
         let label = UILabel()
         
@@ -67,6 +77,7 @@ class TutorListingsView : MainLayoutTitleBackButton {
         scrollView.addSubview(bodyLabel)
         super.configureView()
 		
+		backButton.image.image = #imageLiteral(resourceName: "back-button")
         insertSubview(backgroundImageView, belowSubview: statusbarView)
         title.label.text = "Getting Featured"
     }
@@ -118,4 +129,10 @@ class TutorListings : BaseViewController {
         contentView.layoutIfNeeded()
         contentView.scrollView.contentSize = CGSize(width: 280, height: contentView.bodyLabel.frame.maxY)
     }
+	override func handleNavigation() {
+		if touchStartView is NavbarButtonImage {
+			contentView.backgroundImageView.isHidden = true
+			self.navigationController?.popViewController(animated: true)
+		}
+	}
 }

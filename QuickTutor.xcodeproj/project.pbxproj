@@ -137,6 +137,7 @@
 		848E87E22043DC75007935BE /* BaseScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E87E12043DC75007935BE /* BaseScrollView.swift */; };
 		848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E87E52043EB5D007935BE /* UIViewExtensions.swift */; };
 		848E91FC20A60C13002D22AA /* CloseAccountSubmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E91FB20A60C13002D22AA /* CloseAccountSubmission.swift */; };
+		848F4B6620FD926F000A778F /* SessionRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848F4B6520FD926F000A778F /* SessionRequestCell.swift */; };
 		848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848F83272009B4CC0099D997 /* MainLayoutViews.swift */; };
 		849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849029871FF70F4600A4A1D7 /* Stripe.swift */; };
 		8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8491C29A1FBE62350036FC12 /* AppDelegate.swift */; };
@@ -502,6 +503,7 @@
 		848E87E12043DC75007935BE /* BaseScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScrollView.swift; sourceTree = "<group>"; };
 		848E87E52043EB5D007935BE /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		848E91FB20A60C13002D22AA /* CloseAccountSubmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountSubmission.swift; sourceTree = "<group>"; };
+		848F4B6520FD926F000A778F /* SessionRequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRequestCell.swift; sourceTree = "<group>"; };
 		848F83272009B4CC0099D997 /* MainLayoutViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLayoutViews.swift; sourceTree = "<group>"; };
 		849029871FF70F4600A4A1D7 /* Stripe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stripe.swift; sourceTree = "<group>"; };
 		8491C2971FBE62350036FC12 /* QuickTutor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickTutor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1142,11 +1144,19 @@
 			path = "Become a QuickTutor";
 			sourceTree = "<group>";
 		};
+		848F4B6420FD9244000A778F /* SessionRequestCells */ = {
+			isa = PBXGroup;
+			children = (
+				848F4B6520FD926F000A778F /* SessionRequestCell.swift */,
+			);
+			path = SessionRequestCells;
+			sourceTree = "<group>";
+		};
 		849029861FF70F3900A4A1D7 /* Stripe */ = {
 			isa = PBXGroup;
 			children = (
-				849029871FF70F4600A4A1D7 /* Stripe.swift */,
 				84C9C00E20A23751000DE1C9 /* Model */,
+				849029871FF70F4600A4A1D7 /* Stripe.swift */,
 			);
 			path = Stripe;
 			sourceTree = "<group>";
@@ -1517,6 +1527,7 @@
 				CF6F588C205EE68800ACBD32 /* SystemMessageCell.swift */,
 				CF6F588D205EE68800ACBD32 /* UserMessageCell.swift */,
 				CF6F588E205EE68800ACBD32 /* ImageMessageCell.swift */,
+				848F4B6420FD9244000A778F /* SessionRequestCells */,
 				CF6F588F205EE68800ACBD32 /* MeetupRequestCell.swift */,
 				CF6F5890205EE68800ACBD32 /* BaseMessageCell.swift */,
 			);
@@ -2035,6 +2046,7 @@
 				84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */,
 				842A5580209DF55700F6870A /* AdjustFiltersCollectViewCell.swift in Sources */,
 				CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */,
+				848F4B6620FD926F000A778F /* SessionRequestCell.swift in Sources */,
 				CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */,
 				CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */,
 				CF8BBCBC20A0251F0043D231 /* TwilioSettings.swift in Sources */,

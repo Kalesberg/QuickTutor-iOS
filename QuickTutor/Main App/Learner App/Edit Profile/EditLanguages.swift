@@ -173,14 +173,14 @@ class EditLanguage : BaseViewController {
 }
 extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 	
-	internal func numberOfSections(in tableView: UITableView) -> Int {
+	func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
-	internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return datasource?.count ?? 0
 	}
 	
-	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell : CustomLanguageCell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath) as! CustomLanguageCell
 		
 		guard let language = datasource?[indexPath.row] else { return  cell }
@@ -190,9 +190,14 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 		return cell
 	}
 	
-	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		let cell : CustomLanguageCell = tableView.cellForRow(at: indexPath) as! CustomLanguageCell
+		if selectedCells.count + 1 > 5 {
+			AlertController.genericErrorAlertWithoutCancel(self, title: "Too Many Languages", message: "We currently only allow a maximum of 5 languages to be chosen.")
+			tableView.deselectRow(at: indexPath, animated: true)
+			return
+		}
 		
 		if self.selectedCells.contains((cell.textLabel?.text)!) {
 			self.selectedCells.remove(at: selectedCells.index(of:(cell.textLabel?.text)!)!)
