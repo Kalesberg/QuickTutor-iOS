@@ -89,8 +89,10 @@ open class AACircleCropViewController: UIViewController, UIScrollViewDelegate {
     
     override open func dismiss(animated: Bool, completion: (() -> Void)?) {
         if isModal {
+			imageView.isHidden = true
             super.dismiss(animated: animated, completion: completion)
         } else {
+			imageView.isHidden = true
             _ = navigationController?.popViewController(animated: animated)
         }
     }

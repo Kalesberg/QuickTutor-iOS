@@ -225,7 +225,6 @@ class TutorEditProfile : BaseViewController, TutorPreferenceChange {
     }
     
     @objc private func firstNameValueChanged(_ textField : UITextField) {
-        
         guard textField.text!.count > 0 else { return }
         firstName = textField.text
     }

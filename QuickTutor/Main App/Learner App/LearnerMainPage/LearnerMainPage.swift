@@ -270,7 +270,6 @@ class LearnerMainPage : MainPage {
 			})
 			self.dismissOverlay()
 		}
-		
     }
     
     override func handleNavigation() {

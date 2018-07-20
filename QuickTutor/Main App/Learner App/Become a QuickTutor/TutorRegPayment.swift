@@ -91,42 +91,36 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(keyboardView.snp.top)
         }
-        
         nameTitle.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
             make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.18)
             make.centerX.equalToSuperview()
         }
-        
         nameTextfield.snp.makeConstraints { (make) in
             make.top.equalTo(nameTitle.snp.bottom)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
         }
-        
         routingNumberTitle.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.top.equalTo(nameTextfield.snp.bottom)
             make.centerX.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.18)
         }
-        
         routingNumberTextfield.snp.makeConstraints { (make) in
             make.top.equalTo(routingNumberTitle.snp.bottom)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
         }
-        
         accountNumberTitle.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.top.equalTo(routingNumberTextfield.snp.bottom)
             make.centerX.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.18)
         }
-        
         accountNumberTextfield.snp.makeConstraints { (make) in
             make.top.equalTo(accountNumberTitle.snp.bottom)
             make.width.equalToSuperview()
@@ -154,6 +148,7 @@ class TutorRegPayment: BaseViewController {
         super.viewDidLoad()
         
         let textFields = [contentView.nameTextfield, contentView.routingNumberTextfield, contentView.accountNumberTextfield]
+		
         for textField in textFields {
             textField.delegate = self
             textField.returnKeyType = .next
@@ -163,8 +158,8 @@ class TutorRegPayment: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+		contentView.rightButton.isUserInteractionEnabled = true
         contentView.nameTextfield.becomeFirstResponder()
-        self.contentView.rightButton.isUserInteractionEnabled = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -178,7 +173,6 @@ class TutorRegPayment: BaseViewController {
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        
         guard let name = contentView.nameTextfield.text, name.fullNameRegex() else {
             contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
             validAccountData = false
@@ -193,7 +187,6 @@ class TutorRegPayment: BaseViewController {
             return
         }
         contentView.routingNumberTextfield.layer.borderColor = Colors.green.cgColor
-        
         guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
             if contentView.accountNumberTextfield.text!.count > 1 {
                 contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
@@ -213,7 +206,6 @@ class TutorRegPayment: BaseViewController {
     override func handleNavigation() {
         if (touchStartView is NavbarButtonNext) {
             contentView.rightButton.isUserInteractionEnabled = false
-            
             if validAccountData {
                 self.dismissOverlay()
                 Stripe.createBankAccountToken(accountHoldersName: self.fullName, routingNumber: self.routingNumber, accountNumber: self.accountNumber) { (token, error)  in
@@ -221,7 +213,8 @@ class TutorRegPayment: BaseViewController {
                         TutorRegistration.bankToken = token
                         self.navigationController?.pushViewController(TutorAddress(), animated: true)
                     } else {
-                        AlertController.genericErrorAlert(self, title: "Bank Account Error", message: error?.localizedDescription ?? "Unable to create bank account. Please verify the information is correct.")
+                        AlertController.genericErrorAlert(self, title: "Bank Account Error", message: "Unable to create bank account. Please verify the information is correct.")
+						self.contentView.rightButton.isUserInteractionEnabled = true
                     }
                     self.dismissOverlay()
                 }
