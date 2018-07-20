@@ -85,7 +85,7 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
 		
 		title.label.text = "Edit Profile"
 		
-		titleLabel.label.text = "About me"
+		titleLabel.label.text = "Biography"
 		titleLabel.label.font = Fonts.createBoldSize(16)
 		
 		textView.backgroundColor = Colors.registrationDark

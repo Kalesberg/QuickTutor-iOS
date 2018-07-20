@@ -70,7 +70,7 @@ class LearnerMainPageView : MainPageView {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        sidebar.applyGradient(firstColor: UIColor(hex:"4b3868").cgColor, secondColor: Colors.sidebarPurple.cgColor, angle: 200, frame: sidebar.bounds)
+        sidebar.profileView.backgroundColor = UIColor(hex: "6562C9")
         tableView.layoutSubviews()
         tableView.layoutIfNeeded()
     }
@@ -126,13 +126,13 @@ class LearnerMainPage : MainPage {
         if let school = learner.school {
             formattedString
                 .bold(learner.name + "\n", 17, .white)
-                .regular(school, 14, Colors.grayText)
+                .regular(school, 14, .white)
         } else {
             formattedString
                 .bold(learner.name, 17, .white)
         }
         
-        contentView.sidebar.ratingView.ratingLabel.text = String(learner.lRating)
+        contentView.sidebar.ratingView.ratingLabel.text = "★  " + String(learner.lRating)
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
         contentView.sidebar.profileView.profilePicView.loadUserImages(by: learner.images["image1"]!)
         contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true

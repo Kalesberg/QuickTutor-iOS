@@ -164,7 +164,7 @@ class TutorMainPage : MainPage {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        contentView.sidebar.applyGradient(firstColor: UIColor(hex:"2c467c").cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 200, frame: contentView.sidebar.bounds)
+        contentView.sidebar.profileView.backgroundColor = UIColor(hex: "5785D4")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -187,13 +187,13 @@ class TutorMainPage : MainPage {
         if tutor.school != "" {
             formattedString
                 .bold(tutor.name + "\n", 17, .white)
-                .regular(tutor.school!, 14, Colors.grayText)
+                .regular(tutor.school!, 14, .white)
         } else {
             formattedString
                 .bold(tutor.name, 17, .white)
         }
         
-        contentView.sidebar.ratingView.ratingLabel.text = String(tutor.tRating)
+        contentView.sidebar.ratingView.ratingLabel.text = "★  " + String(tutor.tRating)
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
         contentView.sidebar.profileView.profilePicView.loadUserImages(by: tutor.images["image1"]!)
     }

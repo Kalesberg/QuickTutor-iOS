@@ -9,9 +9,8 @@
 import Foundation
 import UIKit
 
-class TutorEarningsView : TutorLayoutView {
+class TutorEarningsView : MainLayoutTitleBackButton {
     
-
     let summaryLabel : UILabel = {
         let label = UILabel()
         
@@ -33,20 +32,40 @@ class TutorEarningsView : TutorLayoutView {
 	
 	let label : UILabel = {
 		let label = UILabel()
-		
-		label.textColor = .white
-		
 		return label
 	}()
 	
     let earningsLabel = UILabel()
-	
+    
     let infoContainer : UIView = {
         let view = UIView()
         
-        view.backgroundColor = Colors.registrationDark
+        view.backgroundColor = Colors.backgroundDark
         
         return view
+    }()
+	
+    let imageView : UIImageView = {
+        let view = UIImageView()
+        
+        view.image = #imageLiteral(resourceName: "green-pattern").alpha(0.7)
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        view.backgroundColor = Colors.green
+        
+        return view
+    }()
+    
+    let earnings2018 : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(15)
+        label.textColor = .white
+        label.text = "2018 EARNINGS"
+        label.backgroundColor = Colors.green
+        label.textAlignment = .center
+        
+        return label
     }()
     
     let recentStatementsLabel : UILabel = {
@@ -74,27 +93,45 @@ class TutorEarningsView : TutorLayoutView {
     }()
     
     override func configureView() {
-        addSubview(label)
+        addSubview(imageView)
+        imageView.addSubview(label)
         addSubview(infoContainer)
         infoContainer.addSubview(summaryLabel)
         infoContainer.addSubview(earningsLabel)
+        addSubview(earnings2018)
         addSubview(tableView)
         addSubview(recentStatementsLabel)
         super.configureView()
+        
+        navbar.backgroundColor = Colors.green
+        statusbarView.backgroundColor = Colors.green
+        title.label.text = "Your Earnings"
+        
     }
     
     override func applyConstraints() {
         super.applyConstraints()
         
-        label.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom)
+        imageView.snp.makeConstraints { (make) in
+            make.top.equalTo(navbar.snp.bottom).inset(-1)
             make.width.equalToSuperview()
-            make.height.equalTo(150)
+            make.height.equalTo(110)
             make.centerX.equalToSuperview()
         }
         
+        label.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        earnings2018.snp.makeConstraints { (make) in
+            make.height.equalTo(30)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalTo(imageView.snp.bottom).inset(-1)
+        }
+        
         infoContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(label.snp.bottom)
+            make.top.equalTo(earnings2018.snp.bottom)
             make.height.equalTo(90)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
@@ -114,8 +151,8 @@ class TutorEarningsView : TutorLayoutView {
         
         recentStatementsLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(15)
-            make.height.equalTo(50)
-            make.top.equalTo(infoContainer.snp.bottom).inset(-15)
+            make.height.equalTo(40)
+            make.top.equalTo(infoContainer.snp.bottom).inset(-10)
         }
         
         tableView.snp.makeConstraints { (make) in
@@ -187,8 +224,7 @@ class TutorEarnings : BaseViewController {
 			let formattedString = NSMutableAttributedString()
 
 			formattedString
-				.bold("\(thisYearTotal.yearlyEarningsFormat())\n", 45, .white)
-				.regular("\(year) Earnings", 15, .white)
+				.bold("\(thisYearTotal.yearlyEarningsFormat())", 45, .white)
 
 			let paragraphStyle = NSMutableParagraphStyle()
 			paragraphStyle.lineSpacing = 8
@@ -253,7 +289,13 @@ extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "tutorEarningsTableCellView", for: indexPath) as! TutorEarningsTableCellView
 		
-		cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - \(datasource[indexPath.row].description ?? "Session")"
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .regular("\(datasource[indexPath.row].created.earningsDateFormat()) - ", 16, .white)
+            .regular("\(datasource[indexPath.row].description ?? "Session")", 16, UIColor(hex: "22C755"))
+        
+        cell.leftLabel.attributedText = formattedString
+		//cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - \(datasource[indexPath.row].description ?? "Session")"
 		if let net = datasource[indexPath.row].net {
 			cell.rightLabel.text = net.currencyFormat()
 		}
@@ -276,16 +318,26 @@ class TutorEarningsTableCellView : BaseTableViewCell {
         let label = UILabel()
         
         label.textColor = .white
-        label.font = Fonts.createSize(16)
+        label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .right
-		
+        label.textAlignment = .center
+        
         return label
+    }()
+    
+    let rightLabelContainer : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = Colors.green
+        view.layer.cornerRadius = 11
+        
+        return view
     }()
     
     override func configureView() {
         contentView.addSubview(leftLabel)
-        contentView.addSubview(rightLabel)
+        contentView.addSubview(rightLabelContainer)
+        rightLabelContainer.addSubview(rightLabel)
         super.configureView()
         
         backgroundColor = .clear
@@ -301,10 +353,14 @@ class TutorEarningsTableCellView : BaseTableViewCell {
             make.height.centerY.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
         }
-        rightLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(leftLabel.snp.right)
-            make.centerY.height.equalToSuperview()
+        rightLabelContainer.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(15)
+            make.width.equalTo(65)
+            make.height.equalTo(22)
+        }
+        rightLabel.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
         }
     }
 }
