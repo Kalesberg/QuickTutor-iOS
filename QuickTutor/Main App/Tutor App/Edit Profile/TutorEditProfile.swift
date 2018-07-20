@@ -280,8 +280,10 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             return 100
-        case 1,5,9,12:
+        case 1:
             return 50
+        case 5,9,12:
+            return 65
         case 2,3,4,6,7,10,11,13,14:
             return 75
         case 8:

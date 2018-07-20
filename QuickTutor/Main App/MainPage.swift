@@ -48,12 +48,17 @@ class MainPageView : MainLayoutTwoButton {
         
         insertSubview(sidebar, aboveSubview: navbar)
         super.configureView()
-        
-        backgroundView.backgroundColor = .black
+
         backgroundView.alpha = 0.0
 
 		sidebar.alpha = 0.0
     
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.isUserInteractionEnabled = false
+        blurEffectView.frame = bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        backgroundView.addSubview(blurEffectView)
     }
     
     override func applyConstraints() {
@@ -211,7 +216,7 @@ class MainPage : BaseViewController {
     }
     
     internal func showBackground() {
-        contentView.backgroundView.fadeIn(withDuration: 0.4, alpha: 0.65)
+        contentView.backgroundView.fadeIn(withDuration: 0.4, alpha: 0.75)
         contentView.backgroundView.isUserInteractionEnabled = true
     }
     

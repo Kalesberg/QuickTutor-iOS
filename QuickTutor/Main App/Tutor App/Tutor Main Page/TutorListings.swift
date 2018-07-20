@@ -33,7 +33,7 @@ class TutorListingsView : MainLayoutTitleBackButton {
     let backgroundImageView : UIImageView = {
         let view = UIImageView()
         
-        view.image = #imageLiteral(resourceName: "dark-pattern")
+        view.image = #imageLiteral(resourceName: "dark-pattern").alpha(0.6)
         view.contentMode = .scaleAspectFill
         
         return view

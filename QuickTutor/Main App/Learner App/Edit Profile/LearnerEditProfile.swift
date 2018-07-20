@@ -284,13 +284,13 @@ extension LearnerEditProfile : UITableViewDelegate, UITableViewDataSource {
         case 4:
             return 75
         case 5:
-            return 50
+            return 65
         case 6:
             return 75
         case 7:
             return 75
         case 8:
-            return 50
+            return 65
         case 9:
             return 75
         case 10:

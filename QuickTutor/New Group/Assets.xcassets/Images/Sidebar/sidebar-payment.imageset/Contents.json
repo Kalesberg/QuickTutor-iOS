@@ -2,17 +2,16 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "transparent-payment@1x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "sidebar-payment@2x.png",
+      "filename" : "icon-payment@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "sidebar-payment@3x.png",
+      "filename" : "icon-payment.png",
       "scale" : "3x"
     }
   ],

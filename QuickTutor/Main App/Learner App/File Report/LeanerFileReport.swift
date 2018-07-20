@@ -33,7 +33,7 @@ class LearnerFileReportView : MainLayoutHeader {
 		tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
-		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		tableView.backgroundColor = Colors.backgroundDark
 		tableView.estimatedSectionHeaderHeight = 85
 		
 		return tableView
@@ -488,14 +488,14 @@ class FileReportYesNoLayout : MainLayoutHeader {
             make.height.equalTo(30)
         }
         
-        yesButton.snp.makeConstraints { (make) in
+        noButton.snp.makeConstraints { (make) in
             make.top.equalTo(label.snp.bottom).inset(-20)
             make.centerX.equalToSuperview().multipliedBy(0.5)
             make.height.equalTo(44)
             make.width.equalTo(100)
         }
         
-        noButton.snp.makeConstraints { (make) in
+        yesButton.snp.makeConstraints { (make) in
             make.top.equalTo(label.snp.bottom).inset(-20)
             make.centerX.equalToSuperview().multipliedBy(1.5)
             make.height.equalTo(44)
