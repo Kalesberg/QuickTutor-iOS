@@ -68,11 +68,11 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
         
         title.label.text = "Add Bank"
         
-        nameTitle.label.text = "Name"
+        nameTitle.label.text = "Account Holder Name"
         routingNumberTitle.label.text = "Routing Number"
         accountNumberTitle.label.text = "Account Number"
         
-        nameTextfield.attributedPlaceholder = NSAttributedString(string: "Enter bank holder's name", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        nameTextfield.attributedPlaceholder = NSAttributedString(string: "Enter account holder's name", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         nameTextfield.keyboardType = .asciiCapable
         
         routingNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Routing Number", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])

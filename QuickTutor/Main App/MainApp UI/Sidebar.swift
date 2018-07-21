@@ -12,14 +12,17 @@ import SnapKit
 
 class TutorSideBar : Sidebar {
     
-   // var taxItem = TaxSidebarItem()
-    
     override func configureView() {
-       // itemContainer.addSubview(taxItem)
         super.configureView()
         
         becomeQTItem.label.label.text = "Start Learning"
-        ratingView.tutorOrLearnerLabel.text = "Tutor Rating:"
+        ratingView.titleLabel.text = "Your Tutor Rating"
+        
+        let blueTextColor = UIColor(hex: "5E90E6")
+        
+        moreLabel.textColor = blueTextColor
+        ratingView.titleLabel.textColor = blueTextColor
+        optionsLabel.textColor = blueTextColor
         
         applyConstraints()
     }
@@ -27,68 +30,47 @@ class TutorSideBar : Sidebar {
     override func applyConstraints() {
         super.applyConstraints()
         
-        itemContainer.snp.remakeConstraints { (make) in
-            make.top.equalTo(divider1.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.525)
-        }
-        
         paymentItem.snp.makeConstraints { (make) in
-            make.top.equalTo(ratingView.snp.bottom)
+            make.top.equalTo(optionsLabel.snp.bottom).inset(-10)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.125)
+            make.height.equalToSuperview().multipliedBy(0.065)
         }
         
         settingsItem.snp.makeConstraints { (make) in
             make.top.equalTo(paymentItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.125)
+            make.height.equalToSuperview().multipliedBy(0.065)
         }
         
         reportItem.snp.makeConstraints { (make) in
             make.top.equalTo(settingsItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.125)
+            make.height.equalToSuperview().multipliedBy(0.065)
         }
         
         becomeQTItem.snp.makeConstraints { (make) in
             make.top.equalTo(reportItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.125)
-        }
-        
-        divider2.snp.makeConstraints { (make) in
-            make.top.equalTo(becomeQTItem.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(1)
+            make.height.equalToSuperview().multipliedBy(0.065)
         }
         
         legalItem.snp.makeConstraints { (make) in
-            make.top.equalTo(divider2.snp.bottom)
+            make.top.equalTo(moreLabel.snp.bottom).inset(-10)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.125)
+            make.height.equalToSuperview().multipliedBy(0.055)
         }
         
         helpItem.snp.makeConstraints { (make) in
             make.top.equalTo(legalItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.125)
+            make.height.equalToSuperview().multipliedBy(0.055)
         }
-        
-//        taxItem.snp.makeConstraints { (make) in
-//            make.top.equalTo(helpItem.snp.bottom)
-//            make.left.equalToSuperview()
-//            make.right.equalToSuperview()
-//            make.height.equalToSuperview().multipliedBy(0.125)
-//        }
     }
 }
 
@@ -97,87 +79,92 @@ class LearnerSideBar : Sidebar {
     override func configureView() {
         super.configureView()
     
-        ratingView.tutorOrLearnerLabel.text = "Learner Rating:"
+        ratingView.titleLabel.text = "Your Learner Rating"
+        
+        let purpleTextColor = UIColor(hex: "7A75FF")
+        
+        moreLabel.textColor = purpleTextColor
+        ratingView.titleLabel.textColor = purpleTextColor
+        optionsLabel.textColor = purpleTextColor
     }
     
     override func applyConstraints() {
         super.applyConstraints()
         
-        itemContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(divider1.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.46)
-        }
-        
         paymentItem.snp.makeConstraints { (make) in
-            make.top.equalTo(ratingView.snp.bottom)
+            make.top.equalTo(optionsLabel.snp.bottom).inset(-10)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
+            make.height.equalToSuperview().multipliedBy(0.065)
         }
         
         settingsItem.snp.makeConstraints { (make) in
             make.top.equalTo(paymentItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
+            make.height.equalToSuperview().multipliedBy(0.065)
         }
         
         reportItem.snp.makeConstraints { (make) in
             make.top.equalTo(settingsItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
+            make.height.equalToSuperview().multipliedBy(0.065)
         }
         
         becomeQTItem.snp.makeConstraints { (make) in
             make.top.equalTo(reportItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
-        }
-        
-        divider2.snp.makeConstraints { (make) in
-            make.top.equalTo(becomeQTItem.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(1)
+            make.height.equalToSuperview().multipliedBy(0.065)
         }
         
         legalItem.snp.makeConstraints { (make) in
-            make.top.equalTo(divider2.snp.bottom)
+            make.top.equalTo(moreLabel.snp.bottom).inset(-10)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
+            make.height.equalToSuperview().multipliedBy(0.055)
         }
-        
+
         helpItem.snp.makeConstraints { (make) in
             make.top.equalTo(legalItem.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.14285)
+            make.height.equalToSuperview().multipliedBy(0.055)
         }
     }
-    
 }
 
 class Sidebar : BaseView {
     
     var profileView       = ProfileView()
-    var divider           = UIView()
     var ratingView        = RatingView()
-    var divider1          = BaseView()
     
-    var itemContainer     = UIView()
     var paymentItem       = PaymentSidebarItem()
     var settingsItem      = SettingsSidebarItem()
     var reportItem        = ReportSidebarItem()
     var becomeQTItem      = BecomeQTSidebarItem()
-    var divider2          = BaseView()
     
     var legalItem         = LegalSidebarItem()
     var helpItem          = HelpSidebarItem()
+    
+    let optionsLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(14)
+        label.text = "Options"
+        
+        return label
+    }()
+    
+    let moreLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(14)
+        label.text = "More"
+        
+        return label
+    }()
     
     let buttonContainer : UIView = {
         let view = UIView()
@@ -194,25 +181,21 @@ class Sidebar : BaseView {
     override func configureView() {
         super.configureView()
         addSubview(profileView)
-        addSubview(divider)
         addSubview(ratingView)
-        addSubview(divider1)
-        addSubview(itemContainer)
+        addSubview(optionsLabel)
         addSubview(buttonContainer)
         buttonContainer.addSubview(inviteButton)
-        itemContainer.addSubview(paymentItem)
-        itemContainer.addSubview(settingsItem)
-        itemContainer.addSubview(reportItem)
-        itemContainer.addSubview(becomeQTItem)
-        itemContainer.addSubview(divider2)
-        itemContainer.addSubview(legalItem)
-        itemContainer.addSubview(helpItem)
+        addSubview(paymentItem)
+        addSubview(settingsItem)
+        addSubview(reportItem)
+        addSubview(becomeQTItem)
+        addSubview(moreLabel)
+        addSubview(legalItem)
+        addSubview(helpItem)
         
         layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1.5), radius: 3.0)
         
-        divider.backgroundColor = Colors.divider
-        divider1.backgroundColor = Colors.divider
-        divider2.backgroundColor = Colors.divider
+        backgroundColor = Colors.registrationDark
 		
         applyConstraints()
     }
@@ -225,25 +208,21 @@ class Sidebar : BaseView {
             make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.15)
         }
         
-        divider.snp.makeConstraints { (make) in
-            make.top.equalTo(profileView.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(1)
-        }
-        
         ratingView.snp.makeConstraints { (make) in
             make.top.equalTo(profileView.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.08)
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.12)
         }
         
-        divider1.snp.makeConstraints { (make) in
-            make.top.equalTo(ratingView.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(1)
+        optionsLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(ratingView.snp.bottom).inset(-5)
+            make.left.equalToSuperview().inset(17)
+        }
+        
+        moreLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(becomeQTItem.snp.bottom).inset(-15)
+            make.left.equalToSuperview().inset(17)
         }
         
         buttonContainer.snp.makeConstraints { (make) in
@@ -270,7 +249,7 @@ class InviteButton : InteractableBackgroundView {
         let label = UILabel()
         
         label.font = Fonts.createBoldSize(17)
-        label.textColor = Colors.registrationDark
+        label.textColor = .white
         label.textAlignment = .center
         label.text = "Invite others to QT!"
         
@@ -281,7 +260,7 @@ class InviteButton : InteractableBackgroundView {
         addSubview(label)
         super.configureView()
         
-        backgroundColor = .white
+        backgroundColor = Colors.green
         layer.cornerRadius = 5
         
         applyConstraints()
@@ -351,53 +330,57 @@ class ProfileView : InteractableBackgroundView {
 
 class RatingView : InteractableView {
     
-    let starImageView : UIImageView = {
-        let view = UIImageView()
+    let titleLabel : UILabel = {
+        let label = UILabel()
         
-        view.image = UIImage(named: "sidebar-star")
+        label.font = Fonts.createBoldSize(14)
+        
+        return label
+    }()
+    
+    let ratingLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(14)
+        label.textColor = UIColor(hex: "996910")
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    let container : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = Colors.gold
+        view.layer.cornerRadius = 12
         
         return view
     }()
-    let ratingLabel : UILabel = {
-        let label = UILabel()
-    
-        label.font = Fonts.createBoldSize(14)
-        label.textColor = .white
-        
-        return label
-    }()
-    let tutorOrLearnerLabel : UILabel = {
-        let label = UILabel()
-        
-        label.font = Fonts.createSize(16)
-        label.textColor = .white
-        
-        return label
-    }()
     
     override func configureView() {
-        addSubview(starImageView)
-        addSubview(ratingLabel)
-        addSubview(tutorOrLearnerLabel)
+        addSubview(titleLabel)
+        addSubview(container)
+        container.addSubview(ratingLabel)
         super.configureView()
-		
+
         applyConstraints()
     }
     
     override func applyConstraints() {
-        starImageView.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(20)
+        titleLabel.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview().multipliedBy(0.6)
+            make.left.equalToSuperview().inset(17)
+        }
+        
+        container.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview().multipliedBy(1.3)
+            make.left.equalToSuperview().inset(17)
+            make.height.equalTo(24)
+            make.width.equalTo(55)
         }
         
         ratingLabel.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview().inset(1)
-            make.right.equalTo(starImageView.snp.left).inset(-5)
-        }
-        
-        tutorOrLearnerLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(20)
-            make.centerY.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
 }
@@ -412,6 +395,7 @@ class SidebarItem : InteractableBackgroundView {
         super.configureView()
         
         label.label.font = Fonts.createSize(18)
+        label.label.textColor = UIColor(hex: "919199")
         
         applyConstraints()
     }

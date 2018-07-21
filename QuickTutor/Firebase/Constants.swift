@@ -21,7 +21,7 @@ public struct Constants {
 
 struct Colors {
     static let navBarGreen = UIColor(hex: "#50AA56")
-    static let backgroundDark = UIColor(hex: "272630")
+    static let backgroundDark = UIColor(hex: "2C2C3B")
     static let divider = UIColor(hex:"121216")
     static let grayText = UIColor(hex:"999999")
     static let green = UIColor(hex:"1EAD4A")

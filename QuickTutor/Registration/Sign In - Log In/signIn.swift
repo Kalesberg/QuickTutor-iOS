@@ -129,19 +129,24 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		}
 		
 		infoLabel.snp.makeConstraints { (make) in
-			make.width.equalToSuperview().multipliedBy(0.8)
-			if #available(iOS 11.0, *) {
-				make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
+			if UIScreen.main.bounds.height == 480 {
+				make.width.equalToSuperview().multipliedBy(0.85)
+				make.centerX.bottom.equalToSuperview()
 			} else {
-				make.bottom.equalToSuperview().inset(15)
+				make.width.equalToSuperview().multipliedBy(0.85)
+				if #available(iOS 11.0, *) {
+					make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
+				} else {
+					make.bottom.equalToSuperview().inset(15)
+				}
+				make.centerX.equalToSuperview()
 			}
-			make.centerX.equalToSuperview()
 		}
 		
 		container.snp.makeConstraints { (make) in
 			make.top.equalTo(quicktutorFlame.snp.bottom)
 			make.bottom.equalTo(infoLabel.snp.top)
-			make.width.equalToSuperview().multipliedBy(0.8)
+			make.width.equalToSuperview().multipliedBy(0.85)
 			make.centerX.equalToSuperview()
 		}
 		
