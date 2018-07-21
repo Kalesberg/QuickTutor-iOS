@@ -44,7 +44,7 @@ class AddTutorView : MainLayoutTitleBackButton {
         tableView.separatorInset.left = 10
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+        tableView.backgroundColor = Colors.backgroundDark
         
         return tableView
     }()
@@ -111,8 +111,10 @@ class AddTutor : BaseViewController, ShowsConversation {
     
     var filteredUsername = [UsernameQuery]() {
         didSet {
-			if filteredUsername.isEmpty {
-				contentView.tableView.backgroundView = TutorCardCollectionViewBackground()
+			if filteredUsername.isEmpty && contentView.searchTextField.textField.text!.count > 0 {
+				let backgroundView = TutorCardCollectionViewBackground()
+				backgroundView.label.attributedText = NSMutableAttributedString().bold("No Tutors Found", 22, .white)
+				contentView.tableView.backgroundView = backgroundView
 			} else {
 				contentView.tableView.backgroundView = nil
 			}
@@ -177,7 +179,6 @@ class AddTutor : BaseViewController, ShowsConversation {
 
     @objc func searchUsername(_ sender: Timer) {
         guard let searchText = sender.userInfo as? String else { return }
-        filteredUsername.removeAll()
         queriedIds.removeAll()
         searchTimer.invalidate()
         
@@ -192,6 +193,7 @@ class AddTutor : BaseViewController, ShowsConversation {
                 queriedUsername.append(usernameQuery)
                 self.queriedIds.append(child.key)
             }
+			self.filteredUsername.removeAll()
             self.filteredUsername = queriedUsername
         }
     }
@@ -348,7 +350,7 @@ class AddTutorTableViewCell : UITableViewCell {
         cellBackground.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         selectedBackgroundView = cellBackground
         
-        backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+        backgroundColor = Colors.backgroundDark
         addTutorButton.addTarget(self, action: #selector(addTutorButtonPressed(_:)), for: .touchUpInside)
 
         applyConstraints()

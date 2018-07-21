@@ -148,7 +148,7 @@ class TutorRegPayment: BaseViewController {
         super.viewDidLoad()
         
         let textFields = [contentView.nameTextfield, contentView.routingNumberTextfield, contentView.accountNumberTextfield]
-		
+        
         for textField in textFields {
             textField.delegate = self
             textField.returnKeyType = .next
@@ -158,7 +158,7 @@ class TutorRegPayment: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-		contentView.rightButton.isUserInteractionEnabled = true
+        contentView.rightButton.isUserInteractionEnabled = true
         contentView.nameTextfield.becomeFirstResponder()
     }
     
@@ -214,7 +214,7 @@ class TutorRegPayment: BaseViewController {
                         self.navigationController?.pushViewController(TutorAddress(), animated: true)
                     } else {
                         AlertController.genericErrorAlert(self, title: "Bank Account Error", message: "Unable to create bank account. Please verify the information is correct.")
-						self.contentView.rightButton.isUserInteractionEnabled = true
+                        self.contentView.rightButton.isUserInteractionEnabled = true
                     }
                     self.dismissOverlay()
                 }
@@ -247,7 +247,7 @@ extension TutorRegPayment : UITextFieldDelegate {
         
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-		
+        
         switch textField {
         case contentView.nameTextfield:
             if string == "" { return true }

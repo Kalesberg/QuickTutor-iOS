@@ -322,7 +322,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             })
             connectionRequestAccepted = true
         }
-        
     }
     
     func setMessageTextViewCoverHidden(_ result: Bool) {
