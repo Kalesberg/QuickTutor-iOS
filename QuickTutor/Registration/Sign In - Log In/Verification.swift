@@ -312,18 +312,18 @@ class Verification : BaseViewController {
 							if UserDefaults.standard.bool(forKey: "showHomePage") {
 								FirebaseData.manager.signInLearner(uid: user.uid) { (successful) in
 									if successful {
+										Registration.setLearnerDefaults()
 									self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
 									} else {
-										try! Auth.auth().signOut()
 										self.navigationController?.pushViewController(SignIn(), animated: true)
 									}
 								}
 							} else {
 								FirebaseData.manager.signInTutor(uid: user.uid) { (successful) in
 									if successful {
+										Registration.setTutorDefaults()
 										self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
 									} else {
-										try! Auth.auth().signOut()
 										self.navigationController?.pushViewController(SignIn(), animated: true)
 									}
 								}

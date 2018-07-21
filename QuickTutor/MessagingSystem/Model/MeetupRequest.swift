@@ -57,7 +57,7 @@ class SessionRequest {
     func formattedDate() -> String? {
         guard let date = self.date else { return nil }
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "EE MMM dd"
         let dateFromTimeInterval = Date(timeIntervalSince1970: date)
         return dateFormatter.string(from: dateFromTimeInterval)
     }

@@ -31,8 +31,8 @@ struct Registration {
 	static var customerId : String!
 	
 	static func setRegistrationDefaults(){
-		
 		let defaults = UserDefaults.standard
+
 		
 		defaults.set(Registration.email, forKey: "email")
 		//tutorials.
@@ -45,6 +45,30 @@ struct Registration {
 		defaults.set(true, forKey: "showLearnerSideBarTutorial1.0")
 		defaults.set(true, forKey: "showBecomeTutorTutorial1.0")
 		defaults.set(true, forKey: "showMessagingSystemTutorial1.0")
+	}
+	static func setLearnerDefaults() {
+		let defaults = UserDefaults.standard
+
+		defaults.set(false, forKey: "showMainPageTutorial1.0")
+		defaults.set(false, forKey: "showTutorCardTutorial1.0")
+		defaults.set(false, forKey: "showSubjectTutorial1.0")
+		defaults.set(true, forKey: "showHomePage")
+		defaults.set(false, forKey: "showLearnerSideBarTutorial1.0")
+		defaults.set(false, forKey: "showBecomeTutorTutorial1.0")
+		defaults.set(false, forKey: "showMessagingSystemTutorial1.0")
+	}
+	static func setTutorDefaults() {
+		let defaults = UserDefaults.standard
+
+		defaults.set(false, forKey: "showMainPageTutorial1.0")
+		defaults.set(false, forKey: "showTutorCardTutorial1.0")
+		defaults.set(false, forKey: "showSubjectTutorial1.0")
+		defaults.set(false, forKey: "showTutorSideBarTutorial1.0")
+		defaults.set(false, forKey: "showTutorAddSubjectsTutorial1.0")
+		defaults.set(false, forKey: "showHomePage")
+		defaults.set(false, forKey: "showLearnerSideBarTutorial1.0")
+		defaults.set(false, forKey: "showBecomeTutorTutorial1.0")
+		defaults.set(false, forKey: "showMessagingSystemTutorial1.0")
 	}
 }
 

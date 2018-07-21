@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import SnapKit
 
-
 class SessionRequestConversationCell : UICollectionViewCell {
 	
 	override init(frame: CGRect) {
@@ -30,7 +29,8 @@ class SessionRequestConversationCell : UICollectionViewCell {
 		label.font = Fonts.createBoldSize(22)
 		label.textAlignment = .center
 		label.textColor = .white
-	
+		label.backgroundColor = Colors.learnerPurple
+		
 		return label
 	}()
 	
@@ -73,7 +73,13 @@ class SessionRequestConversationCell : UICollectionViewCell {
 		return label
 	}()
 	
-	let footer = UIView()
+	let footer : UIView = {
+		let view = UIView()
+		
+		view.backgroundColor = Colors.backgroundDark
+		
+		return view
+	}()
 	
 	func configureCollectionViewCell() {
 		addSubview(header)
@@ -85,6 +91,7 @@ class SessionRequestConversationCell : UICollectionViewCell {
 		body.addSubview(priceLabel)
 		addSubview(footer)
 		
+		backgroundColor = Colors.learnerPurple
 		
 		applyConstraints()
 	}
@@ -134,5 +141,6 @@ class SessionRequestConversationCell : UICollectionViewCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		priceLabel.layer.cornerRadius = priceLabel.frame.height / 2
+		
 	}
 }

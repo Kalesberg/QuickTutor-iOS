@@ -51,6 +51,7 @@ class AddTutorView : MainLayoutTitleBackButton {
     
     let searchTextField : SearchTextField = {
         let textField = SearchTextField()
+		
         textField.placeholder.text = "Search Usernames"
         textField.textField.font = Fonts.createSize(16)
         textField.textField.tintColor = Colors.learnerPurple
@@ -110,6 +111,11 @@ class AddTutor : BaseViewController, ShowsConversation {
     
     var filteredUsername = [UsernameQuery]() {
         didSet {
+			if filteredUsername.isEmpty {
+				contentView.tableView.backgroundView = TutorCardCollectionViewBackground()
+			} else {
+				contentView.tableView.backgroundView = nil
+			}
             contentView.tableView.reloadData()
         }
     }
@@ -251,6 +257,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		self.displayLoadingOverlay()
         FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
             guard let tutor = tutor else { return }
             let next = TutorMyProfile()
@@ -258,6 +265,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
             next.contentView.rightButton.isHidden = true
             next.contentView.title.label.text = "@\(self.filteredUsername[indexPath.section].username)"
             self.navigationController?.pushViewController(next, animated: true)
+			self.dismissOverlay()
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
