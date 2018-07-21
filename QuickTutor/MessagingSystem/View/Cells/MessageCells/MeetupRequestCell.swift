@@ -176,7 +176,7 @@ class SessionRequestCell: UserMessageCell {
     private func setupMainView() {
         bubbleView.clipsToBounds = true
         bubbleView.layer.cornerRadius = 8
-        bubbleView.backgroundColor = Colors.learnerPurple
+//        bubbleView.backgroundColor = Colors.learnerPurple
     }
     
     private func setupTitleLabel() {

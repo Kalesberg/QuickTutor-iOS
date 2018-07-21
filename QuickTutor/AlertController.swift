@@ -85,7 +85,7 @@ class AlertController : NSObject {
 	class func genericErrorAlert(_ viewController: UIViewController, title: String, message: String?) {
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		
-		let remove = UIAlertAction(title: "Ok", style: .destructive) { (_) in }
+		let remove = UIAlertAction(title: "Ok", style: .default) { (_) in }
 		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
 		
 		alertController.addAction(remove)

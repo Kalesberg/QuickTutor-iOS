@@ -322,7 +322,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             })
             connectionRequestAccepted = true
         }
-        
     }
     
     func setMessageTextViewCoverHidden(_ result: Bool) {
@@ -487,10 +486,11 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         }
         
         if message.sessionRequestId != nil {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestConversationCell
-			//cell.updateUI(message: message)
-//            cell.bubbleWidthAnchor?.constant = 220
-//            cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestCell
+
+			cell.updateUI(message: message)
+            cell.bubbleWidthAnchor?.constant = 220
+            cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
             return cell
         }
         

@@ -44,13 +44,14 @@ class AddTutorView : MainLayoutTitleBackButton {
         tableView.separatorInset.left = 10
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+        tableView.backgroundColor = Colors.backgroundDark
         
         return tableView
     }()
     
     let searchTextField : SearchTextField = {
         let textField = SearchTextField()
+		
         textField.placeholder.text = "Search Usernames"
         textField.textField.font = Fonts.createSize(16)
         textField.textField.tintColor = Colors.learnerPurple
@@ -110,6 +111,13 @@ class AddTutor : BaseViewController, ShowsConversation {
     
     var filteredUsername = [UsernameQuery]() {
         didSet {
+			if filteredUsername.isEmpty && contentView.searchTextField.textField.text!.count > 0 {
+				let backgroundView = TutorCardCollectionViewBackground()
+				backgroundView.label.attributedText = NSMutableAttributedString().bold("No Tutors Found", 22, .white)
+				contentView.tableView.backgroundView = backgroundView
+			} else {
+				contentView.tableView.backgroundView = nil
+			}
             contentView.tableView.reloadData()
         }
     }
@@ -171,7 +179,6 @@ class AddTutor : BaseViewController, ShowsConversation {
 
     @objc func searchUsername(_ sender: Timer) {
         guard let searchText = sender.userInfo as? String else { return }
-        filteredUsername.removeAll()
         queriedIds.removeAll()
         searchTimer.invalidate()
         
@@ -186,6 +193,7 @@ class AddTutor : BaseViewController, ShowsConversation {
                 queriedUsername.append(usernameQuery)
                 self.queriedIds.append(child.key)
             }
+			self.filteredUsername.removeAll()
             self.filteredUsername = queriedUsername
         }
     }
@@ -251,6 +259,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		self.displayLoadingOverlay()
         FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
             guard let tutor = tutor else { return }
             let next = TutorMyProfile()
@@ -258,6 +267,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
             next.contentView.rightButton.isHidden = true
             next.contentView.title.label.text = "@\(self.filteredUsername[indexPath.section].username)"
             self.navigationController?.pushViewController(next, animated: true)
+			self.dismissOverlay()
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -340,7 +350,7 @@ class AddTutorTableViewCell : UITableViewCell {
         cellBackground.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         selectedBackgroundView = cellBackground
         
-        backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+        backgroundColor = Colors.backgroundDark
         addTutorButton.addTarget(self, action: #selector(addTutorButtonPressed(_:)), for: .touchUpInside)
 
         applyConstraints()
