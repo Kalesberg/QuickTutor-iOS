@@ -25,6 +25,8 @@ class ConversationManager {
     var messages: [BaseMessage]?
     var chatPartnerId: String?
     var chatPartner: User?
+    var canSendMessage = true
+    var isConnected = false
     
     func loadMessages() {
         messages = [BaseMessage]()
@@ -59,6 +61,7 @@ struct Conversation {
         
     }
 }
+
 
 protocol ConversationManagerDelegate {
     func conversationManager(_ conversationManager: ConversationManager, didReceive message: BaseMessage)

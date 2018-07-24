@@ -13,7 +13,6 @@ class ConnectionRequestCell: UserMessageCell {
     
     var status: String?
     var connectionRequestId: String?
-    var userMessage: UserMessage?
     
     let actionBackground: UIView = {
         let view = UIView()

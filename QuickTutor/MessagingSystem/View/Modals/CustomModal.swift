@@ -35,6 +35,7 @@ class CustomModal: BaseCustomModal {
         label.textAlignment = .center
         label.font = Fonts.createBoldSize(14)
         label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -93,7 +94,7 @@ class CustomModal: BaseCustomModal {
         background.addSubview(nevermindButton)
         nevermindButton.anchor(top: noteLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 35)
         window.addConstraint(NSLayoutConstraint(item: nevermindButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))
-        nevermindButton.addTarget(self, action: #selector(handleNevermindButton), for: .touchUpInside)
+        nevermindButton.addTarget(self, action: #selector(handleNevermindButton), for: [.touchUpInside, .touchDragExit])
     }
     
     func setupConfirmButton() {
@@ -101,7 +102,7 @@ class CustomModal: BaseCustomModal {
         background.addSubview(confirmButton)
         confirmButton.anchor(top: noteLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 35)
         window.addConstraint(NSLayoutConstraint(item: confirmButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 75))
-        confirmButton.addTarget(self, action: #selector(handleConfirmButton), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(handleConfirmButton), for: [.touchUpInside, .touchDragExit])
     }
     
     @objc func handleNevermindButton() {

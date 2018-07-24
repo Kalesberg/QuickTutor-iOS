@@ -1154,7 +1154,6 @@
 		8491C28E1FBE62350036FC12 = {
 			isa = PBXGroup;
 			children = (
-				CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */,
 				8491C2991FBE62350036FC12 /* QuickTutor */,
 				8491C2981FBE62350036FC12 /* Products */,
 				1ADD82B9544686C1B1CC7BF9 /* Pods */,
@@ -1175,6 +1174,7 @@
 			isa = PBXGroup;
 			children = (
 				CF6F5885205EE65C00ACBD32 /* MessagingSystem */,
+				CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */,
 				842394241FF4D8EC00827C7D /* Base Classes */,
 				84A37B75200445C600C19397 /* Registration */,
 				8426A1702055C46100EAF1A8 /* Main App */,

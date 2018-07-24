@@ -9,10 +9,15 @@
 import UIKit
 import Firebase
 
+protocol SessionRequestCellDelegate {
+    func sessionRequestCellShouldRequestSession(cell: SessionRequestCell)
+    func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest)
+}
+
 class SessionRequestCell: UserMessageCell {
     
     var sessionRequest: SessionRequest?
-    var userMessage: UserMessage?
+    var delegate: SessionRequestCellDelegate?
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -26,7 +31,10 @@ class SessionRequestCell: UserMessageCell {
     
     let titleBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 60.0/255.0, green: 54.0/255.0, blue: 88.0/255.0, alpha: 1.0)
+        if #available(iOS 11.0, *) {
+            view.layer.cornerRadius = 4
+            view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        }
         return view
     }()
     
@@ -34,7 +42,7 @@ class SessionRequestCell: UserMessageCell {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .left
-        label.font = Fonts.createBoldSize(15)
+        label.font = Fonts.createBoldSize(14)
         return label
     }()
     
@@ -58,48 +66,7 @@ class SessionRequestCell: UserMessageCell {
         return label
     }()
     
-    let statusLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.textAlignment = .center
-        label.font = Fonts.createSize(16)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    
-    let statusBackground: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: "1E1E25")
-        return view
-    }()
-    
-    let acceptButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Accept", for: .normal)
-        button.setTitleColor(Colors.green, for: .normal)
-        button.tag = 0
-        button.backgroundColor = Colors.navBarColor
-        button.titleLabel?.font = Fonts.createBoldSize(12)
-        if #available(iOS 11.0, *) {
-            button.layer.cornerRadius = 4
-            button.layer.maskedCorners = [.layerMaxXMaxYCorner]
-        }
-        return button
-    }()
-    
-    let declineButton: UIButton = {
-        let button = UIButton()
-        button.setTitleColor(Colors.qtRed, for: .normal)
-        button.setTitle("Decline", for: .normal)
-        button.tag = 1
-        button.backgroundColor = Colors.navBarColor
-        button.titleLabel?.font = Fonts.createBoldSize(12)
-        if #available(iOS 11.0, *) {
-            button.layer.cornerRadius = 4
-            button.layer.maskedCorners = [.layerMinXMaxYCorner]
-        }
-        return button
-    }()
+    let buttonView = SessionRequestCellButtonView()
     
     var priceLabelWidthAnchor: NSLayoutConstraint?
     
@@ -138,8 +105,10 @@ class SessionRequestCell: UserMessageCell {
             self.layoutIfNeeded()
         }
         guard let id = Auth.auth().currentUser?.uid else { return }
-        if self.userMessage?.senderId != id {
+        if self.userMessage?.senderId != id && sessionRequest?.status == "pending" {
             setupAsTeacherView()
+            buttonView.setupAsReceived()
+            buttonView.setButtonActions(#selector(SessionRequestCell.declineSessionRequest), #selector(SessionRequestCell.acceptSessionRequest), target: self)
         }
     }
     
@@ -147,18 +116,63 @@ class SessionRequestCell: UserMessageCell {
         guard let status = self.sessionRequest?.status else { return }
         switch status {
         case "pending":
-            statusLabel.text = "Session Request Pending"
+            updateAsPending()
+            buttonView.setupAsPending()
+            buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
         case "declined":
-            statusLabel.text = "Session Request Declined"
+            udpdateAsDenied()
+            buttonView.setupAsDenied()
+            buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
         case "accepted":
-            statusLabel.text = "Session Request Accepted"
+            updateAsAccepted()
+            buttonView.setupAsAccepted()
         case "expired":
-            statusLabel.text = "Session Request Expired"
+            updateAsCancelled()
+            buttonView.setupAsCancelled()
         case "cancelled":
-            statusLabel.text = "Session Request Cancelled"
+            updateAsCancelled()
+            buttonView.setupAsCancelled()
+            buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
         default:
             break
         }
+    }
+    
+    func updateAsAccepted() {
+        titleBackground.backgroundColor = Colors.green
+        titleLabel.text = "Request Accepted"
+    }
+    
+    func udpdateAsDenied() {
+        titleBackground.backgroundColor = Colors.qtRed
+        titleLabel.text = "Request Denied"
+        dimContent()
+    }
+    
+    func updateAsPending() {
+        titleBackground.backgroundColor = Colors.learnerPurple
+        titleLabel.text = "Request Pending"
+    }
+    
+    func updateAsCancelled() {
+        titleBackground.backgroundColor = Colors.grayText
+        titleLabel.text = "Request Cancelled"
+        dimContent()
+    }
+    
+    func dimContent() {
+        let amount: CGFloat = 40
+        subjectLabel.textColor = UIColor.white.darker(by: amount)
+        dateTimeLabel.textColor = UIColor.white.darker(by: amount)
+        priceLabel.textColor = UIColor.white.darker(by: amount)
+        priceLabel.backgroundColor = Colors.navBarGreen.darker(by: 30)
+    }
+    
+    func resetDim() {
+        subjectLabel.textColor = .white
+        dateTimeLabel.textColor = .white
+        priceLabel.textColor = .white
+        priceLabel.backgroundColor = Colors.navBarGreen
     }
     
     override func setupViews() {
@@ -169,74 +183,49 @@ class SessionRequestCell: UserMessageCell {
         setupSubjectLabel()
         setupDateTimeLabel()
         setupPriceLabel()
-        setupStatusBackground()
-        setupStatusLabel()
+        setupButtonView()
     }
     
-    private func setupMainView() {
+    func setupMainView() {
         bubbleView.clipsToBounds = true
         bubbleView.layer.cornerRadius = 8
-        bubbleView.backgroundColor = Colors.learnerPurple
+        bubbleView.layer.masksToBounds = true
+        bubbleView.backgroundColor = Colors.navBarColor
     }
     
-    private func setupTitleLabel() {
+    func setupTitleLabel() {
         addSubview(titleLabel)
         titleLabel.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 35)
     }
     
-    private func setupTitleBackground() {
+    func setupTitleBackground() {
         insertSubview(titleBackground, belowSubview: titleLabel)
         titleBackground.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
     }
     
-    private func setupSubjectLabel() {
+    func setupSubjectLabel() {
         addSubview(subjectLabel)
         subjectLabel.anchor(top: titleLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 18)
     }
     
-    private func setupDateTimeLabel() {
+    func setupDateTimeLabel() {
         addSubview(dateTimeLabel)
         dateTimeLabel.anchor(top: subjectLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 140, height: 40)
     }
     
-    private func setupPriceLabel() {
+    func setupPriceLabel() {
         addSubview(priceLabel)
         priceLabel.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 26, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 20)
     }
     
-    private func setupStatusBackground() {
-        addSubview(statusBackground)
-        statusBackground.anchor(top: dateTimeLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    }
-    
-    private func setupStatusLabel() {
-        statusBackground.addSubview(statusLabel)
-        statusLabel.anchor(top: statusBackground.topAnchor, left: statusBackground.leftAnchor, bottom: statusBackground.bottomAnchor, right: statusBackground.rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
-    }
-    
     func setupAsTeacherView() {
         updateStatusAndTitleLabels()
-        addAcceptButton()
-        addDeclineButton()
 //        rearrangeInfoLabels()
     }
     
     func updateStatusAndTitleLabels() {
-        titleLabel.text = "You received a session request"
+        titleLabel.text = "Request Received"
         guard sessionRequest?.status == "pending" else { return }
-        statusLabel.isHidden = true
-    }
-    
-    func addAcceptButton() {
-        addSubview(acceptButton)
-        acceptButton.anchor(top: nil, left: nil, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
-        acceptButton.addTarget(self, action: #selector(handleButtonAction(sender:)), for: .touchUpInside)
-    }
-    
-    func addDeclineButton() {
-        addSubview(declineButton)
-        declineButton.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
-        declineButton.addTarget(self, action: #selector(handleButtonAction(sender:)), for: .touchUpInside)
     }
     
     func rearrangeInfoLabels() {
@@ -244,7 +233,15 @@ class SessionRequestCell: UserMessageCell {
         priceLabel.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 50, paddingRight: 30, width: 0, height: 20)
         
 //        statusBackground.removeConstraints(statusBackground.constraints)
-        statusBackground.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
+//        statusBackground.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
+    }
+    
+    func setupButtonView() {
+        addSubview(buttonView)
+        buttonView.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
+        buttonView.setButtonTitles("Decline", "Accept")
+        buttonView.setButtonTitleColors(Colors.qtRed, Colors.navBarGreen)
+        buttonView.setupAsSingleButton()
     }
     
     @objc func handleButtonAction(sender: UIButton) {
@@ -252,13 +249,154 @@ class SessionRequestCell: UserMessageCell {
         let valueToSet = sender.tag == 0 ? "accepted" : "declined"
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue(valueToSet)
         sessionCache.removeValue(forKey: sessionRequestId)
-        
-        acceptButton.isHidden = true
-        declineButton.isHidden = true
-        statusLabel.isHidden = false
-        statusLabel.text = sender.tag == 0 ? "ACCEPTED" : "DECLINED"
     }
     
+    @objc func acceptSessionRequest() {
+        guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
+        Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("accepted")
+        sessionCache.removeValue(forKey: sessionRequestId)
+        buttonView.setupAsAccepted()
+        updateAsAccepted()
+    }
+    
+    @objc func declineSessionRequest() {
+        guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
+        Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("declined")
+        sessionCache.removeValue(forKey: sessionRequestId)
+        buttonView.setupAsDenied()
+        udpdateAsDenied()
+    }
+    
+    @objc func requestSession() {
+        delegate?.sessionRequestCellShouldRequestSession(cell: self)
+    }
+    
+    @objc func cancelSession() {
+        guard let request = sessionRequest else { return }
+        delegate?.sessionRequestCell(cell: self, shouldCancel: request)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetDim()
+    }
+    
+}
+
+class SessionRequestCellButtonView: UIView {
+    
+    lazy var buttons = [leftButton, rightButton]
+    lazy var mainButton = leftButton
+    lazy var auxillaryButton = rightButton
+    
+    let leftButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Colors.navBarColor
+        button.titleLabel?.font = Fonts.createBoldSize(12)
+        return button
+    }()
+    
+    let rightButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Colors.navBarColor
+        button.titleLabel?.font = Fonts.createBoldSize(12)
+        return button
+    }()
+    
+    var leftButtonWidthAnchor: NSLayoutConstraint?
+    
+    func setupViews() {
+        setupMainView()
+        setupRightButton()
+        setupLeftButton()
+    }
+    
+    func setupMainView() {
+        backgroundColor = .black
+        clipsToBounds = true
+        if #available(iOS 11.0, *) {
+            layer.cornerRadius = 4
+            layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+    }
+    
+    func setupRightButton() {
+        addSubview(rightButton)
+        rightButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 0)
+    }
+    
+    func setupLeftButton() {
+        addSubview(leftButton)
+        leftButton.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        leftButtonWidthAnchor = leftButton.widthAnchor.constraint(equalToConstant: 109.5)
+        leftButtonWidthAnchor?.isActive = true
+    }
+    
+    func setupAsSingleButton() {
+        leftButtonWidthAnchor?.constant = 220
+        layoutIfNeeded()
+    }
+    
+    func setupAsDoubleButton() {
+        leftButtonWidthAnchor?.constant = 109.5
+    }
+    
+    func setButtonTitles(_ titles: String...) {
+        for x in 0..<titles.count {
+            buttons[x].setTitle(titles[x], for: .normal)
+        }
+    }
+    
+    func setButtonTitleColors(_ colors: UIColor...) {
+        for x in 0..<colors.count {
+            buttons[x].setTitleColor(colors[x], for: .normal)
+        }
+    }
+    
+    func setButtonActions(_ selectors: Selector..., target: AnyObject) {
+        for x in 0..<selectors.count {
+            buttons[x].addTarget(target, action: selectors[x], for: .touchUpInside)
+        }
+    }
+    
+    func setupAsAccepted() {
+        setupAsSingleButton()
+        setButtonTitleColors(Colors.navBarGreen)
+        setButtonTitles("Add to Calender")
+    }
+    
+    func setupAsDenied() {
+        setupAsSingleButton()
+        setButtonTitleColors(Colors.navBarGreen)
+        setButtonTitles("Request a new session?")
+    }
+    
+    func setupAsReceived() {
+        setupAsDoubleButton()
+        setButtonTitleColors(Colors.qtRed, Colors.navBarGreen)
+        setButtonTitles("Decline", "Accept" )
+    }
+    
+    func setupAsPending() {
+        setupAsSingleButton()
+        setButtonTitleColors(Colors.grayText)
+        setButtonTitles("Cancel request")
+    }
+    
+    func setupAsCancelled() {
+        setupAsSingleButton()
+        setButtonTitleColors(Colors.navBarGreen)
+        setButtonTitles("Request a new session?")
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     
 }
