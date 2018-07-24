@@ -125,3 +125,33 @@ extension UIView {
     }
 }
 
+class DateService {
+    static let shared = DateService()
+    private init() {}
+    
+    func localToUTC(date:String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.calendar = NSCalendar.current
+        dateFormatter.timeZone = TimeZone.current
+        
+        let dt = dateFormatter.date(from: date)
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormatter.dateFormat = "H:mm:ss"
+        
+        return dateFormatter.string(from: dt!)
+    }
+    
+    func UTCToLocal(date:String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "H:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        
+        let dt = dateFormatter.date(from: date)
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "h:mm a"
+        
+        return dateFormatter.string(from: dt!)
+    }
+}
+

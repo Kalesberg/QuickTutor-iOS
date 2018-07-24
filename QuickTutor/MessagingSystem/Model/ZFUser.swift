@@ -25,12 +25,18 @@ class User: Decodable {
         }
     }
     
+    func updateOnlineStatus(_ seconds: Double) {
+        let differenceInSeconds = Date().timeIntervalSince1970 - seconds
+        isOnline = differenceInSeconds <= 240
+    }
+    
     init(dictionary: [String: Any]) {
         username = (dictionary["username"] as? String)?.capitalized ?? ""
         profilePicUrl = dictionary["profilePicUrl"] as? String ?? ""
         uid = dictionary["uid"] as? String
         type = dictionary["type"] as? String ?? ""
-        isOnline = dictionary["online"] as? Bool ?? false
+        let onlineSecondsAgo = dictionary["online"] as? Double ?? 1000
+        updateOnlineStatus(onlineSecondsAgo)
     }
 }
 

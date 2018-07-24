@@ -346,6 +346,10 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         }
     }
     
+    func listenForSessionStatusChanges() {
+//        Database.database().reference().child("sessions").child(<#T##pathString: String##String#>)
+    }
+    
     func scrollToBottom(animated: Bool) {
         guard messages.count > 0 else { return }
         let index = IndexPath(row: messages.count - 1, section: 0)
@@ -490,6 +494,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
 
 			cell.updateUI(message: message)
             cell.bubbleWidthAnchor?.constant = 220
+            cell.delegate = self
             cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
             return cell
         }
@@ -725,4 +730,15 @@ extension ConversationVC: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return canSendMessages
     }
+}
+
+extension ConversationVC: SessionRequestCellDelegate {
+    func sessionRequestCellShouldRequestSession(cell: SessionRequestCell) {
+        showSessionRequestView()
+    }
+    func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest) {
+        
+    }
+    
+    
 }

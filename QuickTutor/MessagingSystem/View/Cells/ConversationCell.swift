@@ -27,7 +27,7 @@ class ConversationCell: UICollectionViewCell {
     
     let profileImageView: UserImageView = {
         let iv = UserImageView(frame: CGRect.zero)
-        iv.onlineStatusIndicator.backgroundColor = .green
+        iv.onlineStatusIndicator.backgroundColor = Colors.navBarGreen
         return iv
     }()
     
@@ -247,7 +247,9 @@ class ConversationCell: UICollectionViewCell {
     }
     
     private func updateOnlineStatusIndicator() {
-        profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? .green : .red
+        profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? Colors.navBarGreen : Colors.qtRed
+//        profileImageView.onlineStatusIndicator.layer.borderColor = Colors.backgroundDark.darker(by: 2)?.cgColor
+//        profileImageView.onlineStatusIndicator.layer.borderWidth = 2
     }
     
     private func updateProfileImage() {

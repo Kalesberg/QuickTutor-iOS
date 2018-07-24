@@ -48,10 +48,10 @@ class OnlineStatusService {
             let differenceInSeconds = Date().timeIntervalSince1970 - value
             print(differenceInSeconds)
             var result = ""
-            if differenceInSeconds < 60 {
+            if differenceInSeconds < 240 {
                 result = "Active now"
                 self.isActive = true
-            } else if  differenceInSeconds >= 60 && differenceInSeconds < 3600 {
+            } else if  differenceInSeconds >= 240 && differenceInSeconds < 3600 {
                 result = "Active \(Int(differenceInSeconds / 60))m ago"
                 self.isActive = false
             } else if differenceInSeconds >= 3600 && differenceInSeconds < 86400 {

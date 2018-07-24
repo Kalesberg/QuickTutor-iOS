@@ -12,7 +12,7 @@ class DimmableButton: UIButton {
     
     func setupTargets() {
         addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
-        addTarget(self, action: #selector(handleTouchUp), for: [.touchUpInside, .touchUpOutside, .touchDragExit])
+        addTarget(self, action: #selector(handleTouchUp), for: [.touchUpInside, .touchUpOutside, .touchDragExit, .touchCancel])
     }
     
     @objc func handleTouchDown() {
@@ -23,7 +23,10 @@ class DimmableButton: UIButton {
     }
     
     @objc func handleTouchUp() {
-        
+        backgroundColor = backgroundColor?.lighter(by: 15)
+        guard let titleColor = titleColor(for: .normal), let borderColor = layer.borderColor?.uiColor() else { return }
+        setTitleColor(titleColor.lighter(by: 15), for: .normal)
+        layer.borderColor = borderColor.lighter(by: 15)?.cgColor
     }
     
     override init(frame: CGRect) {

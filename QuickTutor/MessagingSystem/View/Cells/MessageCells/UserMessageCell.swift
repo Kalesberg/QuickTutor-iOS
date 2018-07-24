@@ -12,6 +12,7 @@ import Firebase
 class UserMessageCell: BaseMessageCell {
     
     var chatPartner: User?
+    var userMessage: UserMessage?
     
     let bubbleView: UIView = {
         let view = UIView()
@@ -49,6 +50,7 @@ class UserMessageCell: BaseMessageCell {
     
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
+        userMessage = message
         textView.text = message.text
         guard let uid = Auth.auth().currentUser?.uid else { return }
         message.senderId == uid ? setupBubbleViewAsSentMessage() : setupBubbleViewAsReceivedMessage()
@@ -72,7 +74,9 @@ class UserMessageCell: BaseMessageCell {
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
         }
-        bubbleView.backgroundColor = Colors.currentUserColor()
+        if userMessage?.sessionRequestId == nil {
+            bubbleView.backgroundColor = Colors.currentUserColor()
+        }
         bubbleViewRightAnchor?.isActive = true
         bubbleViewLeftAnchor?.isActive = false
         profileImageView.isHidden = true
@@ -84,7 +88,9 @@ class UserMessageCell: BaseMessageCell {
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
-        bubbleView.backgroundColor = Colors.otherUserColor()
+        if userMessage?.sessionRequestId == nil {
+            bubbleView.backgroundColor = Colors.otherUserColor()
+        }
         bubbleViewLeftAnchor?.constant = 52
         bubbleViewLeftAnchor?.isActive = true
         bubbleViewRightAnchor?.isActive = false
