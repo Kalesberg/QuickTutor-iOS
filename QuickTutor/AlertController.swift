@@ -117,11 +117,30 @@ class AlertController : NSObject {
 			}
 		}
 	}
+	
 	class func genericErrorAlertWithoutCancel(_ viewController: UIViewController, title: String, message: String?) {
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		let remove = UIAlertAction(title: "Ok", style: .default) { (_) in }		
 		alertController.addAction(remove)
 		viewController.present(alertController, animated: true, completion: nil)
+	}
+
+	class func requestPermissionFromSettingsAlert(_ viewController: UIViewController, title: String?, message: String?) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { action in
+			UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+		})
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+		viewController.present(alert, animated: true, completion: nil)
+	}
+	class func addToCalendarSaved(_ viewController: UIViewController) {
+		let alertController = UIAlertController(title: "Event Saved to Calendar!", message: nil, preferredStyle: .alert)
+		viewController.present(alertController, animated: true, completion: nil)
+		
+		let when = DispatchTime.now() + 2
+		DispatchQueue.main.asyncAfter(deadline: when) {
+			alertController.dismiss(animated: true, completion: nil)
+		}
 	}
 }
 

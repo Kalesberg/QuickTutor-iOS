@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import CoreLocation
 import AVFoundation
+import EventKit
 
 class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
@@ -203,8 +204,8 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         listenForReadReceipts()
         setupKeyboardObservers()
         studentKeyboardAccessory.chatView.delegate = self
-		
-		
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -219,10 +220,10 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             displayTutorial()
             UserDefaults.standard.set(false, forKey: "showMessagingSystemTutorial1.0")
         }
-		if UserDefaults.standard.bool(forKey: "showMessagingSystemTutorial1.0") {
-			displayTutorial()
-			UserDefaults.standard.set(false, forKey: "showMessagingSystemTutorial1.0")
-		}
+        if UserDefaults.standard.bool(forKey: "showMessagingSystemTutorial1.0") {
+            displayTutorial()
+            UserDefaults.standard.set(false, forKey: "showMessagingSystemTutorial1.0")
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -498,7 +499,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         if message.sessionRequestId != nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestCell
 
-			cell.updateUI(message: message)
+            cell.updateUI(message: message)
             cell.bubbleWidthAnchor?.constant = 220
             cell.delegate = self
             cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
@@ -654,14 +655,14 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
     }
 
     func showSessionRequestView() {
-		resignFirstResponder()
-		FirebaseData.manager.fetchRequestSessionData(uid: receiverId) { (requestData) in
-			guard let requestData = requestData else { return }
-			let requestSessionModal = RequestSessionModal(uid: self.receiverId, requestData: requestData)
-			requestSessionModal.frame = self.view.bounds
-			self.view.addSubview(requestSessionModal)
-		}
-		
+        resignFirstResponder()
+        FirebaseData.manager.fetchRequestSessionData(uid: receiverId) { (requestData) in
+            guard let requestData = requestData else { return }
+            let requestSessionModal = RequestSessionModal(uid: self.receiverId, requestData: requestData)
+            requestSessionModal.frame = self.view.bounds
+            self.view.addSubview(requestSessionModal)
+        }
+        
     }
     
     func shareUsernameForUserId() {
@@ -761,8 +762,40 @@ extension ConversationVC: SessionRequestCellDelegate {
         showSessionRequestView()
     }
     func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest) {
-        print("2")
+        cancelSessionModal = CancelSessionModal(frame: .zero)
+        guard let id = session.id else { return }
+        cancelSessionModal?.sessionId = id
+        cancelSessionModal?.delegate = self
+        cancelSessionModal?.show()
+        guard let indexPath = messagesCollection.indexPath(for: cell) else { return }
+        cancelSessionIndex = indexPath
     }
+	func sessionRequestCell(cell: SessionRequestCell, shouldAddToCalendar session: SessionRequest) {
+		let eventStore : EKEventStore = EKEventStore()
+		eventStore.requestAccess(to: .event) { (granted, error) in
+			if error != nil {
+				AlertController.genericErrorAlertWithoutCancel(self, title: "Oops!", message: error!.localizedDescription)
+				return
+			}
+			if granted {
+				let event : EKEvent = EKEvent(eventStore: eventStore)
+				event.title = "QuickTutor session: \(session.subject ?? "")"
+				event.startDate = NSDate(timeIntervalSince1970: (session.startTime!)) as Date
+				event.endDate =  NSDate(timeIntervalSince1970: (session.endTime!)) as Date
+				event.calendar = eventStore.defaultCalendarForNewEvents
+				do {
+					try eventStore.save(event, span: .thisEvent)
+				} catch let error as NSError {
+					AlertController.genericErrorAlertWithoutCancel(self, title: "Oops!", message: error.localizedDescription)
+				}
+				DispatchQueue.main.async {
+					cell.setStatusLabel()
+				}
+			} else {
+				AlertController.requestPermissionFromSettingsAlert(self, title: nil, message: "This action requires access to Calendar. Would you like to open settings and grant permission to Calendar?")
+			}
+		}
+	}
 }
 
 extension ConversationVC: CustomModalDelegate {
