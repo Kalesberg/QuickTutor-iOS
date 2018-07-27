@@ -631,13 +631,14 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
     }
 
     func showSessionRequestView() {
+		resignFirstResponder()
 		FirebaseData.manager.fetchRequestSessionData(uid: receiverId) { (requestData) in
 			guard let requestData = requestData else { return }
 			let requestSessionModal = RequestSessionModal(uid: self.receiverId, requestData: requestData)
 			requestSessionModal.frame = self.view.bounds
 			self.view.addSubview(requestSessionModal)
 		}
-		resignFirstResponder()
+		
     }
     
     func shareUsernameForUserId() {
@@ -737,7 +738,7 @@ extension ConversationVC: SessionRequestCellDelegate {
         showSessionRequestView()
     }
     func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest) {
-        
+        print("2")
     }
     
     

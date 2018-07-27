@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
-var category : [Category] = Category.categories.shuffled()
+var category : [Category] = Category.categories
 
 class LearnerMainPageView : MainPageView {
     
@@ -90,7 +90,6 @@ class LearnerMainPage : MainPage {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		
 		AccountService.shared.currentUserType = .learner
         guard let learner = CurrentUser.shared.learner else {
             self.navigationController?.pushViewController(SignIn(), animated: true)

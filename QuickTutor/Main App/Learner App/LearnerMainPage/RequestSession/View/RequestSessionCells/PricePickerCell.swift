@@ -56,6 +56,7 @@ class RequestSessionPriceCell : UITableViewCell {
 		textField.keyboardAppearance = .dark
 		textField.tintColor = Colors.tutorBlue
 		textField.isUserInteractionEnabled = false
+		
 		return textField
 	}()
 	

@@ -90,7 +90,7 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
 		tableView.showsVerticalScrollIndicator = false
-		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+		tableView.backgroundColor = Colors.backgroundDark
 		tableView.allowsMultipleSelection = true
 		tableView.alpha = 0.0
 		
@@ -226,7 +226,6 @@ class EditTutorSubjects : BaseViewController {
 	var automaticScroll : Bool = false
 	var shouldUpdateSearchResults = false
 	
-	
 	var filteredSubjects : [(String, String)] = []
 	var partialSubjects : [(String, String)] = []
 	var allSubjects : [(String, String)] = []
@@ -241,14 +240,16 @@ class EditTutorSubjects : BaseViewController {
 	
 	var tutor : AWTutor!
 	
-	var selectedSubjects : [String] = [] {
+	var selectedSubjects = [String]() {
 		didSet {
 			contentView.noSelectedItemsLabel.isHidden = !selectedSubjects.isEmpty
 			contentView.categoryCollectionView.reloadData()
 			contentView.nextButton.label.text = "Save (\(selectedSubjects.count))"
 		}
 	}
-	var selected : [Selected] = [] {
+	var removedSubjects = [Selected]()
+	
+	var selected = [Selected]() {
 		didSet {
 			contentView.categoryCollectionView.reloadData()
 		}
@@ -276,7 +277,7 @@ class EditTutorSubjects : BaseViewController {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
 		configureDelegates()
-		
+
 		if let subjects = SubjectStore.loadTotalSubjectList() {
 			self.allSubjects = subjects
 			self.allSubjects.shuffle()
@@ -314,7 +315,6 @@ class EditTutorSubjects : BaseViewController {
 		contentView.tableView.register(AddSubjectsTableViewCell.self, forCellReuseIdentifier: "addSubjectsCell")
 		
 		contentView.searchBar.delegate = self
-		
 	}
 	
 	
@@ -327,21 +327,20 @@ class EditTutorSubjects : BaseViewController {
 		
 		UIView.animate(withDuration: 0.25, animations: {
 			self.contentView.tableView.alpha = bool ? 1.0 : 0.0
-			completion()
-			return
+			return completion()
 		})
 	}
 	
 	private func removeItem (item: Int) {
+		removedSubjects.append(selected[item])
 		selectedSubjects.remove(at: item)
 		selected.remove(at: item)
 		
 		let indexPath = IndexPath(row: item, section: 0)
 		self.contentView.pickedCollectionView.performBatchUpdates({
 			self.contentView.pickedCollectionView.deleteItems(at: [indexPath])
-			
 		}) { (finished) in
-			
+
 			self.contentView.pickedCollectionView.reloadItems(at:
 				self.contentView.pickedCollectionView.indexPathsForVisibleItems)
 			self.contentView.nextButton.label.text = "Save (\(self.selected.count))"
@@ -357,75 +356,101 @@ class EditTutorSubjects : BaseViewController {
 	
 	private func deleteSubjects() {
 		
-		var currentSubs: [String] = []
-		var newSubs : [String] = []
-		var subcategoriesToDelete : [String] = []
-		for i in tutor.selected {
-			currentSubs.append(i.path)
-		}
-		for j in selected {
-			newSubs.append(j.path)
-		}
-		for k in currentSubs.unique {
+		var newSubs = [String]()
+		var subcategoriesToDelete = [String]()
+		
+		newSubs = selected.map({$0.path})
+		
+		for k in tutor.selected.map({$0.path}).unique {
 			if !newSubs.contains(k) {
 				subcategoriesToDelete.append(k)
 			}
 		}
 		for i in 0..<subcategoriesToDelete.count {
-			
-			print("subjectToDelete", subcategoriesToDelete[i])
-			self.ref.child("subcategory").child(subcategoriesToDelete[i].lowercased()).child(CurrentUser.shared.learner.uid).removeValue()
-			self.ref.child("subject").child(CurrentUser.shared.learner.uid).child(subcategoriesToDelete[i].lowercased()).removeValue()
+			let subject = subcategoriesToDelete[i].lowercased().replacingOccurrences(of: "/", with: "_")
+			self.ref.child("subject").child(CurrentUser.shared.learner.uid).child(subject).removeValue()
 		}
+		for subject in removedSubjects {
+			let formattedSubject = subject.subject.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "#", with: "<").replacingOccurrences(of: ".", with: ">")
+			self.ref.child("subcategory").child(subject.path.lowercased()).child(CurrentUser.shared.learner.uid).child(formattedSubject).removeValue()
+		}
+		
 		tutor.subjects = self.selectedSubjects
 		tutor.selected = self.selected
 	}
 	
 	private func saveSubjects() {
-		
-		var subcategories : [String] = []
+		let group = DispatchGroup()
+	
 		var subjectDict = [String : [String]]()
-		
-		var post : [String : Any] = [:]
-		for i in selected {
-			subcategories.append(i.path)
-		}
-		
-		for subcategory in subcategories.unique {
-			
-			let path = subcategory
-			var arr : [String] = []
-			
+		var subjectsToUploadAfterTheFactUntilIFindABetterWay = [String : [String]]()
+		for subcategory in selected.map({ $0.path }).unique {
+			var arr = [String]()
 			for subject in selected {
-				if path == subject.path {
+				if subcategory == subject.path {
 					arr.append(subject.subject)
 				}
 			}
-			subjectDict[path] = arr
+			subjectDict[subcategory] = arr
 		}
 		
 		var updateSubjectValues 	= [String : Any]()
 		var updateSubcategoryValues = [String : Any]()
-		
 		for key in subjectDict {
-			
 			let subjects = key.value.compactMap({$0}).joined(separator: "$")
-			
-			updateSubjectValues["/subject/\(CurrentUser.shared.learner.uid)/\(key.key.lowercased())"] = ["p": tutor.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
-			
-			updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(CurrentUser.shared.learner.uid)"] = ["r" : 5, "p" : tutor.price!, "dst" : tutor.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
-		}
-		post.merge(updateSubjectValues) { (_, last) in last }
-		post.merge(updateSubcategoryValues) { (_, last) in last }
-		
-		ref.root.updateChildValues(post) { (error, databaseRef) in
-			if let error = error {
-				print(error.localizedDescription)
+			group.enter()
+			self.ref.child("subject").child(CurrentUser.shared.learner.uid).child(key.key.lowercased()).observeSingleEvent(of: .value) { (snapshot) in
+				if snapshot.exists(){
+					self.updateSubjects(node: key.key.lowercased(), values: key.value)
+					group.leave()
+				} else {
+					updateSubjectValues["/subject/\(CurrentUser.shared.learner.uid)/\(key.key.lowercased())"] = ["p": self.tutor.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
+					group.leave()
+				}
 			}
-			CurrentUser.shared.tutor.subjects = self.selectedSubjects
-			CurrentUser.shared.tutor.selected = self.selected
-			self.displaySavedAlertController()
+			group.enter()
+			self.ref.child("subcategory").child(key.key.lowercased()).child(CurrentUser.shared.learner.uid).observeSingleEvent(of: .value) { (snapshot) in
+				if snapshot.exists() {
+					self.updateSubcategorySubjects(node: key.key.lowercased(), values: key.value)
+					group.leave()
+				} else {
+					subjectsToUploadAfterTheFactUntilIFindABetterWay[key.key.lowercased()] = key.value
+					updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(CurrentUser.shared.learner.uid)"] = ["r" : 5, "p" : self.tutor.price!, "dst" : self.tutor.distance!, "hr" : 0,"sbj" : subjects, "nos" : 0]
+					group.leave()
+				}
+			}
 		}
+		group.notify(queue: .main) {
+			var post = [String : Any]()
+			post.merge(updateSubjectValues) { (_, last) in last }
+			post.merge(updateSubcategoryValues) { (_, last) in last }
+			
+			self.ref.updateChildValues(post) { (error, databaseRef) in
+				for key in subjectsToUploadAfterTheFactUntilIFindABetterWay {
+					self.updateSubcategorySubjects(node: key.key, values: key.value)
+				}
+				CurrentUser.shared.tutor.subjects = self.selectedSubjects
+				CurrentUser.shared.tutor.selected = self.selected
+				self.displaySavedAlertController()
+			}
+		}
+	}
+	
+	private func updateSubcategorySubjects(node: String, values: [String]?) {
+		guard values != nil else { return }
+		var post = [String : Any]()
+		for value in values! {
+			let formattedValue = value.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "#", with: "<").replacingOccurrences(of: ".", with: ">")
+			post[formattedValue] = formattedValue
+		}
+		print("POST: ", post)
+		self.ref.child("subcategory").child(node).child(CurrentUser.shared.learner.uid).updateChildValues(post)
+	}
+	
+	private func updateSubjects(node: String, values: [String]?) {
+		guard values != nil else { return }
+		let subjects = values!.compactMap({$0}).joined(separator: "$")
+		self.ref.child("subject").child(CurrentUser.shared.learner.uid).child(node).updateChildValues(["sbj" : subjects])
 	}
 	
 	private func displaySavedAlertController() {
@@ -452,10 +477,15 @@ class EditTutorSubjects : BaseViewController {
 		
 		self.present(alertController, animated: true, completion: nil)
 	}
+	
 	override func handleNavigation() {
 		if touchStartView is TutorPreferencesNextButton {
-			deleteSubjects()
-			saveSubjects()
+			if selectedSubjects.count > 0 {
+				deleteSubjects()
+				saveSubjects()
+			} else {
+				AlertController.genericErrorAlertWithoutCancel(self, title: "Oops!", message: "You must have at least 1 subject.")
+			}
 		} else if touchStartView is NavbarButtonDone {
 			tableView(shouldDisplay: false) {
 				self.didSelectCategory = false
@@ -473,7 +503,6 @@ class EditTutorSubjects : BaseViewController {
 extension EditTutorSubjects : SelectedSubcategory {
 	
 	func didSelectSubcategory(resource: String, subject: String, index: Int) {
-		
 		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
 			self.partialSubjects = subjects
 			self.filteredSubjects = self.partialSubjects
@@ -492,17 +521,11 @@ extension EditTutorSubjects : SelectedSubcategory {
 extension EditTutorSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	
 	internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		
-		if collectionView.tag == 0 {
-			return categories.count
-		} else {
-			return selectedSubjects.count
-		}
+		return collectionView.tag == 0 ? categories.count : selectedSubjects.count
 	}
 	
 	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		if collectionView.tag == 0 {
-			
 			return CGSize(width: UIScreen.main.bounds.width - 20, height: collectionView.frame.height)
 		} else {
 			if selectedSubjects.count > 0 {
@@ -545,20 +568,14 @@ extension EditTutorSubjects : UICollectionViewDelegate, UICollectionViewDataSour
 	}
 	
 	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-		if collectionView.tag == 0 {
-			return 20
-		}
-		return 0
+		return collectionView.tag == 0 ? 20 : 0
 	}
 }
 
 extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 	
 	internal func numberOfSections(in tableView: UITableView) -> Int {
-		if shouldUpdateSearchResults {
-			return filteredSubjects.count
-		}
-		return allSubjects.count
+		return shouldUpdateSearchResults ? filteredSubjects.count : allSubjects.count
 	}
 	
 	internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -598,17 +615,11 @@ extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		if section == 0 {
-			return 50
-		}
-		return 5
+		return section == 0 ? 50 : 5
 	}
 	
 	internal func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-		if section != 0{
-			return 5
-		}
-		return 0
+		return section != 0 ? 5 : 0
 	}
 	
 	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -662,7 +673,6 @@ extension EditTutorSubjects : UISearchBarDelegate {
 		automaticScroll = true
 		
 		if searchText == ""  {
-			
 			tableView(shouldDisplay: false) {
 				self.didSelectCategory = false
 				self.contentView.searchBar.text = ""
@@ -675,16 +685,13 @@ extension EditTutorSubjects : UISearchBarDelegate {
 			filteredSubjects = partialSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
 			contentView.tableView.reloadData()
 			return
-			
 		} else {
 			tableView(shouldDisplay: true) {
 				self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
 				self.contentView.tableView.reloadData()
 			}
 		}
-		if filteredSubjects.count > 0 {
-			scrollToTop()
-		}
+		scrollToTop()
 	}
 }
 
@@ -696,6 +703,7 @@ extension EditTutorSubjects : UIScrollViewDelegate {
 		}
 	}
 	private func scrollToTop() {
+		if filteredSubjects.count < 1 { return }
 		contentView.tableView.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)
 		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)

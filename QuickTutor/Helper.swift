@@ -329,7 +329,7 @@ enum Category {
     case tech
     case trades
     
-    static let categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
+    static let categories : [Category] = [.arts, .business, .language, .academics, .lifestyle, .tech, .sports, .outdoors, .auto, .trades, .health, .remedial]
     
     var subcategory : Subcategory {
         

@@ -120,7 +120,7 @@ class SessionRequestCell: UserMessageCell {
             buttonView.setupAsPending()
             buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
         case "declined":
-            udpdateAsDenied()
+            updateAsDenied()
             buttonView.setupAsDenied()
             buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
         case "accepted":
@@ -143,7 +143,7 @@ class SessionRequestCell: UserMessageCell {
         titleLabel.text = "Request Accepted"
     }
     
-    func udpdateAsDenied() {
+    func updateAsDenied() {
         titleBackground.backgroundColor = Colors.qtRed
         titleLabel.text = "Request Denied"
         dimContent()
@@ -264,14 +264,16 @@ class SessionRequestCell: UserMessageCell {
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("declined")
         sessionCache.removeValue(forKey: sessionRequestId)
         buttonView.setupAsDenied()
-        udpdateAsDenied()
+        updateAsDenied()
     }
     
     @objc func requestSession() {
+		print("Request.")
         delegate?.sessionRequestCellShouldRequestSession(cell: self)
     }
     
     @objc func cancelSession() {
+		print("Cancel")
         guard let request = sessionRequest else { return }
         delegate?.sessionRequestCell(cell: self, shouldCancel: request)
     }
