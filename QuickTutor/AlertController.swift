@@ -6,7 +6,7 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 import UIKit
-
+import EventKit
 class AlertController : NSObject {
 	
 	class func cropImageAlert(_ viewController: UIViewController, imagePicker: UIImagePickerController, allowsEditing: Bool) {
@@ -124,3 +124,4 @@ class AlertController : NSObject {
 		viewController.present(alertController, animated: true, completion: nil)
 	}
 }
+
