@@ -110,6 +110,8 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     }
     
     override func confirmManualStart() {
+        checkPermissions()
+        removeStartData()
         socket.emit(SocketEvents.manualStartAccetped, ["roomKey": sessionId!])
     }
     

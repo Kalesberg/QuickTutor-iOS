@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import SocketIO
+import AVFoundation
 
 class BaseSessionStartVC: UIViewController {
     
@@ -113,7 +114,6 @@ class BaseSessionStartVC: UIViewController {
         guard let sessionId = sessionId, let uid = Auth.auth().currentUser?.uid else { return }
         DataService.shared.getSessionById(sessionId) { (sessionIn) in
             self.session = sessionIn
-//            self.removeStartData()
             SessionService.shared.session = sessionIn
             let userType = AccountService.shared.currentUserType == .learner ? "tutor" : "learner"
             self.statusLabel.text = "Waiting for your \(userType) to accept the manual start..."
@@ -244,13 +244,18 @@ class BaseSessionStartVC: UIViewController {
     }
     
     @objc func confirmManualStart() {
+        removeStartData()
         let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType" : session?.type]
         socket.emit(SocketEvents.manualStartAccetped, data)
-        print("ZACH: Data emiited when start accepted:", data, "\n\n\nFinished")
     }
     
-    private func removeStartData() {
+    func removeStartData() {
         guard let uid = Auth.auth().currentUser?.uid, let sessionId = session?.id else { return }
+        Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
+    }
+    
+    func removePartnerStartData() {
+        guard let uid = partnerId, let sessionId = session?.id else { return }
         Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
     }
     
@@ -263,6 +268,8 @@ class BaseSessionStartVC: UIViewController {
         
         socket.on(SocketEvents.cancelSession) { (data, ack) in
             print("should cancel session")
+            self.removeStartData()
+            self.removePartnerStartData()
             self.navigationController?.popViewController(animated: true)
         }
     }
@@ -274,8 +281,53 @@ class BaseSessionStartVC: UIViewController {
         setupSocket()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard checkPermissions() else { return }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
+    }
+    
+    func checkPermissions() -> Bool {
+        if checkCameraAccess() && checkMicrophoneAccess() {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func checkCameraAccess() -> Bool {
+        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+            return true
+        } else {
+            let alert = UIAlertController(title: "Camera Required", message: "Camera access is required for video sessions.", preferredStyle: .alert)
+            
+            // Add "OK" Button to alert, pressing it will bring you to the settings app
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+            }))
+            // Show the alert with animation
+            self.present(alert, animated: true)
+            return false
+        }
+    }
+    
+    func checkMicrophoneAccess() -> Bool {
+        if AVCaptureDevice.authorizationStatus(for: .audio) ==  .authorized {
+            return true
+        } else {
+            let alert = UIAlertController(title: "Microphone Required", message: "Microphone access is required for video sessions", preferredStyle: .alert)
+            
+            // Add "OK" Button to alert, pressing it will bring you to the settings app
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+            }))
+            // Show the alert with animation
+            self.present(alert, animated: true)
+            return false
+        }
     }
 
 }

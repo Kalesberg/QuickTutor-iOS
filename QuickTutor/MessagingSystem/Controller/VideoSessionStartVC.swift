@@ -66,5 +66,5 @@ class VideoSessionStartVC: BaseSessionStartVC {
             print(error.localizedDescription)
         }
     }
-    
+
 }

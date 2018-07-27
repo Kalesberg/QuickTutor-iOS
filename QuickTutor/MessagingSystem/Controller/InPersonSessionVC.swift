@@ -111,7 +111,6 @@ class InPersonSessionVC: BaseSessionVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        removeStartData()
         updateUI()
     }
 }

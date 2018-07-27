@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import CoreLocation
+import AVFoundation
 
 class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
@@ -30,6 +31,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     var conversationRead = false
     var shouldRequestSession = false
     var canSendMessages = true
+    var cameraAccessAllowed = false
     
     // MARK: Layout Views -
     let messagesCollection: UICollectionView = {
@@ -88,6 +90,9 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         let animator = ImageMessageAnimator(parentViewController: self)
         return animator
     }()
+    
+    var cancelSessionModal: CancelSessionModal?
+    var cancelSessionIndex: IndexPath?
     
     var containerViewBottomAnchor: NSLayoutConstraint?
     
@@ -208,6 +213,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         if shouldRequestSession {
             handleSessionRequest()
         }
+        
         
         if UserDefaults.standard.bool(forKey: "showMessagingSystemTutorial1.0") {
             displayTutorial()
@@ -560,6 +566,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
 extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func handleSendingImage() {
         studentKeyboardAccessory.hideActionView()
+        guard proceedWithCameraAccess() else { return }
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
@@ -617,6 +624,22 @@ extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControlle
                 message.data["imageHeight"] = image.size.width
                 self.sendMessage(message: message)
             })
+        }
+    }
+    
+    func proceedWithCameraAccess() -> Bool {
+        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+            return true
+        } else {
+            let alert = UIAlertController(title: "Camera Required", message: "Camera access is absolutely necessary to use this app", preferredStyle: .alert)
+            
+            // Add "OK" Button to alert, pressing it will bring you to the settings app
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+            }))
+            // Show the alert with animation
+            self.present(alert, animated: true)
+            return false
         }
     }
 }
@@ -740,6 +763,23 @@ extension ConversationVC: SessionRequestCellDelegate {
     func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest) {
         print("2")
     }
+}
+
+extension ConversationVC: CustomModalDelegate {
     
+    func handleNevermind() {
+        
+    }
     
+    func handleCancel(id: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
+        DataService.shared.getSessionById(id) { (session) in
+            let chatPartnerId = session.partnerId()
+            Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
+        }
+        cancelSessionModal?.dismiss()
+        guard let index = cancelSessionIndex else { return }
+        messagesCollection.reloadItems(at: [index])
+    }
 }
