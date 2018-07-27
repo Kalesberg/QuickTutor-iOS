@@ -32,7 +32,7 @@ class RequestSessionDurationPickerCell : UITableViewCell {
 		return label
 	}()
 	
-	var datasource : [String] = ["15 min", "30 min","45 min", "1.0 hr","1.5 hr","2.0 hr","2.5 hr","3.0 hr","3.5 hr","4.0 hr","4.5 hr","5.0 hr","5.5 hr","6.0 hr","6.5 hr","7.0 hr","7.5 hr","8.0 hr","8.5 hr","9.0 hr","9.5 hr","10.0 hr","10.5 hr","11.0 hr","12.0 hr","12.5 hr"]
+	var datasource : [String] = ["Choose a duration","15 min", "30 min","45 min", "1.0 hr","1.5 hr","2.0 hr","2.5 hr","3.0 hr","3.5 hr","4.0 hr","4.5 hr","5.0 hr","5.5 hr","6.0 hr","6.5 hr","7.0 hr","7.5 hr","8.0 hr","8.5 hr","9.0 hr","9.5 hr","10.0 hr","10.5 hr","11.0 hr","12.0 hr","12.5 hr"]
 	
 	var delegate : RequestSessionDelegate?
 	
@@ -78,7 +78,9 @@ extension RequestSessionDurationPickerCell : UIPickerViewDelegate, UIPickerViewD
 		return datasource[row]
 	}
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		if row == 0 || row == 1 || row == 2 {
+		if row == 0 {
+			delegate?.durationChanged(displayDuration: nil, duration: nil)
+		} else if row == 1 || row == 2 || row == 3 {
 			let minuteString = datasource[row].removeCharacters(from: CharacterSet.decimalDigits.inverted)
 			guard let duration = Int(minuteString) else { return }
 			delegate?.durationChanged(displayDuration: datasource[row] ,duration: duration)

@@ -9,17 +9,16 @@
 import Foundation
 import UIKit
 
-
 class TutorMainTipsView : MainLayoutTitleOneButton {
 	
-	var backButton = NavbarButtonBack()
+	var backButton = NavbarButtonX()
 	
 	override var leftButton: NavbarButton {
 		get {
 			return backButton
 		}
 		set {
-			backButton = newValue as! NavbarButtonBack
+			backButton = newValue as! NavbarButtonX
 		}
 	}
 	
@@ -55,7 +54,8 @@ class TutorMainTipsView : MainLayoutTitleOneButton {
         addSubview(backgroundImageView)
         addSubview(tableView)
         super.configureView()
-        
+		
+		backButton.image.image = #imageLiteral(resourceName: "back-button")
         title.label.text = "Tutor Tips"
     }
     
@@ -96,7 +96,7 @@ class TutorMainTips : BaseViewController {
         contentView.tableView.register(TutorTipsTableViewCell.self, forCellReuseIdentifier: "tutorTipsTableViewCell")
     }
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonBack {
+		if touchStartView is NavbarButtonX {
 			contentView.backgroundImageView.isHidden = true
 			navigationController?.popViewController(animated: true)
 		}

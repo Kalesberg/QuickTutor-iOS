@@ -162,7 +162,7 @@ class QueryData {
 		}
 	}
 	
-	func queryAWTutorByCategory(category: Category, lastKnownKey: String?, limit: UInt, _ completion: @escaping ([FeaturedTutor]?) -> Void) {
+	func queryAWTutorByCategory(category: Category, lastKnownKey: String?, limit: UInt,_ completion: @escaping ([FeaturedTutor]?) -> Void) {
 		var tutors : [FeaturedTutor] = []
 		let group = DispatchGroup()
 		let query : DatabaseQuery!
@@ -194,17 +194,17 @@ class QueryData {
 			}
 		}
 	}
-	
-	func queryAWTutorBySubject(subcategory: String, subject: String, _ completion: @escaping ([AWTutor]?) -> Void) {
-		
-		var tutors : [AWTutor] = []
+
+	func queryAWTutorBySubject(subcategory: String, subject: String,_ completion: @escaping ([AWTutor]?) -> Void) {
+		var tutors = [AWTutor]()
 		let group = DispatchGroup()
 		
-		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "r").queryStarting(atValue: 3.0).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
-			
+		let formattedSubject = subject.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "#", with: "<").replacingOccurrences(of: ".", with: ">")
+
+		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: formattedSubject).queryEqual(toValue: formattedSubject).observeSingleEvent(of: .value, with: { (snapshot) in
+		
 			for snap in snapshot.children {
-				guard let child = snap as? DataSnapshot,child.key != CurrentUser.shared.learner.uid  else { continue }
-				
+				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid  else { continue }
 				group.enter()
 				FirebaseData.manager.fetchTutor(child.key, isQuery: true, { (tutor) in
 					if let tutor = tutor {
@@ -216,7 +216,7 @@ class QueryData {
 			group.notify(queue: .main) {
 				completion(tutors)
 			}
-		}
+		})
 	}
 	
 	func queryAWTutorBySubcategory(subcategory: String, _ completion: @escaping ([AWTutor]?) -> Void) {
@@ -227,9 +227,7 @@ class QueryData {
 		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: "r").queryStarting(atValue: 3.0).queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
 			
 			for snap in snapshot.children {
-				
 				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
-				
 				group.enter()
 				FirebaseData.manager.fetchTutor(child.key, isQuery: true, { (tutor) in
 					if let tutor = tutor {

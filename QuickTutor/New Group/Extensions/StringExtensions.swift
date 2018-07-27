@@ -159,6 +159,12 @@ extension String {
 	func removeCharacters(from: String) -> String {
 		return removeCharacters(from: CharacterSet(charactersIn: from))
 	}
+	mutating func removeForbiddenCharsForDB() -> String {
+		return self.replacingOccurrences(of: ".", with: "<").replacingOccurrences(of: "#", with: ">").replacingOccurrences(of: "/", with: "_")
+	}
+	mutating func replaceForbiddenChars() -> String {
+		return self.replacingOccurrences(of: "<", with: ".").replacingOccurrences(of: ">", with: "#").replacingOccurrences(of: "_", with: "/")
+	}
 }
 
 extension MutableCollection {

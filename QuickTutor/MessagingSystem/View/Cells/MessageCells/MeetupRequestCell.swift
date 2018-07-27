@@ -8,10 +8,12 @@
 
 import UIKit
 import Firebase
+import EventKit
 
 protocol SessionRequestCellDelegate {
     func sessionRequestCellShouldRequestSession(cell: SessionRequestCell)
     func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest)
+	func sessionRequestCell(cell: SessionRequestCell, shouldAddToCalendar session: SessionRequest)
 }
 
 class SessionRequestCell: UserMessageCell {
@@ -120,12 +122,17 @@ class SessionRequestCell: UserMessageCell {
             buttonView.setupAsPending()
             buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
         case "declined":
-            udpdateAsDenied()
+            updateAsDenied()
             buttonView.setupAsDenied()
             buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
         case "accepted":
             updateAsAccepted()
-            buttonView.setupAsAccepted()
+			if eventAlreadyExists(session: self.sessionRequest) {
+				buttonView.setupAsAccepted(eventAlreadyAdded: true)
+			} else {
+				buttonView.setupAsAccepted(eventAlreadyAdded: false)
+				buttonView.setButtonActions(#selector(SessionRequestCell.addToCalendar), target: self)
+			}
         case "expired":
             updateAsCancelled()
             buttonView.setupAsCancelled()
@@ -137,13 +144,30 @@ class SessionRequestCell: UserMessageCell {
             break
         }
     }
-    
+    /*
+		MARK: // CHECKING FOR EXISTING EVENT
+	*/
+	func eventAlreadyExists(session: SessionRequest?) -> Bool {
+		guard let session = session else { return false }
+		let eventStore = EKEventStore()
+		let startDate = NSDate(timeIntervalSince1970: TimeInterval(session.startTime!))
+		let endDate = NSDate(timeIntervalSince1970: TimeInterval(session.endTime!))
+		let predicate = eventStore.predicateForEvents(withStart: startDate as Date, end: endDate as Date, calendars: nil)
+		let existingEvents = eventStore.events(matching: predicate)
+		for singleEvent in existingEvents {
+			if singleEvent.title == "QuickTutor session: \(session.subject ?? "")" && singleEvent.startDate == startDate as Date && singleEvent.endDate == endDate as Date {
+				return true
+			}
+		}
+		return false
+	}
+
     func updateAsAccepted() {
         titleBackground.backgroundColor = Colors.green
         titleLabel.text = "Request Accepted"
     }
     
-    func udpdateAsDenied() {
+    func updateAsDenied() {
         titleBackground.backgroundColor = Colors.qtRed
         titleLabel.text = "Request Denied"
         dimContent()
@@ -255,7 +279,7 @@ class SessionRequestCell: UserMessageCell {
         guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("accepted")
         sessionCache.removeValue(forKey: sessionRequestId)
-        buttonView.setupAsAccepted()
+		buttonView.setupAsAccepted(eventAlreadyAdded: false)
         updateAsAccepted()
     }
     
@@ -264,7 +288,7 @@ class SessionRequestCell: UserMessageCell {
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("declined")
         sessionCache.removeValue(forKey: sessionRequestId)
         buttonView.setupAsDenied()
-        udpdateAsDenied()
+        updateAsDenied()
     }
     
     @objc func requestSession() {
@@ -275,7 +299,10 @@ class SessionRequestCell: UserMessageCell {
         guard let request = sessionRequest else { return }
         delegate?.sessionRequestCell(cell: self, shouldCancel: request)
     }
-    
+	@objc func addToCalendar() {
+		guard let request = sessionRequest else { return }
+		delegate?.sessionRequestCell(cell: self, shouldAddToCalendar: request)
+	}
     override func prepareForReuse() {
         super.prepareForReuse()
         resetDim()
@@ -365,10 +392,10 @@ class SessionRequestCellButtonView: UIView {
         rightButton.removeTarget(nil, action: nil, for: .allEvents)
     }
     
-    func setupAsAccepted() {
+	func setupAsAccepted(eventAlreadyAdded: Bool) {
         setupAsSingleButton()
         setButtonTitleColors(Colors.navBarGreen)
-        setButtonTitles("Add to Calender")
+		setButtonTitles(eventAlreadyAdded ? "Event Added to Calendar" : "Add to Calender")
     }
     
     func setupAsDenied() {
@@ -403,6 +430,6 @@ class SessionRequestCellButtonView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     
 }
