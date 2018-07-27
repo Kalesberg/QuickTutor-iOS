@@ -279,6 +279,7 @@ class SessionRequestCell: UserMessageCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         resetDim()
+        buttonView.removeAllButtonActions()
     }
     
 }
@@ -357,6 +358,11 @@ class SessionRequestCellButtonView: UIView {
         for x in 0..<selectors.count {
             buttons[x].addTarget(target, action: selectors[x], for: .touchUpInside)
         }
+    }
+    
+    func removeAllButtonActions() {
+        leftButton.removeTarget(nil, action: nil, for: .allEvents)
+        rightButton.removeTarget(nil, action: nil, for: .allEvents)
     }
     
     func setupAsAccepted() {

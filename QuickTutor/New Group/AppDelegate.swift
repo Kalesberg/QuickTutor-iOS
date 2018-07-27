@@ -70,7 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         window?.makeKeyAndVisible()
 
         if let user = Auth.auth().currentUser {
-            self.listenForData()
             let defaults = UserDefaults.standard
             
             if defaults.bool(forKey: "showHomePage") {
@@ -114,6 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 navigationController.navigationBar.isHidden = true
                 self.window?.makeKeyAndVisible()
                 self.window?.rootViewController = navigationController
+                self.listenForData()
             }
         }
     }
