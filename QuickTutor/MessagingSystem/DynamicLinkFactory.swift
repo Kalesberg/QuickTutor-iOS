@@ -13,7 +13,7 @@ class DynamicLinkFactory {
     
     static let shared = DynamicLinkFactory()
     
-    let domain = "ev7bd.app.goo.gl"
+    let domain = "quicktutor.page.link"
     var sections = [Section]()
     var dictionary = [Params: String]()
     var longLink: URL?
@@ -31,7 +31,7 @@ class DynamicLinkFactory {
         
         dictionary[.bundleID] = Bundle.main.bundleIdentifier!
         let iOSParams = DynamicLinkIOSParameters(bundleID: dictionary[.bundleID]!)
-        iOSParams.appStoreID = "1352885966"
+        iOSParams.appStoreID = "1388092698"
         guard let linkString = dictionary[.link] else {
             print("Link can not be empty!")
             completion(nil)

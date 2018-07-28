@@ -69,36 +69,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         window?.rootViewController = launchScreen
         window?.makeKeyAndVisible()
 
-        if let user = Auth.auth().currentUser {
-            let defaults = UserDefaults.standard
-            
-            if defaults.bool(forKey: "showHomePage") {
-                FirebaseData.manager.signInLearner(uid: user.uid) { (successful) in
-                    if successful {
-                        if let fcmToken = Messaging.messaging().fcmToken {
-                            self.saveFCMToken(fcmToken)
-                        }
-                        self.configureRootViewController(controller: LearnerPageViewController())
-                    } else {
-                        self.configureRootViewController(controller: SignIn())
-                    }
-                }
-            } else {
-                FirebaseData.manager.signInTutor(uid: user.uid) { (successful) in
-                    if successful {
-                        if let fcmToken = Messaging.messaging().fcmToken {
-                            self.saveFCMToken(fcmToken)
-                        }
-                        self.configureRootViewController(controller: TutorPageViewController())
-                    } else {
-                        self.configureRootViewController(controller: SignIn())
-                    }
-                }
-            }
-        } else {
-            configureRootViewController(controller: SignIn())
-        }
+        handleSignIn {}
+        
         return true
+    }
+    
+    func handleSignIn(completion: @escaping () -> Void) {
+        guard let user = Auth.auth().currentUser else {
+            configureRootViewController(controller: SignIn())
+            completion()
+            return
+        }
+        
+        let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
+        let vc = typeOfUser == .learner ? LearnerPageViewController() : TutorPageViewController()
+        
+        FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
+            guard successful else {
+                self.configureRootViewController(controller: SignIn())
+                completion()
+                return
+            }
+            self.updateFCMTokenIfNeeded()
+            self.configureRootViewController(controller: vc)
+            completion()
+        }
+    }
+    
+    func updateFCMTokenIfNeeded() {
+        if let fcmToken = Messaging.messaging().fcmToken {
+            self.saveFCMToken(fcmToken)
+        }
     }
     
     func configureRootViewController(controller: UIViewController) {
@@ -119,8 +120,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+            self.handlIncomingDynamicLink(dynamicLink)
+        }
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         return handled
+        
+    }
+    
+    func handlIncomingDynamicLink(_ dynamicLink: DynamicLink) {
+        guard let pathComponents = dynamicLink.url?.pathComponents else { return }
+        handleSignIn {
+            self.handleDynamicLinkNavigation(uid: pathComponents[1])
+        }
+    }
+    
+    func handleDynamicLinkNavigation(uid: String) {
+        showProfileWithUid(uid)
+    }
+    
+    func showProfileWithUid(_ uid: String) {
+        let type = AccountService.shared.currentUserType
+        
+        if type == .learner {
+            FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
+                guard let tutor = tutor else { return }
+                let vc = TutorMyProfile()
+                vc.tutor = tutor
+                vc.contentView.rightButton.isHidden = true
+                vc.contentView.title.label.text = "@\(tutor.username!)"
+                navigationController.pushViewController(vc, animated: true)
+            })
+        } else {
+            FirebaseData.manager.fetchLearner(uid) { (learner) in
+                guard let learner = learner else { return }
+                let vc = LearnerMyProfile()
+                vc.learner = learner
+                vc.contentView.title.label.isHidden = true
+                vc.contentView.rightButton.isHidden = true
+                vc.isViewing = true
+                navigationController.pushViewController(vc, animated: true)
+            }
+        }
+    }
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        if let incomingUrl = userActivity.webpageURL {
+            let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incomingUrl, completion: { [weak self] (link, erorr) in
+                guard let stongSelf = self else { return }
+                if let dynamicLink = link, let _ = dynamicLink.url {
+                    stongSelf.handlIncomingDynamicLink(dynamicLink)
+                }
+            })
+            return linkHandled
+        }
+        return false
     }
     
     private func registerForPushNotifications(application: UIApplication) {

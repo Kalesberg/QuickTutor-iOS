@@ -9,12 +9,23 @@
 import UIKit
 
 protocol ImageMessageAnimatorDelegate {
-    func imageAnimatorDidFinishAnimating(_ imageAnimator: ImageMessageAnimator)
+    func imageAnimatorWillZoomIn(_ imageAnimator: ImageMessageAnimator)
+    func imageAnimatorDidZoomIn(_ imageAnimator: ImageMessageAnimator)
+    func imageAnimatorWillZoomOut(_ imageAnimator: ImageMessageAnimator)
+    func imageAnimatorDidZoomOut(_ imageAnimator: ImageMessageAnimator)
+}
+
+extension ImageMessageAnimatorDelegate {
+    func imageAnimatorWillZoomIn(_ imageAnimator: ImageMessageAnimator) {}
+    func imageAnimatorDidZoomIn(_ imageAnimator: ImageMessageAnimator) {}
+    func imageAnimatorWillZoomOut(_ imageAnimator: ImageMessageAnimator) {}
+    func imageAnimatorDidZoomOut(_ imageAnimator: ImageMessageAnimator) {}
 }
 
 class ImageMessageAnimator: ImageMessageCellDelegate {
     
     var parentController: UIViewController!
+    var delegate: ImageMessageAnimatorDelegate?
     
     var imageCellImageView: UIImageView?
     let zoomView = UIImageView()
@@ -33,7 +44,9 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
     }()
     
     func handleZoomFor(imageView: UIImageView) {
+        delegate?.imageAnimatorWillZoomIn(self)
         guard let window = UIApplication.shared.keyWindow else { return }
+        parentController.resignFirstResponder()
         navBarCover.alpha = 0
         inputAccessoryCover.alpha = 0
         window.addSubview(navBarCover)
@@ -70,11 +83,14 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
             self.zoomBackground.alpha = 1
             self.navBarCover.alpha = 1
             self.parentController.inputAccessoryView?.alpha = 0
-            }.startAnimation()
+            self.parentController.resignFirstResponder()
+            self.delegate?.imageAnimatorDidZoomIn(self)
+        }.startAnimation()
         
     }
     
     @objc func zoomOut() {
+        delegate?.imageAnimatorWillZoomOut(self)
         guard let startingFrame = imageCellImageView!.superview?.convert(imageCellImageView!.frame, to: nil) else { return }
         
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
@@ -96,6 +112,6 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
     }
     
     init(parentViewController: UIViewController) {
-        self.parentController = parentViewController
+        parentController = parentViewController
     }
 }

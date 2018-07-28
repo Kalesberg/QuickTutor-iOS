@@ -89,6 +89,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     let teacherKeyboardAccessory = TeacherKeyboardAccessory()
     lazy var imageMessageAnimator: ImageMessageAnimator = {
         let animator = ImageMessageAnimator(parentViewController: self)
+        animator.delegate = self
         return animator
     }()
     
@@ -763,6 +764,7 @@ extension ConversationVC: SessionRequestCellDelegate {
         showSessionRequestView()
     }
     func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest) {
+        studentKeyboardAccessory.messageTextview.resignFirstResponder()
         cancelSessionModal = CancelSessionModal(frame: .zero)
         guard let id = session.id else { return }
         cancelSessionModal?.sessionId = id
@@ -826,5 +828,11 @@ extension ConversationVC: CustomModalDelegate {
         cancelSessionModal?.dismiss()
         guard let index = cancelSessionIndex else { return }
         messagesCollection.reloadItems(at: [index])
+    }
+}
+
+extension ConversationVC: ImageMessageAnimatorDelegate {
+    func imageAnimatorWillZoomIn(_ imageAnimator: ImageMessageAnimator) {
+        studentKeyboardAccessory.messageTextview.resignFirstResponder()
     }
 }

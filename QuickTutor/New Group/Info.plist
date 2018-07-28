@@ -36,6 +36,16 @@
 				<string>com.googleusercontent.apps.306650114424-6a1pbl8253mvagr46vc7rtrb9sf4tie2</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.qt.dynamicLinks</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.quicktutor1.quicktutor</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>5</string>
@@ -56,6 +66,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string> Allow access to Calendar to save upcomming session details</string>
 	<key>NSCameraUsageDescription</key>
 	<string>For taking your profile picture</string>
 	<key>NSContactsUsageDescription</key>
@@ -92,8 +104,6 @@
 	<array>
 		<string>armv7</string>
 	</array>
-	<key>NSCalendarsUsageDescription</key>
-	<string> Allow access to Calendar to save upcomming session details</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

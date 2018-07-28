@@ -56,7 +56,6 @@
 		84257678207132DD00FD295B /* tech.json in Resources */ = {isa = PBXBuildFile; fileRef = 84257677207132DD00FD295B /* tech.json */; };
 		8425767A2071339500FD295B /* trades.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576792071339500FD295B /* trades.json */; };
 		8425BA08202E1BB100B2C5A7 /* CardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425BA07202E1BB100B2C5A7 /* CardManager.swift */; };
-		8426A1692055B8DD00EAF1A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8426A1682055B8DD00EAF1A8 /* GoogleService-Info.plist */; };
 		8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426A16A2055BC3200EAF1A8 /* Constants.swift */; };
 		8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426A16C2055C0D900EAF1A8 /* Interactables.swift */; };
 		842A5580209DF55700F6870A /* AdjustFiltersCollectViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842A557F209DF55700F6870A /* AdjustFiltersCollectViewCell.swift */; };
@@ -342,6 +341,7 @@
 		CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */; };
 		CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */; };
 		CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */; };
+		CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFB0283D210C241600B29972 /* GoogleService-Info.plist */; };
 		CFB60617207FA6B80029CFE4 /* FileReportActionsheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */; };
 		CFB60619207FB60C0029CFE4 /* FileReportActionsheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */; };
 		CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */; };
@@ -419,7 +419,6 @@
 		84257677207132DD00FD295B /* tech.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tech.json; sourceTree = "<group>"; };
 		842576792071339500FD295B /* trades.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trades.json; sourceTree = "<group>"; };
 		8425BA07202E1BB100B2C5A7 /* CardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManager.swift; sourceTree = "<group>"; };
-		8426A1682055B8DD00EAF1A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8426A16A2055BC3200EAF1A8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8426A16C2055C0D900EAF1A8 /* Interactables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactables.swift; sourceTree = "<group>"; };
 		842A557F209DF55700F6870A /* AdjustFiltersCollectViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustFiltersCollectViewCell.swift; sourceTree = "<group>"; };
@@ -717,6 +716,7 @@
 		CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemToggleCell.swift; sourceTree = "<group>"; };
 		CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSystemToggle.swift; sourceTree = "<group>"; };
 		CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableButton.swift; sourceTree = "<group>"; };
+		CFB0283D210C241600B29972 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheet.swift; sourceTree = "<group>"; };
 		CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheetCell.swift; sourceTree = "<group>"; };
 		CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectModal.swift; sourceTree = "<group>"; };
@@ -877,7 +877,7 @@
 				8425767B207133CE00FD295B /* SearchContent */,
 				8491C29A1FBE62350036FC12 /* AppDelegate.swift */,
 				8491C2A91FBE62350036FC12 /* Info.plist */,
-				8426A1682055B8DD00EAF1A8 /* GoogleService-Info.plist */,
+				CFB0283D210C241600B29972 /* GoogleService-Info.plist */,
 				CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */,
 				8491C2A11FBE62350036FC12 /* QuickTutor.xcdatamodeld */,
 				84472EAB1FC0DDED007DCD71 /* QuickTutor.entitlements */,
@@ -1745,6 +1745,9 @@
 							com.apple.Push = {
 								enabled = 1;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -1778,6 +1781,7 @@
 				8425766E20712E6C00FD295B /* health.json in Resources */,
 				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
 				84257678207132DD00FD295B /* tech.json in Resources */,
+				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
 				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
@@ -1786,7 +1790,6 @@
 				8425766820712C3600FD295B /* auto.json in Resources */,
 				8425766620712B2A00FD295B /* arts.json in Resources */,
 				845980511FD4FD4B007E9339 /* Lato in Resources */,
-				8426A1692055B8DD00EAF1A8 /* GoogleService-Info.plist in Resources */,
 				CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */,
 				84D3A8AD201149DF000C2031 /* Assets.xcassets in Resources */,
 				842576722071310A00FD295B /* outdoors.json in Resources */,

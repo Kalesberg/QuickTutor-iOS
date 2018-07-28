@@ -696,7 +696,21 @@ class FirebaseData {
 				})
 			}
 		}
+        
 	}
+    
+    func signInUserOfType(_ type: UserType, uid: String, completion: @escaping (Bool) -> Void) {
+        if type == .learner {
+            signInLearner(uid: uid) { (success) in
+                completion(success)
+            }
+        } else {
+            signInTutor(uid: uid) { (success) in
+                completion(success)
+            }
+        }
+    }
+    
 	deinit {
 		print("FirebaseData has De-initialized")
 	}
