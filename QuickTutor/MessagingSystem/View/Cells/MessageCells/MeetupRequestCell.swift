@@ -14,13 +14,15 @@ protocol SessionRequestCellDelegate {
     func sessionRequestCellShouldRequestSession(cell: SessionRequestCell)
     func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest)
 	func sessionRequestCell(cell: SessionRequestCell, shouldAddToCalendar session: SessionRequest)
+	func updateAfterCellButtonPress(indexPath: [IndexPath]?)
 }
 
 class SessionRequestCell: UserMessageCell {
     
     var sessionRequest: SessionRequest?
     var delegate: SessionRequestCellDelegate?
-    
+	var indexPath : [IndexPath]?
+	
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "You requested a session"
@@ -96,6 +98,7 @@ class SessionRequestCell: UserMessageCell {
     }
     
     func loadFromRequest() {
+		print("Loaded.")
         guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime() else { return }
         subjectLabel.text = subject
         priceLabel.text = "$\(price)0"
@@ -118,13 +121,17 @@ class SessionRequestCell: UserMessageCell {
         guard let status = self.sessionRequest?.status else { return }
         switch status {
         case "pending":
-            updateAsPending()
-            buttonView.setupAsPending()
-            buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
+			updateAsPending()
+			buttonView.setupAsPending()
+			if AccountService.shared.currentUserType == .learner {
+				buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
+			}
         case "declined":
-            updateAsDenied()
-            buttonView.setupAsDenied()
-            buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
+			updateAsDeclined()
+			buttonView.setupAsDeclined()
+			if AccountService.shared.currentUserType == .learner {
+				buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
+			}
         case "accepted":
             updateAsAccepted()
 			if eventAlreadyExists(session: self.sessionRequest) {
@@ -139,7 +146,9 @@ class SessionRequestCell: UserMessageCell {
         case "cancelled":
             updateAsCancelled()
             buttonView.setupAsCancelled()
-            buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
+			if AccountService.shared.currentUserType == .learner {
+            	buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
+			}
         default:
             break
         }
@@ -167,9 +176,9 @@ class SessionRequestCell: UserMessageCell {
         titleLabel.text = "Request Accepted"
     }
     
-    func updateAsDenied() {
+    func updateAsDeclined() {
         titleBackground.backgroundColor = Colors.qtRed
-        titleLabel.text = "Request Denied"
+        titleLabel.text = "Request Declined"
         dimContent()
     }
     
@@ -276,19 +285,21 @@ class SessionRequestCell: UserMessageCell {
     }
     
     @objc func acceptSessionRequest() {
-        guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
+		guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { print("return"); return }
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("accepted")
         sessionCache.removeValue(forKey: sessionRequestId)
 		buttonView.setupAsAccepted(eventAlreadyAdded: false)
         updateAsAccepted()
+		delegate?.updateAfterCellButtonPress(indexPath: indexPath)
     }
     
     @objc func declineSessionRequest() {
         guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("declined")
         sessionCache.removeValue(forKey: sessionRequestId)
-        buttonView.setupAsDenied()
-        updateAsDenied()
+        buttonView.setupAsDeclined()
+        updateAsDeclined()
+		delegate?.updateAfterCellButtonPress(indexPath: indexPath)
     }
     
     @objc func requestSession() {
@@ -299,6 +310,7 @@ class SessionRequestCell: UserMessageCell {
         guard let request = sessionRequest else { return }
         delegate?.sessionRequestCell(cell: self, shouldCancel: request)
     }
+	
 	@objc func addToCalendar() {
 		guard let request = sessionRequest else { return }
 		delegate?.sessionRequestCell(cell: self, shouldAddToCalendar: request)
@@ -398,10 +410,16 @@ class SessionRequestCellButtonView: UIView {
 		setButtonTitles(eventAlreadyAdded ? "Event Added to Calendar" : "Add to Calender")
     }
     
-    func setupAsDenied() {
+    func setupAsDeclined() {
+		if AccountService.shared.currentUserType == .learner {
         setupAsSingleButton()
         setButtonTitleColors(Colors.navBarGreen)
         setButtonTitles("Request a new session?")
+		} else {
+			setupAsSingleButton()
+			setButtonTitleColors(Colors.grayText)
+			setButtonTitles("You declined this session.")
+		}
     }
     
     func setupAsReceived() {

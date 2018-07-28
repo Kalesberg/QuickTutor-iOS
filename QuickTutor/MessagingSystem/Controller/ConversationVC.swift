@@ -502,6 +502,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.updateUI(message: message)
             cell.bubbleWidthAnchor?.constant = 220
             cell.delegate = self
+			cell.indexPath = [indexPath]
             cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
             return cell
         }
@@ -774,7 +775,7 @@ extension ConversationVC: SessionRequestCellDelegate {
 		let eventStore : EKEventStore = EKEventStore()
 		eventStore.requestAccess(to: .event) { (granted, error) in
 			if error != nil {
-				AlertController.genericErrorAlertWithoutCancel(self, title: "Oops!", message: error!.localizedDescription)
+				//AlertController.genericErrorAlertWithoutCancel(self, title: "Oops!", message: error!.localizedDescription)
 				return
 			}
 			if granted {
@@ -786,15 +787,26 @@ extension ConversationVC: SessionRequestCellDelegate {
 				do {
 					try eventStore.save(event, span: .thisEvent)
 				} catch let error as NSError {
-					AlertController.genericErrorAlertWithoutCancel(self, title: "Oops!", message: error.localizedDescription)
+					DispatchQueue.main.async {
+						AlertController.genericErrorAlertWithoutCancel(self, title: "Oops!", message: error.localizedDescription)
+					}
 				}
 				DispatchQueue.main.async {
 					cell.setStatusLabel()
 				}
 			} else {
-				AlertController.requestPermissionFromSettingsAlert(self, title: nil, message: "This action requires access to Calendar. Would you like to open settings and grant permission to Calendar?")
+				DispatchQueue.main.async {
+					AlertController.requestPermissionFromSettingsAlert(self, title: nil, message: "This action requires access to Calendar. Would you like to open settings and grant permission to Calendar?")
+				}
 			}
 		}
+	}
+	func updateAfterCellButtonPress(indexPath: [IndexPath]?) {
+		guard let paths = indexPath else {
+			messagesCollection.reloadData()
+			return
+		}
+		messagesCollection.reloadItems(at: paths)
 	}
 }
 
@@ -803,7 +815,7 @@ extension ConversationVC: CustomModalDelegate {
     func handleNevermind() {
         
     }
-    
+	
     func handleCancel(id: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
