@@ -418,14 +418,14 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
         cell.imageView.image = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.icon
         cell.backgroundColor = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.color
         cell.label.text = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.label
-        cell.label.textColor = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.color
+        cell.label.textColor = .white
 
-		if indexPath.item == 3 && (tutor.hours! < 30 || tutor.tRating! < 4.5) {
-			let lockView = UnlockCellView()
-			lockView.frame.size.height = cell.bounds.height - 30
-			lockView.frame.size.width = cell.bounds.width
-			cell.addSubview(lockView)
-		}
+        if indexPath.item == 3 && (tutor.hours! < 30 || tutor.tRating! < 4.5) {
+            let lockView = UnlockCellView()
+            lockView.frame.size.height = cell.bounds.height - 30
+            lockView.frame.size.width = cell.bounds.width
+            cell.addSubview(lockView)
+        }
         return cell
     }
 	

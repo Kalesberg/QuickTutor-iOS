@@ -40,7 +40,7 @@ class TutorEarningsView : MainLayoutTitleBackButton {
     let infoContainer : UIView = {
         let view = UIView()
         
-        view.backgroundColor = Colors.backgroundDark
+        view.backgroundColor = Colors.navBarColor
         
         return view
     }()
@@ -48,7 +48,7 @@ class TutorEarningsView : MainLayoutTitleBackButton {
     let imageView : UIImageView = {
         let view = UIImageView()
         
-        view.image = #imageLiteral(resourceName: "green-pattern").alpha(0.7)
+        view.image = #imageLiteral(resourceName: "green-pattern").alpha(0.39)
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.backgroundColor = Colors.green
@@ -56,13 +56,14 @@ class TutorEarningsView : MainLayoutTitleBackButton {
         return view
     }()
     
+    let earningsContainer = UIView()
+    
     let earnings2018 : UILabel = {
         let label = UILabel()
         
         label.font = Fonts.createBoldSize(15)
         label.textColor = .white
         label.text = "2018 EARNINGS"
-        label.backgroundColor = Colors.green
         label.textAlignment = .center
         
         return label
@@ -98,7 +99,8 @@ class TutorEarningsView : MainLayoutTitleBackButton {
         addSubview(infoContainer)
         infoContainer.addSubview(summaryLabel)
         infoContainer.addSubview(earningsLabel)
-        addSubview(earnings2018)
+        addSubview(earningsContainer)
+        earningsContainer.addSubview(earnings2018)
         addSubview(tableView)
         addSubview(recentStatementsLabel)
         super.configureView()
@@ -107,6 +109,12 @@ class TutorEarningsView : MainLayoutTitleBackButton {
         statusbarView.backgroundColor = Colors.green
         title.label.text = "Your Earnings"
         
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        earningsContainer.applyGradient(firstColor: UIColor(hex: "1A943F").cgColor, secondColor: UIColor(hex: "1FB45C").cgColor, angle: 80, frame: earningsContainer.bounds)
     }
     
     override func applyConstraints() {
@@ -123,16 +131,18 @@ class TutorEarningsView : MainLayoutTitleBackButton {
             make.edges.equalToSuperview()
         }
         
-        earnings2018.snp.makeConstraints { (make) in
+        earningsContainer.snp.makeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.top.equalTo(imageView.snp.bottom).inset(-1)
         }
-        
+        earnings2018.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+        }
         infoContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(earnings2018.snp.bottom)
-            make.height.equalTo(90)
+            make.top.equalTo(earnings2018.snp.bottom).inset(-1)
+            make.height.equalTo(100)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
@@ -260,7 +270,7 @@ class TutorEarnings : BaseViewController {
 		formattedString
 			.bold(last7Days.currencyFormat() + "\n", 15, .white)
 			.bold(last30Days.currencyFormat() + "\n", 15, .white)
-			.bold(allTime.currencyFormat() + "\n", 15, .white)
+			.bold(allTime.currencyFormat(), 15, .white)
 
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.lineSpacing = 8
@@ -328,7 +338,7 @@ class TutorEarningsTableCellView : BaseTableViewCell {
     let rightLabelContainer : UIView = {
         let view = UIView()
         
-        view.backgroundColor = Colors.green
+        view.backgroundColor = UIColor(hex: "1EAD4A")
         view.layer.cornerRadius = 11
         
         return view

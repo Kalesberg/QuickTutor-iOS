@@ -49,7 +49,7 @@ class YourListingView : MainLayoutTitleTwoButton {
 		layout.minimumInteritemSpacing = 0
 		
 		collectionView.collectionViewLayout = layout
-        collectionView.backgroundColor = Colors.tutorBlue
+        collectionView.backgroundColor = UIColor(hex: "344161")
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
 		collectionView.isPagingEnabled = true
@@ -65,6 +65,8 @@ class YourListingView : MainLayoutTitleTwoButton {
         
         return view
     }()
+    
+    let imageViewBackground = UIView()
     
     let categoryLabel : UILabel = {
         let label = UILabel()
@@ -114,14 +116,26 @@ class YourListingView : MainLayoutTitleTwoButton {
     override func configureView() {
         addSubview(scrollView)
 		addSubview(collectionView)
-		collectionView.addSubview(imageView)
+		collectionView.addSubview(imageViewBackground)
+        imageViewBackground.addSubview(imageView)
 		imageView.addSubview(categoryLabel)
         scrollView.addSubview(infoLabel)
         scrollView.addSubview(hideButton)
 		scrollView.addSubview(descriptionLabel)
         super.configureView()
+        
+        let navbarColor = UIColor(hex: "5785D4")
+        
+        navbar.backgroundColor = navbarColor
+        statusbarView.backgroundColor = navbarColor
 		
 		title.label.text = "Your Listing"
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        imageViewBackground.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 90, frame: imageViewBackground.bounds)
     }
     
     override func applyConstraints() {
@@ -139,12 +153,16 @@ class YourListingView : MainLayoutTitleTwoButton {
             make.bottom.equalToSuperview()
         }
 		
-        imageView.snp.makeConstraints { (make) in
+        imageViewBackground.snp.makeConstraints { (make) in
 			make.top.equalTo(260)
             make.width.centerX.equalToSuperview()
             make.height.equalTo(40)
         }
-
+        
+        imageView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
         categoryLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
         }
@@ -225,7 +243,6 @@ class NoListingView : BaseView {
 		addSubview(noListingsSubtitle)
 		addSubview(noListingsImageView)
 		super.configureView()
-		
 		
 		isUserInteractionEnabled = true
 		applyConstraints()
@@ -330,7 +347,7 @@ class YourListing : BaseViewController {
 			if let listings = listings {
 				self.listings = Array(listings.values)
 				self.categories = Array(listings.keys)
-				self.featuredCategory = self.categories[0].subcategory.fileToRead
+				//self.featuredCategory = self.categories[0].subcategory.fileToRead
 			}
 			self.dismissOverlay()
 		}
@@ -406,6 +423,7 @@ extension YourListing : UICollectionViewDelegate, UICollectionViewDataSource, UI
 
         cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: listings[indexPath.item].imageUrl)
         cell.price.text = listings[indexPath.item].price.priceFormat()
+        cell.view.backgroundColor = Colors.green
         cell.featuredTutor.namePrice.text = listings[indexPath.item].name
         cell.featuredTutor.region.text = listings[indexPath.item].region
         cell.featuredTutor.subject.text = listings[indexPath.item].subject
@@ -417,7 +435,7 @@ extension YourListing : UICollectionViewDelegate, UICollectionViewDataSource, UI
         cell.featuredTutor.ratingLabel.attributedText = formattedString
 		
 		contentView.categoryLabel.text = categories[indexPath.row].mainPageData.displayName
-		contentView.imageView.image = UIImage(named: "\(categories[indexPath.row].subcategory.fileToRead)-pattern")
+		contentView.imageView.image = UIImage(named: "\(categories[indexPath.row].subcategory.fileToRead)-pattern")?.alpha(0.35)
 		cell.layer.cornerRadius = 6
         
         return cell

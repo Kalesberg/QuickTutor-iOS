@@ -25,7 +25,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         let label = UILabel()
         
         label.textAlignment = .center
-        label.textColor = UIColor.init(hex: "AA9022")
+        label.textColor = .white
         label.font = Fonts.createBoldSize(15)
         
         return label
@@ -95,22 +95,22 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     
     func applyConstraints(){
         header.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(15)
+            make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            if UIScreen.main.bounds.height == 480 {
-                make.height.equalTo(140)
+            if(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
+                make.height.equalTo(175)
             } else {
-                make.height.equalTo(170)
+                make.height.equalTo(205)
             }
         }
         reviewLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
         }
-        
+
         reviewLabelContainer.snp.makeConstraints { (make) in
-            make.bottom.equalTo(header).inset(-13)
-            make.right.equalToSuperview().inset(8)
+            make.top.equalTo(header).inset(-13)
+            make.left.equalTo(rateLabelContainer.snp.right).inset(-10)
             make.width.equalTo(reviewLabel).inset(-12)
             make.height.equalTo(24)
         }
@@ -118,8 +118,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.center.equalToSuperview()
         }
         rateLabelContainer.snp.makeConstraints { (make) in
-            make.bottom.equalTo(header).inset(-13)
-            make.left.equalToSuperview().inset(20)
+            make.top.equalTo(header).inset(-13)
+            make.left.equalToSuperview().inset(-5)
             make.width.equalTo(rateLabel).inset(-16)
             make.height.equalTo(24)
         }
@@ -165,8 +165,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         applyDefaultShadow()
-        header.roundCorners([.topLeft, .topRight], radius: 22)
-        tableViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 22)
+        header.roundCorners([.topLeft, .topRight], radius: 10)
+        tableViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 10)
         header.profilePics.applyDefaultShadow()
     }
     private func configureDelegates() {
@@ -195,7 +195,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         tableViewContainer.backgroundColor = Colors.registrationDark
 
-        reviewLabelContainer.backgroundColor = Colors.yellow
+        reviewLabelContainer.backgroundColor = Colors.gold
         reviewLabelContainer.layer.cornerRadius = 12
         
         rateLabelContainer.backgroundColor = Colors.green
@@ -203,6 +203,10 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         distanceLabelContainer.backgroundColor = .white
         distanceLabelContainer.layer.cornerRadius = 28
+        
+        layoutIfNeeded()
+        print("s;fgjkdslkfg\n\n\n\n\n\ndfgdfsgsdf\n\n\n\n\n\n\n\n\nddrgfsdfgsdfgds")
+
     
     }
     override func handleNavigation() {
@@ -425,15 +429,13 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
     }
 }
 
-class TutorCardProfilePic : UIImageView, Interactable {
-    
-}
+class TutorCardProfilePic : UIImageView, Interactable {}
 
 class TutorCardHeader : InteractableView {
     
     let distance = TutorDistanceView()
     
-    var profilePics : TutorCardProfilePic = {
+    let profilePics : TutorCardProfilePic = {
         let view = TutorCardProfilePic()
         
         view.isUserInteractionEnabled = true
@@ -441,7 +443,23 @@ class TutorCardHeader : InteractableView {
         return view
     }()
     
-    var name : UILabel = {
+    let background : UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = UIColor(hex: "5785D4")
+        
+        return view
+    }()
+    
+    let nameContainer : UIView = {
+        let view = UIView()
+        
+        //view.backgroundColor = UIColor(hex: "5E90E6")
+        
+        return view
+    }()
+    
+    let name : UILabel = {
         var label = UILabel()
         
         label.textColor = .white
@@ -452,31 +470,45 @@ class TutorCardHeader : InteractableView {
         return label
     }()
     
+    let gradientView = UIView()
+    
     override func configureView() {
+        addSubview(background)
         addSubview(profilePics)
-        addSubview(name)
+        profilePics.addSubview(nameContainer)
+        nameContainer.addSubview(name)
+        profilePics.addSubview(gradientView)
         super.configureView()
-        backgroundColor = Colors.tutorBlue
+        
+        backgroundColor = Colors.navBarColor
         
         applyConstraints()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        nameContainer.applyGradient(firstColor: UIColor(hex: "4267a8").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: nameContainer.bounds, locations: [0.5])
+    }
+    
     override func applyConstraints() {
+        background.snp.makeConstraints { (make) in
+            make.top.width.centerX.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.75)
+        }
         profilePics.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(8)
+            make.top.equalToSuperview().inset(30)
             make.centerX.equalToSuperview()
-            if UIScreen.main.bounds.height == 480 {
-                make.height.width.equalTo(85)
-            } else {
-                make.height.width.equalTo(110)
-            }
-            
+            make.width.height.equalTo(145)
+        }
+        nameContainer.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.width.centerX.equalToSuperview()
+            make.height.equalTo(50)
         }
         name.snp.makeConstraints { (make) in
-            make.top.equalTo(profilePics.snp.bottom)
-            make.bottom.equalToSuperview().inset(5)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
+            make.width.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(3)
         }
     }
 }
@@ -511,39 +543,6 @@ class TutorDistanceView : BaseView {
         }
     }
 }
-
-//class TutorCardBody : InteractableView {
-//
-//    let priceRating = PriceRating()
-//    let aboutMe = AboutMeView()
-//
-//    override func configureView() {
-//        addSubview(priceRating)
-//        addSubview(aboutMe)
-//
-//        super.configureView()
-//        aboutMe.aboutMeLabel.label.text = "About Alex"
-//
-//        backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-//
-//        applyConstraints()
-//    }
-//
-//    override func applyConstraints() {
-//        priceRating.snp.makeConstraints { (make) in
-//            make.top.equalToSuperview()
-//            make.centerX.equalToSuperview()
-//            make.height.equalToSuperview().multipliedBy(0.15)
-//            make.width.equalToSuperview()
-//        }
-//        aboutMe.snp.makeConstraints { (make) in
-//            make.top.equalTo(priceRating.snp.bottom)
-//            make.centerX.equalToSuperview()
-//            make.width.equalToSuperview()
-//            make.height.equalToSuperview().multipliedBy(0.25)
-//        }
-//    }
-//}
 
 
 class TutorCardReviewCell : UITableViewCell {
@@ -695,7 +694,7 @@ class ConnectButton : InteractableView, Interactable {
         addSubview(connect)
         super.configureView()
         
-        backgroundColor = Colors.learnerPurple
+        backgroundColor = UIColor(hex: "6562c9")
         layer.cornerRadius = 8
         translatesAutoresizingMaskIntoConstraints = false
         clipsToBounds = false
@@ -721,16 +720,16 @@ class ConnectButton : InteractableView, Interactable {
 	}
 }
 class FullProfile : InteractableView, Interactable {
-    
+
     let connect : UILabel = {
         let label = UILabel()
-        
+
         label.font = Fonts.createBoldSize(18)
         label.textColor = .white
         label.text = "View Full Profile"
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
-        
+
         return label
     }()
     override func configureView() {
@@ -739,7 +738,7 @@ class FullProfile : InteractableView, Interactable {
         backgroundColor = .green
         applyConstraints()
     }
-    
+
     override func applyConstraints() {
         connect.snp.makeConstraints { (make) in
             make.height.equalToSuperview()
