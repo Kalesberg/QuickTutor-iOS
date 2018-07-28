@@ -39,7 +39,7 @@ class SubjectSelectionCollectionViewCell : UICollectionViewCell {
         addSubview(labelContainer)
         labelContainer.addSubview(label)
         
-        labelContainer.backgroundColor = Colors.tutorBlue
+        labelContainer.backgroundColor = UIColor(hex: "919191")
         labelContainer.layer.cornerRadius = 10
         labelContainer.clipsToBounds = true
         labelContainer.layer.borderColor = UIColor.white.cgColor
@@ -380,10 +380,11 @@ class AboutMeTableViewCell : UITableViewCell {
     var aboutMeLabel : LeftTextLabel = {
         let label = LeftTextLabel()
         
-        label.label.font = Fonts.createBoldSize(18)
+        label.label.font = Fonts.createBoldSize(16)
         label.label.text = "About Me"
         label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.label.textColor = UIColor(hex: "5785d4")
         
         return label
     }()
@@ -466,8 +467,8 @@ class PoliciesTableViewCell : UITableViewCell {
         let label = UILabel()
         
         label.text = "Policies"
-        label.textColor = .white
-        label.font = Fonts.createBoldSize(18)
+        label.textColor = UIColor(hex: "5785d4")
+        label.font = Fonts.createBoldSize(16)
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -560,8 +561,8 @@ class SubjectsTableViewCell : UITableViewCell {
         let label = UILabel()
         
         label.text = "Subjects"
-        label.textColor = .white
-        label.font = Fonts.createBoldSize(18)
+        label.textColor = UIColor(hex: "5785d4")
+        label.font = Fonts.createBoldSize(16)
         
         return label
     }()
@@ -781,9 +782,9 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
     
         let label = UILabel()
         
-        label.font = Fonts.createBoldSize(18)
+        label.font = Fonts.createBoldSize(16)
         label.text = "Reviews (\((datasource.count)))"
-        label.textColor = .white
+        label.textColor = UIColor(hex: "5785d4")
         
         return label
     }
@@ -808,7 +809,7 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     let nameLabel : UILabel = {
         let label = UILabel()
         
-        label.textColor = .white
+        label.textColor = UIColor(hex: "5785d4")
         label.font = Fonts.createBoldSize(16)
         
         return label
@@ -842,14 +843,9 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
         super.configureView()
         
         applyConstraints()
-        container.layer.cornerRadius = 15
-        container.layer.borderWidth = 1.5
-        container.layer.borderColor = Colors.sidebarPurple.cgColor
 
         contentView.backgroundColor = .clear
-
         selectionStyle = .none
-
     }
     
     override func applyConstraints() {

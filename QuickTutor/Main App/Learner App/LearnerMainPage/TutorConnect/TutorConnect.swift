@@ -457,7 +457,8 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
 
-        cell.header.profilePics.loadUserImages(by: data[indexPath.row].images["image1"]!)
+        cell.header.profilePics.loadUserImagesWithoutMask(by: data[indexPath.row].images["image1"]!)
+        cell.header.profilePics.roundCorners(.allCorners, radius: 8)
         cell.header.name.text = data[indexPath.row].name.formatName()
         cell.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
         cell.rateLabel.text = data[indexPath.row].price.formatPrice()
@@ -477,7 +478,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.width - 20
-        return CGSize(width: width, height: collectionView.frame.height)
+        return CGSize(width: width, height: collectionView.frame.height - 50)
     }
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UIView {
-    func applyGradient(firstColor: CGColor, secondColor: CGColor, angle: Double, frame: CGRect, cornerRadius: CGFloat = 0) {
+    func applyGradient(firstColor: CGColor, secondColor: CGColor, angle: Double, frame: CGRect, cornerRadius: CGFloat = 0, locations: [NSNumber] = [0, 0.7, 0.9, 1]) {
         let firstColor = firstColor
         let secondColor = secondColor
         let gradientLayer = CAGradientLayer()
@@ -26,7 +26,7 @@ extension UIView {
         gradientLayer.endPoint = CGPoint(x: CGFloat(c),y: CGFloat(d))
         gradientLayer.startPoint = CGPoint(x: CGFloat(a),y:CGFloat(b))
         gradientLayer.cornerRadius = cornerRadius
-        gradientLayer.locations = [0, 0.7, 0.9, 1]
+        gradientLayer.locations = locations
         
         layer.insertSublayer(gradientLayer, at: 0)
     }

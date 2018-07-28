@@ -161,11 +161,11 @@ class ProfileItem : BaseView {
 
         imageView.scaleImage()
 
-        label.textColor = .white
+        label.textColor = Colors.grayText
         label.textAlignment = .left
         label.sizeToFit()
         label.numberOfLines = 1
-        label.font = Fonts.createSize(15)
+        label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
