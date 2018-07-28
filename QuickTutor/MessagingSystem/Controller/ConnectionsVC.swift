@@ -66,7 +66,6 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
                     self.connections.append(user)
                     self.collectionView.reloadData()
                 })
-
             })
         }
     }
@@ -77,9 +76,10 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     }
     
     func handleRightViewTapped() {
-        navigationController?.pushViewController(AddTutor(), animated: true)
-    }
-    
+		if AccountService.shared.currentUserType == .learner {
+			navigationController?.pushViewController(AddTutor(), animated: true)
+		}
+	}
 }
 
 extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
