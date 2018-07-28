@@ -135,6 +135,7 @@ class SessionRequestCell: UserMessageCell {
         case "accepted":
             updateAsAccepted()
 			if eventAlreadyExists(session: self.sessionRequest) {
+				buttonView.removeAllButtonActions()
 				buttonView.setupAsAccepted(eventAlreadyAdded: true)
 			} else {
 				buttonView.setupAsAccepted(eventAlreadyAdded: false)
@@ -435,9 +436,15 @@ class SessionRequestCellButtonView: UIView {
     }
     
     func setupAsCancelled() {
-        setupAsSingleButton()
-        setButtonTitleColors(Colors.navBarGreen)
-        setButtonTitles("Request a new session?")
+		if AccountService.shared.currentUserType == .learner {
+			setupAsSingleButton()
+			setButtonTitleColors(Colors.navBarGreen)
+			setButtonTitles("Request a new session?")
+		} else {
+			setupAsSingleButton()
+			setButtonTitleColors(Colors.grayText)
+			setButtonTitles("This session was cancelled.")
+		}
     }
     
     override init(frame: CGRect) {
