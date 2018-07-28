@@ -73,6 +73,7 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
     
     func setupNavBar() {
         addNavBar()
+		navBar.setupTitleLabelWithText("Connect")
     }
     
     private func setupCollectionView() {

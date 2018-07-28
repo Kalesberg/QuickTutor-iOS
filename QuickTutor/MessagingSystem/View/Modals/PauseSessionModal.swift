@@ -42,7 +42,7 @@ class PauseSessionModal: BaseCustomModal {
     
     override func setupTitleLabel() {
         super.setupTitleLabel()
-        titleLabel.text = "Alex paused the session."
+		
     }
     
     override func setupTitleBackground() {
@@ -65,7 +65,8 @@ class PauseSessionModal: BaseCustomModal {
     }
     
     func updateTitleLabel() {
-        guard let uid = Auth.auth().currentUser?.uid, let username = partnerUsername else { return }
+		guard let username = partnerUsername?.split(separator: " ")[0] else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         titleLabel.text = uid == pausedById ? "You paused the session." : "\(username) paused the session."
     }
     

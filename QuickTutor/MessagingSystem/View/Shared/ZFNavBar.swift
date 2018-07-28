@@ -34,7 +34,7 @@ class ZFNavBar: UIView {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .center
-        label.font = Fonts.createBoldSize(18)
+        label.font = Fonts.createBoldSize(22)
         return label
     }()
     

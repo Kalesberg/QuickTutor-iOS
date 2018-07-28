@@ -30,7 +30,6 @@ class SessionProfileBox: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .white
-        label.text = "Collin Vargo"
         label.font = Fonts.createSize(16)
         return label
     }()
