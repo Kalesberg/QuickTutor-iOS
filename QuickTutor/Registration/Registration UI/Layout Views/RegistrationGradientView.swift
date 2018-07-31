@@ -15,7 +15,7 @@ class RegistrationGradientView: BaseLayoutView {
     internal override func configureView() {
         super.configureView()
         
-        applyGradient(firstColor: (Colors.oldTutorBlue.cgColor), secondColor: (Colors.learnerPurple.cgColor), angle: 160, frame: frame)
+        applyGradient(firstColor: (Colors.oldTutorBlue.cgColor), secondColor: (Colors.oldLearnerPurple.cgColor), angle: 160, frame: frame)
     }
     
     internal override func applyConstraints() {}

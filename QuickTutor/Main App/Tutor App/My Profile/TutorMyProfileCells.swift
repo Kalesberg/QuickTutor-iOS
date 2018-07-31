@@ -357,10 +357,29 @@ class ExtraInfoCardTableViewCell : ExtraInfoTableViewCell {
         return item
     }()
     
+    let label : UILabel = {
+        let label = UILabel()
+        
+        label.text = "Additional Information"
+        label.font = Fonts.createBoldSize(16)
+        label.textColor = UIColor(hex: "5785d4")
+        
+        return label
+    }()
+    
     override func configureView() {
+        contentView.addSubview(label)
         contentView.addSubview(locationItem)
         super.configureView()
+    }
+    
+    override func applyConstraints() {
+        super.applyConstraints()
         
+        label.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().inset(10)
+            make.left.equalToSuperview().inset(12)
+        }
     }
 }
 
