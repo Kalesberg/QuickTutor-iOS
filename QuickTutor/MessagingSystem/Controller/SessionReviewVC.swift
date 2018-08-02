@@ -150,7 +150,11 @@ class SessionReviewVC: UIViewController {
     }
     
     @objc func subtmitReview() {
-        guard let text = reviewInputView.text else { return }
+        guard let text = reviewInputView.text else {
+            let vc = AccountService.shared.currentUserType == .tutor ? TutorPageViewController() : LearnerPageViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            return
+        }
         guard let id = partnerId else { return }
         
         let session = SessionService.shared.session

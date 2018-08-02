@@ -138,7 +138,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.width.height.equalTo(56)
         }
         tableViewContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(header.snp.bottom)
+            make.top.equalTo(header.profilePics.snp.bottom)
             make.width.equalToSuperview()
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide).inset(23)
@@ -154,7 +154,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.bottom.equalTo(tableViewContainer).inset(-20)
         }
         tableView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(20)
+            make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.bottom.equalTo(tableViewContainer.snp.bottom).inset(22)
@@ -278,7 +278,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 make.left.equalToSuperview().inset(12)
                 make.right.equalToSuperview().inset(20)
                 make.height.equalTo(35)
-                make.top.equalToSuperview().inset(10)
+                make.top.equalTo(cell.label.snp.bottom).inset(-6)
             }
             
             cell.tutorItem.label.text = "Has tutored \(datasource?.tNumSessions! ?? 0) sessions"

@@ -87,7 +87,7 @@ class TutorEarningsView : MainLayoutTitleBackButton {
         tableView.separatorInset.left = 0
         tableView.separatorColor = Colors.divider
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = Colors.registrationDark
+        tableView.backgroundColor = .clear
         tableView.tableFooterView = UIView()
 		tableView.alwaysBounceVertical = true
         return tableView
@@ -298,17 +298,21 @@ extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "tutorEarningsTableCellView", for: indexPath) as! TutorEarningsTableCellView
+        
+        if indexPath.row % 2 == 0 {
+            cell.backgroundColor = Colors.registrationDark
+        }
 		
         let formattedString = NSMutableAttributedString()
         formattedString
             .regular("\(datasource[indexPath.row].created.earningsDateFormat()) - ", 16, .white)
             .regular("\(datasource[indexPath.row].description ?? "Session")", 16, UIColor(hex: "22C755"))
-        
+
         cell.leftLabel.attributedText = formattedString
-		//cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - \(datasource[indexPath.row].description ?? "Session")"
-		if let net = datasource[indexPath.row].net {
-			cell.rightLabel.text = net.currencyFormat()
-		}
+        //cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - \(datasource[indexPath.row].description ?? "Session")"
+        if let net = datasource[indexPath.row].net {
+            cell.rightLabel.text = net.currencyFormat()
+        }
 		return cell
 	}
 }

@@ -151,15 +151,21 @@ class ProfilePicInteractable : UIImageView, Interactable, BaseViewProtocol {
 
 class ProfileItem : BaseView {
 
+    var imageViewContainer = UIView()
     var imageView = UIImageView()
     var label = UILabel()
 
     override func configureView() {
-        addSubview(imageView)
+        addSubview(imageViewContainer)
+        imageViewContainer.addSubview(imageView)
         addSubview(label)
         super.configureView()
 
         imageView.scaleImage()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        imageViewContainer.backgroundColor = Colors.tutorBlue
+        imageViewContainer.layer.cornerRadius = 13
 
         label.textColor = Colors.grayText
         label.textAlignment = .left
@@ -168,7 +174,6 @@ class ProfileItem : BaseView {
         label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         translatesAutoresizingMaskIntoConstraints = false
 
         applyConstraints()
@@ -177,15 +182,17 @@ class ProfileItem : BaseView {
     override func applyConstraints() {
         label.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
-            make.left.equalTo(imageView.snp.right).inset(-5)
+            make.left.equalTo(imageViewContainer.snp.right).inset(-11)
             make.right.equalToSuperview().inset(3)
+        }
+        
+        imageViewContainer.snp.makeConstraints { (make) in
+            make.centerY.left.equalToSuperview()
+            make.height.width.equalTo(26)
         }
 
         imageView.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.left.equalToSuperview()
-            make.height.equalTo(18)
-            make.width.equalTo(25)
+            make.center.equalToSuperview()
         }
     }
 
