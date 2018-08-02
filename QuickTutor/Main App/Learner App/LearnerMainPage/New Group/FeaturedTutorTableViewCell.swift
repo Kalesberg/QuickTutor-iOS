@@ -26,13 +26,12 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		let layout = UICollectionViewFlowLayout()
 		
-		layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 0, right: 0)
+		layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 0, right: 10)
 		layout.scrollDirection = .horizontal
 		layout.minimumInteritemSpacing = 0.0
 		
 		collectionView.collectionViewLayout = layout
 		collectionView.backgroundColor = .clear
-		collectionView.showsVerticalScrollIndicator = false
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.alwaysBounceHorizontal = true
 		return collectionView

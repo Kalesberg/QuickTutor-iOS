@@ -81,6 +81,9 @@
 		8448C574204BC87100C3247D /* EditPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8448C573204BC87100C3247D /* EditPhone.swift */; };
 		8449DDEA1FFDD40600FC38CB /* CALayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449DDE91FFDD40600FC38CB /* CALayerExtensions.swift */; };
 		844A6A8C1FCE5B91003992C3 /* CreatePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A6A8B1FCE5B91003992C3 /* CreatePassword.swift */; };
+		844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FECF5210F97CD00C1797B /* SubjectSearchTableViewHeader.swift */; };
+		844FECF8210F9D9300C1797B /* SubjectSearchCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FECF7210F9D9300C1797B /* SubjectSearchCategoryCell.swift */; };
+		844FECFA210FABD600C1797B /* SubjectSearchSubcategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FECF9210FABD600C1797B /* SubjectSearchSubcategoryCell.swift */; };
 		8454890220D987D300932D8D /* AddTutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8454890120D987D300932D8D /* AddTutor.swift */; };
 		845980511FD4FD4B007E9339 /* Lato in Resources */ = {isa = PBXBuildFile; fileRef = 845980501FD4FD4B007E9339 /* Lato */; };
 		845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C93120670EC0003C3AEA /* CategorySearch.swift */; };
@@ -442,6 +445,9 @@
 		8448C573204BC87100C3247D /* EditPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhone.swift; sourceTree = "<group>"; };
 		8449DDE91FFDD40600FC38CB /* CALayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayerExtensions.swift; sourceTree = "<group>"; };
 		844A6A8B1FCE5B91003992C3 /* CreatePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePassword.swift; sourceTree = "<group>"; };
+		844FECF5210F97CD00C1797B /* SubjectSearchTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchTableViewHeader.swift; sourceTree = "<group>"; };
+		844FECF7210F9D9300C1797B /* SubjectSearchCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchCategoryCell.swift; sourceTree = "<group>"; };
+		844FECF9210FABD600C1797B /* SubjectSearchSubcategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchSubcategoryCell.swift; sourceTree = "<group>"; };
 		8454890120D987D300932D8D /* AddTutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutor.swift; sourceTree = "<group>"; };
 		845980501FD4FD4B007E9339 /* Lato */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Lato; sourceTree = "<group>"; };
 		845B3B9F2069E81B009F8E04 /* CategoryCollectViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCollectViewCell.swift; sourceTree = "<group>"; };
@@ -946,6 +952,17 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		844FECF4210F977B00C1797B /* SubjectSearch */ = {
+			isa = PBXGroup;
+			children = (
+				84D8C92F2066E8CC003C3AEA /* SearchSubjects.swift */,
+				844FECF9210FABD600C1797B /* SubjectSearchSubcategoryCell.swift */,
+				844FECF7210F9D9300C1797B /* SubjectSearchCategoryCell.swift */,
+				844FECF5210F97CD00C1797B /* SubjectSearchTableViewHeader.swift */,
+			);
+			path = SubjectSearch;
+			sourceTree = "<group>";
+		};
 		845B3BA12069E8C3009F8E04 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -960,6 +977,7 @@
 		845B3BA22069E8D1009F8E04 /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				846D9B422069E3A500302773 /* CustomLayouts */,
 				846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */,
 				842A557F209DF55700F6870A /* AdjustFiltersCollectViewCell.swift */,
 				846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */,
@@ -1286,16 +1304,15 @@
 				846252E620637CF8001DD330 /* LearnerMainPage.swift */,
 				8454890120D987D300932D8D /* AddTutor.swift */,
 				843ECCC3207DD06E00C0F622 /* LearnerFilters.swift */,
-				84D8C92F2066E8CC003C3AEA /* SearchSubjects.swift */,
-				84BC77DF20F3F0BF0039E054 /* RequestSession */,
 				84D8C93120670EC0003C3AEA /* CategorySearch.swift */,
-				8476F7C520D00CE900C8D52D /* TutorConnect */,
+				844FECF4210F977B00C1797B /* SubjectSearch */,
 				84EA5E9F20A7F4C50008292B /* InviteOthers.swift */,
 				84BC21D7206DB333002B4721 /* ViewFullProfile.swift */,
+				84BC77DF20F3F0BF0039E054 /* RequestSession */,
+				8476F7C520D00CE900C8D52D /* TutorConnect */,
 				8421007C207A7DEE00422A31 /* TutorQueries */,
 				845B3BA22069E8D1009F8E04 /* CollectionViewCells */,
 				845B3BA12069E8C3009F8E04 /* TableViewCells */,
-				846D9B422069E3A500302773 /* CustomLayouts */,
 			);
 			path = LearnerMainPage;
 			sourceTree = "<group>";
@@ -1896,6 +1913,7 @@
 				842394151FF4CF6E00827C7D /* RegistrationNavBar.swift in Sources */,
 				848809F92057827F00F204A0 /* TutorUnsafe.swift in Sources */,
 				84F2451C1FDA1183006447A8 /* TutorRegPayment.swift in Sources */,
+				844FECF8210F9D9300C1797B /* SubjectSearchCategoryCell.swift in Sources */,
 				8423941D1FF4D5E800827C7D /* RegistrationTitleLabel.swift in Sources */,
 				CF8578C82060AB470089B6F0 /* BaseSessionsContentCell.swift in Sources */,
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
@@ -2033,6 +2051,7 @@
 				848809FD2057875700F204A0 /* TutorTips.swift in Sources */,
 				84F5FD1920A57DA200CFDA95 /* CloseAccountReason.swift in Sources */,
 				848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */,
+				844FECFA210FABD600C1797B /* SubjectSearchSubcategoryCell.swift in Sources */,
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBio.swift in Sources */,
 				CF6F58D4205EE68800ACBD32 /* QuickChatView.swift in Sources */,
@@ -2080,6 +2099,7 @@
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				844053A020F55BDA003F0606 /* RequestSessionTableView.swift in Sources */,
 				84C82FE420F0068A00E526B4 /* EditListing.swift in Sources */,
+				844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBio.swift in Sources */,

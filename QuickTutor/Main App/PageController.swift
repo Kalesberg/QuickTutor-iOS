@@ -75,7 +75,7 @@ class LearnerPageViewController : PageViewController {
 		
 		DispatchQueue.main.async {
 			nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
-			nav?.pushViewController(AddTutorVC(), animated: false)
+			nav?.pushViewController(AddTutor(), animated: false)
 		}
     }
     

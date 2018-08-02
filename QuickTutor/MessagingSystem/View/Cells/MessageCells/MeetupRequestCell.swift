@@ -13,16 +13,16 @@ import EventKit
 protocol SessionRequestCellDelegate {
     func sessionRequestCellShouldRequestSession(cell: SessionRequestCell)
     func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest)
-	func sessionRequestCell(cell: SessionRequestCell, shouldAddToCalendar session: SessionRequest)
-	func updateAfterCellButtonPress(indexPath: [IndexPath]?)
+    func sessionRequestCell(cell: SessionRequestCell, shouldAddToCalendar session: SessionRequest)
+    func updateAfterCellButtonPress(indexPath: [IndexPath]?)
 }
 
 class SessionRequestCell: UserMessageCell {
     
     var sessionRequest: SessionRequest?
     var delegate: SessionRequestCellDelegate?
-	var indexPath : [IndexPath]?
-	
+    var indexPath : [IndexPath]?
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "You requested a session"
@@ -92,7 +92,7 @@ class SessionRequestCell: UserMessageCell {
     }
     
     func loadFromRequest() {
-		print("Loaded.")
+        print("Loaded.")
         guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime() else { return }
         subjectLabel.text = subject
         priceLabel.text = "$\(price)0"
@@ -120,31 +120,42 @@ class SessionRequestCell: UserMessageCell {
 			updateAsDeclined()
         case "accepted":
             updateAsAccepted()
+            if eventAlreadyExists(session: self.sessionRequest) {
+                buttonView.removeAllButtonActions()
+                buttonView.setupAsAccepted(eventAlreadyAdded: true)
+            } else {
+                buttonView.setupAsAccepted(eventAlreadyAdded: false)
+                buttonView.setButtonActions(#selector(SessionRequestCell.addToCalendar), target: self)
+            }
         case "expired":
             updateAsCancelled()
         case "cancelled":
             updateAsCancelled()
+            buttonView.setupAsCancelled()
+            if AccountService.shared.currentUserType == .learner {
+                buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
+            }
         default:
             break
         }
     }
     /*
-		MARK: // CHECKING FOR EXISTING EVENT
-	*/
-	func eventAlreadyExists(session: SessionRequest?) -> Bool {
-		guard let session = session else { return false }
-		let eventStore = EKEventStore()
-		let startDate = NSDate(timeIntervalSince1970: TimeInterval(session.startTime!))
-		let endDate = NSDate(timeIntervalSince1970: TimeInterval(session.endTime!))
-		let predicate = eventStore.predicateForEvents(withStart: startDate as Date, end: endDate as Date, calendars: nil)
-		let existingEvents = eventStore.events(matching: predicate)
-		for singleEvent in existingEvents {
-			if singleEvent.title == "QuickTutor session: \(session.subject ?? "")" && singleEvent.startDate == startDate as Date && singleEvent.endDate == endDate as Date {
-				return true
-			}
-		}
-		return false
-	}
+        MARK: // CHECKING FOR EXISTING EVENT
+    */
+    func eventAlreadyExists(session: SessionRequest?) -> Bool {
+        guard let session = session else { return false }
+        let eventStore = EKEventStore()
+        let startDate = NSDate(timeIntervalSince1970: TimeInterval(session.startTime!))
+        let endDate = NSDate(timeIntervalSince1970: TimeInterval(session.endTime!))
+        let predicate = eventStore.predicateForEvents(withStart: startDate as Date, end: endDate as Date, calendars: nil)
+        let existingEvents = eventStore.events(matching: predicate)
+        for singleEvent in existingEvents {
+            if singleEvent.title == "QuickTutor session: \(session.subject ?? "")" && singleEvent.startDate == startDate as Date && singleEvent.endDate == endDate as Date {
+                return true
+            }
+        }
+        return false
+    }
 
     func updateAsAccepted() {
         titleBackground.backgroundColor = Colors.green
@@ -284,13 +295,13 @@ class SessionRequestCell: UserMessageCell {
     }
     
     @objc func acceptSessionRequest() {
-		guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { print("return"); return }
+        guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { print("return"); return }
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("accepted")
         sessionCache.removeValue(forKey: sessionRequestId)
-		buttonView.setupAsAccepted(eventAlreadyAdded: false)
+        buttonView.setupAsAccepted(eventAlreadyAdded: false)
         updateAsAccepted()
         markSessionDataStale()
-		delegate?.updateAfterCellButtonPress(indexPath: indexPath)
+        delegate?.updateAfterCellButtonPress(indexPath: indexPath)
     }
     
     @objc func declineSessionRequest() {
@@ -299,7 +310,7 @@ class SessionRequestCell: UserMessageCell {
         sessionCache.removeValue(forKey: sessionRequestId)
         buttonView.setupAsDeclined()
         markSessionDataStale()
-		delegate?.updateAfterCellButtonPress(indexPath: indexPath)
+        delegate?.updateAfterCellButtonPress(indexPath: indexPath)
     }
     
     @objc func requestSession() {
@@ -310,11 +321,11 @@ class SessionRequestCell: UserMessageCell {
         guard let request = sessionRequest else { return }
         delegate?.sessionRequestCell(cell: self, shouldCancel: request)
     }
-	
-	@objc func addToCalendar() {
-		guard let request = sessionRequest else { return }
-		delegate?.sessionRequestCell(cell: self, shouldAddToCalendar: request)
-	}
+    
+    @objc func addToCalendar() {
+        guard let request = sessionRequest else { return }
+        delegate?.sessionRequestCell(cell: self, shouldAddToCalendar: request)
+    }
     
     func markSessionDataStale() {
         guard let uid = Auth.auth().currentUser?.uid, let request = sessionRequest, let id = request.id else { return }
@@ -415,22 +426,22 @@ class SessionRequestCellButtonView: UIView {
         rightButton.removeTarget(nil, action: nil, for: .allEvents)
     }
     
-	func setupAsAccepted(eventAlreadyAdded: Bool) {
+    func setupAsAccepted(eventAlreadyAdded: Bool) {
         setupAsSingleButton()
         setButtonTitleColors(Colors.navBarGreen)
-		setButtonTitles(eventAlreadyAdded ? "Event Added to Calendar" : "Add to Calender")
+        setButtonTitles(eventAlreadyAdded ? "Event Added to Calendar" : "Add to Calender")
     }
     
     func setupAsDeclined() {
-		if AccountService.shared.currentUserType == .learner {
+        if AccountService.shared.currentUserType == .learner {
         setupAsSingleButton()
         setButtonTitleColors(Colors.navBarGreen)
         setButtonTitles("Request a new session?")
-		} else {
-			setupAsSingleButton()
-			setButtonTitleColors(Colors.grayText)
-			setButtonTitles("You declined this session.")
-		}
+        } else {
+            setupAsSingleButton()
+            setButtonTitleColors(Colors.grayText)
+            setButtonTitles("You declined this session.")
+        }
     }
     
     func setupAsReceived() {
@@ -446,15 +457,15 @@ class SessionRequestCellButtonView: UIView {
     }
     
     func setupAsCancelled() {
-		if AccountService.shared.currentUserType == .learner {
-			setupAsSingleButton()
-			setButtonTitleColors(Colors.navBarGreen)
-			setButtonTitles("Request a new session?")
-		} else {
-			setupAsSingleButton()
-			setButtonTitleColors(Colors.grayText)
-			setButtonTitles("This session was cancelled.")
-		}
+        if AccountService.shared.currentUserType == .learner {
+            setupAsSingleButton()
+            setButtonTitleColors(Colors.navBarGreen)
+            setButtonTitles("Request a new session?")
+        } else {
+            setupAsSingleButton()
+            setButtonTitleColors(Colors.grayText)
+            setButtonTitles("This session was cancelled.")
+        }
     }
     
     override init(frame: CGRect) {

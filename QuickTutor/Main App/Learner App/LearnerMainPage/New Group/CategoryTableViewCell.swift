@@ -33,7 +33,6 @@ class CategoryTableViewCell : UITableViewCell  {
 		
 		collectionView.collectionViewLayout = layout
 		collectionView.backgroundColor = .clear
-		collectionView.showsVerticalScrollIndicator = false
 		collectionView.showsHorizontalScrollIndicator = false
 		
 		return collectionView
