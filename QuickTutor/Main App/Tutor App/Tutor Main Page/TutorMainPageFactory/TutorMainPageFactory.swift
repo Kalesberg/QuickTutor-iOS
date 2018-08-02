@@ -18,13 +18,13 @@ enum TutorMainPageButtonFactory {
 	var mainPageButton : MainPageButton {
 		switch self {
 		case .tutorRating:
-			return MainPageButton(icon: #imageLiteral(resourceName: "ratings"), label: "Your Ratings", color: Colors.gold)
+			return MainPageButton(icon: #imageLiteral(resourceName: "ratings"), label: "Ratings", color: Colors.gold)
 		case .tutorTrending:
-			return MainPageButton(icon: #imageLiteral(resourceName: "trending"), label: "View Trending", color: UIColor(hex: "6562C9"))
+			return MainPageButton(icon: #imageLiteral(resourceName: "trending"), label: "Trending", color: UIColor(hex: "6562C9"))
 		case .tutorEarning:
-			return MainPageButton(icon: #imageLiteral(resourceName: "earnings"), label: "Your Earnings", color: Colors.green)
+			return MainPageButton(icon: #imageLiteral(resourceName: "earnings"), label: "Earnings", color: Colors.green)
         case .tutorListing:
-            return MainPageButton(icon: #imageLiteral(resourceName: "clipboard"), label: "Your Listings", color: UIColor(hex: "5785D4"))
+            return MainPageButton(icon: #imageLiteral(resourceName: "clipboard"), label: "Listings", color: UIColor(hex: "5785D4"))
 		}
 	}
 	var viewController : UIViewController {

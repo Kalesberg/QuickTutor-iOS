@@ -631,15 +631,16 @@ extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControlle
     }
     
     func proceedWithCameraAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+        if AVCaptureDevice.authorizationStatus(for: .video) == .authorized {
             return true
         } else {
-            let alert = UIAlertController(title: "Camera Required", message: "Camera access is absolutely necessary to use this app", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Allow Access to Camera", message: "Camera access is required for this feature.", preferredStyle: .alert)
             
             // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            alert.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { action in
                 UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
             }))
+			alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             // Show the alert with animation
             self.present(alert, animated: true)
             return false

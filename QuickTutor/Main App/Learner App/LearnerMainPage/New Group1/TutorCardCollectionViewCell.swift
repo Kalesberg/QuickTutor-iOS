@@ -65,7 +65,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         tableView.rowHeight = 55
         tableView.showsVerticalScrollIndicator = false
-        tableView.allowsSelection = false
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
@@ -89,7 +88,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         distanceLabelContainer.isHidden = true
         distanceLabel.numberOfLines  = 0
-        
+
         applyConstraints()
     }
     
@@ -194,7 +193,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         addSubview(connectButton)
         
         tableViewContainer.backgroundColor = Colors.registrationDark
-
+		
         reviewLabelContainer.backgroundColor = Colors.gold
         reviewLabelContainer.layer.cornerRadius = 12
         
@@ -205,9 +204,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         distanceLabelContainer.layer.cornerRadius = 28
         
         layoutIfNeeded()
-        print("s;fgjkdslkfg\n\n\n\n\n\ndfgdfsgsdf\n\n\n\n\n\n\n\n\nddrgfsdfgsdfgds")
-
-    
     }
     override func handleNavigation() {
         if touchStartView is ConnectButton {
@@ -413,16 +409,10 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.item {
-        case 0:
-            return UITableViewAutomaticDimension
-        case 1:
+        case 0,1,3,4:
             return UITableViewAutomaticDimension
         case 2:
             return 90
-        case 3:
-            return UITableViewAutomaticDimension
-        case 4:
-            return UITableViewAutomaticDimension
         default:
             return 0
         }

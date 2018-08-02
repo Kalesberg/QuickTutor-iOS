@@ -39,7 +39,7 @@ class TutorMainPageView : MainPageView {
         label.font = Fonts.createBoldSize(22)
         label.textColor = .white
         label.textAlignment = .center
-        label.text = "Your Menu"
+        label.text = "Menu"
         
         return label
     }()

@@ -21,8 +21,8 @@ class EditLanguageView : EditProfileMainLayout {
 		titleLabel.label.text = "Languages you speak"
 		
 		tableView.estimatedRowHeight = 25
-		tableView.separatorInset.left = 0
-		tableView.separatorStyle = .none
+		tableView.separatorStyle = .singleLine
+		tableView.separatorColor = .black
 		tableView.showsVerticalScrollIndicator = false
 		tableView.backgroundColor = Colors.backgroundDark
 		tableView.allowsMultipleSelection = true
@@ -34,7 +34,7 @@ class EditLanguageView : EditProfileMainLayout {
 		
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(titleLabel.snp.bottom)
-			make.width.equalToSuperview().multipliedBy(0.9)
+			make.width.equalToSuperview()
 			if #available(iOS 11.0, *) {
 				make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
 			} else {
@@ -232,7 +232,7 @@ class CustomLanguageCell : UITableViewCell {
         cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
         selectedBackgroundView = cellBackground
         
-        backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+        backgroundColor = Colors.backgroundDark
         textLabel?.textColor = UIColor.white
         textLabel?.font = Fonts.createSize(16)
         

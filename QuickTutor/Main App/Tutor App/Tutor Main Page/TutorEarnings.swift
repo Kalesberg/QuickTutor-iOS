@@ -232,13 +232,13 @@ class TutorEarnings : BaseViewController {
 				}
 			}
 			let formattedString = NSMutableAttributedString()
-
+			
 			formattedString
-				.bold("\(thisYearTotal.yearlyEarningsFormat())", 45, .white)
+				.bold("\(thisYearTotal.currencyFormat())", 45, .white)
 
 			let paragraphStyle = NSMutableParagraphStyle()
 			paragraphStyle.lineSpacing = 8
-			formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+			formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range: NSMakeRange(0, formattedString.length))
 
 			contentView.label.attributedText = formattedString
 			contentView.label.textAlignment = .center

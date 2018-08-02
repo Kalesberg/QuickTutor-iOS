@@ -203,6 +203,7 @@ class QueryData {
 
 		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: formattedSubject).queryEqual(toValue: formattedSubject).observeSingleEvent(of: .value, with: { (snapshot) in
 		
+			print(snapshot)
 			for snap in snapshot.children {
 				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid  else { continue }
 				group.enter()

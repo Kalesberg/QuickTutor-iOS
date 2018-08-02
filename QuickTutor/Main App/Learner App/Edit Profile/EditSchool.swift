@@ -17,10 +17,10 @@ class EditSchoolView : EditProfileMainLayout {
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44
-        tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+		tableView.separatorColor = .black
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
+        tableView.backgroundColor = Colors.backgroundDark
         
         return tableView
     }()
@@ -55,7 +55,7 @@ class EditSchoolView : EditProfileMainLayout {
         }
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(searchTextField.snp.bottom)
-            make.width.equalToSuperview().multipliedBy(0.9)
+            make.width.equalToSuperview()
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide)
             } else {
@@ -193,15 +193,23 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath)
-        formatTableView(cell)
-        let data = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
-        
+		let data = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
+
+		cell.backgroundColor = Colors.backgroundDark
+		cell.textLabel?.textColor = UIColor.white
+		cell.textLabel?.font = Fonts.createSize(16)
+		
+		let cellBackground = UIView()
+		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+		cell.selectedBackgroundView = cellBackground
+		
+		
         cell.textLabel?.text = data
         return cell
     }
     
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
         var school : String
         school = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
         
@@ -237,19 +245,6 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
-    }
-    
-    private func formatTableView(_ cell: UITableViewCell) {
-        let border = UIView(frame:CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 2))
-        border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-        cell.contentView.addSubview(border)
-        cell.backgroundColor = Colors.backgroundDark
-        cell.textLabel?.textColor = UIColor.white
-        cell.textLabel?.font = Fonts.createSize(16)
-        
-        let cellBackground = UIView()
-        cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-        cell.selectedBackgroundView = cellBackground
     }
 }
 
