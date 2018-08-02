@@ -19,6 +19,8 @@ class SubjectSearchCategoryCell : UITableViewCell {
 		configureTableViewCell()
 	}
 	
+	let container = UIView()
+	
 	let title : UILabel = {
 		let label = UILabel()
 		
@@ -48,30 +50,36 @@ class SubjectSearchCategoryCell : UITableViewCell {
 	}()
 	
 	func configureTableViewCell() {
-		addSubview(title)
-		addSubview(subtitle)
-		addSubview(dropDownArrow)
+		addSubview(container)
+		container.addSubview(title)
+	//	container.addSubview(subtitle)
+		container.addSubview(dropDownArrow)
 		
 		selectionStyle = .none
 		backgroundColor = Colors.learnerPurple
+		container.backgroundColor = Colors.navBarColor
 		layer.cornerRadius = 4
 
 		applyConstraints()
 	}
 	
 	func applyConstraints() {
+		container.snp.makeConstraints { (make) in
+			make.left.equalToSuperview().inset(5)
+			make.height.right.centerY.equalToSuperview()
+		}
 		title.snp.makeConstraints { (make) in
-			make.top.equalToSuperview().inset(10)
+			make.centerY.equalToSuperview()
 			make.left.equalToSuperview().inset(10)
 			make.right.equalTo(dropDownArrow.snp.left)
 			make.height.equalTo(20)
 		}
-		subtitle.snp.makeConstraints { (make) in
-			make.top.equalTo(title.snp.bottom)
-			make.left.equalToSuperview().inset(10)
-			make.right.equalTo(dropDownArrow.snp.left)
-			make.height.equalTo(20)
-		}
+//		subtitle.snp.makeConstraints { (make) in
+//			make.top.equalTo(title.snp.bottom)
+//			make.left.equalToSuperview().inset(10)
+//			make.right.equalTo(dropDownArrow.snp.left)
+//			make.height.equalTo(20)
+//		}
 		dropDownArrow.snp.makeConstraints { (make) in
 			make.centerY.equalToSuperview()
 			make.right.equalToSuperview().inset(20)
@@ -81,5 +89,6 @@ class SubjectSearchCategoryCell : UITableViewCell {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
+		container.roundCorners([.topRight, .bottomRight], radius: 4)
 	}
 }

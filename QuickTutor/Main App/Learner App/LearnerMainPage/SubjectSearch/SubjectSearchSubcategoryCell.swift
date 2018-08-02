@@ -26,11 +26,11 @@ class SubjectSearchSubcategoryCell : UITableViewCell {
 		let tableView = UITableView()
 		
 		tableView.allowsSelection = true
-		tableView.backgroundColor = Colors.navBarColor
+		tableView.backgroundColor = Colors.backgroundDark
 		tableView.isScrollEnabled = false
 		tableView.separatorInset.left = 5
 		tableView.separatorColor = .black
-		
+
 		return tableView
 	}()
 
@@ -51,12 +51,15 @@ class SubjectSearchSubcategoryCell : UITableViewCell {
 		tableView.dataSource = self
 		tableView.register(SubjectSubcategoryTableViewCell.self, forCellReuseIdentifier: "subcategoryCell")
 		
+		backgroundColor = Colors.backgroundDark
+		
 		applyConstraints()
 	}
 	
 	func applyConstraints() {
 		tableView.snp.makeConstraints { (make) in
-			make.edges.equalToSuperview()
+			make.left.equalToSuperview().inset(5)
+			make.centerY.height.right.equalToSuperview()
 		}
 	}
 	
@@ -121,7 +124,7 @@ class SubjectSubcategoryTableViewCell : UITableViewCell {
 		cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
 		selectedBackgroundView = cellBackground
 		
-		backgroundColor = Colors.navBarColor
+		backgroundColor = Colors.backgroundDark
 		accessoryType = .disclosureIndicator
 		
 		icon.alpha = 0.8
