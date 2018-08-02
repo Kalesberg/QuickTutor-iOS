@@ -534,7 +534,8 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.delegate = self
 			cell.indexPath = [indexPath]
             cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
-            return cell
+
+			return cell
         }
         
         if message.connectionRequestId != nil {
@@ -700,7 +701,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
     func shareUsernameForUserId() {
         studentKeyboardAccessory.toggleActionView()
         DynamicLinkFactory.shared.createLinkForUserId(receiverId) { shareUrl in
-			guard let shareUrlString = shareUrl?.absoluteString else { print("her."); return }
+			guard let shareUrlString = shareUrl?.absoluteString else { return }
             let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
             self.present(ac, animated: true, completion: nil)
         }
