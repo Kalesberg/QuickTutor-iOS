@@ -224,6 +224,7 @@ extension MessagesContentCell: ConversationCellDelegate {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
             self.collectionView.reloadData()
         }
+        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(id).removeValue()
     }
     
     func conversationCellShouldDeleteMessages(_ conversationCell: ConversationCell) {

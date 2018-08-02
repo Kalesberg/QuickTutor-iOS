@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 var sessionCache = [String: SessionRequest]()
 
@@ -20,8 +21,8 @@ class SessionRequest {
     var status: String?
     var expiration: Double?
     var id: String?
-    var senderId: String?
-    var receiverId: String?
+    var senderId: String
+    var receiverId: String
     var type: String?
     
     var dictionaryRepresentation: [String: Any] {
@@ -49,8 +50,8 @@ class SessionRequest {
         choice = data["choice"] as? String
         status = data["status"] as? String
         expiration = data["expiration"] as? Double
-        senderId = data["senderId"] as? String
-        receiverId = data["receiverId"] as? String
+        senderId = data["senderId"] as? String ?? ""
+        receiverId = data["receiverId"] as? String ?? ""
         type = data["type"] as? String
     }
     
@@ -76,6 +77,11 @@ class SessionRequest {
         dateFormatter.timeStyle = .short
         let dateFromTimeInterval = Date(timeIntervalSince1970: startTime)
         return dateFormatter.string(from: dateFromTimeInterval)
+    }
+    
+    func partnerId() -> String {
+        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
+        return receiverId == uid ? senderId : receiverId
     }
     
 }

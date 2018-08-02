@@ -81,12 +81,6 @@ class SessionRequestCell: UserMessageCell {
     }
     
     func getSessionRequestWithId(_ id: String) {
-//        guard sessionCache[id] == nil else {
-//            print("this one has already be loaded")
-//            sessionRequest = sessionCache[id]
-//            loadFromRequest()
-//            return
-//        }
         Database.database().reference().child("sessions").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
             let sessionRequest = SessionRequest(data: value)
@@ -291,6 +285,7 @@ class SessionRequestCell: UserMessageCell {
         sessionCache.removeValue(forKey: sessionRequestId)
 		buttonView.setupAsAccepted(eventAlreadyAdded: false)
         updateAsAccepted()
+        markSessionDataStale()
 		delegate?.updateAfterCellButtonPress(indexPath: indexPath)
     }
     
@@ -299,7 +294,7 @@ class SessionRequestCell: UserMessageCell {
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("declined")
         sessionCache.removeValue(forKey: sessionRequestId)
         buttonView.setupAsDeclined()
-        updateAsDeclined()
+        markSessionDataStale()
 		delegate?.updateAfterCellButtonPress(indexPath: indexPath)
     }
     
@@ -316,6 +311,17 @@ class SessionRequestCell: UserMessageCell {
 		guard let request = sessionRequest else { return }
 		delegate?.sessionRequestCell(cell: self, shouldAddToCalendar: request)
 	}
+    
+    func markSessionDataStale() {
+        guard let uid = Auth.auth().currentUser?.uid, let request = sessionRequest, let id = request.id else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        Database.database().reference().child("userSessions").child(uid)
+            .child(userTypeString).child(id).setValue(0)
+        Database.database().reference().child("userSessions").child(request.partnerId())
+            .child(otherUserTypeString).child(id).setValue(0)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         resetDim()

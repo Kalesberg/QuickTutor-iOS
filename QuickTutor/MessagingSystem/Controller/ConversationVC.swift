@@ -205,7 +205,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         listenForReadReceipts()
         setupKeyboardObservers()
         studentKeyboardAccessory.chatView.delegate = self
-        
+        listenForSessionUpdates()   
         
     }
     
@@ -322,6 +322,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
                     self.canSendMessages = true
                     self.exitConnectionRequestMode()
                     self.setMessageTextViewCoverHidden(true)
+                    self.messagesCollection.reloadData()
                 } else {
                     self.canSendMessages = false
                     self.setActionViewUsable(false)
@@ -353,9 +354,35 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             completion(true)
         }
     }
+    func listenForSessionUpdates() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { (snapshot) in
+            print("Data needs reload")
+            self.reloadSessionWithId(snapshot.ref.key)
+            snapshot.ref.setValue(1)
+        }
+        
+    }
     
-    func listenForSessionStatusChanges() {
-//        Database.database().reference().child("sessions").child(<#T##pathString: String##String#>)
+    func reloadSessionWithId(_ id: String) {
+        DataService.shared.getSessionById(id) { (session) in
+            if let fooOffset = self.messages.index(where: { (message) -> Bool in
+                guard let userMessage = message as? UserMessage else { return false }
+                return userMessage.sessionRequestId == id
+            }) {
+                // do something with fooOffset
+                let indexPath = IndexPath(item: fooOffset, section: 0)
+                let cell = self.messagesCollection.cellForItem(at: indexPath) as? SessionRequestCell
+                if session.status == "accepted" {
+                    cell?.updateAsAccepted()
+                } else if session.status == "declined" {
+                    cell?.updateAsDeclined()
+                }                
+            } else {
+                // item could not be found
+            }
+        }
     }
     
     func scrollToBottom(animated: Bool) {
