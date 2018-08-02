@@ -115,17 +115,9 @@ class SessionRequestCell: UserMessageCell {
         guard let status = self.sessionRequest?.status else { return }
         switch status {
         case "pending":
-            updateAsPending()
-            buttonView.setupAsPending()
-            if AccountService.shared.currentUserType == .learner {
-                buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
-            }
+			updateAsPending()
         case "declined":
-            updateAsDeclined()
-            buttonView.setupAsDeclined()
-            if AccountService.shared.currentUserType == .learner {
-                buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
-            }
+			updateAsDeclined()
         case "accepted":
             updateAsAccepted()
             if eventAlreadyExists(session: self.sessionRequest) {
