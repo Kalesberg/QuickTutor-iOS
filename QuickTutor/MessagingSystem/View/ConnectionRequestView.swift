@@ -22,7 +22,7 @@ class ConnectionRequestView: UIView {
     
     let separator: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.purple
+        view.backgroundColor = Colors.learnerPurple
         view.layer.cornerRadius = 2
         return view
     }()
@@ -46,7 +46,7 @@ class ConnectionRequestView: UIView {
     
     let sendButton: DimmableButton = {
         let button = DimmableButton()
-        button.backgroundColor = Colors.purple
+        button.backgroundColor = Colors.learnerPurple
         button.layer.cornerRadius = 20
         button.setTitle("Send", for: .normal)
         return button

@@ -96,12 +96,6 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
         present(navVC, animated: true, completion: nil)
     }
     
-    @objc func showSettings() {
-        let vc = SettingsVC()
-        let navVC = CustomNavVC(rootViewController: vc)
-        present(navVC, animated: true, completion: nil)
-    }
-    
     func handleLeftViewTapped() {
         if AccountService.shared.currentUserType == .learner {
             let vc = LearnerPageViewController()

@@ -20,7 +20,7 @@ class NewMessageHeader: UICollectionReusableView {
     
     let separatorLine: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.purple
+        view.backgroundColor = Colors.learnerPurple
         view.layer.cornerRadius = 2
         return view
     }()

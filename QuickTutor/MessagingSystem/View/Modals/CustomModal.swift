@@ -48,7 +48,6 @@ class CustomModal: BaseCustomModal {
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(16)
         button.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
-
         return button
     }()
     
