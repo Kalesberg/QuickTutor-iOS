@@ -116,34 +116,14 @@ class SessionRequestCell: UserMessageCell {
         switch status {
         case "pending":
 			updateAsPending()
-			buttonView.setupAsPending()
-			if AccountService.shared.currentUserType == .learner {
-				buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
-			}
         case "declined":
 			updateAsDeclined()
-			buttonView.setupAsDeclined()
-			if AccountService.shared.currentUserType == .learner {
-				buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
-			}
         case "accepted":
             updateAsAccepted()
-			if eventAlreadyExists(session: self.sessionRequest) {
-				buttonView.removeAllButtonActions()
-				buttonView.setupAsAccepted(eventAlreadyAdded: true)
-			} else {
-				buttonView.setupAsAccepted(eventAlreadyAdded: false)
-				buttonView.setButtonActions(#selector(SessionRequestCell.addToCalendar), target: self)
-			}
         case "expired":
             updateAsCancelled()
-            buttonView.setupAsCancelled()
         case "cancelled":
             updateAsCancelled()
-            buttonView.setupAsCancelled()
-			if AccountService.shared.currentUserType == .learner {
-            	buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
-			}
         default:
             break
         }
@@ -169,23 +149,47 @@ class SessionRequestCell: UserMessageCell {
     func updateAsAccepted() {
         titleBackground.backgroundColor = Colors.green
         titleLabel.text = "Request Accepted"
+        updateButtonViewAsAccepted()
+        if AccountService.shared.currentUserType == .learner {
+            buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
+        }
     }
     
     func updateAsDeclined() {
         titleBackground.backgroundColor = Colors.qtRed
         titleLabel.text = "Request Declined"
         dimContent()
+        buttonView.setupAsDeclined()
+        if AccountService.shared.currentUserType == .learner {
+            buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
+        }
     }
     
     func updateAsPending() {
         titleBackground.backgroundColor = Colors.learnerPurple
         titleLabel.text = "Request Pending"
+        buttonView.setupAsPending()
+        buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
     }
     
     func updateAsCancelled() {
         titleBackground.backgroundColor = Colors.grayText
         titleLabel.text = "Request Cancelled"
         dimContent()
+        buttonView.setupAsCancelled()
+        if AccountService.shared.currentUserType == .learner {
+            buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
+        }
+    }
+    
+    func updateButtonViewAsAccepted() {
+        if eventAlreadyExists(session: self.sessionRequest) {
+            buttonView.removeAllButtonActions()
+            buttonView.setupAsAccepted(eventAlreadyAdded: true)
+        } else {
+            buttonView.setupAsAccepted(eventAlreadyAdded: false)
+            buttonView.setButtonActions(#selector(SessionRequestCell.addToCalendar), target: self)
+        }
     }
     
     func dimContent() {

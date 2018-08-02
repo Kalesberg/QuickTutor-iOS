@@ -378,7 +378,9 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
                     cell?.updateAsAccepted()
                 } else if session.status == "declined" {
                     cell?.updateAsDeclined()
-                }                
+                } else if session.status == "cancelled" {
+                    cell?.updateAsCancelled()
+                }
             } else {
                 // item could not be found
             }
@@ -851,10 +853,22 @@ extension ConversationVC: CustomModalDelegate {
         DataService.shared.getSessionById(id) { (session) in
             let chatPartnerId = session.partnerId()
             Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
+            self.markSessionDataStale(id: id, partnerId: chatPartnerId)
         }
         cancelSessionModal?.dismiss()
         guard let index = cancelSessionIndex else { return }
         messagesCollection.reloadItems(at: [index])
+        
+    }
+    
+    func markSessionDataStale(id: String, partnerId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        Database.database().reference().child("userSessions").child(uid)
+            .child(userTypeString).child(id).setValue(0)
+        Database.database().reference().child("userSessions").child(partnerId)
+            .child(otherUserTypeString).child(id).setValue(0)
     }
 }
 
