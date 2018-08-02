@@ -1587,6 +1587,7 @@
 				CF387EBA2088113C00087449 /* InPersonSessionVC.swift */,
 				CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */,
 				CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */,
+				CF8E88A120C619A90044344D /* BaseSessionVC.swift */,
 				CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */,
 				CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */,
 				CFCA549E209AD6DC00FC83A1 /* AddTipVC.swift */,
@@ -1594,7 +1595,6 @@
 				CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */,
 				CFEF943E20B3583800413727 /* ImageMessageSender.swift */,
 				CFEF944020B35BA500413727 /* ConversationManager.swift */,
-				CF8E88A120C619A90044344D /* BaseSessionVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
