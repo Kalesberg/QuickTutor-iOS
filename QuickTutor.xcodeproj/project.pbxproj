@@ -298,11 +298,7 @@
 		CF6F58DA205EE68800ACBD32 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58AB205EE68800ACBD32 /* ProfileVC.swift */; };
 		CF6F58DB205EE68800ACBD32 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */; };
 		CF6F58DC205EE68800ACBD32 /* CustomNavVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58AD205EE68800ACBD32 /* CustomNavVC.swift */; };
-		CF6F58DD205EE68800ACBD32 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58AE205EE68800ACBD32 /* LoginVC.swift */; };
-		CF6F58DE205EE68800ACBD32 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58AF205EE68800ACBD32 /* SettingsVC.swift */; };
 		CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58B0205EE68800ACBD32 /* NewMessageVC.swift */; };
-		CF6F58E0205EE68800ACBD32 /* ViewMeetupRequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58B1205EE68800ACBD32 /* ViewMeetupRequestVC.swift */; };
-		CF6F58E1205EE68800ACBD32 /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58B2205EE68800ACBD32 /* CreateAccountVC.swift */; };
 		CF6F58E2205EE68800ACBD32 /* ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58B3205EE68800ACBD32 /* ConversationVC.swift */; };
 		CF6F58E3205EE68800ACBD32 /* QuickChatViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58B5205EE68800ACBD32 /* QuickChatViewDelegate.swift */; };
 		CF6F58E4205EE68800ACBD32 /* SystemMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58B6205EE68800ACBD32 /* SystemMessage.swift */; };
@@ -673,11 +669,7 @@
 		CF6F58AB205EE68800ACBD32 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		CF6F58AD205EE68800ACBD32 /* CustomNavVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavVC.swift; sourceTree = "<group>"; };
-		CF6F58AE205EE68800ACBD32 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		CF6F58AF205EE68800ACBD32 /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		CF6F58B0205EE68800ACBD32 /* NewMessageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMessageVC.swift; sourceTree = "<group>"; };
-		CF6F58B1205EE68800ACBD32 /* ViewMeetupRequestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewMeetupRequestVC.swift; sourceTree = "<group>"; };
-		CF6F58B2205EE68800ACBD32 /* CreateAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountVC.swift; sourceTree = "<group>"; };
 		CF6F58B3205EE68800ACBD32 /* ConversationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationVC.swift; sourceTree = "<group>"; };
 		CF6F58B5205EE68800ACBD32 /* QuickChatViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewDelegate.swift; sourceTree = "<group>"; };
 		CF6F58B6205EE68800ACBD32 /* SystemMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemMessage.swift; sourceTree = "<group>"; };
@@ -1571,11 +1563,7 @@
 				CF6F58AB205EE68800ACBD32 /* ProfileVC.swift */,
 				CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */,
 				CF6F58AD205EE68800ACBD32 /* CustomNavVC.swift */,
-				CF6F58AE205EE68800ACBD32 /* LoginVC.swift */,
-				CF6F58AF205EE68800ACBD32 /* SettingsVC.swift */,
 				CF6F58B0205EE68800ACBD32 /* NewMessageVC.swift */,
-				CF6F58B1205EE68800ACBD32 /* ViewMeetupRequestVC.swift */,
-				CF6F58B2205EE68800ACBD32 /* CreateAccountVC.swift */,
 				CF6F58B3205EE68800ACBD32 /* ConversationVC.swift */,
 				CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */,
 				CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */,
@@ -1944,7 +1932,6 @@
 				CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */,
 				CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */,
 				CF8578C42060AAF70089B6F0 /* BaseContentCell.swift in Sources */,
-				CF6F58DD205EE68800ACBD32 /* LoginVC.swift in Sources */,
 				CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */,
 				84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */,
 				8440539A20F525E0003F0606 /* DateExtensions.swift in Sources */,
@@ -2011,7 +1998,6 @@
 				84E4C7EC204E9829009C2FC4 /* Sessions.swift in Sources */,
 				84F2451E1FDA119E006447A8 /* TutorMainPage.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessional.swift in Sources */,
-				CF6F58DE205EE68800ACBD32 /* SettingsVC.swift in Sources */,
 				CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */,
 				84CB7AD520CF607800274473 /* TutorProfileImageView.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
@@ -2044,7 +2030,6 @@
 				84052F0E206BCC03007B1248 /* LearnerCancelled.swift in Sources */,
 				847CF8E8202A7738003BB4FA /* UIScrollViewExtensions.swift in Sources */,
 				CF6F58CD205EE68800ACBD32 /* MeetupTimePicker.swift in Sources */,
-				CF6F58E0205EE68800ACBD32 /* ViewMeetupRequestVC.swift in Sources */,
 				848809FD2057875700F204A0 /* TutorTips.swift in Sources */,
 				84F5FD1920A57DA200CFDA95 /* CloseAccountReason.swift in Sources */,
 				848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */,
@@ -2142,7 +2127,6 @@
 				CF833B8C207C940A00323242 /* CancelSessionButtonDelegate.swift in Sources */,
 				CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */,
 				84E4C7E8204E9774009C2FC4 /* SearchTutor.swift in Sources */,
-				CF6F58E1205EE68800ACBD32 /* CreateAccountVC.swift in Sources */,
 				8441E651208922C60087AE11 /* TrendingCategories.swift in Sources */,
 				8448C574204BC87100C3247D /* EditPhone.swift in Sources */,
 				846D9B582069E57E00302773 /* SubjectTableViewCell.swift in Sources */,

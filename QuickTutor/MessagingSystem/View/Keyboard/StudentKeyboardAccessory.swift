@@ -21,7 +21,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
     
     let actionButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Colors.purple
+        button.backgroundColor = Colors.learnerPurple
         button.setImage(#imageLiteral(resourceName: "plusButton"), for: .normal)
         button.applyDefaultShadow()
         button.layer.cornerRadius = 17
