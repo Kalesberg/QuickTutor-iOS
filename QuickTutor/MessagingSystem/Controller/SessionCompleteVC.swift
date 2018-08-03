@@ -131,7 +131,7 @@ class SessionCompleteVC: UIViewController {
     func updateNumberOfSessions() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType == .learner ? "learner-info" : "student-info"
-        let ref = Database.database().reference().child(uid).child(userTypeString).child("nos")
+        let ref = Database.database().reference().child(userTypeString).child(uid).child("nos")
         ref.observeSingleEvent(of: .value) { (snapshot) in
             guard let value = snapshot.value as? Int else {
                 ref.setValue(1)
