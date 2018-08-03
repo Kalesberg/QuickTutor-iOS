@@ -21,6 +21,7 @@ class CustomTitleView: UIView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
+        label.font = Fonts.createBoldSize(16)
         return label
     }()
     
@@ -28,7 +29,7 @@ class CustomTitleView: UIView {
         let label = UILabel()
         label.text = "Active 1m ago"
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = Fonts.createSize(10)
         label.textAlignment = .center
         return label
     }()

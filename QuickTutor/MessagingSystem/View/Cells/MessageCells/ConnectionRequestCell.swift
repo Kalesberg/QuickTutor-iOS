@@ -75,6 +75,20 @@ class ConnectionRequestCell: UserMessageCell {
         }
     }
     
+    override func setupBubbleViewAsSentMessage() {
+        super.setupBubbleViewAsSentMessage()
+        if #available(iOS 11.0, *) {
+            actionBackground.layer.maskedCorners = [.layerMinXMaxYCorner]
+        }
+    }
+    
+    override func setupBubbleViewAsReceivedMessage() {
+        super.setupBubbleViewAsReceivedMessage()
+        if #available(iOS 11.0, *) {
+            actionBackground.layer.maskedCorners = [.layerMaxXMaxYCorner]
+        }
+    }
+    
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         self.userMessage = message
