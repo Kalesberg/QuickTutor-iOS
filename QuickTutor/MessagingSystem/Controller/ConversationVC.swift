@@ -23,6 +23,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     var messagingManagerDelegate: ConversationManagerDelegate?
     var conversationManager = ConversationManager()
+    var metaData: ConversationMetaData?
     
     var messages = [BaseMessage]()
     var receiverId: String!
@@ -308,6 +309,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     }
     
     func checkIfMessageIsConnectionRequest(_ message: UserMessage) {
+        
         let uid = AccountService.shared.currentUser.uid!
         if message.connectionRequestId != nil {
             canSendMessages = false

@@ -133,11 +133,21 @@ class ConnectionRequestCell: UserMessageCell {
         Database.database().reference().child("connectionRequests").child(id).child("status").setValue("accepted")
         let values = ["/\(uid)/\(receiverId)": 1, "/\(receiverId)/\(uid)": 1]
         Database.database().reference().child("connections").updateChildValues(values)
+        updateMetaDataConnection()
         acceptButton.isHidden = true
         declineButton.isHidden = true
         statusLabel.isHidden = false
         self.status = "accepted"
         setStatusLabel()
+    }
+    
+    func updateMetaDataConnection() {
+        guard let uid = Auth.auth().currentUser?.uid, let receiverId = chatPartner?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(receiverId).child("connected").setValue(true)
+        
+        Database.database().reference().child("conversationMetaData").child(receiverId).child(otherUserTypeString).child(uid).child("connected").setValue(true)
     }
     
     @objc func denyConnectionRequest() {

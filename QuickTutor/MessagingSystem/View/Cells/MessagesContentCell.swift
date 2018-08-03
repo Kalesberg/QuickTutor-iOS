@@ -50,6 +50,7 @@ class MessagesContentCell: BaseContentCell {
         })
     }
     
+    var metaDataDictionary = [String: ConversationMetaData]()
     @objc func fetchConversations() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -63,7 +64,8 @@ class MessagesContentCell: BaseContentCell {
             Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe( .value, with: { (snapshot) in
                 guard let metaData = snapshot.value as? [String: Any] else { return }
                 guard let messageId = metaData["lastMessageId"] as? String else { return }
-    
+                let conversationMetaData = ConversationMetaData(dictionary: metaData)
+                self.metaDataDictionary[userId] = conversationMetaData
                 self.getMessageById(messageId)
             })
         }
@@ -206,6 +208,9 @@ extension MessagesContentCell {
         tappedCell.newMessageGradientLayer.isHidden = true
         vc.navigationItem.title = tappedCell.usernameLabel.text
         vc.chatPartner = tappedCell.chatPartner
+        if let data = metaDataDictionary[tappedCell.chatPartner.uid] {
+            vc.metaData = data
+        }
         navigationController.pushViewController(vc, animated: true)
     }
 }

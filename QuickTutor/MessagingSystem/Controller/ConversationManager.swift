@@ -62,6 +62,20 @@ struct Conversation {
     }
 }
 
+struct ConversationMetaData {
+    var lastMessageId: String?
+    var lastMessageSenderId: String?
+    var isConnected = false
+    var lastUpdated: Double?
+    
+    init(dictionary: [String: Any]) {
+        lastMessageId = dictionary["lastMessageId"] as? String
+        lastMessageSenderId = dictionary["lastMessageSenderId"] as? String
+        lastUpdated = dictionary["lastUpdatedAt"] as? Double
+        isConnected = dictionary["isConnected"] as? Bool ?? false
+    }
+}
+
 
 protocol ConversationManagerDelegate {
     func conversationManager(_ conversationManager: ConversationManager, didReceive message: BaseMessage)
