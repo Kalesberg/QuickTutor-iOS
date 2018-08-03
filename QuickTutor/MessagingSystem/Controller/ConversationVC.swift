@@ -507,11 +507,11 @@ extension ConversationVC: ConversationManagerDelegate {
             self.removeCurrentStatusLabel()
             self.addMessageStatusLabel(atIndex: self.messages.endIndex)
         }
+        self.setActionViewUsable(true)
         if message.connectionRequestId != nil && conversationManager.isConnected == false {
             updateAsPendingConnection()
         }
         self.studentKeyboardAccessory.hideQuickChatView()
-        self.setActionViewUsable(true)
         self.scrollToBottom(animated: false)
         self.exitConnectionRequestMode()
         self.markConversationRead()
