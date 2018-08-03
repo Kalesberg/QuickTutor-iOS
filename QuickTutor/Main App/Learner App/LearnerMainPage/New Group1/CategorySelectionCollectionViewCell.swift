@@ -45,8 +45,8 @@ class CategorySelectionCollectionViewCell : UICollectionViewCell {
         return label
     }()
     
-    var delegate : SelectedSubcategory?
-    
+//    var delegate : SelectedSubcategory?
+	
     var category : Category! {
         didSet{
             categoryLabel.text = category.mainPageData.displayName
@@ -137,7 +137,7 @@ extension CategorySelectionCollectionViewCell : UICollectionViewDelegate, UIColl
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath) as! SubjectCollectionViewCell
 		cell.growSemiShrink {
-			self.delegate?.didSelectSubcategory(resource: self.category.subcategory.fileToRead, subject: self.category.subcategory.subcategories[indexPath.item], index: indexPath.item)
+//			self.delegate?.didSelectSubcategory(resource: self.category.subcategory.fileToRead, subject: self.category.subcategory.subcategories[indexPath.item], index: indexPath.item)
 		}
     }
 }

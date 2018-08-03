@@ -45,9 +45,7 @@ class AddSubjectsTableViewCell : UITableViewCell  {
 	}()
     
     let subcatContainer = UIView()
-
 	let selectedIcon = SelectedCellIcon()
-	
 	let cellBackground = UIView()
 
 	func configureTableViewCell() {
@@ -66,7 +64,6 @@ class AddSubjectsTableViewCell : UITableViewCell  {
 	}
 	
 	func applyConstraints() {
-        
         selectedIcon.snp.makeConstraints { (make) in
             make.width.equalTo(60)
             make.right.equalToSuperview()
@@ -75,7 +72,7 @@ class AddSubjectsTableViewCell : UITableViewCell  {
         }
         
         subject.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(12)
+            make.left.equalToSuperview().inset(20)
             make.right.equalTo(selectedIcon.snp.left)
             make.height.equalToSuperview()
             make.centerY.equalToSuperview()

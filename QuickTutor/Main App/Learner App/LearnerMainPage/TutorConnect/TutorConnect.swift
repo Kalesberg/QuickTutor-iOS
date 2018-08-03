@@ -12,7 +12,7 @@ import CoreLocation
 
 protocol ApplyLearnerFilters {
     var filters : (Int,Int,Bool)! { get set }
-    var location : CLLocation? { get set}
+    var location : CLLocation? { get set }
     func filterTutors()
 }
 

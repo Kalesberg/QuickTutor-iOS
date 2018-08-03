@@ -82,6 +82,25 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return collectionView
 	}()
 	
+	let categoryTableView : UITableView = {
+		let tableView = UITableView(frame: .zero, style: .grouped)
+		
+		let header = SubjectSearchTableViewHeader()
+		header.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 75)
+		header.subtitle.text = "Search a subject within any subcategory."
+		
+		tableView.showsVerticalScrollIndicator = false
+		tableView.separatorStyle = .none
+		tableView.backgroundColor = Colors.backgroundDark
+		tableView.sectionFooterHeight = 3
+		tableView.sectionHeaderHeight = 0
+		tableView.tableHeaderView = header
+		
+		tableView.tag = 1
+		
+		return tableView
+	}()
+	
 	let tableView : UITableView = {
 		let tableView = UITableView()
 		
@@ -117,7 +136,8 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
 	override func configureView() {
 		addSubview(noSelectedItemsLabel)
-		addSubview(categoryCollectionView)
+//		addSubview(categoryCollectionView)
+		addSubview(categoryTableView)
 		addSubview(pickedCollectionView)
 		addSubview(tableView)
 		addSubview(nextButton)
@@ -167,16 +187,23 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
+//		
+//		categoryCollectionView.snp.makeConstraints { (make) in
+//			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-6)
+//			make.width.equalToSuperview()
+//			make.centerX.equalToSuperview()
+//			if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
+//				make.height.equalTo(235)
+//			} else {
+//				make.height.equalTo(295)
+//			}
+//		}
 		
-		categoryCollectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-6)
-			make.width.equalToSuperview()
+		categoryTableView.snp.makeConstraints { (make) in
+			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-3)
+			make.width.equalToSuperview().multipliedBy(0.95)
 			make.centerX.equalToSuperview()
-			if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
-				make.height.equalTo(235)
-			} else {
-				make.height.equalTo(295)
-			}
+			make.bottom.equalTo(nextButton.snp.top)
 		}
 		
 		tableView.snp.makeConstraints { (make) in
@@ -222,13 +249,14 @@ class EditTutorSubjects : BaseViewController {
 	
 	let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	
-	var initialSetup : Bool = false
 	var automaticScroll : Bool = false
 	var shouldUpdateSearchResults = false
 	
 	var filteredSubjects : [(String, String)] = []
 	var partialSubjects : [(String, String)] = []
 	var allSubjects : [(String, String)] = []
+	
+	var inlineCellIndexPath : IndexPath?
 	
 	var didSelectCategory = false {
 		didSet {
@@ -291,24 +319,22 @@ class EditTutorSubjects : BaseViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		
-		let initialIndex = IndexPath(item: categories.count / 2, section: 0)
-		
-		if !initialSetup {
-			contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
-			initialSetup = true
-		}
-		contentView.categoryCollectionView.reloadData()
 	}
+	
 	private func configureDelegates() {
 		
 		contentView.pickedCollectionView.delegate = self
 		contentView.pickedCollectionView.dataSource = self
 		contentView.pickedCollectionView.register(PickedSubjectsCollectionViewCell.self, forCellWithReuseIdentifier: "pickedCollectionViewCell")
+
+//		contentView.categoryCollectionView.delegate = self
+//		contentView.categoryCollectionView.dataSource = self
+//		contentView.categoryCollectionView.register(CategorySelectionCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCollectionViewCell")
 		
-		contentView.categoryCollectionView.delegate = self
-		contentView.categoryCollectionView.dataSource = self
-		contentView.categoryCollectionView.register(CategorySelectionCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCollectionViewCell")
+		contentView.categoryTableView.delegate = self
+		contentView.categoryTableView.dataSource = self
+		contentView.categoryTableView.register(SubjectSearchCategoryCell.self, forCellReuseIdentifier: "categoryCell")
+		contentView.categoryTableView.register(SubjectSearchSubcategoryCell.self, forCellReuseIdentifier: "subcategoryCell")
 		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
@@ -317,11 +343,9 @@ class EditTutorSubjects : BaseViewController {
 		contentView.searchBar.delegate = self
 	}
 	
-	
 	private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {
 		tableViewIsActive = bool
 		UIView.animate(withDuration: 0.25, animations: {
-			self.contentView.categoryCollectionView.alpha = bool ? 0.0 : 1.0
 			return
 		})
 		
@@ -443,7 +467,6 @@ class EditTutorSubjects : BaseViewController {
 			let formattedValue = value.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "#", with: "<").replacingOccurrences(of: ".", with: ">")
 			post[formattedValue] = formattedValue
 		}
-		print("POST: ", post)
 		self.ref.child("subcategory").child(node).child(CurrentUser.shared.learner.uid).updateChildValues(post)
 	}
 	
@@ -500,15 +523,198 @@ class EditTutorSubjects : BaseViewController {
 	}
 }
 
-extension EditTutorSubjects : SelectedSubcategory {
+extension EditTutorSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	
-	func didSelectSubcategory(resource: String, subject: String, index: Int) {
-		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subject) {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return selectedSubjects.count
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		if selectedSubjects.count > 0 {
+			return CGSize(width: (selectedSubjects[indexPath.row] as NSString).size(withAttributes: nil).width + 55, height: 30)
+		} else {
+			return CGSize(width: 60, height: 30)
+		}
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pickedCollectionViewCell", for: indexPath) as! PickedSubjectsCollectionViewCell
+		cell.subject.text = selectedSubjects[indexPath.item]
+		return cell
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+		
+		let remove = UIAlertAction(title: "Remove", style: .destructive) { (_) in
+			self.removeItem(item: indexPath.item)
+		}
+		let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		
+		alert.addAction(remove)
+		alert.addAction(cancel)
+		
+		self.present(alert, animated: true)
+	}
+}
+
+extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
+	func numberOfSections(in tableView: UITableView) -> Int {
+		if tableView.tag == 1 {
+			return inlineCellIndexPath != nil ? categories.count + 1 : categories.count
+		}
+		return 1
+	}
+	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		if tableView.tag != 1 {
+			return shouldUpdateSearchResults ? filteredSubjects.count : allSubjects.count
+		}
+		return 1
+	}
+	
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		if tableView.tag == 1 {
+			let tempHeight =  tableView.bounds.height / CGFloat(12)
+			if inlineCellIndexPath != nil && inlineCellIndexPath!.section == indexPath.section {
+				let height = tempHeight > 44 ? tempHeight : 44
+				return height * 5
+			}
+			return 50
+		} else {
+			return 55
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		if tableView.tag == 1 {
+			if inlineCellIndexPath != nil && inlineCellIndexPath?.section == indexPath.section {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "subcategoryCell", for: indexPath) as! SubjectSearchSubcategoryCell
+				cell.subcategoryIcons = categories[indexPath.section - 1].subcategory.icon
+				cell.dataSource = categories[indexPath.section - 1].subcategory.subcategories
+				cell.selectedCategory = categories[indexPath.section - 1].subcategory.fileToRead
+				cell.delegate = self
+				return cell
+			} else {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! SubjectSearchCategoryCell
+				let index = (inlineCellIndexPath != nil && indexPath.section > inlineCellIndexPath!.section) ? indexPath.section - 1 : indexPath.section
+				cell.title.text = categories[index].mainPageData.displayName
+				cell.backgroundColor = Colors.tutorBlue
+				
+				if (inlineCellIndexPath != nil && inlineCellIndexPath!.section - 1 == indexPath.section) {
+					cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
+				} else {
+					cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / -2))
+				}
+				return cell
+			}
+		} else {
+			let cell = tableView.dequeueReusableCell(withIdentifier: "addSubjectsCell", for: indexPath) as! AddSubjectsTableViewCell
+			let subjects = shouldUpdateSearchResults ? filteredSubjects[indexPath.row] : allSubjects[indexPath.row]
+			cell.subcategory.isHidden = didSelectCategory
+			cell.subject.text = subjects.0
+			cell.subcategory.text = subjects.1
+			cell.selectedIcon.isSelected = selectedSubjects.contains(subjects.0)
+			return cell
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		if tableView.tag != 1 && section == 0 {
+			return contentView.headerView
+		}
+		return nil
+	}
+	
+	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+		return tableView.tag == 1 ? 0 : 40
+	}
+	
+	func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+		if tableView.tag == 1 {
+			return 3
+		}
+		return section != 0 ? 5 : 0
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if tableView.tag == 1 {
+			let cell = tableView.cellForRow(at: indexPath) as! SubjectSearchCategoryCell
+			UIView.animate(withDuration: 0.2) {
+				cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
+			}
+			tableView.beginUpdates()
+			if inlineCellIndexPath != nil && inlineCellIndexPath!.section - 1 == indexPath.section {
+				tableView.deleteSections([inlineCellIndexPath!.section], with: .fade)
+				inlineCellIndexPath = nil
+				UIView.animate(withDuration: 0.2) {
+					cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / -2))
+				}
+			} else {
+				if inlineCellIndexPath != nil {
+					if let cell = tableView.cellForRow(at: IndexPath(row: inlineCellIndexPath!.row, section: inlineCellIndexPath!.section - 1)) as? SubjectSearchCategoryCell {
+						UIView.animate(withDuration: 0.2) {
+							cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / -2))
+						}
+					}
+					tableView.deleteSections([inlineCellIndexPath!.section], with: .fade)
+				}
+				inlineCellIndexPath = calculateDatePickerIndexPath(indexPath)
+				tableView.insertSections([inlineCellIndexPath!.section], with: .fade)
+			}
+			tableView.deselectRow(at: indexPath, animated: true)
+			tableView.endUpdates()
+			if inlineCellIndexPath != nil {
+				tableView.scrollToRow(at: IndexPath(row: inlineCellIndexPath!.row, section: inlineCellIndexPath!.section - 1), at: .middle, animated: true)
+			}
+		} else {
+			guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
+			
+			if selectedSubjects.count >= 20 && !cell.selectedIcon.isSelected  {
+				AlertController.genericErrorAlert(self, title: "Too Many Subjects", message: "We currently only allow tutors to choose 20 subjects.")
+				tableView.deselectRow(at: indexPath, animated: true)
+				return
+			}
+			
+			if selectedSubjects.contains(cell.subject.text!) {
+				cell.selectedIcon.isSelected = false
+				removeItem(item: selectedSubjects.index(of: cell.subject.text!)!)
+				tableView.deselectRow(at: indexPath, animated: true)
+				return
+			}
+			
+			cell.selectedIcon.isSelected = true
+			contentView.noSelectedItemsLabel.isHidden = true
+			selectedSubjects.append(cell.subject.text!)
+			selected.append(Selected(path: cell.subcategory.text!, subject: cell.subject.text!))
+			
+			let index = IndexPath(item: selectedSubjects.endIndex - 1, section: 0)
+			contentView.pickedCollectionView.performBatchUpdates({ [weak self] () -> Void in
+				self?.contentView.pickedCollectionView.insertItems(at: [index]) }, completion: nil)
+			
+			let endIndex = IndexPath(item: selectedSubjects.count - 1, section: 0)
+			contentView.pickedCollectionView.scrollToItem(at: endIndex, at: .right, animated: true)
+			contentView.pickedCollectionView.reloadData()
+			
+			tableView.deselectRow(at: indexPath, animated: true)
+			
+			contentView.nextButton.label.text = "Save (\(self.selected.count))"
+		}
+	}
+	
+	func calculateDatePickerIndexPath(_ selectedIndexPath : IndexPath) -> IndexPath {
+		return (inlineCellIndexPath != nil && inlineCellIndexPath!.section < selectedIndexPath.section) ? IndexPath(row: 0, section: selectedIndexPath.section) : IndexPath(row: 0, section: selectedIndexPath.section + 1)
+	}
+}
+
+extension EditTutorSubjects : DidSelectSubcategoryCell {
+	func didSelectSubcategoryCell(resource: String?, subcategory: String) {
+		guard let resource = resource else { return }
+		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subcategory) {
 			self.partialSubjects = subjects
 			self.filteredSubjects = self.partialSubjects
-			self.contentView.headerView.category.text = subject
+			self.contentView.headerView.category.text = subcategory
 		}
-		
 		tableView(shouldDisplay: true) {
 			self.didSelectCategory = true
 			self.contentView.tableView.reloadData()
@@ -518,148 +724,8 @@ extension EditTutorSubjects : SelectedSubcategory {
 	}
 }
 
-extension EditTutorSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-	
-	internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return collectionView.tag == 0 ? categories.count : selectedSubjects.count
-	}
-	
-	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		if collectionView.tag == 0 {
-			return CGSize(width: UIScreen.main.bounds.width - 20, height: collectionView.frame.height)
-		} else {
-			if selectedSubjects.count > 0 {
-				return CGSize(width: (selectedSubjects[indexPath.row] as NSString).size(withAttributes: nil).width + 55, height: 30)
-			} else {
-				return CGSize(width: 60, height: 30)
-			}
-		}
-	}
-	
-	internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		if collectionView.tag == 0 {
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCollectionViewCell", for: indexPath) as! CategorySelectionCollectionViewCell
-			
-			cell.category = categories[indexPath.item]
-			cell.delegate = self
-			
-			return cell
-		} else {
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pickedCollectionViewCell", for: indexPath) as! PickedSubjectsCollectionViewCell
-			cell.subject.text = selectedSubjects[indexPath.item]
-			return cell
-		}
-	}
-	
-	internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		if collectionView.tag == 1 {
-			let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-			
-			let remove = UIAlertAction(title: "Remove", style: .destructive) { (_) in
-				self.removeItem(item: indexPath.item)
-			}
-			let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-			
-			alert.addAction(remove)
-			alert.addAction(cancel)
-			
-			self.present(alert, animated: true)
-		}
-	}
-	
-	internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-		return collectionView.tag == 0 ? 20 : 0
-	}
-}
-
-extension EditTutorSubjects : UITableViewDelegate, UITableViewDataSource {
-	
-	internal func numberOfSections(in tableView: UITableView) -> Int {
-		return shouldUpdateSearchResults ? filteredSubjects.count : allSubjects.count
-	}
-	
-	internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 1
-	}
-	
-	internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "addSubjectsCell", for: indexPath) as! AddSubjectsTableViewCell
-		
-		if shouldUpdateSearchResults {
-			cell.subcategory.isHidden = didSelectCategory
-			cell.subject.text = filteredSubjects[indexPath.section].0
-			cell.subcategory.text = filteredSubjects[indexPath.section].1
-			cell.selectedIcon.isSelected = selectedSubjects.contains(filteredSubjects[indexPath.section].0)
-		} else {
-			cell.subject.text = allSubjects[indexPath.section].0
-			cell.subcategory.text = allSubjects[indexPath.section].1
-			cell.selectedIcon.isSelected = selectedSubjects.contains(allSubjects[indexPath.section].0)
-		}
-		return cell
-	}
-	
-	internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 55
-	}
-	
-	internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		if section == 0 {
-			return contentView.headerView
-		}
-		let view : UIView = {
-			let view  = UIView()
-			view.backgroundColor = Colors.darkBackground
-			return view
-		}()
-		return view
-	}
-	
-	internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return section == 0 ? 50 : 5
-	}
-	
-	internal func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-		return section != 0 ? 5 : 0
-	}
-	
-	internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let cell = tableView.cellForRow(at: indexPath) as? AddSubjectsTableViewCell else { return }
-		
-		if selectedSubjects.count >= 20 && !cell.selectedIcon.isSelected  {
-			AlertController.genericErrorAlert(self, title: "Too Many Subjects", message: "We currently only allow tutors to choose 20 subjects.")
-			tableView.deselectRow(at: indexPath, animated: true)
-			return
-		}
-		
-		if selectedSubjects.contains(cell.subject.text!) {
-			cell.selectedIcon.isSelected = false
-			removeItem(item: selectedSubjects.index(of: cell.subject.text!)!)
-			tableView.deselectRow(at: indexPath, animated: true)
-			return
-		}
-		
-		cell.selectedIcon.isSelected = true
-		contentView.noSelectedItemsLabel.isHidden = true
-		selectedSubjects.append(cell.subject.text!)
-		selected.append(Selected(path: cell.subcategory.text!, subject: cell.subject.text!))
-		
-		let index = IndexPath(item: selectedSubjects.endIndex - 1, section: 0)
-		contentView.pickedCollectionView.performBatchUpdates({ [weak self] () -> Void in
-			self?.contentView.pickedCollectionView.insertItems(at: [index]) }, completion: nil)
-		
-		let endIndex = IndexPath(item: selectedSubjects.count - 1, section: 0)
-		contentView.pickedCollectionView.scrollToItem(at: endIndex, at: .right, animated: true)
-		contentView.pickedCollectionView.reloadData()
-		
-		tableView.deselectRow(at: indexPath, animated: true)
-		
-		contentView.nextButton.label.text = "Save (\(self.selected.count))"
-	}
-}
-
 extension EditTutorSubjects : UISearchBarDelegate {
-	
-	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		if searchBar.text!.count < 1 {
 			if didSelectCategory {
 				contentView.tableView.reloadData()

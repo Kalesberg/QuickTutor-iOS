@@ -7,13 +7,35 @@
 //
 
 import UIKit
+import CoreLocation
 
-class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
+protocol UpdatedFiltersCallback {
+	func filtersUpdated()
+}
+
+struct Filters {
+	let distance: Int?
+	let price: Int?
+	let inPerson: Bool?
+	let location : CLLocation?
+	
+	init(distance: Int?=nil, price: Int?=nil, inPerson: Bool?=nil, location: CLLocation?=nil) {
+		self.distance = distance
+		self.price = price
+		self.inPerson = inPerson
+		self.location = location
+	}
+}
+
+
+
+class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
 	var filters = NavbarButtonFilters()
 	
 	var backButton = NavbarButtonXLight()
+	var applyFiltersButton = NavbarButtonFilters()
 	
 	let headerView = SectionHeader()
 	
@@ -22,6 +44,14 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 			return backButton
 		} set {
 			backButton = newValue as! NavbarButtonXLight
+		}
+	}
+	override var rightButton : NavbarButton {
+		get {
+			return applyFiltersButton
+		}
+		set {
+			applyFiltersButton = newValue as! NavbarButtonFilters
 		}
 	}
 	
@@ -37,28 +67,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		return searchBar
 	}()
 	
-	let categoryCollectionView : UICollectionView = {
-		let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-		let layout = UICollectionViewFlowLayout()
-		
-		layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-		layout.scrollDirection = .horizontal
-		layout.minimumInteritemSpacing = 0.0
-		
-		collectionView.backgroundColor = Colors.backgroundDark
-		collectionView.collectionViewLayout = layout
-		collectionView.backgroundColor = .clear
-		collectionView.showsVerticalScrollIndicator = false
-		collectionView.showsHorizontalScrollIndicator = false
-		collectionView.isPagingEnabled = true
-		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-		
-		collectionView.tag = 0
-		
-		return collectionView
-	}()
-	
-	let newTableView : UITableView = {
+	let categoryTableView : UITableView = {
 		let tableView = UITableView(frame: .zero, style: .grouped)
 		let header = SubjectSearchTableViewHeader()
 		header.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 75)
@@ -89,8 +98,7 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 	
 	override func configureView() {
 		navbar.addSubview(searchBar)
-		addSubview(newTableView)
-		addSubview(categoryCollectionView)
+		addSubview(categoryTableView)
 		addSubview(tableView)
 		addSubview(keyboardView)
 		super.configureView()
@@ -115,22 +123,13 @@ class SearchSubjectsView : MainLayoutOneButton, Keyboardable {
 		super.applyConstraints()
 		
 		searchBar.snp.makeConstraints { (make) in
-			make.left.equalTo(backButton.snp.right)
-			make.right.height.equalToSuperview()
+			make.left.equalTo(backButton.snp.right).inset(15)
+			make.right.equalTo(applyFiltersButton.snp.left).inset(15)
+			make.height.equalToSuperview()
 			make.centerY.equalTo(backButton.image)
 		}
 		
-	//		categoryCollectionView.snp.makeConstraints { (make) in
-//			make.top.equalTo(searchBar.snp.bottom).inset(-20)
-//			make.width.centerX.equalToSuperview()
-//            if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
-//                make.height.equalTo(235)
-//            } else {
-//                make.height.equalTo(295)
-//            }
-//		}
-		
-		newTableView.snp.makeConstraints { (make) in
+		categoryTableView.snp.makeConstraints { (make) in
 			make.top.equalTo(searchBar.snp.bottom).inset(-3)
 			make.width.equalToSuperview().multipliedBy(0.95)
 			make.centerX.equalToSuperview()
@@ -173,7 +172,6 @@ class SearchSubjects: BaseViewController {
 	var categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
 	var searchTimer = Timer()
-	var initialSetup : Bool = false
 	var automaticScroll : Bool = false
 	var shouldUpdateSearchResults = false
 
@@ -190,8 +188,6 @@ class SearchSubjects: BaseViewController {
 		}
 	}
 	
-	var initialIndex : IndexPath? = IndexPath(item: 6, section: 0)
-
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		if let subjects = SubjectStore.loadTotalSubjectList() {
@@ -220,27 +216,17 @@ class SearchSubjects: BaseViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		if !initialSetup && initialIndex != nil {
-			contentView.categoryCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: .centeredHorizontally)
-			initialSetup = true
-		}
-		contentView.categoryCollectionView.reloadData()
 	}
 	
 	private func configureDelegates() {
-		
-		contentView.categoryCollectionView.delegate = self
-		contentView.categoryCollectionView.dataSource = self
-		contentView.categoryCollectionView.register(CategorySelectionCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCollectionViewCell")
-		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(SubjectTableViewCell.self, forCellReuseIdentifier: "subjectTableViewCell")
 
-		contentView.newTableView.delegate = self
-		contentView.newTableView.dataSource = self
-		contentView.newTableView.register(SubjectSearchCategoryCell.self, forCellReuseIdentifier: "categoryCell")
-		contentView.newTableView.register(SubjectSearchSubcategoryCell.self, forCellReuseIdentifier: "subcategoryCell")
+		contentView.categoryTableView.delegate = self
+		contentView.categoryTableView.dataSource = self
+		contentView.categoryTableView.register(SubjectSearchCategoryCell.self, forCellReuseIdentifier: "categoryCell")
+		contentView.categoryTableView.register(SubjectSearchSubcategoryCell.self, forCellReuseIdentifier: "subcategoryCell")
 		
 		contentView.searchBar.delegate = self
 	}
@@ -251,9 +237,9 @@ class SearchSubjects: BaseViewController {
 	}
 
 	private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {
+		
 		tableViewIsActive = bool
 		UIView.animate(withDuration: 0.15, animations: {
-			self.contentView.categoryCollectionView.alpha = bool ? 0.0 : 1.0
 		}) { (_) in
 			UIView.animate(withDuration: 0.15, animations: {
 				self.contentView.tableView.alpha = bool ? 1.0 : 0.0
@@ -295,40 +281,11 @@ class SearchSubjects: BaseViewController {
 					nav?.popViewController(animated: false)
 				}
 			}
+		} else if touchStartView is NavbarButtonFilters {
+			let next = LearnerFilters()
+			//Set up filters to apply.
+			self.navigationController?.pushViewController(next, animated: true)
 		}
-	}
-}
-
-extension SearchSubjects : SelectedSubcategory {
-	
-	func didSelectSubcategory(resource: String, subject: String, index: Int) {
-		let next = TutorConnect()
-		next.subcategory = subject.lowercased()
-		next.contentView.searchBar.text = subject
-		self.navigationController?.pushViewController(next, animated: true)
-	}
-}
-
-extension SearchSubjects : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-	
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return categories.count
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCollectionViewCell", for: indexPath) as! CategorySelectionCollectionViewCell
-		cell.category = categories[indexPath.item]
-		cell.delegate = self
-		
-		return cell
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: UIScreen.main.bounds.width - 20, height: collectionView.frame.height)
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-		return 20
 	}
 }
 
@@ -346,8 +303,7 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		if tableView.tag == 1 {
-			let tableViewHeight = tableView.bounds.height
-			let tempHeight = tableViewHeight / CGFloat(12)
+			let tempHeight =  tableView.bounds.height / CGFloat(12)
 			if inlineCellIndexPath != nil && inlineCellIndexPath!.section == indexPath.section {
 				let height = tempHeight > 44 ? tempHeight : 44
 				return height * 5
@@ -369,24 +325,19 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! SubjectSearchCategoryCell
 				let index = (inlineCellIndexPath != nil && indexPath.section > inlineCellIndexPath!.section) ? indexPath.section - 1 : indexPath.section
 				cell.title.text = categories[index].mainPageData.displayName
-
-				if inlineCellIndexPath != nil && inlineCellIndexPath!.section - 1 == indexPath.section {
+				if (inlineCellIndexPath != nil && inlineCellIndexPath!.section - 1 == indexPath.section) {
 					cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
 				} else {
 					cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / -2))
 				}
+				
 				return cell
 			}
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "subjectTableViewCell", for: indexPath) as! SubjectTableViewCell
-			
-			if shouldUpdateSearchResults {
-				cell.subject.text = filteredSubjects[indexPath.section].0
-				cell.subcategory.text = filteredSubjects[indexPath.section].1
-			} else {
-				cell.subject.text = allSubjects[indexPath.section].0
-				cell.subcategory.text = allSubjects[indexPath.section].1
-			}
+			let subjects = shouldUpdateSearchResults ? filteredSubjects : allSubjects
+			cell.subject.text = subjects[indexPath.section].0
+			cell.subcategory.text = subjects[indexPath.section].1
 			return cell
 		}
 	}
@@ -420,7 +371,6 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 			if inlineCellIndexPath != nil {
 				tableView.scrollToRow(at: IndexPath(row: inlineCellIndexPath!.row, section: inlineCellIndexPath!.section - 1), at: .middle, animated: true)
 			}
-
 		} else {
 			guard let cell = tableView.cellForRow(at: indexPath) as? SubjectTableViewCell else { return }
 			
@@ -437,7 +387,7 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 }
 
 extension SearchSubjects : DidSelectSubcategoryCell {
-	func didSelectSubcategoryCell(subcategory: String) {
+	func didSelectSubcategoryCell(resource: String?, subcategory: String) {
 		let next = TutorConnect()
 		next.subcategory = subcategory.lowercased()
 		next.contentView.searchBar.text = subcategory
@@ -471,7 +421,7 @@ extension SearchSubjects : UISearchBarDelegate {
 		guard let searchText = sender.userInfo as? String else { return }
 		searchTimer.invalidate()
 		tableView(shouldDisplay: true) {
-			self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)}).sorted(by: <)
+			self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
 			self.contentView.tableView.reloadData()
 		}
 	}

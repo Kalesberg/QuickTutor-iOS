@@ -22,8 +22,8 @@ class SectionHeader : BaseView {
         category.font = Fonts.createBoldSize(20)
         category.textColor = .white
         category.adjustsFontSizeToFitWidth = true
-        
-        applyConstraints()
+
+		applyConstraints()
     }
     
     override func applyConstraints() {
@@ -191,7 +191,6 @@ struct SubjectStore {
     }
     
     static func readSubcategory(resource: String, subjectString: String) -> [(String, String)]? {
-        
         var subjects : [(String, String)] = []
         
         do {

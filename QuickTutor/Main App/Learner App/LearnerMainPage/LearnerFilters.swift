@@ -163,7 +163,7 @@ class LearnerFilters: BaseViewController {
 	
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonXLight {
-			self.dismiss(animated: true, completion: nil)
+			self.navigationController?.popViewController(animated: true)
 		} else if touchStartView is NavbarButtonText {
 			
 			distance = (distance == 0) ? -1 : distance + 10

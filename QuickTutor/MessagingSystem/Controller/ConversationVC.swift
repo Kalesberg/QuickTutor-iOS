@@ -380,7 +380,9 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
                     cell?.updateAsDeclined()
                 } else if session.status == "cancelled" {
                     cell?.updateAsCancelled()
-                }
+				} else if session.status == "pending" {
+					cell?.updateAsPending()
+				}
             } else {
                 // item could not be found
             }
@@ -593,7 +595,6 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             return
         }
     }
-    
 }
 
 extension ConversationVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

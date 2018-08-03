@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol DidSelectSubcategoryCell {
-	func didSelectSubcategoryCell(subcategory: String)
+	func didSelectSubcategoryCell(resource: String?, subcategory: String)
 }
 
 class SubjectSearchSubcategoryCell : UITableViewCell {
@@ -41,8 +41,8 @@ class SubjectSearchSubcategoryCell : UITableViewCell {
 		}
 	}
 	var subcategoryIcons = [UIImage]()
-	
 	var delegate : DidSelectSubcategoryCell?
+	var selectedCategory : String?
 	
 	func configureTableViewCell() {
 		addSubview(tableView)
@@ -87,7 +87,7 @@ extension SubjectSearchSubcategoryCell : UITableViewDelegate, UITableViewDataSou
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard let cell = tableView.cellForRow(at: indexPath) as? SubjectSubcategoryTableViewCell else { return }
-		delegate?.didSelectSubcategoryCell(subcategory: cell.title.text!)
+		delegate?.didSelectSubcategoryCell(resource: selectedCategory, subcategory: cell.title.text!)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }

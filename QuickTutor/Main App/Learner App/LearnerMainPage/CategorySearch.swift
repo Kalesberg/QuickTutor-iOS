@@ -236,13 +236,7 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 
 extension CategorySearch : UISearchBarDelegate {
 	internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-		let next = SearchSubjects()
-		if let index = Category.categories.index(of: category) {
-			next.initialIndex = IndexPath(item: index, section: 0)
-			navigationController?.pushViewController(next, animated: true)
-		} else {
-			navigationController?.pushViewController(next, animated: true)
-		}
+		navigationController?.pushViewController(SearchSubjects(), animated: true)
 	}
 }
 

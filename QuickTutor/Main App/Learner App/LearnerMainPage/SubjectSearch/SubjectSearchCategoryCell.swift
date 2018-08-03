@@ -52,7 +52,6 @@ class SubjectSearchCategoryCell : UITableViewCell {
 	func configureTableViewCell() {
 		addSubview(container)
 		container.addSubview(title)
-	//	container.addSubview(subtitle)
 		container.addSubview(dropDownArrow)
 		
 		selectionStyle = .none
@@ -74,12 +73,6 @@ class SubjectSearchCategoryCell : UITableViewCell {
 			make.right.equalTo(dropDownArrow.snp.left)
 			make.height.equalTo(20)
 		}
-//		subtitle.snp.makeConstraints { (make) in
-//			make.top.equalTo(title.snp.bottom)
-//			make.left.equalToSuperview().inset(10)
-//			make.right.equalTo(dropDownArrow.snp.left)
-//			make.height.equalTo(20)
-//		}
 		dropDownArrow.snp.makeConstraints { (make) in
 			make.centerY.equalToSuperview()
 			make.right.equalToSuperview().inset(20)
