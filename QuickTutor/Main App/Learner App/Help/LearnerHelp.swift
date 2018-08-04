@@ -11,21 +11,12 @@ import UIKit
 import Foundation
 
 
-class LearnerHelpView : MainLayoutTitleOneButton {
+class LearnerHelpView : MainLayoutTitleBackButton {
     
     var subtitle = LeftTextLabel()
     var tableView = UITableView()
     var header = UIView()
 	
-	var backButton = NavbarButtonBack()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		} set {
-			backButton = newValue as! NavbarButtonBack
-		}
-	}
     override func configureView() {
         addSubview(subtitle)
         addSubview(tableView)

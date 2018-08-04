@@ -10,18 +10,8 @@ import Foundation
 import UIKit
 
 
-class TutorListingsView : MainLayoutTitleOneButton {
-	
-	var backButton = NavbarButtonImage()
-	
-	override var leftButton: NavbarButton{
-		get {
-			return backButton
-		}
-		set {
-			backButton = newValue as! NavbarButtonImage
-		}
-	}
+class TutorListingsView : MainLayoutTitleBackButton {
+
     let titleLabel : UILabel = {
         let label = UILabel()
         

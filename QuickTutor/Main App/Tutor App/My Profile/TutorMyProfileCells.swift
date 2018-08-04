@@ -712,8 +712,8 @@ class NoRatingsTableViewCell : BaseTableViewCell {
         let label = UILabel()
         
         label.text = "Reviews"
-        label.font = Fonts.createBoldSize(18)
-        label.textColor = .white
+        label.font = Fonts.createBoldSize(16)
+        label.textColor = UIColor(hex: "5785d4")
         
         return label
     }()
@@ -788,9 +788,9 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
-        return 10
-    }
+//    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+//        return 10
+//    }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
@@ -809,7 +809,7 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 40
     }
 }
 
@@ -915,7 +915,7 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     let nameLabel : UILabel = {
         let label = UILabel()
         
-        label.textColor = .white
+        label.textColor = UIColor(hex: "5785d4")
         label.font = Fonts.createBoldSize(16)
         
         return label
@@ -949,10 +949,6 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
         container.addSubview(dateSubjectLabel)
         container.addSubview(reviewTextLabel)
         super.configureView()
-    
-        container.layer.cornerRadius = 15
-        container.layer.borderWidth = 1.5
-        container.layer.borderColor = Colors.sidebarPurple.cgColor
         
         contentView.backgroundColor = .clear
         

@@ -10,7 +10,7 @@
 import UIKit.UITableView
 import Stripe
 
-class BankManagerView : MainLayoutTitleOneButton {
+class BankManagerView : MainLayoutTitleBackButton {
 	
 	let subtitleLabel : LeftTextLabel = {
 		let label = LeftTextLabel()
@@ -34,18 +34,6 @@ class BankManagerView : MainLayoutTitleOneButton {
 		
 		return tableView
 	}()
-	
-	var backButton = NavbarButtonBack()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		}
-		set {
-			backButton = newValue as! NavbarButtonBack
-		}
-	}
-	
 	
 	override func configureView() {
 		addSubview(subtitleLabel)
