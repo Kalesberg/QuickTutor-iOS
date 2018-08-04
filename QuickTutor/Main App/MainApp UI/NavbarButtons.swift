@@ -45,8 +45,7 @@ class NavbarButtonImage : NavbarButton, Interactable {
     
     override func applyConstraints() {
         image.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.center.equalToSuperview()
         }
     }
     
@@ -99,8 +98,9 @@ class NavbarButtonBack: NavbarButtonImage {
 	
     override func configureView() {
         super.configureView()
-        
+
         image.image = UIImage(named: "back-button")
+        image.contentMode = .scaleAspectFit
     }
     
     override func touchEndOnStart() {
@@ -108,6 +108,13 @@ class NavbarButtonBack: NavbarButtonImage {
 		if NavbarButtonBack.enabled {
 			navigationController.popViewController(animated: true)
 		}
+    }
+    
+    override func applyConstraints() {
+        image.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(35)
+        }
     }
 }
 
@@ -158,6 +165,14 @@ class NavbarButtonXLight: NavbarButtonImage {
         super.configureView()
         
         image.image = UIImage(named: "xbuttonlight")
+        image.contentMode = .scaleAspectFit
+    }
+    
+    override func applyConstraints() {
+        image.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(35)
+        }
     }
 }
 

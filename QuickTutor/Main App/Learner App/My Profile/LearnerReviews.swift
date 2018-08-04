@@ -15,7 +15,7 @@ struct Review {
 	let rating : String!
 }
 
-class LearnerReviewsView : MainLayoutTitleOneButton {
+class LearnerReviewsView : MainLayoutTitleBackButton {
 	
 	let tableView  : UITableView = {
 		let tableView = UITableView()
@@ -29,16 +29,6 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
 		
 		return tableView
 	}()
-	
-	var backButton = NavbarButtonXLight()
-	
-	override var leftButton : NavbarButton {
-		get {
-			return backButton
-		} set {
-			backButton = newValue as! NavbarButtonXLight
-		}
-	}
 	
 	fileprivate var subtitleLabel = LeftTextLabel()
 	

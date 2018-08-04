@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
-class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
+class EditTutorSubjectsView : MainLayoutTitleBackTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
 	
@@ -116,16 +116,8 @@ class EditTutorSubjectsView : MainLayoutTwoButton, Keyboardable {
 		return tableView
 	}()
 	
-	var backButton = NavbarButtonXLight()
 	var cancelButton = NavbarButtonDone()
 	
-	override var leftButton : NavbarButton {
-		get {
-			return backButton
-		} set {
-			backButton = newValue as! NavbarButtonXLight
-		}
-	}
 	override var rightButton: NavbarButton  {
 		get {
 			return cancelButton

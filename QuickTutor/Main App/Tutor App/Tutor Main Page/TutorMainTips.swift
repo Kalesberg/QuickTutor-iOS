@@ -9,18 +9,7 @@
 import Foundation
 import UIKit
 
-class TutorMainTipsView : MainLayoutTitleOneButton {
-	
-	var backButton = NavbarButtonX()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		}
-		set {
-			backButton = newValue as! NavbarButtonX
-		}
-	}
+class TutorMainTipsView : MainLayoutTitleBackButton {
 	
     let tableView : UITableView = {
         let tableView = UITableView()
