@@ -96,11 +96,15 @@ class ConversationManager {
         
     }
     
+    var messageAlreadyLoaded = true
     func listenForNewMessages() {
         let query = getConversationQueryRef()
         query.observe(.childAdded) { snapshot in
             let messageId = snapshot.key
-            guard messageId != self.messages.last?.uid else { return }
+            guard !self.messageAlreadyLoaded else {
+                self.messageAlreadyLoaded = false
+                return
+            }
             DataService.shared.getMessageById(messageId, completion: { message in
                 self.messages.append(message)
                 
