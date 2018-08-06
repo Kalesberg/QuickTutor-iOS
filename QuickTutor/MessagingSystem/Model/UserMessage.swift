@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+
 class UserMessage: BaseMessage {
 
     var text: String?

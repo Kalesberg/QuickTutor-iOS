@@ -13,6 +13,10 @@ protocol CustomModalDelegate {
     func handleCancel(id: String)
 }
 
+extension CustomModalDelegate {
+    func handleNevermind() {}
+}
+
 class CustomModal: BaseCustomModal {
     
     var delegate: CustomModalDelegate?

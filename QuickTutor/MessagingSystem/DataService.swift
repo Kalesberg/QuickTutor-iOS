@@ -220,6 +220,7 @@ class DataService {
         metaData["lastMessageProfilePicUrl"] = message.user?.profilePicUrl ?? ""
         metaData["lastMessageUsername"] = message.user?.username ?? ""
         metaData["lastMessageId"] = messageId
+        metaData["memberIds"] = [uid, partnerId]
         
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
@@ -239,6 +240,61 @@ class DataService {
         Storage.storage().reference().child(imageName).putData(data, metadata: metaData) { metadata, _ in
             //guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
             completion("imageUrl")
+        }
+    }
+    
+    func loadInitialMessagesForUserId(_ chatPartnerId: String, lastMessageId: String, completion: @escaping([BaseMessage]) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        var messages = [BaseMessage]()
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        
+        let ref = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(chatPartnerId)
+        var query = ref.queryOrderedByKey()
+        query = query.queryEnding(atValue: lastMessageId).queryLimited(toLast: UInt(50))
+        query.observeSingleEvent(of: .value) { snapshot in
+            guard let children = snapshot.children.allObjects as? [DataSnapshot] else { return }
+            var fetchedMessageCount = 0
+            for child in children {
+                DataService.shared.getMessageById(child.key, completion: { message in
+                    messages.append(message)
+                    fetchedMessageCount += 1
+                    if fetchedMessageCount == children.count {
+                        completion(messages)
+                    }
+                })
+            }
+        }
+    }
+    
+    func checkUnreadMessagesForUser(completion: @escaping(Bool) -> ()) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).observe(.value) { (snapshot) in
+            guard let children = snapshot.children.allObjects as? [DataSnapshot] else { return }
+            var hasUnreadMessages = false
+            for child in children {
+                guard let metaDataIn = child.value as? [String: Any] else { return }
+                
+                let metaData = ConversationMetaData(dictionary: metaDataIn)
+                if let read = metaData.hasRead, !read {
+                    hasUnreadMessages = true
+                }
+            }
+            completion(hasUnreadMessages)
+        }
+    }
+    
+    func getConversationMetaDataForUid(_ partnerId: String, completion: @escaping(ConversationMetaData?) -> ()) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(partnerId).observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            let metaData = ConversationMetaData(dictionary: value)
+            completion(metaData)
         }
     }
 }

@@ -320,9 +320,11 @@ class ConversationCell: UICollectionViewCell {
     
     func checkConversationReadStatus(partnerId: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("readReceipts").child(partnerId).child(uid).observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? Bool else { return }
-            self.newMessageGradientLayer.isHidden = value
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(partnerId).child("readBy").observeSingleEvent(of: .value) { snapshot in
+            guard let readByIds = snapshot.value as? [String: Any] else { return }
+            self.newMessageGradientLayer.isHidden = readByIds[uid] != nil
+
         }
     }
     
