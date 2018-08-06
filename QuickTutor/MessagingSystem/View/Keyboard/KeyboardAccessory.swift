@@ -21,7 +21,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     
     let submitButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Colors.learnerPurple
+        button.backgroundColor = Colors.currentUserColor()
         button.contentMode = .scaleAspectFit
         button.setImage(#imageLiteral(resourceName: "checkIcon"), for: .normal)
         button.applyDefaultShadow()

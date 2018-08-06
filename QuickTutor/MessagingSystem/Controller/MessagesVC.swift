@@ -15,7 +15,6 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
         let bar = ZFNavBar()
         bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "connectionsIcon"), for: .normal)
-//        bar.addSearchBar()
         return bar
     }()
     

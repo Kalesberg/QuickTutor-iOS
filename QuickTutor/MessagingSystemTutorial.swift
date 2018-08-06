@@ -1,5 +1,5 @@
 //
-//  MessagingSystemTutorial.swift
+//  MessagingSystemswift
 //  QuickTutor
 //
 //  Created by Zach Fuller on 6/26/18.
@@ -77,6 +77,67 @@ class MessagingSystemTutorial : UIButton {
         view.anchor(top: nil, left: self.leftAnchor, bottom: self.getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
         
         image.anchor(top: nil, left: self.leftAnchor, bottom: view.topAnchor, right: nil, paddingTop: 0, paddingLeft: 1, paddingBottom: 15, paddingRight: 0, width: 60, height: 60)
+    }
+    
+    func showIfNeeded() {
+        guard shouldShow() else { return }
+        addTarget(self, action: #selector(handleTutorialButton), for: .touchUpInside)
+        let window = UIApplication.shared.windows.last
+        window?.addSubview(self)
+        window?.bringSubview(toFront: self)
+        
+        snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        UIView.animate(withDuration: 1, animations: {
+            self.alpha = 1
+        })
+    }
+    
+    @objc func handleTutorialButton() {
+        switch count {
+        case 0:
+            UIView.animate(withDuration: 0.5, animations: {
+                self.label.alpha = 0
+            }, completion: { _ in
+                self.label.text = self.phrases[1]
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.label.alpha = 1
+                })
+            })
+        case 1:
+            UIView.animate(withDuration: 0.5, animations: {
+                self.label.alpha = 0
+            }, completion: { _ in
+                self.label.text = self.phrases[2]
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.label.alpha = 1
+                    self.view.alpha = 1
+                    self.image.alpha = 1
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
+                        self.image.center.y += 10
+                    })
+                })
+            })
+        case 2:
+            UIView.animate(withDuration: 0.5, animations: {
+                self.alpha = 0
+            })
+        default:
+            return
+        }
+        
+        count += 1
+    }
+    
+    func shouldShow() -> Bool {
+        if UserDefaults.standard.bool(forKey: "showMessagingSystemTutorial1.0") {
+            UserDefaults.standard.set(false, forKey: "showMessagingSystemTutorial1.0")
+            return true
+        }
+        return false
     }
 }
 

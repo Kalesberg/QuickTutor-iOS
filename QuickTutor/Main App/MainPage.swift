@@ -39,12 +39,18 @@ class MainPageView : MainLayoutTwoButton {
         navbar.addSubview(sidebarButton)
         navbar.addSubview(messagesButton)
         let cirlce = UIView()
-        cirlce.backgroundColor = Colors.tutorBlue
+        cirlce.backgroundColor = Colors.notificationRed
+        cirlce.layer.borderColor = Colors.currentUserColor().cgColor
+        cirlce.layer.borderWidth = 2
         cirlce.layer.cornerRadius = 7
+        cirlce.isHidden = true
         cirlce.layer.zPosition = .greatestFiniteMagnitude
         navbar.addSubview(cirlce)
-        cirlce.anchor(top: messagesButton.topAnchor, left: nil, bottom: nil, right: messagesButton.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 16, width: 14, height: 14)
+        cirlce.anchor(top: messagesButton.topAnchor, left: nil, bottom: nil, right: messagesButton.rightAnchor, paddingTop: -1, paddingLeft: 0, paddingBottom: 0, paddingRight: 16, width: 14, height: 14)
         bringSubview(toFront: cirlce)
+        DataService.shared.checkUnreadMessagesForUser { (hasUnreadMessages) in
+            cirlce.isHidden = !hasUnreadMessages
+        }
         
         insertSubview(sidebar, aboveSubview: navbar)
         super.configureView()

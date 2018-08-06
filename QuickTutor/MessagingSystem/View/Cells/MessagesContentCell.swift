@@ -205,7 +205,6 @@ extension MessagesContentCell {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = messages[indexPath.item].partnerId()
         let tappedCell = collectionView.cellForItem(at: indexPath) as! ConversationCell
-        tappedCell.newMessageGradientLayer.isHidden = true
         vc.navigationItem.title = tappedCell.usernameLabel.text
         vc.chatPartner = tappedCell.chatPartner
         if let data = metaDataDictionary[tappedCell.chatPartner.uid] {
