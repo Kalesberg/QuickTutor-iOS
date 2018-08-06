@@ -60,9 +60,6 @@ class ConversationManager {
         
         var previousMessages = [UserMessage]()
         query.observeSingleEvent(of: .value) { snapshot in
-            if snapshot.exists() {
-                
-            }
             guard let children = snapshot.children.allObjects as? [DataSnapshot] else {
                 self.delegate?.conversationManager(self, didLoadAll: self.messages)
                 completion([UserMessage]())
@@ -141,19 +138,25 @@ class ConversationManager {
         }
     }
     
-    func lastSentMessageIndex() -> Int? {
+    func getStatusMessageIndex() -> Int? {
         guard let uid = Auth.auth().currentUser?.uid else { return nil  }
-        var index = -1
-        var location = 0
+        if messages.count == 0 {
+            return nil
+        }
+        
+        var location = -1
+        var index = 0
         for message in messages {
             location += 1
             guard let userMessage = message as? UserMessage else { continue }
             if userMessage.senderId == uid {
-                index = location
+                index = location + 1
             }
         }
+        if index == 0 {
+            return nil
+        }
         return index
-
     }
     
     func setup() {

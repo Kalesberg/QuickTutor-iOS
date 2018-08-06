@@ -18,7 +18,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     var receiverId: String!
     var chatPartner: User!
-    var statusMessageIndex = -1
     var connectionRequestAccepted = false
     var conversationRead = false
     var shouldRequestSession = false
@@ -287,49 +286,29 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         messagesCollection.scrollToItem(at: index, at: .bottom, animated: animated)
     }
     
-//    func insertReadReceiptLabel() {
-//        self.removeStatusLabel()
-//        guard let index = conversationManager.lastSentMessageIndex(), index != -1 else { return }
-//        let statusMessage = SystemMessage(text: "Delivered")
-//        conversationManager.messages.insert(statusMessage, at: index)
-//        messagesCollection.reloadData()
-//        let indexPath = IndexPath(item: index, section: 0)
-//        let cell = messagesCollection.cellForItem(at: indexPath) as? SystemMessageCell
-//        cell?.markAsRead()
-//    }
-//
-//    func removeStatusLabel() {
-//        guard let index = conversationManager.messages.index(where: { (message) -> Bool in
-//            return !(message is UserMessage)
-//        }) else { return }
-//        conversationManager.messages.remove(at: index)
-//        messagesCollection.reloadData()
-//    }
-//
-//    func updateStatusLabel() {
-//        guard let index = conversationManager.lastSentMessageIndex() else { return }
-//        let indexPath = IndexPath(item: index + 1, section: 0)
-//        let cell = messagesCollection.cellForItem(at: indexPath) as? SystemMessageCell
-//        cell?.markAsRead()
-//    }
-    
     func removeCurrentStatusLabel() {
-        guard statusMessageIndex != -1 else { return }
-        conversationManager.messages.remove(at: statusMessageIndex)
-        statusMessageIndex += 1
+        guard let testIndex = conversationManager.messages.index(where: {!($0 is UserMessage)}) else { return }
+        conversationManager.messages.remove(at: testIndex)
     }
     
-    @objc func addMessageStatusLabel(atIndex index: Int) {
+    @objc func addMessageStatusLabel() {
+        guard let index = conversationManager.getStatusMessageIndex() else { return }
         self.removeCurrentStatusLabel()
         let statusMessage = SystemMessage(text: "Delivered")
-        conversationManager.messages.insert(statusMessage, at: index)
-        statusMessageIndex = index
+        print("Inserting read message at index: \(index). Conversation manager has \(conversationManager.messages.count) messages.")
+
+        if index > conversationManager.messages.count {
+            conversationManager.messages.append(statusMessage)
+        } else {
+            conversationManager.messages.insert(statusMessage, at: index)
+        }
         self.updateStatusLabel()
         messagesCollection.reloadData()
     }
     
     func updateStatusLabel() {
-        let indexPath = IndexPath(item: statusMessageIndex, section: 0)
+        guard let index = conversationManager.getStatusMessageIndex() else { return }
+        let indexPath = IndexPath(item: index, section: 0)
         let cell = messagesCollection.cellForItem(at: indexPath) as? SystemMessageCell
         cell?.markAsRead()
     }
@@ -453,16 +432,7 @@ extension ConversationVC: ConversationManagerDelegate {
         print("ConversationVC has: \(self.conversationManager.messages.count) messages.")
         messagesCollection.reloadData()
         conversationManager.isFinishedPaginating = true
-        if statusMessageIndex == -1 {
-            guard let index = conversationManager.lastSentMessageIndex() else { fatalError("Failed to get index of last message")}
-            guard index != -1 else { return }
-            statusMessageIndex = index
-        } else {
-            statusMessageIndex += messages.count
-        }
-        guard statusMessageIndex > 0 else { return }
-        addMessageStatusLabel(atIndex: statusMessageIndex)
-        
+        addMessageStatusLabel()
     }
     
     func conversationManager(_ conversationManager: ConversationManager, didUpdate readByIds: [String]) {
@@ -506,8 +476,9 @@ extension ConversationVC: ConversationManagerDelegate {
     
     func conversationManager(_ conversationManager: ConversationManager, didReceive message: UserMessage) {
         messagesCollection.reloadData()
+        let _ = conversationManager.getStatusMessageIndex()
         if message.senderId == conversationManager.uid {
-            self.addMessageStatusLabel(atIndex: self.conversationManager.messages.count - 1)
+            self.addMessageStatusLabel()
         }
         setActionViewUsable(true)
         if message.connectionRequestId != nil && conversationManager.isConnected == false {
