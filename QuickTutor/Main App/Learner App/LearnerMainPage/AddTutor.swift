@@ -408,3 +408,17 @@ extension AddTutor : UIScrollViewDelegate {
         self.view.endEditing(true)
     }
 }
+
+protocol ShowsConversation {
+    func showConversation(uid: String)
+}
+
+extension ShowsConversation {
+    func showConversation(uid: String) {
+        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+        vc.receiverId = uid
+        navigationController.pushViewController(vc, animated: true)
+        
+    }
+}
+

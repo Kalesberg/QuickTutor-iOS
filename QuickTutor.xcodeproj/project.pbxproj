@@ -254,7 +254,6 @@
 		CF1E43C520705F8D0033F845 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C420705F8D0033F845 /* StarView.swift */; };
 		CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */; };
 		CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C8207067860033F845 /* BaseSessionCell.swift */; };
-		CF2D9772207A7F7D00914B27 /* AddTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */; };
 		CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9773207A828F00914B27 /* AddTutorCell.swift */; };
 		CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9777207B354F00914B27 /* CustomSearchBar.swift */; };
 		CF2E1A6120A0D20C00BCB53A /* ZFNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2E1A6020A0D20C00BCB53A /* ZFNavBar.swift */; };
@@ -639,7 +638,6 @@
 		CF1E43C420705F8D0033F845 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderCell.swift; sourceTree = "<group>"; };
 		CF1E43C8207067860033F845 /* BaseSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionCell.swift; sourceTree = "<group>"; };
-		CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorVC.swift; sourceTree = "<group>"; };
 		CF2D9773207A828F00914B27 /* AddTutorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorCell.swift; sourceTree = "<group>"; };
 		CF2D9777207B354F00914B27 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		CF2E1A6020A0D20C00BCB53A /* ZFNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZFNavBar.swift; sourceTree = "<group>"; };
@@ -1605,7 +1603,6 @@
 				CF6F58AD205EE68800ACBD32 /* CustomNavVC.swift */,
 				CF6F58B0205EE68800ACBD32 /* NewMessageVC.swift */,
 				CF6F58B3205EE68800ACBD32 /* ConversationVC.swift */,
-				CF2D9771207A7F7D00914B27 /* AddTutorVC.swift */,
 				CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */,
 				CF387EBA2088113C00087449 /* InPersonSessionVC.swift */,
 				CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */,
@@ -1858,6 +1855,7 @@
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
+				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 				"${PODS_ROOT}/TwilioVideo/Build/iOS/TwilioVideo.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -1879,6 +1877,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwilioVideo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -2070,7 +2069,6 @@
 				84CB7AD520CF607800274473 /* TutorProfileImageView.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
-				CF2D9772207A7F7D00914B27 /* AddTutorVC.swift in Sources */,
 				CF6F58F0205EE6B300ACBD32 /* DataService.swift in Sources */,
 				CF6F58C2205EE68800ACBD32 /* MeetupRequestCell.swift in Sources */,
 				846252F720637FC5001DD330 /* TutorHelp.swift in Sources */,

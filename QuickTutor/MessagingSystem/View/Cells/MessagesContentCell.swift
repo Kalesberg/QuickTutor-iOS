@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SwipeCellKit
 
 class MessagesContentCell: BaseContentCell {
     
@@ -103,11 +104,11 @@ class MessagesContentCell: BaseContentCell {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
         cell.updateUI(message: messages[indexPath.item])
-        if messages[indexPath.item].connectionRequestId != nil {
-            cell.disconnectButtonWidthAnchor?.constant = 0
-        } else {
-            cell.disconnectButtonWidthAnchor?.constant = 75
-        }
+//        if messages[indexPath.item].connectionRequestId != nil {
+//            cell.disconnectButtonWidthAnchor?.constant = 0
+//        } else {
+//            cell.disconnectButtonWidthAnchor?.constant = 75
+//        }
         cell.delegate = self
         return cell
     }
@@ -119,65 +120,12 @@ class MessagesContentCell: BaseContentCell {
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
-        cell.background.backgroundColor = cell.background.backgroundColor?.darker(by: 15)
+        cell.contentView.backgroundColor = cell.contentView.backgroundColor?.darker(by: 15)
     }
     
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
-        cell.background.backgroundColor = cell.background.backgroundColor?.lighter(by: 15)
-    }
-    
-    func setupSwipeActions() {
-        swipeRecognizer = UIPanDirectionGestureRecognizer(direction: .horizontal, target: self, action: #selector(handleSwipe(sender:)))
-        collectionView.addGestureRecognizer(swipeRecognizer)
-        swipeRecognizer.delegate = self
-    }
-    
-    @objc func handleSwipe(sender: UIPanDirectionGestureRecognizer) {
-        
-        guard sender == swipeRecognizer else { return }
-        let swipeLocation = sender.location(in: collectionView)
-        guard let indexPath = self.collectionView.indexPathForItem(at: swipeLocation), let cell = self.collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
-        let distance = sender.translation(in: self).x
-        switch sender.state {
-        case .changed:
-            distance < 0 ? handleSwipeLeft(cell: cell, distance: distance) : handleSwipeRight(cell: cell, distance: distance)
-        case .ended:
-            handlePanEnd(cell: cell, distance: distance)
-        case .cancelled:
-            handlePanEnd(cell: cell, distance: distance)
-        default:
-            break
-        }
-        
-        
-    }
-    
-    func handleSwipeRight(cell: ConversationCell, distance: CGFloat) {
-        cell.closeSwipeActions()
-    }
-    
-    func handleSwipeLeft(cell: ConversationCell, distance: CGFloat) {
-        cell.showAccessoryButtons(distance: distance)
-    }
-    
-    func handlePanEnd(cell: ConversationCell, distance: CGFloat) {
-        if distance > -75 {
-            cell.backgroundRightAnchor?.constant = 0
-            cell.animator?.fractionComplete = 0
-        } else {
-            if cell.disconnectButtonWidthAnchor?.constant == 0 {
-                cell.backgroundRightAnchor?.constant = -75
-                cell.animator?.fractionComplete = 100
-            } else {
-                cell.backgroundRightAnchor?.constant = -150
-                cell.animator?.fractionComplete = 100
-            }
-        }
-        
-        UIView.animate(withDuration: 0.25) {
-            cell.layoutIfNeeded()
-        }
+        cell.contentView.backgroundColor = cell.contentView.backgroundColor?.lighter(by: 15)
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -187,7 +135,6 @@ class MessagesContentCell: BaseContentCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         fetchConversations()
-        setupSwipeActions()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -214,15 +161,38 @@ extension MessagesContentCell {
     }
 }
 
-extension MessagesContentCell: ConversationCellDelegate {
-    func conversationCellShouldDisconnect(_ conversationCell: ConversationCell) {
-        guard let uid = Auth.auth().currentUser?.uid, let id = conversationCell.chatPartner.uid else { return }
+extension MessagesContentCell: SwipeCollectionViewCellDelegate {
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
+            // handle action by updating model with deletion
+            self.deleteMessages(index: indexPath.item)
+        }
+        
+        // customize the action appearance
+        deleteAction.image = #imageLiteral(resourceName: "deleteMessagesIcon")
+        deleteAction.backgroundColor = UIColor(hex: "#AF1C49")
+        
+        let disconnectAction = SwipeAction(style: .default, title: nil) { action, indexPath in
+            self.disconnect(index: indexPath.item)
+        }
+        disconnectAction.image = #imageLiteral(resourceName: "disconnectIcon")
+        disconnectAction.backgroundColor = UIColor(hex: "#851537")
+        
+        return [deleteAction, disconnectAction]
+    }
+    
+    func disconnect(index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        guard let uid = Auth.auth().currentUser?.uid,
+            let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
+            let id = cell.chatPartner.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let conversationRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
         Database.database().reference().child("connections").child(uid).child(id).removeValue()
         Database.database().reference().child("connections").child(id).child(uid).removeValue()
         conversationRef.removeValue()
-        let indexPath = collectionView.indexPath(for: conversationCell)!
         messages.remove(at: indexPath.item)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
             self.collectionView.reloadData()
@@ -230,13 +200,15 @@ extension MessagesContentCell: ConversationCellDelegate {
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(id).removeValue()
     }
     
-    func conversationCellShouldDeleteMessages(_ conversationCell: ConversationCell) {
-        guard let uid = Auth.auth().currentUser?.uid, let id = conversationCell.chatPartner.uid else { return }
+    func deleteMessages(index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        guard let uid = Auth.auth().currentUser?.uid,
+            let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
+            let id = cell.chatPartner.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let conversationRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
         conversationRef.removeValue()
         conversationRef.childByAutoId().removeValue()
-        let indexPath = collectionView.indexPath(for: conversationCell)!
         messages.remove(at: indexPath.item)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
             self.collectionView.reloadData()
