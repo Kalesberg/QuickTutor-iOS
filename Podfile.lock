@@ -154,6 +154,8 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - Bolts
+    - Crashlytics
+    - Fabric
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
@@ -166,9 +168,11 @@ SPEC REPOS:
     - FirebaseDynamicLinks
     - FirebaseInstanceID
     - FirebaseMessaging
+    - FirebasePerformance
     - FirebaseStorage
     - GoogleAnalytics
     - GoogleAppMeasurement
+    - GoogleToolboxForMac
     - GoogleUtilities
     - GTMSessionFetcher
     - leveldb-library
