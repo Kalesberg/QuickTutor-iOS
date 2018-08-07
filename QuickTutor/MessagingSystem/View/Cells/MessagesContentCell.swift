@@ -222,7 +222,7 @@ extension MessagesContentCell: ConversationCellDelegate {
         Database.database().reference().child("connections").child(uid).child(id).removeValue()
         Database.database().reference().child("connections").child(id).child(uid).removeValue()
         conversationRef.removeValue()
-        conversationRef.childByAutoId().setValue(["removed": true, "removedAt": Date().timeIntervalSince1970])
+        conversationRef.childByAutoId().removeValue()
         let indexPath = collectionView.indexPath(for: conversationCell)!
         messages.remove(at: indexPath.item)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
@@ -236,7 +236,7 @@ extension MessagesContentCell: ConversationCellDelegate {
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let conversationRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
         conversationRef.removeValue()
-        conversationRef.childByAutoId().setValue(["removed": true, "removedAt": Date().timeIntervalSince1970])
+        conversationRef.childByAutoId().removeValue()
         let indexPath = collectionView.indexPath(for: conversationCell)!
         messages.remove(at: indexPath.item)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
