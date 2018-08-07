@@ -104,6 +104,8 @@ class TutorEarningsView : MainLayoutTitleBackButton {
         addSubview(tableView)
         addSubview(recentStatementsLabel)
         super.configureView()
+        insertSubview(statusbarView, at: 1)
+        insertSubview(navbar, at: 2)
         
         navbar.backgroundColor = Colors.green
         statusbarView.backgroundColor = Colors.green
@@ -121,7 +123,7 @@ class TutorEarningsView : MainLayoutTitleBackButton {
         super.applyConstraints()
         
         imageView.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom).inset(-1)
+            make.top.equalTo(navbar.snp.bottom)
             make.width.equalToSuperview()
             make.height.equalTo(110)
             make.centerX.equalToSuperview()

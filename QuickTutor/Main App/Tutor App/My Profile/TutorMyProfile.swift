@@ -45,6 +45,12 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
+        
+        let name = tutor.name.split(separator: " ")
+        contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+        //cell.locationLabel.text = tutor.region
+        contentView.profilePics.loadUserImagesWithoutMask(by: tutor.images["image1"]!)
+        //cell.ratingLabel.text = String(tutor.tRating)
     }
     
     override func loadView() {
@@ -74,6 +80,8 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
             next.tutor = self.tutor
             next.delegate = self
             navigationController?.pushViewController(next, animated: true)
+        } else if(touchStartView is TutorCardProfilePic) {
+            self.displayAWImageViewer(images: tutor.images.filter({$0.value != ""}))
         }
     }
 }
@@ -85,22 +93,22 @@ extension TutorMyProfile : AWImageViewer {
 extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 5
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.row) {
+//        case 0:
+//            return 200
         case 0:
-            return 200
+            return UITableViewAutomaticDimension
         case 1:
             return UITableViewAutomaticDimension
         case 2:
-            return UITableViewAutomaticDimension
-        case 3:
             return 90
-        case 4:
+        case 3:
             return UITableViewAutomaticDimension
-        case 5:
+        case 4:
             return UITableViewAutomaticDimension
         default:
             break
@@ -112,23 +120,23 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         
         switch (indexPath.row) {
             
+//        case 0:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
+//
+//            let name = tutor.name.split(separator: " ")
+//            cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+//            cell.locationLabel.text = tutor.region
+//            cell.profilePicView.loadUserImages(by: tutor.images["image1"]!)
+//            cell.ratingLabel.text = String(tutor.tRating)
+//
+//            return cell
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
-            
-			let name = tutor.name.split(separator: " ")
-			cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
-			cell.locationLabel.text = tutor.region
-            cell.profilePicView.loadUserImages(by: tutor.images["image1"]!)
-            cell.ratingLabel.text = String(tutor.tRating)
-            
-            return cell
-        case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
             
             cell.bioLabel.text = tutor.tBio + "\n"
             
             return cell
-        case 2:
+        case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
             
             for view in cell.contentView.subviews {
@@ -211,14 +219,14 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             
             return cell
             
-        case 3:
+        case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
             
 			cell.datasource = tutor.subjects!
             
             return cell
             
-        case 4:
+        case 3:
 
             guard let datasource = tutor.reviews else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as!
@@ -239,7 +247,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             cell.datasource = datasource
             return cell
             
-        case 5:
+        case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
             
             if let policy = tutor.policy {
