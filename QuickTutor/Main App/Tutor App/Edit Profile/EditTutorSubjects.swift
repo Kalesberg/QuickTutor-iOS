@@ -326,7 +326,6 @@ class EditTutorSubjects : BaseViewController {
 		self.contentView.pickedCollectionView.performBatchUpdates({
 			self.contentView.pickedCollectionView.deleteItems(at: [indexPath])
 		}) { (finished) in
-
 			self.contentView.pickedCollectionView.reloadItems(at:
 				self.contentView.pickedCollectionView.indexPathsForVisibleItems)
 			self.contentView.nextButton.label.text = "Save (\(self.selected.count))"
@@ -341,7 +340,6 @@ class EditTutorSubjects : BaseViewController {
 	}
 	
 	private func deleteSubjects() {
-		
 		var newSubs = [String]()
 		var subcategoriesToDelete = [String]()
 		
@@ -352,24 +350,22 @@ class EditTutorSubjects : BaseViewController {
 				subcategoriesToDelete.append(k)
 			}
 		}
+		
 		for i in 0..<subcategoriesToDelete.count {
 			let subject = subcategoriesToDelete[i].lowercased().replacingOccurrences(of: "/", with: "_")
 			self.ref.child("subject").child(CurrentUser.shared.learner.uid).child(subject).removeValue()
 		}
+		
 		for subject in removedSubjects {
 			let formattedSubject = subject.subject.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "#", with: "<").replacingOccurrences(of: ".", with: ">")
 			self.ref.child("subcategory").child(subject.path.lowercased()).child(CurrentUser.shared.learner.uid).child(formattedSubject).removeValue()
 		}
-		
 		tutor.subjects = self.selectedSubjects
 		tutor.selected = self.selected
 	}
-	
-	private func saveSubjects() {
-		let group = DispatchGroup()
-	
+	private func getSubjectDictionary() -> [String : [String]]? {
 		var subjectDict = [String : [String]]()
-		var subjectsToUploadAfterTheFactUntilIFindABetterWay = [String : [String]]()
+
 		for subcategory in selected.map({ $0.path }).unique {
 			var arr = [String]()
 			for subject in selected {
@@ -379,9 +375,16 @@ class EditTutorSubjects : BaseViewController {
 			}
 			subjectDict[subcategory] = arr
 		}
-		
+		return subjectDict
+	}
+	private func saveSubjects() {
+		let group = DispatchGroup()
+		var subjectsToUploadAfterTheFactUntilIFindABetterWay = [String : [String]]()
 		var updateSubjectValues 	= [String : Any]()
 		var updateSubcategoryValues = [String : Any]()
+		
+		guard let subjectDict = getSubjectDictionary() else { return }
+		
 		for key in subjectDict {
 			let subjects = key.value.compactMap({$0}).joined(separator: "$")
 			group.enter()
@@ -401,7 +404,7 @@ class EditTutorSubjects : BaseViewController {
 					group.leave()
 				} else {
 					subjectsToUploadAfterTheFactUntilIFindABetterWay[key.key.lowercased()] = key.value
-					updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(CurrentUser.shared.learner.uid)"] = ["r" : 5, "p" : self.tutor.price!, "dst" : self.tutor.distance!, "hr" : 0,"sbj" : subjects, "nos" : 0]
+					updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(CurrentUser.shared.learner.uid)"] = ["r" : 5, "p" : self.tutor.price!, "dst" : self.tutor.distance!, "hr" : 0, "sbj" : subjects, "nos" : 0]
 					group.leave()
 				}
 			}

@@ -198,12 +198,9 @@ class QueryData {
 	func queryAWTutorBySubject(subcategory: String, subject: String,_ completion: @escaping ([AWTutor]?) -> Void) {
 		var tutors = [AWTutor]()
 		let group = DispatchGroup()
-		
 		let formattedSubject = subject.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "#", with: "<").replacingOccurrences(of: ".", with: ">")
 
 		self.ref?.child("subcategory").child(subcategory.lowercased()).queryOrdered(byChild: formattedSubject).queryEqual(toValue: formattedSubject).observeSingleEvent(of: .value, with: { (snapshot) in
-		
-			print(snapshot)
 			for snap in snapshot.children {
 				guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid  else { continue }
 				group.enter()

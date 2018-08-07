@@ -128,7 +128,6 @@ class TutorCardCollectionViewBackground : BaseView {
     
     let label : UILabel = {
         let label = UILabel()
-		
         let formattedString = NSMutableAttributedString()
 
         formattedString
@@ -252,7 +251,7 @@ class TutorConnect : BaseViewController {
     var filteredDatasource = [AWTutor]() {
         didSet {
             contentView.collectionView.backgroundView = (filteredDatasource.count == 0) ? TutorCardCollectionViewBackground() : nil
-            contentView.collectionView.reloadData()
+			setupCollectionViewAfterUpdate()
         }
     }
     
@@ -388,8 +387,13 @@ class TutorConnect : BaseViewController {
         }
         return tutors.filter { $0.preference == 2 || $0.preference == 3 }
     }
-
-    func filterTutors() {
+	
+	private func setupCollectionViewAfterUpdate() {
+		guard filteredDatasource.count > 0 else { return }
+		contentView.collectionView.reloadData()
+		contentView.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: true)
+	}
+    private func filterTutors() {
 		if filters?.price == -1 && filters?.distance == -1 && filters?.sessionType == false {
 			hasAppliedFilters = false
 			shouldFilterDatasource = false

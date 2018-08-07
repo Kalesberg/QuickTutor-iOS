@@ -357,7 +357,11 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-			cell.datasource = datasource.subjects!
+			guard let datasource = datasource?.subjects else {
+				return cell
+			}
+			
+			cell.datasource = datasource
             return cell
         case 3:
             
@@ -412,8 +416,8 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         case 0,1,3,4:
             return UITableViewAutomaticDimension
         case 2:
-            return 90
-        default:
+			return 90
+		default:
             return 0
         }
     }

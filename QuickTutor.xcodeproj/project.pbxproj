@@ -118,6 +118,7 @@
 		847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847463272069482D00B70AD9 /* TutorHandbook.swift */; };
 		8474C9AB20C47FB800CDB45B /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */; };
 		8476F7C720D00DB100C8D52D /* AddPaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8476F7C620D00DB100C8D52D /* AddPaymentMethod.swift */; };
+		847780C02119F4AC00D5487E /* YourListingBackGroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847780BF2119F4AC00D5487E /* YourListingBackGroundView.swift */; };
 		8479EA632063E63100C5113E /* TutorAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA622063E63100C5113E /* TutorAddress.swift */; };
 		8479EA652063E66400C5113E /* TutorPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479EA642063E66400C5113E /* TutorPolicy.swift */; };
 		847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */; };
@@ -491,6 +492,7 @@
 		847463272069482D00B70AD9 /* TutorHandbook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHandbook.swift; sourceTree = "<group>"; };
 		8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		8476F7C620D00DB100C8D52D /* AddPaymentMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentMethod.swift; sourceTree = "<group>"; };
+		847780BF2119F4AC00D5487E /* YourListingBackGroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourListingBackGroundView.swift; sourceTree = "<group>"; };
 		8479EA622063E63100C5113E /* TutorAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddress.swift; sourceTree = "<group>"; };
 		8479EA642063E66400C5113E /* TutorPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPolicy.swift; sourceTree = "<group>"; };
 		847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCells.swift; sourceTree = "<group>"; };
@@ -1131,6 +1133,16 @@
 			path = TutorConnect;
 			sourceTree = "<group>";
 		};
+		847780BE2119F49100D5487E /* YourListings */ = {
+			isa = PBXGroup;
+			children = (
+				84AD7F5620EE9A480012CAA3 /* YourListing.swift */,
+				847780BF2119F4AC00D5487E /* YourListingBackGroundView.swift */,
+				84C82FE320F0068A00E526B4 /* EditListing.swift */,
+			);
+			path = YourListings;
+			sourceTree = "<group>";
+		};
 		8482AFDF2038C25B00F6F805 /* Edit Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -1315,8 +1327,7 @@
 				84CFDDEF207357AB001CA9BF /* TutorRatings.swift */,
 				84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */,
 				84B8D67920E5A53C0026132C /* TutorListings.swift */,
-				84AD7F5620EE9A480012CAA3 /* YourListing.swift */,
-				84C82FE320F0068A00E526B4 /* EditListing.swift */,
+				847780BE2119F49100D5487E /* YourListings */,
 				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
 				843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */,
 				8441E650208922C60087AE11 /* TrendingCategories.swift */,
@@ -2076,6 +2087,7 @@
 				8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */,
 				8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */,
 				8486DC5E206C47900041E158 /* TutorCardCollectionViewCell.swift in Sources */,
+				847780C02119F4AC00D5487E /* YourListingBackGroundView.swift in Sources */,
 				CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */,
 				846D9B522069E57400302773 /* SubjectCollectionViewCell.swift in Sources */,
 				CF6F58E2205EE68800ACBD32 /* ConversationVC.swift in Sources */,

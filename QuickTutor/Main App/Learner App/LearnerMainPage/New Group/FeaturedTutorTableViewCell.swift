@@ -34,6 +34,7 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		collectionView.backgroundColor = .clear
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.alwaysBounceHorizontal = true
+		
 		return collectionView
 	}()
 	
@@ -112,7 +113,6 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		cell.featuredTutor.subject.text = datasource[indexPath.item].subject
 		
 		let formattedString = NSMutableAttributedString()
-		
 		formattedString
             .bold("\(datasource[indexPath.item].rating)  ", 14, Colors.gold)
 			.regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)

@@ -175,7 +175,7 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		
+
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		
 		cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: datasource[indexPath.item].imageUrl)
@@ -187,8 +187,8 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		let formattedString = NSMutableAttributedString()
 		
 		formattedString
-			.bold("\(datasource[indexPath.item].rating) ", 14, Colors.yellow)
-			.regular("(\(datasource[indexPath.item].reviews) ratings)", 12, Colors.yellow)
+			.bold("\(datasource[indexPath.item].rating) ", 14, Colors.gold)
+			.regular("(\(datasource[indexPath.item].reviews) ratings)", 12, Colors.gold)
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
         
 		return cell
@@ -222,12 +222,9 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		cell.growSemiShrink {
 			let next = TutorConnect()
 			next.featuredTutorUid = self.datasource[indexPath.item].uid
-			
 			let nav = self.navigationController
-			let transition = CATransition()
-			
 			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.segueFromBottom(), forKey: nil)
+				nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
 				nav?.pushViewController(next, animated: false)
 			}
 		}

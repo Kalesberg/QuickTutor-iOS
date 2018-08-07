@@ -245,14 +245,14 @@ class SearchSubjects: BaseViewController {
 		// Dispose of any resources that can be recreated.
 	}
 
-	private func tableView(shouldDisplay bool: Bool, _ completion: @escaping () -> Void) {
-		
+	private func tableView(shouldDisplay bool: Bool, completion: (() -> Void)?) {
 		tableViewIsActive = bool
 		UIView.animate(withDuration: 0.15, animations: {
 		}) { (_) in
 			UIView.animate(withDuration: 0.15, animations: {
 				self.contentView.tableView.alpha = bool ? 1.0 : 0.0
-				return completion()
+				completion?()
+				return
 			})
 		}
 	}
@@ -302,7 +302,6 @@ class SearchSubjects: BaseViewController {
 extension SearchSubjects : UpdatedFiltersCallback {
 	func filtersUpdated(filters: Filters) {
 		self.filters = filters
-		print(filters.distance)
 	}
 }
 
@@ -419,7 +418,7 @@ extension SearchSubjects : DidSelectSubcategoryCell {
 extension SearchSubjects : UISearchBarDelegate {
 	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		if searchBar.text!.count > 0 {
-			tableView(shouldDisplay: true) {/* 🤭 */}
+			tableView(shouldDisplay: true, completion: nil)
 		}
 	}
 	
@@ -436,13 +435,14 @@ extension SearchSubjects : UISearchBarDelegate {
 			searchTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(searchSubjects(_:)), userInfo: searchText, repeats: true)
 		}
 		startTimer()
+		scrollToTop()
 	}
 	
 	@objc private func searchSubjects(_ sender: Timer) {
 		guard let searchText = sender.userInfo as? String else { return }
 		searchTimer.invalidate()
 		tableView(shouldDisplay: true) {
-			self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
+			self.filteredSubjects = self.allSubjects.filter({ return $0.0.range(of: searchText, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
 			self.contentView.tableView.reloadData()
 		}
 	}

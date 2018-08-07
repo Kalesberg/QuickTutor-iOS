@@ -104,28 +104,34 @@ class EditListing : BaseViewController {
 		contentView.tableView.register(EditProfileHourlyRateTableViewCell.self, forCellReuseIdentifier: "editProfileHourlyRateTableViewCell")
 	}
 
-	private func saveListing() {
+	private func handleListingErrorsAndSave() {
 		guard let subject = self.subject else {
 			AlertController.genericErrorAlertWithoutCancel(self, title: "Please Fill out all Fields", message: "Add a subject you would like to post on this listing.")
-			return
+			return()
 		}
 		guard let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? EditProfileHourlyRateTableViewCell else { return }
 		
-		guard let price = Int(cell.amount) else {
-			AlertController.genericErrorAlertWithoutCancel(self, title: "Please Fill Out All Fields", message: "Add a price to this listing.")
+		guard let price = Int(cell.amount), price >= 5 else {
+			AlertController.genericErrorAlertWithoutCancel(self, title: "Please Fill Out All Fields", message: "Add a price to this listing. Your listing price must be between $5 - $1000.")
 			return
 		}
-		guard let image = self.image else { AlertController.genericErrorAlertWithoutCancel(self, title: "Please Fill Out All Fields", message: "Add an image to this listing.")
+		guard let image = self.image else {
+			AlertController.genericErrorAlertWithoutCancel(self, title: "Please Fill Out All Fields", message: "Add an image to this listing.")
 			return
 		}
+		saveListingToFirebase(subject: subject, price: price, image: image)
+	}
+	
+	private func saveListingToFirebase(subject: String, price: Int, image: UIImage) {
+		self.displayLoadingOverlay()
 		FirebaseData.manager.updateListing(tutor: self.tutor, category: category, image: image, price: price, subject: subject) { (success) in
 			if success {
 				AlertController.genericSavedAlert(self, title: "Your listing has been saved!", message: nil)
 				self.delegate?.updateListingCallBack(price: price, subject: subject, image: image)
-				self.navigationController?.popViewController(animated: true)
 			} else {
 				AlertController.genericErrorAlertWithoutCancel(self, title: "Error uploading listing", message: "Something went wrong, please try again.")
 			}
+			self.dismissOverlay()
 		}
 	}
     @objc private func handleAddButton() {
@@ -139,10 +145,12 @@ class EditListing : BaseViewController {
 	@objc private func keyboardWillDisappear(_ notification: NSNotification) {
 		contentView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
 	}
+	
 	private func subcategoriesForCategory() -> [String]? {
 		guard let subcategories =  Category.category(for: self.category)?.subcategory.subcategories else { return nil }
 		return subcategories.map{ $0.lowercased() }
 	}
+	
 	private func getSubjectsForCategory() -> [String]? {
 		guard let subcategories = subcategoriesForCategory() else { return nil }
 		var subjectsToDisplay = [String]()
@@ -155,10 +163,11 @@ class EditListing : BaseViewController {
 	}
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonSave {
-			saveListing()
+			handleListingErrorsAndSave()
 		}
 	}
 }
+
 protocol AmountTextFieldDidChange {
 	func amountTextFieldDidChange(amount: Int)
 }
@@ -199,6 +208,7 @@ extension EditListing : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editListingsSubjectsTableViewCell", for: indexPath) as! EditListingsSubjectsTableViewCell
             
             cell.label.text = "Choose featured subject:"
+			cell.label.font = Fonts.createBoldSize(18)
 			cell.selectedSubject = self.subject
 			cell.delegate = self
 			guard let subjectsToDisplay = getSubjectsForCategory() else { return cell }
@@ -211,12 +221,12 @@ extension EditListing : UITableViewDelegate, UITableViewDataSource {
             let formattedString = NSMutableAttributedString()
             formattedString
                 .regular("\n", 12, .white)
-                .bold("Choose hourly rate:", 18, .white)
+                .bold("Choose hourly rate:", 18, UIColor(hex: "5785d4"))
                 .regular("\n", 5, .white)
                 .bold("\nHourly Rate  ", 15, .white)
                 .regular("  [$5-$1000]\n", 15, Colors.grayText)
                 .regular("\n", 8, .white)
-                .regular("Please set your listing rate.\n\nThis is the rate that learners will see on your listing.", 14, Colors.grayText)
+                .regular("Please a rate for this listing.\n\nThis rate will be displayed on your listing.", 14, Colors.grayText)
             
             cell.header.attributedText = formattedString
 			cell.textFieldObserver = self
@@ -226,7 +236,9 @@ extension EditListing : UITableViewDelegate, UITableViewDataSource {
 				cell.currentPrice = price
 				cell.amount = "\(price)"
 			} else {
-				cell.textField.text = "$0"
+				cell.textField.text = "$5"
+				cell.currentPrice = 5
+				cell.amount = "5"
 			}
 			
             cell.header.snp.remakeConstraints { (make) in
@@ -414,6 +426,7 @@ class EditListingPhotoView : BaseView {
 		}
 	}
 }
+
 class EditListingPhotoTableViewCell : UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

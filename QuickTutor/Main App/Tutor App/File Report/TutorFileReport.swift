@@ -37,7 +37,7 @@ class TutorFileReport : BaseViewController {
 		
 		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.tutor.uid, type: "tutor") { (sessions) in
 			if let sessions = sessions {
-				self.datasource = sessions
+				self.datasource = sessions.sorted(by: { $0.endTime > $1.endTime })
 			}
 		}
 		
@@ -47,11 +47,6 @@ class TutorFileReport : BaseViewController {
         
         contentView.navbar.backgroundColor = Colors.tutorBlue
         contentView.statusbarView.backgroundColor = Colors.tutorBlue
-        
-        contentView.tableView.reloadData()
-    }
-    
-    override func viewDidLayoutSubviews() {
         
     }
     
