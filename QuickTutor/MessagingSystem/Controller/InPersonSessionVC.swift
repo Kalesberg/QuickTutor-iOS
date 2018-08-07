@@ -44,6 +44,13 @@ class InPersonSessionVC: BaseSessionVC {
         return button
     }()
     
+    let pauseSessionButton: UIButton = {
+        let button = UIButton()
+        button.contentMode = .scaleAspectFit
+        button.setImage(#imageLiteral(resourceName: "pauseSessionButton"), for: .normal)
+        return button
+    }()
+    
     func setupViews() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         setupMainView()
@@ -51,6 +58,7 @@ class InPersonSessionVC: BaseSessionVC {
         setupReceiverBox()
         setupCancelButton()
         setupStatusLabel()
+        setupPauseSessionButton()
         receieverBox.updateUI(uid: uid)
     }
     
@@ -84,6 +92,17 @@ class InPersonSessionVC: BaseSessionVC {
     func setupStatusLabel() {
         view.addSubview(statusLabel)
         statusLabel.anchor(top: receieverBox.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 120, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
+    }
+    
+    func setupPauseSessionButton() {
+        view.addSubview(pauseSessionButton)
+        pauseSessionButton.anchor(top: sessionNavBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
+        pauseSessionButton.addTarget(self, action: #selector(InPersonSessionVC.handleSessionPause), for: .touchUpInside)
+    }
+    
+    @objc func handleSessionPause() {
+        guard let manager = sessionManager else { return }
+        manager.pauseSession()
     }
     
     @objc func showModal() {

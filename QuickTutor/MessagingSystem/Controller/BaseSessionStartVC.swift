@@ -283,7 +283,11 @@ class BaseSessionStartVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        #if targetEnvironment(simulator)
+        // for sim only
+        #else
         guard checkPermissions() else { return }
+        #endif
     }
     
     override func viewWillDisappear(_ animated: Bool) {
