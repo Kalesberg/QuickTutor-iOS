@@ -10,24 +10,23 @@ import UIKit
 import CoreLocation
 
 protocol UpdatedFiltersCallback {
-	func filtersUpdated()
+	func filtersUpdated(filters: Filters)
 }
 
 struct Filters {
+	
 	let distance: Int?
 	let price: Int?
-	let inPerson: Bool?
+	let sessionType: Bool
 	let location : CLLocation?
 	
-	init(distance: Int?=nil, price: Int?=nil, inPerson: Bool?=nil, location: CLLocation?=nil) {
+	init(distance: Int?, price: Int?, inPerson: Bool, location: CLLocation?) {
 		self.distance = distance
 		self.price = price
-		self.inPerson = inPerson
+		self.sessionType = inPerson
 		self.location = location
 	}
 }
-
-
 
 class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
@@ -125,12 +124,12 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 		searchBar.snp.makeConstraints { (make) in
 			make.left.equalTo(backButton.snp.right).inset(15)
 			make.right.equalTo(applyFiltersButton.snp.left).inset(15)
-			make.height.equalToSuperview()
+			make.height.equalTo(leftButton.snp.height)
 			make.centerY.equalTo(backButton.image)
 		}
 		
 		categoryTableView.snp.makeConstraints { (make) in
-			make.top.equalTo(searchBar.snp.bottom).inset(-3)
+			make.top.equalTo(navbar.snp.bottom).inset(-3)
 			make.width.equalToSuperview().multipliedBy(0.95)
 			make.centerX.equalToSuperview()
 			if #available(iOS 11.0, *) {
@@ -153,7 +152,7 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		layoutIfNeeded()
+
 	}
 }
 
@@ -171,32 +170,44 @@ class SearchSubjects: BaseViewController {
 	
 	var categories : [Category] = [.academics, .arts, .auto, .business, .lifestyle, .health, .language, .outdoors, .remedial, .sports, .tech, .trades]
 	
+	var filters : Filters?
+	
 	var searchTimer = Timer()
 	var automaticScroll : Bool = false
 	var shouldUpdateSearchResults = false
 
 	var inlineCellIndexPath : IndexPath?
-	var selectedCategory : Category?
 	
-	var filteredSubjects : [(String, String)] = []
-	var allSubjects : [(String, String)] = []
+	var filteredSubjects = [(String, String)]() {
+		didSet {
+			if filteredSubjects.count == 0 {
+				let backgroundView = TutorCardCollectionViewBackground()
+				backgroundView.label.attributedText = NSMutableAttributedString().bold("No Search Results", 22, .white)
+				contentView.tableView.backgroundView = backgroundView
+			} else {
+				contentView.tableView.backgroundView = nil
+			}
+		}
+	}
+	
+	var allSubjects = [(String, String)]()
 	
 	var tableViewIsActive : Bool = false {
 		didSet {
-			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "xbuttonlight") : #imageLiteral(resourceName: "back-button")
 			shouldUpdateSearchResults = tableViewIsActive
 		}
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		hideKeyboardWhenTappedAround()
+		configureDelegates()
+		contentView.searchBar.becomeFirstResponder()
+
 		if let subjects = SubjectStore.loadTotalSubjectList() {
 			self.allSubjects = subjects
 			self.allSubjects.shuffle()
 		}
-		hideKeyboardWhenTappedAround()
-		configureDelegates()
-	
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -206,12 +217,11 @@ class SearchSubjects: BaseViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
-		let defaults = UserDefaults.standard
-		if defaults.bool(forKey: "showSubjectTutorial1.0") {
-			displayTutorial()
-			defaults.set(false, forKey: "showSubjectTutorial1.0")
-		}
-		contentView.searchBar.becomeFirstResponder()
+//		let defaults = UserDefaults.standard
+//		if defaults.bool(forKey: "showSubjectTutorial1.0") {
+//			displayTutorial()
+//			defaults.set(false, forKey: "showSubjectTutorial1.0")
+//		}
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -248,25 +258,25 @@ class SearchSubjects: BaseViewController {
 		}
 	}
     
-    func displayTutorial() {
-        
-        let tutorial = TutorCardTutorial()
-        tutorial.label.text = "Swipe left and right for more subjects!"
-        contentView.addSubview(tutorial)
-        
-        tutorial.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        
-        UIView.animate(withDuration: 1, animations: {
-            tutorial.alpha = 1
-        }, completion: { (true) in
-            UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
-                tutorial.imageView.center.x -= 20
-                tutorial.imageView.center.x += 20
-            })
-        })
-    }
+//    func displayTutorial() {
+//
+//        let tutorial = TutorCardTutorial()
+//        tutorial.label.text = "Swipe left and right for more subjects!"
+//        contentView.addSubview(tutorial)
+//
+//        tutorial.snp.makeConstraints { (make) in
+//            make.edges.equalToSuperview()
+//        }
+//
+//        UIView.animate(withDuration: 1, animations: {
+//            tutorial.alpha = 1
+//        }, completion: { (true) in
+//            UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
+//                tutorial.imageView.center.x -= 20
+//                tutorial.imageView.center.x += 20
+//            })
+//        })
+//    }
 
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonXLight {
@@ -283,9 +293,17 @@ class SearchSubjects: BaseViewController {
 			}
 		} else if touchStartView is NavbarButtonFilters {
 			let next = LearnerFilters()
-			//Set up filters to apply.
-			self.navigationController?.pushViewController(next, animated: true)
+			next.filters = filters
+			next.delegate = self
+			self.present(next, animated: true, completion: nil)
 		}
+	}
+}
+
+extension SearchSubjects : UpdatedFiltersCallback {
+	func filtersUpdated(filters: Filters) {
+		self.filters = filters
+		print(filters.distance)
 	}
 }
 
@@ -342,6 +360,8 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 		}
 	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		
 		if tableView.tag == 1 {
 			let cell = tableView.cellForRow(at: indexPath) as! SubjectSearchCategoryCell
 			UIView.animate(withDuration: 0.2) {
@@ -366,7 +386,6 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 				inlineCellIndexPath = calculateDatePickerIndexPath(indexPath)
 				tableView.insertSections([inlineCellIndexPath!.section], with: .fade)
 			}
-			tableView.deselectRow(at: indexPath, animated: true)
 			tableView.endUpdates()
 			if inlineCellIndexPath != nil {
 				tableView.scrollToRow(at: IndexPath(row: inlineCellIndexPath!.row, section: inlineCellIndexPath!.section - 1), at: .middle, animated: true)
@@ -377,8 +396,9 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 			let next = TutorConnect()
 			next.subject = (cell.subcategory.text!,cell.subject.text!)
 			next.contentView.searchBar.text = "\(cell.subcategory.text!) • \(cell.subject.text!)"
+			next.filters = self.filters
+			next.delegate = self
 			self.navigationController?.pushViewController(next, animated: true)
-			tableView.deselectRow(at: indexPath, animated: true)
 		}
 	}
 	func calculateDatePickerIndexPath(_ selectedIndexPath : IndexPath) -> IndexPath {
@@ -391,6 +411,8 @@ extension SearchSubjects : DidSelectSubcategoryCell {
 		let next = TutorConnect()
 		next.subcategory = subcategory.lowercased()
 		next.contentView.searchBar.text = subcategory
+		next.filters = self.filters
+		next.delegate = self
 		self.navigationController?.pushViewController(next, animated: true)
 	}
 }
@@ -438,7 +460,7 @@ extension SearchSubjects : UIScrollViewDelegate {
 		}
 	}
 	private func scrollToTop() {
-		guard filteredSubjects.count < 1 else { return }
+		guard filteredSubjects.count > 0 else { return }
 		contentView.tableView.reloadData()
 		contentView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
 		automaticScroll = false

@@ -74,6 +74,7 @@ extension CATransition {
 		return self
 	}
 	
+	
 	func popFromTop() -> CATransition {
 		self.duration = 0.2
 		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)

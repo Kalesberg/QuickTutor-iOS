@@ -36,10 +36,9 @@ class LearnerFiltersView : MainLayoutTitleTwoButton {
 		
 		tableView.backgroundColor = .clear
 		tableView.estimatedRowHeight = 250
-		tableView.isScrollEnabled = true
-		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
 		tableView.showsVerticalScrollIndicator = false
+		tableView.sectionHeaderHeight = 20
 		tableView.allowsSelection = false
 		
 		return tableView
@@ -82,9 +81,12 @@ class LearnerFilters: BaseViewController {
 	
 	var price : Int = 0
 	var distance : Int = 0
-	var video : Bool = false
+	var sessionType : Bool = false
+	var location : CLLocation?
 	
-	var delegate : ApplyLearnerFilters?
+	
+	var filters : Filters?
+	var delegate : UpdatedFiltersCallback?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -96,6 +98,7 @@ class LearnerFilters: BaseViewController {
 		super.viewDidAppear(animated)
 		contentView.tableView.reloadData()
 	}
+	
 	private func configureDelegates() {
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
@@ -110,22 +113,10 @@ class LearnerFilters: BaseViewController {
 	}
 	
 	@objc
-	private func rateSliderValueDidChange(_ sender: UISlider!) {
-		
-		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
-		
-		let value = Int(cell.slider.value.rounded(FloatingPointRoundingRule.up))
-		cell.valueLabel.text = ( value == 0) ?  "" : "$" + String(Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-		price = value
-	}
-	
-	@objc
 	private func distanceSliderValueDidChange(_ sender: UISlider!) {
-		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! EditProfileSliderTableViewCell)
-		
+		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
 		if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
 			let value = (Int(cell.slider.value.rounded(FloatingPointRoundingRule.up)))
-			
 			cell.valueLabel.text = (value == 0) ? "" : String(value) + " mi"
 			distance = value
 		} else {
@@ -135,61 +126,64 @@ class LearnerFilters: BaseViewController {
 	}
 	@objc
 	private func sliderToggle(_ sender: UISwitch) {
-		guard let cell = contentView.tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? ToggleTableViewCell else { return }
+		guard let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? ToggleTableViewCell else { return }
 		
-		video = cell.toggle.isOn
-		animateSlider(!video)
+		print("Called.")
+		sessionType = cell.toggle.isOn
+		animateSlider(!sessionType)
 		
-		guard let distanceSlider = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? EditProfileSliderTableViewCell else { return }
+		guard let distanceSlider = contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? EditProfileSliderTableViewCell else { return }
 		
 		distanceSlider.slider.isEnabled = !cell.toggle.isOn
 	}
 	
 	private func showLocationAlert() {
 		let alertController = UIAlertController (title: "Enable Location Services", message: "In order to use this feature you need to enable location services.", preferredStyle: .alert)
-		
 		let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
 			guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
 				return
 			}
-			
 			if UIApplication.shared.canOpenURL(settingsUrl) {
-				UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-				})
+				UIApplication.shared.open(settingsUrl, completionHandler: nil)
 			}
 		}
 		
-		alertController.addAction(settingsAction)
 		let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+
+		alertController.addAction(settingsAction)
 		alertController.addAction(cancelAction)
 		
 		present(alertController, animated: true, completion: nil)
 	}
+
+	func updateFilters() -> Filters {
+		let priceCell = (contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileHourlyRateTableViewCell)
+		let distanceCell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
+		let toggleCell = (contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! ToggleTableViewCell)
+		
+		let value = (Int(distanceCell.slider.value.rounded(FloatingPointRoundingRule.up)))
+		let distanceFilter = (value == 0) ? nil : value
+		
+		return Filters(distance: distanceFilter, price:  Int(priceCell.amount), inPerson: toggleCell.toggle.isOn, location: location)
+	}
 	
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonXLight {
-			self.navigationController?.popViewController(animated: true)
-		} else if touchStartView is NavbarButtonText {
-			
-			distance = (distance == 0) ? -1 : distance + 10
-			price = (price == 0) ? -1 : price + 10
-			
-			self.delegate?.filters = (distance, price, video)
-			self.delegate?.filterTutors()
-			
+			self.dismiss(animated: true, completion: nil)
+		} else if touchStartView is NavbarButtonApply {
+			self.delegate?.filtersUpdated(filters: updateFilters())
 			self.dismiss(animated: true, completion: nil)
 		}
 	}
 	
 	func animateSlider(_ bool: Bool){
-		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! EditProfileSliderTableViewCell)
+		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! EditProfileSliderTableViewCell)
 		if bool {
 			UIView.animate(withDuration: 0.25) {
 				cell.slider.setValue(Float(self.distance), animated: true)
 				cell.valueLabel.text = (self.distance > 0) ? String(self.distance) + " mi" : ""
 			}
 			self.distanceSliderValueDidChange(cell.slider)
-			
 		} else {
 			UIView.animate(withDuration: 0.25) {
 				cell.slider.setValue(0.0, animated: true)
@@ -198,63 +192,18 @@ class LearnerFilters: BaseViewController {
 		}
 	}
 }
+
 extension LearnerFilters : CLLocationManagerDelegate {
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		if let location = locations.first {
-			self.delegate?.location = location
+			self.location = location
 		}
 	}
-	
 	func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
 		print("Failed to find user's location: \(error.localizedDescription)")
 	}
 }
 
-class ToggleTableViewCell : BaseTableViewCell {
-	
-	let label : UILabel = {
-		let label = UILabel()
-		
-		label.text = "Search Tutors Online (Video Call)"
-		label.textColor = .white
-		label.font = Fonts.createBoldSize(15)
-		
-		return label
-	}()
-	
-	let toggle : UISwitch = {
-		let toggle = UISwitch()
-		
-		toggle.onTintColor = Colors.learnerPurple
-		
-		return toggle
-	}()
-	
-	override func configureView() {
-		addSubview(label)
-		addSubview(toggle)
-		super.configureView()
-		
-		selectionStyle = .none
-		backgroundColor = .clear
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		label.snp.makeConstraints { (make) in
-			make.left.equalToSuperview()
-			make.height.equalTo(30)
-			make.top.equalToSuperview()
-		}
-		
-		toggle.snp.makeConstraints { (make) in
-			make.top.equalTo(label.snp.bottom).inset(-5)
-			make.left.equalToSuperview()
-			make.height.equalTo(55)
-		}
-	}
-}
 
 
 extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
@@ -265,50 +214,57 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		switch (indexPath.row) {
-		case 0:
-			return 30
-		case 1,2,4:
+		case 0,1,3:
 			return UITableViewAutomaticDimension
-		case 3:
+		case 2:
 			return 90
 		default:
-			break
+			return 0
 		}
-		return 0
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		switch (indexPath.row) {
 		case 0:
-			let cell = UITableViewCell()
-			cell.backgroundColor = .clear
-			return cell
-		case 1:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileHourlyRateTableViewCell
-			
 			let formattedString = NSMutableAttributedString()
 			formattedString
 				.bold("\nHourly Rate  ", 15, .white)
 				.regular("  [$5-$1000]", 15, Colors.grayText)
-			
+
 			cell.header.attributedText = formattedString
-			cell.textField.text = "$5"
+			if let price = filters?.price {
+				cell.textField.text = "$\(price)"
+				cell.amount = "\(price)"
+				cell.currentPrice = price
+			} else {
+				cell.textField.text = "$5"
+			}
 			
 			return cell
-		case 2:
+		case 1:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
 			
 			cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
 			cell.slider.minimumTrackTintColor = Colors.learnerPurple
-			
 			cell.slider.minimumValue = 0
 			cell.slider.maximumValue = 150
 			
-			cell.slider.value = Float(distance)
+			if let distance = filters?.distance {
+				cell.valueLabel.text = (distance > 0) ? String(distance) + " mi" : ""
+				cell.slider.value = Float(distance)
+			} else {
+				cell.valueLabel.text = ""
+				cell.slider.value = Float(distance)
+			}
 			
-			cell.valueLabel.text = (self.distance > 0) ? String(self.distance) + " mi" : ""
+			if let sessionType = filters?.sessionType {
+				cell.slider.isEnabled = !sessionType
+			}
 			
+			
+
 			let formattedString = NSMutableAttributedString()
 			formattedString
 				.regular("\n\n", 5, .white)
@@ -318,15 +274,19 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 			cell.header.attributedText = formattedString
 			
 			return cell
-		case 3:
+		case 2:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "toggleTableViewCell", for: indexPath) as! ToggleTableViewCell
 			
-			cell.toggle.addTarget(self, action: #selector(sliderToggle(_:)), for: .touchUpInside)
-			cell.toggle.setOn(video, animated: true)
+			cell.toggle.addTarget(self, action: #selector(sliderToggle(_:)), for: .allEvents)
 			
+			if let sessionType = filters?.sessionType {
+				cell.toggle.setOn(sessionType, animated: true)
+			} else {
+				cell.toggle.setOn(false, animated: true)
+			}
 			
 			return cell
-		case 4:
+		case 3:
 			let cell = UITableViewCell()
 			
 			cell.backgroundColor = .clear
@@ -352,12 +312,9 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 				make.top.equalToSuperview()
 				make.bottom.equalToSuperview()
 			}
-			
 			return cell
 		default:
-			break
+			return UITableViewCell()
 		}
-		
-		return UITableViewCell()
 	}
 }

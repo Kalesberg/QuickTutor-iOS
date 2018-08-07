@@ -27,7 +27,7 @@ class TutorPreferencesNextButton : InteractableView, Interactable {
         super.configureView()
         
         backgroundColor = Colors.tutorBlue
-        
+
         applyConstraints()
     }
     
@@ -101,7 +101,8 @@ class TutorPreferencesView : TutorRegistrationLayout {
         super.configureView()
         
         title.label.text = "Set Your Preferences"
-        
+        navbar.backgroundColor = Colors.tutorBlue
+		statusbarView.backgroundColor = Colors.tutorBlue
         addSubview(progressBar)
         progressBar.progress = 0.16667
         progressBar.applyConstraints()
@@ -129,7 +130,7 @@ class TutorPreferences : BaseViewController {
         return view as! TutorPreferencesView
     }
 	var price  : Int = 0
-    var distance : Int = 5
+    var distance : Int = 0
     var inPerson : Bool = true
     var inVideo : Bool = true
     
@@ -167,8 +168,8 @@ class TutorPreferences : BaseViewController {
 
     private func setUserPreferences() -> Bool {
         let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileHourlyRateTableViewCell)
-		guard let price = Int(cell.amount) else {
-			let alertController = UIAlertController(title: "Please choose an hourly rate", message: nil, preferredStyle: .alert)
+		guard let price = Int(cell.amount) , price >= 5 else {
+			let alertController = UIAlertController(title: "Please choose an hourly rate", message: "Hourly rates must be between $5-$1000.", preferredStyle: .alert)
 			alertController.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
 			self.present(alertController, animated: true)
 			return false
@@ -186,7 +187,7 @@ class TutorPreferences : BaseViewController {
         } else {
             TutorRegistration.sessionPreference = 0
         }
-		if distance < 5 || price < 1 { return false }
+		
 		return true
     }
 	
@@ -235,14 +236,14 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
                 .regular("Please set your general hourly rate.\n\nAlthough you have a set rate, individual sessions can be negotiable.", 14, Colors.grayText)
             
             cell.header.attributedText = formattedString
-            cell.textField.text = "$0"
+            cell.textField.text = "$5"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
             
             cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
             
-            cell.slider.minimumValue = 5
+            cell.slider.minimumValue = 0
             cell.slider.maximumValue = 150
             
             let formattedString = NSMutableAttributedString()
@@ -254,7 +255,7 @@ extension TutorPreferences : UITableViewDelegate, UITableViewDataSource {
                 .regular("Please set the maximum number of miles you are willing to travel for a tutoring session.", 14, Colors.grayText)
             
             cell.header.attributedText = formattedString
-            cell.valueLabel.text = "5 mi"
+            cell.valueLabel.text = "0 mi"
             
             return cell
         case 2:

@@ -158,10 +158,9 @@ extension RequestSessionBackgroundView : UITableViewDelegate, UITableViewDataSou
 			case 1:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "datePickerCell",  for: indexPath) as! RequestSessionDatePickerCell
 				cell.delegate = self
-				cell.datePicker.tag = 0
-				cell.datePicker.minimumDate = Date()
-				cell.datePicker.maximumDate = nil
-				cell.datePicker.setDate(RequestSessionData.startTime != nil ? RequestSessionData.startTime! : Date(), animated: true)
+				cell.datePicker.minimumDate = Date().adding(minutes: 15)
+				cell.datePicker.maximumDate = Date().adding(days: 30)
+				cell.datePicker.setDate(RequestSessionData.startTime != nil ? RequestSessionData.startTime! : Date().adding(minutes: 15), animated: true)
 				cell.addSubview(headerView)
 				return cell
 			case 2:
@@ -200,7 +199,7 @@ extension RequestSessionBackgroundView : UITableViewDelegate, UITableViewDataSou
 }
 extension RequestSessionBackgroundView : RequestSessionDelegate {
 	func isOnlineChanged(isOnline: Bool?) {
-		let cell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as! RequestSessionTableViewCell
+		guard let cell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as?  RequestSessionTableViewCell else { return }
 		if isOnline == nil {
 			cell.subtitle.attributedText = NSMutableAttributedString().regular("Choose a session type", 15, .white)
 			RequestSessionData.isOnline = nil
@@ -210,7 +209,7 @@ extension RequestSessionBackgroundView : RequestSessionDelegate {
 		}
 	}
 	func sessionSubjectChanged(subject: String) {
-		let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! RequestSessionTableViewCell
+		guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RequestSessionTableViewCell else { return }
 		if subject == "Choose a subject" {
 			cell.subtitle.attributedText = NSMutableAttributedString().regular(subject, 15, .white)
 			RequestSessionData.subject = nil
@@ -221,18 +220,18 @@ extension RequestSessionBackgroundView : RequestSessionDelegate {
 	}
 	func startTimeDateChanged(date: Date) {
 		dateFormatter.dateFormat = "EEEE MMMM d'\(date.daySuffix())', h:mm a"
-		let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! RequestSessionTableViewCell
+		guard let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? RequestSessionTableViewCell else { return }
 		cell.subtitle.attributedText = NSMutableAttributedString().bold(dateFormatter.string(from: date), 15, .white)
 		RequestSessionData.startTime = date
 	}
 	func durationChanged(displayDuration: String?, duration: Int?) {
-		let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! RequestSessionTableViewCell
+		guard let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? RequestSessionTableViewCell else { return }
 		cell.subtitle.attributedText = NSMutableAttributedString().bold(displayDuration != nil ? displayDuration! : "Choose a session duration", 15, .white)
 		RequestSessionData.duration = duration != nil ? duration! : nil
 		RequestSessionData.displayDuration = displayDuration != nil ? displayDuration! : nil
 	}
 	func priceDidChange(price: Int) {
-		let cell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! RequestSessionTableViewCell
+		guard let cell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RequestSessionTableViewCell else { return }
 		cell.subtitle.attributedText = NSMutableAttributedString().bold("$\(price)", 15, .white).regular("/hr", 11, .white)
 		RequestSessionData.price = price
 	}

@@ -457,6 +457,7 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
 		contentView.addSubview(header)
 		contentView.addSubview(slider)
 		contentView.addSubview(valueLabel)
+		
 		backgroundColor = .clear
 		selectionStyle = .none
 		
@@ -531,8 +532,8 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	var increasePriceTimer: Timer?
 	var decreasePriceTimer: Timer?
 	
-	var currentPrice = 0
-	var amount : String = ""
+	var currentPrice = 5
+	var amount : String = "5"
 	var textFieldObserver : AmountTextFieldDidChange?
 
 	override func configureView() {
@@ -576,7 +577,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 			self.amount = ""
 			return
 		}
-		decreasePriceTimer =  Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { (timer) in
+		decreasePriceTimer =  Timer.scheduledTimer(withTimeInterval: 0.085, repeats: true) { (timer) in
 			guard self.currentPrice > 0 else {
 				self.amount = String(self.currentPrice)
 				return
@@ -602,7 +603,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 		textField.text = "$\(self.currentPrice)"
 		amount = String(currentPrice)
 		textFieldObserver?.amountTextFieldDidChange(amount: currentPrice)
-		increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { (timer) in
+		increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.085, repeats: true, block: { (timer) in
 			guard self.currentPrice < 1000 else {
 				self.amount = String(self.currentPrice)
 				return
@@ -660,7 +661,7 @@ extension EditProfileHourlyRateTableViewCell : UITextFieldDelegate {
 		let numberFiltered = compSepByCharInSet.joined(separator: "")
 		
 		if string == "" && amount.count == 1 {
-			textField.text = "$0"
+			textField.text = "$5"
 			amount = ""
 			currentPrice = 0
 			return false
@@ -820,6 +821,12 @@ class EditProfilePersonCheckboxTableViewCell : BaseTableViewCell {
 		if touchStartView is RegistrationCheckbox {
 			delegate?.inPersonPressed()
 		}
+	}
+}
+
+extension LearnerFilters : UIScrollViewDelegate {
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		self.view.endEditing(true)
 	}
 }
 

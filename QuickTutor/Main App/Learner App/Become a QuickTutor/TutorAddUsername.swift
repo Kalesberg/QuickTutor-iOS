@@ -68,7 +68,8 @@ class TutorAddUsernameTextfield : InteractableView {
         super.configureView()
         
         line.backgroundColor = .white
-        
+		
+	
         applyConstraints()
     }
     
@@ -142,6 +143,10 @@ class TutorAddUsernameView : TutorRegistrationLayout, Keyboardable {
         progressBar.progress = 1
         progressBar.applyConstraints()
         progressBar.divider.isHidden = true
+		
+		navbar.backgroundColor = Colors.tutorBlue
+		statusbarView.backgroundColor = Colors.tutorBlue
+
     }
     
     override func applyConstraints() {

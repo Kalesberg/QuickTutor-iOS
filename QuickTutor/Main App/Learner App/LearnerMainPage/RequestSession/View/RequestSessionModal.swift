@@ -52,14 +52,7 @@ class RequestSessionModal :  UIView {
 	
 	init(uid: String, requestData: TutorPreferenceData) {
 		self.chatPartnerId = uid
-		print("uid")
 		requestSessionMenu.requestSessionBackgroundView.requestData = requestData
-		print(requestData.name)
-		print(requestData.pricePreference)
-		print(requestData.sessionPreference)
-		print(requestData.subjects)
-		print(requestData.travelPreference)
-		
 		super.init(frame: .zero)
 		configureView()
 	}
@@ -93,6 +86,7 @@ class RequestSessionModal :  UIView {
 			current.becomeFirstResponder()
 		}
 	}
+	
 	@objc private func requestButtonPressed(_ sender: UIButton) {
 		var sessionData = [String : Any]()
 		
@@ -112,11 +106,20 @@ class RequestSessionModal :  UIView {
 			showErrorMessage(message: RequestSessionErrorType.priceNotChosen.rawValue)
 			return
 		}
+		guard price >= 5 else {
+			showErrorMessage(message: RequestSessionErrorType.priceLowerThan5.rawValue)
+			return
+		}
 		guard let sessionType = RequestSessionData.isOnline else {
 			showErrorMessage(message: RequestSessionErrorType.sessionTypeNotChosen.rawValue)
 			return
 		}
-
+//		print(startTime.timeIntervalSince1970)
+//		guard startTime <= Date() else {
+//			showErrorMessage(message: RequestSessionErrorType.sessionNot15MinutesInAdvance.rawValue)
+//			return
+//		}
+		
 		let endTime = startTime.adding(minutes: duration)
 
 		sessionData["status"] = "pending"
@@ -138,7 +141,7 @@ class RequestSessionModal :  UIView {
 			current.becomeFirstResponder()
 		}
 	}
-	
+
 	func getExpiration(endTime: Date) -> TimeInterval {
 		let difference = (endTime.timeIntervalSince1970 - Date().timeIntervalSince1970) / 2
 		let expirationDate = Date().addingTimeInterval(difference)
@@ -147,6 +150,7 @@ class RequestSessionModal :  UIView {
 	
 	func showErrorMessage(message: String) {
 		requestSessionMenu.cancelRequestView.errorLabel.isHidden = false
+		requestSessionMenu.cancelRequestView.errorLabel.shake()
 		requestSessionMenu.cancelRequestView.errorLabel.text = message
 	}
 	func hideErrorMessage() {
@@ -160,5 +164,7 @@ enum RequestSessionErrorType : String {
 	case durationNotChosen = "Please choose a duration for this session"
 	case endTimeDurationError = "The total duration of a session must be atleast 15 minutes"
 	case priceNotChosen = "Please choose a price for this session"
+	case priceLowerThan5 = "You must select a price between $5 - $1000"
 	case sessionTypeNotChosen = "Please choose a session type for this session"
+	case sessionNot15MinutesInAdvance = "The start of a session must be at least 15 minutes in advance"
 }

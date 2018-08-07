@@ -267,14 +267,13 @@ class LearnerMainPage : MainPage {
 					return completion(true)
 				}
 			})
-			self.dismissOverlay()
 		}
     }
     
     override func handleNavigation() {
         super.handleNavigation()
 
-        if(touchStartView == contentView.sidebarButton) {
+        if (touchStartView == contentView.sidebarButton) {
             self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.maxX
             self.contentView.sidebar.alpha = 1.0
             self.contentView.sidebar.isUserInteractionEnabled = true
@@ -287,7 +286,7 @@ class LearnerMainPage : MainPage {
                 displaySidebarTutorial()
                 UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
             }
-        } else if(touchStartView == contentView.backgroundView) {
+        } else if (touchStartView == contentView.backgroundView) {
             self.contentView.sidebar.isUserInteractionEnabled = false
             let startX = self.contentView.sidebar.center.x
             UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
@@ -347,9 +346,8 @@ class LearnerMainPage : MainPage {
             hideBackground()
         } else if (touchStartView is SearchBar) {
             let nav = self.navigationController
-            let transition = CATransition()
             DispatchQueue.main.async {
-                nav?.view.layer.add(transition.segueFromTop(), forKey: nil)
+                nav?.view.layer.add(CATransition().segueFromTop(), forKey: nil)
                 nav?.pushViewController(SearchSubjects(), animated: false)
             }
         } else if (touchStartView is InviteButton) {

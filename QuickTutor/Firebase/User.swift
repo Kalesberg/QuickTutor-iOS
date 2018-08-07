@@ -339,7 +339,7 @@ class FirebaseData {
 			completion(TutorPreferenceData(dictionary: requestData))
 		}
 	}
-	public func fetchUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]) -> Void) {
+	public func fetchUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]?) -> Void) {
 		var sessions : [UserSession] = []
 		let group = DispatchGroup()
 		
@@ -352,11 +352,13 @@ class FirebaseData {
 		
 		fetchSessions(uid: uid, type: type) { (sessionIds) in
 			if let sessionIds = sessionIds {
-				print("here.")
 				for id in sessionIds {
 					group.enter()
 					self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
 						guard let value = snapshot.value as? [String : Any] else { return group.leave() }
+						//check that the session is not more than 1 week old.
+						guard let endTime = value["endTime"] as? Double, endTime < Date().timeIntervalSince1970 - 604800 else { return group.leave() }
+						
 						var session = UserSession(dictionary: value)
 						session.id = id
 						//this will be used to check for 'pending' or 'filed' reports later. For now it just dumps the current session.
@@ -454,6 +456,24 @@ class FirebaseData {
 				subjectsTaught.append(topSubjects)
 			}
 			return completion(subjectsTaught)
+		}
+	}
+	//Not working yet. there are some things Fuller and I (Austin) have to collaborate on to make this work.
+	public func checkIfSessionHasTimeConflict(_ uid: String, startTime: TimeInterval, endTime: TimeInterval,_ completion: @escaping (String?) -> Void) {
+		
+		self.ref.child("sessions").queryOrdered(byChild: "senderId").queryEqual(toValue: uid).observeSingleEvent(of: .value) { (snapshot) in
+			for snap in snapshot.children {
+				guard let child = snap as? DataSnapshot else { print("continue1"); continue }
+				let value = child.value as! [String : Any]
+				guard let sessionStartTime = value["startTime"] as? Double else { print("continu2e"); continue }
+				guard let sessionEndTime = value["endTime"] as? Double else { print("continu3e"); continue }
+			
+				if (startTime < sessionEndTime) && endTime > (sessionStartTime) {
+					print("Session overlaps.")
+				} else {
+					print("Session does not overlap.")
+				}
+			}
 		}
 	}
 	

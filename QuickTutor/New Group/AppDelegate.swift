@@ -125,7 +125,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         }
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         return handled
-        
     }
     
     func handlIncomingDynamicLink(_ dynamicLink: DynamicLink) {

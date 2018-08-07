@@ -83,7 +83,6 @@ class LearnerReviews : BaseViewController {
 		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
-		
 		contentView.tableView.register(TutorMyProfileLongReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
     }
     
@@ -97,7 +96,7 @@ class LearnerReviews : BaseViewController {
     }
     
     override func handleNavigation() {
-		if touchStartView is NavbarButtonXLight {
+		if touchStartView is NavbarButtonBack {
 			self.dismiss(animated: true, completion: nil)
 		}
     }

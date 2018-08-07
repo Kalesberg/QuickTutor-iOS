@@ -24,8 +24,6 @@ class RequestSessionDatePickerCell : UITableViewCell {
 		var localTimeZoneAbbreviation: String { return TimeZone.current.abbreviation() ?? "" }
 		datePicker.setValue(UIColor.white, forKeyPath: "textColor")
 		datePicker.minuteInterval = 15
-		datePicker.minimumDate = Date().adding(minutes: 15)
-		datePicker.maximumDate = Date().adding(days: 30)
 		datePicker.datePickerMode = .dateAndTime		
 		datePicker.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
 		
@@ -73,6 +71,7 @@ class RequestSessionDatePickerCell : UITableViewCell {
 	}
 	
 	@objc private func datePickerChanged(_ picker: UIDatePicker) {
+		print(picker.date)
 		delegate?.startTimeDateChanged(date: picker.date)
 	}
 }

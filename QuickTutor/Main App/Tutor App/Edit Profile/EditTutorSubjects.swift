@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
-class EditTutorSubjectsView : MainLayoutTitleBackTwoButton, Keyboardable {
+class EditTutorSubjectsView : MainLayoutTitleTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
 	
@@ -61,27 +61,6 @@ class EditTutorSubjectsView : MainLayoutTitleBackTwoButton, Keyboardable {
 		return collectionView
 	}()
 	
-	let categoryCollectionView : UICollectionView = {
-		let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-		let layout = UICollectionViewFlowLayout()
-		
-		layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-		layout.scrollDirection = .horizontal
-		layout.minimumInteritemSpacing = 0.0
-		
-		collectionView.backgroundColor = Colors.backgroundDark
-		collectionView.collectionViewLayout = layout
-		collectionView.backgroundColor = .clear
-		collectionView.showsVerticalScrollIndicator = false
-		collectionView.showsHorizontalScrollIndicator = false
-		collectionView.isPagingEnabled = true
-		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-		
-		collectionView.tag = 0
-		
-		return collectionView
-	}()
-	
 	let categoryTableView : UITableView = {
 		let tableView = UITableView(frame: .zero, style: .grouped)
 		
@@ -103,16 +82,17 @@ class EditTutorSubjectsView : MainLayoutTitleBackTwoButton, Keyboardable {
 	
 	let tableView : UITableView = {
 		let tableView = UITableView()
-		
+
 		tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 44
-		tableView.separatorInset.left = 0
-		tableView.separatorStyle = .none
+		tableView.separatorStyle = .singleLine
+		tableView.separatorColor = .black
 		tableView.showsVerticalScrollIndicator = false
 		tableView.backgroundColor = Colors.backgroundDark
 		tableView.allowsMultipleSelection = true
 		tableView.alpha = 0.0
-		
+		tableView.tableFooterView = UIView()
+
 		return tableView
 	}()
 	
@@ -126,9 +106,18 @@ class EditTutorSubjectsView : MainLayoutTitleBackTwoButton, Keyboardable {
 		}
 	}
 	
+	var backButton = NavbarButtonXLight()
+	
+	override var leftButton: NavbarButton  {
+		get {
+			return backButton
+		} set {
+			backButton = newValue as! NavbarButtonXLight
+		}
+	}
+	
 	override func configureView() {
 		addSubview(noSelectedItemsLabel)
-//		addSubview(categoryCollectionView)
 		addSubview(categoryTableView)
 		addSubview(pickedCollectionView)
 		addSubview(tableView)
@@ -179,17 +168,6 @@ class EditTutorSubjectsView : MainLayoutTitleBackTwoButton, Keyboardable {
 			make.centerX.equalToSuperview()
 			make.width.equalToSuperview()
 		}
-//		
-//		categoryCollectionView.snp.makeConstraints { (make) in
-//			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-6)
-//			make.width.equalToSuperview()
-//			make.centerX.equalToSuperview()
-//			if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
-//				make.height.equalTo(235)
-//			} else {
-//				make.height.equalTo(295)
-//			}
-//		}
 		
 		categoryTableView.snp.makeConstraints { (make) in
 			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-3)
@@ -244,9 +222,19 @@ class EditTutorSubjects : BaseViewController {
 	var automaticScroll : Bool = false
 	var shouldUpdateSearchResults = false
 	
-	var filteredSubjects : [(String, String)] = []
-	var partialSubjects : [(String, String)] = []
-	var allSubjects : [(String, String)] = []
+	var filteredSubjects = [(String, String)]() {
+		didSet {
+			if filteredSubjects.count == 0 {
+				let backgroundView = TutorCardCollectionViewBackground()
+				backgroundView.label.attributedText = NSMutableAttributedString().bold("No Search Results", 22, .white)
+				contentView.tableView.backgroundView = backgroundView
+			} else {
+				contentView.tableView.backgroundView = nil
+			}
+		}
+	}
+	var partialSubjects = [(String, String)]()
+	var allSubjects = [(String, String)]()
 	
 	var inlineCellIndexPath : IndexPath?
 	
@@ -263,18 +251,12 @@ class EditTutorSubjects : BaseViewController {
 	var selectedSubjects = [String]() {
 		didSet {
 			contentView.noSelectedItemsLabel.isHidden = !selectedSubjects.isEmpty
-			contentView.categoryCollectionView.reloadData()
 			contentView.nextButton.label.text = "Save (\(selectedSubjects.count))"
 		}
 	}
 	var removedSubjects = [Selected]()
 	
-	var selected = [Selected]() {
-		didSet {
-			contentView.categoryCollectionView.reloadData()
-		}
-	}
-	
+	var selected = [Selected]()
 	
 	var tableViewIsActive : Bool = false {
 		didSet {
@@ -282,14 +264,6 @@ class EditTutorSubjects : BaseViewController {
 			contentView.nextButton.isHidden = tableViewIsActive
 			contentView.cancelButton.isHidden = !tableViewIsActive
 			shouldUpdateSearchResults = tableViewIsActive
-		}
-	}
-	
-	var selectedCategory : Int = 6 {
-		didSet {
-			DispatchQueue.main.async {
-				self.contentView.categoryCollectionView.reloadData()
-			}
 		}
 	}
 	
@@ -319,10 +293,6 @@ class EditTutorSubjects : BaseViewController {
 		contentView.pickedCollectionView.dataSource = self
 		contentView.pickedCollectionView.register(PickedSubjectsCollectionViewCell.self, forCellWithReuseIdentifier: "pickedCollectionViewCell")
 
-//		contentView.categoryCollectionView.delegate = self
-//		contentView.categoryCollectionView.dataSource = self
-//		contentView.categoryCollectionView.register(CategorySelectionCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCollectionViewCell")
-		
 		contentView.categoryTableView.delegate = self
 		contentView.categoryTableView.dataSource = self
 		contentView.categoryTableView.register(SubjectSearchCategoryCell.self, forCellReuseIdentifier: "categoryCell")
@@ -507,10 +477,18 @@ class EditTutorSubjects : BaseViewController {
 				self.contentView.searchBar.text = ""
 			}
 		} else if touchStartView is NavbarButtonXLight {
-			tableViewIsActive ? tableView(shouldDisplay: false) {
-				self.didSelectCategory = false
-				self.contentView.searchBar.text = ""
-				} : backButtonAlert()
+			if tableViewIsActive {
+				tableView(shouldDisplay: false) {
+					self.didSelectCategory = false
+					self.contentView.searchBar.text = ""
+				}
+			} else {
+				if CurrentUser.shared.tutor.subjects != self.selectedSubjects {
+					backButtonAlert()
+				} else {
+					navigationController?.popViewController(animated: true)
+				}
+			}
 		}
 	}
 }
@@ -730,19 +708,19 @@ extension EditTutorSubjects : UISearchBarDelegate {
 	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		automaticScroll = true
 		
-		if searchText == ""  {
+		if searchText == ""  && !didSelectCategory {
 			tableView(shouldDisplay: false) {
 				self.didSelectCategory = false
 				self.contentView.searchBar.text = ""
 				self.automaticScroll = false
 			}
-			return
-		}
-		
-		if didSelectCategory {
-			filteredSubjects = partialSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
+		} else if searchText == ""  && didSelectCategory {
+			filteredSubjects = partialSubjects
 			contentView.tableView.reloadData()
 			return
+		} else if didSelectCategory {
+			filteredSubjects = partialSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
+			contentView.tableView.reloadData()
 		} else {
 			tableView(shouldDisplay: true) {
 				self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
