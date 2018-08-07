@@ -444,9 +444,9 @@ class SessionRequestCellButtonView: UIView {
     
     func setupAsDeclined() {
         if AccountService.shared.currentUserType == .learner {
-        setupAsSingleButton()
-        setButtonTitleColors(Colors.navBarGreen)
-        setButtonTitles("Request a new session")
+        	setupAsSingleButton()
+        	setButtonTitleColors(Colors.navBarGreen)
+        	setButtonTitles("Request a new session")
         } else {
             setupAsSingleButton()
             setButtonTitleColors(Colors.grayText)
@@ -486,6 +486,4 @@ class SessionRequestCellButtonView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    
 }

@@ -103,7 +103,6 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 		super.configureView()
 		
 		searchTextField = searchBar.value(forKey: "searchField") as? UITextField
-		
 		searchTextField?.font = Fonts.createSize(16)
 		searchTextField?.textColor = .white
 		searchTextField?.adjustsFontSizeToFitWidth = true
