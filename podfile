@@ -35,5 +35,10 @@ target 'QuickTutor' do
   pod 'Reveal-SDK', :configurations => ['Debug']
   pod 'TwilioVideo', '2.0.0-beta3'
   pod 'Socket.IO-Client-Swift', '~> 13.1.0'
+  
+  #Pods for Crashlytics & Performance
+  pod 'Fabric', '~> 1.7.9'
+  pod 'Crashlytics', '~> 3.10.5'
+  pod 'Firebase/Performance'
 
 end

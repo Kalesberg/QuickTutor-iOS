@@ -66,6 +66,16 @@ class SessionManager {
         socket.emit(SocketEvents.endSession, ["roomKey": sessionId!])
     }
     
+    func markDataStale(partnerId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        Database.database().reference().child("userSessions").child(uid)
+            .child(userTypeString).child(sessionId).setValue(0)
+        Database.database().reference().child("userSessions").child(partnerId)
+            .child(otherUserTypeString).child(sessionId).setValue(0)
+    }
+    
     //MARK: Session clock -
     func startSessionRuntime() {
         guard timer == nil else { return }
@@ -128,5 +138,7 @@ class SessionManager {
         loadSession()
         observeSocketEvents()
     }
+    
+    
     
 }

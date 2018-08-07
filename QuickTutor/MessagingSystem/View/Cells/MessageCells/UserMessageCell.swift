@@ -9,6 +9,10 @@
 import UIKit
 import Firebase
 
+enum MessageCellType {
+    case system, text, image, sessionRequest, connectionRequest
+}
+
 class UserMessageCell: BaseMessageCell {
     
     var chatPartner: User?
