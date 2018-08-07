@@ -358,6 +358,8 @@
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
 		CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8EF20C8921900182E1C /* SessionManager.swift */; };
 		CFE18F9F2118F6F2000816C4 /* EmptyConversationBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0711022117AEC00035A6FF /* EmptyConversationBackground.swift */; };
+		CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFE18FA02119645E000816C4 /* quickTutorNotification.aiff */; };
+		CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFE18FA221196790000816C4 /* qtNotificationPop.aiff */; };
 		CFEC492320E2AA8F00060E48 /* MessagingSystemTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */; };
 		CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEDF90220D57FF100457E77 /* OnlineStatusService.swift */; };
 		CFEF943920B3287100413727 /* ConnectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943820B3287100413727 /* ConnectionsVC.swift */; };
@@ -739,6 +741,8 @@
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
 		CFDBD8EF20C8921900182E1C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		CFE18FA02119645E000816C4 /* quickTutorNotification.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = quickTutorNotification.aiff; sourceTree = "<group>"; };
+		CFE18FA221196790000816C4 /* qtNotificationPop.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = qtNotificationPop.aiff; sourceTree = "<group>"; };
 		CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemTutorial.swift; sourceTree = "<group>"; };
 		CFEDF90220D57FF100457E77 /* OnlineStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusService.swift; sourceTree = "<group>"; };
 		CFEF943820B3287100413727 /* ConnectionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsVC.swift; sourceTree = "<group>"; };
@@ -889,6 +893,8 @@
 				8425767B207133CE00FD295B /* SearchContent */,
 				8491C29A1FBE62350036FC12 /* AppDelegate.swift */,
 				8491C2A91FBE62350036FC12 /* Info.plist */,
+				CFE18FA221196790000816C4 /* qtNotificationPop.aiff */,
+				CFE18FA02119645E000816C4 /* quickTutorNotification.aiff */,
 				CFB0283D210C241600B29972 /* GoogleService-Info.plist */,
 				CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */,
 				8491C2A11FBE62350036FC12 /* QuickTutor.xcdatamodeld */,
@@ -1810,10 +1816,12 @@
 				84257678207132DD00FD295B /* tech.json in Resources */,
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
+				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
 				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
+				CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */,
 				8425766820712C3600FD295B /* auto.json in Resources */,
 				8425766620712B2A00FD295B /* arts.json in Resources */,
 				845980511FD4FD4B007E9339 /* Lato in Resources */,
@@ -1844,7 +1852,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${PODS_ROOT}/Reveal-SDK/RevealServer-16/iOS/RevealServer.framework",
+				"${PODS_ROOT}/Reveal-SDK/RevealServer-17/iOS/RevealServer.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",

@@ -213,8 +213,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
 		
         if (firebaseAuth.canHandleNotification(userInfo)){
             print(userInfo)
-            return
         }
+
+        // Print message ID.
+        // Print full message.
+        let vc = MessagesVC()
+        navigationController.pushViewController(vc, animated: true)
+        vc.scrollTo(index: 1, animated: false)
+        print("Notification info:", userInfo)
+        
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        // Print message ID.
+        // Print full message.
+        let vc = MessagesVC()
+        navigationController.pushViewController(vc, animated: true)
+        vc.scrollTo(index: 1, animated: false)
+        print("Notification info:", userInfo)
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

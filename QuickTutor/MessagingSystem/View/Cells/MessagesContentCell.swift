@@ -222,7 +222,6 @@ extension MessagesContentCell: ConversationCellDelegate {
         Database.database().reference().child("connections").child(uid).child(id).removeValue()
         Database.database().reference().child("connections").child(id).child(uid).removeValue()
         conversationRef.removeValue()
-        conversationRef.childByAutoId().removeValue()
         let indexPath = collectionView.indexPath(for: conversationCell)!
         messages.remove(at: indexPath.item)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
