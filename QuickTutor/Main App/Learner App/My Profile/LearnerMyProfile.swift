@@ -94,18 +94,90 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
         return tableView
     }()
     
+    let profilePics : TutorCardProfilePic = {
+        let view = TutorCardProfilePic()
+        
+        view.isUserInteractionEnabled = true
+        view.backgroundColor = .clear
+        
+        return view
+    }()
+    
+    let background : UIView = {
+        let view = UIView()
+        
+        if AccountService.shared.currentUserType == .learner {
+            view.backgroundColor = Colors.learnerPurple
+        } else {
+            view.backgroundColor = Colors.tutorBlue
+        }
+        
+        return view
+    }()
+    
+    let nameContainer : UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    let name : UILabel = {
+        var label = UILabel()
+        
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = Fonts.createBoldSize(20)
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
+    
     override func configureView() {
+        addSubview(background)
+        addSubview(profilePics)
+        profilePics.addSubview(nameContainer)
+        nameContainer.addSubview(name)
         addSubview(tableView)
         addSubview(backgroundView)
         super.configureView()
+        insertSubview(statusbarView, at: 1)
+        insertSubview(navbar, at: 2)
         
         title.label.text = "My Profile"
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple
+        backgroundColor = Colors.registrationDark
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layoutIfNeeded()
+        nameContainer.applyGradient(firstColor: UIColor(hex: "4267a8").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: nameContainer.bounds, locations: [0.5])
+        profilePics.roundCorners(.allCorners, radius: 8)
     }
     
     override func applyConstraints() {
         super.applyConstraints()
+        
+        background.snp.makeConstraints { (make) in
+            make.top.equalTo(navbar.snp.bottom)
+            make.width.centerX.equalToSuperview()
+            make.height.equalTo(155)
+        }
+        profilePics.snp.makeConstraints { (make) in
+            make.top.equalTo(navbar.snp.bottom).inset(-30)
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(155)
+        }
+        nameContainer.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.width.centerX.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        name.snp.makeConstraints { (make) in
+            make.width.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(3)
+        }
         
         backgroundView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
@@ -117,7 +189,7 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
         tableView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalTo(name.snp.bottom).inset(-20)
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide)
             } else {
@@ -229,6 +301,11 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
         super.viewDidLoad()
         configureDelegates()
         
+        let name = learner.name.split(separator: " ")
+        contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+        
+        contentView.profilePics.loadUserImagesWithoutMask(by: learner.images["image1"]!)
+        //contentView.ratingLabel.text = String(learner.lRating)
     }
     
     override func loadView() {
@@ -258,7 +335,7 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
             let next = LearnerEditProfile()
             next.delegate = self
             navigationController?.pushViewController(next, animated: true)
-        } else if(touchStartView is InteractableObject) {
+        } else if(touchStartView is TutorCardProfilePic) {
             self.displayAWImageViewer(images: learner.images.filter({$0.value != ""}))
         }
     }
@@ -273,16 +350,14 @@ extension LearnerMyProfile : AWImageViewer {
 extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.row) {
         case 0:
-            return 170
-        case 1:
             return UITableViewAutomaticDimension
-        case 2:
+        case 1:
             return UITableViewAutomaticDimension
         default:
             break
@@ -294,18 +369,18 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
         
         switch (indexPath.row) {
             
+//        case 0:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
+//
+//            cell.locationImage.isHidden = true
+//            let name = learner.name.split(separator: " ")
+//            cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+//
+//            cell.profilePicView.loadUserImages(by: learner.images["image1"]!)
+//            cell.ratingLabel.text = String(learner.lRating)
+//
+//            return cell
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
-            
-            cell.locationImage.isHidden = true
-			let name = learner.name.split(separator: " ")
-            cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
-
-            cell.profilePicView.loadUserImages(by: learner.images["image1"]!)
-            cell.ratingLabel.text = String(learner.lRating)
-
-            return cell
-        case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
 
             if learner.bio == "" && !isViewing {
@@ -317,7 +392,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
 				cell.bioLabel.text = learner.bio + "\n"
 			}
             return cell
-        case 2:
+        case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
             
             for view in cell.contentView.subviews {
