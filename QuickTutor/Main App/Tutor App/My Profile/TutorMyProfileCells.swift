@@ -686,7 +686,6 @@ class RatingTableViewCell : BaseTableViewCell {
             make.height.equalTo(190)
             make.centerX.equalToSuperview()
         }
-        
         seeAllButton.snp.makeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalTo(80)
@@ -695,6 +694,7 @@ class RatingTableViewCell : BaseTableViewCell {
             make.bottom.equalTo(contentView)
         }
     }
+	
     override func handleNavigation() {
         if touchStartView is SeeAllButton {
             if let current = UIApplication.getPresentedViewController() {
@@ -757,25 +757,19 @@ class NoRatingsTableViewCell : BaseTableViewCell {
 }
 
 extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (datasource.count >= 2) ? 2 : 1
     }
+	
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+	
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
-        
-        if tableView.numberOfSections == 1 {
-            self.tableView.snp.updateConstraints { (make) in
-                make.height.equalTo(120)
-            }
-        }
-        
+
         let data = datasource[indexPath.row]
-        
+		
         cell.nameLabel.text = data.studentName
         cell.reviewTextLabel.text = data.message
         cell.dateSubjectLabel.text = "\(data.date) - \(data.subject)"
@@ -787,13 +781,8 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
-//    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
-//        return 10
-//    }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
         cell.backgroundColor = .clear
     }
     

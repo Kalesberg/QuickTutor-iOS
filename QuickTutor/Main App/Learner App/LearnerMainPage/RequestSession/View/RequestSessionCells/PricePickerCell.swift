@@ -75,8 +75,8 @@ class RequestSessionPriceCell : UITableViewCell {
 	var increasePriceTimer: Timer?
 	var decreasePriceTimer: Timer?
 
-	var currentPrice = 0
-	var amount : String = ""
+	var currentPrice = 5
+	var amount : String = "5"
 
 	var delegate : RequestSessionDelegate?
 	
@@ -201,7 +201,7 @@ extension RequestSessionPriceCell : UITextFieldDelegate {
 			let formattedString = NSMutableAttributedString()
 
 			formattedString
-				.bold("$0", 32, .white)
+				.bold("$5", 32, .white)
 				.regular("  /hr", 15, .white)
 			textField.attributedText = formattedString
 			amount = ""

@@ -60,7 +60,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		
 		let header = SubjectSearchTableViewHeader()
 		header.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 75)
-		header.subtitle.text = "Search a subject within any subcategory."
+		header.subtitle.text = "Search a subject within any subcategory"
 		
 		tableView.showsVerticalScrollIndicator = false
 		tableView.separatorStyle = .none
@@ -102,6 +102,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 		tableView.backgroundColor = Colors.backgroundDark
 		tableView.allowsMultipleSelection = true
 		tableView.alpha = 0.0
+		tableView.tableFooterView = UIView()
 		
 		return tableView
 	}()
@@ -246,9 +247,19 @@ class TutorAddSubjects : BaseViewController {
 	var selected : [Selected] = []
 	var automaticScroll : Bool = false
 
-	var filteredSubjects : [(String, String)] = []
-	var partialSubjects : [(String, String)] = []
-	var allSubjects : [(String, String)] = []
+	var filteredSubjects = [(String, String)]() {
+		didSet {
+			if filteredSubjects.count == 0 {
+				let backgroundView = TutorCardCollectionViewBackground()
+				backgroundView.label.attributedText = NSMutableAttributedString().bold("No Search Results", 22, .white)
+				contentView.tableView.backgroundView = backgroundView
+			} else {
+				contentView.tableView.backgroundView = nil
+			}
+		}
+	}
+	var partialSubjects = [(String, String)]()
+	var allSubjects = [(String, String)]()
 	
 	var inlineCellIndexPath : IndexPath?
 	
@@ -274,10 +285,10 @@ class TutorAddSubjects : BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		if UserDefaults.standard.bool(forKey: "showBecomeTutorTutorial1.0") {
-			displayTutorial()
-			UserDefaults.standard.set(false, forKey: "showBecomeTutorTutorial1.0")
-		}
+//		if UserDefaults.standard.bool(forKey: "showBecomeTutorTutorial1.0") {
+//			displayTutorial()
+//			UserDefaults.standard.set(false, forKey: "showBecomeTutorTutorial1.0")
+//		}
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -285,34 +296,34 @@ class TutorAddSubjects : BaseViewController {
 		
 	}
 	
-	func displayTutorial() {
-		
-		let tutorial = TutorCardTutorial()
-		tutorial.label.text = "Swipe left and right for more subjects!"
-		contentView.addSubview(tutorial)
-		
-		tutorial.snp.makeConstraints { (make) in
-			make.edges.equalToSuperview()
-		}
-		
-		contentView.leftButton.isUserInteractionEnabled = false
-		contentView.rightButton.isUserInteractionEnabled = false
-		contentView.searchBar.isUserInteractionEnabled = false
-		
-		UIView.animate(withDuration: 1, animations: {
-			tutorial.alpha = 1
-		}, completion: { (true) in
-			UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
-				tutorial.imageView.center.x -= 20
-				tutorial.imageView.center.x += 20
-			}, completion: { (true) in
-				
-				self.contentView.leftButton.isUserInteractionEnabled = true
-				self.contentView.rightButton.isUserInteractionEnabled = true
-				self.contentView.searchBar.isUserInteractionEnabled = true
-			})
-		})
-	}
+//	func displayTutorial() {
+//
+//		let tutorial = TutorCardTutorial()
+//		tutorial.label.text = "Swipe left and right for more subjects!"
+//		contentView.addSubview(tutorial)
+//
+//		tutorial.snp.makeConstraints { (make) in
+//			make.edges.equalToSuperview()
+//		}
+//
+//		contentView.leftButton.isUserInteractionEnabled = false
+//		contentView.rightButton.isUserInteractionEnabled = false
+//		contentView.searchBar.isUserInteractionEnabled = false
+//
+//		UIView.animate(withDuration: 1, animations: {
+//			tutorial.alpha = 1
+//		}, completion: { (true) in
+//			UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
+//				tutorial.imageView.center.x -= 20
+//				tutorial.imageView.center.x += 20
+//			}, completion: { (true) in
+//
+//				self.contentView.leftButton.isUserInteractionEnabled = true
+//				self.contentView.rightButton.isUserInteractionEnabled = true
+//				self.contentView.searchBar.isUserInteractionEnabled = true
+//			})
+//		})
+//	}
 	
 	private func configureDelegates() {
 		
@@ -374,13 +385,6 @@ class TutorAddSubjects : BaseViewController {
 		alertController.addAction(okButton)
 		alertController.addAction(cancelButton)
 		self.present(alertController, animated: true, completion: nil)
-	}
-	
-	private func scrollToTop() {
-		contentView.tableView.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-		automaticScroll = false
 	}
 	
 	override func handleNavigation() {
@@ -586,6 +590,7 @@ extension TutorAddSubjects : DidSelectSubcategoryCell {
 	func didSelectSubcategoryCell(resource: String?, subcategory: String) {
 		guard let resource = resource else { return }
 		if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subcategory) {
+			print("Partial Subjects: ", partialSubjects)
 			self.partialSubjects = subjects
 			self.filteredSubjects = self.partialSubjects
 			self.contentView.headerView.category.text = subcategory
@@ -608,30 +613,25 @@ extension TutorAddSubjects : UISearchBarDelegate {
 	
 	internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		automaticScroll = true
-		
-		if searchText == ""  {
+		if searchText == ""  && !didSelectCategory { //handle case when there is no searchText.
 			tableView(shouldDisplay: false) {
 				self.didSelectCategory = false
 				self.contentView.searchBar.text = ""
 				self.automaticScroll = false
 			}
-			return
-		}
-		
-		if didSelectCategory {
+		} else if searchText == ""  && didSelectCategory { //handle case when there is no searchText but a subcategory was chosen.
+			filteredSubjects = partialSubjects
+			contentView.tableView.reloadData()
+		} else if didSelectCategory { //handle case when there is search text and subcategory is chosen.
 			filteredSubjects = partialSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
 			contentView.tableView.reloadData()
-			return
-			
-		} else {
+		} else { //handle case when thre is search text and no subcategory is chosen.
 			tableView(shouldDisplay: true) {
 				self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
 				self.contentView.tableView.reloadData()
 			}
 		}
-		if filteredSubjects.count > 0 {
-			scrollToTop()
-		}
+		scrollToTop()
 	}
 }
 
@@ -646,5 +646,11 @@ extension TutorAddSubjects : UIScrollViewDelegate {
 		if !automaticScroll {
 			self.view.endEditing(true)
 		}
+	}
+	private func scrollToTop() {
+		if filteredSubjects.count < 1 { return }
+		contentView.tableView.reloadData()
+		contentView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+		automaticScroll = false
 	}
 }

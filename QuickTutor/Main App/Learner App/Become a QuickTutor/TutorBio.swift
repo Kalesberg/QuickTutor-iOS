@@ -48,8 +48,8 @@ class TutorBioView : EditBioView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        navbar.backgroundColor = Colors.registrationDark
-        statusbarView.backgroundColor = Colors.registrationDark
+        navbar.backgroundColor = Colors.tutorBlue
+        statusbarView.backgroundColor = Colors.tutorBlue
         textView.textView.tintColor = Colors.tutorBlue
     }
 	

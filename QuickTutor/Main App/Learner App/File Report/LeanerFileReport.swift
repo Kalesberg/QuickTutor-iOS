@@ -516,12 +516,8 @@ class LearnerFileReport : BaseViewController {
 		didSet {
 			if datasource.count == 0 {
 				let view = TutorCardCollectionViewBackground()
-				let formattedString = NSMutableAttributedString()
 				
-				formattedString
-					.bold("No past sessions!", 22, .white)
-				
-				view.label.attributedText = formattedString
+				view.label.attributedText = NSMutableAttributedString().bold("No recent sessions!", 22, .white)
 				view.label.textAlignment = .center
 				view.label.numberOfLines = 0
 				contentView.tableView.backgroundView = view
@@ -533,7 +529,9 @@ class LearnerFileReport : BaseViewController {
         super.viewDidLoad()
 
 		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: "learner") { (sessions) in
-			self.datasource = sessions
+			if let sessions = sessions {
+				self.datasource = sessions
+			}
 		}
 		
 		contentView.tableView.delegate = self

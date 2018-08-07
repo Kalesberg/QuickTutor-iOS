@@ -114,12 +114,14 @@ class TutorManagePreferences : BaseViewController {
 		}
 	}
 	
-	private func setUserPreferences() {
+	private func checkValidPreferences() {
 		var preference : Int = 0
 		let cell = (contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileHourlyRateTableViewCell)
 		
-		guard let price = Int(cell.amount) else {
-			print("Error: Price")
+		guard let price = Int(cell.amount), price >= 5 else {
+			let alertController = UIAlertController(title: "Please choose an hourly rate", message: "Hourly rates must be between $5-$1000.", preferredStyle: .alert)
+			alertController.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+			self.present(alertController, animated: true)
 			return
 		}
 		
@@ -139,6 +141,9 @@ class TutorManagePreferences : BaseViewController {
 		} else {
 			preference = 0
 		}
+		saveUserPreference(preference: preference, price: price, distance: distance)
+	}
+	private func saveUserPreference(preference: Int, price: Int, distance: Int) {
 		FirebaseData.manager.updateTutorPreferences(uid: tutor.uid, price: price, distance: self.distance, preference: preference) { (error) in
 			if let error = error {
 				AlertController.genericErrorAlert(self, title: "Error Uploading Preferences", message: error.localizedDescription)
@@ -153,7 +158,7 @@ class TutorManagePreferences : BaseViewController {
 	
 	override func handleNavigation() {
 		if (touchStartView is NavbarButtonSave) {
-			setUserPreferences()
+			checkValidPreferences()
 		}
 	}
 }
@@ -172,14 +177,11 @@ extension TutorManagePreferences : UITableViewDelegate, UITableViewDataSource {
 			return UITableViewAutomaticDimension
 		case 1:
 			return UITableViewAutomaticDimension
-		case 2:
-			return 40
-		case 3:
+		case 2,3:
 			return 40
 		default:
-			break
+			return 0
 		}
-		return 0
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -207,7 +209,7 @@ extension TutorManagePreferences : UITableViewDelegate, UITableViewDataSource {
 			
 			cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
 			
-			cell.slider.minimumValue = 5
+			cell.slider.minimumValue = 0
 			cell.slider.maximumValue = 150
 			
 			let formattedString = NSMutableAttributedString()

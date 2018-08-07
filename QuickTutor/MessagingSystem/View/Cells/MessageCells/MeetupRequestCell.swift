@@ -446,11 +446,11 @@ class SessionRequestCellButtonView: UIView {
         if AccountService.shared.currentUserType == .learner {
         setupAsSingleButton()
         setButtonTitleColors(Colors.navBarGreen)
-        setButtonTitles("Request a new session?")
+        setButtonTitles("Request a new session")
         } else {
             setupAsSingleButton()
             setButtonTitleColors(Colors.grayText)
-            setButtonTitles("You declined this session.")
+            setButtonTitles("You declined this session")
         }
     }
     
@@ -470,11 +470,11 @@ class SessionRequestCellButtonView: UIView {
         if AccountService.shared.currentUserType == .learner {
             setupAsSingleButton()
             setButtonTitleColors(Colors.navBarGreen)
-            setButtonTitles("Request a new session?")
+            setButtonTitles("Request a new session")
         } else {
             setupAsSingleButton()
             setButtonTitleColors(Colors.grayText)
-            setButtonTitles("This session was cancelled.")
+            setButtonTitles("This session was cancelled")
         }
     }
     

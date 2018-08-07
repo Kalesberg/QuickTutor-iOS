@@ -91,7 +91,10 @@ class TutorAddressView : TutorRegistrationLayout, Keyboardable {
         
         zipTextField.attributedPlaceholder = NSAttributedString(string: "Enter Postal Code", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         zipTextField.keyboardType = .decimalPad
-        
+	
+		navbar.backgroundColor = Colors.tutorBlue
+		statusbarView.backgroundColor = Colors.tutorBlue
+
     }
     
     override func applyConstraints() {
@@ -240,7 +243,7 @@ class TutorAddress : BaseViewController {
                 self.displayLoadingOverlay()
                 TutorLocation.convertAddressToLatLong(addressString: addressString) { (error) in
                     if error != nil {
-                        AlertController.genericErrorAlert(self, title: "Unable to Find Address", message: "Please make sure your information is correct.")
+                        AlertController.genericErrorAlertWithoutCancel(self, title: "Unable to Find Address", message: "Please make sure your information is correct.")
                         self.contentView.rightButton.isUserInteractionEnabled = true
                     } else {
                         self.navigationController?.pushViewController(TutorAddUsername(), animated: true)

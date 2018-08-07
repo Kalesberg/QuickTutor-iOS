@@ -59,7 +59,6 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
         contentView.addSubview(routingNumberTextfield)
         contentView.addSubview(accountNumberTitle)
         contentView.addSubview(accountNumberTextfield)
-        
         addKeyboardView()
         super.configureView()
         
@@ -80,6 +79,10 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
         
         accountNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Account Number", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         accountNumberTextfield.keyboardType = .decimalPad
+		
+		navbar.backgroundColor = Colors.tutorBlue
+		statusbarView.backgroundColor = Colors.tutorBlue
+
     }
     
     override func applyConstraints() {

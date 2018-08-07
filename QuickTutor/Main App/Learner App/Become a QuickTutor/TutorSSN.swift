@@ -70,6 +70,8 @@ class TutorSSNView : TutorRegistrationLayout, Keyboardable {
 		titleLabel.sizeToFit()
 		titleLabel.font = Fonts.createBoldSize(18)
 		titleLabel.textColor = .white
+		navbar.backgroundColor = Colors.tutorBlue
+		statusbarView.backgroundColor = Colors.tutorBlue
 		
 		ssnInfo.label.text = "· Your SSN remains private.\n· No credit check - credit won't be affected.\n· Your information is safe and secure."
 		ssnInfo.label.font = Fonts.createSize(15)
@@ -239,7 +241,7 @@ class TutorSSN : BaseViewController {
 				TutorRegistration.last4SSN = last4SSN
 				self.navigationController?.pushViewController(TutorRegPayment(), animated: true)
 			} else {
-				AlertController.genericErrorAlert(self, title: "Invalid SSN", message: nil)
+				AlertController.genericErrorAlertWithoutCancel(self, title: "Invalid SSN", message: nil)
 			}
 		}
 	}

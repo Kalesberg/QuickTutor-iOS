@@ -13,7 +13,7 @@ import CoreLocation
 protocol ApplyLearnerFilters {
     var filters : (Int,Int,Bool)! { get set }
     var location : CLLocation? { get set }
-    func filterTutors()
+    func postFilterTutors()
 }
 
 protocol ConnectButtonPress {
@@ -23,8 +23,8 @@ protocol ConnectButtonPress {
 
 class TutorConnectView : MainLayoutTwoButton {
     
-    var back = NavbarButtonXLight()
-    var filters = NavbarButtonFilters()
+    var backButton = NavbarButtonXLight()
+    var applyFiltersButton = NavbarButtonFilters()
 
     let searchBar : UISearchBar = {
         let searchBar = UISearchBar()
@@ -69,17 +69,17 @@ class TutorConnectView : MainLayoutTwoButton {
     
     override var leftButton : NavbarButton {
         get {
-            return back
+            return backButton
         } set {
-            back = newValue as! NavbarButtonXLight
+            backButton = newValue as! NavbarButtonXLight
         }
     }
     
     override var rightButton: NavbarButton {
         get {
-            return filters
+            return applyFiltersButton
         } set {
-            filters = newValue as! NavbarButtonFilters
+            applyFiltersButton = newValue as! NavbarButtonFilters
         }
     }
     
@@ -98,11 +98,10 @@ class TutorConnectView : MainLayoutTwoButton {
         super.applyConstraints()
         
         searchBar.snp.makeConstraints { (make) in
-            make.left.equalTo(back.snp.right)
-            make.right.equalTo(rightButton.snp.left)
-            make.height.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+			make.left.equalTo(backButton.snp.right).inset(15)
+			make.right.equalTo(applyFiltersButton.snp.left).inset(15)
+			make.height.equalTo(leftButton.snp.height)
+			make.centerY.equalTo(backButton.image)
         }
         collectionView.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
@@ -129,13 +128,12 @@ class TutorCardCollectionViewBackground : BaseView {
     
     let label : UILabel = {
         let label = UILabel()
-        
+		
         let formattedString = NSMutableAttributedString()
-        
+
         formattedString
             .bold("No Tutors Found", 22, .white)
             .regular("\n\nSorry! We couldn't find anything, try adjusting your filters in the top right of the screen to improve your search results.", 17, .white)
-        
         label.attributedText = formattedString
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -223,7 +221,7 @@ class TutorCardTutorial : InteractableView, Interactable {
     }
 }
 
-class TutorConnect : BaseViewController, ApplyLearnerFilters {
+class TutorConnect : BaseViewController {
     
     override var contentView: TutorConnectView {
         return view as! TutorConnectView
@@ -233,17 +231,22 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         view = TutorConnectView()
     }
     
-    var filters: (Int, Int, Bool)!
-    var location : CLLocation?
+	
     var shouldFilterDatasource = false
     var hasAppliedFilters = false
     var shouldShowTutorial = false
-
+	
+	var filters : Filters?
+	var delegate : UpdatedFiltersCallback?
+	
     var datasource = [AWTutor]() {
         didSet {
             contentView.collectionView.backgroundView = (datasource.count == 0) ? TutorCardCollectionViewBackground() : nil
-            contentView.collectionView.reloadData()
-        }
+			if filters != nil {
+				filterTutors()
+			}
+			contentView.collectionView.reloadData()
+		}
     }
     
     var filteredDatasource = [AWTutor]() {
@@ -363,21 +366,18 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         }
     }
 
-    private func filterByPrice(priceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
-        if priceFilter == -1 || tutors.isEmpty {
-            return tutors
-        }
-        return tutors.filter { $0.price <= priceFilter }
+    private func filterByPrice(priceFilter: Int?, tutors: [AWTutor]) -> [AWTutor] {
+		guard let price = priceFilter, priceFilter != -1, !tutors.isEmpty else { return tutors }
+        return tutors.filter { $0.price <= price }
     }
-    private func filterByDistance(distanceFilter: Int, tutors: [AWTutor]) -> [AWTutor] {
-        if distanceFilter == -1 || tutors.isEmpty {
-            return tutors
-        }
-        guard let userLocation = location else { return tutors }
+	
+	private func filterByDistance(location: CLLocation?, distanceFilter: Int?, tutors: [AWTutor]) -> [AWTutor] {
+		guard let distance = distanceFilter, distanceFilter != -1, !tutors.isEmpty else { return tutors}
+        guard let location = location else { return tutors }
         
         return tutors.filter {
             if let tutorLocation = $0.location?.location {
-                return (userLocation.distance(from: tutorLocation) * 0.00062137) <= Double(distanceFilter)
+                return (location.distance(from: tutorLocation) * 0.00062137) <= Double(distance)
             }
             return false
         }
@@ -388,38 +388,30 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
         }
         return tutors.filter { $0.preference == 2 || $0.preference == 3 }
     }
-    
-    func filterTutors() {
-        if filters.0 == -1 && filters.1 == -1 && filters.2 == false {
-            hasAppliedFilters = false
-            shouldFilterDatasource = false
-            return
-        }
-        hasAppliedFilters = true
-        shouldFilterDatasource = true
 
-        let filtered = filterBySessionType(searchTheWorld: filters.2, tutors: filterByDistance(distanceFilter: filters.0, tutors: filterByPrice(priceFilter: filters.1, tutors: datasource)))
-        
-        filteredDatasource = sortTutorsWithWeightedList(tutors: filtered)
+    func filterTutors() {
+		if filters?.price == -1 && filters?.distance == -1 && filters?.sessionType == false {
+			hasAppliedFilters = false
+			shouldFilterDatasource = false
+		} else {
+			hasAppliedFilters = true
+			shouldFilterDatasource = true
+			let filtered = filterBySessionType(searchTheWorld: filters?.sessionType ?? false, tutors: filterByDistance(location: filters?.location, distanceFilter: filters?.distance ?? -1, tutors: filterByPrice(priceFilter: filters?.price ?? -1, tutors: datasource)))
+			filteredDatasource = sortTutorsWithWeightedList(tutors: filtered)
+		}
     }
     
     override func handleNavigation() {
         if touchStartView is NavbarButtonFilters {
-            
             let next = LearnerFilters()
             next.delegate = self
-            if hasAppliedFilters {
-                next.distance = (filters.0 - 10 >= 0) ? filters.0 - 10 : 0
-                next.price = (filters.1 - 10 >= 0) ? filters.1 - 10 : 0
-                next.video = filters.2
-            }
+			next.filters = self.filters
             self.present(next, animated: true, completion: nil)
             
         } else if touchStartView is NavbarButtonXLight {
-            let transition = CATransition()
 			let nav = self.navigationController
 			DispatchQueue.main.async {
-				nav?.view.layer.add(transition.popFromTop(), forKey: nil)
+				nav?.view.layer.add(CATransition().popFromTop(), forKey: nil)
 				nav?.popViewController(animated: false)
 			}
         } else if touchStartView is AddBankButton {
@@ -429,6 +421,14 @@ class TutorConnect : BaseViewController, ApplyLearnerFilters {
             navigationController?.pushViewController(next, animated: true)
         }
     }
+}
+
+extension TutorConnect : UpdatedFiltersCallback {
+	func filtersUpdated(filters: Filters) {
+		self.filters = filters
+		filterTutors()
+		delegate?.filtersUpdated(filters: filters)
+	}
 }
 
 extension TutorConnect : AWImageViewer {
@@ -442,17 +442,14 @@ extension TutorConnect : AddPaymentButtonPress {
 		self.dismissAddPaymentMethod()
 	}
 }
-extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+
+extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if shouldFilterDatasource {
-            return filteredDatasource.count
-        }
-        return datasource.count
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return shouldFilterDatasource ? filteredDatasource.count : datasource.count
     }
     
-    internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let data = (shouldFilterDatasource) ? filteredDatasource : datasource
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
@@ -464,27 +461,27 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.rateLabel.text = data[indexPath.row].price.formatPrice()
         cell.datasource = data[indexPath.row]
 		
-        if let location = location {
+		if let location = filters?.location {
             if let tutorLocation = data[indexPath.row].location?.location {
                 let distance = location.distance(from: tutorLocation) / 1609.343
                 cell.distanceLabelContainer.isHidden = false
                 cell.distanceLabel.attributedText = distance.formatDistance()
             }
         }
-		cell.connectButton.connect.text = "Connect"
-//        cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
+        cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
         return cell
     }
     
-    internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.width - 20
         return CGSize(width: width, height: collectionView.frame.height - 50)
     }
     
-    internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
 }
+
 extension TutorConnect : UISearchBarDelegate {
 	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		searchBar.resignFirstResponder()

@@ -80,7 +80,7 @@ class CustomTitleView: UIView {
                 let vc = TutorMyProfile()
                 vc.tutor = tutor
                 vc.contentView.rightButton.isHidden = true
-				vc.contentView.title.label.text = "@\(tutor.username!)"
+				vc.contentView.title.label.text = tutor.username ?? ""
                 navigationController.pushViewController(vc, animated: true)
             })
 		} else {
