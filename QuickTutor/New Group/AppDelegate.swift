@@ -212,7 +212,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
 		
         if (firebaseAuth.canHandleNotification(userInfo)){
             print(userInfo)
-            return
+        }
+        guard let receiverAccountType = userInfo["receiverAccountType"] as? String else { return }
+        if receiverAccountType == "learner" {
+            let vc = LearnerPageViewController()
+            configureRootViewController(controller: vc)
+            let messagesVC = MessagesVC()
+        } else {
+            let vc = TutorPageViewController()
+            configureRootViewController(controller: vc)
+        }
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        guard let receiverAccountType = userInfo["receiverAccountType"] as? String else { return }
+        if receiverAccountType == "learner" {
+            let vc = LearnerPageViewController()
+            configureRootViewController(controller: vc)
+        } else {
+            let vc = TutorPageViewController()
+            configureRootViewController(controller: vc)
         }
     }
     

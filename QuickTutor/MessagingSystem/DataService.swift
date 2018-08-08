@@ -116,9 +116,11 @@ class DataService {
     func sendTextMessage(text: String, receiverId: String, completion: @escaping () -> ()) {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         let timestamp = Date().timeIntervalSince1970
-        let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": receiverId])
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        var messageDictionary: [String: Any] = ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": receiverId]
+        messageDictionary["receiverAccountType"] = otherUserTypeString
+        let message = UserMessage(dictionary: messageDictionary)
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
             let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId)
             let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(otherUserTypeString).child(uid)
@@ -136,9 +138,11 @@ class DataService {
     func sendImageMessage(imageUrl: String, imageWidth: CGFloat, imageHeight: CGFloat, receiverId: String, completion: @escaping () -> ()) {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         let timestamp = Date().timeIntervalSince1970
-        let message = UserMessage(dictionary: ["imageUrl": imageUrl, "timestamp": timestamp, "senderId": uid, "receiverId": receiverId, "imageWidth": imageWidth, "imageHeight": imageHeight])
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        var messageDictionary: [String: Any] = ["imageUrl": imageUrl, "timestamp": timestamp, "senderId": uid, "receiverId": receiverId, "imageWidth": imageWidth, "imageHeight": imageHeight]
+        messageDictionary["receiverAccountType"] = otherUserTypeString
+        let message = UserMessage(dictionary: messageDictionary)
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
             let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId)
             let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(otherUserTypeString).child(uid)
@@ -157,9 +161,10 @@ class DataService {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         
         guard let expiration = Calendar.current.date(byAdding: .day, value: 7, to: Date())?.timeIntervalSince1970 else { return }
-        let values: [String: Any] = ["expiration": expiration, "status": "pending"]
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        var values: [String: Any] = ["expiration": expiration, "status": "pending"]
+        values["receiverAccountType"] = otherUserTypeString
         let timestamp = Date().timeIntervalSince1970
         Database.database().reference().child("connectionRequests").childByAutoId().setValue(values) { (error, ref) in
             let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": id, "connectionRequestId": ref.key])
@@ -172,7 +177,6 @@ class DataService {
                 senderRef.updateChildValues([messageId: 1])
                 receiverRef.updateChildValues([messageId: 1])
                 self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
-
             }
         }
     }

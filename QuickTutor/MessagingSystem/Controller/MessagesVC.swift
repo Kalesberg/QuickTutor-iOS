@@ -40,12 +40,15 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
     }()
     
     var cancelSessionModal: CancelSessionModal?
-    var parentPageViewController : PageViewController!
+    var parentPageViewController : PageViewController?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        if parentPageViewController == nil {
+            parentPageViewController = AccountService.shared.currentUserType == .learner ? LearnerPageViewController() : TutorPageViewController()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,10 +101,10 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
     func handleLeftViewTapped() {
         if AccountService.shared.currentUserType == .learner {
             let vc = LearnerPageViewController()
-            parentPageViewController.setViewControllers([vc], direction: .reverse, animated: true, completion: nil)
+            parentPageViewController?.setViewControllers([vc], direction: .reverse, animated: true, completion: nil)
         } else {
             let vc = TutorPageViewController()
-            parentPageViewController.setViewControllers([vc], direction: .reverse, animated: true, completion: nil)
+            parentPageViewController?.setViewControllers([vc], direction: .reverse, animated: true, completion: nil)
         }
 
     }
@@ -224,10 +227,11 @@ extension MessagesVC: NewMessageDelegate {
     }
 }
 
-extension MessagesVC: SegmentedViewDelegate {
-    func scrollTo(index: Int) {
+extension MessagesVC: MessagingSystemToggleDelegate {
+
+    func scrollTo(index: Int, animated: Bool) {
         let indexPath = IndexPath(item: index, section: 0)
-        mainCollectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+        mainCollectionView.scrollToItem(at: indexPath, at: .left, animated: animated)
     }
 }
 

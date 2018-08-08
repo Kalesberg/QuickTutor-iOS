@@ -1,3 +1,4 @@
+
 //
 //  ConversationVC.swift
 //  QuickTutorMessaging
@@ -436,7 +437,6 @@ extension ConversationVC: ConversationManagerDelegate {
     }
     
     func conversationManager(_ conversationManager: ConversationManager, didUpdate readByIds: [String]) {
-        print("Should update read receipt label")
         if readByIds.contains(self.receiverId) {
             self.conversationRead = true
             self.updateStatusLabel()

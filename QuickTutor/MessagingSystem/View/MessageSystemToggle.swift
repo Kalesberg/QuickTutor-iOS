@@ -15,14 +15,14 @@ enum UserType: String {
 	case lRegistration = "lRegistration"
 }
 
-protocol SegmentedViewDelegate {
-    func scrollTo(index: Int)
+protocol MessagingSystemToggleDelegate {
+    func scrollTo(index: Int, animated: Bool)
 }
 
 class MessagingSystemToggle: UIView {
     
     var sections = ["Messages", "Sessions"]
-    var delegate: SegmentedViewDelegate?
+    var delegate: MessagingSystemToggleDelegate?
     
     lazy var cv: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -103,6 +103,6 @@ extension MessagingSystemToggle: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.scrollTo(index: indexPath.item)
+        delegate?.scrollTo(index: indexPath.item, animated: true)
     }
 }

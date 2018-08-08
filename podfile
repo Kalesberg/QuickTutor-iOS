@@ -40,5 +40,8 @@ target 'QuickTutor' do
   pod 'Fabric', '~> 1.7.9'
   pod 'Crashlytics', '~> 3.10.5'
   pod 'Firebase/Performance'
+  
+  pod 'SwipeCellKit'
+
 
 end
