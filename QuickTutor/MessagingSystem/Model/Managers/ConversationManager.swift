@@ -67,6 +67,7 @@ class ConversationManager {
             }
             var fetchedMessageCount = 0
             if children.count == 0 {
+                self.messageAlreadyLoaded = false
                 completion([UserMessage]())
             }
             for child in children {
