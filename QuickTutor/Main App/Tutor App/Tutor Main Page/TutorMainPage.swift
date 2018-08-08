@@ -62,7 +62,7 @@ class TutorMainPageView : MainPageView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         let layout = UICollectionViewFlowLayout()
         
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0.0
         
@@ -105,7 +105,7 @@ class TutorMainPageView : MainPageView {
             } else {
                 make.height.equalToSuperview().multipliedBy(0.24)
             }
-            make.width.equalToSuperview().multipliedBy(0.93)
+            make.width.equalToSuperview()
             make.top.equalTo(menuLabel.snp.bottom)
             make.centerX.equalToSuperview()
         }
@@ -399,7 +399,6 @@ extension TutorMainPage : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "mainPageTableViewCell", for: indexPath) as! TutorMainPageTableViewCell
 		cell.title.text = TutorMainPageCellFactory.cells[indexPath.section].mainPageCell.title
 		cell.subtitle.text = TutorMainPageCellFactory.cells[indexPath.section].mainPageCell.subtitle
@@ -420,7 +419,7 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
         cell.label.text = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.label
         cell.label.textColor = .white
 
-        if indexPath.item == 3 && (tutor.hours! < 30 || tutor.tRating! < 4.5) {
+        if indexPath.item == 3 && (tutor.hours! < 15 || tutor.tRating! < 4.5) {
             let lockView = UnlockCellView()
             lockView.frame.size.height = cell.bounds.height - 30
             lockView.frame.size.width = cell.bounds.width
@@ -433,8 +432,8 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
 		let cell = collectionView.cellForItem(at: indexPath) as! TutorMainPageCollectionViewCell
 		
         cell.growSemiShrink {
-			if indexPath.item == 3 && (self.tutor.hours < 30 || self.tutor.tRating! < 4.5) {
-				AlertController.genericErrorAlertWithoutCancel(self, title: "This Feature is locked", message: "\'Your Listings\' will be unlocked after you have completed 30 hours of tutoring while maintaining at least a 4.5 rating.")
+			if indexPath.item == 3 && (self.tutor.hours < 15 || self.tutor.tRating! < 4.5) {
+				AlertController.genericErrorAlertWithoutCancel(self, title: "This Feature is locked", message: "\'Your Listings\' will be unlocked after you have completed 15 hours of tutoring while maintaining at least a 4.5 rating.")
 			} else {
 				let viewController = TutorMainPageButtonFactory.buttons[indexPath.item].viewController
 				self.navigationController?.pushViewController(viewController, animated: true)
