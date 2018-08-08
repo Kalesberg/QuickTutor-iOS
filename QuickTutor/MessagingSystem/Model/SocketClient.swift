@@ -17,7 +17,7 @@ class SocketClient {
         addSocketActions()
     }
     
-    let manager = SocketManager(socketURL: URL(string: "http://api.tidycoder.com")!, config: [.log(true), .forceWebsockets(true)])
+    let manager = SocketManager(socketURL: URL(string: "https://tidycoder.com")!, config: [.log(true), .forceWebsockets(true)])
     var socket: SocketIOClient!
     
     func connect() {
