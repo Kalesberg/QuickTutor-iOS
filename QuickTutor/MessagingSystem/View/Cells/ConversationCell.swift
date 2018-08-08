@@ -137,8 +137,6 @@ class ConversationCell: SwipeCollectionViewCell {
         newMessageGradientLayer.frame = CGRect(x: 0, y: 0, width: 100, height: bounds.height)
     }
     
-    
-    
     func updateUI(message: UserMessage) {
         guard let user = message.user else { return }
         chatPartner = user
