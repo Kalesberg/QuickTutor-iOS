@@ -125,18 +125,18 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         cell.backgroundColor = .clear
         
-		cell.nameLabel.text = data?.studentName ?? ""
-		cell.reviewTextLabel.text = data?.message ?? "\n\n"
+        cell.nameLabel.text = data.studentName
+		cell.reviewTextLabel.text = data.message
         
         let formattedString = NSMutableAttributedString()
         
         formattedString
-            .bold("\(Int((data?.rating)!)) ", 14, Colors.yellow)
-            .bold(" - \((data?.date)!) - \((data?.subject)!)", 13, Colors.grayText)
+            .bold("\(Int(data.rating)) ", 14, Colors.yellow)
+            .bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
         
         cell.dateSubjectLabel.attributedText = formattedString
         
-		cell.profilePic.loadUserImages(by: data?.imageURL ?? "")
+		cell.profilePic.loadUserImages(by: data.imageURL)
         cell.applyConstraints()
     
         return cell
