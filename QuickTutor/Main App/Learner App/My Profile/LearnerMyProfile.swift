@@ -152,7 +152,7 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         layoutIfNeeded()
-        nameContainer.applyGradient(firstColor: UIColor(hex: "4267a8").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: nameContainer.bounds, locations: [0.5])
+        nameContainer.applyGradient(firstColor: UIColor(hex: "6562C9").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: nameContainer.bounds, locations: [0.5])
         profilePics.roundCorners(.allCorners, radius: 8)
     }
     
@@ -314,7 +314,10 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
+        if isViewing {
+            contentView.background.backgroundColor = Colors.learnerPurple
+        }
     }
     
     private func configureDelegates() {
@@ -382,6 +385,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
 //            return cell
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
+            
+            cell.aboutMeLabel.label.textColor = Colors.learnerPurple
 
             if learner.bio == "" && !isViewing {
                 cell.bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen.\n"
@@ -398,6 +403,10 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             for view in cell.contentView.subviews {
                 view.snp.removeConstraints()
             }
+            
+            cell.speakItem.imageViewContainer.backgroundColor = Colors.learnerPurple
+            cell.studysItem.imageViewContainer.backgroundColor = Colors.learnerPurple
+            cell.tutorItem.imageViewContainer.backgroundColor = Colors.learnerPurple
             
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()

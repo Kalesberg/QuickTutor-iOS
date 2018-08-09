@@ -390,12 +390,16 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 let formattedString = NSMutableAttributedString()
                 
                 formattedString
-                    .regular(datasource.distance.distancePreference(datasource.preference), 14, .white)
-                    .regular(datasource.preference.preferenceNormalization(), 14, .white)
-                    .regular(String(policies[2]).cancelNotice(), 14, .white)
-                    .regular(String(policies[0]).lateNotice(), 14, .white)
-                    .regular(String(policies[1]).lateFee(), 13, Colors.qtRed)
-                    .regular(String(policies[3]).cancelFee(), 13, Colors.qtRed)
+                    .bold("•  ", 20, .white)
+                    .regular(datasource.distance.distancePreference(datasource.preference), 16, Colors.grayText)
+                    .bold("•  ", 20, .white)
+                    .regular(datasource.preference.preferenceNormalization(), 16, Colors.grayText)
+                    .bold("•  ", 20, .white)
+                    .regular(String(policies[0]).lateNotice(), 16, Colors.grayText)
+                    .bold("•  ", 20, .white)
+                    .regular(String(policies[2]).cancelNotice(), 16, Colors.grayText)
+                    .regular(String(policies[1]).lateFee(), 16, Colors.qtRed)
+                    .regular(String(policies[3]).cancelFee(), 16, Colors.qtRed)
                 
                 cell.policiesLabel.attributedText = formattedString
             } else {
