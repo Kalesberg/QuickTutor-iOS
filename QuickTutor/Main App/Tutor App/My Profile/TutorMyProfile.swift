@@ -64,7 +64,7 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
     }
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		contentView.nameContainer.applyGradient(firstColor: UIColor(hex: "4267a8").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: contentView.nameContainer.bounds, locations: [0.5])
+		contentView.nameContainer.backgroundColor = UIColor(hex: "4267a8")
 		contentView.background.backgroundColor = Colors.tutorBlue
 	}
     
