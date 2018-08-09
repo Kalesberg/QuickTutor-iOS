@@ -44,10 +44,11 @@ class StudentKeyboardAccessory: KeyboardAccessory {
     
     let textViewCover: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.textAlignment = .left
-        label.text = "Unable to send message until tutor accepts connection request."
-        label.font = Fonts.createItalicSize(12)
+        label.textColor = Colors.grayText
+        label.textAlignment = .center
+        label.text = "Unable to send message until\ntutor accepts connection request."
+        label.font = Fonts.createBoldSize(14)
+        label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         label.backgroundColor = Colors.navBarColor
         label.isHidden = true
@@ -95,7 +96,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
     
     func setupTextFieldCover() {
         addSubview(textViewCover)
-        textViewCover.anchor(top: messageTextview.topAnchor, left: messageTextview.leftAnchor, bottom: messageTextview.bottomAnchor, right: messageTextview.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        textViewCover.anchor(top: nil, left: leftAnchor, bottom: messageTextview.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
     }
     
     @objc func toggleActionView() {
