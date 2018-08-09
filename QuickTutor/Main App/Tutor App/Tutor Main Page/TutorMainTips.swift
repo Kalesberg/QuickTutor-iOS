@@ -85,10 +85,7 @@ class TutorMainTips : BaseViewController {
         contentView.tableView.register(TutorTipsTableViewCell.self, forCellReuseIdentifier: "tutorTipsTableViewCell")
     }
 	override func handleNavigation() {
-		if touchStartView is NavbarButtonX {
-			contentView.backgroundImageView.isHidden = true
-			navigationController?.popViewController(animated: true)
-		}
+		contentView.backgroundImageView.isHidden = true
 	}
 }
 

@@ -22,6 +22,7 @@ class TutorMyProfileView : LearnerMyProfileView {
         title.label.text = "My Profile"
         statusbarView.backgroundColor = Colors.tutorBlue
         navbar.backgroundColor = Colors.tutorBlue
+	
     }
 }
 
@@ -40,7 +41,8 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
             contentView.tableView.reloadData()
         }
     }
-    
+	
+	var isViewing : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +62,11 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		contentView.nameContainer.applyGradient(firstColor: UIColor(hex: "4267a8").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: contentView.nameContainer.bounds, locations: [0.5])
+		contentView.background.backgroundColor = Colors.tutorBlue
+	}
     
     private func configureDelegates() {
         contentView.tableView.delegate = self
@@ -100,16 +107,10 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
 //        case 0:
 //            return 200
-        case 0:
-            return UITableViewAutomaticDimension
-        case 1:
+        case 0,1,3,4:
             return UITableViewAutomaticDimension
         case 2:
             return 90
-        case 3:
-            return UITableViewAutomaticDimension
-        case 4:
-            return UITableViewAutomaticDimension
         default:
             break
         }

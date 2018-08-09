@@ -485,7 +485,6 @@ class TutorCardHeader : InteractableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         nameContainer.applyGradient(firstColor: UIColor(hex: "4267a8").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: nameContainer.bounds, locations: [0.5])
     }
     
