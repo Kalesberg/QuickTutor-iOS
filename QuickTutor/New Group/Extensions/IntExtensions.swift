@@ -15,21 +15,21 @@ extension Int {
 	
 	func preferenceNormalization() -> String {
 		if self == 3 {
-			return " - Will tutor Online or In-Person\n\n"
+			return "Will tutor Online or In-Person\n"
 		} else if self == 2 {
-			return " - Will tutor In-Person\n\n"
+			return "Will tutor In-Person\n"
 		} else if self == 1 {
-			return " - Will tutor Online \n\n"
+			return "Will tutor Online \n"
 		} else {
-			return " - Currently unavailable\n\n"
+			return " Currently unavailable\n"
 		}
 	}
 	
 	func distancePreference(_ preference: Int) -> String {
 		if preference == 3 || preference == 2 {
-			return " - Will travel up to \(self) miles\n\n"
+			return "Will travel up to \(self) miles\n"
 		} else {
-			return " - Unable to travel.\n\n"
+			return "Unable to travel.\n"
 		}
 	}
 	func formatPrice() -> String {

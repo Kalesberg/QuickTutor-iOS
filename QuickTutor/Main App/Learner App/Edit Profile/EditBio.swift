@@ -142,7 +142,7 @@ class EditBioView : MainLayoutTitleBackSaveButton, Keyboardable {
         } else {
             textView.snp.makeConstraints { (make) in
                 make.top.equalTo(titleLabel.snp.bottom)
-                make.height.equalTo(180)
+                make.height.equalTo(170)
                 make.width.equalToSuperview()
                 make.centerX.equalToSuperview()
             }
