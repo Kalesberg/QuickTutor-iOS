@@ -64,7 +64,7 @@ class SubjectSearchCategoryCell : UITableViewCell {
 	
 	func applyConstraints() {
 		container.snp.makeConstraints { (make) in
-			make.left.equalToSuperview().inset(5)
+			make.left.equalToSuperview().inset(4)
 			make.height.right.centerY.equalToSuperview()
 		}
 		title.snp.makeConstraints { (make) in
