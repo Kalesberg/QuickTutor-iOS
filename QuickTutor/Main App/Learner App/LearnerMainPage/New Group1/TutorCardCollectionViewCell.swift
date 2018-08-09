@@ -452,7 +452,7 @@ class TutorCardHeader : InteractableView {
     let nameContainer : UIView = {
         let view = UIView()
         
-        //view.backgroundColor = UIColor(hex: "5E90E6")
+        view.backgroundColor = UIColor(hex: "4267a8")
         
         return view
     }()
@@ -483,11 +483,6 @@ class TutorCardHeader : InteractableView {
         applyConstraints()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        nameContainer.applyGradient(firstColor: UIColor(hex: "4267a8").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: nameContainer.bounds, locations: [0.5])
-    }
-    
     override func applyConstraints() {
         background.snp.makeConstraints { (make) in
             make.top.width.centerX.equalToSuperview()
@@ -501,7 +496,7 @@ class TutorCardHeader : InteractableView {
         nameContainer.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
             make.width.centerX.equalToSuperview()
-            make.height.equalTo(50)
+            make.height.equalTo(30)
         }
         name.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()

@@ -151,8 +151,7 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layoutIfNeeded()
-		
+
         profilePics.roundCorners(.allCorners, radius: 8)
     }
     
@@ -172,7 +171,7 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
         nameContainer.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
             make.width.centerX.equalToSuperview()
-            make.height.equalTo(50)
+            make.height.equalTo(30)
         }
         name.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()
@@ -321,7 +320,7 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     }
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-			contentView.nameContainer.applyGradient(firstColor: UIColor(hex: "6562C9").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: contentView.nameContainer.bounds, locations: [0.5])
+			contentView.nameContainer.backgroundColor = UIColor(hex: "6662C9")
 	}
     private func configureDelegates() {
         contentView.tableView.delegate = self
