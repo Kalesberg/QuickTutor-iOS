@@ -343,10 +343,11 @@ class InviteOthers : BaseViewController {
 			return
 		}
 		if (MFMessageComposeViewController.canSendText()) {
+			let QTAppstoreURL : String = "itms-apps://itunes.apple.com/app/id1388092698"
 			let controller = MFMessageComposeViewController()
 			controller.delegate = self
 			controller.messageComposeDelegate = self
-			controller.body = "Go check out QuickTutor!"
+			controller.body = "Go check out QuickTutor! \n\(QTAppstoreURL)"
 			controller.recipients = selectedContacts
 			present(controller, animated: true, completion: nil)
 		} else {
