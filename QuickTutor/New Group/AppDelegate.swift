@@ -128,8 +128,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     }
     
     func handlIncomingDynamicLink(_ dynamicLink: DynamicLink) {
-        guard let pathComponents = dynamicLink.url?.pathComponents else { return }
         handleSignIn {
+            guard let pathComponents = dynamicLink.url?.pathComponents else { return }
             self.handleDynamicLinkNavigation(uid: pathComponents[1])
         }
     }

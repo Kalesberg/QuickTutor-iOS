@@ -20,8 +20,8 @@ class DynamicLinkFactory {
     var shortLink: URL?
     
     
-    func createLinkForUserId(_ userId: String, completion: @escaping(URL?) -> ()) {
-        dictionary[.link] = "https://quickTutor.com/\(userId)"
+    func createLink(userId: String?, completion: @escaping(URL?) -> ()) {
+        dictionary[.link] = "https://quickTutor.com/\(userId ?? "")"
         // Initialize the sections array
         sections = [
             Section(name: .iOS, items: [.bundleID, .fallbackURL, .minimumAppVersion, .customScheme,

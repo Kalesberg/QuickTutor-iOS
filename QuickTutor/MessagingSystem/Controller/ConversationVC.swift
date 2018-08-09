@@ -518,7 +518,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
     
     func shareUsernameForUserId() {
         studentKeyboardAccessory.toggleActionView()
-        DynamicLinkFactory.shared.createLinkForUserId(receiverId) { shareUrl in
+        DynamicLinkFactory.shared.createLink(userId: receiverId) { shareUrl in
             guard let shareUrlString = shareUrl?.absoluteString else { return }
             let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
             self.present(ac, animated: true, completion: nil)
