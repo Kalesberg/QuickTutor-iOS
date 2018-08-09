@@ -75,7 +75,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }()
     
     var delegate : AddTutorButtonDelegate?
-	
+    
     var datasource : AWTutor! {
         didSet{
             tableView.reloadData()
@@ -193,7 +193,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         addSubview(connectButton)
         
         tableViewContainer.backgroundColor = Colors.registrationDark
-		
+        
         reviewLabelContainer.backgroundColor = Colors.gold
         reviewLabelContainer.layer.cornerRadius = 12
         
@@ -210,9 +210,9 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             if CurrentUser.shared.learner.hasPayment {
                 self.addTutorWithUid(datasource.uid)
             } else {
-				let vc = next?.next?.next as! TutorConnect
-				vc.displayAddPaymentMethod()
-				
+                let vc = next?.next?.next as! TutorConnect
+                vc.displayAddPaymentMethod()
+                
             }
         } else if touchStartView is FullProfile {
             if let current = UIApplication.getPresentedViewController() {
@@ -222,7 +222,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             let vc = (next?.next?.next as! TutorConnect)
             FirebaseData.manager.fetchProfileImages(uid: datasource.uid) { (imageUrls) in
                 if let imageUrls = imageUrls {
-					vc.displayAWImageViewer(images: imageUrls)
+                    vc.displayAWImageViewer(images: imageUrls)
                 }
             }
         }
@@ -357,11 +357,11 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-			guard let datasource = datasource?.subjects else {
-				return cell
-			}
-			
-			cell.datasource = datasource
+            guard let datasource = datasource?.subjects else {
+                return cell
+            }
+            
+            cell.datasource = datasource
             return cell
         case 3:
             
@@ -376,7 +376,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             }
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-			
+            
             cell.datasource = datasource
             
             return cell
@@ -420,8 +420,8 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
         case 0,1,3,4:
             return UITableViewAutomaticDimension
         case 2:
-			return 90
-		default:
+            return 90
+        default:
             return 0
         }
     }
@@ -556,7 +556,7 @@ class TutorCardReviewCell : UITableViewCell {
     
     let profilePic : UIImageView  = {
         let imageView = UIImageView()
-		
+        
         return imageView
     }()
     
@@ -713,9 +713,9 @@ class ConnectButton : InteractableView, Interactable {
     func didDragOff() {
         alpha = 1.0
     }
-	func touchEndOnStart() {
-		growShrink()
-	}
+    func touchEndOnStart() {
+        growShrink()
+    }
 }
 class FullProfile : InteractableView, Interactable {
 

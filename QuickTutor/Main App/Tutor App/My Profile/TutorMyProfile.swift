@@ -30,7 +30,7 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
     override var contentView: TutorMyProfileView {
         return view as! TutorMyProfileView
     }
-	
+    
     func tutorWasUpdated(tutor: AWTutor!) {
         self.tutor = tutor
     }
@@ -41,7 +41,7 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
         }
     }
     
-	
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
@@ -86,9 +86,9 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
     }
 }
 extension TutorMyProfile : AWImageViewer {
-	func dismiss() {
-		self.dismissAWImageViewer()
-	}
+    func dismiss() {
+        self.dismissAWImageViewer()
+    }
 }
 extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
     
@@ -222,7 +222,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
             
-			cell.datasource = tutor.subjects!
+            cell.datasource = tutor.subjects!
             
             return cell
             

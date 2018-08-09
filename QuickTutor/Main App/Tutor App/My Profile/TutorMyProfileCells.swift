@@ -34,7 +34,7 @@ class SubjectSelectionCollectionViewCell : UICollectionViewCell {
     }()
     
     let labelContainer = UIView()
-	
+    
     func configureView() {
         addSubview(labelContainer)
         labelContainer.addSubview(label)
@@ -43,13 +43,13 @@ class SubjectSelectionCollectionViewCell : UICollectionViewCell {
         labelContainer.layer.cornerRadius = 10
         labelContainer.clipsToBounds = true
         labelContainer.layer.borderColor = UIColor.white.cgColor
-		
-		layer.borderWidth = 2
-		layer.borderColor = UIColor.clear.cgColor
-		layer.cornerRadius = 10
-		
+        
+        layer.borderWidth = 2
+        layer.borderColor = UIColor.clear.cgColor
+        layer.cornerRadius = 10
+        
         applyConstraints()
-	}
+    }
     
     func applyConstraints(){
         label.snp.makeConstraints { (make) in
@@ -136,7 +136,7 @@ class BaseTableViewCell : UITableViewCell {
         else {
             if let firstTouch = touches.first {
                 let hitView = self.contentView.hitTest(firstTouch.location(in: self.contentView), with: event)
-				print(hitView as Any)
+                print(hitView as Any)
                 if (touchStartView == hitView) {
                     print("ENDED: ON START")
                     touchStartView?.touchEndOnStart()
@@ -286,7 +286,7 @@ class ProfilePicTableViewCell : BaseTableViewCell {
                     
                 } else {
                     let vc = (current as! LearnerMyProfile)
-					vc.displayAWImageViewer(images: vc.learner.images.filter({$0.value != ""}))
+                    vc.displayAWImageViewer(images: vc.learner.images.filter({$0.value != ""}))
                 }
             }
         }
@@ -421,7 +421,7 @@ class AboutMeTableViewCell : UITableViewCell {
     
     let divider1 = BaseView()
     let divider2 = BaseView()
-	
+    
     let container = UIView()
     
     func configureView() {
@@ -575,7 +575,7 @@ class SubjectsTableViewCell : UITableViewCell {
             subjectCollectionView.reloadData()
         }
     }
-	
+    
     let label : UILabel = {
         let label = UILabel()
         
@@ -694,7 +694,7 @@ class RatingTableViewCell : BaseTableViewCell {
             make.bottom.equalTo(contentView)
         }
     }
-	
+    
     override func handleNavigation() {
         if touchStartView is SeeAllButton {
             if let current = UIApplication.getPresentedViewController() {
@@ -760,16 +760,16 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (datasource.count >= 2) ? 2 : 1
     }
-	
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
-	
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
 
         let data = datasource[indexPath.row]
-		
+        
         cell.nameLabel.text = data.studentName
         cell.reviewTextLabel.text = data.message
         
