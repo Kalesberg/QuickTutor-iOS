@@ -120,9 +120,6 @@ class TutorListings : BaseViewController {
         contentView.scrollView.contentSize = CGSize(width: 280, height: contentView.bodyLabel.frame.maxY)
     }
     override func handleNavigation() {
-        if touchStartView is NavbarButtonImage {
-            contentView.backgroundImageView.isHidden = true
-            self.navigationController?.popViewController(animated: true)
-        }
+		contentView.backgroundImageView.isHidden = true
     }
 }

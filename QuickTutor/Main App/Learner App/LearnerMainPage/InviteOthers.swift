@@ -343,12 +343,14 @@ class InviteOthers : BaseViewController {
 			return
 		}
 		if (MFMessageComposeViewController.canSendText()) {
-			let controller = MFMessageComposeViewController()
-			controller.delegate = self
-			controller.messageComposeDelegate = self
-			controller.body = "Go check out QuickTutor!"
-			controller.recipients = selectedContacts
-			present(controller, animated: true, completion: nil)
+			DynamicLinkFactory.shared.createLink(userId: nil) { (url) in
+				let controller = MFMessageComposeViewController()
+				controller.delegate = self
+				controller.messageComposeDelegate = self
+				controller.body = "Go check out QuickTutor! \n\(url?.absoluteString ?? "")"
+				controller.recipients = self.selectedContacts
+				self.present(controller, animated: true, completion: nil)
+			}
 		} else {
 			AlertController.genericErrorAlert(self, title: "Unable to send text!", message: "Sorry, we can no send SMS messages at this time.")
 		}

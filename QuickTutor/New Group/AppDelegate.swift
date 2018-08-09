@@ -130,7 +130,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     func handlIncomingDynamicLink(_ dynamicLink: DynamicLink) {
         handleSignIn {
             guard let pathComponents = dynamicLink.url?.pathComponents else { return }
-            self.handleDynamicLinkNavigation(uid: pathComponents[1])
+			if pathComponents.count < 2  {
+				self.handleDynamicLinkNavigation(uid: pathComponents[0])
+			} else {
+				self.handleDynamicLinkNavigation(uid: pathComponents[1])
+			}
         }
     }
     

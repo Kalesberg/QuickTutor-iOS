@@ -538,7 +538,7 @@ class SettingsScrollView : BaseScrollView {
                 UIApplication.shared.openURL(url)
             }
         } else if(touchStartView is RateUs) {
-            SocialMedia.rateApp(appUrl: "itms-apps://itunes.apple.com/", webUrl: "", completion: { (success) in
+            SocialMedia.rateApp(appUrl: "itms-apps://itunes.apple.com/app/id1388092698", webUrl: "", completion: { (success) in
             })
         }  else if(touchStartView is TwitterIcon) {
             SocialMedia.rateApp(appUrl:  "twitter://user?screen_name=QuickTutorApp", webUrl: "https://twitter.com/QuickTutorApp", completion: { (success) in

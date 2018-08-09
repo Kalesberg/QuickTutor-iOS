@@ -146,13 +146,13 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple
         backgroundColor = Colors.registrationDark
-        
+		
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         layoutIfNeeded()
-        nameContainer.applyGradient(firstColor: UIColor(hex: "6562C9").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: nameContainer.bounds, locations: [0.5])
+		
         profilePics.roundCorners(.allCorners, radius: 8)
     }
     
@@ -281,7 +281,7 @@ class ProfileItem : BaseView {
 
 
 class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
-	
+    
     func learnerWasUpdated(learner: AWLearner!) {
         self.learner = learner
     }
@@ -291,8 +291,8 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
         }
     }
 
-	var isViewing : Bool = false
-	
+    var isViewing : Bool = false
+    
     override var contentView: LearnerMyProfileView {
         return view as! LearnerMyProfileView
     }
@@ -319,7 +319,10 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
             contentView.background.backgroundColor = Colors.learnerPurple
         }
     }
-    
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+			contentView.nameContainer.applyGradient(firstColor: UIColor(hex: "6562C9").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: contentView.nameContainer.bounds, locations: [0.5])
+	}
     private func configureDelegates() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
@@ -345,9 +348,9 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
 }
 
 extension LearnerMyProfile : AWImageViewer {
-	func dismiss() {
-		self.dismissAWImageViewer()
-	}
+    func dismiss() {
+        self.dismissAWImageViewer()
+    }
 }
 
 extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
@@ -391,11 +394,11 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             if learner.bio == "" && !isViewing {
                 cell.bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen.\n"
             } else if learner.bio == "" && isViewing {
-				let name = learner.name.split(separator: " ")
-				cell.bioLabel.text = "\(String(name[0])) has not yet entered a biography. \n"
-			} else {
-				cell.bioLabel.text = learner.bio + "\n"
-			}
+                let name = learner.name.split(separator: " ")
+                cell.bioLabel.text = "\(String(name[0])) has not yet entered a biography. \n"
+            } else {
+                cell.bioLabel.text = learner.bio + "\n"
+            }
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell

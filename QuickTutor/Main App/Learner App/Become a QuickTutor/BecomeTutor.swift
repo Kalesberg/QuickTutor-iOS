@@ -189,7 +189,7 @@ class BecomeTutor : BaseViewController {
     
     override func handleNavigation() {
         if(touchStartView is RegistrationBackButton) {
-			AccountService.shared.currentUserType = .learner
+            AccountService.shared.currentUserType = .learner
             navigationController?.popViewController(animated: true)
         } else if(touchStartView is StartButton) {
             navigationController?.pushViewController(TutorAddSubjects(), animated: true)

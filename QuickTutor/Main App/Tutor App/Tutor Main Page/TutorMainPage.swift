@@ -62,7 +62,7 @@ class TutorMainPageView : MainPageView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         let layout = UICollectionViewFlowLayout()
         
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0.0
         
