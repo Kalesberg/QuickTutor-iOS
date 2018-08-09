@@ -118,7 +118,7 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
-  - Protobuf (3.6.0)
+  - Protobuf (3.6.1)
   - Reveal-SDK (17)
   - SnapKit (4.0.0)
   - Socket.IO-Client-Swift (13.1.3):
@@ -152,43 +152,6 @@ DEPENDENCIES:
   - SwiftKeychainWrapper
   - SwipeCellKit
   - TwilioVideo (= 2.0.0-beta3)
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - Alamofire
-    - Bolts
-    - Crashlytics
-    - Fabric
-    - FBSDKCoreKit
-    - FBSDKLoginKit
-    - FBSDKShareKit
-    - Firebase
-    - FirebaseAnalytics
-    - FirebaseAuth
-    - FirebaseAuthInterop
-    - FirebaseCore
-    - FirebaseDatabase
-    - FirebaseDynamicLinks
-    - FirebaseInstanceID
-    - FirebaseMessaging
-    - FirebasePerformance
-    - FirebaseStorage
-    - GoogleAnalytics
-    - GoogleAppMeasurement
-    - GoogleToolboxForMac
-    - GoogleUtilities
-    - GTMSessionFetcher
-    - leveldb-library
-    - nanopb
-    - Protobuf
-    - Reveal-SDK
-    - SnapKit
-    - Socket.IO-Client-Swift
-    - Starscream
-    - Stripe
-    - SwiftKeychainWrapper
-    - SwipeCellKit
-    - TwilioVideo
 
 EXTERNAL SOURCES:
   GeoFire:
@@ -226,7 +189,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
+  Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   Reveal-SDK: a6df49f47319bd19a110c960c498af32df72c0af
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
