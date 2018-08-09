@@ -530,7 +530,7 @@ class LearnerFileReport : BaseViewController {
 
 		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: "learner") { (sessions) in
 			if let sessions = sessions {
-				self.datasource = sessions
+				self.datasource = sessions.sorted(by: { $0.endTime > $1.endTime })
 			}
 		}
 		

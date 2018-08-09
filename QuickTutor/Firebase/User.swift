@@ -345,7 +345,7 @@ class FirebaseData {
 		
 		func fetchSessions(uid: String, type: String,_ completion: @escaping ([String]?) -> Void) {
 			self.ref.child("userSessions").child(uid).child(type).observeSingleEvent(of: .value) { (snapshot) in
-				guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+				guard let value = snapshot.value as? [String : Any] else { print("Failure."); return completion(nil) }
 				return completion(value.compactMap({$0.key}))
 			}
 		}
@@ -355,9 +355,9 @@ class FirebaseData {
 				for id in sessionIds {
 					group.enter()
 					self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
-						guard let value = snapshot.value as? [String : Any] else { return group.leave() }
+						guard let value = snapshot.value as? [String : Any] else { print("failed."); return group.leave() }
 						//check that the session is not more than 1 week old.
-						guard let endTime = value["endTime"] as? Double, endTime < Date().timeIntervalSince1970 - 604800 else { return group.leave() }
+						guard let endTime = value["endTime"] as? Double, endTime > Date().timeIntervalSince1970 - 604800, endTime < Date().adding(minutes: 30).timeIntervalSince1970 else { return group.leave() }
 						
 						var session = UserSession(dictionary: value)
 						session.id = id
@@ -735,5 +735,3 @@ class FirebaseData {
 		print("FirebaseData has De-initialized")
 	}
 }
-
-

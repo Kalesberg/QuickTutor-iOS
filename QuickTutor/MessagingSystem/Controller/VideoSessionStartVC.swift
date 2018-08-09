@@ -57,7 +57,7 @@ class VideoSessionStartVC: BaseSessionStartVC {
             try AVAudioSession.sharedInstance().setActive(true)
             
             /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
-            audioPlayer = try AVPlayer(url: url)
+            audioPlayer = AVPlayer(url: url)
             
             guard let player = audioPlayer else { return }
             player.play()

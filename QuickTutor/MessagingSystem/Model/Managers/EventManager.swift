@@ -19,7 +19,7 @@ class EventManager {
             if error != nil { return }
             if granted {
                 let event: EKEvent = EKEvent(eventStore: eventStore)
-                event.title = "QuickTutor session: \(session.subject)"
+                event.title = "QuickTutor session: \(session.subject!)"
                 event.startDate = NSDate(timeIntervalSince1970: session.startTime!) as Date
                 event.endDate = NSDate(timeIntervalSince1970: session.endTime!) as Date
                 event.calendar = eventStore.defaultCalendarForNewEvents
@@ -30,7 +30,7 @@ class EventManager {
                         AlertController.genericErrorAlertWithoutCancel(self.parentController, title: "Oops!", message: error.localizedDescription)
                     }
                 }
-                DispatchQueue.main.async {
+				DispatchQueue.main.async {
                     cell.setStatusLabel()
                 }
             } else {

@@ -1,3 +1,4 @@
+
 //
 //  ConversationVC.swift
 //  QuickTutorMessaging
@@ -436,7 +437,6 @@ extension ConversationVC: ConversationManagerDelegate {
     }
     
     func conversationManager(_ conversationManager: ConversationManager, didUpdate readByIds: [String]) {
-        print("Should update read receipt label")
         if readByIds.contains(self.receiverId) {
             self.conversationRead = true
             self.updateStatusLabel()
@@ -597,8 +597,9 @@ extension ConversationVC: SessionRequestCellDelegate {
     func sessionRequestCell(cell: SessionRequestCell, shouldAddToCalendar session: SessionRequest) {
         let eventManager = EventManager(parentController: self)
         eventManager.addSessionToCalender(session, forCell: cell)
+		updateAfterCellButtonPress(indexPath: cell.indexPath)
     }
-    
+	
     func updateAfterCellButtonPress(indexPath: [IndexPath]?) {
         guard let paths = indexPath else {
             messagesCollection.reloadData()

@@ -15,7 +15,18 @@ struct Review {
 	let rating : String!
 }
 
-class LearnerReviewsView : MainLayoutTitleBackButton {
+class LearnerReviewsView : MainLayoutTitleOneButton {
+	
+	var backButton = NavbarButtonXLight()
+	
+	override var leftButton: NavbarButton {
+		get {
+			return backButton
+		}
+		set {
+			backButton = newValue as! NavbarButtonXLight
+		}
+	}
 	
 	let tableView  : UITableView = {
 		let tableView = UITableView()
@@ -68,12 +79,10 @@ class LearnerReviews : BaseViewController {
     override var contentView: LearnerReviewsView {
         return view as! LearnerReviewsView
     }
-	
-	var reviews = ["1", "2", "4"]
 
-	var datasource : [TutorReview]? {
+	var datasource = [TutorReview]() {
 		didSet {
-			contentView.subtitleLabel.label.text = "Reviews (\((datasource?.count ?? 0)))"
+			contentView.subtitleLabel.label.text = "Reviews (\((datasource.count)))"
 			contentView.tableView.reloadData()
 		}
 	}
@@ -96,7 +105,7 @@ class LearnerReviews : BaseViewController {
     }
     
     override func handleNavigation() {
-		if touchStartView is NavbarButtonBack {
+		if touchStartView is NavbarButtonXLight {
 			self.dismiss(animated: true, completion: nil)
 		}
     }
@@ -105,15 +114,14 @@ class LearnerReviews : BaseViewController {
 extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return datasource?.count ?? 0
+		return datasource.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileLongReviewTableViewCell
 		
-		let data = datasource?[indexPath.row]
+		let data = datasource[indexPath.row]
 		
-		//i dont know why?!?!?!
 		cell.selectionStyle = .none
 		cell.backgroundColor = .clear
 		
@@ -135,16 +143,10 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		//would probably want to show a message here saying that this will set the new card as Default.
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
-	
-	func insertBorder(cell: UITableViewCell) {
-		let border = UIView(frame:CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
-		border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-		cell.contentView.addSubview(border)
-	}
 }
+
 class CustomReviewCell : UITableViewCell {
 
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -185,11 +187,11 @@ class CustomReviewCell : UITableViewCell {
 		reviewTextLabel.font = Fonts.createItalicSize(15)
 		reviewTextLabel.numberOfLines = 3
 		reviewTextLabel.lineBreakMode = .byWordWrapping
+		
 		applyConstraints()
 	}
 	
 	func applyConstraints() {
-		
 		profilePic.snp.makeConstraints { (make) in
 			make.left.equalToSuperview().inset(10)
 			make.centerY.equalToSuperview()
