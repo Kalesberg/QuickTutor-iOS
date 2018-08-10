@@ -20,6 +20,8 @@ class BaseSessionStartVC: UIViewController {
     var partner: User?
     var partnerUsername: String?
     var meetupConfirmed = false
+
+    let manager = SocketManager(socketURL: URL(string: "https://tidycoder.com")!, config: [.log(true), .forceWebsockets(true)])
     var socket: SocketIOClient!
     
     var session: Session?
@@ -260,14 +262,16 @@ class BaseSessionStartVC: UIViewController {
     }
     
     func setupSocket() {
+        socket = manager.defaultSocket
+        socket.connect()
         guard let id = sessionId else { return }
-        socket = SocketClient.shared.socket
         socket.on(clientEvent: .connect) { (data, ack) in
-            self.socket.emit("joinRoom", id);            
+            self.socket.emit("joinRoom", id)
         }
         
         socket.on(SocketEvents.cancelSession) { (data, ack) in
             print("should cancel session")
+            self.socket.disconnect()
             self.removeStartData()
             self.removePartnerStartData()
             self.navigationController?.popViewController(animated: true)
@@ -276,9 +280,10 @@ class BaseSessionStartVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSocket()
         setupViews()
         updateUI()
-        setupSocket()
+        print("ZACH: Loading session start view")
     }
     
     override func viewDidAppear(_ animated: Bool) {

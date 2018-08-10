@@ -33,6 +33,19 @@ class VideoSessionStartVC: BaseSessionStartVC {
         }
     }
     
+    override func setupViews() {
+        super.setupViews()
+        setupObservers()
+    }
+    
+    func setupObservers() {
+        socket.on(SocketEvents.manualStartAccetped) { (data, ack) in
+            let vc = VideoSessionVC()
+            vc.sessionId = self.sessionId
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         playRingingSound()

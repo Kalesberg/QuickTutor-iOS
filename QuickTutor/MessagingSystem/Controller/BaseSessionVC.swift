@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SocketIO
 
 protocol AddTimeModalDelegate {
     func addTimeModalDidDecline(_ addTimeModal: AddTimeModal)
@@ -27,7 +28,8 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     var sessionId: String?
     var session: Session?
     var sessionLengthInSeconds: Double?
-    var socket = SocketClient.shared.socket!
+    let manager = SocketManager(socketURL: URL(string: "https://tidycoder.com")!, config: [.log(true), .forceWebsockets(true)])
+    var socket: SocketIOClient!
     var sessionManager: SessionManager?
     
     var addTimeModal: AddTimeModal?
@@ -111,9 +113,14 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        socket = manager.defaultSocket
+        socket.connect()
         observeSessionEvents()
         guard let id = sessionId else { return }
-        sessionManager = SessionManager(sessionId: id)
+        socket.on(clientEvent: .connect) { (data, ack) in
+            self.socket.emit("joinRoom", id)
+        }
+        sessionManager = SessionManager(sessionId: id, socket: socket)
         sessionManager?.delegate = self
         expireSession()
     }

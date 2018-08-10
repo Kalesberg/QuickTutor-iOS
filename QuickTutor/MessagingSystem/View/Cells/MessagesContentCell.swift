@@ -172,12 +172,16 @@ extension MessagesContentCell: SwipeCollectionViewCellDelegate {
         
         // customize the action appearance
         deleteAction.image = #imageLiteral(resourceName: "deleteMessagesIcon")
+        deleteAction.title = "Delete"
+        deleteAction.font = Fonts.createSize(12)
         deleteAction.backgroundColor = UIColor(hex: "#AF1C49")
         
         let disconnectAction = SwipeAction(style: .default, title: nil) { action, indexPath in
             self.disconnect(index: indexPath.item)
         }
         disconnectAction.image = #imageLiteral(resourceName: "disconnectIcon")
+        disconnectAction.title = "Disconnect"
+        disconnectAction.font = Fonts.createSize(12)
         disconnectAction.backgroundColor = UIColor(hex: "#851537")
         
         return [deleteAction, disconnectAction]
