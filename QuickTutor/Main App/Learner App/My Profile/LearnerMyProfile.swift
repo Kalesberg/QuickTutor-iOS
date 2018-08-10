@@ -133,7 +133,7 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple
         backgroundColor = Colors.registrationDark
-		
+        
     }
     
     override func layoutSubviews() {
@@ -300,10 +300,10 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-			contentView.nameContainer.backgroundColor = UIColor(hex: "6662C9")
-	}
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+            contentView.nameContainer.backgroundColor = UIColor(hex: "6662C9")
+    }
     private func configureDelegates() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self

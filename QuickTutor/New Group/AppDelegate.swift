@@ -206,7 +206,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         let firebaseAuth = Auth.auth()
         
         //At development time we use .sandbox
-        firebaseAuth.setAPNSToken(deviceToken, type: .prod)
+        firebaseAuth.setAPNSToken(deviceToken, type: .unknown)
         
         //At time of production it will be set to .prod
     }
