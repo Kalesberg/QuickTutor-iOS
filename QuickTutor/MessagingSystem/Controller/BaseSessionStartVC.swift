@@ -144,9 +144,9 @@ class BaseSessionStartVC: UIViewController {
         let lengthInSeconds = session.endTime - session.startTime
         let lengthInMinutes = Int(lengthInSeconds / 60)
 
-        let hourlyRate = session.price / Double(lengthInMinutes) * 60
-        let formattedHourlyRate = String(format: "%.2f", hourlyRate)
-        finalString = "Length: \(lengthInMinutes) min, $\(formattedHourlyRate) / hr"
+        //let hourlyRate = session.price / Double(lengthInMinutes) * 60
+       // let formattedHourlyRate = String(format: "%.2f", hourlyRate)
+        finalString = "Length: \(lengthInMinutes) min, $\(Int(session.price)) / hr"
         return finalString
     }
     

@@ -16,7 +16,8 @@ class FileReportActionsheet: UIView {
     var alert: CustomModal?
     var reportTypeModal: ReportTypeModal?
     var partnerId: String?
-    
+	var name : String!
+	
     let backgroundBlur: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -102,7 +103,12 @@ class FileReportActionsheet: UIView {
     
     func handleDisconnectButton() {
         dismiss()
-        alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from Alex.", cancelText: "Nevermind", confirmText: "Yes, disconnect")
+		if let name = name {
+			alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from \(name).", cancelText: "Nevermind", confirmText: "Yes, disconnect")
+		} else {
+			alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from this tutor.", cancelText: "Nevermind", confirmText: "Yes, disconnect")
+		}
+		
         guard let disconnectModal = alert as? DisconnectModal, let id = partnerId else { return }
         disconnectModal.partnerId = id
         disconnectModal.show()
@@ -117,8 +123,9 @@ class FileReportActionsheet: UIView {
         setupViews()
     }
     
-    init(bottomLayoutMargin: CGFloat) {
+	init(bottomLayoutMargin: CGFloat, name: String) {
         super.init(frame: .zero)
+		self.name = name
         self.bottomLayoutMargin = bottomLayoutMargin
         setupViews()
     }

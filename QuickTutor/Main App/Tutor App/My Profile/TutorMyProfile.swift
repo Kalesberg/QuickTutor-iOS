@@ -22,7 +22,7 @@ class TutorMyProfileView : LearnerMyProfileView {
         title.label.text = "My Profile"
         statusbarView.backgroundColor = Colors.tutorBlue
         navbar.backgroundColor = Colors.tutorBlue
-	
+    
     }
 }
 
@@ -41,8 +41,8 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
             contentView.tableView.reloadData()
         }
     }
-	
-	var isViewing : Bool = false
+    
+    var isViewing : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,10 +62,10 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-		contentView.nameContainer.backgroundColor = UIColor(hex: "4267a8")
-	}
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        contentView.nameContainer.backgroundColor = UIColor(hex: "4267a8")
+    }
     
     private func configureDelegates() {
         contentView.tableView.delegate = self

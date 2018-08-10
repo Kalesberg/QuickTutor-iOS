@@ -87,7 +87,6 @@ class TutorMainPageHeaderCell : BaseTableViewCell {
     }
 }
 
-
 class TutorMainPageSummaryCell : BaseTableViewCell {
     
     let infoLabel1 : UILabel = {

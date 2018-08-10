@@ -170,10 +170,12 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     @objc func showReportSheet() {
         becomeFirstResponder()
         resignFirstResponder()
-        if #available(iOS 11.0, *) {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom)
+
+		let firstName = chatPartner.formattedName.split(separator: " ")[0]
+		if #available(iOS 11.0, *) {
+			actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String(firstName))
         } else {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0)
+			actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(firstName))
         }
         actionSheet?.partnerId = chatPartner.uid
         actionSheet?.show()
