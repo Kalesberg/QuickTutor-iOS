@@ -53,7 +53,7 @@ class TutorConnectView : MainLayoutTwoButton {
         
         let layout = UICollectionViewFlowLayout()
         
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 0, right: 10)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
         
@@ -478,7 +478,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
     
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.width - 20
-        return CGSize(width: width, height: collectionView.frame.height - 50)
+        return CGSize(width: width, height: collectionView.frame.height - 20)
     }
     
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
