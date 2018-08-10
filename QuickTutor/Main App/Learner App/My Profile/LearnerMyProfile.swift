@@ -103,18 +103,6 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
         return view
     }()
     
-    let background : UIView = {
-        let view = UIView()
-        
-        if AccountService.shared.currentUserType == .learner {
-            view.backgroundColor = Colors.learnerPurple
-        } else {
-            view.backgroundColor = Colors.tutorBlue
-        }
-        
-        return view
-    }()
-    
     let nameContainer : UIView = {
         let view = UIView()
         return view
@@ -132,7 +120,6 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
     }()
     
     override func configureView() {
-        addSubview(background)
         addSubview(profilePics)
         profilePics.addSubview(nameContainer)
         nameContainer.addSubview(name)
@@ -151,28 +138,26 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layoutIfNeeded()
-		
+
         profilePics.roundCorners(.allCorners, radius: 8)
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-        
-        background.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom)
-            make.width.centerX.equalToSuperview()
-            make.height.equalTo(155)
-        }
+
         profilePics.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom).inset(-30)
             make.centerX.equalToSuperview()
-            make.width.height.equalTo(155)
+            if UIScreen.main.bounds.height < 570 {
+                make.width.height.equalTo(160)
+            } else {
+                make.width.height.equalTo(200)
+            }
         }
         nameContainer.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
             make.width.centerX.equalToSuperview()
-            make.height.equalTo(50)
+            make.height.equalTo(30)
         }
         name.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()
@@ -314,14 +299,10 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if isViewing {
-            contentView.background.backgroundColor = Colors.learnerPurple
-        }
     }
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-			contentView.nameContainer.applyGradient(firstColor: UIColor(hex: "6562C9").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: contentView.nameContainer.bounds, locations: [0.5])
+			contentView.nameContainer.backgroundColor = UIColor(hex: "6662C9")
 	}
     private func configureDelegates() {
         contentView.tableView.delegate = self

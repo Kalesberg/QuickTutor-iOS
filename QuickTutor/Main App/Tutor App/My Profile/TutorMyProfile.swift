@@ -64,8 +64,7 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
     }
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		contentView.nameContainer.applyGradient(firstColor: UIColor(hex: "4267a8").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: contentView.nameContainer.bounds, locations: [0.5])
-		contentView.background.backgroundColor = Colors.tutorBlue
+		contentView.nameContainer.backgroundColor = UIColor(hex: "4267a8")
 	}
     
     private func configureDelegates() {
@@ -78,7 +77,7 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
         contentView.tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
         contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
-        contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
+        contentView.tableView.register(ExtraInfoCardTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
     }
     
     override func handleNavigation() {
@@ -138,7 +137,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoCardTableViewCell
             
             for view in cell.contentView.subviews {
                 view.snp.removeConstraints()
@@ -146,6 +145,15 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
+            
+            cell.locationItem.label.text = tutor.region
+            
+            cell.locationItem.snp.makeConstraints { (make) in
+                make.left.equalToSuperview().inset(12)
+                make.right.equalToSuperview().inset(20)
+                make.height.equalTo(35)
+                make.top.equalTo(cell.label.snp.bottom).inset(-6)
+            }
             
             cell.tutorItem.label.text = "Has tutored \(tutor.tNumSessions!) sessions"
             
@@ -157,7 +165,11 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                     make.left.equalToSuperview().inset(12)
                     make.right.equalToSuperview().inset(20)
                     make.height.equalTo(35)
-                    make.top.equalToSuperview().inset(10)
+                    make.top.equalTo(cell.locationItem.snp.bottom)
+//                    make.left.equalToSuperview().inset(12)
+//                    make.right.equalToSuperview().inset(20)
+//                    make.height.equalTo(35)
+//                    make.top.equalToSuperview().inset(10)
                 }
                 
                 if tutor.school != "" {
@@ -196,7 +208,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                         make.left.equalToSuperview().inset(12)
                         make.right.equalToSuperview().inset(20)
                         make.height.equalTo(35)
-                        make.top.equalToSuperview().inset(10)
+                        make.top.equalTo(cell.locationItem.snp.bottom)
                     }
                     
                     cell.studysItem.snp.makeConstraints { (make) in

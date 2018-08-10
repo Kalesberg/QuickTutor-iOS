@@ -97,16 +97,15 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            if(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
-                make.height.equalTo(175)
+            if UIScreen.main.bounds.height < 570 {
+                make.height.equalTo(190)
             } else {
-                make.height.equalTo(205)
+                make.height.equalTo(220)
             }
         }
         reviewLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
         }
-
         reviewLabelContainer.snp.makeConstraints { (make) in
             make.top.equalTo(header).inset(-13)
             make.left.equalTo(rateLabelContainer.snp.right).inset(-10)
@@ -138,7 +137,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.width.height.equalTo(56)
         }
         tableViewContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(header.profilePics.snp.bottom)
+            make.top.equalTo(header.profilePics.snp.bottom).inset(1)
             make.width.equalToSuperview()
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide).inset(23)
@@ -441,18 +440,10 @@ class TutorCardHeader : InteractableView {
         return view
     }()
     
-    let background : UIView = {
-        let view = UIView()
-        
-        view.backgroundColor = UIColor(hex: "5785D4")
-        
-        return view
-    }()
-    
     let nameContainer : UIView = {
         let view = UIView()
         
-        //view.backgroundColor = UIColor(hex: "5E90E6")
+        view.backgroundColor = UIColor(hex: "4267a8")
         
         return view
     }()
@@ -471,7 +462,6 @@ class TutorCardHeader : InteractableView {
     let gradientView = UIView()
     
     override func configureView() {
-        addSubview(background)
         addSubview(profilePics)
         profilePics.addSubview(nameContainer)
         nameContainer.addSubview(name)
@@ -483,25 +473,21 @@ class TutorCardHeader : InteractableView {
         applyConstraints()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        nameContainer.applyGradient(firstColor: UIColor(hex: "4267a8").cgColor, secondColor: UIColor.clear.cgColor, angle: 180, frame: nameContainer.bounds, locations: [0.5])
-    }
-    
     override func applyConstraints() {
-        background.snp.makeConstraints { (make) in
-            make.top.width.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.75)
-        }
         profilePics.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(30)
             make.centerX.equalToSuperview()
-            make.width.height.equalTo(145)
+            if UIScreen.main.bounds.height < 570 {
+                make.width.height.equalTo(145)
+            } else {
+                make.width.height.equalTo(190)
+            }
+            
         }
         nameContainer.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
             make.width.centerX.equalToSuperview()
-            make.height.equalTo(50)
+            make.height.equalTo(30)
         }
         name.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()
