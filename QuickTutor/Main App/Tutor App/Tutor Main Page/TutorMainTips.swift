@@ -9,7 +9,18 @@
 import Foundation
 import UIKit
 
-class TutorMainTipsView : MainLayoutTitleBackButton {
+class TutorMainTipsView : MainLayoutTitleOneButton {
+	
+	var backButton = NavbarButtonX()
+	
+	override var leftButton: NavbarButton {
+		get {
+			return backButton
+		}
+		set {
+			backButton = newValue as! NavbarButtonX
+		}
+	}
 	
     let tableView : UITableView = {
         let tableView = UITableView()
@@ -84,7 +95,10 @@ class TutorMainTips : BaseViewController {
         contentView.tableView.register(TutorTipsTableViewCell.self, forCellReuseIdentifier: "tutorTipsTableViewCell")
     }
 	override func handleNavigation() {
-		contentView.backgroundImageView.isHidden = true
+		if touchStartView is NavbarButtonX {
+			contentView.backgroundImageView.isHidden = true
+			self.navigationController?.popViewController(animated: true)
+		}
 	}
 }
 

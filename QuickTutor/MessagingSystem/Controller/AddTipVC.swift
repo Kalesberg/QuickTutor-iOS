@@ -254,12 +254,15 @@ class AddTipVC: UIViewController, CustomTipPresenter {
             }
             print("Amount to pay:", self.amountToPay)
             print("Fee amount:", self.amountToPay * 100)
+			self.displayLoadingOverlay()
             Stripe.destinationCharge(acctId: id, customerId: self.customer.stripeID, sourceId: sourceId, amount: self.amountToPay * 100, fee: self.amountToPay, description: "Session with Tutor", { (error) in
                 guard error == nil else {
                     print(error.debugDescription)
                     completion(false)
+					self.dismissOverlay()
                     return
                 }
+				self.dismissOverlay()
                 completion(true)
             })
         }
