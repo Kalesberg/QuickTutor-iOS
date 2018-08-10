@@ -32,7 +32,6 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     override func setupViews() {
         super.setupViews()
-        socket = SocketClient.shared.socket
         setupMessageButton()
         setupObservers()
     }

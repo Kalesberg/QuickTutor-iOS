@@ -11,6 +11,7 @@ import Firebase
 
 protocol HandlesSessionStartData {
     func listenForData()
+    func removeDataObserver()
 }
 
 extension HandlesSessionStartData {

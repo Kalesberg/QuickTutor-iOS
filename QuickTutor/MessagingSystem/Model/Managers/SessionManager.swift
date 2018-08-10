@@ -28,7 +28,7 @@ class SessionManager {
     var timer: Timer?
     
     var delegate: SessionManagerDelegate?
-    var socket = SocketClient.shared.socket!
+    var socket: SocketIOClient!
 
     //MARK: Session events -
     func loadSession() {
@@ -133,11 +133,18 @@ class SessionManager {
         }
     }
     
-    init(sessionId: String) {
+    init(sessionId: String, socket: SocketIOClient) {
         self.sessionId = sessionId
+        self.socket = socket
         loadSession()
         observeSocketEvents()
     }
+    
+    init(sessionId: String) {
+        self.sessionId = sessionId
+        loadSession()
+    }
+    
     
     
     
