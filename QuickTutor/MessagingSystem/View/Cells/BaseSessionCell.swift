@@ -85,6 +85,12 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         return iv
     }()
     
+    let sessionTypeIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
     let actionView: SessionCellActionView = {
         let av = SessionCellActionView()
         return av
@@ -98,7 +104,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         updateTimeAndPriceLabel()
         subjectLabel.text = session.subject
         AccountService.shared.currentUserType == .learner ? getTutor() : getLearner()
-
+        sessionTypeIcon.image = session.type == "online" ? #imageLiteral(resourceName: "videoCameraIcon") : #imageLiteral(resourceName: "inPersonIcon")
     }
     
     func getTutor() {
@@ -132,6 +138,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         setupTimeAndPriceLabel()
         setupStarIcon()
         setupStarLabel()
+        setupSessionTypeIcon()
         setupActionView()
         actionView.setupAsSingleButton()
         actionView.delegate = self
@@ -190,6 +197,11 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
+    func setupSessionTypeIcon() {
+        addSubview(sessionTypeIcon)
+        sessionTypeIcon.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 15, height: 15)
+    }
+    
     func setupActionView() {
         addSubview(actionView)
         actionView.delegate = self
@@ -232,7 +244,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         self.timeAndPriceLabel.text = "\(timeString), \(priceString)"
     }
 
-    
     func updateRatingLabel(rating: Double) {
         self.starLabel.text = "\(rating)"
     }

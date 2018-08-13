@@ -70,6 +70,16 @@ class SessionRequestCell: UserMessageCell {
         return label
     }()
     
+    let sessionTypeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .left
+        label.font = Fonts.createSize(12)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    
     let buttonView = SessionRequestCellButtonView()
     
     var priceLabelWidthAnchor: NSLayoutConstraint?
@@ -93,9 +103,10 @@ class SessionRequestCell: UserMessageCell {
     
     func loadFromRequest() {
         print("Loaded.")
-        guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime() else { return }
+        guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime(), let type = sessionRequest?.type else { return }
         subjectLabel.text = subject
         priceLabel.text = "$\(price)0"
+        sessionTypeLabel.text = type  == "online" ? "Online" : "In-Person"
         dateTimeLabel.text = "\(date) \n\(startTime) - \(endTime)"
         setStatusLabel()
         if let constant = priceLabel.text?.estimateFrameForFontSize(12).width {
@@ -219,6 +230,7 @@ class SessionRequestCell: UserMessageCell {
         dateTimeLabel.textColor = UIColor.white.darker(by: amount)
         priceLabel.textColor = UIColor.white.darker(by: amount)
         priceLabel.backgroundColor = Colors.navBarGreen.darker(by: 30)
+        sessionTypeLabel.textColor = UIColor.white.darker(by: amount)
     }
     
     func resetDim() {
@@ -226,6 +238,7 @@ class SessionRequestCell: UserMessageCell {
         dateTimeLabel.textColor = .white
         priceLabel.textColor = .white
         priceLabel.backgroundColor = Colors.navBarGreen
+        sessionTypeLabel.textColor = .white
     }
     
     override func setupViews() {
@@ -236,6 +249,7 @@ class SessionRequestCell: UserMessageCell {
         setupSubjectLabel()
         setupDateTimeLabel()
         setupPriceLabel()
+        setupSessionTypeLabel()
         setupButtonView()
     }
     
@@ -269,6 +283,11 @@ class SessionRequestCell: UserMessageCell {
     func setupPriceLabel() {
         addSubview(priceLabel)
         priceLabel.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 26, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 20)
+    }
+    
+    func setupSessionTypeLabel() {
+        addSubview(sessionTypeLabel)
+        sessionTypeLabel.anchor(top: dateTimeLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 140, height: 10)
     }
     
     func setupAsTeacherView() {
