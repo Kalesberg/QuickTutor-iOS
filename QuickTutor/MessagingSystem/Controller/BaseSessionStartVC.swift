@@ -276,9 +276,9 @@ class BaseSessionStartVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSocket()
         setupViews()
         updateUI()
-        setupSocket()
     }
     
     override func viewDidAppear(_ animated: Bool) {
