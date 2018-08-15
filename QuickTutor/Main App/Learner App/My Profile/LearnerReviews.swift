@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import FirebaseUI
+import SDWebImage
 
 struct Review {
     let fname : String!
@@ -66,7 +68,7 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
         
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
-            make.width.equalToSuperview().multipliedBy(0.9)
+            make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.8)
             make.centerX.equalToSuperview()
         }
@@ -74,6 +76,8 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
 }
 
 class LearnerReviews : BaseViewController {
+    
+    let storageRef = Storage.storage().reference()
     
     override var contentView: LearnerReviewsView {
         return view as! LearnerReviewsView
@@ -123,21 +127,13 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
         
         cell.selectionStyle = .none
         cell.backgroundColor = .clear
-        
         cell.nameLabel.text = data.studentName
-		cell.reviewTextLabel.text = data.message
-        
-        let formattedString = NSMutableAttributedString()
-        
-        formattedString
-            .bold("\(Int(data.rating)) ★", 14, Colors.yellow)
-            .bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
-        
-        cell.dateSubjectLabel.attributedText = formattedString
-        
-		cell.profilePic.loadUserImages(by: data.imageURL)
-        cell.applyConstraints()
-    
+        cell.reviewTextLabel.text = data.message
+		cell.dateSubjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.yellow).bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
+		
+		cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+		
+		cell.applyConstraints()
         return cell
     }
     
@@ -192,7 +188,7 @@ class CustomReviewCell : UITableViewCell {
     
     func applyConstraints() {
         profilePic.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(10)
+            make.left.equalToSuperview().inset(-10)
             make.centerY.equalToSuperview()
             make.height.equalTo(50)
             make.width.equalTo(50)

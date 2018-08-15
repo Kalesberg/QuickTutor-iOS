@@ -8,13 +8,17 @@
 
 import Foundation
 import UIKit
-
+import FirebaseUI
+import SDWebImage
 
 class TutorFileReport : BaseViewController {
     
     override var contentView: LearnerFileReportView {
         return view as! LearnerFileReportView
     }
+	
+	let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+	
 	var localTimeZoneAbbreviation: String {
 		return TimeZone.current.abbreviation() ?? ""
 	}
@@ -54,24 +58,53 @@ class TutorFileReport : BaseViewController {
         view = LearnerFileReportView()
     }
 	
-	private func getStartTime(unixTime: TimeInterval) -> String {
-		
+	private func getFormattedTime(unixTime: TimeInterval) -> String {
 		let date = Date(timeIntervalSince1970: unixTime)
 		let dateFormatter = DateFormatter()
 		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
-		dateFormatter.dateFormat = "hh:mm a"
-		
+		dateFormatter.dateFormat = "h:mm a"
+		return dateFormatter.string(from: date)
+	}
+	private func getFormattedDate(unixTime: TimeInterval) -> String {
+		let date = Date(timeIntervalSince1970: unixTime)
+		let dateFormatter = DateFormatter()
+		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
+		dateFormatter.dateFormat = "d-MMM"
 		return dateFormatter.string(from: date)
 	}
 	
-	private func getDateAndEndTime(unixTime: TimeInterval) -> (String, String, String) {
-		let date = Date(timeIntervalSince1970: unixTime)
-		let dateFormatter = DateFormatter()
-		dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
-		dateFormatter.locale = NSLocale.current
-		dateFormatter.dateFormat = "d-MMM-hh:mm a"
-		let dateString = dateFormatter.string(from: date).split(separator: "-")
-		return (String(dateString[0]), String(dateString[1]), String(dateString[2]))
+	private func setHeader(index: Int) -> FileReportSessionView {
+		let view = FileReportSessionView()
+		view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: contentView.tableView.frame.width, height: 85))
+		
+		let startTime = getFormattedTime(unixTime: TimeInterval(datasource[index].startTime))
+		let endTime = getFormattedTime(unixTime: TimeInterval(datasource[index].endTime))
+		let date = getFormattedDate(unixTime: TimeInterval(datasource[index].date)).split(separator: "-")
+		
+		//QuickFix. will change in the future
+		if datasource[index].name == "" {
+			view.nameLabel.text = "User no longer exists."
+		} else {
+			let name = datasource[index].name.split(separator: " ")
+			if name.count == 2 {
+				view.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
+			} else {
+				view.nameLabel.text = "with \(String(name[0]).capitalized)"
+			}
+		}
+		
+		view.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource[index].otherId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+		view.subjectLabel.text = datasource[index].subject
+		view.monthLabel.text = String(date[1])
+		view.dayLabel.text = String(date[0])
+		view.sessionInfoLabel.text = "\(startTime) - \(endTime)"
+		
+		let formatter = NumberFormatter()
+		formatter.numberStyle = .currency
+		if let amount = formatter.string(from: datasource[index].price as NSNumber) {
+			view.sessionInfoLabel.text?.append(contentsOf: " \(amount)")
+		}
+		return view
 	}
 	
     override func didReceiveMemoryWarning() {
@@ -106,26 +139,7 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		let view = FileReportSessionView()
-		view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 85))
-		
-		let endTimeString = getDateAndEndTime(unixTime: TimeInterval(datasource[section].endTime))
-		let name = datasource[section].name.split(separator: " ")
-		
-		view.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
-		view.profilePic.loadUserImages(by: datasource[section].imageURl)
-		view.subjectLabel.text = datasource[section].subject
-		view.monthLabel.text = endTimeString.1
-		view.dayLabel.text = endTimeString.0
-		
-		let startTime = getStartTime(unixTime: TimeInterval(datasource[section].startTime))
-		let formatter = NumberFormatter()
-		formatter.numberStyle = .currency
-		if let amount = formatter.string(from: datasource[section].price as NSNumber) {
-			view.sessionInfoLabel.text = "\(startTime) - \(endTimeString.2) \(amount)"
-		}
-		
-		return view
+		return setHeader(index: section)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

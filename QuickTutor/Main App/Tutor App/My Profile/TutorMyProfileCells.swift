@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 import SnapKit
-
+import FirebaseStorage
+import FirebaseUI
+import SDWebImage
 
 class SubjectSelectionCollectionViewCell : UICollectionViewCell {
     
@@ -277,16 +279,13 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     
     override func handleNavigation() {
         if (touchStartView is InteractableUIImageView) {
-            
             if let current = next?.next?.next {
-                
                 if current is TutorMyProfile {
                     let vc = (current as! TutorMyProfile)
-                    vc.displayAWImageViewer(images: vc.tutor.images.filter({$0.value != ""}))
-                    
+                    vc.displayProfileImageViewer(imageCount: vc.tutor.images.filter({$0.value != ""}).count, userId: vc.tutor.uid)
                 } else {
                     let vc = (current as! LearnerMyProfile)
-                    vc.displayAWImageViewer(images: vc.learner.images.filter({$0.value != ""}))
+                    vc.displayProfileImageViewer(imageCount: vc.learner.images.filter({$0.value != ""}).count, userId: vc.learner.uid)
                 }
             }
         }
@@ -664,6 +663,8 @@ class RatingTableViewCell : BaseTableViewCell {
         }
     }
     
+    let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+
     override func configureView() {
         contentView.addSubview(tableView)
         contentView.addSubview(seeAllButton)
@@ -758,7 +759,7 @@ class NoRatingsTableViewCell : BaseTableViewCell {
 
 extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (datasource.count >= 2) ? 2 : 1
+        return (datasource.count >= 2) ? 2 : datasource.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -767,21 +768,15 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
-
         let data = datasource[indexPath.row]
         
         cell.nameLabel.text = data.studentName
         cell.reviewTextLabel.text = data.message
-        
-        let formattedString = NSMutableAttributedString()
-        
-        formattedString
-            .bold("\(Int(data.rating)) ★", 14, Colors.yellow)
-            .bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
-        
-        cell.dateSubjectLabel.attributedText = formattedString
-        cell.profilePic.loadUserImages(by: datasource[indexPath.row].imageURL)
+        cell.dateSubjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.yellow).bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
 
+        let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic\(indexPath.row+1)")
+        cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        
         return cell
     }
     
@@ -812,14 +807,14 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     
     let profilePic : UIImageView = {
-        
         let imageView = UIImageView()
         
+        imageView.layer.masksToBounds = false
         imageView.scaleImage()
+        imageView.clipsToBounds = true
         
         return imageView
     }()
-    
     
     let nameLabel : UILabel = {
         let label = UILabel()
@@ -894,15 +889,20 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
             make.right.equalToSuperview().inset(3)
         }
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        profilePic.layer.cornerRadius = profilePic.frame.height / 2
+    }
 }
 
 class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     
     let profilePic : UIImageView = {
-        
         let imageView = UIImageView()
         
+        imageView.layer.masksToBounds = false
         imageView.scaleImage()
+        imageView.clipsToBounds = true
         
         return imageView
     }()
@@ -947,14 +947,12 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
         super.configureView()
         
         contentView.backgroundColor = .clear
-        
         selectionStyle = .none
     }
     
     override func applyConstraints() {
-        
         container.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalTo(contentView)
+            make.left.right.bottom.equalTo(contentView).inset(-10)
             make.top.equalTo(contentView).inset(10)
             make.bottom.equalTo(reviewTextLabel).inset(-10)
         }
@@ -980,5 +978,9 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
             make.right.equalToSuperview().inset(5)
             make.top.equalTo(nameLabel.snp.bottom).inset(-5)
         }
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        profilePic.layer.cornerRadius = profilePic.frame.height / 2
     }
 }

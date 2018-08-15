@@ -19,7 +19,7 @@ class AWLearner {
 	var phone     : String!
 	var lNumSessions : Int!
 	var customer  : String!
-	
+		
 	var school    : String?
 	var languages : [String]?
 	
@@ -34,15 +34,15 @@ class AWLearner {
 	
 	init(dictionary: [String:Any]) {
 		
-		name         = dictionary["nm"]         as? String ?? ""
-		bio         = dictionary["bio"]     as? String ?? ""
-		birthday     = dictionary["bd"]         as? String ?? ""
-		email           = dictionary["em"]         as? String ?? ""
-		school          = dictionary["sch"]     as? String ?? nil
-		phone           = dictionary["phn"]     as? String ?? ""
-		languages     = dictionary["lng"]     as? [String] ?? nil
-		customer     = dictionary["cus"]     as? String ?? ""
-		lNumSessions = dictionary["nos"]        as? Int ?? 0
-		lRating         = dictionary["r"]         as? Double ?? 0.0
+		name = dictionary["nm"] as? String ?? ""
+		bio = dictionary["bio"] as? String ?? ""
+		birthday = dictionary["bd"] as? String ?? ""
+		email = dictionary["em"] as? String ?? ""
+		school = dictionary["sch"] as? String ?? nil
+		phone = dictionary["phn"] as? String ?? ""
+		languages = dictionary["lng"] as? [String] ?? nil
+		customer = dictionary["cus"] as? String ?? ""
+		lNumSessions = dictionary["nos"] as? Int ?? 0
+		lRating = dictionary["r"] as? Double ?? 0.0
 	}
 }

@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import FirebaseUI
+import SDWebImage
 
 class SessionDetailsView : MainLayoutHeader {
     
@@ -71,6 +73,9 @@ class SessionDetails : BaseViewController {
 			setHeader()
 		}
 	}
+	
+	let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+	
 	var localTimeZoneAbbreviation: String {
 		return TimeZone.current.abbreviation() ?? ""
 	}
@@ -94,41 +99,46 @@ class SessionDetails : BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-	
-	private func getStartTime(unixTime: TimeInterval) -> String {
-		
+	private func getFormattedTime(unixTime: TimeInterval) -> String {
 		let date = Date(timeIntervalSince1970: unixTime)
 		let dateFormatter = DateFormatter()
 		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
-		dateFormatter.dateFormat = "hh:mm a"
-		
+		dateFormatter.dateFormat = "h:mm a"
 		return dateFormatter.string(from: date)
 	}
-	private func getDateAndEndTime(unixTime: TimeInterval) -> (String, String, String) {
+	private func getFormattedDate(unixTime: TimeInterval) -> String {
 		let date = Date(timeIntervalSince1970: unixTime)
 		let dateFormatter = DateFormatter()
-		dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
-		dateFormatter.locale = NSLocale.current
-		dateFormatter.dateFormat = "d-MMM-hh:mm a"
-		let dateString = dateFormatter.string(from: date).split(separator: "-")
-		return (String(dateString[0]), String(dateString[1]), String(dateString[2]))
+		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
+		dateFormatter.dateFormat = "d-MMM"
+		return dateFormatter.string(from: date)
 	}
 	
 	private func setHeader() {
-		let endTimeString = getDateAndEndTime(unixTime: TimeInterval(datasource.endTime))
-		let name = datasource.name.split(separator: " ")
-		
-		contentView.sessionHeader.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
-		contentView.sessionHeader.profilePic.loadUserImages(by: datasource.imageURl)
+		let startTime = getFormattedTime(unixTime: TimeInterval(datasource.startTime))
+		let endTime = getFormattedTime(unixTime: TimeInterval(datasource.endTime))
+		let date = getFormattedDate(unixTime: TimeInterval(datasource.date)).split(separator: "-")
+		//QuickFix. will change in the future
+		if datasource.name == "" {
+			contentView.sessionHeader.nameLabel.text = "User no longer exists."
+		} else {
+			let name = datasource.name.split(separator: " ")
+			if name.count == 2 {
+				contentView.sessionHeader.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
+			} else {
+				contentView.sessionHeader.nameLabel.text = "with \(String(name[0]).capitalized)"
+			}
+		}
+		contentView.sessionHeader.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource.otherId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
 		contentView.sessionHeader.subjectLabel.text = datasource.subject
-		contentView.sessionHeader.monthLabel.text = endTimeString.1
-		contentView.sessionHeader.dayLabel.text = endTimeString.0
-		
-		let startTime = getStartTime(unixTime: TimeInterval(datasource.startTime))
+		contentView.sessionHeader.monthLabel.text = String(date[1])
+		contentView.sessionHeader.dayLabel.text = String(date[0])
+		contentView.sessionHeader.sessionInfoLabel.text = "\(startTime) - \(endTime)"
+
 		let formatter = NumberFormatter()
 		formatter.numberStyle = .currency
 		if let amount = formatter.string(from: datasource.price as NSNumber) {
-			contentView.sessionHeader.sessionInfoLabel.text = "\(startTime) - \(endTimeString.2) \(amount)"
+			contentView.sessionHeader.sessionInfoLabel.text?.append(contentsOf: " \(amount)")
 		}
 	}
 	override func handleNavigation() { }

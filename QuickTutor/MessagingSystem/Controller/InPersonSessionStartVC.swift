@@ -116,7 +116,7 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     func showConfirmMeetupButton() {
         guard let _ = Auth.auth().currentUser?.uid, let _ = session?.id, let _ = partnerId, !startAccepted else { return }
-        messageButton.isHidden = false
+        //messageButton.isHidden = false
         confirmButton.isHidden = false
         startAccepted = true
         confirmButton.removeTarget(self, action: #selector(confirmManualStart), for: .touchUpInside)

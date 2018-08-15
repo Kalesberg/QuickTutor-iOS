@@ -219,12 +219,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             }
         } else if touchStartView is TutorCardProfilePic {
             let vc = (next?.next?.next as! TutorConnect)
-            FirebaseData.manager.fetchProfileImages(uid: datasource.uid) { (imageUrls) in
-                if let imageUrls = imageUrls {
-                    vc.displayAWImageViewer(images: imageUrls)
-                }
-            }
-        }
+			vc.displayProfileImageViewer(imageCount: self.datasource.images.count, userId: self.datasource.uid)
+		}
     }
 }
 
@@ -364,20 +360,14 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             return cell
         case 3:
             
-            guard let datasource = datasource?.reviews else {
+            guard let datasource = datasource?.reviews, datasource.count != 0 else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
                 return cell
             }
-            
-            if datasource.count == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
-                return cell
-            }
-            
+			
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
             
             cell.datasource = datasource
-            
             return cell
 
         case 4:

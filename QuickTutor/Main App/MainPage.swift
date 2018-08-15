@@ -136,15 +136,12 @@ class MainPage : BaseViewController {
     override func loadView() {
         view = MainPageView()
     }
-    
-    var hasPaymentMethod : Bool!
-    var hasStudentBio : Bool!
-    
+    let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+	
     var parentPageViewController : PageViewController!
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
     }
     
     override func viewDidLoad() {
@@ -157,7 +154,12 @@ class MainPage : BaseViewController {
         super.viewWillAppear(animated)
         updateSideBar()
     }
-    
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		contentView.sidebar.profileView.profilePicView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+		contentView.sidebar.profileView.profilePicView.layer.cornerRadius = contentView.sidebar.profileView.profilePicView.frame.height / 2
+	}
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -202,7 +204,9 @@ class MainPage : BaseViewController {
         }
     }
     
-    func updateSideBar() { }
+    func updateSideBar() {
+
+	}
     
     override func handleNavigation() {
         if (touchStartView == contentView.messagesButton) {

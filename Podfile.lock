@@ -80,6 +80,9 @@ PODS:
   - FirebaseStorage (3.0.0):
     - FirebaseCore (~> 5.0)
     - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseUI/Storage (5.2.0):
+    - Firebase/Storage (~> 5.0)
+    - SDWebImage (~> 4.0)
   - GeoFire (3.0.0):
     - Firebase/Database (~> 5.0)
   - GoogleAnalytics (3.17.0)
@@ -120,6 +123,9 @@ PODS:
   - nanopb/encode (0.3.8)
   - Protobuf (3.6.1)
   - Reveal-SDK (17)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
   - SnapKit (4.0.0)
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
@@ -143,9 +149,11 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/Performance
   - Firebase/Storage
+  - FirebaseUI/Storage
   - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
   - GoogleAnalytics
   - Reveal-SDK
+  - SDWebImage (~> 4.0)
   - SnapKit
   - Socket.IO-Client-Swift (~> 13.1.0)
   - Stripe
@@ -173,6 +181,7 @@ SPEC REPOS:
     - FirebaseMessaging
     - FirebasePerformance
     - FirebaseStorage
+    - FirebaseUI
     - GoogleAnalytics
     - GoogleAppMeasurement
     - GoogleToolboxForMac
@@ -182,6 +191,7 @@ SPEC REPOS:
     - nanopb
     - Protobuf
     - Reveal-SDK
+    - SDWebImage
     - SnapKit
     - Socket.IO-Client-Swift
     - Starscream
@@ -218,6 +228,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: f67b3719f520ee200da0e20ce577fe2bce0c01d0
   FirebasePerformance: 1d3354c505dd54f3b4b4b42d681683c0cdad4311
   FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
+  FirebaseUI: 9dfa423b6f1b73737ae8ab62692c1c0a8886186d
   GeoFire: e3ae6f4be3f2466c3467ef6c1c203db3af935c59
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleAppMeasurement: e785bdb86d3d280abc778156cec323a975f11d1d
@@ -228,6 +239,7 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   Reveal-SDK: a6df49f47319bd19a110c960c498af32df72c0af
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
@@ -236,6 +248,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
   TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
-PODFILE CHECKSUM: 15dc1e4b1988d7f26ed8c5a5a317a466bdd6955c
+PODFILE CHECKSUM: 7fb32b26ab112eb68f1e5d1254cbb5f06bed13e9
 
 COCOAPODS: 1.5.3

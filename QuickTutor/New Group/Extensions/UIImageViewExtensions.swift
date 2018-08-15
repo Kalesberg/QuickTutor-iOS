@@ -53,7 +53,7 @@ extension UIImageView {
             return
         }
         if let image = userImageCache[url] {
-            self.image = image.circleMasked
+            self.image = image
             return
         }
         
@@ -67,7 +67,7 @@ extension UIImageView {
                 DispatchQueue.main.async(execute: {
                     if let image = UIImage(data: data!) {
                         userImageCache[url] = image
-                        self.image = image.circleMasked
+                        self.image = image
                     } else  {
                         self.image = #imageLiteral(resourceName: "registration-image-placeholder")
                     }

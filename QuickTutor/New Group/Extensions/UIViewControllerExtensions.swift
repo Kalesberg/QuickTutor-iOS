@@ -196,13 +196,33 @@ extension UIViewController {
             }
         }
 	}
-	func displaySessionRequestModal() {
-		if let _ = self.view.viewWithTag(696969) {
+	
+	func displayProfileImageViewer(imageCount: Int, userId: String) {
+		if let _ = self.view.viewWithTag(22)  {
 			return
 		}
-		//let requestSessionModal = RequestSessionModal()
+		let imageViewer = ProfileImageViewer(imageCount: imageCount, userId: userId)
+		imageViewer.tag = 2
+		imageViewer.frame = self.view.bounds
+		imageViewer.delegate = self as? ProfileImageViewerDelegate
 		
-		
+		UIView.animate(withDuration: 0.2, animations: {
+			imageViewer.alpha = 1.0
+			imageViewer.transform = .identity
+		})
+		self.view.addSubview(imageViewer)
+	}
+	
+	func dismissProfileImageViewer() {
+		self.view.endEditing(true)
+		if let imageViewer = self.view.viewWithTag(2) {
+			UIView.animate(withDuration: 0.2, animations: {
+				imageViewer.alpha = 0.0
+				imageViewer.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+			}) { _ in
+				imageViewer.removeFromSuperview()
+			}
+		}
 	}
 }
 

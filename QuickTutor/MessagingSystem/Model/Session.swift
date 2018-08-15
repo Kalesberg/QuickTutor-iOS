@@ -53,9 +53,9 @@ class Session: Codable {
         let lengthInSeconds = endTime - startTime
         let lengthInMinutes = Int(lengthInSeconds / 60)
         
-        let hourlyRate = price / Double(lengthInMinutes) * 60
-        let formattedHourlyRate = String(format: "%.2f", hourlyRate)
-        let finalString = "Length: \(lengthInMinutes) min, $\(formattedHourlyRate) / hr"
+//        let hourlyRate = price / Double(lengthInMinutes) * 60
+//        let formattedHourlyRate = String(format: "%.2f", hourlyRate)
+        let finalString = "Length: \(lengthInMinutes) min, $\(Int(price)) / hr"
         return finalString
     }
 }

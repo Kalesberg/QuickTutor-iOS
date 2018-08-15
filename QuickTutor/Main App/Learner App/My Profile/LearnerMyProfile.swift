@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import SnapKit
+import FirebaseUI
+
 
 protocol LearnerWasUpdatedCallBack {
     func learnerWasUpdated(learner: AWLearner!)
@@ -186,7 +188,7 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
 
 
 class ProfilePicInteractable : UIImageView, Interactable, BaseViewProtocol {
-    
+	
     public required init() {
         super.init(frame: UIScreen.main.bounds)
         configureView()
@@ -266,10 +268,17 @@ class ProfileItem : BaseView {
 
 
 class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
-    
-    func learnerWasUpdated(learner: AWLearner!) {
-        self.learner = learner
-    }
+	
+	let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+
+	override var contentView: LearnerMyProfileView {
+		return view as! LearnerMyProfileView
+	}
+	
+	override func loadView() {
+		view = LearnerMyProfileView()
+	}
+	
     var learner : AWLearner! {
         didSet {
             contentView.tableView.reloadData()
@@ -277,33 +286,27 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
     }
 
     var isViewing : Bool = false
-    
-    override var contentView: LearnerMyProfileView {
-        return view as! LearnerMyProfileView
-    }
-    
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
         
         let name = learner.name.split(separator: " ")
         contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
-        
-        contentView.profilePics.loadUserImagesWithoutMask(by: learner.images["image1"]!)
+		let reference = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1")
+		contentView.profilePics.sd_setImage(with: reference, placeholderImage: nil)
         //contentView.ratingLabel.text = String(learner.lRating)
-    }
-    
-    override func loadView() {
-        view = LearnerMyProfileView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+	
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-            contentView.nameContainer.backgroundColor = UIColor(hex: "6662C9")
+		contentView.nameContainer.backgroundColor = UIColor(hex: "6662C9")
     }
+	
     private func configureDelegates() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
@@ -316,21 +319,27 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+	
+	func learnerWasUpdated(learner: AWLearner!) {
+		self.learner = learner
+		let name = learner.name.split(separator: " ")
+		contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+	}
+	
     override func handleNavigation() {
         if(touchStartView is NavbarButtonEdit) {
-            let next = LearnerEditProfile()
-            next.delegate = self
-            navigationController?.pushViewController(next, animated: true)
+			let next = LearnerEditProfile()
+			next.delegate = self
+			navigationController?.pushViewController(next, animated: true)
         } else if(touchStartView is TutorCardProfilePic) {
-            self.displayAWImageViewer(images: learner.images.filter({$0.value != ""}))
+			self.displayProfileImageViewer(imageCount: learner.images.filter({$0.value != ""}).count, userId: learner.uid)
         }
     }
 }
 
-extension LearnerMyProfile : AWImageViewer {
+extension LearnerMyProfile : ProfileImageViewerDelegate {
     func dismiss() {
-        self.dismissAWImageViewer()
+        self.dismissProfileImageViewer()
     }
 }
 
