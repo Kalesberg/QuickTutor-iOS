@@ -170,14 +170,14 @@ class EditTutorSubjectsView : MainLayoutTitleTwoButton, Keyboardable {
 		}
 		
 		categoryTableView.snp.makeConstraints { (make) in
-			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-3)
+			make.top.equalTo(pickedCollectionView.snp.bottom)
 			make.width.equalToSuperview().multipliedBy(0.95)
 			make.centerX.equalToSuperview()
 			make.bottom.equalTo(nextButton.snp.top)
 		}
 		
 		tableView.snp.makeConstraints { (make) in
-			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-10)
+			make.top.equalTo(pickedCollectionView.snp.bottom)
 			if #available(iOS 11.0, *) {
 				make.bottom.equalTo(safeAreaLayoutGuide)
 			} else {

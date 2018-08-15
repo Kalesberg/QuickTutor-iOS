@@ -17,7 +17,16 @@ struct Selected {
 class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
-	let headerView = SectionHeader()
+    let headerView : UILabel = {
+        let label = UILabel()
+        
+        label.textAlignment = .left
+        label.font = Fonts.createBoldSize(20)
+        label.textColor = .white
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
 	let nextButton = TutorPreferencesNextButton()
 	
 	let errorLabel : UILabel = {
@@ -178,7 +187,7 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 			make.width.equalToSuperview()
 		}
 		categoryTableView.snp.makeConstraints { (make) in
-			make.top.equalTo(pickedCollectionView.snp.bottom).inset(-3)
+			make.top.equalTo(pickedCollectionView.snp.bottom)
 			make.width.equalToSuperview().multipliedBy(0.95)
 			make.centerX.equalToSuperview()
 			make.bottom.equalTo(nextButton.snp.top)
@@ -186,7 +195,11 @@ class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(pickedCollectionView.snp.bottom)
-			make.bottom.equalTo(nextButton.snp.top)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
@@ -232,7 +245,7 @@ class TutorAddSubjects : BaseViewController {
 	var didSelectCategory = false {
 		didSet {
 			if didSelectCategory == false {
-				contentView.headerView.category.text = ""
+				contentView.headerView.text = ""
 			}
 		}
 	}
@@ -510,7 +523,7 @@ extension TutorAddSubjects : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return tableView.tag == 1 ? 0 : 40
+		return tableView.tag == 1 ? 0 : 25
 	}
 	
 	func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -593,7 +606,7 @@ extension TutorAddSubjects : DidSelectSubcategoryCell {
 			print("Partial Subjects: ", partialSubjects)
 			self.partialSubjects = subjects
 			self.filteredSubjects = self.partialSubjects
-			self.contentView.headerView.category.text = subcategory
+			self.contentView.headerView.text = "   " + subcategory
 		}
 		tableView(shouldDisplay: true) {
 			self.didSelectCategory = true

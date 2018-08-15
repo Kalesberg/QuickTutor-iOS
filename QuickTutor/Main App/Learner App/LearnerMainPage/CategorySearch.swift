@@ -188,8 +188,15 @@ extension CategorySearch : UICollectionViewDelegate, UICollectionViewDataSource,
 		
 		formattedString
 			.bold("\(datasource[indexPath.item].rating) ", 14, Colors.gold)
-			.regular("(\(datasource[indexPath.item].reviews) ratings)", 12, Colors.gold)
+        
 		cell.featuredTutor.ratingLabel.attributedText = formattedString
+        
+        let formattedString2 = NSMutableAttributedString()
+        
+        formattedString2
+            .regular("(\(datasource[indexPath.item].reviews) ratings)", 12, Colors.gold)
+        
+        cell.featuredTutor.numOfRatingsLabel.attributedText = formattedString2
         
 		return cell
 	}

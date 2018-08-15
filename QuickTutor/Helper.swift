@@ -100,6 +100,16 @@ class FeaturedTutorView : BaseView {
         return view
     }()
     
+    let numOfRatingsLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = Colors.yellow
+        label.font = Fonts.createSize(14)
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
+    
     override func configureView() {
         addSubview(imageView)
         addSubview(subject)
@@ -107,6 +117,7 @@ class FeaturedTutorView : BaseView {
         addSubview(namePrice)
         addSubview(ratingLabel)
         addSubview(starImage)
+        addSubview(numOfRatingsLabel)
         super.configureView()
 
         applyConstraints()
@@ -137,14 +148,18 @@ class FeaturedTutorView : BaseView {
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.88)
         }
-        starImage.snp.makeConstraints { (make) in
+        ratingLabel.snp.makeConstraints { (make) in
             make.left.equalTo(namePrice.snp.left)
             make.bottom.equalToSuperview().inset(9)
+        }
+        starImage.snp.makeConstraints { (make) in
+            make.left.equalTo(ratingLabel.snp.right).inset(-1)
+            make.centerY.equalTo(ratingLabel.snp.centerY)
             make.height.width.equalTo(13)
         }
-        ratingLabel.snp.makeConstraints { (make) in
+        numOfRatingsLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(ratingLabel).inset(-1)
             make.left.equalTo(starImage.snp.right).inset(-3)
-            make.centerY.equalTo(starImage.snp.centerY).inset(1)
         }
     }
 }

@@ -166,10 +166,6 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                     make.right.equalToSuperview().inset(20)
                     make.height.equalTo(35)
                     make.top.equalTo(cell.locationItem.snp.bottom)
-//                    make.left.equalToSuperview().inset(12)
-//                    make.right.equalToSuperview().inset(20)
-//                    make.height.equalTo(35)
-//                    make.top.equalToSuperview().inset(10)
                 }
                 
                 if tutor.school != "" {
@@ -223,7 +219,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                         make.left.equalToSuperview().inset(12)
                         make.right.equalToSuperview().inset(20)
                         make.height.equalTo(35)
-                        make.top.equalToSuperview().inset(10)
+                        make.top.equalTo(cell.locationItem.snp.bottom)
                         make.bottom.equalToSuperview().inset(10)
                     }
                 }
