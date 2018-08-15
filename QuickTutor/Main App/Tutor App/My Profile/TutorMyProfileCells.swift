@@ -282,10 +282,10 @@ class ProfilePicTableViewCell : BaseTableViewCell {
             if let current = next?.next?.next {
                 if current is TutorMyProfile {
                     let vc = (current as! TutorMyProfile)
-					vc.displayProfileImageViewer(imageCount: vc.tutor.images.filter({$0.value != ""}).count, userId: vc.tutor.uid)
+                    vc.displayProfileImageViewer(imageCount: vc.tutor.images.filter({$0.value != ""}).count, userId: vc.tutor.uid)
                 } else {
                     let vc = (current as! LearnerMyProfile)
-					vc.displayProfileImageViewer(imageCount: vc.learner.images.filter({$0.value != ""}).count, userId: vc.learner.uid)
+                    vc.displayProfileImageViewer(imageCount: vc.learner.images.filter({$0.value != ""}).count, userId: vc.learner.uid)
                 }
             }
         }
@@ -662,8 +662,8 @@ class RatingTableViewCell : BaseTableViewCell {
             tableView.reloadData()
         }
     }
-	
-	let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+    
+    let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
     override func configureView() {
         contentView.addSubview(tableView)
@@ -769,14 +769,14 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
         let data = datasource[indexPath.row]
-		
+        
         cell.nameLabel.text = data.studentName
         cell.reviewTextLabel.text = data.message
-        cell.dateSubjectLabel.attributedText = NSMutableAttributedString().bold("\(Int(data.rating)) ", 14, Colors.yellow).bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
+        cell.dateSubjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.yellow).bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
 
-		let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic\(indexPath.row+1)")
-		cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-		
+        let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic\(indexPath.row+1)")
+        cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        
         return cell
     }
     
@@ -808,11 +808,11 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     
     let profilePic : UIImageView = {
         let imageView = UIImageView()
-		
-		imageView.layer.masksToBounds = false
-		imageView.scaleImage()
-		imageView.clipsToBounds = true
-		
+        
+        imageView.layer.masksToBounds = false
+        imageView.scaleImage()
+        imageView.clipsToBounds = true
+        
         return imageView
     }()
     
@@ -889,21 +889,21 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
             make.right.equalToSuperview().inset(3)
         }
     }
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		profilePic.layer.cornerRadius = profilePic.frame.height / 2
-	}
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        profilePic.layer.cornerRadius = profilePic.frame.height / 2
+    }
 }
 
 class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     
     let profilePic : UIImageView = {
         let imageView = UIImageView()
-		
-		imageView.layer.masksToBounds = false
-		imageView.scaleImage()
-		imageView.clipsToBounds = true
-		
+        
+        imageView.layer.masksToBounds = false
+        imageView.scaleImage()
+        imageView.clipsToBounds = true
+        
         return imageView
     }()
     
@@ -952,7 +952,7 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     
     override func applyConstraints() {
         container.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalTo(contentView)
+            make.left.right.bottom.equalTo(contentView).inset(-10)
             make.top.equalTo(contentView).inset(10)
             make.bottom.equalTo(reviewTextLabel).inset(-10)
         }
@@ -979,8 +979,8 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
             make.top.equalTo(nameLabel.snp.bottom).inset(-5)
         }
     }
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		profilePic.layer.cornerRadius = profilePic.frame.height / 2
-	}
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        profilePic.layer.cornerRadius = profilePic.frame.height / 2
+    }
 }
