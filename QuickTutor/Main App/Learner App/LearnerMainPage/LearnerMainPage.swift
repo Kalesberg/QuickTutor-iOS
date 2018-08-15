@@ -132,7 +132,7 @@ class LearnerMainPage : MainPage {
                 .bold(learner.name, 17, .white)
         }
         
-        contentView.sidebar.ratingView.ratingLabel.text = "★  " + String(learner.lRating)
+        contentView.sidebar.ratingView.ratingLabel.text = String(learner.lRating) + "  ★"
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
 		contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
 	

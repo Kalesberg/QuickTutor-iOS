@@ -61,14 +61,13 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
         super.applyConstraints()
         
         subtitleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalTo(navbar.snp.bottom).inset(-20)
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.1)
             make.centerX.equalToSuperview()
         }
         
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(subtitleLabel.snp.bottom)
+            make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalToSuperview().multipliedBy(0.8)
             make.centerX.equalToSuperview()
