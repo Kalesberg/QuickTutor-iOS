@@ -37,7 +37,7 @@ class ProfileImageViewer : InteractableView, Interactable {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		let layout = UICollectionViewFlowLayout()
 
-		layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+		layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
 		layout.scrollDirection = .horizontal
 		layout.minimumInteritemSpacing = 0
 		
@@ -57,7 +57,6 @@ class ProfileImageViewer : InteractableView, Interactable {
 	var delegate : ProfileImageViewerDelegate?
 	
 	init(imageCount: Int, userId: String) {
-		print(imageCount)
 		self.imageCount = imageCount
 		self.userId = userId
 		super.init()
@@ -116,7 +115,7 @@ extension ProfileImageViewer : UICollectionViewDelegate, UICollectionViewDataSou
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		let width = UIScreen.main.bounds.width - 20
+		let width = UIScreen.main.bounds.width - 10
 		return CGSize(width: width, height: collectionView.frame.height)
 	}
 }
@@ -124,7 +123,6 @@ extension ProfileImageViewer : UIScrollViewDelegate {
 	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 		let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
 		let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
-		
 		if let visibleIndexPath = collectionView.indexPathForItem(at: visiblePoint) {
 			pageControl.currentPage = visibleIndexPath.item
 		}
@@ -152,6 +150,7 @@ class ProfileImageViewerCollectionViewCell : UICollectionViewCell {
 	
 	func configureCollectionViewCell() {
 		addSubview(profileImageView)
+
 		applyConstraints()
 	}
 	

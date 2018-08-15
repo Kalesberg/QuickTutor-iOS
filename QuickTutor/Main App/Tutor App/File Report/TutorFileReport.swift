@@ -26,11 +26,13 @@ class TutorFileReport : BaseViewController {
 		didSet {
 			if datasource.count == 0 {
 				let view = TutorCardCollectionViewBackground()
-							
 				view.label.attributedText =	NSMutableAttributedString().bold("No recent sessions!", 22, .white)
 				view.label.textAlignment = .center
 				view.label.numberOfLines = 0
+				
 				contentView.tableView.backgroundView = view
+			} else {
+				contentView.tableView.backgroundView = nil
 			}
 			contentView.tableView.reloadData()
 		}
@@ -39,7 +41,7 @@ class TutorFileReport : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.tutor.uid, type: "tutor") { (sessions) in
+		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: "tutor") { (sessions) in
 			if let sessions = sessions {
 				self.datasource = sessions.sorted(by: { $0.endTime > $1.endTime })
 			}

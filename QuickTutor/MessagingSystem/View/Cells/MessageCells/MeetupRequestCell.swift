@@ -458,7 +458,7 @@ class SessionRequestCellButtonView: UIView {
     func setupAsAccepted(eventAlreadyAdded: Bool) {
         setupAsSingleButton()
         setButtonTitleColors(Colors.navBarGreen)
-        setButtonTitles(eventAlreadyAdded ? "Event Added to Calendar" : "Add to Calender")
+        setButtonTitles(eventAlreadyAdded ? "Event Added to Calendar" : "Add to Calendar")
     }
     
     func setupAsDeclined() {

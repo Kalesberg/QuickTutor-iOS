@@ -219,7 +219,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             }
         } else if touchStartView is TutorCardProfilePic {
             let vc = (next?.next?.next as! TutorConnect)
-			vc.displayProfileImageViewer(imageCount: self.datasource.images.count, userId: self.datasource.uid)
+			vc.displayProfileImageViewer(imageCount: datasource.images.filter({$0.value != ""}).count, userId: self.datasource.uid)
 		}
     }
 }

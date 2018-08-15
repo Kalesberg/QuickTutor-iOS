@@ -8,7 +8,8 @@
 
 import Foundation
 import UIKit
-
+import FirebaseUI
+import SDWebImage
 
 class TutorSettingsView : LearnerSettingsView {
     
@@ -84,6 +85,7 @@ class TutorSettings : BaseViewController {
         return view as! TutorSettingsView
     }
 	
+	let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 	var tutor : AWTutor!
 	var wasHidden : Bool!
 	
@@ -99,7 +101,7 @@ class TutorSettings : BaseViewController {
 		
 		contentView.visibleOnQT.toggle.addTarget(self, action: #selector(toggleSwitched(_:)), for: .touchUpInside)
 		
-		contentView.profileView.imageView.loadUserImages(by: tutor.images["image1"]!)
+		contentView.profileView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
 		contentView.profileView.label.text = "\(tutor.name!)\n\(tutor.phone.formatPhoneNumber())\n\(tutor.email!)"
     }
     override func loadView() {
