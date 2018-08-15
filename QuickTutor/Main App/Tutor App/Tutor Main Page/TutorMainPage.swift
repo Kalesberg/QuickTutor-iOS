@@ -163,7 +163,8 @@ class TutorMainPage : MainPage {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+//		contentView.sidebar.profileView.profilePicView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+//		contentView.sidebar.profileView.profilePicView.layer.cornerRadius = contentView.sidebar.profileView.profilePicView.frame.height / 2
         contentView.sidebar.profileView.backgroundColor = UIColor(hex: "5785D4")
     }
     

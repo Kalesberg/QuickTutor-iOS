@@ -435,9 +435,9 @@ extension TutorConnect : UpdatedFiltersCallback {
 	}
 }
 
-extension TutorConnect : AWImageViewer {
+extension TutorConnect : ProfileImageViewerDelegate {
 	func dismiss() {
-		self.dismissAWImageViewer()
+		self.dismissProfileImageViewer()
 	}
 }
 

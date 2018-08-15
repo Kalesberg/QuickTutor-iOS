@@ -62,12 +62,12 @@ struct TutorReview {
 	let studentName : String
 	let date : String
 	let message : String
-	let imageURL : String
-	let subject : String
+ 	let subject : String
 	
 	let price : Int
 	let rating : Double
 	let duration : Int
+	let reviewerId : String
 	
 	init(dictionary : [String : Any]) {
 		let timestamp = dictionary["dte"] as? Int ?? 0
@@ -76,9 +76,8 @@ struct TutorReview {
 		message 	= dictionary["m"] as? String ?? ""
 		subject 	= dictionary["sbj"] as? String ?? ""
 		duration 	= dictionary["dur"] as? Int ?? 0
-		imageURL 	= dictionary["img"] as? String ?? ""
 		studentName = dictionary["nm"] as? String ?? ""
-		
+		reviewerId  = dictionary["uid"] as? String ?? ""
 		rating 		= dictionary["r"] as? Double ?? 0.0
 		
 	}

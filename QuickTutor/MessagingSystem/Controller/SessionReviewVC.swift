@@ -168,7 +168,7 @@ class SessionReviewVC: UIViewController {
         }
         let rating = Double(SessionService.shared.rating)
         let duration = SessionService.shared.session.lengthInMinutes()
-        
+		
         guard let uid = Auth.auth().currentUser?.uid else { return }
         DataService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
             guard let name = user?.formattedName,
@@ -184,7 +184,8 @@ class SessionReviewVC: UIViewController {
             reviewDict["img"] = profilePicUrl
             reviewDict["nm"] = name
             reviewDict["r"] = rating
-            
+            reviewDict["uid"] = uid
+			
             Database.database().reference().child("review").child(id).childByAutoId().setValue(reviewDict)
             let vc = AccountService.shared.currentUserType == .tutor ? TutorPageViewController() : LearnerPageViewController()
             self.navigationController?.pushViewController(vc, animated: true)

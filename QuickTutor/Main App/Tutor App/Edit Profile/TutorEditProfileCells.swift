@@ -8,14 +8,16 @@
 
 import Foundation
 import UIKit
+import FirebaseUI
 
 class ProfileImagesTableViewCell : BaseTableViewCell {
-	
+	let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+
 	var image1 = ProfilePicImageView()
 	var image2 = ProfilePicImageView()
 	var image3 = ProfilePicImageView()
 	var image4 = ProfilePicImageView()
-	
+
 	override func configureView() {
 		contentView.addSubview(image1)
 		contentView.addSubview(image2)
@@ -23,21 +25,8 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 		contentView.addSubview(image4)
 		super.configureView()
 		
-		let images : [ProfilePicImageView] = [image1, image2, image3, image4]
-		
-		for (index, image) in images.enumerated() {
-			if AccountService.shared.currentUserType == .learner {
-				image.picView.loadUserImages(by: CurrentUser.shared.learner.images["image\(index+1)"]!)
-				image.buttonImageView.image = (CurrentUser.shared.learner.images["image\(index+1)"] == "") ? UIImage(named: "add-image-profile") : UIImage(named: "remove-image")
-			} else {
-				image.picView.loadUserImages(by: CurrentUser.shared.tutor.images["image\(index+1)"]!)
-				image.buttonImageView.image = (CurrentUser.shared.tutor.images["image\(index+1)"] == "") ? UIImage(named: "add-image-profile") : UIImage(named: "remove-image")
-			}
-		}
-		
 		selectionStyle = .none
 		backgroundColor = .clear
-		
 		applyConstraints()
 	}
 	
@@ -79,10 +68,16 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 			make.centerY.equalToSuperview()
 		}
 	}
-	override func handleNavigation() {
-		guard let current = UIApplication.getPresentedViewController() else {
-			return
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		let imageViews : [ProfilePicImageView] = [image1, image2, image3, image4]
+		for imageView in imageViews {
+			imageView.buttonImageView.image = (imageView.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
 		}
+	}
+	
+	override func handleNavigation() {
+		guard let current = UIApplication.getPresentedViewController() else { return }
 		if touchStartView == image1 {
 			image1.picView.growShrink()
 			AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
@@ -156,9 +151,7 @@ class EditProfileItemTableViewCell : BaseTableViewCell {
 		textField.delegate = self
 		
 		divider.backgroundColor = Colors.divider
-		
 		infoLabel.label.font = Fonts.createBoldSize(15)
-		
 		textField.font = Fonts.createSize(18)
 		
 		applyConstraints()

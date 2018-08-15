@@ -75,6 +75,7 @@ class LearnerMainPageView : MainPageView {
         tableView.layoutIfNeeded()
     }
 }
+
 class LearnerMainPage : MainPage {
     
     override var contentView: LearnerMainPageView {
@@ -83,7 +84,7 @@ class LearnerMainPage : MainPage {
     override func loadView() {
         view = LearnerMainPageView()
     }
-    
+	
     var datasource = [Category : [FeaturedTutor]]()
     var didLoadMore = false
     var learner : AWLearner!
@@ -133,17 +134,20 @@ class LearnerMainPage : MainPage {
         
         contentView.sidebar.ratingView.ratingLabel.text = "★  " + String(learner.lRating)
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
-        contentView.sidebar.profileView.profilePicView.loadUserImages(by: learner.images["image1"]!)
-        contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
-    }
-
+		contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
+	
+	}
     private func configureView() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
         contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
     }
-    
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+	}
+	
     func displayMessagesTutorial() {
         
         let image = UIImageView()
@@ -280,7 +284,6 @@ class LearnerMainPage : MainPage {
             UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
                 self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.minX
             })
-            
             showBackground()
             if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
                 displaySidebarTutorial()

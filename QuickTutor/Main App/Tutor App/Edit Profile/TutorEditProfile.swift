@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import FirebaseUI
+import SDWebImage
 
 protocol TutorPreferenceChange {
     func inPersonPressed()
@@ -77,7 +79,9 @@ class TutorEditProfileView : MainLayoutTitleTwoButton, Keyboardable {
 }
 
 class TutorEditProfile : BaseViewController, TutorPreferenceChange {
-    
+	
+	let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+	
     override var contentView: TutorEditProfileView {
         return view as! TutorEditProfileView
     }
@@ -298,7 +302,25 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! ProfileImagesTableViewCell
-            
+			
+			let image1Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1")
+			cell.image1.picView.sd_setImage(with: image1Ref, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder")) { (_, error, _, reference) in
+				cell.image1.buttonImageView.image = (cell.image1.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+			}
+			let image2Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic2")
+			cell.image2.picView.sd_setImage(with: image2Ref, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder")) { (_, error, _, reference) in
+				cell.image2.buttonImageView.image = (cell.image2.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+			}
+			let image3Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic3")
+			cell.image3.picView.sd_setImage(with: image3Ref, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder")) { (_, error, _, reference) in
+				cell.image3.buttonImageView.image = (cell.image3.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+			}
+			let image4Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic4")
+			cell.image4.picView.sd_setImage(with: image4Ref, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder")) { (_, error, _, reference) in
+				cell.image4.buttonImageView.image = (cell.image4.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+			}
+			cell.layoutSubviews()
+			
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
@@ -489,7 +511,7 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
             if imageViews[index].picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
                 index = checkForEmptyImagesBeforeCurrentIndex()
             }
-            FirebaseData.manager.uploadImage(data: data, number: String(index + 1)) { (error, imageUrl) in
+            FirebaseData.manager.uploadImage(data: data, number: String(index+1)) { (error, imageUrl) in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else if let imageUrl = imageUrl {
@@ -497,8 +519,12 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
                     self.uploadImageUrl(imageUrl: imageUrl, number: String(index+1))
                 }
             }
-            imageViews[index].picView.image = image.circleMasked
-            imageViews[index].buttonImageView.image = UIImage(named: "remove-image")
+			SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index+1)), fromDisk: false) {
+				SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index+1)), toDisk: false) {
+					imageViews[index].picView.image = image
+					imageViews[index].buttonImageView.image = UIImage(named: "remove-image")
+				}
+			}
         }
         setAndSaveImage()
     }
@@ -506,7 +532,11 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
     func circleCropDidCancel() {
         print("cancelled")
     }
-    
+	
+	func getKeyForCachedImage(number: String) -> String {
+		return storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic" + number).fullPath
+	}
+	
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 

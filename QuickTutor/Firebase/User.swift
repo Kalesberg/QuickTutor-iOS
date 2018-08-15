@@ -12,6 +12,7 @@ import FirebaseDatabase
 import FirebaseStorage
 import Stripe
 import CoreLocation
+import SDWebImage
 
 import SwiftKeychainWrapper
 
@@ -94,7 +95,7 @@ class FirebaseData {
 		childNodes["/tutor-info/\(uid)"] = NSNull()
 		childNodes["/tutor_loc/\(uid)"] = NSNull()
 		childNodes["/userSessions/\(uid)"] = NSNull()
-		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "tutor"]
+		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "tutor", "name": CurrentUser.shared.learner.name, "phone": CurrentUser.shared.learner.phone, "email" : CurrentUser.shared.learner.email, "birthday" : CurrentUser.shared.learner.birthday]
 		
 		for subcat in subcategory {
 			guard let category = SubjectStore.findCategoryBy(subcategory: subcat) else { continue }
@@ -117,7 +118,6 @@ class FirebaseData {
 		
 		childNodes["/account/\(uid)"] = NSNull()
 		childNodes["/connections/\(uid)"] = NSNull()
-//		childNodes["/notificationPreferences/\(uid)"] = NSNull()
 		childNodes["/readReceipts/\(uid)"] = NSNull()
 		childNodes["/review/\(uid)"] = NSNull()
 		childNodes["/student-info/\(uid)"] = NSNull()
@@ -125,7 +125,7 @@ class FirebaseData {
 		childNodes["/tutor-info/\(uid)"] = NSNull()
 		childNodes["/tutor_loc/\(uid)"] = NSNull()
 		childNodes["/userSessions/\(uid)"] = NSNull()
-		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "both"]
+		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "both", "name": CurrentUser.shared.learner.name, "phone": CurrentUser.shared.learner.phone, "email" : CurrentUser.shared.learner.email, "birthday" : CurrentUser.shared.learner.birthday]
 
 		for subcat in subcategory {
 			childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
@@ -158,7 +158,7 @@ class FirebaseData {
 		
 		childNodes["/student-info/\(uid)"] = NSNull()
 		childNodes["/account/\(uid)"] = NSNull()
-		childNodes["/deleted/\(uid)"] = ["reason" : reason,"email": CurrentUser.shared.learner.email, "type" : "learner", "time": NSDate().timeIntervalSince1970]
+		childNodes["/deleted/\(uid)"] = ["reason" : reason,"email": CurrentUser.shared.learner.email, "type" : "learner", "time": NSDate().timeIntervalSince1970, "name": CurrentUser.shared.learner.name, "phone": CurrentUser.shared.learner.phone, "email" : CurrentUser.shared.learner.email, "birthday" : CurrentUser.shared.learner.birthday]
 		
 		func removeImages(imageURL: [String]) {
 			imageURL.forEach({
@@ -191,7 +191,8 @@ class FirebaseData {
 			CurrentUser.shared.learner.images["image\(number)"] = ""
 			CurrentUser.shared.tutor.images["image\(number)"] = ""
 		}
-		
+		let reference = self.storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic" + number)
+		SDImageCache.shared().removeImage(forKey: reference.fullPath, fromDisk: true, withCompletion: nil)
 		Storage.storage().reference().child("student-info/\(user.uid)/student-profile-pic\(number)").delete { (error) in
 			if let error = error {
 				print(error.localizedDescription)
@@ -340,12 +341,12 @@ class FirebaseData {
 		}
 	}
 	public func fetchUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]?) -> Void) {
-		var sessions : [UserSession] = []
+		var sessions = [UserSession]()
 		let group = DispatchGroup()
 		
 		func fetchSessions(uid: String, type: String,_ completion: @escaping ([String]?) -> Void) {
 			self.ref.child("userSessions").child(uid).child(type).observeSingleEvent(of: .value) { (snapshot) in
-				guard let value = snapshot.value as? [String : Any] else { print("Failure."); return completion(nil) }
+				guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 				return completion(value.compactMap({$0.key}))
 			}
 		}
@@ -355,30 +356,27 @@ class FirebaseData {
 				for id in sessionIds {
 					group.enter()
 					self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
-						guard let value = snapshot.value as? [String : Any] else { print("failed."); return group.leave() }
-						//check that the session is not more than 1 week old.
-						guard let endTime = value["endTime"] as? Double, endTime > Date().timeIntervalSince1970 - 604800, endTime < Date().adding(minutes: 30).timeIntervalSince1970 else { return group.leave() }
+						guard let value = snapshot.value as? [String : Any] else { return group.leave() }
+						guard
+							let endTime = value["endTime"] as? Double, endTime > Date().timeIntervalSince1970 - 604800,
+							endTime < Date().adding(minutes: 30).timeIntervalSince1970 else { return group.leave() }
 						
 						var session = UserSession(dictionary: value)
 						session.id = id
-						//this will be used to check for 'pending' or 'filed' reports later. For now it just dumps the current session.
+						
 						if type == "learner" && (session.reportStatus == 1 || session.reportStatus == 3) {
 							return
 						}
 						if type == "tutor" && (session.reportStatus == 2 || session.reportStatus == 3) {
 							return
 						}
+						
 						group.enter()
 						self.ref.child("student-info").child(session.otherId).child("nm").observeSingleEvent(of: .value, with: { (snapshot) in
 							if let name = snapshot.value as? String {
 								session.name = name
-							}
-							group.leave()
-						})
-						group.enter()
-						self.ref.child("student-info").child(session.otherId).child("img").child("image1").observeSingleEvent(of: .value, with: { (snapshot) in
-							if let imageURL = snapshot.value as? String {
-								session.imageURl = imageURL
+							} else {
+								session.name = ""
 							}
 							sessions.append(session)
 							group.leave()
@@ -390,7 +388,7 @@ class FirebaseData {
 					completion(sessions)
 				})
 			} else {
-				completion([])
+				completion(nil)
 			}
 		}
 	}
@@ -416,6 +414,7 @@ class FirebaseData {
 					learner.isTutor = snapshot.exists()
 					group.leave()
 				})
+				
 				group.enter()
 				self.fetchLearnerConnections(uid: uid, { (connections) in
 					if let connections = connections {
@@ -659,7 +658,7 @@ class FirebaseData {
 			}
 			self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).downloadURL(completion: { (url, error) in
 				if let error = error {
-					return completion(error,nil)
+					return completion(error, nil)
 				}
 				guard let imageUrl = url?.absoluteString else { return }
 				return completion(nil, imageUrl)

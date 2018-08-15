@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import SnapKit
+import FirebaseUI
+import SDWebImage
 
 class TutorSideBar : Sidebar {
     
@@ -136,7 +138,9 @@ class LearnerSideBar : Sidebar {
 }
 
 class Sidebar : BaseView {
-    
+	
+	let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+	
     var profileView       = ProfileView()
     var ratingView        = RatingView()
     
@@ -194,7 +198,7 @@ class Sidebar : BaseView {
         addSubview(helpItem)
         
         layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1.5), radius: 3.0)
-        
+		
         backgroundColor = Colors.registrationDark
 		
         applyConstraints()
@@ -236,6 +240,9 @@ class Sidebar : BaseView {
             make.width.equalToSuperview().multipliedBy(0.8)
         }
     }
+	override func layoutSubviews() {
+		super.layoutSubviews()
+	}
 
     deinit {
         print("SideBar Deinit")
@@ -275,30 +282,32 @@ class InviteButton : InteractableBackgroundView {
 
 class ProfileView : InteractableBackgroundView {
     
-    var profileView       = BaseView()
-    var profilePicView    = UIImageView() {
-        didSet {
-            print("set profile pic")
-        }
-    }
+    var profileView = BaseView()
+	let profilePicView : UIImageView = {
+		let imageView = UIImageView()
+		
+		imageView.layer.masksToBounds = false
+		imageView.clipsToBounds = true
+		imageView.scaleImage()
+		
+		return imageView
+	}()
     var profileNameView   = UILabel()
     
     override func configureView() {
+		addSubview(profileView)
         super.configureView()
-
-        addSubview(profileView)
-        
+		
         layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1.5), radius: 3.0)
 
         profileView.addSubview(profilePicView)
         profileView.addSubview(profileNameView)
         
         backgroundView.isUserInteractionEnabled = false
-        profilePicView.scaleImage()
-        
+		
         profileNameView.font = Fonts.createBoldSize(16)
-        profileNameView.numberOfLines = 3
-        
+        profileNameView.numberOfLines = 0
+		profilePicView.backgroundColor = .black
         applyConstraints()
     }
     
@@ -313,16 +322,16 @@ class ProfileView : InteractableBackgroundView {
         
         profilePicView.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.27)
+            make.centerY.equalToSuperview()
+            make.height.equalToSuperview()
+			make.width.equalTo(profilePicView.snp.height)
         }
         
         profileNameView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
-            make.height.equalToSuperview()
+            make.bottom.equalToSuperview()
             make.left.equalTo(profilePicView.snp.right).inset(-10)
-            make.right.equalToSuperview().inset(3)
+            make.right.equalToSuperview()
         }
     }
 }

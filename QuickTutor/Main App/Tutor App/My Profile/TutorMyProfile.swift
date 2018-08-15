@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import FirebaseUI
 
 protocol UpdatedTutorCallBack : class {
     func tutorWasUpdated(tutor: AWTutor!)
@@ -27,13 +28,17 @@ class TutorMyProfileView : LearnerMyProfileView {
 }
 
 class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
-    
+	
+	let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+
     override var contentView: TutorMyProfileView {
         return view as! TutorMyProfileView
     }
     
     func tutorWasUpdated(tutor: AWTutor!) {
         self.tutor = tutor
+		let name = tutor.name.split(separator: " ")
+		contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
     }
     
     var tutor : AWTutor! {
@@ -51,8 +56,10 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
         let name = tutor.name.split(separator: " ")
         contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
         //cell.locationLabel.text = tutor.region
-        contentView.profilePics.loadUserImagesWithoutMask(by: tutor.images["image1"]!)
-        //cell.ratingLabel.text = String(tutor.tRating)
+		let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
+		contentView.profilePics.sd_setImage(with: reference, placeholderImage: nil)
+
+		//cell.ratingLabel.text = String(tutor.tRating)
     }
     
     override func loadView() {
@@ -87,15 +94,17 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
             next.delegate = self
             navigationController?.pushViewController(next, animated: true)
         } else if(touchStartView is TutorCardProfilePic) {
-            self.displayAWImageViewer(images: tutor.images.filter({$0.value != ""}))
+			self.displayProfileImageViewer(imageCount: tutor.images.filter({$0.value != ""}).count, userId: tutor.uid)
         }
     }
 }
-extension TutorMyProfile : AWImageViewer {
+
+extension TutorMyProfile : ProfileImageViewerDelegate {
     func dismiss() {
-        self.dismissAWImageViewer()
+        self.dismissProfileImageViewer()
     }
 }
+
 extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -117,7 +126,6 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         switch (indexPath.row) {
             
 //        case 0:
@@ -241,13 +249,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             
         case 3:
 
-            guard let datasource = tutor.reviews else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as!
-                NoRatingsTableViewCell
-                return cell
-            }
-            
-            if datasource.count == 0 {
+            guard let datasource = tutor.reviews, datasource.count != 0 else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as!
                 NoRatingsTableViewCell
                 return cell

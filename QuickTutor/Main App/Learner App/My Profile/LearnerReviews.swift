@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import FirebaseUI
+import SDWebImage
 
 struct Review {
     let fname : String!
@@ -75,7 +77,9 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
 }
 
 class LearnerReviews : BaseViewController {
-    
+	
+	let storageRef = Storage.storage().reference()
+	
     override var contentView: LearnerReviewsView {
         return view as! LearnerReviewsView
     }
@@ -127,18 +131,10 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
         
         cell.nameLabel.text = data.studentName
 		cell.reviewTextLabel.text = data.message
-        
-        let formattedString = NSMutableAttributedString()
-        
-        formattedString
-            .bold("\(Int(data.rating)) ", 14, Colors.yellow)
-            .bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
-        
-        cell.dateSubjectLabel.attributedText = formattedString
-        
-		cell.profilePic.loadUserImages(by: data.imageURL)
-        cell.applyConstraints()
-    
+        cell.dateSubjectLabel.attributedText = NSMutableAttributedString().bold("\(Int(data.rating)) ", 14, Colors.yellow).bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
+		cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+		
+		cell.applyConstraints()
         return cell
     }
     
