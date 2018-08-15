@@ -293,7 +293,7 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
         
         let name = learner.name.split(separator: " ")
         contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
-		let reference = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1")
+		let reference = storageRef.child("student-info").child(learner.uid).child("student-profile-pic1")
 		contentView.profilePics.sd_setImage(with: reference, placeholderImage: nil)
         //contentView.ratingLabel.text = String(learner.lRating)
     }

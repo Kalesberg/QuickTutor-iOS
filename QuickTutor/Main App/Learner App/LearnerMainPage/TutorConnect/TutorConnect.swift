@@ -105,9 +105,7 @@ class TutorConnectView : MainLayoutTwoButton {
         }
         collectionView.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.bottom.width.centerX.equalToSuperview()
         }
         addPaymentModal.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()

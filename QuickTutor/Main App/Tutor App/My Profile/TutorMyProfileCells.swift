@@ -952,13 +952,13 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     
     override func applyConstraints() {
         container.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalTo(contentView).inset(-10)
+            make.left.right.bottom.equalTo(contentView)
             make.top.equalTo(contentView).inset(10)
             make.bottom.equalTo(reviewTextLabel).inset(-10)
         }
         
         profilePic.snp.makeConstraints { (make) in
-            make.left.equalToSuperview()
+            make.left.equalToSuperview().inset(10)
             make.height.width.equalTo(50)
             make.top.equalTo(container).inset(7)
         }

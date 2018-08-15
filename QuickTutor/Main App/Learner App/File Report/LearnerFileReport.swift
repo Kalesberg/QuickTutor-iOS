@@ -37,7 +37,8 @@ class LearnerFileReportView : MainLayoutHeader {
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = Colors.backgroundDark
 		tableView.estimatedSectionHeaderHeight = 85
-		
+		tableView.backgroundView = TutorCardCollectionViewBackground()
+
 		return tableView
 	}()
 
@@ -523,12 +524,13 @@ class LearnerFileReport : BaseViewController {
 		didSet {
 			if datasource.count == 0 {
 				let view = TutorCardCollectionViewBackground()
-				
 				view.label.attributedText = NSMutableAttributedString().bold("No recent sessions!", 22, .white)
 				view.label.textAlignment = .center
 				view.label.numberOfLines = 0
 				
 				contentView.tableView.backgroundView = view
+			} else {
+				contentView.tableView.backgroundView = nil
 			}
 			contentView.tableView.reloadData()
 		}
@@ -546,11 +548,15 @@ class LearnerFileReport : BaseViewController {
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(CustomFileReportTableViewCell.self, forCellReuseIdentifier: "fileReportCell")
+		
+		contentView.navbar.backgroundColor = Colors.learnerPurple
+		contentView.statusbarView.backgroundColor = Colors.learnerPurple
     }
 	
     override func loadView() {
         view = LearnerFileReportView()
     }
+	
 	private func getFormattedTime(unixTime: TimeInterval) -> String {
 		let date = Date(timeIntervalSince1970: unixTime)
 		let dateFormatter = DateFormatter()

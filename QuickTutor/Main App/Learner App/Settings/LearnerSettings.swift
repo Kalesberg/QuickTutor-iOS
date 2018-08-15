@@ -9,6 +9,8 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
+import FirebaseUI
+import SDWebImage
 
 class LearnerSettingsView : MainLayoutTitleBackButton {
     
@@ -299,17 +301,25 @@ class ItemToggle : SettingsItem {
 class SettingsProfileView : ArrowItem {
     
     var imageContainer = BaseView()
-    var imageView = UIImageView()
+	
+	var profileImageView : UIImageView = {
+		let imageView = UIImageView()
+		
+		imageView.layer.masksToBounds = false
+		imageView.clipsToBounds = true
+		
+		return imageView
+	}()
     
     override func configureView() {
         addSubview(imageContainer)
-        imageContainer.addSubview(imageView)
+        imageContainer.addSubview(profileImageView)
         super.configureView()
         
         isUserInteractionEnabled = true
         
-        imageView.isUserInteractionEnabled = false
-        imageView.scaleImage()
+        profileImageView.isUserInteractionEnabled = false
+        profileImageView.scaleImage()
         
         label.font = Fonts.createSize(14)
 		
@@ -319,15 +329,13 @@ class SettingsProfileView : ArrowItem {
     override func applyConstraints() {
         
         imageContainer.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.left.equalToSuperview()
-            make.height.equalToSuperview()
+            make.top.left.height.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.27)
         }
         
-        imageView.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.7)
+        profileImageView.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.8)
+			make.height.equalTo(profileImageView.snp.width)
             make.center.equalToSuperview()
         }
         
@@ -351,6 +359,10 @@ class SettingsProfileView : ArrowItem {
             make.width.equalToSuperview()
         }
     }
+	
+	override func layoutSubviews() {
+		profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+	}
 }
 
 
@@ -567,7 +579,9 @@ class LearnerSettings : BaseViewController {
     override func loadView() {
         view = LearnerSettingsView()
     }
-        
+	
+	let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.layoutIfNeeded()
@@ -577,7 +591,7 @@ class LearnerSettings : BaseViewController {
 			return
 		}
 		contentView.profileView.label.text = "\(learner.name!)\n\(learner.phone.formatPhoneNumber())\n\(learner.email!)"
-        contentView.profileView.imageView.loadUserImages(by: learner.images["image1"]!)
+        contentView.profileView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
     }
     
     override func viewDidLayoutSubviews() {
