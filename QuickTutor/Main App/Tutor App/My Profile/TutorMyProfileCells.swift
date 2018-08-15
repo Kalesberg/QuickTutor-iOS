@@ -776,7 +776,7 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
         let formattedString = NSMutableAttributedString()
         
         formattedString
-            .bold("\(Int(data.rating)) ", 14, Colors.yellow)
+            .bold("\(Int(data.rating)) ★", 14, Colors.yellow)
             .bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
         
         cell.dateSubjectLabel.attributedText = formattedString
@@ -847,14 +847,6 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
         return label
     }()
     
-    let star : UIImageView = {
-        let view = UIImageView()
-        
-        view.image = #imageLiteral(resourceName: "yellow-star")
-        
-        return view
-    }()
-    
     let container = UIView()
     
     override func configureView() {
@@ -863,7 +855,6 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
         container.addSubview(nameLabel)
         container.addSubview(dateSubjectLabel)
         container.addSubview(reviewTextLabel)
-        container.addSubview(star)
         super.configureView()
         
         applyConstraints()
@@ -892,14 +883,8 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
             make.centerY.equalToSuperview().multipliedBy(0.7)
         }
         
-        star.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel.snp.right).inset(-8)
-            make.centerY.equalTo(nameLabel)
-            make.height.width.equalTo(14)
-        }
-        
         dateSubjectLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(star.snp.right).inset(-1)
+            make.left.equalTo(nameLabel.snp.right).inset(-8)
             make.centerY.equalTo(nameLabel)
         }
         
@@ -951,14 +936,6 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
         return label
     }()
     
-    let star : UIImageView = {
-        let view = UIImageView()
-        
-        view.image = #imageLiteral(resourceName: "yellow-star")
-        
-        return view
-    }()
-    
     let container = UIView()
     
     override func configureView() {
@@ -967,7 +944,6 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
         container.addSubview(nameLabel)
         container.addSubview(dateSubjectLabel)
         container.addSubview(reviewTextLabel)
-        container.addSubview(star)
         super.configureView()
         
         contentView.backgroundColor = .clear
@@ -984,7 +960,7 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
         }
         
         profilePic.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(7)
+            make.left.equalToSuperview()
             make.height.width.equalTo(50)
             make.top.equalTo(container).inset(7)
         }
@@ -994,14 +970,8 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
             make.top.equalTo(profilePic).inset(5)
         }
         
-        star.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel.snp.right).inset(-8)
-            make.centerY.equalTo(nameLabel)
-            make.height.width.equalTo(14)
-        }
-        
         dateSubjectLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(star.snp.right).inset(-1)
+            make.left.equalTo(nameLabel.snp.right).inset(-8)
             make.centerY.equalTo(nameLabel)
         }
         

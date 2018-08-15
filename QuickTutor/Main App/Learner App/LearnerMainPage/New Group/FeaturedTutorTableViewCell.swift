@@ -112,11 +112,19 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		cell.featuredTutor.region.text = datasource[indexPath.item].region
 		cell.featuredTutor.subject.text = datasource[indexPath.item].subject
 		
-		let formattedString = NSMutableAttributedString()
-		formattedString
-            .bold("\(datasource[indexPath.item].rating)  ", 14, Colors.gold)
-			.regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)
-		cell.featuredTutor.ratingLabel.attributedText = formattedString
+        let formattedString = NSMutableAttributedString()
+        
+        formattedString
+            .bold("\(datasource[indexPath.item].rating) ", 14, Colors.gold)
+        
+        cell.featuredTutor.ratingLabel.attributedText = formattedString
+        
+        let formattedString2 = NSMutableAttributedString()
+        
+        formattedString2
+            .regular("(\(datasource[indexPath.item].reviews) ratings)", 12, Colors.gold)
+        
+        cell.featuredTutor.numOfRatingsLabel.attributedText = formattedString2
         cell.layer.cornerRadius = 6
         cell.featuredTutor.applyDefaultShadow()
 		

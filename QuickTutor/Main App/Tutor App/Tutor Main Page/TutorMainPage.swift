@@ -193,7 +193,7 @@ class TutorMainPage : MainPage {
                 .bold(tutor.name, 17, .white)
         }
         
-        contentView.sidebar.ratingView.ratingLabel.text = "★  " + String(tutor.tRating)
+        contentView.sidebar.ratingView.ratingLabel.text = String(tutor.tRating) + "  ★"
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
         contentView.sidebar.profileView.profilePicView.loadUserImages(by: tutor.images["image1"]!)
     }
