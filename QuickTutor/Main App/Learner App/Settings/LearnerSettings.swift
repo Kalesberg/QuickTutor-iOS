@@ -520,23 +520,33 @@ class SettingsScrollView : BaseScrollView {
                 navigationController.pushViewController(next, animated: true)
             }
         } else if (touchStartView is CommunityGuidelines) {
-            guard let url = URL(string: "https://www.quicktutor.com/community/community-guidelines") else {
-                return
-            }
-            if #available(iOS 10, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
+            let next = WebViewVC()
+            next.contentView.title.label.text = "Community Guidelines"
+            next.url = "https://www.quicktutor.com/community/community-guidelines"
+            next.loadAgreementPdf()
+            navigationController.pushViewController(next, animated: true)
+//            guard let url = URL(string: "https://www.quicktutor.com/community/community-guidelines") else {
+//                return
+//            }
+//            if #available(iOS 10, *) {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            } else {
+//                UIApplication.shared.openURL(url)
+//            }
         } else if (touchStartView is UserSafety) {
-            guard let url = URL(string: "https://www.quicktutor.com/community/user-safety") else {
-                return
-            }
-            if #available(iOS 10, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
+            let next = WebViewVC()
+            next.contentView.title.label.text = "User Safety"
+            next.url = "https://www.quicktutor.com/community/user-safety"
+            next.loadAgreementPdf()
+            navigationController.pushViewController(next, animated: true)
+//            guard let url = URL(string: "https://www.quicktutor.com/community/user-safety") else {
+//                return
+//            }
+//            if #available(iOS 10, *) {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            } else {
+//                UIApplication.shared.openURL(url)
+//            }
         } else if(touchStartView is RateUs) {
             SocialMedia.rateApp(appUrl: "itms-apps://itunes.apple.com/app/id1388092698", webUrl: "", completion: { (success) in
             })

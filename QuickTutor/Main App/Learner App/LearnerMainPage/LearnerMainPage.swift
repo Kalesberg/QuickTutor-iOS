@@ -317,12 +317,17 @@ class LearnerMainPage : MainPage {
         } else if(touchStartView == contentView.sidebar.legalItem) {
             hideSidebar()
             hideBackground()
-            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else { return }
-            if #available(iOS 10, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
+            let next = WebViewVC()
+            next.contentView.title.label.text = "Terms of Service"
+            next.url = "https://www.quicktutor.com/legal/terms-of-service"
+            next.loadAgreementPdf()
+            navigationController?.pushViewController(next, animated: true)
+//            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else { return }
+//            if #available(iOS 10, *) {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            } else {
+//                UIApplication.shared.openURL(url)
+//            }
         } else if(touchStartView == contentView.sidebar.helpItem) {
             navigationController?.pushViewController(LearnerHelp(), animated: true)
             hideSidebar()

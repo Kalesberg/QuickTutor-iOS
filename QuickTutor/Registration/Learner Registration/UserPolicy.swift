@@ -294,14 +294,19 @@ class UserPolicy : BaseViewController {
 		} else if (touchStartView == contentView.declineButton) {
 			declined()
 		} else if (touchStartView == contentView.learnMoreButton) {
-			guard let url = URL(string: "https://www.quicktutor.com") else {
-				return
-			}
-			if #available(iOS 10, *) {
-				UIApplication.shared.open(url, options: [:], completionHandler: nil)
-			} else {
-				UIApplication.shared.openURL(url)
-			}
+            let next = WebViewVC()
+            next.contentView.title.label.text = "Non-Discrimination Policy"
+            next.url = "https://www.quicktutor.com/community/support"
+            next.loadAgreementPdf()
+            navigationController?.pushViewController(next, animated: true)
+//            guard let url = URL(string: "https://www.quicktutor.com") else {
+//                return
+//            }
+//            if #available(iOS 10, *) {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            } else {
+//                UIApplication.shared.openURL(url)
+//            }
 		}
 	}
 }

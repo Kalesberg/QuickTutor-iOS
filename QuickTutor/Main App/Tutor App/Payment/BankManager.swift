@@ -12,12 +12,13 @@ import Stripe
 
 class BankManagerView : MainLayoutTitleBackButton {
     
-    let subtitleLabel : LeftTextLabel = {
-        let label = LeftTextLabel()
+    let subtitleLabel : UILabel = {
+        let label = UILabel()
         
-        label.label.text = "Payout Methods"
-        label.label.textAlignment = .left
-        label.label.font = Fonts.createBoldSize(20)
+        label.text = "Payout Methods"
+        label.textAlignment = .left
+        label.font = Fonts.createBoldSize(20)
+        label.textColor = .white
         
         return label
     }()
@@ -48,21 +49,14 @@ class BankManagerView : MainLayoutTitleBackButton {
     override func applyConstraints() {
         super.applyConstraints()
         subtitleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom)
-            make.width.equalToSuperview().multipliedBy(0.85)
-            make.height.equalToSuperview().multipliedBy(0.1)
+            make.top.equalTo(navbar.snp.bottom).inset(-30)
+            make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
         
-        subtitleLabel.label.snp.remakeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.25)
-            make.width.equalToSuperview()
-        }
-        
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(subtitleLabel.snp.bottom).inset(-20)
-            make.width.equalToSuperview().multipliedBy(0.85)
+            make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
+            make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalToSuperview().multipliedBy(0.5)
             make.centerX.equalToSuperview()
         }
@@ -229,7 +223,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return 50
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
