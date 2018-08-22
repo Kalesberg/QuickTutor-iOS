@@ -257,6 +257,14 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 				cell.label2.snp.updateConstraints { (make) in
 					make.height.equalTo(55)
 				}
+                
+                cell.label1.snp.makeConstraints { (make) in
+                    make.top.equalToSuperview().inset(8)
+                    make.left.equalToSuperview().inset(20)
+                }
+                
+                cell.label1.textColor = .white
+                
 				return cell
 			}
 			
@@ -266,6 +274,14 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 				cell.label2.snp.updateConstraints { (make) in
 					make.height.equalTo(55)
 				}
+                
+                cell.label1.snp.makeConstraints { (make) in
+                    make.top.equalToSuperview().inset(8)
+                    make.left.equalToSuperview().inset(20)
+                }
+                
+                cell.label1.textColor = .white
+                
 				return cell
 			}
 			

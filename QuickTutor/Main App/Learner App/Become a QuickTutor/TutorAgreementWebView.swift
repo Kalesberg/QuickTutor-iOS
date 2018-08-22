@@ -9,15 +9,13 @@
 import Foundation
 import UIKit
 
-class TutorAgreementWebView : MainLayoutTitleBackButton {
+class MainLayoutWebView : MainLayoutTitleBackButton {
     
     let webView = UIWebView()
     
     override func configureView() {
         addSubview(webView)
         super.configureView()
-        
-        title.label.text = "Tutor Agreement"
     }
     
     override func applyConstraints() {
@@ -32,23 +30,25 @@ class TutorAgreementWebView : MainLayoutTitleBackButton {
 }
 
 
-class TutorAgreementWebVC : BaseViewController {
+
+class WebViewVC : BaseViewController {
     
-    override var contentView: TutorAgreementWebView {
-        return view as! TutorAgreementWebView
+    override var contentView: MainLayoutWebView {
+        return view as! MainLayoutWebView
     }
     
     override func loadView() {
-        view = TutorAgreementWebView()
+        view = MainLayoutWebView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadAgreementPdf()
     }
     
+    var url : String = ""
+    
     func loadAgreementPdf() {
-        let url = URL(string: "https://quicktutor.now.sh/ita.pdf")
+        let url = URL(string: self.url)
         
         displayLoadingOverlay()
         if let unwrappedURL = url {
@@ -70,6 +70,5 @@ class TutorAgreementWebVC : BaseViewController {
             task.resume()
         }
         dismissOverlay()
-        print("loaded url")
     }
 }

@@ -14,12 +14,13 @@ import Stripe
 
 class CardManagerView : MainLayoutTitleBackButton {
 	
-	let subtitleLabel : LeftTextLabel = {
-		let label = LeftTextLabel()
+	let subtitleLabel : UILabel = {
+		let label = UILabel()
 		
-		label.label.text = "Payment Methods"
-		label.label.textAlignment = .left
-		label.label.font = Fonts.createBoldSize(20)
+		label.text = "Payment Methods"
+		label.textAlignment = .left
+		label.font = Fonts.createBoldSize(20)
+        label.textColor = .white
 		
 		return label
 	}()
@@ -49,15 +50,14 @@ class CardManagerView : MainLayoutTitleBackButton {
 	override func applyConstraints() {
 		super.applyConstraints()
 		subtitleLabel.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom)
+			make.top.equalTo(navbar.snp.bottom).inset(-30)
 			make.width.equalToSuperview().multipliedBy(0.9)
-			make.height.equalToSuperview().multipliedBy(0.08)
 			make.centerX.equalToSuperview()
 		}
 		
 		tableView.snp.makeConstraints { (make) in
-			make.top.equalTo(subtitleLabel.snp.bottom).inset(-20)
-			make.width.equalToSuperview().multipliedBy(0.85)
+			make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
+			make.width.equalToSuperview().multipliedBy(0.9)
 			make.height.equalToSuperview().multipliedBy(0.5)
 			make.centerX.equalToSuperview()
 		}
@@ -107,7 +107,6 @@ class CardManager : BaseViewController {
 		contentView.tableView.dataSource = self
 		contentView.tableView.register(CardManagerTableViewCell.self, forCellReuseIdentifier: "cardCell")
 		contentView.tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
-
 	}
 	
 	private func setCustomer() {
@@ -212,7 +211,7 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 30
+		return 50
 	}
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

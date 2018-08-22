@@ -334,16 +334,21 @@ class TutorMainPage : MainPage {
             hideSidebar()
             hideBackground()
         } else if(touchStartView == contentView.sidebar.legalItem) {
-            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else {
-                return
-            }
-            if #available(iOS 10, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
             hideSidebar()
             hideBackground()
+            let next = WebViewVC()
+            next.contentView.title.label.text = "Terms of Service"
+            next.url = "https://www.quicktutor.com/legal/terms-of-service"
+            next.loadAgreementPdf()
+            navigationController?.pushViewController(next, animated: true)
+//            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else {
+//                return
+//            }
+//            if #available(iOS 10, *) {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            } else {
+//                UIApplication.shared.openURL(url)
+//            }
         } else if(touchStartView == contentView.sidebar.helpItem) {
             navigationController?.pushViewController(TutorHelp(), animated: true)
             hideSidebar()
@@ -464,7 +469,7 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
 class UnlockCellView : BaseView {
 	let lockImageView : UIImageView = {
 		let imageView = UIImageView()
-		imageView.image = UIImage(named: "registration-ssn-lock")
+		imageView.image = #imageLiteral(resourceName: "bigLock")
 		return imageView
 	}()
 	
@@ -478,7 +483,6 @@ class UnlockCellView : BaseView {
 	override func applyConstraints() {
 		lockImageView.snp.makeConstraints { (make) in
 			make.center.equalToSuperview()
-			make.width.height.equalTo(35)
 		}
 	}
 }

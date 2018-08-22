@@ -314,7 +314,11 @@ class TutorPolicy : BaseViewController {
     
     override func handleNavigation() {
         if (touchStartView == contentView.tutorAgreementButton) {
-            navigationController?.pushViewController(TutorAgreementWebVC(), animated: true)
+            let next = WebViewVC()
+            next.contentView.title.label.text = "Tutor Agreement"
+            next.url = "https://www.quicktutor.com/ita.pdf"
+            next.loadAgreementPdf()
+            navigationController?.pushViewController(next, animated: true)
         } else if (touchStartView == contentView.checkBox) {
             accepted()
         } else if (touchStartView == contentView.backButton) {
