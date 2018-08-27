@@ -349,6 +349,14 @@ class TutorMainPage : MainPage {
 //            } else {
 //                UIApplication.shared.openURL(url)
 //            }
+        } else if(touchStartView == contentView.sidebar.shopItem) {
+            hideSidebar()
+            hideBackground()
+            let next = WebViewVC()
+            next.contentView.title.label.text = "Shop"
+            next.url = "https://www.quicktutor.com/shop"
+            next.loadAgreementPdf()
+            navigationController?.pushViewController(next, animated: true)
         } else if(touchStartView == contentView.sidebar.helpItem) {
             navigationController?.pushViewController(TutorHelp(), animated: true)
             hideSidebar()

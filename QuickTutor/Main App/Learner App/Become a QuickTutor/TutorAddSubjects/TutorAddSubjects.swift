@@ -417,7 +417,7 @@ class TutorAddSubjects : BaseViewController {
 				TutorRegistration.subjects = selected
 				navigationController?.pushViewController(TutorPreferences(), animated: true)
 			} else {
-				contentView.errorLabel.text = "Must choose atleast 1 subject."
+				contentView.errorLabel.text = "Must choose at least 1 subject."
 				contentView.errorLabel.isHidden = false
 			}
 		}

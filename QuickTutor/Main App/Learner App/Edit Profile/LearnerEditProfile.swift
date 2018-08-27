@@ -250,7 +250,7 @@ class LearnerEditProfile : BaseViewController {
     private func saveChanges() {
         
         if firstName.count < 1 || lastName.count < 1 {
-           AlertController.genericErrorAlert(self, title: "Invalid Name", message: "Your first and last name must contain atleast 1 character.")
+           AlertController.genericErrorAlert(self, title: "Invalid Name", message: "Your first and last name must contain at least 1 character.")
             return
         }
         
