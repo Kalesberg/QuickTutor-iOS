@@ -162,7 +162,7 @@ enum RequestSessionErrorType : String {
 	case subjectNotChosen = "Please choose a subject for this session"
 	case startTimeNotChosen = "Please choose a start time for this session"
 	case durationNotChosen = "Please choose a duration for this session"
-	case endTimeDurationError = "The total duration of a session must be atleast 15 minutes"
+	case endTimeDurationError = "The total duration of a session must be at least 15 minutes"
 	case priceNotChosen = "Please choose a price for this session"
 	case priceLowerThan5 = "You must select a price between $5 - $1000"
 	case sessionTypeNotChosen = "Please choose a session type for this session"

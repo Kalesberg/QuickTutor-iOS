@@ -73,6 +73,13 @@ class TutorSideBar : Sidebar {
             make.right.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.055)
         }
+        
+        shopItem.snp.makeConstraints { (make) in
+            make.top.equalTo(helpItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.055)
+        }
     }
 }
 
@@ -134,6 +141,13 @@ class LearnerSideBar : Sidebar {
             make.right.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.055)
         }
+        
+        shopItem.snp.makeConstraints { (make) in
+            make.top.equalTo(helpItem.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.055)
+        }
     }
 }
 
@@ -151,6 +165,7 @@ class Sidebar : BaseView {
     
     var legalItem         = LegalSidebarItem()
     var helpItem          = HelpSidebarItem()
+    var shopItem          = ShopSidebarItem()
     
     let optionsLabel : UILabel = {
         let label = UILabel()
@@ -170,14 +185,6 @@ class Sidebar : BaseView {
         return label
     }()
     
-    let buttonContainer : UIView = {
-        let view = UIView()
-        
-        view.backgroundColor = Colors.registrationDark
-        
-        return view
-    }()
-    
     let inviteButton = InviteButton()
     
     static var manager = Sidebar()
@@ -187,8 +194,7 @@ class Sidebar : BaseView {
         addSubview(profileView)
         addSubview(ratingView)
         addSubview(optionsLabel)
-        addSubview(buttonContainer)
-        buttonContainer.addSubview(inviteButton)
+        addSubview(inviteButton)
         addSubview(paymentItem)
         addSubview(settingsItem)
         addSubview(reportItem)
@@ -196,6 +202,7 @@ class Sidebar : BaseView {
         addSubview(moreLabel)
         addSubview(legalItem)
         addSubview(helpItem)
+        addSubview(shopItem)
         
         layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1.5), radius: 3.0)
 		
@@ -229,15 +236,18 @@ class Sidebar : BaseView {
             make.left.equalToSuperview().inset(17)
         }
         
-        buttonContainer.snp.makeConstraints { (make) in
-            make.bottom.width.centerX.equalToSuperview()
-            make.height.equalTo(80)
-        }
-        
         inviteButton.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.height.equalTo(45)
+            make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
+            if UIScreen.main.bounds.height == 480 {
+                make.bottom.equalToSuperview().inset(3)
+                make.height.equalTo(40)
+            } else {
+                make.bottom.equalToSuperview().inset(10)
+                make.height.equalTo(45)
+            }
+            
+            
         }
     }
 	override func layoutSubviews() {
@@ -434,6 +444,16 @@ class HelpSidebarItem : SidebarItem {
         super.configureView()
         
         label.label.text = "Help"
+    }
+}
+
+
+class ShopSidebarItem : SidebarItem {
+    
+    override func configureView() {
+        super.configureView()
+        
+        label.label.text = "Shop"
     }
 }
 
