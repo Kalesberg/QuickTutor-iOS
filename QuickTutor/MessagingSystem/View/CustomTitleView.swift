@@ -27,8 +27,8 @@ class CustomTitleView: UIView {
     
     let activeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Active 1m ago"
-        label.textColor = .white
+
+		label.textColor = .white
         label.font = Fonts.createSize(10)
         label.textAlignment = .center
         return label
@@ -55,7 +55,7 @@ class CustomTitleView: UIView {
         titleLabel.text = user.formattedName
         OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { (result) in
             guard let result = result else { return }
-            self.activeLabel.text = result
+            self.activeLabel.text = ""//result
             self.updateOnlineStatusIndicator()
         }
     }

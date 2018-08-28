@@ -162,21 +162,17 @@ class LearnerMainPage : MainPage {
         tutorial.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        
         tutorial.label.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
         }
-        
         image.snp.makeConstraints { (make) in
             make.edges.equalTo(contentView.messagesButton.image)
         }
-        
         tutorial.imageView.snp.remakeConstraints { (make) in
             make.top.equalTo(image.snp.bottom).inset(-5)
             make.centerX.equalTo(image)
         }
-        
         UIView.animate(withDuration: 1, animations: {
             tutorial.alpha = 1
         }, completion: { (true) in
@@ -246,7 +242,7 @@ class LearnerMainPage : MainPage {
 			} else {
 				self.contentView.tableView.beginUpdates()
 				self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-				self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade )
+				self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade)
 				self.contentView.tableView.endUpdates()
 				self.didLoadMore = false
 			}
@@ -393,27 +389,24 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
+			
             cell.datasource = datasource[category[indexPath.section - 1]]!
             cell.category = category[indexPath.section - 1]
             
             return cell
         }
     }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return datasource.count + 1
     }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = SectionHeader()
-        view.category.text = (section == 0) ? "Categories" : category[section - 1].mainPageData.displayName
-        return view
-    }
-    
+		let view = SectionHeader()
+		view.category.text = (section == 0) ? "Categories" : category[section - 1].mainPageData.displayName
+		return view
+	}
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -423,7 +416,7 @@ extension LearnerMainPage : UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        if maximumOffset - currentOffset <= 70.0 && contentView.tableView.numberOfSections > 1 {
+        if (maximumOffset - currentOffset <= 70.0) && (contentView.tableView.numberOfSections > 1) {
             if !didLoadMore && datasource.count < 12 {
                 didLoadMore = true
                 queryFeaturedTutors()
