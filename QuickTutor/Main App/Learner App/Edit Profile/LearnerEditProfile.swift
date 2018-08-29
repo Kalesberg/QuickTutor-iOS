@@ -95,14 +95,14 @@ class ProfilePicImageView : InteractableView, Interactable {
     
     override func applyConstraints() {
         picView.snp.makeConstraints { (make) in
-            make.height.equalToSuperview()
-            make.width.equalTo(self.snp.height)
+            make.height.equalToSuperview().multipliedBy(0.9)
+            make.width.equalTo(self.snp.height).multipliedBy(0.9)
             make.center.equalToSuperview()
         }
         
         buttonImageView.snp.makeConstraints { (make) in
-            make.bottom.equalTo(picView.snp.bottom)
-            make.right.equalTo(picView.snp.right)
+            make.bottom.equalTo(picView.snp.bottom).inset(-4)
+            make.right.equalTo(picView.snp.right).inset(-4)
             make.height.equalTo(25)
             make.width.equalTo(25)
         }
@@ -110,7 +110,8 @@ class ProfilePicImageView : InteractableView, Interactable {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		picView.layer.masksToBounds = false
-		picView.layer.cornerRadius = picView.frame.height / 2
+		//picView.layer.cornerRadius = picView.frame.height / 2
+        picView.layer.cornerRadius = 8
 		picView.clipsToBounds = true
 	}
 }
@@ -302,20 +303,21 @@ extension LearnerEditProfile : UITableViewDelegate, UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! ProfileImagesTableViewCell
 			let image1Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1")
-			cell.image1.picView.sd_setImage(with: image1Ref, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder")) { (_, error, _, reference) in
-				cell.image1.buttonImageView.image = (cell.image1.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+            
+			cell.image1.picView.sd_setImage(with: image1Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { (_, error, _, reference) in
+				cell.image1.buttonImageView.image = (cell.image1.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
 			}
 			let image2Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic2")
-			cell.image2.picView.sd_setImage(with: image2Ref, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder")) { (_, error, _, reference) in
-				cell.image2.buttonImageView.image = (cell.image2.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+			cell.image2.picView.sd_setImage(with: image2Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { (_, error, _, reference) in
+				cell.image2.buttonImageView.image = (cell.image2.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
 			}
 			let image3Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic3")
-			cell.image3.picView.sd_setImage(with: image3Ref, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder")) { (_, error, _, reference) in
-				cell.image3.buttonImageView.image = (cell.image3.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+			cell.image3.picView.sd_setImage(with: image3Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { (_, error, _, reference) in
+				cell.image3.buttonImageView.image = (cell.image3.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
 			}
 			let image4Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic4")
-			cell.image4.picView.sd_setImage(with: image4Ref, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder")) { (_, error, _, reference) in
-				cell.image4.buttonImageView.image = (cell.image4.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+			cell.image4.picView.sd_setImage(with: image4Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { (_, error, _, reference) in
+				cell.image4.buttonImageView.image = (cell.image4.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
 			}
 			
 			cell.layoutSubviews()

@@ -82,13 +82,13 @@ class BecomeTutorView : BaseLayoutView {
         
         earnMoneyTitle.label.text = "Earn money tutoring"
         
-        earnMoneyBody.text = "No matter who you are, QuickTutor enables you to simply run a freelance tutoring business. QuickTutor makes it simple and safe to earn money and teach people around the world - either in-person with people near you or video call globally."
+        earnMoneyBody.text = "No matter who you are, QuickTutor enables you to simply run a freelance tutoring business. QuickTutor makes it safe and straightforward to earn money and teach people around the world - either in-person with people near you or through video calling, globally."
         
         userFreedomTitle.label.text = "User Freedom"
         userFreedomBody.text = "With QuickTutor, you are in complete control of your schedule, hourly rate, preferences, policies, and how you communicate with learners."
         
         safetyMattersTitle.label.text = "Your Safety Matters"
-        safetyMattersBody.text = "QuickTutor has a rating, review, and reporting system to ensure your safety as a tutor. Remember to fully analyze a learner's profile before meeting up with them in-person."
+        safetyMattersBody.text = "QuickTutor has a rating, reviewing and reporting system to ensure your safety as a tutor. Remember to thoroughly analyze a learner's profile before meeting up with them in-person."
         
         applyConstraints()
     }

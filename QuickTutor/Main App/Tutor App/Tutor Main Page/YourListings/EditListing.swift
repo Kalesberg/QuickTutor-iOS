@@ -453,7 +453,7 @@ class EditListingPhotoTableViewCell : UITableViewCell {
     let addButton : UIButton = {
         let button = UIButton()
         
-        button.setImage(#imageLiteral(resourceName: "plusButton"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "pencil"), for: .normal)
         button.backgroundColor = Colors.green
         button.layer.cornerRadius = 17.5
         
@@ -492,7 +492,7 @@ class EditListingPhotoTableViewCell : UITableViewCell {
 
         labelContainer.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 90, frame: labelContainer.bounds)
 		
-		listingImage.roundCorners([.topRight, .topLeft], radius: 6)
+		listingImage.roundCorners(.allCorners, radius: 10)
 
     }
     
@@ -508,8 +508,8 @@ class EditListingPhotoTableViewCell : UITableViewCell {
         }
         
         addButton.snp.makeConstraints { (make) in
-            make.right.bottom.equalTo(listingImage).inset(-15)
-            make.height.width.equalTo(35)
+            make.right.bottom.equalTo(listingImage).inset(-12)
+            make.height.width.equalTo(34)
         }
         
         labelContainer.snp.makeConstraints { (make) in
