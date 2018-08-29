@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         }
         
         let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
-        let vc = typeOfUser == .learner ? LearnerPageViewController() : YourListing()
+        let vc = typeOfUser == .learner ? LearnerPageViewController() : TutorPageViewController()
         
         FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
             guard successful else {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Lottie
 
 extension UIViewController {
 	func hideKeyboardWhenTappedAround() {
@@ -146,55 +147,30 @@ extension UIViewController {
     }
     
 	func displayLoadingOverlay() {
-
 		if let _ = self.view.viewWithTag(69)  {
 			return
 		}
 		UIApplication.shared.isNetworkActivityIndicatorVisible = true
-		let overlay = LoadingScreen()
-		overlay.tag = 69
-        overlay.frame = self.view.bounds
-		
-        UIView.animate(withDuration: 0.2, animations: {
-            overlay.alpha = 1.0
-            overlay.transform = .identity
-        }, completion: { (true) in
-            UIView.animateKeyframes(withDuration: 1.5, delay: 0, options: [.repeat, .calculationModeLinear], animations: {
-                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.375, animations: {
-                    overlay.dot2.backgroundColor = Colors.yellow
-                    overlay.dot1.backgroundColor = .gray
-                })
-                UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.375, animations: {
-                    overlay.dot4.backgroundColor = Colors.qtRed
-                    overlay.dot2.backgroundColor = .gray
-                })
-                UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.375, animations: {
-                    if AccountService.shared.currentUserType == .learner {
-                        overlay.dot3.backgroundColor = Colors.tutorBlue
-                    } else {
-                        overlay.dot3.backgroundColor = Colors.learnerPurple
-                    }
-                    
-                    overlay.dot4.backgroundColor = .gray
-                })
-                UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 0.375, animations: {
-                    overlay.dot1.backgroundColor = Colors.green
-                    overlay.dot3.backgroundColor = .gray
-                })
-            }, completion: nil )
-        })
-		self.view.addSubview(overlay)
+        
+        let loadingView = LOTAnimationView(name: "loading2")
+        
+        loadingView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
+        loadingView.center = self.view.center
+        loadingView.contentMode = .scaleAspectFill
+        loadingView.loopAnimation = true
+        loadingView.tag = 69
+        
+        view.addSubview(loadingView)
+        
+        loadingView.play()
 	}
 	func dismissOverlay() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        if let overlay = self.view.viewWithTag(69)  {
-            UIView.animate(withDuration: 0.2, animations: {
-                overlay.alpha = 0.0
-                overlay.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
-            }) { _ in
-                overlay.removeFromSuperview()
-            }
-        }
+        
+        let loadingAnimationView = self.view.viewWithTag(69) as! LOTAnimationView
+
+        loadingAnimationView.stop()
+        loadingAnimationView.removeFromSuperview()
 	}
 	
 	func displayProfileImageViewer(imageCount: Int, userId: String) {
