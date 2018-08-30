@@ -70,6 +70,9 @@ playground.xcworkspace
 # Package.pins
 .build/
 
+# npm
+node_modules/
+
 # CocoaPods - Refactored to standalone file
 Pods
 
