@@ -190,6 +190,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - leveldb-library
+    - lottie-ios
     - nanopb
     - Protobuf
     - Reveal-SDK
@@ -251,6 +252,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
   TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
-PODFILE CHECKSUM: 3c63aacab22f183b33646cde5fb37eaaeb8a1a1d
+PODFILE CHECKSUM: 105d1272d0316d2404e7a26eb6e9cddfb0715fd1
 
 COCOAPODS: 1.5.3

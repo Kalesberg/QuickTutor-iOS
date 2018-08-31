@@ -32,6 +32,7 @@ target 'QuickTutor' do
   pod "FBSDKShareKit", "4.24.0"
   pod "FBSDKCoreKit", "4.24.0"
   pod 'SnapKit'
+  pod 'lottie-ios'
   
   # Pods for Sessions
   pod 'Reveal-SDK', :configurations => ['Debug']
