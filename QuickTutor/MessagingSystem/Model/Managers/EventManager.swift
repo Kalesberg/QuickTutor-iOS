@@ -14,7 +14,7 @@ class EventManager {
     var parentController: UIViewController
     
     func addSessionToCalender(_ session: SessionRequest, forCell cell: SessionRequestCell) {
-        let eventStore: EKEventStore = EKEventStore()
+        let eventStore = EKEventStore()
         eventStore.requestAccess(to: .event) { granted, error in
             if error != nil { return }
             if granted {

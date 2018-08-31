@@ -12,22 +12,25 @@ import SnapKit
 
 class SectionHeader : BaseView {
     
-    var category = UILabel()
-    
+	var category : UILabel = {
+		let label = UILabel()
+		
+		label.textAlignment = .left
+		label.font = Fonts.createBoldSize(20)
+		label.textColor = .white
+		label.adjustsFontSizeToFitWidth = true
+		
+		return label
+	}()	
+	
     override func configureView() {
         addSubview(category)
         super.configureView()
-        
-        category.textAlignment = .left
-        category.font = Fonts.createBoldSize(20)
-        category.textColor = .white
-        category.adjustsFontSizeToFitWidth = true
-
+		
 		applyConstraints()
     }
     
     override func applyConstraints() {
-        
         category.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(15)
             make.centerY.equalToSuperview().inset(5)

@@ -89,12 +89,20 @@ extension KeyboardActionView: UICollectionViewDelegate, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? KeyboardActionViewCell else { return }
-        cell.backgroundColor = cell.backgroundColor?.darker(by: 15)
+		UIView.animate(withDuration: 0.2) {
+			cell.icon.alpha = 0.6
+			cell.titleLabel.alpha = 0.6
+		}
+        //cell.backgroundColor = cell.backgroundColor?.darker(by: 15)
     }
     
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? KeyboardActionViewCell else { return }
-        cell.backgroundColor = cell.backgroundColor?.lighter(by: 15)
+		UIView.animate(withDuration: 0.2) {
+			cell.icon.alpha = 1.0
+			cell.titleLabel.alpha = 1.0
+		}
+       // cell.backgroundColor = cell.backgroundColor?.lighter(by: 15)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

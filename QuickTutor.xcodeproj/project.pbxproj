@@ -1280,9 +1280,9 @@
 				8426A1602055B31F00EAF1A8 /* Resources */,
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
-				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
 				84BC77D420F31A320039E054 /* ImageCropper */,
 				8404F43C20EBB3AE00747C01 /* CustomError.swift */,
+				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
 				8421AB3F20DEDD34005B652B /* TutorialFactory.swift */,
 				8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */,
@@ -1815,7 +1815,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				F08F6BB85C7893D4BA7C9D0B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1990,21 +1989,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F08F6BB85C7893D4BA7C9D0B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

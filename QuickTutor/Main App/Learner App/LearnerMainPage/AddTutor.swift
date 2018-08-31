@@ -82,9 +82,8 @@ class AddTutorView : MainLayoutTitleBackButton {
             make.centerX.equalToSuperview()
         }
         tableView.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
+            make.centerX.width.equalToSuperview()
             make.top.equalTo(searchTextField.snp.bottom)
-            make.width.equalToSuperview()
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide)
             } else {
@@ -126,7 +125,6 @@ class AddTutor : BaseViewController, ShowsConversation {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         configureDelegates()
-    
     }
     
     override func loadView() {
@@ -185,7 +183,7 @@ class AddTutor : BaseViewController, ShowsConversation {
         var queriedUsername = [UsernameQuery]()
         
         let ref : DatabaseReference! = Database.database().reference().child("tutor-info")
-        ref.queryOrdered(byChild: "usr").queryStarting(atValue: searchText).queryEnding(atValue: searchText + "\u{f8ff}").queryLimited(toFirst: 20).observeSingleEvent(of: .value) { (snapshot) in
+        ref.queryOrdered(byChild: "usr").queryStarting(atValue: searchText).queryEnding(atValue: searchText + "\u{f8ff}").queryLimited(toFirst: 50).observeSingleEvent(of: .value) { (snapshot) in
         
             for snap in snapshot.children {
                 guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
@@ -273,7 +271,6 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
     }
 }
 extension AddTutor : AddTutorButtonDelegate {
-    
     func addTutorWithUid(_ uid: String) {
         DataService.shared.getTutorWithId(uid) { (tutor) in
             let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
@@ -285,7 +282,6 @@ extension AddTutor : AddTutorButtonDelegate {
 }
 
 class AddTutorTableViewCell : UITableViewCell {
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
@@ -339,7 +335,7 @@ class AddTutorTableViewCell : UITableViewCell {
     
     var delegate: AddTutorButtonDelegate?
     var uid: String?
-    
+	
     func configureTableViewCell() {
         addSubview(profileImageView)
         addSubview(nameLabel)
@@ -418,7 +414,5 @@ extension ShowsConversation {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = uid
         navigationController.pushViewController(vc, animated: true)
-        
     }
 }
-

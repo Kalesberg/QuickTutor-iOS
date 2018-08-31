@@ -67,7 +67,10 @@ class TutorUnsafe : SubmissionViewController {
 		let value : [String : Any] = [
 			"reportee" : datasource.otherId,
 			"reason" : contentView.textView.textView.text,
-			"type" : FileReportClass.TutorCancelled.rawValue,
+			"type" : FileReportLearner.TutorUnsafe.rawValue,
+			"userType" : "learner",
+			"name" : CurrentUser.shared.learner.name.split(separator: " ")[0],
+			"email" : CurrentUser.shared.learner.email
 			]
 		
 		FirebaseData.manager.fileReport(sessionId: datasource.id, reportStatus: datasource.reportStatus.reportStatusUpdate(type: "learner"), value: value) { (error) in

@@ -73,7 +73,10 @@ class LearnerProfilePics : SubmissionViewController {
 		let value : [String : Any] = [
 			"reportee" : datasource.otherId,
 			"reason" : contentView.textView.textView.text,
-			"type" : FileReportClass.TutorCancelled.rawValue,
+			"type" : FileReportTutor.DidNotMatch.rawValue,
+			"userType" : "tutor",
+			"name" : CurrentUser.shared.learner.name.split(separator: " ")[0],
+			"email" : CurrentUser.shared.learner.email
 			]
 		
 		FirebaseData.manager.fileReport(sessionId: datasource.id, reportStatus: datasource.reportStatus.reportStatusUpdate(type: "tutor"), value: value) { (error) in

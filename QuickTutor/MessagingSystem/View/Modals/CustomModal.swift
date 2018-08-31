@@ -24,7 +24,6 @@ class CustomModal: BaseCustomModal {
     
     let messageLabel: UILabel = {
         let label = UILabel()
-        label.text = "Are you sure you want to cancel this session?"
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -34,7 +33,7 @@ class CustomModal: BaseCustomModal {
     
     let noteLabel: UILabel = {
         let label = UILabel()
-        label.text = "NOTE: IF YOU CANCEL, YOU MAY BE DISOBEYING THIS TUTOR'S CANCELLATION POLICY, YOU MAY BE SUBJECT TO A CANCELLATION FEE"
+		label.text = "If you cancel, you may be disobeying this tutor's cancellation policy, you may be subject to a cancellation fee."
         label.textColor = .white
         label.textAlignment = .center
         label.font = Fonts.createBoldSize(14)

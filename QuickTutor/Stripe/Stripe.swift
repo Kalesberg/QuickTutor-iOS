@@ -55,7 +55,7 @@ class Stripe {
 		legalEntityParams.ssnLast4 = ssnLast4
 		legalEntityParams.firstName = String(name[0])
 		legalEntityParams.lastName = String(name[1])
-		
+
 		if let date = date {
 			legalEntityParams.dateOfBirth = Calendar.current.dateComponents([.month, .day, .year], from: date)
 		}
@@ -69,7 +69,7 @@ class Stripe {
 		legalEntityParams.address = address
 		
 		let connectAccountParams = STPConnectAccountParams(tosShownAndAccepted: true, legalEntity: legalEntityParams)
-		
+
 		STPAPIClient.shared().createToken(withConnectAccount: connectAccountParams) { (token, error) in
 			if let error = error {
 				completion(nil, error)

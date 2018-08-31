@@ -191,19 +191,20 @@ extension EditLanguage : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		
 		let cell : CustomLanguageCell = tableView.cellForRow(at: indexPath) as! CustomLanguageCell
-		if selectedCells.count + 1 > 5 {
+		guard let selectedLanguage = cell.textLabel?.text else { return }
+		
+		if selectedCells.count + 1 > 5 && !selectedCells.contains(selectedLanguage) {
 			AlertController.genericErrorAlertWithoutCancel(self, title: "Too Many Languages", message: "We currently only allow a maximum of 5 languages to be chosen.")
 			tableView.deselectRow(at: indexPath, animated: true)
 			return
 		}
 		
 		if self.selectedCells.contains((cell.textLabel?.text)!) {
-			self.selectedCells.remove(at: selectedCells.index(of:(cell.textLabel?.text)!)!)
+			self.selectedCells.remove(at: selectedCells.index(of: selectedLanguage)!)
 			cell.checkbox.isSelected = false
 		} else {
-			self.selectedCells.append((cell.textLabel?.text)!)
+			self.selectedCells.append(selectedLanguage)
 			cell.checkbox.isSelected = true
 		}
 		

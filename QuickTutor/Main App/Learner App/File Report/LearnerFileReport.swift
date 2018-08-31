@@ -12,18 +12,30 @@ import Firebase
 import FirebaseUI
 import SDWebImage
 
-enum FileReportClass : String {
+enum FileReportTutor : String {
 	
-	case TutorCancelled = "tutor_cancelled"
-	case TutorLate = "tutor_late"
-	case Harassment = "harassment"
-	case Other = "other"
-	case TutorRude = "tutor_rude"
-	case TutorUnsafe = "tutor_unsafe"
-	case DidNotMatch = "tutor_did_not_match"
-	case TutorTips = "tutor_tips"
-	case TutorDidNotHelp = "tutor_did_not_help"
+	case LearnerCancelled = "My Learner Cancelled"
+	case LearnerLate = "My Learner Was Late"
+	case Harassment = "Harassment"
+	case Other = "Other"
+	case LearnerRude = "My Learner Was Rude"
+	case LearnerUnsafe = "My Learner Made Me Feel Unsafe"
+	case DidNotMatch = "My Learner Did Not Match His Profile"
+	case LearnerTips = "My Learner Asked For A Tip"
+	case LearnerDidNotHelp = "My Learner Did Not Help"
+}
+
+enum FileReportLearner : String {
 	
+	case TutorCancelled = "My Tutor Cancelled"
+	case TutorLate = "My Tutor Was Late"
+	case Harassment = "Harassment"
+	case Other = "Other"
+	case TutorRude = "My Tutor Was Rude"
+	case TutorUnsafe = "My Tutor Made Me Feel Unsafe"
+	case DidNotMatch = "My Tutor Did Not Match His Profile"
+	case TutorTips = "My Tutor Asked For A Tip"
+	case TutorDidNotHelp = "My Tutor Did Not Help"
 }
 
 class LearnerFileReportView : MainLayoutHeader {
@@ -523,13 +535,15 @@ class LearnerFileReport : BaseViewController {
 	var datasource = [UserSession]() {
 		didSet {
 			if datasource.count == 0 {
+				print("No Tutor")
 				let view = TutorCardCollectionViewBackground()
 				view.label.attributedText = NSMutableAttributedString().bold("No recent sessions!", 22, .white)
 				view.label.textAlignment = .center
 				view.label.numberOfLines = 0
-				
+				contentView.header.text = ""
 				contentView.tableView.backgroundView = view
 			} else {
+				contentView.header.text = "Your Past Sessions"
 				contentView.tableView.backgroundView = nil
 			}
 			contentView.tableView.reloadData()

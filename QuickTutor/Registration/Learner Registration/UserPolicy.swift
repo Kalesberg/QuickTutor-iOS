@@ -253,7 +253,7 @@ class UserPolicy : BaseViewController {
 				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
 			} else {
 				let account : [String : Any] =
-					["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
+					["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970)]
 				
 				let studentInfo : [String : Any] =
 					["nm" : Registration.name, "r" : 5.0, "cus" : Registration.customerId,

@@ -151,7 +151,6 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-
 	}
 }
 

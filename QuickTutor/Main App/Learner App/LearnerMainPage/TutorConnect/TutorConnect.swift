@@ -48,9 +48,7 @@ class TutorConnectView : MainLayoutTwoButton {
     }()
     
     let collectionView : UICollectionView = {
-        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        
         let layout = UICollectionViewFlowLayout()
         
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 0, right: 10)
@@ -227,7 +225,6 @@ class TutorConnect : BaseViewController {
     override func loadView() {
         view = TutorConnectView()
     }
-    
 	
     var shouldFilterDatasource = false
     var hasAppliedFilters = false
