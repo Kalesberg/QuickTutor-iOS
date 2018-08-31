@@ -42,7 +42,7 @@ class OnlineStatusService {
     func getLastActiveStringFor(uid: String, completion: @escaping (String?) -> Void) {
         Database.database().reference().child("account").child(uid).child("online").observeSingleEvent(of: .value) { (snapshot) in
             guard let value = snapshot.value as? Double else {
-                completion("Inactive")
+                completion("")
                 return
             }
             let differenceInSeconds = Date().timeIntervalSince1970 - value
@@ -58,7 +58,7 @@ class OnlineStatusService {
                 result = "Active \(Int(differenceInSeconds / 60 / 60))hr ago"
                 self.isActive = false
             } else {
-                result = "Inactive"
+                result = ""
                 self.isActive = false
             }
              completion(result)

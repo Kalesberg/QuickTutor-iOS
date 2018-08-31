@@ -25,12 +25,13 @@ class AddTipVC: UIViewController, CustomTipPresenter {
     }
     
     var amountToPay = 0
-    
+    var sessionId: String?
     var customer: STPCustomer!
     var cards = [STPCard]()
     var defaultCard : STPCard?
     var selectedCard: STPCard?
     var showingAllCards = false
+    var tipAdded = false
     
     lazy var fakeNavBar: UIView = {
         let bar = UIView()
@@ -216,8 +217,11 @@ class AddTipVC: UIViewController, CustomTipPresenter {
                 print("Failed to charge Stripe")
                 return
             }
+            self.tipAdded = true
             let vc = SessionCompleteVC()
             vc.partnerId = self.partnerId
+            vc.sessionId = self.sessionId
+            PostSessionManager.shared.setUnfinishedFlag(sessionId: self.sessionId!, status: SessionStatus.tipAdded)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -278,6 +282,25 @@ class AddTipVC: UIViewController, CustomTipPresenter {
             self.descriptionLabel.isHidden = false
         }
         fetchCustomer()
+        setupNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if !tipAdded, let id = sessionId {
+            PostSessionManager.shared.setUnfinishedFlag(sessionId: id, status: SessionStatus.started)
+        }
+    }
+    
+    func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(markAsUnfinished), name: Notifications.didEnterBackground.name, object: nil)
+    }
+    
+    
+    @objc func markAsUnfinished() {
+        if !tipAdded, let id = sessionId {
+            PostSessionManager.shared.setUnfinishedFlag(sessionId: id, status: SessionStatus.started)
+        }
     }
     
 }

@@ -158,7 +158,7 @@ class SessionReviewVC: UIViewController {
         guard let id = partnerId else { return }
         
         let session = SessionService.shared.session
-        
+            
         var reviewDict = [String: Any]()
         guard let date = session?.startTime,
         let subject = session?.subject,
@@ -187,6 +187,8 @@ class SessionReviewVC: UIViewController {
             reviewDict["uid"] = uid
 			
             Database.database().reference().child("review").child(id).childByAutoId().setValue(reviewDict)
+            PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
+            
             let vc = AccountService.shared.currentUserType == .tutor ? TutorPageViewController() : LearnerPageViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }

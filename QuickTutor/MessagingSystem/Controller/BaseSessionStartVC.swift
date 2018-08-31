@@ -21,7 +21,7 @@ class BaseSessionStartVC: UIViewController {
     var partnerUsername: String?
     var meetupConfirmed = false
 
-    let manager = SocketManager(socketURL: URL(string: "https://tidycoder.com")!, config: [.log(true), .forceWebsockets(true)])
+    let manager = SocketManager(socketURL: URL(string: socketUrl)!, config: [.log(true), .forceWebsockets(true)])
     var socket: SocketIOClient!
     
     var session: Session?
@@ -247,33 +247,31 @@ class BaseSessionStartVC: UIViewController {
     
     @objc func confirmManualStart() {
         removeStartData()
-        let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType" : session?.type]
+        let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType" : (session?.type)!]
+        print(data)
         socket.emit(SocketEvents.manualStartAccetped, data)
     }
     
     func removeStartData() {
-        guard let uid = Auth.auth().currentUser?.uid, let sessionId = session?.id else { return }
+        guard let uid = Auth.auth().currentUser?.uid, let sessionId = session?.id, let partnerId = partnerId else { return }
         Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
-    }
-    
-    func removePartnerStartData() {
-        guard let uid = partnerId, let sessionId = session?.id else { return }
-        Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
+        Database.database().reference().child("sessionStarts").child(partnerId).child(sessionId).removeValue()
     }
     
     func setupSocket() {
         socket = manager.defaultSocket
         socket.connect()
         guard let id = sessionId else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         socket.on(clientEvent: .connect) { (data, ack) in
-            self.socket.emit("joinRoom", id)
+            let joinData = ["roomKey": id, "uid": uid]
+            self.socket.emit("joinRoom", joinData)
         }
         
         socket.on(SocketEvents.cancelSession) { (data, ack) in
             print("should cancel session")
             self.socket.disconnect()
             self.removeStartData()
-            self.removePartnerStartData()
             self.navigationController?.popViewController(animated: true)
         }
     }
@@ -297,6 +295,7 @@ class BaseSessionStartVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
+        self.socket.disconnect()
     }
     
     func checkPermissions() -> Bool {

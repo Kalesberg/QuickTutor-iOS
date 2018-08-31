@@ -39,6 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     var window: UIWindow?
     let launchScreen = LaunchScreen()
     
+
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		guard let gai = GAI.sharedInstance() else {
 			assert(false, "Google Analytics not configured correctly")
@@ -73,6 +75,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         
         return true
     }
+    
+    func checkForUnfinishedSessions() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        PostSessionManager.shared.checkForUnfinishedSession { (sessionId, sessionStatus) in
+            DataService.shared.getSessionById(sessionId, completion: { (session) in
+                SessionService.shared.session = session
+                switch sessionStatus {
+                case SessionStatus.started.rawValue:
+                    if session.senderId == uid {
+                        let vc = AddTipVC()
+                        vc.sessionId = sessionId
+                        vc.costOfSession = session.cost
+                        vc.partnerId = session.partnerId()
+                        navigationController.pushViewController(vc, animated: true)
+                    } else {
+                        let vc = SessionCompleteVC()
+                        vc.sessionId = sessionId
+                        vc.partnerId = session.partnerId()
+                        navigationController.pushViewController(vc, animated: true)
+                    }
+                case SessionStatus.tipAdded.rawValue:
+                    let vc = SessionCompleteVC()
+                    vc.sessionId = sessionId
+                    vc.partnerId = session.partnerId()
+                    navigationController.pushViewController(vc, animated: true)
+                case SessionStatus.ratingAdded.rawValue:
+                    let vc = SessionReviewVC()
+                    SessionService.shared.session = session
+                    vc.partnerId = session.partnerId()
+                    navigationController.pushViewController(vc, animated: true)
+                case SessionStatus.reviewAdded.rawValue:
+                    break
+                default:
+                    break
+                }
+                print(sessionStatus)
+            })
+        }
+    }
+    
+    func checkForInProgressSessions() {
+        InProgressSessionManager.shared.checkForSessions { (sessionId) in
+            DataService.shared.getSessionById(sessionId, completion: { (session) in
+                if session.type == "online" {
+                    let vc = VideoSessionVC()
+                    vc.sessionId = sessionId
+                    navigationController.pushViewController(vc, animated: true)
+                } else {
+                  let vc = InPersonSessionVC()
+                    vc.sessionId = sessionId
+                    navigationController.pushViewController(vc, animated: true)
+                }
+            })
+        }
+    }
+    
+
     
     func handleSignIn(completion: @escaping () -> Void) {
         guard let user = Auth.auth().currentUser else {
@@ -116,6 +175,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.window?.rootViewController = navigationController
                 self.removeDataObserver()
                 self.listenForData()
+                self.checkForUnfinishedSessions()
+                self.checkForInProgressSessions()
             }
         }
     }
@@ -129,13 +190,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     }
     
     func handlIncomingDynamicLink(_ dynamicLink: DynamicLink) {
-        handleSignIn {
-            guard let pathComponents = dynamicLink.url?.pathComponents else { return }
-			if pathComponents.count < 2  {
-				self.handleDynamicLinkNavigation(uid: pathComponents[0])
-			} else {
-				self.handleDynamicLinkNavigation(uid: pathComponents[1])
-			}
+        if Auth.auth().currentUser == nil {
+            handleSignIn {
+                self.navigateUsingPathComponents(dynamicLink: dynamicLink)
+            }
+        } else {
+            navigateUsingPathComponents(dynamicLink: dynamicLink)
+        }
+    }
+    
+    func navigateUsingPathComponents(dynamicLink: DynamicLink) {
+        guard let pathComponents = dynamicLink.url?.pathComponents else { return }
+        if pathComponents.count < 2  {
+            self.handleDynamicLinkNavigation(uid: pathComponents[0])
+        } else {
+            self.handleDynamicLinkNavigation(uid: pathComponents[1])
         }
     }
     
@@ -222,7 +291,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         if receiverAccountType == "learner" {
             let vc = LearnerPageViewController()
             configureRootViewController(controller: vc)
-            let messagesVC = MessagesVC()
+            _ = MessagesVC()
         } else {
             let vc = TutorPageViewController()
             configureRootViewController(controller: vc)
@@ -244,11 +313,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         OnlineStatusService.shared.resignActive()
+        NotificationCenter.default.post(Notifications.didEnterBackground)
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        BackgroundSoundManager.shared.start()
+        
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -260,11 +332,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         FBSDKAppEvents.activateApp()
         OnlineStatusService.shared.makeActive()
+        NotificationCenter.default.post(Notifications.didEnterForeground)
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        NotificationCenter.default.post(name: Notifications.willTerminate.name, object: nil)
     }
     
     func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplicationExtensionPointIdentifier) -> Bool {
