@@ -28,6 +28,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# npm
+node_modules/
 ### Swift ###
 # Xcode
 #
@@ -73,6 +75,8 @@ playground.xcworkspace
 # CocoaPods - Refactored to standalone file
 Pods
 
+#npm
+node_modules
 # Carthage - Refactored to standalone file
 
 # fastlane
