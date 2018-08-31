@@ -135,6 +135,8 @@ class SessionRequestCell: UserMessageCell {
             updateAsCancelled()
         case "cancelled":
             updateAsCancelled()
+        case "completed":
+            updateAsCompleted()
         default:
             break
         }
@@ -222,6 +224,15 @@ class SessionRequestCell: UserMessageCell {
             buttonView.setupAsAccepted(eventAlreadyAdded: false)
             buttonView.setButtonActions(#selector(SessionRequestCell.addToCalendar), target: self)
         }
+    }
+    
+    func updateAsCompleted() {
+        buttonView.removeAllButtonActions()
+        titleBackground.backgroundColor = Colors.green
+        titleLabel.text = "Session Complete"
+        buttonView.setupAsSingleButton()
+        buttonView.setButtonTitles("Completed")
+        dimContent()
     }
     
     func dimContent() {

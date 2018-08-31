@@ -16,6 +16,8 @@ protocol SessionManagerDelegate {
     func sessionManager(_ sessionManager: SessionManager, didEnd session: Session)
     func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager)
     func sessionManagerShouldShowEndSessionModal(_ sessionManager: SessionManager)
+    func sessionManager(_ sessionManager: SessionManager, userLostConnection uid: String)
+    func sessionManager(_ sessionManager: SessionManager, userConnectedWith uid: String)
 }
 
 class SessionManager {
@@ -36,17 +38,26 @@ class SessionManager {
             self.session = session
             self.sessionId = session.id
             self.sessionLengthInSeconds = Int(session.endTime - session.startTime)
+            self.sessionRuntime = session.runTime
             self.startSessionRuntime()
+            self.markSessionAsInProgress()
+        }
+    }
+    
+    func markSessionAsInProgress() {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            InProgressSessionManager.shared.markSessionAsInProgress(sessionId: self.session.id, partnerId: self.session.partnerId())
         }
     }
     
     func expireSession() {
-        Database.database().reference().child("sessions").child(sessionId).child("status").setValue("expired")
+        Database.database().reference().child("sessions").child(sessionId).child("status").setValue("completed")
     }
     
     func removeStartData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("sessionStarts").child(uid).removeValue()
+        Database.database().reference().child("sessionStarts").child(session.partnerId()).removeValue()
     }
     
     @objc func pauseSession() {
@@ -104,6 +115,7 @@ class SessionManager {
         let info = ["timeString": getFormattedRuntimeString()]
         let notification = Notification(name: Notification.Name(rawValue: "com.qt.updateTime"), object: nil, userInfo: info)
         NotificationCenter.default.post(notification)
+        Database.database().reference().child("sessions").child(session.id).child("runTime").setValue(sessionRuntime)
     }
     
     func getFormattedRuntimeString() -> String {
@@ -117,6 +129,7 @@ class SessionManager {
         return sessionRuntime >= sessionLengthInSeconds
     }
     
+    var connectionLost = false
     //MARK: Sockets -
     func observeSocketEvents() {
         socket.on(SocketEvents.pauseSession) { data, _ in
@@ -129,8 +142,23 @@ class SessionManager {
         }
         
         socket.on(SocketEvents.endSession) { _, _ in
+            InProgressSessionManager.shared.removeSessionFromInProgress(sessionId: self.sessionId, partnerId: self.session.partnerId())
             self.delegate?.sessionManager(self, didEnd: self.session)
         }
+        
+        socket.on(SocketEvents.partnerDisconnected) { (data, ack) in
+            guard !self.connectionLost else { return }
+            self.connectionLost = true
+            self.delegate?.sessionManager(self, userLostConnection: "lostConnection")
+        }
+        
+        socket.on(SocketEvents.newConnection) { (data, ack) in
+            guard let dict = data[0] as? [String: Any], let connectionUid = dict["uid"] as? String else { return }
+            self.connectionLost = false
+            print("New connection:", connectionUid)
+            self.delegate?.sessionManager(self, userConnectedWith: connectionUid)
+        }
+        
     }
     
     init(sessionId: String, socket: SocketIOClient) {
@@ -145,7 +173,5 @@ class SessionManager {
         loadSession()
     }
     
-    
-    
-    
+        
 }

@@ -13,6 +13,7 @@ class SessionCompleteVC: UIViewController {
     
     var ratingDescriptions = ["Not good", "Disappointing", "Okay", "Good", "Excellent"]
     var partnerId: String?
+    var sessionId: String?
     
     lazy var fakeNavBar: UIView = {
         let bar = UIView()
@@ -122,15 +123,19 @@ class SessionCompleteVC: UIViewController {
         guard let id = partnerId else { return }
         let infoNode = AccountService.shared.currentUserType == .learner ? "tutor-info" : "student-info"
         Database.database().reference().child(infoNode).child(id).child("r").setValue(ratingView.rating)
-        let vc = SessionReviewVC()
-        vc.partnerId = partnerId
-        vc.rating = ratingView.rating
-        navigationController?.pushViewController(vc, animated: true)
+        DataService.shared.getSessionById(sessionId!) { (session) in
+            let vc = SessionReviewVC()
+            vc.partnerId = self.partnerId
+            vc.rating = self.ratingView.rating
+            SessionService.shared.session = session
+            PostSessionManager.shared.setUnfinishedFlag(sessionId: self.sessionId!, status: SessionStatus.ratingAdded)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func updateNumberOfSessions() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let userTypeString = AccountService.shared.currentUserType == .learner ? "learner-info" : "student-info"
+        let userTypeString = AccountService.shared.currentUserType == .learner ? "tutor-info" : "student-info"
         let ref = Database.database().reference().child(userTypeString).child(uid).child("nos")
         ref.observeSingleEvent(of: .value) { (snapshot) in
             guard let value = snapshot.value as? Int else {
@@ -147,6 +152,8 @@ class SessionCompleteVC: UIViewController {
         updateUI()
         updateNumberOfSessions()
     }
+    
+    
     
 }
 

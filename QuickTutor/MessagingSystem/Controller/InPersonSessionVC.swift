@@ -112,8 +112,9 @@ class InPersonSessionVC: BaseSessionVC {
     }
     
     func removeStartData() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid, let partnerId = partnerId else { return }
         Database.database().reference().child("sessionStarts").child(uid).removeValue()
+        Database.database().reference().child("sessionStarts").child(partnerId).removeValue()
     }
     
     func updateUI() {
@@ -127,10 +128,19 @@ class InPersonSessionVC: BaseSessionVC {
         }
     }
     
+    override func handleBackgrounded() {
+        super.handleBackgrounded()
+        print("Session runtime is: \(sessionManager?.sessionRuntime)")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         updateUI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
 }
 

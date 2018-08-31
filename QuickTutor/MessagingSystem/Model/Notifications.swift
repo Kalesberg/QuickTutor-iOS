@@ -10,4 +10,7 @@ import Foundation
 
 struct Notifications {
     static let test = Notification(name: Notification.Name(rawValue: "com.quicktutor.close"))
+    static let didEnterBackground = Notification(name: Notification.Name(rawValue: "com.quickTutor.didEnterBackground"))
+    static let didEnterForeground = Notification(name: Notification.Name(rawValue: "com.quickTutor.didEnterForeground"))
+    static let willTerminate = Notification(name: Notification.Name(rawValue: "com.quickTutor.willTerminate"))
 }

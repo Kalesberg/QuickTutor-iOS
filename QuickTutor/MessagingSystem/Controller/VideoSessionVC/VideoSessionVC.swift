@@ -42,6 +42,16 @@ class VideoSessionVC: BaseSessionVC {
         videoSessionView.pauseSessionButton.addTarget(self, action: #selector(VideoSessionVC.handleSessionPause), for: .touchUpInside)
     }
     
+    override func handleBackgrounded() {
+        super.handleBackgrounded()
+        sessionManager?.pauseSession()
+    }
+    
+    override func handleForegrounded() {
+        super.handleForegrounded()
+        sessionManager?.unpauseSession()
+    }
+    
     @objc func handleEndSession() {
         guard let manager = sessionManager else { return }
         manager.endSession()
@@ -69,5 +79,12 @@ class VideoSessionVC: BaseSessionVC {
     override func sessionManager(_ sessionManager: SessionManager, didUnpause session: Session) {
         super.sessionManager(sessionManager, didUnpause: session)
         self.twilioSessionManager?.resume()
+    }
+    
+    override func sessionManager(_ sessionManager: SessionManager, userConnectedWith uid: String) {
+        super.sessionManager(sessionManager, userConnectedWith: uid)
+        twilioSessionManager?.connect()
+        twilioSessionManager?.resume()
+        self.connectionLostModal?.dismiss()
     }
 }

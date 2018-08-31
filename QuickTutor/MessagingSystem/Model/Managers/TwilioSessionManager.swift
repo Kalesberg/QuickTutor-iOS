@@ -145,6 +145,7 @@ extension TwilioSessionManager: TVIRoomDelegate {
             remoteParticipant = room.remoteParticipants[0]
             remoteParticipant?.delegate = self
         }
+        resume()
         
     }
     
@@ -152,7 +153,12 @@ extension TwilioSessionManager: TVIRoomDelegate {
         if remoteParticipant == nil {
             remoteParticipant = participant
             remoteParticipant?.delegate = self
+            if (remoteParticipant?.videoTracks.count)! > 0 {
+                let remoteVideoTrack = remoteParticipant?.remoteVideoTracks[0].remoteTrack
+                remoteVideoTrack?.addRenderer(remoteView)
+            }
         }
+        
         
     }
     

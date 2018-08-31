@@ -19,8 +19,10 @@ class Session: Codable {
     var date: Double
     var endTime: Double
     var price: Double
+    var cost: Double
     var type: String
     var status: String
+    var runTime: Int
 
     init(dictionary: [String: Any], id: String) {
         senderId = dictionary["senderId"] as? String ?? ""
@@ -32,6 +34,8 @@ class Session: Codable {
         type = dictionary["type"] as? String ?? ""
         status = dictionary["status"] as? String ?? ""
         subject = dictionary["subject"] as? String ?? ""
+        cost = dictionary["cost"] as? Double ?? 0
+        runTime = dictionary["runTime"] as? Int ?? 0
         self.id = id
      }
     

@@ -9,25 +9,27 @@
 import Foundation
 import SocketIO
 
-class SocketBuilder {
-    
-    static let shared = SocketBuilder()
-    
-    private init() {}
-    
-    let manager = SocketManager(socketURL: URL(string: "https://tidycoder.com")!, config: [.log(true), .forceWebsockets(true)])
-    var socket: SocketIOClient?
-    
-    func create(id: String) -> SocketIOClient {
-        let socket = manager.defaultSocket
-        socket.connect()
-        socket.on(clientEvent: .connect) { (data, ack) in
-            socket.emit("joinRoom", id)
-        }
-        self.socket = socket
-        return socket
-    }
-}
+let socketUrl = "https://tidycoder.com"
+
+//class SocketBuilder {
+//    
+//    static let shared = SocketBuilder()
+//    
+//    private init() {}
+//    
+//    let manager = SocketManager(socketURL: URL(string: socketUrl)!, config: [.log(true), .forceWebsockets(true)])
+//    var socket: SocketIOClient?
+//    
+//    func create(id: String) -> SocketIOClient {
+//        let socket = manager.defaultSocket
+//        socket.connect()
+//        socket.on(clientEvent: .connect) { (data, ack) in
+//            socket.emit("joinRoom", id)
+//        }
+//        self.socket = socket
+//        return socket
+//    }
+//}
 
 //class SocketClient {
 //    static let shared = SocketClient()
@@ -97,4 +99,6 @@ struct SocketEvents {
     static let requestAddTime = "requestAddTime"
     static let addTimeRequestAnswered = "addTimeRequestAnswered"
     static let cancelSession = "cancelSession"
+    static let partnerDisconnected = "userDisconnected"
+    static let newConnection = "newConnection"
 }

@@ -49,7 +49,7 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     func setupObservers() {
         
-        socket.on(SocketEvents.manualStartAccetped) { _, _ in
+        socket.on(SocketEvents.manualStartAccetped) { data, ack in
             self.showConfirmMeetupButton()
         }
         
@@ -109,9 +109,14 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     }
     
     override func confirmManualStart() {
-        checkPermissions()
+        #if targetEnvironment(simulator)
+        // for sim only
+        #else
+        guard checkPermissions() else { return }
+        #endif
         removeStartData()
-        socket.emit(SocketEvents.manualStartAccetped, ["roomKey": sessionId!])
+        let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType" : (session?.type)!]
+        socket.emit(SocketEvents.manualStartAccetped, data)
     }
     
     func showConfirmMeetupButton() {
