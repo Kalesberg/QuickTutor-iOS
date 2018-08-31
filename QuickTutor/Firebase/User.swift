@@ -13,7 +13,6 @@ import FirebaseStorage
 import Stripe
 import CoreLocation
 import SDWebImage
-
 import SwiftKeychainWrapper
 
 class CurrentUser {
@@ -357,27 +356,15 @@ class FirebaseData {
 					group.enter()
 					self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
 						guard let value = snapshot.value as? [String : Any] else { return group.leave() }
-						guard
-							let endTime = value["endTime"] as? Double, endTime > Date().timeIntervalSince1970 - 604800,
+						guard let endTime = value["endTime"] as? Double, endTime > Date().timeIntervalSince1970 - 604800,
 							endTime < Date().adding(minutes: 30).timeIntervalSince1970 else { return group.leave() }
 						
 						var session = UserSession(dictionary: value)
 						session.id = id
-						
-						if type == "learner" && (session.reportStatus == 1 || session.reportStatus == 3) {
-							return
-						}
-						if type == "tutor" && (session.reportStatus == 2 || session.reportStatus == 3) {
-							return
-						}
-						
+
 						group.enter()
 						self.ref.child("student-info").child(session.otherId).child("nm").observeSingleEvent(of: .value, with: { (snapshot) in
-							if let name = snapshot.value as? String {
-								session.name = name
-							} else {
-								session.name = ""
-							}
+							session.name = snapshot.value as? String ?? ""
 							sessions.append(session)
 							group.leave()
 						})
@@ -584,7 +571,8 @@ class FirebaseData {
 			if let error = error {
 				return completion(error)
 			}
-			self.ref.child("sessions").child(sessionId).updateChildValues(["reported" : reportStatus])
+			//use this to mark a session that has already been reported.
+			//self.ref.child("sessions").child(sessionId).updateChildValues(["reported" : reportStatus])
 			return completion(nil)
 		}
 	}

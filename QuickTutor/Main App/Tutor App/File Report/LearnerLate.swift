@@ -83,7 +83,10 @@ class LearnerLate : BaseViewController {
 		let value : [String : Any] = [
 			"reportee" : datasource.otherId,
 			"reason" : reason,
-			"type" : FileReportClass.TutorCancelled.rawValue,
+			"type" : FileReportTutor.LearnerLate.rawValue,
+			"userType" : "tutor",
+			"name" : CurrentUser.shared.learner.name.split(separator: " ")[0],
+			"email" : CurrentUser.shared.learner.email
 			]
 		
 		FirebaseData.manager.fileReport(sessionId: datasource.id, reportStatus: datasource.reportStatus.reportStatusUpdate(type: "tutor"), value: value) { (error) in
