@@ -152,7 +152,7 @@ extension UIViewController {
 		}
 		UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        let loadingView = LOTAnimationView(name: "loading2")
+		let loadingView : LOTAnimationView = LOTAnimationView(name: "loading2")
         
         loadingView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
         loadingView.center = self.view.center
@@ -166,11 +166,13 @@ extension UIViewController {
 	}
 	func dismissOverlay() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        
-        let loadingAnimationView = self.view.viewWithTag(69) as! LOTAnimationView
-
-        loadingAnimationView.stop()
-        loadingAnimationView.removeFromSuperview()
+        self.view.endEditing(true)
+		if let loadingAnimationView = self.view.viewWithTag(69) as? LOTAnimationView {
+			loadingAnimationView.stop()
+			loadingAnimationView.removeFromSuperview()
+		} else {
+			print("Could not find view")
+		}
 	}
 	
 	func displayProfileImageViewer(imageCount: Int, userId: String) {
