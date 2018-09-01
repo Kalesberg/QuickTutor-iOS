@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import SwipeCellKit
+import Lottie
 
 class MessagesContentCell: BaseContentCell {
     
@@ -31,7 +32,7 @@ class MessagesContentCell: BaseContentCell {
         super.setupCollectionView()
         collectionView.register(ConversationCell.self, forCellWithReuseIdentifier: "cellId")
     }
-    
+	
     private func setupEmptyBackground() {
         addSubview(emptyBackround)
         emptyBackround.anchor(top: collectionView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)

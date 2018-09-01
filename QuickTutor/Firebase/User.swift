@@ -351,39 +351,53 @@ class FirebaseData {
 		}
 		
 		fetchSessions(uid: uid, type: type) { (sessionIds) in
-			if let sessionIds = sessionIds {
-				for id in sessionIds {
+			guard let sessionIds = sessionIds else { return completion(nil) }
+			for id in sessionIds {
+				group.enter()
+				self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+					guard let value = snapshot.value as? [String : Any] else { return group.leave() }
+					guard let endTime = value["endTime"] as? Double, endTime > Date().timeIntervalSince1970 - 604800,
+						endTime < Date().adding(minutes: 30).timeIntervalSince1970 else { return group.leave() }
+					
+					var session = UserSession(dictionary: value)
+					session.id = id
+					
 					group.enter()
-					self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
-						guard let value = snapshot.value as? [String : Any] else { return group.leave() }
-						guard let endTime = value["endTime"] as? Double, endTime > Date().timeIntervalSince1970 - 604800,
-							endTime < Date().adding(minutes: 30).timeIntervalSince1970 else { return group.leave() }
-						
-						var session = UserSession(dictionary: value)
-						session.id = id
-
-						group.enter()
-						self.ref.child("student-info").child(session.otherId).child("nm").observeSingleEvent(of: .value, with: { (snapshot) in
-							session.name = snapshot.value as? String ?? ""
-							sessions.append(session)
-							group.leave()
-						})
+					self.ref.child("student-info").child(session.otherId).child("nm").observeSingleEvent(of: .value, with: { (snapshot) in
+						session.name = snapshot.value as? String ?? ""
+						sessions.append(session)
 						group.leave()
 					})
-				}
-				group.notify(queue: .main, execute: {
-					completion(sessions)
+					group.leave()
 				})
-			} else {
-				completion(nil)
 			}
+			group.notify(queue: .main, execute: {
+				completion(sessions)
+			})
 		}
+	}
+	//new functions for grabbing learner, tutor, and account data. not being used yet.
+	public func fetchAccount(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
+		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+			completion(value)
+		})
+	}
+	public func fetchStudentInfo(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
+		self.ref.child("student-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+			completion(value)
+		})
+	}
+	public func fetchTutorInfo(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
+		self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+			completion(value)
+		})
 	}
 	
 	public func fetchLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
-		
 		let group = DispatchGroup()
-		
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			self.ref.child("student-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot2) in
