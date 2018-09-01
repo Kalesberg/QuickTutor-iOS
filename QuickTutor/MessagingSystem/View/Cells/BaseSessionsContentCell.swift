@@ -71,6 +71,7 @@ class BaseSessionsContentCell: BaseContentCell {
                         self.upcomingSessions.append(session)
                     }
                     self.attemptReloadOfTable()
+					return
                 }
             })
         }
