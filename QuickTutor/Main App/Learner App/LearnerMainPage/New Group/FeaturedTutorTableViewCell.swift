@@ -107,6 +107,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 
 		cell.price.text = datasource[indexPath.item].price.priceFormat()
+        cell.view.backgroundColor = Colors.green
 		cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: datasource[indexPath.item].imageUrl)
 		cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
 		cell.featuredTutor.region.text = datasource[indexPath.item].region

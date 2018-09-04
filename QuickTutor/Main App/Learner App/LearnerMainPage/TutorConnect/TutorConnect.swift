@@ -456,7 +456,7 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.header.profilePics.loadUserImagesWithoutMask(by: data[indexPath.row].images["image1"]!)
         cell.header.profilePics.roundCorners(.allCorners, radius: 8)
         cell.header.name.text = data[indexPath.row].name.formatName()
-        cell.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
+        cell.header.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
         cell.rateLabel.text = data[indexPath.row].price.formatPrice()
         cell.datasource = data[indexPath.row]
 		

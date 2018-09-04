@@ -18,7 +18,7 @@ class TutorSideBar : Sidebar {
         super.configureView()
         
         becomeQTItem.label.label.text = "Start Learning"
-        ratingView.titleLabel.text = "Your Tutor Rating"
+        ratingView.titleLabel.text = "Tutor Rating"
         
         let blueTextColor = UIColor(hex: "5E90E6")
         
@@ -88,7 +88,7 @@ class LearnerSideBar : Sidebar {
     override func configureView() {
         super.configureView()
     
-        ratingView.titleLabel.text = "Your Learner Rating"
+        ratingView.titleLabel.text = "Learner Rating"
         
         let purpleTextColor = UIColor(hex: "7A75FF")
         

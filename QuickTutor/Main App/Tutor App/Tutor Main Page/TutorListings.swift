@@ -66,6 +66,7 @@ class TutorListingsView : MainLayoutTitleOneButton {
         let view = UIScrollView()
         
         view.showsVerticalScrollIndicator = false
+        view.alwaysBounceVertical = true
         
         return view
     }()
