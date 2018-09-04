@@ -164,9 +164,10 @@ extension UIViewController {
         
         loadingView.play()
 	}
+	
 	func dismissOverlay() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        self.view.endEditing(true)
+       // self.view.endEditing(true)
 		if let loadingAnimationView = self.view.viewWithTag(69) as? LOTAnimationView {
 			loadingAnimationView.stop()
 			loadingAnimationView.removeFromSuperview()
