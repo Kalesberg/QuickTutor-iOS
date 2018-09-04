@@ -129,7 +129,7 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         cell.nameLabel.text = data.studentName
         cell.reviewTextLabel.text = data.message
-		cell.dateSubjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.yellow).bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
+		cell.dateSubjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
 		
 		cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
 		

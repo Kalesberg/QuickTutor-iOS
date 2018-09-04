@@ -429,7 +429,6 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainPageCollectionViewCell", for: indexPath) as! TutorMainPageCollectionViewCell
 		
         cell.imageView.image = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.icon
-        cell.backgroundColor = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.color
         cell.label.text = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.label
         cell.label.textColor = .white
 
@@ -485,7 +484,7 @@ class UnlockCellView : BaseView {
 		addSubview(lockImageView)
 		super.configureView()
 		
-		backgroundColor = UIColor.black.withAlphaComponent(0.8)
+		backgroundColor = UIColor.black.withAlphaComponent(0.6)
 		applyConstraints()
 	}
 	override func applyConstraints() {
