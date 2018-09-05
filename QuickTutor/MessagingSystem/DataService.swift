@@ -65,7 +65,7 @@ class DataService {
                 tutor.uid = uid
                 guard let img = finalDict["img"] as? [String: Any], let profilePicUrl = img["image1"] as? String else {
                     return }
-                tutor.profilePicUrl = profilePicUrl
+                tutor.profilePicUrl = URL(string: profilePicUrl)
                 tutor.username = finalDict["nm"] as? String
                 completion(tutor)
             })
@@ -84,7 +84,7 @@ class DataService {
                 tutor.uid = uid
                 guard let img = finalDict["img"] as? [String: Any], let profilePicUrl = img["image1"] as? String else {
                     return }
-                tutor.profilePicUrl = profilePicUrl
+                tutor.profilePicUrl = URL(string: profilePicUrl)
                 tutor.username = finalDict["nm"] as? String
                 completion(tutor)
             })

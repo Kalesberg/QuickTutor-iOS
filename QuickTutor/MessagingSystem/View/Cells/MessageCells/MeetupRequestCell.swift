@@ -232,6 +232,7 @@ class SessionRequestCell: UserMessageCell {
         titleLabel.text = "Session Complete"
         buttonView.setupAsSingleButton()
         buttonView.setButtonTitles("Completed")
+        buttonView.setButtonTitleColors(Colors.grayText)
         dimContent()
     }
     
@@ -381,6 +382,7 @@ class SessionRequestCell: UserMessageCell {
         super.prepareForReuse()
         resetDim()
         buttonView.removeAllButtonActions()
+        buttonView.setButtonTitleColors(Colors.grayText)
     }
     
 }

@@ -54,7 +54,7 @@ class KeyboardActionView: UIView {
     
 }
 
-let actionTuples = [("Send Photo", #imageLiteral(resourceName: "picUploadIcon")), ("Request Session", #imageLiteral(resourceName: "requestSessionIcon")), ("Share Username", #imageLiteral(resourceName: "shareUsernameIcon"))]
+let actionTuples = [("Send Photo", #imageLiteral(resourceName: "picUploadIcon")), ("Request Session", #imageLiteral(resourceName: "requestSessionButton")), ("Share Username", #imageLiteral(resourceName: "shareUsernameIcon"))]
 
 extension KeyboardActionView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {

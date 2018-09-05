@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Asset 8.png",
+      "filename" : "cancelSessionButton.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Asset 8@2x.png",
+      "filename" : "cancelSessionButton@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Asset 8@3x.png",
+      "filename" : "cancelSessionButton@3x.png",
       "scale" : "3x"
     }
   ],

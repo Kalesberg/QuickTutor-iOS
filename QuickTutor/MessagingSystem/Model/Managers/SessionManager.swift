@@ -122,7 +122,13 @@ class SessionManager {
         let hours = sessionRuntime / 60 / 60
         let minutes = (sessionRuntime - hours * 60 * 60) / 60
         let seconds = sessionRuntime - (sessionRuntime - hours * 60 * 60) - (sessionRuntime - minutes * 60)
-        return "\(hours):\(minutes):\(seconds * -1)"
+        let secondsString = String(seconds)
+        var decimalPlaceString = ""
+        print(secondsString)
+        if secondsString.count == 2 {
+            decimalPlaceString = "0"
+        }
+        return "\(hours):\(minutes):\(decimalPlaceString)\(seconds * -1)"
     }
     
     func sessionRuntimeExpired() -> Bool {
