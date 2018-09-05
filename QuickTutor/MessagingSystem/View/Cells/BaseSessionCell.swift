@@ -111,7 +111,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         DataService.shared.getTutorWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
-            self.profileImage.imageView.loadImage(urlString: profilePicUrl)
+            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             guard let rating  = tutor?.rating else { return }
             self.updateRatingLabel(rating: rating)
         }
@@ -121,7 +121,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         DataService.shared.getStudentWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
-            self.profileImage.imageView.loadImage(urlString: profilePicUrl)
+            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             guard let rating  = tutor?.rating else { return }
             self.updateRatingLabel(rating: rating)
         }

@@ -41,6 +41,14 @@ class BaseContentCell: UICollectionViewCell {
         
     }
     
+    func postOverlayDismissalNotfication() {
+        NotificationCenter.default.post(name: Notifications.hideOverlay.name, object: nil)
+    }
+    
+    func postOverlayDisplayNotification() {
+        NotificationCenter.default.post(name: Notifications.showOverlay.name, object: nil)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()

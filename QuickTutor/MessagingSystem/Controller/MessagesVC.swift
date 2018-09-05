@@ -123,6 +123,16 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
         NotificationCenter.default.addObserver(self, selector: #selector(showConversation(notification:)), name: Notification.Name(rawValue: "sendMessage"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showCancelModal), name: Notification.Name(rawValue: "cancelSession"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(requestSession(notification:)), name: Notification.Name(rawValue: "requestSession"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MessagesVC.showOverlay), name: Notifications.showOverlay.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MessagesVC.hideOverlay), name: Notifications.hideOverlay.name, object: nil)
+    }
+    
+    @objc func showOverlay() {
+        displayLoadingOverlay()
+    }
+    
+    @objc func hideOverlay() {
+        dismissOverlay()
     }
     
     @objc func showConversation(notification: Notification) {

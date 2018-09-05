@@ -12,7 +12,7 @@ import Firebase
 class User: Decodable {
     
     var username: String!
-    var profilePicUrl: String!
+    var profilePicUrl: URL!
     var uid: String!
     var type: String!
     var isOnline: Bool!
@@ -20,7 +20,7 @@ class User: Decodable {
     var formattedName: String {
         get {
             let name = username.split(separator: " ")
-            let formatted = "\(name[0]) \(String(name[1]).prefix(1))"
+            let formatted = "\(name[0]) \(String(name[1]).prefix(1))."
             return formatted
         }
     }
@@ -32,7 +32,8 @@ class User: Decodable {
     
     init(dictionary: [String: Any]) {
         username = (dictionary["username"] as? String)?.capitalized ?? ""
-        profilePicUrl = dictionary["profilePicUrl"] as? String ?? ""
+        let profilePicString = dictionary["profilePicUrl"] as? String ?? ""
+        profilePicUrl = URL(string: profilePicString)
         uid = dictionary["uid"] as? String
         type = dictionary["type"] as? String ?? ""
         let onlineSecondsAgo = dictionary["online"] as? Double ?? 1000

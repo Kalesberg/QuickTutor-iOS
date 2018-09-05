@@ -85,7 +85,7 @@ class UserMessageCell: BaseMessageCell {
         bubbleViewLeftAnchor?.isActive = false
         profileImageView.isHidden = true
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
-        profileImageView.loadImage(urlString: profilePicUrl)
+        profileImageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
     }
     
     func setupBubbleViewAsReceivedMessage() {

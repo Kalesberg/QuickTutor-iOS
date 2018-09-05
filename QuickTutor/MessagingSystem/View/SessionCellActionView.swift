@@ -22,6 +22,7 @@ class SessionCellActionView: UIView {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
         button.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFit
         button.tag = 1
         return button
     }()
@@ -30,6 +31,7 @@ class SessionCellActionView: UIView {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
         button.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFit
         button.tag = 2
         return button
     }()
@@ -38,6 +40,7 @@ class SessionCellActionView: UIView {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
         button.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFit
         button.tag = 3
         return button
     }()
@@ -58,21 +61,21 @@ class SessionCellActionView: UIView {
     private func setupActionButton1() {
         cellActionContainerView.addSubview(actionButton1)
         actionButton1.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
-        addConstraint(NSLayoutConstraint(item: actionButton1, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
+        addConstraint(NSLayoutConstraint(item: actionButton1, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         actionButton1.addTarget(self, action: #selector(didSelectButton(sender:)), for: .touchUpInside)
     }
     
     private func setupActionButton2() {
         cellActionContainerView.addSubview(actionButton2)
         actionButton2.anchor(top: nil, left: nil, bottom: nil, right: actionButton1.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
-        addConstraint(NSLayoutConstraint(item: actionButton2, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
+        addConstraint(NSLayoutConstraint(item: actionButton2, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         actionButton2.addTarget(self, action: #selector(didSelectButton(sender:)), for: .touchUpInside)
     }
     
     private func setupActionButton3() {
         cellActionContainerView.addSubview(actionButton3)
         actionButton3.anchor(top: nil, left: nil, bottom: nil, right: actionButton2.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 60, height: 50)
-        addConstraint(NSLayoutConstraint(item: actionButton3, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 5))
+        addConstraint(NSLayoutConstraint(item: actionButton3, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         actionButton3.addTarget(self, action: #selector(didSelectButton(sender:)), for: .touchUpInside)
     }
     
