@@ -256,7 +256,15 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
             RatingTableViewCell
             
-            cell.seeAllButton.isHidden = !(datasource.count > 2)
+            if datasource.count == 1 {
+                cell.tableView.snp.remakeConstraints { (make) in
+                    make.top.equalToSuperview()
+                    make.width.equalToSuperview().multipliedBy(0.95)
+                    make.height.equalTo(120)
+                    make.centerX.equalToSuperview()
+                }
+            }
+            
             cell.datasource = datasource
             
             return cell

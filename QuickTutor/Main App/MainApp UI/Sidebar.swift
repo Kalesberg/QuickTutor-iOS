@@ -216,7 +216,7 @@ class Sidebar : BaseView {
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.15)
+            make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.16)
         }
         
         ratingView.snp.makeConstraints { (make) in
@@ -318,22 +318,23 @@ class ProfileView : InteractableBackgroundView {
         profileNameView.font = Fonts.createBoldSize(16)
         profileNameView.numberOfLines = 0
 		profilePicView.backgroundColor = .black
+        profilePicView.scaleImage()
         applyConstraints()
     }
     
     override func applyConstraints() {
         
         profileView.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.5)
-            make.bottom.equalToSuperview().inset(10)
-            make.left.equalToSuperview().inset(10)
+            make.height.equalToSuperview().multipliedBy(0.65)
+            make.bottom.equalToSuperview().inset(2)
+            make.left.equalToSuperview().inset(8)
             make.right.equalToSuperview()
         }
         
         profilePicView.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.height.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.75)
 			make.width.equalTo(profilePicView.snp.height)
         }
         

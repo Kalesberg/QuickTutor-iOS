@@ -146,25 +146,6 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
     
     override func applyConstraints() {
         super.applyConstraints()
-
-//        profilePics.snp.makeConstraints { (make) in
-//            make.top.equalTo(navbar.snp.bottom).inset(-30)
-//            make.centerX.equalToSuperview()
-//            if UIScreen.main.bounds.height < 570 {
-//                make.width.height.equalTo(160)
-//            } else {
-//                make.width.height.equalTo(200)
-//            }
-//        }
-//        nameContainer.snp.makeConstraints { (make) in
-//            make.bottom.equalToSuperview()
-//            make.width.centerX.equalToSuperview()
-//            make.height.equalTo(30)
-//        }
-//        name.snp.makeConstraints { (make) in
-//            make.width.centerX.equalToSuperview()
-//            make.bottom.equalToSuperview().inset(3)
-//        }
         
         backgroundView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()

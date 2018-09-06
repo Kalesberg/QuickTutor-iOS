@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 extension CALayer {
+
     func applyShadow(color: CGColor, opacity: Float, offset: CGSize, radius: CGFloat) {
         shadowColor = color
         shadowOpacity = opacity
