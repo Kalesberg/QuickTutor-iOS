@@ -192,6 +192,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     @objc func continueOutOfSession() {
         sessionOnHoldModal?.dismiss()
         pauseSessionModal?.dismiss()
+        connectionLostModal?.dismiss()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
         if AccountService.shared.currentUserType == .learner {
             let vc = AddTipVC()

@@ -90,6 +90,7 @@ class PauseSessionModal: BaseCustomModal {
     
     func setupAsLostConnection() {
         titleLabel.text = "Connection lost..."
+        animateTitleLabel()
     }
     
     override func setupViews() {
@@ -107,6 +108,18 @@ class PauseSessionModal: BaseCustomModal {
 		guard let username = partnerUsername?.split(separator: " ")[0] else { return }
         guard let uid = Auth.auth().currentUser?.uid, pausedById != "lostConnection" else { return }
         titleLabel.text = uid == pausedById ? "You paused the session." : "\(username) paused the session."
+    }
+    
+    var timer: Timer?
+    func animateTitleLabel() {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
+            if self.titleLabel.text == "Connection lost..." {
+                self.titleLabel.text = "Connection lost"
+            } else {
+                self.titleLabel.text = self.titleLabel.text! + "."
+            }
+        })
+        timer?.fire()
     }
     
     override func show() {

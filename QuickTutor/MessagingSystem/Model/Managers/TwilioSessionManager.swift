@@ -195,6 +195,10 @@ extension TwilioSessionManager: TVIRemoteParticipantDelegate, TVICameraCapturerD
         }
     }
     
+    func cameraCapturer(_ capturer: TVICameraCapturer, didStartWith source: TVICameraCaptureSource) {
+        self.previewView.shouldMirror = (source == .frontCamera)
+    }
+    
     func unsubscribed(from videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
         if remoteParticipant == participant {
             videoTrack.removeRenderer(remoteView)

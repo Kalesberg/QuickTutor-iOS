@@ -19,14 +19,12 @@ class VideoSessionView: UIView {
     var partnerCameraFeed: TVIVideoView = {
         let view = TVIVideoView()
         view.contentMode = .scaleAspectFill
-        view.shouldMirror = true
         return view
     }()
     
     let cameraPreviewView: TVIVideoView = {
         let view = TVIVideoView()
         view.contentMode = .scaleAspectFill
-        view.shouldMirror = true
         return view
     }()
     

@@ -172,7 +172,7 @@ class SessionReviewVC: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         DataService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
             guard let name = user?.formattedName,
-                let profilePicUrl = user?.profilePicUrl else {
+                let profilePicUrl = user?.profilePicUrl.absoluteString else {
                     print("ERROR: could not fetch name and pic for current user")
                     return
             }
