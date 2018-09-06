@@ -74,6 +74,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         return tableView
     }()
     
+    let dropShadowView = UIView()
+    
     var delegate : AddTutorButtonDelegate?
     
     var datasource : AWTutor! {
@@ -154,6 +156,13 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(tableViewContainer.snp.bottom).inset(22)
         }
+    
+        dropShadowView.snp.makeConstraints { (make) in
+            make.top.equalTo(header.snp.bottom)
+            make.width.equalToSuperview().inset(1)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(2)
+        }
     }
     
     override func layoutSubviews() {
@@ -161,6 +170,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         applyDefaultShadow()
         header.roundCorners([.topLeft, .topRight], radius: 10)
         tableViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 10)
+        dropShadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 1.0, offset: CGSize(width: 0, height: 1), radius: 1)
+        dropShadowView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
     }
     private func configureDelegates() {
         tableView.dataSource = self
@@ -177,6 +188,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         addSubview(header)
         addSubview(tableViewContainer)
         tableViewContainer.addSubview(tableView)
+        addSubview(dropShadowView)
         addSubview(reviewLabelContainer)
         reviewLabelContainer.addSubview(reviewLabel)
         addSubview(rateLabelContainer)
@@ -362,7 +374,17 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
 			
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
             
+            if datasource.count == 1 {
+                cell.tableView.snp.remakeConstraints { (make) in
+                    make.top.equalToSuperview()
+                    make.width.equalToSuperview().multipliedBy(0.95)
+                    make.height.equalTo(120)
+                    make.centerX.equalToSuperview()
+                }
+            }
+            
             cell.datasource = datasource
+            
             return cell
 
         case 4:
@@ -499,10 +521,10 @@ class TutorCardHeader : InteractableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        applyDefaultShadow()
-        layer.masksToBounds = false
         gradientView.applyGradient(firstColor: Colors.navBarColor.cgColor, secondColor: UIColor.clear.cgColor, angle: 0, frame: gradientView.bounds)
-        //layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.63, offset: CGSize(width: 3, height: 3), radius: 6)
+        
+        
+        //darkPattern.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.63, offset: CGSize(width: 3, height: 3), radius: 6)
     }
 }
 
