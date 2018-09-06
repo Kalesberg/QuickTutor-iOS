@@ -132,8 +132,8 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 		cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
 		cell.dateLabel.text = "\(data.date)"
 		cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-		
-		cell.applyConstraints()
+        
+        cell.applyConstraints()
         return cell
     }
     
