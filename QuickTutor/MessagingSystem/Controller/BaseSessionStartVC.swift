@@ -90,12 +90,10 @@ class BaseSessionStartVC: UIViewController {
     let confirmButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Accept Manual Start", for: .normal)
-        button.setTitleColor(UIColor(red: 31.0/255.0, green: 177.0/255.0, blue: 74.0/255.0, alpha: 1.0), for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = UIColor(red: 31.0/255.0, green: 177.0/255.0, blue: 74.0/255.0, alpha: 1.0).cgColor
+        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = Fonts.createSize(18)
         button.layer.cornerRadius = 4
-        button.backgroundColor = Colors.navBarColor
+        button.backgroundColor = Colors.navBarGreen
         button.isHidden = true
         return button
     }()
@@ -103,12 +101,10 @@ class BaseSessionStartVC: UIViewController {
     let cancelButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(UIColor(red: 178.0/255.0, green: 27.0/255.0, blue: 74.0/255.0, alpha: 1.0), for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = UIColor(red: 178.0/255.0, green: 27.0/255.0, blue: 74.0/255.0, alpha: 1.0).cgColor
+        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = Fonts.createSize(18)
         button.layer.cornerRadius = 4
-        button.backgroundColor = Colors.navBarColor
+        button.backgroundColor = Colors.qtRed
         return button
     }()
     

@@ -35,12 +35,10 @@ class InPersonSessionVC: BaseSessionVC {
     let cancelButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("End Session", for: .normal)
-        button.setTitleColor(UIColor(red: 178.0/255.0, green: 27.0/255.0, blue: 74.0/255.0, alpha: 1.0), for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = UIColor(red: 178.0/255.0, green: 27.0/255.0, blue: 74.0/255.0, alpha: 1.0).cgColor
+        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = Fonts.createSize(18)
         button.layer.cornerRadius = 4
-        button.backgroundColor = Colors.navBarColor
+        button.backgroundColor = Colors.qtRed
         return button
     }()
     

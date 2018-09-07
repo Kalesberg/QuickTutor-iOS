@@ -20,7 +20,7 @@ class SessionProfileBox: UIView {
     
     let imageView: CustomImageView = {
         let iv = CustomImageView()
-        iv.layer.cornerRadius = 56.5
+        iv.layer.cornerRadius = 4
         iv.backgroundColor = .clear
         iv.clipsToBounds = true
         return iv

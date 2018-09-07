@@ -139,21 +139,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         
     }
-    
-    func showTypingIndicator() {
-        typingIndicatorHeightAnchor?.constant = 50
-        UIView.animate(withDuration: 0.25) {
-            self.view.layoutIfNeeded()
-            self.scrollToBottom(animated: false)
-        }
-    }
-    
-    func hideTypingIndicator() {
-        typingIndicatorHeightAnchor?.constant = 0
-        UIView.animate(withDuration: 0.25) {
-            self.view.layoutIfNeeded()
-        }
-    }
+
     
     func handleLeftViewTapped() {
         pop()

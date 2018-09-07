@@ -12,6 +12,7 @@ import FirebaseAuth
 import UserNotifications
 import FBSDKCoreKit
 import Stripe
+import AVFoundation
 
 var navigationController = UINavigationController()
 
@@ -71,7 +72,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         window?.rootViewController = launchScreen
         window?.makeKeyAndVisible()
 
-        handleSignIn {}
+        handleSignIn {
+            self.proceedWithCameraAccess()
+            self.proceedWithMicrophoneAccess()
+        }
         
         return true
     }
@@ -131,7 +135,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         }
     }
     
-
+    func proceedWithCameraAccess()  {
+        AVCaptureDevice.requestAccess(for: .video) { success in
+        }
+    }
+    
+    func proceedWithMicrophoneAccess() {
+        AVCaptureDevice.requestAccess(for: .audio) { success in
+        }
+    }
     
     func handleSignIn(completion: @escaping () -> Void) {
         guard let user = Auth.auth().currentUser else {

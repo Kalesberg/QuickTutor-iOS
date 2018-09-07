@@ -189,7 +189,10 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     private func updateRating() {
-        guard let tutor = chatPartner as? ZFTutor, let rating = tutor.rating else { return }
+        guard let tutor = chatPartner as? ZFTutor, let rating = tutor.rating else {
+            starLabel.text = "5.0"
+            return
+        }
         starLabel.text = "\(rating)"
     }
     

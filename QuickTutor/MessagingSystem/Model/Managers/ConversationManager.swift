@@ -48,6 +48,7 @@ class ConversationManager {
     
     func loadPreviousMessagesByTimeStamp(limit: Int, completion: @escaping ([UserMessage]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard !loadedAllMessages else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         
         let ref = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(chatPartnerId ?? "")
@@ -69,6 +70,9 @@ class ConversationManager {
             if children.count == 0 {
                 self.messageAlreadyLoaded = false
                 completion([UserMessage]())
+            }
+            if children.count < limit {
+                self.loadedAllMessages = true
             }
             for child in children {
                 DataService.shared.getMessageById(child.key, completion: { message in

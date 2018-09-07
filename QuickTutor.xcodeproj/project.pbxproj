@@ -27,7 +27,6 @@
 		840E4E07213761C10045CD35 /* loading10.json in Resources */ = {isa = PBXBuildFile; fileRef = 840E4DFD213761C00045CD35 /* loading10.json */; };
 		840E4E08213761C10045CD35 /* loading11.json in Resources */ = {isa = PBXBuildFile; fileRef = 840E4DFE213761C10045CD35 /* loading11.json */; };
 		840E4E09213761C10045CD35 /* loading4.json in Resources */ = {isa = PBXBuildFile; fileRef = 840E4DFF213761C10045CD35 /* loading4.json */; };
-		840E4E0F213DA8A50045CD35 /* loading12.json in Resources */ = {isa = PBXBuildFile; fileRef = 840E4E0E213DA8A50045CD35 /* loading12.json */; };
 		840E75BA201E7DF6006FC580 /* LearnerPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75B9201E7DF6006FC580 /* LearnerPayment.swift */; };
 		840E75BC201E818C006FC580 /* LearnerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BB201E818C006FC580 /* LearnerSettings.swift */; };
 		840E75C2201E8419006FC580 /* LearnerFileReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C1201E8419006FC580 /* LearnerFileReport.swift */; };
@@ -282,6 +281,7 @@
 		CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */; };
 		CF387EC12088EE1000087449 /* InPersonSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */; };
 		CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */; };
+		CF3CE5F42141A5A300DE8FF0 /* loading12.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3CE5F32141A5A200DE8FF0 /* loading12.json */; };
 		CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */; };
 		CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */; };
 		CF4EA10E20E687E2007010F0 /* CardPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4EA10D20E687E2007010F0 /* CardPaymentCell.swift */; };
@@ -415,7 +415,6 @@
 		840E4DFD213761C00045CD35 /* loading10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading10.json; sourceTree = "<group>"; };
 		840E4DFE213761C10045CD35 /* loading11.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading11.json; sourceTree = "<group>"; };
 		840E4DFF213761C10045CD35 /* loading4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading4.json; sourceTree = "<group>"; };
-		840E4E0E213DA8A50045CD35 /* loading12.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading12.json; path = ../../../../Downloads/loading12.json; sourceTree = "<group>"; };
 		840E75B9201E7DF6006FC580 /* LearnerPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerPayment.swift; sourceTree = "<group>"; };
 		840E75BB201E818C006FC580 /* LearnerSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerSettings.swift; sourceTree = "<group>"; };
 		840E75BD201E8245006FC580 /* LearnerMyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMyProfile.swift; sourceTree = "<group>"; };
@@ -688,6 +687,7 @@
 		CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionStartVC.swift; sourceTree = "<group>"; };
 		CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonSessionStartVC.swift; sourceTree = "<group>"; };
 		CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlesSessionStartData.swift; sourceTree = "<group>"; };
+		CF3CE5F32141A5A200DE8FF0 /* loading12.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading12.json; sourceTree = "<group>"; };
 		CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "phone-ring.mp3"; sourceTree = "<group>"; };
 		CF4EA10D20E687E2007010F0 /* CardPaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentCell.swift; sourceTree = "<group>"; };
@@ -829,7 +829,7 @@
 				840E4DF6213761BA0045CD35 /* loading9.json */,
 				840E4DFD213761C00045CD35 /* loading10.json */,
 				840E4DFE213761C10045CD35 /* loading11.json */,
-				840E4E0E213DA8A50045CD35 /* loading12.json */,
+				CF3CE5F32141A5A200DE8FF0 /* loading12.json */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -1833,7 +1833,6 @@
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
-				DE44CE0D407DCB85B9040D42 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1923,7 +1922,7 @@
 				84D3A8AD201149DF000C2031 /* Assets.xcassets in Resources */,
 				840E4E03213761C10045CD35 /* loading2.json in Resources */,
 				CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */,
-				840E4E0F213DA8A50045CD35 /* loading12.json in Resources */,
+				CF3CE5F42141A5A300DE8FF0 /* loading12.json in Resources */,
 				842576722071310A00FD295B /* outdoors.json in Resources */,
 				840E4E00213761C10045CD35 /* loading9.json in Resources */,
 				842576762071325400FD295B /* sports.json in Resources */,
@@ -2010,21 +2009,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DE44CE0D407DCB85B9040D42 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
