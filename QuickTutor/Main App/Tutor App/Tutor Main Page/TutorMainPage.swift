@@ -101,9 +101,9 @@ class TutorMainPageView : MainPageView {
 
         collectionView.snp.makeConstraints { (make) in
             if(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
-                make.height.equalToSuperview().multipliedBy(0.27)
+                make.height.equalTo(175)
             } else {
-                make.height.equalToSuperview().multipliedBy(0.24)
+                make.height.equalTo(195)
             }
             make.width.equalToSuperview()
             make.top.equalTo(menuLabel.snp.bottom)

@@ -69,7 +69,11 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
             make.width.equalToSuperview().multipliedBy(0.95)
-            make.height.equalToSuperview().multipliedBy(0.8)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
             make.centerX.equalToSuperview()
         }
     }

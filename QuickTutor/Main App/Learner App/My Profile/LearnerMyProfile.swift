@@ -359,7 +359,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
 
             cell.profilePicView.loadUserImages(by: learner.images["image1"]!)
-            cell.ratingLabel.text = String(learner.lRating)
+            cell.ratingLabel.text = String(learner.lRating) + " ★"
 
             return cell
         case 1:
