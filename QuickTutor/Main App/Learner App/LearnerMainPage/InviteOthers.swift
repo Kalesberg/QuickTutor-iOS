@@ -183,7 +183,7 @@ class InviteOthersBackgroundView : InteractableView, Interactable {
         let formattedString = NSMutableAttributedString()
         
         formattedString
-            .bold("Connect your phone contacts to invite some peeps!", 19, .white)
+            .bold("Connect your phone contacts to invite some peeps! 👻", 19, .white)
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8

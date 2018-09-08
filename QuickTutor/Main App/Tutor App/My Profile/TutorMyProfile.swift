@@ -138,7 +138,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             let name = tutor.name.split(separator: " ")
             cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
             cell.profilePicView.loadUserImages(by: tutor.images["image1"]!)
-            cell.ratingLabel.text = String(tutor.tRating)
+            cell.ratingLabel.text = String(tutor.tRating) + " ★"
 
             return cell
         case 1:
