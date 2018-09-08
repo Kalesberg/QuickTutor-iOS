@@ -396,6 +396,13 @@ class FirebaseData {
 		})
 	}
 	
+	public func fetchTutorSubjectStats(_ uid: String, subcategory: String,_ completion: @escaping ([String : Any]?) -> Void) {
+		self.ref.child("subcategory").child(subcategory).child(uid).observeSingleEvent(of: .value) { (snapshot) in
+			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+			completion(value)
+		}
+	}
+	
 	public func fetchLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
 		let group = DispatchGroup()
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in

@@ -37,8 +37,8 @@ class SessionReviewVC: UIViewController {
         return box
     }()
     
-    let stars: RatingStartView = {
-        let view = RatingStartView(frame: CGRect(x: 0, y: 0, width: 140, height: 25))
+    let stars: RatingStarView = {
+        let view = RatingStarView(frame: CGRect(x: 0, y: 0, width: 140, height: 25))
         view.isUserInteractionEnabled = false
         return view
     }()

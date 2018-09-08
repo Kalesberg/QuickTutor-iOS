@@ -169,7 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
                 self.launchScreen.contentView.icon.alpha = 0.0
             }) { (true) in
-                navigationController = CustomNavVC(rootViewController: controller)
+                navigationController = CustomNavVC(rootViewController: SessionReview())
                 navigationController.navigationBar.isHidden = true
                 self.window?.makeKeyAndVisible()
                 self.window?.rootViewController = navigationController

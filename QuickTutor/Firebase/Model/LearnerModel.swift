@@ -33,7 +33,6 @@ class AWLearner {
 	var hasPayment : Bool = false
 	
 	init(dictionary: [String:Any]) {
-		
 		name = dictionary["nm"] as? String ?? ""
 		bio = dictionary["bio"] as? String ?? ""
 		birthday = dictionary["bd"] as? String ?? ""

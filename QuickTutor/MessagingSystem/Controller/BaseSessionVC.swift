@@ -188,21 +188,30 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         sessionOnHoldModal?.dismiss()
         socket.emit(SocketEvents.requestAddTime, ["id": uid, "roomKey": id, "seconds": minutes * 60])
     }
-    
+
     @objc func continueOutOfSession() {
         sessionOnHoldModal?.dismiss()
         pauseSessionModal?.dismiss()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
-        if AccountService.shared.currentUserType == .learner {
-            let vc = AddTipVC()
-            vc.sessionId = sessionId
-            guard let runtime = sessionManager?.sessionRuntime, let rate = sessionManager?.session.ratePerSecond() else { return }
-            vc.costOfSession = Double(runtime) * rate
-            vc.partnerId = sessionManager?.session.partnerId()
-            Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(Double(runtime) * rate)
+		
+		if AccountService.shared.currentUserType == .learner {
+			let vc = SessionReview()
+			guard let runTime = sessionManager?.sessionRuntime, let rate = sessionManager?.session.ratePerSecond() else { return }
+			guard let partnerId = sessionManager?.session.partnerId() else { return }
+			//vc.costOfSession = runTime * rate
+			// TODO: Figure out cost of session here pass it in as an Int.
+
+			vc.sessionId = sessionId
+			vc.partnerId = partnerId
+			vc.runTime = runTime
+			
+			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(runTime * rate)
             print("ZACH: continueing out of session")
-            navigationController?.pushViewController(vc, animated: true)
+			navigationController?.pushViewController(vc, animated: true)
         } else {
+			//Get other learner Account
+			//get session data
+			//Take tutor to Post-session frames
             let vc = SessionCompleteVC()
             print("ZACH: continueing out of session")
             vc.sessionId = sessionId
@@ -257,7 +266,6 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
             self.connectionLostModal?.dismiss()
         }
     }
-
 }
 
 extension BaseSessionVC: PauseSessionModalDelegate {

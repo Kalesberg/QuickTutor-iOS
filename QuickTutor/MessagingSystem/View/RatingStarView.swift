@@ -12,7 +12,7 @@ protocol RatingStarViewDelegate {
     func didUpdateRating(rating: Int)
 }
 
-class RatingStartView: UIView {
+class RatingStarView: UIView {
     
     class Star: UIButton {
         override init(frame: CGRect) {
@@ -69,7 +69,7 @@ class RatingStartView: UIView {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.contentMode = .scaleAspectFill
-        stackView.spacing = frame.height * 0.18
+        stackView.spacing = 10
         return stackView
     }()
     

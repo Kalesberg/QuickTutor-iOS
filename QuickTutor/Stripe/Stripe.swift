@@ -338,7 +338,6 @@ class Stripe {
 			})
 	}
 	class func removeConnectAccount(accountId: String, completion: @escaping (Error?) -> Void) {
-		//check for balance.
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/removeconnect.php"
 		let params : [String : Any] = ["acct" : accountId]
 		
