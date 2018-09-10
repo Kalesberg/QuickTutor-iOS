@@ -30,7 +30,7 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
         }
     }
     
-    let tableView  : UITableView = {
+    let tableView : UITableView = {
         let tableView = UITableView()
         
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -39,35 +39,24 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.backgroundColor = Colors.backgroundDark
+        tableView.sectionHeaderHeight = 50
         
         return tableView
     }()
     
-    fileprivate var subtitleLabel = LeftTextLabel()
-    
     override func configureView() {
         addSubview(tableView)
-        addSubview(subtitleLabel)
         super.configureView()
         
         title.label.text = "Reviews"
-        
-        subtitleLabel.label.textAlignment = .left
-        subtitleLabel.label.font = Fonts.createBoldSize(20)
         
         applyConstraints()
     }
     override func applyConstraints() {
         super.applyConstraints()
-        
-        subtitleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom).inset(-20)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
-        }
-        
+    
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
+            make.top.equalTo(navbar.snp.bottom).inset(-10)
             make.width.equalToSuperview().multipliedBy(0.95)
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide)
@@ -89,7 +78,6 @@ class LearnerReviews : BaseViewController {
 
     var datasource = [TutorReview]() {
         didSet {
-            contentView.subtitleLabel.label.text = "Reviews (\((datasource.count)))"
             contentView.tableView.reloadData()
         }
     }
@@ -139,6 +127,22 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
         
         cell.applyConstraints()
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let view = UIView()
+        let label = UILabel()
+        label.text = "Reviews (\((datasource.count)))"
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(20)
+        view.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.width.equalToSuperview().multipliedBy(0.95)
+            make.center.equalToSuperview()
+        }
+        
+        return view
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

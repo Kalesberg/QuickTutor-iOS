@@ -129,19 +129,38 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
-        
-        cell.textLabel?.text = "File a report with this session"
-        
-        return cell
+        if indexPath.section == 0 {
+            let cell = UITableViewCell()
+            cell.backgroundColor = Colors.backgroundDark
+            return cell
+        } else {
+            let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
+            cell.textLabel?.text = "File a report with this session"
+            return cell
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return datasource.count
+        return datasource.count + 1
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		return setHeader(index: section)
+        if section == 0 {
+            let view = UIView()
+            let label = UILabel()
+            label.text = "Your Past Sessions"
+            label.textColor = .white
+            label.font = Fonts.createBoldSize(20)
+            view.addSubview(label)
+            label.snp.makeConstraints { (make) in
+                make.width.equalToSuperview().multipliedBy(0.9)
+                make.center.equalToSuperview()
+            }
+            
+            return view
+        } else {
+            return setHeader(index: section)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
