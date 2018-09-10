@@ -11,23 +11,14 @@ import UIKit
 
 
 class TrendingCategoriesView : MainLayoutTitleBackButton {
-    
-    let titleLabel : UILabel = {
-        let label = UILabel()
-        
-        label.font = Fonts.createBoldSize(18)
-        label.text = "Top Categories"
-        label.textColor = .white
-        
-        return label
-    }()
 
 	let collectionView : UICollectionView =  {
 		
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
 		
 		let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 2, minimumInteritemSpacing: 5, minimumLineSpacing: 50, sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
-
+        
+        customLayout.headerReferenceSize = CGSize(width: collectionView.bounds.width, height: 70)
 		collectionView.collectionViewLayout = customLayout
 		collectionView.backgroundColor = .clear
 		collectionView.showsVerticalScrollIndicator = false
@@ -37,23 +28,17 @@ class TrendingCategoriesView : MainLayoutTitleBackButton {
 	}()
     
     override func configureView() {
-        addSubview(titleLabel)
 		addSubview(collectionView)
         super.configureView()
         
         title.label.text = "Trending Categories"
-		
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-        
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom).inset(-20)
-            make.left.equalToSuperview().inset(15)
-        }
+
 		collectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(titleLabel.snp.bottom).inset(-10)
+			make.top.equalTo(navbar.snp.bottom)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 			if #available(iOS 11.0, *) {
@@ -78,12 +63,32 @@ class TrendingCategories : BaseViewController {
         contentView.collectionView.delegate = self
 		contentView.collectionView.dataSource = self
 		contentView.collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "trendingCell")
+        contentView.collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
     }
 }
 extension TrendingCategories : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return category.count
 	}
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if (kind == UICollectionElementKindSectionHeader) {
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
+            
+            let label = UILabel()
+            label.text = "Top Categories"
+            label.textColor = .white
+            label.font = Fonts.createBoldSize(20)
+            headerView.addSubview(label)
+            label.snp.makeConstraints { (make) in
+                make.width.equalToSuperview().multipliedBy(0.9)
+                make.center.equalToSuperview()
+            }
+            
+            return headerView
+        }
+        fatalError()
+    }
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingCell", for: indexPath) as! CategoryCollectionViewCell
