@@ -31,7 +31,7 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
     }
     
     let tableView : UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
@@ -56,7 +56,7 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
         super.applyConstraints()
     
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom).inset(-10)
+            make.top.equalTo(navbar.snp.bottom).inset(-3)
             make.width.equalToSuperview().multipliedBy(0.95)
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide)
@@ -139,7 +139,8 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
         view.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.95)
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().inset(5)
         }
         
         return view
