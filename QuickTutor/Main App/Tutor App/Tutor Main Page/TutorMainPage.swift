@@ -188,7 +188,7 @@ class TutorMainPage : MainPage {
         if tutor.school != "" {
             formattedString
                 .bold(tutor.name + "\n", 17, .white)
-                .regular(tutor.school!, 14, .white)
+                .regular(tutor.school ?? "", 14, .white)
         } else {
             formattedString
                 .bold(tutor.name, 17, .white)

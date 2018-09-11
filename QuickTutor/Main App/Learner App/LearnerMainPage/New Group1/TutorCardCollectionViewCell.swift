@@ -383,8 +383,8 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                 }
             }
             
-            cell.datasource = datasource
-            
+			cell.datasource = datasource.sorted(by: { $0.date > $1.date })
+			
             return cell
 
         case 4:
