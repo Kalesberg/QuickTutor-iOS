@@ -130,7 +130,6 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         let view = UIView()
         let label = UILabel()
         label.text = "Reviews (\((datasource.count)))"

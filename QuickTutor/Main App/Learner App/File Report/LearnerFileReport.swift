@@ -49,7 +49,6 @@ class LearnerFileReportView : MainLayoutTitleBackButton {
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = Colors.backgroundDark
 		tableView.estimatedSectionHeaderHeight = 85
-		tableView.backgroundView = TutorCardCollectionViewBackground()
         tableView.alwaysBounceVertical = false
 
 		return tableView
@@ -535,7 +534,7 @@ class LearnerFileReport : BaseViewController {
 	var datasource = [UserSession]() {
 		didSet {
 			if datasource.count == 0 {
-				print("No Tutor")
+				print("HEre.")
 				let view = TutorCardCollectionViewBackground()
 				view.label.attributedText = NSMutableAttributedString().bold("No recent sessions!", 22, .white)
 				view.label.textAlignment = .center
@@ -554,6 +553,8 @@ class LearnerFileReport : BaseViewController {
 		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: "learner") { (sessions) in
 			if let sessions = sessions {
 				self.datasource = sessions.sorted(by: { $0.endTime > $1.endTime })
+			} else {
+				self.datasource = []
 			}
 		}
 		
@@ -635,7 +636,7 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return tableView.estimatedRowHeight
+		return indexPath.section == 0 ? 0 : tableView.estimatedRowHeight
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -666,10 +667,9 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
                 make.width.equalToSuperview().multipliedBy(0.9)
                 make.center.equalToSuperview()
             }
-            
             return view
         } else {
-            return setHeader(index: section)
+            return setHeader(index: section - 1)
         }
 	}
 	
@@ -678,8 +678,9 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		guard indexPath.section != 0 else { return }
 		let next = SessionDetails()
-		next.datasource = datasource[indexPath.section]
+		next.datasource = datasource[indexPath.section - 1]
 		self.navigationController?.pushViewController(next, animated: true)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}

@@ -208,7 +208,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
             } else {
                 if tutor.school != "" {
-                    cell.studysItem.label.text = "Studies at " + tutor.school!
+					cell.studysItem.label.text = "Studies at " + tutor.school!
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.tutorItem.snp.makeConstraints { (make) in
@@ -264,8 +264,8 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                     make.centerX.equalToSuperview()
                 }
             }
-            
-            cell.datasource = datasource
+			
+			cell.datasource = datasource.sorted(by: { $0.date > $1.date })
             
             return cell
             
