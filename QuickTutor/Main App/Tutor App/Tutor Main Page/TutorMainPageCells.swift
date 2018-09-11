@@ -56,7 +56,7 @@ class TutorMainPageHeaderCell : BaseTableViewCell {
         selectionStyle = .none
         
         icon.image = #imageLiteral(resourceName: "rating")
-        subHeaderLabel.text = "YOUR TUTOR RATING"
+        subHeaderLabel.text = "TUTOR RATING"
         
         applyConstraints()
     }
