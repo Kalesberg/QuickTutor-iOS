@@ -9,7 +9,7 @@
 import Foundation
 
 public enum StripeError : Error {
-	case removeBankAccountError, bankListError, balanceTransactionError, updateBankError, retrieveConnectAccountError
+	case removeBankAccountError, bankListError, balanceTransactionError, updateBankError, retrieveConnectAccountError, createChargeError
 }
 extension StripeError : LocalizedError {
 	public var errorDescription : String? {
@@ -24,6 +24,8 @@ extension StripeError : LocalizedError {
 			return NSLocalizedString("Unable to update default card at this time.", comment: "Stripe Error")
 		case .retrieveConnectAccountError:
 			return NSLocalizedString("Unable to retrieve account details at this time.", comment: "Stripe Error")
+		case .createChargeError:
+			return NSLocalizedString("Unable to create a charge at this time.", comment: "Stripe Error")
 		}
 	}
 }

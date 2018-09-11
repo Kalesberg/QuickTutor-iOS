@@ -63,7 +63,7 @@ class CustomTipModal: BaseCustomModal {
         background.addSubview(cancelTipButton)
         cancelTipButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 122, height: 35)
         window.addConstraint(NSLayoutConstraint(item: cancelTipButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))
-        cancelTipButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
+		cancelTipButton.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
     }
     
     func setupConfirmButton() {
@@ -78,7 +78,10 @@ class CustomTipModal: BaseCustomModal {
         parent?.amountToTip = priceInput.currentPrice
         dismiss()
     }
-    
+	@objc func dismissModal() {
+		dismiss()
+		parent?.didPressCancel()
+	}
     override func setupTitleLabel() {
         super.setupTitleLabel()
         titleLabel.text = "Custom Tip"

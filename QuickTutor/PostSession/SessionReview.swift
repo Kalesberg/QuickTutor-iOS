@@ -13,7 +13,7 @@ import SDWebImage
 
 protocol PostSessionInformationDelegate {
 	func didSelectRating(rating: Int)
-	func didSelectTipPercentage(tipAmount: Int?)
+	func didSelectTipPercentage(tipAmount: Int)
 	func didWriteReview(review: String?)
 	func reviewTextViewDidBecomeFirstResponsder()
 	func reviewTextViewDidResign()
@@ -21,7 +21,7 @@ protocol PostSessionInformationDelegate {
 
 struct PostSessionReviewData {
 	static var rating : Int!
-	static var tipPercentage : Int? = nil
+	static var tipAmount : Int = 0
 	static var review : String? = nil
 }
 
@@ -57,16 +57,6 @@ class SessionReviewHeader : UIView {
 		return view
 	}()
 	
-	let title : UILabel = {
-		let label = UILabel()
-		
-		label.textColor = .white
-		label.textAlignment = .center
-		label.font = Fonts.createBoldSize(18)
-		
-		return label
-	}()
-	
 	let subtitle : UILabel = {
 		let label = UILabel()
 		
@@ -77,11 +67,10 @@ class SessionReviewHeader : UIView {
 		return label
 	}()
 	
-	
 	func configureView() {
 		addSubview(containerView)
-		addSubview(title)
 		addSubview(subtitle)
+		
 		applyConstraints()
 	}
 	
@@ -90,15 +79,9 @@ class SessionReviewHeader : UIView {
 			make.top.width.centerX.equalToSuperview()
 			make.bottom.equalToSuperview().inset(5)
 		}
-		title.snp.makeConstraints { (make) in
-			make.centerY.equalToSuperview().inset(15)
-			make.width.centerX.equalToSuperview()
-			make.height.equalTo(30)
-		}
 		subtitle.snp.makeConstraints { (make) in
-			make.top.equalTo(title.snp.bottom)
-			make.width.centerX.equalToSuperview()
-			make.height.equalTo(20)
+			make.width.centerX.bottom.equalToSuperview().inset(10)
+			make.height.equalTo(30)
 		}
 	}
 	
@@ -117,6 +100,16 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 		imageView.image = #imageLiteral(resourceName: "defaultProfileImage")
 		
 		return imageView
+	}()
+	
+	let nameLabel : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = .white
+		label.textAlignment = .center
+		label.font = Fonts.createBoldSize(18)
+		
+		return label
 	}()
 	
 	let collectionView : UICollectionView = {
@@ -160,6 +153,7 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 	override func configureView() {
 		addSubview(collectionView)
 		addSubview(profileImageView)
+		addSubview(nameLabel)
 		addSubview(nextButton)
 		addSubview(errorLabel)
 		super.configureView()
@@ -175,6 +169,11 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 			make.top.equalTo(navbar.snp.bottom).inset(-10)
 			make.centerX.equalToSuperview()
 			make.width.height.equalTo(100)
+		}
+		nameLabel.snp.makeConstraints { (make) in
+			make.top.equalTo(profileImageView.snp.bottom)
+			make.centerX.width.equalToSuperview()
+			make.height.equalTo(25)
 		}
 		nextButton.snp.makeConstraints { (make) in
 			make.bottom.width.centerX.equalToSuperview()
@@ -208,18 +207,18 @@ class SessionReview : BaseViewController {
 	}
 	let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
-	var postSessionData : PostSessionData?
+	var postSessionData : Session?
 	var sessionId : String!
 	var costOfSession: Int = 1800
 	var partnerId : String = "GhKRwo0Z0DchEWDR3U0oa9hs9Pk2"
-	var runTime : Int = 36000
-	
+	var runTime : Int = 180
+	var subject : String! = "Language Arts"
 	var tutor : AWTutor!
 	var learner : AWLearner!
 	
 	var cellTitles = [String]()
 	var cellHeaderViewTitles : [String] = ["Rate your overall experience", "Leave your tutor a review."]
-	var buttonTitles : [String] = ["Submit Rating","Submit Review","No Tip", "Complete"]
+	var buttonTitles : [String] = ["Submit Rating","Submit Review","Submit & Pay", "Complete"]
 
 	var currentItem : Int = 0
 	
@@ -279,6 +278,8 @@ class SessionReview : BaseViewController {
 	private func setupViewForTutorReview() {
 		let nameSplit = self.tutor.name.split(separator: " ")
 		let name = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))
+		contentView.nameLabel.text = name
+		
 		cellTitles =  ["How was your time with \(name)?", "Was this session helpful?", "It's optional, but highly appreciated."]
 		cellHeaderViewTitles.append("Leave your tutor a tip.")
 		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"))
@@ -287,6 +288,7 @@ class SessionReview : BaseViewController {
 	private func setupViewForLearnerReview() {
 		let nameSplit = self.learner.name.split(separator: " ")
 		let name = String(nameSplit[0]) + " " +  String(nameSplit[1].prefix(1))
+		contentView.nameLabel.text = name
 		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"))
 		self.cellTitles =  ["How was your time with \(name)?", "Was this session helpful?"]
 	}
@@ -295,17 +297,20 @@ class SessionReview : BaseViewController {
 		return naughtyWords.reduce(false) {$0 || text.contains ($1.lowercased()) }
 	}
 	
+	func displayErrorMessage(text: String) {
+		contentView.errorLabel.text = text
+		contentView.errorLabel.shake()
+		contentView.errorLabel.isHidden = false
+	}
+	
 	@objc private func nextButtonPressed(_ sender: UIButton) {
 		contentView.errorLabel.isHidden = true
-
 		switch currentItem {
 		case 0:
 			if PostSessionReviewData.rating != nil {
 				contentView.collectionView.scrollToItem(at: IndexPath(item: currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
 			} else {
-				contentView.errorLabel.text = "Please give this tutor a rating."
-				contentView.errorLabel.shake()
-				contentView.errorLabel.isHidden = false
+				displayErrorMessage(text: "Please give this tutor a rating.")
 			}
 		case 1:
 			if let review = PostSessionReviewData.review {
@@ -313,16 +318,24 @@ class SessionReview : BaseViewController {
 				if !doesContainNaughtyWord(text: review.lowercased(), naughtyWords: naughtyWords) {
 					contentView.collectionView.scrollToItem(at: IndexPath(item: currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
 				} else {
-					contentView.errorLabel.text = "Reviews cannot contain inappropriate words."
-					contentView.errorLabel.shake()
-					contentView.errorLabel.isHidden = false
+					displayErrorMessage(text: "Reviews cannot contain inappropriate words.")
 				}
 			} else {
 				contentView.collectionView.scrollToItem(at: IndexPath(item: currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
 			}
 		case 2:
-			contentView.collectionView.scrollToItem(at: IndexPath(item: currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
-			finishAndUpload()
+			contentView.nextButton.isEnabled = false
+			var cost = costOfSession
+			cost += PostSessionReviewData.tipAmount * 100
+			createCharge(cost: cost) { (error) in
+				if let error = error {
+					print(error.localizedDescription)
+				} else {
+					self.finishAndUpload()
+					self.contentView.collectionView.scrollToItem(at: IndexPath(item: self.currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
+				}
+				self.contentView.nextButton.isEnabled = true
+			}
 		case 3:
 			self.navigationController?.popBackToMain()
 		default:
@@ -333,31 +346,64 @@ class SessionReview : BaseViewController {
 	private func finishAndUpload() {
 		if AccountService.shared.currentUserType == .learner {
 			let updatedRating = ((tutor.tRating * Double(tutor.tNumSessions)) + Double(PostSessionReviewData.rating)) / Double(tutor.tNumSessions + 1)
-			let updatedHours = Double(tutor.hours) + round(Double(runTime) / 60 / 60) //hours
-			let duration = runTime / 60 //minutes
-			//create charge on laerners account
-			createCharge(cost: costOfSession)
-			//call 'Subject' and 'Subcategory' to update those ratings -- do this last. we don't even use them.
+			let updatedHours = Double(tutor.hours) + round(Double(runTime) / 60 / 60)
+			guard let subcategory = SubjectStore.findSubCategory(resource: SubjectStore.findCategoryBy(subject: subject)!, subject: subject) else { return }
+			let tutorInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "tr" : updatedRating.truncate(places: 1)]
+			let subcategoryInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
+			FirebaseData.manager.updateTutorPostSession(uid: partnerId, subcategory: subcategory.lowercased(), tutorInfo: tutorInfo, subcategoryInfo: subcategoryInfo)
 			
+			if PostSessionReviewData.review != nil && PostSessionReviewData.review! != "" {
+				let reviewDict : [String : Any] = [
+					"dte" : Date().timeIntervalSince1970,
+					"dur" : round(Double(runTime) / 60),
+					"uid" : partnerId,
+					"m" : PostSessionReviewData.review!,
+					"nm" : tutor.name,
+					"p" : costOfSession / 100,
+					"r" : PostSessionReviewData.rating,
+					"sbj" : subject
+				]
+				FirebaseData.manager.updateReviewPostSession(uid: partnerId, type: "learner", review: reviewDict)
+			}
 		} else {
-			//learner data
+			let updatedRating = ((learner.lRating * Double(learner.lNumSessions)) + Double(PostSessionReviewData.rating)) / Double(learner.lNumSessions + 1)
+			let updatedHours = Double(learner.lHours) + round(Double(runTime) / 60 / 60)
+			FirebaseData.manager.updateLearnerPostSession(uid: CurrentUser.shared.learner.uid, studentInfo: ["nos" : learner.lNumSessions + 1, "lhs" : updatedHours, "r" : updatedRating.truncate(places: 1)])
+			if let review = PostSessionReviewData.review {
+				let reviewDict : [String : Any] = [
+					"dte" : Date().timeIntervalSince1970,
+					"dur" : round(Double(runTime) / 60),
+					"uid" : partnerId,
+					"m" : review,
+					"nm" : learner.name,
+					"p" : costOfSession / 100,
+					"r" : PostSessionReviewData.rating,
+					"sbj" : subject
+				]
+				FirebaseData.manager.updateReviewPostSession(uid: partnerId, type: "tutor", review: reviewDict)
+			}
 		}
 	}
-	
-	private func createCharge(cost: Int) {
+
+	private func createCharge(cost: Int, completion: @escaping (Error?) -> Void) {
 		let fee = Int(Double(cost) * 0.10)
+		self.displayLoadingOverlay()
 		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
 			if let error = error {
-				print(error.localizedDescription)
+				self.dismissOverlay()
+				completion(error)
 			} else if let customer = customer {
-				guard let card = customer.defaultSource?.stripeID else { print("Could not find card..."); return }
-				//Format amount...
+				guard let card = customer.defaultSource?.stripeID else {
+					self.dismissOverlay()
+					return completion(StripeError.createChargeError)
+				}
 				Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: "Think of clever description of charge.", { (error) in
 					if let error = error {
-						print(error.localizedDescription)
+						completion(error)
 					} else {
-						//TODO: Navigate.
+						completion(nil)
 					}
+					self.dismissOverlay()
 				})
 			}
 		}
@@ -373,7 +419,6 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ratingCell", for: indexPath) as! RatingCell
 			
 			cell.delegate = self
-			cell.titleView.title.text = (AccountService.shared.currentUserType == .learner) ? String(tutor.name.split(separator: " ")[0]) : String(learner.name.split(separator: " ")[0])
 			cell.titleView.subtitle.text = cellTitles[indexPath.row]
 			cell.title.text = cellHeaderViewTitles[indexPath.row]
 			
@@ -382,28 +427,43 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "reviewCell", for: indexPath) as! ReviewCell
 			
 			cell.delegate = self
-			cell.titleView.title.text = (AccountService.shared.currentUserType == .learner) ? String(tutor.name.split(separator: " ")[0]) : String(learner.name.split(separator: " ")[0])
 			cell.titleView.subtitle.text = cellTitles[indexPath.row]
 			cell.title.text = cellHeaderViewTitles[indexPath.row]
 
 			return cell
 		case 2:
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tipCell", for: indexPath) as! TipCell
-			
-			cell.delegate = self
-			cell.total = Double(costOfSession)
-			cell.titleView.title.text = (AccountService.shared.currentUserType == .learner) ? String(tutor.name.split(separator: " ")[0]) : String(learner.name.split(separator: " ")[0])
-			cell.titleView.subtitle.text = cellTitles[indexPath.row]
-			cell.title.text = cellHeaderViewTitles[indexPath.row]
+			if AccountService.shared.currentUserType == .learner {
+				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tipCell", for: indexPath) as! TipCell
+				cell.delegate = self
+				cell.total = Double(costOfSession)
+				cell.titleView.subtitle.text = cellTitles[indexPath.row]
+				cell.title.text = cellHeaderViewTitles[indexPath.row]
+				return cell
 
-			return cell
+			} else {
+				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "receiptCell", for: indexPath) as! ReceiptCell
+				return cell
+
+			}
 		case 3:
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "receiptCell", for: indexPath) as! ReceiptCell
+			cell.partner.profileImageView.image = contentView.profileImageView.image
+			cell.partner.infoLabel.text = contentView.nameLabel.text
+			cell.subject.infoLabel.text = postSessionData?.subject
+			let (h,m) = secondsToHoursMinutesSeconds(seconds: runTime)
+			
+			cell.sessionLength.infoLabel.text = "\(h) Hours and \(m) Minutes)"
+			cell.tip.infoLabel.text = "\(PostSessionReviewData.tipAmount)"
+			cell.total.infoLabel.text = String(format: "%.2f", costOfSession + PostSessionReviewData.tipAmount)
 			
 			return cell
 		default:
 			return UICollectionViewCell()
 		}
+	}
+	
+	func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int) {
+		return (seconds / 3600, (seconds % 3600) / 60)
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -420,35 +480,41 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 		if let indexPath = contentView.collectionView.indexPathForItem(at: center) {
 			currentItem = indexPath.row
 			contentView.nextButton.setTitle(buttonTitles[currentItem], for: .normal)
-			contentView.profileImageView.isHidden = (currentItem == 3)
+			UIView.animate(withDuration: 0.2) {
+				self.contentView.profileImageView.transform = (self.currentItem == 3) ? CGAffineTransform.init(scaleX: 0, y: 0) : .identity
+				self.contentView.nameLabel.isHidden = (self.currentItem == 3)
+			}
 		}
 	}
 }
 
 extension SessionReview : PostSessionInformationDelegate {
 	func reviewTextViewDidBecomeFirstResponsder() {
-		UIView.animate(withDuration: 0.2) {
+		UIView.animate(withDuration: 0.1) {
 			self.contentView.profileImageView.transform = CGAffineTransform.init(scaleX: 0, y: 0)
+			self.contentView.nameLabel.alpha = 0
 		}
 	}
 	func reviewTextViewDidResign() {
 		UIView.animate(withDuration: 0.2) {
 			self.contentView.profileImageView.transform = .identity
+			self.contentView.nameLabel.alpha = 1
 		}
 	}
 	func didSelectRating(rating: Int) {
 		PostSessionReviewData.rating = rating
 	}
-	func didSelectTipPercentage(tipAmount: Int?) {
-		if tipAmount != nil {
-			contentView.nextButton.setTitle("Submit & Pay", for: .normal)
-		} else {
-			contentView.nextButton.setTitle("No Tip", for: .normal)
-		}
-		PostSessionReviewData.tipPercentage = tipAmount
+	func didSelectTipPercentage(tipAmount: Int) {
+		PostSessionReviewData.tipAmount = tipAmount
 	}
 	
 	func didWriteReview(review: String?) {
 		PostSessionReviewData.review = review
+	}
+}
+
+extension Double {
+	func truncate(places : Int)-> Double {
+		return Double(floor(pow(10.0, Double(places)) * self)/pow(10.0, Double(places)))
 	}
 }

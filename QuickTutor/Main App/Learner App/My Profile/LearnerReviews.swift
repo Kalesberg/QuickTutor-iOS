@@ -11,12 +11,6 @@ import UIKit
 import FirebaseUI
 import SDWebImage
 
-struct Review {
-    let fname : String!
-    let lname : String!
-    let rating : String!
-}
-
 class LearnerReviewsView : MainLayoutTitleOneButton {
     
     var backButton = NavbarButtonXLight()

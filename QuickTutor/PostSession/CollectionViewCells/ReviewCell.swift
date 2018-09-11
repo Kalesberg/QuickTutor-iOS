@@ -18,7 +18,7 @@ class ReviewCell : BasePostSessionCell {
 		textView.textColor = UIColor.gray
 		textView.tintColor = .white
 		textView.backgroundColor = .clear
-		textView.returnKeyType = .default
+		textView.returnKeyType = .done
 		textView.text = "Tell us about your experience..."
 		
 		return textView
@@ -133,7 +133,6 @@ extension ReviewCell : UITextViewDelegate {
 		if characters <= maxCharacters {
 			characterCount.textColor = .white
 			characterCount.text = String(charactersFromMax) + "/500"
-			
 		} else {
 			characterCount.textColor = UIColor.red
 			characterCount.text = String(charactersFromMax) + "/500"
@@ -147,6 +146,10 @@ extension ReviewCell : UITextViewDelegate {
 		return true
 	}
 	func textViewDidEndEditing(_ textView: UITextView) {
+		if textView.text == "" {
+			textView.text = "Tell us about your experience..."
+			textView.textColor = UIColor.gray
+		}
 		delegate?.didWriteReview(review: textView.text)
 		delegate?.reviewTextViewDidResign()
 		resetTextViewWhenKeyboardResigns()

@@ -198,13 +198,15 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
 			let vc = SessionReview()
 			guard let runTime = sessionManager?.sessionRuntime, let rate = sessionManager?.session.ratePerSecond() else { return }
 			guard let partnerId = sessionManager?.session.partnerId() else { return }
-			//vc.costOfSession = runTime * rate
-			// TODO: Figure out cost of session here pass it in as an Int.
-
+			guard let subject = sessionManager?.session.subject else { return }
+			guard let session = sessionManager?.session else { return }
+			
+			vc.postSessionData = session
+			vc.costOfSession = runTime * rate
 			vc.sessionId = sessionId
 			vc.partnerId = partnerId
 			vc.runTime = runTime
-			
+			vc.subject = subject
 			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(runTime * rate)
             print("ZACH: continueing out of session")
 			navigationController?.pushViewController(vc, animated: true)

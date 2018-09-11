@@ -19,7 +19,7 @@ class AWLearner {
 	var phone     : String!
 	var lNumSessions : Int!
 	var customer  : String!
-		
+	var lHours : Int!
 	var school    : String?
 	var languages : [String]?
 	
@@ -43,5 +43,6 @@ class AWLearner {
 		customer = dictionary["cus"] as? String ?? ""
 		lNumSessions = dictionary["nos"] as? Int ?? 0
 		lRating = dictionary["r"] as? Double ?? 0.0
+		lHours = dictionary["lhr"] as? Int ?? 0
 	}
 }

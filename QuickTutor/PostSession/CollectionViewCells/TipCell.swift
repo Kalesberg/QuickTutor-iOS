@@ -9,7 +9,8 @@
 import Foundation
 import Stripe
 
-class TipCell : BasePostSessionCell {
+
+class TipCell : BasePostSessionCell, CustomTipPresenter {
 	
 	let tipContainer : UIView = {
 		let view = UIView()
@@ -17,13 +18,23 @@ class TipCell : BasePostSessionCell {
 		return view
 	}()
 	
+	let tipOption0 : UIButton = {
+		let button = UIButton()
+		
+		button.backgroundColor = Colors.learnerPurple
+		button.setTitle("No Tip", for: .normal)
+		button.titleLabel?.font = Fonts.createSize(15)
+		button.tag = 0
+		
+		return button
+	}()
 	let tipOption1 : UIButton = {
 		let button = UIButton()
 		
 		button.backgroundColor = Colors.learnerPurple
-		button.setTitle("5%", for: .normal)
+		button.setTitle("$2", for: .normal)
 		button.titleLabel?.font = Fonts.createSize(15)
-		button.tag = 0
+		button.tag = 1
 
 		return button
 	}()
@@ -32,9 +43,9 @@ class TipCell : BasePostSessionCell {
 		let button = UIButton()
 		
 		button.backgroundColor = Colors.learnerPurple
-		button.setTitle("10%", for: .normal)
+		button.setTitle("$4", for: .normal)
 		button.titleLabel?.font = Fonts.createSize(15)
-		button.tag = 1
+		button.tag = 2
 
 		return button
 	}()
@@ -43,9 +54,9 @@ class TipCell : BasePostSessionCell {
 		let button = UIButton()
 		
 		button.backgroundColor = Colors.learnerPurple
-		button.setTitle("15%", for: .normal)
+		button.setTitle("$6", for: .normal)
 		button.titleLabel?.font = Fonts.createSize(15)
-		button.tag = 2
+		button.tag = 3
 		
 		return button
 	}()
@@ -56,9 +67,9 @@ class TipCell : BasePostSessionCell {
 		button.backgroundColor = Colors.learnerPurple
 		button.setTitle("Custom", for: .normal)
 		button.setTitleColor(Colors.selectedPurple, for: .selected)
-		button.titleLabel?.font = Fonts.createSize(15)
+		button.titleLabel?.font = Fonts.createSize(18)
 		button.titleLabel?.adjustsFontSizeToFitWidth = true
-		button.tag = 3
+		button.tag = 4
 		
 		return button
 	}()
@@ -74,10 +85,10 @@ class TipCell : BasePostSessionCell {
 		return label
 	}()
 	
-	lazy var buttons = [tipOption1, tipOption2, tipOption3, tipOption4]
+	lazy var buttons = [tipOption0, tipOption1, tipOption2, tipOption3, tipOption4]
 	
 	lazy var stackView: UIStackView = {
-		let stackView = UIStackView(arrangedSubviews: [tipOption1, tipOption2, tipOption3, tipOption4])
+		let stackView = UIStackView(arrangedSubviews: [tipOption0, tipOption1, tipOption2, tipOption3, tipOption4])
 		
 		stackView.axis = .horizontal
 		stackView.distribution = .fillEqually
@@ -87,16 +98,25 @@ class TipCell : BasePostSessionCell {
 		return stackView
 	}()
 	
+	var customTipModal: CustomTipModal?
+	
+	var amountToTip = 0.0 {
+		didSet {
+			totalLabel.text = "Total: $" + String(format: "%.2f", amountToTip + (total / 100))
+			delegate?.didSelectTipPercentage(tipAmount: Int(amountToTip))
+		}
+	}
+	
 	var delegate : PostSessionInformationDelegate?
 	var selectedButton : Int? = nil
 	
 	var total : Double = 0.0 {
 		didSet {
-			totalLabel.text = "Total: $" + String(format: "%.2f", total)
+			totalLabel.text = "Total: $" + String(format: "%.2f", total / 100)
 		}
 	}
 
-	var buttonAmounts = [0.05, 0.10, 0.15]
+	var buttonAmounts = [0, 2, 4, 6]
 	var customer : STPCustomer!
 	
 	override func configureCollectionViewCell() {
@@ -133,47 +153,51 @@ class TipCell : BasePostSessionCell {
 	}
 	
 	private func setupButtons() {
-		buttons.forEach {
-			$0.addTarget(self, action: #selector(tipButtonPressed(_:)), for: .touchUpInside)
-		}
+		buttons.forEach({$0.addTarget(self, action: #selector(tipButtonPressed(_:)), for: .touchUpInside)})
+		tipOption4.addTarget(self, action: #selector(customTipButtonPressed(_:)), for: .touchUpInside)
 	}
 	
 	@objc private func tipButtonPressed(_ sender: UIButton) {
 		if sender.tag == selectedButton {
-			totalLabel.text = "Total: $" + String(format: "%.2f", total)
+			guard sender.tag != 4 else { return }
+			totalLabel.text = "Total: $" + String(format: "%.2f", total / 100)
 			buttons[sender.tag].backgroundColor = Colors.learnerPurple
 			selectedButton = nil
-			delegate?.didSelectTipPercentage(tipAmount: nil)
+			delegate?.didSelectTipPercentage(tipAmount: 0)
 		} else if selectedButton == nil {
 			updateTotalLabel(tag: sender.tag)
 			buttons[sender.tag].backgroundColor = Colors.selectedPurple
 			selectedButton = sender.tag
+			guard sender.tag != 4 else { return }
 			delegate?.didSelectTipPercentage(tipAmount: Int(buttonAmounts[sender.tag]))
 		} else {
 			updateTotalLabel(tag: sender.tag)
 			buttons[sender.tag].backgroundColor = Colors.selectedPurple
 			buttons[selectedButton!].backgroundColor = Colors.learnerPurple
 			selectedButton = sender.tag
+			guard sender.tag != 4 else { return }
 			delegate?.didSelectTipPercentage(tipAmount: Int(buttonAmounts[sender.tag]))
 		}
 	}
-	private func updateTotalLabel(tag: Int) {
-		if tag == 3 {
-			displayTextFieldForCustomTip()
-			return
-		}
-		let newTotal = (total * buttonAmounts[tag]) + total
-		totalLabel.text = "Total: $" + String(format: "%.2f", newTotal)
-	}
-	private func displayTextFieldForCustomTip() {
-		//create a view and display it over the tipContainer.
-	}
-	private func dismissTextFieldForCustomTip() {
-		//dismiss that view.
+	
+	@objc private func customTipButtonPressed(_ sender: UIButton) {
+		customTipModal = CustomTipModal()
+		customTipModal?.parent = self
+		customTipModal?.show()
 	}
 	
+	private func updateTotalLabel(tag: Int) {
+		guard tag != 4 else { return }
+		let newTotal = total + Double(buttonAmounts[tag] * 100)
+		totalLabel.text = "Total: $" + String(format: "%.2f", newTotal / 100)
+	}
+
 	private func getTipAmounts(total: Int) -> [Int] {
 		return []
 	}
+	func didPressCancel() {
+		tipOption4.backgroundColor = Colors.learnerPurple
+		selectedButton = nil
+		delegate?.didSelectTipPercentage(tipAmount: 0)
+	}
 }
-

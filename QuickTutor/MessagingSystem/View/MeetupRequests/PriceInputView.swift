@@ -31,7 +31,7 @@ class PriceInputView: UIView {
     }
     
     func getFormattedPrice() {
-        let priceString = String(format: "%.2f", currentPrice)
+        let priceString = String(format: "%.0f", currentPrice)
         priceLabel.text = "$\(priceString)"
     }
     
@@ -54,7 +54,7 @@ class PriceInputView: UIView {
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "$0.00"
+        label.text = "$0"
         label.textColor = .white
         label.textAlignment = .center
         label.font = Fonts.createBoldSize(34)

@@ -11,6 +11,8 @@ import Firebase
 import Stripe
 
 class AddTipVC: UIViewController, CustomTipPresenter {
+	func didPressCancel() {}
+	
     
     var partnerId: String!
     let tipTitles = ["No tip", "$2", "$4", "$6", "Custom"]
@@ -379,4 +381,5 @@ extension AddTipVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 
 protocol CustomTipPresenter {
     var amountToTip: Double { get set }
+	func didPressCancel()
 }
