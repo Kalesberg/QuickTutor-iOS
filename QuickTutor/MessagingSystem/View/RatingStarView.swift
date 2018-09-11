@@ -20,6 +20,7 @@ class RatingStarView: UIView {
             setImage(#imageLiteral(resourceName: "filledStar"), for: .normal)
             setImage(#imageLiteral(resourceName: "emptyStar"), for: .selected)
             contentMode = .scaleAspectFit
+            imageView?.scaleImage()
             isSelected = true
             adjustsImageWhenHighlighted = false
         }
@@ -68,7 +69,7 @@ class RatingStarView: UIView {
         let stackView = UIStackView(arrangedSubviews: [star1, star2, star3, star4, star5])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.contentMode = .scaleAspectFill
+        stackView.contentMode = .scaleAspectFit
         stackView.spacing = 10
         return stackView
     }()

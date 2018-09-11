@@ -101,7 +101,7 @@ class ReviewCell : BasePostSessionCell {
 	private func resetTextViewWhenKeyboardResigns() {
 		self.titleView.snp.remakeConstraints { (make) in
 			make.top.width.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.20)
+			make.height.equalTo(120)
 		}
 		
 		self.backgroundHeaderView.snp.remakeConstraints { (make) in

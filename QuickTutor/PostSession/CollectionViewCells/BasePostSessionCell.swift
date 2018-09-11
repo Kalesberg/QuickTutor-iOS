@@ -47,7 +47,7 @@ class BasePostSessionCell : UICollectionViewCell {
 	func applyConstraints() {
 		titleView.snp.makeConstraints { (make) in
 			make.top.width.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.20)
+			make.height.equalTo(120)
 		}
 		backgroundHeaderView.snp.makeConstraints { (make) in
 			make.top.equalTo(titleView.snp.bottom).inset(-30)
