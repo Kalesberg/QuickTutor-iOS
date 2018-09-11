@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "requestSessionButton.png",
+      "filename" : "sessionIconWhite.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "requestSessionButton@2x.png",
+      "filename" : "sessionIconWhite@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "requestSessionButton@3x.png",
+      "filename" : "sessionIconWhite@3x.png",
       "scale" : "3x"
     }
   ],

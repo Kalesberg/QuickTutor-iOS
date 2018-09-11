@@ -46,12 +46,12 @@ class ConversationCell: SwipeCollectionViewCell {
         let label = UILabel()
         label.textAlignment = .right
         label.font = Fonts.createBoldSize(9)
-        label.textColor = UIColor(hex: "FFDA02")
+        label.textColor = Colors.gold
         return label
     }()
     
     let starIcon: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()

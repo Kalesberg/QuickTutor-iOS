@@ -144,7 +144,6 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         partnerBox.anchor(top: fakeNavBar.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 137, height: 178)
         view.addConstraint(NSLayoutConstraint(item: partnerBox, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
         partnerBox.updateUI(uid: partnerId)
-        partnerBox.imageView.layer.cornerRadius = 55
     }
     
     func setupDescriptionLabel() {

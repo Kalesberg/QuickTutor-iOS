@@ -14,7 +14,6 @@ class ReviewProfileBox: SessionProfileBox {
         addSubview(imageView)
         imageView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 123, height: 123)
         addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: boundingBox, attribute: .centerX, multiplier: 1, constant: 0))
-        imageView.layer.cornerRadius = 123/2
     }
     
     override func setupNameLabel() {

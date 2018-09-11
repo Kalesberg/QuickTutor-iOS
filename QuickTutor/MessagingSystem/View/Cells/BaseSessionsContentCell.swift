@@ -63,7 +63,7 @@ class BaseSessionsContentCell: BaseContentCell {
                 
                 if session.startTime < Date().timeIntervalSince1970 {
                     if !self.pastSessions.contains(where: { $0.id == session.id }) {
-                        self.pastSessions.append(session)
+                        self.pastSessions.insert(session, at: 0)
                     }
                     self.attemptReloadOfTable()
                     return

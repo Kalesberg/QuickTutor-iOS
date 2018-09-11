@@ -16,6 +16,13 @@ class SessionNavBar: UIView {
         return view
     }()
     
+    let clockBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.sidebarPurple
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
     let clockIcon: UIImageView = {
         let iv = UIImageView(image: #imageLiteral(resourceName: "clockIcon"))
         iv.contentMode = .scaleAspectFit
@@ -24,40 +31,16 @@ class SessionNavBar: UIView {
     
     let timeLabel: CountdownTimer = {
         let coundown = CountdownTimer()
+        coundown.label.text = "00:00:00"
         return coundown
     }()
     
-    let timeDescriptionLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .white
-        label.text = "hh : mm : ss"
-        label.font = Fonts.createSize(11)
-        return label
-    }()
-    
-    let sessionTypeIcon: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "videoCameraIcon"))
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
-    
-    let sessionTypeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Video"
-        label.textColor = .white
-        label.textAlignment = .center
-        label.font = Fonts.createSize(10)
-        return label
-    }()
     
     func setupViews() {
         setupBackgroundView()
+        setupClockBackgroundView()
         setupClockIcon()
         setupTimeLabel()
-        setupTimeDescriptionLabel()
-        setupSessionTypeIcon()
-        setupSessionTypeLabel()
     }
     
     func setupBackgroundView() {
@@ -66,30 +49,23 @@ class SessionNavBar: UIView {
         backgroundView.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
     }
     
+    func setupClockBackgroundView() {
+        addSubview(clockBackgroundView)
+        clockBackgroundView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: -20, paddingBottom: 18, paddingRight: 0, width: 130, height: 40)
+    }
+    
     func setupClockIcon() {
         addSubview(clockIcon)
-        clockIcon.anchor(top: backgroundView.topAnchor, left: backgroundView.leftAnchor, bottom: backgroundView.bottomAnchor, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 20, paddingRight: 0, width: 27, height: 30)
+        clockIcon.anchor(top: clockBackgroundView.topAnchor, left: clockBackgroundView.leftAnchor, bottom: clockBackgroundView.bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 30, paddingBottom: 8, paddingRight: 0, width: 20, height: 20)
     }
     
     func setupTimeLabel() {
         addSubview(timeLabel)
-        timeLabel.anchor(top: clockIcon.topAnchor, left: clockIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 100, height: 15)
+        timeLabel.anchor(top: clockIcon.topAnchor, left: clockIcon.rightAnchor, bottom: clockIcon.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 100, height: 0)
     }
     
-    func setupTimeDescriptionLabel() {
-        addSubview(timeDescriptionLabel)
-        timeDescriptionLabel.anchor(top: timeLabel.bottomAnchor, left: timeLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 60, height: 15)
-    }
-    
-    func setupSessionTypeIcon() {
-        addSubview(sessionTypeIcon)
-        sessionTypeIcon.anchor(top: backgroundView.topAnchor, left: nil, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 30, height: 18)
-    }
-    
-    func setupSessionTypeLabel() {
-        addSubview(sessionTypeLabel)
-        sessionTypeLabel.anchor(top: sessionTypeIcon.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 15)
-        addConstraint(NSLayoutConstraint(item: sessionTypeLabel, attribute: .centerX, relatedBy: .equal, toItem: sessionTypeIcon, attribute: .centerX, multiplier: 1, constant: -2))
+    func setOpaque() {
+        backgroundView.alpha = 0.5
     }
     
     override init(frame: CGRect) {

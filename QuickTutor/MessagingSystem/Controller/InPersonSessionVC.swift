@@ -70,8 +70,6 @@ class InPersonSessionVC: BaseSessionVC {
         view.addSubview(statusBarCover)
         statusBarCover.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: sessionNavBar.topAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         navigationController?.navigationBar.isHidden = true
-        sessionNavBar.sessionTypeIcon.image = #imageLiteral(resourceName: "inPersonIcon")
-        sessionNavBar.sessionTypeLabel.text = "In-Person"
     }
     
     func setupReceiverBox() {

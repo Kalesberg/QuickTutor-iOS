@@ -36,16 +36,10 @@ class VideoSessionView: UIView {
         return iv
     }()
     
-    let previewBorderView: UIView = {
-        let view = UIView()
-        view.layer.borderColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple.cgColor : Colors.tutorBlue.cgColor
-        view.layer.borderWidth = 3
-        return view
-    }()
-    
     let statusBarCover: UIView = {
         let view = UIView()
         view.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+        view.alpha = 0.5
         return view
     }()
     
@@ -70,7 +64,6 @@ class VideoSessionView: UIView {
         setupPartnerCameraFeed()
         setupCameraPreviewView()
         setupFlipCameraIcon()
-        setupPreviewBorderView()
         setupNavBar()
         setupPauseSessionButton()
         setupEndSessionButton()
@@ -86,6 +79,7 @@ class VideoSessionView: UIView {
         addSubview(statusBarCover)
         statusBarCover.anchor(top: topAnchor, left: leftAnchor, bottom: sessionNavBar.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         navigationController.navigationBar.isHidden = true
+        sessionNavBar.setOpaque()
     }
     
     func setupPartnerCameraFeed() {
@@ -103,11 +97,6 @@ class VideoSessionView: UIView {
         addSubview(flipCameraIcon)
         flipCameraIcon.anchor(top: nil, left: nil, bottom: cameraPreviewView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 6, paddingRight: 0, width: 30, height: 20)
         addConstraint(NSLayoutConstraint(item: flipCameraIcon, attribute: .centerX, relatedBy: .equal, toItem: cameraPreviewView, attribute: .centerX, multiplier: 1, constant: 0))
-    }
-    
-    func setupPreviewBorderView() {
-        insertSubview(previewBorderView, belowSubview: cameraPreviewView)
-        previewBorderView.anchor(top: cameraPreviewView.topAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: cameraPreviewView.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: -3, width: 0, height: 0)
     }
     
     func setupPauseSessionButton() {

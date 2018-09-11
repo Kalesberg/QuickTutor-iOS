@@ -45,7 +45,6 @@ class InPersonProfileBox: SessionProfileBox {
     override func setupImageView() {
         addSubview(imageView)
         imageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 115)
-        imageView.layer.cornerRadius = 57.5
     }
     
     override func setupNameLabel() {

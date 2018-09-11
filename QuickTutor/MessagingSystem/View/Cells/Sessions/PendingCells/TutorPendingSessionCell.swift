@@ -15,8 +15,8 @@ class TutorPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate {
         super.setupViews()
         actionView.setupAsTripleButton()
         actionView.actionButton1.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
-        actionView.actionButton2.setImage(#imageLiteral(resourceName: "declineSessionButton"), for: .normal)
-        actionView.actionButton3.setImage(#imageLiteral(resourceName: "acceptSessionButton"), for: .normal)
+        actionView.actionButton2.setImage(#imageLiteral(resourceName: "acceptButtonText"), for: .normal)
+        actionView.actionButton3.setImage(#imageLiteral(resourceName: "declineButtonText"), for: .normal)
     }
     
     override func handleButton1() {
@@ -24,12 +24,12 @@ class TutorPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate {
     }
     
     override func handleButton2() {
-        Database.database().reference().child("sessions").child(session.id).child("status").setValue("declined")
+        Database.database().reference().child("sessions").child(session.id).child("status").setValue("accepted")
         markSessionDataStale()
     }
     
     override func handleButton3() {
-        Database.database().reference().child("sessions").child(session.id).child("status").setValue("accepted")
+        Database.database().reference().child("sessions").child(session.id).child("status").setValue("declined")
         markSessionDataStale()
     }
     

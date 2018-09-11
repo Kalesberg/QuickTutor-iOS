@@ -14,26 +14,22 @@ class BaseUpcomingSessionCell: BaseSessionCell, MessageButtonDelegate, CancelSes
     override func setupViews() {
         super.setupViews()
         actionView.setupAsTripleButton()
-        actionView.actionButton3.setImage(#imageLiteral(resourceName: "startSessionButton"), for: .normal)
-        actionView.actionButton2.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
-        actionView.actionButton1.setImage(#imageLiteral(resourceName: "cancelSessionButton"), for: .normal)
+        actionView.actionButton3.setImage(#imageLiteral(resourceName: "cancelSessionButton"), for: .normal)
+        actionView.actionButton2.setImage(#imageLiteral(resourceName: "startSessionButton"), for: .normal)
+        actionView.actionButton1.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
     }
     
     override func handleButton1() {
-        cancelSession(id: session.id)
-        delegate?.sessionCell(self, shouldReloadSessionWith: session.id)
-    }
-    
-    override func handleButton2() {
         showConversationWithUID(session.partnerId())
     }
     
-    override func handleButton3() {
+    override func handleButton2() {
         startSession()
-//        let vc = SessionStartVC()
-//        vc.sessionId = session.id
-//        vc.partnerId = session.partnerId()
-//        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    override func handleButton3() {
+        cancelSession(id: session.id)
+        delegate?.sessionCell(self, shouldReloadSessionWith: session.id)
     }
 
     func startSession() {
