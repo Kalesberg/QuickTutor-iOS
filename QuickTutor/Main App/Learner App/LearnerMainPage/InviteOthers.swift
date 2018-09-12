@@ -44,19 +44,19 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         
         return label
     }()
-	
-	let searchTextField : SearchTextField = {
-		let textField = SearchTextField()
+    
+    let searchTextField : SearchTextField = {
+        let textField = SearchTextField()
         
-		textField.placeholder.text = "Search"
+        textField.placeholder.text = "Search"
         textField.textField.attributedPlaceholder = NSAttributedString(string: "Your Contacts",
                                                                        attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
         textField.placeholder.font = Fonts.createBoldSize(20)
-		textField.textField.font = Fonts.createSize(20)
-		textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
-		return textField
-	}()
-	
+        textField.textField.font = Fonts.createSize(20)
+        textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
+        return textField
+    }()
+    
     let tableView : UITableView = {
         let tableView = UITableView()
         
@@ -67,15 +67,15 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         tableView.separatorColor = Colors.divider
         tableView.showsVerticalScrollIndicator = false
         tableView.isScrollEnabled = true
-		tableView.isUserInteractionEnabled = true
+        tableView.isUserInteractionEnabled = true
         tableView.tableFooterView = UIView()
         tableView.allowsMultipleSelection = true
-		
+        
         return tableView
     }()
-	
-	let connectContacts = InviteOthersBackgroundView()
-	
+    
+    let connectContacts = InviteOthersBackgroundView()
+    
     override var rightButton: NavbarButton {
         get {
             return inviteButton
@@ -88,9 +88,9 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         addSubview(container)
         addSubview(imageView)
         container.addSubview(label)
-		addSubview(searchTextField)
+        addSubview(searchTextField)
         addSubview(tableView)
-		addSubview(connectContacts)
+        addSubview(connectContacts)
         super.configureView()
         
         navbar.backgroundColor = Colors.green
@@ -117,12 +117,12 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
             make.top.bottom.equalToSuperview()
             make.left.right.equalToSuperview().inset(5)
         }
-		searchTextField.snp.makeConstraints { (make) in
-			make.top.equalTo(container.snp.bottom).inset(-5)
-			make.width.equalToSuperview().multipliedBy(0.95)
-			make.centerX.equalToSuperview()
-			make.height.equalTo(80)
-		}
+        searchTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(container.snp.bottom).inset(-5)
+            make.width.equalToSuperview().multipliedBy(0.95)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(80)
+        }
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(searchTextField.snp.bottom)
             make.width.centerX.equalToSuperview()
@@ -132,15 +132,15 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
                 make.bottom.equalToSuperview()
             }
         }
-		connectContacts.snp.makeConstraints { (make) in
-			make.top.equalTo(container.snp.bottom).inset(-100)
-			make.width.centerX.equalToSuperview()
+        connectContacts.snp.makeConstraints { (make) in
+            make.top.equalTo(container.snp.bottom).inset(-100)
+            make.width.centerX.equalToSuperview()
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
             } else {
                 make.bottom.equalToSuperview()
             }
-		}
+        }
     }
 }
 
@@ -163,7 +163,7 @@ class InviteOthersButton : InteractableBackgroundView {
         
         backgroundColor = .white
         layer.cornerRadius = 5
-		isUserInteractionEnabled = true
+        isUserInteractionEnabled = true
         
         applyConstraints()
     }
@@ -234,69 +234,69 @@ class InviteOthers : BaseViewController {
     }
     
     private let contactStore = CNContactStore()
-	private var automaticScroll : Bool = false
-	
-	private var shouldFilterSearchResults : Bool = false {
-		didSet {
-			contentView.tableView.reloadData()
-		}
-	}
+    private var automaticScroll : Bool = false
+    
+    private var shouldFilterSearchResults : Bool = false {
+        didSet {
+            contentView.tableView.reloadData()
+        }
+    }
 
-	private var selectedContacts = [String]() {
-		didSet {
-			contentView.tableView.reloadData()
-		}
-	}
+    private var selectedContacts = [String]() {
+        didSet {
+            contentView.tableView.reloadData()
+        }
+    }
 
-	private var datasource = [CNContact]()
-	
-	private var filteredContacts = [CNContact]() {
-		didSet {
-			contentView.tableView.reloadData()
-		}
-	}
+    private var datasource = [CNContact]()
+    
+    private var filteredContacts = [CNContact]() {
+        didSet {
+            contentView.tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		hideKeyboardWhenTappedAround()
-		if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
-			contentView.connectContacts.removeFromSuperview()
-			getContactList()
-		}
-		
-		contentView.searchTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-	
+        hideKeyboardWhenTappedAround()
+        if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
+            contentView.connectContacts.removeFromSuperview()
+            getContactList()
+        }
+        
+        contentView.searchTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(InviteContactsTableViewCell.self, forCellReuseIdentifier: "contactCell")
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-	}
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-	private func getContactList() {
-		var contacts : [CNContact] = []
-		do {
-			let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]
-			let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
-			
-			try self.contactStore.enumerateContacts(with: request) { (contact, stop) in
-				contacts.append(contact)
-			}
-		}
-		catch {
-			AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to fetch your contacts.")
-		}
-		DispatchQueue.main.async {
-			self.datasource = contacts
-			self.contentView.inviteButton.isHidden = (self.datasource.count == 0)
-			self.contentView.tableView.reloadData()
-		}
-	}
-	
+    private func getContactList() {
+        var contacts : [CNContact] = []
+        do {
+            let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]
+            let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
+            
+            try self.contactStore.enumerateContacts(with: request) { (contact, stop) in
+                contacts.append(contact)
+            }
+        }
+        catch {
+            AlertController.genericErrorAlert(self, title: "Oops!", message: "We were unable to fetch your contacts.")
+        }
+        DispatchQueue.main.async {
+            self.datasource = contacts
+            self.contentView.inviteButton.isHidden = (self.datasource.count == 0)
+            self.contentView.tableView.reloadData()
+        }
+    }
+    
     func requestAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
         switch CNContactStore.authorizationStatus(for: .contacts) {
         case .authorized:
@@ -308,53 +308,53 @@ class InviteOthers : BaseViewController {
                 if granted {
                     completionHandler(true)
                 } else {
-					DispatchQueue.main.async {
-						self.showSettingsAlert(completionHandler)
-					}
+                    DispatchQueue.main.async {
+                        self.showSettingsAlert(completionHandler)
+                    }
                 }
             }
         }
     }
-	
-	@objc private func textFieldDidChange(_ textField: UITextField) {
-		automaticScroll = true
-		guard let text = textField.text else {
-			automaticScroll = false
-			shouldFilterSearchResults = false
-			return
-		}
-		if text == "" {
-			automaticScroll = false
-			shouldFilterSearchResults = false
-			return
-		}
-		shouldFilterSearchResults = true
-		
-		self.filteredContacts = self.datasource.filter {
-			let name = "\($0.givenName) \($0.familyName)"
-			return name.localizedCaseInsensitiveContains(text)
-		}
-		if filteredContacts.count > 0 {
-			scrollToTop()
-		}
-	}
-	private func messageContacts() {
-		if selectedContacts.count < 1 {
-			return
-		}
-		if (MFMessageComposeViewController.canSendText()) {
-			DynamicLinkFactory.shared.createLink(userId: nil) { (url) in
-				let controller = MFMessageComposeViewController()
-				controller.delegate = self
-				controller.messageComposeDelegate = self
-				controller.body = "Go check out QuickTutor! \n\(url?.absoluteString ?? "")"
-				controller.recipients = self.selectedContacts
-				self.present(controller, animated: true, completion: nil)
-			}
-		} else {
-			AlertController.genericErrorAlert(self, title: "Unable to send text!", message: "Sorry, we can no send SMS messages at this time.")
-		}
-	}
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        automaticScroll = true
+        guard let text = textField.text else {
+            automaticScroll = false
+            shouldFilterSearchResults = false
+            return
+        }
+        if text == "" {
+            automaticScroll = false
+            shouldFilterSearchResults = false
+            return
+        }
+        shouldFilterSearchResults = true
+        
+        self.filteredContacts = self.datasource.filter {
+            let name = "\($0.givenName) \($0.familyName)"
+            return name.localizedCaseInsensitiveContains(text)
+        }
+        if filteredContacts.count > 0 {
+            scrollToTop()
+        }
+    }
+    private func messageContacts() {
+        if selectedContacts.count < 1 {
+            return
+        }
+        if (MFMessageComposeViewController.canSendText()) {
+            DynamicLinkFactory.shared.createLink(userId: nil) { (url) in
+                let controller = MFMessageComposeViewController()
+                controller.delegate = self
+                controller.messageComposeDelegate = self
+                controller.body = "Go check out QuickTutor! \n\(url?.absoluteString ?? "")"
+                controller.recipients = self.selectedContacts
+                self.present(controller, animated: true, completion: nil)
+            }
+        } else {
+            AlertController.genericErrorAlert(self, title: "Unable to send text!", message: "Sorry, we can no send SMS messages at this time.")
+        }
+    }
     private func showSettingsAlert(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
         let alert = UIAlertController(title: nil, message: "This app requires access to Contacts to proceed. Would you like to open settings and grant permission to Contacts?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { action in
@@ -366,108 +366,108 @@ class InviteOthers : BaseViewController {
         })
         present(alert, animated: true)
     }
-	private func scrollToTop() {
-		contentView.tableView.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-		automaticScroll = false
-	}
+    private func scrollToTop() {
+        contentView.tableView.reloadData()
+        let indexPath = IndexPath(row: 0, section: 0)
+        contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        automaticScroll = false
+    }
     override func handleNavigation() {
         if touchStartView is NavbarButtonInvite {
             messageContacts()
-		} else if touchStartView == contentView.connectContacts.button {
-			self.requestAccess { (success) in
-				if success {
-					DispatchQueue.main.async {
-						self.contentView.connectContacts.isHidden = true
-						self.getContactList()
-					}
-				} else {
-					AlertController.genericErrorAlert(self, title: "Unable to gain access to your contacts", message: "Try going to settings>privacy> and allowing Contacts.")
-				}
-			}
-		}
+        } else if touchStartView == contentView.connectContacts.button {
+            self.requestAccess { (success) in
+                if success {
+                    DispatchQueue.main.async {
+                        self.contentView.connectContacts.isHidden = true
+                        self.getContactList()
+                    }
+                } else {
+                    AlertController.genericErrorAlert(self, title: "Unable to gain access to your contacts", message: "Try going to settings>privacy> and allowing Contacts.")
+                }
+            }
+        }
     }
 }
 extension InviteOthers : UIScrollViewDelegate {
-	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-		if !automaticScroll {
-			self.view.endEditing(true)
-		}
-	}
-	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-		if !automaticScroll {
-			self.view.endEditing(true)
-		}
-	}
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        if !automaticScroll {
+            self.view.endEditing(true)
+        }
+    }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if !automaticScroll {
+            self.view.endEditing(true)
+        }
+    }
 }
 extension InviteOthers : UINavigationControllerDelegate, MFMessageComposeViewControllerDelegate {
-	
-	func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-		switch result {
-		case .sent:
-			controller.dismiss(animated: true, completion: nil)
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        switch result {
+        case .sent:
+            controller.dismiss(animated: true, completion: nil)
 
-		case .cancelled:
-			controller.dismiss(animated: true, completion: nil)
+        case .cancelled:
+            controller.dismiss(animated: true, completion: nil)
 
-		case .failed:
-			controller.dismiss(animated: true, completion: nil)
-		}
-	}
-	
+        case .failed:
+            controller.dismiss(animated: true, completion: nil)
+        }
+    }
+    
 }
 extension InviteOthers : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return shouldFilterSearchResults ? filteredContacts.count : datasource.count
+        return shouldFilterSearchResults ? filteredContacts.count : datasource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! InviteContactsTableViewCell
-		
-		let data = shouldFilterSearchResults ? filteredContacts[indexPath.row] : datasource[indexPath.row]
-		
-		cell.label.text = data.givenName + " " + data.familyName
-		
-		guard let phoneNumber = data.phoneNumbers.first?.value.stringValue else {
-			cell.checkbox.isSelected = false
-			return cell }
-		cell.checkbox.isSelected = selectedContacts.contains(phoneNumber)
-		
-		return cell
+        
+        let data = shouldFilterSearchResults ? filteredContacts[indexPath.row] : datasource[indexPath.row]
+        
+        cell.label.text = data.givenName + " " + data.familyName
+        
+        guard let phoneNumber = data.phoneNumbers.first?.value.stringValue else {
+            cell.checkbox.isSelected = false
+            return cell }
+        cell.checkbox.isSelected = selectedContacts.contains(phoneNumber)
+        
+        return cell
     }
-	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let cell = tableView.cellForRow(at: indexPath) as? InviteContactsTableViewCell else { return }
-		
-		let data = shouldFilterSearchResults ? filteredContacts[indexPath.row] : datasource[indexPath.row]
-		guard let phoneNumber = data.phoneNumbers.first?.value.stringValue else {
-			tableView.deselectRow(at: indexPath, animated: true)
-			return
-		}
-		if selectedContacts.contains(phoneNumber) {
-			cell.checkbox.isSelected = false
-			selectedContacts.remove(at: selectedContacts.index(of: phoneNumber)!)
-			tableView.deselectRow(at: indexPath, animated: true)
-			return
-		}
-		cell.checkbox.isSelected = true
-		selectedContacts.append(phoneNumber)
-		tableView.deselectRow(at: indexPath, animated: true)
-	}
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? InviteContactsTableViewCell else { return }
+        
+        let data = shouldFilterSearchResults ? filteredContacts[indexPath.row] : datasource[indexPath.row]
+        guard let phoneNumber = data.phoneNumbers.first?.value.stringValue else {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
+        if selectedContacts.contains(phoneNumber) {
+            cell.checkbox.isSelected = false
+            selectedContacts.remove(at: selectedContacts.index(of: phoneNumber)!)
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
+        cell.checkbox.isSelected = true
+        selectedContacts.append(phoneNumber)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
 }
 
 class InviteContactsTableViewCell : UITableViewCell {
-	
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		configureTableViewCell()
-	}
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureTableViewCell()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     let label : UILabel = {
         let label = UILabel()
         label.font = Fonts.createBoldSize(16)
@@ -475,32 +475,32 @@ class InviteContactsTableViewCell : UITableViewCell {
         
         return label
     }()
-	
-	let cellBackground = UIView()
-	let checkbox = RegistrationCheckbox()
+    
+    let cellBackground = UIView()
+    let checkbox = RegistrationCheckbox()
 
-	func configureTableViewCell() {
+    func configureTableViewCell() {
         addSubview(label)
-		addSubview(checkbox)
-		
-		checkbox.isSelected = false
-		let cellBackground = UIView()
-		cellBackground.backgroundColor = Colors.grayText
-		selectedBackgroundView = cellBackground
-		backgroundColor = .clear
-		
+        addSubview(checkbox)
+        
+        checkbox.isSelected = false
+        let cellBackground = UIView()
+        cellBackground.backgroundColor = Colors.grayText
+        selectedBackgroundView = cellBackground
+        backgroundColor = .clear
+        
         applyConstraints()
     }
 
-	func applyConstraints() {
+    func applyConstraints() {
         label.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview().inset(15)
             make.top.bottom.equalToSuperview()
         }
-		checkbox.snp.makeConstraints { (make) in
-			make.right.equalToSuperview()
-			make.centerY.equalToSuperview()
-			make.width.equalTo(50)
-		}
+        checkbox.snp.makeConstraints { (make) in
+            make.right.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(50)
+        }
     }
 }

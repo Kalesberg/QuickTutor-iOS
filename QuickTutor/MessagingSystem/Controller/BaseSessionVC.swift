@@ -194,17 +194,16 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
-		
+		guard let runTime = sessionManager?.sessionRuntime, let rate = sessionManager?.session.ratePerSecond() else { return }
+		guard let partnerId = sessionManager?.session.partnerId() else { return }
+		guard let subject = sessionManager?.session.subject else { return }
+		guard let session = sessionManager?.session else { return }
 		if AccountService.shared.currentUserType == .learner {
 			let vc = SessionReview()
-			guard let runTime = sessionManager?.sessionRuntime, let rate = sessionManager?.session.ratePerSecond() else { return }
-			guard let partnerId = sessionManager?.session.partnerId() else { return }
-			guard let subject = sessionManager?.session.subject else { return }
-			guard let session = sessionManager?.session else { return }
-			
-			vc.postSessionData = session
-			vc.costOfSession = runTime * rate
+
+			vc.session = session
 			vc.sessionId = sessionId
+			vc.costOfSession = runTime * rate
 			vc.partnerId = partnerId
 			vc.runTime = runTime
 			vc.subject = subject
@@ -212,13 +211,15 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
             print("ZACH: continueing out of session")
 			navigationController?.pushViewController(vc, animated: true)
         } else {
-			//Get other learner Account
-			//get session data
-			//Take tutor to Post-session frames
-            let vc = SessionCompleteVC()
-            print("ZACH: continueing out of session")
-            vc.sessionId = sessionId
-            vc.partnerId = sessionManager?.session.partnerId()
+			let vc = SessionReview()
+			vc.session = session
+			vc.sessionId = sessionId
+			vc.costOfSession = runTime * rate
+			vc.partnerId = partnerId
+			vc.runTime = runTime
+			vc.subject = subject
+			
+			print("ZACH: continueing out of session")
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -252,7 +253,6 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     func sessionManagerShouldShowEndSessionModal(_ sessionManager: SessionManager) {
         self.showEndModal()
     }
-    
     
     func sessionManager(_ sessionManager: SessionManager, userLostConnection uid: String) {
         sessionManager.stopSessionRuntime()

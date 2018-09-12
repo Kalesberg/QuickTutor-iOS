@@ -211,15 +211,17 @@ class SessionReview : BaseViewController {
 	}
 	let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
-	var postSessionData : Session?
+	var session : Session?
 	var sessionId : String!
-	var costOfSession: Int = 1800
-	var partnerId : String = "GhKRwo0Z0DchEWDR3U0oa9hs9Pk2"
-	var runTime : Int = 3658
-	var subject : String! = "Language Arts"
+	var costOfSession: Int!
+	var partnerId : String!
+	var runTime : Int!
+	var subject : String!
+	var name : String!
+	var sessionsWithPartner : Int = 0
+	
 	var tutor : AWTutor!
 	var learner : AWLearner!
-	
 	var cellTitles = [String]()
 	var cellHeaderViewTitles : [String] = ["Rate your overall experience", "Leave your tutor a review."]
 	var buttonTitles : [String] = ["Submit Rating","Submit Review","Submit & Pay", "Complete"]
@@ -230,7 +232,7 @@ class SessionReview : BaseViewController {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
 		setupButtons()
-
+		getSessionWithPartner(uid: CurrentUser.shared.learner.uid)
 		if AccountService.shared.currentUserType == .learner {
 			getTutorAccount(uid: partnerId) { (tutor) in
 				if let tutor = tutor {
@@ -257,7 +259,6 @@ class SessionReview : BaseViewController {
 		contentView.collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: "reviewCell")
 		contentView.collectionView.register(RatingCell.self, forCellWithReuseIdentifier: "ratingCell")
 		contentView.collectionView.register(TipCell.self, forCellWithReuseIdentifier: "tipCell")
-		contentView.collectionView.register(SubmitPayCell.self, forCellWithReuseIdentifier: "submitPayCell")
 		contentView.collectionView.register(ReceiptCell.self, forCellWithReuseIdentifier: "receiptCell")
 	}
 	
@@ -278,10 +279,19 @@ class SessionReview : BaseViewController {
 			completion(learner)
 		}
 	}
-	
+	private func getSessionWithPartner(uid: String) {
+		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: AccountService.shared.currentUserType.rawValue) { (sessions) in
+			guard let sessions = sessions else { return }
+			sessions.forEach({
+				if $0.otherId == self.partnerId {
+					self.sessionsWithPartner += 1
+				}
+			})
+		}
+	}
 	private func setupViewForTutorReview() {
 		let nameSplit = self.tutor.name.split(separator: " ")
-		let name = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))
+		name = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))
 		contentView.nameLabel.text = name
 		
 		cellTitles =  ["How was your time with \(name)?", "Was this session helpful?", "It's optional, but highly appreciated."]
@@ -291,7 +301,7 @@ class SessionReview : BaseViewController {
 	
 	private func setupViewForLearnerReview() {
 		let nameSplit = self.learner.name.split(separator: " ")
-		let name = String(nameSplit[0]) + " " +  String(nameSplit[1].prefix(1))
+		name = String(nameSplit[0]) + " " +  String(nameSplit[1].prefix(1))
 		contentView.nameLabel.text = name
 		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"))
 		self.cellTitles =  ["How was your time with \(name)?", "Was this session helpful?"]
@@ -300,7 +310,7 @@ class SessionReview : BaseViewController {
 	func doesContainNaughtyWord(text: String, naughtyWords: [String]) -> Bool {
 		return naughtyWords.reduce(false) {$0 || text.contains ($1.lowercased()) }
 	}
-	
+
 	func displayErrorMessage(text: String) {
 		contentView.errorLabel.text = text
 		contentView.errorLabel.shake()
@@ -329,9 +339,7 @@ class SessionReview : BaseViewController {
 			}
 		case 2:
 			contentView.nextButton.isEnabled = false
-			var cost = costOfSession
-			cost += PostSessionReviewData.tipAmount * 100
-			createCharge(cost: cost) { (error) in
+			createCharge(cost: costOfSession + (PostSessionReviewData.tipAmount * 100)) { (error) in
 				if let error = error {
 					print(error.localizedDescription)
 				} else {
@@ -452,16 +460,17 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 
 			cell.partner.profileImageView.image = contentView.profileImageView.image
 			cell.partner.infoLabel.text = contentView.nameLabel.text
-			cell.subject.infoLabel.text = postSessionData?.subject
+			cell.subject.infoLabel.text = session?.subject
 			let (h,m) = secondsToHoursMinutesSeconds(seconds: runTime)
 			cell.sessionLength.infoLabel.text = h > 0 ? "\(h) hours and \(m) minutes" : "\(m) Minutes"
-			cell.hourlyRate.infoLabel.text = "$" + String(Int(postSessionData?.price ?? 0.0))
+			cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0.0))
 			let total = costOfSession + PostSessionReviewData.tipAmount
 			cell.total.infoLabel.text = "$" + String(format: "%.2f", Double(total / 100))
 			cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
 		
-			cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With name:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
-			cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With name:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With name:     ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
+			cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.tutorBlue).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
+			
+			cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With \(name):    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With \(name):     ", 14, Colors.tutorBlue).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
 			
 			return cell
 		default:

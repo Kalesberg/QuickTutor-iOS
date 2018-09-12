@@ -68,7 +68,6 @@ class FirebaseData {
 			return completion(nil)
 		}
 	}
-	
 	public func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int,_ completion: @escaping (Error?) -> Void) {
 		let post : [String: Any] = ["p" : price, "dst" : distance, "prf": preference]
 		return self.ref.child("tutor-info").child(uid).updateChildValues(post) { (error,_) in
@@ -257,7 +256,9 @@ class FirebaseData {
 			return completion(subcategories)
 		})
 	}
-	
+	public func fetchSessionsWithPartner(uid: String,_ completion: @escaping(Error?) -> Void) {
+		
+	}
 	public func fetchTutorSessionPreferences(uid: String,_ completion: @escaping([String : Any]?) -> Void) {
 		self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			var sessionDetails = [String : Any]()
