@@ -163,7 +163,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 			totalLabel.text = "Total: $" + String(format: "%.2f", total / 100)
 			buttons[sender.tag].backgroundColor = Colors.learnerPurple
 			selectedButton = nil
-			delegate?.didSelectTipPercentage(tipAmount: 0)
+			delegate?.didSelectTipPercentage(tipAmount: buttonAmounts[sender.tag])
 		} else if selectedButton == nil {
 			updateTotalLabel(tag: sender.tag)
 			buttons[sender.tag].backgroundColor = Colors.selectedPurple

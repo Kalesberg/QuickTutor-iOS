@@ -92,7 +92,7 @@ class SessionReceiptItemWithImage : UIView {
 		let label = UILabel()
 		
 		label.text = "Text"
-		label.textColor = Colors.learnerPurple
+		label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
 		label.textAlignment = .right
 		label.font = Fonts.createSize(14)
 		label.sizeToFit()
@@ -274,7 +274,6 @@ class ReceiptCell : UICollectionViewCell {
     let totalSessions : UILabel = {
         let label = UILabel()
         
-        label.text = "Text"
         label.textColor = Colors.learnerPurple
         label.font = Fonts.createSize(14)
         label.sizeToFit()
@@ -282,11 +281,10 @@ class ReceiptCell : UICollectionViewCell {
         return label
     }()
     
-    let totalSessionsWithTutor : UILabel = {
+    let totalSessionsWithPartner : UILabel = {
         let label = UILabel()
         
-        label.text = "Text"
-        label.textColor = Colors.learnerPurple
+        label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
         label.font = Fonts.createSize(14)
         label.sizeToFit()
         
@@ -294,6 +292,7 @@ class ReceiptCell : UICollectionViewCell {
     }()
 	
     let progressView = UIView()
+	var costOfSession : Int = 0
 	
 	func configureCollectionViewCell() {
         setLabelText()
@@ -309,10 +308,9 @@ class ReceiptCell : UICollectionViewCell {
         infoContainer.addSubview(tip)
         infoContainer.addSubview(total)
         infoContainer.addSubview(lineView)
-        //infoContainer.addSubview(progressLabel)
         infoContainer.addSubview(progressView)
         progressView.addSubview(totalSessions)
-        progressView.addSubview(totalSessionsWithTutor)
+        progressView.addSubview(totalSessionsWithPartner)
 		
 		applyConstraints()
 	}
@@ -324,9 +322,6 @@ class ReceiptCell : UICollectionViewCell {
         hourlyRate.title.text = "Hourly Rate"
         tip.title.text = "Tip"
         total.title.text = "Total"
-        
-        totalSessions.text = "Total Sessions Completed:"
-        totalSessionsWithTutor.text = "Total Sessions Completed with: Name"
     }
 
 	func applyConstraints() {
@@ -376,25 +371,30 @@ class ReceiptCell : UICollectionViewCell {
             make.width.centerX.equalToSuperview()
             make.height.equalTo(27)
         }
-        tip.snp.makeConstraints { (make) in
-            make.top.equalTo(hourlyRate.snp.bottom)
-            make.width.centerX.equalToSuperview()
-            make.height.equalTo(27)
-        }
-        total.snp.makeConstraints { (make) in
-            make.top.equalTo(tip.snp.bottom)
-            make.width.centerX.equalToSuperview()
-            make.height.equalTo(27)
-        }
+		if AccountService.shared.currentUserType == .learner {
+			tip.snp.makeConstraints { (make) in
+				make.top.equalTo(hourlyRate.snp.bottom)
+				make.width.centerX.equalToSuperview()
+				make.height.equalTo(27)
+			}
+			total.snp.makeConstraints { (make) in
+				make.top.equalTo(tip.snp.bottom)
+				make.width.centerX.equalToSuperview()
+				make.height.equalTo(27)
+			}
+		} else {
+			total.snp.makeConstraints { (make) in
+				make.top.equalTo(hourlyRate.snp.bottom)
+				make.width.centerX.equalToSuperview()
+				make.height.equalTo(27)
+			}
+		}
+
         lineView.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()
             make.height.equalTo(2)
             make.top.equalTo(total.snp.bottom).inset(-15)
         }
-//        progressLabel.snp.makeConstraints { (make) in
-//            make.top.equalTo(lineView.snp.bottom).inset(-15)
-//            make.left.equalToSuperview().inset(20)
-//        }
         progressView.snp.makeConstraints { (make) in
             make.top.equalTo(lineView.snp.bottom)
             make.bottom.width.centerX.equalToSuperview()
@@ -404,7 +404,7 @@ class ReceiptCell : UICollectionViewCell {
             make.left.equalToSuperview().inset(20)
             make.centerY.equalToSuperview().multipliedBy(0.35)
         }
-        totalSessionsWithTutor.snp.makeConstraints { (make) in
+        totalSessionsWithPartner.snp.makeConstraints { (make) in
             make.right.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.85)
             make.left.equalToSuperview().inset(20)

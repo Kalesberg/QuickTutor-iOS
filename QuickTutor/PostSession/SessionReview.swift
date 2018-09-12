@@ -21,7 +21,11 @@ protocol PostSessionInformationDelegate {
 
 struct PostSessionReviewData {
 	static var rating : Int!
-	static var tipAmount : Int = 0
+	static var tipAmount : Int = 0 {
+		didSet {
+			print(tipAmount)
+		}
+	}
 	static var review : String? = nil
 }
 
@@ -132,7 +136,7 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 	let nextButton : UIButton = {
 		let button = UIButton()
 		
-		button.backgroundColor = Colors.learnerPurple
+		button.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
 		button.setTitle("Submit", for: .normal)
 		button.setTitleColor(.white, for: .normal)
 		button.titleLabel?.font = Fonts.createBoldSize(20)
@@ -159,8 +163,8 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 		super.configureView()
 		
 		title.label.text = "Session Complete!"
-		navbar.backgroundColor = Colors.learnerPurple
-		statusbarView.backgroundColor = Colors.learnerPurple
+		navbar.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+		statusbarView.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
 	}
 	
 	override func applyConstraints() {
@@ -211,7 +215,7 @@ class SessionReview : BaseViewController {
 	var sessionId : String!
 	var costOfSession: Int = 1800
 	var partnerId : String = "GhKRwo0Z0DchEWDR3U0oa9hs9Pk2"
-	var runTime : Int = 180
+	var runTime : Int = 3658
 	var subject : String! = "Language Arts"
 	var tutor : AWTutor!
 	var learner : AWLearner!
@@ -439,22 +443,25 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 				cell.titleView.subtitle.text = cellTitles[indexPath.row]
 				cell.title.text = cellHeaderViewTitles[indexPath.row]
 				return cell
-
 			} else {
 				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "receiptCell", for: indexPath) as! ReceiptCell
 				return cell
-
 			}
 		case 3:
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "receiptCell", for: indexPath) as! ReceiptCell
+
 			cell.partner.profileImageView.image = contentView.profileImageView.image
 			cell.partner.infoLabel.text = contentView.nameLabel.text
 			cell.subject.infoLabel.text = postSessionData?.subject
 			let (h,m) = secondsToHoursMinutesSeconds(seconds: runTime)
-			
-			cell.sessionLength.infoLabel.text = "\(h) Hours and \(m) Minutes)"
-			cell.tip.infoLabel.text = "\(PostSessionReviewData.tipAmount)"
-			cell.total.infoLabel.text = String(format: "%.2f", costOfSession + PostSessionReviewData.tipAmount)
+			cell.sessionLength.infoLabel.text = h > 0 ? "\(h) hours and \(m) minutes" : "\(m) Minutes"
+			cell.hourlyRate.infoLabel.text = "$" + String(Int(postSessionData?.price ?? 0.0))
+			let total = costOfSession + PostSessionReviewData.tipAmount
+			cell.total.infoLabel.text = "$" + String(format: "%.2f", Double(total / 100))
+			cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
+		
+			cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With name:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
+			cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With name:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With name:     ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
 			
 			return cell
 		default:
@@ -463,7 +470,7 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 	}
 	
 	func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int) {
-		return (seconds / 3600, (seconds % 3600) / 60)
+		return (seconds / 3600, (seconds % 60))
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -483,6 +490,9 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			UIView.animate(withDuration: 0.2) {
 				self.contentView.profileImageView.transform = (self.currentItem == 3) ? CGAffineTransform.init(scaleX: 0, y: 0) : .identity
 				self.contentView.nameLabel.isHidden = (self.currentItem == 3)
+				if indexPath.row == 3 {
+					self.contentView.collectionView.reloadData()
+				}
 			}
 		}
 	}
