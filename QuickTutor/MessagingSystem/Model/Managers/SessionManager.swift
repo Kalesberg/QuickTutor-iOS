@@ -179,5 +179,9 @@ class SessionManager {
         loadSession()
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
         
 }

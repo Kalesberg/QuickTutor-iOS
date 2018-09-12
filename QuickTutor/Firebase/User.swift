@@ -263,7 +263,8 @@ class FirebaseData {
 	
 	public func fetchLearnerConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
 		var uids = [String]()
-		self.ref.child("connections").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+		self.ref.child("connections").child(uid).child(userTypeString).observeSingleEvent(of: .value) { (snapshot) in
 			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
 				for child in snap {
 					uids.append(child.key)

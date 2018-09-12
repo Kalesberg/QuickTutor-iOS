@@ -138,7 +138,6 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
     @objc func showConversation(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
         AccountService.shared.currentUserType == .learner ? getTutor(uid: uid) : getStudent(uid: uid)
-        print("showConvo")
     }
     
     private func getStudent(uid: String) {

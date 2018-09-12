@@ -190,6 +190,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     }
     
     @objc func continueOutOfSession() {
+        BackgroundSoundManager.shared.sessionInProgress = false
         sessionOnHoldModal?.dismiss()
         pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()

@@ -260,7 +260,7 @@ class EditTutorSubjects : BaseViewController {
 	
 	var tableViewIsActive : Bool = false {
 		didSet {
-			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "xbuttonlight") : #imageLiteral(resourceName: "backButton")
+			contentView.backButton.image.image = tableViewIsActive ? #imageLiteral(resourceName: "navbar-x") : #imageLiteral(resourceName: "backButton")
 			contentView.nextButton.isHidden = tableViewIsActive
 			contentView.cancelButton.isHidden = !tableViewIsActive
 			shouldUpdateSearchResults = tableViewIsActive

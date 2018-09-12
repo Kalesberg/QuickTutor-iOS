@@ -26,7 +26,7 @@ class TutorMainPageTableViewCell : UITableViewCell {
 		
 		label.sizeToFit()
 		label.numberOfLines = 0
-		label.textColor = UIColor(hex: "5785D4")
+		label.textColor = .white
 		label.font = Fonts.createBoldSize(18)
 		label.adjustsFontSizeToFitWidth = true
 		
@@ -46,20 +46,16 @@ class TutorMainPageTableViewCell : UITableViewCell {
 	
 	let blueView : UIView = {
 		let view = UIView()
-		
-		view.backgroundColor = UIColor(hex: "5785D4")
+		view.backgroundColor = Colors.tutorBlue
 		view.clipsToBounds = true
-		
 		return view
 	}()
 	
 	let arrow : UILabel = {
 		let label = UILabel()
-		
 		label.text = "»"
 		label.font = Fonts.createSize(40)
-		label.textColor = UIColor(hex: "5785D4")
-		
+		label.textColor = Colors.tutorBlue
 		return label
 	}()
 	

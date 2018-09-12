@@ -16,9 +16,10 @@ class DisconnectModal: CustomModal {
     override func handleConfirmButton() {
         guard let uid = Auth.auth().currentUser?.uid, let partnerId = partnerId else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         let conversationRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(partnerId)
-        Database.database().reference().child("connections").child(uid).child(partnerId).removeValue()
-        Database.database().reference().child("connections").child(partnerId).child(uid).removeValue()
+        Database.database().reference().child("connections").child(uid).child(userTypeString).child(partnerId).removeValue()
+        Database.database().reference().child("connections").child(partnerId).child(otherUserTypeString).child(uid).removeValue()
         conversationRef.removeValue()
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(partnerId).removeValue()
         dismiss()

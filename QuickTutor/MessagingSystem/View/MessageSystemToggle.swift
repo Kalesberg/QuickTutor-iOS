@@ -65,8 +65,8 @@ class MessagingSystemToggle: UIView {
     }
     
     func selectFirstSection() {
-        let selectedIndexPath = NSIndexPath(row: 0, section: 0)
-        cv.selectItem(at: selectedIndexPath as IndexPath, animated: false, scrollPosition: [])
+        let selectedIndexPath = IndexPath(row: 0, section: 0)
+        cv.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom)
     }
     
     func setupForUserType() {
@@ -114,7 +114,6 @@ extension MessagingSystemToggle: UICollectionViewDelegate, UICollectionViewDataS
         leftAnchorConstraint?.constant = item == 0 ? 0 : frame.size.width / 2
         UIView.animate(withDuration: 0.25) {
             self.layoutIfNeeded()
-            
         }
     }
 }

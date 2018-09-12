@@ -144,8 +144,10 @@ class ConnectionRequestCell: UserMessageCell {
     @objc func approveConnectionRequest() {
         guard let id = connectionRequestId else { return }
         guard let uid = Auth.auth().currentUser?.uid, let receiverId = chatPartner?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         Database.database().reference().child("connectionRequests").child(id).child("status").setValue("accepted")
-        let values = ["/\(uid)/\(receiverId)": 1, "/\(receiverId)/\(uid)": 1]
+        let values = ["/\(uid)/\(userTypeString)/\(receiverId)": 1, "/\(receiverId)/\(otherUserTypeString)/\(uid)": 1]
         Database.database().reference().child("connections").updateChildValues(values)
         updateMetaDataConnection()
         acceptButton.isHidden = true

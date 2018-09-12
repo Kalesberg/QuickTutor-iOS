@@ -43,6 +43,9 @@ class BaseSessionsContentCell: BaseContentCell {
         upcomingSessions.removeAll()
         pastSessions.removeAll()
         postOverlayDisplayNotification()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.postOverlayDismissalNotfication()
+        }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { (snapshot) in
@@ -61,7 +64,7 @@ class BaseSessionsContentCell: BaseContentCell {
                     return
                 }
                 
-                if session.startTime < Date().timeIntervalSince1970 {
+                if session.startTime < Date().timeIntervalSince1970  || session.status == "completed" {
                     if !self.pastSessions.contains(where: { $0.id == session.id }) {
                         self.pastSessions.insert(session, at: 0)
                     }

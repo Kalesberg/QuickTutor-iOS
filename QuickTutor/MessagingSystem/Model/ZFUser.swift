@@ -16,6 +16,7 @@ class User: Decodable {
     var uid: String!
     var type: String!
     var isOnline: Bool!
+    var rating: Double?
     
     var formattedName: String {
         get {
@@ -30,10 +31,18 @@ class User: Decodable {
         isOnline = differenceInSeconds <= 240
     }
     
+    func getNumberOfReviews(completion: @escaping(UInt?) -> Void) {
+        Database.database().reference().child("review").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.childrenCount as? UInt else { return }
+            completion(value)
+        }
+    }
+    
     init(dictionary: [String: Any]) {
         username = (dictionary["username"] as? String)?.capitalized ?? ""
         let profilePicString = dictionary["profilePicUrl"] as? String ?? ""
         profilePicUrl = URL(string: profilePicString)
+        rating = dictionary["r"] as? Double
         uid = dictionary["uid"] as? String
         type = dictionary["type"] as? String ?? ""
         let onlineSecondsAgo = dictionary["online"] as? Double ?? 1000
@@ -44,7 +53,6 @@ class User: Decodable {
 class ZFTutor: User {
     var region: String?
     var subjects: [String]?
-    var rating: Double?
     var hoursTaught: Int?
     var totalSessions: Int?
     var stripeAccountId: String?
@@ -52,7 +60,6 @@ class ZFTutor: User {
     override init(dictionary: [String : Any]) {
         super.init(dictionary: dictionary)
         region = dictionary["rg"] as? String
-        rating = dictionary["r"] as? Double
         hoursTaught = dictionary["hr"] as? Int
         totalSessions = dictionary["nos"] as? Int
         stripeAccountId = dictionary["act"] as? String

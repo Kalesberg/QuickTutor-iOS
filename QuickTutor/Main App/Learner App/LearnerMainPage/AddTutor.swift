@@ -389,7 +389,7 @@ class AddTutorTableViewCell : UITableViewCell {
     let profileImageView : UIImageView = {
         let imageView = UIImageView()
         
-        imageView.image = #imageLiteral(resourceName: "defaultProfileImage")
+        imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
         imageView.layer.masksToBounds = false
         imageView.clipsToBounds = true
         return imageView

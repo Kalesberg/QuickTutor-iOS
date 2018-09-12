@@ -33,7 +33,7 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 	var keyboardComponent = ViewComponent()
 	var filters = NavbarButtonFilters()
 	
-	var backButton = NavbarButtonXLight()
+	var backButton = NavbarButtonBack()
 	var applyFiltersButton = NavbarButtonFilters()
 	
 	let headerView = SectionHeader()
@@ -42,7 +42,7 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 		get {
 			return backButton
 		} set {
-			backButton = newValue as! NavbarButtonXLight
+			backButton = newValue as! NavbarButtonBack
 		}
 	}
 	override var rightButton : NavbarButton {
@@ -111,7 +111,7 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 		searchTextField?.keyboardAppearance = .dark
 		searchTextField.backgroundColor = UIColor.black.withAlphaComponent(0.5)
 		
-		backButton.image.image = #imageLiteral(resourceName: "back-button")
+		backButton.image.image = #imageLiteral(resourceName: "backButton")
 		headerView.backgroundColor = Colors.backgroundDark
 		
 		applyConstraints()
@@ -361,9 +361,7 @@ extension SearchSubjects : UITableViewDelegate, UITableViewDataSource {
 		
 		if tableView.tag == 1 {
 			let cell = tableView.cellForRow(at: indexPath) as! SubjectSearchCategoryCell
-			UIView.animate(withDuration: 0.2) {
-				cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
-			}
+            cell.applyRotation()
 			tableView.beginUpdates()
 			if inlineCellIndexPath != nil && inlineCellIndexPath!.section - 1 == indexPath.section {
 				tableView.deleteSections([inlineCellIndexPath!.section], with: .fade)
