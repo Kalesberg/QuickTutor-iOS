@@ -128,7 +128,8 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.isPagingEnabled = true
 		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-		
+		collectionView.isScrollEnabled = false
+
 		return collectionView
 	}()
 	
@@ -353,7 +354,7 @@ class SessionReview : BaseViewController {
 			} else {
 				finishAndUpload()
 				self.navigationController?.popBackToMain()
-			}			
+			}
 		case 3:
 			self.navigationController?.popBackToMain()
 		default:
