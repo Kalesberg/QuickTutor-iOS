@@ -217,7 +217,6 @@ class ReceiptCell : UICollectionViewCell {
 	let sessionSummaryContainer : UIView = {
 		let view = UIView()
 		view.backgroundColor = Colors.navBarColor
-        //view.layer.cornerRadius = 8
 		return view
 	}()
 	

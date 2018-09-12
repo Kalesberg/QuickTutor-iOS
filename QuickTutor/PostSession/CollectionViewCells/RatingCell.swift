@@ -19,7 +19,7 @@ class RatingCell : BasePostSessionCell {
 	let descriptionLabel : UILabel = {
 		let label = UILabel()
 		
-		label.textColor = Colors.yellow
+		label.textColor = Colors.gold
 		label.font = Fonts.createBoldSize(20)
 		label.textAlignment = .center
 		

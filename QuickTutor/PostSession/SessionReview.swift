@@ -101,7 +101,6 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 		
 		imageView.layer.masksToBounds = false
 		imageView.clipsToBounds = true
-		imageView.image = #imageLiteral(resourceName: "defaultProfileImage")
 		
 		return imageView
 	}()
@@ -294,8 +293,9 @@ class SessionReview : BaseViewController {
 		name = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))
 		contentView.nameLabel.text = name
 		
-		cellTitles =  ["How was your time with \(name)?", "Was this session helpful?", "It's optional, but highly appreciated."]
+		cellTitles =  ["How was your time with \(name!)?", "Was this session helpful?", "It's optional, but highly appreciated."]
 		cellHeaderViewTitles.append("Leave your tutor a tip.")
+		
 		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"))
 	}
 	
@@ -303,8 +303,9 @@ class SessionReview : BaseViewController {
 		let nameSplit = self.learner.name.split(separator: " ")
 		name = String(nameSplit[0]) + " " +  String(nameSplit[1].prefix(1))
 		contentView.nameLabel.text = name
+		
 		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"))
-		self.cellTitles =  ["How was your time with \(name)?", "Was this session helpful?"]
+		self.cellTitles =  ["How was your time with \(name!)?", "Was this session helpful?"]
 	}
 	
 	func doesContainNaughtyWord(text: String, naughtyWords: [String]) -> Bool {
@@ -453,6 +454,21 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 				return cell
 			} else {
 				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "receiptCell", for: indexPath) as! ReceiptCell
+				
+				cell.partner.profileImageView.image = contentView.profileImageView.image
+				cell.partner.infoLabel.text = contentView.nameLabel.text
+				cell.subject.infoLabel.text = session?.subject
+				let (h,m) = secondsToHoursMinutesSeconds(seconds: runTime)
+				cell.sessionLength.infoLabel.text = h > 0 ? "\(h) hours and \(m) minutes" : "\(m) Minutes"
+				cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0.0))
+				let total = costOfSession + PostSessionReviewData.tipAmount
+				cell.total.infoLabel.text = "$" + String(format: "%.2f", Double(total / 100))
+				cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
+				
+				cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.tutorBlue).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
+				
+				cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With \(name):    ", 14, Colors.learnerPurple).bold("\(self.sessionsWithPartner + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With \(name):     ", 14, Colors.tutorBlue).bold("\(self.sessionsWithPartner + 1)", 14, .white)
+				
 				return cell
 			}
 		case 3:
