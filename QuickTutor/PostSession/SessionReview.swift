@@ -521,7 +521,7 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			contentView.nextButton.setTitle(buttonTitles[currentItem], for: .normal)
 			UIView.animate(withDuration: 0.2) {
 				self.contentView.profileImageView.transform = (self.currentItem == 3) ? CGAffineTransform.init(scaleX: 0, y: 0) : .identity
-				if AccountService.share.currentUserType == .learner {
+				if AccountService.shared.currentUserType == .learner {
 					self.contentView.nameLabel.isHidden = (self.currentItem == 3)
 				} else {
 					self.contentView.nameLabel.isHidden = (self.currentItem == 2)
