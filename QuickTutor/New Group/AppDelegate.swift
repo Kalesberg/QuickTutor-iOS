@@ -161,6 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 completion()
                 return
             }
+            let vc2 = ConnectionsVC()
             self.updateFCMTokenIfNeeded()
             self.configureRootViewController(controller: vc)
             completion()

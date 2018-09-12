@@ -55,7 +55,7 @@ class TutorMainTipsView : MainLayoutTitleOneButton {
         addSubview(tableView)
         super.configureView()
 		
-		backButton.image.image = #imageLiteral(resourceName: "back-button")
+		backButton.image.image = #imageLiteral(resourceName: "backButton")
         title.label.text = "Tutor Tips"
     }
     

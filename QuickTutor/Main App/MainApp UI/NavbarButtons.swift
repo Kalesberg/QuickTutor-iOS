@@ -99,7 +99,7 @@ class NavbarButtonBack: NavbarButtonImage {
     override func configureView() {
         super.configureView()
 
-        image.image = UIImage(named: "back-button")
+        image.image = UIImage(named: "backButton")
         image.contentMode = .scaleAspectFit
     }
     
@@ -113,7 +113,7 @@ class NavbarButtonBack: NavbarButtonImage {
     override func applyConstraints() {
         image.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
-            make.height.width.equalTo(35)
+            make.height.width.equalTo(20)
         }
     }
 }
@@ -164,14 +164,14 @@ class NavbarButtonXLight: NavbarButtonImage {
     override func configureView() {
         super.configureView()
         
-        image.image = UIImage(named: "xbuttonlight")
+        image.image = #imageLiteral(resourceName: "navbar-x")
         image.contentMode = .scaleAspectFit
     }
     
     override func applyConstraints() {
         image.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
-            make.height.width.equalTo(35)
+            make.height.width.equalTo(20)
         }
     }
 }

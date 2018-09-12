@@ -18,7 +18,7 @@ class SessionNavBar: UIView {
     
     let clockBackgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.sidebarPurple
+        view.backgroundColor = Colors.currentUserColor()
         view.layer.cornerRadius = 20
         return view
     }()
@@ -31,7 +31,6 @@ class SessionNavBar: UIView {
     
     let timeLabel: CountdownTimer = {
         let coundown = CountdownTimer()
-        coundown.label.text = "00:00:00"
         return coundown
     }()
     

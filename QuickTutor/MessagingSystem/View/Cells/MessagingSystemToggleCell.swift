@@ -16,7 +16,7 @@ class MessagingSystemToggleCell: UICollectionViewCell {
     let label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
         label.font = Fonts.createSize(15)
         return label
     }()

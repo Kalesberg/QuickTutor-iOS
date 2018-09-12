@@ -12,7 +12,7 @@ class DimmableButton: UIButton {
     
     func setupTargets() {
         addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
-        addTarget(self, action: #selector(handleTouchUp), for: [.touchUpInside, .touchUpOutside, .touchDragExit, .touchCancel])
+        addTarget(self, action: #selector(handleTouchUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
     }
     
     @objc func handleTouchDown() {

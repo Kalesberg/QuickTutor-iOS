@@ -55,6 +55,9 @@ class MessagesContentCell: BaseContentCell {
     var metaDataDictionary = [String: ConversationMetaData]()
     @objc func fetchConversations() {
         postOverlayDisplayNotification()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.postOverlayDismissalNotfication()
+        }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         self.setupEmptyBackground()
@@ -175,7 +178,7 @@ extension MessagesContentCell: SwipeCollectionViewCellDelegate {
         
         // customize the action appearance
         deleteAction.image = #imageLiteral(resourceName: "deleteMessagesIcon")
-        deleteAction.title = "Delete"
+//        deleteAction.title = "Delete"
         deleteAction.font = Fonts.createSize(12)
         deleteAction.backgroundColor = UIColor(hex: "#AF1C49")
         
@@ -183,7 +186,7 @@ extension MessagesContentCell: SwipeCollectionViewCellDelegate {
             self.disconnect(index: indexPath.item)
         }
         disconnectAction.image = #imageLiteral(resourceName: "disconnectIcon")
-        disconnectAction.title = "Disconnect"
+//        disconnectAction.title = "Disconnect"
         disconnectAction.font = Fonts.createSize(12)
         disconnectAction.backgroundColor = UIColor(hex: "#851537")
         
@@ -196,9 +199,10 @@ extension MessagesContentCell: SwipeCollectionViewCellDelegate {
             let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
             let id = cell.chatPartner.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         let conversationRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
-        Database.database().reference().child("connections").child(uid).child(id).removeValue()
-        Database.database().reference().child("connections").child(id).child(uid).removeValue()
+        Database.database().reference().child("connections").child(uid).child(userTypeString).child(id).removeValue()
+        Database.database().reference().child("connections").child(id).child(otherUserTypeString).child(uid).removeValue()
         conversationRef.removeValue()
         messages.remove(at: indexPath.item)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {

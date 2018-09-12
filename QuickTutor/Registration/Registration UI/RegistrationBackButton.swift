@@ -16,7 +16,7 @@ class RegistrationBackButton: BaseView, Interactable {
     override func configureView() {
         addSubview(button)
 
-        button.image = UIImage(named: "back-button")
+        button.image = UIImage(named: "backButton")
 		
 		transition.duration = 0.4
 		transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)

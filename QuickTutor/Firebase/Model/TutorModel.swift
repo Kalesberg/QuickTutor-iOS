@@ -15,7 +15,6 @@ class AWTutor : AWLearner {
 	var policy : String?
 	var acctId : String!
 	var topSubject : String?
-	var username : String!
 	
 	var price : Int!
 	var hours : Int!

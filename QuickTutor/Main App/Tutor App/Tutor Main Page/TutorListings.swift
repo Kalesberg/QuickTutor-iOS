@@ -79,7 +79,7 @@ class TutorListingsView : MainLayoutTitleOneButton {
         scrollView.addSubview(bodyLabel)
         super.configureView()
         
-        backButton.image.image = #imageLiteral(resourceName: "back-button")
+        backButton.image.image = #imageLiteral(resourceName: "backButton")
         insertSubview(backgroundImageView, belowSubview: statusbarView)
         title.label.text = "Getting Featured"
     }

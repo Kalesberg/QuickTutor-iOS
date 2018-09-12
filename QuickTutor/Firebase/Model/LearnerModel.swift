@@ -8,10 +8,8 @@
 
 import Foundation
 
-class AWLearner {
-	
-	var uid : String = ""
-	
+class AWLearner: User {
+		
 	var name      : String!
 	var bio       : String!
 	var birthday  : String!
@@ -45,4 +43,8 @@ class AWLearner {
 		lRating = dictionary["r"] as? Double ?? 0.0
 		lHours = dictionary["lhr"] as? Int ?? 0
 	}
+    
+    required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
 }

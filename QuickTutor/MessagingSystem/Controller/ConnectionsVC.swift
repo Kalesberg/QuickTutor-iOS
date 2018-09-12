@@ -58,7 +58,8 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     
     func fetchConnections() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("connections").child(uid).observeSingleEvent(of: .value) { snapshot in
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("connections").child(uid).child(userTypeString).observeSingleEvent(of: .value) { snapshot in
             guard let connections = snapshot.value as? [String: Any] else { return }
             connections.forEach({ key, _ in
                 DataService.shared.getStudentWithId(key, completion: { (userIn) in
@@ -89,30 +90,57 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConnectionCell
-        if indexPath.item % 2 != 0 {
-            cell.backgroundColor = Colors.navBarColor
-        }
-        cell.titleLabel.text = connections[indexPath.item].formattedName
+        cell.updateUI(user: connections[indexPath.item])
+        cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-        vc.receiverId = connections[indexPath.item].uid
-        vc.navigationItem.title = connections[indexPath.item].formattedName
-        vc.chatPartner = connections[indexPath.item]
-        navigationController?.pushViewController(vc, animated: true)
+        let user = connections[indexPath.item]
+        if AccountService.shared.currentUserType == .learner {
+            FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { (tutor) in
+                guard let tutor = tutor else { return }
+                let vc = TutorMyProfile()
+                vc.tutor = tutor
+                vc.isViewing = true
+                vc.contentView.rightButton.isHidden = true
+                vc.contentView.title.label.text = tutor.username ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+        } else {
+            FirebaseData.manager.fetchLearner(user.uid) { (learner) in
+                guard let learner = learner else { return }
+                let vc = LearnerMyProfile()
+                vc.learner = learner
+                vc.contentView.rightButton.isHidden = true
+                vc.isViewing = true
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 50)
+        return CGSize(width: collectionView.frame.width, height: 70)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+}
+
+extension ConnectionsVC: ConnectionCellDelegate {
+    
+    func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
+        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+        vc.receiverId = user.uid
+        vc.chatPartner = user
+        vc.connectionRequestAccepted = true
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -92,7 +92,8 @@ class NewMessageVC: UIViewController {
     
     func fetchConnections() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("connections").child(uid).observeSingleEvent(of: .value) { snapshot in
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("connections").child(uid).child(userTypeString).observeSingleEvent(of: .value) { snapshot in
             guard let connections = snapshot.value as? [String: Any] else { return }
             connections.forEach({ key, _ in
                 DataService.shared.getUserWithUid(key, completion: { userIn in

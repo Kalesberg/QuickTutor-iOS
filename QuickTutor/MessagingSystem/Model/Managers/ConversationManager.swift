@@ -137,7 +137,8 @@ class ConversationManager {
     
     func listenForConnections() {
         guard let id = chatPartnerId else { return }
-        Database.database().reference().child("connections").child(uid).child(id).observe(.value) { snapshot in
+        let currentUserType = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("connections").child(uid).child(currentUserType).child(id).observe(.value) { snapshot in
             guard let value = snapshot.value as? Bool else {
                 self.delegate?.conversationManager(self, didUpdateConnection: false)
                 return
