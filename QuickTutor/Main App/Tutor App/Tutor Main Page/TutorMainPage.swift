@@ -101,9 +101,9 @@ class TutorMainPageView : MainPageView {
 
         collectionView.snp.makeConstraints { (make) in
             if(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
-                make.height.equalToSuperview().multipliedBy(0.27)
+                make.height.equalTo(175)
             } else {
-                make.height.equalToSuperview().multipliedBy(0.24)
+                make.height.equalTo(195)
             }
             make.width.equalToSuperview()
             make.top.equalTo(menuLabel.snp.bottom)
@@ -188,7 +188,7 @@ class TutorMainPage : MainPage {
         if tutor.school != "" {
             formattedString
                 .bold(tutor.name + "\n", 17, .white)
-                .regular(tutor.school!, 14, .white)
+                .regular(tutor.school ?? "", 14, .white)
         } else {
             formattedString
                 .bold(tutor.name, 17, .white)
@@ -429,7 +429,6 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainPageCollectionViewCell", for: indexPath) as! TutorMainPageCollectionViewCell
 		
         cell.imageView.image = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.icon
-        cell.backgroundColor = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.color
         cell.label.text = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.label
         cell.label.textColor = .white
 
@@ -485,7 +484,7 @@ class UnlockCellView : BaseView {
 		addSubview(lockImageView)
 		super.configureView()
 		
-		backgroundColor = UIColor.black.withAlphaComponent(0.8)
+		backgroundColor = UIColor.black.withAlphaComponent(0.6)
 		applyConstraints()
 	}
 	override func applyConstraints() {

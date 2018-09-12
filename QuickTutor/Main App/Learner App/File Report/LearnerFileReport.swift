@@ -38,7 +38,7 @@ enum FileReportLearner : String {
 	case TutorDidNotHelp = "My Tutor Did Not Help"
 }
 
-class LearnerFileReportView : MainLayoutHeader {
+class LearnerFileReportView : MainLayoutTitleBackButton {
     
 	let tableView : UITableView = {
 		let tableView = UITableView.init(frame: .zero, style: .grouped)
@@ -49,7 +49,7 @@ class LearnerFileReportView : MainLayoutHeader {
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = Colors.backgroundDark
 		tableView.estimatedSectionHeaderHeight = 85
-		tableView.backgroundView = TutorCardCollectionViewBackground()
+        tableView.alwaysBounceVertical = false
 
 		return tableView
 	}()
@@ -60,7 +60,6 @@ class LearnerFileReportView : MainLayoutHeader {
         super.configureView()
         
         title.label.text = "File Report"
-        header.text = "Your Past Sessions"
         
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple
@@ -71,7 +70,7 @@ class LearnerFileReportView : MainLayoutHeader {
     override func applyConstraints() {
         super.applyConstraints()
 		tableView.snp.makeConstraints { (make) in
-			make.top.equalTo(header.snp.bottom)
+			make.top.equalTo(navbar.snp.bottom)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             if #available(iOS 11.0, *) {
@@ -535,15 +534,13 @@ class LearnerFileReport : BaseViewController {
 	var datasource = [UserSession]() {
 		didSet {
 			if datasource.count == 0 {
-				print("No Tutor")
+				print("HEre.")
 				let view = TutorCardCollectionViewBackground()
 				view.label.attributedText = NSMutableAttributedString().bold("No recent sessions!", 22, .white)
 				view.label.textAlignment = .center
 				view.label.numberOfLines = 0
-				contentView.header.text = ""
 				contentView.tableView.backgroundView = view
-			} else {
-				contentView.header.text = "Your Past Sessions"
+            } else {
 				contentView.tableView.backgroundView = nil
 			}
 			contentView.tableView.reloadData()
@@ -556,6 +553,8 @@ class LearnerFileReport : BaseViewController {
 		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: "learner") { (sessions) in
 			if let sessions = sessions {
 				self.datasource = sessions.sorted(by: { $0.endTime > $1.endTime })
+			} else {
+				self.datasource = []
 			}
 		}
 		
@@ -637,21 +636,41 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return tableView.estimatedRowHeight
+		return indexPath.section == 0 ? 0 : tableView.estimatedRowHeight
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            let cell = UITableViewCell()
+            cell.backgroundColor = Colors.backgroundDark
+            return cell
+        } else {
 		let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
 		cell.textLabel?.text = "File a report with this session"
 		return cell
+        }
 	}
 	
     func numberOfSections(in tableView: UITableView) -> Int {
-		return datasource.count
+		return datasource.count + 1
 	}
 
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		return setHeader(index: section)
+        if section == 0 {
+            let view = UIView()
+            let label = UILabel()
+            label.text = "Your Past Sessions"
+            label.textColor = .white
+            label.font = Fonts.createBoldSize(20)
+            view.addSubview(label)
+            label.snp.makeConstraints { (make) in
+                make.width.equalToSuperview().multipliedBy(0.9)
+                make.center.equalToSuperview()
+            }
+            return view
+        } else {
+            return setHeader(index: section - 1)
+        }
 	}
 	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -659,8 +678,9 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		guard indexPath.section != 0 else { return }
 		let next = SessionDetails()
-		next.datasource = datasource[indexPath.section]
+		next.datasource = datasource[indexPath.section - 1]
 		self.navigationController?.pushViewController(next, animated: true)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}

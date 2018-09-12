@@ -10,13 +10,7 @@ import UIKit
 
 class LearnerUpcomingSessionCell: BaseUpcomingSessionCell {
     
-    override func setupViews() {
-        super.setupViews()
-        actionView.setupAsTripleButton()
-        actionView.actionButton3.setImage(#imageLiteral(resourceName: "startSessionButton"), for: .normal)
-    }
-    
-    override func handleButton3() {
+    override func handleButton2() {
         let vc = BaseSessionStartVC()
         vc.sessionId = session.id
         vc.partnerId = session.partnerId()

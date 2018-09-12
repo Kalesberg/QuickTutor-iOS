@@ -109,7 +109,7 @@ class TutorEarningsView : MainLayoutTitleBackButton {
         
         navbar.backgroundColor = Colors.green
         statusbarView.backgroundColor = Colors.green
-        title.label.text = "Your Earnings"
+        title.label.text = "Earnings"
         
     }
     

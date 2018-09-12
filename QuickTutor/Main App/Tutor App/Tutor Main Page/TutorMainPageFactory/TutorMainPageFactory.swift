@@ -18,13 +18,13 @@ enum TutorMainPageButtonFactory {
 	var mainPageButton : MainPageButton {
 		switch self {
 		case .tutorRating:
-			return MainPageButton(icon: #imageLiteral(resourceName: "ratings"), label: "Ratings", color: Colors.gold)
+			return MainPageButton(icon: #imageLiteral(resourceName: "tutor-ratings"), label: "Ratings")
 		case .tutorTrending:
-			return MainPageButton(icon: #imageLiteral(resourceName: "trending"), label: "Trending", color: UIColor(hex: "6562C9"))
+			return MainPageButton(icon: #imageLiteral(resourceName: "tutor-trending"), label: "Trending")
 		case .tutorEarning:
-			return MainPageButton(icon: #imageLiteral(resourceName: "earnings"), label: "Earnings", color: Colors.green)
+			return MainPageButton(icon: #imageLiteral(resourceName: "tutor-earnings"), label: "Earnings")
         case .tutorListing:
-            return MainPageButton(icon: #imageLiteral(resourceName: "clipboard"), label: "Listings", color: UIColor(hex: "5785D4"))
+            return MainPageButton(icon: #imageLiteral(resourceName: "tutor-listings"), label: "Listings")
 		}
 	}
 	var viewController : UIViewController {
@@ -40,12 +40,10 @@ enum TutorMainPageButtonFactory {
 struct MainPageButton {
 	let icon : UIImage
 	let label : String
-	let color : UIColor
 	
-	init(icon: UIImage, label: String, color: UIColor) {
+	init(icon: UIImage, label: String) {
 		self.icon = icon
 		self.label = label
-		self.color = color
 	}
 }
 

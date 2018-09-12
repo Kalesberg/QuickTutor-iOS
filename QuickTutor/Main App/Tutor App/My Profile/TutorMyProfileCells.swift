@@ -182,6 +182,7 @@ class ProfilePicTableViewCell : BaseTableViewCell {
         
         imageView.scaleImage()
         imageView.sizeToFit()
+        imageView.layer.cornerRadius = 8
         
         return imageView
     }()
@@ -195,48 +196,19 @@ class ProfilePicTableViewCell : BaseTableViewCell {
         return label
     }()
     
-    let locationImage : UIImageView = {
-        let view = UIImageView()
-
-        view.image = #imageLiteral(resourceName: "location")
-
-        return view
-    }()
-
-    let locationLabel : UILabel = {
-        let label = UILabel()
-
-        label.font = Fonts.createSize(14)
-        label.adjustsFontSizeToFitWidth = true
-        label.clipsToBounds = true
-        label.textColor = .white
-
-        return label
-    }()
-    
     let ratingLabel : UILabel = {
         let label = UILabel()
         
-        label.textColor = Colors.yellow
+        label.textColor = Colors.gold
         label.font = Fonts.createBoldSize(14)
         
         return label
     }()
     
-    let star : UIImageView = {
-        let view = UIImageView()
-        
-        view.image = #imageLiteral(resourceName: "yellow-star")
-        
-        return view
-    }()
     override func configureView() {
         contentView.addSubview(profilePicView)
         addSubview(nameLabel)
-        addSubview(locationImage)
-        addSubview(locationLabel)
         addSubview(ratingLabel)
-        addSubview(star)
         
         backgroundColor = .clear
         
@@ -246,34 +218,21 @@ class ProfilePicTableViewCell : BaseTableViewCell {
     override func applyConstraints() {
         
         profilePicView.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(20)
-            make.width.equalTo(110)
-            make.height.equalTo(110)
+            make.centerX.equalToSuperview()
+            if UIScreen.main.bounds.height < 570 {
+                make.width.height.equalTo(160)
+            } else {
+                make.width.height.equalTo(200)
+            }
         }
         nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(profilePicView.snp.bottom).inset(-15)
+            make.top.equalTo(profilePicView.snp.bottom).inset(-10)
             make.centerX.equalToSuperview()
         }
-        locationLabel.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview().inset(10)
-            make.height.equalTo(30)
-            make.top.equalTo(nameLabel.snp.bottom)
-        }
-        locationImage.snp.makeConstraints { (make) in
-            make.right.equalTo(locationLabel.snp.left).inset(-7)
-            make.centerY.equalTo(locationLabel)
-            make.height.equalTo(17)
-            make.width.equalTo(17)
-        }
-        star.snp.makeConstraints { (make) in
-            make.right.equalToSuperview().inset(15)
-            make.height.width.equalTo(15)
-            make.top.equalTo(profilePicView)
-        }
         ratingLabel.snp.makeConstraints { (make) in
-            make.right.equalTo(star.snp.left).inset(-5)
-            make.centerY.equalTo(star).inset(1)
+            make.top.equalTo(profilePicView)
+            make.right.equalToSuperview().inset(10)
         }
     }
     
@@ -680,11 +639,14 @@ class RatingTableViewCell : BaseTableViewCell {
     }
     
     override func applyConstraints() {
-        
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.95)
-            make.height.equalTo(190)
+            if datasource.count == 1 {
+                make.height.equalTo(80)
+            } else {
+                make.height.equalTo(190)
+            }
             make.centerX.equalToSuperview()
         }
         seeAllButton.snp.makeConstraints { (make) in
@@ -772,7 +734,8 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
         
         cell.nameLabel.text = data.studentName
         cell.reviewTextLabel.text = data.message
-        cell.dateSubjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.yellow).bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
+        cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
+        cell.dateLabel.text = "\(data.date)"
 
         let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic\(indexPath.row+1)")
         cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
@@ -824,7 +787,7 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
         
         return label
     }()
-    let dateSubjectLabel : UILabel = {
+    let subjectLabel : UILabel = {
         let label = UILabel()
         
         label.textColor = Colors.grayText
@@ -842,14 +805,24 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
         return label
     }()
     
+    let dateLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createSize(12)
+        
+        return label
+    }()
+    
     let container = UIView()
     
     override func configureView() {
         addSubview(container)
         container.addSubview(profilePic)
         container.addSubview(nameLabel)
-        container.addSubview(dateSubjectLabel)
+        container.addSubview(subjectLabel)
         container.addSubview(reviewTextLabel)
+        addSubview(dateLabel)
         super.configureView()
         
         applyConstraints()
@@ -878,8 +851,8 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
             make.centerY.equalToSuperview().multipliedBy(0.7)
         }
         
-        dateSubjectLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel.snp.right).inset(-8)
+        subjectLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(nameLabel.snp.right).inset(-6)
             make.centerY.equalTo(nameLabel)
         }
         
@@ -887,6 +860,11 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
             make.left.equalTo(profilePic.snp.right).inset(-10)
             make.centerY.equalToSuperview().multipliedBy(1.4)
             make.right.equalToSuperview().inset(3)
+        }
+        
+        dateLabel.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().inset(5)
+            make.bottom.equalTo(container).inset(-7)
         }
     }
     override func layoutSubviews() {
@@ -916,14 +894,7 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
         return label
     }()
     
-    let dateSubjectLabel : UILabel = {
-        let label = UILabel()
-        
-        label.textColor = Colors.grayText
-        label.font = Fonts.createSize(13)
-        
-        return label
-    }()
+    let subjectLabel = UILabel()
     
     let reviewTextLabel : UILabel = {
         let label = UILabel()
@@ -936,14 +907,24 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
         return label
     }()
     
+    let dateLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = Fonts.createSize(12)
+        
+        return label
+    }()
+    
     let container = UIView()
     
     override func configureView() {
         contentView.addSubview(container)
         container.addSubview(profilePic)
         container.addSubview(nameLabel)
-        container.addSubview(dateSubjectLabel)
+        container.addSubview(subjectLabel)
         container.addSubview(reviewTextLabel)
+        addSubview(dateLabel)
         super.configureView()
         
         contentView.backgroundColor = .clear
@@ -968,8 +949,8 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
             make.top.equalTo(profilePic).inset(5)
         }
         
-        dateSubjectLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel.snp.right).inset(-8)
+        subjectLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(nameLabel.snp.right).inset(-6)
             make.centerY.equalTo(nameLabel)
         }
         
@@ -977,6 +958,11 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
             make.left.equalTo(profilePic.snp.right).inset(-10)
             make.right.equalToSuperview().inset(5)
             make.top.equalTo(nameLabel.snp.bottom).inset(-5)
+        }
+        
+        dateLabel.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().inset(5)
+            make.bottom.equalTo(container).inset(-7)
         }
     }
     override func layoutSubviews() {

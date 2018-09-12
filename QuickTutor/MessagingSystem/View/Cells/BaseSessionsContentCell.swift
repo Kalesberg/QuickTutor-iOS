@@ -18,7 +18,8 @@ class BaseSessionsContentCell: BaseContentCell {
     let requestSessionButton: UIButton = {
         let button = UIButton()
         button.contentMode = .scaleAspectFit
-        button.setImage(#imageLiteral(resourceName: "requestSessionButton"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.setImage(#imageLiteral(resourceName: "requestSessionIcon"), for: .normal)
         return button
     }()
     
@@ -41,10 +42,12 @@ class BaseSessionsContentCell: BaseContentCell {
         pendingSessions.removeAll()
         upcomingSessions.removeAll()
         pastSessions.removeAll()
+        postOverlayDisplayNotification()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { (snapshot) in
             DataService.shared.getSessionById(snapshot.key, completion: { session in
+                self.postOverlayDismissalNotfication()
                 guard session.status != "cancelled" && session.status != "declined" else {
                     self.attemptReloadOfTable()
                     return
@@ -60,7 +63,7 @@ class BaseSessionsContentCell: BaseContentCell {
                 
                 if session.startTime < Date().timeIntervalSince1970 {
                     if !self.pastSessions.contains(where: { $0.id == session.id }) {
-                        self.pastSessions.append(session)
+                        self.pastSessions.insert(session, at: 0)
                     }
                     self.attemptReloadOfTable()
                     return

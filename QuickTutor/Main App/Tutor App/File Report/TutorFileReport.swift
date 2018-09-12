@@ -29,7 +29,6 @@ class TutorFileReport : BaseViewController {
 				view.label.attributedText =	NSMutableAttributedString().bold("No recent sessions!", 22, .white)
 				view.label.textAlignment = .center
 				view.label.numberOfLines = 0
-				
 				contentView.tableView.backgroundView = view
 			} else {
 				contentView.tableView.backgroundView = nil
@@ -44,6 +43,8 @@ class TutorFileReport : BaseViewController {
 		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: "tutor") { (sessions) in
 			if let sessions = sessions {
 				self.datasource = sessions.sorted(by: { $0.endTime > $1.endTime })
+			} else {
+				self.datasource = []
 			}
 		}
 		
@@ -124,33 +125,53 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.estimatedRowHeight
-    }
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		return indexPath.section == 0 ? 0 : tableView.estimatedRowHeight
+	}
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
-        
-        cell.textLabel?.text = "File a report with this session"
-        
-        return cell
+        if indexPath.section == 0 {
+            let cell = UITableViewCell()
+            cell.backgroundColor = Colors.backgroundDark
+            return cell
+        } else {
+            let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
+            cell.textLabel?.text = "File a report with this session"
+            return cell
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return datasource.count
+        return datasource.count + 1
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		return setHeader(index: section)
+        if section == 0 {
+            let view = UIView()
+            let label = UILabel()
+            label.text = "Your Past Sessions"
+            label.textColor = .white
+            label.font = Fonts.createBoldSize(20)
+            view.addSubview(label)
+            label.snp.makeConstraints { (make) in
+                make.width.equalToSuperview().multipliedBy(0.9)
+                make.center.equalToSuperview()
+            }
+            
+            return view
+        } else {
+            return setHeader(index: section - 1)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return tableView.estimatedSectionHeaderHeight
+		return tableView.estimatedSectionHeaderHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		guard indexPath.section != 0 else { return }
 		let next = TutorSessionDetails()
-		next.datasource = datasource[indexPath.section]
+		next.datasource = datasource[indexPath.section - 1]
 		self.navigationController?.pushViewController(next, animated: true)
 		tableView.deselectRow(at: indexPath, animated: true)
     }

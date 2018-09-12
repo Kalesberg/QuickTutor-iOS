@@ -71,9 +71,9 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		let imageViews : [ProfilePicImageView] = [image1, image2, image3, image4]
-		for imageView in imageViews {
-			imageView.buttonImageView.image = (imageView.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
-		}
+        for imageView in imageViews {
+            imageView.buttonImageView.image = (imageView.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+        }
 	}
 	
 	override func handleNavigation() {

@@ -24,11 +24,11 @@ class SeeAllButton: InteractableView, Interactable {
         addSubview(label)
         super.configureView()
         
+        layer.cornerRadius = 7
         layer.borderColor = Colors.green.cgColor
         layer.borderWidth = 1
-        layer.cornerRadius = 7
         
-        label.text = "See all »"
+        label.text = "See All »"
         label.textColor = Colors.green
         label.font = Fonts.createSize(16)
         label.textAlignment = .center
@@ -146,25 +146,6 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
     
     override func applyConstraints() {
         super.applyConstraints()
-
-        profilePics.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom).inset(-30)
-            make.centerX.equalToSuperview()
-            if UIScreen.main.bounds.height < 570 {
-                make.width.height.equalTo(160)
-            } else {
-                make.width.height.equalTo(200)
-            }
-        }
-        nameContainer.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview()
-            make.width.centerX.equalToSuperview()
-            make.height.equalTo(30)
-        }
-        name.snp.makeConstraints { (make) in
-            make.width.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(3)
-        }
         
         backgroundView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
@@ -176,7 +157,7 @@ class LearnerMyProfileView : MainLayoutTitleTwoButton {
         tableView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.top.equalTo(name.snp.bottom).inset(-20)
+            make.top.equalTo(navbar.snp.bottom)
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide)
             } else {
@@ -346,14 +327,20 @@ extension LearnerMyProfile : ProfileImageViewerDelegate {
 extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.row) {
         case 0:
-            return UITableViewAutomaticDimension
+            if UIScreen.main.bounds.height < 570 {
+                return 210
+            } else {
+                return 250
+            }
         case 1:
+            return UITableViewAutomaticDimension
+        case 2:
             return UITableViewAutomaticDimension
         default:
             break
@@ -365,18 +352,17 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
         
         switch (indexPath.row) {
             
-//        case 0:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
-//
-//            cell.locationImage.isHidden = true
-//            let name = learner.name.split(separator: " ")
-//            cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
-//
-//            cell.profilePicView.loadUserImages(by: learner.images["image1"]!)
-//            cell.ratingLabel.text = String(learner.lRating)
-//
-//            return cell
         case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "profilePicTableViewCell", for: indexPath) as! ProfilePicTableViewCell
+
+            let name = learner.name.split(separator: " ")
+            cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+
+            cell.profilePicView.loadUserImages(by: learner.images["image1"]!)
+            cell.ratingLabel.text = String(learner.lRating) + " ★"
+
+            return cell
+        case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
             
             cell.aboutMeLabel.label.textColor = Colors.learnerPurple
@@ -390,7 +376,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                 cell.bioLabel.text = learner.bio + "\n"
             }
             return cell
-        case 1:
+        case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoTableViewCell
             
             for view in cell.contentView.subviews {

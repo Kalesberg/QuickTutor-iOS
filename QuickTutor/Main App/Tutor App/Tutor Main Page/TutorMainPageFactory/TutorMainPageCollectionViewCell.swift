@@ -24,7 +24,7 @@ class TutorMainPageCollectionViewCell : UICollectionViewCell {
     let imageView : UIImageView = {
         let view = UIImageView()
         
-        view.scaleImage()
+        view.contentMode = .scaleAspectFill
         
         return view
     }()
@@ -52,17 +52,18 @@ class TutorMainPageCollectionViewCell : UICollectionViewCell {
 	}
 	
 	func applyConstraints() {
-		imageView.snp.makeConstraints { (make) in
-			make.centerY.equalToSuperview().inset(-15)
-			make.centerX.equalToSuperview()
-		}
-		
-		label.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview()
-			make.height.equalTo(30)
-			make.centerX.equalToSuperview()
-			make.width.equalToSuperview()
-		}
+        label.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.height.equalTo(30)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+        }
+        
+        imageView.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.bottom.equalToSuperview().inset(30)
+            make.width.top.equalToSuperview()
+        }
 	}
 	
 	func touchStart() {

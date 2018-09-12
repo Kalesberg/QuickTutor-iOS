@@ -378,7 +378,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-			return (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) ? 180 : 200
+			return (UIScreen.main.bounds.height < 570) ? 180 : 200
         }
 		return 205
     }

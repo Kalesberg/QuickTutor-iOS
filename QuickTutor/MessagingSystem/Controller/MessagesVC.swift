@@ -82,12 +82,12 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
         view.addSubview(mainCollectionView)
-        mainCollectionView.anchor(top: messageSessionControl.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 29, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        mainCollectionView.anchor(top: messageSessionControl.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
 
     private func setupMessageSessionControl() {
         view.addSubview(messageSessionControl)
-        messageSessionControl.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 45, paddingBottom: 0, paddingRight: 45, width: 0, height: 25)
+        messageSessionControl.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
         messageSessionControl.delegate = self
     }
     
@@ -123,6 +123,16 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
         NotificationCenter.default.addObserver(self, selector: #selector(showConversation(notification:)), name: Notification.Name(rawValue: "sendMessage"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showCancelModal), name: Notification.Name(rawValue: "cancelSession"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(requestSession(notification:)), name: Notification.Name(rawValue: "requestSession"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MessagesVC.showOverlay), name: Notifications.showOverlay.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MessagesVC.hideOverlay), name: Notifications.hideOverlay.name, object: nil)
+    }
+    
+    @objc func showOverlay() {
+        displayLoadingOverlay()
+    }
+    
+    @objc func hideOverlay() {
+        dismissOverlay()
     }
     
     @objc func showConversation(notification: Notification) {

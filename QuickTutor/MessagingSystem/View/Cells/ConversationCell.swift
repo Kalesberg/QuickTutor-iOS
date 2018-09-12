@@ -46,12 +46,12 @@ class ConversationCell: SwipeCollectionViewCell {
         let label = UILabel()
         label.textAlignment = .right
         label.font = Fonts.createBoldSize(9)
-        label.textColor = UIColor(hex: "FFDA02")
+        label.textColor = Colors.gold
         return label
     }()
     
     let starIcon: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
@@ -168,7 +168,7 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     private func updateProfileImage() {
-        profileImageView.imageView.loadImage(urlString: chatPartner.profilePicUrl)
+        profileImageView.imageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
     }
     
     private func updateTimestampLabel(message: UserMessage) {
@@ -189,7 +189,10 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     private func updateRating() {
-        guard let tutor = chatPartner as? ZFTutor, let rating = tutor.rating else { return }
+        guard let tutor = chatPartner as? ZFTutor, let rating = tutor.rating else {
+            starLabel.text = "5.0"
+            return
+        }
         starLabel.text = "\(rating)"
     }
     

@@ -28,9 +28,6 @@ extension HandlesSessionStartData {
                 fatalError("Error with start tyoe")
             }
             
-            guard let initiatorId = value["startedBy"] as? String else {
-                fatalError("Error with initiatorId")
-            }
             
             guard let sessionType = value["sessionType"] as? String else {
                 fatalError("Error with sessionType")
@@ -38,7 +35,10 @@ extension HandlesSessionStartData {
             
             let vc = sessionType == "online" ? VideoSessionStartVC() : InpersonSessionStartVC()
             vc.sessionId = snapshot.key
-            vc.initiatorId = initiatorId
+            
+            if let initiatorId = value["startedBy"] as? String {
+                vc.initiatorId = initiatorId
+            }
             vc.startType = startType
             navigationController.navigationBar.isHidden = false
             navigationController.pushViewController(vc, animated: true)

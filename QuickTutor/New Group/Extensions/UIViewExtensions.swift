@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 extension UIView {
+    
     func applyGradient(firstColor: CGColor, secondColor: CGColor, angle: Double, frame: CGRect, cornerRadius: CGFloat = 0, locations: [NSNumber] = [0, 0.7, 0.9, 1]) {
         let firstColor = firstColor
         let secondColor = secondColor

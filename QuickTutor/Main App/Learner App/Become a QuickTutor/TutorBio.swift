@@ -25,7 +25,7 @@ class TutorBioView : EditBioView {
 		title.label.text = "Biography"
 		textView.textView.text = ""
 		
-		let attributedString = NSMutableAttributedString(string: "·  What Experience and Expertise do you have?\n·  Any certifications or awards earned?\n·  What are you looking for in learners?")
+		let attributedString = NSMutableAttributedString(string: "·  What experience and expertise do you have?\n·  Any certifications or awards earned?\n·  What are you looking for in learners?")
 		
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.lineSpacing = 6

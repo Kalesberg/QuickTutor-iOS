@@ -11,31 +11,31 @@ import UIKit
 class StarView: UIView {
     
     let star1: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
     
     let star2: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
     
     let star3: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
     
     let star4: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
     
     let star5: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()

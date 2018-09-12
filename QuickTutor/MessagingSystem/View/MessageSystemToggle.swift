@@ -27,25 +27,25 @@ class MessagingSystemToggle: UIView {
     lazy var cv: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = .clear
-        cv.layer.borderColor = UIColor.white.cgColor
-        cv.layer.borderWidth = 0.5
-        cv.layer.cornerRadius = 6
+        cv.backgroundColor = Colors.currentUserColor()
         cv.delegate = self
         cv.dataSource = self
         cv.register(MessagingSystemToggleCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
     
-    let separator: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
+    let bar: UIView = {
+        let bar = UIView()
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        bar.backgroundColor = .white
+        return bar
     }()
+    
+    var leftAnchorConstraint: NSLayoutConstraint?
     
     func setupViews() {
         setupCollectionView()
-        setupSeparator()
+        setupHorizontalBar()
         setupForUserType()
     }
     
@@ -55,10 +55,13 @@ class MessagingSystemToggle: UIView {
         selectFirstSection()
     }
     
-    private func setupSeparator() {
-        addSubview(separator)
-        separator.anchor(top: cv.topAnchor, left: nil, bottom: cv.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0.5, height: 0)
-        addConstraint(NSLayoutConstraint(item: separator, attribute: .centerX, relatedBy: .equal, toItem: cv, attribute: .centerX, multiplier: 1, constant: 0))
+    func setupHorizontalBar() {
+        addSubview(bar)
+        leftAnchorConstraint = bar.leftAnchor.constraint(equalTo: leftAnchor)
+        leftAnchorConstraint?.isActive = true
+        bar.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        bar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5).isActive = true
+        bar.heightAnchor.constraint(equalToConstant: 3).isActive = true
     }
     
     func selectFirstSection() {
@@ -103,6 +106,15 @@ extension MessagingSystemToggle: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        animateBarToItem(indexPath.item)
         delegate?.scrollTo(index: indexPath.item, animated: true)
+    }
+    
+    func animateBarToItem(_ item: Int) {
+        leftAnchorConstraint?.constant = item == 0 ? 0 : frame.size.width / 2
+        UIView.animate(withDuration: 0.25) {
+            self.layoutIfNeeded()
+            
+        }
     }
 }

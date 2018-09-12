@@ -447,7 +447,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 4:
             let next = EditBio()
-            let attributedString = NSMutableAttributedString(string: "·  What Experience and Expertise do you have?\n·  Any certifications or awards earned?\n·  What are you looking for in learners?")
+            let attributedString = NSMutableAttributedString(string: "·  What experience and expertise do you have?\n·  Any certifications or awards earned?\n·  What are you looking for in learners?")
             
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 6

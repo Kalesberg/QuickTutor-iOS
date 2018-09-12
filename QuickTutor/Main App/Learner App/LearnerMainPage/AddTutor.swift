@@ -37,79 +37,79 @@ struct UsernameQuery {
 }
 
 class AWLoadingIndicatorView : BaseView {
-	let loadingView : LOTAnimationView = {
-		let lottieView = LOTAnimationView(name: "loading11")
-		
-		lottieView.contentMode = .scaleAspectFit
-		lottieView.loopAnimation = true
-		lottieView.alpha = 0
-		
-		return lottieView
-	}()
-	
-	let searchingLabel : UILabel = {
-		let label = UILabel()
-		
-		label.font = Fonts.createSize(13)
-		label.textAlignment = .left
-		label.textColor = .white
-		
-		return label
-	}()
-	
-	let containerView = UIView()
-	let defaultText = "Try searching for tutors by their username"
-	
-	override func configureView() {
-		addSubview(containerView)
-		containerView.addSubview(loadingView)
-		containerView.addSubview(searchingLabel)
-		super.configureView()
-		searchingLabel.text = defaultText
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		searchingLabel.snp.makeConstraints { (make) in
-			make.centerX.bottom.top.equalToSuperview()
-		}
-		loadingView.snp.makeConstraints { (make) in
-			make.right.equalTo(searchingLabel.snp.left).inset(10)
-			make.centerY.equalToSuperview()
-			make.width.height.equalTo(50)
-		}
-		containerView.snp.makeConstraints { (make) in
-			make.centerX.top.equalToSuperview()
-		}
-	}
-	override func layoutSubviews() {
-		super.layoutSubviews()
-	}
-	func displayLoadingIndicator(with searchText: String) {
-		loadingView.isHidden = false
-		UIView.animate(withDuration: 0.2) {
-			self.loadingView.alpha = 1.0
-			self.searchingLabel.alpha = 1.0
-			self.searchingLabel.text = searchText
-			self.loadingView.play()
-		}
-	}
-	
-	func dismissLoadingIndicator() {
-		UIView.animate(withDuration: 0.2) {
-			self.loadingView.alpha = 0
-			self.searchingLabel.alpha = 0
-			self.loadingView.stop()
-		}
-	}
-	
-	func displayDefaultText() {
-		UIView.animate(withDuration: 0.2) {
-			self.searchingLabel.alpha = 1.0
-			self.loadingView.alpha = 0
-			self.searchingLabel.text = self.defaultText
-		}
-	}
+    let loadingView : LOTAnimationView = {
+        let lottieView = LOTAnimationView(name: "loading11")
+        
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.loopAnimation = true
+        lottieView.alpha = 0
+        
+        return lottieView
+    }()
+    
+    let searchingLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createSize(13)
+        label.textAlignment = .left
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    let containerView = UIView()
+    let defaultText = "Try searching for tutors by their username"
+    
+    override func configureView() {
+        addSubview(containerView)
+        containerView.addSubview(loadingView)
+        containerView.addSubview(searchingLabel)
+        super.configureView()
+        searchingLabel.text = defaultText
+        applyConstraints()
+    }
+    
+    override func applyConstraints() {
+        searchingLabel.snp.makeConstraints { (make) in
+            make.centerX.bottom.top.equalToSuperview()
+        }
+        loadingView.snp.makeConstraints { (make) in
+            make.right.equalTo(searchingLabel.snp.left).inset(10)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(50)
+        }
+        containerView.snp.makeConstraints { (make) in
+            make.centerX.top.equalToSuperview()
+        }
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    func displayLoadingIndicator(with searchText: String) {
+        loadingView.isHidden = false
+        UIView.animate(withDuration: 0.2) {
+            self.loadingView.alpha = 1.0
+            self.searchingLabel.alpha = 1.0
+            self.searchingLabel.text = searchText
+            self.loadingView.play()
+        }
+    }
+    
+    func dismissLoadingIndicator() {
+        UIView.animate(withDuration: 0.2) {
+            self.loadingView.alpha = 0
+            self.searchingLabel.alpha = 0
+            self.loadingView.stop()
+        }
+    }
+    
+    func displayDefaultText() {
+        UIView.animate(withDuration: 0.2) {
+            self.searchingLabel.alpha = 1.0
+            self.loadingView.alpha = 0
+            self.searchingLabel.text = self.defaultText
+        }
+    }
 }
 
 class AddTutorView : MainLayoutTitleBackButton {
@@ -128,7 +128,7 @@ class AddTutorView : MainLayoutTitleBackButton {
     
     let searchTextField : SearchTextField = {
         let textField = SearchTextField()
-		
+        
         textField.placeholder.text = "Search Usernames"
         textField.textField.font = Fonts.createSize(16)
         textField.textField.tintColor = Colors.learnerPurple
@@ -136,21 +136,21 @@ class AddTutorView : MainLayoutTitleBackButton {
         
         return textField
     }()
-	
-	let loadingIndicator = AWLoadingIndicatorView()
+    
+    let loadingIndicator = AWLoadingIndicatorView()
 
-	override func configureView() {
+    override func configureView() {
         addSubview(tableView)
         addSubview(searchTextField)
-		addSubview(loadingIndicator)
+        addSubview(loadingIndicator)
         super.configureView()
 
         title.label.text = "Add Tutor by Username"
-		title.label.textAlignment = .center
+        title.label.textAlignment = .center
 
-		navbar.backgroundColor = Colors.learnerPurple
-		statusbarView.backgroundColor = Colors.learnerPurple
-		
+        navbar.backgroundColor = Colors.learnerPurple
+        statusbarView.backgroundColor = Colors.learnerPurple
+        
     }
     
     override func applyConstraints() {
@@ -161,12 +161,12 @@ class AddTutorView : MainLayoutTitleBackButton {
             make.height.equalTo(80)
             make.centerX.equalToSuperview()
         }
-		loadingIndicator.snp.makeConstraints { (make) in
-			make.top.equalTo(searchTextField.snp.bottom)
-			make.centerX.width.equalToSuperview()
-			make.height.equalTo(30)
-		}
-		tableView.snp.makeConstraints { (make) in
+        loadingIndicator.snp.makeConstraints { (make) in
+            make.top.equalTo(searchTextField.snp.bottom)
+            make.centerX.width.equalToSuperview()
+            make.height.equalTo(30)
+        }
+        tableView.snp.makeConstraints { (make) in
             make.centerX.width.equalToSuperview()
             make.top.equalTo(searchTextField.snp.bottom)
             if #available(iOS 11.0, *) {
@@ -188,19 +188,19 @@ class AddTutor : BaseViewController, ShowsConversation {
     }
     
     var searchTimer = Timer()
-	var connectedIds = [String]()
+    var connectedIds = [String]()
     var queriedIds = [String]()
     var pendingIds = [String]()
     
     var filteredUsername = [UsernameQuery]() {
         didSet {
-			if filteredUsername.isEmpty && contentView.searchTextField.textField.text!.count > 0 {
-				let backgroundView = TutorCardCollectionViewBackground()
-				backgroundView.label.attributedText = NSMutableAttributedString().bold("No Tutors Found", 22, .white)
-				contentView.tableView.backgroundView = backgroundView
-			} else {
-				contentView.tableView.backgroundView = nil
-			}
+            if filteredUsername.isEmpty && contentView.searchTextField.textField.text!.count > 0 {
+                let backgroundView = TutorCardCollectionViewBackground()
+                backgroundView.label.attributedText = NSMutableAttributedString().bold("No Tutors Found", 22, .white)
+                contentView.tableView.backgroundView = backgroundView
+            } else {
+                contentView.tableView.backgroundView = nil
+            }
             contentView.tableView.reloadData()
         }
     }
@@ -251,19 +251,19 @@ class AddTutor : BaseViewController, ShowsConversation {
         guard let text = textField.text, text.count > 0, text != ""  else {
             self.filteredUsername.removeAll()
             self.queriedIds.removeAll()
-			contentView.loadingIndicator.displayDefaultText()
-			return
+            contentView.loadingIndicator.displayDefaultText()
+            return
         }
         func startTimer(){
             searchTimer = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(searchUsername(_:)), userInfo: text.lowercased(), repeats: true)
-			contentView.loadingIndicator.displayLoadingIndicator(with: "Searching for \"\(text)\"")
-		}
+            contentView.loadingIndicator.displayLoadingIndicator(with: "Searching for \"\(text)\"")
+        }
         startTimer()
     }
 
     @objc func searchUsername(_ sender: Timer) {
-		contentView.loadingIndicator.dismissLoadingIndicator()
-		guard let searchText = sender.userInfo as? String else { return }
+        contentView.loadingIndicator.dismissLoadingIndicator()
+        guard let searchText = sender.userInfo as? String else { return }
         queriedIds.removeAll()
         searchTimer.invalidate()
 
@@ -278,31 +278,31 @@ class AddTutor : BaseViewController, ShowsConversation {
                 queriedUsername.append(usernameQuery)
                 self.queriedIds.append(child.key)
             }
-			self.filteredUsername.removeAll()
+            self.filteredUsername.removeAll()
             self.filteredUsername = queriedUsername
         }
     }
-	override func handleNavigation() {
-		if touchStartView is AddBankButton {
-			self.dismissPaymentModal()
-			let next = CardManager()
-			next.popBackTo = AddTutor()
-			navigationController?.pushViewController(next, animated: true)
-		}
-	}
+    override func handleNavigation() {
+        if touchStartView is AddBankButton {
+            self.dismissPaymentModal()
+            let next = CardManager()
+            next.popBackTo = AddTutor()
+            navigationController?.pushViewController(next, animated: true)
+        }
+    }
 }
 extension AddTutor : UITextFieldDelegate {
-	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-		if string == "" && (textField.text!.count - 1 == 0) {
-			contentView.loadingIndicator.displayDefaultText()
-		}
-		return true
-	}
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string == "" && (textField.text!.count - 1 == 0) {
+            contentView.loadingIndicator.displayDefaultText()
+        }
+        return true
+    }
 }
 extension AddTutor : AddPaymentButtonPress {
-	func dismissPaymentModal() {
-		self.dismissAddPaymentMethod()
-	}
+    func dismissPaymentModal() {
+        self.dismissAddPaymentMethod()
+    }
 }
 extension AddTutor : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -352,7 +352,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		self.displayLoadingOverlay()
+        self.displayLoadingOverlay()
         FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
             guard let tutor = tutor else { return }
             let next = TutorMyProfile()
@@ -360,7 +360,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
             next.contentView.rightButton.isHidden = true
             next.contentView.title.label.text = "\(self.filteredUsername[indexPath.section].username)"
             self.navigationController?.pushViewController(next, animated: true)
-			self.dismissOverlay()
+            self.dismissOverlay()
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -391,7 +391,7 @@ class AddTutorTableViewCell : UITableViewCell {
         
         imageView.image = #imageLiteral(resourceName: "defaultProfileImage")
         imageView.layer.masksToBounds = false
-		imageView.clipsToBounds = true
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -416,22 +416,22 @@ class AddTutorTableViewCell : UITableViewCell {
 
         return label
     }()
-	
+    
     let addTutorButton : UIButton = {
         let button = UIButton()
-		
-		button.backgroundColor = Colors.learnerPurple
-		button.setTitleColor(.white, for: .normal)
-		button.titleLabel?.textAlignment = .center
-		button.titleLabel?.font = Fonts.createSize(14)
-		button.titleLabel?.adjustsFontSizeToFitWidth = true
-		
+        
+        button.backgroundColor = Colors.learnerPurple
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.font = Fonts.createSize(14)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        
         return button
     }()
     
     var delegate: AddTutorButtonDelegate?
     var uid: String?
-	
+    
     func configureTableViewCell() {
         addSubview(profileImageView)
         addSubview(nameLabel)
@@ -444,10 +444,10 @@ class AddTutorTableViewCell : UITableViewCell {
         
         backgroundColor = Colors.backgroundDark
         addTutorButton.addTarget(self, action: #selector(addTutorButtonPressed(_:)), for: .touchUpInside)
-		
+        
         applyConstraints()
     }
-	
+    
     func applyConstraints() {
         profileImageView.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
@@ -482,18 +482,18 @@ class AddTutorTableViewCell : UITableViewCell {
         addTutorButton.layer.shadowOffset = CGSize(width: 1, height: 2)
         addTutorButton.layer.shadowOpacity = 0.4
         addTutorButton.layer.shadowRadius = 3
-		
-		profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
     
     @objc func addTutorButtonPressed(_ sender: Any) {
-		if CurrentUser.shared.learner.hasPayment {
-			guard let uid = self.uid else { return }
-			delegate?.addTutorWithUid(uid)
-		} else {
-			let vc = next?.next?.next as! AddTutor
-			vc.displayAddPaymentMethod()
-		}
+        if CurrentUser.shared.learner.hasPayment {
+            guard let uid = self.uid else { return }
+            delegate?.addTutorWithUid(uid)
+        } else {
+            let vc = next?.next?.next as! AddTutor
+            vc.displayAddPaymentMethod()
+        }
     }
 }
 

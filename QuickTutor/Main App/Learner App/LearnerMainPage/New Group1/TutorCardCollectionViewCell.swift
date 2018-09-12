@@ -74,6 +74,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         return tableView
     }()
     
+    let dropShadowView = UIView()
+    
     var delegate : AddTutorButtonDelegate?
     
     var datasource : AWTutor! {
@@ -97,21 +99,17 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            if UIScreen.main.bounds.height < 570 {
-                make.height.equalTo(190)
-            } else {
-                make.height.equalTo(220)
-            }
+            make.height.equalTo(135)
         }
-        reviewLabel.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-        }
-        reviewLabelContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(header).inset(-13)
-            make.left.equalTo(rateLabelContainer.snp.right).inset(-10)
-            make.width.equalTo(reviewLabel).inset(-12)
-            make.height.equalTo(24)
-        }
+//        reviewLabel.snp.makeConstraints { (make) in
+//            make.center.equalToSuperview()
+//        }
+//        reviewLabelContainer.snp.makeConstraints { (make) in
+//            make.top.equalTo(header).inset(-13)
+//            make.left.equalTo(rateLabelContainer.snp.right).inset(-10)
+//            make.width.equalTo(reviewLabel).inset(-12)
+//            make.height.equalTo(24)
+//        }
         rateLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
         }
@@ -137,7 +135,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.width.height.equalTo(56)
         }
         tableViewContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(header.profilePics.snp.bottom).inset(1)
+            make.top.equalTo(header.snp.bottom)
             make.width.equalToSuperview()
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide).inset(23)
@@ -158,6 +156,13 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(tableViewContainer.snp.bottom).inset(22)
         }
+    
+        dropShadowView.snp.makeConstraints { (make) in
+            make.top.equalTo(header.snp.bottom)
+            make.width.equalToSuperview().inset(1)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(2)
+        }
     }
     
     override func layoutSubviews() {
@@ -165,7 +170,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         applyDefaultShadow()
         header.roundCorners([.topLeft, .topRight], radius: 10)
         tableViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 10)
-        header.profilePics.applyDefaultShadow()
+        dropShadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 1.0, offset: CGSize(width: 0, height: 1), radius: 1)
+        dropShadowView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
     }
     private func configureDelegates() {
         tableView.dataSource = self
@@ -182,6 +188,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         addSubview(header)
         addSubview(tableViewContainer)
         tableViewContainer.addSubview(tableView)
+        addSubview(dropShadowView)
         addSubview(reviewLabelContainer)
         reviewLabelContainer.addSubview(reviewLabel)
         addSubview(rateLabelContainer)
@@ -367,7 +374,17 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
 			
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
             
-            cell.datasource = datasource
+            if datasource.count == 1 {
+                cell.tableView.snp.remakeConstraints { (make) in
+                    make.top.equalToSuperview()
+                    make.width.equalToSuperview().multipliedBy(0.95)
+                    make.height.equalTo(120)
+                    make.centerX.equalToSuperview()
+                }
+            }
+            
+			cell.datasource = datasource.sorted(by: { $0.date > $1.date })
+			
             return cell
 
         case 4:
@@ -426,14 +443,7 @@ class TutorCardHeader : InteractableView {
         let view = TutorCardProfilePic()
         
         view.isUserInteractionEnabled = true
-        
-        return view
-    }()
-    
-    let nameContainer : UIView = {
-        let view = UIView()
-        
-        view.backgroundColor = UIColor(hex: "4267a8")
+        view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
@@ -442,9 +452,29 @@ class TutorCardHeader : InteractableView {
         var label = UILabel()
         
         label.textColor = .white
-        label.textAlignment = .center
-        label.font = Fonts.createBoldSize(20)
+        label.textAlignment = .left
+        label.font = Fonts.createBoldSize(24)
         label.adjustsFontSizeToFitWidth = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    let darkPattern : UIImageView = {
+        let view = UIImageView()
+        
+        view.image = #imageLiteral(resourceName: "very-dark-pattern")
+        view.contentMode = .scaleAspectFill
+        
+        return view
+    }()
+    
+    let reviewLabel : UILabel = {
+        let label = UILabel()
+        
+        label.textColor = Colors.gold
+        label.font = Fonts.createSize(15)
+        label.textAlignment = .left
         
         return label
     }()
@@ -452,37 +482,49 @@ class TutorCardHeader : InteractableView {
     let gradientView = UIView()
     
     override func configureView() {
+        addSubview(darkPattern)
+        addSubview(gradientView)
         addSubview(profilePics)
-        profilePics.addSubview(nameContainer)
-        nameContainer.addSubview(name)
-        profilePics.addSubview(gradientView)
+        addSubview(name)
+        addSubview(reviewLabel)
         super.configureView()
         
-        backgroundColor = Colors.navBarColor
+        translatesAutoresizingMaskIntoConstraints = false
         
         applyConstraints()
     }
     
     override func applyConstraints() {
-        profilePics.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(30)
-            make.centerX.equalToSuperview()
-            if UIScreen.main.bounds.height < 570 {
-                make.width.height.equalTo(145)
-            } else {
-                make.width.height.equalTo(190)
-            }
-            
+        darkPattern.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
         }
-        nameContainer.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview()
-            make.width.centerX.equalToSuperview()
-            make.height.equalTo(30)
+
+        gradientView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        profilePics.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().inset(15)
+            make.width.height.equalTo(90)
+            make.bottom.equalToSuperview().inset(15)
         }
         name.snp.makeConstraints { (make) in
-            make.width.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(3)
+            make.left.equalToSuperview().inset(125)
+            make.top.equalTo(profilePics).inset(5)
+            make.right.equalToSuperview().inset(5)
         }
+        reviewLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(name.snp.bottom).inset(-5)
+            make.left.right.equalTo(name)
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        gradientView.applyGradient(firstColor: Colors.navBarColor.cgColor, secondColor: UIColor.clear.cgColor, angle: 0, frame: gradientView.bounds)
+        
+        
+        //darkPattern.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.63, offset: CGSize(width: 3, height: 3), radius: 6)
     }
 }
 

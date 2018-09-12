@@ -136,24 +136,10 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         titleView.anchor(top: navBar.titleView.topAnchor, left: nil, bottom: navBar.titleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
-        titleView.imageView.imageView.loadImage(urlString: profilePicUrl)
+        titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         
     }
-    
-    func showTypingIndicator() {
-        typingIndicatorHeightAnchor?.constant = 50
-        UIView.animate(withDuration: 0.25) {
-            self.view.layoutIfNeeded()
-            self.scrollToBottom(animated: false)
-        }
-    }
-    
-    func hideTypingIndicator() {
-        typingIndicatorHeightAnchor?.constant = 0
-        UIView.animate(withDuration: 0.25) {
-            self.view.layoutIfNeeded()
-        }
-    }
+
     
     func handleLeftViewTapped() {
         pop()
@@ -353,7 +339,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.bubbleWidthAnchor?.constant = 200
             cell.delegate = imageMessageAnimator
             cell.updateUI(message: message)
-            cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             return cell
         }
         
@@ -364,7 +350,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.bubbleWidthAnchor?.constant = 220
             cell.delegate = self
             cell.indexPath = [indexPath]
-            cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             
             return cell
         }
@@ -374,14 +360,14 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.bubbleWidthAnchor?.constant = 220
             cell.chatPartner = chatPartner
             cell.updateUI(message: message)
-            cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             return cell
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "textMessage", for: indexPath) as! UserMessageCell
         cell.updateUI(message: message)
         cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 20
-        cell.profileImageView.loadImage(urlString: chatPartner?.profilePicUrl ?? "")
+        cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         return cell
     }
     

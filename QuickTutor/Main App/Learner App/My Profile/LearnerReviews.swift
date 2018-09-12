@@ -24,8 +24,8 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
         }
     }
     
-    let tableView  : UITableView = {
-        let tableView = UITableView()
+    let tableView : UITableView = {
+        let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 80
@@ -33,37 +33,30 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.backgroundColor = Colors.backgroundDark
+        tableView.sectionHeaderHeight = 50
         
         return tableView
     }()
     
-    fileprivate var subtitleLabel = LeftTextLabel()
-    
     override func configureView() {
         addSubview(tableView)
-        addSubview(subtitleLabel)
         super.configureView()
         
         title.label.text = "Reviews"
-        
-        subtitleLabel.label.textAlignment = .left
-        subtitleLabel.label.font = Fonts.createBoldSize(20)
         
         applyConstraints()
     }
     override func applyConstraints() {
         super.applyConstraints()
-        
-        subtitleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(navbar.snp.bottom).inset(-20)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
-        }
-        
+    
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.8)
+            make.top.equalTo(navbar.snp.bottom).inset(-3)
+            make.width.equalToSuperview().multipliedBy(0.95)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview()
+            }
             make.centerX.equalToSuperview()
         }
     }
@@ -79,7 +72,6 @@ class LearnerReviews : BaseViewController {
 
     var datasource = [TutorReview]() {
         didSet {
-            contentView.subtitleLabel.label.text = "Reviews (\((datasource.count)))"
             contentView.tableView.reloadData()
         }
     }
@@ -123,12 +115,28 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         cell.nameLabel.text = data.studentName
         cell.reviewTextLabel.text = data.message
-		cell.dateSubjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.yellow).bold(" - \(data.date) - \(data.subject)", 13, Colors.grayText)
-		
+		cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
+		cell.dateLabel.text = "\(data.date)"
 		cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-		
-		cell.applyConstraints()
+        
+        cell.applyConstraints()
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel()
+        label.text = "Reviews (\((datasource.count)))"
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(20)
+        view.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.width.equalToSuperview().multipliedBy(0.95)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().inset(5)
+        }
+        
+        return view
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
