@@ -262,7 +262,8 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
 	
     var learner : AWLearner! {
         didSet {
-            contentView.tableView.reloadData()
+			print(learner.lReviews)
+			contentView.tableView.reloadData()
         }
     }
 
@@ -294,6 +295,9 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
         contentView.tableView.register(ProfilePicTableViewCell.self, forCellReuseIdentifier: "profilePicTableViewCell")
         contentView.tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         contentView.tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "extraInfoTableViewCell")
+		contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
+		contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -327,7 +331,7 @@ extension LearnerMyProfile : ProfileImageViewerDelegate {
 extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -338,14 +342,11 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             } else {
                 return 250
             }
-        case 1:
-            return UITableViewAutomaticDimension
-        case 2:
+        case 1,2,3:
             return UITableViewAutomaticDimension
         default:
-            break
+			return 0
         }
-        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -460,7 +461,27 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             }
             cell.applyConstraints()
             return cell
-            
+		case 3:
+			guard let datasource = learner.lReviews, datasource.count != 0 else {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as!
+				NoRatingsTableViewCell
+				return cell
+			}
+			
+			let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as!
+			RatingTableViewCell
+			
+			if datasource.count == 1 {
+				cell.tableView.snp.remakeConstraints { (make) in
+					make.top.equalToSuperview()
+					make.width.equalToSuperview().multipliedBy(0.95)
+					make.height.equalTo(120)
+					make.centerX.equalToSuperview()
+				}
+			}
+			cell.datasource = datasource.sorted(by: { $0.date > $1.date })
+			
+			return cell
         default:
             break
         }

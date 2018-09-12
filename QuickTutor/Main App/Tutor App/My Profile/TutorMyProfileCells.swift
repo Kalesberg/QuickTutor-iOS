@@ -757,7 +757,7 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
         
         label.font = Fonts.createBoldSize(16)
         label.text = "Reviews (\((datasource.count)))"
-        label.textColor = UIColor(hex: "5785d4")
+		label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : UIColor(hex: "5785d4")
         
         return label
     }
@@ -782,7 +782,7 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     let nameLabel : UILabel = {
         let label = UILabel()
         
-        label.textColor = UIColor(hex: "5785d4")
+		label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : UIColor(hex: "5785d4")
         label.font = Fonts.createBoldSize(16)
         
         return label
@@ -888,7 +888,7 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     let nameLabel : UILabel = {
         let label = UILabel()
         
-        label.textColor = UIColor(hex: "5785d4")
+		label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : UIColor(hex: "5785d4")
         label.font = Fonts.createBoldSize(16)
         
         return label
