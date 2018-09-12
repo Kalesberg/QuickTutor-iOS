@@ -339,17 +339,24 @@ class SessionReview : BaseViewController {
 				contentView.collectionView.scrollToItem(at: IndexPath(item: currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
 			}
 		case 2:
-			contentView.nextButton.isEnabled = false
-			createCharge(cost: costOfSession + (PostSessionReviewData.tipAmount * 100)) { (error) in
-				if let error = error {
-					print(error.localizedDescription)
-				} else {
-					self.finishAndUpload()
-					self.contentView.collectionView.scrollToItem(at: IndexPath(item: self.currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
+			if  AccountService.shared.currentUserType == .learner{
+				contentView.nextButton.isEnabled = false
+				createCharge(cost: costOfSession + (PostSessionReviewData.tipAmount * 100)) { (error) in
+					if let error = error {
+						print(error.localizedDescription)
+					} else {
+						self.finishAndUpload()
+						self.contentView.collectionView.scrollToItem(at: IndexPath(item: self.currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
+					}
+					self.contentView.nextButton.isEnabled = true
 				}
-				self.contentView.nextButton.isEnabled = true
+			} else {
+				finishAndUpload()
+				self.navigationController?.popBackToMain()
 			}
+			
 		case 3:
+			finishAndUpload()
 			self.navigationController?.popBackToMain()
 		default:
 			break
@@ -479,7 +486,7 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			cell.subject.infoLabel.text = session?.subject
 			let (h,m) = secondsToHoursMinutesSeconds(seconds: runTime)
 			cell.sessionLength.infoLabel.text = h > 0 ? "\(h) hours and \(m) minutes" : "\(m) Minutes"
-			cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0.0))
+			cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0.0)) + "/hr"
 			let total = costOfSession + PostSessionReviewData.tipAmount
 			cell.total.infoLabel.text = "$" + String(format: "%.2f", Double(total / 100))
 			cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
@@ -514,7 +521,11 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			contentView.nextButton.setTitle(buttonTitles[currentItem], for: .normal)
 			UIView.animate(withDuration: 0.2) {
 				self.contentView.profileImageView.transform = (self.currentItem == 3) ? CGAffineTransform.init(scaleX: 0, y: 0) : .identity
-				self.contentView.nameLabel.isHidden = (self.currentItem == 3)
+				if AccountService.share.currentUserType == .learner {
+					self.contentView.nameLabel.isHidden = (self.currentItem == 3)
+				} else {
+					self.contentView.nameLabel.isHidden = (self.currentItem == 2)
+				}
 				if indexPath.row == 3 {
 					self.contentView.collectionView.reloadData()
 				}
