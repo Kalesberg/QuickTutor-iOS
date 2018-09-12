@@ -68,7 +68,7 @@ class ProfileImageViewer : InteractableView, Interactable {
 		super.configureView()
 		
 		alpha = 0.0
-		backgroundColor = UIColor.black.withAlphaComponent(0.7)
+		backgroundColor = UIColor.black.withAlphaComponent(0.8)
 		pageControl.numberOfPages = imageCount
 
 		collectionView.dataSource = self
