@@ -57,7 +57,7 @@ class TutorListingsView : MainLayoutTitleOneButton {
         label.textColor = .white
         label.numberOfLines = 0
         label.sizeToFit()
-        label.text = "The QuickTutor marketplace is currently structured to ensure learners can find the best tutors and that active tutors receive learner leads with a high connection rate.\n\nBeing on the front page of the learner side of the app will highly increase your chances of receiving connection requests and earning money for tutoring.\n\nTo get featured on the front page you must have completed at least 10 hours of tutoring and consistently maintain a 4.7 rating.\n"
+        label.text = "The QuickTutor marketplace is currently structured to ensure learners can find the best tutors and that active tutors receive learner leads with a high connection rate.\n\nBeing on the front page of the learner side of the app will highly increase your chances of receiving connection requests and earning money for tutoring.\n\nTo get featured on the front page you must have completed at least 15 hours of tutoring and consistently maintain a 4.7 rating.\n"
         
         return label
     }()
