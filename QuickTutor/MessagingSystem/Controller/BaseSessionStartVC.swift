@@ -165,7 +165,7 @@ class BaseSessionStartVC: UIViewController {
         view.backgroundColor = Colors.darkBackground
         navigationItem.hidesBackButton = true
         let backImage = UIImage(named: "backButton")?.withRenderingMode(.alwaysOriginal)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(pop))
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(pop))
     }
     
     @objc func pop() {
