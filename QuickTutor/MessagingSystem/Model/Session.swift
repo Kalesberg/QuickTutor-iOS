@@ -18,7 +18,7 @@ class Session: Codable {
     var subject: String
     var date: Double
     var endTime: Double
-    var price: Double
+    var price: Int
     var cost: Double
     var type: String
     var status: String
@@ -30,7 +30,7 @@ class Session: Codable {
         startTime = dictionary["startTime"] as? Double ?? 0
         endTime = dictionary["endTime"] as? Double ?? 0
         date = dictionary["date"] as? Double ?? 0
-        price = dictionary["price"] as? Double ?? 0
+        price = dictionary["price"] as? Int ?? 0
         type = dictionary["type"] as? String ?? ""
         status = dictionary["status"] as? String ?? ""
         subject = dictionary["subject"] as? String ?? ""
@@ -44,9 +44,8 @@ class Session: Codable {
         return Int(lengthInSeconds / 60)
     }
     
-    func ratePerSecond() -> Int {
-		let intPrice = Int(price * 1000)
-        return intPrice / lengthInMinutes() / 60
+    func ratePerMinute() -> Int {
+        return price / lengthInMinutes()
     }
     
     func partnerId() -> String {

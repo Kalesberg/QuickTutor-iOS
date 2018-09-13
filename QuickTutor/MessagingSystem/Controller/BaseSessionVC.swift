@@ -195,27 +195,29 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
-		guard let runTime = sessionManager?.sessionRuntime, let rate = sessionManager?.session.ratePerSecond() else { return }
+		guard let runTime = sessionManager?.sessionRuntime, let price = sessionManager?.session.price else { return }
 		guard let partnerId = sessionManager?.session.partnerId() else { return }
 		guard let subject = sessionManager?.session.subject else { return }
 		guard let session = sessionManager?.session else { return }
+		
 		if AccountService.shared.currentUserType == .learner {
 			let vc = SessionReview()
 
 			vc.session = session
 			vc.sessionId = sessionId
-			vc.costOfSession = runTime * rate
+			print(price * (runTime / 60 / 60))
+			vc.costOfSession = price * (runTime / 60 / 60)
 			vc.partnerId = partnerId
 			vc.runTime = runTime
 			vc.subject = subject
-			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(runTime * rate)
+			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(price * (runTime / 60 / 60))
             print("ZACH: continueing out of session")
 			navigationController?.pushViewController(vc, animated: true)
         } else {
 			let vc = SessionReview()
 			vc.session = session
 			vc.sessionId = sessionId
-			vc.costOfSession = runTime * rate
+			vc.costOfSession = price * (runTime / 60 / 60)
 			vc.partnerId = partnerId
 			vc.runTime = runTime
 			vc.subject = subject

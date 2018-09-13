@@ -224,7 +224,7 @@ class SessionReview : BaseViewController {
 	var learner : AWLearner!
 	var cellTitles = [String]()
 	var cellHeaderViewTitles : [String] = ["Rate your overall experience", "Leave your tutor a review."]
-	var buttonTitles : [String] = ["Submit Rating","Submit Review","Submit & Pay", "Complete"]
+	var buttonTitles = [String]()
 
 	var currentItem : Int = 0
 	
@@ -232,6 +232,7 @@ class SessionReview : BaseViewController {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
 		setupButtons()
+		print(runTime)
 		getSessionWithPartner(uid: CurrentUser.shared.learner.uid)
 		if AccountService.shared.currentUserType == .learner {
 			getTutorAccount(uid: partnerId) { (tutor) in
@@ -295,8 +296,9 @@ class SessionReview : BaseViewController {
 		contentView.nameLabel.text = name
 		
 		cellTitles =  ["How was your time with \(name!)?", "Was this session helpful?", "It's optional, but highly appreciated."]
-		cellHeaderViewTitles.append("Leave your tutor a tip.")
 		
+		cellHeaderViewTitles.append("Leave your tutor a tip.")
+		buttonTitles = ["Submit Rating","Submit Review","Submit & Pay", "Complete"]
 		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"))
 	}
 	
@@ -307,6 +309,7 @@ class SessionReview : BaseViewController {
 		
 		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"))
 		self.cellTitles =  ["How was your time with \(name!)?", "Was this session helpful?"]
+		buttonTitles = ["Submit Rating","Submit Review","Complete"]
 	}
 	
 	func doesContainNaughtyWord(text: String, naughtyWords: [String]) -> Bool {
@@ -382,7 +385,7 @@ class SessionReview : BaseViewController {
 					"r" : PostSessionReviewData.rating,
 					"sbj" : subject
 				]
-				FirebaseData.manager.updateReviewPostSession(uid: partnerId, type: "learner", review: reviewDict)
+				FirebaseData.manager.updateReviewPostSession(uid: partnerId, sessionId: sessionId, type: "learner", review: reviewDict)
 			}
 		} else {
 			let updatedRating = ((learner.lRating * Double(learner.lNumSessions)) + Double(PostSessionReviewData.rating)) / Double(learner.lNumSessions + 1)
@@ -399,7 +402,7 @@ class SessionReview : BaseViewController {
 					"r" : PostSessionReviewData.rating,
 					"sbj" : subject
 				]
-				FirebaseData.manager.updateReviewPostSession(uid: partnerId, type: "tutor", review: reviewDict)
+				FirebaseData.manager.updateReviewPostSession(uid: partnerId, sessionId: sessionId, type: "tutor", review: reviewDict)
 			}
 		}
 	}
@@ -464,9 +467,10 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 				cell.partner.profileImageView.image = contentView.profileImageView.image
 				cell.partner.infoLabel.text = contentView.nameLabel.text
 				cell.subject.infoLabel.text = session?.subject
-				let (h,m) = secondsToHoursMinutesSeconds(seconds: runTime)
-				cell.sessionLength.infoLabel.text = h > 0 ? "\(h) hours and \(m) minutes" : "\(m) Minutes"
-				cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0.0))
+				
+				cell.sessionLength.infoLabel.text = getFormattedTimeString(seconds: runTime)
+				cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0))
+				
 				let total = costOfSession + PostSessionReviewData.tipAmount
 				cell.total.infoLabel.text = "$" + String(format: "%.2f", Double(total / 100))
 				cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
@@ -483,9 +487,8 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			cell.partner.profileImageView.image = contentView.profileImageView.image
 			cell.partner.infoLabel.text = contentView.nameLabel.text
 			cell.subject.infoLabel.text = session?.subject
-			let (h,m) = secondsToHoursMinutesSeconds(seconds: runTime)
-			cell.sessionLength.infoLabel.text = h > 0 ? "\(h) hours and \(m) minutes" : "\(m) Minutes"
-			cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0.0)) + "/hr"
+			cell.sessionLength.infoLabel.text = getFormattedTimeString(seconds: runTime)
+			cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0)) + "/hr"
 			let total = costOfSession + PostSessionReviewData.tipAmount
 			cell.total.infoLabel.text = "$" + String(format: "%.2f", Double(total / 100))
 			cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
@@ -500,10 +503,19 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 		}
 	}
 	
-	func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int) {
-		return (seconds / 3600, (seconds % 60))
-	}
+	func getFormattedTimeString (seconds : Int) -> String {
+		let hours = seconds / 3600
+		let minutes = (seconds % 3600) / 60
+		let seconds = (seconds % 3600) % 60
 	
+		if hours > 0 {
+			return "\(hours) hours and \(minutes) minutes"
+		} else if minutes > 0 {
+			return "\(minutes) minutes and \(seconds) seconds"
+		} else {
+			return "\(seconds) seconds"
+		}
+	}
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let width = UIScreen.main.bounds.width - 20
 		return CGSize(width: width, height: collectionView.frame.height)
@@ -517,13 +529,14 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 		let center = CGPoint(x: scrollView.contentOffset.x + (scrollView.frame.width / 2), y: (scrollView.frame.height / 2))
 		if let indexPath = contentView.collectionView.indexPathForItem(at: center) {
 			currentItem = indexPath.row
-			contentView.nextButton.setTitle(buttonTitles[currentItem], for: .normal)
 			UIView.animate(withDuration: 0.2) {
 				self.contentView.profileImageView.transform = (self.currentItem == 3) ? CGAffineTransform.init(scaleX: 0, y: 0) : .identity
 				if AccountService.shared.currentUserType == .learner {
 					self.contentView.nameLabel.isHidden = (self.currentItem == 3)
+					self.contentView.nextButton.setTitle(self.buttonTitles[indexPath.row], for: .normal)
 				} else {
 					self.contentView.nameLabel.isHidden = (self.currentItem == 2)
+					self.contentView.nextButton.setTitle(self.buttonTitles[indexPath.row], for: .normal)
 				}
 				if indexPath.row == 3 {
 					self.contentView.collectionView.reloadData()
@@ -560,6 +573,6 @@ extension SessionReview : PostSessionInformationDelegate {
 
 extension Double {
 	func truncate(places : Int)-> Double {
-		return Double(floor(pow(10.0, Double(places)) * self)/pow(10.0, Double(places)))
+		return Double(floor(pow(10.0, Double(places)) * self) / pow(10.0, Double(places)))
 	}
 }

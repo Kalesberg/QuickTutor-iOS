@@ -49,8 +49,8 @@ class FirebaseData {
 		self.ref.child("subject").child(uid).child(subcategory).updateChildValues(subcategoryInfo)
 		self.ref.child("subcategory").child(subcategory).child(uid).updateChildValues(subcategoryInfo)
 	}
-	public func updateReviewPostSession(uid: String, type: String, review: [String:Any]) {
-		self.ref.child("review").child(uid).child(type).childByAutoId().updateChildValues(review)
+	public func updateReviewPostSession(uid: String,sessionId: String, type: String, review: [String:Any]) {
+		self.ref.child("review").child(uid).child(type).child(sessionId).updateChildValues(review)
 	}
 	public func updateLearnerPostSession(uid: String, studentInfo: [String : Any]) {
 		self.ref.child("student-info").child(uid).updateChildValues(studentInfo)
