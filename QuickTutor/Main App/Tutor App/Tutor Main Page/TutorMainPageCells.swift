@@ -55,7 +55,7 @@ class TutorMainPageHeaderCell : BaseTableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        icon.image = #imageLiteral(resourceName: "rating")
+        icon.image = #imageLiteral(resourceName: "big-gold-star")
         subHeaderLabel.text = "TUTOR RATING"
         
         applyConstraints()
@@ -78,6 +78,7 @@ class TutorMainPageHeaderCell : BaseTableViewCell {
         icon.snp.makeConstraints { (make) in
             make.right.equalTo(headerLabel.snp.left).inset(-15)
             make.centerY.equalToSuperview()
+            make.height.width.equalTo(55)
         }
         
         subHeaderLabel.snp.makeConstraints { (make) in
