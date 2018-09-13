@@ -233,6 +233,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 guard let tutor = tutor else { return }
                 let vc = TutorMyProfile()
                 vc.tutor = tutor
+                vc.isViewing = true
                 vc.contentView.rightButton.isHidden = true
                 vc.contentView.title.label.text = "@\(tutor.username!)"
                 navigationController.pushViewController(vc, animated: true)
@@ -242,6 +243,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 guard let learner = learner else { return }
                 let vc = LearnerMyProfile()
                 vc.learner = learner
+                vc.isViewing = true
                 vc.contentView.title.label.isHidden = true
                 vc.contentView.rightButton.isHidden = true
                 vc.isViewing = true

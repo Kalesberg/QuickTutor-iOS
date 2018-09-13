@@ -771,46 +771,36 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     
     let profilePic : UIImageView = {
         let imageView = UIImageView()
-        
         imageView.layer.masksToBounds = false
         imageView.scaleImage()
         imageView.clipsToBounds = true
-        
         return imageView
     }()
     
     let nameLabel : UILabel = {
         let label = UILabel()
-        
-        label.textColor = UIColor(hex: "5785d4")
+        label.textColor = Colors.currentUserColor()
         label.font = Fonts.createBoldSize(16)
-        
         return label
     }()
     let subjectLabel : UILabel = {
         let label = UILabel()
-        
         label.textColor = Colors.grayText
         label.font = Fonts.createSize(13)
-        
         return label
     }()
     
     let reviewTextLabel : UILabel = {
         let label = UILabel()
-        
         label.textColor = Colors.grayText
         label.font = Fonts.createItalicSize(14)
-        
         return label
     }()
     
     let dateLabel : UILabel = {
         let label = UILabel()
-        
         label.textColor = .white
         label.font = Fonts.createSize(12)
-        
         return label
     }()
     

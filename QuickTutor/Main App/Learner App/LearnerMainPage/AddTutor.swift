@@ -357,6 +357,7 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
             guard let tutor = tutor else { return }
             let next = TutorMyProfile()
             next.tutor = tutor
+            next.isViewing = true
             next.contentView.rightButton.isHidden = true
             next.contentView.title.label.text = "\(self.filteredUsername[indexPath.section].username)"
             self.navigationController?.pushViewController(next, animated: true)

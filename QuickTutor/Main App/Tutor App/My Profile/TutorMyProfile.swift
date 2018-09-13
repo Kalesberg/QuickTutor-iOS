@@ -149,20 +149,16 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             
             let backgroundView : UIView = {
                 let view = UIView()
-                
                 view.backgroundColor = Colors.green
                 view.layer.cornerRadius = 11
-                
                 return view
             }()
             
             let label : UILabel = {
                 let label = UILabel()
-                
                 label.font = Fonts.createBoldSize(14)
                 label.textColor = .white
                 label.textAlignment = .center
-                
                 return label
             }()
             
@@ -308,7 +304,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             }
 			
 			cell.datasource = datasource.sorted(by: { $0.date > $1.date })
-            
+        
             return cell
             
         case 5:
