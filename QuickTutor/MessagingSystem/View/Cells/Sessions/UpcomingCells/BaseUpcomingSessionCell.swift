@@ -14,9 +14,13 @@ class BaseUpcomingSessionCell: BaseSessionCell, MessageButtonDelegate, CancelSes
     override func setupViews() {
         super.setupViews()
         actionView.setupAsTripleButton()
-        actionView.actionButton3.setImage(#imageLiteral(resourceName: "cancelSessionButton"), for: .normal)
-        actionView.actionButton2.setImage(#imageLiteral(resourceName: "startSessionButton"), for: .normal)
-        actionView.actionButton1.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
+        
+        let cancelSessionImage = AccountService.shared.currentUserType == .learner ? #imageLiteral(resourceName: "cancelSessionButton") : #imageLiteral(resourceName: "cancelSessionWhiteTutor")
+        let startSessionImage = AccountService.shared.currentUserType == .learner ? #imageLiteral(resourceName: "startSessionButton"): #imageLiteral(resourceName: "startSessionButtonTutor")
+        let messageButtomimage = AccountService.shared.currentUserType == .learner ? #imageLiteral(resourceName: "messageButton") : #imageLiteral(resourceName: "messageButtonWhiteTutor")
+        actionView.actionButton3.setImage(cancelSessionImage, for: .normal)
+        actionView.actionButton2.setImage(startSessionImage, for: .normal)
+        actionView.actionButton1.setImage(messageButtomimage, for: .normal)
     }
     
     override func handleButton1() {

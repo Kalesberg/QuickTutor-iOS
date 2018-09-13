@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		guard let gai = GAI.sharedInstance() else {
-			assert(false, "Google Analytics not configured correctly")
+            return true
 		}
 		gai.tracker(withTrackingId: "UA-121323472-1")
         //Get device info

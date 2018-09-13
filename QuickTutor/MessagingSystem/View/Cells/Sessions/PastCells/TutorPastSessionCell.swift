@@ -12,7 +12,8 @@ class TutorPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestS
     override func setupViews() {
         super.setupViews()
         actionView.setupAsDoubleButton()
-        actionView.actionButton2.setImage(#imageLiteral(resourceName: "viewProfileButton"), for: .normal)
+        actionView.actionButton1.setImage(#imageLiteral(resourceName: "messageButtonWhiteTutor"), for: .normal)
+        actionView.actionButton2.setImage(#imageLiteral(resourceName: "viewProfileIconWhiteTutor"), for: .normal)
     }
     
     

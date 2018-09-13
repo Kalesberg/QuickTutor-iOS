@@ -188,10 +188,10 @@ class DataService {
         let expiration = (endTime - Date().timeIntervalSince1970) / 2
         let expirationDate = Date().addingTimeInterval(expiration).timeIntervalSince1970
         
-        let _: [String: Any] = ["expiration": expirationDate, "status": "pending"]
+        var values: [String: Any] = ["expiration": expirationDate, "status": "pending"]
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
-        
+        values["receiverAccountType"] = otherUserTypeString
         let timestamp = Date().timeIntervalSince1970
         Database.database().reference().child("sessions").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { (error, ref1) in
             let message = UserMessage(dictionary: ["timestamp": timestamp, "senderId": uid, "receiverId": id, "sessionRequestId": ref1.key])

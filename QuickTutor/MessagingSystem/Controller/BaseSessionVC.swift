@@ -219,7 +219,8 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     }
     
     func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager) {
-        AccountService.shared.currentUserType == .learner ? showAddTimeModal() : showSessionOnHoldModal()
+        continueOutOfSession()
+//        AccountService.shared.currentUserType == .learner ? showAddTimeModal() : showSessionOnHoldModal()
     }
     
     func sessionManager(_ sessionManager: SessionManager, userId: String, didPause session: Session) {
