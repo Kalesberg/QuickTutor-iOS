@@ -115,9 +115,9 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             if UIScreen.main.bounds.height < 570 {
-                return 210
-            } else {
                 return 250
+            } else {
+                return 290
             }
         case 1,2,4,5:
             return UITableViewAutomaticDimension
@@ -138,7 +138,49 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             let name = tutor.name.split(separator: " ")
             cell.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
             cell.profilePicView.loadUserImages(by: tutor.images["image1"]!)
-            cell.ratingLabel.text = String(tutor.tRating) + " ★"
+            cell.ratingLabel.text = tutor.reviews?.count.formatReviewLabel(rating: tutor.tRating)
+            cell.ratingLabel.font = Fonts.createSize(14)
+            
+            cell.ratingLabel.snp.remakeConstraints { (make) in
+                make.top.equalTo(cell.nameLabel.snp.bottom).inset(-13)
+                make.right.equalToSuperview().inset(-14)
+                make.width.equalToSuperview().multipliedBy(0.50)
+            }
+            
+            let backgroundView : UIView = {
+                let view = UIView()
+                
+                view.backgroundColor = Colors.green
+                view.layer.cornerRadius = 11
+                
+                return view
+            }()
+            
+            let label : UILabel = {
+                let label = UILabel()
+                
+                label.font = Fonts.createBoldSize(14)
+                label.textColor = .white
+                label.textAlignment = .center
+                
+                return label
+            }()
+            
+            label.text = "$" + String(tutor.price) + " / hour"
+            
+            cell.addSubview(backgroundView)
+            backgroundView.addSubview(label)
+            
+            backgroundView.snp.makeConstraints { (make) in
+                make.centerY.equalTo(cell.ratingLabel.snp.centerY)
+                make.right.equalTo(cell.ratingLabel.snp.left).inset(-28)
+                make.height.equalTo(22)
+                make.width.equalTo(label).inset(-12)
+            }
+            
+            label.snp.makeConstraints { (make) in
+                make.center.equalTo(backgroundView)
+            }
 
             return cell
         case 1:
