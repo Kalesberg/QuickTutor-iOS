@@ -213,7 +213,7 @@ class SessionReview : BaseViewController {
 
 	var session : Session?
 	var sessionId : String!
-	var costOfSession: Int!
+	var costOfSession: Double!
 	var partnerId : String!
 	var runTime : Int!
 	var subject : String!
@@ -232,6 +232,7 @@ class SessionReview : BaseViewController {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
 		setupButtons()
+		print(costOfSession)
 		print(runTime)
 		getSessionWithPartner(uid: CurrentUser.shared.learner.uid)
 		if AccountService.shared.currentUserType == .learner {
@@ -345,7 +346,7 @@ class SessionReview : BaseViewController {
 		case 2:
 			if  AccountService.shared.currentUserType == .learner {
 				contentView.nextButton.isEnabled = false
-				createCharge(cost: costOfSession + (PostSessionReviewData.tipAmount * 100)) { (error) in
+				createCharge(cost: Int(costOfSession + Double(PostSessionReviewData.tipAmount))) { (error) in
 					if let error = error {
 						print(error.localizedDescription)
 					} else {
@@ -471,8 +472,8 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 				cell.sessionLength.infoLabel.text = getFormattedTimeString(seconds: runTime)
 				cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0))
 				
-				let total = costOfSession + PostSessionReviewData.tipAmount
-				cell.total.infoLabel.text = "$" + String(format: "%.2f", Double(total / 100))
+				let total = costOfSession + Double(PostSessionReviewData.tipAmount)
+				cell.total.infoLabel.text = "$" + String(format: "%.2f", total)
 				cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
 				
 				cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.tutorBlue).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
@@ -489,8 +490,8 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			cell.subject.infoLabel.text = session?.subject
 			cell.sessionLength.infoLabel.text = getFormattedTimeString(seconds: runTime)
 			cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0)) + "/hr"
-			let total = costOfSession + PostSessionReviewData.tipAmount
-			cell.total.infoLabel.text = "$" + String(format: "%.2f", Double(total / 100))
+			let total = costOfSession + Double(PostSessionReviewData.tipAmount)
+			cell.total.infoLabel.text = "$" + String(format: "%.2f", total)
 			cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
 		
 			cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.tutorBlue).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
@@ -530,13 +531,14 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 		if let indexPath = contentView.collectionView.indexPathForItem(at: center) {
 			currentItem = indexPath.row
 			UIView.animate(withDuration: 0.2) {
-				self.contentView.profileImageView.transform = (self.currentItem == 3) ? CGAffineTransform.init(scaleX: 0, y: 0) : .identity
 				if AccountService.shared.currentUserType == .learner {
-					self.contentView.nameLabel.isHidden = (self.currentItem == 3)
+					self.contentView.nameLabel.isHidden = (indexPath.row  == 3)
 					self.contentView.nextButton.setTitle(self.buttonTitles[indexPath.row], for: .normal)
+					self.contentView.profileImageView.transform = (indexPath.row  == 3) ? CGAffineTransform.init(scaleX: 0, y: 0) : .identity
 				} else {
-					self.contentView.nameLabel.isHidden = (self.currentItem == 2)
+					self.contentView.nameLabel.isHidden = (indexPath.row == 2)
 					self.contentView.nextButton.setTitle(self.buttonTitles[indexPath.row], for: .normal)
+					self.contentView.profileImageView.transform = (indexPath.row == 2) ? CGAffineTransform.init(scaleX: 0, y: 0) : .identity
 				}
 				if indexPath.row == 3 {
 					self.contentView.collectionView.reloadData()

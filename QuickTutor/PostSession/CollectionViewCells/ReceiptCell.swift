@@ -321,6 +321,11 @@ class ReceiptCell : UICollectionViewCell {
         hourlyRate.title.text = "Hourly Rate"
         tip.title.text = "Tip"
         total.title.text = "Total"
+		
+		subject.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+		sessionLength.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+		hourlyRate.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+		total.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
     }
 
 	func applyConstraints() {
@@ -382,6 +387,7 @@ class ReceiptCell : UICollectionViewCell {
 				make.height.equalTo(27)
 			}
 		} else {
+			tip.isHidden = true
 			total.snp.makeConstraints { (make) in
 				make.top.equalTo(hourlyRate.snp.bottom)
 				make.width.centerX.equalToSuperview()

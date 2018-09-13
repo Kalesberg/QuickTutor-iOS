@@ -18,7 +18,7 @@ class Session: Codable {
     var subject: String
     var date: Double
     var endTime: Double
-    var price: Int
+    var price: Double
     var cost: Double
     var type: String
     var status: String
@@ -30,7 +30,7 @@ class Session: Codable {
         startTime = dictionary["startTime"] as? Double ?? 0
         endTime = dictionary["endTime"] as? Double ?? 0
         date = dictionary["date"] as? Double ?? 0
-        price = dictionary["price"] as? Int ?? 0
+        price = dictionary["price"] as? Double ?? 0
         type = dictionary["type"] as? String ?? ""
         status = dictionary["status"] as? String ?? ""
         subject = dictionary["subject"] as? String ?? ""
@@ -38,16 +38,19 @@ class Session: Codable {
         runTime = dictionary["runTime"] as? Int ?? 0
         self.id = id
      }
-    
-    func lengthInMinutes() -> Int {
-        let lengthInSeconds = endTime - startTime
-        return Int(lengthInSeconds / 60)
-    }
-    
-    func ratePerMinute() -> Int {
-        return price / lengthInMinutes()
-    }
-    
+	func lengthInMinutes() -> Double {
+		let lengthInSeconds = endTime - startTime
+		print(lengthInSeconds)
+		return lengthInSeconds / 60
+	}
+	
+	func ratePerSecond() -> Double {
+		let lengthInSeconds = endTime - startTime
+		print("Seconds: \(lengthInSeconds)")
+		print("Price: ", price)
+		return (price / 60 / 60) * lengthInSeconds
+	}
+
     func partnerId() -> String {
         guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
         return receiverId == uid ? senderId : receiverId
