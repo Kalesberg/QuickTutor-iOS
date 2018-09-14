@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		guard let gai = GAI.sharedInstance() else {
-			assert(false, "Google Analytics not configured correctly")
+            return true
 		}
 		gai.tracker(withTrackingId: "UA-121323472-1")
         //Get device info
@@ -233,6 +233,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 guard let tutor = tutor else { return }
                 let vc = TutorMyProfile()
                 vc.tutor = tutor
+                vc.isViewing = true
                 vc.contentView.rightButton.isHidden = true
                 vc.contentView.title.label.text = "@\(tutor.username!)"
                 navigationController.pushViewController(vc, animated: true)
@@ -242,6 +243,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 guard let learner = learner else { return }
                 let vc = LearnerMyProfile()
                 vc.learner = learner
+                vc.isViewing = true
                 vc.contentView.title.label.isHidden = true
                 vc.contentView.rightButton.isHidden = true
                 vc.isViewing = true

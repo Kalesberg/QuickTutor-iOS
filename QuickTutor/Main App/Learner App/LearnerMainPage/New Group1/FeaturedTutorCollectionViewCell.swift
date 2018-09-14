@@ -16,22 +16,18 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 	
 	let view : UIView = {
 		let view = UIView()
-		
-		view.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 192/255, alpha: 1.0)
+		view.backgroundColor = Colors.navBarGreen
 		view.layer.cornerRadius = 10
-		
 		return view
 	}()
 
 	let price : UILabel = {
 		let label = UILabel()
-
 		label.textAlignment = .center
 		label.textColor = .white
 		label.font = Fonts.createSize(13)
 		label.adjustsFontSizeToFitWidth = true
 		label.backgroundColor = .clear
-		
 		return label
 	}()
 	
@@ -43,6 +39,7 @@ class FeaturedTutorCollectionViewCell : UICollectionViewCell {
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+    
 	func configureView() {
 		contentView.addSubview(featuredTutor)
 		contentView.addSubview(view)

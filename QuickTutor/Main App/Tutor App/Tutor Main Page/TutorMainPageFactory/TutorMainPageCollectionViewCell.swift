@@ -32,7 +32,7 @@ class TutorMainPageCollectionViewCell : UICollectionViewCell {
 	let label : UILabel = {
 		let label = UILabel()
 		
-		label.font = Fonts.createSize(13)
+		label.font = Fonts.createBoldSize(13)
 		label.textAlignment = .center
 		label.numberOfLines = 0
 		label.adjustsFontSizeToFitWidth = true

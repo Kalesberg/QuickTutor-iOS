@@ -47,14 +47,14 @@ class AACircleCropCutterView: UIView {
 			square.fill()
 			square.stroke()
 		} else {
-			// Draw the circle
-			let circle = UIBezierPath(ovalIn: CGRect(x: rect.size.width/2 - circleDiameter/2,
-													 y: rect.size.height/2 - circleDiameter/2,
-													 width: circleDiameter,
-													 height: circleDiameter))
-			context?.setBlendMode(.clear)
-			UIColor.clear.setFill()
-			circle.fill()
+            let roundedSquare = UIBezierPath(roundedRect: CGRect(x: rect.size.width/2 - circleDiameter/2, y: rect.size.height/2 - circleDiameter/2, width: circleDiameter, height: circleDiameter), cornerRadius: 8)
+            UIColor.lightGray.setStroke()
+            roundedSquare.lineWidth = 1.0
+            context?.setBlendMode(.clear)
+            UIColor.clear.setFill()
+            roundedSquare.fill()
+            roundedSquare.stroke()
+
 		}
 	}
     

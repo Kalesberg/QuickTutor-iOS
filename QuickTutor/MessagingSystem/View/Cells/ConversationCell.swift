@@ -63,7 +63,7 @@ class ConversationCell: SwipeCollectionViewCell {
     }()
     
     let newMessageGradientLayer: CAGradientLayer = {
-        let firstColor = Colors.learnerPurple.cgColor
+        let firstColor = Colors.currentUserColor().cgColor
         let secondColor = Colors.navBarColor.cgColor
         
         let gradientLayer = CAGradientLayer()

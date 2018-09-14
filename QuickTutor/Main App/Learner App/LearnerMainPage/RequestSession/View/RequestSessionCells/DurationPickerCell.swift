@@ -26,7 +26,7 @@ class RequestSessionDurationPickerCell : UITableViewCell {
 		label.textColor = UIColor.white
 		label.textAlignment = .center
 		label.font =  Fonts.createLightSize(13)
-		label.text = "Although you have a set duration for each session, sessions can be ended or paused at any time. You can also add more time to any session."
+		label.text = "Although you have a set duration for each session, sessions can be ended or paused at any time."
 		label.numberOfLines = 0
 		
 		return label

@@ -33,6 +33,7 @@ class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, Reques
             guard let tutor = tutor else { return }
             let vc = TutorMyProfile()
             vc.tutor = tutor
+            vc.isViewing = true
 			vc.contentView.title.label.text = "@\(tutor.username!)"
             vc.contentView.rightButton.isHidden = true
             navigationController.pushViewController(vc, animated: true)

@@ -598,7 +598,6 @@ class RatingTableViewCell : BaseTableViewCell {
 
     let tableView : UITableView = {
         let tableView = UITableView()
-        
         tableView.backgroundColor = .clear
         tableView.estimatedRowHeight = 60
         tableView.isScrollEnabled = false
@@ -606,7 +605,6 @@ class RatingTableViewCell : BaseTableViewCell {
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.estimatedSectionHeaderHeight = 30
-        
         return tableView
     }()
     
@@ -769,11 +767,9 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     
     let profilePic : UIImageView = {
         let imageView = UIImageView()
-        
         imageView.layer.masksToBounds = false
         imageView.scaleImage()
         imageView.clipsToBounds = true
-        
         return imageView
     }()
     
@@ -781,33 +777,26 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
         let label = UILabel()
         
         label.font = Fonts.createBoldSize(16)
-        
         return label
     }()
     let subjectLabel : UILabel = {
         let label = UILabel()
-        
         label.textColor = Colors.grayText
         label.font = Fonts.createSize(13)
-        
         return label
     }()
     
     let reviewTextLabel : UILabel = {
         let label = UILabel()
-        
         label.textColor = Colors.grayText
         label.font = Fonts.createItalicSize(14)
-        
         return label
     }()
     
     let dateLabel : UILabel = {
         let label = UILabel()
-        
         label.textColor = .white
         label.font = Fonts.createSize(12)
-        
         return label
     }()
     
@@ -877,11 +866,9 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     
     let profilePic : UIImageView = {
         let imageView = UIImageView()
-        
         imageView.layer.masksToBounds = false
         imageView.scaleImage()
         imageView.clipsToBounds = true
-        
         return imageView
     }()
     
@@ -890,7 +877,6 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
         
 		label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : UIColor(hex: "5785d4")
         label.font = Fonts.createBoldSize(16)
-        
         return label
     }()
     
@@ -898,21 +884,17 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     
     let reviewTextLabel : UILabel = {
         let label = UILabel()
-        
         label.textColor = Colors.grayText
         label.font = Fonts.createItalicSize(14)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        
         return label
     }()
     
     let dateLabel : UILabel = {
         let label = UILabel()
-        
         label.textColor = .white
         label.font = Fonts.createSize(12)
-        
         return label
     }()
     

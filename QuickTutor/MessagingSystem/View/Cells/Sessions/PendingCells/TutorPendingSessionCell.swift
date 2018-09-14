@@ -14,9 +14,9 @@ class TutorPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate {
     override func setupViews() {
         super.setupViews()
         actionView.setupAsTripleButton()
-        actionView.actionButton1.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
-        actionView.actionButton2.setImage(#imageLiteral(resourceName: "acceptButtonText"), for: .normal)
-        actionView.actionButton3.setImage(#imageLiteral(resourceName: "declineButtonText"), for: .normal)
+        actionView.actionButton1.setImage(#imageLiteral(resourceName: "messageButtonWhiteTutor"), for: .normal)
+        actionView.actionButton2.setImage(#imageLiteral(resourceName: "acceptIconWhiteTutor"), for: .normal)
+        actionView.actionButton3.setImage(#imageLiteral(resourceName: "declineIconWhiteTutor"), for: .normal)
     }
     
     override func handleButton1() {

@@ -197,7 +197,9 @@ class LearnerMainPage : MainPage {
         formattedString
             .bold(learner.name, 17, .white)
         view.profileNameView.attributedText = formattedString
-        view.profilePicView.loadUserImages(by: learner.images["image1"]!)
+        view.profilePicView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        contentView.layoutSubviews()
+        
         tutorial.addSubview(view)
         
         tutorial.snp.makeConstraints { (make) in
@@ -225,6 +227,10 @@ class LearnerMainPage : MainPage {
                 tutorial.imageView.center.y += 10
             })
         })
+        
+        view.layoutIfNeeded()
+        
+        view.profilePicView.layer.cornerRadius = view.profilePicView.bounds.height / 2
     }
     
     private func queryFeaturedTutors() {
