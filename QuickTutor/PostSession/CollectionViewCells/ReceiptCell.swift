@@ -217,23 +217,19 @@ class ReceiptCell : UICollectionViewCell {
 	
 	let title : UILabel = {
 		let label = UILabel()
-		
 		label.text = "Your Receipt"
 		label.textColor = .white
 		label.font = Fonts.createBoldSize(18)
 		label.textAlignment = .center
-		
 		return label
 	}()
 	
 	let subtitle : UILabel = {
 		let label = UILabel()
-		
 		label.text = "Session Summary"
 		label.textColor = .white
 		label.font = Fonts.createBoldSize(17)
 		label.textAlignment = .left
-		
 		return label
 	}()
 	
@@ -247,41 +243,33 @@ class ReceiptCell : UICollectionViewCell {
     
     let lineView : UIView = {
         let view = UIView()
-        
         view.backgroundColor = .black
-        
         return view
     }()
 	
     let progressLabel : UILabel = {
         let label = UILabel()
-        
         label.text = "Personal Progress"
         label.textColor = .white
         label.textAlignment = .right
         label.font = Fonts.createBoldSize(17)
         label.sizeToFit()
-        
         return label
     }()
     
     let totalSessions : UILabel = {
         let label = UILabel()
-        
         label.textColor = Colors.learnerPurple
         label.font = Fonts.createSize(14)
         label.sizeToFit()
-        
         return label
     }()
     
     let totalSessionsWithPartner : UILabel = {
         let label = UILabel()
-        
         label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
         label.font = Fonts.createSize(14)
         label.sizeToFit()
-        
         return label
     }()
 	
@@ -289,7 +277,7 @@ class ReceiptCell : UICollectionViewCell {
 	var costOfSession : Int = 0
 	
 	func configureCollectionViewCell() {
-        setLabelText()
+        updateLabels()
 		addSubview(containerView)
 		containerView.addSubview(title)
 		containerView.addSubview(sessionSummaryContainer)
@@ -308,6 +296,11 @@ class ReceiptCell : UICollectionViewCell {
 		applyConstraints()
 	}
     
+    func updateLabels() {
+        setLabelText()
+        updateLabelColors()
+    }
+    
     func setLabelText() {
         partner.title.text = AccountService.shared.currentUserType == .learner ? "Tutor" : "Learner"
         subject.title.text = "Subject"
@@ -315,11 +308,15 @@ class ReceiptCell : UICollectionViewCell {
         hourlyRate.title.text = "Hourly Rate"
         tip.title.text = "Tip"
         total.title.text = "Total"
-		
-		subject.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
-		sessionLength.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
-		hourlyRate.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
-		total.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+    }
+    
+    func updateLabelColors() {
+        partner.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerReceipt : Colors.tutorReceipt
+        subject.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerReceipt : Colors.tutorReceipt
+        sessionLength.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerReceipt : Colors.tutorReceipt
+        hourlyRate.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerReceipt : Colors.tutorReceipt
+        total.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerReceipt : Colors.tutorReceipt
+        tip.title.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerReceipt : Colors.tutorReceipt
     }
 
 	func applyConstraints() {

@@ -45,6 +45,9 @@ struct Colors {
     static let navBarColor = UIColor(hex: "1B1B26")
     static let gold = UIColor(hex: "FAAB1A")
     static let notificationRed = UIColor(hex: "FF0800")
+    static let learnerReceipt = UIColor(hex: " 807CFF")
+    static let tutorReceipt = UIColor(hex: " C2D9FF")
+    
     //Request session
     static let selectedPurple = UIColor(hex: "#33325C")
     static let notSelectedPurple = UIColor(hex: "#4E4C9C")
