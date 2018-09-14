@@ -90,34 +90,29 @@ class SessionReceiptItemWithImage : UIView {
 	
 	let title : UILabel = {
 		let label = UILabel()
-		
 		label.text = "Text"
 		label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
 		label.textAlignment = .right
 		label.font = Fonts.createSize(14)
 		label.sizeToFit()
-		
 		return label
 	}()
 	
 	let infoLabel : UILabel = {
 		let label = UILabel()
-		
 		label.text = "Text"
 		label.textColor = .white
 		label.textAlignment = .left
 		label.font = Fonts.createSize(15)
 		label.sizeToFit()
-		
 		return label
 	}()
 	
     let profileImageView : UIImageView = {
         let view = UIImageView()
-        
         view.backgroundColor = .red
-        view.layer.cornerRadius = 7
-        
+        view.layer.cornerRadius = 4
+        view.clipsToBounds = true
         return view
     }()
 
@@ -310,12 +305,11 @@ class ReceiptCell : UICollectionViewCell {
         infoContainer.addSubview(progressView)
         progressView.addSubview(totalSessions)
         progressView.addSubview(totalSessionsWithPartner)
-		
 		applyConstraints()
 	}
     
     func setLabelText() {
-        partner.title.text = "Tutor"
+        partner.title.text = AccountService.shared.currentUserType == .learner ? "Tutor" : "Learner"
         subject.title.text = "Subject"
         sessionLength.title.text = "Session Length"
         hourlyRate.title.text = "Hourly Rate"

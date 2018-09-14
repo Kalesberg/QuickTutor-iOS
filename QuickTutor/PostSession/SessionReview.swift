@@ -98,20 +98,16 @@ class SessionReviewHeader : UIView {
 class SessionReviewView : MainLayoutTitleTwoButton {
 	let profileImageView : UIImageView = {
 		let imageView = UIImageView()
-		
 		imageView.layer.masksToBounds = false
 		imageView.clipsToBounds = true
-		
 		return imageView
 	}()
 	
 	let nameLabel : UILabel = {
 		let label = UILabel()
-		
 		label.textColor = .white
 		label.textAlignment = .center
 		label.font = Fonts.createBoldSize(18)
-		
 		return label
 	}()
 	
@@ -223,7 +219,7 @@ class SessionReview : BaseViewController {
 	var tutor : AWTutor!
 	var learner : AWLearner!
 	var cellTitles = [String]()
-	var cellHeaderViewTitles : [String] = ["Rate your overall experience", "Leave your tutor a review."]
+	var cellHeaderViewTitles : [String] = ["Rate your overall experience", "Leave your tutor a review"]
 	var buttonTitles = [String]()
 
 	var hasPaid: Bool = false
@@ -255,6 +251,8 @@ class SessionReview : BaseViewController {
 				}
 			}
 		}
+        let userTypeName = AccountService.shared.currentUserType == .learner ? "tutor" : "learner"
+        cellHeaderViewTitles[1] = "Leave your \(userTypeName) a review"
 	}
 
 	private func configureDelegates() {
@@ -301,9 +299,9 @@ class SessionReview : BaseViewController {
 		
 		cellTitles =  ["How was your time with \(name!)?", "Was this session helpful?", "It's optional, but highly appreciated."]
 		
-		cellHeaderViewTitles.append("Leave your tutor a tip.")
+		cellHeaderViewTitles.append("Leave your tutor a tip")
 		buttonTitles = ["Submit Rating","Submit Review","Submit & Pay", "Complete"]
-		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"))
+		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1"))
 	}
 	
 	private func setupViewForLearnerReview() {
@@ -311,8 +309,8 @@ class SessionReview : BaseViewController {
 		name = String(nameSplit[0]) + " " +  String(nameSplit[1].prefix(1))
 		contentView.nameLabel.text = name
 		
-		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"))
-		self.cellTitles =  ["How was your time with \(name!)?", "Was this session helpful?"]
+		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(learner.uid).child("student-profile-pic1"))
+		self.cellTitles =  ["How was your time with \(name!)?", "How was your session?"]
 		buttonTitles = ["Submit Rating","Submit Review","Complete"]
 	}
 	
