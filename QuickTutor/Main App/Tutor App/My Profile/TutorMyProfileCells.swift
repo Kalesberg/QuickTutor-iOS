@@ -595,7 +595,6 @@ extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 }
 
 class RatingTableViewCell : BaseTableViewCell {
-
     let tableView : UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -615,9 +614,8 @@ class RatingTableViewCell : BaseTableViewCell {
             tableView.reloadData()
         }
     }
-	
-	var isViewing : Bool = false
-	
+    var isViewing : Bool = false
+    
     let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
     override func configureView() {
@@ -658,7 +656,7 @@ class RatingTableViewCell : BaseTableViewCell {
         if touchStartView is SeeAllButton {
             if let current = UIApplication.getPresentedViewController() {
                 let next = LearnerReviews()
-				next.isViewing = isViewing
+                next.isViewing = isViewing
                 next.datasource = datasource
                 current.present(next, animated: true, completion: nil)
             }
@@ -737,7 +735,8 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
         let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic\(indexPath.row+1)")
         cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         cell.isViewing = isViewing
-        return cell
+		
+		return cell
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -753,7 +752,7 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
         
         label.font = Fonts.createBoldSize(16)
         label.text = "Reviews (\((datasource.count)))"
-		label.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+        label.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
         
         return label
     }
@@ -801,9 +800,8 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     }()
     
     let container = UIView()
-	
 	var isViewing : Bool = false
-	
+    
     override func configureView() {
         addSubview(container)
         container.addSubview(profilePic)
@@ -812,11 +810,11 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
         container.addSubview(reviewTextLabel)
         addSubview(dateLabel)
         super.configureView()
-		
+        
         contentView.backgroundColor = .clear
         selectionStyle = .none
-		
-		applyConstraints()
+        
+        applyConstraints()
     }
     
     override func applyConstraints() {
@@ -858,7 +856,7 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         profilePic.layer.cornerRadius = profilePic.frame.height / 2
-		nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+        nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
     }
 }
 
@@ -874,8 +872,7 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     
     let nameLabel : UILabel = {
         let label = UILabel()
-        
-		label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : UIColor(hex: "5785d4")
+		
         label.font = Fonts.createBoldSize(16)
         return label
     }()
@@ -899,8 +896,8 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     }()
     
     let container = UIView()
-	var isViewing : Bool = false
-	
+    var isViewing : Bool = false
+    
     override func configureView() {
         contentView.addSubview(container)
         container.addSubview(profilePic)
@@ -951,6 +948,6 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         profilePic.layer.cornerRadius = profilePic.frame.height / 2
-		nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+        nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
     }
 }

@@ -12,17 +12,17 @@ import UIKit
 
 class TutorListingsView : MainLayoutTitleOneButton {
 
-	var backButton = NavbarButtonX()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		}
-		set {
-			backButton = newValue as! NavbarButtonX
-		}
-	}
-	
+    var backButton = NavbarButtonX()
+    
+    override var leftButton: NavbarButton {
+        get {
+            return backButton
+        }
+        set {
+            backButton = newValue as! NavbarButtonX
+        }
+    }
+    
     let titleLabel : UILabel = {
         let label = UILabel()
         
@@ -57,7 +57,7 @@ class TutorListingsView : MainLayoutTitleOneButton {
         label.textColor = .white
         label.numberOfLines = 0
         label.sizeToFit()
-        label.text = "The QuickTutor marketplace is currently structured to ensure learners can find the best tutors and that active tutors receive learner leads with a high connection rate.\n\nBeing on the front page of the learner side of the app will highly increase your chances of receiving connection requests and earning money for tutoring.\n\nTo get featured on the front page you must have completed at least 15 hours of tutoring and consistently maintain a 4.7 rating.\n"
+        label.text = "The QuickTutor marketplace is currently structured to ensure learners can find the best tutors and that active tutors receive learner leads with a high connection rate.\n\nBeing on the front page of the learner side of the app will highly increase your chances of receiving connection requests and earning money for tutoring.\n\nOnce you've completed 15 hours of tutoring with a 4.7 star rating, you'll be able to unlock your \"listings\" tab (the fourth tab on your home page).\n\nYour listings enables you to customize how learners view your listing/tutor card on the main page. You can customize your listing photo, price, and subject you tutor so that it differentiates from your actual profile. So, if you'd like to get featured on the main feed -- tutor more than 15 hours and make sure you're tutoring subjects you have experience in 😊."
         
         return label
     }()
@@ -132,9 +132,9 @@ class TutorListings : BaseViewController {
         contentView.scrollView.contentSize = CGSize(width: 280, height: contentView.bodyLabel.frame.maxY)
     }
     override func handleNavigation() {
-		if touchStartView is NavbarButtonX {
-			contentView.backgroundImageView.isHidden = true
-			self.navigationController?.popViewController(animated: true)
-		}
+        if touchStartView is NavbarButtonX {
+            contentView.backgroundImageView.isHidden = true
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
