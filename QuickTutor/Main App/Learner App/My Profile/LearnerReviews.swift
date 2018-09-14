@@ -66,7 +66,6 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
 class LearnerReviews : BaseViewController {
     
     let storageRef = Storage.storage().reference()
-    var isViewing = false
     
     override var contentView: LearnerReviewsView {
         return view as! LearnerReviewsView

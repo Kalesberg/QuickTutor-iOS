@@ -106,7 +106,9 @@ extension RequestSessionBackgroundView : UITableViewDelegate, UITableViewDataSou
 		case 0: break
 		case 1: tableView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
 		case 2: tableView.setContentOffset(CGPoint(x: 0, y: offset * 2), animated: true)
-		case 3: tableView.setContentOffset(CGPoint(x: 0, y: offset * 3), animated: true)
+		case 3:
+			tableView.setContentOffset(CGPoint(x: 0, y: offset * 3), animated: true)
+			priceCellWasSelected()
 		case 4 : tableView.setContentOffset(CGPoint(x: 0, y: offset * 4), animated: true)
 		default: return
 		}
@@ -234,5 +236,12 @@ extension RequestSessionBackgroundView : RequestSessionDelegate {
 		guard let cell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RequestSessionTableViewCell else { return }
 		cell.subtitle.attributedText = NSMutableAttributedString().bold("$\(price)", 15, .white).regular("/hr", 11, .white)
 		RequestSessionData.price = price
+	}
+	func priceCellWasSelected() {
+		if RequestSessionData.price == nil {
+			guard let cell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RequestSessionTableViewCell else { return }
+			cell.subtitle.attributedText = NSMutableAttributedString().bold("$\(requestData.pricePreference)", 15, .white).regular("/hr", 11, .white)
+			RequestSessionData.price = requestData.pricePreference
+		}
 	}
 }
