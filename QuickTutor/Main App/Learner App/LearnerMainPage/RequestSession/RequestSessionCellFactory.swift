@@ -15,6 +15,7 @@ protocol RequestSessionDelegate {
 	func startTimeDateChanged(date: Date)
 	func durationChanged(displayDuration: String?, duration: Int?)
 	func isOnlineChanged(isOnline: Bool?)
+	func priceCellWasSelected()
 }
 
 struct TutorPreferenceData {

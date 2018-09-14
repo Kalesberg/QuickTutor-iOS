@@ -17,6 +17,7 @@ class RequestSessionPriceCell : UITableViewCell {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
+	
 	let header : UILabel = {
 		let label = UILabel()
 		
@@ -27,6 +28,7 @@ class RequestSessionPriceCell : UITableViewCell {
 		
 		return label
 	}()
+	
 	let footer : UILabel = {
 		let label = UILabel()
 		
@@ -37,6 +39,7 @@ class RequestSessionPriceCell : UITableViewCell {
 		label.numberOfLines = 0
 		return label
 	}()
+	
 	let container : UIView = {
 		let view = UIView()
 		
