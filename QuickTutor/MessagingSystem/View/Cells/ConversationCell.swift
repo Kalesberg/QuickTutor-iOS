@@ -222,6 +222,13 @@ class ConversationCell: SwipeCollectionViewCell {
         }
     }
     
+    func handleTouchDown() {
+        contentView.backgroundColor = Colors.navBarColor.darker(by: 30)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            self.contentView.backgroundColor = Colors.navBarColor
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

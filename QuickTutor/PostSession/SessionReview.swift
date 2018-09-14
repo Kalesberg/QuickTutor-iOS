@@ -365,10 +365,12 @@ class SessionReview : BaseViewController {
 				guard hasCompleted == false else { return }
 				finishAndUpload()
 				hasCompleted = true
-				self.navigationController?.popBackToMain()
-			}
+                let vc = AccountService.shared.currentUserType == .learner ? LearnerPageViewController() : TutorPageViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
 		case 3:
-			self.navigationController?.popBackToMain()
+            let vc = AccountService.shared.currentUserType == .learner ? LearnerPageViewController() : TutorPageViewController()
+			self.navigationController?.pushViewController(vc, animated: true)
 		default:
 			break
 		}
