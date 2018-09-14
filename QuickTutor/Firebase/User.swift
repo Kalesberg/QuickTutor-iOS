@@ -225,15 +225,15 @@ class FirebaseData {
 		})
 	}
 	
-	private func fetchReviews(uid : String, type: String,_ completion : @escaping ([TutorReview]?) -> Void) {
-		var reviews : [TutorReview] = []
+	private func fetchReviews(uid : String, type: String,_ completion : @escaping ([Review]?) -> Void) {
+		var reviews : [Review] = []
 		self.ref?.child("review").child(uid).child(type).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
 			
 			for child in snap {
 				guard let value = child.value as? [String : Any] else { continue }
 				
-				var review = TutorReview(dictionary: value)
+				var review = Review(dictionary: value)
 				review.sessionId = child.key
 				reviews.append(review)
 			}
@@ -445,7 +445,7 @@ class FirebaseData {
 				})
 				
 				group.enter()
-				self.fetchReviews(uid: uid, type: "learner", { (reviews) in
+				self.fetchReviews(uid: uid, type: "tutor", { (reviews) in
 					if let reviews = reviews {
 						learner.lReviews = reviews
 					}
@@ -549,7 +549,7 @@ class FirebaseData {
 				})
 				
 				group.enter()
-				self.fetchReviews(uid: uid, type: "tutor", { (reviews) in
+				self.fetchReviews(uid: uid, type: "learner", { (reviews) in
 					if let reviews = reviews {
 						tutor.reviews = reviews
 					}

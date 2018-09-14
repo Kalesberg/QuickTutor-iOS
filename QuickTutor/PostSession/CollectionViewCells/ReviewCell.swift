@@ -150,7 +150,8 @@ extension ReviewCell : UITextViewDelegate {
 			textView.text = "Tell us about your experience..."
 			textView.textColor = UIColor.gray
 		}
-		delegate?.didWriteReview(review: textView.text)
+		let review = (textView.text == "Tell us about your experience...") ? nil : textView.text
+		delegate?.didWriteReview(review: review)
 		delegate?.reviewTextViewDidResign()
 		resetTextViewWhenKeyboardResigns()
 	}

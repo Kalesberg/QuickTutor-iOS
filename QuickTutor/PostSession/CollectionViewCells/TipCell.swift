@@ -112,7 +112,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	
 	var total : Double = 0.0 {
 		didSet {
-			totalLabel.text = "Total: $" + String(format: "%.2f", total / 100)
+			totalLabel.text = "Total: $" + String(format: "%.2f", total)
 		}
 	}
 
@@ -160,7 +160,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	@objc private func tipButtonPressed(_ sender: UIButton) {
 		if sender.tag == selectedButton {
 			guard sender.tag != 4 else { return }
-			totalLabel.text = "Total: $" + String(format: "%.2f", total / 100)
+			totalLabel.text = "Total: $" + String(format: "%.2f", total)
 			buttons[sender.tag].backgroundColor = Colors.learnerPurple
 			selectedButton = nil
 			delegate?.didSelectTipPercentage(tipAmount: buttonAmounts[sender.tag])
@@ -188,8 +188,8 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	
 	private func updateTotalLabel(tag: Int) {
 		guard tag != 4 else { return }
-		let newTotal = total + Double(buttonAmounts[tag] * 100)
-		totalLabel.text = "Total: $" + String(format: "%.2f", newTotal / 100)
+		let newTotal = total + Double(buttonAmounts[tag])
+		totalLabel.text = "Total: $" + String(format: "%.2f", newTotal)
 	}
 
 	private func getTipAmounts(total: Int) -> [Int] {

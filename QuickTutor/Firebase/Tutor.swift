@@ -42,7 +42,7 @@ class TutorData {
     
     var subjects : [String]!
     var selected : [Selected]!
-    var reviews : [TutorReview]!
+    var reviews : [Review]!
     
     var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]
     

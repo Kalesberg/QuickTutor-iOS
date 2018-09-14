@@ -479,6 +479,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
 					make.centerX.equalToSuperview()
 				}
 			}
+			cell.isViewing = isViewing
 			cell.datasource = datasource.sorted(by: { $0.date > $1.date })
 			
 			return cell

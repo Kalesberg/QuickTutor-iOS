@@ -226,6 +226,9 @@ class SessionReview : BaseViewController {
 	var cellHeaderViewTitles : [String] = ["Rate your overall experience", "Leave your tutor a review."]
 	var buttonTitles = [String]()
 
+	var hasPaid: Bool = false
+	var hasCompleted: Bool = false
+	
 	var currentItem : Int = 0
 	
 	override func viewDidLoad() {
@@ -345,18 +348,25 @@ class SessionReview : BaseViewController {
 			}
 		case 2:
 			if  AccountService.shared.currentUserType == .learner {
+				guard hasPaid == false else { return }
 				contentView.nextButton.isEnabled = false
-				createCharge(cost: Int(costOfSession + Double(PostSessionReviewData.tipAmount))) { (error) in
+				let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
+				print("Charging!")
+				createCharge(cost: Int(costWithTip * 100)) { (error) in
 					if let error = error {
-						print(error.localizedDescription)
+						AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
+						self.hasPaid = false
 					} else {
+						self.hasPaid = true
 						self.finishAndUpload()
 						self.contentView.collectionView.scrollToItem(at: IndexPath(item: self.currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
 					}
 					self.contentView.nextButton.isEnabled = true
 				}
 			} else {
+				guard hasCompleted == false else { return }
 				finishAndUpload()
+				hasCompleted = true
 				self.navigationController?.popBackToMain()
 			}
 		case 3:
@@ -374,15 +384,12 @@ class SessionReview : BaseViewController {
 			let tutorInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "tr" : updatedRating.truncate(places: 1)]
 			let subcategoryInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
 			FirebaseData.manager.updateTutorPostSession(uid: partnerId, subcategory: subcategory.lowercased(), tutorInfo: tutorInfo, subcategoryInfo: subcategoryInfo)
-			
 			if PostSessionReviewData.review != nil && PostSessionReviewData.review! != "" {
 				let reviewDict : [String : Any] = [
 					"dte" : Date().timeIntervalSince1970,
-					"dur" : round(Double(runTime) / 60),
 					"uid" : partnerId,
 					"m" : PostSessionReviewData.review!,
 					"nm" : tutor.name,
-					"p" : costOfSession / 100,
 					"r" : PostSessionReviewData.rating,
 					"sbj" : subject
 				]
@@ -395,11 +402,9 @@ class SessionReview : BaseViewController {
 			if let review = PostSessionReviewData.review {
 				let reviewDict : [String : Any] = [
 					"dte" : Date().timeIntervalSince1970,
-					"dur" : round(Double(runTime) / 60),
 					"uid" : partnerId,
 					"m" : review,
 					"nm" : learner.name,
-					"p" : costOfSession / 100,
 					"r" : PostSessionReviewData.rating,
 					"sbj" : subject
 				]
@@ -458,9 +463,10 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			if AccountService.shared.currentUserType == .learner {
 				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tipCell", for: indexPath) as! TipCell
 				cell.delegate = self
-				cell.total = Double(costOfSession)
+				cell.total = costOfSession
 				cell.titleView.subtitle.text = cellTitles[indexPath.row]
 				cell.title.text = cellHeaderViewTitles[indexPath.row]
+
 				return cell
 			} else {
 				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "receiptCell", for: indexPath) as! ReceiptCell
@@ -468,7 +474,6 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 				cell.partner.profileImageView.image = contentView.profileImageView.image
 				cell.partner.infoLabel.text = contentView.nameLabel.text
 				cell.subject.infoLabel.text = session?.subject
-				
 				cell.sessionLength.infoLabel.text = getFormattedTimeString(seconds: runTime)
 				cell.hourlyRate.infoLabel.text = "$" + String(Int(session?.price ?? 0))
 				

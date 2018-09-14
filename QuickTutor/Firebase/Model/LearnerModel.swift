@@ -20,7 +20,7 @@ class AWLearner: User {
     var lHours : Int!
     var school    : String?
     var languages : [String]?
-	var lReviews : [TutorReview]!
+	var lReviews : [Review]!
     var lRating      : Double!
     
     var images = ["image1" : "", "image2" : "", "image3" : "", "image4" : ""]

@@ -266,7 +266,8 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             }
 			
 			cell.datasource = datasource.sorted(by: { $0.date > $1.date })
-            
+            cell.isViewing = isViewing
+			
             return cell
             
         case 5:

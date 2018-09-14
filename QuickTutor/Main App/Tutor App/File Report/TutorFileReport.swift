@@ -100,13 +100,9 @@ class TutorFileReport : BaseViewController {
 		view.subjectLabel.text = datasource[index].subject
 		view.monthLabel.text = String(date[1])
 		view.dayLabel.text = String(date[0])
-		view.sessionInfoLabel.text = "\(startTime) - \(endTime)"
-		
-		let formatter = NumberFormatter()
-		formatter.numberStyle = .currency
-		if let amount = formatter.string(from: datasource[index].price as NSNumber) {
-			view.sessionInfoLabel.text?.append(contentsOf: " \(amount)")
-		}
+		let sessionCost = String(format: "$%.2f", datasource[index].cost)
+		view.sessionInfoLabel.text = "\(startTime) - \(endTime) \(sessionCost)"
+
 		return view
 	}
 	

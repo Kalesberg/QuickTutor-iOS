@@ -210,6 +210,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
 			vc.runTime = runTime
 			vc.subject = subject
 			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
+			Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt" : Date().timeIntervalSince1970])
             print("ZACH: continueing out of session")
 			navigationController?.pushViewController(vc, animated: true)
         } else {
@@ -220,7 +221,8 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
 			vc.partnerId = partnerId
 			vc.runTime = runTime
 			vc.subject = subject
-			
+			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
+			Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt" : Date().timeIntervalSince1970])
 			print("ZACH: continueing out of session")
             navigationController?.pushViewController(vc, animated: true)
         }
