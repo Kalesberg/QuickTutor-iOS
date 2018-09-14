@@ -44,6 +44,17 @@ class FirebaseData {
 			return completion(nil)
 		}
 	}
+	public func updateTutorPostSession(uid: String, subcategory: String, tutorInfo: [String : Any], subcategoryInfo: [String : Any]) {
+		self.ref.child("tutor-info").child(uid).updateChildValues(tutorInfo)
+		self.ref.child("subject").child(uid).child(subcategory).updateChildValues(subcategoryInfo)
+		self.ref.child("subcategory").child(subcategory).child(uid).updateChildValues(subcategoryInfo)
+	}
+	public func updateReviewPostSession(uid: String,sessionId: String, type: String, review: [String:Any]) {
+		self.ref.child("review").child(uid).child(type).child(sessionId).updateChildValues(review)
+	}
+	public func updateLearnerPostSession(uid: String, studentInfo: [String : Any]) {
+		self.ref.child("student-info").child(uid).updateChildValues(studentInfo)
+	}
 	
 	public func updateTutorVisibility(uid: String, status: Int) {
 		return self.ref.child("tutor-info").child(uid).updateChildValues(["h" : status])
@@ -57,7 +68,6 @@ class FirebaseData {
 			return completion(nil)
 		}
 	}
-	
 	public func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int,_ completion: @escaping (Error?) -> Void) {
 		let post : [String: Any] = ["p" : price, "dst" : distance, "prf": preference]
 		return self.ref.child("tutor-info").child(uid).updateChildValues(post) { (error,_) in
@@ -215,15 +225,15 @@ class FirebaseData {
 		})
 	}
 	
-	private func fetchTutorReviews(uid : String, _ completion : @escaping ([TutorReview]?) -> Void) {
-		var reviews : [TutorReview] = []
-		self.ref?.child("review").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+	private func fetchReviews(uid : String, type: String,_ completion : @escaping ([Review]?) -> Void) {
+		var reviews : [Review] = []
+		self.ref?.child("review").child(uid).child(type).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
 			
 			for child in snap {
 				guard let value = child.value as? [String : Any] else { continue }
 				
-				var review = TutorReview(dictionary: value)
+				var review = Review(dictionary: value)
 				review.sessionId = child.key
 				reviews.append(review)
 			}
@@ -246,7 +256,9 @@ class FirebaseData {
 			return completion(subcategories)
 		})
 	}
-	
+	public func fetchSessionsWithPartner(uid: String,_ completion: @escaping(Error?) -> Void) {
+		
+	}
 	public func fetchTutorSessionPreferences(uid: String,_ completion: @escaping([String : Any]?) -> Void) {
 		self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			var sessionDetails = [String : Any]()
@@ -397,6 +409,13 @@ class FirebaseData {
 		})
 	}
 	
+	public func fetchTutorSubjectStats(_ uid: String, subcategory: String,_ completion: @escaping ([String : Any]?) -> Void) {
+		self.ref.child("subcategory").child(subcategory).child(uid).observeSingleEvent(of: .value) { (snapshot) in
+			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
+			completion(value)
+		}
+	}
+	
 	public func fetchLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
 		let group = DispatchGroup()
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -424,6 +443,15 @@ class FirebaseData {
 					}
 					group.leave()
 				})
+				
+				group.enter()
+				self.fetchReviews(uid: uid, type: "tutor", { (reviews) in
+					if let reviews = reviews {
+						learner.lReviews = reviews
+					}
+					group.leave()
+				})
+
 				guard let images = learnerData["img"] as? [String : String] else { return }
 				learner.images = images
 				
@@ -521,7 +549,7 @@ class FirebaseData {
 				})
 				
 				group.enter()
-				self.fetchTutorReviews(uid: uid, { (reviews) in
+				self.fetchReviews(uid: uid, type: "learner", { (reviews) in
 					if let reviews = reviews {
 						tutor.reviews = reviews
 					}

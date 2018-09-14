@@ -30,7 +30,7 @@ class AWTutor : AWLearner {
 	var subjects : [String]?
 	
 	var selected : [Selected] = []
-	var reviews : [TutorReview]?
+	var reviews : [Review]?
 	var location : TutorLocation1?
 	
 	var hasConnectAccount : Bool = false

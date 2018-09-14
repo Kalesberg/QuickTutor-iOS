@@ -12,17 +12,17 @@ import UIKit
 
 class TutorListingsView : MainLayoutTitleOneButton {
 
-	var backButton = NavbarButtonX()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		}
-		set {
-			backButton = newValue as! NavbarButtonX
-		}
-	}
-	
+    var backButton = NavbarButtonX()
+    
+    override var leftButton: NavbarButton {
+        get {
+            return backButton
+        }
+        set {
+            backButton = newValue as! NavbarButtonX
+        }
+    }
+    
     let titleLabel : UILabel = {
         let label = UILabel()
         
@@ -132,9 +132,9 @@ class TutorListings : BaseViewController {
         contentView.scrollView.contentSize = CGSize(width: 280, height: contentView.bodyLabel.frame.maxY)
     }
     override func handleNavigation() {
-		if touchStartView is NavbarButtonX {
-			contentView.backgroundImageView.isHidden = true
-			self.navigationController?.popViewController(animated: true)
-		}
+        if touchStartView is NavbarButtonX {
+            contentView.backgroundImageView.isHidden = true
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }

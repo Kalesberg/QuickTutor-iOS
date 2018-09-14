@@ -11,12 +11,6 @@ import UIKit
 import FirebaseUI
 import SDWebImage
 
-struct Review {
-    let fname : String!
-    let lname : String!
-    let rating : String!
-}
-
 class LearnerReviewsView : MainLayoutTitleOneButton {
     
     var backButton = NavbarButtonXLight()
@@ -43,7 +37,8 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
         
         return tableView
     }()
-    
+	
+	
     override func configureView() {
         addSubview(tableView)
         super.configureView()
@@ -77,15 +72,20 @@ class LearnerReviews : BaseViewController {
         return view as! LearnerReviewsView
     }
 
-    var datasource = [TutorReview]() {
+    var datasource = [Review]() {
         didSet {
             contentView.tableView.reloadData()
         }
     }
-    
+
+	var isViewing : Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+		
+		contentView.navbar.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		contentView.statusbarView.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(TutorMyProfileLongReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
@@ -117,7 +117,9 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileLongReviewTableViewCell
         
         let data = datasource[indexPath.row]
-        
+		
+		cell.isViewing = isViewing
+		
         cell.selectionStyle = .none
         cell.backgroundColor = .clear
         cell.nameLabel.text = data.studentName
@@ -133,7 +135,8 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         let label = UILabel()
-        label.text = "Reviews (\((datasource.count)))"
+		
+		label.text = "Reviews (\((datasource.count)))"
         label.textColor = .white
         label.font = Fonts.createBoldSize(20)
         view.addSubview(label)

@@ -62,8 +62,8 @@ class SessionCompleteVC: UIViewController {
         return label
     }()
     
-    let ratingView: RatingStartView = {
-        let view = RatingStartView(frame: CGRect(x: 0, y: 0, width: 257, height: 45))
+    let ratingView: RatingStarView = {
+        let view = RatingStarView(frame: CGRect(x: 0, y: 0, width: 257, height: 45))
         return view
     }()
     

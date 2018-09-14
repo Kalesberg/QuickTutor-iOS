@@ -13,49 +13,49 @@ import FirebaseUI
 import SDWebImage
 
 enum FileReportTutor : String {
-	
-	case LearnerCancelled = "My Learner Cancelled"
-	case LearnerLate = "My Learner Was Late"
-	case Harassment = "Harassment"
-	case Other = "Other"
-	case LearnerRude = "My Learner Was Rude"
-	case LearnerUnsafe = "My Learner Made Me Feel Unsafe"
-	case DidNotMatch = "My Learner Did Not Match His Profile"
-	case LearnerTips = "My Learner Asked For A Tip"
-	case LearnerDidNotHelp = "My Learner Did Not Help"
+    
+    case LearnerCancelled = "My Learner Cancelled"
+    case LearnerLate = "My Learner Was Late"
+    case Harassment = "Harassment"
+    case Other = "Other"
+    case LearnerRude = "My Learner Was Rude"
+    case LearnerUnsafe = "My Learner Made Me Feel Unsafe"
+    case DidNotMatch = "My Learner Did Not Match His Profile"
+    case LearnerTips = "My Learner Asked For A Tip"
+    case LearnerDidNotHelp = "My Learner Did Not Help"
 }
 
 enum FileReportLearner : String {
-	
-	case TutorCancelled = "My Tutor Cancelled"
-	case TutorLate = "My Tutor Was Late"
-	case Harassment = "Harassment"
-	case Other = "Other"
-	case TutorRude = "My Tutor Was Rude"
-	case TutorUnsafe = "My Tutor Made Me Feel Unsafe"
-	case DidNotMatch = "My Tutor Did Not Match His Profile"
-	case TutorTips = "My Tutor Asked For A Tip"
-	case TutorDidNotHelp = "My Tutor Did Not Help"
+    
+    case TutorCancelled = "My Tutor Cancelled"
+    case TutorLate = "My Tutor Was Late"
+    case Harassment = "Harassment"
+    case Other = "Other"
+    case TutorRude = "My Tutor Was Rude"
+    case TutorUnsafe = "My Tutor Made Me Feel Unsafe"
+    case DidNotMatch = "My Tutor Did Not Match His Profile"
+    case TutorTips = "My Tutor Asked For A Tip"
+    case TutorDidNotHelp = "My Tutor Did Not Help"
 }
 
 class LearnerFileReportView : MainLayoutTitleBackButton {
     
-	let tableView : UITableView = {
-		let tableView = UITableView.init(frame: .zero, style: .grouped)
-		
-		tableView.estimatedRowHeight = 44
-		tableView.rowHeight = UITableViewAutomaticDimension
-		tableView.separatorInset.left = 0
-		tableView.separatorStyle = .none
-		tableView.backgroundColor = Colors.backgroundDark
-		tableView.estimatedSectionHeaderHeight = 85
+    let tableView : UITableView = {
+        let tableView = UITableView.init(frame: .zero, style: .grouped)
+        
+        tableView.estimatedRowHeight = 44
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.separatorInset.left = 0
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = Colors.backgroundDark
+        tableView.estimatedSectionHeaderHeight = 85
         tableView.alwaysBounceVertical = false
 
-		return tableView
-	}()
+        return tableView
+    }()
 
 
-	override func configureView() {
+    override func configureView() {
         addSubview(tableView)
         super.configureView()
         
@@ -63,14 +63,14 @@ class LearnerFileReportView : MainLayoutTitleBackButton {
         
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple
-		
-		applyConstraints()
+        
+        applyConstraints()
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-		tableView.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom)
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalTo(navbar.snp.bottom)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             if #available(iOS 11.0, *) {
@@ -78,68 +78,68 @@ class LearnerFileReportView : MainLayoutTitleBackButton {
             } else {
                 make.bottom.equalToSuperview()
             }
-		}
-	}
+        }
+    }
 }
 
 class FileReportSessionView : BaseView {
     
-	let monthLabel : UILabel = {
-		let label = UILabel()
-		
-		label.font = Fonts.createSize(20)
-		label.textColor = .white
-		label.textAlignment = .center
-		label.adjustsFontSizeToFitWidth = true
-		
-		return label
-	}()
-	
-	var dayLabel : UILabel = {
-		let label = UILabel()
-		
-		label.font = Fonts.createBoldSize(25)
-		label.textColor = .white
-		label.textAlignment = .center
-		
-		return label
-	}()
-	
-	var profilePic : UIImageView = {
-		let imageView = UIImageView()
-		
-		imageView.layer.masksToBounds = false
-		imageView.clipsToBounds = true
-		imageView.scaleImage()
-		
-		return imageView
-	}()
-	
-	var subjectLabel : UILabel = {
-		let label = UILabel()
-		
-		label.font = Fonts.createBoldSize(14)
-		label.textColor = .white
-		
-		return label
-	}()
-	
-	var nameLabel : UILabel = {
-		let label = UILabel()
-		
-		label.font = Fonts.createSize(13)
-		label.textColor = .white
-		
-		return label
-	}()
-	var sessionInfoLabel : UILabel = {
-		let label = UILabel()
-		
-		label.font = Fonts.createSize(13)
-		label.textColor = .white
-		
-		return label
-	}()
+    let monthLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createSize(20)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
+    
+    var dayLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(25)
+        label.textColor = .white
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    var profilePic : UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.layer.masksToBounds = false
+        imageView.clipsToBounds = true
+        imageView.scaleImage()
+        
+        return imageView
+    }()
+    
+    var subjectLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createBoldSize(14)
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    var nameLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createSize(13)
+        label.textColor = .white
+        
+        return label
+    }()
+    var sessionInfoLabel : UILabel = {
+        let label = UILabel()
+        
+        label.font = Fonts.createSize(13)
+        label.textColor = .white
+        
+        return label
+    }()
     
     override func configureView() {
         addSubview(monthLabel)
@@ -174,11 +174,11 @@ class FileReportSessionView : BaseView {
         
         subjectLabel.snp.makeConstraints { (make) in
             make.left.equalTo(profilePic.snp.right).inset(-10)
-			make.bottom.equalTo(nameLabel.snp.top)
+            make.bottom.equalTo(nameLabel.snp.top)
         }
         
         nameLabel.snp.makeConstraints { (make) in
-			make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview()
             make.left.equalTo(subjectLabel)
         }
         
@@ -187,10 +187,10 @@ class FileReportSessionView : BaseView {
             make.left.equalTo(subjectLabel)
         }
     }
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		profilePic.layer.cornerRadius = profilePic.frame.height / 2
-	}
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        profilePic.layer.cornerRadius = profilePic.frame.height / 2
+    }
 }
 
 class CheckboxItem : InteractableView {
@@ -281,7 +281,7 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
     var keyboardComponent = ViewComponent()
     var textBody = SectionBody()
     var textView = EditBioTextView()
-	var characterCount = LeftTextLabel()
+    var characterCount = LeftTextLabel()
     var submitButton = SubmitButton()
     let errorLabel : UILabel = {
         let label = UILabel()
@@ -299,7 +299,7 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
         addSubview(textBody)
         addSubview(textView)
         textView.addSubview(errorLabel)
-		textView.addSubview(characterCount)
+        textView.addSubview(characterCount)
         addKeyboardView()
         addSubview(submitButton)
         
@@ -307,27 +307,27 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
         
         title.label.text = "File Report"
         keyboardView.isUserInteractionEnabled = false
-		
+        
         textView.textView.text = ""
-		textView.textView.autocorrectionType = .yes
-		textView.textView.returnKeyType = .default
-		textView.backgroundColor = Colors.registrationDark
-		textView.layer.borderWidth = 1.0
-		textView.layer.cornerRadius = 10
-		textView.textView.tintColor = Colors.learnerPurple
-		textView.textView.font = Fonts.createSize(18)
-		textView.textView.delegate = self
-		
-		characterCount.label.textColor = .white
-		characterCount.label.font = Fonts.createSize(14)
-		characterCount.label.text = "250"
+        textView.textView.autocorrectionType = .yes
+        textView.textView.returnKeyType = .default
+        textView.backgroundColor = Colors.registrationDark
+        textView.layer.borderWidth = 1.0
+        textView.layer.cornerRadius = 10
+        textView.textView.tintColor = Colors.learnerPurple
+        textView.textView.font = Fonts.createSize(18)
+        textView.textView.delegate = self
+        
+        characterCount.label.textColor = .white
+        characterCount.label.font = Fonts.createSize(14)
+        characterCount.label.text = "250"
         characterCount.label.numberOfLines = 1
         characterCount.label.sizeToFit()
-	}
+    }
     
     override func applyConstraints() {
         super.applyConstraints()
-		
+        
         textBody.constrainSelf(top: header.snp.bottom)
         
         if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
@@ -350,7 +350,7 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
             make.left.equalToSuperview().inset(10)
             make.bottom.equalToSuperview().inset(10)
         }
-		
+        
         submitButton.snp.makeConstraints { (make) in
             make.height.equalTo(44)
             make.width.equalTo(250)
@@ -441,29 +441,29 @@ class SubmissionViewController : BaseViewController {
 }
 
 extension FileReportSubmissionLayout : UITextViewDelegate {
-	
-	func textViewDidChange(_ textView: UITextView) {
-		let maxCharacters = 250
-		
-		let characters = textView.text.count
-		let charactersFromMax = maxCharacters - characters
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let maxCharacters = 250
+        
+        let characters = textView.text.count
+        let charactersFromMax = maxCharacters - characters
 
-		if (characters <= maxCharacters) {
-			characterCount.label.textColor = .white
-			characterCount.label.text = String(charactersFromMax)
-			
-		} else {
-			characterCount.label.textColor = UIColor.red
-			characterCount.label.text = String(charactersFromMax)
-		}
-	}
-	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-		if (text == "\n") {
-			textView.resignFirstResponder()
-			return false
-		}
-		return true
-	}
+        if (characters <= maxCharacters) {
+            characterCount.label.textColor = .white
+            characterCount.label.text = String(charactersFromMax)
+            
+        } else {
+            characterCount.label.textColor = UIColor.red
+            characterCount.label.text = String(charactersFromMax)
+        }
+    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if (text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
 }
 
 class FileReportYesNoLayout : MainLayoutHeader {
@@ -489,7 +489,7 @@ class FileReportYesNoLayout : MainLayoutHeader {
         
         yesButton.label.label.text = "YES"
         noButton.label.label.text = "NO"
-		
+        
     }
     
     override func applyConstraints() {
@@ -524,102 +524,98 @@ class LearnerFileReport : BaseViewController {
     override var contentView: LearnerFileReportView {
         return view as! LearnerFileReportView
     }
-	
-	let storageRef = Storage.storage().reference(forURL:  Constants.STORAGE_URL)
-	
-	var localTimeZoneAbbreviation: String {
-		return TimeZone.current.abbreviation() ?? ""
-	}
-	
-	var datasource = [UserSession]() {
-		didSet {
-			if datasource.count == 0 {
-				print("HEre.")
-				let view = TutorCardCollectionViewBackground()
-				view.label.attributedText = NSMutableAttributedString().bold("No recent sessions!", 22, .white)
-				view.label.textAlignment = .center
-				view.label.numberOfLines = 0
-				contentView.tableView.backgroundView = view
+    
+    let storageRef = Storage.storage().reference(forURL:  Constants.STORAGE_URL)
+    
+    var localTimeZoneAbbreviation: String {
+        return TimeZone.current.abbreviation() ?? ""
+    }
+    
+    var datasource = [UserSession]() {
+        didSet {
+            if datasource.count == 0 {
+                print("HEre.")
+                let view = TutorCardCollectionViewBackground()
+                view.label.attributedText = NSMutableAttributedString().bold("No recent sessions!", 22, .white)
+                view.label.textAlignment = .center
+                view.label.numberOfLines = 0
+                contentView.tableView.backgroundView = view
             } else {
-				contentView.tableView.backgroundView = nil
-			}
-			contentView.tableView.reloadData()
-		}
-	}
-	
+                contentView.tableView.backgroundView = nil
+            }
+            contentView.tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: "learner") { (sessions) in
-			if let sessions = sessions {
-				self.datasource = sessions.sorted(by: { $0.endTime > $1.endTime })
-			} else {
-				self.datasource = []
-			}
-		}
-		
-		contentView.tableView.delegate = self
-		contentView.tableView.dataSource = self
-		contentView.tableView.register(CustomFileReportTableViewCell.self, forCellReuseIdentifier: "fileReportCell")
-		
-		contentView.navbar.backgroundColor = Colors.learnerPurple
-		contentView.statusbarView.backgroundColor = Colors.learnerPurple
+        FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: "learner") { (sessions) in
+            if let sessions = sessions {
+                self.datasource = sessions.sorted(by: { $0.endTime > $1.endTime })
+            } else {
+                self.datasource = []
+            }
+        }
+        
+        contentView.tableView.delegate = self
+        contentView.tableView.dataSource = self
+        contentView.tableView.register(CustomFileReportTableViewCell.self, forCellReuseIdentifier: "fileReportCell")
+        
+        contentView.navbar.backgroundColor = Colors.learnerPurple
+        contentView.statusbarView.backgroundColor = Colors.learnerPurple
     }
-	
+    
     override func loadView() {
         view = LearnerFileReportView()
     }
-	
-	private func getFormattedTime(unixTime: TimeInterval) -> String {
-		let date = Date(timeIntervalSince1970: unixTime)
-		let dateFormatter = DateFormatter()
-		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
-		dateFormatter.dateFormat = "h:mm a"
-		return dateFormatter.string(from: date)
-	}
-	private func getFormattedDate(unixTime: TimeInterval) -> String {
-		let date = Date(timeIntervalSince1970: unixTime)
-		let dateFormatter = DateFormatter()
-		dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
-		dateFormatter.dateFormat = "d-MMM"
-		return dateFormatter.string(from: date)
-	}
-	
-	private func setHeader(index: Int) -> FileReportSessionView {
-		let view = FileReportSessionView()
-		view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: contentView.tableView.frame.width, height: 85))
-		
-		let startTime = getFormattedTime(unixTime: TimeInterval(datasource[index].startTime))
-		let endTime = getFormattedTime(unixTime: TimeInterval(datasource[index].endTime))
-		let date = getFormattedDate(unixTime: TimeInterval(datasource[index].date)).split(separator: "-")
-		
-		//QuickFix. will change in the future
-		if datasource[index].name == "" {
-			view.nameLabel.text = "User no longer exists."
-		} else {
-			let name = datasource[index].name.split(separator: " ")
-			if name.count == 2 {
-				view.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
-			} else {
-				view.nameLabel.text = "with \(String(name[0]).capitalized)"
-			}
-		}
+    
+    private func getFormattedTime(unixTime: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: unixTime)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
+        dateFormatter.dateFormat = "h:mm a"
+        return dateFormatter.string(from: date)
+    }
+    private func getFormattedDate(unixTime: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: unixTime)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
+        dateFormatter.dateFormat = "d-MMM"
+        return dateFormatter.string(from: date)
+    }
+    
+    private func setHeader(index: Int) -> FileReportSessionView {
+        let view = FileReportSessionView()
+        view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: contentView.tableView.frame.width, height: 85))
+        
+        let startTime = getFormattedTime(unixTime: TimeInterval(datasource[index].startTime))
+        let endTime = getFormattedTime(unixTime: TimeInterval(datasource[index].endTime))
+        let date = getFormattedDate(unixTime: TimeInterval(datasource[index].date)).split(separator: "-")
+        
+        //QuickFix. will change in the future
+        if datasource[index].name == "" {
+            view.nameLabel.text = "User no longer exists."
+        } else {
+            let name = datasource[index].name.split(separator: " ")
+            if name.count == 2 {
+                view.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
+            } else {
+                view.nameLabel.text = "with \(String(name[0]).capitalized)"
+            }
+        }
 
-		view.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource[index].otherId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-		view.subjectLabel.text = datasource[index].subject
-		view.monthLabel.text = String(date[1])
-		view.dayLabel.text = String(date[0])
-		view.sessionInfoLabel.text = "\(startTime) - \(endTime)"
-		
-		let formatter = NumberFormatter()
-		formatter.numberStyle = .currency
-		if let amount = formatter.string(from: datasource[index].price as NSNumber) {
-			view.sessionInfoLabel.text?.append(contentsOf: " \(amount)")
-		}
-		
-		return view
-	}
-	
+        view.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource[index].otherId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        view.subjectLabel.text = datasource[index].subject
+        view.monthLabel.text = String(date[1])
+        view.dayLabel.text = String(date[0])
+        view.sessionInfoLabel.text = "\(startTime) - \(endTime)"
+		let sessionCost = String(format: "$%.2f", (datasource[index].cost / 100))
+		view.sessionInfoLabel.text = "\(startTime) - \(endTime) \(sessionCost)"
+        
+        return view
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -630,32 +626,32 @@ class LearnerFileReport : BaseViewController {
     }
 }
 extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
-	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 1
-	}
-	
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return indexPath.section == 0 ? 0 : tableView.estimatedRowHeight
-	}
-	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return indexPath.section == 0 ? 0 : tableView.estimatedRowHeight
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = UITableViewCell()
             cell.backgroundColor = Colors.backgroundDark
             return cell
         } else {
-		let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
-		cell.textLabel?.text = "File a report with this session"
-		return cell
+        let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
+        cell.textLabel?.text = "File a report with this session"
+        return cell
         }
-	}
-	
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-		return datasource.count + 1
-	}
+        return datasource.count + 1
+    }
 
-	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let view = UIView()
             let label = UILabel()
@@ -671,44 +667,44 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
         } else {
             return setHeader(index: section - 1)
         }
-	}
-	
-	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return tableView.estimatedSectionHeaderHeight
-	}
-	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard indexPath.section != 0 else { return }
-		let next = SessionDetails()
-		next.datasource = datasource[indexPath.section - 1]
-		self.navigationController?.pushViewController(next, animated: true)
-		tableView.deselectRow(at: indexPath, animated: true)
-	}
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return tableView.estimatedSectionHeaderHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.section != 0 else { return }
+        let next = SessionDetails()
+        next.datasource = datasource[indexPath.section - 1]
+        self.navigationController?.pushViewController(next, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 
 class CustomFileReportTableViewCell : UITableViewCell {
 
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		configureTableViewCell()
-	}
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	
-	func configureTableViewCell() {
-		
-		let cellBackground = UIView()
-		cellBackground.backgroundColor = UIColor(red: 0.08, green: 0.05, blue: 0.08, alpha: 1)
-		selectedBackgroundView = cellBackground
-		
-		textLabel?.font = Fonts.createSize(14)
-		textLabel?.textColor = Colors.grayText
-		textLabel?.adjustsFontSizeToFitWidth = true
-		
-		backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-		
-		accessoryType = .disclosureIndicator
-	}
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureTableViewCell()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureTableViewCell() {
+        
+        let cellBackground = UIView()
+        cellBackground.backgroundColor = UIColor(red: 0.08, green: 0.05, blue: 0.08, alpha: 1)
+        selectedBackgroundView = cellBackground
+        
+        textLabel?.font = Fonts.createSize(14)
+        textLabel?.textColor = Colors.grayText
+        textLabel?.adjustsFontSizeToFitWidth = true
+        
+        backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        
+        accessoryType = .disclosureIndicator
+    }
 }

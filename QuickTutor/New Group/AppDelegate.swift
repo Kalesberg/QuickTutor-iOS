@@ -80,45 +80,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         return true
     }
     
-    func checkForUnfinishedSessions() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        PostSessionManager.shared.checkForUnfinishedSession { (sessionId, sessionStatus) in
-            DataService.shared.getSessionById(sessionId, completion: { (session) in
-                SessionService.shared.session = session
-                switch sessionStatus {
-                case SessionStatus.started.rawValue:
-                    if session.senderId == uid {
-                        let vc = AddTipVC()
-                        vc.sessionId = sessionId
-                        vc.costOfSession = session.cost
-                        vc.partnerId = session.partnerId()
-                        navigationController.pushViewController(vc, animated: true)
-                    } else {
-                        let vc = SessionCompleteVC()
-                        vc.sessionId = sessionId
-                        vc.partnerId = session.partnerId()
-                        navigationController.pushViewController(vc, animated: true)
-                    }
-                case SessionStatus.tipAdded.rawValue:
-                    let vc = SessionCompleteVC()
-                    vc.sessionId = sessionId
-                    vc.partnerId = session.partnerId()
-                    navigationController.pushViewController(vc, animated: true)
-                case SessionStatus.ratingAdded.rawValue:
-                    let vc = SessionReviewVC()
-                    SessionService.shared.session = session
-                    vc.partnerId = session.partnerId()
-                    navigationController.pushViewController(vc, animated: true)
-                case SessionStatus.reviewAdded.rawValue:
-                    break
-                default:
-                    break
-                }
-                print(sessionStatus)
-            })
-        }
-    }
-    
+//    func checkForUnfinishedSessions() {
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        PostSessionManager.shared.checkForUnfinishedSession { (sessionId, sessionStatus) in
+//            DataService.shared.getSessionById(sessionId, completion: { (session) in
+//                SessionService.shared.session = session
+//                switch sessionStatus {
+//                case SessionStatus.started.rawValue:
+//                    if session.senderId == uid {
+//                        let vc = AddTipVC()
+//                        vc.sessionId = sessionId
+//                        vc.costOfSession = session.cost
+//                        vc.partnerId = session.partnerId()
+//                        navigationController.pushViewController(vc, animated: true)
+//                    } else {
+//                        let vc = SessionCompleteVC()
+//                        vc.sessionId = sessionId
+//                        vc.partnerId = session.partnerId()
+//                        navigationController.pushViewController(vc, animated: true)
+//                    }
+//                case SessionStatus.tipAdded.rawValue:
+//                    let vc = SessionCompleteVC()
+//                    vc.sessionId = sessionId
+//                    vc.partnerId = session.partnerId()
+//                    navigationController.pushViewController(vc, animated: true)
+//                case SessionStatus.ratingAdded.rawValue:
+//                    let vc = SessionReviewVC()
+//                    SessionService.shared.session = session
+//                    vc.partnerId = session.partnerId()
+//                    navigationController.pushViewController(vc, animated: true)
+//                case SessionStatus.reviewAdded.rawValue:
+//                    break
+//                default:
+//                    break
+//                }
+//                print(sessionStatus)
+//            })
+//        }
+//    }
+	
     func checkForInProgressSessions() {
         InProgressSessionManager.shared.checkForSessions { (sessionId) in
             DataService.shared.getSessionById(sessionId, completion: { (session) in
@@ -188,7 +188,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.window?.rootViewController = navigationController
                 self.removeDataObserver()
                 self.listenForData()
-                self.checkForUnfinishedSessions()
+               // self.checkForUnfinishedSessions()
                 self.checkForInProgressSessions()
             }
         }

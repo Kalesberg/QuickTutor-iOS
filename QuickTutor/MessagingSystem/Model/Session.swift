@@ -38,16 +38,19 @@ class Session: Codable {
         runTime = dictionary["runTime"] as? Int ?? 0
         self.id = id
      }
-    
-    func lengthInMinutes() -> Int {
-        let lengthInSeconds = endTime - startTime
-        return Int(lengthInSeconds / 60)
-    }
-    
-    func ratePerSecond() -> Double {
-        return price / Double(lengthInMinutes()) / 60
-    }
-    
+	func lengthInMinutes() -> Double {
+		let lengthInSeconds = endTime - startTime
+		print(lengthInSeconds)
+		return lengthInSeconds / 60
+	}
+	
+	func ratePerSecond() -> Double {
+		let lengthInSeconds = endTime - startTime
+		print("Seconds: \(lengthInSeconds)")
+		print("Price: ", price)
+		return (price / 60 / 60) * lengthInSeconds
+	}
+
     func partnerId() -> String {
         guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
         return receiverId == uid ? senderId : receiverId

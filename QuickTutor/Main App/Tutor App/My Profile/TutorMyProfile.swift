@@ -28,8 +28,8 @@ class TutorMyProfileView : LearnerMyProfileView {
 }
 
 class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
-	
-	let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+    
+    let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
     override var contentView: TutorMyProfileView {
         return view as! TutorMyProfileView
@@ -37,8 +37,8 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
     
     func tutorWasUpdated(tutor: AWTutor!) {
         self.tutor = tutor
-		let name = tutor.name.split(separator: " ")
-		contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+        let name = tutor.name.split(separator: " ")
+        contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
     }
     
     var tutor : AWTutor! {
@@ -56,10 +56,10 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
         let name = tutor.name.split(separator: " ")
         contentView.name.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
         //cell.locationLabel.text = tutor.region
-		let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
-		contentView.profilePics.sd_setImage(with: reference, placeholderImage: nil)
+        let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
+        contentView.profilePics.sd_setImage(with: reference, placeholderImage: nil)
 
-		//cell.ratingLabel.text = String(tutor.tRating)
+        //cell.ratingLabel.text = String(tutor.tRating)
     }
     
     override func loadView() {
@@ -94,7 +94,7 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
             next.delegate = self
             navigationController?.pushViewController(next, animated: true)
         } else if(touchStartView is TutorCardProfilePic) {
-			self.displayProfileImageViewer(imageCount: tutor.images.filter({$0.value != ""}).count, userId: tutor.uid)
+            self.displayProfileImageViewer(imageCount: tutor.images.filter({$0.value != ""}).count, userId: tutor.uid)
         }
     }
 }
@@ -246,7 +246,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                 }
             } else {
                 if tutor.school != "" {
-					cell.studysItem.label.text = "Studies at " + tutor.school!
+                    cell.studysItem.label.text = "Studies at " + tutor.school!
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.tutorItem.snp.makeConstraints { (make) in
@@ -302,9 +302,10 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                     make.centerX.equalToSuperview()
                 }
             }
+            
+            cell.datasource = datasource.sorted(by: { $0.date > $1.date })
+            cell.isViewing = isViewing
 			
-			cell.datasource = datasource.sorted(by: { $0.date > $1.date })
-        
             return cell
             
         case 5:

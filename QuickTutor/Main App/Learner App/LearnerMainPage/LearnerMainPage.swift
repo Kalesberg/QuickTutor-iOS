@@ -48,8 +48,8 @@ class LearnerMainPageView : MainPageView {
         addSubview(tableView)
         super.configureView()
 
-		navbar.backgroundColor = Colors.learnerPurple
-		statusbarView.backgroundColor = Colors.learnerPurple
+        navbar.backgroundColor = Colors.learnerPurple
+        statusbarView.backgroundColor = Colors.learnerPurple
     }
     
     override func applyConstraints() {
@@ -84,14 +84,14 @@ class LearnerMainPage : MainPage {
     override func loadView() {
         view = LearnerMainPageView()
     }
-	
+    
     var datasource = [Category : [FeaturedTutor]]()
     var didLoadMore = false
     var learner : AWLearner!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		AccountService.shared.currentUserType = .learner
+        AccountService.shared.currentUserType = .learner
         guard let learner = CurrentUser.shared.learner else {
             self.navigationController?.pushViewController(SignIn(), animated: true)
             return
@@ -100,7 +100,7 @@ class LearnerMainPage : MainPage {
         Stripe.retrieveCustomer(cusID: learner.customer) { (customer, error) in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-				self.learner.hasPayment = false
+                self.learner.hasPayment = false
             } else if let customer = customer {
                 self.learner.hasPayment = (customer.sources.count > 0)
             }
@@ -134,20 +134,20 @@ class LearnerMainPage : MainPage {
         
         contentView.sidebar.ratingView.ratingLabel.text = String(learner.lRating) + "  ★"
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
-		contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
-	
-	}
+        contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
+    
+    }
     private func configureView() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
         contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
     }
-	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-	}
-	
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
     func displayMessagesTutorial() {
         
         let image = UIImageView()
@@ -237,21 +237,21 @@ class LearnerMainPage : MainPage {
         self.displayLoadingOverlay()
         
         QueryData.shared.queryFeaturedTutors(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { (datasource) in
-			guard let datasource = datasource else { return }
-			if #available(iOS 11.0, *) {
-				self.contentView.tableView.performBatchUpdates({
-					self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-					self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1), with: .fade )
-				}, completion: { (_) in
-					self.didLoadMore = false
-				})
-			} else {
-				self.contentView.tableView.beginUpdates()
-				self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
-				self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade)
-				self.contentView.tableView.endUpdates()
-				self.didLoadMore = false
-			}
+            guard let datasource = datasource else { return }
+            if #available(iOS 11.0, *) {
+                self.contentView.tableView.performBatchUpdates({
+                    self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+                    self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1), with: .fade )
+                }, completion: { (_) in
+                    self.didLoadMore = false
+                })
+            } else {
+                self.contentView.tableView.beginUpdates()
+                self.datasource.merge(datasource, uniquingKeysWith: { (_, last) in last })
+                self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1) , with: .fade)
+                self.contentView.tableView.endUpdates()
+                self.didLoadMore = false
+            }
             self.dismissOverlay()
         }
     }
@@ -259,21 +259,21 @@ class LearnerMainPage : MainPage {
     private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
         self.displayLoadingOverlay()
         FirebaseData.manager.fetchTutor(learner.uid, isQuery: false) { (tutor) in
-			guard let tutor = tutor else {
-				AlertController.genericErrorAlert(self, title: "Oops!", message: "Unable to find your tutor account! Please try again.")
-				return completion(false)
-			}
-			CurrentUser.shared.tutor = tutor
-			Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (error, account) in
-				if let error = error {
-					AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-					return completion(false)
-				} else if let account = account {
-					CurrentUser.shared.connectAccount = account
-					return completion(true)
-				}
-			})
-		}
+            guard let tutor = tutor else {
+                AlertController.genericErrorAlert(self, title: "Oops!", message: "Unable to find your tutor account! Please try again.")
+                return completion(false)
+            }
+            CurrentUser.shared.tutor = tutor
+            Stripe.retrieveConnectAccount(acctId: tutor.acctId, { (error, account) in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    return completion(false)
+                } else if let account = account {
+                    CurrentUser.shared.connectAccount = account
+                    return completion(true)
+                }
+            })
+        }
     }
     
     override func handleNavigation() {
@@ -384,9 +384,9 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-			return (UIScreen.main.bounds.height < 570) ? 180 : 200
+            return (UIScreen.main.bounds.height < 570) ? 180 : 200
         }
-		return 205
+        return 205
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -395,7 +395,7 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
-			
+            
             cell.datasource = datasource[category[indexPath.section - 1]]!
             cell.category = category[indexPath.section - 1]
             
@@ -406,10 +406,10 @@ extension LearnerMainPage : UITableViewDelegate, UITableViewDataSource {
         return datasource.count + 1
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		let view = SectionHeader()
-		view.category.text = (section == 0) ? "Categories" : category[section - 1].mainPageData.displayName
-		return view
-	}
+        let view = SectionHeader()
+        view.category.text = (section == 0) ? "Categories" : category[section - 1].mainPageData.displayName
+        return view
+    }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }

@@ -595,7 +595,6 @@ extension SubjectsTableViewCell : UICollectionViewDataSource, UICollectionViewDe
 }
 
 class RatingTableViewCell : BaseTableViewCell {
-
     let tableView : UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -608,17 +607,14 @@ class RatingTableViewCell : BaseTableViewCell {
         return tableView
     }()
     
-    let seeAllButton : SeeAllButton = {
-        let button = SeeAllButton()
-       
-        return button
-    }()
+    let seeAllButton = SeeAllButton()
     
-    var datasource = [TutorReview]() {
+    var datasource = [Review]() {
         didSet {
             tableView.reloadData()
         }
     }
+    var isViewing : Bool = false
     
     let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
@@ -660,6 +656,7 @@ class RatingTableViewCell : BaseTableViewCell {
         if touchStartView is SeeAllButton {
             if let current = UIApplication.getPresentedViewController() {
                 let next = LearnerReviews()
+                next.isViewing = isViewing
                 next.datasource = datasource
                 current.present(next, animated: true, completion: nil)
             }
@@ -737,8 +734,9 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
 
         let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic\(indexPath.row+1)")
         cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        
-        return cell
+        cell.isViewing = isViewing
+		
+		return cell
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -750,12 +748,11 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    
         let label = UILabel()
         
         label.font = Fonts.createBoldSize(16)
         label.text = "Reviews (\((datasource.count)))"
-        label.textColor = UIColor(hex: "5785d4")
+        label.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
         
         return label
     }
@@ -777,7 +774,7 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     
     let nameLabel : UILabel = {
         let label = UILabel()
-        label.textColor = Colors.currentUserColor()
+        
         label.font = Fonts.createBoldSize(16)
         return label
     }()
@@ -803,6 +800,7 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     }()
     
     let container = UIView()
+	var isViewing : Bool = false
     
     override func configureView() {
         addSubview(container)
@@ -813,10 +811,10 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
         addSubview(dateLabel)
         super.configureView()
         
-        applyConstraints()
-
         contentView.backgroundColor = .clear
         selectionStyle = .none
+        
+        applyConstraints()
     }
     
     override func applyConstraints() {
@@ -858,6 +856,7 @@ class TutorMyProfileReviewTableViewCell : BaseTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         profilePic.layer.cornerRadius = profilePic.frame.height / 2
+        nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
     }
 }
 
@@ -873,7 +872,7 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     
     let nameLabel : UILabel = {
         let label = UILabel()
-        label.textColor = Colors.currentUserColor()
+		
         label.font = Fonts.createBoldSize(16)
         return label
     }()
@@ -897,6 +896,7 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     }()
     
     let container = UIView()
+    var isViewing : Bool = false
     
     override func configureView() {
         contentView.addSubview(container)
@@ -948,5 +948,6 @@ class TutorMyProfileLongReviewTableViewCell : BaseTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         profilePic.layer.cornerRadius = profilePic.frame.height / 2
+        nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
     }
 }

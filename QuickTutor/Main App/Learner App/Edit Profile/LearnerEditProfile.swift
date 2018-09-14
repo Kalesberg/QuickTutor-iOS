@@ -110,7 +110,6 @@ class ProfilePicImageView : InteractableView, Interactable {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		picView.layer.masksToBounds = false
-		//picView.layer.cornerRadius = picView.frame.height / 2
         picView.layer.cornerRadius = 8
 		picView.clipsToBounds = true
 	}

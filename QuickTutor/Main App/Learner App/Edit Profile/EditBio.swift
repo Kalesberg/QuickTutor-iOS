@@ -33,7 +33,6 @@ class EditBioTextView : BaseView {
             textView.text = CurrentUser.shared.learner.bio
         } else if AccountService.shared.currentUserType == .tutor {
             if (CurrentUser.shared.tutor != nil) {
-                print("exists")
                 textView.text = CurrentUser.shared.tutor.tBio
             } else {
                 print("does not exist")

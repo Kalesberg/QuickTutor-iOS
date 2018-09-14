@@ -188,27 +188,42 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         sessionOnHoldModal?.dismiss()
         socket.emit(SocketEvents.requestAddTime, ["id": uid, "roomKey": id, "seconds": minutes * 60])
     }
-    
+
     @objc func continueOutOfSession() {
         BackgroundSoundManager.shared.sessionInProgress = false
         sessionOnHoldModal?.dismiss()
         pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
-        if AccountService.shared.currentUserType == .learner {
-            let vc = AddTipVC()
-            vc.sessionId = sessionId
-            guard let runtime = sessionManager?.sessionRuntime, let rate = sessionManager?.session.ratePerSecond() else { return }
-            vc.costOfSession = Double(runtime) * rate
-            vc.partnerId = sessionManager?.session.partnerId()
-            Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(Double(runtime) * rate)
+		guard let runTime = sessionManager?.sessionRuntime else { return }
+		guard let partnerId = sessionManager?.session.partnerId() else { return }
+		guard let subject = sessionManager?.session.subject else { return }
+		guard let session = sessionManager?.session else { return }
+		let costOfSession = ((session.price / 60) / 60) * Double(runTime)
+		if AccountService.shared.currentUserType == .learner {
+			let vc = SessionReview()
+
+			vc.session = session
+			vc.sessionId = sessionId
+			vc.costOfSession = costOfSession
+			vc.partnerId = partnerId
+			vc.runTime = runTime
+			vc.subject = subject
+			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
+			Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt" : Date().timeIntervalSince1970])
             print("ZACH: continueing out of session")
-            navigationController?.pushViewController(vc, animated: true)
+			navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = SessionCompleteVC()
-            print("ZACH: continueing out of session")
-            vc.sessionId = sessionId
-            vc.partnerId = sessionManager?.session.partnerId()
+			let vc = SessionReview()
+			vc.session = session
+			vc.sessionId = sessionId
+			vc.costOfSession = costOfSession
+			vc.partnerId = partnerId
+			vc.runTime = runTime
+			vc.subject = subject
+			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
+			Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt" : Date().timeIntervalSince1970])
+			print("ZACH: continueing out of session")
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -244,7 +259,6 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         self.showEndModal()
     }
     
-    
     func sessionManager(_ sessionManager: SessionManager, userLostConnection uid: String) {
         sessionManager.stopSessionRuntime()
         if viewIfLoaded?.window != nil {
@@ -260,7 +274,6 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
             self.connectionLostModal?.dismiss()
         }
     }
-
 }
 
 extension BaseSessionVC: PauseSessionModalDelegate {
