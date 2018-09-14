@@ -194,7 +194,8 @@ class DataService {
         values["receiverAccountType"] = otherUserTypeString
         let timestamp = Date().timeIntervalSince1970
         Database.database().reference().child("sessions").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { (error, ref1) in
-            let message = UserMessage(dictionary: ["timestamp": timestamp, "senderId": uid, "receiverId": id, "sessionRequestId": ref1.key])
+            let messageData: [String: Any] = ["timestamp": timestamp, "senderId": uid, "receiverId": id, "sessionRequestId": ref1.key, "receiverAccountType": otherUserTypeString]
+            let message = UserMessage(dictionary: messageData)
             Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
                 let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
                 let receiverRef = Database.database().reference().child("conversations").child(id).child(otherUserTypeString).child(uid)

@@ -14,6 +14,12 @@ class ConversationCell: SwipeCollectionViewCell {
     
     var chatPartner: User!
     
+    override var isHighlighted: Bool {
+        didSet {
+            isHighlighted ? highlightMessageGradient() : resetMessageGradientColors()
+        }
+    }
+    
     let profileImageView: UserImageView = {
         let iv = UserImageView(frame: CGRect.zero)
         iv.onlineStatusIndicator.backgroundColor = Colors.navBarGreen
@@ -137,6 +143,18 @@ class ConversationCell: SwipeCollectionViewCell {
         newMessageGradientLayer.frame = CGRect(x: 0, y: 0, width: 100, height: bounds.height)
     }
     
+    func highlightMessageGradient() {
+        let firstColor = Colors.currentUserColor().darker(by: 15)?.cgColor
+        let secondColor = Colors.navBarColor.darker(by: 15)?.cgColor
+        newMessageGradientLayer.colors = [firstColor, secondColor]
+    }
+    
+    func resetMessageGradientColors() {
+        let firstColor = Colors.currentUserColor().cgColor
+        let secondColor = Colors.navBarColor.cgColor
+        newMessageGradientLayer.colors = [firstColor, secondColor]
+    }
+    
     func updateUI(message: UserMessage) {
         guard let user = message.user else { return }
         chatPartner = user
@@ -163,8 +181,6 @@ class ConversationCell: SwipeCollectionViewCell {
     
     private func updateOnlineStatusIndicator() {
         profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? Colors.navBarGreen : Colors.qtRed
-//        profileImageView.onlineStatusIndicator.layer.borderColor = Colors.backgroundDark.darker(by: 2)?.cgColor
-//        profileImageView.onlineStatusIndicator.layer.borderWidth = 2
     }
     
     private func updateProfileImage() {

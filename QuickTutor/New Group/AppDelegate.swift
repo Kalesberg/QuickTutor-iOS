@@ -298,7 +298,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let firebaseAuth = Auth.auth()
-		
+        guard application.applicationState != UIApplicationState.active else { return }
         if (firebaseAuth.canHandleNotification(userInfo)){
             print(userInfo)
         }

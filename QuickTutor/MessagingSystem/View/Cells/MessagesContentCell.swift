@@ -182,33 +182,7 @@ extension MessagesContentCell: SwipeCollectionViewCellDelegate {
         deleteAction.font = Fonts.createSize(12)
         deleteAction.backgroundColor = UIColor(hex: "#AF1C49")
         
-        let disconnectAction = SwipeAction(style: .default, title: nil) { action, indexPath in
-            self.disconnect(index: indexPath.item)
-        }
-        disconnectAction.image = #imageLiteral(resourceName: "disconnectIcon")
-//        disconnectAction.title = "Disconnect"
-        disconnectAction.font = Fonts.createSize(12)
-        disconnectAction.backgroundColor = UIColor(hex: "#851537")
-        
-        return [deleteAction, disconnectAction]
-    }
-    
-    func disconnect(index: Int) {
-        let indexPath = IndexPath(item: index, section: 0)
-        guard let uid = Auth.auth().currentUser?.uid,
-            let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
-            let id = cell.chatPartner.uid else { return }
-        let userTypeString = AccountService.shared.currentUserType.rawValue
-        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
-        let conversationRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
-        Database.database().reference().child("connections").child(uid).child(userTypeString).child(id).removeValue()
-        Database.database().reference().child("connections").child(id).child(otherUserTypeString).child(uid).removeValue()
-        conversationRef.removeValue()
-        messages.remove(at: indexPath.item)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
-            self.collectionView.reloadData()
-        }
-        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(id).removeValue()
+        return [deleteAction]
     }
     
     func deleteMessages(index: Int) {
