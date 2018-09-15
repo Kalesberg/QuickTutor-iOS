@@ -598,11 +598,10 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "sessionHistoryCell", for: indexPath) as! SessionHistoryCell
-	
-		let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startTime))
+		let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startedAt / 1000))
 		let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endedAt))
-		let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].date)).split(separator: "-")
-		
+		let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].startedAt / 1000)).split(separator: "-")
+		insertBorder(cell: cell)
 		if datasource[indexPath.row].name == "" {
 			cell.nameLabel.text = "User no longer exists."
 		} else {
@@ -620,7 +619,7 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 		cell.dayLabel.text = String(date[0])
 		cell.sessionInfoLabel.text = "\(startTime) - \(endTime)"
 		
-		let sessionCost = String(format: "$%.2f", (datasource[indexPath.row].cost / 100))
+		let sessionCost = String(format: "$%.2f", (datasource[indexPath.row].cost))
 		cell.sessionInfoLabel.text = "\(startTime) - \(endTime) \(sessionCost)"
 
 		return cell
@@ -643,14 +642,18 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 		}
 		return [fileReport]
 	}
+	func insertBorder(cell: UITableViewCell) {
+		let border = UIView(frame:CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
+		border.backgroundColor = Colors.backgroundDark
+		cell.contentView.addSubview(border)
+	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }
 
 class SessionHistoryCell : UITableViewCell {
-	var gradientLayer: CAGradientLayer = CAGradientLayer()
-
+	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		configureTableViewCell()
@@ -739,12 +742,14 @@ class SessionHistoryCell : UITableViewCell {
 			make.width.equalToSuperview().multipliedBy(0.2)
 		}
 		dayLabel.snp.makeConstraints { (make) in
-			make.top.width.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.5)
+			make.bottom.equalTo(dateContainer.snp.centerY).inset(5)
+			make.width.centerX.equalToSuperview()
+			make.height.equalToSuperview().multipliedBy(0.3)
 		}
 		monthLabel.snp.makeConstraints { (make) in
-			make.bottom.width.centerX.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.5)
+			make.top.equalTo(dateContainer.snp.centerY).inset(5)
+			make.width.centerX.equalToSuperview()
+			make.height.equalToSuperview().multipliedBy(0.3)
 		}
 		profilePic.snp.makeConstraints { (make) in
 			make.left.equalTo(dateContainer.snp.right)
@@ -770,7 +775,6 @@ class SessionHistoryCell : UITableViewCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		profilePic.layer.cornerRadius = profilePic.frame.height / 2
-		gradientLayer.frame = contentView.frame
 
 	}
 }

@@ -389,7 +389,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
-            cell.tutorItem.label.text = "Tutored in \(learner.lNumSessions) sessions"
+            cell.tutorItem.label.text = "Tutored in \(learner.lNumSessions!) sessions"
             
             if let languages = learner.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
