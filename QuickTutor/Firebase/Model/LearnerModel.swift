@@ -42,7 +42,7 @@ class AWLearner: User {
         customer = dictionary["cus"] as? String ?? ""
         lNumSessions = dictionary["nos"] as? Int ?? 0
         lRating = dictionary["r"] as? Double ?? 0.0
-        lHours = dictionary["lhr"] as? Int ?? 0
+        lHours = dictionary["hr"] as? Int ?? 0
     }
     
     required init(from decoder: Decoder) throws {

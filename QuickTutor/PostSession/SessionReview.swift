@@ -349,7 +349,6 @@ class SessionReview : BaseViewController {
 				guard hasPaid == false else { return }
 				contentView.nextButton.isEnabled = false
 				let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
-				print("Charging!")
 				createCharge(cost: Int(costWithTip * 100)) { (error) in
 					if let error = error {
 						AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
@@ -389,7 +388,7 @@ class SessionReview : BaseViewController {
 					"dte" : Date().timeIntervalSince1970,
 					"uid" : partnerId,
 					"m" : PostSessionReviewData.review!,
-					"nm" : tutor.name,
+					"nm" : CurrentUser.shared.learner.name,
 					"r" : PostSessionReviewData.rating,
 					"sbj" : subject
 				]
@@ -398,13 +397,14 @@ class SessionReview : BaseViewController {
 		} else {
 			let updatedRating = ((learner.lRating * Double(learner.lNumSessions)) + Double(PostSessionReviewData.rating)) / Double(learner.lNumSessions + 1)
 			let updatedHours = Double(learner.lHours) + round(Double(runTime) / 60 / 60)
-			FirebaseData.manager.updateLearnerPostSession(uid: CurrentUser.shared.learner.uid, studentInfo: ["nos" : learner.lNumSessions + 1, "lhs" : updatedHours, "r" : updatedRating.truncate(places: 1)])
+			
+			FirebaseData.manager.updateLearnerPostSession(uid: CurrentUser.shared.learner.uid, studentInfo: ["nos" : learner.lNumSessions + 1, "hr" : updatedHours, "r" : updatedRating.truncate(places: 1)])
 			if let review = PostSessionReviewData.review {
 				let reviewDict : [String : Any] = [
 					"dte" : Date().timeIntervalSince1970,
 					"uid" : partnerId,
 					"m" : review,
-					"nm" : learner.name,
+					"nm" : CurrentUser.shared.learner.name,
 					"r" : PostSessionReviewData.rating,
 					"sbj" : subject
 				]

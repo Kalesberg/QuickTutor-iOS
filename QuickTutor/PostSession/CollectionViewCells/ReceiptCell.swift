@@ -8,77 +8,6 @@
 
 import Foundation
 
-//class PersonalProgressView : UIView {
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//    }
-//    override init(frame: CGRect) {
-//        super.init(frame: .zero)
-//        configureView()
-//    }
-//
-//    let title : UILabel = {
-//        let label = UILabel()
-//
-//        label.text = "Personal Progress"
-//        label.textColor = Colors.learnerPurple
-//        label.textAlignment = .right
-//        label.font = Fonts.createSize(15)
-//        label.sizeToFit()
-//
-//        return label
-//    }()
-//
-//    let totalSessions : UILabel = {
-//        let label = UILabel()
-//
-//        label.text = "Text"
-//        label.textColor = Colors.learnerPurple
-//        label.textAlignment = .right
-//        label.font = Fonts.createSize(15)
-//        label.sizeToFit()
-//
-//        return label
-//    }()
-//
-//    let totalSessionsWithTutor : UILabel = {
-//        let label = UILabel()
-//
-//        label.text = "Text"
-//        label.textColor = Colors.learnerPurple
-//        label.textAlignment = .right
-//        label.font = Fonts.createSize(15)
-//        label.sizeToFit()
-//
-//        return label
-//    }()
-//
-//    func configureView() {
-//        addSubview(title)
-//        addSubview(totalSessions)
-//        addSubview(totalSessionsWithTutor)
-//
-//        backgroundColor = .red
-//        applyConstraints()
-//    }
-//    func applyConstraints() {
-//        title.snp.makeConstraints { (make) in
-//            make.top.left.equalToSuperview().inset(10)
-//        }
-//        totalSessions.snp.makeConstraints { (make) in
-//            make.top.equalTo(title.snp.bottom)
-//            make.width.equalToSuperview()
-//            make.height.equalTo(20)
-//        }
-//        totalSessionsWithTutor.snp.makeConstraints { (make) in
-//            make.top.equalTo(totalSessions.snp.bottom)
-//            make.width.equalToSuperview()
-//            make.height.equalTo(20)
-//        }
-//    }
-//}
-
 class SessionReceiptItemWithImage : UIView {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -90,7 +19,7 @@ class SessionReceiptItemWithImage : UIView {
 	
 	let title : UILabel = {
 		let label = UILabel()
-		label.text = "Text"
+
 		label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
 		label.textAlignment = .right
 		label.font = Fonts.createSize(14)
@@ -100,7 +29,7 @@ class SessionReceiptItemWithImage : UIView {
 	
 	let infoLabel : UILabel = {
 		let label = UILabel()
-		label.text = "Text"
+
 		label.textColor = .white
 		label.textAlignment = .left
 		label.font = Fonts.createSize(15)
