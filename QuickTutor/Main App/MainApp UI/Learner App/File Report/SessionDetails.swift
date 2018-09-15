@@ -118,7 +118,7 @@ class SessionDetails : BaseViewController {
 		let startTime = getFormattedTime(unixTime: TimeInterval(datasource.startTime))
 		let endTime = getFormattedTime(unixTime: TimeInterval(datasource.endTime))
 		let date = getFormattedDate(unixTime: TimeInterval(datasource.date)).split(separator: "-")
-		//QuickFix. will change in the future
+
 		if datasource.name == "" {
 			contentView.sessionHeader.nameLabel.text = "User no longer exists."
 		} else {
@@ -134,12 +134,8 @@ class SessionDetails : BaseViewController {
 		contentView.sessionHeader.monthLabel.text = String(date[1])
 		contentView.sessionHeader.dayLabel.text = String(date[0])
 		contentView.sessionHeader.sessionInfoLabel.text = "\(startTime) - \(endTime)"
-
-		let formatter = NumberFormatter()
-		formatter.numberStyle = .currency
-		if let amount = formatter.string(from: datasource.price as NSNumber) {
-			contentView.sessionHeader.sessionInfoLabel.text?.append(contentsOf: " \(amount)")
-		}
+		let sessionCost = String(format: "$%.2f", (datasource.cost / 100))
+		contentView.sessionHeader.sessionInfoLabel.text = "\(startTime) - \(endTime) \(sessionCost)"
 	}
 	override func handleNavigation() { }
 }

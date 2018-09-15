@@ -368,10 +368,7 @@ class FirebaseData {
 			for id in sessionIds {
 				group.enter()
 				self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
-					guard let value = snapshot.value as? [String : Any] else { return group.leave() }
-					guard let endTime = value["endTime"] as? Double, endTime > Date().timeIntervalSince1970 - 604800,
-						endTime < Date().adding(minutes: 30).timeIntervalSince1970 else { return group.leave() }
-					
+					guard let value = snapshot.value as? [String : Any] else { return group.leave() }					
 					var session = UserSession(dictionary: value)
 					session.id = id
 					

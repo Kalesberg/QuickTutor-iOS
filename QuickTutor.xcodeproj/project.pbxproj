@@ -53,6 +53,7 @@
 		842394271FF4DCF400827C7D /* RegistrationBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394261FF4DCF400827C7D /* RegistrationBackButton.swift */; };
 		842394291FF4DDAB00827C7D /* RegistrationNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394281FF4DDAB00827C7D /* RegistrationNextButton.swift */; };
 		8423942B1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423942A1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift */; };
+		8423F73F214B60E900B3E4D0 /* languages.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8423F73E214B60E900B3E4D0 /* languages.txt */; };
 		842576602070295C00FD295B /* AddSubjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425765F2070295C00FD295B /* AddSubjectTableViewCell.swift */; };
 		84257662207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84257661207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift */; };
 		842576642070773D00FD295B /* academics.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576632070773D00FD295B /* academics.json */; };
@@ -250,7 +251,6 @@
 		84F5FD1120A4DCA900CFDA95 /* TutorServiceFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1020A4DCA900CFDA95 /* TutorServiceFee.swift */; };
 		84F5FD1420A5544200CFDA95 /* CloseAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1320A5544200CFDA95 /* CloseAccount.swift */; };
 		84F5FD1920A57DA200CFDA95 /* CloseAccountReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1820A57DA200CFDA95 /* CloseAccountReason.swift */; };
-		84F9CC00204D3F8F009A2851 /* languages.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84F9CBFF204D3F8F009A2851 /* languages.txt */; };
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
 		CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046422206EE3D800BFE898 /* CancelSessionModal.swift */; };
 		CF0711012117AE6F0035A6FF /* ConversationPaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0711002117AE6F0035A6FF /* ConversationPaginationHeader.swift */; };
@@ -451,6 +451,7 @@
 		842394261FF4DCF400827C7D /* RegistrationBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationBackButton.swift; sourceTree = "<group>"; };
 		842394281FF4DDAB00827C7D /* RegistrationNextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationNextButton.swift; sourceTree = "<group>"; };
 		8423942A1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldDelegateExtensions.swift; sourceTree = "<group>"; };
+		8423F73E214B60E900B3E4D0 /* languages.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = languages.txt; sourceTree = "<group>"; };
 		8425765F2070295C00FD295B /* AddSubjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSubjectTableViewCell.swift; sourceTree = "<group>"; };
 		84257661207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickedSubjectsCollectionViewCell.swift; sourceTree = "<group>"; };
 		842576632070773D00FD295B /* academics.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = academics.json; sourceTree = "<group>"; };
@@ -659,7 +660,6 @@
 		84F5FD1020A4DCA900CFDA95 /* TutorServiceFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorServiceFee.swift; sourceTree = "<group>"; };
 		84F5FD1320A5544200CFDA95 /* CloseAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccount.swift; sourceTree = "<group>"; };
 		84F5FD1820A57DA200CFDA95 /* CloseAccountReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountReason.swift; sourceTree = "<group>"; };
-		84F9CBFF204D3F8F009A2851 /* languages.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = languages.txt; path = ../../../Resources/languages.txt; sourceTree = "<group>"; };
 		98A3B0EC84A5F4A56226BC1D /* Pods_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C777B3ED14C155B5B40069C5 /* Pods-QuickTutor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor.release.xcconfig"; sourceTree = "<group>"; };
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
@@ -989,8 +989,6 @@
 				8470995B20083AA5000DCFD0 /* MainPage.swift */,
 				8422F2F0205AB6480061ACE4 /* PageController.swift */,
 				8470995820082D93000DCFD0 /* MainApp UI */,
-				84F245211FDA11C6006447A8 /* Learner App */,
-				84F245221FDA11D3006447A8 /* Tutor App */,
 			);
 			path = "Main App";
 			sourceTree = "<group>";
@@ -1201,6 +1199,8 @@
 		8470995820082D93000DCFD0 /* MainApp UI */ = {
 			isa = PBXGroup;
 			children = (
+				84F245211FDA11C6006447A8 /* Learner App */,
+				84F245221FDA11D3006447A8 /* Tutor App */,
 				848F83272009B4CC0099D997 /* MainLayoutViews.swift */,
 				8470995920082DA5000DCFD0 /* Sidebar.swift */,
 				84DA9F232019138100D53D78 /* NavbarButtons.swift */,
@@ -1250,7 +1250,7 @@
 				8434B82A20468D6F00E16170 /* EditLanguages.swift */,
 				84E283582004940600B004E7 /* TheChoice.swift */,
 				843A1D182047C5BF00299D27 /* EditSchool.swift */,
-				84F9CBFF204D3F8F009A2851 /* languages.txt */,
+				8423F73E214B60E900B3E4D0 /* languages.txt */,
 				84681F9F204B63DC00F45DFC /* schools.txt */,
 			);
 			path = "Edit Profile";
@@ -1938,11 +1938,11 @@
 				8425766E20712E6C00FD295B /* health.json in Resources */,
 				840E4E09213761C10045CD35 /* loading4.json in Resources */,
 				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
+				8423F73F214B60E900B3E4D0 /* languages.txt in Resources */,
 				84257678207132DD00FD295B /* tech.json in Resources */,
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
 				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
-				84F9CC00204D3F8F009A2851 /* languages.txt in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,

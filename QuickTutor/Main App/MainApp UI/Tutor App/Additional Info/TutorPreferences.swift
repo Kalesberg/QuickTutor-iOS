@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 class TutorPreferencesNextButton : InteractableView, Interactable {
     
     let label : UILabel = {

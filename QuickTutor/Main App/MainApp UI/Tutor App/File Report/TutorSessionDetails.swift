@@ -71,7 +71,6 @@ class TutorSessionDetails : BaseViewController {
 		let endTime = getFormattedTime(unixTime: TimeInterval(datasource.endTime))
 		let date = getFormattedDate(unixTime: TimeInterval(datasource.date)).split(separator: "-")
 		
-		//QuickFix. will change in the future
 		if datasource.name == "" {
 			contentView.sessionHeader.nameLabel.text = "User no longer exists."
 		} else {
@@ -82,18 +81,14 @@ class TutorSessionDetails : BaseViewController {
 				contentView.sessionHeader.nameLabel.text = "with \(String(name[0]).capitalized)"
 			}
 		}
-		
 		contentView.sessionHeader.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource.otherId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
 		contentView.sessionHeader.subjectLabel.text = datasource.subject
 		contentView.sessionHeader.monthLabel.text = String(date[1])
 		contentView.sessionHeader.dayLabel.text = String(date[0])
 		contentView.sessionHeader.sessionInfoLabel.text = "\(startTime) - \(endTime)"
 		
-		let formatter = NumberFormatter()
-		formatter.numberStyle = .currency
-		if let amount = formatter.string(from: datasource.price as NSNumber) {
-			contentView.sessionHeader.sessionInfoLabel.text?.append(contentsOf: " \(amount)")
-		}
+		let sessionCost = String(format: "$%.2f", (datasource.cost / 100))
+		contentView.sessionHeader.sessionInfoLabel.text = "\(startTime) - \(endTime) \(sessionCost)"
 	}
 	
 	override func handleNavigation() { }
@@ -109,10 +104,8 @@ extension TutorSessionDetails : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
         cell.textLabel?.text = options[indexPath.row]
-        
         return cell
 	}
 	

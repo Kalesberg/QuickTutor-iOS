@@ -41,25 +41,21 @@ enum FileReportLearner : String {
 class LearnerFileReportView : MainLayoutTitleBackButton {
     
     let tableView : UITableView = {
-        let tableView = UITableView.init(frame: .zero, style: .grouped)
+        let tableView = UITableView()
         
-        tableView.estimatedRowHeight = 44
-        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.backgroundColor = Colors.backgroundDark
-        tableView.estimatedSectionHeaderHeight = 85
-        tableView.alwaysBounceVertical = false
-
-        return tableView
+		tableView.showsVerticalScrollIndicator = false
+		
+		return tableView
     }()
-
-
+	
     override func configureView() {
         addSubview(tableView)
         super.configureView()
         
-        title.label.text = "File Report"
+        title.label.text = "Session History"
         
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple
@@ -534,7 +530,6 @@ class LearnerFileReport : BaseViewController {
     var datasource = [UserSession]() {
         didSet {
             if datasource.count == 0 {
-                print("HEre.")
                 let view = TutorCardCollectionViewBackground()
                 view.label.attributedText = NSMutableAttributedString().bold("No recent sessions!", 22, .white)
                 view.label.textAlignment = .center
@@ -557,10 +552,10 @@ class LearnerFileReport : BaseViewController {
                 self.datasource = []
             }
         }
-        
+		
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-        contentView.tableView.register(CustomFileReportTableViewCell.self, forCellReuseIdentifier: "fileReportCell")
+		contentView.tableView.register(SessionHistoryCell.self, forCellReuseIdentifier: "sessionHistoryCell")
         
         contentView.navbar.backgroundColor = Colors.learnerPurple
         contentView.statusbarView.backgroundColor = Colors.learnerPurple
@@ -577,6 +572,7 @@ class LearnerFileReport : BaseViewController {
         dateFormatter.dateFormat = "h:mm a"
         return dateFormatter.string(from: date)
     }
+	
     private func getFormattedDate(unixTime: TimeInterval) -> String {
         let date = Date(timeIntervalSince1970: unixTime)
         let dateFormatter = DateFormatter()
@@ -584,104 +580,200 @@ class LearnerFileReport : BaseViewController {
         dateFormatter.dateFormat = "d-MMM"
         return dateFormatter.string(from: date)
     }
-    
-    private func setHeader(index: Int) -> FileReportSessionView {
-        let view = FileReportSessionView()
-        view.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: CGRect(x: 0, y: 0, width: contentView.tableView.frame.width, height: 85))
-        
-        let startTime = getFormattedTime(unixTime: TimeInterval(datasource[index].startTime))
-        let endTime = getFormattedTime(unixTime: TimeInterval(datasource[index].endTime))
-        let date = getFormattedDate(unixTime: TimeInterval(datasource[index].date)).split(separator: "-")
-        
-        //QuickFix. will change in the future
-        if datasource[index].name == "" {
-            view.nameLabel.text = "User no longer exists."
-        } else {
-            let name = datasource[index].name.split(separator: " ")
-            if name.count == 2 {
-                view.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
-            } else {
-                view.nameLabel.text = "with \(String(name[0]).capitalized)"
-            }
-        }
-
-        view.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource[index].otherId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        view.subjectLabel.text = datasource[index].subject
-        view.monthLabel.text = String(date[1])
-        view.dayLabel.text = String(date[0])
-        view.sessionInfoLabel.text = "\(startTime) - \(endTime)"
-		let sessionCost = String(format: "$%.2f", (datasource[index].cost / 100))
-		view.sessionInfoLabel.text = "\(startTime) - \(endTime) \(sessionCost)"
-        
-        return view
-    }
-    
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    override func handleNavigation() {
-        
-    }
 }
 extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
-    
+	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.section == 0 ? 0 : tableView.estimatedRowHeight
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = UITableViewCell()
-            cell.backgroundColor = Colors.backgroundDark
-            return cell
-        } else {
-        let cell : CustomFileReportTableViewCell = tableView.dequeueReusableCell(withIdentifier: "fileReportCell", for: indexPath) as! CustomFileReportTableViewCell
-        cell.textLabel?.text = "File a report with this session"
-        return cell
-        }
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return datasource.count + 1
+        return datasource.count
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            let view = UIView()
-            let label = UILabel()
-            label.text = "Your Past Sessions"
-            label.textColor = .white
-            label.font = Fonts.createBoldSize(20)
-            view.addSubview(label)
-            label.snp.makeConstraints { (make) in
-                make.width.equalToSuperview().multipliedBy(0.9)
-                make.center.equalToSuperview()
-            }
-            return view
-        } else {
-            return setHeader(index: section - 1)
-        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return tableView.estimatedSectionHeaderHeight
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "sessionHistoryCell", for: indexPath) as! SessionHistoryCell
+	
+		let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startTime))
+		let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endTime))
+		let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].date)).split(separator: "-")
+		
+		if datasource[indexPath.row].name == "" {
+			cell.nameLabel.text = "User no longer exists."
+		} else {
+			let name = datasource[indexPath.row].name.split(separator: " ")
+			if name.count == 2 {
+				cell.nameLabel.text = "with \(String(name[0]).capitalized) \(String(name[1]).capitalized.prefix(1))."
+			} else {
+				cell.nameLabel.text = "with \(String(name[0]).capitalized)"
+			}
+		}
+		
+		cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource[indexPath.row].otherId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+		cell.subjectLabel.text = datasource[indexPath.row].subject
+		cell.monthLabel.text = String(date[1])
+		cell.dayLabel.text = String(date[0])
+		cell.sessionInfoLabel.text = "\(startTime) - \(endTime)"
+		
+		let sessionCost = String(format: "$%.2f", (datasource[indexPath.row].cost / 100))
+		cell.sessionInfoLabel.text = "\(startTime) - \(endTime) \(sessionCost)"
+
+		return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.section != 0 else { return }
-        let next = SessionDetails()
-        next.datasource = datasource[indexPath.section - 1]
-        self.navigationController?.pushViewController(next, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
+	func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+		return .none
+	}
+	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		let endTime = Double(datasource[indexPath.row].endTime)
+		if endTime < Date().timeIntervalSince1970 - 604800 {
+			return false
+		}
+		return true
+	}
+	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+		let fileReport = UITableViewRowAction(style: .default, title: "File Report") { (action, indexPath) in
+			let next = SessionDetails()
+			next.datasource = self.datasource[indexPath.row]
+			self.navigationController?.pushViewController(next, animated: true)
+		}
+		return [fileReport]
+	}
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+	}
 }
 
+class SessionHistoryCell : UITableViewCell {
+	var gradientLayer: CAGradientLayer = CAGradientLayer()
+
+	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		configureTableViewCell()
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+	
+	let monthLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createSize(20)
+		label.textColor = .white
+		label.textAlignment = .center
+		label.adjustsFontSizeToFitWidth = true
+		
+		return label
+	}()
+	
+	var dayLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createBoldSize(25)
+		label.textColor = .white
+		label.textAlignment = .center
+		
+		return label
+	}()
+	
+	var profilePic : UIImageView = {
+		let imageView = UIImageView()
+		
+		imageView.layer.masksToBounds = false
+		imageView.clipsToBounds = true
+		imageView.scaleImage()
+		
+		return imageView
+	}()
+	
+	var subjectLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createBoldSize(14)
+		label.textColor = .white
+		
+		return label
+	}()
+	
+	var nameLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createSize(13)
+		label.textColor = .white
+		
+		return label
+	}()
+	var sessionInfoLabel : UILabel = {
+		let label = UILabel()
+		
+		label.font = Fonts.createSize(13)
+		label.textColor = .white
+		
+		return label
+	}()
+	
+	let dateContainer = UIView()
+	
+	func configureTableViewCell() {
+		addSubview(dateContainer)
+		dateContainer.addSubview(monthLabel)
+		dateContainer.addSubview(dayLabel)
+		addSubview(profilePic)
+		addSubview(subjectLabel)
+		addSubview(nameLabel)
+		addSubview(sessionInfoLabel)
+		
+		backgroundColor = Colors.navBarColor
+		
+		applyConstraints()
+	}
+	
+	func applyConstraints() {
+		dateContainer.snp.makeConstraints { (make) in
+			make.left.height.centerY.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.2)
+		}
+		dayLabel.snp.makeConstraints { (make) in
+			make.top.width.centerX.equalToSuperview()
+			make.height.equalToSuperview().multipliedBy(0.5)
+		}
+		monthLabel.snp.makeConstraints { (make) in
+			make.bottom.width.centerX.equalToSuperview()
+			make.height.equalToSuperview().multipliedBy(0.5)
+		}
+		profilePic.snp.makeConstraints { (make) in
+			make.left.equalTo(dateContainer.snp.right)
+			make.centerY.equalToSuperview()
+			make.height.width.equalTo(60)
+		}
+
+		subjectLabel.snp.makeConstraints { (make) in
+			make.left.equalTo(profilePic.snp.right).inset(-10)
+			make.bottom.equalTo(nameLabel.snp.top)
+		}
+		
+		nameLabel.snp.makeConstraints { (make) in
+			make.centerY.equalToSuperview()
+			make.left.equalTo(subjectLabel)
+		}
+		
+		sessionInfoLabel.snp.makeConstraints { (make) in
+			make.top.equalTo(nameLabel.snp.bottom)
+			make.left.equalTo(subjectLabel)
+		}
+	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		profilePic.layer.cornerRadius = profilePic.frame.height / 2
+		gradientLayer.frame = contentView.frame
+
+	}
+}
 
 class CustomFileReportTableViewCell : UITableViewCell {
 
