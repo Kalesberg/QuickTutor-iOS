@@ -55,7 +55,7 @@ class LearnerFileReportView : MainLayoutTitleBackButton {
         addSubview(tableView)
         super.configureView()
         
-        title.label.text = "Session History"
+        title.label.text = "Past Sessions"
         
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple

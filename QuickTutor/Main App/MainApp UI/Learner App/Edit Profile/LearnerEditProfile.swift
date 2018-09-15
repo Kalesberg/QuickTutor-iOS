@@ -455,7 +455,7 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
         
         func checkForEmptyImagesBeforeCurrentIndex() -> Int {
             for (index, imageView) in imageViews.enumerated() {
-                if imageView.picView.image == nil || imageView.picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+                if imageView.picView.image == nil || imageView.picView.image == #imageLiteral(resourceName: "placeholder-square") {
                     return index
                 }
             }
@@ -464,21 +464,21 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
         
         func setAndSaveImage() {
             var index = imageToChange - 1
-            if imageViews[index].picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+            if imageViews[index].picView.image == #imageLiteral(resourceName: "placeholder-square") {
                 index = checkForEmptyImagesBeforeCurrentIndex()
             }
             FirebaseData.manager.uploadImage(data: data, number: String(index + 1)) { (error, imageUrl) in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else if let imageUrl = imageUrl {
-                    self.learner.images["image\(index+1)"] = imageUrl
-                    self.uploadImageUrl(imageUrl: imageUrl, number: String(index+1))
+                    self.learner.images["image\(index + 1)"] = imageUrl
+                    self.uploadImageUrl(imageUrl: imageUrl, number: String(index + 1))
                 }
             }
 			
-			SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index+1)), fromDisk: false) {
-				SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index+1)), toDisk: false) {
-					imageViews[index].picView.image = image.circleMasked
+			SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index + 1)), fromDisk: false) {
+				SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index + 1)), toDisk: false) {
+					imageViews[index].picView.image = image
 					imageViews[index].buttonImageView.image = UIImage(named: "remove-image")
 				}
 			}

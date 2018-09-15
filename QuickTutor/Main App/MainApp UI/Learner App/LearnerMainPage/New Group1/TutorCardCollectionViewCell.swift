@@ -44,19 +44,19 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }()
     
     let rateLabelContainer = UIView()
-    let distanceLabel = UILabel()
+   // let distanceLabel = UILabel()
 
-    let distanceExtraLabel : UILabel = {
-        let label = UILabel()
-        
-        label.font = Fonts.createBoldSize(12)
-        label.textColor = Colors.lightBlue
-        label.textAlignment = .center
-        
-        return label
-    }()
-    
-    let distanceLabelContainer = UIView()
+//    let distanceExtraLabel : UILabel = {
+//        let label = UILabel()
+//
+//        label.font = Fonts.createBoldSize(12)
+//        label.textColor = Colors.lightBlue
+//        label.textAlignment = .center
+//
+//        return label
+//    }()
+	
+    //let distanceLabelContainer = UIView()
     let connectButton = ConnectButton()
     let tableViewContainer = UIView()
     
@@ -88,8 +88,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         configureViews()
         configureDelegates()
         
-        distanceLabelContainer.isHidden = true
-        distanceLabel.numberOfLines  = 0
+//        distanceLabelContainer.isHidden = true
+//        distanceLabel.numberOfLines  = 0
 
         applyConstraints()
     }
@@ -119,21 +119,21 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.width.equalTo(rateLabel).inset(-16)
             make.height.equalTo(24)
         }
-        distanceLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(4)
-            make.width.equalToSuperview().inset(2)
-            make.centerX.equalToSuperview()
-        }
-        distanceExtraLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(distanceLabel.snp.bottom).inset(5)
-            make.width.equalTo(distanceLabel)
-            make.centerX.equalToSuperview()
-        }
-        distanceLabelContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(header).inset(-7)
-            make.right.equalToSuperview().inset(-7)
-            make.width.height.equalTo(56)
-        }
+//        distanceLabel.snp.makeConstraints { (make) in
+//            make.top.equalToSuperview().inset(4)
+//            make.width.equalToSuperview().inset(2)
+//            make.centerX.equalToSuperview()
+//        }
+//        distanceExtraLabel.snp.makeConstraints { (make) in
+//            make.top.equalTo(distanceLabel.snp.bottom).inset(5)
+//            make.width.equalTo(distanceLabel)
+//            make.centerX.equalToSuperview()
+//        }
+//        distanceLabelContainer.snp.makeConstraints { (make) in
+//            make.top.equalTo(header).inset(-7)
+//            make.right.equalToSuperview().inset(-7)
+//            make.width.height.equalTo(56)
+//        }
         tableViewContainer.snp.makeConstraints { (make) in
             make.top.equalTo(header.snp.bottom)
             make.width.equalToSuperview()
@@ -193,9 +193,9 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         reviewLabelContainer.addSubview(reviewLabel)
         addSubview(rateLabelContainer)
         rateLabelContainer.addSubview(rateLabel)
-        addSubview(distanceLabelContainer)
-        distanceLabelContainer.addSubview(distanceLabel)
-        distanceLabelContainer.addSubview(distanceExtraLabel)
+//        addSubview(distanceLabelContainer)
+//        distanceLabelContainer.addSubview(distanceLabel)
+//        distanceLabelContainer.addSubview(distanceExtraLabel)
         addSubview(connectButton)
         
         tableViewContainer.backgroundColor = Colors.registrationDark
@@ -206,9 +206,9 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         rateLabelContainer.backgroundColor = Colors.green
         rateLabelContainer.layer.cornerRadius = 12
         
-        distanceLabelContainer.backgroundColor = .white
-        distanceLabelContainer.layer.cornerRadius = 28
-        
+//        distanceLabelContainer.backgroundColor = .white
+//        distanceLabelContainer.layer.cornerRadius = 28
+//        
         layoutIfNeeded()
     }
     override func handleNavigation() {

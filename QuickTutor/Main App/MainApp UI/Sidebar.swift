@@ -319,11 +319,11 @@ class ProfileView : InteractableBackgroundView {
         profileNameView.numberOfLines = 0
 		profilePicView.backgroundColor = .black
         profilePicView.scaleImage()
+		
         applyConstraints()
     }
     
     override func applyConstraints() {
-        
         profileView.snp.makeConstraints { (make) in
             make.height.equalToSuperview().multipliedBy(0.65)
             make.bottom.equalToSuperview().inset(2)
@@ -511,7 +511,7 @@ class ReportSidebarItem : SidebarItemIcon {
         super.configureView()
         
         icon.image = UIImage(named: "sidebar-history")
-        label.label.text = "Session History"
+        label.label.text = "Past Sessions"
     }
 }
 

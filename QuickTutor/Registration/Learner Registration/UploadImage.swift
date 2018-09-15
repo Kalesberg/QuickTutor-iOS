@@ -40,7 +40,7 @@ class UploadImageView : RegistrationNavBarView {
         titleLabel.label.numberOfLines = 2
         titleLabel.label.textAlignment = .center
         
-        imageView.image = UIImage(named: "registration-image-placeholder")
+        imageView.image = UIImage(named: "placeholder-square")
         if #available(iOS 11.0, *) {
             imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
         } else {
@@ -87,8 +87,8 @@ class UploadImageView : RegistrationNavBarView {
         
         addImageButton.snp.makeConstraints { (make) in
             make.width.equalTo(imageView).multipliedBy(0.25)
-            make.bottom.equalTo(imageView)
-            make.right.equalTo(imageView)
+            make.centerY.equalTo(imageView.snp.bottom).inset(10)
+            make.centerX.equalTo(imageView.snp.right).inset(10)
             make.height.equalTo(imageView).multipliedBy(0.25)
         }
         
@@ -131,12 +131,20 @@ class UploadImageView : RegistrationNavBarView {
 //Interactables
 class AddImageButton : InteractableView, Interactable {
     
-    var imageView = UIImageView()
+	var imageView : UIImageView = {
+		let imageView = UIImageView()
+		
+		imageView.scaleImage()
+		imageView.layer.masksToBounds = false
+		imageView.clipsToBounds = true
+		
+		return imageView
+	}()
     
     override func configureView() {
         addSubview(imageView)
         
-        imageView.image = UIImage(named: "registration-add-image")
+        imageView.image = UIImage(named: "add-image-profile")
     
         applyConstraints()
     }
@@ -173,6 +181,9 @@ class AddImageButton : InteractableView, Interactable {
             self.layoutIfNeeded()
         })
     }
+	override func layoutSubviews() {
+		super.layoutSubviews()
+	}
 }
 
 class UploadImage: BaseViewController {
@@ -236,7 +247,11 @@ class UploadImage: BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		contentView.imageView.backgroundColor = .black
+		contentView.imageView.layer.cornerRadius = 30
+	}
 }
 
 extension UploadImage : UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
@@ -252,7 +267,7 @@ extension UploadImage : UIImagePickerControllerDelegate, UINavigationControllerD
 	
 	func circleCropDidCancel() {
 		imagePicked = false
-		let image = UIImage(named: "registration-image-placeholder")
+		let image = UIImage(named: "placeholder-square")
 		contentView.imageView.image = image
 		contentView.info.isHidden = false
 		contentView.addImageButton.isHidden = false

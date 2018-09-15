@@ -27,6 +27,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 		
 		selectionStyle = .none
 		backgroundColor = .clear
+		
 		applyConstraints()
 	}
 	
@@ -72,7 +73,7 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 		super.layoutSubviews()
 		let imageViews : [ProfilePicImageView] = [image1, image2, image3, image4]
         for imageView in imageViews {
-            imageView.buttonImageView.image = (imageView.picView.image != #imageLiteral(resourceName: "registration-image-placeholder")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
+            imageView.buttonImageView.image = (imageView.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
         }
 	}
 	
@@ -85,11 +86,11 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 		} else if touchStartView == image2 {
 			image2.picView.growShrink()
 
-			if image2.picView.image != #imageLiteral(resourceName: "registration-image-placeholder") {
+			if image2.picView.image != #imageLiteral(resourceName: "placeholder-square") {
 				AlertController.cropImageWithRemoveAlert(current, imagePicker: imagePicker) { (shouldRemove) in
 					if shouldRemove {
 						FirebaseData.manager.removeUserImage("2")
-						self.image2.picView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+						self.image2.picView.image = #imageLiteral(resourceName: "placeholder-square")
 						self.image2.buttonImageView.image = UIImage(named: "add-image-profile")
 					}
 				}
@@ -100,11 +101,11 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 		} else if touchStartView == image3 {
 			image3.picView.growShrink()
 
-			if image3.picView.image != #imageLiteral(resourceName: "registration-image-placeholder") {
+			if image3.picView.image != #imageLiteral(resourceName: "placeholder-square") {
 				AlertController.cropImageWithRemoveAlert(current, imagePicker: imagePicker) { (shouldRemove) in
 					if shouldRemove {
 						FirebaseData.manager.removeUserImage("3")
-						self.image3.picView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+						self.image3.picView.image = #imageLiteral(resourceName: "placeholder-square")
 						self.image3.buttonImageView.image = UIImage(named: "add-image-profile")
 					}
 				}
@@ -114,11 +115,11 @@ class ProfileImagesTableViewCell : BaseTableViewCell {
 			imageToChange = 3
 		} else if touchStartView == image4 {
 			image4.picView.growShrink()
-			if image4.picView.image != #imageLiteral(resourceName: "registration-image-placeholder") {
+			if image4.picView.image != #imageLiteral(resourceName: "placeholder-square") {
 				AlertController.cropImageWithRemoveAlert(current, imagePicker: imagePicker) { (shouldRemove) in
 					if shouldRemove {
 						FirebaseData.manager.removeUserImage("4")
-						self.image4.picView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+						self.image4.picView.image = #imageLiteral(resourceName: "placeholder-square")
 						self.image4.buttonImageView.image = UIImage(named: "add-image-profile")
 					}
 				}
@@ -404,7 +405,7 @@ class BaseSlider : UISlider {
 			width = 280
 		}
 		
-		let rect:CGRect = CGRect(x: 0, y: 0, width: width, height: 20)
+		let rect : CGRect = CGRect(x: 0, y: 0, width: width, height: 20)
 		
 		return rect
 	}
@@ -432,7 +433,7 @@ class EditProfileSliderTableViewCell : BaseTableViewCell {
 		slider.maximumTrackTintColor = Colors.registrationDark
 		slider.minimumTrackTintColor = Colors.tutorBlue
 		slider.isContinuous = true
-		
+
 		return slider
 	}()
 	

@@ -155,9 +155,7 @@ open class AACircleCropViewController: UIViewController, UIScrollViewDelegate {
     //- - -
     
     @objc func selectAction() {
-        
         let newSize = CGSize(width: image.size.width * scrollView.zoomScale, height: image.size.height * scrollView.zoomScale)
-        
         let offset = scrollView.contentOffset
         
         UIGraphicsBeginImageContextWithOptions(CGSize(width: circleDiameter, height: circleDiameter), false, 0)
@@ -169,7 +167,6 @@ open class AACircleCropViewController: UIViewController, UIScrollViewDelegate {
         let finalImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         if let imageData = UIImagePNGRepresentation(finalImage!), var pngImage = UIImage(data: imageData) {
-            
             if let imageSize = imageSize {
                 pngImage = pngImage.resizeImage(newWidth: imageSize.width)
             }

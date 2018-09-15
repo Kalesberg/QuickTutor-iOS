@@ -224,7 +224,6 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
 		switch (indexPath.row) {
 		case 0:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileHourlyRateTableViewCell
@@ -250,7 +249,7 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 			cell.slider.minimumTrackTintColor = Colors.learnerPurple
 			cell.slider.minimumValue = 0
 			cell.slider.maximumValue = 150
-			
+
 			if let distance = filters?.distance {
 				cell.valueLabel.text = (distance > 0) ? String(distance) + " mi" : ""
 				cell.slider.value = Float(distance)
@@ -263,8 +262,6 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 				cell.slider.isEnabled = !sessionType
 			}
 			
-			
-
 			let formattedString = NSMutableAttributedString()
 			formattedString
 				.regular("\n\n", 5, .white)
