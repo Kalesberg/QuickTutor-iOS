@@ -685,7 +685,9 @@ class NoRatingsTableViewCell : BaseTableViewCell {
         
         return label
     }()
-    
+
+	var isViewing = false
+
     override func configureView() {
         contentView.addSubview(label1)
         contentView.addSubview(label2)
@@ -693,10 +695,11 @@ class NoRatingsTableViewCell : BaseTableViewCell {
         
         backgroundColor = .clear
         selectionStyle = .none
-        
+		label1.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		label2.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		
         applyConstraints()
     }
-    
     override func applyConstraints() {
         label1.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.95)

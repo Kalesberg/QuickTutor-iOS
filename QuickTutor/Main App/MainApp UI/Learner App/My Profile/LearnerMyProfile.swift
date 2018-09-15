@@ -465,6 +465,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
 			guard let datasource = learner.lReviews, datasource.count != 0 else {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as!
 				NoRatingsTableViewCell
+				cell.isViewing = isViewing
+
 				return cell
 			}
 			

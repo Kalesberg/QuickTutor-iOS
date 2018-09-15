@@ -645,7 +645,7 @@ class FirebaseData {
 	}
 	
 	public func hideListing(uid: String, category: String, isHidden: Int) {
-		let value = ["h" : isHidden == 0 ? 0 : 1]
+		let value = ["h" : isHidden]
 		self.ref.child("featured").child(category).child(uid).updateChildValues(value)
 	}
 	

@@ -127,9 +127,13 @@ extension Name : UITextFieldDelegate {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
-		let inverseSet = NSCharacterSet(charactersIn:"0123456789@#$%^&*()_=+<>?,[]{};'~!").inverted //Add any extra characters here..
+		let inverseSet = NSCharacterSet(charactersIn:"0123456789@#$%^&*()_=+<>?,[]{}/;'~!").inverted //Add any extra characters here..
 		let components = string.components(separatedBy: inverseSet)
 		let filtered = components.joined(separator: "")
+		
+		if string == " " {
+			return false
+		}
 		
 		if textField.text!.count <= 24 {
 			if string == "" {

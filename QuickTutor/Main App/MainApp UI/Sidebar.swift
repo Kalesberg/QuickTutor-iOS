@@ -510,7 +510,7 @@ class ReportSidebarItem : SidebarItemIcon {
     override func configureView() {
         super.configureView()
         
-        icon.image = UIImage(named: "sidebar-report")
+        icon.image = UIImage(named: "sidebar-history")
         label.label.text = "Session History"
     }
 }
