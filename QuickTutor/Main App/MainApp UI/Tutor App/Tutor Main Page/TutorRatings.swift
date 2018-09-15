@@ -86,6 +86,7 @@ class TutorRatings : BaseViewController {
 			contentView.tableView.reloadData()
 		}
 	}
+	var _5StarSessions : Int = 0
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +95,14 @@ class TutorRatings : BaseViewController {
 		guard let tutor = CurrentUser.shared.tutor else { return }
 		self.tutor = tutor
 		findTopSubjects()
+		FirebaseData.manager.fetchUserSessions(uid: tutor.uid, type: "tutor") { (sessions) in
+			guard let sessions = sessions else { return }
+			for session in sessions {
+				if session.tutorRating == 5 {
+					self._5StarSessions += 1
+				}
+			}
+		}
 	}
 	
     override func viewDidLayoutSubviews() {
@@ -148,20 +157,15 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             return 160
-        case 1:
+        case 1,5:
             return UITableViewAutomaticDimension
-        case 2:
+        case 2,4:
             return 30
         case 3:
             return 120
-        case 4:
-            return 30
-        case 5:
-            return UITableViewAutomaticDimension
         default:
-            break
-        }
-        return 0
+			return 0
+		}
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -180,49 +184,32 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			formattedString1
 				.bold("\(tutor.tNumSessions!)\n", 16, .white)
 				.regular("Sessions", 15, Colors.grayText)
-			
 			let paragraphStyle1 = NSMutableParagraphStyle()
-			
 			paragraphStyle1.lineSpacing = 6
-			
 			formattedString1.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle1, range:NSMakeRange(0, formattedString1.length))
-		
 			cell.infoLabel1.attributedText = formattedString1
-			
 			cell.infoLabel1.textAlignment = .center
 			cell.infoLabel1.numberOfLines = 0
 			
 			let formattedString2 = NSMutableAttributedString()
-			
 			formattedString2
 				.bold("\(tutor.tNumSessions!)\n", 16, .white)
 				.regular("5-Stars", 15, Colors.grayText)
 			
 			let paragraphStyle2 = NSMutableParagraphStyle()
-			
 			paragraphStyle2.lineSpacing = 6
-			
 			formattedString2.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle2, range:NSMakeRange(0, formattedString2.length))
-			
 			cell.infoLabel2.attributedText = formattedString2
-			
 			cell.infoLabel2.textAlignment = .center
 			cell.infoLabel3.numberOfLines = 0
 			
-			let formattedString3 = NSMutableAttributedString()
 			
-			formattedString3
-				.bold("\(tutor.hours!)\n", 16, .white)
-				.regular("Hours", 15, Colors.grayText)
-			
+			let formattedString3 = getFormattedTimeString(seconds: tutor.hours!)
 			let paragraphStyle3 = NSMutableParagraphStyle()
-			
 			paragraphStyle3.lineSpacing = 6
-			
 			formattedString3.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle3, range:NSMakeRange(0, formattedString3.length))
 			
 			cell.infoLabel3.attributedText = formattedString3
-			
 			cell.infoLabel3.textAlignment = .center
 			cell.infoLabel3.numberOfLines = 0
 			
@@ -307,8 +294,21 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
-        
         return UITableViewCell()
     }
+	func getFormattedTimeString (seconds : Int) -> NSMutableAttributedString {
+		let hours = seconds / 3600
+		let minutes = (seconds % 3600) / 60
+		let seconds = (seconds % 3600) % 60
+		
+		let formattedString3 = NSMutableAttributedString()
+		if hours > 0 {
+			return formattedString3.bold("\(hours)\n", 16, .white).regular("Hours", 15, Colors.grayText)
+		} else if minutes > 0 {
+			return formattedString3.bold("\(minutes)\n", 16, .white).regular("Minutes", 15, Colors.grayText)
+		} else {
+			return formattedString3.bold("\(seconds)\n", 16, .white).regular("Seconds", 15, Colors.grayText)
+		}
+	}
 }
 

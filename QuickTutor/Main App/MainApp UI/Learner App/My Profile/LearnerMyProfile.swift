@@ -25,12 +25,11 @@ class SeeAllButton: InteractableView, Interactable {
         super.configureView()
         
         layer.cornerRadius = 7
-        layer.borderColor = Colors.green.cgColor
         layer.borderWidth = 1
         
         label.text = "See All »"
-        label.textColor = Colors.green
-        label.font = Fonts.createSize(16)
+        label.textColor = .white
+		label.font = Fonts.createSize(16)
         label.textAlignment = .center
         
         applyConstraints()

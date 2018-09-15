@@ -59,7 +59,9 @@ class FirebaseData {
 	public func updateTutorVisibility(uid: String, status: Int) {
 		return self.ref.child("tutor-info").child(uid).updateChildValues(["h" : status])
 	}
-	
+	public func updateTutorRatingPostSession(uid: String, sessionId: String, rating: Int) {
+		self.ref.child("sessions").child(sessionId).updateChildValues(["tutorRating" : rating])
+	}
 	public func updateAdditionalQuestions(value: [String : Any], completion: @escaping (Error?) -> Void) {
 		return self.ref.child("questions").child(user.uid).childByAutoId().updateChildValues(value) { (error,_) in
 			if let error = error {
@@ -256,9 +258,7 @@ class FirebaseData {
 			return completion(subcategories)
 		})
 	}
-	public func fetchSessionsWithPartner(uid: String,_ completion: @escaping(Error?) -> Void) {
-		
-	}
+
 	public func fetchTutorSessionPreferences(uid: String,_ completion: @escaping([String : Any]?) -> Void) {
 		self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			var sessionDetails = [String : Any]()

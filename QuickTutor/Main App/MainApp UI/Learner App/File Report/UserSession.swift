@@ -23,6 +23,7 @@ struct UserSession {
 	let cost : Double
 	let endedAt : Double
 	let startedAt: Double
+	let tutorRating: Int
 	//0 = no reports, 1 = learner reported, 2 = tutor reported, 3 = both reported
 	let reportStatus : Int
 
@@ -43,6 +44,6 @@ struct UserSession {
 		cost = dictionary["cost"] as? Double ?? 0
 		endedAt = dictionary["endedAt"] as? Double ?? 0
 		startedAt = dictionary["startedAt"] as? Double ?? 0
-
+		tutorRating = dictionary["tutorRating"] as? Int ?? 0
 	}
 }

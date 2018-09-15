@@ -383,6 +383,8 @@ class SessionReview : BaseViewController {
 			let tutorInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "tr" : updatedRating.truncate(places: 1)]
 			let subcategoryInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
 			FirebaseData.manager.updateTutorPostSession(uid: partnerId, subcategory: subcategory.lowercased(), tutorInfo: tutorInfo, subcategoryInfo: subcategoryInfo)
+			FirebaseData.manager.updateTutorRatingPostSession(uid: partnerId, sessionId: sessionId, rating: PostSessionReviewData.rating)
+
 			if PostSessionReviewData.review != nil && PostSessionReviewData.review! != "" {
 				let reviewDict : [String : Any] = [
 					"dte" : Date().timeIntervalSince1970,
@@ -399,6 +401,7 @@ class SessionReview : BaseViewController {
 			let updatedHours = learner.lHours + runTime
 			
 			FirebaseData.manager.updateLearnerPostSession(uid: partnerId, studentInfo: ["nos" : learner.lNumSessions + 1, "hr" : updatedHours, "r" : updatedRating.truncate(places: 1)])
+			
 			if let review = PostSessionReviewData.review {
 				let reviewDict : [String : Any] = [
 					"dte" : Date().timeIntervalSince1970,

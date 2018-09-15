@@ -369,6 +369,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             
             guard let datasource = datasource?.reviews, datasource.count != 0 else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+				cell.isViewing = true
                 return cell
             }
 			
@@ -382,7 +383,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                     make.centerX.equalToSuperview()
                 }
             }
-            
+            cell.isViewing = true
 			cell.datasource = datasource.sorted(by: { $0.date > $1.date })
 			
             return cell

@@ -97,9 +97,10 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "sessionHistoryCell", for: indexPath) as! SessionHistoryCell
 		
-		let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startTime))
-		let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endTime))
-		let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].date)).split(separator: "-")
+		let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startedAt))
+		let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endedAt))
+		let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].startedAt)).split(separator: "-")
+		insertBorder(cell: cell)
 		
 		if datasource[indexPath.row].name == "" {
 			cell.nameLabel.text = "User no longer exists."
@@ -118,7 +119,7 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
 		cell.dayLabel.text = String(date[0])
 		cell.sessionInfoLabel.text = "\(startTime) - \(endTime)"
 		
-		let sessionCost = String(format: "$%.2f", (datasource[indexPath.row].cost / 100))
+		let sessionCost = String(format: "$%.2f", (datasource[indexPath.row].cost))
 		cell.sessionInfoLabel.text = "\(startTime) - \(endTime) \(sessionCost)"
 		
 		return cell
@@ -134,6 +135,12 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
 			return false
 		}
 		return true
+	}
+	
+	func insertBorder(cell: UITableViewCell) {
+		let border = UIView(frame:CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
+		border.backgroundColor = Colors.backgroundDark
+		cell.contentView.addSubview(border)
 	}
 	
 	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
