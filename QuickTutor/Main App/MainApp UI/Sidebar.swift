@@ -450,7 +450,6 @@ class HelpSidebarItem : SidebarItem {
 
 
 class ShopSidebarItem : SidebarItem {
-    
     override func configureView() {
         super.configureView()
         
@@ -488,7 +487,6 @@ class SidebarItemIcon : SidebarItem {
     }
 }
 
-
 class PaymentSidebarItem : SidebarItemIcon {
     override func configureView() {
         super.configureView()
@@ -497,7 +495,6 @@ class PaymentSidebarItem : SidebarItemIcon {
         label.label.text = "Payment"
     }
 }
-
 
 class SettingsSidebarItem : SidebarItemIcon {
     override func configureView() {
@@ -513,11 +510,10 @@ class ReportSidebarItem : SidebarItemIcon {
     override func configureView() {
         super.configureView()
         
-        icon.image = UIImage(named: "sidebar-report")
-        label.label.text = "File Report"
+        icon.image = UIImage(named: "sidebar-history")
+        label.label.text = "Session History"
     }
 }
-
 
 class BecomeQTSidebarItem : SidebarItemIcon {
     override func configureView() {

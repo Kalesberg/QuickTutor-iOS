@@ -66,7 +66,7 @@ class Tutor {
         
         var post : [String : Any] =
             [
-                "/tutor-info/\(CurrentUser.shared.learner.uid)" :
+                "/tutor-info/\(CurrentUser.shared.learner.uid!)" :
                     [
                         "nm"  : data.name,
                         "img" : data.images,
@@ -124,8 +124,8 @@ class Tutor {
 		
         for key in subjectDict {
             let subjects = key.value.compactMap({$0}).joined(separator: "$")
-            updateSubjectValues["/subject/\(CurrentUser.shared.learner.uid)/\(key.key.lowercased())"] = ["p": TutorRegistration.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
-			updateSubjectValues["/subcategory/\(key.key.lowercased())/\(CurrentUser.shared.learner.uid)"] = ["r" : 5, "p" : TutorRegistration.price!, "dst" : TutorRegistration.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
+            updateSubjectValues["/subject/\(CurrentUser.shared.learner.uid!)/\(key.key.lowercased())"] = ["p": TutorRegistration.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
+			updateSubjectValues["/subcategory/\(key.key.lowercased())/\(CurrentUser.shared.learner.uid!)"] = ["r" : 5, "p" : TutorRegistration.price!, "dst" : TutorRegistration.distance!, "hr" : 0,"nos" : 0, "sbj" : subjects]
 			subjectsToUploadAfterTheFactUntilIFindABetterWay[key.key.lowercased()] = key.value
         }
         return updateSubjectValues
@@ -138,7 +138,7 @@ class Tutor {
 			let formattedValue = value.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "#", with: "<").replacingOccurrences(of: ".", with: ">")
 			post[formattedValue] = formattedValue
 		}
-		self.ref.child("subcategory").child(node).child(CurrentUser.shared.learner.uid).updateChildValues(post)
+		self.ref.child("subcategory").child(node).child(CurrentUser.shared.learner.uid!).updateChildValues(post)
 	}
     
     public func updateSharedValues(multiWriteNode : [String : Any],_ completion: @escaping (Error?) -> Void) {
@@ -152,7 +152,7 @@ class Tutor {
     }
     
     public func updateValue(value: [String : Any]) {
-        self.ref.child("tutor-info").child(CurrentUser.shared.learner.uid).updateChildValues(value) { (error, reference) in
+        self.ref.child("tutor-info").child(CurrentUser.shared.learner.uid!).updateChildValues(value) { (error, reference) in
             if let error = error {
                 print(error.localizedDescription)
             }
@@ -161,7 +161,7 @@ class Tutor {
     
     public func geoFire(location: CLLocation) {
         let geoFire = GeoFire(firebaseRef: ref.child("tutor_loc"))
-        geoFire.setLocation(location, forKey: CurrentUser.shared.learner.uid)
+        geoFire.setLocation(location, forKey: CurrentUser.shared.learner.uid!)
     }
 }
 

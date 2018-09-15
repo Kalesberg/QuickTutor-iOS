@@ -271,8 +271,7 @@ class YourListing : BaseViewController {
 			if let listings = listings {
 				self.listings = Array(listings.values)
 				self.categories = Array(listings.keys)
-				print(self.categories)
-				//self.featuredCategory = self.categories[0].subcategory.fileToRead
+				self.featuredCategory = self.categories[0].subcategory.fileToRead
 			}
 			self.dismissOverlay()
 		}
@@ -291,15 +290,15 @@ class YourListing : BaseViewController {
 	override func handleNavigation() {
 		if touchStartView is NavbarButtonEdit {
 			let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeaturedTutorCollectionViewCell
-			
-//			let next = EditListing()
-//			next.price = listings[0].price
-//			next.image = cell.featuredTutor.imageView.image
-//			next.subject = listings[0].subject
-//			next.category = categories[0].subcategory.fileToRead
-//			next.delegate = self
 
-			navigationController?.pushViewController(EditListing(), animated: true)
+			let next = EditListing()
+			next.price = listings[0].price
+			next.image = cell.featuredTutor.imageView.image
+			next.subject = listings[0].subject
+			next.category = categories[0].subcategory.fileToRead
+			next.delegate = self
+			navigationController?.pushViewController(next, animated: true)
+		
 		} else if touchStartView is NavbarButtonBack {
 			let value = (hideListing == true) ? 1 : 0
 			FirebaseData.manager.hideListing(uid: CurrentUser.shared.learner.uid, category: featuredCategory, isHidden: value)
