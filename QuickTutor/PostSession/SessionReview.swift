@@ -386,7 +386,7 @@ class SessionReview : BaseViewController {
 			if PostSessionReviewData.review != nil && PostSessionReviewData.review! != "" {
 				let reviewDict : [String : Any] = [
 					"dte" : Date().timeIntervalSince1970,
-					"uid" : partnerId,
+					"uid" : CurrentUser.shared.learner.uid,
 					"m" : PostSessionReviewData.review!,
 					"nm" : CurrentUser.shared.learner.name,
 					"r" : PostSessionReviewData.rating,
@@ -402,7 +402,7 @@ class SessionReview : BaseViewController {
 			if let review = PostSessionReviewData.review {
 				let reviewDict : [String : Any] = [
 					"dte" : Date().timeIntervalSince1970,
-					"uid" : partnerId,
+					"uid" : CurrentUser.shared.learner.uid,
 					"m" : review,
 					"nm" : CurrentUser.shared.learner.name,
 					"r" : PostSessionReviewData.rating,
