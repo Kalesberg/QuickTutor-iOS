@@ -114,12 +114,7 @@ class RequestSessionModal :  UIView {
 			showErrorMessage(message: RequestSessionErrorType.sessionTypeNotChosen.rawValue)
 			return
 		}
-//		print(startTime.timeIntervalSince1970)
-//		guard startTime <= Date() else {
-//			showErrorMessage(message: RequestSessionErrorType.sessionNot15MinutesInAdvance.rawValue)
-//			return
-//		}
-		
+
 		let endTime = startTime.adding(minutes: duration)
 
 		sessionData["status"] = "pending"

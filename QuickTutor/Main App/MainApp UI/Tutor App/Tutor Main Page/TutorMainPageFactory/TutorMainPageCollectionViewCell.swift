@@ -60,7 +60,7 @@ class TutorMainPageCollectionViewCell : UICollectionViewCell {
         }
         
         imageView.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(30)
             make.width.top.equalToSuperview()
         }

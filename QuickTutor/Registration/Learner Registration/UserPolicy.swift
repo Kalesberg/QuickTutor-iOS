@@ -256,7 +256,7 @@ class UserPolicy : BaseViewController {
 					["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970)]
 				
 				let studentInfo : [String : Any] =
-					["nm" : Registration.name, "r" : 5.0, "cus" : Registration.customerId, "lhr" : 0,
+					["nm" : Registration.name, "r" : 5.0, "cus" : Registration.customerId,
 					 "img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]
 				]
 				

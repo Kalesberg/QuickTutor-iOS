@@ -18,7 +18,7 @@ class AWLearner: User {
     var lNumSessions : Int!
     var customer  : String!
     var lHours : Int!
-    var school    : String?
+    var school    : String!
     var languages : [String]?
 	var lReviews : [Review]!
     var lRating      : Double!
@@ -37,7 +37,7 @@ class AWLearner: User {
         bio = dictionary["bio"] as? String ?? ""
         birthday = dictionary["bd"] as? String ?? ""
         email = dictionary["em"] as? String ?? ""
-        school = dictionary["sch"] as? String ?? nil
+        school = dictionary["sch"] as? String ?? ""
         phone = dictionary["phn"] as? String ?? ""
         languages = dictionary["lng"] as? [String] ?? nil
         customer = dictionary["cus"] as? String ?? ""

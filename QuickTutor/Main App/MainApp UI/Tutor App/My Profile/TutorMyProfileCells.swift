@@ -671,8 +671,7 @@ class NoRatingsTableViewCell : BaseTableViewCell {
         
         label.text = "Reviews"
         label.font = Fonts.createBoldSize(16)
-        label.textColor = UIColor(hex: "5785d4")
-        
+		
         return label
     }()
     
@@ -695,8 +694,8 @@ class NoRatingsTableViewCell : BaseTableViewCell {
         
         backgroundColor = .clear
         selectionStyle = .none
-		label1.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
-		label2.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		
+		label1.textColor = isViewing ? Colors.currentUserColor() :  Colors.otherUserColor()
 		
         applyConstraints()
     }
@@ -735,7 +734,7 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
         cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
         cell.dateLabel.text = "\(data.date)"
 
-        let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic\(indexPath.row+1)")
+        let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1")
         cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         cell.isViewing = isViewing
 		

@@ -262,7 +262,6 @@ class LearnerMyProfile : BaseViewController, LearnerWasUpdatedCallBack {
 	
     var learner : AWLearner! {
         didSet {
-			print(learner.lReviews)
 			contentView.tableView.reloadData()
         }
     }
@@ -390,7 +389,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
-            cell.tutorItem.label.text = "Tutored in \(0) sessions"
+            cell.tutorItem.label.text = "Tutored in \(learner.lNumSessions) sessions"
             
             if let languages = learner.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
@@ -466,7 +465,6 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as!
 				NoRatingsTableViewCell
 				cell.isViewing = isViewing
-
 				return cell
 			}
 			

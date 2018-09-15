@@ -600,7 +600,7 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "sessionHistoryCell", for: indexPath) as! SessionHistoryCell
 	
 		let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startTime))
-		let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endTime))
+		let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endedAt))
 		let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].date)).split(separator: "-")
 		
 		if datasource[indexPath.row].name == "" {

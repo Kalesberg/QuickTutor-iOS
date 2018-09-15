@@ -65,10 +65,10 @@ struct Review {
  	let subject : String	
 	let rating : Double
 	let reviewerId : String
-	
+
 	init(dictionary : [String : Any]) {
-		let timestamp = dictionary["dte"] as? Int ?? 0
-		date 		= timestamp.timeIntervalToReviewDateFormat()
+		let timestamp = dictionary["dte"] as? Double ?? 0
+		date 		= Int(timestamp).timeIntervalToReviewDateFormat()
 		message 	= dictionary["m"] as? String ?? ""
 		subject 	= dictionary["sbj"] as? String ?? ""
 		studentName = dictionary["nm"] as? String ?? ""

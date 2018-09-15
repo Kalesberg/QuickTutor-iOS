@@ -378,7 +378,7 @@ class SessionReview : BaseViewController {
 	private func finishAndUpload() {
 		if AccountService.shared.currentUserType == .learner {
 			let updatedRating = ((tutor.tRating * Double(tutor.tNumSessions)) + Double(PostSessionReviewData.rating)) / Double(tutor.tNumSessions + 1)
-			let updatedHours = Double(tutor.hours) + round(Double(runTime) / 60 / 60)
+			let updatedHours = tutor.hours + runTime
 			guard let subcategory = SubjectStore.findSubCategory(resource: SubjectStore.findCategoryBy(subject: subject)!, subject: subject) else { return }
 			let tutorInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "tr" : updatedRating.truncate(places: 1)]
 			let subcategoryInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
@@ -396,7 +396,7 @@ class SessionReview : BaseViewController {
 			}
 		} else {
 			let updatedRating = ((learner.lRating * Double(learner.lNumSessions)) + Double(PostSessionReviewData.rating)) / Double(learner.lNumSessions + 1)
-			let updatedHours = Double(learner.lHours) + round(Double(runTime) / 60 / 60)
+			let updatedHours = learner.lHours + runTime
 			
 			FirebaseData.manager.updateLearnerPostSession(uid: partnerId, studentInfo: ["nos" : learner.lNumSessions + 1, "hr" : updatedHours, "r" : updatedRating.truncate(places: 1)])
 			if let review = PostSessionReviewData.review {
