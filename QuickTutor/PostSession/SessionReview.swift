@@ -364,11 +364,13 @@ class SessionReview : BaseViewController {
 				guard hasCompleted == false else { return }
 				finishAndUpload()
 				hasCompleted = true
+                PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
                 let vc = AccountService.shared.currentUserType == .learner ? LearnerPageViewController() : TutorPageViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
 		case 3:
             let vc = AccountService.shared.currentUserType == .learner ? LearnerPageViewController() : TutorPageViewController()
+            PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
 			self.navigationController?.pushViewController(vc, animated: true)
 		default:
 			break

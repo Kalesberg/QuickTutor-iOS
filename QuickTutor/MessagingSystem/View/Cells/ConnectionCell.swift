@@ -17,6 +17,12 @@ class ConnectionCell: UICollectionViewCell {
     var user: User!
     var delegate: ConnectionCellDelegate?
     
+    override var isHighlighted: Bool {
+        didSet {
+            backgroundColor = isHighlighted ? Colors.darkBackground.darker(by: 30) : Colors.darkBackground
+        }
+    }
+    
     let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
