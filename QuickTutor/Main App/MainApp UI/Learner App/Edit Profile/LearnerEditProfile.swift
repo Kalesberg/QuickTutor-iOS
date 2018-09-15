@@ -235,7 +235,7 @@ class LearnerEditProfile : BaseViewController {
             self.learner.images = CurrentUser.shared.learner.images
         } else {
 
-            let newNodes = ["/student-info/\(CurrentUser.shared.learner.uid)/img/" : CurrentUser.shared.learner.images, "/tutor-info/\(CurrentUser.shared.learner.uid)/img/" : CurrentUser.shared.learner.images]
+            let newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/img/" : CurrentUser.shared.learner.images, "/tutor-info/\(CurrentUser.shared.learner.uid!)/img/" : CurrentUser.shared.learner.images]
 
             Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { (error) in
                 if let error = error {
@@ -257,11 +257,11 @@ class LearnerEditProfile : BaseViewController {
         let newNodes : [String : Any]
         if CurrentUser.shared.learner.isTutor {
             newNodes = [
-                "/tutor-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName,
-                "/student-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName
+                "/tutor-info/\(CurrentUser.shared.learner.uid!)/nm" : firstName + " " + lastName,
+                "/student-info/\(CurrentUser.shared.learner.uid!)/nm" : firstName + " " + lastName
             ]
         } else {
-            newNodes = ["/student-info/\(CurrentUser.shared.learner.uid)/nm" : firstName + " " + lastName]
+            newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/nm" : firstName + " " + lastName]
         }
         Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
             if let error = error {
@@ -301,20 +301,20 @@ extension LearnerEditProfile : UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.row) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! ProfileImagesTableViewCell
-			let image1Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1")
+			let image1Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic1")
             
 			cell.image1.picView.sd_setImage(with: image1Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { (_, error, _, reference) in
 				cell.image1.buttonImageView.image = (cell.image1.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
 			}
-			let image2Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic2")
+			let image2Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic2")
 			cell.image2.picView.sd_setImage(with: image2Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { (_, error, _, reference) in
 				cell.image2.buttonImageView.image = (cell.image2.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
 			}
-			let image3Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic3")
+			let image3Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic3")
 			cell.image3.picView.sd_setImage(with: image3Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { (_, error, _, reference) in
 				cell.image3.buttonImageView.image = (cell.image3.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
 			}
-			let image4Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic4")
+			let image4Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic4")
 			cell.image4.picView.sd_setImage(with: image4Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { (_, error, _, reference) in
 				cell.image4.buttonImageView.image = (cell.image4.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
 			}
@@ -491,7 +491,7 @@ extension LearnerEditProfile : UIImagePickerControllerDelegate, UINavigationCont
     }
 	
 	func getKeyForCachedImage(number: String) -> String {
-		return storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic" + number).fullPath
+		return storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic" + number).fullPath
 	}
 	
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

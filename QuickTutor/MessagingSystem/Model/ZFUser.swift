@@ -33,7 +33,7 @@ class User: Decodable {
     
     func getNumberOfReviews(completion: @escaping(UInt?) -> Void) {
         Database.database().reference().child("review").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            guard let value = snapshot.childrenCount as? UInt else { return }
+			let value = snapshot.childrenCount as UInt
             completion(value)
         }
     }

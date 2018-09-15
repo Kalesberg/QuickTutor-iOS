@@ -32,7 +32,8 @@ class AWLearner: User {
     
     override init(dictionary: [String:Any]) {
 		super.init(dictionary: dictionary)
-        name = dictionary["nm"] as? String ?? ""
+		
+		name = dictionary["nm"] as? String ?? ""
         bio = dictionary["bio"] as? String ?? ""
         birthday = dictionary["bd"] as? String ?? ""
         email = dictionary["em"] as? String ?? ""

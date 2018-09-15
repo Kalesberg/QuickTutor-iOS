@@ -353,12 +353,12 @@ class EditTutorSubjects : BaseViewController {
 		
 		for i in 0..<subcategoriesToDelete.count {
 			let subject = subcategoriesToDelete[i].lowercased().replacingOccurrences(of: "/", with: "_")
-			self.ref.child("subject").child(CurrentUser.shared.learner.uid).child(subject).removeValue()
+			self.ref.child("subject").child(CurrentUser.shared.learner.uid!).child(subject).removeValue()
 		}
 		
 		for subject in removedSubjects {
 			let formattedSubject = subject.subject.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "#", with: "<").replacingOccurrences(of: ".", with: ">")
-			self.ref.child("subcategory").child(subject.path.lowercased()).child(CurrentUser.shared.learner.uid).child(formattedSubject).removeValue()
+			self.ref.child("subcategory").child(subject.path.lowercased()).child(CurrentUser.shared.learner.uid!).child(formattedSubject).removeValue()
 		}
 		tutor.subjects = self.selectedSubjects
 		tutor.selected = self.selected
@@ -388,23 +388,23 @@ class EditTutorSubjects : BaseViewController {
 		for key in subjectDict {
 			let subjects = key.value.compactMap({$0}).joined(separator: "$")
 			group.enter()
-			self.ref.child("subject").child(CurrentUser.shared.learner.uid).child(key.key.lowercased()).observeSingleEvent(of: .value) { (snapshot) in
+			self.ref.child("subject").child(CurrentUser.shared.learner.uid!).child(key.key.lowercased()).observeSingleEvent(of: .value) { (snapshot) in
 				if snapshot.exists(){
 					self.updateSubjects(node: key.key.lowercased(), values: key.value)
 					group.leave()
 				} else {
-					updateSubjectValues["/subject/\(CurrentUser.shared.learner.uid)/\(key.key.lowercased())"] = ["p": self.tutor.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
+					updateSubjectValues["/subject/\(CurrentUser.shared.learner.uid!)/\(key.key.lowercased())"] = ["p": self.tutor.price!, "r" : 5, "sbj" : subjects, "hr" : 0, "nos" : 0]
 					group.leave()
 				}
 			}
 			group.enter()
-			self.ref.child("subcategory").child(key.key.lowercased()).child(CurrentUser.shared.learner.uid).observeSingleEvent(of: .value) { (snapshot) in
+			self.ref.child("subcategory").child(key.key.lowercased()).child(CurrentUser.shared.learner.uid!).observeSingleEvent(of: .value) { (snapshot) in
 				if snapshot.exists() {
 					self.updateSubcategorySubjects(node: key.key.lowercased(), values: key.value)
 					group.leave()
 				} else {
 					subjectsToUploadAfterTheFactUntilIFindABetterWay[key.key.lowercased()] = key.value
-					updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(CurrentUser.shared.learner.uid)"] = ["r" : 5, "p" : self.tutor.price!, "dst" : self.tutor.distance!, "hr" : 0, "sbj" : subjects, "nos" : 0]
+					updateSubcategoryValues["/subcategory/\(key.key.lowercased())/\(CurrentUser.shared.learner.uid!)"] = ["r" : 5, "p" : self.tutor.price!, "dst" : self.tutor.distance!, "hr" : 0, "sbj" : subjects, "nos" : 0]
 					group.leave()
 				}
 			}
@@ -432,13 +432,13 @@ class EditTutorSubjects : BaseViewController {
 			let formattedValue = value.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "#", with: "<").replacingOccurrences(of: ".", with: ">")
 			post[formattedValue] = formattedValue
 		}
-		self.ref.child("subcategory").child(node).child(CurrentUser.shared.learner.uid).updateChildValues(post)
+		self.ref.child("subcategory").child(node).child(CurrentUser.shared.learner.uid!).updateChildValues(post)
 	}
 	
 	private func updateSubjects(node: String, values: [String]?) {
 		guard values != nil else { return }
 		let subjects = values!.compactMap({$0}).joined(separator: "$")
-		self.ref.child("subject").child(CurrentUser.shared.learner.uid).child(node).updateChildValues(["sbj" : subjects])
+		self.ref.child("subject").child(CurrentUser.shared.learner.uid!).child(node).updateChildValues(["sbj" : subjects])
 	}
 	
 	private func displaySavedAlertController() {

@@ -40,7 +40,7 @@ class TutorFileReport : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: "tutor") { (sessions) in
+		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid!, type: "tutor") { (sessions) in
 			if let sessions = sessions {
 				self.datasource = sessions.sorted(by: { $0.endTime > $1.endTime })
 			} else {

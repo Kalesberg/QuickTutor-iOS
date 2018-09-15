@@ -233,7 +233,7 @@ class SessionReview : BaseViewController {
 		setupButtons()
 		print(costOfSession)
 		print(runTime)
-		getSessionWithPartner(uid: CurrentUser.shared.learner.uid)
+		getSessionWithPartner(uid: CurrentUser.shared.learner.uid!)
 		if AccountService.shared.currentUserType == .learner {
 			getTutorAccount(uid: partnerId) { (tutor) in
 				if let tutor = tutor {
@@ -283,7 +283,7 @@ class SessionReview : BaseViewController {
 		}
 	}
 	private func getSessionWithPartner(uid: String) {
-		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid, type: AccountService.shared.currentUserType.rawValue) { (sessions) in
+		FirebaseData.manager.fetchUserSessions(uid: CurrentUser.shared.learner.uid!, type: AccountService.shared.currentUserType.rawValue) { (sessions) in
 			guard let sessions = sessions else { return }
 			sessions.forEach({
 				if $0.otherId == self.partnerId {
@@ -386,7 +386,7 @@ class SessionReview : BaseViewController {
 			if PostSessionReviewData.review != nil && PostSessionReviewData.review! != "" {
 				let reviewDict : [String : Any] = [
 					"dte" : Date().timeIntervalSince1970,
-					"uid" : CurrentUser.shared.learner.uid,
+					"uid" : CurrentUser.shared.learner.uid!,
 					"m" : PostSessionReviewData.review!,
 					"nm" : CurrentUser.shared.learner.name,
 					"r" : PostSessionReviewData.rating,
@@ -398,11 +398,11 @@ class SessionReview : BaseViewController {
 			let updatedRating = ((learner.lRating * Double(learner.lNumSessions)) + Double(PostSessionReviewData.rating)) / Double(learner.lNumSessions + 1)
 			let updatedHours = Double(learner.lHours) + round(Double(runTime) / 60 / 60)
 			
-			FirebaseData.manager.updateLearnerPostSession(uid: CurrentUser.shared.learner.uid, studentInfo: ["nos" : learner.lNumSessions + 1, "hr" : updatedHours, "r" : updatedRating.truncate(places: 1)])
+			FirebaseData.manager.updateLearnerPostSession(uid: partnerId, studentInfo: ["nos" : learner.lNumSessions + 1, "hr" : updatedHours, "r" : updatedRating.truncate(places: 1)])
 			if let review = PostSessionReviewData.review {
 				let reviewDict : [String : Any] = [
 					"dte" : Date().timeIntervalSince1970,
-					"uid" : CurrentUser.shared.learner.uid,
+					"uid" : CurrentUser.shared.learner.uid!,
 					"m" : review,
 					"nm" : CurrentUser.shared.learner.name,
 					"r" : PostSessionReviewData.rating,

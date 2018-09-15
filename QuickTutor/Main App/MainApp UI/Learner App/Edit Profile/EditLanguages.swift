@@ -138,7 +138,7 @@ class EditLanguage : BaseViewController {
 			fallthrough
 		case .tutor :
 			
-			let newNodes = ["/student-info/\(CurrentUser.shared.learner.uid)/lng" : selectedCells, "/tutor-info/\(CurrentUser.shared.learner.uid)/lng" : selectedCells]
+			let newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/lng" : selectedCells, "/tutor-info/\(CurrentUser.shared.learner.uid!)/lng" : selectedCells]
 			
 			Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
 				if let error = error {
