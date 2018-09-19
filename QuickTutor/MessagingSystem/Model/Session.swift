@@ -65,4 +65,8 @@ class Session: Codable {
         let finalString = "Length: \(lengthInMinutes) min, $\(Int(price)) / hr"
         return finalString
     }
+    
+    func cancel() {
+        
+    }
 }

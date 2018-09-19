@@ -24,7 +24,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     var shouldRequestSession = false
     var canSendMessages = true
     var headerHeight = 30
-        
+    
     // MARK: Layout Views -
     var navBar: ZFNavBar = {
         let bar = ZFNavBar()
@@ -128,7 +128,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        
     }
 
     

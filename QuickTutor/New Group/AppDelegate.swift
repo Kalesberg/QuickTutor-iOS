@@ -212,7 +212,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 vc.tutor = tutor
                 vc.isViewing = true
                 vc.contentView.rightButton.isHidden = true
-                vc.contentView.title.label.text = "@\(tutor.username!)"
+                vc.contentView.title.label.text = "@\(tutor.formattedName)"
                 navigationController.pushViewController(vc, animated: true)
             })
         } else {

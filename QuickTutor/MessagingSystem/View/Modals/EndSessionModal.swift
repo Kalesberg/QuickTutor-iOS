@@ -17,9 +17,8 @@ class EndSessionModal: BaseCustomModal {
     let endSessionButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("End Session", for: .normal)
-        button.setTitleColor(Colors.qtRed, for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = Colors.qtRed.cgColor
+        button.backgroundColor = Colors.qtRed
+        button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(16)
         return button
@@ -27,10 +26,9 @@ class EndSessionModal: BaseCustomModal {
     
     let nevermindButton: DimmableButton = {
         let button = DimmableButton()
-        button.setTitle("Nevermind", for: .normal)
-        button.setTitleColor(Colors.green, for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = Colors.green.cgColor
+        button.setTitle("Never mind", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Colors.currentUserColor()
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(16)
         return button
@@ -74,7 +72,7 @@ class EndSessionModal: BaseCustomModal {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(endSessionButton)
         endSessionButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 122, height: 35)
-        window.addConstraint(NSLayoutConstraint(item: endSessionButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))
+        window.addConstraint(NSLayoutConstraint(item: endSessionButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 75))
         endSessionButton.addTarget(self, action: #selector(endSession), for: .touchUpInside)
     }
     
@@ -88,7 +86,7 @@ class EndSessionModal: BaseCustomModal {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(nevermindButton)
         nevermindButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 122, height: 35)
-        window.addConstraint(NSLayoutConstraint(item: nevermindButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 75))
+        window.addConstraint(NSLayoutConstraint(item: nevermindButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))
         nevermindButton.addTarget(self, action: #selector(handleNevermind), for: .touchUpInside)
     }
     

@@ -23,9 +23,8 @@ class ReportSuccessfulModal: BaseCustomModal {
     let confirmButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Okay", for: .normal)
-        button.setTitleColor(UIColor(red: 30.0/255.0, green: 173.0/255.0, blue: 74.0/255.0, alpha: 1.0), for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = UIColor(red: 30.0/255.0, green: 173.0/255.0, blue: 74.0/255.0, alpha: 1.0).cgColor
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Colors.green
         button.titleLabel?.font = Fonts.createSize(16)
         button.layer.cornerRadius = 4
         return button

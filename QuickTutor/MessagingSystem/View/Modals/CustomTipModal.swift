@@ -29,9 +29,8 @@ class CustomTipModal: BaseCustomModal {
     let cancelTipButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(Colors.qtRed, for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = Colors.qtRed.cgColor
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Colors.qtRed
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(16)
         return button
@@ -40,11 +39,10 @@ class CustomTipModal: BaseCustomModal {
     let confirmButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Confirm", for: .normal)
-        button.setTitleColor(Colors.green, for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = Colors.green.cgColor
-        button.layer.cornerRadius = 4
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Colors.green
         button.titleLabel?.font = Fonts.createSize(16)
+        button.layer.cornerRadius = 4
         return button
     }()
     

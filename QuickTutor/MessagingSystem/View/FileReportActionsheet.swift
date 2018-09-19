@@ -104,9 +104,9 @@ class FileReportActionsheet: UIView {
     func handleDisconnectButton() {
         dismiss()
 		if let name = name {
-			alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from \(name).", cancelText: "Nevermind", confirmText: "Yes, disconnect")
+			alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from \(name).", cancelText: "Never mind", confirmText: "Yes, disconnect")
 		} else {
-			alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from this tutor.", cancelText: "Nevermind", confirmText: "Yes, disconnect")
+			alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from this tutor.", cancelText: "Never mind", confirmText: "Yes, disconnect")
 		}
 		
         guard let disconnectModal = alert as? DisconnectModal, let id = partnerId else { return }

@@ -45,24 +45,20 @@ class CustomModal: BaseCustomModal {
     let nevermindButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Never mind", for: .normal)
-        button.setTitleColor(Colors.qtRed, for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = Colors.qtRed.cgColor
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Colors.qtRed
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(16)
-        button.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
         return button
     }()
     
     let confirmButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Ok, cancel", for: .normal)
-        button.setTitleColor(Colors.green, for: .normal)
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = Colors.green.cgColor
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Colors.green
         button.titleLabel?.font = Fonts.createSize(16)
         button.layer.cornerRadius = 4
-        button.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
         return button
     }()
     

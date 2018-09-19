@@ -28,6 +28,17 @@ class VideoSessionVC: BaseSessionVC {
         setupTwilio()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.shared.isIdleTimerDisabled = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        twilioSessionManager?.room?.disconnect()
+        UIApplication.shared.isIdleTimerDisabled = false
+    }
+    
     func setupView() {
         self.view = videoSessionView
     }
@@ -67,10 +78,6 @@ class VideoSessionVC: BaseSessionVC {
         twilioSessionManager?.stop()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        twilioSessionManager?.room?.disconnect()
-    }
     
     override func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager) {
         
