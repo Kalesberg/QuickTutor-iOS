@@ -22,7 +22,7 @@ class RegistrationDigitTextField: BaseView {
         textField.font = Fonts.createBoldSize(30)
         textField.keyboardAppearance = .dark
         textField.textColor = .white
-//       	textField.tintColor = .clear
+      	textField.tintColor = .clear
         textField.textAlignment = .center
         textField.keyboardType = .asciiCapableNumberPad
         

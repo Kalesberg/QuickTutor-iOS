@@ -95,7 +95,7 @@ extension String {
 		return regexTest.evaluate(with: self)
 	}
 	func streetRegex() -> Bool {
-		let regex = "[0-9]{1,3}.?[0-9]{0,3}[ ][a-zA-Z]{2,30}[ ][a-zA-Z]{2,15}."
+		let regex = "\\d+[ ](?:[A-Za-z0-9.-]+[ ]?)+(?:Avenue|Lane|Road|Boulevard|Drive|Street|Ave||Dr|Rd|Blvd|Ln|St)\\.?"
 		let regexTest = NSPredicate(format: "SELF MATCHES %@", regex)
 		return regexTest.evaluate(with: self)
 	}
@@ -114,7 +114,7 @@ extension String {
 		let text : String
 		
 		if self != "0" {
-			text = "Late Policy: \(self) Hour Notice\n"
+			text = "Late Policy: \(self) Minute Notice\n"
 		} else {
 			text = "No Late Policy.\n"
 		}

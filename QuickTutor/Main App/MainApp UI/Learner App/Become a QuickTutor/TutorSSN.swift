@@ -259,36 +259,34 @@ extension TutorSSN : UITextFieldDelegate {
 		let filtered = components.joined(separator: "")
 
 		
-		guard let text = textField.text else { return true }
-		let newLength = text.count + string.count - range.length
-
+		guard string == filtered else { return false }
+		
 		if (index == 0) && (isBackSpace == Constants.BCK_SPACE) {
 			textFields[index].text = ""
-			last4SSN.removeLast()
 			return true
-		}
-
-		if isBackSpace == Constants.BCK_SPACE {
+		} else if isBackSpace == Constants.BCK_SPACE {
 			textFields[index].text = ""
-			isValid = false
 			textFieldController(current: textFields[index], textFieldToChange: textFields[index - 1])
-			textFields[index - 1].becomeFirstResponder()
 			index -= 1
+			textFields[index].becomeFirstResponder()
 			return false
 		}
 		
-		if (index == 3) {
-			return false
-		}
-		
-		if newLength > 1 {
+		if index < 3 {
+			if textField.text == "" {
+				textField.text = string
+				return false
+			}
 			textFieldController(current: textFields[index], textFieldToChange: textFields[index + 1])
 			index += 1
 			textFields[index].becomeFirstResponder()
-			return string == filtered
-		} else {
-			return string == filtered
+			textFields[index].text = string
+			return false
 		}
+		if index == 3 {
+			return (textFields[index].text  == "") ? true : false
+		}
+		return false
 	}
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
