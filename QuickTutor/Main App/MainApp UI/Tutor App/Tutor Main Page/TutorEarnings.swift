@@ -22,7 +22,7 @@ class TutorEarningsView : MainLayoutTitleBackButton {
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+        formattedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
         
         label.attributedText = formattedString
         label.numberOfLines = 0
@@ -240,7 +240,7 @@ class TutorEarnings : BaseViewController {
 
 			let paragraphStyle = NSMutableParagraphStyle()
 			paragraphStyle.lineSpacing = 8
-			formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range: NSMakeRange(0, formattedString.length))
+			formattedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range: NSMakeRange(0, formattedString.length))
 
 			contentView.label.attributedText = formattedString
 			contentView.label.textAlignment = .center
@@ -276,7 +276,7 @@ class TutorEarnings : BaseViewController {
 
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.lineSpacing = 8
-		formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, formattedString.length))
+		formattedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, formattedString.length))
 
 		contentView.earningsLabel.attributedText = formattedString
 		contentView.earningsLabel.numberOfLines = 0

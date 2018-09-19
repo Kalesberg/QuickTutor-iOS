@@ -46,41 +46,41 @@ extension CATransition {
 	
 	func segueFromBottom() -> CATransition {
 		self.duration = 0.375
-		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-		self.type = kCATransitionMoveIn
-		self.subtype = kCATransitionFromTop
+		self.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+		self.type = CATransitionType.moveIn
+		self.subtype = CATransitionSubtype.fromTop
 		return self
 	}
 	func segueFromTop() -> CATransition {
 		self.duration = 0.375
-		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-		self.type = kCATransitionMoveIn
-		self.subtype = kCATransitionFromBottom
+		self.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+		self.type = CATransitionType.moveIn
+		self.subtype = CATransitionSubtype.fromBottom
 		return self
 	}
 	
 	func segueFromLeft() -> CATransition {
 		self.duration = 0.1
-		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-		self.type = kCATransitionMoveIn
-		self.subtype = kCATransitionFromLeft
+		self.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+		self.type = CATransitionType.moveIn
+		self.subtype = CATransitionSubtype.fromLeft
 		return self
 	}
 	
 	func popFromRight() -> CATransition {
 		self.duration = 0.1
-		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-		self.type = kCATransitionReveal
-		self.subtype = kCATransitionFromRight
+		self.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+		self.type = CATransitionType.reveal
+		self.subtype = CATransitionSubtype.fromRight
 		return self
 	}
 	
 	
 	func popFromTop() -> CATransition {
 		self.duration = 0.2
-		self.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-		self.type = kCATransitionReveal
-		self.subtype = kCATransitionFromBottom
+		self.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+		self.type = CATransitionType.reveal
+		self.subtype = CATransitionSubtype.fromBottom
 		return self
 	}
 }

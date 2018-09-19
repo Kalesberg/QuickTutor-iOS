@@ -19,8 +19,8 @@ class RegistrationBackButton: BaseView, Interactable {
         button.image = UIImage(named: "backButton")
 		
 		transition.duration = 0.4
-		transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-		transition.type = kCATransitionPush
+		transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+		transition.type = CATransitionType.push
 	
 		applyConstraints()
     }

@@ -46,14 +46,12 @@ class VerificationView: RegistrationNavBarKeyboardView {
         progressBar.applyConstraints()
         progressBar.divider.isHidden = true
         
-        titleLabel.label.text = "Enter the 6-digit code we've sent to: \(Registration.phone.formatPhoneNumber())"
+		titleLabel.label.text = "Enter the 6-digit code we've sent to: \(Registration.phone.formatPhoneNumber())"
 
 		titleLabel.label.adjustsFontSizeToFitWidth = true
         titleLabel.label.adjustsFontForContentSizeCategory = true
         titleLabel.label.numberOfLines = 2
 		
-		nextButton.isUserInteractionEnabled = false
-
 		applyConstraints()
     }
     
@@ -175,7 +173,7 @@ class Verification : BaseViewController {
     }
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		contentView.nextButton.isUserInteractionEnabled = false
+
 	}
     override func viewDidAppear(_ animated: Bool) {
 		textFields[0].becomeFirstResponder()
@@ -189,7 +187,6 @@ class Verification : BaseViewController {
 		for textField in textFields {
 			textField.delegate = self
 			textField.isEnabled = false
-			textField.addTarget(self, action: #selector(buildLast4SSN(_:)), for: .editingChanged)
 		}
 		textFields[0].isEnabled = true
 	}
@@ -214,42 +211,14 @@ class Verification : BaseViewController {
         }
     }
 	
-	@objc private func buildLast4SSN(_ textField: UITextField) {
-		guard let first = textFields[0].text, first != "" else {
-			print("not valid")
-			return
-		}
-		guard let second = textFields[1].text, second != "" else {
-			print("not valid")
-			return
-		}
-		guard let third = textFields[2].text, third != "" else {
-			print("not valid")
-			return
-		}
-		guard let forth = textFields[3].text, forth != "" else {
-			print("not valid")
-			return
-		}
-		guard let fifth = textFields[4].text, fifth != "" else {
-			print("not valid")
-			return
-		}
-		guard let sixth = textFields[5].text, sixth != "" else {
-			print("not valid")
-			return
-		}
-		verificationCode = first + second + third + forth + fifth + sixth
-		contentView.nextButton.isUserInteractionEnabled = true
-	}
-	
     override func handleNavigation() {
         if(touchStartView == contentView.backButton) {
 			navigationController!.view.layer.add(contentView.backButton.transition, forKey: nil)
 			navigationController!.popViewController(animated: false)
-		} else if (touchStartView == contentView.nextButton){
+		} else if (touchStartView == contentView.nextButton) {
+			var verificationCode : String = ""
+			textFields.forEach { verificationCode.append($0.text!)}
 			createCredential(verificationCode)
-			contentView.nextButton.isUserInteractionEnabled = false
 		} else if (touchStartView == contentView.resendVCButton){
             contentView.resendVCButton.isUserInteractionEnabled = false
             resendVCAction()
@@ -262,6 +231,11 @@ class Verification : BaseViewController {
     }
 	
     private func createCredential(_ verificationCode: String) {
+		if verificationCode.count != 6 {
+			return displayCredentialError()
+		}
+		
+		print(verificationCode.count)
 		let verificationId = UserDefaults.standard.value(forKey: Constants.VRFCTN_ID)
 		let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId! as! String, verificationCode: verificationCode)
         signInRegisterWithCredential(credential)
@@ -298,10 +272,11 @@ class Verification : BaseViewController {
     
     private func signInRegisterWithCredential(_ credential: PhoneAuthCredential) {
 		self.displayLoadingOverlay()
+		contentView.nextButton.isUserInteractionEnabled = false
        Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
             if error != nil {
-				self.contentView.vcDigit6.textField.isEnabled = true
 				self.contentView.nextButton.isUserInteractionEnabled = true
+				self.contentView.vcDigit6.textField.isEnabled = true
 				self.displayCredentialError()
             } else {
                 self.view.endEditing(true)
@@ -365,34 +340,33 @@ extension Verification : UITextFieldDelegate {
 		let components = string.components(separatedBy: inverseSet)
 		let filtered = components.joined(separator: "")
 		
-		guard let text = textField.text else { return true }
-		let newLength = text.count + string.count - range.length
-		
+		guard string == filtered else { return false }
+
 		if (index == 0) && (isBackSpace == Constants.BCK_SPACE) {
 			textFields[index].text = ""
 			return true
-		}
-		
-		if isBackSpace == Constants.BCK_SPACE {
+		} else if isBackSpace == Constants.BCK_SPACE {
 			textFields[index].text = ""
 			textFieldController(current: textFields[index], textFieldToChange: textFields[index - 1])
-			textFields[index - 1].becomeFirstResponder()
 			index -= 1
-			contentView.nextButton.isUserInteractionEnabled = false
+			textFields[index].becomeFirstResponder()
 			return false
 		}
 		
-		if (index == 5) {
-			return false
-		}
-		
-		if newLength > 1 {
+		if index < 5 {
+			if textField.text == "" {
+				textField.text = string
+				return false
+			}
 			textFieldController(current: textFields[index], textFieldToChange: textFields[index + 1])
 			index += 1
 			textFields[index].becomeFirstResponder()
-			return string == filtered
-		} else {
-			return string == filtered
+			textFields[index].text = string
+			return false
 		}
+		if index == 5 {
+			return (textFields[index].text  == "") ? true : false
+		}
+		return false
 	}
 }

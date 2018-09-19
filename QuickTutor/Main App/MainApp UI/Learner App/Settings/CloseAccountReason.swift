@@ -28,7 +28,7 @@ class CloseAccountReasonView : MainLayoutTitleBackButton {
     let tableView : UITableView = {
         let tableView = UITableView()
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 60
         tableView.isScrollEnabled = false
         tableView.separatorInset.left = 0

@@ -71,7 +71,7 @@ class BaseCustomModal: UIView {
         backgroundBlurView.anchor(top: window.topAnchor, left: window.leftAnchor, bottom: window.bottomAnchor, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(dismiss))
         backgroundBlurView.addGestureRecognizer(dismissTap)
-        window.bringSubview(toFront: backgroundBlurView)
+        window.bringSubviewToFront(backgroundBlurView)
     }
     
     func setupTitleBackground() {

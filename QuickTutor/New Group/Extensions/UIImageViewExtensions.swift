@@ -14,8 +14,8 @@ var userImageCache = [String : UIImage]()
 extension UIImageView {
     func scaleImage() {
         autoresizingMask = [.flexibleTopMargin, .flexibleHeight, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin, .flexibleWidth]
-        contentMode = UIViewContentMode.scaleAspectFit
-        layer.minificationFilter = kCAFilterTrilinear
+        contentMode = UIView.ContentMode.scaleAspectFit
+        layer.minificationFilter = CALayerContentsFilter.trilinear
         clipsToBounds = true
     }
 

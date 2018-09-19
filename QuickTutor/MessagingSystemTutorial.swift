@@ -84,7 +84,7 @@ class MessagingSystemTutorial : UIButton {
         addTarget(self, action: #selector(handleTutorialButton), for: .touchUpInside)
         let window = UIApplication.shared.windows.last
         window?.addSubview(self)
-        window?.bringSubview(toFront: self)
+        window?.bringSubviewToFront(self)
         
         snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -162,9 +162,9 @@ class UIPanDirectionGestureRecognizer: UIPanGestureRecognizer {
             
             let vel = velocity(in: self.view!)
             switch direction {
-            case .horizontal where fabs(vel.y) > fabs(vel.x):
+			case .horizontal where abs(vel.y) > abs(vel.x):
                 state = .cancelled
-            case .vertical where fabs(vel.x) > fabs(vel.y):
+			case .vertical where abs(vel.x) > abs(vel.y):
                 state = .cancelled
             default:
                 break

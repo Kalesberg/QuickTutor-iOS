@@ -226,7 +226,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
         return 50
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             self.displayLoadingOverlay()
             Stripe.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { (error, bankList) in
@@ -252,7 +252,7 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
 
 class BankManagerTableViewCell : UITableViewCell {
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
     }

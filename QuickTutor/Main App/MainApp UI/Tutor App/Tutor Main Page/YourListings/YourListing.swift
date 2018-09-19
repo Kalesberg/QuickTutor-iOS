@@ -265,13 +265,16 @@ class YourListing : BaseViewController {
 		contentView.descriptionLabel.text = hideListing ? "Your listing is currently hidden from the main page." : "Your listing is visible to all learners on the main page."
 	}
 	
+	//this function needs some refactoring.
 	private func fetchTutorListings() {
 		self.displayLoadingOverlay()
 		FirebaseData.manager.fetchTutorListings(uid: tutor.uid) { (listings) in
 			if let listings = listings {
 				self.listings = Array(listings.values)
 				self.categories = Array(listings.keys)
-				self.featuredCategory = self.categories[0].subcategory.fileToRead
+				if listings.count > 0 {
+					self.featuredCategory = self.categories[0].subcategory.fileToRead
+				}
 			}
 			self.dismissOverlay()
 		}
@@ -385,7 +388,7 @@ extension YourListing : UICollectionViewDelegate, UICollectionViewDataSource, UI
 		let leftInset = (UIScreen.main.bounds.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
 		let rightInset = leftInset
 		
-		return UIEdgeInsetsMake(0, leftInset, 30, rightInset)
+		return UIEdgeInsets.init(top: 0, left: leftInset, bottom: 30, right: rightInset)
 	}
 
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {

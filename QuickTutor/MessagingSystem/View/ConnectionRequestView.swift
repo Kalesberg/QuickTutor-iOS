@@ -93,7 +93,7 @@ class ConnectionRequestView: UIView {
         quickChatView.delegate = self
         messageView.inputAccessoryView = quickChatView
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: .UITextViewTextDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextView.textDidChangeNotification, object: nil)
     }
     
     func setupPlaceholderLabel() {

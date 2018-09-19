@@ -123,7 +123,7 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 		collectionView.collectionViewLayout = layout
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.isPagingEnabled = true
-		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+		collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
 		collectionView.isScrollEnabled = false
 
 		return collectionView
@@ -506,7 +506,7 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 		
 			cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.tutorBlue).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
 			
-			cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With \(name!):    ", 14, Colors.learnerPurple).bold("\(self.sessionsWithPartner + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With \(name):     ", 14, Colors.tutorBlue).bold("\(self.sessionsWithPartner + 1)", 14, .white)
+			cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With \(name!):    ", 14, Colors.learnerPurple).bold("\(self.sessionsWithPartner + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With \(name ?? ""):     ", 14, Colors.tutorBlue).bold("\(self.sessionsWithPartner + 1)", 14, .white)
 			
 			return cell
 		default:

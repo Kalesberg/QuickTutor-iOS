@@ -240,7 +240,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { snapshot in
             print("Data needs reload")
-            self.reloadSessionWithId(snapshot.ref.key)
+			self.reloadSessionWithId(snapshot.ref.key ?? "Xcode made me do this")
             snapshot.ref.setValue(1)
         }
     }
@@ -303,7 +303,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     }
     
     func setupKeyboardObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(becomeFirstResponder), name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
     }
     
@@ -406,7 +406,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionElementKindSectionHeader else { return UICollectionReusableView()}
+        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView()}
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "paginationHeader", for: indexPath) as! ConversationPaginationHeader
         return header
     }

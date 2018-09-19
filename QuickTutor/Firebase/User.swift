@@ -710,7 +710,7 @@ class FirebaseData {
 			return nil
 		}
 		UIGraphicsEndImageContext()
-		guard let dataToUpload = UIImageJPEGRepresentation(scaledImage, 0.6) else {
+		guard let dataToUpload = scaledImage.jpegData(compressionQuality: 0.6) else {
 			print("No data to upload")
 			return nil
 		}

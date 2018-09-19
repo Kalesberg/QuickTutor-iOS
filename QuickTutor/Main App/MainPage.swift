@@ -47,7 +47,7 @@ class MainPageView : MainLayoutTwoButton {
         circle.layer.zPosition = .greatestFiniteMagnitude
         navbar.addSubview(circle)
         circle.anchor(top: messagesButton.topAnchor, left: nil, bottom: nil, right: messagesButton.rightAnchor, paddingTop: -1, paddingLeft: 0, paddingBottom: 0, paddingRight: 16, width: 14, height: 14)
-        bringSubview(toFront: circle)
+        bringSubviewToFront(circle)
         DataService.shared.checkUnreadMessagesForUser { (hasUnreadMessages) in
             circle.isHidden = !hasUnreadMessages
         }
@@ -59,7 +59,7 @@ class MainPageView : MainLayoutTwoButton {
 
 		sidebar.alpha = 0.0
     
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.isUserInteractionEnabled = false
         blurEffectView.frame = bounds

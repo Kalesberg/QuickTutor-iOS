@@ -9,7 +9,7 @@
 import Foundation
 
 class RequestSessionDurationPickerCell : UITableViewCell {
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		configureTableViewCell()
 	}
@@ -65,7 +65,7 @@ class RequestSessionDurationPickerCell : UITableViewCell {
 }
 extension RequestSessionDurationPickerCell : UIPickerViewDelegate, UIPickerViewDataSource {
 	func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-		let attributedString = NSAttributedString(string: datasource[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.font : Fonts.createSize(20)])
+		let attributedString = NSAttributedString(string: datasource[row], attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font : Fonts.createSize(20)])
 		return attributedString
 	}
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {

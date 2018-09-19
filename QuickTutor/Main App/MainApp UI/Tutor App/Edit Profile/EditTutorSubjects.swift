@@ -83,7 +83,7 @@ class EditTutorSubjectsView : MainLayoutTitleTwoButton, Keyboardable {
 	let tableView : UITableView = {
 		let tableView = UITableView()
 
-		tableView.rowHeight = UITableViewAutomaticDimension
+		tableView.rowHeight = UITableView.automaticDimension
 		tableView.estimatedRowHeight = 44
 		tableView.separatorStyle = .singleLine
 		tableView.separatorColor = .black
@@ -131,7 +131,7 @@ class EditTutorSubjectsView : MainLayoutTitleTwoButton, Keyboardable {
 		searchTextField?.textColor = .white
 		searchTextField?.adjustsFontSizeToFitWidth = true
 		searchTextField?.autocapitalizationType = .words
-		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Search for anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Search for anything", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 		searchTextField?.keyboardAppearance = .dark
 		searchTextField.backgroundColor = UIColor.black.withAlphaComponent(0.5)
 

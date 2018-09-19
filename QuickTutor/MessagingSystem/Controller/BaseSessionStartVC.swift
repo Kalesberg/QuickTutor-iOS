@@ -310,7 +310,7 @@ class BaseSessionStartVC: UIViewController {
             
             // Add "OK" Button to alert, pressing it will bring you to the settings app
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }))
             // Show the alert with animation
             self.present(alert, animated: true)
@@ -326,7 +326,7 @@ class BaseSessionStartVC: UIViewController {
             
             // Add "OK" Button to alert, pressing it will bring you to the settings app
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }))
             // Show the alert with animation
             self.present(alert, animated: true)

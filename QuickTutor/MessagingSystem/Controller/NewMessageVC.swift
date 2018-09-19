@@ -33,7 +33,7 @@ class NewMessageVC: UIViewController {
         cv.backgroundColor = Colors.darkBackground
         cv.register(ContactCell.self, forCellWithReuseIdentifier: "cellId")
         cv.register(ConnectionRequestCell.self, forCellWithReuseIdentifier: "connectionRequest")
-        cv.register(NewMessageHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
+        cv.register(NewMessageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
         return cv
     }()
     
@@ -173,7 +173,7 @@ extension NewMessageVC {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionElementKindSectionHeader, let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as? NewMessageHeader else {
+        guard kind == UICollectionView.elementKindSectionHeader, let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as? NewMessageHeader else {
             fatalError("Should not get here")
         }
         headerView.updateUI(text: headerTitles[indexPath.section])

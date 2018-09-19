@@ -38,14 +38,14 @@ class UpdatePaymentView : MainLayoutHeaderScroll {
             "3.  Tap \"Add Payment Method\".\n",
             "4.  Add a payment method by manually entering your card information.\n"]
         
-		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : addPaymentBody.font]
+		let attributesDictionary : [NSAttributedString.Key : Any] = [NSAttributedString.Key.font : addPaymentBody.font]
         var fullAttributedString = NSMutableAttributedString(string: "Adding a payment method will allow you to connect, communicate and schedule sessions with tutors.\n\nYou can add payment methods such as debit or credit cards. When a session ends, your payment method is charged in accordance to the session price and length of the session.\n\n", attributes: attributesDictionary)
         
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             
             let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
             
             fullAttributedString.append(attributedString)
         }
@@ -62,7 +62,7 @@ class UpdatePaymentView : MainLayoutHeaderScroll {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             
             let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
             
             fullAttributedString.append(attributedString)
         }
@@ -81,7 +81,7 @@ class UpdatePaymentView : MainLayoutHeaderScroll {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             
             let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
             
             fullAttributedString.append(attributedString)
         }

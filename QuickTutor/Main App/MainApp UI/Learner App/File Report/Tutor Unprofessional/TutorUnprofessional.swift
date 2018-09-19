@@ -20,7 +20,7 @@ class TutorUnprofessionalView : MainLayoutHeader {
         title.label.text = "File Report"
         header.text = "My tutor was unprofessional"
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 40
         tableView.isScrollEnabled = false
         tableView.separatorInset.left = 0

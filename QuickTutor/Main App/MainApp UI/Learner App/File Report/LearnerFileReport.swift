@@ -406,8 +406,8 @@ class FileReportSubmissionLayout : MainLayoutHeader, Keyboardable {
 class SubmissionViewController : BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidDisappear), name: Notification.Name.UIKeyboardDidHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
     @objc func keyboardWillAppear() {
@@ -624,7 +624,7 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 
 		return cell
     }
-	func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+	func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
 		return .none
 	}
 	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -654,7 +654,7 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 
 class SessionHistoryCell : UITableViewCell {
 	
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		configureTableViewCell()
 	}
@@ -781,7 +781,7 @@ class SessionHistoryCell : UITableViewCell {
 
 class CustomFileReportTableViewCell : UITableViewCell {
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
     }

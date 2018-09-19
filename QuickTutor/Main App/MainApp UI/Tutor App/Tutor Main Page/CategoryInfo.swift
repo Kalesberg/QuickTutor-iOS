@@ -70,7 +70,7 @@ class CategoryInfo : BaseViewController {
 
 
 class PriceSuggesterTableCellView : UITableViewCell {
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
     }
@@ -259,7 +259,7 @@ extension CategoryInfo : UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 350
         case 1:
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         case 2:
             return 110
         default:

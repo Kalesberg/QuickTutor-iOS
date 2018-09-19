@@ -25,7 +25,7 @@ class SessionDetailsView : MainLayoutHeader {
         header.text = "Session Details"
 		
 		tableView.estimatedRowHeight = 44
-		tableView.rowHeight = UITableViewAutomaticDimension
+		tableView.rowHeight = UITableView.automaticDimension
 		tableView.separatorInset.left = 0
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)

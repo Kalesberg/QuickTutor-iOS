@@ -214,7 +214,7 @@ extension CardManager : UITableViewDelegate, UITableViewDataSource {
 		return 50
 	}
 	
-	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
 			self.displayLoadingOverlay()
 			
@@ -282,7 +282,7 @@ class AddCardHeaderView : BaseView {
 
 class AddCardTableViewCell : UITableViewCell {
 	
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		configureTableViewCell()
 	}
@@ -370,7 +370,7 @@ class CardManagerTableViewCell : UITableViewCell {
 		return label
 	}()
 	
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		configureTableViewCell()
 	}

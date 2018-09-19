@@ -35,7 +35,7 @@ class BaseSessionsContentCell: BaseContentCell {
         collectionView.register(BasePastSessionCell.self, forCellWithReuseIdentifier: "pastSessionCell")
         collectionView.register(BaseUpcomingSessionCell.self, forCellWithReuseIdentifier: "upcomingSessionCell")
         collectionView.register(EmptySessionCell.self, forCellWithReuseIdentifier: "emptyCell")
-        collectionView.register(SessionHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
+        collectionView.register(SessionHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
     }
     
     @objc func fetchSessions() {
@@ -101,7 +101,7 @@ class BaseSessionsContentCell: BaseContentCell {
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { (snapshot) in
             print("Data needs reload")
-            self.reloadSessionWithId(snapshot.ref.key)
+			self.reloadSessionWithId(snapshot.ref.key ?? "new Xcode Made me do this")
             snapshot.ref.setValue(1)
         }
         
@@ -193,7 +193,7 @@ class BaseSessionsContentCell: BaseContentCell {
     
     var headerTitles = ["Pending", "Upcoming", "Past"]
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as! SessionHeaderCell
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as! SessionHeaderCell
         header.titleLabel.text = headerTitles[indexPath.section]
         return header
     }

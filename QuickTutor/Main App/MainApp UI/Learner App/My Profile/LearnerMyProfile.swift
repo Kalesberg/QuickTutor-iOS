@@ -341,7 +341,7 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                 return 250
             }
         case 1,2,3:
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         default:
 			return 0
         }

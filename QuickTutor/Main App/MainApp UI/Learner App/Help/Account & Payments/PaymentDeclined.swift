@@ -25,14 +25,14 @@ class PaymentDeclinedView : MainLayoutHeader {
         
         strings = ["•  “Card Declined”.\n", "•  “Payment method invalid. Please review your settings.”\n", "•  “Transaction error.”"]
         
-		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : paymentDeclinedBody.font]
+		let attributesDictionary : [NSAttributedString.Key : Any] = [NSAttributedString.Key.font : paymentDeclinedBody.font]
         let fullAttributedString = NSMutableAttributedString(string: "You’ll be unable to request a session with a tutor if your payment for a past session was declined by your debit or credit card.\n\nIf one of the following error messages was displayed when you attempted to request a session, your payment method may have declined the transaction.\n\n", attributes: attributesDictionary)
         
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             
             let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
             
             fullAttributedString.append(attributedString)
         }

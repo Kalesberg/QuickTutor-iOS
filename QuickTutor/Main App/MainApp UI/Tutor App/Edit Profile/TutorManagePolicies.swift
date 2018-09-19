@@ -133,7 +133,7 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
         
         view.infoLabel.label.text = "Late Policy"
         view.textField.attributedPlaceholder = NSAttributedString(string: "Enter how many minutes",
-                                                                        attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                                        attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         view.label.text = "How much time will you allow to pass before a learner is late to a session?"
         
         return view
@@ -144,7 +144,7 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
         
         view.infoLabel.label.text = "Late Fee"
         view.textField.attributedPlaceholder = NSAttributedString(string: "Enter a late fee",
-                                                                     attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                                     attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         view.label.text = "How much a learner pays if they arrive late to a session."
         
         return view
@@ -154,7 +154,7 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
         
         view.infoLabel.label.text = "Cancellation Notice"
         view.textField.attributedPlaceholder = NSAttributedString(string: "Enter how many hours",
-                                                                          attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                                          attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         view.label.text = "How many hours before a session should a learner notify you of a cancellation?"
         
         return view
@@ -166,7 +166,7 @@ class TutorManagePoliciesView : MainLayoutTitleBackTwoButton {
         
         view.infoLabel.label.text = "Cancellation Fee"
         view.textField.attributedPlaceholder = NSAttributedString(string: "Enter cancellation fee",
-                                                                       attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                                       attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         view.label.text = "How much a learner pays if they cancel a session after the above time."
         
         return view
@@ -444,7 +444,7 @@ extension TutorManagePolicies : UITextFieldDelegate {
 
 extension TutorManagePolicies : UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: datasource[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.font : Fonts.createSize(20)])
+        let attributedString = NSAttributedString(string: datasource[row], attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font : Fonts.createSize(20)])
         return attributedString
     }
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

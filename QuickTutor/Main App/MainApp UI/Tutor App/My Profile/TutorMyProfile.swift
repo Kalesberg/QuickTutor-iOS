@@ -120,7 +120,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                 return 290
             }
         case 1,2,4,5:
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         case 3:
             return 90
         default:

@@ -45,7 +45,7 @@ extension UIView {
     
     func shake() {
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         animation.duration = 0.7
         animation.values = [-5, 5, -2.5, 2.5, -1, 1]
         layer.add(animation, forKey: "shake")
@@ -73,11 +73,11 @@ extension UIView {
         }
         
         // Customize the animation's properties
-        slideInFromLeftTransition.type = kCATransitionPush
-        slideInFromLeftTransition.subtype = kCATransitionFromLeft
+        slideInFromLeftTransition.type = CATransitionType.push
+        slideInFromLeftTransition.subtype = CATransitionSubtype.fromLeft
         slideInFromLeftTransition.duration = duration
-        slideInFromLeftTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        slideInFromLeftTransition.fillMode = kCAFillModeRemoved
+        slideInFromLeftTransition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        slideInFromLeftTransition.fillMode = CAMediaTimingFillMode.removed
         
         // Add the animation to the View's layer
         self.layer.add(slideInFromLeftTransition, forKey: "slideInFromLeftTransition")
@@ -93,11 +93,11 @@ extension UIView {
         }
         
         // Customize the animation's properties
-        slideInFromRightTransition.type = kCATransitionPush
-        slideInFromRightTransition.subtype = kCATransitionFromRight
+        slideInFromRightTransition.type = CATransitionType.push
+        slideInFromRightTransition.subtype = CATransitionSubtype.fromRight
         slideInFromRightTransition.duration = duration
-        slideInFromRightTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        slideInFromRightTransition.fillMode = kCAFillModeRemoved
+        slideInFromRightTransition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        slideInFromRightTransition.fillMode = CAMediaTimingFillMode.removed
         
         // Add the animation to the View's layer
         self.layer.add(slideInFromRightTransition, forKey: "slideInFromRightTransition")
@@ -105,10 +105,10 @@ extension UIView {
     func fadeTransition(_ duration : CFTimeInterval) {
         let animation = CATransition()
         animation.timingFunction = CAMediaTimingFunction(name:
-            kCAMediaTimingFunctionEaseInEaseOut)
-        animation.type = kCATransitionFade
+            CAMediaTimingFunctionName.easeInEaseOut)
+        animation.type = CATransitionType.fade
         animation.duration = duration
-        layer.add(animation, forKey: kCATransitionFade)
+        layer.add(animation, forKey: convertFromCATransitionType(CATransitionType.fade))
     }
     func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
@@ -145,4 +145,9 @@ extension UIView {
 			self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
 		})
 	}
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCATransitionType(_ input: CATransitionType) -> String {
+	return input.rawValue
 }

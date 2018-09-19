@@ -91,7 +91,7 @@ class SessionReviewVC: UIViewController {
         setupInputView()
         setupCharacterCountLabel()
         setupSubmitButton()
-        view.bringSubview(toFront: fakeNavBar)
+        view.bringSubviewToFront(fakeNavBar)
     }
     
     func setupMainView() {
@@ -203,14 +203,14 @@ class SessionReviewVC: UIViewController {
     
     func setupKeyboardObserversIfNeeded() {
         guard UIScreen.main.bounds.height <= 667 else { return }
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func keyboardWillShow(notification:NSNotification){
         
         var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         keyboardFrame = self.view.convert(keyboardFrame, from: nil)
         self.view.transform = CGAffineTransform(translationX: 0, y: -75)
     }

@@ -36,14 +36,14 @@ class TutorUpdatePaymentView : MainLayoutHeaderScroll {
         
         strings = ["1.  Select Payment from the navigation bar.\n", "2.  Tap “add bank”.\n", "3.  Add your bank by entering your legal name, routing number, account number."]
         
-		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : addBankBody.font]
+		let attributesDictionary : [NSAttributedString.Key : Any] = [NSAttributedString.Key.font : addBankBody.font]
         let fullAttributedString = NSMutableAttributedString(string: "Adding a payment method will allow you to connect, communicate and schedule sessions with tutors.\n\nYou can add payment methods such as debit or credit cards. When a session ends, your payment method is charged in accordance to the session price and length of the session.\n\n", attributes: attributesDictionary)
         
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             
             let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
             
             fullAttributedString.append(attributedString)
         }

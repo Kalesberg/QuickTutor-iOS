@@ -28,7 +28,7 @@ class LearnerHelpView : MainLayoutTitleBackButton {
         subtitle.label.text = "Choose an option"
         subtitle.label.font = Fonts.createSize(22)
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 60
         tableView.isScrollEnabled = false
         tableView.separatorInset.left = 0
@@ -281,7 +281,7 @@ extension LearnerHelp : UITableViewDataSource, UITableViewDelegate {
 
 class CustomHelpTableViewCell : UITableViewCell {
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
     }

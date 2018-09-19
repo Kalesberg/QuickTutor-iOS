@@ -27,15 +27,15 @@ class PaymentTextField : NoPasteTextField {
     let padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0);
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, padding)
+        return bounds.inset(by: padding)
     }
     
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, padding)
+        return bounds.inset(by: padding)
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, padding)
+        return bounds.inset(by: padding)
     }
 }
 
@@ -71,13 +71,13 @@ class TutorRegPaymentView : TutorRegistrationLayout, Keyboardable {
         routingNumberTitle.label.text = "Routing Number"
         accountNumberTitle.label.text = "Account Number"
         
-        nameTextfield.attributedPlaceholder = NSAttributedString(string: "Enter account holder's name", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        nameTextfield.attributedPlaceholder = NSAttributedString(string: "Enter account holder's name", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         nameTextfield.keyboardType = .asciiCapable
         
-        routingNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Routing Number", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        routingNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Routing Number", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         routingNumberTextfield.keyboardType = .decimalPad
         
-        accountNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Account Number", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        accountNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Account Number", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         accountNumberTextfield.keyboardType = .decimalPad
 		
 		navbar.backgroundColor = Colors.tutorBlue

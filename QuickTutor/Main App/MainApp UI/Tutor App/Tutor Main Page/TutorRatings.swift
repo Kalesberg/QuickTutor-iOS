@@ -158,7 +158,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 160
         case 1,5:
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         case 2,4:
             return 30
         case 3:
@@ -186,7 +186,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 				.regular("Sessions", 15, Colors.grayText)
 			let paragraphStyle1 = NSMutableParagraphStyle()
 			paragraphStyle1.lineSpacing = 6
-			formattedString1.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle1, range:NSMakeRange(0, formattedString1.length))
+			formattedString1.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle1, range:NSMakeRange(0, formattedString1.length))
 			cell.infoLabel1.attributedText = formattedString1
 			cell.infoLabel1.textAlignment = .center
 			cell.infoLabel1.numberOfLines = 0
@@ -198,7 +198,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			
 			let paragraphStyle2 = NSMutableParagraphStyle()
 			paragraphStyle2.lineSpacing = 6
-			formattedString2.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle2, range:NSMakeRange(0, formattedString2.length))
+			formattedString2.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle2, range:NSMakeRange(0, formattedString2.length))
 			cell.infoLabel2.attributedText = formattedString2
 			cell.infoLabel2.textAlignment = .center
 			cell.infoLabel3.numberOfLines = 0
@@ -207,7 +207,7 @@ extension TutorRatings : UITableViewDelegate, UITableViewDataSource {
 			let formattedString3 = getFormattedTimeString(seconds: tutor.hours!)
 			let paragraphStyle3 = NSMutableParagraphStyle()
 			paragraphStyle3.lineSpacing = 6
-			formattedString3.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle3, range:NSMakeRange(0, formattedString3.length))
+			formattedString3.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle3, range:NSMakeRange(0, formattedString3.length))
 			
 			cell.infoLabel3.attributedText = formattedString3
 			cell.infoLabel3.textAlignment = .center

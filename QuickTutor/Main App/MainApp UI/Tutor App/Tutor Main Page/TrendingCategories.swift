@@ -63,7 +63,7 @@ class TrendingCategories : BaseViewController {
         contentView.collectionView.delegate = self
 		contentView.collectionView.dataSource = self
 		contentView.collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "trendingCell")
-        contentView.collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
+        contentView.collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
     }
 }
 extension TrendingCategories : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -72,7 +72,7 @@ extension TrendingCategories : UICollectionViewDelegate, UICollectionViewDataSou
 	}
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if (kind == UICollectionElementKindSectionHeader) {
+        if (kind == UICollectionView.elementKindSectionHeader) {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
             
             let label = UILabel()

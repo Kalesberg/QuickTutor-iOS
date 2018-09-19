@@ -425,7 +425,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.item {
         case 0,1,3,4:
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         case 2:
             return 90
         default:
@@ -563,7 +563,7 @@ class TutorDistanceView : BaseView {
 
 class TutorCardReviewCell : UITableViewCell {
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
     }

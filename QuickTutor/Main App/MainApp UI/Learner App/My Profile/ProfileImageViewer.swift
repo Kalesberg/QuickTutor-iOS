@@ -45,7 +45,7 @@ class ProfileImageViewer : InteractableView, Interactable {
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.isPagingEnabled = true
 		collectionView.backgroundColor = .clear
-		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+		collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
 		
 		return collectionView
 	}()

@@ -23,7 +23,7 @@ class ConversationCollectionView: UICollectionView {
         register(SessionRequestCell.self, forCellWithReuseIdentifier: "sessionMessage")
         register(ImageMessageCell.self, forCellWithReuseIdentifier: "imageMessage")
         register(ConnectionRequestCell.self, forCellWithReuseIdentifier: "connectionRequest")
-        register(ConversationPaginationHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "paginationHeader")
+        register(ConversationPaginationHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "paginationHeader")
     }
     
     required init?(coder aDecoder: NSCoder) {

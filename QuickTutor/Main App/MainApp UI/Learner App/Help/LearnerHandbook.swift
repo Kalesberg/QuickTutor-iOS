@@ -70,14 +70,14 @@ class LearnerHandookView : MainLayoutHeaderScroll {
         
         strings = ["•  Profile Pictures\n      Upload one-to-four pictures of yourself. Note: all user profile pictures are subject to moderation.\n\n", "•  Biography\n      Make sure your bio clearly describes you, what you need, and what you are looking for in a tutor."]
         
-		let attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : easyProfileBody.font]
+		let attributesDictionary : [NSAttributedString.Key : Any] = [NSAttributedString.Key.font : easyProfileBody.font]
         let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
         
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             
             let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
             
             fullAttributedString.append(attributedString)
         }

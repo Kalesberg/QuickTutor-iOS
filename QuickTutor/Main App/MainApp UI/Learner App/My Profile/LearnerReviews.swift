@@ -27,7 +27,7 @@ class LearnerReviewsView : MainLayoutTitleOneButton {
     let tableView : UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 80
         tableView.isScrollEnabled = true
         tableView.separatorInset.left = 0
@@ -155,7 +155,7 @@ extension LearnerReviews : UITableViewDelegate, UITableViewDataSource {
 
 class CustomReviewCell : UITableViewCell {
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
     }

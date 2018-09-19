@@ -11,7 +11,7 @@ import UIKit
 class ConversationPaginationHeader: UICollectionReusableView {
     
     let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let indicator = UIActivityIndicatorView(style: .gray)
         indicator.color = Colors.grayText
         return indicator
     }()

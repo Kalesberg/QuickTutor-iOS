@@ -167,7 +167,10 @@ class PhoneAuthenticationAlertView : InteractableView {
 		
 		verifyAction.action.text = "Verify"
 		self.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-		verificationTextField.defaultTextAttributes.updateValue(10.0, forKey: NSAttributedStringKey.kern.rawValue)
+		
+		verificationTextField.defaultTextAttributes.updateValue(10.0, forKey: NSAttributedString.Key(rawValue: NSAttributedString.Key.kern.rawValue))
+//		convertFromNSAttributedStringKeyDictionary(verificationTextField.defaultTextAttributes).updateValue(10.0, forKey: NSAttributedString.Key.kern.rawValue)
+		
 		alpha = 0.0
 		configureDelegates()
 		applyConstraints()
@@ -297,4 +300,9 @@ extension UIViewController {
 			}
 		}
 	}
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

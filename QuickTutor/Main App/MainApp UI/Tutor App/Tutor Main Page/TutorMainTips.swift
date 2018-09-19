@@ -119,7 +119,7 @@ extension TutorMainTips : UITableViewDelegate, UITableViewDataSource {
 }
 
 class TutorTipsTableViewCell : UITableViewCell {
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
     }

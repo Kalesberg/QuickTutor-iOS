@@ -37,7 +37,7 @@ class SubjectPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource 
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: subjects[row], attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        let attributedString = NSAttributedString(string: subjects[row], attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         return attributedString
     }
     

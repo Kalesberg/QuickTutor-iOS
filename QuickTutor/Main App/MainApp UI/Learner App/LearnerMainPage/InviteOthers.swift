@@ -50,7 +50,7 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         
         textField.placeholder.text = "Search"
         textField.textField.attributedPlaceholder = NSAttributedString(string: "Your Contacts",
-                                                                       attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                                       attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         textField.placeholder.font = Fonts.createBoldSize(20)
         textField.textField.font = Fonts.createSize(20)
         textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
@@ -187,7 +187,7 @@ class InviteOthersBackgroundView : InteractableView, Interactable {
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+        formattedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
         
         label.attributedText = formattedString
         label.textAlignment = .center
@@ -359,7 +359,7 @@ class InviteOthers : BaseViewController {
         let alert = UIAlertController(title: nil, message: "This app requires access to Contacts to proceed. Would you like to open settings and grant permission to Contacts?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { action in
             completionHandler(false)
-            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
         })
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { action in
             completionHandler(false)
@@ -461,7 +461,7 @@ extension InviteOthers : UITableViewDelegate, UITableViewDataSource {
 
 class InviteContactsTableViewCell : UITableViewCell {
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
     }

@@ -41,7 +41,7 @@ class CreditCardNumberTextField : NoPasteTextField {
 	override func configureTextField() {
 		super.configureTextField()
 		
-		attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+		attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
 		textColor = .white
 		tintColor = UIColor.white
 		adjustsFontSizeToFitWidth = true
@@ -56,7 +56,7 @@ class CreditCardNumberTextField : NoPasteTextField {
 class FullNameTextField : NoPasteTextField {	
 	override func configureTextField() {
 		super.configureTextField()
-		attributedPlaceholder = NSAttributedString(string: "Your Full Name", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+		attributedPlaceholder = NSAttributedString(string: "Your Full Name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
 		textColor = .white
 		textAlignment = .left
 		keyboardType = .default
@@ -74,7 +74,7 @@ class CVCTextField : NoPasteTextField {
 		layer.borderColor =  UIColor(red: 0.3019312322, green: 0.3019797206, blue: 0.3019206524, alpha: 1).cgColor
 		layer.borderWidth = 2
         layer.cornerRadius = 2
-		attributedPlaceholder = NSAttributedString(string: "XXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+		attributedPlaceholder = NSAttributedString(string: "XXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
 		textColor = .white
 		tintColor = UIColor.clear
 		keyboardType = .numberPad
@@ -86,7 +86,7 @@ class CVCTextField : NoPasteTextField {
 class ExpDateTextField : NoPasteTextField {
 	override func configureTextField() {
 		super.configureTextField()
-		attributedPlaceholder = NSAttributedString(string: "MM/YY", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+		attributedPlaceholder = NSAttributedString(string: "MM/YY", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
 		textColor = .white
 		textAlignment = .right
 		tintColor = .white

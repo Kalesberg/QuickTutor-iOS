@@ -38,7 +38,7 @@ class PostSessionManager {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("unfinishedSessions").child(uid).observeSingleEvent(of: .childAdded) { (snapshot) in
             guard let value = snapshot.value as? String else { return }
-            completion(snapshot.ref.key, value)
+			completion(snapshot.ref.key ?? "Xcode made me do this", value)
         }
     }
     

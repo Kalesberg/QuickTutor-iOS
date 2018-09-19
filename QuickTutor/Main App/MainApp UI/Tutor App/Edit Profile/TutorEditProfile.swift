@@ -290,7 +290,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
         case 2,3,4,6,7,10,11,13,14:
             return 75
         case 8:
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         default:
             break
         }
@@ -336,7 +336,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             cell.infoLabel.label.text = "First Name"
             guard let firstName = firstName else { return cell }
             cell.textField.attributedText = NSAttributedString(string: "\(firstName)",
-                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 3:
@@ -347,7 +347,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             cell.infoLabel.label.text = "Last Name"
             guard let lastName = lastName else { return cell }
             cell.textField.attributedText = NSAttributedString(string: "\(lastName)",
-                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 4:
@@ -355,7 +355,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "Biography"
             cell.textField.attributedText = NSAttributedString(string: "Edit",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 5:
@@ -369,7 +369,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "Subjects"
             cell.textField.attributedText = NSAttributedString(string: "Manage Subjects",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 7:
@@ -377,14 +377,14 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "Policies"
             cell.textField.attributedText = NSAttributedString(string: "Manage Policies",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 8:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
             cell.infoLabel.label.text = "Preferences"
             cell.textField.attributedText = NSAttributedString(string: "Manage Preferences",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 9:
@@ -398,7 +398,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "Mobile Number"
             cell.textField.attributedText = NSAttributedString(string: tutor.phone.formatPhoneNumber(),
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 11:
@@ -406,7 +406,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "Email"
             cell.textField.attributedText = NSAttributedString(string: tutor.email,
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 12:
@@ -420,7 +420,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "Languages I Speak"
             cell.textField.attributedText = NSAttributedString(string: "Edit",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 14:
@@ -430,10 +430,10 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             if tutor.school != "" {
                 cell.textField.attributedText = NSAttributedString(string: tutor.school!,
-                                                                   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                                   attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             } else {
                 cell.textField.attributedText = NSAttributedString(string: "Add A School",
-                                                                   attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                                   attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             }
             
             return cell
@@ -451,7 +451,7 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 6
-            attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+            attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
             
             next.contentView.infoLabel.label.attributedText = attributedString;
             next.contentView.infoLabel.label.font = Fonts.createSize(14)
@@ -537,8 +537,11 @@ extension TutorEditProfile : UIImagePickerControllerDelegate, UINavigationContro
 		return storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic" + number).fullPath
 	}
 	
-	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
 
 			let circleCropController = AACircleCropViewController()
             circleCropController.image = image
@@ -565,4 +568,14 @@ extension TutorEditProfile : UIScrollViewDelegate {
             self.view.endEditing(true)
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

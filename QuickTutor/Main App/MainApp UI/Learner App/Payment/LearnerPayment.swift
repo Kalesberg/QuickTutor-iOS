@@ -83,23 +83,23 @@ class LearnerPaymentView : MainLayoutTitleBackButton, Keyboardable {
     fileprivate func defaultLayout() {
         frontOfCard.forth4.isHidden = false
         
-        frontOfCard.second4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        frontOfCard.third4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        frontOfCard.forth4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        backOfCard.CVC.attributedPlaceholder = NSAttributedString(string: "XXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        frontOfCard.second4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        frontOfCard.third4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        frontOfCard.forth4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        backOfCard.CVC.attributedPlaceholder = NSAttributedString(string: "XXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
     fileprivate func layoutAmexCard() {
         frontOfCard.forth4.isHidden = true
         frontOfCard.forth4.text = ""
-        frontOfCard.second4.attributedPlaceholder = NSAttributedString(string: "XXXXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        frontOfCard.third4.attributedPlaceholder = NSAttributedString(string: "XXXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        backOfCard.CVC.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        frontOfCard.second4.attributedPlaceholder = NSAttributedString(string: "XXXXXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        frontOfCard.third4.attributedPlaceholder = NSAttributedString(string: "XXXXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        backOfCard.CVC.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
     fileprivate func layoutDinersCard(){
         frontOfCard.forth4.isHidden = false
-        frontOfCard.second4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        frontOfCard.third4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        frontOfCard.forth4.attributedPlaceholder = NSAttributedString(string: "XX", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        frontOfCard.second4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        frontOfCard.third4.attributedPlaceholder = NSAttributedString(string: "XXXX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        frontOfCard.forth4.attributedPlaceholder = NSAttributedString(string: "XX", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         applyConstraints()
     }
     fileprivate func isCardNumberValid(_ bool: Bool) {
@@ -532,7 +532,7 @@ class LearnerPayment : BaseViewController {
     
     private func flipCard() {
         if !flipped {
-            let options : UIViewAnimationOptions = [.transitionFlipFromRight, .showHideTransitionViews, .preferredFramesPerSecond60, .curveEaseInOut]
+            let options : UIView.AnimationOptions = [.transitionFlipFromRight, .showHideTransitionViews, .preferredFramesPerSecond60, .curveEaseInOut]
             
             UIView.transition(with: contentView.frontOfCard, duration: 0.5, options: options, animations: {
                 self.contentView.frontOfCard.isHidden = true
@@ -542,7 +542,7 @@ class LearnerPayment : BaseViewController {
                 self.contentView.backOfCard.CVC.becomeFirstResponder()
             })
         } else {
-            let options : UIViewAnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews, .preferredFramesPerSecond60, .curveEaseInOut]
+            let options : UIView.AnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews, .preferredFramesPerSecond60, .curveEaseInOut]
             
             UIView.transition(with: contentView.backOfCard, duration: 0.5, options: options, animations: {
                 self.contentView.backOfCard.isHidden = true

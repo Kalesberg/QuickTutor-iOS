@@ -34,7 +34,7 @@ class SessionTableCell: UITableViewCell {
         textLabel?.textColor = textLabel?.textColor.lighter(by: 15)
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
     }

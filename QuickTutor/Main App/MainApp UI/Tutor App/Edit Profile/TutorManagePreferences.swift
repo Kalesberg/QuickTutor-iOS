@@ -174,9 +174,9 @@ extension TutorManagePreferences : UITableViewDelegate, UITableViewDataSource {
 		switch (indexPath.row) {
 			
 		case 0:
-			return UITableViewAutomaticDimension
+			return UITableView.automaticDimension
 		case 1:
-			return UITableViewAutomaticDimension
+			return UITableView.automaticDimension
 		case 2,3:
 			return 40
 		default:

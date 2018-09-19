@@ -107,7 +107,7 @@ class TutorMainPageSummaryCell : BaseTableViewCell {
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+        formattedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
         
         label.attributedText = formattedString
         
@@ -127,7 +127,7 @@ class TutorMainPageSummaryCell : BaseTableViewCell {
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+        formattedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
         
         label.attributedText = formattedString
         

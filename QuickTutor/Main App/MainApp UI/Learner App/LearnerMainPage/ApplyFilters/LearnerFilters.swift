@@ -140,7 +140,7 @@ class LearnerFilters: BaseViewController {
 	private func showLocationAlert() {
 		let alertController = UIAlertController (title: "Enable Location Services", message: "In order to use this feature you need to enable location services.", preferredStyle: .alert)
 		let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
-			guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+			guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
 				return
 			}
 			if UIApplication.shared.canOpenURL(settingsUrl) {
@@ -215,7 +215,7 @@ extension LearnerFilters : UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		switch (indexPath.row) {
 		case 0,1,3:
-			return UITableViewAutomaticDimension
+			return UITableView.automaticDimension
 		case 2:
 			return 90
 		default:

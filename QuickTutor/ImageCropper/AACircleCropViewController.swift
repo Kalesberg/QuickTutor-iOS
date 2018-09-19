@@ -166,7 +166,7 @@ open class AACircleCropViewController: UIViewController, UIScrollViewDelegate {
         image.draw(in: sharpRect)
         let finalImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        if let imageData = UIImagePNGRepresentation(finalImage!), var pngImage = UIImage(data: imageData) {
+        if let imageData = finalImage!.pngData(), var pngImage = UIImage(data: imageData) {
             if let imageSize = imageSize {
                 pngImage = pngImage.resizeImage(newWidth: imageSize.width)
             }

@@ -171,7 +171,7 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "First Name"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter First Name",
-                attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 4:
@@ -179,7 +179,7 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "Last Name"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Last Name",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 5:
@@ -187,7 +187,7 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "Date of Birth"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Date of Birth",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 6:
@@ -201,7 +201,7 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "Street Address"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Street Address",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 8:
@@ -209,7 +209,7 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "City"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter City",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 9:
@@ -217,7 +217,7 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "State"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter State",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 10:
@@ -225,7 +225,7 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "ZIP Code"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter ZIP Code",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             
             return cell
         case 11:
@@ -239,7 +239,7 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
 
             cell.infoLabel.label.text = ""
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Social Security Number",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 			cell.textField.addTarget(self, action: #selector(SSNTextFieldDidBegin(_:)), for: .editingDidBegin)
 			
 			return cell

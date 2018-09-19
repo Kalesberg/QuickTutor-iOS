@@ -50,7 +50,7 @@ class VideoSessionStartVC: BaseSessionStartVC {
         super.viewDidAppear(animated)
         playRingingSound()
         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.audioPlayer?.currentItem, queue: .main) { _ in
-            self.audioPlayer?.seek(to: kCMTimeZero)
+            self.audioPlayer?.seek(to: CMTime.zero)
             self.audioPlayer?.play()
         }
     }
@@ -66,7 +66,8 @@ class VideoSessionStartVC: BaseSessionStartVC {
         guard let url = Bundle.main.url(forResource: "phone-ring", withExtension: "mp3") else { return }
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+			try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.moviePlayback, options: AVAudioSession.CategoryOptions.mixWithOthers)
+//			try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)), mode: .mixWithOthers)
             try AVAudioSession.sharedInstance().setActive(true)
             
             /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
@@ -80,4 +81,9 @@ class VideoSessionStartVC: BaseSessionStartVC {
         }
     }
 
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
 }

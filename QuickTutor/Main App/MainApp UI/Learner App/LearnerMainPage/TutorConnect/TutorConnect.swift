@@ -39,7 +39,7 @@ class TutorConnectView : MainLayoutTwoButton {
         textField?.tintColor = UIColor.clear
         textField?.adjustsFontSizeToFitWidth = true
         textField?.autocapitalizationType = .words
-        textField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        textField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 		textField?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
 
         textField?.keyboardAppearance = .dark
@@ -60,7 +60,7 @@ class TutorConnectView : MainLayoutTwoButton {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
-        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+        collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
 
         return collectionView
     }()

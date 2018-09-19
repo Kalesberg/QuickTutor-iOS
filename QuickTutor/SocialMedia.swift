@@ -30,7 +30,7 @@ class SocialMedia {
 		}
 		if UIApplication.shared.canOpenURL(url) {
 			if #available(iOS 10, *) {
-				UIApplication.shared.open(url, options: [:], completionHandler: completion)
+				UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: completion)
 			} else{
 				UIApplication.shared.open(url)
 			}
@@ -39,10 +39,15 @@ class SocialMedia {
 				return completion(false)
 			}
 			if #available(iOS 10, *) {
-				UIApplication.shared.open(url, options: [:], completionHandler: completion)
+				UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: completion)
 			} else {
 				UIApplication.shared.openURL(url)
 			}
 		}
 	}
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

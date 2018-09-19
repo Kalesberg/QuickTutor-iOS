@@ -64,7 +64,7 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: dateData[component][row], attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        let attributedString = NSAttributedString(string: dateData[component][row], attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         return attributedString
     }
     

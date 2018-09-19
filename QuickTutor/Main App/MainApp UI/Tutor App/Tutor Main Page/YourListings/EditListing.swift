@@ -87,8 +87,8 @@ class EditListing : BaseViewController {
 		selectedIndexPath = IndexPath(item: index, section: 0)
 	}
 	override func viewWillAppear(_ animated: Bool) {
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardWillHide, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -139,7 +139,7 @@ class EditListing : BaseViewController {
     }
 
 	@objc private func keyboardWillAppear(_ notification: NSNotification) {
-		contentView.tableView.setContentOffset(CGPoint(x: 0, y: 170), animated: true)
+		contentView.tableView.setContentOffset(CGPoint(x: 0, y: 220), animated: true)
 	}
 	
 	@objc private func keyboardWillDisappear(_ notification: NSNotification) {
@@ -188,7 +188,7 @@ extension EditListing : UITableViewDelegate, UITableViewDataSource {
         case 1:
             return 90
         case 2:
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         default:
             return 0
         }
@@ -278,8 +278,11 @@ extension EditListing : UIImagePickerControllerDelegate, UINavigationControllerD
 		self.dismiss(animated: true, completion: nil)
 	}
 	
-	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-		if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+		if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
 			let circleCropController = AACircleCropViewController()
 			circleCropController.delegate = self
 			circleCropController.image = image
@@ -429,7 +432,7 @@ class EditListingPhotoView : BaseView {
 
 class EditListingPhotoTableViewCell : UITableViewCell {
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
     }
@@ -522,4 +525,14 @@ class EditListingPhotoTableViewCell : UITableViewCell {
             make.center.equalToSuperview()
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

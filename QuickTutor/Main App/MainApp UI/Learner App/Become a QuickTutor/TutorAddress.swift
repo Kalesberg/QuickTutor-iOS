@@ -25,15 +25,15 @@ fileprivate class AddressTextField : NoPasteTextField {
     let padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0);
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, padding)
+        return bounds.inset(by: padding)
     }
     
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, padding)
+        return bounds.inset(by: padding)
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, padding)
+        return bounds.inset(by: padding)
     }
 }
 
@@ -79,17 +79,17 @@ class TutorAddressView : TutorRegistrationLayout, Keyboardable {
         zipTitle.label.text = "Postal Code"
         
         
-        addressLine1TextField.attributedPlaceholder = NSAttributedString(string: "Enter Billing Address", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        addressLine1TextField.attributedPlaceholder = NSAttributedString(string: "Enter Billing Address", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         addressLine1TextField.keyboardType = .asciiCapable
         
-        cityTextField.attributedPlaceholder = NSAttributedString(string: "Enter City", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        cityTextField.attributedPlaceholder = NSAttributedString(string: "Enter City", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         cityTextField.keyboardType = .asciiCapable
         
-        stateTextField.attributedPlaceholder = NSAttributedString(string: "Enter State", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        stateTextField.attributedPlaceholder = NSAttributedString(string: "Enter State", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         stateTextField.keyboardType = .asciiCapable
         stateTextField.autocapitalizationType = .allCharacters
         
-        zipTextField.attributedPlaceholder = NSAttributedString(string: "Enter Postal Code", attributes: [NSAttributedStringKey.foregroundColor: Colors.grayText])
+        zipTextField.attributedPlaceholder = NSAttributedString(string: "Enter Postal Code", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         zipTextField.keyboardType = .decimalPad
 	
 		navbar.backgroundColor = Colors.tutorBlue

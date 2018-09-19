@@ -33,14 +33,14 @@ class AccountInfoView : MainLayoutHeaderScroll {
         
         strings = ["1.  Tap the three lines in the top left of the home page.\n", "2.  Tap the profile bar that displays your name and photo.\n", "3.  Tap \"Edit\" in the top right of the screen.\n", "4.  Select the the information you would like to change.\n", "5.  When you’ve changed your information, click save."]
 
-		var attributesDictionary : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : infoChangeBody.font]
+		var attributesDictionary : [NSAttributedString.Key : Any] = [NSAttributedString.Key.font : infoChangeBody.font]
         var fullAttributedString = NSMutableAttributedString(string: "To update or change your name, biography, email, or languages you speak:\n\n", attributes: attributesDictionary)
         
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             
             let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
             
             fullAttributedString.append(attributedString)
         }
@@ -56,14 +56,14 @@ class AccountInfoView : MainLayoutHeaderScroll {
             "2.  Then, tap \"Edit\" in the top right of the screen.\n",
             "3.  You can add, change, or remove photos by selecting the \"+\" or \"x\".\n"]
         
-        attributesDictionary = [NSAttributedStringKey.font : profilePictureBody.font]
+        attributesDictionary = [NSAttributedString.Key.font : profilePictureBody.font]
         fullAttributedString = NSMutableAttributedString(string: "To change or add a profile picture:\n\n", attributes: attributesDictionary)
         
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             
             let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
             
             fullAttributedString.append(attributedString)
         }

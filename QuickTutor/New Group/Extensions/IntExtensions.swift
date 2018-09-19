@@ -56,7 +56,7 @@ extension Int {
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = -2
         
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+        formattedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
         
         return formattedString
     }
@@ -147,7 +147,7 @@ extension Double {
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = -2
         
-        formattedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
+        formattedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, formattedString.length))
         
         return formattedString
     }

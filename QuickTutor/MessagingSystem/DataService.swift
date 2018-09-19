@@ -129,7 +129,7 @@ class DataService {
             ref.updateChildValues(["uid": ref.key])
             senderRef.updateChildValues([messageId: 1])
             receiverRef.updateChildValues([messageId: 1])
-            self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+			self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId ?? "Xcode made me do this")
 
             completion()
         }
@@ -151,7 +151,7 @@ class DataService {
             ref.updateChildValues(["uid": ref.key])
             senderRef.updateChildValues([messageId: 1])
             receiverRef.updateChildValues([messageId: 1])
-            self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+			self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId ?? "Xcode made me do this")
             completion()
         }
     }
@@ -176,7 +176,7 @@ class DataService {
                 ref.updateChildValues(["uid": ref.key])
                 senderRef.updateChildValues([messageId: 1])
                 receiverRef.updateChildValues([messageId: 1])
-                self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+				self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId ?? "xcode made me do this")
             }
         }
     }
@@ -210,7 +210,7 @@ class DataService {
                 
                 senderSessionRef.updateChildValues([ref1.key: 1])
                 receiverSessionRef.updateChildValues([ref1.key: 1])
-                self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+				self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId ?? "Xcode made me do this")
                 
             }
         }
@@ -234,7 +234,7 @@ class DataService {
     }
     
     func uploadImageToFirebase(image: UIImage, completion: @escaping(String) -> Void) {
-        guard let data = UIImageJPEGRepresentation(image, 0.2) else {
+        guard let data = image.jpegData(compressionQuality: 0.2) else {
             return
         }
         let imageName = NSUUID().uuidString

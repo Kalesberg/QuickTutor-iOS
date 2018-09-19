@@ -35,7 +35,7 @@ class MessageTextView: UITextView {
     }
     
     private func setupObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: .UITextViewTextDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextView.textDidChangeNotification, object: nil)
     }
     
     @objc func handleTextChange() {
@@ -62,14 +62,14 @@ class PaddedTextField: UITextField {
     var padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-            return UIEdgeInsetsInsetRect(bounds, padding)
+            return bounds.inset(by: padding)
     }
     
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-            return UIEdgeInsetsInsetRect(bounds, padding)
+            return bounds.inset(by: padding)
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-            return UIEdgeInsetsInsetRect(bounds, padding)
+            return bounds.inset(by: padding)
     }
 }

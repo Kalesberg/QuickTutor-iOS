@@ -219,9 +219,33 @@ class FacebookButton : InteractableView, Interactable {
 
 class PhoneTextField : InteractableView, Interactable {
 	
-	var textField = NoPasteTextField()
-	var flag = UIImageView()
-	var plusOneLabel = UILabel()
+	var textField : NoPasteTextField = {
+		let textField = NoPasteTextField()
+		textField.font = Fonts.createSize(25)
+		textField.keyboardAppearance = .dark
+		textField.textColor = .white
+		textField.tintColor = .white
+		return textField
+	}()
+	
+	var flag : UIImageView = {
+		let imageView = UIImageView()
+		
+		imageView.image = UIImage(named: "flag")
+		imageView.scaleImage()
+		
+		return imageView
+	}()
+	var plusOneLabel : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = .white
+		label.font = Fonts.createSize(25)
+		label.text = "+1"
+		label.textAlignment = .center
+		
+		return label
+	}()
 	var line = UIView()
 	
 	override func configureView() {
@@ -230,19 +254,6 @@ class PhoneTextField : InteractableView, Interactable {
 		addSubview(flag)
 		addSubview(plusOneLabel)
 		super.configureView()
-		
-		textField.font = Fonts.createSize(25)
-		textField.keyboardAppearance = .dark
-		textField.textColor = .white
-		textField.tintColor = .white
-		
-		flag.image = UIImage(named: "flag")
-		flag.scaleImage()
-		
-		plusOneLabel.textColor = .white
-		plusOneLabel.font = Fonts.createSize(25)
-		plusOneLabel.text = "+1"
-		plusOneLabel.textAlignment = .center
 		
 		line.backgroundColor = .white
 		
@@ -302,7 +313,6 @@ class SignIn: BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		//contentView.nextButton.button.isUserInteractionEnabled = true
 
 	}
 	override func viewWillAppear(_ animated: Bool) {
@@ -384,7 +394,7 @@ class SignIn: BaseViewController {
 			})
 		} else if (touchStartView is RegistrationNextButton) {
 			signIn()
-			//contentView.nextButton.button.isUserInteractionEnabled = false
+			contentView.nextButton.isUserInteractionEnabled = false
 		} else if touchStartView is FacebookButton {
 			facebookSignIn()
 		}
@@ -396,12 +406,12 @@ class SignIn: BaseViewController {
 		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { (verificationId, error) in
 			if let error = error {
 				AlertController.genericErrorAlert(self, title: "Error:", message: error.localizedDescription)
-				self.contentView.nextButton.isUserInteractionEnabled = true
 			} else {
 				UserDefaults.standard.set(verificationId, forKey: Constants.VRFCTN_ID)
 				Registration.phone = phoneNumber.cleanPhoneNumber()
 				self.navigationController?.pushViewController(Verification(), animated: true)
 			}
+			self.contentView.nextButton.isUserInteractionEnabled = true
 		}
 		self.dismissOverlay()
 	}

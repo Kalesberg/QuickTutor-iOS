@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
 
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		guard let gai = GAI.sharedInstance() else {
             return true
 		}
@@ -59,7 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         
         //White status bar throughout
         UIApplication.shared.statusBarStyle = .lightContent
-        
         registerForPushNotifications(application: application)
         
         //Firebase init
@@ -172,7 +171,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         }
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
             self.handlIncomingDynamicLink(dynamicLink)
         }
@@ -230,7 +229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         }
     }
     
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if let incomingUrl = userActivity.webpageURL {
             let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incomingUrl, completion: { [weak self] (link, erorr) in
                 guard let stongSelf = self else { return }
@@ -276,7 +275,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let firebaseAuth = Auth.auth()
-        guard application.applicationState != UIApplicationState.active else { return }
+        guard application.applicationState != UIApplication.State.active else { return }
         if (firebaseAuth.canHandleNotification(userInfo)){
             print(userInfo)
         }
@@ -334,7 +333,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         NotificationCenter.default.post(name: Notifications.willTerminate.name, object: nil)
     }
     
-    func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplicationExtensionPointIdentifier) -> Bool {
-        return extensionPointIdentifier != UIApplicationExtensionPointIdentifier.keyboard
+    func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
+        return extensionPointIdentifier != UIApplication.ExtensionPointIdentifier.keyboard
     }
 }

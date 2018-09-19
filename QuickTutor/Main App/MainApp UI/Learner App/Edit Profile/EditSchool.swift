@@ -15,7 +15,7 @@ class EditSchoolView : EditProfileMainLayout {
     let tableView : UITableView = {
         let tableView = UITableView()
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         tableView.separatorStyle = .singleLine
 		tableView.separatorColor = .black

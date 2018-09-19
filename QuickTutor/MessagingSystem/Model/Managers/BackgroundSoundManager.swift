@@ -28,7 +28,7 @@ class BackgroundSoundManager {
         guard sessionInProgress else { return }
         self.backgroundTask = app.beginBackgroundTask() {
             self.app.endBackgroundTask(self.backgroundTask)
-            self.backgroundTask = UIBackgroundTaskInvalid
+            self.backgroundTask = UIBackgroundTaskIdentifier(rawValue: convertFromUIBackgroundTaskIdentifier(UIBackgroundTaskIdentifier.invalid))
         }
         
         Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(BackgroundSoundManager.checkTime), userInfo: nil, repeats: true)
@@ -51,7 +51,7 @@ class BackgroundSoundManager {
         let soundFilePath = NSURL(string: Bundle.main.path(forResource: "background", ofType: "mp3")!)!
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: AVAudioSessionCategoryOptions.mixWithOthers)
+			try AVAudioSession.sharedInstance().setCategory(.soloAmbient , mode: .default, options: AVAudioSession.CategoryOptions.mixWithOthers)
         } catch _ {
         }
         
@@ -63,7 +63,17 @@ class BackgroundSoundManager {
         self.app.endBackgroundTask(self.backgroundTask)
         self.backgroundTask = app.beginBackgroundTask() {
             self.app.endBackgroundTask(self.backgroundTask)
-            self.backgroundTask = UIBackgroundTaskInvalid
+            self.backgroundTask = UIBackgroundTaskIdentifier(rawValue: convertFromUIBackgroundTaskIdentifier(UIBackgroundTaskIdentifier.invalid))
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIBackgroundTaskIdentifier(_ input: UIBackgroundTaskIdentifier) -> Int {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
 }

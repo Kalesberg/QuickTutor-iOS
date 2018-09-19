@@ -22,8 +22,8 @@ class AlertController : NSObject {
 		}
 		let takePhoto = UIAlertAction(title: "Take Photo", style: .default) { (alert) in
 			if UIImagePickerController.isSourceTypeAvailable(.camera) {
-				imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-				imagePicker.cameraCaptureMode =  UIImagePickerControllerCameraCaptureMode.photo
+				imagePicker.sourceType = UIImagePickerController.SourceType.camera
+				imagePicker.cameraCaptureMode =  UIImagePickerController.CameraCaptureMode.photo
 				imagePicker.modalPresentationStyle = .custom
 				
 				viewController.present(imagePicker,animated: true, completion: nil)
@@ -56,8 +56,8 @@ class AlertController : NSObject {
 		}
 		let takePhoto = UIAlertAction(title: "Take Photo", style: .default) { (alert) in
 			if UIImagePickerController.isSourceTypeAvailable(.camera) {
-				imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-				imagePicker.cameraCaptureMode =  UIImagePickerControllerCameraCaptureMode.photo
+				imagePicker.sourceType = UIImagePickerController.SourceType.camera
+				imagePicker.cameraCaptureMode =  UIImagePickerController.CameraCaptureMode.photo
 				imagePicker.modalPresentationStyle = .custom
 				
 				viewController.present(imagePicker,animated: true, completion: nil)
@@ -128,7 +128,7 @@ class AlertController : NSObject {
 	class func requestPermissionFromSettingsAlert(_ viewController: UIViewController, title: String?, message: String?) {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { action in
-			UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+			UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
 		})
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 		viewController.present(alert, animated: true, completion: nil)

@@ -35,11 +35,14 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         parentViewController.present(ac, animated: true, completion: nil)
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         var image: UIImage?
-        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+        if let editedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage {
             image = editedImage
-        } else if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        } else if let originalImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
             image = originalImage
         }
         guard let imageToUplaod = image else { return }
@@ -48,7 +51,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
 
     func uploadImageToFirebase(image: UIImage) {
         parentViewController.dismiss(animated: true, completion: nil)
-        guard let data = UIImageJPEGRepresentation(image, 0.2) else {
+        guard let data = image.jpegData(compressionQuality: 0.2) else {
             return
         }
         let imageName = NSUUID().uuidString
@@ -79,7 +82,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
 
             // Add "OK" Button to alert, pressing it will bring you to the settings app
             alert.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { action in
-                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             // Show the alert with animation
@@ -92,4 +95,14 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         self.parentViewController = parentViewController
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

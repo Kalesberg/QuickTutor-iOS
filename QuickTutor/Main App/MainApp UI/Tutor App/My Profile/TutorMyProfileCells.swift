@@ -71,7 +71,7 @@ class SubjectSelectionCollectionViewCell : UICollectionViewCell {
 }
 
 class BaseTableViewCell : UITableViewCell {
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
     }
@@ -344,7 +344,7 @@ class ExtraInfoCardTableViewCell : ExtraInfoTableViewCell {
 
 class AboutMeTableViewCell : UITableViewCell {
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
     }
@@ -430,7 +430,7 @@ class AboutMeTableViewCell : UITableViewCell {
 
 class PoliciesTableViewCell : UITableViewCell {
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
     }
@@ -500,7 +500,7 @@ class PoliciesTableViewCell : UITableViewCell {
 
 class SubjectsTableViewCell : UITableViewCell {
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
     }
