@@ -22,6 +22,7 @@ class CustomTitleView: UIView {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createBoldSize(16)
+        label.backgroundColor = Colors.currentUserColor()
         return label
     }()
     
@@ -39,10 +40,8 @@ class CustomTitleView: UIView {
         iv.contentMode = .scaleAspectFit
         return iv
     }()
-	
-	var tutor : AWTutor!
-	
-	var learner : AWLearner!
+    
+    var nameLabelHeightAnchor: NSLayoutConstraint? = nil
 	
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,6 +55,9 @@ class CustomTitleView: UIView {
             guard let result = result else { return }
             self.activeLabel.text = result
             self.updateOnlineStatusIndicator()
+            if result == "" {
+                self.updateNameLabelAsInactive()
+            }
         }
     }
     
@@ -102,7 +104,9 @@ class CustomTitleView: UIView {
     
     private func setupTitleView() {
         addSubview(titleLabel)
-        titleLabel.anchor(top: topAnchor, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 4, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
+        titleLabel.anchor(top: topAnchor, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 4, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        nameLabelHeightAnchor = titleLabel.heightAnchor.constraint(equalToConstant: 20)
+        nameLabelHeightAnchor?.isActive = true
     }
     
     private func setupActiveLabel() {
@@ -117,6 +121,13 @@ class CustomTitleView: UIView {
     }
     private func updateOnlineStatusIndicator() {
         imageView.onlineStatusIndicator.backgroundColor = OnlineStatusService.shared.isActive ? Colors.green : Colors.qtRed
+    }
+    
+    func updateNameLabelAsInactive() {
+        nameLabelHeightAnchor?.constant = 38
+        UIView.animate(withDuration: 0.25) {
+            self.layoutIfNeeded()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

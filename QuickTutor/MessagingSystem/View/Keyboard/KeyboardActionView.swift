@@ -74,7 +74,7 @@ extension KeyboardActionView: UICollectionViewDelegate, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 375 / 3, height: collectionView.frame.size.height)
+        return CGSize(width: UIScreen.main.bounds.width / 3, height: collectionView.frame.size.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
