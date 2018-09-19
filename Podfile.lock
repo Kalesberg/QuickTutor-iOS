@@ -128,7 +128,7 @@ PODS:
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
-  - SnapKit (4.0.0)
+  - SnapKit (4.0.1)
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.5)
@@ -157,7 +157,7 @@ DEPENDENCIES:
   - lottie-ios
   - Reveal-SDK
   - SDWebImage (~> 4.0)
-  - SnapKit
+  - SnapKit (~> 4.0.1)
   - Socket.IO-Client-Swift (~> 13.1.0)
   - Stripe
   - SwiftKeychainWrapper
@@ -245,7 +245,7 @@ SPEC CHECKSUMS:
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   Reveal-SDK: a6df49f47319bd19a110c960c498af32df72c0af
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
-  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   Stripe: 2c69e216061d54d9c538204bb4f58bd597ddfc5b
@@ -253,6 +253,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
   TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
-PODFILE CHECKSUM: 105d1272d0316d2404e7a26eb6e9cddfb0715fd1
+PODFILE CHECKSUM: 240927873d7630f7b1d377fe83abad24f2ea21d5
 
 COCOAPODS: 1.5.3

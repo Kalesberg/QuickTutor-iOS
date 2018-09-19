@@ -24,10 +24,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     var shouldRequestSession = false
     var canSendMessages = true
     var headerHeight = 30
-    
-    var tutor: AWTutor!
-    var learner: AWLearner!
-    
+        
     // MARK: Layout Views -
     var navBar: ZFNavBar = {
         let bar = ZFNavBar()
@@ -126,12 +123,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             titleView.updateUI(user: partner)
         }
         
-        if AccountService.shared.currentUserType == .learner {
-            titleView.tutor = tutor
-        } else {
-            titleView.learner = learner
-        }
-        
         navBar.addSubview(titleView)
         titleView.anchor(top: navBar.titleView.topAnchor, left: nil, bottom: navBar.titleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
@@ -168,6 +159,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     }
     
     func enterConnectionRequestMode() {
+        navBar.rightAccessoryView.isHidden = true
         studentKeyboardAccessory.showQuickChatView()
         setupEmptyBackground()
         setActionViewUsable(false)
@@ -176,6 +168,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     }
     
     func exitConnectionRequestMode() {
+        navBar.rightAccessoryView.isHidden = false
         studentKeyboardAccessory.hideQuickChatView()
         emptyCellBackground.removeFromSuperview()
     }

@@ -52,6 +52,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     }
     
     @objc func showPauseModal(pausedById: String) {
+        guard pauseSessionModal == nil else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         pauseSessionModal?.delegate = self
         DataService.shared.getUserOfOppositeTypeWithId(sessionManager?.session.partnerId() ?? "test") { user in

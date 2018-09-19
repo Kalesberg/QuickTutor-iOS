@@ -283,7 +283,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         if receiverAccountType == "learner" {
             let vc = LearnerPageViewController()
             configureRootViewController(controller: vc)
-            _ = MessagesVC()
         } else {
             let vc = TutorPageViewController()
             configureRootViewController(controller: vc)

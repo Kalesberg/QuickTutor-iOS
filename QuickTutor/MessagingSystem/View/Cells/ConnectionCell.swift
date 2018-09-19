@@ -156,6 +156,13 @@ class ConnectionCell: UICollectionViewCell {
         delegate?.connectionCell(self, shouldShowConversationWith: user)
     }
     
+    func handleTouchDown() {
+        contentView.backgroundColor = Colors.darkBackground.darker(by: 30)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            self.contentView.backgroundColor = Colors.darkBackground
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()

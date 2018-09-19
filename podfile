@@ -31,7 +31,7 @@ target 'QuickTutor' do
   pod "FBSDKLoginKit", "4.24.0"
   pod "FBSDKShareKit", "4.24.0"
   pod "FBSDKCoreKit", "4.24.0"
-  pod 'SnapKit'
+  pod 'SnapKit', '~> 4.0.1'
   pod 'lottie-ios'
   
   # Pods for Sessions

@@ -96,6 +96,8 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! ConnectionCell
+        cell.handleTouchDown()
         let user = connections[indexPath.item]
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { (tutor) in
