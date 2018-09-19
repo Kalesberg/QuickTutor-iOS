@@ -139,7 +139,7 @@ class EditListing : BaseViewController {
     }
 
 	@objc private func keyboardWillAppear(_ notification: NSNotification) {
-		contentView.tableView.setContentOffset(CGPoint(x: 0, y: 220), animated: true)
+		contentView.tableView.setContentOffset(CGPoint(x: 0, y: 250), animated: true)
 	}
 	
 	@objc private func keyboardWillDisappear(_ notification: NSNotification) {
