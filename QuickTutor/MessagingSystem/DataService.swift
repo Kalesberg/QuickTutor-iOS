@@ -126,7 +126,7 @@ class DataService {
             let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(otherUserTypeString).child(uid)
             
             let messageId = ref.key!
-            ref.updateChildValues(["uid": ref.key!])
+            ref.updateChildValues(["uid": messageId])
             senderRef.updateChildValues([messageId: 1])
             receiverRef.updateChildValues([messageId: 1])
 			self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
@@ -148,7 +148,7 @@ class DataService {
             let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(otherUserTypeString).child(uid)
             
             let messageId = ref.key!
-            ref.updateChildValues(["uid": ref.key!])
+            ref.updateChildValues(["uid": messageId])
             senderRef.updateChildValues([messageId: 1])
             receiverRef.updateChildValues([messageId: 1])
 			self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
@@ -204,12 +204,12 @@ class DataService {
                 let receiverSessionRef = Database.database().reference().child("userSessions").child(id).child(otherUserTypeString)
                 
                 let messageId = ref.key!
-                ref.updateChildValues(["uid": ref.key!])
+                ref.updateChildValues(["uid": messageId])
                 senderRef.updateChildValues([messageId: 1])
                 receiverRef.updateChildValues([messageId: 1])
                 
-                senderSessionRef.updateChildValues([ref1.key: 1])
-                receiverSessionRef.updateChildValues([ref1.key: 1])
+                senderSessionRef.updateChildValues([ref1.key!: 1])
+                receiverSessionRef.updateChildValues([ref1.key!: 1])
 				self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
                 
             }

@@ -101,7 +101,7 @@ class BaseSessionsContentCell: BaseContentCell {
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { (snapshot) in
             print("Data needs reload")
-			self.reloadSessionWithId(snapshot.ref.key ?? "new Xcode Made me do this")
+			self.reloadSessionWithId(snapshot.ref.key!)
             snapshot.ref.setValue(1)
         }
         
