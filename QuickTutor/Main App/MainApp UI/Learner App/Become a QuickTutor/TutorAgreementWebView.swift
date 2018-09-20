@@ -16,6 +16,9 @@ class MainLayoutWebView : MainLayoutTitleBackButton {
     override func configureView() {
         addSubview(webView)
         super.configureView()
+		
+		webView.scrollView.isScrollEnabled = true
+		webView.isUserInteractionEnabled = true
     }
     
     override func applyConstraints() {
@@ -23,10 +26,13 @@ class MainLayoutWebView : MainLayoutTitleBackButton {
         
         webView.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
-            make.bottom.equalToSuperview()
-            make.width.centerX.equalToSuperview()
+            make.bottom.centerX.equalToSuperview()
+            make.width.equalToSuperview()
         }
     }
+	override func layoutSubviews() {
+		super.layoutSubviews()
+	}
 }
 
 
@@ -43,6 +49,7 @@ class WebViewVC : BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
     }
     
     var url : String = ""
@@ -71,4 +78,9 @@ class WebViewVC : BaseViewController {
         }
         dismissOverlay()
     }
+
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		contentView.webView.scalesPageToFit = true
+	}
 }

@@ -29,7 +29,15 @@ class AWLearner: User {
     
     var isTutor: Bool = false
     var hasPayment: Bool = false
-    
+	
+	override var formattedName: String {
+		get {
+			let nameSplit = name.split(separator: " ")
+			let formatted = "\(String(nameSplit[0]).capitalized) \(String(nameSplit[1]).capitalized.prefix(1))."
+			return formatted
+		}
+	}
+	
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
         
