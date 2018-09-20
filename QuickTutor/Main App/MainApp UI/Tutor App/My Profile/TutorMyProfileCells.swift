@@ -685,7 +685,7 @@ class NoRatingsTableViewCell : BaseTableViewCell {
         return label
     }()
 
-	var isViewing = false
+	var isViewing : Bool = false
 
     override func configureView() {
         contentView.addSubview(label1)
@@ -694,8 +694,6 @@ class NoRatingsTableViewCell : BaseTableViewCell {
         
         backgroundColor = .clear
         selectionStyle = .none
-		
-		label1.textColor = isViewing ? Colors.currentUserColor() :  Colors.otherUserColor()
 		
         applyConstraints()
     }
@@ -714,6 +712,10 @@ class NoRatingsTableViewCell : BaseTableViewCell {
             make.bottom.equalToSuperview()
         }
     }
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		label1.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+	}
 }
 
 extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
@@ -728,8 +730,8 @@ extension RatingTableViewCell : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
         let data = datasource[indexPath.row]
-        
-        cell.nameLabel.text = data.studentName
+        let formattedName = data.studentName.split(separator: " ")
+		cell.nameLabel.text = "\(String(formattedName[0]).capitalized) \(String(formattedName[1]).capitalized.prefix(1))."
         cell.reviewTextLabel.text = data.message
         cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
         cell.dateLabel.text = "\(data.date)"

@@ -47,8 +47,8 @@ class TutorMyProfile : BaseViewController, UpdatedTutorCallBack {
         }
     }
     
-    var isViewing : Bool = false
-    
+	var isViewing : Bool = false
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()

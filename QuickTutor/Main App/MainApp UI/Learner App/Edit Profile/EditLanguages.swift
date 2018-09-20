@@ -163,7 +163,7 @@ class EditLanguage : BaseViewController {
 		if let path = pathToFile {
 			do {
 				let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-				datasource = school.components(separatedBy: ",") as [String]
+				datasource = school.components(separatedBy: "\n") as [String]
 			} catch {
 				datasource = nil
 				print("Try-catch error")

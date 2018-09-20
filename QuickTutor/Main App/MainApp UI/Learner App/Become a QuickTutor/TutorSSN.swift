@@ -152,6 +152,7 @@ class TutorSSN : BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		hideKeyboardWhenTappedAround()
 		
 		if (!(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480)) {
             contentView.digit1.textField.becomeFirstResponder()

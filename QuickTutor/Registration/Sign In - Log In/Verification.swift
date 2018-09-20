@@ -165,6 +165,7 @@ class Verification : BaseViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		hideKeyboardWhenTappedAround()
         ref = Database.database().reference(fromURL: Constants.DATABASE_URL)
         
 		textFields = [contentView.vcDigit1.textField, contentView.vcDigit2.textField, contentView.vcDigit3.textField, contentView.vcDigit4.textField, contentView.vcDigit5.textField, contentView.vcDigit6.textField]

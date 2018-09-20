@@ -50,7 +50,7 @@ class CustomTitleView: UIView {
     
     func updateUI(user: User) {
         self.user = user
-        titleLabel.text = user.formattedName
+        titleLabel.text = user.formattedName.capitalized
         OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { (result) in
             guard let result = result else { return }
             self.activeLabel.text = result

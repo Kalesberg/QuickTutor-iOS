@@ -74,7 +74,6 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		numberLabel.label.text = "YOUR MOBILE NUMBER"
 		numberLabel.label.font = Fonts.createBoldSize(14)
 		
-		phoneTextField.textField.isEnabled = false
 		phoneTextField.textField.keyboardType = .numberPad
 
 //		phoneNumberTextField.textField.keyboardType = .numberPad
@@ -307,6 +306,7 @@ class SignIn: BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		hideKeyboardWhenTappedAround()
 		fbLoginManager.logOut()
 		contentView.phoneTextField.textField.delegate = self
 	}
@@ -329,41 +329,10 @@ class SignIn: BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		if (touchStartView is PhoneTextField) {
-			contentView.quicktutorText.fadeOut(withDuration: 0.2)
-			contentView.learnAnythingLabel.fadeOut(withDuration: 0.2)
-			//contentView.facebookButton2.fadeOut(withDuration: 0.2)
-			contentView.infoLabel.fadeOut(withDuration: 0.2)
-			
-			contentView.phoneTextField.snp.remakeConstraints({ (make) in
-				make.top.equalTo(self.contentView.backButton.snp.bottom)
-				make.width.equalToSuperview()
-				make.centerX.equalToSuperview()
-				make.height.equalTo(60)
-			})
-			
-			contentView.quicktutorFlame.snp.remakeConstraints({ (make) in
-				make.centerX.equalToSuperview()
-				make.top.equalTo(contentView.phoneTextField.snp.bottom).offset(30)
-			})
-			
-			contentView.setNeedsUpdateConstraints()
-			UIView.animate(withDuration: 0.7, delay: 0.2, options: [.curveEaseIn], animations: {
-				self.contentView.layoutIfNeeded()
-			}, completion: { (true) in
-				self.contentView.backButton.fadeIn(withDuration: 0.2, alpha: 1.0)
-				self.contentView.backButton.isUserInteractionEnabled = true
-				self.contentView.phoneTextField.textField.isEnabled = true
-				self.contentView.phoneTextField.textField.becomeFirstResponder()
-				self.contentView.nextButton.fadeIn(withDuration: 0.2, alpha: 1.0)
-			})
-			
-			contentView.nextButton.isUserInteractionEnabled = true
-		} else if(touchStartView is RegistrationBackButton) {
+		 if(touchStartView is RegistrationBackButton) {
 			
 			contentView.backButton.isUserInteractionEnabled = false
 			contentView.nextButton.isUserInteractionEnabled = false
-			contentView.phoneTextField.textField.isEnabled = false
 			
 			contentView.backButton.fadeOut(withDuration: 0.2)
 			contentView.nextButton.fadeOut(withDuration: 0.2)
@@ -389,7 +358,6 @@ class SignIn: BaseViewController {
 			}, completion: { (true) in
 				self.contentView.quicktutorText.fadeIn(withDuration: 0.2, alpha: 1.0)
 				self.contentView.learnAnythingLabel.fadeIn(withDuration: 0.2, alpha: 1.0)
-				//self.contentView.facebookButton2.fadeIn(withDuration: 0.2, alpha: 1.0)
 				self.contentView.infoLabel.fadeIn(withDuration: 0.2, alpha: 1.0)
 			})
 		} else if (touchStartView is RegistrationNextButton) {
@@ -457,6 +425,35 @@ class SignIn: BaseViewController {
 	}
 }
 extension SignIn : UITextFieldDelegate {
+	func textFieldDidBeginEditing(_ textField: UITextField) {
+		contentView.quicktutorText.fadeOut(withDuration: 0.2)
+		contentView.learnAnythingLabel.fadeOut(withDuration: 0.2)
+		contentView.infoLabel.fadeOut(withDuration: 0.2)
+		
+		contentView.phoneTextField.snp.remakeConstraints({ (make) in
+			make.top.equalTo(self.contentView.backButton.snp.bottom)
+			make.width.equalToSuperview()
+			make.centerX.equalToSuperview()
+			make.height.equalTo(60)
+		})
+		
+		contentView.quicktutorFlame.snp.remakeConstraints({ (make) in
+			make.centerX.equalToSuperview()
+			make.top.equalTo(contentView.phoneTextField.snp.bottom).offset(30)
+		})
+		
+		contentView.setNeedsUpdateConstraints()
+		UIView.animate(withDuration: 0.7, delay: 0.2, options: [.curveEaseIn], animations: {
+			self.contentView.layoutIfNeeded()
+		}, completion: { (true) in
+			self.contentView.backButton.fadeIn(withDuration: 0.2, alpha: 1.0)
+			self.contentView.backButton.isUserInteractionEnabled = true
+			self.contentView.phoneTextField.textField.becomeFirstResponder()
+			self.contentView.nextButton.fadeIn(withDuration: 0.2, alpha: 1.0)
+		})
+		
+		contentView.nextButton.isUserInteractionEnabled = true
+	}
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		

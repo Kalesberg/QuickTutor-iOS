@@ -68,7 +68,7 @@ class ProfileImageViewer : InteractableView, Interactable {
 		super.configureView()
 		
 		alpha = 0.0
-		backgroundColor = UIColor.black.withAlphaComponent(0.8)
+		backgroundColor = .black
 		pageControl.numberOfPages = imageCount
 
 		collectionView.dataSource = self
@@ -81,8 +81,8 @@ class ProfileImageViewer : InteractableView, Interactable {
 	override func applyConstraints() {
 		collectionView.snp.makeConstraints { (make) in
 			make.width.centerX.equalToSuperview()
-			make.centerY.equalToSuperview().multipliedBy(0.55)
-			make.height.equalToSuperview().multipliedBy(0.3)
+			make.centerY.equalToSuperview().multipliedBy(0.9)
+			make.height.equalToSuperview().multipliedBy(0.5)
 		}
 		pageControl.snp.makeConstraints { (make) in
 			make.top.equalTo(collectionView.snp.bottom)
@@ -109,7 +109,7 @@ extension ProfileImageViewer : UICollectionViewDelegate, UICollectionViewDataSou
 	}
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ProfileImageViewerCollectionViewCell
-		cell.profileImageView.sd_setImage(with: storageRef.child("student-info").child(userId).child("student-profile-pic\(indexPath.item+1)"), placeholderImage: nil)
+		cell.profileImageView.sd_setImage(with: storageRef.child("student-info").child(userId).child("student-profile-pic\(indexPath.item + 1)"), placeholderImage: nil)
 		cell.layoutSubviews()
 		return cell
 	}
