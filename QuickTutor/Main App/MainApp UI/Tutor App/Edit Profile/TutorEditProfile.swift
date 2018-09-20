@@ -428,11 +428,11 @@ extension TutorEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "School"
             
-            if tutor.school != "" {
+			if tutor.school != "" && tutor.school != nil {
                 cell.textField.attributedText = NSAttributedString(string: tutor.school!,
                                                                    attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             } else {
-                cell.textField.attributedText = NSAttributedString(string: "Add A School",
+                cell.textField.attributedText = NSAttributedString(string: "Enter a School",
                                                                    attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             }
             

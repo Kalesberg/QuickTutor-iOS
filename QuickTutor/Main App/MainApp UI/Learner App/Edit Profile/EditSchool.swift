@@ -21,7 +21,8 @@ class EditSchoolView : EditProfileMainLayout {
 		tableView.separatorColor = .black
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = Colors.backgroundDark
-        
+        tableView.tableFooterView = UIView()
+		
         return tableView
     }()
     
@@ -134,7 +135,8 @@ class EditSchool : BaseViewController {
         if text == "" {
             automaticScroll = false
             shouldUpdateSearchResults = false
-            return
+			contentView.tableView.reloadData()
+			return
         }
         
         shouldUpdateSearchResults = true
@@ -176,9 +178,9 @@ class EditSchool : BaseViewController {
             do {
                 let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
                 schoolArray = school.components(separatedBy: "\n") as [String]
+				schoolArray.insert("No School", at: 0)
             } catch {
                 schoolArray = []
-                print("Try-catch error")
             }
         }
     }
@@ -212,7 +214,24 @@ extension EditSchool : UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         var school : String
         school = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
-        
+		if school == "No School" {
+			//Delete School from learner and tutor account
+			let nodesToRemove = [
+				"/student-info/\(CurrentUser.shared.learner.uid!)/sch" : NSNull(),
+				"tutor-info/\(CurrentUser.shared.learner.uid!)/sch" : NSNull()
+				]
+			Tutor.shared.updateSharedValues(multiWriteNode: nodesToRemove) { (error) in
+				if let error = error {
+					print(error.localizedDescription)
+				}
+				CurrentUser.shared.learner.school = ""
+				if AccountService.shared.currentUserType == .tutor {
+					CurrentUser.shared.tutor.school = ""
+				}
+			}
+			displaySavedAlertController()
+			return
+		}
         switch AccountService.shared.currentUserType {
         case .learner:
             if !CurrentUser.shared.learner.isTutor {

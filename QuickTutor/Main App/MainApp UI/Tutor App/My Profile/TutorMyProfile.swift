@@ -245,7 +245,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             } else {
-                if tutor.school != "" {
+                if tutor.school != "" && tutor.school != nil {
                     cell.studysItem.label.text = "Studies at " + tutor.school!
                     cell.contentView.addSubview(cell.studysItem)
                     

@@ -399,13 +399,13 @@ extension LearnerEditProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.infoLabel.label.text = "School"
             
-            if let school = learner.school {
-                cell.textField.attributedText = NSAttributedString(string: school,
-                                                                   attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            } else {
-                cell.textField.attributedText = NSAttributedString(string: "Enter School",
-                                                                   attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            }
+			if learner.school != "" && learner.school != nil {
+				cell.textField.attributedText = NSAttributedString(string: learner.school!,
+																   attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+			} else {
+				cell.textField.attributedText = NSAttributedString(string: "Enter a School",
+																   attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+			}
             
             return cell
         default:
