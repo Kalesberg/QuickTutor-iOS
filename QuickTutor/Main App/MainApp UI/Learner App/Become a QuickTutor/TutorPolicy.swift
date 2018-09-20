@@ -314,11 +314,12 @@ class TutorPolicy : BaseViewController {
     
     override func handleNavigation() {
         if (touchStartView == contentView.tutorAgreementButton) {
-            let next = WebViewVC()
-            next.contentView.title.label.text = "Tutor Agreement"
-            next.url = "https://www.quicktutor.com/ita.pdf"
-            next.loadAgreementPdf()
-            navigationController?.pushViewController(next, animated: true)
+			guard let url = URL(string: "https://www.quicktutor.com/ita.pdf") else { return }
+			if #available(iOS 10, *) {
+				UIApplication.shared.open(url, options: [:]) { (_) in }
+			} else {
+				UIApplication.shared.openURL(url)
+			}
         } else if (touchStartView == contentView.checkBox) {
             accepted()
         } else if (touchStartView == contentView.backButton) {

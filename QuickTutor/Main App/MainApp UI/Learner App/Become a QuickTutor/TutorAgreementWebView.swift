@@ -19,6 +19,8 @@ class MainLayoutWebView : MainLayoutTitleBackButton {
 		
 		webView.scrollView.isScrollEnabled = true
 		webView.isUserInteractionEnabled = true
+		webView.scalesPageToFit = true
+		webView.contentMode = .scaleAspectFill
     }
     
     override func applyConstraints() {
@@ -49,7 +51,6 @@ class WebViewVC : BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     var url : String = ""
@@ -67,7 +68,8 @@ class WebViewVC : BaseViewController {
                 if error == nil {
                     DispatchQueue.main.async {
                         self.contentView.webView.loadRequest(request)
-                    }
+						self.contentView.webView.scrollView.contentSize.width = 100
+					}
                 } else {
                     self.navigationController?.popViewController(animated: true)
                     AlertController.genericErrorAlert(self, title: "Failed to Load", message: "Agreement Document failed to load, try again or visit our website")
@@ -79,8 +81,16 @@ class WebViewVC : BaseViewController {
         dismissOverlay()
     }
 
+	private func zoomToFit() {
+		let scrollView = contentView.webView.scrollView
+		
+		let zoom = contentView.webView.bounds.size.width / scrollView.contentSize.width;
+		scrollView.minimumZoomScale = zoom
+		scrollView.setZoomScale(zoom, animated: true)
+	}
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		contentView.webView.scalesPageToFit = true
 	}
 }
+
