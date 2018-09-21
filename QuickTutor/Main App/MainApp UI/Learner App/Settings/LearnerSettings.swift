@@ -563,7 +563,7 @@ class SettingsScrollView : BaseScrollView {
             SocialMedia.rateApp(appUrl: "itms-apps://itunes.apple.com/app/id1388092698", webUrl: "", completion: { (success) in
             })
         }  else if(touchStartView is TwitterIcon) {
-            SocialMedia.rateApp(appUrl:  "twitter://user?screen_name=QuickTutorApp", webUrl: "https://twitter.com/QuickTutorApp", completion: { (success) in
+            SocialMedia.rateApp(appUrl:  "twitter://user?screen_name=QuickTutor", webUrl: "https://twitter.com/QuickTutor", completion: { (success) in
             })
         } else if(touchStartView is InstagramIcon) {
             SocialMedia.rateApp(appUrl:  "instagram://user?username=QuickTutor", webUrl: "https://www.instagram.com/quicktutor/", completion: { (success) in
