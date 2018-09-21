@@ -307,11 +307,10 @@ extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
 		
         let formattedString = NSMutableAttributedString()
         formattedString
-            .regular("\(datasource[indexPath.row].created.earningsDateFormat()) - ", 16, .white)
-            .regular("\(datasource[indexPath.row].description ?? "Session")", 16, UIColor(hex: "22C755"))
+            .regular("\(datasource[indexPath.row].created.earningsDateFormat()) - ", 14, .white)
+            .regular("\(datasource[indexPath.row].description ?? "A tutoring session with me")", 14, UIColor(hex: "22C755"))
 
         cell.leftLabel.attributedText = formattedString
-        //cell.leftLabel.text = "\(datasource[indexPath.row].created.earningsDateFormat()) - \(datasource[indexPath.row].description ?? "Session")"
         if let net = datasource[indexPath.row].net {
             cell.rightLabel.text = net.currencyFormat()
         }

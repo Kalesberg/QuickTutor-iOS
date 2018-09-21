@@ -214,11 +214,12 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     override func handleNavigation() {
         if touchStartView is ConnectButton {
             if CurrentUser.shared.learner.hasPayment {
-                self.addTutorWithUid(datasource.uid)
+				self.addTutorWithUid(datasource.uid) {
+					//TODO: Add functionality once callback returns.
+				}
             } else {
                 let vc = next?.next?.next as! TutorConnect
                 vc.displayAddPaymentMethod()
-                
             }
         } else if touchStartView is FullProfile {
             if let current = UIApplication.getPresentedViewController() {
@@ -232,18 +233,15 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
 }
 
 extension TutorCardCollectionViewCell : AddTutorButtonDelegate {
-    func addTutorWithUid(_ uid: String) {
-        
-        DataService.shared.getTutorWithId(uid) { (tutor) in
-            
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-            
-            vc.receiverId = uid
-            vc.chatPartner = tutor
-            
-            navigationController.pushViewController(vc, animated: true)
-        }
-    }
+	func addTutorWithUid(_ uid: String, completion: (() -> Void)?) {
+		DataService.shared.getTutorWithId(uid) { (tutor) in
+			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+			vc.receiverId = uid
+			vc.chatPartner = tutor
+			navigationController.pushViewController(vc, animated: true)
+		}
+		completion!()
+	}
 }
 extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSource {
     

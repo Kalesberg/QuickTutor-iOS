@@ -648,6 +648,20 @@ extension LearnerFileReport : UITableViewDelegate, UITableViewDataSource {
 		cell.contentView.addSubview(border)
 	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		self.displayLoadingOverlay()
+		tableView.allowsSelection = false
+		FirebaseData.manager.fetchTutor(datasource[indexPath.row].otherId, isQuery: false) { (tutor) in
+			if let tutor = tutor {
+				let vc = TutorMyProfile()
+				vc.tutor = tutor
+				vc.isViewing = true
+				vc.contentView.rightButton.isHidden = true
+				vc.contentView.title.label.text = tutor.formattedName
+				self.navigationController?.pushViewController(vc, animated: true)
+			}
+			tableView.allowsSelection = true
+			self.dismissOverlay()
+		}
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }

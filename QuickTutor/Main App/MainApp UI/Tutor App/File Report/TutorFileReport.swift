@@ -152,6 +152,19 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
 		return [fileReport]
 	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		self.displayLoadingOverlay()
+		tableView.allowsSelection = false
+		FirebaseData.manager.fetchLearner(datasource[indexPath.row].otherId) { (learner) in
+			if let learner = learner {
+				let vc = LearnerMyProfile()
+				vc.learner = learner
+				vc.contentView.rightButton.isHidden = true
+				vc.isViewing = true
+				self.navigationController?.pushViewController(vc, animated: true)
+			}
+			tableView.allowsSelection = true
+			self.dismissOverlay()
+		}
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }

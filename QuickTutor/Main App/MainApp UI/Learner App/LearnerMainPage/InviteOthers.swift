@@ -38,7 +38,7 @@ class InviteOthersView : MainLayoutTitleBackTwoButton {
         label.font = Fonts.createBoldSize(16)
         label.textAlignment = .center
         label.textColor = .white
-        label.text = "Share QuickTutor with your friends and family. Invite them to join the party! 🎉"
+        label.text = "Share QuickTutor with your friends and family. Invite them to join the party!"
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
         
@@ -183,7 +183,7 @@ class InviteOthersBackgroundView : InteractableView, Interactable {
         let formattedString = NSMutableAttributedString()
         
         formattedString
-            .bold("Connect your phone contacts to invite some peeps! 👻", 19, .white)
+            .bold("Connect your phone contacts to invite some friends!", 19, .white)
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8

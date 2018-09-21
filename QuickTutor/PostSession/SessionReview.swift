@@ -430,7 +430,7 @@ class SessionReview : BaseViewController {
 					self.dismissOverlay()
 					return completion(StripeError.createChargeError)
 				}
-				Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: "Think of clever description of charge.", { (error) in
+				Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
 					if let error = error {
 						completion(error)
 					} else {

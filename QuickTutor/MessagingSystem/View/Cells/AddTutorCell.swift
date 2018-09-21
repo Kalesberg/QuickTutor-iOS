@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddTutorButtonDelegate {
-    func addTutorWithUid(_ uid: String)
+	func addTutorWithUid(_ uid: String, completion: (() -> Void)?)
 }
 
 class AddTutorCell: UICollectionViewCell {
@@ -115,7 +115,7 @@ class AddTutorCell: UICollectionViewCell {
 	
     @objc func addTutor() {
         guard let uid = userId else { return }
-        delegate?.addTutorWithUid(uid)
+		//delegate?.addTutorWithUid(uid, completion: () -> Void)
     }
     override init(frame: CGRect) {
         super.init(frame: frame)

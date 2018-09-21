@@ -353,28 +353,34 @@ extension AddTutor : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.displayLoadingOverlay()
+		tableView.allowsSelection = false
         FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { (tutor) in
-            guard let tutor = tutor else { return }
-            let next = TutorMyProfile()
-            next.tutor = tutor
-            next.isViewing = true
-            next.contentView.rightButton.isHidden = true
-            next.contentView.title.label.text = "\(self.filteredUsername[indexPath.section].username)"
-            self.navigationController?.pushViewController(next, animated: true)
+			if let tutor = tutor {
+				let next = TutorMyProfile()
+				next.tutor = tutor
+				next.isViewing = true
+				next.contentView.rightButton.isHidden = true
+				next.contentView.title.label.text = "\(self.filteredUsername[indexPath.section].username)"
+				self.navigationController?.pushViewController(next, animated: true)
+			}
+			tableView.allowsSelection = true
             self.dismissOverlay()
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 extension AddTutor : AddTutorButtonDelegate {
-    func addTutorWithUid(_ uid: String) {
-        DataService.shared.getTutorWithId(uid) { (tutor) in
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-            vc.receiverId = uid
-            vc.chatPartner = tutor
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
+	func addTutorWithUid(_ uid: String, completion: (() -> Void)?) {
+		DataService.shared.getTutorWithId(uid) { (tutor) in
+			if let tutor = tutor {
+				let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+				vc.receiverId = uid
+				vc.chatPartner = tutor
+				self.navigationController?.pushViewController(vc, animated: true)
+			}
+			completion!()
+		}
+	}
 }
 
 class AddTutorTableViewCell : UITableViewCell {
@@ -487,10 +493,13 @@ class AddTutorTableViewCell : UITableViewCell {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
     
-    @objc func addTutorButtonPressed(_ sender: Any) {
+	@objc func addTutorButtonPressed(_ sender: Any) {
+		addTutorButton.isEnabled = false
         if CurrentUser.shared.learner.hasPayment {
             guard let uid = self.uid else { return }
-            delegate?.addTutorWithUid(uid)
+			delegate?.addTutorWithUid(uid, completion: {
+				self.addTutorButton.isEnabled = true
+			})
         } else {
             let vc = next?.next?.next as! AddTutor
             vc.displayAddPaymentMethod()
@@ -500,6 +509,7 @@ class AddTutorTableViewCell : UITableViewCell {
 
 extension AddTutor : UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		self.view.endEditing(true)
     }
 }
 

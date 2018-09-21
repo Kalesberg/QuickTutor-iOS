@@ -192,6 +192,7 @@
 		84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */; };
 		84C4E93F206B61C2000C7A2F /* LearnerProfilePics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */; };
 		84C4E940206B61C2000C7A2F /* LearnerUnsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */; };
+		84C706C6215476E1008900D1 /* ConnectionsBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C706C5215476E1008900D1 /* ConnectionsBackgroundView.swift */; };
 		84C82FE420F0068A00E526B4 /* EditListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C82FE320F0068A00E526B4 /* EditListing.swift */; };
 		84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */; };
 		84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E31FF8997400737A59 /* TextLabel.swift */; };
@@ -595,6 +596,7 @@
 		84C4E93A206B61C1000C7A2F /* LearnerUnprofessional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerUnprofessional.swift; sourceTree = "<group>"; };
 		84C4E93B206B61C2000C7A2F /* LearnerProfilePics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerProfilePics.swift; sourceTree = "<group>"; };
 		84C4E93C206B61C2000C7A2F /* LearnerUnsafe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerUnsafe.swift; sourceTree = "<group>"; };
+		84C706C5215476E1008900D1 /* ConnectionsBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsBackgroundView.swift; sourceTree = "<group>"; };
 		84C82FE120ED99C700E526B4 /* YourListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourListing.swift; sourceTree = "<group>"; };
 		84C82FE320F0068A00E526B4 /* EditListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListing.swift; sourceTree = "<group>"; };
 		84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDigitTextField.swift; sourceTree = "<group>"; };
@@ -1606,6 +1608,7 @@
 				CFB60622207FD9A60029CFE4 /* Modals */,
 				CF833B88207C93C500323242 /* Delegates */,
 				CF6F5887205EE68800ACBD32 /* CustomTitleView.swift */,
+				84C706C5215476E1008900D1 /* ConnectionsBackgroundView.swift */,
 				CF6F5888205EE68800ACBD32 /* Cells */,
 				CF6F5894205EE68800ACBD32 /* MeetupRequests */,
 				CF6F589C205EE68800ACBD32 /* ConnectionRequestView.swift */,
@@ -2056,6 +2059,7 @@
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
 				84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */,
 				8469512320CA243D00325995 /* TutorAgreementWebView.swift in Sources */,
+				84C706C6215476E1008900D1 /* ConnectionsBackgroundView.swift in Sources */,
 				845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */,
 				842576602070295C00FD295B /* AddSubjectTableViewCell.swift in Sources */,
 				CFF5017B206990B20085B0E9 /* LearnerReviews.swift in Sources */,

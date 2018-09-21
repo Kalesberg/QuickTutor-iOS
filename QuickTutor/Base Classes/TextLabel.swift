@@ -43,7 +43,7 @@ class CenterTextLabel: TextLabel {
     
     override func applyConstraints() {
         label.textAlignment = .center
-        
+        label.adjustsFontSizeToFitWidth = true
         label.snp.makeConstraints { (make) in
             make.height.equalToSuperview().multipliedBy(0.9)
             make.width.equalToSuperview()

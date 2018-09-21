@@ -11,7 +11,13 @@ import Firebase
 
 class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     
-    var connections = [User]()
+	var connections = [User]() {
+		didSet {
+			if connections.count > 0 {
+				collectionView.backgroundView = nil
+			}
+		}
+	}
     var parentPageViewController : PageViewController!
 
     var navBar: ZFNavBar = {
@@ -30,7 +36,9 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(ConnectionCell.self, forCellWithReuseIdentifier: "cellId")
         cv.backgroundColor = Colors.darkBackground
-        return cv
+		cv.backgroundView = ConnectionsBackgroundView()
+		
+		return cv
     }()
     
     func setupViews() {

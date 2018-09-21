@@ -81,7 +81,6 @@ class SessionReceiptItem : UIView {
 	let title : UILabel = {
 		let label = UILabel()
 		
-		label.text = "Text"
 		label.textColor = Colors.learnerPurple
 		label.textAlignment = .right
 		label.font = Fonts.createSize(14)
@@ -93,7 +92,6 @@ class SessionReceiptItem : UIView {
 	let infoLabel : UILabel = {
 		let label = UILabel()
 		
-		label.text = "Text"
 		label.textColor = .white
 		label.textAlignment = .left
 		label.font = Fonts.createSize(15)
