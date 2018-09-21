@@ -117,6 +117,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     private func setupNavBar() {
         addNavBar()
         setupTitleView()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     private func setupTitleView() {
