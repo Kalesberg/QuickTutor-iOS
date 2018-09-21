@@ -37,7 +37,6 @@ class EditListingView : MainLayoutTitleBackTwoButton {
         super.configureView()
         
         title.label.text = "Edit Listing"
-
     }
     
     override func applyConstraints() {
@@ -106,7 +105,7 @@ class EditListing : BaseViewController {
 
 	private func handleListingErrorsAndSave() {
 		guard let subject = self.subject else {
-			AlertController.genericErrorAlertWithoutCancel(self, title: "Please Fill out all Fields", message: "Add a subject you would like to post on this listing.")
+			AlertController.genericErrorAlertWithoutCancel(self, title: "Please Fill Out All Fields", message: "Add a subject you would like to post on this listing.")
 			return()
 		}
 		guard let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? EditProfileHourlyRateTableViewCell else { return }
@@ -280,7 +279,7 @@ extension EditListing : UIImagePickerControllerDelegate, UINavigationControllerD
 	
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 // Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+		let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
 		if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
 			let circleCropController = AACircleCropViewController()
@@ -447,7 +446,7 @@ class EditListingPhotoTableViewCell : UITableViewCell {
     let listingImage : UIImageView = {
         let view = UIImageView()
         
-        view.image = #imageLiteral(resourceName: "registration-image-placeholder")
+        view.image = #imageLiteral(resourceName: "placeholder-square")
         view.layer.cornerRadius = 15
         
         return view
