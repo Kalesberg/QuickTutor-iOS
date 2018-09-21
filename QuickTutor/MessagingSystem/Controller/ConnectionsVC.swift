@@ -11,13 +11,8 @@ import Firebase
 
 class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     
-	var connections = [User]() {
-		didSet {
-			if connections.count > 0 {
-				collectionView.backgroundView = nil
-			}
-		}
-	}
+	var connections = [User]()
+    
     var parentPageViewController : PageViewController!
     var isTransitioning = false
 
@@ -37,8 +32,7 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(ConnectionCell.self, forCellWithReuseIdentifier: "cellId")
         cv.backgroundColor = Colors.darkBackground
-		cv.backgroundView = ConnectionsBackgroundView()
-		
+		cv.alwaysBounceVertical = true
 		return cv
     }()
     
@@ -74,6 +68,7 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("connections").child(uid).child(userTypeString).observeSingleEvent(of: .value) { snapshot in
+            self.shouldShowEmptyBackground(snapshot.exists())
             guard let connections = snapshot.value as? [String: Any] else { return }
             connections.forEach({ key, _ in
                 DataService.shared.getStudentWithId(key, completion: { (userIn) in
@@ -83,6 +78,10 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
                 })
             })
         }
+    }
+    
+    func shouldShowEmptyBackground(_ result: Bool ) {
+        collectionView.backgroundView = result ? nil : ConnectionsBackgroundView()
     }
     
     func handleLeftViewTapped() {
@@ -122,7 +121,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
                 vc.tutor = tutor
                 vc.isViewing = true
                 vc.contentView.rightButton.isHidden = true
-                vc.contentView.title.label.text = tutor.formattedName ?? ""
+                vc.contentView.title.label.text = tutor.formattedName
                 self.navigationController?.pushViewController(vc, animated: true)
             })
         } else {
