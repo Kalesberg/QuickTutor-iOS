@@ -235,8 +235,6 @@ class Verification : BaseViewController {
 		if verificationCode.count != 6 {
 			return displayCredentialError()
 		}
-		
-		print(verificationCode.count)
 		let verificationId = UserDefaults.standard.value(forKey: Constants.VRFCTN_ID)
 		let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId! as! String, verificationCode: verificationCode)
         signInRegisterWithCredential(credential)

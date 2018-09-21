@@ -37,17 +37,26 @@ class SSNDigitTextField : RegistrationDigitTextField {
 class TutorSSNView : TutorRegistrationLayout, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
-	var titleLabel        = UILabel()
 	
-	var digitView         = UIView()
+	var titleLabel : UILabel = {
+		let label = UILabel()
+		label.text = "For authentication purposes, we'll need the last 4 digits of your Social Security Number."
+		label.numberOfLines = 0
+		label.sizeToFit()
+		label.font = Fonts.createBoldSize(18)
+		label.textColor = .white
+		return label
+	}()
 	
-	var digit1            = SSNDigitTextField()
-	var digit2            = SSNDigitTextField()
-	var digit3            = SSNDigitTextField()
-	var digit4            = SSNDigitTextField()
+	var digitView = UIView()
 	
-	var lockImageView     = UIImageView()
-	var ssnInfo           = LeftTextLabel()
+	var digit1 = SSNDigitTextField()
+	var digit2 = SSNDigitTextField()
+	var digit3 = SSNDigitTextField()
+	var digit4 = SSNDigitTextField()
+	
+	var lockImageView = UIImageView()
+	var ssnInfo = LeftTextLabel()
 	
 	override func configureView() {
 		addSubview(titleLabel)
@@ -65,11 +74,6 @@ class TutorSSNView : TutorRegistrationLayout, Keyboardable {
         
 		title.label.text = "SSN"
 		
-		titleLabel.text = "For authentication purposes, we'll need the last 4 digits of your Social Security Number."
-		titleLabel.numberOfLines = 0
-		titleLabel.sizeToFit()
-		titleLabel.font = Fonts.createBoldSize(18)
-		titleLabel.textColor = .white
 		navbar.backgroundColor = Colors.tutorBlue
 		statusbarView.backgroundColor = Colors.tutorBlue
 		
@@ -77,7 +81,6 @@ class TutorSSNView : TutorRegistrationLayout, Keyboardable {
 		ssnInfo.label.font = Fonts.createSize(15)
 		
 		lockImageView.image = UIImage(named: "registration-ssn-lock")
-		
 	}
 	
 	override func applyConstraints() {
@@ -107,48 +110,20 @@ class TutorSSNView : TutorRegistrationLayout, Keyboardable {
 			make.centerX.equalToSuperview()
 		}
 	}
-    
-    func keyboardWillAppear() {
-        if (digit1.textField.isFirstResponder) {
-            if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
-                ssnInfo.alpha = 0.0
-            }
-        
-            needsUpdateConstraints()
-            layoutIfNeeded()
-        }
-    }
-    
-    func keyboardWillDisappear() {
-        if (digit4.textField.isFirstResponder) {
-            if (UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480) {
-                UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
-                    self.ssnInfo.alpha = 1.0
-                })
-            }
-            needsUpdateConstraints()
-            
-            UIView.animate(withDuration: 0.2, animations: {
-                self.layoutIfNeeded()
-            })
-        }
-    }
 }
 
 
 class TutorSSN : BaseViewController {
-	
 	override var contentView: TutorSSNView {
 		return view as! TutorSSNView
 	}
+	
 	override func loadView() {
 		view = TutorSSNView()
 	}
 	
-	var last4SSN : String = ""
 	var index : Int = 0
 	var textFields : [UITextField] = []
-	var isValid : Bool = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -157,11 +132,9 @@ class TutorSSN : BaseViewController {
 		if (!(UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480)) {
             contentView.digit1.textField.becomeFirstResponder()
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
+		
 		textFields = [contentView.digit1.textField, contentView.digit2.textField, contentView.digit3.textField, contentView.digit4.textField]
+		
 		configureTextFields()
 	}
 	
@@ -176,6 +149,7 @@ class TutorSSN : BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+		textFields[0].becomeFirstResponder()
 	}
 	
 	override func viewDidDisappear(_ animated: Bool) {
@@ -186,47 +160,13 @@ class TutorSSN : BaseViewController {
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 	}
-    
-    @objc func keyboardWillAppear() {
-        (self.view as! TutorSSNView).keyboardWillAppear()
-    }
-    
-    @objc func keyboardWillDisappear() {
-        (self.view as! TutorSSNView).keyboardWillDisappear()
-    }
 	
 	private func configureTextFields() {
 		for textField in textFields {
 			textField.delegate = self
 			textField.isEnabled = false
-			textField.addTarget(self, action: #selector(buildLast4SSN(_:)), for: .editingChanged)
 		}
 		textFields[0].isEnabled = true
-	}
-	
-	@objc private func buildLast4SSN(_ textField: UITextField) {
-		guard let first = textFields[0].text, first != "" else {
-			print("not valid")
-			isValid = false
-			return
-		}
-		guard let second = textFields[1].text, second != "" else {
-			print("not valid")
-			isValid = false
-			return
-		}
-		guard let third = textFields[2].text, third != "" else {
-			print("not valid")
-			isValid = false
-			return
-		}
-		guard let forth = textFields[3].text, forth != "" else {
-			print("not valid")
-			isValid = false
-			return
-		}
-		isValid = true
-		last4SSN = first + second + third + forth
 	}
 	
 	private func textFieldController(current: UITextField, textFieldToChange: UITextField) {
@@ -236,7 +176,9 @@ class TutorSSN : BaseViewController {
 	
 	override func handleNavigation() {
 		if(touchStartView is NavbarButtonNext) {
-			if isValid == true {
+			var last4SSN = ""
+			textFields.forEach({ last4SSN.append($0.text!) })
+			if last4SSN.count == 4 {
 				TutorRegistration.last4SSN = last4SSN
 				self.navigationController?.pushViewController(TutorRegPayment(), animated: true)
 			} else {

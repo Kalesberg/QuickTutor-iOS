@@ -1979,7 +1979,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -1989,7 +1989,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${PODS_ROOT}/Reveal-SDK/RevealServer-17/iOS/RevealServer.framework",
+				"${PODS_ROOT}/Reveal-SDK/RevealServer-18/iOS/RevealServer.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
@@ -2028,7 +2028,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {

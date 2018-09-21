@@ -124,7 +124,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.6.1)
-  - Reveal-SDK (17)
+  - Reveal-SDK (18)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
@@ -243,7 +243,7 @@ SPEC CHECKSUMS:
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  Reveal-SDK: a6df49f47319bd19a110c960c498af32df72c0af
+  Reveal-SDK: cce79388da3fd0bbb6ae19d769b906cfc3a33a89
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
@@ -255,4 +255,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 4cd0eef23cfc38b744a1c92234dcd271833a1961
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0.beta.1
