@@ -37,11 +37,14 @@ class YourListingView : MainLayoutTitleTwoButton {
 		}
 	}
 	
-    let scrollView = UIScrollView()
-    
+	let scrollView : UIScrollView = {
+		let scrollView = UIScrollView()
+		scrollView.alwaysBounceVertical = true
+		return scrollView
+	}()
+	
     let collectionView : UICollectionView = {
         let collectionView  = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-		
 		let layout = UICollectionViewFlowLayout()
 		
 		layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -50,8 +53,6 @@ class YourListingView : MainLayoutTitleTwoButton {
 		
 		collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = UIColor(hex: "344161")
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
 		collectionView.isPagingEnabled = true
 		
 		return collectionView

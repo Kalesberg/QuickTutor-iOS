@@ -446,7 +446,7 @@ class EditListingPhotoTableViewCell : UITableViewCell {
     let listingImage : UIImageView = {
         let view = UIImageView()
         
-        view.image = #imageLiteral(resourceName: "placeholder-square")
+		view.image = UIImage(named: "placeholder-square")
         view.layer.cornerRadius = 15
         
         return view
@@ -489,8 +489,10 @@ class EditListingPhotoTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+		
+		container.backgroundColor = UIColor(hex: "344161")
 
-		container.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 0, frame: container.bounds)
+		//container.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 0, frame: container.bounds)
 
         labelContainer.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 90, frame: labelContainer.bounds)
 		
