@@ -432,7 +432,9 @@ extension TutorMainPage : UICollectionViewDelegate, UICollectionViewDataSource, 
         cell.label.text = TutorMainPageButtonFactory.buttons[indexPath.item].mainPageButton.label
         cell.label.textColor = .white
 
-        if indexPath.item == 3 && (tutor.hours! < 15 || tutor.tRating! < 4.5) {
+        //TODO: Crashes when push notification is clicked
+        guard let _ = tutor else { return cell }
+        if indexPath.item == 3 && (tutor.hours ?? 16 < 15 || tutor.tRating ?? 5 < 4.5) {
             let lockView = UnlockCellView()
             lockView.frame.size.height = cell.bounds.height - 30
             lockView.frame.size.width = cell.bounds.width

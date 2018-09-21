@@ -51,6 +51,19 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         return textView
     }()
     
+    let textViewCover: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.grayText
+        label.textAlignment = .center
+        label.text = "Unable to send message until\ntutor accepts connection request."
+        label.font = Fonts.createBoldSize(14)
+        label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
+        label.backgroundColor = Colors.navBarColor
+        label.isHidden = true
+        return label
+    }()
+    
     var leftAccessoryView: UIView = {
         let view = UIView()
         return view
@@ -71,9 +84,10 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         setupMessageTextfield()
         setupBackgroundView()
         setupSeparator()
+        setupTextFieldCover()
     }
     
-    private func setupMainView() {
+    func setupMainView() {
         frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         backgroundColor = .clear
         autoresizingMask = .flexibleHeight
@@ -86,13 +100,13 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         leftAccessoryViewWidthAnchor?.isActive = true
     }
     
-    private func setupSubmitButton() {
+    func setupSubmitButton() {
         addSubview(submitButton)
         submitButton.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 34, height: 34)
         submitButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
     }
 
-    private func setupMessageTextfield() {
+    func setupMessageTextfield() {
         addSubview(messageTextview)
         messageTextview.anchor(top: nil, left: leftAccessoryView.rightAnchor, bottom: getBottomAnchor(), right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 12, paddingBottom: 8, paddingRight: 12, width: 0, height: 0)
         addConstraint(NSLayoutConstraint(item: messageTextview, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: submitButton, attribute: .height, multiplier: 0.68, constant: 0))
@@ -100,14 +114,19 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         messageFieldTopAnchor?.isActive = true
     }
     
-    private func setupBackgroundView() {
+    func setupBackgroundView() {
         insertSubview(backgroundView, at: 0)
         backgroundView.anchor(top: messageTextview.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 300)
     }
     
-    private func setupSeparator() {
+    func setupSeparator() {
         addSubview(lineSeparatorView)
         lineSeparatorView.anchor(top: messageTextview.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
+    }
+    
+    func setupTextFieldCover() {
+        addSubview(textViewCover)
+        textViewCover.anchor(top: nil, left: leftAnchor, bottom: messageTextview.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
     }
     
     @objc func handleSend() {
@@ -118,6 +137,17 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         messageTextview.text = nil
         messageTextview.placeholderLabel.isHidden = false
         delegate?.handleMessageSend(message: message)
+    }
+    
+    func hideTextViewCover() {
+        textViewCover.isHidden = true
+    }
+    
+    func showTextViewCover() {
+        if AccountService.shared.currentUserType == .tutor {
+            textViewCover.text = "Unable to send message until\nyou accept connection request."
+        }
+        textViewCover.isHidden = false
     }
     
     convenience init(chatPartnerId: String) {

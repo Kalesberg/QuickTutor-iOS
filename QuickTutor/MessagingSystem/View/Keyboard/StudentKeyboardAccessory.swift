@@ -42,19 +42,6 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         return view
     }()
     
-    let textViewCover: UILabel = {
-        let label = UILabel()
-        label.textColor = Colors.grayText
-        label.textAlignment = .center
-        label.text = "Unable to send message until\ntutor accepts connection request."
-        label.font = Fonts.createBoldSize(14)
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        label.backgroundColor = Colors.navBarColor
-        label.isHidden = true
-        return label
-    }()
-    
     let chatView: QuickChatView = {
         let chat = QuickChatView()
         return chat
@@ -64,7 +51,6 @@ class StudentKeyboardAccessory: KeyboardAccessory {
     
     override func setupViews() {
         super.setupViews()
-        setupTextFieldCover()
         setupBackgroundBlurView()
         setupActionView()
         setupQuickChatView()
@@ -92,11 +78,6 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(toggleActionView))
         dismissTap.numberOfTapsRequired = 1
         backgroundBlurView.addGestureRecognizer(dismissTap)
-    }
-    
-    func setupTextFieldCover() {
-        addSubview(textViewCover)
-        textViewCover.anchor(top: nil, left: leftAnchor, bottom: messageTextview.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
     }
     
     @objc func toggleActionView() {
@@ -170,13 +151,6 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         }).startAnimation()
     }
     
-    func hideTextViewCover() {
-        textViewCover.isHidden = true
-    }
-    
-    func showTextViewCover() {
-        textViewCover.isHidden = false
-    }
 }
 
 extension StudentKeyboardAccessory: QuickChatViewDelegate {

@@ -62,6 +62,9 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         return view
     }()
     
+    let titleViewFrame = CGRect(x: 0, y: 0, width: 100, height: 50)
+    lazy var titleView = CustomTitleView(frame: titleViewFrame)
+    
     var actionSheet: FileReportActionsheet?
     let studentKeyboardAccessory = StudentKeyboardAccessory()
     let teacherKeyboardAccessory = TeacherKeyboardAccessory()
@@ -117,8 +120,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     }
     
     private func setupTitleView() {
-        let frame = CGRect(x: 0, y: 0, width: 100, height: 50)
-        let titleView = CustomTitleView(frame: frame)
         if let partner = chatPartner {
             titleView.updateUI(user: partner)
         }
@@ -190,6 +191,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         setupKeyboardObservers()
         studentKeyboardAccessory.chatView.delegate = self
         listenForSessionUpdates()
+        loadAWUsers()
         
         imageMessageSender.receiverId = receiverId
         DataService.shared.getConversationMetaDataForUid(receiverId) { (metaDataIn) in
@@ -223,7 +225,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     }
     
     func setMessageTextViewCoverHidden(_ result: Bool) {
-        guard let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory else { return }
+        guard let keyboardAccessory = inputAccessoryView as? KeyboardAccessory else { return }
         result ? keyboardAccessory.hideTextViewCover() : keyboardAccessory.showTextViewCover()
     }
     
@@ -285,6 +287,20 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         }
         self.updateStatusLabel()
         messagesCollection.reloadData()
+    }
+    
+    func loadAWUsers() {
+        if AccountService.shared.currentUserType == .learner {
+            FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutorIn) in
+                guard let tutor = tutorIn else { return }
+                self.titleView.tutor = tutor
+            }
+        } else {
+            FirebaseData.manager.fetchLearner(receiverId) { (learnerIn) in
+                guard let learner = learnerIn else { return }
+                self.titleView.learner = learner
+            }
+        }
     }
     
     func updateStatusLabel() {

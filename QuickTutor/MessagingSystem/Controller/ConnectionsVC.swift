@@ -13,6 +13,7 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     
     var connections = [User]()
     var parentPageViewController : PageViewController!
+    var isTransitioning = false
 
     var navBar: ZFNavBar = {
         let bar = ZFNavBar()
@@ -56,6 +57,11 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         fetchConnections()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isTransitioning = false
+    }
+    
     func fetchConnections() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -94,8 +100,9 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.delegate = self
         return cell
     }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard !isTransitioning else { return }
+        isTransitioning = true
         let cell = collectionView.cellForItem(at: indexPath) as! ConnectionCell
         cell.handleTouchDown()
         let user = connections[indexPath.item]

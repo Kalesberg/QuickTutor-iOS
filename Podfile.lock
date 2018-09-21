@@ -139,8 +139,8 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
-  - Crashlytics (~> 3.10.5)
-  - Fabric (~> 1.7.9)
+  - Crashlytics
+  - Fabric
   - FBSDKCoreKit (= 4.24.0)
   - FBSDKLoginKit (= 4.24.0)
   - FBSDKShareKit (= 4.24.0)
@@ -253,6 +253,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
   TwilioVideo: 08cada2c04a7a908655fd80a1423a9c762344625
 
-PODFILE CHECKSUM: 955721c81c17665f22130de6729707422ac7cc64
+PODFILE CHECKSUM: 4cd0eef23cfc38b744a1c92234dcd271833a1961
 
 COCOAPODS: 1.5.3

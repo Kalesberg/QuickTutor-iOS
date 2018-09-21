@@ -40,8 +40,8 @@ target 'QuickTutor' do
   pod 'Socket.IO-Client-Swift', '~> 13.1.0'
   
   #Pods for Crashlytics & Performance
-  pod 'Fabric', '~> 1.7.9'
-  pod 'Crashlytics', '~> 3.10.5'
+  pod 'Fabric'
+  pod 'Crashlytics'
   pod 'Firebase/Performance'
   
   pod 'SwipeCellKit'
