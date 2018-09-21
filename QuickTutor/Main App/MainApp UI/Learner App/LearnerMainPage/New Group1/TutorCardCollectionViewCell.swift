@@ -44,19 +44,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     }()
     
     let rateLabelContainer = UIView()
-   // let distanceLabel = UILabel()
-
-//    let distanceExtraLabel : UILabel = {
-//        let label = UILabel()
-//
-//        label.font = Fonts.createBoldSize(12)
-//        label.textColor = Colors.lightBlue
-//        label.textAlignment = .center
-//
-//        return label
-//    }()
-	
-    //let distanceLabelContainer = UIView()
     let connectButton = ConnectButton()
     let tableViewContainer = UIView()
     
@@ -87,10 +74,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     func configureCollectionViewCell() {
         configureViews()
         configureDelegates()
-        
-//        distanceLabelContainer.isHidden = true
-//        distanceLabel.numberOfLines  = 0
-
+	
         applyConstraints()
     }
     
@@ -101,15 +85,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.centerX.equalToSuperview()
             make.height.equalTo(135)
         }
-//        reviewLabel.snp.makeConstraints { (make) in
-//            make.center.equalToSuperview()
-//        }
-//        reviewLabelContainer.snp.makeConstraints { (make) in
-//            make.top.equalTo(header).inset(-13)
-//            make.left.equalTo(rateLabelContainer.snp.right).inset(-10)
-//            make.width.equalTo(reviewLabel).inset(-12)
-//            make.height.equalTo(24)
-//        }
+
         rateLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
         }
@@ -119,21 +95,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.width.equalTo(rateLabel).inset(-16)
             make.height.equalTo(24)
         }
-//        distanceLabel.snp.makeConstraints { (make) in
-//            make.top.equalToSuperview().inset(4)
-//            make.width.equalToSuperview().inset(2)
-//            make.centerX.equalToSuperview()
-//        }
-//        distanceExtraLabel.snp.makeConstraints { (make) in
-//            make.top.equalTo(distanceLabel.snp.bottom).inset(5)
-//            make.width.equalTo(distanceLabel)
-//            make.centerX.equalToSuperview()
-//        }
-//        distanceLabelContainer.snp.makeConstraints { (make) in
-//            make.top.equalTo(header).inset(-7)
-//            make.right.equalToSuperview().inset(-7)
-//            make.width.height.equalTo(56)
-//        }
+
         tableViewContainer.snp.makeConstraints { (make) in
             make.top.equalTo(header.snp.bottom)
             make.width.equalToSuperview()
@@ -193,9 +155,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         reviewLabelContainer.addSubview(reviewLabel)
         addSubview(rateLabelContainer)
         rateLabelContainer.addSubview(rateLabel)
-//        addSubview(distanceLabelContainer)
-//        distanceLabelContainer.addSubview(distanceLabel)
-//        distanceLabelContainer.addSubview(distanceExtraLabel)
         addSubview(connectButton)
         
         tableViewContainer.backgroundColor = Colors.registrationDark
@@ -205,10 +164,7 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
         
         rateLabelContainer.backgroundColor = Colors.green
         rateLabelContainer.layer.cornerRadius = 12
-        
-//        distanceLabelContainer.backgroundColor = .white
-//        distanceLabelContainer.layer.cornerRadius = 28
-//        
+		
         layoutIfNeeded()
     }
     override func handleNavigation() {
@@ -293,7 +249,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                     make.top.equalTo(cell.locationItem.snp.bottom)
                 }
                 
-                if datasource?.school != ""  {
+                if datasource.school != "" && datasource.school != nil {
                     cell.studysItem.label.text = datasource.school
                     cell.contentView.addSubview(cell.studysItem)
                     
@@ -321,10 +277,9 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
                     }
                 }
             } else {
-                if datasource?.school != "" {
+                if datasource.school != "" && datasource.school != nil {
                     cell.studysItem.label.text = datasource.school
                     cell.contentView.addSubview(cell.studysItem)
-                    
                     cell.tutorItem.snp.makeConstraints { (make) in
                         make.left.equalToSuperview().inset(12)
                         make.right.equalToSuperview().inset(20)
@@ -356,9 +311,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-            guard let datasource = datasource?.subjects else {
-                return cell
-            }
+            guard let datasource = datasource?.subjects else { return cell }
             
             cell.datasource = datasource
             return cell

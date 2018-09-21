@@ -460,13 +460,6 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.rateLabel.text = data[indexPath.row].price.formatPrice()
         cell.datasource = data[indexPath.row]
 		
-//		if let location = filters?.location {
-//            if let tutorLocation = data[indexPath.row].location?.location {
-//                let distance = location.distance(from: tutorLocation) / 1609.343
-//                cell.distanceLabelContainer.isHidden = false
-//                cell.distanceLabel.attributedText = distance.formatDistance()
-//            }
-//        }
         cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
         return cell
     }
