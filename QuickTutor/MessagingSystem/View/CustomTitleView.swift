@@ -11,6 +11,8 @@ import UIKit
 class CustomTitleView: UIView {
     
     var user: User!
+    var tutor: AWTutor!
+    var learner: AWLearner!
     
     let imageView: UserImageView = {
         let iv = UserImageView()
@@ -28,7 +30,7 @@ class CustomTitleView: UIView {
     
     let activeLabel: UILabel = {
         let label = UILabel()
-		label.textColor = .white
+        label.textColor = .white
         label.font = Fonts.createSize(10)
         label.textAlignment = .center
         return label
@@ -41,8 +43,8 @@ class CustomTitleView: UIView {
         return iv
     }()
     
-    var nameLabelHeightAnchor: NSLayoutConstraint? = nil
-	
+    var nameLabelHeightAnchor: NSLayoutConstraint?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -50,8 +52,8 @@ class CustomTitleView: UIView {
     
     func updateUI(user: User) {
         self.user = user
-        titleLabel.text = user.formattedName.capitalized
-        OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { (result) in
+        titleLabel.text = user.formattedName
+        OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result in
             guard let result = result else { return }
             self.activeLabel.text = result
             self.updateOnlineStatusIndicator()
@@ -72,32 +74,26 @@ class CustomTitleView: UIView {
     }
     
     @objc func showProfile() {
-		
+        
         let type = AccountService.shared.currentUserType
-		
-		if type == .learner {
-            FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { (tutor) in
-                guard let tutor = tutor else { return }
-                let vc = TutorMyProfile()
-                vc.tutor = tutor
-				vc.isViewing = true
-                vc.contentView.rightButton.isHidden = true
-				vc.contentView.title.label.text = tutor.formattedName
-                navigationController.pushViewController(vc, animated: true)
-            })
-		} else {
-            FirebaseData.manager.fetchLearner(user.uid) { (learner) in
-                guard let learner = learner else { return }
-                let vc = LearnerMyProfile()
-                vc.learner = learner
-                vc.contentView.rightButton.isHidden = true
-				vc.isViewing = true
-				navigationController.pushViewController(vc, animated: true)
-            }
-		}
+        
+        if type == .learner {
+            let vc = TutorMyProfile()
+            vc.tutor = tutor
+            vc.isViewing = true
+            vc.contentView.rightButton.isHidden = true
+            vc.contentView.title.label.text = tutor.formattedName
+            navigationController.pushViewController(vc, animated: true)
+        } else {
+            let vc = LearnerMyProfile()
+            vc.learner = learner
+            vc.contentView.rightButton.isHidden = true
+            vc.isViewing = true
+            navigationController.pushViewController(vc, animated: true)
+        }
     }
-
-	private func setupImageView() {
+    
+    private func setupImageView() {
         addSubview(imageView)
         imageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 38, height: 38)
     }

@@ -13,6 +13,7 @@ import UserNotifications
 import FBSDKCoreKit
 import Stripe
 import AVFoundation
+import Crashlytics
 
 var navigationController = UINavigationController()
 
@@ -124,7 +125,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func handleSignIn(completion: @escaping () -> Void) {
         guard let user = Auth.auth().currentUser else {
-            configureRootViewController(controller: SignIn())
+            configureRootViewController(controller: SignIn(), completion: {
+                
+            })
             completion()
             return
         }
@@ -134,13 +137,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         
         FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
             guard successful else {
-                self.configureRootViewController(controller: SignIn())
+                self.configureRootViewController(controller: SignIn(), completion: {
+                    
+                })
                 completion()
                 return
             }
             let vc2 = ConnectionsVC()
             self.updateFCMTokenIfNeeded()
-            self.configureRootViewController(controller: vc)
+            self.configureRootViewController(controller: vc, completion: {
+                
+            })
             completion()
         }
     }
@@ -151,7 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         }
     }
     
-    func configureRootViewController(controller: UIViewController) {
+    func configureRootViewController(controller: UIViewController, completion: @escaping() -> Void) {
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [], animations: {
             self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         }) { (true) in
@@ -163,6 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 navigationController.navigationBar.isHidden = true
                 self.window?.makeKeyAndVisible()
                 self.window?.rootViewController = navigationController
+                completion()
                 self.removeDataObserver()
                 self.listenForData()
                 self.checkForUnfinishedSessions()
@@ -279,13 +287,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         if (firebaseAuth.canHandleNotification(userInfo)){
             print(userInfo)
         }
-        guard let receiverAccountType = userInfo["receiverAccountType"] as? String else { return }
-        if receiverAccountType == "learner" {
-            let vc = LearnerPageViewController()
-            configureRootViewController(controller: vc)
-        } else {
-            let vc = TutorPageViewController()
-            configureRootViewController(controller: vc)
+        handlePushNotification(userInfo: userInfo)
+    }
+    
+    func handlePushNotification(userInfo:[AnyHashable: Any]) {
+        let notification = PushNotification(userInfo: userInfo)
+        let vc = notification.receiverAccountType == "learner" ? LearnerPageViewController() : TutorPageViewController()
+        configureRootViewController(controller: vc) {
+            self.handleMessageType(notification: notification)
+        }
+    }
+    
+    func handleMessageType(notification: PushNotification) {
+        guard notification.category == "messages" else { return }
+        if let type = notification.receiverAccountType {
+            AccountService.shared.currentUserType = UserType(rawValue: type)!
+        }
+        DataService.shared.getUserOfOppositeTypeWithId(notification.partnerId()) { (userIn) in
+            guard let user = userIn else { return }
+            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            vc.receiverId = notification.partnerId()
+            vc.chatPartner = user
+            navigationController.pushViewController(vc, animated: true)
         }
     }
     
@@ -293,10 +316,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         guard let receiverAccountType = userInfo["receiverAccountType"] as? String else { return }
         if receiverAccountType == "learner" {
             let vc = LearnerPageViewController()
-            configureRootViewController(controller: vc)
+            configureRootViewController(controller: vc, completion: {
+                
+            })
         } else {
             let vc = TutorPageViewController()
-            configureRootViewController(controller: vc)
+            configureRootViewController(controller: vc, completion: {
+                
+            })
         }
     }
     

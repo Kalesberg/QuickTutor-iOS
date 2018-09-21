@@ -247,6 +247,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     func sessionManager(_ sessionManager: SessionManager, didUnpause session: Session) {
         sessionManager.startSessionRuntime()
         self.pauseSessionModal?.dismiss()
+        self.pauseSessionModal = nil
     }
     
     func sessionManager(_ sessionManager: SessionManager, didEnd session: Session) {

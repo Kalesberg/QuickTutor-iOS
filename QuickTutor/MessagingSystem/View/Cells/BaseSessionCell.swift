@@ -76,6 +76,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         label.textAlignment = .right
         label.font = Fonts.createBoldSize(9)
         label.textColor = UIColor(hex: "FFDA02")
+        label.text = "5.0"
         return label
     }()
     

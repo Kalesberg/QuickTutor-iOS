@@ -213,13 +213,11 @@ class TutorSSN : BaseViewController {
 		guard let second = textFields[1].text, second != "" else {
 			print("not valid")
 			isValid = false
-
 			return
 		}
 		guard let third = textFields[2].text, third != "" else {
 			print("not valid")
 			isValid = false
-
 			return
 		}
 		guard let forth = textFields[3].text, forth != "" else {

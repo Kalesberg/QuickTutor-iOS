@@ -19,6 +19,7 @@ class PauseSessionModal: BaseCustomModal {
     var pausedById: String?
     var delegate: PauseSessionModalDelegate?
     var partnerUsername: String?
+    var isVisible = false
     
     let unpauseButton: DimmableButton = {
         let button = DimmableButton()
@@ -124,7 +125,13 @@ class PauseSessionModal: BaseCustomModal {
     
     override func show() {
         super.show()
+        isVisible = true
         updateTitleLabel()
+    }
+    
+    override func dismiss() {
+        super.dismiss()
+        isVisible = false
     }
     
     @objc func endSession() {
