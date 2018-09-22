@@ -429,7 +429,20 @@ class TutorCardHeader : InteractableView {
         
         return label
     }()
-    
+	
+	let featuredSubject : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = .white
+		label.textAlignment = .left
+		label.font = Fonts.createBoldSize(16)
+		label.adjustsFontSizeToFitWidth = true
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.isHidden = true
+		
+		return label
+	}()
+	
     let gradientView = UIView()
     
     override func configureView() {
@@ -438,6 +451,7 @@ class TutorCardHeader : InteractableView {
         addSubview(profilePics)
         addSubview(name)
         addSubview(reviewLabel)
+		addSubview(featuredSubject)
         super.configureView()
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -468,12 +482,16 @@ class TutorCardHeader : InteractableView {
             make.top.equalTo(name.snp.bottom).inset(-5)
             make.left.right.equalTo(name)
         }
+		featuredSubject.snp.makeConstraints { (make) in
+			make.top.equalTo(reviewLabel.snp.bottom).inset(-5)
+			make.left.equalToSuperview().inset(125)
+			make.right.equalToSuperview().inset(5)
+		}
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientView.applyGradient(firstColor: Colors.navBarColor.cgColor, secondColor: UIColor.clear.cgColor, angle: 0, frame: gradientView.bounds)
-        
         
         //darkPattern.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.63, offset: CGSize(width: 3, height: 3), radius: 6)
     }

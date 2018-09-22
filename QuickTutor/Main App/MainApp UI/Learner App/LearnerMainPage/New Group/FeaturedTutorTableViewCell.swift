@@ -38,7 +38,7 @@ class FeaturedTutorTableViewCell : UITableViewCell  {
 		return collectionView
 	}()
 	
-	let itemsPerBatch : UInt = 6
+	let itemsPerBatch : UInt = 8
 	var allTutorsQueried : Bool = false
 	var didLoadMore : Bool = false
 	
@@ -148,6 +148,7 @@ extension FeaturedTutorTableViewCell : UICollectionViewDataSource, UICollectionV
 		let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
 		cell.growSemiShrink {
 			let next = TutorConnect()
+			next.featuredSubject = cell.featuredTutor.subject.text
 			next.featuredTutorUid = self.datasource[indexPath.item].uid
 			next.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
 			let transition = CATransition()

@@ -327,12 +327,6 @@ class LearnerMainPage : MainPage {
             next.url = "https://www.quicktutor.com/legal/terms-of-service"
             next.loadAgreementPdf()
             navigationController?.pushViewController(next, animated: true)
-//            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else { return }
-//            if #available(iOS 10, *) {
-//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//            } else {
-//                UIApplication.shared.openURL(url)
-//            }
         } else if(touchStartView == contentView.sidebar.shopItem) {
             hideSidebar()
             hideBackground()
