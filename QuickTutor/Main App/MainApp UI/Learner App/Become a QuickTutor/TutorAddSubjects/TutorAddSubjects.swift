@@ -636,11 +636,11 @@ extension TutorAddSubjects : UISearchBarDelegate {
 			filteredSubjects = partialSubjects
 			contentView.tableView.reloadData()
 		} else if didSelectCategory { //handle case when there is search text and subcategory is chosen.
-			filteredSubjects = partialSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
+			filteredSubjects = partialSubjects.filter({ return $0.0.range(of: searchText, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
 			contentView.tableView.reloadData()
 		} else { //handle case when thre is search text and no subcategory is chosen.
 			tableView(shouldDisplay: true) {
-				self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
+				self.filteredSubjects = self.allSubjects.filter({ return $0.0.range(of: searchText, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
 				self.contentView.tableView.reloadData()
 			}
 		}
