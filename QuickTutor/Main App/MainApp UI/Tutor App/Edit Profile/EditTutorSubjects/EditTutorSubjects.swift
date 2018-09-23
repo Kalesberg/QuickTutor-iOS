@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import Firebase
 
+struct Selected {
+	let path : String
+	let subject : String
+}
 class EditTutorSubjectsView : MainLayoutTitleTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
@@ -206,7 +210,6 @@ class EditTutorSubjectsView : MainLayoutTitleTwoButton, Keyboardable {
 }
 
 class EditTutorSubjects : BaseViewController {
-	
 	override var contentView: EditTutorSubjectsView {
 		return view as! EditTutorSubjectsView
 	}
@@ -254,8 +257,8 @@ class EditTutorSubjects : BaseViewController {
 			contentView.nextButton.label.text = "Save (\(selectedSubjects.count))"
 		}
 	}
+
 	var removedSubjects = [Selected]()
-	
 	var selected = [Selected]()
 	
 	var tableViewIsActive : Bool = false {
@@ -278,17 +281,7 @@ class EditTutorSubjects : BaseViewController {
 		}
 	}
 	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		
-	}
-	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-	}
-	
 	private func configureDelegates() {
-		
 		contentView.pickedCollectionView.delegate = self
 		contentView.pickedCollectionView.dataSource = self
 		contentView.pickedCollectionView.register(PickedSubjectsCollectionViewCell.self, forCellWithReuseIdentifier: "pickedCollectionViewCell")
@@ -409,6 +402,7 @@ class EditTutorSubjects : BaseViewController {
 				}
 			}
 		}
+		
 		group.notify(queue: .main) {
 			var post = [String : Any]()
 			post.merge(updateSubjectValues) { (_, last) in last }

@@ -9,11 +9,6 @@
 import Foundation
 import UIKit
 
-struct Selected {
-	let path : String
-	let subject : String
-}
-
 class TutorAddSubjectsView : MainLayoutTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
