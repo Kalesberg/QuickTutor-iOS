@@ -614,7 +614,6 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	}
 	
 	override func applyConstraints() {
-		
 		header.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
 			make.right.equalToSuperview()
@@ -624,7 +623,6 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 		container.snp.makeConstraints { (make) in
 			make.top.equalTo(header.snp.bottom).inset(-20)
 			make.width.centerX.bottom.equalToSuperview()
-			make.height.equalTo(70)
 		}
 		
 		textField.snp.makeConstraints { (make) in

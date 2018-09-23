@@ -154,7 +154,7 @@ class EditListing : BaseViewController {
 		guard let subcategories = subcategoriesForCategory() else { return nil }
 		var subjectsToDisplay = [String]()
 		for subject in tutor.selected {
-			if subcategories.contains(subject.path) {
+			if subcategories.contains(subject.path.lowercased()) {
 				subjectsToDisplay.append(subject.subject)
 			}
 		}

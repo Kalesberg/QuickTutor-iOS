@@ -419,7 +419,8 @@ class EditTutorSubjects : BaseViewController {
 					self.updateSubcategorySubjects(node: key.key, values: key.value)
 				}
 				CurrentUser.shared.tutor.subjects = self.selectedSubjects
-				CurrentUser.shared.tutor.selected = self.selected
+				CurrentUser.shared.tutor.selected = self.selected // figure out how to make these lowercased
+				
 				self.displaySavedAlertController()
 			}
 		}

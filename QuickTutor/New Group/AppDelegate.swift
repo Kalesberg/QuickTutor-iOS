@@ -40,9 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     var window: UIWindow?
     let launchScreen = LaunchScreen()
-    
-
-    
+	
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		guard let gai = GAI.sharedInstance() else {
             return true
