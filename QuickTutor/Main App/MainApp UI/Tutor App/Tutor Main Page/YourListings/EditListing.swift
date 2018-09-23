@@ -489,7 +489,6 @@ class EditListingPhotoTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-		
 		container.backgroundColor = UIColor(hex: "344161")
 		
         labelContainer.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 90, frame: labelContainer.bounds)
