@@ -81,15 +81,15 @@ class TutorEarningsView : MainLayoutTitleBackButton {
     
     let tableView : UITableView = {
         let tableView = UITableView()
-        
-        tableView.rowHeight = 40
-        tableView.isScrollEnabled = true
+		
+		tableView.rowHeight = 50
         tableView.separatorInset.left = 0
         tableView.separatorColor = Colors.divider
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.tableFooterView = UIView()
 		tableView.alwaysBounceVertical = true
+		
         return tableView
     }()
     
@@ -304,19 +304,17 @@ extension TutorEarnings : UITableViewDelegate, UITableViewDataSource {
         if indexPath.row % 2 == 0 {
             cell.backgroundColor = Colors.registrationDark
         }
+		cell.leftLabel.attributedText = NSMutableAttributedString().regular("\(datasource[indexPath.row].created.earningsDateFormat()) - ", 14, .white)
+			.regular("\(datasource[indexPath.row].description ?? "Tutoring Session")", 14, UIColor(hex: "22C755"))
 		
-        let formattedString = NSMutableAttributedString()
-        formattedString
-            .regular("\(datasource[indexPath.row].created.earningsDateFormat()) - ", 14, .white)
-            .regular("\(datasource[indexPath.row].description ?? "A tutoring session with me")", 14, UIColor(hex: "22C755"))
-
-        cell.leftLabel.attributedText = formattedString
-        if let net = datasource[indexPath.row].net {
+		if let net = datasource[indexPath.row].net {
             cell.rightLabel.text = net.currencyFormat()
         }
+		cell.layoutSubviews()
 		return cell
 	}
 }
+
 class TutorEarningsTableCellView : BaseTableViewCell {
     
     let leftLabel : UILabel = {
@@ -324,6 +322,8 @@ class TutorEarningsTableCellView : BaseTableViewCell {
         
         label.textColor = .white
         label.font = Fonts.createSize(16)
+		label.numberOfLines = 0
+		label.lineBreakMode = .byWordWrapping
         label.adjustsFontSizeToFitWidth = true
 		
         return label
@@ -344,8 +344,7 @@ class TutorEarningsTableCellView : BaseTableViewCell {
         let view = UIView()
         
         view.backgroundColor = UIColor(hex: "1EAD4A")
-        view.layer.cornerRadius = 11
-        
+		view.layer.cornerRadius = 10
         return view
     }()
     
@@ -359,25 +358,27 @@ class TutorEarningsTableCellView : BaseTableViewCell {
         selectionStyle = .none
         
         applyConstraints()
-        
     }
     
     override func applyConstraints() {
         leftLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(15)
-            make.height.centerY.equalToSuperview()
+			make.top.bottom.equalToSuperview()
+            make.left.equalToSuperview().inset(5)
             make.width.equalToSuperview().multipliedBy(0.8)
         }
         rightLabelContainer.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(15)
-            make.width.equalTo(65)
-            make.height.equalTo(22)
+            make.right.equalToSuperview().inset(10)
+            make.left.equalTo(leftLabel.snp.right)
+            make.height.equalTo(20)
         }
         rightLabel.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-    }
+	}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+	}
 }
 
 class TutorEarningsTableViewBackground : BaseView {
