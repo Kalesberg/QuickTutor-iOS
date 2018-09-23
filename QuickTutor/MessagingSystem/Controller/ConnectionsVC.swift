@@ -131,6 +131,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
                 vc.learner = learner
                 vc.contentView.rightButton.isHidden = true
                 vc.isViewing = true
+				vc.contentView.title.label.isHidden = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }

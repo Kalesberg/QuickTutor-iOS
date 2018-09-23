@@ -89,6 +89,7 @@ class CustomTitleView: UIView {
             vc.learner = learner
             vc.contentView.rightButton.isHidden = true
             vc.isViewing = true
+			vc.contentView.title.label.isHidden = true
             navigationController.pushViewController(vc, animated: true)
         }
     }
