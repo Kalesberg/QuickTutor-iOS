@@ -362,8 +362,8 @@ extension YourListing : UICollectionViewDelegate, UICollectionViewDataSource, UI
 		
 		let formattedString = NSMutableAttributedString()
         formattedString
-            .bold("\(listings[indexPath.item].rating) ", 14, Colors.yellow)
-            .regular("(\(listings[indexPath.item].reviews) ratings)", 12, Colors.yellow)
+            .bold("\(listings[indexPath.item].rating) ", 14, Colors.gold)
+            .regular("(\(listings[indexPath.item].reviews) ratings)", 12, Colors.gold)
         cell.featuredTutor.ratingLabel.attributedText = formattedString
 		
 		contentView.categoryLabel.text = categories[indexPath.row].mainPageData.displayName
