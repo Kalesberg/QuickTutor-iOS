@@ -359,17 +359,12 @@ extension YourListing : UICollectionViewDelegate, UICollectionViewDataSource, UI
         cell.featuredTutor.namePrice.text = listings[indexPath.item].name
         cell.featuredTutor.region.text = listings[indexPath.item].region
         cell.featuredTutor.subject.text = listings[indexPath.item].subject
-		
-		let formattedString = NSMutableAttributedString()
-        formattedString
-            .bold("\(listings[indexPath.item].rating) ", 14, Colors.gold)
-            .regular("(\(listings[indexPath.item].reviews) ratings)", 12, Colors.gold)
-        cell.featuredTutor.ratingLabel.attributedText = formattedString
-		
+		cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(listings[indexPath.item].rating) ", 14, Colors.gold).regular("(\(listings[indexPath.item].reviews) ratings)", 12, Colors.gold)
+		cell.layer.cornerRadius = 6
+
 		contentView.categoryLabel.text = categories[indexPath.row].mainPageData.displayName
 		contentView.imageView.image = UIImage(named: "\(categories[indexPath.row].subcategory.fileToRead)-pattern")?.alpha(0.35)
-		cell.layer.cornerRadius = 6
-        
+		
         return cell
     }
     
@@ -385,7 +380,6 @@ extension YourListing : UICollectionViewDelegate, UICollectionViewDataSource, UI
 		
 		let totalCellWidth = 150 * listings.count
 		let totalSpacingWidth = 20 * (listings.count - 1)
-		
 		let leftInset = (UIScreen.main.bounds.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
 		let rightInset = leftInset
 		
