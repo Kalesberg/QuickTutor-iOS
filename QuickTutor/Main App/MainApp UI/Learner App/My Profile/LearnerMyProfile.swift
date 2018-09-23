@@ -401,8 +401,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                     make.top.equalToSuperview().inset(10)
                 }
                 
-                if let studies = learner.school {
-                    cell.studysItem.label.text = "Studies at " + studies
+                if learner.school != "" && learner.school != nil {
+                    cell.studysItem.label.text = "Studies at " + learner.school!
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.speakItem.snp.makeConstraints { (make) in
@@ -429,8 +429,8 @@ extension LearnerMyProfile : UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             } else {
-                if let studies = learner.school {
-                    cell.studysItem.label.text = "Studies at " + studies
+                if learner.school != "" && learner.school != nil {
+                    cell.studysItem.label.text = "Studies at " + learner.school!
                     cell.contentView.addSubview(cell.studysItem)
                     
                     cell.tutorItem.snp.makeConstraints { (make) in
