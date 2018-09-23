@@ -116,7 +116,6 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { (tutor) in
                 guard let tutor = tutor else { return }
-                tutor.username = user.username
                 let vc = TutorMyProfile()
                 vc.tutor = tutor
                 vc.isViewing = true
@@ -152,7 +151,6 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
 }
 
 extension ConnectionsVC: ConnectionCellDelegate {
-    
     func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = user.uid
