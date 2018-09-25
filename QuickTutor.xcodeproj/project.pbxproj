@@ -2061,12 +2061,8 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"$(BUILT_PRODCTS_DIR)/$(INFOPLIST_PATH)\n",
-			);
-			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
