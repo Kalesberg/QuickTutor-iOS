@@ -105,7 +105,7 @@
 		8451FB5E213EF43800F86DC5 /* BasePostSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8451FB5D213EF43800F86DC5 /* BasePostSessionCell.swift */; };
 		8454890220D987D300932D8D /* AddTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8454890120D987D300932D8D /* AddTutorVC.swift */; };
 		845980511FD4FD4B007E9339 /* Lato in Resources */ = {isa = PBXBuildFile; fileRef = 845980501FD4FD4B007E9339 /* Lato */; };
-		845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C93120670EC0003C3AEA /* CategorySearch.swift */; };
+		845B3B9A2069E664009F8E04 /* CategorySearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C93120670EC0003C3AEA /* CategorySearchVC.swift */; };
 		845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B432069E3A500302773 /* CategorySearchCollectionViewLayout.swift */; };
 		845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */; };
 		845B3BA02069E81B009F8E04 /* CategoryCollectViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B3B9F2069E81B009F8E04 /* CategoryCollectViewCell.swift */; };
@@ -379,6 +379,7 @@
 		CFB6061D207FD7000029CFE4 /* CustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6061C207FD7000029CFE4 /* CustomModal.swift */; };
 		CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */; };
 		CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */; };
+		CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */; };
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
 		CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8EF20C8921900182E1C /* SessionManager.swift */; };
@@ -617,7 +618,7 @@
 		84D8C9292066A93B003C3AEA /* FeaturedTutorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTutorTableViewCell.swift; sourceTree = "<group>"; };
 		84D8C92B2066A965003C3AEA /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		84D8C92F2066E8CC003C3AEA /* SearchSubjectsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSubjectsVC.swift; sourceTree = "<group>"; };
-		84D8C93120670EC0003C3AEA /* CategorySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearch.swift; sourceTree = "<group>"; };
+		84D8C93120670EC0003C3AEA /* CategorySearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchVC.swift; sourceTree = "<group>"; };
 		84D8C9332067116C003C3AEA /* TutorConnectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorConnectVC.swift; sourceTree = "<group>"; };
 		84DA9F232019138100D53D78 /* NavbarButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavbarButtons.swift; sourceTree = "<group>"; };
 		84DAF6FB2044615A005687F6 /* SocialMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
@@ -788,6 +789,7 @@
 		CFB6061C207FD7000029CFE4 /* CustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModal.swift; sourceTree = "<group>"; };
 		CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCustomModal.swift; sourceTree = "<group>"; };
 		CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTypeModal.swift; sourceTree = "<group>"; };
+		CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchVCView.swift; sourceTree = "<group>"; };
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
 		CFDBD8EF20C8921900182E1C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
@@ -1434,7 +1436,8 @@
 			children = (
 				846252E620637CF8001DD330 /* LearnerMainPageVC.swift */,
 				8454890120D987D300932D8D /* AddTutorVC.swift */,
-				84D8C93120670EC0003C3AEA /* CategorySearch.swift */,
+				84D8C93120670EC0003C3AEA /* CategorySearchVC.swift */,
+				CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */,
 				84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */,
 				84BC21D7206DB333002B4721 /* ViewFullProfileVC.swift */,
 				845B91C8211799F30000D263 /* ApplyFilters */,
@@ -2082,7 +2085,7 @@
 				84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */,
 				8469512320CA243D00325995 /* TutorAgreementWebView.swift in Sources */,
 				84C706C6215476E1008900D1 /* ConnectionsBackgroundView.swift in Sources */,
-				845B3B9A2069E664009F8E04 /* CategorySearch.swift in Sources */,
+				845B3B9A2069E664009F8E04 /* CategorySearchVC.swift in Sources */,
 				842576602070295C00FD295B /* AddSubjectTableViewCell.swift in Sources */,
 				CFF5017B206990B20085B0E9 /* LearnerReviewsVC.swift in Sources */,
 				CFF50179206990590085B0E9 /* LearnerMyProfileVC.swift in Sources */,
@@ -2200,6 +2203,7 @@
 				845B91CB21179A190000D263 /* LearnerFiltersLocationCell.swift in Sources */,
 				84C44F5620AE9704009AA5F1 /* CloseAccountChoiceVC.swift in Sources */,
 				848809FF20585C3A00F204A0 /* TutorProfilePicsVC.swift in Sources */,
+				CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */,
 				84000D2E21246B5E0023355B /* ProfileImageViewer.swift in Sources */,
 				846252F320637FA7001DD330 /* BankManager.swift in Sources */,
 				840E75BA201E7DF6006FC580 /* LearnerPaymentVC.swift in Sources */,

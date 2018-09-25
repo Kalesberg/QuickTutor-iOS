@@ -82,7 +82,7 @@ extension CategoryTableViewCell: UICollectionViewDataSource, UICollectionViewDel
         let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
 
         cell.growSemiShrink {
-            let next = CategorySearch()
+            let next = CategorySearchVC()
             next.category = category[indexPath.item]
             navigationController.pushViewController(next, animated: true)
         }

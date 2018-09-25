@@ -25,7 +25,7 @@ struct Registration {
     static var phone: String!
     static var studentImage: UIImage!
     static var studentImageURL: String!
-    static var dob: String!
+    static var dob: String! = "2"
     static var emailCredential: AuthCredential!
     static var imageData: Data!
     static var customerId: String!
