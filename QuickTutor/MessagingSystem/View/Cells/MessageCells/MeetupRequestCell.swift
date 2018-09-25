@@ -25,7 +25,6 @@ class SessionRequestCell: UserMessageCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "You requested a session"
         label.font = Fonts.createBoldSize(16)
         label.textColor = .white
         label.textAlignment = .center
@@ -323,7 +322,6 @@ class SessionRequestCell: UserMessageCell {
     func setupButtonView() {
         addSubview(buttonView)
         buttonView.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
-        buttonView.setButtonTitles("Decline", "Accept")
         buttonView.setButtonTitleColors(Colors.qtRed, Colors.navBarGreen)
         buttonView.setupAsSingleButton()
     }

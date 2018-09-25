@@ -26,6 +26,7 @@ class MessagesContentCell: BaseContentCell {
     
     override func setupViews() {
         super.setupViews()
+        setupObservers()
     }
     
     override func setupCollectionView() {
@@ -50,6 +51,14 @@ class MessagesContentCell: BaseContentCell {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
             self.refreshControl.endRefreshing()
         })
+    }
+    
+    func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
+    }
+    
+    @objc func didDisconnect() {
+        collectionView.reloadData()
     }
     
     var metaDataDictionary = [String: ConversationMetaData]()
@@ -110,11 +119,6 @@ class MessagesContentCell: BaseContentCell {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
         cell.updateUI(message: messages[indexPath.item])
-//        if messages[indexPath.item].connectionRequestId != nil {
-//            cell.disconnectButtonWidthAnchor?.constant = 0
-//        } else {
-//            cell.disconnectButtonWidthAnchor?.constant = 75
-//        }
         cell.delegate = self
         return cell
     }

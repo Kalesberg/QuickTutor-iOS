@@ -315,12 +315,18 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     func setupKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(becomeFirstResponder), name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
     }
     
     @objc func handleKeyboardDidShow() {
         guard conversationManager.messages.count > 0 else { return }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
         messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
+    }
+    
+    @objc func didDisconnect() {
+        messagesCollection.reloadData()
+        pop()
     }
     
     override var inputAccessoryView: UIView? {
