@@ -211,7 +211,7 @@ extension UINavigationController {
 	func popBackToMain() {
 		for controller in self.viewControllers {
 			if AccountService.shared.currentUserType == .learner {
-				if controller is LearnerPageViewController {
+				if controller is LearnerPageVC {
 					self.popToViewController(controller, animated: true)
 				}
 			} else {
@@ -224,7 +224,7 @@ extension UINavigationController {
 	}
 	func popBackToAddTutor() {
 		for controller in self.viewControllers {
-			if controller is AddTutor {
+			if controller is AddTutorVC {
 				self.popToViewController(controller, animated: false)
 				break
 			}
@@ -232,7 +232,7 @@ extension UINavigationController {
 	}
 	func popBackToTutorConnect() {
 		for controller in self.viewControllers {
-			if controller is TutorConnect {
+			if controller is TutorConnectVC {
 				self.popToViewController(controller, animated: false)
 				break
 			}
@@ -252,17 +252,17 @@ extension UINavigationController {
 	
 	func popOrPushSearchSubjects() {
 		for controller in self.viewControllers {
-			if controller is SearchSubjects {
+			if controller is SearchSubjectsVC {
 				self.popToViewController(controller, animated: true)
 				return
 			}
 		}
-		pushViewController(SearchSubjects(), animated: true)
+		pushViewController(SearchSubjectsVC(), animated: true)
 	}
 	
 	func popBackToMainWithAddTutor(){
 		for controller in self.viewControllers {
-			if controller is LearnerPageViewController {
+			if controller is LearnerPageVC {
 				popViewControllerWithHandler {
 					self.pushViewController(MessagesVC(), animated: true)
 				}

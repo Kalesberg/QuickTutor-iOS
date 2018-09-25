@@ -6,14 +6,13 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import Foundation
 import Firebase
+import Foundation
 
 class ReadReceiptManager {
-    
     var receiverId: String
     var delegate: ReadReceiptManagerDelegate?
-    
+
     func listenForReadReceipts() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -22,7 +21,7 @@ class ReadReceiptManager {
             self.delegate?.readReceiptManager(self, didUpdate: Array(readByIds.keys))
         }
     }
-    
+
     func markConversationRead() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -30,7 +29,7 @@ class ReadReceiptManager {
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(receiverId).child("readBy").child(uid).setValue(true)
         Database.database().reference().child("conversationMetaData").child(receiverId).child(otherUserTypeString).child(uid).child("readBy").child(uid).setValue(true)
     }
-    
+
     func invalidateReadReceipt() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -38,7 +37,7 @@ class ReadReceiptManager {
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(receiverId).child("readBy").child(uid).setValue(false)
         Database.database().reference().child("conversationMetaData").child(receiverId).child(otherUserTypeString).child(uid).child("readBy").child(uid).setValue(false)
     }
-    
+
     init(receiverId: String) {
         self.receiverId = receiverId
         listenForReadReceipts()

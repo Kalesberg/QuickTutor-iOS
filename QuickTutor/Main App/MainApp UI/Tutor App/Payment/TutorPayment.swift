@@ -9,18 +9,14 @@
 import Foundation
 import UIKit
 
-
-class TutorPayment : BaseViewController {
-    
+class TutorPayment: BaseViewController {
     override var contentView: TutorRegPaymentView {
         return view as! TutorRegPaymentView
     }
-    
+
     override func loadView() {
         view = TutorRegPaymentView()
     }
-    
-    override func handleNavigation() {
-      
-    }
+
+    override func handleNavigation() {}
 }

@@ -9,23 +9,20 @@
 import UIKit
 
 class BaseMessageCell: UICollectionViewCell {
-    
     var message: BaseMessage?
-    
+
     func updateUI(message: UserMessage) {
         self.message = message
     }
-    
-    func setupViews() {
 
-    }
-    
+    func setupViews() {}
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

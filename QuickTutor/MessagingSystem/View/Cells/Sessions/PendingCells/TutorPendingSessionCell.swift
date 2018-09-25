@@ -6,11 +6,10 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import UIKit
 import Firebase
+import UIKit
 
 class TutorPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate {
-    
     override func setupViews() {
         super.setupViews()
         actionView.setupAsTripleButton()
@@ -18,21 +17,21 @@ class TutorPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate {
         actionView.actionButton2.setImage(#imageLiteral(resourceName: "acceptIconWhiteTutor"), for: .normal)
         actionView.actionButton3.setImage(#imageLiteral(resourceName: "declineIconWhiteTutor"), for: .normal)
     }
-    
+
     override func handleButton1() {
         showConversationWithUID(session.partnerId())
     }
-    
+
     override func handleButton2() {
         Database.database().reference().child("sessions").child(session.id).child("status").setValue("accepted")
         markSessionDataStale()
     }
-    
+
     override func handleButton3() {
         Database.database().reference().child("sessions").child(session.id).child("status").setValue("declined")
         markSessionDataStale()
     }
-    
+
     func markSessionDataStale() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue

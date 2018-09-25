@@ -8,4 +8,4 @@
 
 import Foundation
 
-class SearchSubjectsView : BaseViewController, UIPopoverPresentation
+class SearchSubjectsView: BaseViewController, UIPopoverPresentation

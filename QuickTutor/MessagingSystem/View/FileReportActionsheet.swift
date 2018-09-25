@@ -9,28 +9,27 @@
 import UIKit
 
 class FileReportActionsheet: UIView {
-    
     let titles = ["Report", "Disconnect", "Cancel"]
     var bottomLayoutMargin: CGFloat!
     var actionSheetBottomAnchor: NSLayoutConstraint?
     var alert: CustomModal?
     var reportTypeModal: ReportTypeModal?
     var partnerId: String?
-	var name : String!
-	
+    var name: String!
+
     let backgroundBlur: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         view.alpha = 0
         return view
     }()
-    
+
     let actionSheetBackground: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
         return view
     }()
-    
+
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -44,13 +43,13 @@ class FileReportActionsheet: UIView {
         }
         return cv
     }()
-    
+
     func setupViews() {
         setupBackgroundBlur()
         setupActionsheetBackground()
         setupCollectionView()
     }
-    
+
     private func setupBackgroundBlur() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(backgroundBlur)
@@ -58,20 +57,19 @@ class FileReportActionsheet: UIView {
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(dismiss))
         backgroundBlur.addGestureRecognizer(dismissTap)
     }
-    
+
     private func setupActionsheetBackground() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(actionSheetBackground)
         actionSheetBackground.frame = CGRect(x: 0, y: window.frame.height - bottomLayoutMargin, width: window.frame.width, height: 150)
     }
-    
+
     private func setupCollectionView() {
         actionSheetBackground.addSubview(collectionView)
         collectionView.anchor(top: actionSheetBackground.topAnchor, left: actionSheetBackground.leftAnchor, bottom: actionSheetBackground.bottomAnchor, right: actionSheetBackground.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
-    
 
     func show() {
         UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
@@ -80,7 +78,7 @@ class FileReportActionsheet: UIView {
             self.backgroundBlur.alpha = 1
         }.startAnimation()
     }
-    
+
     @objc func dismiss() {
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.layoutIfNeeded()
@@ -88,11 +86,11 @@ class FileReportActionsheet: UIView {
             self.backgroundBlur.alpha = 0
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
         }
-        animator.addCompletion { (position) in
+        animator.addCompletion { _ in
         }
         animator.startAnimation()
     }
-    
+
     func handleReportButton() {
         guard let id = partnerId else { return }
         reportTypeModal = ReportTypeModal()
@@ -100,51 +98,50 @@ class FileReportActionsheet: UIView {
         reportTypeModal?.show()
         dismiss()
     }
-    
+
     func handleDisconnectButton() {
         dismiss()
-		if let name = name {
-			alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from \(name).", cancelText: "Never mind", confirmText: "Yes, disconnect")
-		} else {
-			alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from this tutor.", cancelText: "Never mind", confirmText: "Yes, disconnect")
-		}
-		
+        if let name = name {
+            alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from \(name).", cancelText: "Never mind", confirmText: "Yes, disconnect")
+        } else {
+            alert = DisconnectModal(title: "Disconnect", message: "Are you sure?", note: "You will be disconnected from this tutor.", cancelText: "Never mind", confirmText: "Yes, disconnect")
+        }
+
         guard let disconnectModal = alert as? DisconnectModal, let id = partnerId else { return }
         disconnectModal.partnerId = id
         disconnectModal.show()
     }
-    
+
     func handleCancelButton() {
         dismiss()
     }
-    
+
     private override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-    
-	init(bottomLayoutMargin: CGFloat, name: String) {
+
+    init(bottomLayoutMargin: CGFloat, name: String) {
         super.init(frame: .zero)
-		self.name = name
+        self.name = name
         self.bottomLayoutMargin = bottomLayoutMargin
         setupViews()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 extension FileReportActionsheet: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    }
+    func collectionView(_: UICollectionView, didSelectItemAt _: IndexPath) {}
 }
 
 extension FileReportActionsheet: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return 3
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! FileReportActionsheetCell
         cell.button.setTitle(titles[indexPath.item], for: .normal)
@@ -155,14 +152,13 @@ extension FileReportActionsheet: UICollectionViewDataSource {
 }
 
 extension FileReportActionsheet: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 50)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
         return 0.5
     }
-
 }
 
 extension FileReportActionsheet: FileReportActionsheetCellDelegate {

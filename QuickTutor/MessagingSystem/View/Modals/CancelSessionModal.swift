@@ -9,15 +9,12 @@
 import UIKit
 
 class CancelSessionModal: CustomModal {
-    
     override func setupNoteLabel() {
         background.addSubview(noteLabel)
         noteLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 7, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 55)
     }
-    
+
     override func handleConfirmButton() {
         delegate?.handleCancel(id: sessionId)
     }
 }
-
-

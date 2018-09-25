@@ -6,9 +6,9 @@
 //  Copyright © 2018 Zach Fuller. All rights reserved.
 //
 
-import UIKit
-import Firebase
 import EventKit
+import Firebase
+import UIKit
 
 protocol SessionRequestCellDelegate {
     func sessionRequestCellShouldRequestSession(cell: SessionRequestCell)
@@ -18,11 +18,10 @@ protocol SessionRequestCellDelegate {
 }
 
 class SessionRequestCell: UserMessageCell {
-    
     var sessionRequest: SessionRequest?
     var delegate: SessionRequestCellDelegate?
-    var indexPath : [IndexPath]?
-    
+    var indexPath: [IndexPath]?
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = Fonts.createBoldSize(16)
@@ -31,16 +30,16 @@ class SessionRequestCell: UserMessageCell {
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
-    
+
     let titleBackground: UIView = {
         let view = UIView()
         if #available(iOS 11.0, *) {
             view.layer.cornerRadius = 4
-            view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+            view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
         return view
     }()
-    
+
     let subjectLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -48,7 +47,7 @@ class SessionRequestCell: UserMessageCell {
         label.font = Fonts.createBoldSize(14)
         return label
     }()
-    
+
     let dateTimeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -57,7 +56,7 @@ class SessionRequestCell: UserMessageCell {
         label.numberOfLines = 0
         return label
     }()
-    
+
     let priceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -68,7 +67,7 @@ class SessionRequestCell: UserMessageCell {
         label.clipsToBounds = true
         return label
     }()
-    
+
     let sessionTypeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -77,18 +76,17 @@ class SessionRequestCell: UserMessageCell {
         label.numberOfLines = 0
         return label
     }()
-    
-    
+
     let buttonView = SessionRequestCellButtonView()
-    
+
     var priceLabelWidthAnchor: NSLayoutConstraint?
-    
+
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         getSessionRequestWithId(message.sessionRequestId!)
-        self.userMessage = message
+        userMessage = message
     }
-    
+
     func getSessionRequestWithId(_ id: String) {
         Database.database().reference().child("sessions").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
@@ -99,28 +97,28 @@ class SessionRequestCell: UserMessageCell {
             sessionCache[id] = sessionRequest
         }
     }
-    
+
     func loadFromRequest() {
         print("Loaded.")
         guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime(), let type = sessionRequest?.type else { return }
         subjectLabel.text = subject
         priceLabel.text = "$\(price)0"
-        sessionTypeLabel.text = type  == "online" ? "Online" : "In-Person"
+        sessionTypeLabel.text = type == "online" ? "Online" : "In-Person"
         dateTimeLabel.text = "\(date) \n\(startTime) - \(endTime)"
         setStatusLabel()
         if let constant = priceLabel.text?.estimateFrameForFontSize(12).width {
             priceLabelWidthAnchor = priceLabel.widthAnchor.constraint(equalToConstant: constant + 15)
             priceLabelWidthAnchor?.isActive = true
-            self.layoutIfNeeded()
+            layoutIfNeeded()
         }
         guard let id = Auth.auth().currentUser?.uid else { return }
-        if self.userMessage?.senderId != id && sessionRequest?.status == "pending" {
+        if userMessage?.senderId != id && sessionRequest?.status == "pending" {
             setupAsTeacherView()
             buttonView.setupAsReceived()
             buttonView.setButtonActions(#selector(SessionRequestCell.declineSessionRequest), #selector(SessionRequestCell.acceptSessionRequest), target: self)
         }
     }
-    
+
     func setStatusLabel() {
         guard let status = self.sessionRequest?.status else { return }
         switch status {
@@ -140,9 +138,10 @@ class SessionRequestCell: UserMessageCell {
             break
         }
     }
+
     /*
-        MARK: // CHECKING FOR EXISTING EVENT
-    */
+     MARK: // CHECKING FOR EXISTING EVENT
+     */
     func eventAlreadyExists(session: SessionRequest?) -> Bool {
         guard let session = session else { return false }
         let eventStore = EKEventStore()
@@ -165,7 +164,7 @@ class SessionRequestCell: UserMessageCell {
         titleLabel.text = "Request Accepted"
         updateButtonViewAsAccepted()
 
-        if eventAlreadyExists(session: self.sessionRequest) {
+        if eventAlreadyExists(session: sessionRequest) {
             buttonView.removeAllButtonActions()
             buttonView.setupAsAccepted(eventAlreadyAdded: true)
         } else {
@@ -173,7 +172,7 @@ class SessionRequestCell: UserMessageCell {
             buttonView.setButtonActions(#selector(SessionRequestCell.addToCalendar), target: self)
         }
     }
-    
+
     func updateAsDeclined() {
         buttonView.removeAllButtonActions()
 
@@ -181,24 +180,24 @@ class SessionRequestCell: UserMessageCell {
         titleLabel.text = "Request Declined"
         dimContent()
         buttonView.setupAsDeclined()
-        
+
         if AccountService.shared.currentUserType == .learner {
             buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
         }
     }
-    
+
     func updateAsPending() {
         buttonView.removeAllButtonActions()
 
         titleBackground.backgroundColor = Colors.learnerPurple
         titleLabel.text = "Request Pending"
         buttonView.setupAsPending()
-        
+
         if AccountService.shared.currentUserType == .learner {
             buttonView.setButtonActions(#selector(SessionRequestCell.cancelSession), target: self)
         }
     }
-    
+
     func updateAsCancelled() {
         buttonView.removeAllButtonActions()
 
@@ -207,16 +206,16 @@ class SessionRequestCell: UserMessageCell {
         buttonView.setupAsCancelled()
         dimContent()
         buttonView.setupAsCancelled()
-        
+
         if AccountService.shared.currentUserType == .learner {
             buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
         }
     }
-    
+
     func updateButtonViewAsAccepted() {
         buttonView.removeAllButtonActions()
 
-        if eventAlreadyExists(session: self.sessionRequest) {
+        if eventAlreadyExists(session: sessionRequest) {
             buttonView.removeAllButtonActions()
             buttonView.setupAsAccepted(eventAlreadyAdded: true)
         } else {
@@ -224,7 +223,7 @@ class SessionRequestCell: UserMessageCell {
             buttonView.setButtonActions(#selector(SessionRequestCell.addToCalendar), target: self)
         }
     }
-    
+
     func updateAsCompleted() {
         buttonView.removeAllButtonActions()
         titleBackground.backgroundColor = Colors.green
@@ -234,7 +233,7 @@ class SessionRequestCell: UserMessageCell {
         buttonView.setButtonTitleColors(Colors.grayText)
         dimContent()
     }
-    
+
     func dimContent() {
         let amount: CGFloat = 40
         subjectLabel.textColor = UIColor.white.darker(by: amount)
@@ -243,7 +242,7 @@ class SessionRequestCell: UserMessageCell {
         priceLabel.backgroundColor = Colors.navBarGreen.darker(by: 30)
         sessionTypeLabel.textColor = UIColor.white.darker(by: amount)
     }
-    
+
     func resetDim() {
         subjectLabel.textColor = .white
         dateTimeLabel.textColor = .white
@@ -251,7 +250,7 @@ class SessionRequestCell: UserMessageCell {
         priceLabel.backgroundColor = Colors.navBarGreen
         sessionTypeLabel.textColor = .white
     }
-    
+
     override func setupViews() {
         super.setupViews()
         setupMainView()
@@ -263,76 +262,76 @@ class SessionRequestCell: UserMessageCell {
         setupSessionTypeLabel()
         setupButtonView()
     }
-    
+
     func setupMainView() {
         bubbleView.clipsToBounds = true
         bubbleView.layer.cornerRadius = 8
         bubbleView.layer.masksToBounds = true
         bubbleView.backgroundColor = Colors.navBarColor
     }
-    
+
     func setupTitleLabel() {
         addSubview(titleLabel)
         titleLabel.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 35)
     }
-    
+
     func setupTitleBackground() {
         insertSubview(titleBackground, belowSubview: titleLabel)
         titleBackground.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
     }
-    
+
     func setupSubjectLabel() {
         addSubview(subjectLabel)
         subjectLabel.anchor(top: titleLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 18)
     }
-    
+
     func setupDateTimeLabel() {
         addSubview(dateTimeLabel)
         dateTimeLabel.anchor(top: subjectLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 140, height: 40)
     }
-    
+
     func setupPriceLabel() {
         addSubview(priceLabel)
         priceLabel.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 26, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 20)
     }
-    
+
     func setupSessionTypeLabel() {
         addSubview(sessionTypeLabel)
         sessionTypeLabel.anchor(top: dateTimeLabel.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 140, height: 10)
     }
-    
+
     func setupAsTeacherView() {
         updateStatusAndTitleLabels()
 //        rearrangeInfoLabels()
     }
-    
+
     func updateStatusAndTitleLabels() {
         titleLabel.text = "Request Received"
         guard sessionRequest?.status == "pending" else { return }
     }
-    
+
     func rearrangeInfoLabels() {
         priceLabel.removeConstraints(priceLabel.constraints)
         priceLabel.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 50, paddingRight: 30, width: 0, height: 20)
-        
+
 //        statusBackground.removeConstraints(statusBackground.constraints)
 //        statusBackground.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
     }
-    
+
     func setupButtonView() {
         addSubview(buttonView)
         buttonView.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
         buttonView.setButtonTitleColors(Colors.qtRed, Colors.navBarGreen)
         buttonView.setupAsSingleButton()
     }
-    
+
     @objc func handleButtonAction(sender: UIButton) {
         guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
         let valueToSet = sender.tag == 0 ? "accepted" : "declined"
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue(valueToSet)
         sessionCache.removeValue(forKey: sessionRequestId)
     }
-    
+
     @objc func acceptSessionRequest() {
         guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { print("return"); return }
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("accepted")
@@ -342,7 +341,7 @@ class SessionRequestCell: UserMessageCell {
         markSessionDataStale()
         delegate?.updateAfterCellButtonPress(indexPath: indexPath)
     }
-    
+
     @objc func declineSessionRequest() {
         guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("declined")
@@ -351,21 +350,21 @@ class SessionRequestCell: UserMessageCell {
         markSessionDataStale()
         delegate?.updateAfterCellButtonPress(indexPath: indexPath)
     }
-    
+
     @objc func requestSession() {
         delegate?.sessionRequestCellShouldRequestSession(cell: self)
     }
-    
+
     @objc func cancelSession() {
         guard let request = sessionRequest else { return }
         delegate?.sessionRequestCell(cell: self, shouldCancel: request)
     }
-    
+
     @objc func addToCalendar() {
         guard let request = sessionRequest else { return }
         delegate?.sessionRequestCell(cell: self, shouldAddToCalendar: request)
     }
-    
+
     func markSessionDataStale() {
         guard let uid = Auth.auth().currentUser?.uid, let request = sessionRequest, let id = request.id else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -375,44 +374,42 @@ class SessionRequestCell: UserMessageCell {
         Database.database().reference().child("userSessions").child(request.partnerId())
             .child(otherUserTypeString).child(id).setValue(0)
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         resetDim()
         buttonView.removeAllButtonActions()
         buttonView.setButtonTitleColors(Colors.grayText)
     }
-    
 }
 
 class SessionRequestCellButtonView: UIView {
-    
     lazy var buttons = [leftButton, rightButton]
     lazy var mainButton = leftButton
     lazy var auxillaryButton = rightButton
-    
+
     let leftButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Colors.navBarColor
         button.titleLabel?.font = Fonts.createBoldSize(12)
         return button
     }()
-    
+
     let rightButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Colors.navBarColor
         button.titleLabel?.font = Fonts.createBoldSize(12)
         return button
     }()
-    
+
     var leftButtonWidthAnchor: NSLayoutConstraint?
-    
+
     func setupViews() {
         setupMainView()
         setupRightButton()
         setupLeftButton()
     }
-    
+
     func setupMainView() {
         backgroundColor = .black
         clipsToBounds = true
@@ -421,57 +418,57 @@ class SessionRequestCellButtonView: UIView {
             layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
     }
-    
+
     func setupRightButton() {
         addSubview(rightButton)
         rightButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 0)
     }
-    
+
     func setupLeftButton() {
         addSubview(leftButton)
         leftButton.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         leftButtonWidthAnchor = leftButton.widthAnchor.constraint(equalToConstant: 109.5)
         leftButtonWidthAnchor?.isActive = true
     }
-    
+
     func setupAsSingleButton() {
         leftButtonWidthAnchor?.constant = 220
         layoutIfNeeded()
     }
-    
+
     func setupAsDoubleButton() {
         leftButtonWidthAnchor?.constant = 109.5
     }
-    
+
     func setButtonTitles(_ titles: String...) {
-        for x in 0..<titles.count {
+        for x in 0 ..< titles.count {
             buttons[x].setTitle(titles[x], for: .normal)
         }
     }
-    
+
     func setButtonTitleColors(_ colors: UIColor...) {
-        for x in 0..<colors.count {
+        for x in 0 ..< colors.count {
             buttons[x].setTitleColor(colors[x], for: .normal)
         }
     }
-    
+
     func setButtonActions(_ selectors: Selector..., target: AnyObject) {
-        for x in 0..<selectors.count {
+        for x in 0 ..< selectors.count {
             buttons[x].addTarget(target, action: selectors[x], for: .touchUpInside)
         }
     }
-    
+
     func removeAllButtonActions() {
         leftButton.removeTarget(nil, action: nil, for: .allEvents)
         rightButton.removeTarget(nil, action: nil, for: .allEvents)
     }
-    
+
     func setupAsAccepted(eventAlreadyAdded: Bool) {
         setupAsSingleButton()
         setButtonTitleColors(Colors.navBarGreen)
         setButtonTitles(eventAlreadyAdded ? "Event Added to Calendar" : "Add to Calendar")
     }
-    
+
     func setupAsDeclined() {
         if AccountService.shared.currentUserType == .learner {
             setupAsSingleButton()
@@ -483,19 +480,19 @@ class SessionRequestCellButtonView: UIView {
             setButtonTitles("You declined this session")
         }
     }
-    
+
     func setupAsReceived() {
         setupAsDoubleButton()
         setButtonTitleColors(Colors.qtRed, Colors.navBarGreen)
-        setButtonTitles("Decline", "Accept" )
+        setButtonTitles("Decline", "Accept")
     }
-    
+
     func setupAsPending() {
         setupAsSingleButton()
         setButtonTitleColors(Colors.grayText)
         setButtonTitles("Cancel request")
     }
-    
+
     func setupAsCancelled() {
         if AccountService.shared.currentUserType == .learner {
             setupAsSingleButton()
@@ -507,13 +504,13 @@ class SessionRequestCellButtonView: UIView {
             setButtonTitles("This session was cancelled")
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

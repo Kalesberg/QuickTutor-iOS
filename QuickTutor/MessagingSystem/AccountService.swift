@@ -6,8 +6,8 @@
 //  Copyright © 2018 Zach Fuller. All rights reserved.
 //
 
-import Foundation
 import Firebase
+import Foundation
 
 class AccountService {
     static let shared = AccountService()
@@ -33,7 +33,6 @@ class AccountService {
 }
 
 class SessionService {
-
     static let shared = SessionService()
     var session: Session!
     var rating = 0

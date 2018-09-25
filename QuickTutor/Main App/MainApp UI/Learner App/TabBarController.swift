@@ -9,11 +9,10 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		viewControllers = [MainPage(), EditBio()]
+
+        viewControllers = [MainPage(), EditBio()]
         // Do any additional setup after loading the view.
     }
 
@@ -21,7 +20,4 @@ class TabBarController: UITabBarController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-
 }

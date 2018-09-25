@@ -30,33 +30,24 @@ class MessageBuilder {
     }
 }
 
-
 class BaseMessage: Message {
     var type: MessageType
     var uid: String!
     var timestamp: NSNumber!
     var isRead = false
-    
+
     init() {
         type = .image
     }
 }
 
-class ImageMessage: UserMessage {
+class ImageMessage: UserMessage {}
 
-}
+class TextMessage: UserMessage {}
 
-class TextMessage: UserMessage {
+class ConnectionRequestMessage: UserMessage {}
 
-}
-
-class ConnectionRequestMessage: UserMessage {
-
-}
-
-class SessionRequestMessage: UserMessage {
-}
-
+class SessionRequestMessage: UserMessage {}
 
 protocol Message {
     var type: MessageType { get set }

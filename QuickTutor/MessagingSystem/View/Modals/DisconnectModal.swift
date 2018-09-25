@@ -6,13 +6,12 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import UIKit
 import Firebase
+import UIKit
 
 class DisconnectModal: CustomModal {
-    
     var partnerId: String?
-    
+
     override func handleConfirmButton() {
         guard let uid = Auth.auth().currentUser?.uid, let partnerId = partnerId else { return }
         NotificationCenter.default.post(name: Notifications.didDisconnect.name, object: nil)
@@ -26,4 +25,3 @@ class DisconnectModal: CustomModal {
         dismiss()
     }
 }
-

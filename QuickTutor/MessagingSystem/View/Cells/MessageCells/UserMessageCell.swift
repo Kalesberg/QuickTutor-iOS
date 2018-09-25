@@ -6,18 +6,17 @@
 //  Copyright © 2018 Zach Fuller. All rights reserved.
 //
 
-import UIKit
 import Firebase
+import UIKit
 
 enum MessageCellType {
     case system, text, image, sessionRequest, connectionRequest
 }
 
 class UserMessageCell: BaseMessageCell {
-    
     var chatPartner: User?
     var userMessage: UserMessage?
-    
+
     let bubbleView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +27,7 @@ class UserMessageCell: BaseMessageCell {
         view.backgroundColor = UIColor(hex: "ecf0f1")
         return view
     }()
-    
+
     var textView: UITextView = {
         let tv = UITextView()
         tv.isEditable = false
@@ -40,18 +39,18 @@ class UserMessageCell: BaseMessageCell {
         tv.contentInset = UIEdgeInsets(top: -3, left: 4, bottom: 0, right: -4)
         return tv
     }()
-    
+
     let profileImageView: CustomImageView = {
         let iv = CustomImageView()
         iv.layer.cornerRadius = 15
         iv.clipsToBounds = true
         return iv
     }()
-    
+
     var bubbleWidthAnchor: NSLayoutConstraint?
     var bubbleViewRightAnchor: NSLayoutConstraint?
     var bubbleViewLeftAnchor: NSLayoutConstraint?
-    
+
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         userMessage = message
@@ -59,8 +58,7 @@ class UserMessageCell: BaseMessageCell {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         message.senderId == uid ? setupBubbleViewAsSentMessage() : setupBubbleViewAsReceivedMessage()
     }
-    
-    
+
     private func setupBubbleView() {
         addSubview(bubbleView)
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
@@ -68,12 +66,12 @@ class UserMessageCell: BaseMessageCell {
         bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8)
         bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: rightAnchor, constant: -8)
     }
-    
+
     private func setupProfileImageView() {
         addSubview(profileImageView)
         profileImageView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 30, height: 30)
     }
-    
+
     func setupBubbleViewAsSentMessage() {
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
@@ -87,7 +85,7 @@ class UserMessageCell: BaseMessageCell {
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         profileImageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
     }
-    
+
     func setupBubbleViewAsReceivedMessage() {
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -100,20 +98,17 @@ class UserMessageCell: BaseMessageCell {
         bubbleViewRightAnchor?.isActive = false
         profileImageView.isHidden = false
     }
-    
+
     override func setupViews() {
         super.setupViews()
         setupProfileImageView()
         setupBubbleView()
         setupTextView()
     }
-    
+
     private func setupTextView() {
         bubbleView.addSubview(textView)
         bubbleView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 4, paddingBottom: 4, paddingRight: 4, width: 0, height: 0)
         textView.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 0, height: 0)
     }
-
 }
-
-

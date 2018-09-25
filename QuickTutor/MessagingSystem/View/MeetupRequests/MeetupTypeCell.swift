@@ -13,10 +13,9 @@ protocol SessionTypeCellDelegate {
 }
 
 class SessionTypeCell: UIView {
-    
-    var isSelected = false 
+    var isSelected = false
     var delegate: SessionTypeCellDelegate?
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "In Person"
@@ -25,7 +24,7 @@ class SessionTypeCell: UIView {
         label.font = Fonts.createSize(16)
         return label
     }()
-    
+
     let selectionButton: DimmableButton = {
         let button = DimmableButton()
         button.layer.borderColor = UIColor(hex: "89898D").cgColor
@@ -34,52 +33,52 @@ class SessionTypeCell: UIView {
         button.isUserInteractionEnabled = true
         return button
     }()
-    
+
     @objc func toggleSelected() {
         guard let lowercasedTitle = titleLabel.text?.lowercased() else { return }
         delegate?.didSelect(option: lowercasedTitle)
     }
-    
+
     func setSelected() {
         selectionButton.isSelected = true
         selectionButton.backgroundColor = .green
         titleLabel.textColor = .green
     }
-    
+
     func setUnselected() {
         selectionButton.isSelected = false
         selectionButton.backgroundColor = .clear
         titleLabel.textColor = Colors.border
     }
-    
+
     func updateUI(title: String) {
         titleLabel.text = title
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
         isUserInteractionEnabled = true
     }
-    
+
     func setupViews() {
         setupTitleLabel()
         setupInputCircle()
     }
-    
+
     private func setupTitleLabel() {
         addSubview(titleLabel)
         titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
     }
-    
+
     private func setupInputCircle() {
         addSubview(selectionButton)
         selectionButton.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 18, height: 18)
         addConstraint(NSLayoutConstraint(item: selectionButton, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
         selectionButton.addTarget(self, action: #selector(toggleSelected), for: .touchUpInside)
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

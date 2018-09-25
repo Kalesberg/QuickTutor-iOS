@@ -8,6 +8,4 @@
 
 import UIKit
 
-class BassSessionStart_View: UIView {
-    
-}
+class BassSessionStart_View: UIView {}

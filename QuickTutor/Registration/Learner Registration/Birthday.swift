@@ -11,21 +11,19 @@ import SnapKit
 
 class BirthdayView: RegistrationNavBarView {
     
-    var birthdayPicker    = RegistrationDatePicker()
+    var birthdayPicker = RegistrationDatePicker()
     
-    var contentView       = UIView()
-    var birthdayLabel     = RegistrationTextField()
-    var birthdayInfoBig   = LeftTextLabel()
+    var contentView = UIView()
+    var birthdayLabel = RegistrationTextField()
+    var birthdayInfoBig = LeftTextLabel()
     var birthdayInfoSmall = LeftTextLabel()
     
-    let errorLabel : UILabel = {
+    let errorLabel: UILabel = {
         let label = UILabel()
-        
         label.font = Fonts.createItalicSize(17)
         label.textColor = .red
         label.isHidden = true
         label.numberOfLines = 2
-        
         return label
     }()
     
@@ -54,8 +52,8 @@ class BirthdayView: RegistrationNavBarView {
         
         birthdayPicker.datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: 1, to: date)
         birthdayPicker.datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: -90, to: date)
-		birthdayPicker.datePicker.setDate(date, animated: true)
-		
+        birthdayPicker.datePicker.setDate(date, animated: true)
+        
         birthdayInfoBig.label.font = Fonts.createSize(18)
         birthdayInfoBig.label.text = "Others will not be able to see your birthday"
         birthdayInfoBig.label.numberOfLines = 2
@@ -72,48 +70,48 @@ class BirthdayView: RegistrationNavBarView {
     override func applyConstraints() {
         super.applyConstraints()
         
-        birthdayPicker.snp.makeConstraints { (make) in
+        birthdayPicker.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalTo(DeviceInfo.keyboardHeight)
         }
         
-        nextButton.snp.makeConstraints { (make) in
+        nextButton.snp.makeConstraints { make in
             make.bottom.equalTo(birthdayPicker.snp.top)
             make.right.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.25)
             make.height.equalToSuperview().multipliedBy(0.1)
         }
         
-        contentView.snp.makeConstraints { (make) in
+        contentView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom)
             make.bottom.equalTo(nextButton.snp.top)
             make.left.equalTo(titleLabel)
             make.right.equalTo(titleLabel)
         }
         
-        birthdayLabel.snp.makeConstraints { (make) in
+        birthdayLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.47)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
         
-        birthdayInfoBig.snp.makeConstraints { (make) in
+        birthdayInfoBig.snp.makeConstraints { make in
             make.top.equalTo(birthdayLabel.snp.bottom)
             make.height.equalToSuperview().multipliedBy(0.31)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
         
-        birthdayInfoSmall.snp.makeConstraints { (make) in
+        birthdayInfoSmall.snp.makeConstraints { make in
             make.top.equalTo(birthdayInfoBig.snp.bottom)
             make.height.equalToSuperview().multipliedBy(0.25)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
         
-        errorLabel.snp.makeConstraints { (make) in
+        errorLabel.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.centerY.equalTo(nextButton).inset(4)
             make.right.equalTo(nextButton.snp.left).inset(20)
@@ -159,10 +157,10 @@ class Birthday: BaseViewController {
         return age.year!
     }
     override func handleNavigation() {
-        if (touchStartView == contentView.backButton) {
+        if touchStartView == contentView.backButton {
             navigationController!.view.layer.add(contentView.backButton.transition, forKey: nil)
             navigationController!.popViewController(animated: false)
-        } else if(touchStartView == contentView.nextButton) {
+        } else if touchStartView == contentView.nextButton {
             
             let next = UploadImage()
             if getAgeBirthday() >= 18 {
@@ -189,8 +187,8 @@ class Birthday: BaseViewController {
     }
     
     @objc
-    private func datePickerValueChanged (_ sender: UIDatePicker) {
-        //show new date on label when its changed.
+    private func datePickerValueChanged(_ sender: UIDatePicker) {
+        // show new date on label when its changed.
         dateformatter.dateFormat = "MMMM d'\(daySuffix(date: contentView.birthdayPicker.datePicker.date))' yyyy"
         let date = dateformatter.string(from: contentView.birthdayPicker.datePicker.date)
         contentView.birthdayLabel.textField.text! = date

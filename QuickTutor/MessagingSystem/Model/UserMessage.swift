@@ -6,12 +6,10 @@
 //  Copyright © 2018 Zach Fuller. All rights reserved.
 //
 
-import UIKit
 import Firebase
-
+import UIKit
 
 class UserMessage: BaseMessage {
-
     var text: String?
     var data: [String: Any]
     var timeStamp: NSNumber

@@ -7,22 +7,17 @@
 //
 
 import Foundation
-import UIKit
 import SnapKit
+import UIKit
 
-class TutorAccountWarningModal : BaseView {
-	
-	override func configureView() {
-		super.configureView()
+class TutorAccountWarningModal: BaseView {
+    override func configureView() {
+        super.configureView()
 
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-	
-	}
-	
-	override func layoutSubviews() {
-		
-	}
+        applyConstraints()
+    }
+
+    override func applyConstraints() {}
+
+    override func layoutSubviews() {}
 }

@@ -6,8 +6,8 @@
 //  Copyright © 2018 Zach Fuller. All rights reserved.
 //
 
-import Foundation
 import Firebase
+import Foundation
 
 var sessionCache = [String: SessionRequest]()
 
@@ -25,7 +25,7 @@ class SessionRequest {
     var receiverId: String
     var type: String?
     var receiverAccountType: String?
-    
+
     var dictionaryRepresentation: [String: Any] {
         var dictionary = [String: Any]()
         dictionary["subject"] = subject
@@ -42,7 +42,7 @@ class SessionRequest {
         dictionary["receiverAccountType"] = receiverAccountType
         return dictionary
     }
-    
+
     init(data: [String: Any]) {
         subject = data["subject"] as? String
         date = data["date"] as? Double
@@ -57,7 +57,7 @@ class SessionRequest {
         type = data["type"] as? String
         receiverAccountType = data["receiverAccountType"] as? String
     }
-    
+
     func formattedDate() -> String? {
         guard let date = self.date else { return nil }
         let dateFormatter = DateFormatter()
@@ -65,7 +65,7 @@ class SessionRequest {
         let dateFromTimeInterval = Date(timeIntervalSince1970: date)
         return dateFormatter.string(from: dateFromTimeInterval)
     }
-    
+
     func formattedStartTime() -> String? {
         guard let startTime = self.startTime else { return nil }
         let dateFormatter = DateFormatter()
@@ -73,7 +73,7 @@ class SessionRequest {
         let dateFromTimeInterval = Date(timeIntervalSince1970: startTime)
         return dateFormatter.string(from: dateFromTimeInterval)
     }
-    
+
     func formattedEndTime() -> String? {
         guard let startTime = self.endTime else { return nil }
         let dateFormatter = DateFormatter()
@@ -81,10 +81,9 @@ class SessionRequest {
         let dateFromTimeInterval = Date(timeIntervalSince1970: startTime)
         return dateFormatter.string(from: dateFromTimeInterval)
     }
-    
+
     func partnerId() -> String {
         guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
         return receiverId == uid ? senderId : receiverId
     }
-    
 }

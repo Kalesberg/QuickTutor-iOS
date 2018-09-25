@@ -6,20 +6,19 @@
 //  Copyright © 2018 Zach Fuller. All rights reserved.
 //
 
-import UIKit
 import FirebaseDynamicLinks
+import UIKit
 
 class DynamicLinkFactory {
-    
     static let shared = DynamicLinkFactory()
-    
+
     let domain = "quicktutor.page.link"
     var sections = [Section]()
     var dictionary = [Params: String]()
     var longLink: URL?
     var shortLink: URL?
-    
-    func createLink(userId: String?, completion: @escaping (URL?) -> ()) {
+
+    func createLink(userId: String?, completion: @escaping (URL?) -> Void) {
         dictionary[.link] = "https://quickTutor.com/\(userId ?? "")"
         // Initialize the sections array
         sections = [
@@ -27,7 +26,7 @@ class DynamicLinkFactory {
                                         .iPadBundleID, .iPadFallbackURL, .appStoreID]),
             Section(name: .iTunes, items: [.affiliateToken, .campaignToken, .providerToken]),
         ]
-        
+
         dictionary[.bundleID] = Bundle.main.bundleIdentifier!
         let iOSParams = DynamicLinkIOSParameters(bundleID: dictionary[.bundleID]!)
         iOSParams.appStoreID = "1388092698"
@@ -41,21 +40,20 @@ class DynamicLinkFactory {
             return
         }
         let components = DynamicLinkComponents(link: link, domain: domain)
-        
+
         let socialParams = DynamicLinkSocialMetaTagParameters()
         socialParams.title = "Quick Tutor: Here's an awesome tutor for you."
         socialParams.descriptionText = "Check out this user"
         socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutormessaging.appspot.com/o/ItunesArtwork%402x.png?alt=media&token=c7606b8b-f0db-469f-852e-4ef01795758e")
         components.socialMetaTagParameters = socialParams
-        
+
         components.iOSParameters = iOSParams
         longLink = components.url
-        
+
         components.shorten { url, _, _ in
             guard let url = url else { return }
             completion(url)
         }
-        
     }
 }
 
@@ -63,7 +61,7 @@ struct Section {
     var name: ParamTypes
     var items: [Params]
     var collapsed: Bool
-    
+
     init(name: ParamTypes, items: [Params], collapsed: Bool = true) {
         self.name = name
         self.items = items

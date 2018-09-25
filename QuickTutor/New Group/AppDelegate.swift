@@ -120,7 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func handleSignIn(completion: @escaping () -> Void) {
         guard let user = Auth.auth().currentUser else {
-            configureRootViewController(controller: SignIn(), completion: {
+            configureRootViewController(controller: SignInVC(), completion: {
                 
             })
             completion()
@@ -128,11 +128,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         }
         
         let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
-        let vc = typeOfUser == .learner ? LearnerPageViewController() : TutorPageViewController()
+        let vc = typeOfUser == .learner ? LearnerPageVC() : TutorPageViewController()
         
         FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
             guard successful else {
-                self.configureRootViewController(controller: SignIn(), completion: {
+                self.configureRootViewController(controller: SignInVC(), completion: {
                     
                 })
                 completion()
@@ -220,7 +220,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         } else {
             FirebaseData.manager.fetchLearner(uid) { (learner) in
                 guard let learner = learner else { return }
-                let vc = LearnerMyProfile()
+                let vc = LearnerMyProfileVC()
                 vc.learner = learner
                 vc.isViewing = true
                 vc.contentView.title.label.isHidden = true
@@ -286,7 +286,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func handlePushNotification(userInfo:[AnyHashable: Any]) {
         let notification = PushNotification(userInfo: userInfo)
-        let vc = notification.receiverAccountType == "learner" ? LearnerPageViewController() : TutorPageViewController()
+        let vc = notification.receiverAccountType == "learner" ? LearnerPageVC() : TutorPageViewController()
         configureRootViewController(controller: vc) {
             self.handleMessageType(notification: notification)
         }
@@ -309,7 +309,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         guard let receiverAccountType = userInfo["receiverAccountType"] as? String else { return }
         if receiverAccountType == "learner" {
-            let vc = LearnerPageViewController()
+            let vc = LearnerPageVC()
             configureRootViewController(controller: vc, completion: {
                 
             })

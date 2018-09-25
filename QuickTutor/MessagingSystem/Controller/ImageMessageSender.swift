@@ -6,12 +6,11 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import UIKit
-import Firebase
 import AVFoundation
+import Firebase
+import UIKit
 
 class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
     var parentViewController: UIViewController!
     var receiverId: String!
     let imagePicker = UIImagePickerController()
@@ -34,7 +33,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         parentViewController.present(ac, animated: true, completion: nil)
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
@@ -66,9 +65,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
                     print(error.debugDescription)
                 }
                 guard let imageUrl = url else { return }
-                DataService.shared.sendImageMessage(imageUrl: imageUrl.absoluteString, imageWidth: image.size.width, imageHeight: image.size.height, receiverId: self.receiverId, completion: {
-
-                })
+                DataService.shared.sendImageMessage(imageUrl: imageUrl.absoluteString, imageWidth: image.size.width, imageHeight: image.size.height, receiverId: self.receiverId, completion: {})
             })
         }
     }
@@ -93,7 +90,6 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     init(parentViewController: UIViewController) {
         self.parentViewController = parentViewController
     }
-
 }
 
 // Helper function inserted by Swift 4.2 migrator.

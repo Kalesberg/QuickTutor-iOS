@@ -6,92 +6,87 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import UIKit
 import Firebase
 import TwilioVideo
-
+import UIKit
 
 class VideoSessionVC: BaseSessionVC {
-
     let videoSessionView = VideoSessionView()
     var twilioSessionManager: TwilioSessionManager?
-    
+
     override func addTimeModal(_ addTimeModal: AddTimeModal, didAdd minutes: Int) {
         super.addTimeModal(addTimeModal, didAdd: minutes)
 //        sessionNavBar.timeLabel.timeInSeconds += (minutes * 60)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupButtonActions()
         setupTwilio()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIApplication.shared.isIdleTimerDisabled = true
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         twilioSessionManager?.room?.disconnect()
         UIApplication.shared.isIdleTimerDisabled = false
     }
-    
+
     func setupView() {
-        self.view = videoSessionView
+        view = videoSessionView
     }
-    
+
     func setupTwilio() {
         guard let id = sessionId else { return }
         twilioSessionManager = TwilioSessionManager(previewView: videoSessionView.cameraPreviewView, remoteView: videoSessionView.partnerCameraFeed, sessionId: id)
     }
-    
+
     func setupButtonActions() {
         videoSessionView.endSessionButton.addTarget(self, action: #selector(VideoSessionVC.handleEndSession), for: .touchUpInside)
         videoSessionView.pauseSessionButton.addTarget(self, action: #selector(VideoSessionVC.handleSessionPause), for: .touchUpInside)
     }
-    
+
     override func handleBackgrounded() {
         super.handleBackgrounded()
         sessionManager?.pauseSession()
     }
-    
+
     override func handleForegrounded() {
         super.handleForegrounded()
         sessionManager?.unpauseSession()
     }
-    
+
     @objc func handleEndSession() {
         guard let manager = sessionManager else { return }
         manager.endSession()
     }
-    
+
     @objc func handleSessionPause() {
         guard let manager = sessionManager else { return }
         manager.pauseSession()
     }
-    
+
     override func showPauseModal(pausedById: String) {
         super.showPauseModal(pausedById: pausedById)
         twilioSessionManager?.stop()
     }
-    
-    
-    override func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager) {
-        
-    }
-    
+
+    override func sessionManagerSessionTimeDidExpire(_: SessionManager) {}
+
     override func sessionManager(_ sessionManager: SessionManager, didUnpause session: Session) {
         super.sessionManager(sessionManager, didUnpause: session)
-        self.twilioSessionManager?.resume()
+        twilioSessionManager?.resume()
     }
-    
+
     override func sessionManager(_ sessionManager: SessionManager, userConnectedWith uid: String) {
         super.sessionManager(sessionManager, userConnectedWith: uid)
         twilioSessionManager?.connect()
         twilioSessionManager?.resume()
-        self.connectionLostModal?.dismiss()
+        connectionLostModal?.dismiss()
     }
 }

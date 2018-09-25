@@ -10,7 +10,7 @@ import Foundation
 
 class SystemMessage: BaseMessage {
     var text: String!
-    
+
     init(text: String) {
         super.init()
         self.text = text

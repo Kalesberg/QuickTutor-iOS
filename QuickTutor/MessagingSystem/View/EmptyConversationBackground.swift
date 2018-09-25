@@ -9,7 +9,6 @@
 import UIKit
 
 class EmptyConversationBackground: UIView {
-
     let icon: UIImageView = {
         let iv = UIImageView()
         iv.image = #imageLiteral(resourceName: "emptyChatImage")
@@ -39,9 +38,8 @@ class EmptyConversationBackground: UIView {
         super.init(frame: frame)
         setupViews()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

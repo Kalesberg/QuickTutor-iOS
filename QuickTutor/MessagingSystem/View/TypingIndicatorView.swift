@@ -9,7 +9,7 @@
 import UIKit
 
 class TypingIndicator: UIView {
-//    
+//
 //    func show() {
 //        typingIndicatorHeightAnchor?.constant = 50
 //        UIView.animate(withDuration: 0.25) {
@@ -17,18 +17,17 @@ class TypingIndicator: UIView {
 //            self.scrollToBottom(animated: false)
 //        }
 //    }
-//    
+//
 //    func hide() {
 //        typingIndicatorHeightAnchor?.constant = 0
 //        UIView.animate(withDuration: 0.25) {
 //            self.view.layoutIfNeeded()
 //        }
 //    }
-//    
+//
 //    override init(frame: CGRect) {
 //        super.init(frame: frame)
-//        
+//
 //    }
-//    
-    
+//
 }

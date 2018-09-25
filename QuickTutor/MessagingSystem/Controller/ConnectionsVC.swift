@@ -6,16 +6,15 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import UIKit
 import Firebase
+import UIKit
 
 class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
-    
     var connections = [User]()
-    
+
     var parentPageViewController: PageViewController!
     var isTransitioning = false
-    
+
     var navBar: ZFNavBar = {
         let bar = ZFNavBar()
         bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
@@ -25,7 +24,7 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         bar.backgroundColor = Colors.navBarGreen
         return bar
     }()
-    
+
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -35,35 +34,35 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         cv.alwaysBounceVertical = true
         return cv
     }()
-    
+
     func setupViews() {
         setupNavBar()
         setupCollectionView()
     }
-    
+
     func setupNavBar() {
         addNavBar()
         navBar.setupTitleLabelWithText("Connections")
     }
-    
+
     func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         fetchConnections()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isTransitioning = false
     }
-    
+
     func fetchConnections() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -79,34 +78,35 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
             })
         }
     }
-    
+
     func shouldShowEmptyBackground(_ result: Bool) {
         collectionView.backgroundView = result ? nil : ConnectionsBackgroundView()
     }
-    
+
     func handleLeftViewTapped() {
         guard let nav = navigationController else { return }
         nav.popViewController(animated: true)
     }
-    
+
     func handleRightViewTapped() {
         if AccountService.shared.currentUserType == .learner {
-            navigationController?.pushViewController(AddTutor(), animated: true)
+            navigationController?.pushViewController(AddTutorVC(), animated: true)
         }
     }
 }
 
 extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return connections.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConnectionCell
         cell.updateUI(user: connections[indexPath.item])
         cell.delegate = self
         return cell
     }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !isTransitioning else { return }
         isTransitioning = true
@@ -126,32 +126,31 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         } else {
             FirebaseData.manager.fetchLearner(user.uid) { learner in
                 guard let learner = learner else { return }
-                let vc = LearnerMyProfile()
+                let vc = LearnerMyProfileVC()
                 vc.learner = learner
                 vc.contentView.rightButton.isHidden = true
                 vc.isViewing = true
-				vc.contentView.title.label.isHidden = true
+                vc.contentView.title.label.isHidden = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
-        
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+    func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 70)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
         return 1
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
         return 0
     }
 }
 
 extension ConnectionsVC: ConnectionCellDelegate {
-    func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
+    func connectionCell(_: ConnectionCell, shouldShowConversationWith user: User) {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = user.uid
         vc.chatPartner = user

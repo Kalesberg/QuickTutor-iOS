@@ -8,7 +8,7 @@
 
 import Foundation
 
-//class OnlineVideoCallView : UIView {
+// class OnlineVideoCallView : UIView {
 //
 //	override init(frame: CGRect) {
 //		super.init(frame: .zero)
@@ -77,4 +77,4 @@ import Foundation
 //		super.layoutSubviews()
 //		onlineVideoCallToggle.layer.cornerRadius = 4
 //	}
-//}
+// }

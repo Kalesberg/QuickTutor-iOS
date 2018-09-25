@@ -9,7 +9,6 @@
 import UIKit
 
 class ReportSuccessfulModal: BaseCustomModal {
-    
     let messageLabel: UILabel = {
         let label = UILabel()
         label.text = "We're sorry you've had this experience. \nWe'll be reviewing the report you've filed,\nand will update you on the status of the report."
@@ -19,7 +18,7 @@ class ReportSuccessfulModal: BaseCustomModal {
         label.font = Fonts.createSize(14)
         return label
     }()
-    
+
     let confirmButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Okay", for: .normal)
@@ -29,29 +28,29 @@ class ReportSuccessfulModal: BaseCustomModal {
         button.layer.cornerRadius = 4
         return button
     }()
-    
+
     override func setupViews() {
         super.setupViews()
         setupMessageLabel()
         setupConfirmButton()
         setHeightTo(180)
     }
-    
+
     override func setupTitleBackground() {
         super.setupTitleBackground()
-        titleBackground.backgroundColor = UIColor(red: 30.0/255.0, green: 173.0/255.0, blue: 74.0/255.0, alpha: 1.0)
+        titleBackground.backgroundColor = UIColor(red: 30.0 / 255.0, green: 173.0 / 255.0, blue: 74.0 / 255.0, alpha: 1.0)
     }
-    
+
     override func setupTitleLabel() {
         super.setupTitleLabel()
         titleLabel.text = "Report Successful"
     }
-    
+
     func setupMessageLabel() {
         background.addSubview(messageLabel)
         messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 75)
     }
-    
+
     func setupConfirmButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(confirmButton)

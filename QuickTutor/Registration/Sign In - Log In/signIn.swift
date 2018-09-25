@@ -19,9 +19,9 @@ class SignInView: RegistrationGradientView, Keyboardable {
 	var nextButton = RegistrationNextButton()
 	
 	var phoneNumberTextField = RegistrationTextField()
-
-	//var facebookButton       = FBSDKLoginButton()
-	var signinLabel          = UILabel()
+	
+	// var facebookButton       = FBSDKLoginButton()
+	var signinLabel = UILabel()
 	
 	var quicktutorText = UIImageView()
 	var learnAnythingLabel = CenterTextLabel()
@@ -31,7 +31,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 	
 	var container = UIView()
 	var phoneTextField = PhoneTextField()
-	//var facebookButton2 = FacebookButton()
+	// var facebookButton2 = FacebookButton()
 	
 	var infoLabel = UILabel()
 	
@@ -45,11 +45,11 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		addSubview(container)
 		container.addSubview(phoneTextField)
 		phoneTextField.addSubview(numberLabel)
-		//container.addSubview(facebookButton2)
+		// container.addSubview(facebookButton2)
 		addSubview(nextButton)
 		super.configureView()
 		insertSubview(nextButton, aboveSubview: container)
-	
+		
 		backButton.alpha = 0.0
 		backButton.isUserInteractionEnabled = false
 		
@@ -75,12 +75,12 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		numberLabel.label.font = Fonts.createBoldSize(14)
 		
 		phoneTextField.textField.keyboardType = .numberPad
-
-//		phoneNumberTextField.textField.keyboardType = .numberPad
-//
-//		facebookButton.setTitle("Log in with facebook", for: .normal)
-//		signinLabel.text = "Sign in Screen..."
-//		facebookButton.backgroundColor = UIColor.blue
+		
+		//		phoneNumberTextField.textField.keyboardType = .numberPad
+		//
+		//		facebookButton.setTitle("Log in with facebook", for: .normal)
+		//		signinLabel.text = "Sign in Screen..."
+		//		facebookButton.backgroundColor = UIColor.blue
 		
 		applyConstraints()
 	}
@@ -88,7 +88,7 @@ class SignInView: RegistrationGradientView, Keyboardable {
 	override func applyConstraints() {
 		super.applyConstraints()
 		
-		backButton.snp.makeConstraints { (make) in
+		backButton.snp.makeConstraints { make in
 			if #available(iOS 11.0, *) {
 				make.top.equalTo(safeAreaLayoutGuide.snp.top)
 			} else {
@@ -99,14 +99,14 @@ class SignInView: RegistrationGradientView, Keyboardable {
 			make.left.equalToSuperview()
 		}
 		
-		nextButton.snp.makeConstraints { (make) in
+		nextButton.snp.makeConstraints { make in
 			make.bottom.equalTo(keyboardView.snp.top)
 			make.right.equalToSuperview().inset(15)
 			make.width.equalToSuperview().multipliedBy(0.25)
 			make.height.equalToSuperview().multipliedBy(0.1)
 		}
 		
-		quicktutorText.snp.makeConstraints { (make) in
+		quicktutorText.snp.makeConstraints { make in
 			make.centerX.equalToSuperview()
 			if #available(iOS 11.0, *) {
 				make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(15)
@@ -115,19 +115,19 @@ class SignInView: RegistrationGradientView, Keyboardable {
 			}
 		}
 		
-		learnAnythingLabel.snp.makeConstraints { (make) in
+		learnAnythingLabel.snp.makeConstraints { make in
 			make.top.equalTo(quicktutorText.snp.bottom)
 			make.height.equalTo(30)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 		}
 		
-		quicktutorFlame.snp.makeConstraints { (make) in
+		quicktutorFlame.snp.makeConstraints { make in
 			make.top.equalTo(learnAnythingLabel.snp.bottom).offset(30)
 			make.centerX.equalToSuperview()
 		}
 		
-		infoLabel.snp.makeConstraints { (make) in
+		infoLabel.snp.makeConstraints { make in
 			if UIScreen.main.bounds.height == 480 {
 				make.width.equalToSuperview().multipliedBy(0.85)
 				make.centerX.bottom.equalToSuperview()
@@ -142,38 +142,37 @@ class SignInView: RegistrationGradientView, Keyboardable {
 			}
 		}
 		
-		container.snp.makeConstraints { (make) in
+		container.snp.makeConstraints { make in
 			make.top.equalTo(quicktutorFlame.snp.bottom)
 			make.bottom.equalTo(infoLabel.snp.top)
 			make.width.equalToSuperview().multipliedBy(0.85)
 			make.centerX.equalToSuperview()
 		}
 		
-		phoneTextField.snp.makeConstraints { (make) in
+		phoneTextField.snp.makeConstraints { make in
 			make.width.equalToSuperview()
 			make.centerY.equalToSuperview()
 			make.height.equalTo(60)
 			make.centerX.equalToSuperview()
 		}
 		
-		numberLabel.snp.makeConstraints { (make) in
+		numberLabel.snp.makeConstraints { make in
 			make.top.equalToSuperview()
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 			make.height.equalTo(30)
 		}
 		
-//		facebookButton2.snp.makeConstraints { (make) in
-//			make.centerY.equalToSuperview().multipliedBy(1.5)
-//			make.height.equalTo(30)
-//			make.width.equalToSuperview()
-//			make.centerX.equalToSuperview()
-//		}
+		//		facebookButton2.snp.makeConstraints { (make) in
+		//			make.centerY.equalToSuperview().multipliedBy(1.5)
+		//			make.height.equalTo(30)
+		//			make.width.equalToSuperview()
+		//			make.centerX.equalToSuperview()
+		//		}
 	}
 }
 
-
-class FacebookButton : InteractableView, Interactable {
+class FacebookButton: InteractableView, Interactable {
 	
 	var facebookIcon = UIImageView()
 	var facebookLabel = LeftTextLabel()
@@ -192,12 +191,12 @@ class FacebookButton : InteractableView, Interactable {
 	}
 	
 	override func applyConstraints() {
-		facebookIcon.snp.makeConstraints { (make) in
+		facebookIcon.snp.makeConstraints { make in
 			make.left.equalToSuperview()
 			make.centerY.equalToSuperview()
 		}
 		
-		facebookLabel.snp.makeConstraints { (make) in
+		facebookLabel.snp.makeConstraints { make in
 			make.left.equalToSuperview().inset(30)
 			make.right.equalToSuperview()
 			make.centerY.equalToSuperview()
@@ -216,9 +215,9 @@ class FacebookButton : InteractableView, Interactable {
 	}
 }
 
-class PhoneTextField : InteractableView, Interactable {
+class PhoneTextField: InteractableView, Interactable {
 	
-	var textField : NoPasteTextField = {
+	var textField: NoPasteTextField = {
 		let textField = NoPasteTextField()
 		textField.font = Fonts.createSize(25)
 		textField.keyboardAppearance = .dark
@@ -227,7 +226,7 @@ class PhoneTextField : InteractableView, Interactable {
 		return textField
 	}()
 	
-	var flag : UIImageView = {
+	var flag: UIImageView = {
 		let imageView = UIImageView()
 		
 		imageView.image = UIImage(named: "flag")
@@ -235,7 +234,7 @@ class PhoneTextField : InteractableView, Interactable {
 		
 		return imageView
 	}()
-	var plusOneLabel : UILabel = {
+	var plusOneLabel: UILabel = {
 		let label = UILabel()
 		
 		label.textColor = .white
@@ -260,28 +259,28 @@ class PhoneTextField : InteractableView, Interactable {
 	}
 	
 	override func applyConstraints() {
-		flag.snp.makeConstraints { (make) in
+		flag.snp.makeConstraints { make in
 			make.height.equalToSuperview().multipliedBy(0.6)
 			make.width.equalTo(30)
 			make.left.equalToSuperview()
 			make.bottom.equalToSuperview()
 		}
 		
-		plusOneLabel.snp.makeConstraints { (make) in
+		plusOneLabel.snp.makeConstraints { make in
 			make.left.equalTo(flag.snp.right)
 			make.bottom.equalToSuperview()
 			make.width.equalTo(45)
 			make.height.equalTo(flag)
 		}
 		
-		textField.snp.makeConstraints { (make) in
+		textField.snp.makeConstraints { make in
 			make.left.equalTo(plusOneLabel.snp.right)
 			make.right.equalToSuperview()
 			make.bottom.equalToSuperview()
 			make.height.equalToSuperview().multipliedBy(0.6)
 		}
 		
-		line.snp.makeConstraints { (make) in
+		line.snp.makeConstraints { make in
 			make.left.equalToSuperview()
 			make.right.equalToSuperview()
 			make.bottom.equalToSuperview().offset(1)
@@ -290,9 +289,9 @@ class PhoneTextField : InteractableView, Interactable {
 	}
 }
 
-class SignIn: BaseViewController {
+class SignInVC: BaseViewController {
 	
-	var verificationId : String!
+	var verificationId: String!
 	
 	override var contentView: SignInView {
 		return view as! SignInView
@@ -313,7 +312,7 @@ class SignIn: BaseViewController {
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-
+		
 	}
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
@@ -329,7 +328,7 @@ class SignIn: BaseViewController {
 	}
 	
 	override func handleNavigation() {
-		 if(touchStartView is RegistrationBackButton) {
+		if touchStartView is RegistrationBackButton {
 			
 			contentView.backButton.isUserInteractionEnabled = false
 			contentView.nextButton.isUserInteractionEnabled = false
@@ -340,14 +339,14 @@ class SignIn: BaseViewController {
 			contentView.phoneTextField.snp.removeConstraints()
 			contentView.quicktutorFlame.snp.removeConstraints()
 			
-			contentView.phoneTextField.snp.remakeConstraints { (make) in
+			contentView.phoneTextField.snp.remakeConstraints { make in
 				make.width.equalToSuperview()
 				make.centerY.equalToSuperview()
 				make.height.equalTo(60)
 				make.centerX.equalToSuperview()
 			}
 			
-			contentView.quicktutorFlame.snp.remakeConstraints { (make) in
+			contentView.quicktutorFlame.snp.remakeConstraints { make in
 				make.top.equalTo(contentView.learnAnythingLabel.snp.bottom).offset(30)
 				make.centerX.equalToSuperview()
 			}
@@ -355,12 +354,12 @@ class SignIn: BaseViewController {
 			contentView.setNeedsUpdateConstraints()
 			UIView.animate(withDuration: 0.7, delay: 0.2, options: [.curveEaseIn], animations: {
 				self.contentView.layoutIfNeeded()
-			}, completion: { (true) in
+			}, completion: { _ in
 				self.contentView.quicktutorText.fadeIn(withDuration: 0.2, alpha: 1.0)
 				self.contentView.learnAnythingLabel.fadeIn(withDuration: 0.2, alpha: 1.0)
 				self.contentView.infoLabel.fadeIn(withDuration: 0.2, alpha: 1.0)
 			})
-		} else if (touchStartView is RegistrationNextButton) {
+		} else if touchStartView is RegistrationNextButton {
 			signIn()
 			contentView.nextButton.isUserInteractionEnabled = false
 		} else if touchStartView is FacebookButton {
@@ -370,74 +369,74 @@ class SignIn: BaseViewController {
 	
 	private func signIn() {
 		let phoneNumber = contentView.phoneTextField.textField.text!
-		self.displayLoadingOverlay()
-		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { (verificationId, error) in
+		displayLoadingOverlay()
+		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { verificationId, error in
 			if let error = error {
 				AlertController.genericErrorAlert(self, title: "Error:", message: error.localizedDescription)
 			} else {
 				UserDefaults.standard.set(verificationId, forKey: Constants.VRFCTN_ID)
 				Registration.phone = phoneNumber.cleanPhoneNumber()
-				self.navigationController?.pushViewController(Verification(), animated: true)
+				self.navigationController?.pushViewController(VerificationVC(), animated: true)
 			}
 			self.contentView.nextButton.isUserInteractionEnabled = true
 		}
-		self.dismissOverlay()
+		dismissOverlay()
 	}
 	
-	private func facebookSignIn () {
-		self.displayLoadingOverlay()
-		fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
+	private func facebookSignIn() {
+		displayLoadingOverlay()
+		fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { _, error in
 			if let error = error {
 				print("Failed to login: \(error.localizedDescription)")
 				return
 			}
-//			guard let accessToken = FBSDKAccessToken.current() else {
-//				print("Failed to get access token")
-//				return
-//			}
+			//			guard let accessToken = FBSDKAccessToken.current() else {
+			//				print("Failed to get access token")
+			//				return
+			//			}
 			
-			//let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+			// let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
 			
 			// Perform login by calling Firebase APIs
-//			Auth.auth().signIn(with: credential, completion: { (user, error) in
-//				if let error = error {
-//					print("Login error: \(error.localizedDescription)")
-//					self.dismissOverlay()
-//					return
-//				}else{
-//					let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":" id, name, email"])
-//					graphRequest.start(completionHandler: { (connection, result, error) -> Void in
-//						if let error = error {
-//							print(error.localizedDescription)
-//							self.dismissOverlay()
-//						} else {
-//							self.dismissOverlay()
-//							let data : [String : AnyObject] = result as! [String : AnyObject]
-//							print(data)
-//						}
-//					})
-//					print("Successful!")
-//					self.dismissOverlay()
-//				}
-//			})
-//			self.dismissOverlay()
+			//			Auth.auth().signIn(with: credential, completion: { (user, error) in
+			//				if let error = error {
+			//					print("Login error: \(error.localizedDescription)")
+			//					self.dismissOverlay()
+			//					return
+			//				}else{
+			//					let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":" id, name, email"])
+			//					graphRequest.start(completionHandler: { (connection, result, error) -> Void in
+			//						if let error = error {
+			//							print(error.localizedDescription)
+			//							self.dismissOverlay()
+			//						} else {
+			//							self.dismissOverlay()
+			//							let data : [String : AnyObject] = result as! [String : AnyObject]
+			//							print(data)
+			//						}
+			//					})
+			//					print("Successful!")
+			//					self.dismissOverlay()
+			//				}
+			//			})
+			//			self.dismissOverlay()
 		}
 	}
 }
-extension SignIn : UITextFieldDelegate {
+extension SignInVC: UITextFieldDelegate {
 	func textFieldDidBeginEditing(_ textField: UITextField) {
 		contentView.quicktutorText.fadeOut(withDuration: 0.2)
 		contentView.learnAnythingLabel.fadeOut(withDuration: 0.2)
 		contentView.infoLabel.fadeOut(withDuration: 0.2)
 		
-		contentView.phoneTextField.snp.remakeConstraints({ (make) in
+		contentView.phoneTextField.snp.remakeConstraints({ make in
 			make.top.equalTo(self.contentView.backButton.snp.bottom)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
 			make.height.equalTo(60)
 		})
 		
-		contentView.quicktutorFlame.snp.remakeConstraints({ (make) in
+		contentView.quicktutorFlame.snp.remakeConstraints({ make in
 			make.centerX.equalToSuperview()
 			make.top.equalTo(contentView.phoneTextField.snp.bottom).offset(30)
 		})

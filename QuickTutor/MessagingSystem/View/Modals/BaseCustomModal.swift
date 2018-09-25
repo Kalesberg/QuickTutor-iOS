@@ -9,15 +9,14 @@
 import UIKit
 
 class BaseCustomModal: UIView {
-    
     var isShown = false
-    
+
     let backgroundBlurView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         return view
     }()
-    
+
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
@@ -25,7 +24,7 @@ class BaseCustomModal: UIView {
         view.layer.cornerRadius = 4
         return view
     }()
-    
+
     let titleBackground: UIView = {
         let view = UIView()
         view.backgroundColor = Colors.currentUserColor()
@@ -35,7 +34,7 @@ class BaseCustomModal: UIView {
         }
         return view
     }()
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "ARE YOU SURE?"
@@ -45,16 +44,17 @@ class BaseCustomModal: UIView {
         label.numberOfLines = 0
         return label
     }()
-    
+
     var backgroundCenterYAnchor: NSLayoutConstraint?
     var backgroundHeightAnchor: NSLayoutConstraint?
-    
+
     func setupViews() {
         setupBackgroundBlurView()
         setupBackground()
         setupTitleBackground()
         setupTitleLabel()
     }
+
     func setupBackground() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(background)
@@ -64,7 +64,7 @@ class BaseCustomModal: UIView {
         backgroundHeightAnchor?.isActive = true
         backgroundCenterYAnchor?.isActive = true
     }
-    
+
     func setupBackgroundBlurView() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(backgroundBlurView)
@@ -73,63 +73,62 @@ class BaseCustomModal: UIView {
         backgroundBlurView.addGestureRecognizer(dismissTap)
         window.bringSubviewToFront(backgroundBlurView)
     }
-    
+
     func setupTitleBackground() {
         background.addSubview(titleBackground)
         titleBackground.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
     }
-    
+
     func setupTitleLabel() {
         background.addSubview(titleLabel)
         titleLabel.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
     }
-    
+
     func setHeightTo(_ height: CGFloat) {
         backgroundHeightAnchor = background.heightAnchor.constraint(equalToConstant: height)
         backgroundHeightAnchor?.isActive = true
         background.layoutIfNeeded()
     }
-    
+
     func show() {
         guard !isShown else { return }
         isShown = true
         let backgroundAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.backgroundBlurView.alpha = 1
         }
-        
+
         let contentAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.background.alpha = 1
             self.background.transform = CGAffineTransform(translationX: 0, y: -500)
         }
-        
-        backgroundAnimator.addCompletion { (position) in
+
+        backgroundAnimator.addCompletion { _ in
             contentAnimator.startAnimation()
         }
         backgroundAnimator.startAnimation()
     }
-    
+
     @objc func dismiss() {
         isShown = false
         let backgroundAnimator = UIViewPropertyAnimator(duration: 0.5, curve: .easeOut) {
             self.backgroundBlurView.alpha = 0
         }
-        
+
         let contentAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.background.alpha = 0
             self.background.transform = CGAffineTransform(translationX: 0, y: 500)
         }
-        
+
         contentAnimator.startAnimation()
         backgroundAnimator.startAnimation()
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

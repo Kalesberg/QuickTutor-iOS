@@ -9,83 +9,76 @@
 import Foundation
 import UIKit
 
-
-class TutorTaxInfoView : MainLayoutTitleBackButton {
-    
-    let tableView : UITableView = {
+class TutorTaxInfoView: MainLayoutTitleBackButton {
+    let tableView: UITableView = {
         let tableView = UITableView()
-        
+
         tableView.backgroundColor = .clear
         tableView.estimatedRowHeight = 250
         tableView.isScrollEnabled = true
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        
+
         return tableView
     }()
-    
+
     override func configureView() {
         addSubview(tableView)
         super.configureView()
-        
+
         title.label.text = "Tax Information"
-        
     }
-    
+
     override func applyConstraints() {
         super.applyConstraints()
-        
-        tableView.snp.makeConstraints { (make) in
+
+        tableView.snp.makeConstraints { make in
             make.top.equalTo(navbar.snp.bottom)
             make.bottom.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
     }
-    
 }
 
-class TutorTaxInfo : BaseViewController {
-    
+class TutorTaxInfo: BaseViewController {
     override var contentView: TutorTaxInfoView {
         return view as! TutorTaxInfoView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-        
+
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(EditProfileDotItemTableViewCell.self, forCellReuseIdentifier: "editProfileDotItemTableViewCell")
         contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
     }
+
     override func loadView() {
         view = TutorTaxInfoView()
     }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
-    override func handleNavigation() {
-        
+
+    override func handleNavigation() {}
+
+    @objc private func SSNTextFieldDidBegin(_: UITextField) {
+        contentView.tableView.setContentOffset(CGPoint(x: 0, y: 500), animated: true)
     }
-	
-	@objc private func SSNTextFieldDidBegin(_ textField : UITextField) {
-		contentView.tableView.setContentOffset(CGPoint(x: 0, y: 500), animated: true)
-	}
 }
 
-
-extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension TutorTaxInfo: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return 15
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch (indexPath.row) {
+
+    func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
         case 0:
             return 130
         case 1:
@@ -121,138 +114,137 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
         }
         return 0
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        switch (indexPath.row) {
+        switch indexPath.row {
         case 0:
             let cell = UITableViewCell()
             cell.selectionStyle = .none
             cell.backgroundColor = .clear
-            
+
             let view = UIView()
             view.backgroundColor = UIColor(hex: "AF1C49")
             view.layer.cornerRadius = 7
-            
+
             let label = UILabel()
             label.text = "Please ensure your information below is accurate before saving it."
             label.font = Fonts.createSize(18)
             label.textColor = .white
             label.textAlignment = .center
             label.numberOfLines = 0
-            
+
             cell.addSubview(view)
             cell.addSubview(label)
-            view.snp.makeConstraints { (make) in
+            view.snp.makeConstraints { make in
                 make.height.equalTo(75)
                 make.width.equalToSuperview()
                 make.center.equalToSuperview()
             }
-            
-            label.snp.makeConstraints { (make) in
+
+            label.snp.makeConstraints { make in
                 make.edges.equalToSuperview()
             }
-            
+
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-            
+
             cell.label.text = "About Me"
-            
+
             return cell
         case 2:
             let cell = UITableViewCell()
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
-            
+
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
-            
+
             cell.infoLabel.label.text = "First Name"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter First Name",
-                attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
-            
+
             cell.infoLabel.label.text = "Last Name"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Last Name",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+
             return cell
         case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
-            
+
             cell.infoLabel.label.text = "Date of Birth"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Date of Birth",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+
             return cell
         case 6:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-            
+
             cell.label.text = "Address"
-            
+
             return cell
         case 7:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
-            
+
             cell.infoLabel.label.text = "Street Address"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Street Address",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+
             return cell
         case 8:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
-            
+
             cell.infoLabel.label.text = "City"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter City",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+
             return cell
         case 9:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
-            
+
             cell.infoLabel.label.text = "State"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter State",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+
             return cell
         case 10:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
-            
+
             cell.infoLabel.label.text = "ZIP Code"
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter ZIP Code",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+
             return cell
         case 11:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
-            
+
             cell.label.text = "Social Security Number"
-            
+
             return cell
         case 12:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileDotItemTableViewCell", for: indexPath) as! EditProfileDotItemTableViewCell
 
             cell.infoLabel.label.text = ""
             cell.textField.attributedPlaceholder = NSAttributedString(string: "Enter Social Security Number",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-			cell.textField.addTarget(self, action: #selector(SSNTextFieldDidBegin(_:)), for: .editingDidBegin)
-			
-			return cell
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            cell.textField.addTarget(self, action: #selector(SSNTextFieldDidBegin(_:)), for: .editingDidBegin)
+
+            return cell
         case 13:
             let cell = UITableViewCell()
-            
+
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
-            
+
             let view = UIView()
             view.backgroundColor = UIColor(hex: "1EAD4A")
             view.layer.cornerRadius = 8
-            
+
             let label = UILabel()
             label.textAlignment = .center
             label.numberOfLines = 0
@@ -260,39 +252,39 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
             label.font = Fonts.createSize(14)
             label.text = "Your information is encrypted and securely transferred using Secure Sockets Layer (SSL)."
             label.adjustsFontSizeToFitWidth = true
-            
+
             cell.addSubview(view)
             cell.addSubview(label)
-            
-            view.snp.makeConstraints { (make) in
+
+            view.snp.makeConstraints { make in
                 make.width.equalToSuperview()
                 make.height.equalTo(60)
                 make.center.equalToSuperview()
             }
-            
-            label.snp.makeConstraints { (make) in
+
+            label.snp.makeConstraints { make in
                 make.edges.equalToSuperview()
             }
-            
+
             return cell
         case 14:
             let cell = UITableViewCell()
-            
+
             cell.selectionStyle = .none
             cell.backgroundColor = .clear
-            
+
             let button = SubmitButton()
             button.backgroundColor = Colors.tutorBlue
             button.label.label.text = "Submit"
-            
+
             cell.addSubview(button)
-            
-            button.snp.makeConstraints { (make) in
+
+            button.snp.makeConstraints { make in
                 make.width.equalToSuperview()
                 make.height.equalTo(40)
                 make.center.equalToSuperview()
             }
-            
+
             return cell
         default:
             break
@@ -301,8 +293,8 @@ extension TutorTaxInfo : UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension TutorTaxInfo : UIScrollViewDelegate {
-	func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-		self.view.endEditing(true)
-	}
+extension TutorTaxInfo: UIScrollViewDelegate {
+    func scrollViewWillBeginDecelerating(_: UIScrollView) {
+        view.endEditing(true)
+    }
 }

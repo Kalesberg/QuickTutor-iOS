@@ -6,26 +6,26 @@
 //  Copyright © 2018 Zach Fuller. All rights reserved.
 //
 
-import UIKit
 import Firebase
+import UIKit
 
-//class QuickChatKeyboardAccessory: StudentKeyboardAccessory {
-//    
+// class QuickChatKeyboardAccessory: StudentKeyboardAccessory {
+//
 //    var quickChatViewShown = false
-//    
+//
 //    let chatView: QuickChatView = {
 //        let chat = QuickChatView()
 //        return chat
 //    }()
-//    
+//
 //    var quickChatBottomAnchor: NSLayoutConstraint?
-//    
+//
 //    override func setupViews() {
 //        super.setupViews()
 //        setupQuickChatView()
 //        toggleQuickChatView()
 //    }
-//    
+//
 //    private func setupQuickChatView() {
 //        chatView.delegate = self
 //
@@ -33,11 +33,11 @@ import Firebase
 //        quickChatBottomAnchor = chatView.bottomAnchor.constraint(equalTo: messageTextview.bottomAnchor, constant: -45)
 //        quickChatBottomAnchor?.isActive = true
 //    }
-//    
+//
 //    @objc func toggleQuickChatView() {
 //        quickChatViewShown ? hideQuickChatView() : showQuickChatView()
 //    }
-//    
+//
 //    private func showQuickChatView() {
 //        quickChatViewShown = true
 //        messageFieldTopAnchor?.constant = 45
@@ -47,7 +47,7 @@ import Firebase
 //            self.layoutIfNeeded()
 //        }).startAnimation()
 //    }
-//    
+//
 //    private func hideQuickChatView() {
 //        quickChatViewShown = false
 //        messageFieldTopAnchor?.constant = 8
@@ -57,9 +57,9 @@ import Firebase
 //            self.layoutIfNeeded()
 //        }).startAnimation()
 //    }
-//}
+// }
 //
-//extension QuickChatKeyboardAccessory: QuickChatViewDelegate {
+// extension QuickChatKeyboardAccessory: QuickChatViewDelegate {
 //    func sendMessage(text: String) {
 //        messageTextview.text = text
 //        guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -68,5 +68,4 @@ import Firebase
 //        delegate?.handleMessageSend(message: message)
 //        hideQuickChatView()
 //    }
-//}
-
+// }

@@ -144,7 +144,7 @@ class ResendButton : InteractableView, Interactable {
 }
 
 
-class Verification : BaseViewController {
+class VerificationVC : BaseViewController {
 	
 	private var ref: DatabaseReference!
 	
@@ -289,7 +289,7 @@ class Verification : BaseViewController {
 										Registration.setLearnerDefaults()
 									self.navigationController?.pushViewController(LearnerPageViewController(), animated: true)
 									} else {
-										self.navigationController?.pushViewController(SignIn(), animated: true)
+										self.navigationController?.pushViewController(SignInVC(), animated: true)
 									}
 								}
 							} else {
@@ -298,7 +298,7 @@ class Verification : BaseViewController {
 										Registration.setTutorDefaults()
 										self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
 									} else {
-										self.navigationController?.pushViewController(SignIn(), animated: true)
+										self.navigationController?.pushViewController(SignInVC(), animated: true)
 									}
 								}
 						}
@@ -328,7 +328,7 @@ class Verification : BaseViewController {
     }
 }
 
-extension Verification : UITextFieldDelegate {
+extension VerificationVC : UITextFieldDelegate {
     
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		

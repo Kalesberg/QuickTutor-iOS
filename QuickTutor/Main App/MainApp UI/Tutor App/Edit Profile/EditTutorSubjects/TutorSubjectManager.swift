@@ -9,20 +9,16 @@
 import Foundation
 
 struct Selected {
-	let path : String
-	let subject : String
+    let path: String
+    let subject: String
 }
 
 struct SubjectManager {
-	
-	var fullSubjectList : [Selected]?
-	var subjectList : [String]?
-	var deletedSubjectList = [Selected]()
-	
-	func deleteSubjects() {
-		
-	}
-	func saveSubjects() {
-		
-	}
+    var fullSubjectList: [Selected]?
+    var subjectList: [String]?
+    var deletedSubjectList = [Selected]()
+
+    func deleteSubjects() {}
+
+    func saveSubjects() {}
 }

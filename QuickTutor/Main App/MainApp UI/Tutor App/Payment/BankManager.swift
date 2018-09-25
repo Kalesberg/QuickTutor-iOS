@@ -7,61 +7,59 @@
 //
 //
 
-import UIKit.UITableView
 import Stripe
+import UIKit.UITableView
 
-class BankManagerView : MainLayoutTitleBackButton {
-    
-    let subtitleLabel : UILabel = {
+class BankManagerView: MainLayoutTitleBackButton {
+    let subtitleLabel: UILabel = {
         let label = UILabel()
-        
+
         label.text = "Payout Methods"
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)
         label.textColor = .white
-        
+
         return label
     }()
-    
 
-    let tableView : UITableView = {
+    let tableView: UITableView = {
         let tableView = UITableView()
-        
+
         tableView.estimatedRowHeight = 50
         tableView.isScrollEnabled = false
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.backgroundColor = Colors.backgroundDark
-        
+
         return tableView
     }()
-    
+
     override func configureView() {
         addSubview(subtitleLabel)
         addSubview(tableView)
         super.configureView()
-        
+
         title.label.text = "Payment"
-        
+
         applyConstraints()
     }
-    
+
     override func applyConstraints() {
         super.applyConstraints()
-        subtitleLabel.snp.makeConstraints { (make) in
+        subtitleLabel.snp.makeConstraints { make in
             make.top.equalTo(navbar.snp.bottom).inset(-30)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
-        
-        tableView.snp.makeConstraints { (make) in
+
+        tableView.snp.makeConstraints { make in
             make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalToSuperview().multipliedBy(0.5)
             make.centerX.equalToSuperview()
         }
-
     }
+
     override func layoutSubviews() {
         super.layoutSubviews()
         navbar.backgroundColor = Colors.tutorBlue
@@ -69,22 +67,21 @@ class BankManagerView : MainLayoutTitleBackButton {
     }
 }
 
-class BankManager : BaseViewController {
-    
+class BankManager: BaseViewController {
     override var contentView: BankManagerView {
         return view as! BankManagerView
     }
-    
+
     override func loadView() {
         view = BankManagerView()
     }
-    
-    var acctId : String! {
+
+    var acctId: String! {
         didSet {
             contentView.tableView.reloadData()
         }
     }
-    
+
     var bankList = [ExternalAccountsData]() {
         didSet {
             setBank()
@@ -92,12 +89,12 @@ class BankManager : BaseViewController {
     }
 
     private var banks = [ExternalAccountsData]()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.displayLoadingOverlay()
-        Stripe.retrieveBankList(acctId: CurrentUser.shared.tutor.acctId) { (error, list) in
+
+        displayLoadingOverlay()
+        Stripe.retrieveBankList(acctId: CurrentUser.shared.tutor.acctId) { error, list in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let list = list {
@@ -105,46 +102,45 @@ class BankManager : BaseViewController {
             }
             self.dismissOverlay()
         }
-        
+
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(BankManagerTableViewCell.self, forCellReuseIdentifier: "bankCell")
         contentView.tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentView.tableView.reloadData()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     private func setBank() {
-        self.banks = bankList
+        banks = bankList
         contentView.tableView.reloadData()
     }
-    override func handleNavigation() {
-        
-    }
-    
+
+    override func handleNavigation() {}
+
     // TODO: Check if they have any pending sessions.
-    
+
     private func defaultBankAlert(bankId: String) {
         let alertController = UIAlertController(title: "Default Payout Method?", message: "Do you want this card to be your default payout method?", preferredStyle: .actionSheet)
-        let setDefault = UIAlertAction(title: "Set as Default", style: .default) { (alert) in
+        let setDefault = UIAlertAction(title: "Set as Default", style: .default) { _ in
             self.displayLoadingOverlay()
-            Stripe.updateDefaultBank(account: CurrentUser.shared.tutor.acctId, bankId: bankId, completion: { (error, account) in
+            Stripe.updateDefaultBank(account: CurrentUser.shared.tutor.acctId, bankId: bankId, completion: { error, account in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else if let account = account {
@@ -153,51 +149,50 @@ class BankManager : BaseViewController {
                 self.dismissOverlay()
             })
         }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             alertController.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(setDefault)
         alertController.addAction(cancel)
-        
+
         present(alertController, animated: true, completion: nil)
     }
 }
 
-extension BankManager : UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension BankManager: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return banks.count + 1
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+    func tableView(_ tableView: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return tableView.estimatedRowHeight
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let endIndex = banks.count
-        
+
         if indexPath.row != endIndex {
             let cell = tableView.dequeueReusableCell(withIdentifier: "bankCell", for: indexPath) as! BankManagerTableViewCell
             insertBorder(cell: cell)
             cell.bankName.text = banks[indexPath.row].bank_name
             cell.accountLast4.text = "•••• \(banks[indexPath.row].last4)"
             cell.defaultBank.isHidden = !banks[indexPath.row].default_for_currency
-            
+
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "addCardCell", for: indexPath) as! AddCardTableViewCell
-            
+
             cell.addCard.text = "Add bank account"
-            
+
             return cell
         }
     }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+
+    func tableView(_: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return (indexPath.row == banks.count) ? false : true
     }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == banks.count {
             if banks.count == 5 {
@@ -211,25 +206,25 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+
+    func tableView(_: UITableView, titleForDeleteConfirmationButtonForRowAt _: IndexPath) -> String? {
         return "Remove Bank"
     }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+    func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? {
         let view = AddCardHeaderView()
         view.addCard.text = "Banks"
         return view
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
+    func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
         return 50
     }
-    
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            self.displayLoadingOverlay()
-            Stripe.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { (error, bankList) in
+            displayLoadingOverlay()
+            Stripe.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { error, bankList in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else if let bankList = bankList {
@@ -242,49 +237,49 @@ extension BankManager : UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
-    
+
     func insertBorder(cell: UITableViewCell) {
-        let border = UIView(frame:CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
+        let border = UIView(frame: CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
         border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
         cell.contentView.addSubview(border)
     }
 }
 
-class BankManagerTableViewCell : UITableViewCell {
-    
+class BankManagerTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
     }
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    let bankName : UILabel = {
+
+    let bankName: UILabel = {
         let label = UILabel()
-        
+
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.font = Fonts.createSize(16)
         label.textColor = .white
-        
+
         return label
     }()
-    
-    let accountLast4 : UILabel = {
+
+    let accountLast4: UILabel = {
         let label = UILabel()
-        
+
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.font = Fonts.createSize(15)
         label.textColor = .white
-        
+
         return label
     }()
-    
-    let defaultBank : UILabel = {
+
+    let defaultBank: UILabel = {
         let label = UILabel()
-        
+
         label.text = "Default"
         label.font = Fonts.createSize(15)
         label.textColor = .white
@@ -292,15 +287,15 @@ class BankManagerTableViewCell : UITableViewCell {
         label.textAlignment = .center
         label.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
         label.isHidden = true
-        
+
         return label
     }()
-    
+
     func configureTableViewCell() {
         addSubview(bankName)
         addSubview(accountLast4)
         addSubview(defaultBank)
-        
+
         let cellBackground = UIView()
         cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
         selectedBackgroundView = cellBackground
@@ -308,21 +303,21 @@ class BankManagerTableViewCell : UITableViewCell {
 
         applyConstraints()
     }
-    
+
     func applyConstraints() {
-        bankName.snp.makeConstraints { (make) in
+        bankName.snp.makeConstraints { make in
             make.width.equalToSuperview().multipliedBy(0.5)
             make.height.equalToSuperview()
             make.left.equalToSuperview()
             make.centerY.equalToSuperview()
         }
-        accountLast4.snp.makeConstraints { (make) in
+        accountLast4.snp.makeConstraints { make in
             make.width.equalToSuperview().multipliedBy(0.5)
             make.height.equalToSuperview()
             make.left.equalTo(bankName.snp.right)
             make.centerY.equalToSuperview()
         }
-        defaultBank.snp.makeConstraints { (make) in
+        defaultBank.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.2)

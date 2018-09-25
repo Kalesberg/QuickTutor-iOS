@@ -6,14 +6,13 @@
 //  Copyright © 2018 Zach Fuller. All rights reserved.
 //
 
-import UIKit
 import Firebase
+import UIKit
 
 class ConnectionRequestCell: UserMessageCell {
-    
     var status: String?
     var connectionRequestId: String?
-    
+
     let actionBackground: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "1E1E25")
@@ -23,7 +22,7 @@ class ConnectionRequestCell: UserMessageCell {
         }
         return view
     }()
-    
+
     let statusLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -33,7 +32,7 @@ class ConnectionRequestCell: UserMessageCell {
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
-    
+
     let acceptButton: UIButton = {
         let button = UIButton()
         button.setTitle("Accept", for: .normal)
@@ -48,7 +47,7 @@ class ConnectionRequestCell: UserMessageCell {
         }
         return button
     }()
-    
+
     let declineButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(Colors.qtRed, for: .normal)
@@ -63,7 +62,7 @@ class ConnectionRequestCell: UserMessageCell {
         }
         return button
     }()
-    
+
     override func setupViews() {
         super.setupViews()
         setupActionBackground()
@@ -74,65 +73,65 @@ class ConnectionRequestCell: UserMessageCell {
             bubbleView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         }
     }
-    
+
     override func setupBubbleViewAsSentMessage() {
         super.setupBubbleViewAsSentMessage()
         if #available(iOS 11.0, *) {
             actionBackground.layer.maskedCorners = [.layerMinXMaxYCorner]
         }
     }
-    
+
     override func setupBubbleViewAsReceivedMessage() {
         super.setupBubbleViewAsReceivedMessage()
         if #available(iOS 11.0, *) {
             actionBackground.layer.maskedCorners = [.layerMaxXMaxYCorner]
         }
     }
-    
+
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
-        self.userMessage = message
+        userMessage = message
         guard let uid = Auth.auth().currentUser?.uid else { return }
         if message.senderId != uid && status == "pending" {
             setupForTeacherView()
         }
-        
+
         guard let requestId = message.connectionRequestId else { return }
-        self.connectionRequestId = requestId
+        connectionRequestId = requestId
         loadFromRequest()
     }
-    
+
     private func setupActionBackground() {
         addSubview(actionBackground)
         actionBackground.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
     }
-    
+
     private func setupStatusLabel() {
         addSubview(statusLabel)
         statusLabel.anchor(top: actionBackground.topAnchor, left: actionBackground.leftAnchor, bottom: actionBackground.bottomAnchor, right: actionBackground.rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
     }
-    
+
     func setupAcceptButton() {
         addSubview(acceptButton)
         acceptButton.anchor(top: nil, left: nil, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
         acceptButton.addTarget(self, action: #selector(approveConnectionRequest), for: .touchUpInside)
     }
-    
+
     func setupDeclineButton() {
         addSubview(declineButton)
         declineButton.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
         declineButton.addTarget(self, action: #selector(denyConnectionRequest), for: .touchUpInside)
     }
-    
+
     func setupForTeacherView() {
         statusLabel.isHidden = true
         acceptButton.isHidden = false
         declineButton.isHidden = false
     }
-    
+
     func loadFromRequest() {
         guard let id = connectionRequestId else { return }
-        Database.database().reference().child("connectionRequests").child(id).observeSingleEvent(of: .value) { (snapshot) in
+        Database.database().reference().child("connectionRequests").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
                 return
             }
@@ -141,7 +140,7 @@ class ConnectionRequestCell: UserMessageCell {
             self.setStatusLabel()
         }
     }
-    
+
     @objc func approveConnectionRequest() {
         guard let id = connectionRequestId else { return }
         guard let uid = Auth.auth().currentUser?.uid, let receiverId = chatPartner?.uid else { return }
@@ -154,26 +153,26 @@ class ConnectionRequestCell: UserMessageCell {
         acceptButton.isHidden = true
         declineButton.isHidden = true
         statusLabel.isHidden = false
-        self.status = "accepted"
+        status = "accepted"
         setStatusLabel()
     }
-    
+
     func updateMetaDataConnection() {
         guard let uid = Auth.auth().currentUser?.uid, let receiverId = chatPartner?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(receiverId).child("connected").setValue(true)
-        
+
         Database.database().reference().child("conversationMetaData").child(receiverId).child(otherUserTypeString).child(uid).child("connected").setValue(true)
     }
-    
+
     @objc func denyConnectionRequest() {
         guard let id = connectionRequestId else { return }
         Database.database().reference().child("connectionRequests").child(id).child("status").setValue("declined")
         acceptButton.isHidden = true
         declineButton.isHidden = true
         statusLabel.isHidden = false
-        self.status = "declined"
+        status = "declined"
         setStatusLabel()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -182,10 +181,10 @@ class ConnectionRequestCell: UserMessageCell {
         Database.database().reference().child("conversations").child(userTypeString).child(uid).child(partnerId).removeValue()
         Database.database().reference().child("conversations").child(otherUserTypeString).child(partnerId).child(id).removeValue()
     }
-    
+
     func setStatusLabel() {
         guard let status = self.status else { return }
-        
+
         if status == "pending" {
             showActionButtons()
         } else {
@@ -204,19 +203,17 @@ class ConnectionRequestCell: UserMessageCell {
             break
         }
     }
-    
+
     func showActionButtons() {
-        guard self.userMessage?.senderId != AccountService.shared.currentUser.uid else { return }
+        guard userMessage?.senderId != AccountService.shared.currentUser.uid else { return }
         acceptButton.isHidden = false
         declineButton.isHidden = false
         statusLabel.isHidden = true
     }
-    
+
     func hideActionButtons() {
         acceptButton.isHidden = true
         declineButton.isHidden = true
         statusLabel.isHidden = false
     }
-    
 }
-

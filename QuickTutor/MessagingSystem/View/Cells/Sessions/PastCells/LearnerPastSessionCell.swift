@@ -16,20 +16,20 @@ class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, Reques
         actionView.actionButton2.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
         actionView.actionButton3.setImage(#imageLiteral(resourceName: "viewProfileButton"), for: .normal)
     }
-    
+
     override func handleButton1() {
         super.handleButton1()
         requestSession(session.partnerId())
     }
-    
+
     override func handleButton2() {
         super.handleButton2()
         showConversationWithUID(session.partnerId())
     }
-    
+
     override func handleButton3() {
         super.handleButton3()
-        FirebaseData.manager.fetchTutor(session.partnerId(), isQuery: false, { (tutor) in
+        FirebaseData.manager.fetchTutor(session.partnerId(), isQuery: false, { tutor in
             guard let tutor = tutor else { return }
             let vc = TutorMyProfile()
             vc.tutor = tutor

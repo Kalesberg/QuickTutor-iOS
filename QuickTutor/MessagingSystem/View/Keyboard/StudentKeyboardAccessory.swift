@@ -9,7 +9,6 @@
 import UIKit
 
 class StudentKeyboardAccessory: KeyboardAccessory {
-    
     var actionViewShown = false
     var quickChatViewShown = true
 
@@ -18,7 +17,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
             actionView.delegate = delegate
         }
     }
-    
+
     let actionButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Colors.learnerPurple
@@ -28,12 +27,12 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         button.adjustsImageWhenDisabled = true
         return button
     }()
-    
+
     let actionView: KeyboardActionView = {
         let view = KeyboardActionView()
         return view
     }()
-    
+
     let backgroundBlurView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -41,14 +40,14 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         view.alpha = 0
         return view
     }()
-    
+
     let chatView: QuickChatView = {
         let chat = QuickChatView()
         return chat
     }()
-    
+
     var quickChatBottomAnchor: NSLayoutConstraint?
-    
+
     override func setupViews() {
         super.setupViews()
         setupBackgroundBlurView()
@@ -56,13 +55,13 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         setupQuickChatView()
         toggleQuickChatView()
     }
-    
+
     override func setupLeftAccessoryView() {
         leftAccessoryView = actionButton
         addSubview(actionButton)
         actionButton.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
     }
-    
+
     private func setupActionView() {
         actionButton.addTarget(self, action: #selector(toggleActionView), for: .touchUpInside)
         insertSubview(actionView, at: 0)
@@ -70,7 +69,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         actionViewBottomAnchor = actionView.bottomAnchor.constraint(equalTo: messageTextview.topAnchor, constant: 100)
         actionViewBottomAnchor?.isActive = true
     }
-    
+
     private func setupBackgroundBlurView() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(backgroundBlurView)
@@ -79,12 +78,12 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         dismissTap.numberOfTapsRequired = 1
         backgroundBlurView.addGestureRecognizer(dismissTap)
     }
-    
+
     @objc func toggleActionView() {
         actionViewShown ? hideActionView() : showActionView()
         hideQuickChatView()
     }
-    
+
     func showActionView() {
         actionViewBottomAnchor?.constant = -8
         let animator = UIViewPropertyAnimator(duration: 0.15, curve: .easeOut, animations: nil)
@@ -92,7 +91,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
             self.backgroundBlurView.alpha = 1
             self.layoutIfNeeded()
         }
-        animator.addCompletion { (position) in
+        animator.addCompletion { _ in
             self.messageFieldTopAnchor?.constant = 108
             self.layoutIfNeeded()
         }
@@ -103,10 +102,10 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         }).startAnimation()
         actionViewShown = true
     }
-    
+
     func hideActionView() {
         messageFieldTopAnchor?.constant = 8
-        self.layoutIfNeeded()
+        layoutIfNeeded()
         actionViewBottomAnchor?.constant = 100
         UIViewPropertyAnimator(duration: 0.15, curve: .easeOut, animations: {
             self.backgroundBlurView.alpha = 0
@@ -118,7 +117,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         }).startAnimation()
         actionViewShown = false
     }
-    
+
     private func setupQuickChatView() {
         chatView.delegate = self
         insertSubview(chatView, belowSubview: backgroundView)
@@ -126,35 +125,32 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         quickChatBottomAnchor = chatView.bottomAnchor.constraint(equalTo: messageTextview.topAnchor, constant: 45)
         quickChatBottomAnchor?.isActive = true
     }
-    
+
     @objc func toggleQuickChatView() {
         quickChatViewShown ? hideQuickChatView() : showQuickChatView()
     }
-    
+
     func showQuickChatView() {
         quickChatViewShown = true
         messageFieldTopAnchor?.constant = 45
-        self.layoutIfNeeded()
+        layoutIfNeeded()
         quickChatBottomAnchor?.constant = -8
         UIViewPropertyAnimator(duration: 0.15, curve: .easeOut, animations: {
             self.layoutIfNeeded()
         }).startAnimation()
     }
-    
+
     func hideQuickChatView() {
         quickChatViewShown = false
         messageFieldTopAnchor?.constant = 8
-        self.layoutIfNeeded()
+        layoutIfNeeded()
         quickChatBottomAnchor?.constant = 45
         UIViewPropertyAnimator(duration: 0.15, curve: .easeOut, animations: {
             self.layoutIfNeeded()
         }).startAnimation()
     }
-    
 }
 
 extension StudentKeyboardAccessory: QuickChatViewDelegate {
-    func sendMessage(text: String) {
-        
-    }
+    func sendMessage(text _: String) {}
 }

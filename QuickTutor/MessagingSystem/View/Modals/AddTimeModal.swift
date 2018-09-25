@@ -9,26 +9,25 @@
 import UIKit
 
 class AddTimeModal: CustomTipModal {
-    
     var delegate: AddTimeModalDelegate?
-    
+
     override func setupTitleLabel() {
         super.setupTitleLabel()
         titleLabel.text = "ADD TIME"
     }
-    
+
     override func setupInfoLabel() {
         super.setupInfoLabel()
         infoLabel.text = "Time is charged to payment method."
     }
-    
+
     override func setupViews() {
         super.setupViews()
         priceInput.inputMode = .minutes
         priceInput.getFormattedMinutes()
         setHeightTo(207)
     }
-    
+
     override func setupCancelButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(cancelTipButton)
@@ -36,11 +35,11 @@ class AddTimeModal: CustomTipModal {
         window.addConstraint(NSLayoutConstraint(item: cancelTipButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))
         cancelTipButton.addTarget(self, action: #selector(handleDecline), for: .touchUpInside)
     }
-    
+
     override func handleConfirm() {
         delegate?.addTimeModal(self, didAdd: Int(priceInput.currentPrice))
     }
-    
+
     @objc func handleDecline() {
         delegate?.addTimeModalDidDecline(self)
         dismiss()

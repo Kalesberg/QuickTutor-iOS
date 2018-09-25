@@ -11,15 +11,15 @@ import SocketIO
 
 let socketUrl = "https://tidycoder.com"
 
-//class SocketBuilder {
-//    
+// class SocketBuilder {
+//
 //    static let shared = SocketBuilder()
-//    
+//
 //    private init() {}
-//    
+//
 //    let manager = SocketManager(socketURL: URL(string: socketUrl)!, config: [.log(true), .forceWebsockets(true)])
 //    var socket: SocketIOClient?
-//    
+//
 //    func create(id: String) -> SocketIOClient {
 //        let socket = manager.defaultSocket
 //        socket.connect()
@@ -29,41 +29,41 @@ let socketUrl = "https://tidycoder.com"
 //        self.socket = socket
 //        return socket
 //    }
-//}
+// }
 
-//class SocketClient {
+// class SocketClient {
 //    static let shared = SocketClient()
 //    var customManager: CustomSocketManager!
 //    private init () {}
-//    
+//
 //    let manager = SocketManager(socketURL: URL(string: "https://tidycoder.com")!, config: [.log(true), .forceWebsockets(true)])
 //    var socket: SocketIOClient!
-//    
+//
 //    var sessionId: String!
-//    
+//
 //    func connect() {
-//        socket = manager.defaultSocket 
+//        socket = manager.defaultSocket
 //        socket.connect()
 //        addSocketActions()
 //    }
-//    
+//
 //    func disconnect() {
 //        socket.disconnect()
 //    }
-//    
+//
 //    func joinRoom(_ roomKey: String) {
 //        socket.emit("joinRoom", roomKey)
 //    }
-//    
+//
 //    func addSocketActions() {
 //        socket.on(clientEvent: .connect) { (data, ack) in
 //            print("Socket Connected")
 //        }
-//        
+//
 //        socket.on(SocketEvents.pauseSession) { (data, ack) in
-//            
+//
 //        }
-//        
+//
 //        socket.on(SocketEvents.manualStartAccetped) { (data, ack) in
 //            guard let value = data[0] as? [String: Any] else { return }
 //            if let type = value["sessionType"] as? String {
@@ -79,15 +79,15 @@ let socketUrl = "https://tidycoder.com"
 //            }
 //        }
 //    }
-//    
-//}
+//
+// }
 
 protocol CustomSocketManager {
     func pauseSession(pausedBy: String)
 }
 
 extension CustomSocketManager {
-    func pauseSession(pausedBy: String) {}
+    func pauseSession(pausedBy _: String) {}
 }
 
 struct SocketEvents {

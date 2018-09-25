@@ -9,7 +9,6 @@
 import UIKit
 
 class SystemMessageCell: BaseMessageCell {
-    
     let textField: UITextField = {
         let textfield = UITextField()
         textfield.font = UIFont.systemFont(ofSize: 12)
@@ -19,28 +18,28 @@ class SystemMessageCell: BaseMessageCell {
         textfield.isUserInteractionEnabled = false
         return textfield
     }()
-    
+
     override func setupViews() {
         setupTextField()
     }
-    
+
     func setupTextField() {
         addSubview(textField)
         textField.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 15)
     }
-    
+
     func updateUI(message: SystemMessage) {
         textField.text = message.text
     }
-    
+
     @objc func markAsRead() {
         UIView.animate(withDuration: 0.1, animations: {
             self.textField.alpha = 0
-        }) { (true) in
+        }) { _ in
             self.completeMarkAsRead()
         }
     }
-    
+
     func completeMarkAsRead() {
         textField.text = "Seen"
         UIView.animate(withDuration: 0.1) {

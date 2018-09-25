@@ -6,6 +6,5 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import Foundation
 import Firebase
-
+import Foundation

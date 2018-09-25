@@ -9,7 +9,6 @@
 import UIKit
 
 class TipAmountCell: UICollectionViewCell {
-    
     let button: DimmableButton = {
         let button = DimmableButton()
         button.setTitleColor(Colors.learnerPurple, for: .normal)
@@ -22,9 +21,8 @@ class TipAmountCell: UICollectionViewCell {
         button.isUserInteractionEnabled = false
         return button
     }()
-    
+
     override var isSelected: Bool {
-        
         didSet {
             if isSelected {
                 button.backgroundColor = Colors.learnerPurple
@@ -35,23 +33,22 @@ class TipAmountCell: UICollectionViewCell {
             }
         }
     }
-    
+
     func setupViews() {
         addButton()
     }
-    
+
     func addButton() {
         addSubview(button)
         button.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

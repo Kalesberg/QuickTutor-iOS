@@ -7,74 +7,75 @@
 //
 
 import Foundation
-import UIKit
 import SnapKit
+import UIKit
 
-class CategoryCollectionViewCell : UICollectionViewCell {
-	
-	let label : UILabel = {
-		let label = UILabel()
-		
-		label.textColor = .white
-		label.textAlignment = .center
-		label.font = Fonts.createSize(15)
-		label.adjustsFontSizeToFitWidth = true
-		label.adjustsFontForContentSizeCategory = true
-		
-		return label
-	}()
-	
-	let view : UIView = {
-		let view = UIView()
-		
-		view.clipsToBounds = false
-		view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 1, offset: CGSize(width: 2, height:3), radius: 5)
-		
-		return view
-	}()
-	let imageView : UIImageView = {
-		let imageView = UIImageView()
-	
+class CategoryCollectionViewCell: UICollectionViewCell {
+    let label: UILabel = {
+        let label = UILabel()
+
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = Fonts.createSize(15)
+        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontForContentSizeCategory = true
+
+        return label
+    }()
+
+    let view: UIView = {
+        let view = UIView()
+
+        view.clipsToBounds = false
+        view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 1, offset: CGSize(width: 2, height: 3), radius: 5)
+
+        return view
+    }()
+
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
-		
-		return imageView
-	}()
-	
-	required override init(frame: CGRect) {
-		super.init(frame: .zero)
-		configureView()
-	}
-	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	func configureView() {
-		addSubview(view)
-		view.addSubview(imageView)
-		addSubview(label)
-		
-		applyConstraints()
-	}
-	func applyConstraints(){
-		view.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.85)
-			make.centerX.equalToSuperview()
-		}
-		imageView.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.width.equalToSuperview()
-			make.height.equalToSuperview()
-			make.centerX.equalToSuperview()
-		}
-		label.snp.makeConstraints { (make) in
-			make.top.equalTo(imageView.snp.bottom).inset(-8)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-		}
-	}
-}
 
+        return imageView
+    }()
+
+    required override init(frame _: CGRect) {
+        super.init(frame: .zero)
+        configureView()
+    }
+
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func configureView() {
+        addSubview(view)
+        view.addSubview(imageView)
+        addSubview(label)
+
+        applyConstraints()
+    }
+
+    func applyConstraints() {
+        view.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.85)
+            make.centerX.equalToSuperview()
+        }
+        imageView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        label.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).inset(-8)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+    }
+}

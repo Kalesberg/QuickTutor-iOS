@@ -8,8 +8,4 @@
 
 import Foundation
 
-class AWSubjectSearch {
-	
-
-	
-}
+class AWSubjectSearch {}

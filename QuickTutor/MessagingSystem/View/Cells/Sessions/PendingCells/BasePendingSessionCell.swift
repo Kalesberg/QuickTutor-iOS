@@ -9,7 +9,6 @@
 import UIKit
 
 class BasePendingSessionCell: BaseSessionCell {
-    
     override func setupViews() {
         super.setupViews()
         //        actionView.setupActionButton2()

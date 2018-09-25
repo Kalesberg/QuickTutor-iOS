@@ -9,30 +9,29 @@
 import Foundation
 import UIKit
 
-class SubmitButton : InteractableView, Interactable {
-    
+class SubmitButton: InteractableView, Interactable {
     var label = CenterTextLabel()
-    
+
     override func configureView() {
         addSubview(label)
         super.configureView()
-        
+
         backgroundColor = Colors.learnerPurple
         layer.cornerRadius = 20
         label.label.text = "SUBMIT"
         label.label.font = Fonts.createBoldSize(16)
-        
+
         applyConstraints()
     }
-    
+
     override func applyConstraints() {
-        label.snp.makeConstraints { (make) in
+        label.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
     }
-    
+
     func constrainSelf() {
-        self.snp.makeConstraints { (make) in
+        snp.makeConstraints { make in
             make.height.equalTo(40)
             make.width.equalTo(250)
             if #available(iOS 11.0, *) {
@@ -43,13 +42,12 @@ class SubmitButton : InteractableView, Interactable {
             make.centerX.equalToSuperview()
         }
     }
-    
+
     func touchStart() {
         alpha = 0.6
     }
-    
+
     func didDragOff() {
         alpha = 1
     }
 }
-

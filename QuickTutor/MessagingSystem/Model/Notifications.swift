@@ -6,16 +6,16 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import Foundation
 import Firebase
+import Foundation
 
 struct Notifications {
     static let test = Notification(name: Notification.Name(rawValue: "com.quicktutor.close"))
     static let didEnterBackground = Notification(name: Notification.Name(rawValue: "com.quickTutor.didEnterBackground"))
     static let didEnterForeground = Notification(name: Notification.Name(rawValue: "com.quickTutor.didEnterForeground"))
     static let willTerminate = Notification(name: Notification.Name(rawValue: "com.quickTutor.willTerminate"))
-    static let showOverlay =  Notification(name: Notification.Name(rawValue: "com.quickTutor.showOverlay"))
-    static let hideOverlay =  Notification(name: Notification.Name(rawValue: "com.quickTutor.hideOverlay"))
+    static let showOverlay = Notification(name: Notification.Name(rawValue: "com.quickTutor.showOverlay"))
+    static let hideOverlay = Notification(name: Notification.Name(rawValue: "com.quickTutor.hideOverlay"))
     static let didDisconnect = Notification(name: Notification.Name(rawValue: "com.quickTutor.didDisconnect"))
 }
 
@@ -27,13 +27,13 @@ struct PushNotification {
     var senderAccountType: String?
     var receiverAccountType: String?
     var sessionId: String?
-    
+
     func partnerId() -> String {
         guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
         guard let senderIdIn = senderId, let receiverIdIn = receiverId else { return "" }
         return senderId == uid ? receiverIdIn : senderIdIn
     }
-    
+
     init(userInfo: [AnyHashable: Any]) {
         identifier = userInfo["identifier"] as? String ?? ""
         category = userInfo["category"] as? String ?? "sessions"
@@ -43,5 +43,4 @@ struct PushNotification {
         receiverAccountType = userInfo["receiverAccountType"] as? String
         sessionId = userInfo["sessionId"] as? String
     }
-    
 }

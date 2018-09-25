@@ -9,17 +9,16 @@
 import UIKit
 
 class CustomNavVC: UINavigationController {
-    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setupViews()
     }
-    
+
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
         setupViews()
     }
-    
+
     func setupViews() {
         navigationBar.barTintColor = Colors.navBarColor
         navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -27,9 +26,8 @@ class CustomNavVC: UINavigationController {
             navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         }
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

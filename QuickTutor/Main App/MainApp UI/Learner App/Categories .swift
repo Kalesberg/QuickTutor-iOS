@@ -8,7 +8,4 @@
 
 import Foundation
 
-class Categories  {
-	
-	
-}
+class Categories {}

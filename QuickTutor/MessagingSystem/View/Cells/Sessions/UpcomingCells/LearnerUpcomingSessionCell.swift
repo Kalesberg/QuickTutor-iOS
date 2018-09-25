@@ -9,7 +9,6 @@
 import UIKit
 
 class LearnerUpcomingSessionCell: BaseUpcomingSessionCell {
-    
     override func handleButton2() {
         let vc = BaseSessionStartVC()
         vc.sessionId = session.id

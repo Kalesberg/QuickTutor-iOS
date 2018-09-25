@@ -6,13 +6,12 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import UIKit
 import EventKit
+import UIKit
 
 class EventManager {
-    
     var parentController: UIViewController
-    
+
     func addSessionToCalender(_ session: SessionRequest, forCell cell: SessionRequestCell) {
         let eventStore = EKEventStore()
         eventStore.requestAccess(to: .event) { granted, error in
@@ -30,7 +29,7 @@ class EventManager {
                         AlertController.genericErrorAlertWithoutCancel(self.parentController, title: "Oops!", message: error.localizedDescription)
                     }
                 }
-				DispatchQueue.main.async {
+                DispatchQueue.main.async {
                     cell.setStatusLabel()
                 }
             } else {
@@ -40,7 +39,7 @@ class EventManager {
             }
         }
     }
-    
+
     init(parentController: UIViewController) {
         self.parentController = parentController
     }

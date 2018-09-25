@@ -9,29 +9,23 @@
 import Foundation
 import UIKit
 
-class SubjectSearchCategoryCell : UITableViewCell {
-	
-	required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
-	}
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		configureTableViewCell()
-	}
-	
-	func configureTableViewCell() {
-		
-		
-		
-		applyContraints()
-	}
-	
-	func applContraints() {
-		
-	}
-	
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		
-	}
+class SubjectSearchCategoryCell: UITableViewCell {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureTableViewCell()
+    }
+
+    func configureTableViewCell() {
+        applyContraints()
+    }
+
+    func applContraints() {}
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
 }
