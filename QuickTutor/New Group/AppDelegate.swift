@@ -79,7 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     }
     
     func checkForUnfinishedSessions() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         PostSessionManager.shared.checkForUnfinishedSession { (sessionId, sessionStatus) in
             DataService.shared.getSessionById(sessionId, completion: { (session) in
                 SessionService.shared.session = session

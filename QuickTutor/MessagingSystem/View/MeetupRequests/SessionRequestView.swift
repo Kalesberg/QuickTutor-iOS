@@ -144,7 +144,7 @@ class SessionRequestView: UIView {
         label.text = "The earliest you can schedule a session is 15 minutes in advance. However, you can attempt to manually start any session early."
         label.numberOfLines = 0
         label.font = Fonts.createItalicSize(12)
-//        label.adjustsFontSizeToFitWidth = true
+        //        label.adjustsFontSizeToFitWidth = true
         label.backgroundColor = Colors.navBarColor
         label.isHidden = true
         return label
@@ -409,26 +409,26 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func sendRequest() {
-		var sessionData = [String: Any]()
-
-//		guard let type = RequestSessionData.isOnline else { print("Please choose a session Type."); return }
-//		guard let subject = RequestSessionData.subject else { print("Please choose a subject"); return }
-//		guard let startTime = RequestSessionData.startTime else { print("Please choose a start time"); return }
-//		guard let endTime = RequestSessionData.endTime else { print("Please choose an end time"); return }
-//		guard let price = RequestSessionData.price else { print("Please choose a hourly rate."); return }
-//		
-//		sessionData["status"] = "pending"
-//		sessionData["type"] = type ? "online" : "in-person"
-//        sessionData["expiration"] = getExpiration()
-//        sessionData["senderId"] = CurrentUser.shared.learner.uid
-//        sessionData["receiverId"] = chatPartnerId
-//        sessionData["subject"] = subject
-//		sessionData
-		
+        var sessionData = [String: Any]()
+        
+        //        guard let type = RequestSessionData.isOnline else { print("Please choose a session Type."); return }
+        //        guard let subject = RequestSessionData.subject else { print("Please choose a subject"); return }
+        //        guard let startTime = RequestSessionData.startTime else { print("Please choose a start time"); return }
+        //        guard let endTime = RequestSessionData.endTime else { print("Please choose an end time"); return }
+        //        guard let price = RequestSessionData.price else { print("Please choose a hourly rate."); return }
+        //
+        //        sessionData["status"] = "pending"
+        //        sessionData["type"] = type ? "online" : "in-person"
+        //        sessionData["expiration"] = getExpiration()
+        //        sessionData["senderId"] = CurrentUser.shared.learner.uid
+        //        sessionData["receiverId"] = chatPartnerId
+        //        sessionData["subject"] = subject
+        //        sessionData
+        
         guard let _ = sessionData["subject"], let _ = sessionData["date"], let _ = sessionData["startTime"], let _ = sessionData["endTime"], let _ = sessionData["status"], let _ = sessionData["type"], let _ = sessionData["price"] else {
             return
         }
-
+        
         let sessionRequest = SessionRequest(data: sessionData)
         DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, chatPartnerId)
         dismiss()
@@ -468,8 +468,8 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    func loadSubjectsForUserWithId(_ id: String, completion: @escaping() -> Void) {
-        Database.database().reference().child("subject").child(id).observeSingleEvent(of: .value) { (snapshot) in
+    func loadSubjectsForUserWithId(_ id: String, completion: @escaping () -> Void) {
+        Database.database().reference().child("subject").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let children = snapshot.children.allObjects as? [DataSnapshot] else { return }
             for child in children {
                 guard let value = child.value as? [String: Any] else { continue }
@@ -492,19 +492,19 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
 // MARK: Subject -
 extension SessionRequestView: SubjectPickerDelegate {
     func didSelectSubject(title: String) {
-//        titles[0] = title
-//        let indexPath = IndexPath(row: 0, section: 0)
-//        inputTable.reloadRows(at: [indexPath], with: .automatic)
-//        sessionData["subject"] = title
-//        setTitleGreen(index: 0)
+        //        titles[0] = title
+        //        let indexPath = IndexPath(row: 0, section: 0)
+        //        inputTable.reloadRows(at: [indexPath], with: .automatic)
+        //        sessionData["subject"] = title
+        //        setTitleGreen(index: 0)
     }
 }
 
 // MARK: Date -
 extension SessionRequestView: CustomDatePickerDelegate {
     func customDatePicker(_ customDatePicker: CustomDatePicker, didSelect date: Double) {
-//        setDateTo(Date(timeIntervalSince1970: date))
-//        setTitleGreen(index: 1)
+        //        setDateTo(Date(timeIntervalSince1970: date))
+        //        setTitleGreen(index: 1)
     }
     
     func setDateTo(_ date: Date) {
@@ -523,19 +523,15 @@ extension SessionRequestView: CustomDatePickerDelegate {
 extension SessionRequestView {
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         if sender.tag == 0 {
-//            setStartTime()
-//            setTitleGreen(index: 2)
+            
         } else {
             if sender.date == sender.minimumDate! {
                 setHeightTo(630, animated: true)
                 sessionLengthLabel.isHidden = false
-                endTimePicker.bottomAnchor
             } else {
                 setHeightTo(600, animated: true)
                 sessionLengthLabel.isHidden = true
             }
-//            setEndTime()
-//            setTitleGreen(index: 3)
         }
     }
     
@@ -581,10 +577,10 @@ extension SessionRequestView: SessionTypeCellDelegate {
 // MARK: Price -
 extension SessionRequestView: PriceInputViewDelegate {
     func priceDidChange(_ price: Double) {
-//        sessionData["price"] = price
-//        let priceString = String(format: "%.2f", price)
-//        titles[4] = "$\(priceString)"
-//        inputTable.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
-//        setTitleGreen(index: 4)
+        //        sessionData["price"] = price
+        //        let priceString = String(format: "%.2f", price)
+        //        titles[4] = "$\(priceString)"
+        //        inputTable.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
+        //        setTitleGreen(index: 4)
     }
 }

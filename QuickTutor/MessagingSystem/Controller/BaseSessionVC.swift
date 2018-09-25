@@ -72,7 +72,6 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     }
     
     @objc func showConnectionLostModal(pausedById: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         connectionLostModal?.delegate = self
         DataService.shared.getUserOfOppositeTypeWithId(sessionManager?.session.partnerId() ?? "test") { user in
             guard let username = user?.formattedName else { return }

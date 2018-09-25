@@ -114,9 +114,8 @@ class AddTutorCell: UICollectionViewCell {
     }
 	
     @objc func addTutor() {
-        guard let uid = userId else { return }
-		//delegate?.addTutorWithUid(uid, completion: () -> Void)
     }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
