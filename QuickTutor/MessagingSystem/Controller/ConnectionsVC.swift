@@ -116,12 +116,11 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { tutor in
                 guard let tutor = tutor else { return }
-                tutor.username = user.username
                 let vc = TutorMyProfile()
                 vc.tutor = tutor
                 vc.isViewing = true
                 vc.contentView.rightButton.isHidden = true
-                vc.contentView.title.label.text = tutor.formattedName
+                vc.contentView.title.label.text = tutor.username
                 self.navigationController?.pushViewController(vc, animated: true)
             })
         } else {
@@ -131,6 +130,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
                 vc.learner = learner
                 vc.contentView.rightButton.isHidden = true
                 vc.isViewing = true
+				vc.contentView.title.label.isHidden = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
@@ -151,7 +151,6 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
 }
 
 extension ConnectionsVC: ConnectionCellDelegate {
-    
     func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = user.uid

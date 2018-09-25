@@ -45,19 +45,12 @@ class EditLanguageView : EditProfileMainLayout {
 	}
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		
-		if AccountService.shared.currentUserType == .tutor {
-			navbar.backgroundColor = Colors.tutorBlue
-			statusbarView.backgroundColor = Colors.tutorBlue
-		} else {
-			navbar.backgroundColor = Colors.learnerPurple
-			statusbarView.backgroundColor = Colors.learnerPurple
-		}
+		navbar.backgroundColor = Colors.currentUserColor()
+		statusbarView.backgroundColor = Colors.currentUserColor()
 	}
 }
 
 class EditLanguage : BaseViewController {
-	
 	override var contentView: EditLanguageView {
 		return view as! EditLanguageView
 	}
@@ -81,18 +74,6 @@ class EditLanguage : BaseViewController {
 		guard let languages = (AccountService.shared.currentUserType == .learner) ? CurrentUser.shared.learner.languages : CurrentUser.shared.tutor.languages else { return }
 		
 		selectedCells = languages
-	}
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-	}
-	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-	}
-	override func viewWillDisappear(_ animated: Bool) {
-		super.viewWillDisappear(animated)
-		
 	}
 	
 	private func configureDelegates() {
@@ -121,12 +102,14 @@ class EditLanguage : BaseViewController {
 	}
 	
 	private func saveLanguages() {
+		let selectedLanguages = selectedCells.map { $0.trimmingCharacters(in: .whitespacesAndNewlines )}
+		
 		switch AccountService.shared.currentUserType {
 		case .learner:
+			
 			if !CurrentUser.shared.learner.isTutor {
-				
-				CurrentUser.shared.learner.languages = selectedCells
-				FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedCells]) { (error) in
+				CurrentUser.shared.learner.languages = selectedLanguages
+				FirebaseData.manager.updateValue(node: "student-info", value: ["lng" : selectedLanguages]) { (error) in
 					if let error = error {
 						AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
 					}
@@ -138,7 +121,10 @@ class EditLanguage : BaseViewController {
 			fallthrough
 		case .tutor :
 			
-			let newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/lng" : selectedCells, "/tutor-info/\(CurrentUser.shared.learner.uid!)/lng" : selectedCells]
+			let newNodes = [
+				"/student-info/\(CurrentUser.shared.learner.uid!)/lng" : selectedLanguages,
+				"/tutor-info/\(CurrentUser.shared.learner.uid!)/lng" : selectedLanguages
+			]
 			
 			Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { (error) in
 				if let error = error {
@@ -148,10 +134,9 @@ class EditLanguage : BaseViewController {
 					self.displaySavedAlertController()
 				}
 			}
-			CurrentUser.shared.learner.languages = selectedCells
-			
+			CurrentUser.shared.learner.languages = selectedLanguages
 			if AccountService.shared.currentUserType == .tutor {
-				CurrentUser.shared.tutor.languages = selectedCells
+				CurrentUser.shared.tutor.languages = selectedLanguages
 			}
 		default:
 			break

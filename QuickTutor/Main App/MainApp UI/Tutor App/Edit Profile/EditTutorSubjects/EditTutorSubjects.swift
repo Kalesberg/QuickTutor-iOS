@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import Firebase
 
+struct Selected {
+	let path : String
+	let subject : String
+}
 class EditTutorSubjectsView : MainLayoutTitleTwoButton, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
@@ -206,7 +210,6 @@ class EditTutorSubjectsView : MainLayoutTitleTwoButton, Keyboardable {
 }
 
 class EditTutorSubjects : BaseViewController {
-	
 	override var contentView: EditTutorSubjectsView {
 		return view as! EditTutorSubjectsView
 	}
@@ -254,8 +257,8 @@ class EditTutorSubjects : BaseViewController {
 			contentView.nextButton.label.text = "Save (\(selectedSubjects.count))"
 		}
 	}
+
 	var removedSubjects = [Selected]()
-	
 	var selected = [Selected]()
 	
 	var tableViewIsActive : Bool = false {
@@ -278,17 +281,7 @@ class EditTutorSubjects : BaseViewController {
 		}
 	}
 	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		
-	}
-	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-	}
-	
 	private func configureDelegates() {
-		
 		contentView.pickedCollectionView.delegate = self
 		contentView.pickedCollectionView.dataSource = self
 		contentView.pickedCollectionView.register(PickedSubjectsCollectionViewCell.self, forCellWithReuseIdentifier: "pickedCollectionViewCell")
@@ -409,6 +402,7 @@ class EditTutorSubjects : BaseViewController {
 				}
 			}
 		}
+		
 		group.notify(queue: .main) {
 			var post = [String : Any]()
 			post.merge(updateSubjectValues) { (_, last) in last }
@@ -419,7 +413,8 @@ class EditTutorSubjects : BaseViewController {
 					self.updateSubcategorySubjects(node: key.key, values: key.value)
 				}
 				CurrentUser.shared.tutor.subjects = self.selectedSubjects
-				CurrentUser.shared.tutor.selected = self.selected
+				CurrentUser.shared.tutor.selected = self.selected // figure out how to make these lowercased
+				
 				self.displaySavedAlertController()
 			}
 		}
@@ -722,11 +717,11 @@ extension EditTutorSubjects : UISearchBarDelegate {
 			contentView.tableView.reloadData()
 			return
 		} else if didSelectCategory {
-			filteredSubjects = partialSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
+			filteredSubjects = partialSubjects.filter({ return $0.0.range(of: searchText, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
 			contentView.tableView.reloadData()
 		} else {
 			tableView(shouldDisplay: true) {
-				self.filteredSubjects = self.allSubjects.filter({$0.0.localizedCaseInsensitiveContains(searchText)})
+				self.filteredSubjects = self.allSubjects.filter({ return $0.0.range(of: searchText, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
 				self.contentView.tableView.reloadData()
 			}
 		}

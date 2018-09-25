@@ -154,7 +154,7 @@ class EditListing : BaseViewController {
 		guard let subcategories = subcategoriesForCategory() else { return nil }
 		var subjectsToDisplay = [String]()
 		for subject in tutor.selected {
-			if subcategories.contains(subject.path) {
+			if subcategories.contains(subject.path.lowercased()) {
 				subjectsToDisplay.append(subject.subject)
 			}
 		}
@@ -489,15 +489,11 @@ class EditListingPhotoTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-		
 		container.backgroundColor = UIColor(hex: "344161")
-
-		//container.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 0, frame: container.bounds)
-
+		
         labelContainer.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 90, frame: labelContainer.bounds)
 		
 		listingImage.roundCorners(.allCorners, radius: 10)
-
     }
     
     func applyConstraints() {
@@ -507,7 +503,7 @@ class EditListingPhotoTableViewCell : UITableViewCell {
         }
         
         listingImage.snp.makeConstraints { (make) in
-            make.height.width.equalTo(150)
+            make.height.width.equalTo(175) 
             make.center.equalToSuperview()
         }
         

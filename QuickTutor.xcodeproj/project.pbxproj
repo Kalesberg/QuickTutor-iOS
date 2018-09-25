@@ -1131,7 +1131,7 @@
 			isa = PBXGroup;
 			children = (
 				84F431952070786F00030BD4 /* TutorEditProfile.swift */,
-				84716F872087FCC100E80E17 /* EditTutorSubjects.swift */,
+				84ED766821583403004A74C9 /* EditTutorSubjects */,
 				84367EED20BCEABF007F3556 /* TutorManagePreferences.swift */,
 				84F431942070786F00030BD4 /* TutorEditProfileCells.swift */,
 				84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */,
@@ -1506,6 +1506,14 @@
 				84F5774320C2B266008486AD /* UserSession.swift */,
 			);
 			path = "File Report";
+			sourceTree = "<group>";
+		};
+		84ED766821583403004A74C9 /* EditTutorSubjects */ = {
+			isa = PBXGroup;
+			children = (
+				84716F872087FCC100E80E17 /* EditTutorSubjects.swift */,
+			);
+			path = EditTutorSubjects;
 			sourceTree = "<group>";
 		};
 		84F245101FDA0F96006447A8 /* Learner Registration */ = {
@@ -1982,7 +1990,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -2031,7 +2039,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {

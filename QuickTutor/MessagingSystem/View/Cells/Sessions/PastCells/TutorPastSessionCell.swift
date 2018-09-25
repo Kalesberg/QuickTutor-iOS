@@ -26,6 +26,7 @@ class TutorPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestS
             let vc = LearnerMyProfile()
             vc.learner = learner
             vc.contentView.rightButton.isHidden = true
+			vc.contentView.title.label.isHidden = true
             navigationController.pushViewController(vc, animated: true)
         }
     }

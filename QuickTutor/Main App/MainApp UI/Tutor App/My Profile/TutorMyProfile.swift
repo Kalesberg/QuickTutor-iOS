@@ -162,7 +162,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                 return label
             }()
             
-            label.text = "$" + String(tutor.price) + " / hour"
+            label.text = "$" + String(tutor.price) + "/hour"
             
             cell.addSubview(backgroundView)
             backgroundView.addSubview(label)

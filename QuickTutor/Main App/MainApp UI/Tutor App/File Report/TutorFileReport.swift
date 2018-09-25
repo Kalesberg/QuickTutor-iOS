@@ -67,6 +67,7 @@ class TutorFileReport : BaseViewController {
 		dateFormatter.dateFormat = "h:mm a"
 		return dateFormatter.string(from: date)
 	}
+	
 	private func getFormattedDate(unixTime: TimeInterval) -> String {
 		let date = Date(timeIntervalSince1970: unixTime)
 		let dateFormatter = DateFormatter()
@@ -74,7 +75,6 @@ class TutorFileReport : BaseViewController {
 		dateFormatter.dateFormat = "d-MMM"
 		return dateFormatter.string(from: date)
 	}
-	
 	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -143,6 +143,7 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
 		cell.contentView.addSubview(border)
 	}
 	
+	
 	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		let fileReport = UITableViewRowAction(style: .default, title: "File Report") { (action, indexPath) in
 			let next = SessionDetails()
@@ -151,6 +152,7 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
 		}
 		return [fileReport]
 	}
+	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.displayLoadingOverlay()
 		tableView.allowsSelection = false
@@ -160,6 +162,7 @@ extension TutorFileReport : UITableViewDelegate, UITableViewDataSource {
 				vc.learner = learner
 				vc.contentView.rightButton.isHidden = true
 				vc.isViewing = true
+				vc.contentView.title.label.isHidden = true
 				self.navigationController?.pushViewController(vc, animated: true)
 			}
 			tableView.allowsSelection = true

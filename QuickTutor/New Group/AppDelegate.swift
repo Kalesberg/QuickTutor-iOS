@@ -40,9 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     var window: UIWindow?
     let launchScreen = LaunchScreen()
-    
-
-    
+	
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		guard let gai = GAI.sharedInstance() else {
             return true
@@ -220,7 +218,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 vc.tutor = tutor
                 vc.isViewing = true
                 vc.contentView.rightButton.isHidden = true
-                vc.contentView.title.label.text = "@\(tutor.formattedName)"
+                vc.contentView.title.label.text = tutor.username
                 navigationController.pushViewController(vc, animated: true)
             })
         } else {

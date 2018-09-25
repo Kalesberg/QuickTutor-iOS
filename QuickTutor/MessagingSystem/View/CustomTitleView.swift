@@ -82,13 +82,14 @@ class CustomTitleView: UIView {
             vc.tutor = tutor
             vc.isViewing = true
             vc.contentView.rightButton.isHidden = true
-            vc.contentView.title.label.text = tutor.formattedName
+            vc.contentView.title.label.text = tutor.username
             navigationController.pushViewController(vc, animated: true)
         } else {
             let vc = LearnerMyProfile()
             vc.learner = learner
             vc.contentView.rightButton.isHidden = true
             vc.isViewing = true
+			vc.contentView.title.label.isHidden = true
             navigationController.pushViewController(vc, animated: true)
         }
     }

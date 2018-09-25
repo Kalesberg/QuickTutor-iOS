@@ -249,7 +249,7 @@ class TutorConnect : BaseViewController {
 			setupCollectionViewAfterUpdate()
         }
     }
-    
+	var featuredSubject : String!
     var featuredTutorUid : String! {
         didSet {
 			displayLoadingOverlay()
@@ -450,23 +450,19 @@ extension TutorConnect : UICollectionViewDelegate, UICollectionViewDataSource, U
     
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let data = (shouldFilterDatasource) ? filteredDatasource : datasource
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
 
         cell.header.profilePics.loadUserImagesWithoutMask(by: data[indexPath.row].images["image1"]!)
+		if featuredSubject != nil {
+			cell.header.featuredSubject.text = featuredSubject
+			cell.header.featuredSubject.isHidden = false
+		}
         cell.header.profilePics.roundCorners(.allCorners, radius: 8)
         cell.header.name.text = data[indexPath.row].name.formatName()
         cell.header.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
         cell.rateLabel.text = data[indexPath.row].price.formatPrice()
         cell.datasource = data[indexPath.row]
 		
-//		if let location = filters?.location {
-//            if let tutorLocation = data[indexPath.row].location?.location {
-//                let distance = location.distance(from: tutorLocation) / 1609.343
-//                cell.distanceLabelContainer.isHidden = false
-//                cell.distanceLabel.attributedText = distance.formatDistance()
-//            }
-//        }
         cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
         return cell
     }
