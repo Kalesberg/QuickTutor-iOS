@@ -9,7 +9,6 @@
 import Foundation
 import Stripe
 
-
 class TipCell : BasePostSessionCell, CustomTipPresenter {
 	
 	let tipContainer : UIView = {

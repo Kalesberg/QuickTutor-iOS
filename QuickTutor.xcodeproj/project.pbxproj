@@ -262,10 +262,8 @@
 		CF0B02B72136760D00B90034 /* PostSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0B02B62136760D00B90034 /* PostSessionManager.swift */; };
 		CF0B02B92137653B00B90034 /* SessionClockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0B02B82137653B00B90034 /* SessionClockManager.swift */; };
 		CF12D93B20642236004BE148 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12D93A20642236004BE148 /* Session.swift */; };
-		CF177BC9208E920E006DD50B /* SessionCompleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */; };
 		CF177BCB208FB8E0006DD50B /* RatingStarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BCA208FB8E0006DD50B /* RatingStarView.swift */; };
 		CF177BCD208FB94B006DD50B /* EndSessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BCC208FB94B006DD50B /* EndSessionProfileBox.swift */; };
-		CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */; };
 		CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */; };
 		CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */; };
 		CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C610C209EA57B009B7B0E /* TipAmountCell.swift */; };
@@ -328,7 +326,6 @@
 		CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58A7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift */; };
 		CF6F58D8205EE68800ACBD32 /* KeyboardAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58A8205EE68800ACBD32 /* KeyboardAccessory.swift */; };
 		CF6F58D9205EE68800ACBD32 /* StudentKeyboardAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58A9205EE68800ACBD32 /* StudentKeyboardAccessory.swift */; };
-		CF6F58DA205EE68800ACBD32 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58AB205EE68800ACBD32 /* ProfileVC.swift */; };
 		CF6F58DB205EE68800ACBD32 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */; };
 		CF6F58DC205EE68800ACBD32 /* CustomNavVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58AD205EE68800ACBD32 /* CustomNavVC.swift */; };
 		CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58B0205EE68800ACBD32 /* NewMessageVC.swift */; };
@@ -382,7 +379,6 @@
 		CFB6061D207FD7000029CFE4 /* CustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6061C207FD7000029CFE4 /* CustomModal.swift */; };
 		CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */; };
 		CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */; };
-		CFCA549F209AD6DC00FC83A1 /* AddTipVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCA549E209AD6DC00FC83A1 /* AddTipVC.swift */; };
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
 		CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8EF20C8921900182E1C /* SessionManager.swift */; };
@@ -676,10 +672,8 @@
 		CF0B02B62136760D00B90034 /* PostSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSessionManager.swift; sourceTree = "<group>"; };
 		CF0B02B82137653B00B90034 /* SessionClockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionClockManager.swift; sourceTree = "<group>"; };
 		CF12D93A20642236004BE148 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteVC.swift; sourceTree = "<group>"; };
 		CF177BCA208FB8E0006DD50B /* RatingStarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingStarView.swift; sourceTree = "<group>"; };
 		CF177BCC208FB94B006DD50B /* EndSessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndSessionProfileBox.swift; sourceTree = "<group>"; };
-		CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionReviewVC.swift; sourceTree = "<group>"; };
 		CF177BD42090FA90006DD50B /* ReviewProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProfileBox.swift; sourceTree = "<group>"; };
 		CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonProfileBox.swift; sourceTree = "<group>"; };
 		CF1C610C209EA57B009B7B0E /* TipAmountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipAmountCell.swift; sourceTree = "<group>"; };
@@ -741,7 +735,6 @@
 		CF6F58A7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherKeyboardAccessory.swift; sourceTree = "<group>"; };
 		CF6F58A8205EE68800ACBD32 /* KeyboardAccessory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAccessory.swift; sourceTree = "<group>"; };
 		CF6F58A9205EE68800ACBD32 /* StudentKeyboardAccessory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentKeyboardAccessory.swift; sourceTree = "<group>"; };
-		CF6F58AB205EE68800ACBD32 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		CF6F58AD205EE68800ACBD32 /* CustomNavVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavVC.swift; sourceTree = "<group>"; };
 		CF6F58B0205EE68800ACBD32 /* NewMessageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMessageVC.swift; sourceTree = "<group>"; };
@@ -795,7 +788,6 @@
 		CFB6061C207FD7000029CFE4 /* CustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModal.swift; sourceTree = "<group>"; };
 		CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCustomModal.swift; sourceTree = "<group>"; };
 		CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTypeModal.swift; sourceTree = "<group>"; };
-		CFCA549E209AD6DC00FC83A1 /* AddTipVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTipVC.swift; sourceTree = "<group>"; };
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
 		CFDBD8EF20C8921900182E1C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
@@ -1731,7 +1723,6 @@
 			isa = PBXGroup;
 			children = (
 				CFDBD8E320C8788800182E1C /* VideoSessionVC */,
-				CF6F58AB205EE68800ACBD32 /* ProfileVC.swift */,
 				CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */,
 				CF6F58AD205EE68800ACBD32 /* CustomNavVC.swift */,
 				CF6F58B0205EE68800ACBD32 /* NewMessageVC.swift */,
@@ -1741,9 +1732,6 @@
 				CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */,
 				CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */,
 				CF8E88A120C619A90044344D /* BaseSessionVC.swift */,
-				CF177BC8208E920E006DD50B /* SessionCompleteVC.swift */,
-				CF177BD0208FC1AD006DD50B /* SessionReviewVC.swift */,
-				CFCA549E209AD6DC00FC83A1 /* AddTipVC.swift */,
 				CFEF943820B3287100413727 /* ConnectionsVC.swift */,
 				CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */,
 				CFEF943E20B3583800413727 /* ImageMessageSender.swift */,
@@ -2185,7 +2173,6 @@
 				CF0711072117B09A0035A6FF /* EventManager.swift in Sources */,
 				CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */,
 				CF6F58C4205EE68800ACBD32 /* QuickChatViewCell.swift in Sources */,
-				CFCA549F209AD6DC00FC83A1 /* AddTipVC.swift in Sources */,
 				CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */,
 				84AD7F5720EE9A480012CAA3 /* YourListing.swift in Sources */,
 				841DF2D320F83A1D00DADD5A /* DurationPickerCell.swift in Sources */,
@@ -2261,7 +2248,6 @@
 				847463262069425C00B70AD9 /* TutorSessions.swift in Sources */,
 				84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */,
 				842A5580209DF55700F6870A /* AdjustFiltersCollectViewCell.swift in Sources */,
-				CF177BD1208FC1AD006DD50B /* SessionReviewVC.swift in Sources */,
 				CF6F58BC205EE68800ACBD32 /* CustomTitleView.swift in Sources */,
 				CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */,
 				CF8BBCBC20A0251F0043D231 /* TwilioSettings.swift in Sources */,
@@ -2307,7 +2293,6 @@
 				843A1D192047C5BF00299D27 /* EditSchool.swift in Sources */,
 				84CFDDF2207357B5001CA9BF /* TutorEarnings.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
-				CF6F58DA205EE68800ACBD32 /* ProfileVC.swift in Sources */,
 				CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */,
 				CF177BCD208FB94B006DD50B /* EndSessionProfileBox.swift in Sources */,
 				84D55E9A204F638D00BB899C /* EditPhoneVerification.swift in Sources */,
@@ -2430,7 +2415,6 @@
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
 				84052F16206BCCD7007B1248 /* TutorSessionDetails.swift in Sources */,
 				84052F10206BCC3D007B1248 /* LearnerHarassment.swift in Sources */,
-				CF177BC9208E920E006DD50B /* SessionCompleteVC.swift in Sources */,
 				CF833B83207C4C2600323242 /* LearnerPastSessionCell.swift in Sources */,
 				CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */,
 				84BC77E120F3F0E10039E054 /* RequestSessionCellFactory.swift in Sources */,

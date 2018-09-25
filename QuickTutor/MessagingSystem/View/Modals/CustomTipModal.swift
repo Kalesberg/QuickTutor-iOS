@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol CustomTipPresenter {
+    var amountToTip: Double { get set }
+    func didPressCancel()
+}
+
 class CustomTipModal: BaseCustomModal {
     
     var parent: CustomTipPresenter?
