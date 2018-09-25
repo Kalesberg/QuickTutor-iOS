@@ -41,6 +41,8 @@ class TutorRatingsView: TutorHeaderLayoutView {
     override func configureView() {
         addSubview(tableView)
         super.configureView()
+        navbar.backgroundColor = Colors.gold
+        statusbarView.backgroundColor = Colors.gold
     }
 
     override func applyConstraints() {

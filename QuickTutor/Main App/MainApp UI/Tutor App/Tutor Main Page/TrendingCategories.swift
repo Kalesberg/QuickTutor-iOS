@@ -28,7 +28,7 @@ class TrendingCategoriesView: MainLayoutTitleBackButton {
         addSubview(collectionView)
         super.configureView()
 
-        title.label.text = "Trending Categories"
+        title.label.text = "Trending"
     }
 
     override func applyConstraints() {
