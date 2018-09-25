@@ -158,8 +158,7 @@ class DataService {
 
     
     func sendConnectionRequestToId(text: String, _ id: String) {
-        guard let uid = AccountService.shared.currentUser.uid else { return }
-        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let expiration = Calendar.current.date(byAdding: .day, value: 7, to: Date())?.timeIntervalSince1970 else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue

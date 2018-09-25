@@ -11,11 +11,11 @@ import Firebase
 
 class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     
-	var connections = [User]()
+    var connections = [User]()
     
-    var parentPageViewController : PageViewController!
+    var parentPageViewController: PageViewController!
     var isTransitioning = false
-
+    
     var navBar: ZFNavBar = {
         let bar = ZFNavBar()
         bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
@@ -32,8 +32,8 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(ConnectionCell.self, forCellWithReuseIdentifier: "cellId")
         cv.backgroundColor = Colors.darkBackground
-		cv.alwaysBounceVertical = true
-		return cv
+        cv.alwaysBounceVertical = true
+        return cv
     }()
     
     func setupViews() {
@@ -71,7 +71,7 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
             self.shouldShowEmptyBackground(snapshot.exists())
             guard let connections = snapshot.value as? [String: Any] else { return }
             connections.forEach({ key, _ in
-                DataService.shared.getStudentWithId(key, completion: { (userIn) in
+                DataService.shared.getStudentWithId(key, completion: { userIn in
                     guard let user = userIn else { return }
                     self.connections.append(user)
                     self.collectionView.reloadData()
@@ -80,7 +80,7 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         }
     }
     
-    func shouldShowEmptyBackground(_ result: Bool ) {
+    func shouldShowEmptyBackground(_ result: Bool) {
         collectionView.backgroundView = result ? nil : ConnectionsBackgroundView()
     }
     
@@ -90,10 +90,10 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     }
     
     func handleRightViewTapped() {
-		if AccountService.shared.currentUserType == .learner {
-			navigationController?.pushViewController(AddTutor(), animated: true)
-		}
-	}
+        if AccountService.shared.currentUserType == .learner {
+            navigationController?.pushViewController(AddTutor(), animated: true)
+        }
+    }
 }
 
 extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -114,7 +114,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.handleTouchDown()
         let user = connections[indexPath.item]
         if AccountService.shared.currentUserType == .learner {
-            FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { (tutor) in
+            FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { tutor in
                 guard let tutor = tutor else { return }
                 let vc = TutorMyProfile()
                 vc.tutor = tutor
@@ -124,7 +124,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
                 self.navigationController?.pushViewController(vc, animated: true)
             })
         } else {
-            FirebaseData.manager.fetchLearner(user.uid) { (learner) in
+            FirebaseData.manager.fetchLearner(user.uid) { learner in
                 guard let learner = learner else { return }
                 let vc = LearnerMyProfile()
                 vc.learner = learner
@@ -134,7 +134,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -156,7 +156,7 @@ extension ConnectionsVC: ConnectionCellDelegate {
         vc.receiverId = user.uid
         vc.chatPartner = user
         vc.connectionRequestAccepted = true
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

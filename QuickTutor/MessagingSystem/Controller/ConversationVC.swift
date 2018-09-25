@@ -207,6 +207,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
                 self.enterConnectionRequestMode()
             }
         }
+
         
     }
     

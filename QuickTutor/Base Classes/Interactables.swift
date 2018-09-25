@@ -62,13 +62,13 @@ extension InteractableBackground {
 
 
 //Instantiate this when you don't need to make a subclass for an interactable (i.e. when the interactable needs no responsiveness)
-public class InteractableObject: UIView, Interactable {}
+class InteractableObject: UIView, Interactable {}
 
 //Subclass this for a view that is already an Interactable
-public class InteractableView: BaseView { override func configureView() { } }
+class InteractableView: BaseView { override func configureView() { } }
 
 //Subclass this for a view that is already an Interactable and includes a background view
-public class InteractableBackgroundView: BaseView, InteractableBackground {
+class InteractableBackgroundView: BaseView, InteractableBackground {
     var backgroundComponent = ViewComponent()
     override func configureView() { addBackgroundView() }
 }

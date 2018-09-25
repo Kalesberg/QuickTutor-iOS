@@ -20,7 +20,7 @@ class BaseSessionStartVC: UIViewController {
     var partner: User?
     var partnerUsername: String?
     var meetupConfirmed = false
-
+    
     let manager = SocketManager(socketURL: URL(string: socketUrl)!, config: [.log(true), .forceWebsockets(true)])
     var socket: SocketIOClient!
     
@@ -110,7 +110,7 @@ class BaseSessionStartVC: UIViewController {
     
     func updateUI() {
         guard let sessionId = sessionId, let uid = Auth.auth().currentUser?.uid else { return }
-        DataService.shared.getSessionById(sessionId) { (sessionIn) in
+        DataService.shared.getSessionById(sessionId) { sessionIn in
             self.session = sessionIn
             SessionService.shared.session = sessionIn
             let userType = AccountService.shared.currentUserType == .learner ? "tutor" : "learner"
@@ -122,7 +122,7 @@ class BaseSessionStartVC: UIViewController {
             self.senderBox.updateUI(uid: senderId)
             guard let receiverId = self.initiatorId == uid ? self.session?.partnerId() : uid else { return }
             self.receieverBox.updateUI(uid: receiverId)
-            DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { (user) in
+            DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
                 self.partner = user
                 self.partnerUsername = user?.formattedName
                 self.updateTitleLabel()
@@ -136,12 +136,12 @@ class BaseSessionStartVC: UIViewController {
     
     func getFormattedInfoLabelString() -> String {
         var finalString = ""
-        guard let session = session else { return ""}
+        guard let session = session else { return "" }
         let lengthInSeconds = session.endTime - session.startTime
         let lengthInMinutes = Int(lengthInSeconds / 60)
-
-        //let hourlyRate = session.price / Double(lengthInMinutes) * 60
-       // let formattedHourlyRate = String(format: "%.2f", hourlyRate)
+        
+        // let hourlyRate = session.price / Double(lengthInMinutes) * 60
+        // let formattedHourlyRate = String(format: "%.2f", hourlyRate)
         finalString = "Length: \(lengthInMinutes) min, $\(Int(session.price)) / hr"
         return finalString
     }
@@ -164,8 +164,6 @@ class BaseSessionStartVC: UIViewController {
     func setupMainView() {
         view.backgroundColor = Colors.darkBackground
         navigationItem.hidesBackButton = true
-        let backImage = UIImage(named: "backButton")?.withRenderingMode(.alwaysOriginal)
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(pop))
     }
     
     @objc func pop() {
@@ -243,7 +241,7 @@ class BaseSessionStartVC: UIViewController {
     
     @objc func confirmManualStart() {
         removeStartData()
-        let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType" : (session?.type)!]
+        let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType": (session?.type)!]
         print(data)
         socket.emit(SocketEvents.manualStartAccetped, data)
     }
@@ -259,12 +257,12 @@ class BaseSessionStartVC: UIViewController {
         socket.connect()
         guard let id = sessionId else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        socket.on(clientEvent: .connect) { (data, ack) in
+        socket.on(clientEvent: .connect) { _, _ in
             let joinData = ["roomKey": id, "uid": uid]
             self.socket.emit("joinRoom", joinData)
         }
         
-        socket.on(SocketEvents.cancelSession) { (data, ack) in
+        socket.on(SocketEvents.cancelSession) { _, _ in
             print("should cancel session")
             self.socket.disconnect()
             self.removeStartData()
@@ -291,7 +289,7 @@ class BaseSessionStartVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
-        self.socket.disconnect()
+        socket.disconnect()
     }
     
     func checkPermissions() -> Bool {
@@ -303,35 +301,35 @@ class BaseSessionStartVC: UIViewController {
     }
     
     func checkCameraAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+        if AVCaptureDevice.authorizationStatus(for: .video) == .authorized {
             return true
         } else {
             let alert = UIAlertController(title: "Camera Required", message: "Camera access is required for video sessions.", preferredStyle: .alert)
             
             // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }))
             // Show the alert with animation
-            self.present(alert, animated: true)
+            present(alert, animated: true)
             return false
         }
     }
     
     func checkMicrophoneAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .audio) ==  .authorized {
+        if AVCaptureDevice.authorizationStatus(for: .audio) == .authorized {
             return true
         } else {
             let alert = UIAlertController(title: "Microphone Required", message: "Microphone access is required for video sessions", preferredStyle: .alert)
             
             // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }))
             // Show the alert with animation
-            self.present(alert, animated: true)
+            present(alert, animated: true)
             return false
         }
     }
-
+    
 }

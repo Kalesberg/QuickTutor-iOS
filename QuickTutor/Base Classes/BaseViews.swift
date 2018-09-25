@@ -14,13 +14,13 @@ protocol BaseViewProtocol {
     func applyConstraints()
 }
 
-public class BaseView: UIView, BaseViewProtocol {
-    public required init() {
+class BaseView: UIView, BaseViewProtocol {
+    required init() {
         super.init(frame: .zero)
         configureView()
     }
     
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         configureView()
     }

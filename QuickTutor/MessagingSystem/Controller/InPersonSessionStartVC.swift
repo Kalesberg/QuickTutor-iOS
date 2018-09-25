@@ -29,7 +29,6 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
         return button
     }()
     
-    
     override func setupViews() {
         super.setupViews()
         setupMessageButton()
@@ -49,11 +48,11 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     
     func setupObservers() {
         
-        socket.on(SocketEvents.manualStartAccetped) { data, ack in
+        socket.on(SocketEvents.manualStartAccetped) { _, _ in
             self.showConfirmMeetupButton()
         }
         
-        socket.on(SocketEvents.meetupConfirmed) { (data, ack) in
+        socket.on(SocketEvents.meetupConfirmed) { data, _ in
             guard let uid = Auth.auth().currentUser?.uid else { return }
             guard let value = data[0] as? [String: Any] else { return }
             if let confirmedBy = value["confirmedBy"] as? String {
@@ -115,13 +114,13 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
         guard checkPermissions() else { return }
         #endif
         removeStartData()
-        let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType" : (session?.type)!]
+        let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType": (session?.type)!]
         socket.emit(SocketEvents.manualStartAccetped, data)
     }
     
     func showConfirmMeetupButton() {
         guard let _ = Auth.auth().currentUser?.uid, let _ = session?.id, let _ = partnerId, !startAccepted else { return }
-        //messageButton.isHidden = false
+        // messageButton.isHidden = false
         confirmButton.isHidden = false
         startAccepted = true
         confirmButton.removeTarget(self, action: #selector(confirmManualStart), for: .touchUpInside)
