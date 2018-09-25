@@ -37,6 +37,11 @@ class YourListingView : MainLayoutTitleTwoButton {
 		}
 	}
 	
+	let fakeBackground : UIView = {
+		let view = UIView()
+		view.backgroundColor = UIColor(hex: "344161")
+		return view
+	}()
 	let scrollView : UIScrollView = {
 		let scrollView = UIScrollView()
 		scrollView.alwaysBounceVertical = true
@@ -91,7 +96,9 @@ class YourListingView : MainLayoutTitleTwoButton {
         
         return label
     }()
-    
+	
+	let hideButtonContainer = UIView()
+	
     let hideButton : UIButton = {
         let button = UIButton()
         
@@ -114,15 +121,23 @@ class YourListingView : MainLayoutTitleTwoButton {
 		return label
 	}()
 	
+	let infoContainer : UIView = {
+		let view = UIView()
+		view.backgroundColor = Colors.backgroundDark
+		return view
+	}()
     override func configureView() {
+		addSubview(fakeBackground)
         addSubview(scrollView)
-		addSubview(collectionView)
-		collectionView.addSubview(imageViewBackground)
+		scrollView.addSubview(collectionView)
+		scrollView.addSubview(hideButtonContainer)
+		scrollView.addSubview(imageViewBackground)
+		scrollView.addSubview(infoContainer)
+		infoContainer.addSubview(infoLabel)
         imageViewBackground.addSubview(imageView)
 		imageView.addSubview(categoryLabel)
-        scrollView.addSubview(infoLabel)
-        scrollView.addSubview(hideButton)
-		scrollView.addSubview(descriptionLabel)
+        hideButtonContainer.addSubview(hideButton)
+		hideButtonContainer.addSubview(descriptionLabel)
         super.configureView()
         
         let navbarColor = UIColor(hex: "5785D4")
@@ -141,21 +156,24 @@ class YourListingView : MainLayoutTitleTwoButton {
     
     override func applyConstraints() {
         super.applyConstraints()
-		
-		collectionView.snp.makeConstraints { (make) in
+		fakeBackground.snp.makeConstraints { (make) in
+			make.top.equalTo(navbar.snp.bottom)
+			make.centerX.width.equalToSuperview()
+			make.height.equalToSuperview().dividedBy(2)
+		}
+		scrollView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-1)
+			make.width.centerX.equalToSuperview()
+			make.bottom.equalToSuperview()
+		}
+		collectionView.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
 			make.width.centerX.equalToSuperview()
 			make.height.equalTo(300)
 		}
 		
-        scrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(collectionView.snp.bottom)
-            make.width.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
-        }
-		
         imageViewBackground.snp.makeConstraints { (make) in
-			make.top.equalTo(260)
+			make.top.equalTo(collectionView.snp.bottom)
             make.width.centerX.equalToSuperview()
             make.height.equalTo(40)
         }
@@ -167,27 +185,35 @@ class YourListingView : MainLayoutTitleTwoButton {
         categoryLabel.snp.makeConstraints { (make) in
 			make.center.equalToSuperview()
         }
-        
-        infoLabel.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.9)
+		
+        infoContainer.snp.makeConstraints { (make) in
+			make.top.equalTo(imageView.snp.bottom)
+            make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-        
+		infoLabel.snp.makeConstraints { (make) in
+			make.top.bottom.centerX.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.9)
+		}
+		
+		hideButtonContainer.snp.makeConstraints { (make) in
+			make.top.equalTo(infoLabel.snp.bottom)
+			make.height.equalTo(80)
+			make.centerX.width.equalToSuperview()
+		}
+		
         hideButton.snp.makeConstraints { (make) in
-            make.width.equalTo(150)
-            make.height.equalTo(45)
+			make.top.equalToSuperview()
+            make.height.equalTo(100)
+			make.width.equalTo(150)
             make.centerX.equalToSuperview()
-            make.top.equalTo(infoLabel.snp.bottom)
         }
+		
 		descriptionLabel.snp.makeConstraints { (make) in
 			make.top.equalTo(hideButton.snp.bottom).inset(-10)
 			make.width.centerX.equalToSuperview()
-			if #available(iOS 11.0, *) {
-				make.bottom.equalTo(safeAreaLayoutGuide)
-			} else {
-				make.bottom.equalTo(layoutMargins.bottom)
-			}
+			make.height.equalTo(25)
+			make.bottom.equalToSuperview()
 		}
     }
 }
@@ -215,11 +241,8 @@ class YourListing : BaseViewController {
 	
 	var listings = [FeaturedTutor]() {
 		didSet {
-			if listings.count == 0 {
-				setupViewForNoListing()
-			} else {
-				setupViewForListing()
-			}
+			//LOL
+			_ = listings.count == 0 ? setupViewForNoListing() : setupViewForListing()
 			contentView.collectionView.reloadData()
 		}
 	}
