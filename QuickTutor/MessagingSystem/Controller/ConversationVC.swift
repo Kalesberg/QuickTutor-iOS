@@ -208,8 +208,13 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             }
         }
         
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            self.test.show()
+        }
+        
     }
     
+    let test = InAppNotificationView()
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         becomeFirstResponder()
@@ -223,6 +228,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+        self.test.removeFromSuperview()
     }
     
     func setMessageTextViewCoverHidden(_ result: Bool) {

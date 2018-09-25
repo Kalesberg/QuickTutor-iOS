@@ -92,7 +92,8 @@ class ConnectionRequestCell: UserMessageCell {
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         self.userMessage = message
-        if message.senderId != AccountService.shared.currentUser.uid! && status == "pending" {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        if message.senderId != uid && status == "pending" {
             setupForTeacherView()
         }
         

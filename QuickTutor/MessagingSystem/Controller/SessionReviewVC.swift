@@ -143,7 +143,7 @@ class SessionReviewVC: UIViewController {
         guard let id = partnerId, let rating = rating else { return }
         profileBox.updateUI(uid: id)
         stars.setRatingTo(rating)
-        DataService.shared.getUserOfOppositeTypeWithId(id) { (user) in
+        DataService.shared.getUserOfOppositeTypeWithId(id) { user in
             guard let username = user?.formattedName else { return }
             self.infoLabel.text = self.infoLabel.text?.replacingOccurrences(of: "{name}", with: username)
         }
@@ -152,29 +152,29 @@ class SessionReviewVC: UIViewController {
     @objc func subtmitReview() {
         guard let text = reviewInputView.text else {
             let vc = AccountService.shared.currentUserType == .tutor ? TutorPageViewController() : LearnerPageViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
             return
         }
         guard let id = partnerId else { return }
         
         let session = SessionService.shared.session
-            
+        
         var reviewDict = [String: Any]()
         guard let date = session?.startTime,
-        let subject = session?.subject,
-        let price = session?.price else {
-                print("ERROR: Could not prepare session for review")
-                return
+            let subject = session?.subject,
+            let price = session?.price else {
+            print("ERROR: Could not prepare session for review")
+            return
         }
         let rating = Double(SessionService.shared.rating)
         let duration = SessionService.shared.session.lengthInMinutes()
-		
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        DataService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
+        DataService.shared.getUserOfCurrentTypeWithId(uid) { user in
             guard let name = user?.formattedName,
                 let profilePicUrl = user?.profilePicUrl.absoluteString else {
-                    print("ERROR: could not fetch name and pic for current user")
-                    return
+                print("ERROR: could not fetch name and pic for current user")
+                return
             }
             reviewDict["dte"] = date
             reviewDict["p"] = price
@@ -185,7 +185,7 @@ class SessionReviewVC: UIViewController {
             reviewDict["nm"] = name
             reviewDict["r"] = rating
             reviewDict["uid"] = uid
-			
+            
             Database.database().reference().child("review").child(id).childByAutoId().setValue(reviewDict)
             PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
             
@@ -203,20 +203,20 @@ class SessionReviewVC: UIViewController {
     
     func setupKeyboardObserversIfNeeded() {
         guard UIScreen.main.bounds.height <= 667 else { return }
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func keyboardWillShow(notification:NSNotification){
+    @objc func keyboardWillShow(notification: NSNotification) {
         
         var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-        self.view.transform = CGAffineTransform(translationX: 0, y: -75)
+        var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
+        view.transform = CGAffineTransform(translationX: 0, y: -75)
     }
     
-    @objc func keyboardWillHide(notification:NSNotification){
-        self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+    @objc func keyboardWillHide(notification: NSNotification) {
+        view.transform = CGAffineTransform(translationX: 0, y: 0)
     }
 }
 

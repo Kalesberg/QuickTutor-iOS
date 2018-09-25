@@ -11,12 +11,11 @@ import Firebase
 import AVFoundation
 
 class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+
     var parentViewController: UIViewController!
     var receiverId: String!
     let imagePicker = UIImagePickerController()
 
-    
     func handleSendingImage() {
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
@@ -36,8 +35,8 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        // Local variable inserted by Swift 4.2 migrator.
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
         var image: UIImage?
         if let editedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage {
@@ -61,14 +60,14 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
         let storageRef = Storage.storage().reference().child(imageName)
 
-        storageRef.putData(data, metadata: metaData) { metadataIn, _ in
+        storageRef.putData(data, metadata: metaData) { _, _ in
             storageRef.downloadURL(completion: { url, error in
                 if error != nil {
                     print(error.debugDescription)
                 }
                 guard let imageUrl = url else { return }
                 DataService.shared.sendImageMessage(imageUrl: imageUrl.absoluteString, imageWidth: image.size.width, imageHeight: image.size.height, receiverId: self.receiverId, completion: {
-                    
+
                 })
             })
         }
@@ -81,7 +80,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
             let alert = UIAlertController(title: "Allow Access to Camera", message: "Camera access is required for this feature.", preferredStyle: .alert)
 
             // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { action in
+            alert.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { _ in
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -90,19 +89,19 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
             return false
         }
     }
-    
+
     init(parentViewController: UIViewController) {
         self.parentViewController = parentViewController
     }
-    
+
 }
 
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+    return Dictionary(uniqueKeysWithValues: input.map { key, value in (key.rawValue, value) })
 }
 
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-	return input.rawValue
+    return input.rawValue
 }

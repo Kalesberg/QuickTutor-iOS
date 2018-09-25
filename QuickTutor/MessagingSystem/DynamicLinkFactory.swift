@@ -19,8 +19,7 @@ class DynamicLinkFactory {
     var longLink: URL?
     var shortLink: URL?
     
-    
-    func createLink(userId: String?, completion: @escaping(URL?) -> ()) {
+    func createLink(userId: String?, completion: @escaping (URL?) -> ()) {
         dictionary[.link] = "https://quickTutor.com/\(userId ?? "")"
         // Initialize the sections array
         sections = [
@@ -52,7 +51,7 @@ class DynamicLinkFactory {
         components.iOSParameters = iOSParams
         longLink = components.url
         
-        components.shorten { (url, warnings, erorr) in
+        components.shorten { url, _, _ in
             guard let url = url else { return }
             completion(url)
         }
@@ -100,7 +99,7 @@ enum Params: String {
 
 enum ParamTypes: String {
     case googleAnalytics = "Google Analytics"
-    case iOS = "iOS"
+    case iOS
     case iTunes = "iTunes Connect Analytics"
     case android = "Android"
     case social = "Social Meta Tag"

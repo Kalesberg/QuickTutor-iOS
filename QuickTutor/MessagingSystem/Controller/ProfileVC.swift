@@ -50,7 +50,7 @@ class ProfileVC: UIViewController {
     }
     
     func updateUI() {
-        DataService.shared.getUserWithUid(userId) { (userIn) in
+        DataService.shared.getUserWithUid(userId) { userIn in
             guard let user = userIn else { return }
             self.usernameLabel.text = user.formattedName
             self.uidLabel.text = user.uid

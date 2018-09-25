@@ -19,7 +19,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     
     lazy var sessionNavBar: SessionNavBar = {
         let bar = SessionNavBar()
-//        bar.timeLabel.delegate = self
+        //        bar.timeLabel.delegate = self
         bar.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
         return bar
     }()
@@ -39,7 +39,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     var connectionLostModal: PauseSessionModal?
     
     var minutesToAdd = 0
-
+    
     @objc func showEndModal() {
         endSessionModal = EndSessionModal(frame: .zero)
         endSessionModal?.delegate = self
@@ -88,7 +88,6 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         }
     }
     
-    
     @objc func showAddTimeModal() {
         addTimeModal = AddTimeModal(frame: .zero)
         addTimeModal?.delegate = self
@@ -108,7 +107,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     }
     
     func observeSessionEvents() {
-        socket.on(SocketEvents.requestAddTime) { (data, ack) in
+        socket.on(SocketEvents.requestAddTime) { data, _ in
             guard let dict = data[0] as? [String: Any] else { return }
             guard let id = dict["id"] as? String else { return }
             guard id != Auth.auth().currentUser?.uid else { return }
@@ -118,7 +117,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
             self.sessionOnHoldModal?.dismiss()
         }
         
-        socket.on(SocketEvents.addTimeRequestAnswered) { (data, ack) in
+        socket.on(SocketEvents.addTimeRequestAnswered) { data, _ in
             guard let dict = data[0] as? [String: Any] else { return }
             guard let answer = dict["didAccept"] as? Bool else { return }
             if answer {
@@ -148,7 +147,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         observeSessionEvents()
         guard let id = sessionId else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        socket.on(clientEvent: .connect) { (data, ack) in
+        socket.on(clientEvent: .connect) { _, _ in
             let joinData = ["roomKey": id, "uid": uid]
             self.socket.emit("joinRoom", joinData)
         }
@@ -173,7 +172,6 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     
     @objc func handleForegrounded() {}
     
-    
     func addTimeModalDidDecline(_ addTimeModal: AddTimeModal) {
         addTimeModal.dismiss()
         sessionOnHoldModal?.dismiss()
@@ -189,42 +187,42 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         sessionOnHoldModal?.dismiss()
         socket.emit(SocketEvents.requestAddTime, ["id": uid, "roomKey": id, "seconds": minutes * 60])
     }
-
+    
     @objc func continueOutOfSession() {
         BackgroundSoundManager.shared.sessionInProgress = false
         sessionOnHoldModal?.dismiss()
         pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
-		guard let runTime = sessionManager?.sessionRuntime else { return }
-		guard let partnerId = sessionManager?.session.partnerId() else { return }
-		guard let subject = sessionManager?.session.subject else { return }
-		guard let session = sessionManager?.session else { return }
-		let costOfSession = ((session.price / 60) / 60) * Double(runTime)
-		if AccountService.shared.currentUserType == .learner {
-			let vc = SessionReview()
-
-			vc.session = session
-			vc.sessionId = sessionId
-			vc.costOfSession = costOfSession
-			vc.partnerId = partnerId
-			vc.runTime = runTime
-			vc.subject = subject
-			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
-			Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt" : Date().timeIntervalSince1970])
+        guard let runTime = sessionManager?.sessionRuntime else { return }
+        guard let partnerId = sessionManager?.session.partnerId() else { return }
+        guard let subject = sessionManager?.session.subject else { return }
+        guard let session = sessionManager?.session else { return }
+        let costOfSession = ((session.price / 60) / 60) * Double(runTime)
+        if AccountService.shared.currentUserType == .learner {
+            let vc = SessionReview()
+            
+            vc.session = session
+            vc.sessionId = sessionId
+            vc.costOfSession = costOfSession
+            vc.partnerId = partnerId
+            vc.runTime = runTime
+            vc.subject = subject
+            Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
+            Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt": Date().timeIntervalSince1970])
             print("ZACH: continueing out of session")
-			navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
         } else {
-			let vc = SessionReview()
-			vc.session = session
-			vc.sessionId = sessionId
-			vc.costOfSession = costOfSession
-			vc.partnerId = partnerId
-			vc.runTime = runTime
-			vc.subject = subject
-			Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
-			Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt" : Date().timeIntervalSince1970])
-			print("ZACH: continueing out of session")
+            let vc = SessionReview()
+            vc.session = session
+            vc.sessionId = sessionId
+            vc.costOfSession = costOfSession
+            vc.partnerId = partnerId
+            vc.runTime = runTime
+            vc.subject = subject
+            Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
+            Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt": Date().timeIntervalSince1970])
+            print("ZACH: continueing out of session")
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -236,44 +234,44 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     
     func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager) {
         continueOutOfSession()
-//        AccountService.shared.currentUserType == .learner ? showAddTimeModal() : showSessionOnHoldModal()
+        //        AccountService.shared.currentUserType == .learner ? showAddTimeModal() : showSessionOnHoldModal()
     }
     
     func sessionManager(_ sessionManager: SessionManager, userId: String, didPause session: Session) {
         sessionManager.stopSessionRuntime()
-        self.showPauseModal(pausedById: userId)
+        showPauseModal(pausedById: userId)
     }
     
     func sessionManager(_ sessionManager: SessionManager, didUnpause session: Session) {
         sessionManager.startSessionRuntime()
-        self.pauseSessionModal?.dismiss()
-        self.pauseSessionModal = nil
+        pauseSessionModal?.dismiss()
+        pauseSessionModal = nil
     }
     
     func sessionManager(_ sessionManager: SessionManager, didEnd session: Session) {
         PostSessionManager.shared.sessionDidEnd(sessionId: session.id, partnerId: session.partnerId())
-        self.sessionId = session.id
-        self.partnerId = session.partnerId()
+        sessionId = session.id
+        partnerId = session.partnerId()
         continueOutOfSession()
     }
     
     func sessionManagerShouldShowEndSessionModal(_ sessionManager: SessionManager) {
-        self.showEndModal()
+        showEndModal()
     }
     
     func sessionManager(_ sessionManager: SessionManager, userLostConnection uid: String) {
         sessionManager.stopSessionRuntime()
         if viewIfLoaded?.window != nil {
-            self.showConnectionLostModal(pausedById: uid)
+            showConnectionLostModal(pausedById: uid)
         }
     }
     
     func sessionManager(_ sessionManager: SessionManager, userConnectedWith uid: String) {
         sessionManager.startSessionRuntime()
-        self.pauseSessionModal?.dismiss()
+        pauseSessionModal?.dismiss()
         guard let myUid = Auth.auth().currentUser?.uid else { return }
         if uid != myUid {
-            self.connectionLostModal?.dismiss()
+            connectionLostModal?.dismiss()
         }
     }
 }

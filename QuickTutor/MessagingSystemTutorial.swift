@@ -9,9 +9,9 @@
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
-class MessagingSystemTutorial : UIButton {
+class MessagingSystemTutorial: UIButton {
     
-    let view : UIButton = {
+    let view: UIButton = {
         let view = UIButton()
         view.backgroundColor = Colors.learnerPurple
         view.setImage(#imageLiteral(resourceName: "plusButton"), for: .normal)
@@ -22,35 +22,30 @@ class MessagingSystemTutorial : UIButton {
         return view
     }()
     
-    let label : UILabel = {
+    let label: UILabel = {
         let label = UILabel()
-        
         label.font = Fonts.createBoldSize(18)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.textColor = .white
-        
         return label
     }()
     
-    let image : UIImageView = {
+    let image: UIImageView = {
         let view = UIImageView()
-        
         view.image = #imageLiteral(resourceName: "finger")
         view.transform = CGAffineTransform(scaleX: 1, y: -1)
         view.scaleImage()
         view.alpha = 0
-        
         return view
     }()
     
-    var count : Int = 0
+    var count: Int = 0
     
     let phrases = ["Your first message is a connection request. Write something friendly!", "You can continue messaging the tutor once they have accepted your connection request.", "Once they accept your connection request, you can use this button to schedule sessions or send images!"]
     
     required init() {
         super.init(frame: .zero)
-        
         configureView()
     }
     
@@ -69,14 +64,14 @@ class MessagingSystemTutorial : UIButton {
     }
     
     func applyConstraints() {
-        label.snp.makeConstraints { (make) in
+        label.snp.makeConstraints { make in
             make.width.equalToSuperview().inset(15)
             make.center.equalToSuperview()
         }
         
-        view.anchor(top: nil, left: self.leftAnchor, bottom: self.getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
+        view.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
         
-        image.anchor(top: nil, left: self.leftAnchor, bottom: view.topAnchor, right: nil, paddingTop: 0, paddingLeft: 1, paddingBottom: 15, paddingRight: 0, width: 60, height: 60)
+        image.anchor(top: nil, left: leftAnchor, bottom: view.topAnchor, right: nil, paddingTop: 0, paddingLeft: 1, paddingBottom: 15, paddingRight: 0, width: 60, height: 60)
     }
     
     func showIfNeeded() {
@@ -148,7 +143,7 @@ enum PanDirection {
 
 class UIPanDirectionGestureRecognizer: UIPanGestureRecognizer {
     
-    let direction : PanDirection
+    let direction: PanDirection
     
     init(direction: PanDirection, target: AnyObject, action: Selector) {
         self.direction = direction
@@ -160,11 +155,11 @@ class UIPanDirectionGestureRecognizer: UIPanGestureRecognizer {
         
         if state == .began {
             
-            let vel = velocity(in: self.view!)
+            let vel = velocity(in: view!)
             switch direction {
-			case .horizontal where abs(vel.y) > abs(vel.x):
+            case .horizontal where abs(vel.y) > abs(vel.x):
                 state = .cancelled
-			case .vertical where abs(vel.x) > abs(vel.y):
+            case .vertical where abs(vel.x) > abs(vel.y):
                 state = .cancelled
             default:
                 break
@@ -172,4 +167,3 @@ class UIPanDirectionGestureRecognizer: UIPanGestureRecognizer {
         }
     }
 }
-

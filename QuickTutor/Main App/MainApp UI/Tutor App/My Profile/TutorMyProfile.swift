@@ -217,7 +217,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                     make.top.equalTo(cell.locationItem.snp.bottom)
                 }
                 
-                if tutor.school != "" {
+                if tutor.school != "" && tutor.school != nil {
                     cell.studysItem.label.text = "Studies at " + tutor.school!
                     cell.contentView.addSubview(cell.studysItem)
                     

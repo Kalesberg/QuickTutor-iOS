@@ -64,7 +64,7 @@ class InPersonSessionVC: BaseSessionVC {
         view.backgroundColor = Colors.darkBackground
     }
     
-    func setupNavBar()  {
+    func setupNavBar() {
         view.addSubview(sessionNavBar)
         sessionNavBar.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         view.addSubview(statusBarCover)
@@ -115,7 +115,7 @@ class InPersonSessionVC: BaseSessionVC {
     
     func updateUI() {
         guard let id = sessionId else { return }
-        DataService.shared.getSessionById(id) { (session) in
+        DataService.shared.getSessionById(id) { session in
             self.receieverBox.infoLabel.text = session.getFormattedInfoLabelString()
             self.receieverBox.subjectLabel.text = session.subject
             self.receieverBox.updateUI(uid: session.partnerId())
@@ -139,4 +139,3 @@ class InPersonSessionVC: BaseSessionVC {
         super.viewWillDisappear(animated)
     }
 }
-

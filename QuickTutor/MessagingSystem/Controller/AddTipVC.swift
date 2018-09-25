@@ -11,12 +11,11 @@ import Firebase
 import Stripe
 
 class AddTipVC: UIViewController, CustomTipPresenter {
-	func didPressCancel() {}
-	
+    func didPressCancel() {}
     
     var partnerId: String!
     let tipTitles = ["No tip", "$2", "$4", "$6", "Custom"]
-    var tipAmounts: [Double] = [0,2,4,6,8]
+    var tipAmounts: [Double] = [0, 2, 4, 6, 8]
     var costOfSession = 0.0
     var amountToTip = 0.0 {
         didSet {
@@ -30,7 +29,7 @@ class AddTipVC: UIViewController, CustomTipPresenter {
     var sessionId: String?
     var customer: STPCustomer!
     var cards = [STPCard]()
-    var defaultCard : STPCard?
+    var defaultCard: STPCard?
     var selectedCard: STPCard?
     var showingAllCards = false
     var tipAdded = false
@@ -78,7 +77,7 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         return cv
     }()
     
-    let tableView : UITableView = {
+    let tableView: UITableView = {
         let tableView = UITableView()
         tableView.estimatedRowHeight = 44
         tableView.isScrollEnabled = false
@@ -160,7 +159,7 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         tipAmountCV.dataSource = self
     }
     
-    func setupPaymentMethodCV () {
+    func setupPaymentMethodCV() {
         view.addSubview(tableView)
         tableView.anchor(top: tipAmountCV.bottomAnchor, left: tipAmountCV.leftAnchor, bottom: nil, right: tipAmountCV.rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         paymentMethodHeightAnchor = tableView.heightAnchor.constraint(equalToConstant: 50)
@@ -213,7 +212,7 @@ class AddTipVC: UIViewController, CustomTipPresenter {
     }
     
     @objc func handleSubmitButton() {
-        chargeStripe { (result) in
+        chargeStripe { result in
             guard result else {
                 print("Failed to charge Stripe")
                 return
@@ -228,7 +227,7 @@ class AddTipVC: UIViewController, CustomTipPresenter {
     }
     
     func fetchCustomer() {
-        Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
+        Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
             guard let customer = customer, error == nil else {
                 AlertController.genericErrorAlert(self, title: "Error Charging Card", message: error?.localizedDescription)
                 return
@@ -243,12 +242,12 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         self.cards = cards
         guard let defaultCard = customer.defaultSource as? STPCard else { return }
         self.defaultCard = defaultCard
-        self.selectedCard = defaultCard
-        self.tableView.reloadData()
+        selectedCard = defaultCard
+        tableView.reloadData()
     }
     
-    func chargeStripe(completion: @escaping(Bool) -> ()) {
-        DataService.shared.getTutorWithId(partnerId) { (tutor) in
+    func chargeStripe(completion: @escaping (Bool) -> ()) {
+        DataService.shared.getTutorWithId(partnerId) { tutor in
             guard let tutor = tutor, let id = tutor.stripeAccountId else {
                 print("Erorr getting tutor stripe id")
                 return
@@ -259,15 +258,15 @@ class AddTipVC: UIViewController, CustomTipPresenter {
             }
             print("Amount to pay:", self.amountToPay)
             print("Fee amount:", self.amountToPay * 100)
-			self.displayLoadingOverlay()
-            Stripe.destinationCharge(acctId: id, customerId: self.customer.stripeID, sourceId: sourceId, amount: self.amountToPay * 100, fee: self.amountToPay, description: "Session with Tutor", { (error) in
+            self.displayLoadingOverlay()
+            Stripe.destinationCharge(acctId: id, customerId: self.customer.stripeID, sourceId: sourceId, amount: self.amountToPay * 100, fee: self.amountToPay, description: "Session with Tutor", { error in
                 guard error == nil else {
                     print(error.debugDescription)
                     completion(false)
-					self.dismissOverlay()
+                    self.dismissOverlay()
                     return
                 }
-				self.dismissOverlay()
+                self.dismissOverlay()
                 completion(true)
             })
         }
@@ -277,7 +276,7 @@ class AddTipVC: UIViewController, CustomTipPresenter {
         super.viewDidLoad()
         setupViews()
         amountToTip = 0.0
-        DataService.shared.getUserOfOppositeTypeWithId(partnerId) { (user) in
+        DataService.shared.getUserOfOppositeTypeWithId(partnerId) { user in
             guard let username = user?.formattedName else { return }
             self.descriptionLabel.text = self.descriptionLabel.text?.replacingOccurrences(of: "{username}", with: username)
             self.descriptionLabel.isHidden = false
@@ -296,7 +295,6 @@ class AddTipVC: UIViewController, CustomTipPresenter {
     func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(markAsUnfinished), name: Notifications.didEnterBackground.name, object: nil)
     }
-    
     
     @objc func markAsUnfinished() {
         if !tipAdded, let id = sessionId {
@@ -332,7 +330,7 @@ extension AddTipVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func insertBorder(cell: UITableViewCell) {
-        let border = UIView(frame:CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
+        let border = UIView(frame: CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
         border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
         cell.contentView.addSubview(border)
     }
@@ -345,15 +343,15 @@ extension AddTipVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tipCell", for: indexPath) as! TipAmountCell
-            if indexPath.item == 0 {
-                cell.button.titleLabel?.font = Fonts.createSize(12)
-            }
-            if indexPath.item == 4 {
-                cell.button.titleLabel?.font = Fonts.createSize(10)
-            }
-            cell.button.setTitle(tipTitles[indexPath.item], for: .normal)
-            return cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tipCell", for: indexPath) as! TipAmountCell
+        if indexPath.item == 0 {
+            cell.button.titleLabel?.font = Fonts.createSize(12)
+        }
+        if indexPath.item == 4 {
+            cell.button.titleLabel?.font = Fonts.createSize(10)
+        }
+        cell.button.setTitle(tipTitles[indexPath.item], for: .normal)
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -380,5 +378,5 @@ extension AddTipVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 
 protocol CustomTipPresenter {
     var amountToTip: Double { get set }
-	func didPressCancel()
+    func didPressCancel()
 }

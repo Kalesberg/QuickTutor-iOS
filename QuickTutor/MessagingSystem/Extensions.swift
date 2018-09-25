@@ -73,12 +73,12 @@ extension Date {
         if calendar.isDateInToday(self) {
             dateFormatter.timeStyle = .short
             dateFormatter.dateStyle = .none
-        } else if calendar.isDateInYesterday(self){
+        } else if calendar.isDateInYesterday(self) {
             dateFormatter.timeStyle = .none
             dateFormatter.dateStyle = .medium
         } else if calendar.compare(Date(), to: self, toGranularity: .weekOfYear) == .orderedSame {
             let weekday = calendar.dateComponents([.weekday], from: self).weekday ?? 0
-            return dateFormatter.weekdaySymbols[weekday-1]
+            return dateFormatter.weekdaySymbols[weekday - 1]
         } else {
             dateFormatter.timeStyle = .none
             dateFormatter.dateStyle = .short
@@ -129,7 +129,7 @@ class DateService {
     static let shared = DateService()
     private init() {}
     
-    func localToUTC(date:String) -> String {
+    func localToUTC(date: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         dateFormatter.calendar = NSCalendar.current
@@ -142,7 +142,7 @@ class DateService {
         return dateFormatter.string(from: dt!)
     }
     
-    func UTCToLocal(date:String) -> String {
+    func UTCToLocal(date: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "H:mm:ss"
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
@@ -154,4 +154,3 @@ class DateService {
         return dateFormatter.string(from: dt!)
     }
 }
-
