@@ -107,7 +107,7 @@ class SearchSubjectsView : MainLayoutTwoButton, Keyboardable {
 		searchTextField?.textColor = .white
 		searchTextField?.adjustsFontSizeToFitWidth = true
 		searchTextField?.autocapitalizationType = .words
-		searchTextField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+		searchTextField?.attributedPlaceholder = NSAttributedString(string: "Search Anything", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 		searchTextField?.keyboardAppearance = .dark
 		searchTextField.backgroundColor = UIColor.black.withAlphaComponent(0.5)
 		
