@@ -494,22 +494,30 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	
 	let header : UILabel = {
 		let label = UILabel()
-		
 		label.numberOfLines = 0
-		
 		return label
 	}()
 	
-	let container : UIView = {
+	let textFieldContainer : UIView = {
 		let view = UIView()
-
 		view.backgroundColor = Colors.registrationDark
 		view.layer.cornerRadius = 6
 		
 		return view
 	}()
 	
-	var textField = NoPasteTextField()
+	var textField : NoPasteTextField = {
+		let textField = NoPasteTextField()
+		
+		textField.font = Fonts.createBoldSize(32)
+		textField.textColor = .white
+		textField.textAlignment = .left
+		textField.keyboardType = .numberPad
+		textField.keyboardAppearance = .dark
+		textField.tintColor = Colors.tutorBlue
+		
+		return textField
+	}()
 	
 	let decreaseButton: UIButton = {
 		let button = UIButton()
@@ -522,7 +530,7 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 		button.setImage(#imageLiteral(resourceName: "increaseButton"), for: .normal)
 		return button
 	}()
-	
+	let container = UIView()
 	var increasePriceTimer: Timer?
 	var decreasePriceTimer: Timer?
 	
@@ -531,23 +539,17 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	var textFieldObserver : AmountTextFieldDidChange?
 
 	override func configureView() {
-		contentView.addSubview(header)
-		contentView.addSubview(container)
-		container.addSubview(textField)
-		container.addSubview(increaseButton)
-		container.addSubview(decreaseButton)
-		
-		textField.delegate = self
-		textField.font = Fonts.createBoldSize(32)
-		textField.textColor = .white
-		textField.textAlignment = .left
-		textField.keyboardType = .numberPad
-		textField.keyboardAppearance = .dark
-		textField.tintColor = Colors.tutorBlue
-		
-		backgroundColor = .clear
+		addSubview(header)
+		addSubview(container)
+		container.addSubview(textFieldContainer)
+		textFieldContainer.addSubview(textField)
+		textFieldContainer.addSubview(increaseButton)
+		textFieldContainer.addSubview(decreaseButton)
+	
+		backgroundColor = Colors.backgroundDark
 		selectionStyle = .none
-		
+		textField.delegate = self
+
 		decreaseButton.addTarget(self, action: #selector(decreasePrice), for: .touchDown)
 		decreaseButton.addTarget(self, action: #selector(endDecreasePrice), for: [.touchUpInside, .touchUpOutside])
 		increaseButton.addTarget(self, action: #selector(increasePrice), for: .touchDown)
@@ -555,12 +557,48 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 		
 		applyConstraints()
 	}
+
+	override func applyConstraints() {
+		header.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.right.equalToSuperview()
+			make.left.equalToSuperview().inset(10)
+			make.bottom.equalTo(container.snp.top)
+		}
+		
+		container.snp.makeConstraints { (make) in
+			make.top.equalTo(header.snp.bottom)
+			make.height.equalTo(100)
+			make.centerX.width.equalToSuperview()
+			make.bottom.equalToSuperview()
+		}
+		textFieldContainer.snp.makeConstraints { (make) in
+			make.center.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.95)
+			make.height.equalTo(70)
+		}
+		
+		textField.snp.makeConstraints { (make) in
+			make.left.equalToSuperview().inset(25)
+            make.width.equalToSuperview().multipliedBy(0.4)
+			make.centerY.height.equalToSuperview()
+		}
+		
+		increaseButton.snp.makeConstraints { (make) in
+			make.right.equalToSuperview().inset(17)
+			make.centerY.equalToSuperview()
+			make.width.height.equalTo(40)
+		}
+		
+		decreaseButton.snp.makeConstraints { (make) in
+			make.right.equalTo(increaseButton.snp.left).inset(-17)
+			make.centerY.equalToSuperview()
+			make.width.height.equalTo(40)
+		}
+	}
 	
 	private func updateTextField(_ amount: String) {
-		guard let this = Int(amount) else { return }
-		guard let number = this as NSNumber? else {
-			return
-		}
+		guard let this = Int(amount), let number = this as NSNumber? else { return }
 		currentPrice = this
 		textField.text = "$\(number)"
 		textFieldObserver?.amountTextFieldDidChange(amount: this)
@@ -611,37 +649,6 @@ class EditProfileHourlyRateTableViewCell : BaseTableViewCell {
 	
 	@objc func endIncreasePrice() {
 		increasePriceTimer?.invalidate()
-	}
-	
-	override func applyConstraints() {
-		header.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.right.equalToSuperview()
-			make.left.equalToSuperview().inset(3)
-		}
-		
-		container.snp.makeConstraints { (make) in
-			make.top.equalTo(header.snp.bottom).inset(-20)
-			make.width.centerX.bottom.equalToSuperview()
-		}
-		
-		textField.snp.makeConstraints { (make) in
-			make.left.equalToSuperview().inset(25)
-            make.width.equalToSuperview().multipliedBy(0.4)
-			make.centerY.equalToSuperview()
-		}
-		
-		increaseButton.snp.makeConstraints { (make) in
-			make.right.equalToSuperview().inset(17)
-			make.centerY.equalToSuperview()
-			make.width.height.equalTo(40)
-		}
-		
-		decreaseButton.snp.makeConstraints { (make) in
-			make.right.equalTo(increaseButton.snp.left).inset(-17)
-			make.centerY.equalToSuperview()
-			make.width.height.equalTo(40)
-		}
 	}
 }
 

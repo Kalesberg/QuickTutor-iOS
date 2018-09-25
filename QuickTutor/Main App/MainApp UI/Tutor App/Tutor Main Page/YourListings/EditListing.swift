@@ -23,16 +23,25 @@ class EditListingView : MainLayoutTitleBackTwoButton {
     
     let tableView : UITableView = {
         let tableView = UITableView()
-        
+		
+        tableView.estimatedRowHeight = 70
         tableView.showsVerticalScrollIndicator = false
         tableView.alwaysBounceVertical = true
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .clear
+		tableView.backgroundColor = .clear
+
         
         return tableView
     }()
-    
+	
+	let fakeBackground : UIView = {
+		let view = UIView()
+		view.backgroundColor = UIColor(hex: "344161")
+		return view
+	}()
+	
     override func configureView() {
+		addSubview(fakeBackground)
         addSubview(tableView)
         super.configureView()
         
@@ -41,11 +50,19 @@ class EditListingView : MainLayoutTitleBackTwoButton {
     
     override func applyConstraints() {
         super.applyConstraints()
-        
-        tableView.snp.makeConstraints { (make) in
+		fakeBackground.snp.makeConstraints { (make) in
+			make.top.equalTo(navbar.snp.bottom)
+			make.width.centerX.equalToSuperview()
+			make.height.equalToSuperview().dividedBy(3)
+		}
+		tableView.snp.makeConstraints { (make) in
             make.top.equalTo(navbar.snp.bottom)
             make.width.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
+			if #available(iOS 11.0, *) {
+				make.bottom.equalTo(safeAreaInsets.bottom)
+			} else {
+				make.bottom.equalTo(layoutMargins.bottom)
+			}
         }
     }
 }
@@ -78,7 +95,6 @@ class EditListing : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.tutor = CurrentUser.shared.tutor
-		hideKeyboardWhenTappedAround()
 		configureDelegates()
 		
 		guard let tutorSubjects = tutor.subjects else { return }
@@ -86,7 +102,6 @@ class EditListing : BaseViewController {
 		selectedIndexPath = IndexPath(item: index, section: 0)
 	}
 	override func viewWillAppear(_ animated: Bool) {
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
 	}
 	
@@ -118,6 +133,7 @@ class EditListing : BaseViewController {
 			AlertController.genericErrorAlertWithoutCancel(self, title: "Please Fill Out All Fields", message: "Add an image to this listing.")
 			return
 		}
+		self.view.endEditing(true)
 		saveListingToFirebase(subject: subject, price: price, image: image)
 	}
 	
@@ -138,11 +154,12 @@ class EditListing : BaseViewController {
     }
 
 	@objc private func keyboardWillAppear(_ notification: NSNotification) {
-		contentView.tableView.setContentOffset(CGPoint(x: 0, y: 250), animated: true)
-	}
-	
-	@objc private func keyboardWillDisappear(_ notification: NSNotification) {
-		contentView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+		if UIScreen.main.nativeBounds.height == 1136 {
+			contentView.tableView.setContentOffset(CGPoint(x: 0, y: 310), animated: true)
+		} else {
+			contentView.tableView.setContentOffset(CGPoint(x: 0, y: 210), animated: true)
+
+		}
 	}
 	
 	private func subcategoriesForCategory() -> [String]? {
@@ -216,43 +233,22 @@ extension EditListing : UITableViewDelegate, UITableViewDataSource {
 			return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileHourlyRateTableViewCell
-			
-            let formattedString = NSMutableAttributedString()
-            formattedString
-                .regular("\n", 12, .white)
-                .bold("Choose hourly rate:", 18, UIColor(hex: "5785d4"))
-                .regular("\n", 5, .white)
-                .bold("\nHourly Rate  ", 15, .white)
-                .regular("  [$5-$1000]\n", 15, Colors.grayText)
-                .regular("\n", 8, .white)
-                .regular("Please a rate for this listing.\n\nThis rate will be displayed on your listing.", 14, Colors.grayText)
+
+			cell.header.attributedText = NSMutableAttributedString()
+					.regular("\n", 12, .white)
+                	.bold("Choose hourly rate:", 18, UIColor(hex: "5785d4"))
+                	.regular("\n", 5, .white)
+                	.bold("\nHourly Rate  ", 15, .white)
+                	.regular("  [$5-$1000]\n", 15, Colors.grayText)
+                	.regular("\n", 8, .white)
+                	.regular("Please a rate for this listing.\n\nThis rate will be displayed on your listing.", 14, Colors.grayText)
             
-            cell.header.attributedText = formattedString
 			cell.textFieldObserver = self
-			
-			if let price = price {
-				cell.textField.text = "$\(price)"
-				cell.currentPrice = price
-				cell.amount = "\(price)"
-			} else {
-				cell.textField.text = "$5"
-				cell.currentPrice = 5
-				cell.amount = "5"
-			}
-			
-            cell.header.snp.remakeConstraints { (make) in
-                make.top.equalToSuperview()
-                make.left.equalToSuperview().inset(10)
-            }
-            
-            cell.container.snp.remakeConstraints { (make) in
-                make.top.equalTo(cell.header.snp.bottom).inset(-20)
-                make.centerX.bottom.equalToSuperview()
-                make.width.equalToSuperview().multipliedBy(0.95)
-                make.height.equalTo(70)
-            }
-            
-            return cell
+			cell.textField.text = (price != nil) ? "$\(price!)" : "$5"
+			cell.currentPrice = (price != nil) ? price! : 5
+			cell.amount = (price != nil) ? "\(price!)" : "5"
+			cell.header.sizeToFit()
+			return cell
         default:
             return UITableViewCell()
         }
@@ -306,6 +302,8 @@ class EditListingsSubjectsTableViewCell : SubjectsTableViewCell {
 	var selectedIndexPath : IndexPath?
 	var selectedSubject : String?
 	var delegate : ListingSubject?
+	
+
 }
 extension EditListingsSubjectsTableViewCell  {
 	override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -374,7 +372,7 @@ class EditListingPhotoView : BaseView {
 		let label = UILabel()
 		
 		label.font = Fonts.createBoldSize(18)
-		label.text = "Your listing picture"
+		label.text = "Listing Picture"
 		label.textColor = .white
 		
 		return label
@@ -395,7 +393,6 @@ class EditListingPhotoView : BaseView {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		
 		container.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 0, frame: container.bounds)
 		labelContainer.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 90, frame: labelContainer.bounds)
 		listingImage.roundCorners([.topRight, .topLeft], radius: 6)
@@ -430,7 +427,6 @@ class EditListingPhotoView : BaseView {
 }
 
 class EditListingPhotoTableViewCell : UITableViewCell {
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
@@ -482,7 +478,7 @@ class EditListingPhotoTableViewCell : UITableViewCell {
         labelContainer.addSubview(listingLabel)
     
         selectionStyle = .none
-        backgroundColor = .clear
+        backgroundColor = Colors.backgroundDark
         
         applyConstraints()
     }

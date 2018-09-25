@@ -548,7 +548,7 @@ class SubjectsTableViewCell : UITableViewCell {
         addSubview(label)
         addSubview(subjectCollectionView)
         
-        backgroundColor = .clear
+        backgroundColor = Colors.backgroundDark
         selectionStyle = .none
         
         subjectCollectionView.delegate = self
