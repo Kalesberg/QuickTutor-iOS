@@ -56,8 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         // Stripe
         STPPaymentConfiguration.shared().publishableKey = "pk_test_TtFmn5n1KhfNPgXXoGfg3O97"
         
-        //White status bar throughout
-        UIApplication.shared.statusBarStyle = .lightContent
         registerForPushNotifications(application: application)
         
         //Firebase init
@@ -140,7 +138,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 completion()
                 return
             }
-            let vc2 = ConnectionsVC()
             self.updateFCMTokenIfNeeded()
             self.configureRootViewController(controller: vc, completion: {
                 
