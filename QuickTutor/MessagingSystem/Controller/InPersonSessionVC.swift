@@ -126,7 +126,6 @@ class InPersonSessionVC: BaseSessionVC {
     
     override func handleBackgrounded() {
         super.handleBackgrounded()
-        print("Session runtime is: \(sessionManager?.sessionRuntime)")
     }
     
     override func viewDidLoad() {

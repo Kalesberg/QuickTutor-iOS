@@ -18,8 +18,6 @@ class PageViewController : UIPageViewController {
 	var orderedViewControllers: [UIViewController] = []
 	
 	override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey : Any]? = nil) {
-// Local variable inserted by Swift 4.2 migrator.
-let options = convertFromOptionalUIPageViewControllerOptionsKeyDictionary(options)
 
 		super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
 	}

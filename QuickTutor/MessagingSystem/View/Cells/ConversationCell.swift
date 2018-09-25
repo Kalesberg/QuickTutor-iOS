@@ -144,8 +144,8 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     func highlightMessageGradient() {
-        let firstColor = Colors.currentUserColor().darker(by: 15)?.cgColor
-        let secondColor = Colors.navBarColor.darker(by: 15)?.cgColor
+        guard let firstColor = Colors.currentUserColor().darker(by: 15)?.cgColor,
+            let secondColor = Colors.navBarColor.darker(by: 15)?.cgColor else { return }
         newMessageGradientLayer.colors = [firstColor, secondColor]
     }
     
