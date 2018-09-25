@@ -157,7 +157,7 @@ class YourListingView : MainLayoutTitleTwoButton {
     override func applyConstraints() {
         super.applyConstraints()
 		fakeBackground.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom)
+			make.top.equalTo(navbar.snp.bottom).inset(-1)
 			make.centerX.width.equalToSuperview()
 			make.height.equalToSuperview().dividedBy(2)
 		}

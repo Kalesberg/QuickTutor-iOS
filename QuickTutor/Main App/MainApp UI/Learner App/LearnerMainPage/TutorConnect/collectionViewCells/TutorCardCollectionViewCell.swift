@@ -49,8 +49,8 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
     
     let tableView : UITableView = {
         let tableView = UITableView()
-        
-        tableView.rowHeight = 55
+		
+		tableView.estimatedRowHeight = 55
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
@@ -95,7 +95,6 @@ class TutorCardCollectionViewCell : BaseCollectionViewCell {
             make.width.equalTo(rateLabel).inset(-16)
             make.height.equalTo(24)
         }
-
         tableViewContainer.snp.makeConstraints { (make) in
             make.top.equalTo(header.snp.bottom)
             make.width.equalToSuperview()
@@ -213,7 +212,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
             if let bio = datasource?.tBio {
                 cell.bioLabel.text = bio + "\n"
             } else {
-                cell.bioLabel.text = "Learner has no bio!\n"
+                cell.bioLabel.text = "Tutor has no bio!\n"
             }
             
             return cell
@@ -226,9 +225,7 @@ extension TutorCardCollectionViewCell : UITableViewDelegate, UITableViewDataSour
 
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
-            
             cell.locationItem.label.text = datasource?.region
-            
             cell.locationItem.snp.makeConstraints { (make) in
                 make.left.equalToSuperview().inset(12)
                 make.right.equalToSuperview().inset(20)

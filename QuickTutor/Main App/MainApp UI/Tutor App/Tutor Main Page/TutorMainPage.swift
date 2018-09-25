@@ -163,8 +163,6 @@ class TutorMainPage : MainPage {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//		contentView.sidebar.profileView.profilePicView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-//		contentView.sidebar.profileView.profilePicView.layer.cornerRadius = contentView.sidebar.profileView.profilePicView.frame.height / 2
         contentView.sidebar.profileView.backgroundColor = UIColor(hex: "5785D4")
     }
     
@@ -341,14 +339,6 @@ class TutorMainPage : MainPage {
             next.url = "https://www.quicktutor.com/legal/terms-of-service"
             next.loadAgreementPdf()
             navigationController?.pushViewController(next, animated: true)
-//            guard let url = URL(string: "https://www.quicktutor.com/legal/terms-of-service") else {
-//                return
-//            }
-//            if #available(iOS 10, *) {
-//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//            } else {
-//                UIApplication.shared.openURL(url)
-//            }
         } else if(touchStartView == contentView.sidebar.shopItem) {
             hideSidebar()
             hideBackground()
@@ -366,10 +356,6 @@ class TutorMainPage : MainPage {
             AccountService.shared.currentUserType = .learner
             hideSidebar()
             hideBackground()
-//        } else if(touchStartView == contentView.tutorSidebar.taxItem) {
-//            navigationController?.pushViewController(TutorTaxInfo(), animated: true)
-//            hideSidebar()
-//            hideBackground()
         } else if (touchStartView is InviteButton) {
             navigationController?.pushViewController(InviteOthers(), animated: true)
             hideSidebar()

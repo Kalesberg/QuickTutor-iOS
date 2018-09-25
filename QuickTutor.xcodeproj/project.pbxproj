@@ -1099,10 +1099,8 @@
 				846D9B422069E3A500302773 /* CustomLayouts */,
 				846D9B4D2069E57000302773 /* CategorySelectionCollectionViewCell.swift */,
 				842A557F209DF55700F6870A /* AdjustFiltersCollectViewCell.swift */,
-				846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */,
 				846D9B512069E57400302773 /* SubjectCollectionViewCell.swift */,
 				845B3B9F2069E81B009F8E04 /* CategoryCollectViewCell.swift */,
-				8486DC5D206C47900041E158 /* TutorCardCollectionViewCell.swift */,
 			);
 			name = CollectionViewCells;
 			path = "New Group1";
@@ -1227,6 +1225,7 @@
 		8476F7C520D00CE900C8D52D /* TutorConnect */ = {
 			isa = PBXGroup;
 			children = (
+				84F4372E2159D283007AADC6 /* collectionViewCells */,
 				84D8C9332067116C003C3AEA /* TutorConnect.swift */,
 				8476F7C620D00DB100C8D52D /* AddPaymentMethod.swift */,
 			);
@@ -1567,6 +1566,15 @@
 				846252EF20637F44001DD330 /* Tax Information */,
 			);
 			path = "Tutor App";
+			sourceTree = "<group>";
+		};
+		84F4372E2159D283007AADC6 /* collectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				846D9B4F2069E57200302773 /* FeaturedTutorCollectionViewCell.swift */,
+				8486DC5D206C47900041E158 /* TutorCardCollectionViewCell.swift */,
+			);
+			path = collectionViewCells;
 			sourceTree = "<group>";
 		};
 		84F5FD1220A5541900CFDA95 /* Settings */ = {
@@ -1990,7 +1998,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -2039,7 +2047,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {

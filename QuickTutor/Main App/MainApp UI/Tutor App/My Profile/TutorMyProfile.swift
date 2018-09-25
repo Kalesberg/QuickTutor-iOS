@@ -14,16 +14,13 @@ protocol UpdatedTutorCallBack : class {
     func tutorWasUpdated(tutor: AWTutor!)
 }
 
-
 class TutorMyProfileView : LearnerMyProfileView {
-    
     override func configureView() {
         super.configureView()
         
         title.label.text = "My Profile"
         statusbarView.backgroundColor = Colors.tutorBlue
         navbar.backgroundColor = Colors.tutorBlue
-    
     }
 }
 
@@ -182,8 +179,8 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
             
-            cell.bioLabel.text = tutor.tBio + "\n"
-            
+            //cell.bioLabel.text = tutor.tBio + "\n"
+			
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoTableViewCell", for: indexPath) as! ExtraInfoCardTableViewCell
@@ -194,9 +191,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             
             cell.speakItem.removeFromSuperview()
             cell.studysItem.removeFromSuperview()
-            
             cell.locationItem.label.text = tutor.region
-            
             cell.locationItem.snp.makeConstraints { (make) in
                 make.left.equalToSuperview().inset(12)
                 make.right.equalToSuperview().inset(20)
@@ -204,7 +199,7 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
                 make.top.equalTo(cell.label.snp.bottom).inset(-6)
             }
             
-            cell.tutorItem.label.text = "Has tutored \(tutor.tNumSessions!) sessions"
+            cell.tutorItem.label.text = "Has tutored \(tutor.tNumSessions ?? 0) sessions"
             
             if let languages = tutor.languages {
                 cell.speakItem.label.text = "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"
@@ -279,8 +274,8 @@ extension TutorMyProfile : UITableViewDelegate, UITableViewDataSource {
             
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-            
-            cell.datasource = tutor.subjects!
+			guard let subjects = tutor.subjects else { return cell }
+            cell.datasource = subjects
             
             return cell
             

@@ -376,22 +376,19 @@ class AboutMeTableViewCell : UITableViewCell {
         
         return label
     }()
-    
-    let divider1 = BaseView()
-    let divider2 = BaseView()
+	
+	let divider2 = BaseView()
     
     let container = UIView()
     
     func configureView() {
         contentView.addSubview(aboutMeLabel)
-        contentView.addSubview(divider1)
         contentView.addSubview(bioLabel)
         contentView.addSubview(divider2)
         
         backgroundColor = .clear
         selectionStyle = .none
         
-        divider1.backgroundColor = Colors.divider
         divider2.backgroundColor = Colors.divider
     
         applyConstraints()
@@ -402,27 +399,20 @@ class AboutMeTableViewCell : UITableViewCell {
         aboutMeLabel.snp.makeConstraints { (make) in
             make.left.equalTo(contentView).inset(12)
             make.height.equalTo(44)
-            make.top.equalTo(contentView)
+            make.top.equalToSuperview()
         }
         
         bioLabel.snp.makeConstraints { (make) in
             make.top.equalTo(aboutMeLabel.snp.bottom)
-            make.left.equalTo(contentView).inset(20)
-            make.right.equalTo(contentView).inset(20)
-            make.bottom.equalTo(contentView)
+            make.left.equalToSuperview().inset(20)
+            make.right.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview()
         }
-        
-        divider1.snp.makeConstraints { (make) in
-            make.left.equalTo(aboutMeLabel.snp.right).inset(-10)
-            make.centerY.equalTo(aboutMeLabel)
-            make.height.equalTo(1)
-            make.right.equalTo(bioLabel)
-        }
-        
+
         divider2.snp.makeConstraints { (make) in
             make.height.equalTo(1)
-            make.left.equalTo(aboutMeLabel)
-            make.right.equalTo(divider1)
+			make.left.equalTo(aboutMeLabel.snp.left)
+            make.right.equalTo(bioLabel.snp.right)
             make.top.equalTo(contentView.snp.bottom)
         }
     }
@@ -548,7 +538,7 @@ class SubjectsTableViewCell : UITableViewCell {
         addSubview(label)
         addSubview(subjectCollectionView)
         
-        backgroundColor = Colors.backgroundDark
+        backgroundColor = .clear
         selectionStyle = .none
         
         subjectCollectionView.delegate = self
