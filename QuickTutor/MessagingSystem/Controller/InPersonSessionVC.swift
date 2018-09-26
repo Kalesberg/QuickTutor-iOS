@@ -57,6 +57,7 @@ class InPersonSessionVC: BaseSessionVC {
         setupStatusLabel()
         setupPauseSessionButton()
         receieverBox.updateUI(uid: uid)
+        
     }
 
     func setupMainView() {

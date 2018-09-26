@@ -708,7 +708,7 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
         let data = datasource[indexPath.row]
         let formattedName = data.studentName.split(separator: " ")
         cell.nameLabel.text = "\(String(formattedName[0]).capitalized) \(String(formattedName[1]).capitalized.prefix(1))."
-        cell.reviewTextLabel.text = data.message
+        cell.reviewTextLabel.text = "\"\(data.message)\""
         cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
         cell.dateLabel.text = "\(data.date)"
 

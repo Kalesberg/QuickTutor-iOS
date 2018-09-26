@@ -48,7 +48,6 @@ class TutorCardCollectionViewCell: BaseCollectionViewCell {
 
     let tableView: UITableView = {
         let tableView = UITableView()
-
         tableView.estimatedRowHeight = 55
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorInset.left = 0
@@ -56,7 +55,6 @@ class TutorCardCollectionViewCell: BaseCollectionViewCell {
         tableView.backgroundColor = .clear
         tableView.delaysContentTouches = false
         tableView.allowsSelection = false
-
         return tableView
     }()
 

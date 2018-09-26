@@ -27,7 +27,6 @@ class TutorConnectView: MainLayoutTwoButton {
 
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-
         searchBar.sizeToFit()
         searchBar.searchBarStyle = .prominent
         searchBar.backgroundImage = UIImage(color: UIColor.clear)
@@ -40,9 +39,7 @@ class TutorConnectView: MainLayoutTwoButton {
         textField?.autocapitalizationType = .words
         textField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
         textField?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-
         textField?.keyboardAppearance = .dark
-
         return searchBar
     }()
 
