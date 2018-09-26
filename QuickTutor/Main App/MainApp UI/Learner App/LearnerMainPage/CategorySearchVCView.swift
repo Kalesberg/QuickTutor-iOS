@@ -11,7 +11,6 @@ import UIKit
 class CategorySearchVCView: MainLayoutTwoButton {
     
     var back = NavbarButtonBack()
-    let subtitle = SectionHeader()
     
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -51,7 +50,6 @@ class CategorySearchVCView: MainLayoutTwoButton {
     override func applyConstraints() {
         super.applyConstraints()
         setupSearchBar()
-        setupSubtitle()
         setupCollectionView()
     }
     
@@ -65,20 +63,10 @@ class CategorySearchVCView: MainLayoutTwoButton {
         }
     }
     
-    func setupSubtitle() {
-        addSubview(subtitle)
-        subtitle.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(44)
-            make.width.equalToSuperview()
-        }
-    }
-    
     func setupCollectionView() {
         addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(subtitle.snp.bottom).inset(-20)
+            make.top.equalTo(navbar.snp.bottom).inset(5)
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
             } else {

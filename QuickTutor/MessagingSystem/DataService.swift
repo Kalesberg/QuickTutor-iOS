@@ -275,7 +275,7 @@ class DataService {
                 guard let metaDataIn = child.value as? [String: Any] else { return }
 
                 let metaData = ConversationMetaData(dictionary: metaDataIn)
-                if let read = metaData.hasRead, !read, let lastMessageId = metaData.lastMessageId {
+                if let read = metaData.hasRead, !read, let _ = metaData.lastMessageId {
                     hasUnreadMessages = true
                 }
             }

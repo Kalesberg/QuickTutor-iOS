@@ -35,10 +35,10 @@ class CategorySearchVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentView.subtitle.category.text = CategorySelected.title
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
         contentView.collectionView.register(FeaturedTutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
+        contentView.collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         contentView.searchBar.delegate = self
     }
 
@@ -144,6 +144,16 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
                 nav?.pushViewController(next, animated: false)
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell", for: indexPath) as! SectionHeader
+        cell.category.text = CategorySelected.title
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 70)
     }
 }
 
