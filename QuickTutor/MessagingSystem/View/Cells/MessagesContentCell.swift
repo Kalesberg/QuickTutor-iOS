@@ -74,11 +74,9 @@ class MessagesContentCell: BaseContentCell {
             let userId = snapshot.key
 
             Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
-                if snapshot.exists() {
-                    self.emptyBackround.removeFromSuperview()
-                }
                 guard let metaData = snapshot.value as? [String: Any] else { return }
                 guard let messageId = metaData["lastMessageId"] as? String else { return }
+                self.emptyBackround.removeFromSuperview()
                 let conversationMetaData = ConversationMetaData(dictionary: metaData)
                 self.metaDataDictionary[userId] = conversationMetaData
                 self.getMessageById(messageId)

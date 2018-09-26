@@ -20,7 +20,6 @@ protocol Interactable {
     func touchCancelled()
 }
 
-
 //Set default behavior for Interactable, they do nothing :)
 extension Interactable {
     func touchStart() {}
@@ -32,7 +31,6 @@ extension Interactable {
     func touchEndOffStart() { didDragOff() }
     func touchCancelled() { didDragOff() }
 }
-
 
 //An Interactable that adds an additional view that is the same size as the parent
 protocol InteractableBackground: Interactable, HasBackgroundComponent where Self: UIView { }

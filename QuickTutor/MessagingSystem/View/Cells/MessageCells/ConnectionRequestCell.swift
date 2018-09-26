@@ -205,7 +205,8 @@ class ConnectionRequestCell: UserMessageCell {
     }
 
     func showActionButtons() {
-        guard userMessage?.senderId != AccountService.shared.currentUser.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard userMessage?.senderId != uid else { return }
         acceptButton.isHidden = false
         declineButton.isHidden = false
         statusLabel.isHidden = true
