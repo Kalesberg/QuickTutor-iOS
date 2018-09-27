@@ -106,10 +106,10 @@ class LearnerPaymentView: MainLayoutTitleBackButton, Keyboardable {
     }
 
     fileprivate func isCardNumberValid(_ bool: Bool) {
-        frontOfCard.first4.textColor = bool ? .white : UIColor.red
-        frontOfCard.second4.textColor = bool ? .white : UIColor.red
-        frontOfCard.third4.textColor = bool ? .white : UIColor.red
-        frontOfCard.forth4.textColor = bool ? .white : UIColor.red
+        frontOfCard.first4.textColor = bool ? .green : UIColor.red
+        frontOfCard.second4.textColor = bool ? .green : UIColor.red
+        frontOfCard.third4.textColor = bool ? .green : UIColor.red
+        frontOfCard.forth4.textColor = bool ? .green : UIColor.red
     }
 
     fileprivate func invalidInformation() {
@@ -484,7 +484,7 @@ class LearnerPaymentVC: BaseViewController {
 
         card.expYear = UInt(expDate.suffix(2))!
         card.expMonth = UInt(expDate.prefix(2))!
-        contentView.frontOfCard.expirationDate.textColor = .white
+        contentView.frontOfCard.expirationDate.textColor = .green
 
         contentView.nextButton.isUserInteractionEnabled = true
         contentView.nextButton.alpha = 1.0
@@ -493,11 +493,13 @@ class LearnerPaymentVC: BaseViewController {
 
     @objc private func CVC(_: UITextField) {
         if contentView.backOfCard.CVC.text!.count == cvcLength {
+            contentView.backOfCard.CVC.textColor = .green
             contentView.nextButton.isUserInteractionEnabled = true
             contentView.nextButton.alpha = 1.0
             contentView.nextButton.title.textColor = .white
             card.cvc = contentView.backOfCard.CVC.text!
         } else {
+            contentView.backOfCard.CVC.textColor = .white
             contentView.nextButton.isUserInteractionEnabled = false
             contentView.nextButton.alpha = 0.4
             contentView.nextButton.title.textColor.withAlphaComponent(0.4)
