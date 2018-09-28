@@ -36,7 +36,7 @@ class FirebaseData {
 	MARK: // Learner Updates
 	*/
 	
-	public func updateValue(node: String, value: [String : Any],_ completion: @escaping (Error?) -> Void) {
+	 func updateValue(node: String, value: [String : Any],_ completion: @escaping (Error?) -> Void) {
 		return self.ref.child(node).child(user.uid).updateChildValues(value) { (error, reference) in
 			if let error = error {
 				return completion(error)
@@ -44,25 +44,25 @@ class FirebaseData {
 			return completion(nil)
 		}
 	}
-	public func updateTutorPostSession(uid: String, subcategory: String, tutorInfo: [String : Any], subcategoryInfo: [String : Any]) {
+	 func updateTutorPostSession(uid: String, subcategory: String, tutorInfo: [String : Any], subcategoryInfo: [String : Any]) {
 		self.ref.child("tutor-info").child(uid).updateChildValues(tutorInfo)
 		self.ref.child("subject").child(uid).child(subcategory).updateChildValues(subcategoryInfo)
 		self.ref.child("subcategory").child(subcategory).child(uid).updateChildValues(subcategoryInfo)
 	}
-	public func updateReviewPostSession(uid: String,sessionId: String, type: String, review: [String:Any]) {
+	 func updateReviewPostSession(uid: String,sessionId: String, type: String, review: [String:Any]) {
 		self.ref.child("review").child(uid).child(type).child(sessionId).updateChildValues(review)
 	}
-	public func updateLearnerPostSession(uid: String, studentInfo: [String : Any]) {
+	 func updateLearnerPostSession(uid: String, studentInfo: [String : Any]) {
 		self.ref.child("student-info").child(uid).updateChildValues(studentInfo)
 	}
 	
-	public func updateTutorVisibility(uid: String, status: Int) {
+	 func updateTutorVisibility(uid: String, status: Int) {
 		return self.ref.child("tutor-info").child(uid).updateChildValues(["h" : status])
 	}
-	public func updateTutorRatingPostSession(uid: String, sessionId: String, rating: Int) {
+	 func updateTutorRatingPostSession(uid: String, sessionId: String, rating: Int) {
 		self.ref.child("sessions").child(sessionId).updateChildValues(["tutorRating" : rating])
 	}
-	public func updateAdditionalQuestions(value: [String : Any], completion: @escaping (Error?) -> Void) {
+	 func updateAdditionalQuestions(value: [String : Any], completion: @escaping (Error?) -> Void) {
 		return self.ref.child("questions").child(user.uid).childByAutoId().updateChildValues(value) { (error,_) in
 			if let error = error {
 				return completion(error)
@@ -70,7 +70,7 @@ class FirebaseData {
 			return completion(nil)
 		}
 	}
-	public func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int,_ completion: @escaping (Error?) -> Void) {
+	 func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int,_ completion: @escaping (Error?) -> Void) {
 		let post : [String: Any] = ["p" : price, "dst" : distance, "prf": preference]
 		return self.ref.child("tutor-info").child(uid).updateChildValues(post) { (error,_) in
 			if let error = error {
@@ -80,7 +80,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func updateMobileNumber(phone: String, completion: @escaping (Error?) -> Void) {
+	 func updateMobileNumber(phone: String, completion: @escaping (Error?) -> Void) {
 		PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { (verificationId, error) in
 			if let error = error {
 				return completion(error)
@@ -94,7 +94,7 @@ class FirebaseData {
 	/*
 	MARK: // Remove
 	*/
-	public func removeTutorAccount(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
+	 func removeTutorAccount(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
 		
 		var childNodes : [String : Any] = [:]
 		
@@ -123,7 +123,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func removeBothAccounts(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
+	 func removeBothAccounts(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
 		
 		var childNodes = [String : Any]()
 		
@@ -164,7 +164,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func removeLearnerAccount(uid: String, reason: String,_ completion: @escaping (Error?) -> Void) {
+	 func removeLearnerAccount(uid: String, reason: String,_ completion: @escaping (Error?) -> Void) {
 		var childNodes = [String : Any]()
 		
 		childNodes["/student-info/\(uid)"] = NSNull()
@@ -188,7 +188,7 @@ class FirebaseData {
 			return completion(nil)
 		}
 	}
-	public func removeUserImage(_ number: String) {
+	 func removeUserImage(_ number: String) {
 		//Add completion Handler...
 		if AccountService.shared.currentUserType == .learner {
 			if CurrentUser.shared.learner.isTutor {
@@ -216,7 +216,7 @@ class FirebaseData {
 	MARK: // Fetch
 	*/
 	
-	public func fetchTutorLocation(uid: String,_ completion: @escaping (TutorLocation1?) -> Void) {
+	 func fetchTutorLocation(uid: String,_ completion: @escaping (TutorLocation1?) -> Void) {
 		self.ref?.child("tutor_loc").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			if snapshot.exists() {
 				guard let value = snapshot.value as? [String : Any] else { return }
@@ -243,7 +243,7 @@ class FirebaseData {
 		})
 	}
 	
-	public func fetchTutorSubjects(uid: String, _ completion: @escaping ([TutorSubcategory]?) -> Void) {
+	 func fetchTutorSubjects(uid: String, _ completion: @escaping ([TutorSubcategory]?) -> Void) {
 		var subcategories : [TutorSubcategory] = []
 		self.ref?.child("subject").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
@@ -259,7 +259,7 @@ class FirebaseData {
 		})
 	}
 
-	public func fetchTutorSessionPreferences(uid: String,_ completion: @escaping([String : Any]?) -> Void) {
+	 func fetchTutorSessionPreferences(uid: String,_ completion: @escaping([String : Any]?) -> Void) {
 		self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			var sessionDetails = [String : Any]()
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
@@ -273,7 +273,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func fetchLearnerConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
+	 func fetchLearnerConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
 		var uids = [String]()
         let userTypeString = AccountService.shared.currentUserType.rawValue
 		self.ref.child("connections").child(uid).child(userTypeString).observeSingleEvent(of: .value) { (snapshot) in
@@ -286,7 +286,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func fetchProfileImages(uid: String,_ completion: @escaping ([String : String]?) -> Void) {
+	 func fetchProfileImages(uid: String,_ completion: @escaping ([String : String]?) -> Void) {
 		ref.child("tutor-info").child(uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
 			if let value = snapshot.value as? [String : String] {
 				return completion(value.filter({ $0.value != "" }))
@@ -295,7 +295,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func fetchTutorListings(uid: String,_ completion: @escaping ([Category: FeaturedTutor]?) -> Void) {
+	 func fetchTutorListings(uid: String,_ completion: @escaping ([Category: FeaturedTutor]?) -> Void) {
 		var listings = [Category : FeaturedTutor]()
 		let group = DispatchGroup()
 		
@@ -316,7 +316,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func fetchRequestSessionData(uid: String,_ completion: @escaping (TutorPreferenceData?) -> Void) {
+	 func fetchRequestSessionData(uid: String,_ completion: @escaping (TutorPreferenceData?) -> Void) {
 		var requestData = [String : Any]()
 		let group = DispatchGroup()
 		
@@ -352,7 +352,7 @@ class FirebaseData {
 			completion(TutorPreferenceData(dictionary: requestData))
 		}
 	}
-	public func fetchUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]?) -> Void) {
+	 func fetchUserSessions(uid: String, type: String,_ completion: @escaping ([UserSession]?) -> Void) {
 		var sessions = [UserSession]()
 		let group = DispatchGroup()
 		
@@ -387,33 +387,33 @@ class FirebaseData {
 		}
 	}
 	//new functions for grabbing learner, tutor, and account data. not being used yet.
-	public func fetchAccount(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
+	 func fetchAccount(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			completion(value)
 		})
 	}
-	public func fetchStudentInfo(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
+	 func fetchStudentInfo(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
 		self.ref.child("student-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			completion(value)
 		})
 	}
-	public func fetchTutorInfo(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
+	 func fetchTutorInfo(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
 		self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			completion(value)
 		})
 	}
 	
-	public func fetchTutorSubjectStats(_ uid: String, subcategory: String,_ completion: @escaping ([String : Any]?) -> Void) {
+	 func fetchTutorSubjectStats(_ uid: String, subcategory: String,_ completion: @escaping ([String : Any]?) -> Void) {
 		self.ref.child("subcategory").child(subcategory).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			completion(value)
 		}
 	}
 	
-	public func fetchLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
+	 func fetchLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
 		let group = DispatchGroup()
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
@@ -458,7 +458,7 @@ class FirebaseData {
 			})
 		})
 	}
-	public func fetchPendingRequests(uid:  String,_ completion: @escaping ([String]?) -> Void) {
+	 func fetchPendingRequests(uid:  String,_ completion: @escaping ([String]?) -> Void) {
 		var conversationId = [String]()		
 		self.ref.child("conversations").child(uid).child("learner").observe(.value) { (snapshot) in
 			for snap in snapshot.children {
@@ -469,7 +469,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func fetchSubjectsTaught(uid: String,_ completion: @escaping ([TopSubcategory]) -> Void) {
+	 func fetchSubjectsTaught(uid: String,_ completion: @escaping ([TopSubcategory]) -> Void) {
 		var subjectsTaught = [TopSubcategory]()
 		
 		ref.child("subject").child(uid).observeSingleEvent(of: .value) { (snapshot) in
@@ -485,7 +485,7 @@ class FirebaseData {
 		}
 	}
 	//Not working yet. there are some things Fuller and I (Austin) have to collaborate on to make this work.
-	public func checkIfSessionHasTimeConflict(_ uid: String, startTime: TimeInterval, endTime: TimeInterval,_ completion: @escaping (String?) -> Void) {
+	 func checkIfSessionHasTimeConflict(_ uid: String, startTime: TimeInterval, endTime: TimeInterval,_ completion: @escaping (String?) -> Void) {
 		
 		self.ref.child("sessions").queryOrdered(byChild: "senderId").queryEqual(toValue: uid).observeSingleEvent(of: .value) { (snapshot) in
 			for snap in snapshot.children {
@@ -503,7 +503,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func fetchFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
+	 func fetchFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
 		self.ref.child("featured").child(category).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 
@@ -513,7 +513,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func fetchTutor(_ uid: String, isQuery: Bool,_ completion: @escaping (AWTutor?) -> Void) {
+	 func fetchTutor(_ uid: String, isQuery: Bool,_ completion: @escaping (AWTutor?) -> Void) {
 		
 		let group = DispatchGroup()
 		
@@ -577,7 +577,7 @@ class FirebaseData {
 		})
 	}
 	
-	public func linkEmail(email: String) {
+	 func linkEmail(email: String) {
 		let password: String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
 		let credential = EmailAuthProvider.credential(withEmail: email, password: password!)
 		user.linkAndRetrieveData(with: credential) { (result, error) in
@@ -589,7 +589,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func uploadUser(_ completion: @escaping (Error?) -> Void) {
+	 func uploadUser(_ completion: @escaping (Error?) -> Void) {
 		
 		let account : [String : Any] = ["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
 		
@@ -606,7 +606,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func fileReport(sessionId: String, reportStatus: Int, value: [String : Any], completion: @escaping (Error?) -> Void) {
+	 func fileReport(sessionId: String, reportStatus: Int, value: [String : Any], completion: @escaping (Error?) -> Void) {
 		self.ref.child("filereport").child(user.uid).child(sessionId).updateChildValues(value) { (error, reference) in
 			if let error = error {
 				return completion(error)
@@ -616,7 +616,7 @@ class FirebaseData {
 			return completion(nil)
 		}
 	}
-	public func updateListing(tutor: AWTutor, category: String, image: UIImage, price: Int, subject: String,_ completion: @escaping (Bool) -> Void) {
+	 func updateListing(tutor: AWTutor, category: String, image: UIImage, price: Int, subject: String,_ completion: @escaping (Bool) -> Void) {
 		func uploadFeaturedImage(_ completion: @escaping(String?) -> Void) {
 			guard let data = getCompressedImageDataFor(image) else { return completion(nil) }
 			self.storageRef.child("featured").child(tutor.uid).child("featuredImage").putData(data, metadata: nil) { (meta, error) in
@@ -644,12 +644,12 @@ class FirebaseData {
 		}
 	}
 	
-	public func hideListing(uid: String, category: String, isHidden: Int) {
+	 func hideListing(uid: String, category: String, isHidden: Int) {
 		let value = ["h" : isHidden]
 		self.ref.child("featured").child(category).child(uid).updateChildValues(value)
 	}
 	
-	public func addUpdateFeaturedTutor(tutor: AWTutor,_ completion: @escaping (Error?) -> Void) {
+	 func addUpdateFeaturedTutor(tutor: AWTutor,_ completion: @escaping (Error?) -> Void) {
 		func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
 			return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
 		}
@@ -676,7 +676,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
+	 func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
 		let userId : String
 		userId = (AccountService.shared.currentUserType == .lRegistration) ? Registration.uid : CurrentUser.shared.learner.uid
 		
@@ -694,7 +694,7 @@ class FirebaseData {
 		}
 	}
 
-	public func getCompressedImageDataFor(_ image: UIImage) -> Data? {
+	 func getCompressedImageDataFor(_ image: UIImage) -> Data? {
 		let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 300, height: CGFloat(ceil(300 / image.size.width * image.size.height)))))
 		imageView.contentMode = .scaleAspectFit
 		imageView.image = image
@@ -717,7 +717,7 @@ class FirebaseData {
 		return dataToUpload
 	}
 	
-	public func signInLearner(uid: String,_ completion: @escaping (Bool) -> Void) {
+	 func signInLearner(uid: String,_ completion: @escaping (Bool) -> Void) {
 		fetchLearner(uid) { (learner) in
 			guard let learner = learner else { return completion(false) }
 			CurrentUser.shared.learner = learner
@@ -727,7 +727,7 @@ class FirebaseData {
 		}
 	}
 	
-	public func signInTutor(uid: String,_ completion: @escaping (Bool) -> Void) {
+	 func signInTutor(uid: String,_ completion: @escaping (Bool) -> Void) {
 		fetchLearner(uid) { (learner) in
 			guard let learner = learner else { return completion(false) }
 			CurrentUser.shared.learner = learner

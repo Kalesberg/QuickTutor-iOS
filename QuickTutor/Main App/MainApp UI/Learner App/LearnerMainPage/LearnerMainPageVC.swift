@@ -12,91 +12,38 @@ import UIKit
 
 var category: [Category] = Category.categories
 
-class LearnerMainPageView: MainPageView {
-    var search = SearchBar()
-    var learnerSidebar = LearnerSideBar()
-
-    let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-
-        tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        tableView.estimatedSectionHeaderHeight = 50
-        tableView.sectionHeaderHeight = 50
-        tableView.backgroundColor = .clear
-        tableView.translatesAutoresizingMaskIntoConstraints = true
-
-        return tableView
-    }()
-
-    override var sidebar: Sidebar {
-        get {
-            return learnerSidebar
-        } set {
-            if newValue is LearnerSideBar {
-                learnerSidebar = newValue as! LearnerSideBar
-            } else {
-                print("incorrect sidebar type for LearnerMainPage")
-            }
-        }
-    }
-
-    override func configureView() {
-        navbar.addSubview(search)
-        addSubview(tableView)
-        super.configureView()
-
-        navbar.backgroundColor = Colors.learnerPurple
-        statusbarView.backgroundColor = Colors.learnerPurple
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-        search.snp.makeConstraints { make in
-            make.height.equalTo(30)
-            make.width.equalToSuperview().multipliedBy(0.65)
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
-
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom).inset(-2)
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        sidebar.profileView.backgroundColor = UIColor(hex: "6562C9")
-        tableView.layoutSubviews()
-        tableView.layoutIfNeeded()
-    }
-}
-
 class LearnerMainPageVC: MainPageVC {
-    override var contentView: LearnerMainPageView {
-        return view as! LearnerMainPageView
+    
+    override var contentView: LearnerMainPageVCView {
+        return view as! LearnerMainPageVCView
     }
 
     override func loadView() {
-        view = LearnerMainPageView()
+        view = LearnerMainPageVCView()
     }
-
+    
     var datasource = [Category: [FeaturedTutor]]()
     var didLoadMore = false
     var learner: AWLearner!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        confirmSignedInUser()
+        setupStripe()
+        queryFeaturedTutors()
+        configureView()
+    }
+    
+    func confirmSignedInUser() {
         AccountService.shared.currentUserType = .learner
         guard let learner = CurrentUser.shared.learner else {
             navigationController?.pushViewController(SignInVC(), animated: true)
             return
         }
         self.learner = learner
+    }
+    
+    func setupStripe() {
         Stripe.retrieveCustomer(cusID: learner.customer) { customer, error in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -105,8 +52,6 @@ class LearnerMainPageVC: MainPageVC {
                 self.learner.hasPayment = (customer.sources.count > 0)
             }
         }
-        queryFeaturedTutors()
-        configureView()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -140,13 +85,8 @@ class LearnerMainPageVC: MainPageVC {
     private func configureView() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-        contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
-        contentView.tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
 
     func displayMessagesTutorial() {
         let image = UIImageView()

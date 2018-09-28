@@ -35,7 +35,7 @@ class VideoSessionVC: BaseSessionVC {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        twilioSessionManager?.room?.disconnect()
+        twilioSessionManager?.disconnect()
         UIApplication.shared.isIdleTimerDisabled = false
     }
     

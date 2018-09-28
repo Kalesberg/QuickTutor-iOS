@@ -48,13 +48,13 @@ class User: Decodable {
 }
 
 class ZFTutor: User {
-    var region: String?
-    var subjects: [String]?
-    var hoursTaught: Int?
-    var totalSessions: Int?
-    var stripeAccountId: String?
-    
-    override init(dictionary: [String : Any]) {
+    private(set) var region: String?
+    private(set) var subjects: [String]?
+    private(set) var hoursTaught: Int?
+    private(set) var totalSessions: Int?
+    private(set) var stripeAccountId: String?
+
+    override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
         region = dictionary["rg"] as? String
         hoursTaught = dictionary["hr"] as? Int

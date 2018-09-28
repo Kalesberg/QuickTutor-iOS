@@ -73,6 +73,10 @@ class TwilioSessionManager: NSObject {
         // Connect to the Room using the options we provided.
         room = TwilioVideo.connect(with: connectOptions, delegate: self)
     }
+    
+    func disconnect() {
+        room?.disconnect()
+    }
 
     func startPreview() {
         // Preview our local camera track in the local video preview view.

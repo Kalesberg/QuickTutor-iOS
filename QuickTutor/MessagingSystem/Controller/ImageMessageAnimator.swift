@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ImageMessageAnimatorDelegate {
+protocol ImageMessageAnimatorDelegate: class {
     func imageAnimatorWillZoomIn(_ imageAnimator: ImageMessageAnimator)
     func imageAnimatorDidZoomIn(_ imageAnimator: ImageMessageAnimator)
     func imageAnimatorWillZoomOut(_ imageAnimator: ImageMessageAnimator)
@@ -25,8 +25,8 @@ extension ImageMessageAnimatorDelegate {
 class ImageMessageAnimator: ImageMessageCellDelegate {
     
     var parentController: UIViewController!
-    var delegate: ImageMessageAnimatorDelegate?
-    
+    weak var delegate: ImageMessageAnimatorDelegate?
+
     var imageCellImageView: UIImageView?
     let zoomView = UIImageView()
     let zoomBackground = UIView()

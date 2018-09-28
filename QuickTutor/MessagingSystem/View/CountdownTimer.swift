@@ -9,6 +9,7 @@
 import UIKit
 
 class CountdownTimer: UIView {
+    
     let label: UILabel = {
         let label = UILabel()
         label.textAlignment = .left

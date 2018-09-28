@@ -8,6 +8,7 @@
 import UIKit
 
 class TutorMainPageView: MainPageView {
+
     var tutorSidebar = TutorSideBar()
 
     override var sidebar: Sidebar {
@@ -24,28 +25,23 @@ class TutorMainPageView: MainPageView {
 
     let titleLabel: UILabel = {
         let label = UILabel()
-
         label.textColor = .white
         label.text = "Home"
         label.font = Fonts.createBoldSize(22)
-
         return label
     }()
 
     let menuLabel: UILabel = {
         let label = UILabel()
-
         label.font = Fonts.createBoldSize(22)
         label.textColor = .white
         label.textAlignment = .center
         label.text = "Menu"
-
         return label
     }()
 
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
@@ -53,25 +49,27 @@ class TutorMainPageView: MainPageView {
         tableView.sectionFooterHeight = 7
         tableView.backgroundColor = .clear
         tableView.rowHeight = 60
-
         return tableView
     }()
 
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
-
         layout.sectionInset = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0.0
-
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.alwaysBounceHorizontal = true
-
         return collectionView
+    }()
+
+    var qtText: UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "qt-small-text")
+        return iv
     }()
 
     override func configureView() {
@@ -122,12 +120,16 @@ class TutorMainPageView: MainPageView {
 }
 
 class TutorLayoutView: MainLayoutTitleBackButton {
-    var qtText = UIImageView()
+
+    var qtText: UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "qt-small-text")
+        return iv
+    }()
 
     override func configureView() {
         navbar.addSubview(qtText)
         super.configureView()
-        qtText.image = #imageLiteral(resourceName: "qt-small-text")
     }
 
     override func applyConstraints() {
