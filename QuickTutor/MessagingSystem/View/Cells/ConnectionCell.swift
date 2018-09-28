@@ -96,79 +96,78 @@ class ConnectionCell: UICollectionViewCell {
         setupRatingsLabel()
         setupSeparatorLine()
     }
-
+    
     func setupProfileImageView() {
         addSubview(profileImageView)
         profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 10.5, paddingBottom: 5, paddingRight: 0, width: 60, height: 60)
     }
-
+    
     func setupNameLabel() {
         addSubview(nameLabel)
         nameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 100, height: 15)
     }
-
+    
     func setupLocationLabel() {
         addSubview(locationLabel)
         locationLabel.anchor(top: nameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 150, height: 0)
     }
-
+    
     func setupStarLabel() {
         contentView.addSubview(starLabel)
         starLabel.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 20, height: 10)
     }
-
+    
     func setupStarIcon() {
         contentView.addSubview(starIcon)
         starIcon.anchor(top: nil, left: starLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 12, height: 12)
         addConstraint(NSLayoutConstraint(item: starIcon, attribute: .centerY, relatedBy: .equal, toItem: starLabel, attribute: .centerY, multiplier: 1, constant: 0))
     }
-
+    
     func setupRatingsLabel() {
         addSubview(ratingsLabel)
         ratingsLabel.anchor(top: starLabel.topAnchor, left: starIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 10)
     }
-
     func setupMessageButton() {
         addSubview(messageButton)
         messageButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 90, height: 30)
         addConstraint(NSLayoutConstraint(item: messageButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         messageButton.addTarget(self, action: #selector(showConversation), for: .touchUpInside)
     }
-
-    func setupSeparatorLine() {
+    
+     func setupSeparatorLine() {
         addSubview(separatorLine)
         separatorLine.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
     }
-
+    
     func updateUI(user: User) {
         self.user = user
         profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         nameLabel.text = user.formattedName
         guard let rating = user.rating else { return }
         starLabel.text = "\(rating)"
-        user.getNumberOfReviews { reviewCount in
+        user.getNumberOfReviews { (reviewCount) in
             guard let count = reviewCount else { return }
             self.ratingsLabel.text = "(\(count) ratings)"
         }
     }
-
+    
     @objc func showConversation() {
         delegate?.connectionCell(self, shouldShowConversationWith: user)
     }
-
+    
     func handleTouchDown() {
         contentView.backgroundColor = Colors.darkBackground.darker(by: 30)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             self.contentView.backgroundColor = Colors.darkBackground
         }
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

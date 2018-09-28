@@ -78,16 +78,16 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
             })
         }
     }
-
+    
     func shouldShowEmptyBackground(_ result: Bool) {
         collectionView.backgroundView = result ? nil : ConnectionsBackgroundView()
     }
-
+    
     func handleLeftViewTapped() {
         guard let nav = navigationController else { return }
         nav.popViewController(animated: true)
     }
-
+    
     func handleRightViewTapped() {
         if AccountService.shared.currentUserType == .learner {
             navigationController?.pushViewController(AddTutorVC(), animated: true)
@@ -96,17 +96,16 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
 }
 
 extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return connections.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConnectionCell
         cell.updateUI(user: connections[indexPath.item])
         cell.delegate = self
         return cell
     }
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !isTransitioning else { return }
         isTransitioning = true
@@ -130,27 +129,28 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
                 vc.learner = learner
                 vc.contentView.rightButton.isHidden = true
                 vc.isViewing = true
-                vc.contentView.title.label.isHidden = true
+				vc.contentView.title.label.isHidden = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
+        
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 70)
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
 }
 
 extension ConnectionsVC: ConnectionCellDelegate {
-    func connectionCell(_: ConnectionCell, shouldShowConversationWith user: User) {
+    func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = user.uid
         vc.chatPartner = user

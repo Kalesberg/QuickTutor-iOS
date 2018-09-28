@@ -79,15 +79,15 @@ let socketUrl = "https://tidycoder.com"
 //            }
 //        }
 //    }
-//
-// }
+//    
+//}
 
 protocol CustomSocketManager {
     func pauseSession(pausedBy: String)
 }
 
 extension CustomSocketManager {
-    func pauseSession(pausedBy _: String) {}
+    func pauseSession(pausedBy: String) {}
 }
 
 struct SocketEvents {

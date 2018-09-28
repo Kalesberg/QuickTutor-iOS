@@ -83,73 +83,76 @@ class MessagesContentCell: BaseContentCell {
             })
         }
     }
-
+    
     func getMessageById(_ messageId: String) {
         Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
             let message = UserMessage(dictionary: value)
             message.uid = snapshot.key
-
-            DataService.shared.getUserOfOppositeTypeWithId(message.partnerId(), completion: { user in
+            
+            DataService.shared.getUserOfOppositeTypeWithId(message.partnerId(), completion: { (user) in
                 message.user = user
                 self.conversationsDictionary[message.partnerId()] = message
                 self.attemptReloadOfTable()
             })
         }
     }
-
+    
     fileprivate func attemptReloadOfTable() {
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(handleReloadTable), userInfo: nil, repeats: false)
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
     }
-
+    
     var timer: Timer?
-    @objc func handleReloadTable() {
-        messages = Array(conversationsDictionary.values)
-        messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
+   @objc func handleReloadTable() {
+        self.messages = Array(self.conversationsDictionary.values)
+        self.messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
 
         DispatchQueue.main.async(execute: {
             self.collectionView.reloadData()
         })
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
         cell.updateUI(message: messages[indexPath.item])
         cell.delegate = self
         return cell
     }
-
-    override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         emptyBackround.isHidden = !messages.isEmpty
         return messages.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
         cell.contentView.backgroundColor = cell.contentView.backgroundColor?.darker(by: 15)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
         cell.contentView.backgroundColor = cell.contentView.backgroundColor?.lighter(by: 15)
     }
-
-    override func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+    
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         fetchConversations()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
-extension MessagesContentCell: UIGestureRecognizerDelegate {}
+extension MessagesContentCell: UIGestureRecognizerDelegate {
+    
+}
 
 extension MessagesContentCell {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -168,23 +171,23 @@ extension MessagesContentCell {
 }
 
 extension MessagesContentCell: SwipeCollectionViewCellDelegate {
-    func collectionView(_: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
-
-        let deleteAction = SwipeAction(style: .default, title: nil) { _, indexPath in
+        
+        let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
             // handle action by updating model with deletion
             self.deleteMessages(index: indexPath.item)
         }
-
+        
         // customize the action appearance
         deleteAction.image = #imageLiteral(resourceName: "deleteMessagesIcon")
 //        deleteAction.title = "Delete"
         deleteAction.font = Fonts.createSize(12)
         deleteAction.backgroundColor = UIColor(hex: "#AF1C49")
-
+        
         return [deleteAction]
     }
-
+    
     func deleteMessages(index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
         guard let uid = Auth.auth().currentUser?.uid,

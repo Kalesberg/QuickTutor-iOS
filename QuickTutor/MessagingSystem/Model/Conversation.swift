@@ -18,6 +18,8 @@ struct Conversation {
     var lastMessage: UserMessage?
     var chatPartnerProfilePicUrl: String!
     var chatPartnerUsername: String!
-
-    init(dictionary _: [String: Any]) {}
+    
+    init(dictionary: [String: Any]) {
+        
+    }
 }

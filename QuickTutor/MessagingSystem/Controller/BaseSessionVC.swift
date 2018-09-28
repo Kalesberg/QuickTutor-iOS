@@ -224,46 +224,46 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-
+    
     func expireSession() {
         guard let id = sessionId else { return }
         Database.database().reference().child("sessions").child(id).child("status").setValue("completed")
     }
-
-    func sessionManagerSessionTimeDidExpire(_: SessionManager) {
+    
+    func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager) {
         continueOutOfSession()
         //        AccountService.shared.currentUserType == .learner ? showAddTimeModal() : showSessionOnHoldModal()
     }
-
-    func sessionManager(_ sessionManager: SessionManager, userId: String, didPause _: Session) {
+    
+    func sessionManager(_ sessionManager: SessionManager, userId: String, didPause session: Session) {
         sessionManager.stopSessionRuntime()
         showPauseModal(pausedById: userId)
     }
-
-    func sessionManager(_ sessionManager: SessionManager, didUnpause _: Session) {
+    
+    func sessionManager(_ sessionManager: SessionManager, didUnpause session: Session) {
         sessionManager.startSessionRuntime()
         pauseSessionModal?.dismiss()
         pauseSessionModal = nil
     }
-
-    func sessionManager(_: SessionManager, didEnd session: Session) {
+    
+    func sessionManager(_ sessionManager: SessionManager, didEnd session: Session) {
         PostSessionManager.shared.sessionDidEnd(sessionId: session.id, partnerId: session.partnerId())
         sessionId = session.id
         partnerId = session.partnerId()
         continueOutOfSession()
     }
-
-    func sessionManagerShouldShowEndSessionModal(_: SessionManager) {
+    
+    func sessionManagerShouldShowEndSessionModal(_ sessionManager: SessionManager) {
         showEndModal()
     }
-
+    
     func sessionManager(_ sessionManager: SessionManager, userLostConnection uid: String) {
         sessionManager.stopSessionRuntime()
         if viewIfLoaded?.window != nil {
             showConnectionLostModal(pausedById: uid)
         }
     }
-
+    
     func sessionManager(_ sessionManager: SessionManager, userConnectedWith uid: String) {
         sessionManager.startSessionRuntime()
         pauseSessionModal?.dismiss()
@@ -275,17 +275,17 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
 }
 
 extension BaseSessionVC: PauseSessionModalDelegate {
-    func pauseSessionModalShouldEndSession(_: PauseSessionModal) {
+    func pauseSessionModalShouldEndSession(_ pauseSessionModal: PauseSessionModal) {
         showEndModal()
     }
-
-    func pauseSessionModalDidUnpause(_: PauseSessionModal) {
+    
+    func pauseSessionModalDidUnpause(_ pauseSessionModal: PauseSessionModal) {
         socket.emit(SocketEvents.unpauseSession, ["roomKey": sessionId!])
     }
 }
 
 extension BaseSessionVC: EndSessionModalDelegate {
-    func endSessionModalDidConfirm(_: EndSessionModal) {
+    func endSessionModalDidConfirm(_ endSessionModal: EndSessionModal) {
         sessionManager?.endSocketSession()
     }
 }

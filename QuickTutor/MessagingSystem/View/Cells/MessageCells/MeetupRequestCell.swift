@@ -504,13 +504,13 @@ class SessionRequestCellButtonView: UIView {
             setButtonTitles("This session was cancelled")
         }
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

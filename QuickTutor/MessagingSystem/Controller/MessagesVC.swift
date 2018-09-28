@@ -183,16 +183,17 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
 }
 
 extension MessagesVC: UICollectionViewDataSource {
-    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messagesContentCell", for: indexPath) as! MessagesContentCell
             cell.parentViewController = self
             return cell
         } else {
+            
             if AccountService.shared.currentUserType == .tutor {
                 print(AccountService.shared.currentUserType == .tutor)
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorSessionsContentCell", for: indexPath) as! TutorSessionContentCell
@@ -206,31 +207,34 @@ extension MessagesVC: UICollectionViewDataSource {
 }
 
 extension MessagesVC: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: collectionView.bounds.height)
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
 }
 
 extension MessagesVC: NewMessageDelegate {
     func showConversationWithUser(user: User, isConnection: Bool) {
+        
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = user.uid
         vc.connectionRequestAccepted = isConnection
         vc.chatPartner = user
-
+        
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension MessagesVC: MessagingSystemToggleDelegate {
+
     func scrollTo(index: Int, animated: Bool) {
         let indexPath = IndexPath(item: index, section: 0)
         mainCollectionView.scrollToItem(at: indexPath, at: .left, animated: animated)

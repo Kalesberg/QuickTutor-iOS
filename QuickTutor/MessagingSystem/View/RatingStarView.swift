@@ -23,47 +23,47 @@ class RatingStarView: UIView {
             isSelected = true
             adjustsImageWhenHighlighted = false
         }
-
-        required init?(coder _: NSCoder) {
+        
+        required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
     }
-
+    
     var rating = 0
     var delegate: RatingStarViewDelegate?
-
+    
     let star1: Star = {
         let button = Star()
         button.tag = 1
         return button
     }()
-
+    
     let star2: Star = {
         let button = Star()
         button.tag = 2
         return button
     }()
-
+    
     let star3: Star = {
         let button = Star()
         button.tag = 3
         return button
     }()
-
+    
     let star4: Star = {
         let button = Star()
         button.tag = 4
         return button
     }()
-
+    
     let star5: Star = {
         let button = Star()
         button.tag = 5
         return button
     }()
-
+    
     lazy var buttons = [star1, star2, star3, star4, star5]
-
+    
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [star1, star2, star3, star4, star5])
         stackView.axis = .horizontal
@@ -105,16 +105,18 @@ class RatingStarView: UIView {
             buttons[x].isSelected = false
             x += 1
         }
-
+        
         delegate?.didUpdateRating(rating: sender.tag)
     }
-
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+

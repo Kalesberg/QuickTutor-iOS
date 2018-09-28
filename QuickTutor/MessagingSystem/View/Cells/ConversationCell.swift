@@ -210,24 +210,25 @@ class ConversationCell: SwipeCollectionViewCell {
         }
         starLabel.text = "\(rating)"
     }
-
+    
     func checkConversationReadStatus(partnerId: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(partnerId).child("readBy").observeSingleEvent(of: .value) { snapshot in
             guard let readByIds = snapshot.value as? [String: Any] else { return }
             self.newMessageGradientLayer.isHidden = readByIds[uid] != nil
+
         }
     }
-
+    
     func handleTouchDown() {
         contentView.backgroundColor = Colors.navBarColor.darker(by: 30)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             self.contentView.backgroundColor = Colors.navBarColor
         }
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

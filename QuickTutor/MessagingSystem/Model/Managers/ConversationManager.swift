@@ -6,18 +6,28 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import Firebase
 import UIKit
+import Firebase
 
 class ConnectionManager {
-    func createConnectionWith(uid _: String) {}
-
-    func removeConnectionWith(uid _: String) {}
-
-    func getAllConnectedIds() {}
+    func createConnectionWith(uid: String) {
+        
+    }
+    
+    func removeConnectionWith(uid: String) {
+        
+    }
+    
+    func getAllConnectedIds() {
+        
+    }
+    
 }
 
+
+
 class ConversationManager {
+    
     weak var delegate: ConversationManagerDelegate?
     var metaData: ConversationMetaData?
     var memberIds: [String]?
@@ -157,11 +167,11 @@ class ConversationManager {
         }
         return index
     }
-
+    
     func setup() {
         guard let id = Auth.auth().currentUser?.uid else { fatalError() }
         uid = id
-        loadPreviousMessagesByTimeStamp(limit: 50) { _ in
+        loadPreviousMessagesByTimeStamp(limit: 50) { (messages) in
             self.listenForNewMessages()
             self.listenForConnections()
         }
@@ -171,8 +181,8 @@ class ConversationManager {
 }
 
 extension ConversationManager: ReadReceiptManagerDelegate {
-    func readReceiptManager(_: ReadReceiptManager, didUpdate readByIds: [String]) {
-        delegate?.conversationManager(self, didUpdate: readByIds)
+    func readReceiptManager(_ readRecieptManager: ReadReceiptManager, didUpdate readByIds: [String]) {
+        self.delegate?.conversationManager(self, didUpdate: readByIds)
     }
 }
 
@@ -210,9 +220,10 @@ protocol ConversationManagerDelegate: class {
     func conversationManager(_ conversationManager: ConversationManager, didLoad messages: [BaseMessage])
     func conversationManager(_ conversationManager: ConversationManager, didUpdate readByIds: [String])
     func conversationManager(_ convesationManager: ConversationManager, didUpdateConnection connected: Bool)
-    func conversationManager(_ conversationManager: ConversationManager, didLoadAll messages: [BaseMessage])
+    func conversationManager(_ conversationManager: ConversationManager, didLoadAll messages:[BaseMessage])
 }
 
 protocol ReadReceiptManagerDelegate {
     func readReceiptManager(_ readRecieptManager: ReadReceiptManager, didUpdate readByIds: [String])
 }
+

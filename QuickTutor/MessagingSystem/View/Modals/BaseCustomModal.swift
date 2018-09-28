@@ -73,62 +73,63 @@ class BaseCustomModal: UIView {
         backgroundBlurView.addGestureRecognizer(dismissTap)
         window.bringSubviewToFront(backgroundBlurView)
     }
-
+    
     func setupTitleBackground() {
         background.addSubview(titleBackground)
         titleBackground.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
     }
-
+    
     func setupTitleLabel() {
         background.addSubview(titleLabel)
         titleLabel.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
     }
-
+    
     func setHeightTo(_ height: CGFloat) {
         backgroundHeightAnchor = background.heightAnchor.constraint(equalToConstant: height)
         backgroundHeightAnchor?.isActive = true
         background.layoutIfNeeded()
     }
-
+    
     func show() {
         guard !isShown else { return }
         isShown = true
         let backgroundAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.backgroundBlurView.alpha = 1
         }
-
+        
         let contentAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.background.alpha = 1
             self.background.transform = CGAffineTransform(translationX: 0, y: -500)
         }
-
-        backgroundAnimator.addCompletion { _ in
+        
+        backgroundAnimator.addCompletion { (position) in
             contentAnimator.startAnimation()
         }
         backgroundAnimator.startAnimation()
     }
-
+    
     @objc func dismiss() {
         isShown = false
         let backgroundAnimator = UIViewPropertyAnimator(duration: 0.5, curve: .easeOut) {
             self.backgroundBlurView.alpha = 0
         }
-
+        
         let contentAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.background.alpha = 0
             self.background.transform = CGAffineTransform(translationX: 0, y: 500)
         }
-
+        
         contentAnimator.startAnimation()
         backgroundAnimator.startAnimation()
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }

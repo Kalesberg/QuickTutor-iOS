@@ -85,19 +85,19 @@ class ZFNavBar: UIView {
         tap.numberOfTapsRequired = 1
         search.addGestureRecognizer(tap)
     }
-
+    
     func setupTitleLabelWithText(_ text: String) {
         titleLabel.text = text
         addSubview(titleLabel)
         titleLabel.anchor(top: titleView.topAnchor, left: titleView.leftAnchor, bottom: titleView.bottomAnchor, right: titleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

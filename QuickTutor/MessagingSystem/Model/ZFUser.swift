@@ -53,16 +53,17 @@ class ZFTutor: User {
     var hoursTaught: Int?
     var totalSessions: Int?
     var stripeAccountId: String?
-
-    override init(dictionary: [String: Any]) {
+    
+    override init(dictionary: [String : Any]) {
         super.init(dictionary: dictionary)
         region = dictionary["rg"] as? String
         hoursTaught = dictionary["hr"] as? Int
         totalSessions = dictionary["nos"] as? Int
         stripeAccountId = dictionary["act"] as? String
     }
-
-    required init(from _: Decoder) throws {
+    
+    required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
+    
 }

@@ -137,28 +137,31 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         messageTextview.placeholderLabel.isHidden = false
         delegate?.handleMessageSend(message: message)
     }
-
+    
     func hideTextViewCover() {
         textViewCover.isHidden = true
     }
-
+    
     func showTextViewCover() {
         if AccountService.shared.currentUserType == .tutor {
             textViewCover.text = "Unable to send message until\nyou accept connection request."
         }
         textViewCover.isHidden = false
     }
-
-    convenience init(chatPartnerId _: String) {
+    
+    convenience init(chatPartnerId: String) {
         self.init()
+        
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+
 }

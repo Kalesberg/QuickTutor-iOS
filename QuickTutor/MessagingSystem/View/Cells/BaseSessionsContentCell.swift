@@ -143,33 +143,33 @@ class BaseSessionsContentCell: BaseContentCell {
             cell.updateUI(session: pendingSessions[indexPath.item])
             return cell
         }
-
+        
         if indexPath.section == 1 {
             guard !upcomingSessions.isEmpty else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
                 cell.setLabelToUpcoming()
                 return cell
             }
-
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! BaseUpcomingSessionCell
             return cell
         }
-
+        
         guard !pastSessions.isEmpty else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath) as! EmptySessionCell
             cell.setLabelToPast()
             return cell
         }
-
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pastSessionCell", for: indexPath) as! BasePastSessionCell
         return cell
     }
-
-    override func numberOfSections(in _: UICollectionView) -> Int {
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
     }
-
-    override func collectionView(_: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             return pendingSessions.isEmpty ? 1 : pendingSessions.count
         } else if section == 1 {
@@ -178,22 +178,22 @@ class BaseSessionsContentCell: BaseContentCell {
             return pastSessions.isEmpty ? 1 : pastSessions.count
         }
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, referenceSizeForHeaderInSection _: Int) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 60)
     }
-
-    override func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+    
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
-
+    
     var headerTitles = ["Pending", "Upcoming", "Past"]
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind _: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as! SessionHeaderCell
         header.titleLabel.text = headerTitles[indexPath.section]
         return header
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
         cell.actionView.showActionContainerView()

@@ -41,10 +41,10 @@ class ReportTypeModal: BaseCustomModal {
 }
 
 extension ReportTypeModal: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SessionTableCell
         cell.textLabel?.text = reportTypeStrings[indexPath.row]
@@ -52,12 +52,12 @@ extension ReportTypeModal: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.font = Fonts.createBoldSize(13)
         return cell
     }
-
-    func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 41
     }
-
-    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.item {
         case 0:
             reportForReason(.inappropriateMessages)

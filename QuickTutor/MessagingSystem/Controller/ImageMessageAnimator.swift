@@ -16,32 +16,33 @@ protocol ImageMessageAnimatorDelegate {
 }
 
 extension ImageMessageAnimatorDelegate {
-    func imageAnimatorWillZoomIn(_: ImageMessageAnimator) {}
-    func imageAnimatorDidZoomIn(_: ImageMessageAnimator) {}
-    func imageAnimatorWillZoomOut(_: ImageMessageAnimator) {}
-    func imageAnimatorDidZoomOut(_: ImageMessageAnimator) {}
+    func imageAnimatorWillZoomIn(_ imageAnimator: ImageMessageAnimator) {}
+    func imageAnimatorDidZoomIn(_ imageAnimator: ImageMessageAnimator) {}
+    func imageAnimatorWillZoomOut(_ imageAnimator: ImageMessageAnimator) {}
+    func imageAnimatorDidZoomOut(_ imageAnimator: ImageMessageAnimator) {}
 }
 
 class ImageMessageAnimator: ImageMessageCellDelegate {
+    
     var parentController: UIViewController!
     var delegate: ImageMessageAnimatorDelegate?
-
+    
     var imageCellImageView: UIImageView?
     let zoomView = UIImageView()
     let zoomBackground = UIView()
-
+    
     let navBarCover: UIView = {
         let view = UIView()
         view.backgroundColor = .black
         return view
     }()
-
+    
     let inputAccessoryCover: UIView = {
         let view = UIView()
         view.backgroundColor = .black
         return view
     }()
-
+    
     func handleZoomFor(imageView: UIImageView) {
         delegate?.imageAnimatorWillZoomIn(self)
         guard let window = UIApplication.shared.keyWindow else { return }
