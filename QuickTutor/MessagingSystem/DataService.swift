@@ -183,7 +183,7 @@ class DataService {
         guard let endTime = sessionRequest.endTime else { return }
         let expiration = (endTime - Date().timeIntervalSince1970) / 2
         let expirationDate = Date().addingTimeInterval(expiration).timeIntervalSince1970
-        
+        sessionRequest.expiration = expirationDate
         var values: [String: Any] = ["expiration": expirationDate, "status": "pending"]
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue

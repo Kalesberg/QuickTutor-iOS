@@ -85,6 +85,7 @@ class LearnerMainPageVC: MainPageVC {
     private func configureView() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
+        contentView.tableView.prefetchDataSource = self
     }
 
 
@@ -186,7 +187,7 @@ class LearnerMainPageVC: MainPageVC {
             } else {
                 self.contentView.tableView.beginUpdates()
                 self.datasource.merge(datasource, uniquingKeysWith: { _, last in last })
-                self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3 ..< self.datasource.count + 1), with: .fade)
+                self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3 ..< self.datasource.count + 1), with: .none)
                 self.contentView.tableView.endUpdates()
                 self.didLoadMore = false
             }
@@ -353,15 +354,11 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension LearnerMainPageVC: UIScrollViewDelegate {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate _: Bool) {
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        if (maximumOffset - currentOffset <= 70.0) && (contentView.tableView.numberOfSections > 1) {
-            if !didLoadMore && datasource.count < 12 {
-                didLoadMore = true
-                queryFeaturedTutors()
-            }
+extension LearnerMainPageVC: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if !didLoadMore && datasource.count < 12 {
+            didLoadMore = true
+            queryFeaturedTutors()
         }
     }
 }
