@@ -246,34 +246,34 @@ class ProfilePicTableViewCell: BaseTableViewCell {
 }
 
 class ExtraInfoTableViewCell: BaseTableViewCell {
-    let speakItem: ProfileItem = {
-        let item = ProfileItem()
-
-        item.imageView.image = #imageLiteral(resourceName: "speaks")
-
-        return item
-    }()
-
-    let studysItem: ProfileItem = {
-        let item = ProfileItem()
-
-        item.imageView.image = #imageLiteral(resourceName: "studys-at")
-
-        return item
-    }()
-
-    let tutorItem: ProfileItem = {
-        let item = ProfileItem()
-
-        item.imageView.image = UIImage(named: "tutored-in")
-
-        return item
-    }()
+//    let speakItem: ProfileItem = {
+//        let item = ProfileItem()
+//
+//        item.imageView.image = #imageLiteral(resourceName: "speaks")
+//
+//        return item
+//    }()
+//
+//    let studysItem: ProfileItem = {
+//        let item = ProfileItem()
+//
+//        item.imageView.image = #imageLiteral(resourceName: "studys-at")
+//
+//        return item
+//    }()
+//
+//    let tutorItem: ProfileItem = {
+//        let item = ProfileItem()
+//
+//        item.imageView.image = UIImage(named: "tutored-in")
+//
+//        return item
+//    }()
 
     let divider = UIView()
 
     override func configureView() {
-        contentView.addSubview(tutorItem)
+       // contentView.addSubview(tutorItem)
         contentView.addSubview(divider)
         super.configureView()
 
@@ -298,13 +298,13 @@ class ExtraInfoTableViewCell: BaseTableViewCell {
 }
 
 class ExtraInfoCardTableViewCell: ExtraInfoTableViewCell {
-    let locationItem: ProfileItem = {
-        let item = ProfileItem()
-
-        item.imageView.image = #imageLiteral(resourceName: "location")
-
-        return item
-    }()
+//    let locationItem: ProfileItem = {
+//        let item = ProfileItem()
+//
+//        item.imageView.image = #imageLiteral(resourceName: "location")
+//
+//        return item
+//    }()
 
     let label: UILabel = {
         let label = UILabel()
@@ -318,7 +318,7 @@ class ExtraInfoCardTableViewCell: ExtraInfoTableViewCell {
 
     override func configureView() {
         contentView.addSubview(label)
-        contentView.addSubview(locationItem)
+        //contentView.addSubview(locationItem)
         super.configureView()
     }
 
@@ -568,16 +568,27 @@ extension SubjectsTableViewCell: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
-class RatingTableViewCell: BaseTableViewCell {
+class RatingTableViewCell: UITableViewCell {
+	
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		configureView()
+	}
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
     let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .clear
+		
+		tableView.backgroundColor = Colors.navBarColor
         tableView.estimatedRowHeight = 60
         tableView.isScrollEnabled = false
-        tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.estimatedSectionHeaderHeight = 30
+		tableView.delaysContentTouches = true
+		tableView.separatorColor = Colors.navBarColor
+		
         return tableView
     }()
 
@@ -585,6 +596,7 @@ class RatingTableViewCell: BaseTableViewCell {
 
     var datasource = [Review]() {
         didSet {
+			updateTableViewConstraints()
             tableView.reloadData()
         }
     }
@@ -593,53 +605,59 @@ class RatingTableViewCell: BaseTableViewCell {
 
     let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
-    override func configureView() {
+	func configureView() {
         contentView.addSubview(tableView)
         contentView.addSubview(seeAllButton)
 
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(TutorMyProfileReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
-
-        backgroundColor = .clear
+		
+		backgroundColor = Colors.navBarColor
         selectionStyle = .none
 
         applyConstraints()
     }
 
-    override func applyConstraints() {
+	func applyConstraints() {
         tableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.95)
             if datasource.count == 1 {
-                make.height.equalTo(80)
+                make.height.equalTo(120)
             } else {
                 make.height.equalTo(190)
             }
-            make.centerX.equalToSuperview()
         }
         seeAllButton.snp.makeConstraints { make in
             make.height.equalTo(30)
             make.width.equalTo(80)
-            make.top.equalTo(tableView.snp.bottom).inset(-10)
             make.right.equalTo(tableView.snp.right)
-            make.bottom.equalTo(contentView)
+            make.top.equalTo(tableView.snp.bottom)
         }
     }
-
-    override func handleNavigation() {
-        if touchStartView is SeeAllButton {
-            if let current = UIApplication.getPresentedViewController() {
-                let next = LearnerReviewsVC()
-                next.isViewing = isViewing
-                next.datasource = datasource
-                current.present(next, animated: true, completion: nil)
-            }
-        }
-    }
+	private func updateTableViewConstraints() {
+		tableView.snp.remakeConstraints { make in
+			make.top.centerX.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.95)
+			make.height.equalTo(datasource.count == 1 ? 120 : 190)
+		}
+	}
 }
 
-class NoRatingsTableViewCell: BaseTableViewCell {
+class NoRatingsTableViewCell: UIView {
+//	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+//		super.init(style: style, reuseIdentifier: reuseIdentifier)
+//		configureView()
+//	}
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	override init(frame: CGRect) {
+		super.init(frame: .zero)
+		configureView()
+	}
+	
     let label1: UILabel = {
         let label = UILabel()
 
@@ -661,18 +679,16 @@ class NoRatingsTableViewCell: BaseTableViewCell {
 
     var isViewing: Bool = false
 
-    override func configureView() {
-        contentView.addSubview(label1)
-        contentView.addSubview(label2)
-        super.configureView()
+	func configureView() {
+        addSubview(label1)
+		addSubview(label2)
 
-        backgroundColor = .clear
-        selectionStyle = .none
+        backgroundColor = Colors.navBarColor
 
         applyConstraints()
     }
 
-    override func applyConstraints() {
+	func applyConstraints() {
         label1.snp.makeConstraints { make in
             make.width.equalToSuperview().multipliedBy(0.95)
             make.centerX.equalToSuperview()
@@ -724,7 +740,7 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt _: IndexPath) {
-        cell.backgroundColor = .clear
+        cell.backgroundColor = Colors.navBarColor
     }
 
     func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? {
@@ -742,7 +758,16 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-class TutorMyProfileReviewTableViewCell: BaseTableViewCell {
+class TutorMyProfileReviewTableViewCell: UITableViewCell {
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+	
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		configureView()
+	}
+	
     let profilePic: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = false
@@ -782,22 +807,21 @@ class TutorMyProfileReviewTableViewCell: BaseTableViewCell {
     let container = UIView()
     var isViewing: Bool = false
 
-    override func configureView() {
+	func configureView() {
         addSubview(container)
         container.addSubview(profilePic)
         container.addSubview(nameLabel)
         container.addSubview(subjectLabel)
         container.addSubview(reviewTextLabel)
         addSubview(dateLabel)
-        super.configureView()
 
-        contentView.backgroundColor = .clear
+        contentView.backgroundColor = Colors.navBarColor
         selectionStyle = .none
 
         applyConstraints()
     }
 
-    override func applyConstraints() {
+	func applyConstraints() {
         container.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.centerY.equalToSuperview()

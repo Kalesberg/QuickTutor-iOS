@@ -165,6 +165,7 @@
 		8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8491C29A1FBE62350036FC12 /* AppDelegate.swift */; };
 		8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8491C2A11FBE62350036FC12 /* QuickTutor.xcdatamodeld */; };
 		8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8491C2A61FBE62350036FC12 /* LaunchScreen.storyboard */; };
+		8496FDFF215ED0DE00BD292F /* MyProfileReviewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496FDFE215ED0DE00BD292F /* MyProfileReviewsView.swift */; };
 		84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */; };
 		849AAEAA2060846800B9CFD7 /* TutorLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AAEA92060846800B9CFD7 /* TutorLocation.swift */; };
 		84A37B78200447C800C19397 /* UserPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A37B77200447C800C19397 /* UserPolicy.swift */; };
@@ -210,6 +211,12 @@
 		84D433B3204EF2DB00A3EAD2 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D433B2204EF2DB00A3EAD2 /* AlertController.swift */; };
 		84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D433B6204F409F00A3EAD2 /* UIApplicationExtenstions.swift */; };
 		84D55E9A204F638D00BB899C /* EditPhoneVerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D55E99204F638D00BB899C /* EditPhoneVerificationVC.swift */; };
+		84D6A7D2215B079D000C0010 /* SeeAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7D1215B079D000C0010 /* SeeAllButton.swift */; };
+		84D6A7D4215B0846000C0010 /* LearnerMyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7D3215B0846000C0010 /* LearnerMyProfileView.swift */; };
+		84D6A7D8215B0A58000C0010 /* MyProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7D7215B0A58000C0010 /* MyProfileHeader.swift */; };
+		84D6A7DC215B1EDF000C0010 /* MyProfileBioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7DB215B1EDF000C0010 /* MyProfileBioView.swift */; };
+		84D6A7DE215B1FE2000C0010 /* ProfileItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7DD215B1FE2000C0010 /* ProfileItemView.swift */; };
+		84D6A7E0215B268F000C0010 /* MyProfileBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7DF215B268F000C0010 /* MyProfileBodyView.swift */; };
 		84D8C92C2066A965003C3AEA /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C92B2066A965003C3AEA /* Helper.swift */; };
 		84D8C9302066E8CC003C3AEA /* SearchSubjectsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C92F2066E8CC003C3AEA /* SearchSubjectsVC.swift */; };
 		84D8C9342067116C003C3AEA /* TutorConnectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C9332067116C003C3AEA /* TutorConnectVC.swift */; };
@@ -566,6 +573,7 @@
 		8491C2A21FBE62350036FC12 /* QuickTutor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = QuickTutor.xcdatamodel; sourceTree = "<group>"; };
 		8491C2A71FBE62350036FC12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8491C2A91FBE62350036FC12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8496FDFE215ED0DE00BD292F /* MyProfileReviewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileReviewsView.swift; sourceTree = "<group>"; };
 		84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResizingExtensions.swift; sourceTree = "<group>"; };
 		849AAEA92060846800B9CFD7 /* TutorLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLocation.swift; sourceTree = "<group>"; };
 		84A37B77200447C800C19397 /* UserPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPolicy.swift; sourceTree = "<group>"; };
@@ -614,6 +622,12 @@
 		84D433B2204EF2DB00A3EAD2 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		84D433B6204F409F00A3EAD2 /* UIApplicationExtenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtenstions.swift; sourceTree = "<group>"; };
 		84D55E99204F638D00BB899C /* EditPhoneVerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhoneVerificationVC.swift; sourceTree = "<group>"; };
+		84D6A7D1215B079D000C0010 /* SeeAllButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllButton.swift; sourceTree = "<group>"; };
+		84D6A7D3215B0846000C0010 /* LearnerMyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LearnerMyProfileView.swift; path = Views/LearnerMyProfileView.swift; sourceTree = "<group>"; };
+		84D6A7D7215B0A58000C0010 /* MyProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileHeader.swift; sourceTree = "<group>"; };
+		84D6A7DB215B1EDF000C0010 /* MyProfileBioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileBioView.swift; sourceTree = "<group>"; };
+		84D6A7DD215B1FE2000C0010 /* ProfileItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileItemView.swift; sourceTree = "<group>"; };
+		84D6A7DF215B268F000C0010 /* MyProfileBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileBodyView.swift; sourceTree = "<group>"; };
 		84D8C9272066A8E8003C3AEA /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		84D8C9292066A93B003C3AEA /* FeaturedTutorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTutorTableViewCell.swift; sourceTree = "<group>"; };
 		84D8C92B2066A965003C3AEA /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -987,6 +1001,7 @@
 				8470995B20083AA5000DCFD0 /* MainPageVC.swift */,
 				8422F2F0205AB6480061ACE4 /* PageController.swift */,
 				8470995820082D93000DCFD0 /* MainApp UI */,
+				84D6A7D6215B0914000C0010 /* Shared */,
 			);
 			path = "Main App";
 			sourceTree = "<group>";
@@ -1014,7 +1029,8 @@
 			isa = PBXGroup;
 			children = (
 				840E75BD201E8245006FC580 /* LearnerMyProfileVC.swift */,
-				84000D2D21246B5E0023355B /* ProfileImageViewer.swift */,
+				84D6A7D3215B0846000C0010 /* LearnerMyProfileView.swift */,
+				84D6A7D5215B08F6000C0010 /* Views */,
 				843BA3212055088B000C7054 /* LearnerReviewsVC.swift */,
 			);
 			path = "My Profile";
@@ -1429,6 +1445,27 @@
 				8421AB3820DED0BE005B652B /* TutorMainPageFactory */,
 			);
 			path = "Tutor Main Page";
+			sourceTree = "<group>";
+		};
+		84D6A7D5215B08F6000C0010 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84D6A7D1215B079D000C0010 /* SeeAllButton.swift */,
+				84D6A7DB215B1EDF000C0010 /* MyProfileBioView.swift */,
+				84D6A7DD215B1FE2000C0010 /* ProfileItemView.swift */,
+				84D6A7D7215B0A58000C0010 /* MyProfileHeader.swift */,
+				84D6A7DF215B268F000C0010 /* MyProfileBodyView.swift */,
+				8496FDFE215ED0DE00BD292F /* MyProfileReviewsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		84D6A7D6215B0914000C0010 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				84000D2D21246B5E0023355B /* ProfileImageViewer.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		84D8C9262066A8AE003C3AEA /* LearnerMainPage */ = {
@@ -1989,7 +2026,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -2038,7 +2075,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -2188,6 +2225,7 @@
 				84E4C7D9204E9088009C2FC4 /* AccountInfoVC.swift in Sources */,
 				84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */,
 				848E04EA205C8CF10094A6E9 /* BecomeTutorData.swift in Sources */,
+				84D6A7D4215B0846000C0010 /* LearnerMyProfileView.swift in Sources */,
 				84DFD899204C5AE600BA8A3F /* UIViewControllerExtensions.swift in Sources */,
 				CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */,
 				CF387EC12088EE1000087449 /* InPersonSessionStartVC.swift in Sources */,
@@ -2203,6 +2241,7 @@
 				845B91CB21179A190000D263 /* LearnerFiltersLocationCell.swift in Sources */,
 				84C44F5620AE9704009AA5F1 /* CloseAccountChoiceVC.swift in Sources */,
 				848809FF20585C3A00F204A0 /* TutorProfilePicsVC.swift in Sources */,
+				84D6A7DE215B1FE2000C0010 /* ProfileItemView.swift in Sources */,
 				CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */,
 				84000D2E21246B5E0023355B /* ProfileImageViewer.swift in Sources */,
 				846252F320637FA7001DD330 /* BankManager.swift in Sources */,
@@ -2216,6 +2255,7 @@
 				CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */,
 				8421AB3C20DED10B005B652B /* TutorMainPageCollectionViewCell.swift in Sources */,
 				CF833B6E207C4AE800323242 /* TutorSessionContentCell.swift in Sources */,
+				84D6A7DC215B1EDF000C0010 /* MyProfileBioView.swift in Sources */,
 				CF6F58E9205EE68800ACBD32 /* BaseMessage.swift in Sources */,
 				84E4C7DB204E91F6009C2FC4 /* UpdatePaymentVC.swift in Sources */,
 				8470995A20082DA5000DCFD0 /* Sidebar.swift in Sources */,
@@ -2313,9 +2353,11 @@
 				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
 				8440539520F4E672003F0606 /* PricePickerCell.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
+				8496FDFF215ED0DE00BD292F /* MyProfileReviewsView.swift in Sources */,
 				844053A020F55BDA003F0606 /* RequestSessionTableView.swift in Sources */,
 				84C82FE420F0068A00E526B4 /* EditListing.swift in Sources */,
 				844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */,
+				84D6A7D8215B0A58000C0010 /* MyProfileHeader.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
@@ -2411,8 +2453,10 @@
 				848E643D205A228C000CD921 /* TutorAddSubjectsVC.swift in Sources */,
 				840E75BC201E818C006FC580 /* LearnerSettingsVC.swift in Sources */,
 				842394291FF4DDAB00827C7D /* RegistrationNextButton.swift in Sources */,
+				84D6A7D2215B079D000C0010 /* SeeAllButton.swift in Sources */,
 				842394091FF4C94F00827C7D /* BaseViews.swift in Sources */,
 				84A37B78200447C800C19397 /* UserPolicy.swift in Sources */,
+				84D6A7E0215B268F000C0010 /* MyProfileBodyView.swift in Sources */,
 				CF6F58DB205EE68800ACBD32 /* MessagesVC.swift in Sources */,
 				CF6F58D0205EE68800ACBD32 /* CustomTextFields.swift in Sources */,
 				84C9C00D20A2374C000DE1C9 /* ConnectAccount.swift in Sources */,

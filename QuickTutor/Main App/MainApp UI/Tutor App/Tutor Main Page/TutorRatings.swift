@@ -250,7 +250,7 @@ extension TutorRatings: UITableViewDelegate, UITableViewDataSource {
 
                 cell.label1.textColor = .white
 
-                return cell
+                return UITableViewCell()
             }
 
             if datasource.count == 0 {
@@ -267,11 +267,10 @@ extension TutorRatings: UITableViewDelegate, UITableViewDataSource {
 
                 cell.label1.textColor = .white
 
-                return cell
+                return UITableViewCell()
             }
 
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-            cell.backgroundColor = Colors.registrationDark
             cell.seeAllButton.snp.updateConstraints { make in
                 make.bottom.equalToSuperview().inset(15)
             }

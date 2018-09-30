@@ -63,7 +63,7 @@ class ConversationCell: SwipeCollectionViewCell {
 
     let separatorLine: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.lightGrey
+        view.backgroundColor = .darkGray
         return view
     }()
 

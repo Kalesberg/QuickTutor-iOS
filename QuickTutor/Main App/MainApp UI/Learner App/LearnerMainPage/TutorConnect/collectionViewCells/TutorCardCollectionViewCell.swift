@@ -205,164 +205,164 @@ extension TutorCardCollectionViewCell: UITableViewDelegate, UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.item {
-        case 0:
+//        switch indexPath.item {
+//        case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
-
-            if let bio = datasource?.tBio {
-                cell.bioLabel.text = bio + "\n"
-            } else {
-                cell.bioLabel.text = "Tutor has no bio!\n"
-            }
-
-            return cell
-        case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoCardTableViewCell", for: indexPath) as! ExtraInfoCardTableViewCell
-
-            for view in cell.contentView.subviews {
-                view.snp.removeConstraints()
-            }
-
-            cell.speakItem.removeFromSuperview()
-            cell.studysItem.removeFromSuperview()
-            cell.locationItem.label.text = datasource?.region
-            cell.locationItem.snp.makeConstraints { make in
-                make.left.equalToSuperview().inset(12)
-                make.right.equalToSuperview().inset(20)
-                make.height.equalTo(35)
-                make.top.equalTo(cell.label.snp.bottom).inset(-6)
-            }
-
-            cell.tutorItem.label.text = "Has tutored \(datasource?.tNumSessions ?? 0) sessions"
-
-            if let languages = datasource?.languages {
-                cell.speakItem.label.text = "Speaks: \(languages.compactMap({ $0 }).joined(separator: ", "))"
-                cell.contentView.addSubview(cell.speakItem)
-
-                cell.tutorItem.snp.makeConstraints { make in
-                    make.left.equalToSuperview().inset(12)
-                    make.right.equalToSuperview().inset(20)
-                    make.height.equalTo(35)
-                    make.top.equalTo(cell.locationItem.snp.bottom)
-                }
-
-                if datasource.school != "" && datasource.school != nil {
-                    cell.studysItem.label.text = datasource.school
-                    cell.contentView.addSubview(cell.studysItem)
-
-                    cell.speakItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.tutorItem.snp.bottom)
-                    }
-
-                    cell.studysItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.speakItem.snp.bottom)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                } else {
-                    cell.speakItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.tutorItem.snp.bottom)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                }
-            } else {
-                if datasource.school != "" && datasource.school != nil {
-                    cell.studysItem.label.text = datasource.school
-                    cell.contentView.addSubview(cell.studysItem)
-                    cell.tutorItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.locationItem.snp.bottom)
-                    }
-
-                    cell.studysItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.tutorItem.snp.bottom)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                } else {
-                    cell.tutorItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.locationItem.snp.bottom)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                }
-            }
-
-            cell.applyConstraints()
-
-            return cell
-
-        case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-            guard let datasource = datasource?.subjects else { return cell }
-
-            cell.datasource = datasource
-            return cell
-        case 3:
-
-            guard let datasource = datasource?.reviews, datasource.count != 0 else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
-                cell.isViewing = true
-                return cell
-            }
-
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-
-            if datasource.count == 1 {
-                cell.tableView.snp.remakeConstraints { make in
-                    make.top.equalToSuperview()
-                    make.width.equalToSuperview().multipliedBy(0.95)
-                    make.height.equalTo(120)
-                    make.centerX.equalToSuperview()
-                }
-            }
-            cell.isViewing = true
-            cell.datasource = datasource.sorted(by: { $0.date > $1.date })
+//
+//            if let bio = datasource?.tBio {
+//                cell.bioLabel.text = bio + "\n"
+//            } else {
+//                cell.bioLabel.text = "Tutor has no bio!\n"
+//            }
+//
+//            return cell
+//        case 1:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoCardTableViewCell", for: indexPath) as! ExtraInfoCardTableViewCell
+//
+//            for view in cell.contentView.subviews {
+//                view.snp.removeConstraints()
+//            }
+//
+//            cell.speakItem.removeFromSuperview()
+//            cell.studysItem.removeFromSuperview()
+//            cell.locationItem.label.text = datasource?.region
+//            cell.locationItem.snp.makeConstraints { make in
+//                make.left.equalToSuperview().inset(12)
+//                make.right.equalToSuperview().inset(20)
+//                make.height.equalTo(35)
+//                make.top.equalTo(cell.label.snp.bottom).inset(-6)
+//            }
+//
+//            cell.tutorItem.label.text = "Has tutored \(datasource?.tNumSessions ?? 0) sessions"
+//
+//            if let languages = datasource?.languages {
+//                cell.speakItem.label.text = "Speaks: \(languages.compactMap({ $0 }).joined(separator: ", "))"
+//                cell.contentView.addSubview(cell.speakItem)
+//
+//                cell.tutorItem.snp.makeConstraints { make in
+//                    make.left.equalToSuperview().inset(12)
+//                    make.right.equalToSuperview().inset(20)
+//                    make.height.equalTo(35)
+//                    make.top.equalTo(cell.locationItem.snp.bottom)
+//                }
+//
+//                if datasource.school != "" && datasource.school != nil {
+//                    cell.studysItem.label.text = datasource.school
+//                    cell.contentView.addSubview(cell.studysItem)
+//
+//                    cell.speakItem.snp.makeConstraints { make in
+//                        make.left.equalToSuperview().inset(12)
+//                        make.right.equalToSuperview().inset(20)
+//                        make.height.equalTo(35)
+//                        make.top.equalTo(cell.tutorItem.snp.bottom)
+//                    }
+//
+//                    cell.studysItem.snp.makeConstraints { make in
+//                        make.left.equalToSuperview().inset(12)
+//                        make.right.equalToSuperview().inset(20)
+//                        make.height.equalTo(35)
+//                        make.top.equalTo(cell.speakItem.snp.bottom)
+//                        make.bottom.equalToSuperview().inset(10)
+//                    }
+//                } else {
+//                    cell.speakItem.snp.makeConstraints { make in
+//                        make.left.equalToSuperview().inset(12)
+//                        make.right.equalToSuperview().inset(20)
+//                        make.height.equalTo(35)
+//                        make.top.equalTo(cell.tutorItem.snp.bottom)
+//                        make.bottom.equalToSuperview().inset(10)
+//                    }
+//                }
+//            } else {
+//                if datasource.school != "" && datasource.school != nil {
+//                    cell.studysItem.label.text = datasource.school
+//                    cell.contentView.addSubview(cell.studysItem)
+//                    cell.tutorItem.snp.makeConstraints { make in
+//                        make.left.equalToSuperview().inset(12)
+//                        make.right.equalToSuperview().inset(20)
+//                        make.height.equalTo(35)
+//                        make.top.equalTo(cell.locationItem.snp.bottom)
+//                    }
+//
+//                    cell.studysItem.snp.makeConstraints { make in
+//                        make.left.equalToSuperview().inset(12)
+//                        make.right.equalToSuperview().inset(20)
+//                        make.height.equalTo(35)
+//                        make.top.equalTo(cell.tutorItem.snp.bottom)
+//                        make.bottom.equalToSuperview().inset(10)
+//                    }
+//                } else {
+//                    cell.tutorItem.snp.makeConstraints { make in
+//                        make.left.equalToSuperview().inset(12)
+//                        make.right.equalToSuperview().inset(20)
+//                        make.height.equalTo(35)
+//                        make.top.equalTo(cell.locationItem.snp.bottom)
+//                        make.bottom.equalToSuperview().inset(10)
+//                    }
+//                }
+//            }
+//
+//            cell.applyConstraints()
 
             return cell
 
-        case 4:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
-
-            if let policy = datasource?.policy {
-                let policies = policy.split(separator: "_")
-
-                let formattedString = NSMutableAttributedString()
-
-                formattedString
-                    .bold("•  ", 20, .white)
-                    .regular(datasource.distance.distancePreference(datasource.preference), 16, Colors.grayText)
-                    .bold("•  ", 20, .white)
-                    .regular(datasource.preference.preferenceNormalization(), 16, Colors.grayText)
-                    .bold("•  ", 20, .white)
-                    .regular(String(policies[0]).lateNotice(), 16, Colors.grayText)
-                    .bold("•  ", 20, .white)
-                    .regular(String(policies[2]).cancelNotice(), 16, Colors.grayText)
-                    .regular(String(policies[1]).lateFee(), 16, Colors.qtRed)
-                    .regular(String(policies[3]).cancelFee(), 16, Colors.qtRed)
-
-                cell.policiesLabel.attributedText = formattedString
-            } else {
-                // show "No Policies cell"
-            }
-            return cell
-        default:
-            return UITableViewCell()
-        }
+//        case 2:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
+//            guard let datasource = datasource?.subjects else { return cell }
+//
+//            cell.datasource = datasource
+//            return cell
+//        case 3:
+//
+//            guard let datasource = datasource?.reviews, datasource.count != 0 else {
+//                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+//                cell.isViewing = true
+//                return cell
+//            }
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
+//
+//            if datasource.count == 1 {
+//                cell.tableView.snp.remakeConstraints { make in
+//                    make.top.equalToSuperview()
+//                    make.width.equalToSuperview().multipliedBy(0.95)
+//                    make.height.equalTo(120)
+//                    make.centerX.equalToSuperview()
+//                }
+//            }
+//            cell.isViewing = true
+//            cell.datasource = datasource.sorted(by: { $0.date > $1.date })
+//
+//            return cell
+//
+//        case 4:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
+//
+//            if let policy = datasource?.policy {
+//                let policies = policy.split(separator: "_")
+//
+//                let formattedString = NSMutableAttributedString()
+//
+//                formattedString
+//                    .bold("•  ", 20, .white)
+//                    .regular(datasource.distance.distancePreference(datasource.preference), 16, Colors.grayText)
+//                    .bold("•  ", 20, .white)
+//                    .regular(datasource.preference.preferenceNormalization(), 16, Colors.grayText)
+//                    .bold("•  ", 20, .white)
+//                    .regular(String(policies[0]).lateNotice(), 16, Colors.grayText)
+//                    .bold("•  ", 20, .white)
+//                    .regular(String(policies[2]).cancelNotice(), 16, Colors.grayText)
+//                    .regular(String(policies[1]).lateFee(), 16, Colors.qtRed)
+//                    .regular(String(policies[3]).cancelFee(), 16, Colors.qtRed)
+//
+//                cell.policiesLabel.attributedText = formattedString
+//            } else {
+//                // show "No Policies cell"
+//            }
+//            return cell
+//        default:
+//            return UITableViewCell()
+//        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
