@@ -428,7 +428,7 @@ extension InviteOthersVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? InviteContactsTableViewCell else { return }
-
+        cell.handleTouchDown()
         let data = shouldFilterSearchResults ? filteredContacts[indexPath.row] : datasource[indexPath.row]
         guard let phoneNumber = data.phoneNumbers.first?.value.stringValue else {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -442,7 +442,6 @@ extension InviteOthersVC: UITableViewDelegate, UITableViewDataSource {
         }
         cell.checkbox.isSelected = true
         selectedContacts.append(phoneNumber)
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -450,6 +449,15 @@ class InviteContactsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
+        selectionStyle = .none
+    }
+    
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                handleTouchDown()
+            }
+        }
     }
 
     required init?(coder _: NSCoder) {
@@ -460,23 +468,27 @@ class InviteContactsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = Fonts.createBoldSize(16)
         label.textColor = .white
-
         return label
     }()
 
     let cellBackground = UIView()
     let checkbox = RegistrationCheckbox()
+    
+    func handleTouchDown() {
+        backgroundColor = Colors.registrationDark.darker(by: 30)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+            self.backgroundColor = Colors.registrationDark
+        }
+    }
 
     func configureTableViewCell() {
         addSubview(label)
         addSubview(checkbox)
-
         checkbox.isSelected = false
         let cellBackground = UIView()
         cellBackground.backgroundColor = Colors.grayText
         selectedBackgroundView = cellBackground
-        backgroundColor = .clear
-
+        backgroundColor = Colors.registrationDark
         applyConstraints()
     }
 

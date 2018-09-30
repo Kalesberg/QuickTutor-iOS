@@ -9,7 +9,7 @@ target 'QuickTutor' do
   inhibit_all_warnings!
 
   # Pods for Firebase
-  pod 'Firebase/Core', '5.8.1'
+  pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Database'
@@ -36,7 +36,7 @@ target 'QuickTutor' do
   
   # Pods for Sessions
   pod 'Reveal-SDK', :configurations => ['Debug']
-  pod 'TwilioVideo', '2.0.0-beta3'
+  pod 'TwilioVideo'
   pod 'Socket.IO-Client-Swift', '~> 13.1.0'
   
   #Pods for Crashlytics & Performance
