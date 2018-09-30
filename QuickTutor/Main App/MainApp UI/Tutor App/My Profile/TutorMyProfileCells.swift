@@ -622,7 +622,7 @@ class RatingTableViewCell: UITableViewCell {
 	func applyConstraints() {
         tableView.snp.makeConstraints { make in
             make.top.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.95)
+            make.width.equalToSuperview().multipliedBy(0.98)
             if datasource.count == 1 {
                 make.height.equalTo(120)
             } else {
@@ -645,11 +645,8 @@ class RatingTableViewCell: UITableViewCell {
 	}
 }
 
-class NoRatingsTableViewCell: UIView {
-//	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-//		super.init(style: style, reuseIdentifier: reuseIdentifier)
-//		configureView()
-//	}
+class NoRatingsBackgroundView : UIView {
+
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -720,19 +717,19 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
-        let data = datasource[indexPath.row]
-        let formattedName = data.studentName.split(separator: " ")
-        cell.nameLabel.text = "\(String(formattedName[0]).capitalized) \(String(formattedName[1]).capitalized.prefix(1))."
-        cell.reviewTextLabel.text = "\"\(data.message)\""
-        cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
-        cell.dateLabel.text = "\(data.date)"
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
+//        let data = datasource[indexPath.row]
+//        let formattedName = data.studentName.split(separator: " ")
+//        cell.nameLabel.text = "\(String(formattedName[0]).capitalized) \(String(formattedName[1]).capitalized.prefix(1))."
+//        cell.reviewTextLabel.text = "\"\(data.message)\""
+//        cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
+//        cell.dateLabel.text = "\(data.date)"
+//
+//        let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1")
+//        cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+//        cell.isViewing = isViewing
 
-        let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1")
-        cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        cell.isViewing = isViewing
-
-        return cell
+        return UITableViewCell()
     }
 
     func numberOfSections(in _: UITableView) -> Int {
@@ -758,14 +755,116 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-class TutorMyProfileReviewTableViewCell: UITableViewCell {
+class TutorMyProfileReviewTableViewCell: UIView {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
 	
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+		configureView()
+	}
+	
+	let profilePic: UIImageView = {
+		let imageView = UIImageView()
+		imageView.layer.masksToBounds = false
+		imageView.scaleImage()
+		imageView.clipsToBounds = true
+		return imageView
+	}()
+	
+	let nameLabel: UILabel = {
+		let label = UILabel()
+		label.sizeToFit()
+		label.font = Fonts.createBoldSize(16)
+		return label
+	}()
+	
+	let subjectLabel = UILabel()
+	
+	let reviewTextLabel: UILabel = {
+		let label = UILabel()
+		label.textColor = Colors.grayText
+		label.font = Fonts.createItalicSize(14)
+		label.numberOfLines = 0
+		label.lineBreakMode = .byWordWrapping
+		
+		return label
+	}()
+	
+	let dateLabel: UILabel = {
+		let label = UILabel()
+		label.textColor = .white
+		label.font = Fonts.createSize(12)
+		label.textAlignment = .right
+		return label
+	}()
+	
+	var isViewing: Bool = false
+	
+	func configureView() {
+		addSubview(profilePic)
+		addSubview(nameLabel)
+		addSubview(subjectLabel)
+		addSubview(reviewTextLabel)
+		addSubview(dateLabel)
+		
+		backgroundColor = Colors.navBarColor
+		
+		applyConstraints()
+	}
+	
+	func applyConstraints() {
+		profilePic.snp.makeConstraints { make in
+			make.top.equalToSuperview()
+			make.height.width.equalTo(50)
+			make.left.equalToSuperview().inset(10)
+		}
+		nameLabel.snp.makeConstraints { make in
+			make.top.equalToSuperview().inset(-5)
+			make.height.equalTo(30)
+			make.left.equalTo(profilePic.snp.right).inset(-5)
+		}
+		subjectLabel.snp.makeConstraints { make in
+			make.left.equalTo(nameLabel.snp.right).inset(-5)
+			make.height.equalTo(30)
+			make.centerY.equalTo(nameLabel)
+			make.top.equalToSuperview()
+		}
+		reviewTextLabel.snp.makeConstraints { make in
+			make.top.equalTo(nameLabel.snp.bottom)
+			make.left.equalTo(profilePic.snp.right).inset(-5)
+			make.right.equalToSuperview().inset(5)
+		}
+		dateLabel.snp.makeConstraints { make in
+			make.top.equalTo(reviewTextLabel.snp.bottom)
+			make.width.equalToSuperview()
+			make.right.equalToSuperview().inset(5)
+			make.bottom.equalToSuperview()
+		}
+	}
+	
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		profilePic.layer.cornerRadius = profilePic.frame.height / 2
+		nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+	}
+}
+
+class TutorMyProfileLongReviewTableViewCell: UITableViewCell {
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		configureView()
+		configureTableViewCell()
+	}
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+	var minHeight: CGFloat?
+	
+	override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+		let size = super.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
+		guard let minHeight = minHeight else { return size }
+		return CGSize(width: size.width, height: max(size.height, minHeight))
 	}
 	
     let profilePic: UIImageView = {
@@ -774,108 +873,11 @@ class TutorMyProfileReviewTableViewCell: UITableViewCell {
         imageView.scaleImage()
         imageView.clipsToBounds = true
         return imageView
-    }()
+	}()
 
     let nameLabel: UILabel = {
         let label = UILabel()
-
-        label.font = Fonts.createBoldSize(16)
-        return label
-    }()
-
-    let subjectLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = Colors.grayText
-        label.font = Fonts.createSize(13)
-        return label
-    }()
-
-    let reviewTextLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = Colors.grayText
-        label.font = Fonts.createItalicSize(14)
-        return label
-    }()
-
-    let dateLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = Fonts.createSize(12)
-        return label
-    }()
-
-    let container = UIView()
-    var isViewing: Bool = false
-
-	func configureView() {
-        addSubview(container)
-        container.addSubview(profilePic)
-        container.addSubview(nameLabel)
-        container.addSubview(subjectLabel)
-        container.addSubview(reviewTextLabel)
-        addSubview(dateLabel)
-
-        contentView.backgroundColor = Colors.navBarColor
-        selectionStyle = .none
-
-        applyConstraints()
-    }
-
-	func applyConstraints() {
-        container.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.height.equalTo(60)
-        }
-
-        profilePic.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(7)
-            make.centerY.equalToSuperview()
-            make.height.equalTo(50)
-            make.width.equalTo(50)
-        }
-
-        nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(profilePic.snp.right).inset(-10)
-            make.centerY.equalToSuperview().multipliedBy(0.7)
-        }
-
-        subjectLabel.snp.makeConstraints { make in
-            make.left.equalTo(nameLabel.snp.right).inset(-6)
-            make.centerY.equalTo(nameLabel)
-        }
-
-        reviewTextLabel.snp.makeConstraints { make in
-            make.left.equalTo(profilePic.snp.right).inset(-10)
-            make.centerY.equalToSuperview().multipliedBy(1.4)
-            make.right.equalToSuperview().inset(3)
-        }
-
-        dateLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(5)
-            make.bottom.equalTo(container).inset(-7)
-        }
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        profilePic.layer.cornerRadius = profilePic.frame.height / 2
-        nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
-    }
-}
-
-class TutorMyProfileLongReviewTableViewCell: BaseTableViewCell {
-    let profilePic: UIImageView = {
-        let imageView = UIImageView()
-        imageView.layer.masksToBounds = false
-        imageView.scaleImage()
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-
-    let nameLabel: UILabel = {
-        let label = UILabel()
-
+		label.sizeToFit()
         label.font = Fonts.createBoldSize(16)
         return label
     }()
@@ -887,68 +889,68 @@ class TutorMyProfileLongReviewTableViewCell: BaseTableViewCell {
         label.textColor = Colors.grayText
         label.font = Fonts.createItalicSize(14)
         label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+		label.lineBreakMode = .byWordWrapping
+		
+		return label
     }()
 
     let dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createSize(12)
+		label.textAlignment = .right
         return label
     }()
 
     let container = UIView()
     var isViewing: Bool = false
 
-    override func configureView() {
-        contentView.addSubview(container)
-        container.addSubview(profilePic)
-        container.addSubview(nameLabel)
-        container.addSubview(subjectLabel)
-        container.addSubview(reviewTextLabel)
+	func configureTableViewCell() {
+        addSubview(container)
+       	addSubview(profilePic)
+		addSubview(nameLabel)
+        addSubview(subjectLabel)
+        addSubview(reviewTextLabel)
         addSubview(dateLabel)
-        super.configureView()
 
-        contentView.backgroundColor = .clear
+		backgroundColor = .clear
         selectionStyle = .none
+		
+		applyConstraints()
     }
 
-    override func applyConstraints() {
-        container.snp.makeConstraints { make in
-            make.left.right.bottom.equalTo(contentView)
-            make.top.equalTo(contentView).inset(10)
-            make.bottom.equalTo(reviewTextLabel).inset(-10)
-        }
-
+    func applyConstraints() {
         profilePic.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(10)
-            make.height.width.equalTo(50)
-            make.top.equalTo(container).inset(7)
+			make.top.equalToSuperview()
+			make.height.width.equalTo(50)
+			make.left.equalToSuperview().inset(10)
         }
 
         nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(profilePic.snp.right).inset(-10)
-            make.top.equalTo(profilePic).inset(5)
-        }
+			make.top.equalToSuperview().inset(-5)
+			make.height.equalTo(30)
+            make.left.equalTo(profilePic.snp.right).inset(-5)
+		}
 
         subjectLabel.snp.makeConstraints { make in
-            make.left.equalTo(nameLabel.snp.right).inset(-6)
+            make.left.equalTo(nameLabel.snp.right).inset(-5)
+			make.height.equalTo(30)
             make.centerY.equalTo(nameLabel)
+			make.top.equalToSuperview()
         }
 
         reviewTextLabel.snp.makeConstraints { make in
-            make.left.equalTo(profilePic.snp.right).inset(-10)
+			make.top.equalTo(nameLabel.snp.bottom)
+            make.left.equalTo(profilePic.snp.right).inset(-5)
             make.right.equalToSuperview().inset(5)
-            make.top.equalTo(nameLabel.snp.bottom).inset(-5)
+			
         }
-
         dateLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(5)
-            make.bottom.equalTo(container).inset(-7)
+			make.top.equalTo(reviewTextLabel.snp.bottom)
+			make.width.equalToSuperview()
+			make.bottom.right.equalToSuperview().inset(5)
         }
     }
-
     override func layoutSubviews() {
         super.layoutSubviews()
         profilePic.layer.cornerRadius = profilePic.frame.height / 2

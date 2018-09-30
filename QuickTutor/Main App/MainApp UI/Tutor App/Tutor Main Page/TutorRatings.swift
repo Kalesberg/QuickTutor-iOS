@@ -126,7 +126,7 @@ class TutorRatings: BaseViewController {
         contentView.tableView.register(TutorMainPageSummaryCell.self, forCellReuseIdentifier: "tutorMainPageSummaryCell")
         contentView.tableView.register(TutorMainPageTopSubjectCell.self, forCellReuseIdentifier: "tutorMainPageTopSubjectCell")
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
-        contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
+        //contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
     }
 
     private func findTopSubjects() {
@@ -169,128 +169,128 @@ extension TutorRatings: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageHeaderCell", for: indexPath) as! TutorMainPageHeaderCell
-            cell.headerLabel.text = String(tutor.tRating)
-
-            return cell
-        case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageSummaryCell", for: indexPath) as! TutorMainPageSummaryCell
-
-            let formattedString1 = NSMutableAttributedString()
-
-            formattedString1
-                .bold("\(tutor.tNumSessions!)\n", 16, .white)
-                .regular("Sessions", 15, Colors.grayText)
-            let paragraphStyle1 = NSMutableParagraphStyle()
-            paragraphStyle1.lineSpacing = 6
-            formattedString1.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle1, range: NSMakeRange(0, formattedString1.length))
-            cell.infoLabel1.attributedText = formattedString1
-            cell.infoLabel1.textAlignment = .center
-            cell.infoLabel1.numberOfLines = 0
-
-            let formattedString2 = NSMutableAttributedString()
-            formattedString2
-                .bold("\(tutor.tNumSessions!)\n", 16, .white)
-                .regular("5-Stars", 15, Colors.grayText)
-
-            let paragraphStyle2 = NSMutableParagraphStyle()
-            paragraphStyle2.lineSpacing = 6
-            formattedString2.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle2, range: NSMakeRange(0, formattedString2.length))
-            cell.infoLabel2.attributedText = formattedString2
-            cell.infoLabel2.textAlignment = .center
-            cell.infoLabel3.numberOfLines = 0
-
-            let formattedString3 = getFormattedTimeString(seconds: tutor.hours!)
-            let paragraphStyle3 = NSMutableParagraphStyle()
-            paragraphStyle3.lineSpacing = 6
-            formattedString3.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle3, range: NSMakeRange(0, formattedString3.length))
-
-            cell.infoLabel3.attributedText = formattedString3
-            cell.infoLabel3.textAlignment = .center
-            cell.infoLabel3.numberOfLines = 0
-
-            return cell
-        case 2:
-            let cell = UITableViewCell()
-            cell.backgroundColor = .clear
-            cell.selectionStyle = .none
-            return cell
-        case 3:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageTopSubjectCell", for: indexPath) as! TutorMainPageTopSubjectCell
-
-            guard let topSubject = topSubject else {
-                cell.icon.image = #imageLiteral(resourceName: "cameraIcon")
-                cell.subjectLabel.text = "No top subject yet."
-                return cell
-            }
-
-            cell.subjectLabel.text = topSubject.0
-            cell.icon.image = topSubject.1
-
-            return cell
-        case 4:
-            let cell = UITableViewCell()
-            cell.backgroundColor = .clear
-            cell.selectionStyle = .none
-            return cell
-        case 5:
-            guard let datasource = tutor.reviews else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
-                cell.backgroundColor = Colors.registrationDark
-                cell.label2.snp.updateConstraints { make in
-                    make.height.equalTo(55)
-                }
-
-                cell.label1.snp.makeConstraints { make in
-                    make.top.equalToSuperview().inset(8)
-                    make.left.equalToSuperview().inset(20)
-                }
-
-                cell.label1.textColor = .white
-
-                return UITableViewCell()
-            }
-
-            if datasource.count == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
-                cell.backgroundColor = Colors.registrationDark
-                cell.label2.snp.updateConstraints { make in
-                    make.height.equalTo(55)
-                }
-
-                cell.label1.snp.makeConstraints { make in
-                    make.top.equalToSuperview().inset(8)
-                    make.left.equalToSuperview().inset(20)
-                }
-
-                cell.label1.textColor = .white
-
-                return UITableViewCell()
-            }
-
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-            cell.seeAllButton.snp.updateConstraints { make in
-                make.bottom.equalToSuperview().inset(15)
-            }
-
-            if datasource.count == 1 {
-                cell.tableView.snp.remakeConstraints { make in
-                    make.top.equalToSuperview()
-                    make.width.equalToSuperview().multipliedBy(0.95)
-                    make.height.equalTo(120)
-                    make.centerX.equalToSuperview()
-                }
-            }
-
-            cell.datasource = datasource
-
-            return cell
-
-        default:
-            break
-        }
+//        switch indexPath.row {
+//        case 0:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageHeaderCell", for: indexPath) as! TutorMainPageHeaderCell
+//            cell.headerLabel.text = String(tutor.tRating)
+//
+//            return cell
+//        case 1:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageSummaryCell", for: indexPath) as! TutorMainPageSummaryCell
+//
+//            let formattedString1 = NSMutableAttributedString()
+//
+//            formattedString1
+//                .bold("\(tutor.tNumSessions!)\n", 16, .white)
+//                .regular("Sessions", 15, Colors.grayText)
+//            let paragraphStyle1 = NSMutableParagraphStyle()
+//            paragraphStyle1.lineSpacing = 6
+//            formattedString1.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle1, range: NSMakeRange(0, formattedString1.length))
+//            cell.infoLabel1.attributedText = formattedString1
+//            cell.infoLabel1.textAlignment = .center
+//            cell.infoLabel1.numberOfLines = 0
+//
+//            let formattedString2 = NSMutableAttributedString()
+//            formattedString2
+//                .bold("\(tutor.tNumSessions!)\n", 16, .white)
+//                .regular("5-Stars", 15, Colors.grayText)
+//
+//            let paragraphStyle2 = NSMutableParagraphStyle()
+//            paragraphStyle2.lineSpacing = 6
+//            formattedString2.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle2, range: NSMakeRange(0, formattedString2.length))
+//            cell.infoLabel2.attributedText = formattedString2
+//            cell.infoLabel2.textAlignment = .center
+//            cell.infoLabel3.numberOfLines = 0
+//
+//            let formattedString3 = getFormattedTimeString(seconds: tutor.hours!)
+//            let paragraphStyle3 = NSMutableParagraphStyle()
+//            paragraphStyle3.lineSpacing = 6
+//            formattedString3.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle3, range: NSMakeRange(0, formattedString3.length))
+//
+//            cell.infoLabel3.attributedText = formattedString3
+//            cell.infoLabel3.textAlignment = .center
+//            cell.infoLabel3.numberOfLines = 0
+//
+//            return cell
+//        case 2:
+//            let cell = UITableViewCell()
+//            cell.backgroundColor = .clear
+//            cell.selectionStyle = .none
+//            return cell
+//        case 3:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "tutorMainPageTopSubjectCell", for: indexPath) as! TutorMainPageTopSubjectCell
+//
+//            guard let topSubject = topSubject else {
+//                cell.icon.image = #imageLiteral(resourceName: "cameraIcon")
+//                cell.subjectLabel.text = "No top subject yet."
+//                return cell
+//            }
+//
+//            cell.subjectLabel.text = topSubject.0
+//            cell.icon.image = topSubject.1
+//
+//            return cell
+//        case 4:
+//            let cell = UITableViewCell()
+//            cell.backgroundColor = .clear
+//            cell.selectionStyle = .none
+//            return cell
+//        case 5:
+//            guard let datasource = tutor.reviews else {
+//               // let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+//                cell.backgroundColor = Colors.registrationDark
+//                cell.label2.snp.updateConstraints { make in
+//                    make.height.equalTo(55)
+//                }
+//
+//                cell.label1.snp.makeConstraints { make in
+//                    make.top.equalToSuperview().inset(8)
+//                    make.left.equalToSuperview().inset(20)
+//                }
+//
+//                cell.label1.textColor = .white
+//
+//                return UITableViewCell()
+//            }
+//
+//            if datasource.count == 0 {
+//                //let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+//                cell.backgroundColor = Colors.registrationDark
+//                cell.label2.snp.updateConstraints { make in
+//                    make.height.equalTo(55)
+//                }
+//
+//                cell.label1.snp.makeConstraints { make in
+//                    make.top.equalToSuperview().inset(8)
+//                    make.left.equalToSuperview().inset(20)
+//                }
+//
+//                cell.label1.textColor = .white
+//
+//                return UITableViewCell()
+//            }
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
+//            cell.seeAllButton.snp.updateConstraints { make in
+//                make.bottom.equalToSuperview().inset(15)
+//            }
+//
+//            if datasource.count == 1 {
+//                cell.tableView.snp.remakeConstraints { make in
+//                    make.top.equalToSuperview()
+//                    make.width.equalToSuperview().multipliedBy(0.95)
+//                    make.height.equalTo(120)
+//                    make.centerX.equalToSuperview()
+//                }
+//            }
+//
+//            cell.datasource = datasource
+//
+//            return cell
+//
+//        default:
+//            break
+//        }
         return UITableViewCell()
     }
 

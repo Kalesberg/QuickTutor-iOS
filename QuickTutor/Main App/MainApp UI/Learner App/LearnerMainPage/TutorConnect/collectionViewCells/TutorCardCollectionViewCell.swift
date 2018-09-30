@@ -139,7 +139,7 @@ class TutorCardCollectionViewCell: BaseCollectionViewCell {
         tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
         tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
         tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
-        tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
+        //tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
         tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
         tableView.register(ExtraInfoCardTableViewCell.self, forCellReuseIdentifier: "extraInfoCardTableViewCell")
     }

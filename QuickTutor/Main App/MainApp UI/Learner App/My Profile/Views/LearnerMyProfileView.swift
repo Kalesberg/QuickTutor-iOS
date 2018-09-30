@@ -31,7 +31,8 @@ class LearnerMyProfileView: MainLayoutTitleTwoButton {
 		scrollView.alwaysBounceVertical = true
 		scrollView.canCancelContentTouches = true
 		scrollView.isDirectionalLockEnabled = true
-
+		scrollView.isExclusiveTouch = false
+		
 		return scrollView
 	}()
 	
@@ -46,17 +47,15 @@ class LearnerMyProfileView: MainLayoutTitleTwoButton {
 		scrollView.addSubview(myProfileBioView)
 		scrollView.addSubview(myProfileBody)
 		scrollView.addSubview(myProfileReviews)
-		
 		super.configureView()
 		insertSubview(statusbarView, at: 1)
 		insertSubview(navbar, at: 2)
 		
 		title.label.text = "My Profile"
-		
+
 		navbar.backgroundColor = Colors.learnerPurple
 		statusbarView.backgroundColor = Colors.learnerPurple
 		backgroundColor = Colors.navBarColor
-		scrollView.contentSize.height = 1400
 		
 		applyConstraints()
 	}
@@ -80,13 +79,8 @@ class LearnerMyProfileView: MainLayoutTitleTwoButton {
 			make.width.centerX.equalToSuperview()
 			make.height.equalTo(myProfileBody.baseHeight)
 		}
-		myProfileReviews.snp.makeConstraints { (make) in
-			make.top.equalTo(myProfileBody.snp.bottom)
-			make.width.centerX.equalToSuperview()
-		}
 	}
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		
 	}
 }

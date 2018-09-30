@@ -11,14 +11,18 @@ import UIKit
 import SnapKit
 
 class MyProfileHeader : UIView {
-	
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
+	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		configureView()
 	}
+	
+	var parentViewController : UIViewController?
+	var imageCount : Int = 0
+	var userId : String = ""
 	
 	let profileImageViewButton : UIButton = {
 		let button = UIButton()
@@ -46,13 +50,16 @@ class MyProfileHeader : UIView {
 		return label
 	}()
 	
+	
 	private func configureView() {
 		addSubview(profileImageViewButton)
 		addSubview(nameContainer)
 		nameContainer.addSubview(nameLabel)
 		addSubview(rating)
 		
+		profileImageViewButton.addTarget(self, action: #selector(profileImageViewPressed), for: .touchUpInside)
 		backgroundColor = Colors.navBarColor
+		
 		applyConstraints()
 	}
 	
@@ -80,6 +87,11 @@ class MyProfileHeader : UIView {
 			make.height.equalTo(20)
 		}
 	}
+	
+	@objc func profileImageViewPressed(_ sender: UIButton) {
+		parentViewController?.displayProfileImageViewer(imageCount: imageCount, userId: userId)
+	}
+	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		profileImageViewButton.roundCorners(.allCorners, radius: 8)

@@ -14,7 +14,7 @@ class MyProfileBody : UIView {
 	}
 	
 	override init(frame: CGRect) {
-		super.init(frame: .zero)
+		super.init(frame: frame)
 		configureView()
 	}
 	
