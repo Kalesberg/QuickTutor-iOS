@@ -18,7 +18,6 @@ protocol AddTimeModalDelegate {
 class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDelegate {
     lazy var sessionNavBar: SessionNavBar = {
         let bar = SessionNavBar()
-        //        bar.timeLabel.delegate = self
         bar.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
         return bar
     }()

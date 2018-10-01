@@ -286,6 +286,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func handlePushNotification(userInfo:[AnyHashable: Any]) {
         let notification = PushNotification(userInfo: userInfo)
+        guard SessionService.shared.session == nil else { return }
         let vc = notification.receiverAccountType == "learner" ? LearnerPageVC() : TutorPageViewController()
         configureRootViewController(controller: vc) {
             self.handleMessageType(notification: notification)

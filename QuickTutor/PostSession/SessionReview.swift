@@ -253,6 +253,7 @@ class SessionReview : BaseViewController {
 		}
         let userTypeName = AccountService.shared.currentUserType == .learner ? "tutor" : "learner"
         cellHeaderViewTitles[1] = "Leave your \(userTypeName) a review"
+        SessionService.shared.session = nil
 	}
 
 	private func configureDelegates() {
