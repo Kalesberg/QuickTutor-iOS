@@ -36,6 +36,7 @@ class ConversationManager {
     var loadedAllMessages = false
     var isInitialLoad = true
     var lastSendMessageIndex = -1
+    var statusIndex = -1
 
     var readReceiptManager: ReadReceiptManager?
 
@@ -103,8 +104,6 @@ class ConversationManager {
                 return
             }
             DataService.shared.getMessageById(messageId, completion: { message in
-                self.messages.append(message)
-
                 if message.senderId == self.uid {
                     self.lastSendMessageIndex = self.messages.count - 1
                     self.readReceiptManager?.invalidateReadReceipt()
@@ -142,9 +141,7 @@ class ConversationManager {
 
     func getStatusMessageIndex() -> Int? {
         guard let uid = Auth.auth().currentUser?.uid else { return nil }
-        if messages.count == 0 {
-            return nil
-        }
+        guard messages.count != 0 else { return nil }
 
         var location = -1
         var index = 0

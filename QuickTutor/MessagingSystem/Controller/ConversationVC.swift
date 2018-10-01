@@ -208,7 +208,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             }
         }
 
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -276,6 +275,56 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         conversationManager.messages.remove(at: testIndex)
     }
 
+    func moveMessageStatusLabel(message: UserMessage) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard message.senderId == uid else {
+            updateForReceivedMessage(message)
+            return
+        }
+        UIView.setAnimationsEnabled(false)
+        
+        messagesCollection.performBatchUpdates({
+            if conversationManager.statusIndex != -1 || conversationManager.messages.last is SystemMessage {
+                if let index = conversationManager.messages.lastIndex(where: { $0 is SystemMessage }) {
+                    conversationManager.messages.remove(at: index)
+                    conversationManager.messages.append(message)
+                    print("ZACH: removing status message index at \(index)")
+                    let indexPath = IndexPath(item: index, section: 0)
+                    messagesCollection.deleteItems(at: [indexPath])
+                    let insertionIndex = IndexPath(item: conversationManager.messages.count, section: 0)
+                    messagesCollection.insertItems(at: [insertionIndex])
+                }
+                
+            } else {
+                conversationManager.messages.append(message)
+                let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
+                messagesCollection.insertItems(at: [indexPath])
+            }
+            let statusMessage = SystemMessage(text: "Delivered")
+            conversationManager.messages.append(statusMessage)
+            let insertionIndexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
+            messagesCollection.insertItems(at: [insertionIndexPath])
+            conversationManager.statusIndex = conversationManager.messages.count - 1
+            print("ZACH: changing status message index to \(conversationManager.statusIndex)")
+        }) { (completed) in
+            UIView.setAnimationsEnabled(true)
+        }
+    }
+    
+    func updateForReceivedMessage(_ message: UserMessage) {
+        UIView.setAnimationsEnabled(false)
+        
+        messagesCollection.performBatchUpdates({
+            conversationManager.messages.append(message)
+            let insertionIndexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
+            messagesCollection.insertItems(at: [insertionIndexPath])
+        }) { (completed) in
+            UIView.setAnimationsEnabled(true)
+        }
+    }
+    
+    
+    
     @objc func addMessageStatusLabel() {
         guard let index = conversationManager.getStatusMessageIndex() else { return }
         removeCurrentStatusLabel()
@@ -288,7 +337,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
             conversationManager.messages.insert(statusMessage, at: index)
         }
         self.updateStatusLabel()
-        messagesCollection.reloadData()
+//        messagesCollection.reloadData()
     }
     
     func loadAWUsers() {
@@ -478,11 +527,7 @@ extension ConversationVC: ConversationManagerDelegate {
     }
 
     func conversationManager(_ conversationManager: ConversationManager, didReceive message: UserMessage) {
-        messagesCollection.reloadData()
-        _ = conversationManager.getStatusMessageIndex()
-        if message.senderId == conversationManager.uid {
-            addMessageStatusLabel()
-        }
+        moveMessageStatusLabel(message: message)
         setActionViewUsable(true)
         if message.connectionRequestId != nil && conversationManager.isConnected == false {
             updateAsPendingConnection()
@@ -645,7 +690,6 @@ extension ConversationVC {
                 self.headerHeight = 0
                 self.messagesCollection.collectionViewLayout.invalidateLayout()
             }
-            self.messagesCollection.reloadData()
             self.messagesCollection.layoutIfNeeded()
 
             self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - oldOffset)
