@@ -61,7 +61,6 @@ class TutorMyProfile: BaseViewController, UpdatedTutorCallBack {
 	}
 	
 	private func setupMyProfileHeader() {
-		//TODO: Look into getting an image from SDWebImage framework.
 		let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
 		let imageView = UIImageView()
 		imageView.sd_setImage(with: reference, placeholderImage: nil)
