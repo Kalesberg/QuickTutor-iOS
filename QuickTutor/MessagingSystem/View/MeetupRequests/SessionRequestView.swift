@@ -320,25 +320,26 @@ extension UIButton {
 }
 
 extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in _: UITableView) -> Int {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
-
-    func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SessionTableCell
         cell.textLabel?.text = titles[indexPath.row]
         return cell
     }
-
-    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row != 3 {
             setHeightTo(600, animated: true)
             sessionLengthLabel.isHidden = true
@@ -423,50 +424,51 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
         //        sessionData["receiverId"] = chatPartnerId
         //        sessionData["subject"] = subject
         //        sessionData
-
+        
         guard let _ = sessionData["subject"], let _ = sessionData["date"], let _ = sessionData["startTime"], let _ = sessionData["endTime"], let _ = sessionData["status"], let _ = sessionData["type"], let _ = sessionData["price"] else {
             return
         }
-
+        
         let sessionRequest = SessionRequest(data: sessionData)
         DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, chatPartnerId)
         dismiss()
     }
-
+    
     func getExpiration() -> TimeInterval {
         let difference = (endTimePicker.date.timeIntervalSince1970 - Date().timeIntervalSince1970) / 2
         let expirationDate = Date().addingTimeInterval(difference)
         return expirationDate.timeIntervalSince1970
     }
-
+    
     func setInitialTitles() {
         titles = ["Select Subject", "Select Date", "Select Start Time", "Select End Time", "Select Price"]
     }
-
+    
     @objc func resetTitles() {
         setInitialTitles()
         setAllTitlesWhite()
         inputTable.reloadData()
     }
-
+    
     func setTitleGreen(index: Int) {
         guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
         cell.textLabel?.textColor = Colors.green
     }
-
+    
     func setTitleBlue(index: Int) {
         guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
         cell.textLabel?.textColor = Colors.tutorBlue
     }
-
+    
     func setAllTitlesWhite() {
-        for index in 0 ... titles.count {
+        for index in 0...titles.count {
             guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
             cell.textLabel?.textColor = .white
         }
+        
     }
-
-    func loadSubjectsForUserWithId(_ id: String, completion _: @escaping () -> Void) {
+    
+    func loadSubjectsForUserWithId(_ id: String, completion: @escaping () -> Void) {
         Database.database().reference().child("subject").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let children = snapshot.children.allObjects as? [DataSnapshot] else { return }
             for child in children {
@@ -484,12 +486,12 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+    
 }
 
 // MARK: Subject -
-
 extension SessionRequestView: SubjectPickerDelegate {
-    func didSelectSubject(title _: String) {
+    func didSelectSubject(title: String) {
         //        titles[0] = title
         //        let indexPath = IndexPath(row: 0, section: 0)
         //        inputTable.reloadRows(at: [indexPath], with: .automatic)
@@ -499,13 +501,12 @@ extension SessionRequestView: SubjectPickerDelegate {
 }
 
 // MARK: Date -
-
 extension SessionRequestView: CustomDatePickerDelegate {
-    func customDatePicker(_: CustomDatePicker, didSelect _: Double) {
+    func customDatePicker(_ customDatePicker: CustomDatePicker, didSelect date: Double) {
         //        setDateTo(Date(timeIntervalSince1970: date))
         //        setTitleGreen(index: 1)
     }
-
+    
     func setDateTo(_ date: Date) {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -574,9 +575,8 @@ extension SessionRequestView: SessionTypeCellDelegate {
 }
 
 // MARK: Price -
-
 extension SessionRequestView: PriceInputViewDelegate {
-    func priceDidChange(_: Double) {
+    func priceDidChange(_ price: Double) {
         //        sessionData["price"] = price
         //        let priceString = String(format: "%.2f", price)
         //        titles[4] = "$\(priceString)"

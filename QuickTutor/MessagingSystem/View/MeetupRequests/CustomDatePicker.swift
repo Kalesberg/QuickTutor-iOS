@@ -13,83 +13,85 @@ protocol CustomDatePickerDelegate {
 }
 
 class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
+    
     var months = [String]()
     var dateData = [[String]]()
     var customDelegate: CustomDatePickerDelegate?
     var date: Date?
-
+    
     var currentMonth: Int!
     var currentDay: Int!
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupPicker()
     }
-
+    
     func setupPicker() {
         delegate = self
         dataSource = self
         tintColor = .white
         months = DateFormatter().monthSymbols
         dateData = [months, [String]()]
-
+        
         let year = Calendar.current.component(.year, from: Date())
         currentMonth = Calendar.current.component(.month, from: Date())
         currentDay = Calendar.current.component(.day, from: Date())
-
+        
         let dateComponents = DateComponents(year: year, month: currentMonth)
         let calendar = Calendar.current
         let date = calendar.date(from: dateComponents)!
 
+        
         let range = calendar.range(of: .day, in: .month, for: date)!
         let days = range.count
-        for day in 1 ... days {
+        for day in 1...days {
             dateData[1].append("\(day)")
         }
-
-        selectRow(currentMonth - 1, inComponent: 0, animated: true)
-        selectRow(currentDay - 1, inComponent: 1, animated: true)
+        
+        self.selectRow(currentMonth - 1, inComponent: 0, animated: true)
+        self.selectRow(currentDay - 1, inComponent: 1, animated: true)
         updateDate()
         customDelegate?.customDatePicker(self, didSelect: (self.date?.timeIntervalSince1970)!)
     }
-
-    func numberOfComponents(in _: UIPickerView) -> Int {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
-
-    func pickerView(_: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return dateData[component].count
     }
-
-    func pickerView(_: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let attributedString = NSAttributedString(string: dateData[component][row], attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         return attributedString
     }
-
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if component == 0 && row < currentMonth - 1 {
             pickerView.selectRow(currentMonth - 1, inComponent: 0, animated: true)
         }
-        if component == 1 && row < currentDay - 1 && pickerView.selectedRow(inComponent: 0) == currentMonth - 1 {
+        if component == 1 && row < currentDay - 1 && pickerView.selectedRow(inComponent: 0) == currentMonth - 1{
             pickerView.selectRow(currentDay - 1, inComponent: 1, animated: true)
         }
-
+        
         if component == 0 && row == currentMonth - 1 && pickerView.selectedRow(inComponent: 1) < currentDay - 1 {
             pickerView.selectRow(currentDay - 1, inComponent: 1, animated: true)
         }
         updateDate()
     }
-
+    
     func updateDate() {
         let monthsToAdd = selectedRow(inComponent: 0) - (currentMonth - 1)
         guard let dateWithMonthsAdded = Calendar.current.date(byAdding: .month, value: monthsToAdd, to: Date()) else { return }
         let daysToAdd = selectedRow(inComponent: 1) - (currentDay - 1)
         guard let dateWithDaysAdded = Calendar.current.date(byAdding: .day, value: daysToAdd, to: dateWithMonthsAdded) else { return }
-        date = dateWithDaysAdded
+        self.date = dateWithDaysAdded
         customDelegate?.customDatePicker(self, didSelect: dateWithDaysAdded.timeIntervalSince1970)
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

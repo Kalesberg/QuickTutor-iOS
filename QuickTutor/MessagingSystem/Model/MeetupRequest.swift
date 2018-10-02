@@ -56,6 +56,9 @@ class SessionRequest {
         receiverId = data["receiverId"] as? String ?? ""
         type = data["type"] as? String
         receiverAccountType = data["receiverAccountType"] as? String
+        if isExpired() {
+            status = "expired"
+        }
     }
 
     func formattedDate() -> String? {
@@ -85,5 +88,10 @@ class SessionRequest {
     func partnerId() -> String {
         guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
         return receiverId == uid ? senderId : receiverId
+    }
+    
+    func isExpired() -> Bool {
+        guard let expiration = expiration else { return false }
+        return expiration < Date().timeIntervalSince1970
     }
 }

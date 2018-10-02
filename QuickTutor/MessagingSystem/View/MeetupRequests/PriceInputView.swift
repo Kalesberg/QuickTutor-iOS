@@ -92,35 +92,35 @@ class PriceInputView: UIView {
         stackView.axis = .horizontal
         stackView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 0)
     }
-
+    
     @objc func decreasePrice() {
         guard currentPrice > 0 else { return }
-        decreasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { _ in
+        decreasePriceTimer =  Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { (timer) in
             guard self.currentPrice > 0 else { return }
             self.currentPrice -= 1
             self.delegate?.priceDidChange(self.currentPrice)
         }
         decreasePriceTimer?.fire()
     }
-
+    
     @objc func endDecreasePrice() {
         decreasePriceTimer?.invalidate()
     }
-
+    
     @objc func increasePrice() {
-        currentPrice += 1
-        delegate?.priceDidChange(currentPrice)
-        increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { _ in
+        self.currentPrice += 1
+        self.delegate?.priceDidChange(self.currentPrice)
+        increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { (timer) in
             self.currentPrice += 1
             self.delegate?.priceDidChange(self.currentPrice)
         })
     }
-
+    
     @objc func endIncreasePrice() {
         increasePriceTimer?.invalidate()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

@@ -40,37 +40,38 @@ class QuickChatView: UIView {
         chatCollection.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         frame = CGRect(x: 0, y: 0, width: 375, height: 50)
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 extension QuickChatView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func numberOfSections(in _: UICollectionView) -> Int {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
-    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return reccommendedMessages.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickChatCell
         cell.textLabel.text = reccommendedMessages[indexPath.item]
         return cell
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: reccommendedMessages[indexPath.item].estimatedFrame().width + 20, height: 50)
     }
-
-    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let messageText = reccommendedMessages[indexPath.item]
         delegate?.sendMessage(text: messageText)
     }

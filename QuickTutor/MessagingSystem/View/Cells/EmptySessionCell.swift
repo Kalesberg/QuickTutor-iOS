@@ -22,21 +22,21 @@ class EmptySessionCell: UICollectionViewCell {
         label.text = "You have no scheduled sessions"
         return label
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func setupViews() {
         backgroundColor = Colors.navBarColor
         setupDescriptionLabel()
     }
-
+    
     private func setupDescriptionLabel() {
         addSubview(descriptionLabel)
         descriptionLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 60, paddingBottom: 0, paddingRight: 60, width: 0, height: 0)

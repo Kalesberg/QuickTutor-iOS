@@ -87,32 +87,32 @@ class PauseSessionModal: BaseCustomModal {
         window.addConstraint(NSLayoutConstraint(item: inPersonEndSessionButton, attribute: .centerX, relatedBy: .equal, toItem: backgroundBlurView, attribute: .centerX, multiplier: 1, constant: 0))
         inPersonEndSessionButton.addTarget(self, action: #selector(endSession), for: .touchUpInside)
     }
-
+    
     func setupAsLostConnection() {
         titleLabel.text = "Connection lost..."
         animateTitleLabel()
     }
-
+    
     override func setupViews() {
         super.setupViews()
         background.backgroundColor = .clear
         setupUnpauseButton()
         backgroundBlurView.gestureRecognizers?.removeAll()
     }
-
+    
     func setupEndSessionButtons(type: String) {
         type == "online" ? setupVideoEndSessionButton() : setupInPersonEndSessionButton()
     }
-
+    
     func updateTitleLabel() {
-        guard let username = partnerUsername?.split(separator: " ")[0] else { return }
+		guard let username = partnerUsername?.split(separator: " ")[0] else { return }
         guard let uid = Auth.auth().currentUser?.uid, pausedById != "lostConnection" else { return }
         titleLabel.text = uid == pausedById ? "You paused the session." : "\(username) paused the session."
     }
-
+    
     var timer: Timer?
     func animateTitleLabel() {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
             if self.titleLabel.text == "Connection lost..." {
                 self.titleLabel.text = "Connection lost"
             } else {

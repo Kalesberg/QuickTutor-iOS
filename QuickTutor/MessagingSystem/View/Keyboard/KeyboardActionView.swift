@@ -34,35 +34,36 @@ class KeyboardActionView: UIView {
         backgroundColor = Colors.darkBackground
         clipsToBounds = true
     }
-
+    
     private func setupActionCollection() {
         actionCV.delegate = self
         actionCV.dataSource = self
         addSubview(actionCV)
         actionCV.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
 let actionTuples = [("Send Photo", #imageLiteral(resourceName: "picUploadIcon")), ("Request Session", #imageLiteral(resourceName: "requestSessionButton")), ("Share Username", #imageLiteral(resourceName: "shareUsernameIcon"))]
 
 extension KeyboardActionView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    func numberOfSections(in _: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
-    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! KeyboardActionViewCell
         let title = actionTuples[indexPath.item].0
@@ -70,12 +71,12 @@ extension KeyboardActionView: UICollectionViewDelegate, UICollectionViewDelegate
         cell.updateUI(title: title, image: image)
         return cell
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width / 3, height: collectionView.frame.size.height)
     }
-
-    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == 0 {
             delegate?.handleSendingImage()
         } else if indexPath.item == 1 {
@@ -84,30 +85,28 @@ extension KeyboardActionView: UICollectionViewDelegate, UICollectionViewDelegate
             delegate?.shareUsernameForUserId()
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? KeyboardActionViewCell else { return }
         UIView.animate(withDuration: 0.2) {
             cell.icon.alpha = 0.6
             cell.titleLabel.alpha = 0.6
         }
-        // cell.backgroundColor = cell.backgroundColor?.darker(by: 15)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? KeyboardActionViewCell else { return }
         UIView.animate(withDuration: 0.2) {
             cell.icon.alpha = 1.0
             cell.titleLabel.alpha = 1.0
         }
-        // cell.backgroundColor = cell.backgroundColor?.lighter(by: 15)
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
 }

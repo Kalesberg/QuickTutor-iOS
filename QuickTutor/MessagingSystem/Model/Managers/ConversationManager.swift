@@ -9,15 +9,18 @@
 import Firebase
 import UIKit
 
-class ConnectionManager {
-    func createConnectionWith(uid _: String) {}
-
-    func removeConnectionWith(uid _: String) {}
-
-    func getAllConnectedIds() {}
+protocol ConversationManagerDelegate: class {
+    func conversationManager(_ conversationManager: ConversationManager, didReceive message: UserMessage)
+    func conversationManager(_ conversationManager: ConversationManager, didLoad messages: [BaseMessage])
+    func conversationManager(_ conversationManager: ConversationManager, didUpdate readByIds: [String])
+    func conversationManager(_ convesationManager: ConversationManager, didUpdateConnection connected: Bool)
+    func conversationManager(_ conversationManager: ConversationManager, didLoadAll messages: [BaseMessage])
 }
 
+
+
 class ConversationManager {
+    
     weak var delegate: ConversationManagerDelegate?
     var metaData: ConversationMetaData?
     var memberIds: [String]?
@@ -33,6 +36,7 @@ class ConversationManager {
     var loadedAllMessages = false
     var isInitialLoad = true
     var lastSendMessageIndex = -1
+    var statusIndex = -1
 
     var readReceiptManager: ReadReceiptManager?
 
@@ -100,8 +104,6 @@ class ConversationManager {
                 return
             }
             DataService.shared.getMessageById(messageId, completion: { message in
-                self.messages.append(message)
-
                 if message.senderId == self.uid {
                     self.lastSendMessageIndex = self.messages.count - 1
                     self.readReceiptManager?.invalidateReadReceipt()
@@ -139,9 +141,7 @@ class ConversationManager {
 
     func getStatusMessageIndex() -> Int? {
         guard let uid = Auth.auth().currentUser?.uid else { return nil }
-        if messages.count == 0 {
-            return nil
-        }
+        guard messages.count != 0 else { return nil }
 
         var location = -1
         var index = 0
@@ -157,11 +157,11 @@ class ConversationManager {
         }
         return index
     }
-
+    
     func setup() {
         guard let id = Auth.auth().currentUser?.uid else { fatalError() }
         uid = id
-        loadPreviousMessagesByTimeStamp(limit: 50) { _ in
+        loadPreviousMessagesByTimeStamp(limit: 50) { (messages) in
             self.listenForNewMessages()
             self.listenForConnections()
         }
@@ -171,46 +171,9 @@ class ConversationManager {
 }
 
 extension ConversationManager: ReadReceiptManagerDelegate {
-    func readReceiptManager(_: ReadReceiptManager, didUpdate readByIds: [String]) {
+    func readReceiptManager(_ readRecieptManager: ReadReceiptManager, didUpdate readByIds: [String]) {
         delegate?.conversationManager(self, didUpdate: readByIds)
     }
-}
-
-struct ConversationMetaData {
-    var lastMessageId: String?
-    var lastMessageSenderId: String?
-    var isConnected = false
-    var lastUpdated: Double?
-    var hasRead: Bool?
-    var memberIds = [String]()
-
-    init(dictionary: [String: Any]) {
-        lastMessageId = dictionary["lastMessageId"] as? String
-        lastMessageSenderId = dictionary["lastMessageSenderId"] as? String
-        lastUpdated = dictionary["lastUpdatedAt"] as? Double
-        isConnected = dictionary["isConnected"] as? Bool ?? false
-        memberIds = dictionary["memberIds"] as? [String] ?? [String]()
-        hasRead = checkHasRead(dictionary: dictionary)
-    }
-
-    func checkHasRead(dictionary: [String: Any]) -> Bool {
-        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
-        guard let readByIds = dictionary["readBy"] as? [String: Any] else { return true }
-        return readByIds[uid] != nil
-    }
-
-    func chatPartnerId() -> String {
-        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
-        return memberIds[0] == uid ? memberIds[1] : memberIds[0]
-    }
-}
-
-protocol ConversationManagerDelegate: class {
-    func conversationManager(_ conversationManager: ConversationManager, didReceive message: UserMessage)
-    func conversationManager(_ conversationManager: ConversationManager, didLoad messages: [BaseMessage])
-    func conversationManager(_ conversationManager: ConversationManager, didUpdate readByIds: [String])
-    func conversationManager(_ convesationManager: ConversationManager, didUpdateConnection connected: Bool)
-    func conversationManager(_ conversationManager: ConversationManager, didLoadAll messages: [BaseMessage])
 }
 
 protocol ReadReceiptManagerDelegate {

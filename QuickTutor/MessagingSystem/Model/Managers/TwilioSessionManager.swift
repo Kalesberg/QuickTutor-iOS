@@ -73,6 +73,10 @@ class TwilioSessionManager: NSObject {
         // Connect to the Room using the options we provided.
         room = TwilioVideo.connect(with: connectOptions, delegate: self)
     }
+    
+    func disconnect() {
+        room?.disconnect()
+    }
 
     func startPreview() {
         // Preview our local camera track in the local video preview view.
@@ -142,9 +146,10 @@ extension TwilioSessionManager: TVIRoomDelegate {
             remoteParticipant?.delegate = self
         }
         resume()
+        
     }
-
-    func room(_: TVIRoom, participantDidConnect participant: TVIRemoteParticipant) {
+    
+    func room(_ room: TVIRoom, participantDidConnect participant: TVIRemoteParticipant) {
         if remoteParticipant == nil {
             remoteParticipant = participant
             remoteParticipant?.delegate = self
@@ -153,14 +158,16 @@ extension TwilioSessionManager: TVIRoomDelegate {
                 remoteVideoTrack?.addRenderer(remoteView)
             }
         }
+        
+        
     }
-
-    func room(_: TVIRoom, participantDidDisconnect participant: TVIRemoteParticipant) {
+    
+    func room(_ room: TVIRoom, participantDidDisconnect participant: TVIRemoteParticipant) {
         if remoteParticipant == participant {
             cleanupRemoteParticipant()
         }
     }
-
+    
     func cleanupRemoteParticipant() {
         if remoteParticipant != nil {
             if (remoteParticipant?.videoTracks.count)! > 0 {
@@ -169,31 +176,33 @@ extension TwilioSessionManager: TVIRoomDelegate {
             }
         }
     }
-
+    
     func resume() {
-        room?.localParticipant?.localVideoTracks.forEach({ publication in
+        room?.localParticipant?.localVideoTracks.forEach({ (publication) in
             publication.localTrack?.isEnabled = true
         })
-        room?.localParticipant?.localAudioTracks.forEach({ publication in
+        room?.localParticipant?.localAudioTracks.forEach({ (publication) in
             publication.localTrack?.isEnabled = true
         })
     }
 }
 
 extension TwilioSessionManager: TVIRemoteParticipantDelegate, TVICameraCapturerDelegate {
-    func subscribed(to videoTrack: TVIRemoteVideoTrack, publication _: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
+    func subscribed(to videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
+        
         if remoteParticipant == participant {
             videoTrack.addRenderer(remoteView)
         }
     }
-
-    func cameraCapturer(_: TVICameraCapturer, didStartWith source: TVICameraCaptureSource) {
-        previewView.shouldMirror = (source == .frontCamera)
+    
+    func cameraCapturer(_ capturer: TVICameraCapturer, didStartWith source: TVICameraCaptureSource) {
+        self.previewView.shouldMirror = (source == .frontCamera)
     }
-
-    func unsubscribed(from videoTrack: TVIRemoteVideoTrack, publication _: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
+    
+    func unsubscribed(from videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
         if remoteParticipant == participant {
             videoTrack.removeRenderer(remoteView)
         }
     }
+
 }

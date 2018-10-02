@@ -207,38 +207,39 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
                 self.enterConnectionRequestMode()
             }
         }
-    }
 
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         becomeFirstResponder()
         if shouldRequestSession {
             handleSessionRequest()
         }
-
+        
         tutorial.showIfNeeded()
         conversationManager.readReceiptManager?.markConversationRead()
     }
-
-    override func viewWillDisappear(_: Bool) {
+    
+    override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
     }
-
+    
     func setMessageTextViewCoverHidden(_ result: Bool) {
         guard let keyboardAccessory = inputAccessoryView as? KeyboardAccessory else { return }
         result ? keyboardAccessory.hideTextViewCover() : keyboardAccessory.showTextViewCover()
     }
-
+    
     func listenForSessionUpdates() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { snapshot in
             print("Data needs reload")
-            self.reloadSessionWithId(snapshot.ref.key!)
+			self.reloadSessionWithId(snapshot.ref.key!)
             snapshot.ref.setValue(1)
         }
     }
-
+    
     func reloadSessionWithId(_ id: String) {
         DataService.shared.getSessionById(id) { session in
             if let fooOffset = self.conversationManager.messages.index(where: { (message) -> Bool in
@@ -274,6 +275,56 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         conversationManager.messages.remove(at: testIndex)
     }
 
+    func moveMessageStatusLabel(message: UserMessage) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard message.senderId == uid else {
+            updateForReceivedMessage(message)
+            return
+        }
+        UIView.setAnimationsEnabled(false)
+        
+        messagesCollection.performBatchUpdates({
+            if conversationManager.statusIndex != -1 || conversationManager.messages.last is SystemMessage {
+                if let index = conversationManager.messages.lastIndex(where: { $0 is SystemMessage }) {
+                    conversationManager.messages.remove(at: index)
+                    conversationManager.messages.append(message)
+                    print("ZACH: removing status message index at \(index)")
+                    let indexPath = IndexPath(item: index, section: 0)
+                    messagesCollection.deleteItems(at: [indexPath])
+                    let insertionIndex = IndexPath(item: conversationManager.messages.count, section: 0)
+                    messagesCollection.insertItems(at: [insertionIndex])
+                }
+                
+            } else {
+                conversationManager.messages.append(message)
+                let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
+                messagesCollection.insertItems(at: [indexPath])
+            }
+            let statusMessage = SystemMessage(text: "Delivered")
+            conversationManager.messages.append(statusMessage)
+            let insertionIndexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
+            messagesCollection.insertItems(at: [insertionIndexPath])
+            conversationManager.statusIndex = conversationManager.messages.count - 1
+            print("ZACH: changing status message index to \(conversationManager.statusIndex)")
+        }) { (completed) in
+            UIView.setAnimationsEnabled(true)
+        }
+    }
+    
+    func updateForReceivedMessage(_ message: UserMessage) {
+        UIView.setAnimationsEnabled(false)
+        
+        messagesCollection.performBatchUpdates({
+            conversationManager.messages.append(message)
+            let insertionIndexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
+            messagesCollection.insertItems(at: [insertionIndexPath])
+        }) { (completed) in
+            UIView.setAnimationsEnabled(true)
+        }
+    }
+    
+    
+    
     @objc func addMessageStatusLabel() {
         guard let index = conversationManager.getStatusMessageIndex() else { return }
         removeCurrentStatusLabel()
@@ -285,69 +336,69 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         } else {
             conversationManager.messages.insert(statusMessage, at: index)
         }
-        updateStatusLabel()
-        messagesCollection.reloadData()
+        self.updateStatusLabel()
+//        messagesCollection.reloadData()
     }
-
+    
     func loadAWUsers() {
         if AccountService.shared.currentUserType == .learner {
-            FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { tutorIn in
+            FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutorIn) in
                 guard let tutor = tutorIn else { return }
                 self.titleView.tutor = tutor
             }
         } else {
-            FirebaseData.manager.fetchLearner(receiverId) { learnerIn in
+            FirebaseData.manager.fetchLearner(receiverId) { (learnerIn) in
                 guard let learner = learnerIn else { return }
                 self.titleView.learner = learner
             }
         }
     }
-
+    
     func updateStatusLabel() {
         guard let index = conversationManager.getStatusMessageIndex() else { return }
         let indexPath = IndexPath(item: index, section: 0)
         let cell = messagesCollection.cellForItem(at: indexPath) as? SystemMessageCell
         cell?.markAsRead()
     }
-
+    
     func setupKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(becomeFirstResponder), name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
     }
-
+    
     @objc func handleKeyboardDidShow() {
         guard conversationManager.messages.count > 0 else { return }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
         messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
     }
-
+    
     @objc func didDisconnect() {
         messagesCollection.reloadData()
         pop()
     }
-
+    
     override var inputAccessoryView: UIView? {
         return AccountService.shared.currentUserType == .tutor ? teacherKeyboardAccessory : studentKeyboardAccessory
     }
-
+    
     override var canBecomeFirstResponder: Bool {
         return true
     }
 }
 
 extension ConversationVC: UICollectionViewDelegateFlowLayout {
-    override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return conversationManager.messages.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let message = conversationManager.messages[indexPath.item] as? UserMessage else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "systemMessage", for: indexPath) as! SystemMessageCell
             cell.textField.text = conversationRead ? "Seen" : "Delivered"
             return cell
         }
-
+        
         if message.imageUrl != nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageMessage", for: indexPath) as! ImageMessageCell
             cell.bubbleWidthAnchor?.constant = 200
@@ -377,76 +428,77 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             return cell
         }
-
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "textMessage", for: indexPath) as! UserMessageCell
         cell.updateUI(message: message)
         cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 20
         cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         return cell
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let message = conversationManager.messages[indexPath.item] as? UserMessage else {
             return CGSize(width: UIScreen.main.bounds.width, height: 15)
         }
-
+        
         var height: CGFloat = 0
-
+        
         if let text = message.text {
             height = text.estimateFrameForFontSize(14).height + 20
+            
         }
-
+        
         if let imageWidth = message.data["imageWidth"] as? CGFloat, let imageHeight = message.data["imageHeight"] as? CGFloat {
             height = CGFloat(imageHeight / imageWidth * 200)
         }
-
+        
         if message.sessionRequestId != nil {
             height = 173
         }
-
+        
         if message.connectionRequestId != nil {
             height += 50
         }
         return CGSize(width: UIScreen.main.bounds.width, height: height)
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
+        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView()}
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "paginationHeader", for: indexPath) as! ConversationPaginationHeader
         return header
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, referenceSizeForHeaderInSection _: Int) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: CGFloat(headerHeight))
     }
 }
 
 extension ConversationVC: ConversationManagerDelegate {
-    func conversationManager(_ conversationManager: ConversationManager, didLoad _: [BaseMessage]) {
+    func conversationManager(_ conversationManager: ConversationManager, didLoad messages: [BaseMessage]) {
         print("ConversationVC has: \(self.conversationManager.messages.count) messages.")
         messagesCollection.reloadData()
         conversationManager.isFinishedPaginating = true
         addMessageStatusLabel()
     }
-
-    func conversationManager(_: ConversationManager, didUpdate readByIds: [String]) {
-        if readByIds.contains(receiverId) {
-            conversationRead = true
-            updateStatusLabel()
+    
+    func conversationManager(_ conversationManager: ConversationManager, didUpdate readByIds: [String]) {
+        if readByIds.contains(self.receiverId) {
+            self.conversationRead = true
+            self.updateStatusLabel()
         } else {
-            conversationRead = false
+            self.conversationRead = false
         }
     }
-
-    func conversationManager(_: ConversationManager, didUpdateConnection connected: Bool) {
+    
+    func conversationManager(_ convesationManager: ConversationManager, didUpdateConnection connected: Bool) {
         if connected {
             updateAsConnected()
         } else {
@@ -454,11 +506,11 @@ extension ConversationVC: ConversationManagerDelegate {
             updateAsPendingConnection()
         }
     }
-
-    func conversationManager(_: ConversationManager, didLoadAll _: [BaseMessage]) {
+    
+    func conversationManager(_ conversationManager: ConversationManager, didLoadAll messages: [BaseMessage]) {
         headerHeight = 0
     }
-
+    
     func updateAsConnected() {
         canSendMessages = true
         connectionRequestAccepted = true
@@ -475,11 +527,7 @@ extension ConversationVC: ConversationManagerDelegate {
     }
 
     func conversationManager(_ conversationManager: ConversationManager, didReceive message: UserMessage) {
-        messagesCollection.reloadData()
-        _ = conversationManager.getStatusMessageIndex()
-        if message.senderId == conversationManager.uid {
-            addMessageStatusLabel()
-        }
+        moveMessageStatusLabel(message: message)
         setActionViewUsable(true)
         if message.connectionRequestId != nil && conversationManager.isConnected == false {
             updateAsPendingConnection()
@@ -564,24 +612,25 @@ extension ConversationVC: SessionRequestViewDelegate {
 
 extension ConversationVC: QuickChatViewDelegate {
     func sendMessage(text: String) {
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let timestamp = Date().timeIntervalSince1970
         let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid, "connectionRequestId": "1"])
         sendMessage(message: message)
     }
+    
 }
 
 extension ConversationVC: UITextViewDelegate {
-    func textView(_: UITextView, shouldChangeTextIn _: NSRange, replacementText _: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return canSendMessages
     }
 }
 
 extension ConversationVC: SessionRequestCellDelegate {
-    func sessionRequestCellShouldRequestSession(cell _: SessionRequestCell) {
+    func sessionRequestCellShouldRequestSession(cell: SessionRequestCell) {
         showSessionRequestView()
     }
-
     func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest) {
         studentKeyboardAccessory.messageTextview.resignFirstResponder()
         cancelSessionModal = CancelSessionModal(frame: .zero)
@@ -625,7 +674,7 @@ extension ConversationVC: CustomModalDelegate {
 }
 
 extension ConversationVC: ImageMessageAnimatorDelegate {
-    func imageAnimatorWillZoomIn(_: ImageMessageAnimator) {
+    func imageAnimatorWillZoomIn(_ imageAnimator: ImageMessageAnimator) {
         studentKeyboardAccessory.messageTextview.resignFirstResponder()
         teacherKeyboardAccessory.messageTextview.resignFirstResponder()
     }
@@ -641,7 +690,6 @@ extension ConversationVC {
                 self.headerHeight = 0
                 self.messagesCollection.collectionViewLayout.invalidateLayout()
             }
-            self.messagesCollection.reloadData()
             self.messagesCollection.layoutIfNeeded()
 
             self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - oldOffset)

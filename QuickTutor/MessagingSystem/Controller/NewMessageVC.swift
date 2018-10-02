@@ -117,14 +117,15 @@ class NewMessageVC: UIViewController {
             })
         }
     }
-
+    
     @objc func cancel() {
         dismiss(animated: true, completion: nil)
     }
+    
 }
 
 extension NewMessageVC {
-    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         dismiss(animated: true, completion: nil)
         if connections.contains(where: { $0.uid == allUsers[indexPath.item].uid }) {
             self.delegate?.showConversationWithUser(user: allUsers[indexPath.item], isConnection: true)
@@ -132,13 +133,14 @@ extension NewMessageVC {
             delegate?.showConversationWithUser(user: allUsers[indexPath.item], isConnection: false)
         }
     }
+    
 }
 
 extension NewMessageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allUsers.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as? ContactCell else {
             assertionFailure("[QUICK TUTOR]: Couldn't load cell with reuse identifier")
@@ -147,32 +149,34 @@ extension NewMessageVC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         cell.updateUI(user: allUsers[indexPath.item])
         return cell
     }
-
-    func numberOfSections(in _: UICollectionView) -> Int {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+    
 }
 
 let headerTitles = ["Chat Now"]
 extension NewMessageVC {
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 60)
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader, let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as? NewMessageHeader else {
             fatalError("Should not get here")
         }
         headerView.updateUI(text: headerTitles[indexPath.section])
         return headerView
+        
     }
 }
 

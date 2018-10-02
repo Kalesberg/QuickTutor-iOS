@@ -33,7 +33,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         parentViewController.present(ac, animated: true, completion: nil)
     }
 
-    func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
@@ -65,7 +65,9 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
                     print(error.debugDescription)
                 }
                 guard let imageUrl = url else { return }
-                DataService.shared.sendImageMessage(imageUrl: imageUrl.absoluteString, imageWidth: image.size.width, imageHeight: image.size.height, receiverId: self.receiverId, completion: {})
+                DataService.shared.sendImageMessage(imageUrl: imageUrl.absoluteString, imageWidth: image.size.width, imageHeight: image.size.height, receiverId: self.receiverId, completion: {
+
+                })
             })
         }
     }

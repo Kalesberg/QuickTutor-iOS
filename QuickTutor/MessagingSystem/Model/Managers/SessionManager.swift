@@ -131,57 +131,58 @@ class SessionManager {
         }
         return "\(hours):\(minutes):\(decimalPlaceString)\(seconds * -1)"
     }
-
+    
     func sessionRuntimeExpired() -> Bool {
         return sessionRuntime >= sessionLengthInSeconds
     }
-
+    
     var connectionLost = false
-
-    // MARK: Sockets -
-
+    //MARK: Sockets -
     func observeSocketEvents() {
         socket.on(SocketEvents.pauseSession) { data, _ in
             guard let dict = data[0] as? [String: Any], let pausedById = dict["pausedBy"] as? String else { return }
             self.delegate?.sessionManager(self, userId: pausedById, didPause: self.session)
         }
-
+        
         socket.on(SocketEvents.unpauseSession) { _, _ in
             self.delegate?.sessionManager(self, didUnpause: self.session)
         }
-
+        
         socket.on(SocketEvents.endSession) { _, _ in
             InProgressSessionManager.shared.removeSessionFromInProgress(sessionId: self.sessionId, partnerId: self.session.partnerId())
             self.delegate?.sessionManager(self, didEnd: self.session)
         }
-
-        socket.on(SocketEvents.partnerDisconnected) { _, _ in
+        
+        socket.on(SocketEvents.partnerDisconnected) { (data, ack) in
             guard !self.connectionLost else { return }
             self.connectionLost = true
             self.delegate?.sessionManager(self, userLostConnection: "lostConnection")
         }
-
-        socket.on(SocketEvents.newConnection) { data, _ in
+        
+        socket.on(SocketEvents.newConnection) { (data, ack) in
             guard let dict = data[0] as? [String: Any], let connectionUid = dict["uid"] as? String else { return }
             self.connectionLost = false
             print("New connection:", connectionUid)
             self.delegate?.sessionManager(self, userConnectedWith: connectionUid)
         }
+        
     }
-
+    
     init(sessionId: String, socket: SocketIOClient) {
         self.sessionId = sessionId
         self.socket = socket
         loadSession()
         observeSocketEvents()
     }
-
+    
     init(sessionId: String) {
         self.sessionId = sessionId
         loadSession()
     }
-
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
+        
 }

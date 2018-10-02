@@ -48,11 +48,11 @@ class User: Decodable {
 }
 
 class ZFTutor: User {
-    var region: String?
-    var subjects: [String]?
-    var hoursTaught: Int?
-    var totalSessions: Int?
-    var stripeAccountId: String?
+    private(set) var region: String?
+    private(set) var subjects: [String]?
+    private(set) var hoursTaught: Int?
+    private(set) var totalSessions: Int?
+    private(set) var stripeAccountId: String?
 
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
@@ -61,8 +61,9 @@ class ZFTutor: User {
         totalSessions = dictionary["nos"] as? Int
         stripeAccountId = dictionary["act"] as? String
     }
-
-    required init(from _: Decoder) throws {
+    
+    required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
+    
 }

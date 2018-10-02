@@ -91,42 +91,41 @@ class CustomTitleView: UIView {
             navigationController.pushViewController(vc, animated: true)
         }
     }
-
+    
     private func setupImageView() {
         addSubview(imageView)
         imageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 38, height: 38)
     }
-
+    
     private func setupTitleView() {
         addSubview(titleLabel)
         titleLabel.anchor(top: topAnchor, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 4, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         nameLabelHeightAnchor = titleLabel.heightAnchor.constraint(equalToConstant: 20)
         nameLabelHeightAnchor?.isActive = true
     }
-
+    
     private func setupActiveLabel() {
         addSubview(activeLabel)
         activeLabel.anchor(top: titleLabel.bottomAnchor, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 2, paddingLeft: 4, paddingBottom: 0, paddingRight: 0, width: 0, height: 12)
     }
-
+    
     private func setupArrow() {
         addSubview(arrow)
         arrow.anchor(top: nil, left: titleLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 6, paddingBottom: 0, paddingRight: 0, width: 7, height: 10)
         addConstraint(NSLayoutConstraint(item: arrow, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
-
     private func updateOnlineStatusIndicator() {
         imageView.onlineStatusIndicator.backgroundColor = OnlineStatusService.shared.isActive ? Colors.green : Colors.qtRed
     }
-
+    
     func updateNameLabelAsInactive() {
         nameLabelHeightAnchor?.constant = 38
         UIView.animate(withDuration: 0.25) {
             self.layoutIfNeeded()
         }
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

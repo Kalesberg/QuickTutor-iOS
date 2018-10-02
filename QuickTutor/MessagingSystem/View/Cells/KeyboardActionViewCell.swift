@@ -28,29 +28,30 @@ class KeyboardActionViewCell: UICollectionViewCell {
         icon.image = image
         titleLabel.text = title
     }
-
+    
     func setupViews() {
         backgroundColor = Colors.darkBackground
         setupTitleLabel()
         setupButton()
     }
-
+    
     private func setupTitleLabel() {
         addSubview(titleLabel)
         titleLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 12.5, paddingRight: 0, width: 0, height: 14)
     }
-
+    
     private func setupButton() {
         addSubview(icon)
         icon.anchor(top: nil, left: leftAnchor, bottom: titleLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 12, paddingRight: 0, width: 0, height: 45)
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }

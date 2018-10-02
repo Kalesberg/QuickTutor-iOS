@@ -122,8 +122,9 @@ class CustomModal: BaseCustomModal {
         nevermindButton.setTitle(cancelText, for: .normal)
         confirmButton.setTitle(confirmText, for: .normal)
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }

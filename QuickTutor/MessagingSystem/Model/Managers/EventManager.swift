@@ -10,6 +10,7 @@ import EventKit
 import UIKit
 
 class EventManager {
+    
     var parentController: UIViewController
 
     func addSessionToCalender(_ session: SessionRequest, forCell cell: SessionRequestCell) {

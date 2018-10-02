@@ -33,6 +33,7 @@ class SystemMessageCell: BaseMessageCell {
     }
 
     @objc func markAsRead() {
+        guard textField.text != "Seen" else { return }
         UIView.animate(withDuration: 0.1, animations: {
             self.textField.alpha = 0
         }) { _ in

@@ -9,17 +9,19 @@
 import UIKit
 
 class SessionTimePicker: UIDatePicker {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func setupViews() {
-        datePickerMode = .time
+        self.datePickerMode = .time
         setValue(UIColor.white, forKey: "textColor")
     }
+    
 }

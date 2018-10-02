@@ -111,15 +111,16 @@ class AddTutorCell: UICollectionViewCell {
             self.statsLabel.text = "\(hours) hours taught, \(sessions) complete sessions"
         }
     }
-
-    @objc func addTutor() {}
-
+	
+    @objc func addTutor() {
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

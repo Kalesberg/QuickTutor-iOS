@@ -276,21 +276,21 @@ class BaseSessionStartVC: UIViewController {
         updateUI()
         print("ZACH: Loading session start view")
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         #if targetEnvironment(simulator)
-            // for sim only
+        // for sim only
         #else
-            guard checkPermissions() else { return }
+        guard checkPermissions() else { return }
         #endif
     }
-
-    override func viewWillDisappear(_: Bool) {
+    
+    override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
         socket.disconnect()
     }
-
+    
     func checkPermissions() -> Bool {
         if checkCameraAccess() && checkMicrophoneAccess() {
             return true

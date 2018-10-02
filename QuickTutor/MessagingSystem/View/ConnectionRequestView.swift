@@ -120,24 +120,25 @@ class ConnectionRequestView: UIView {
         dismissTap.numberOfTapsRequired = 1
         backgroundBlurView.addGestureRecognizer(dismissTap)
     }
-
+    
     @objc func dismiss() {
         backgroundBlurView.removeFromSuperview()
         removeFromSuperview()
     }
-
+    
     @objc func handleTextChange() {
         placeholderLabel.isHidden = !messageView.text.isEmpty
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
 extension ConnectionRequestView: QuickChatViewDelegate {

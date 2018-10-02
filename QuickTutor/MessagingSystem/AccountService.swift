@@ -34,7 +34,7 @@ class AccountService {
 
 class SessionService {
     static let shared = SessionService()
-    var session: Session!
+    var session: Session?
     var rating = 0
 
     private init() {}

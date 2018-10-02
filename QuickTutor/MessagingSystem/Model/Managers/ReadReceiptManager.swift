@@ -10,6 +10,7 @@ import Firebase
 import Foundation
 
 class ReadReceiptManager {
+    
     var receiverId: String
     var delegate: ReadReceiptManagerDelegate?
 
