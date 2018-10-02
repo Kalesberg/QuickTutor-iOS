@@ -18,11 +18,13 @@ class MyProfileBody : UIView {
 		configureView()
 	}
 	
+	var isViewing : Bool = false
+	
 	let additionalInformation : UILabel = {
 		let label = UILabel()
 		label.text = "Additional Information"
 		label.font = Fonts.createBoldSize(16)
-		label.textColor = Colors.currentUserColor()
+		
 		return label
 	}()
 	
@@ -47,6 +49,8 @@ class MyProfileBody : UIView {
 		addSubview(additionalInformation)
 		addSubview(stackView)
 		addSubview(divider)
+		
+		additionalInformation.textColor = isViewing ? Colors.otherUserColor() :  Colors.currentUserColor()
 		
 		applyConstraints()
 	}

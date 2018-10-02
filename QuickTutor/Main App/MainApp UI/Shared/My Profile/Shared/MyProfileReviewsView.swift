@@ -13,15 +13,18 @@ class MyProfileReviewsView : UIView {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
-	override init(frame: CGRect) {
-		super.init(frame: frame)
+	
+	var isViewing : Bool = false
+	
+	init(isViewing:Bool=false) {
+		self.isViewing = isViewing
+		super.init(frame: .zero)
 		configureView()
 	}
 
 	let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
-
 	var parentViewController : UIViewController?
-	var isViewing : Bool = false
+	
 	var dataSource = [Review]() {
 		didSet {
 			setupReviewLabel()
@@ -44,22 +47,33 @@ class MyProfileReviewsView : UIView {
 
 		return button
 	}()
-	let reviewLabel1 = TutorMyProfileReviewTableViewCell()
-	let reviewLabel2 = TutorMyProfileReviewTableViewCell()
-
+	
+	let divider : UIView = {
+		let view = UIView()
+		view.backgroundColor = Colors.divider
+		return view
+	}()
+	
+	let reviewLabel1 = MyProfileReview()
+	let reviewLabel2 = MyProfileReview()
 	
 	var reviewSectionHeight : CGFloat {
 		layoutIfNeeded()
-		let verticlePadding : CGFloat = 45
-		return (reviewLabel1.frame.height + reviewLabel2.frame.height + verticlePadding)
+		let maxLabelWidth: CGFloat = (UIScreen.main.bounds.width - 60)
+		let neededSize1 = reviewLabel1.reviewTextLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
+		let neededSize2 = reviewLabel2.reviewTextLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
+
+		return (neededSize1.height + 50 + neededSize2.height + 50 + 20)
 	}
+	
 	func configureView() {
 		addSubview(reviewTitle)
 		addSubview(seeAllButton)
+		addSubview(divider)
 
 		seeAllButton.addTarget(self, action: #selector(seeAllButtonPressed(_:)), for: .touchUpInside)
 		reviewTitle.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
-		
+
 		applyConstraints()
 	}
 	
@@ -74,11 +88,9 @@ class MyProfileReviewsView : UIView {
 			make.top.equalToSuperview()
 			make.right.equalToSuperview().inset(12)
 		}
-		setupMostRecentReviews()
 	}
 	
 	func setupMostRecentReviews() {
-	
 		if dataSource.count >= 2 {
 			setupReviewLabel1()
 			setupReviewLabel2()
@@ -103,7 +115,8 @@ class MyProfileReviewsView : UIView {
 		reviewLabel1.dateLabel.text = "\(dataSource[0].date)"
 		
 		let reference = storageRef.child("student-info").child(dataSource[0].reviewerId).child("student-profile-pic1")
-		reviewLabel1.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+		
+		reviewLabel1.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
 	}
 	
 	private func setupReviewLabel2() {
@@ -114,26 +127,37 @@ class MyProfileReviewsView : UIView {
 		}
 		let formattedName = dataSource[1].studentName.split(separator: " ")
 		reviewLabel2.nameLabel.text = "\(String(formattedName[0])) \(String(formattedName[1]).prefix(1))."
+		reviewLabel2.nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
 		reviewLabel2.reviewTextLabel.text = "\"\(dataSource[1].message)\""
 		reviewLabel2.subjectLabel.attributedText = NSMutableAttributedString().bold("\(dataSource[1].rating) ★", 14, Colors.gold).bold(" - \(dataSource[1].subject)", 13, .white)
 		reviewLabel2.dateLabel.text = "\(dataSource[1].date)"
 		
 		let reference = storageRef.child("student-info").child(dataSource[1].reviewerId).child("student-profile-pic1")
-		reviewLabel2.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+		reviewLabel2.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
 	}
 	
 	private func setupBackgroundLabel() {
-		addSubview(NoRatingsBackgroundView())
+		let backgroundView = NoRatingsBackgroundView()
+		addSubview(backgroundView)
+		backgroundView.snp.makeConstraints { (make) in
+			make.top.equalTo(reviewTitle.snp.bottom).inset(-5)
+			make.centerX.width.equalToSuperview()
+		}
 	}
 	
 	@objc func seeAllButtonPressed(_ sender: UIButton) {
 		let vc = LearnerReviewsVC()
 		vc.datasource = dataSource
+		vc.contentView.navbar.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		vc.contentView.statusbarView.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		vc.isViewing = isViewing
 		parentViewController?.navigationController?.present(vc, animated: true)
 	}
+	
 	private func setupReviewLabel() {
-		reviewTitle.text = dataSource.count > 0 ? "Reviews (\(dataSource.count))" : "No Reviews"
+		reviewTitle.text = dataSource.count > 0 ? "Reviews (\(dataSource.count))" : "Reviews"
 	}
+	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		seeAllButton.layer.cornerRadius = 8

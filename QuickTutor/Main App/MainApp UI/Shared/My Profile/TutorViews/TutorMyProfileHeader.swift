@@ -1,20 +1,20 @@
 //
-//  MyProfileHeader.swift
+//  TutorMyProfileHeader.swift
 //  QuickTutor
 //
-//  Created by QuickTutor on 9/25/18.
+//  Created by QuickTutor on 9/30/18.
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
+
 
 import Foundation
 import UIKit
 import SnapKit
 
-class MyProfileHeader : UIView {
+class TutorMyProfileHeader : UIView {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
-	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		configureView()
@@ -32,7 +32,7 @@ class MyProfileHeader : UIView {
 	}()
 	
 	let nameContainer = UIView()
-
+	
 	let nameLabel : UILabel = {
 		let label = UILabel()
 		label.textColor = .white
@@ -42,20 +42,38 @@ class MyProfileHeader : UIView {
 		return label
 	}()
 	
-	let rating : UILabel = {
+	let rateReviewContainer = UIView()
+	
+	let price : UILabel = {
 		let label = UILabel()
-		label.textColor = Colors.gold
+		
+		label.backgroundColor = Colors.green
+		label.textColor = .white
+		label.textAlignment = .center
 		label.font = Fonts.createBoldSize(14)
-		label.textAlignment = .right
+		label.layer.masksToBounds = true
+		label.layer.cornerRadius = 10
+		
 		return label
 	}()
 	
+	let rating : UILabel = {
+		let label = UILabel()
+		
+		label.textColor = Colors.gold
+		label.textAlignment = .center
+		label.font = Fonts.createSize(14)
+		
+		return label
+	}()
 	
 	private func configureView() {
 		addSubview(profileImageViewButton)
 		addSubview(nameContainer)
 		nameContainer.addSubview(nameLabel)
-		addSubview(rating)
+		addSubview(rateReviewContainer)
+		rateReviewContainer.addSubview(price)
+		rateReviewContainer.addSubview(rating)
 		
 		profileImageViewButton.addTarget(self, action: #selector(profileImageViewPressed), for: .touchUpInside)
 		backgroundColor = Colors.navBarColor
@@ -73,17 +91,26 @@ class MyProfileHeader : UIView {
 		nameContainer.snp.makeConstraints { (make) in
 			make.top.equalTo(profileImageViewButton.snp.bottom)
 			make.centerX.width.equalToSuperview()
-			make.bottom.equalToSuperview()
 		}
 		nameLabel.snp.makeConstraints { (make) in
 			make.center.equalToSuperview()
 			make.width.equalToSuperview().multipliedBy(0.9)
 			make.height.equalToSuperview().multipliedBy(0.8)
 		}
+		rateReviewContainer.snp.makeConstraints { (make) in
+			make.top.equalTo(nameContainer.snp.bottom)
+			make.centerX.bottom.equalToSuperview()
+			make.width.equalToSuperview()
+		}
+		price.snp.makeConstraints { (make) in
+			make.right.equalTo(rateReviewContainer.snp.centerX).inset(-10)
+			make.top.equalToSuperview()
+			make.height.equalTo(20)
+			make.width.equalTo(80)
+		}
 		rating.snp.makeConstraints { (make) in
-			make.top.equalTo(profileImageViewButton.snp.top)
-			make.right.equalToSuperview().inset(10)
-			make.left.equalTo(profileImageViewButton.snp.right)
+			make.top.equalToSuperview()
+			make.left.equalTo(rateReviewContainer.snp.centerX).inset(10)
 			make.height.equalTo(20)
 		}
 	}

@@ -118,13 +118,13 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
 	private func getViewsForExtraInformationSection() -> [UIView] {
 		var views = [UIView]()
 		
-		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(learner.lNumSessions!) sessions"))
+		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(learner.lNumSessions!) sessions", isViewing : isViewing))
 		
 		if let languages = learner.languages {
-			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))"))
+			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))", isViewing : isViewing))
 		}
 		if learner.school != "" && learner.school != nil {
-			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: "Studies at " + learner.school!))
+			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: "Studies at " + learner.school!, isViewing : isViewing))
 		}
 		return views
 	}

@@ -14,13 +14,12 @@ import SnapKit
 import UIKit
 
 class SubjectSelectionCollectionViewCell: UICollectionViewCell {
+	required init?(coder _: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
     required override init(frame _: CGRect) {
         super.init(frame: .zero)
         configureView()
-    }
-
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     let label: UILabel = {
@@ -169,323 +168,15 @@ class BaseTableViewCell: UITableViewCell {
 
 class InteractableUIImageView: UIImageView, Interactable {}
 
-class ProfilePicTableViewCell: BaseTableViewCell {
-    let profilePicView: InteractableUIImageView = {
-        let imageView = InteractableUIImageView()
 
-        imageView.isUserInteractionEnabled = true
-
-        imageView.scaleImage()
-        imageView.sizeToFit()
-        imageView.layer.cornerRadius = 8
-
-        return imageView
-    }()
-
-    let nameLabel: UILabel = {
-        let label = UILabel()
-
-        label.font = Fonts.createBoldSize(20)
-        label.textColor = .white
-
-        return label
-    }()
-
-    let ratingLabel: UILabel = {
-        let label = UILabel()
-
-        label.textColor = Colors.gold
-        label.font = Fonts.createBoldSize(14)
-
-        return label
-    }()
-
-    override func configureView() {
-        contentView.addSubview(profilePicView)
-        addSubview(nameLabel)
-        addSubview(ratingLabel)
-
-        backgroundColor = .clear
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        profilePicView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
-            make.centerX.equalToSuperview()
-            if UIScreen.main.bounds.height < 570 {
-                make.width.height.equalTo(160)
-            } else {
-                make.width.height.equalTo(200)
-            }
-        }
-        nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(profilePicView.snp.bottom).inset(-10)
-            make.centerX.equalToSuperview()
-        }
-        ratingLabel.snp.makeConstraints { make in
-            make.top.equalTo(profilePicView)
-            make.right.equalToSuperview().inset(10)
-        }
-    }
-
-    override func handleNavigation() {
-        if touchStartView is InteractableUIImageView {
-            if let current = next?.next?.next {
-                if current is TutorMyProfile {
-                    let vc = (current as! TutorMyProfile)
-                    vc.displayProfileImageViewer(imageCount: vc.tutor.images.filter({ $0.value != "" }).count, userId: vc.tutor.uid)
-                } else {
-                    let vc = (current as! LearnerMyProfileVC)
-                    vc.displayProfileImageViewer(imageCount: vc.learner.images.filter({ $0.value != "" }).count, userId: vc.learner.uid)
-                }
-            }
-        }
-    }
-}
-
-class ExtraInfoTableViewCell: BaseTableViewCell {
-//    let speakItem: ProfileItem = {
-//        let item = ProfileItem()
-//
-//        item.imageView.image = #imageLiteral(resourceName: "speaks")
-//
-//        return item
-//    }()
-//
-//    let studysItem: ProfileItem = {
-//        let item = ProfileItem()
-//
-//        item.imageView.image = #imageLiteral(resourceName: "studys-at")
-//
-//        return item
-//    }()
-//
-//    let tutorItem: ProfileItem = {
-//        let item = ProfileItem()
-//
-//        item.imageView.image = UIImage(named: "tutored-in")
-//
-//        return item
-//    }()
-
-    let divider = UIView()
-
-    override func configureView() {
-       // contentView.addSubview(tutorItem)
-        contentView.addSubview(divider)
-        super.configureView()
-
-        backgroundColor = .clear
-        selectionStyle = .none
-
-        divider.backgroundColor = Colors.divider
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        translatesAutoresizingMaskIntoConstraints = false
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        divider.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
-            make.left.equalToSuperview().inset(12)
-            make.right.equalToSuperview().inset(20)
-        }
-    }
-}
-
-class ExtraInfoCardTableViewCell: ExtraInfoTableViewCell {
-//    let locationItem: ProfileItem = {
-//        let item = ProfileItem()
-//
-//        item.imageView.image = #imageLiteral(resourceName: "location")
-//
-//        return item
-//    }()
-
-    let label: UILabel = {
-        let label = UILabel()
-
-        label.text = "Additional Information"
-        label.font = Fonts.createBoldSize(16)
-        label.textColor = UIColor(hex: "5785d4")
-
-        return label
-    }()
-
-    override func configureView() {
-        contentView.addSubview(label)
-        //contentView.addSubview(locationItem)
-        super.configureView()
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-
-        label.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(10)
-            make.left.equalToSuperview().inset(12)
-        }
-    }
-}
-
-class AboutMeTableViewCell: UITableViewCell {
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureView()
-    }
-
+class SubjectsTableViewCell : UITableViewCell {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        configureView()
     }
-
-    var aboutMeLabel: LeftTextLabel = {
-        let label = LeftTextLabel()
-
-        label.label.font = Fonts.createBoldSize(16)
-        label.label.text = "About Me"
-        label.sizeToFit()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.label.textColor = UIColor(hex: "5785d4")
-
-        return label
-    }()
-
-    var bioLabel: UILabel = {
-        let label = UILabel()
-
-        label.textColor = Colors.grayText
-        label.font = Fonts.createSize(13)
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-
-    let divider2 = BaseView()
-
-    let container = UIView()
-
-    func configureView() {
-        contentView.addSubview(aboutMeLabel)
-        contentView.addSubview(bioLabel)
-        contentView.addSubview(divider2)
-
-        backgroundColor = .clear
-        selectionStyle = .none
-
-        divider2.backgroundColor = Colors.divider
-
-        applyConstraints()
-    }
-
-    func applyConstraints() {
-        aboutMeLabel.snp.makeConstraints { make in
-            make.left.equalTo(contentView).inset(12)
-            make.height.equalTo(44)
-            make.top.equalToSuperview()
-        }
-
-        bioLabel.snp.makeConstraints { make in
-            make.top.equalTo(aboutMeLabel.snp.bottom)
-            make.left.equalToSuperview().inset(20)
-            make.right.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview()
-        }
-
-        divider2.snp.makeConstraints { make in
-            make.height.equalTo(1)
-            make.left.equalTo(aboutMeLabel.snp.left)
-            make.right.equalTo(bioLabel.snp.right)
-            make.top.equalTo(contentView.snp.bottom)
-        }
-    }
-}
-
-class PoliciesTableViewCell: UITableViewCell {
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureView()
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configureView()
-    }
-
-    let header: UILabel = {
-        let label = UILabel()
-
-        label.text = "Policies"
-        label.textColor = UIColor(hex: "5785d4")
-        label.font = Fonts.createBoldSize(16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-
-    let policiesLabel: UILabel = {
-        let label = UILabel()
-
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.sizeToFit()
-        label.numberOfLines = 0
-
-        return label
-    }()
-
-    var divider1 = UIView()
-
-    func configureView() {
-        contentView.addSubview(header)
-        contentView.addSubview(policiesLabel)
-        contentView.addSubview(divider1)
-
-        backgroundColor = .clear
-        selectionStyle = .none
-
-        divider1.backgroundColor = Colors.divider
-
-        applyConstraints()
-    }
-
-    func applyConstraints() {
-        header.snp.makeConstraints { make in
-            make.top.equalTo(contentView).inset(10)
-            make.left.equalTo(contentView).inset(10)
-        }
-
-        policiesLabel.snp.makeConstraints { make in
-            make.top.equalTo(header.snp.bottom).inset(-10)
-            make.left.equalTo(contentView.snp.left).inset(10)
-            make.right.equalTo(contentView).inset(15)
-            make.bottom.equalTo(contentView).inset(15)
-        }
-
-        divider1.snp.makeConstraints { make in
-            make.left.equalTo(header.snp.right).inset(-10)
-            make.centerY.equalTo(header).inset(0.5)
-            make.height.equalTo(0.75)
-            make.right.equalTo(contentView).inset(20)
-        }
-    }
-}
-
-class SubjectsTableViewCell: UITableViewCell {
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureView()
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configureView()
-    }
-
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
+	}
+	
     let subjectCollectionView: UICollectionView = {
         let collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
@@ -524,9 +215,8 @@ class SubjectsTableViewCell: UITableViewCell {
         addSubview(label)
         addSubview(subjectCollectionView)
 
-        backgroundColor = .clear
-        selectionStyle = .none
-
+        backgroundColor = Colors.navBarColor
+		
         subjectCollectionView.delegate = self
         subjectCollectionView.dataSource = self
         subjectCollectionView.register(SubjectSelectionCollectionViewCell.self, forCellWithReuseIdentifier: "subjectSelectionCollectionViewCell")
@@ -559,7 +249,6 @@ extension SubjectsTableViewCell: UICollectionViewDataSource, UICollectionViewDel
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectSelectionCollectionViewCell", for: indexPath) as! SubjectSelectionCollectionViewCell
 
         cell.label.text = datasource[indexPath.row]
-
         return cell
     }
 
@@ -592,7 +281,6 @@ class RatingTableViewCell: UITableViewCell {
         return tableView
     }()
 
-    let seeAllButton = SeeAllButton()
 
     var datasource = [Review]() {
         didSet {
@@ -607,11 +295,10 @@ class RatingTableViewCell: UITableViewCell {
 
 	func configureView() {
         contentView.addSubview(tableView)
-        contentView.addSubview(seeAllButton)
 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(TutorMyProfileReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
+        tableView.register(MyProfileReview.self, forCellReuseIdentifier: "reviewCell")
 		
 		backgroundColor = Colors.navBarColor
         selectionStyle = .none
@@ -628,12 +315,6 @@ class RatingTableViewCell: UITableViewCell {
             } else {
                 make.height.equalTo(190)
             }
-        }
-        seeAllButton.snp.makeConstraints { make in
-            make.height.equalTo(30)
-            make.width.equalTo(80)
-            make.right.equalTo(tableView.snp.right)
-            make.top.equalTo(tableView.snp.bottom)
         }
     }
 	private func updateTableViewConstraints() {
@@ -654,31 +335,20 @@ class NoRatingsBackgroundView : UIView {
 		super.init(frame: .zero)
 		configureView()
 	}
-	
-    let label1: UILabel = {
-        let label = UILabel()
 
-        label.text = "Reviews"
-        label.font = Fonts.createBoldSize(16)
-
-        return label
-    }()
-
-    let label2: UILabel = {
+    let title: UILabel = {
         let label = UILabel()
 
         label.text = "No reviews yet!"
-        label.font = Fonts.createBoldSize(18)
+        label.font = Fonts.createBoldSize(16)
         label.textColor = .white
+		label.textAlignment = .center
 
         return label
     }()
 
-    var isViewing: Bool = false
-
 	func configureView() {
-        addSubview(label1)
-		addSubview(label2)
+		addSubview(title)
 
         backgroundColor = Colors.navBarColor
 
@@ -686,25 +356,11 @@ class NoRatingsBackgroundView : UIView {
     }
 
 	func applyConstraints() {
-        label1.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.95)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(40)
-            make.top.equalToSuperview()
+		title.snp.makeConstraints { make in
+			make.top.centerX.equalToSuperview()
+			make.height.equalTo(50)
         }
-
-        label2.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.height.equalTo(40)
-            make.top.equalTo(label1.snp.bottom)
-            make.bottom.equalToSuperview()
-        }
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        label1.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
-    }
+	}
 }
 
 extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
@@ -717,17 +373,17 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileReviewTableViewCell
-//        let data = datasource[indexPath.row]
-//        let formattedName = data.studentName.split(separator: " ")
-//        cell.nameLabel.text = "\(String(formattedName[0]).capitalized) \(String(formattedName[1]).capitalized.prefix(1))."
-//        cell.reviewTextLabel.text = "\"\(data.message)\""
-//        cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
-//        cell.dateLabel.text = "\(data.date)"
-//
-//        let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1")
-//        cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-//        cell.isViewing = isViewing
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileLongReviewTableViewCell
+		
+        let data = datasource[indexPath.row]
+        let formattedName = data.studentName.split(separator: " ")
+        cell.nameLabel.text = "\(String(formattedName[0]).capitalized) \(String(formattedName[1]).capitalized.prefix(1))."
+        cell.reviewTextLabel.text = "\"\(data.message)\""
+        cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
+        cell.dateLabel.text = "\(data.date)"
+
+        let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1")
+        cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
 
         return UITableViewCell()
     }
@@ -746,7 +402,6 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
         label.font = Fonts.createBoldSize(16)
         label.text = "Reviews (\((datasource.count)))"
         label.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
-
         return label
     }
 
@@ -755,7 +410,7 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-class TutorMyProfileReviewTableViewCell: UIView {
+class MyProfileReview: UIView {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
@@ -799,8 +454,12 @@ class TutorMyProfileReviewTableViewCell: UIView {
 		label.textAlignment = .right
 		return label
 	}()
-	
-	var isViewing: Bool = false
+		
+	var reviewLabelHeight : CGFloat {
+		layoutIfNeeded()
+		reviewTextLabel.sizeToFit()
+		return (dateLabel.frame.height + reviewTextLabel.frame.height + nameLabel.frame.height)
+	}
 	
 	func configureView() {
 		addSubview(profilePic)
@@ -847,7 +506,6 @@ class TutorMyProfileReviewTableViewCell: UIView {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		profilePic.layer.cornerRadius = profilePic.frame.height / 2
-		nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
 	}
 }
 

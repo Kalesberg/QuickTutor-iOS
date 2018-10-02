@@ -79,6 +79,7 @@ class LearnerReviewsVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		print(isViewing)
         contentView.navbar.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
         contentView.statusbarView.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
 

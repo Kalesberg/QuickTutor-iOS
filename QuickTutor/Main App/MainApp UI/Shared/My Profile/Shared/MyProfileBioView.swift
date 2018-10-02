@@ -10,6 +10,7 @@ class MyProfileBioView : UIView {
 	public required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
+	
 	override init(frame: CGRect) {
 		super.init(frame: .zero)
 		configureView()
@@ -25,7 +26,7 @@ class MyProfileBioView : UIView {
 
 		return label
 	}()
-	
+
 	var bioLabel: UILabel = {
 		let label = UILabel()
 		
@@ -69,8 +70,7 @@ class MyProfileBioView : UIView {
 		divider.snp.makeConstraints { make in
 			make.height.equalTo(1)
 			make.width.equalToSuperview().inset(20)
-			make.centerX.equalToSuperview()
-			make.bottom.equalToSuperview()
+			make.centerX.bottom.equalToSuperview()
 		}
 	}
 }
