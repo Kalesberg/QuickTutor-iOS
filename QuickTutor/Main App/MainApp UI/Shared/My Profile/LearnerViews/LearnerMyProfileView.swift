@@ -69,7 +69,7 @@ class LearnerMyProfileView: MainLayoutTitleTwoButton {
 		}
 		myProfileHeader.snp.makeConstraints { (make) in
 			make.top.width.centerX.equalToSuperview().inset(1)
-			make.height.equalTo((UIScreen.main.bounds.height < 570) ? 210 : 250)
+			make.height.equalTo((UIScreen.main.bounds.height < 570) ? 220 : 260)
 		}
 		myProfileBioView.snp.makeConstraints { (make) in
 			make.top.equalTo(myProfileHeader.snp.bottom)
