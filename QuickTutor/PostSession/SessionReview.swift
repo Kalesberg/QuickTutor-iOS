@@ -350,6 +350,7 @@ class SessionReview : BaseViewController {
 				guard hasPaid == false else { return }
 				contentView.nextButton.isEnabled = false
 				let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
+                AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: Double(PostSessionReviewData.tipAmount))
 				createCharge(cost: Int(costWithTip * 100)) { (error) in
 					if let error = error {
 						AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
