@@ -30,7 +30,13 @@ class TutorRatingsReviewContainerCell: UICollectionViewCell, UICollectionViewDel
         return cv
     }()
     
-    let seeAllButton = SeeAllButton()
+    let seeAllButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("See All »", for: .normal)
+        button.titleLabel?.textColor = Colors.lightGrey
+        button.titleLabel?.font = Fonts.createSize(12)
+        return button
+    }()
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return reviews.count
@@ -60,10 +66,8 @@ class TutorRatingsReviewContainerCell: UICollectionViewCell, UICollectionViewDel
     
     func setupSeeAllButton() {
         addSubview(seeAllButton)
-        seeAllButton.label.font = Fonts.createSize(12)
         seeAllButton.anchor(top: collectionView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 64, height: 24)
-        let tap = UITapGestureRecognizer(target: self, action: #selector(showAllReviews))
-        seeAllButton.addGestureRecognizer(tap)
+        seeAllButton.addTarget(self, action: #selector(showAllReviews), for: .touchUpInside)
     }
     
     @objc func showAllReviews() {

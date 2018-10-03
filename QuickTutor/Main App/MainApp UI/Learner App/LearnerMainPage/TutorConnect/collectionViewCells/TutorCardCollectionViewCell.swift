@@ -1,5 +1,4 @@
 //
-import SnapKit
 //  TutorCardCollectionViewCell.swift
 //  QuickTutor
 //
@@ -7,184 +6,238 @@ import SnapKit
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 import UIKit
+import FirebaseUI
 
-class TutorCardCollectionViewCell: BaseCollectionViewCell {
-    required override init(frame _: CGRect) {
-        super.init(frame: .zero)
-        configureCollectionViewCell()
-    }
+class TutorCardCollectionViewCell: UICollectionViewCell {
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+	override init(frame: CGRect) {
+		super.init(frame: .zero)
+		configureCollectionViewCell()
+	}
 
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+	var parentViewController : UIViewController?
+	
+	var tutor: AWTutor! {
+		didSet {
+			setupTutorCardAboutMe()
+			setupTutorCardBody()
+			setupTutorCardSubjects()
+			setupTutorCardReviews()
+			setupTutorCardPolicy()
+			setupScrollViewContentSize()
+		}
+	}
+	
+	var delegate: AddTutorButtonDelegate?
 
-    let header = TutorCardHeader()
-
-    let reviewLabel: UILabel = {
-        let label = UILabel()
-
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = Fonts.createBoldSize(15)
-
-        return label
-    }()
-
-    let reviewLabelContainer = UIView()
-
-    let rateLabel: UILabel = {
-        let label = UILabel()
-
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = Fonts.createBoldSize(15)
-
-        return label
-    }()
-
-    let rateLabelContainer = UIView()
-    let connectButton = ConnectButton()
-    let tableViewContainer = UIView()
-
-    let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.estimatedRowHeight = 55
-        tableView.showsVerticalScrollIndicator = false
-        tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .clear
-        tableView.delaysContentTouches = false
-        tableView.allowsSelection = false
-        return tableView
-    }()
-
-    let dropShadowView = UIView()
-
-    var delegate: AddTutorButtonDelegate?
-
-    var datasource: AWTutor! {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-
+	let scrollView : UIScrollView = {
+		let scrollView = UIScrollView()
+		
+		scrollView.showsVerticalScrollIndicator = false
+		scrollView.alwaysBounceVertical = true
+		scrollView.canCancelContentTouches = true
+		scrollView.isDirectionalLockEnabled = true
+		scrollView.isExclusiveTouch = false
+		scrollView.backgroundColor = Colors.navBarColor
+		scrollView.layer.cornerRadius = 10
+		
+		return scrollView
+	}()
+	
+    let tutorCardHeader = TutorCardHeader()
+	let tutorCardAboutMe = MyProfileBioView()
+	let tutorCardBody = MyProfileBody()
+	let tutorCardSubjects = TutorMyProfileSubjects()
+	let tutorCardReviews = MyProfileReviewsView(isViewing: true)
+	let tutorCardPolicy = TutorMyProfilePolicies()
+	
+	let connectButton : UIButton = {
+		let button = UIButton()
+		
+		button.titleLabel?.font = Fonts.createBoldSize(18)
+		button.titleLabel?.textColor = .white
+		button.backgroundColor = Colors.learnerPurple
+		button.layer.cornerRadius = 8
+		button.layer.shadowColor = UIColor.black.cgColor
+		button.layer.shadowOffset = CGSize(width: 0, height: 2)
+		button.layer.shadowRadius = 5
+		button.layer.shadowOpacity = 0.6
+		
+		return button
+	}()
+	
+	let dropShadowView = UIView()
+	
     func configureCollectionViewCell() {
-        configureViews()
-        configureDelegates()
-
-        applyConstraints()
+		addSubview(tutorCardHeader)
+		addSubview(dropShadowView)
+		addSubview(scrollView)
+		scrollView.addSubview(tutorCardAboutMe)
+		scrollView.addSubview(tutorCardBody)
+		scrollView.addSubview(tutorCardSubjects)
+		scrollView.addSubview(tutorCardReviews)
+		scrollView.addSubview(tutorCardPolicy)
+		addSubview(connectButton)
+		
+		connectButton.addTarget(self, action: #selector(connectButtonPressed(_:)), for: .touchUpInside)
+		
+		backgroundColor = .clear
+		applyConstraints()
     }
 
     func applyConstraints() {
-        header.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(135)
-        }
-
-        rateLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        rateLabelContainer.snp.makeConstraints { make in
-            make.top.equalTo(header).inset(-13)
-            make.left.equalToSuperview().inset(-5)
-            make.width.equalTo(rateLabel).inset(-16)
-            make.height.equalTo(24)
-        }
-        tableViewContainer.snp.makeConstraints { make in
-            make.top.equalTo(header.snp.bottom)
-            make.width.equalToSuperview()
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide).inset(23)
-            } else {
-                make.bottom.equalToSuperview().inset(23)
-            }
-            make.centerX.equalToSuperview()
-        }
-        connectButton.snp.makeConstraints { make in
-            make.width.equalTo(180)
-            make.height.equalTo(40)
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(tableViewContainer).inset(-20)
-        }
-        tableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(tableViewContainer.snp.bottom).inset(22)
-        }
-
-        dropShadowView.snp.makeConstraints { make in
-            make.top.equalTo(header.snp.bottom)
-            make.width.equalToSuperview().inset(1)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(2)
-        }
+		tutorCardHeader.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.width.centerX.equalToSuperview()
+			make.height.equalTo(120)
+		}
+		dropShadowView.snp.makeConstraints { (make) in
+			make.top.equalTo(tutorCardHeader.snp.bottom)
+			make.width.centerX.equalToSuperview()
+			make.height.equalTo(1)
+		}
+		scrollView.snp.makeConstraints { (make) in
+			make.top.equalTo(dropShadowView.snp.bottom).inset(5)
+			make.width.centerX.equalToSuperview()
+			make.bottom.equalToSuperview().inset(40)
+		}
+		tutorCardAboutMe.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.width.centerX.equalToSuperview()
+		}
+		tutorCardBody.snp.makeConstraints { (make) in
+			make.top.equalTo(tutorCardAboutMe.snp.bottom)
+			make.width.centerX.equalToSuperview()
+			make.height.equalTo(tutorCardBody.baseHeight)
+		}
+		tutorCardSubjects.snp.makeConstraints { (make) in
+			make.top.equalTo(tutorCardBody.divider.snp.bottom)
+			make.width.centerX.equalToSuperview()
+			make.height.equalTo(80)
+		}
+		connectButton.snp.makeConstraints { (make) in
+			make.bottom.equalTo(scrollView.snp.bottom).offset(15)
+			make.centerX.equalToSuperview()
+			make.width.equalTo(170)
+			make.height.equalTo(35)
+		}
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        applyDefaultShadow()
-        header.roundCorners([.topLeft, .topRight], radius: 10)
-        tableViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 10)
+		roundCorners(.allCorners, radius: 10)
+		applyDefaultShadow()
         dropShadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 1.0, offset: CGSize(width: 0, height: 1), radius: 1)
         dropShadowView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
     }
+	
+	private func setupTutorCardAboutMe() {
+			tutorCardAboutMe.aboutMeLabel.textColor = Colors.tutorBlue
+			tutorCardAboutMe.bioLabel.text = (tutor.tBio != nil) ? tutor.tBio! : "Tutor has no bio!\n"
+	}
+	
+	private func setupTutorCardBody() {
+		tutorCardBody.additionalInformation.textColor = Colors.tutorBlue
+		let extraInfomationViews = getViewsForExtraInformationSection()
+		tutorCardBody.stackView.subviews.forEach({ $0.removeFromSuperview() })
+		extraInfomationViews.forEach({ tutorCardBody.stackView.addArrangedSubview($0) })
+		
+		tutorCardBody.stackView.snp.remakeConstraints { (make) in
+			make.top.equalTo(tutorCardBody.additionalInformation.snp.bottom).inset(-5)
+			make.leading.equalToSuperview().inset(12)
+			make.trailing.equalToSuperview().inset(5)
+			make.height.equalTo(CGFloat(extraInfomationViews.count * 30))
+		}
+		tutorCardBody.snp.remakeConstraints { (make) in
+			make.top.equalTo(tutorCardAboutMe.snp.bottom)
+			make.width.centerX.equalToSuperview()
+			make.height.equalTo(30 + CGFloat(extraInfomationViews.count * 30))
+		}
+	}
+	
+	private func setupTutorCardSubjects() {
+		tutorCardSubjects.sectionTitle.textColor = Colors.tutorBlue
+		tutorCardSubjects.datasource = tutor.subjects ?? []
+	}
+	
+	private func setupTutorCardReviews() {
+		guard let reviews = tutor.reviews else { return }
+		tutorCardReviews.parentViewController = parentViewController
+		tutorCardReviews.dataSource = reviews.sorted(by: { $0.date > $1.date })
 
-    private func configureDelegates() {
-        tableView.dataSource = self
-        tableView.delegate = self
-
-        tableView.register(AboutMeTableViewCell.self, forCellReuseIdentifier: "aboutMeTableViewCell")
-        tableView.register(SubjectsTableViewCell.self, forCellReuseIdentifier: "subjectsTableViewCell")
-        tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
-        tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
-        tableView.register(PoliciesTableViewCell.self, forCellReuseIdentifier: "policiesTableViewCell")
-        tableView.register(ExtraInfoCardTableViewCell.self, forCellReuseIdentifier: "extraInfoCardTableViewCell")
-    }
-
-    private func configureViews() {
-        addSubview(header)
-        addSubview(tableViewContainer)
-        tableViewContainer.addSubview(tableView)
-        addSubview(dropShadowView)
-        addSubview(reviewLabelContainer)
-        reviewLabelContainer.addSubview(reviewLabel)
-        addSubview(rateLabelContainer)
-        rateLabelContainer.addSubview(rateLabel)
-        addSubview(connectButton)
-
-        tableViewContainer.backgroundColor = Colors.registrationDark
-
-        reviewLabelContainer.backgroundColor = Colors.gold
-        reviewLabelContainer.layer.cornerRadius = 12
-
-        rateLabelContainer.backgroundColor = Colors.green
-        rateLabelContainer.layer.cornerRadius = 12
-
-        layoutIfNeeded()
-    }
-
-    override func handleNavigation() {
-        if touchStartView is ConnectButton {
-            if CurrentUser.shared.learner.hasPayment {
-                addTutorWithUid(datasource.uid) {
-                    // TODO: Add functionality once callback returns.
-                }
-            } else {
-                let vc = next?.next?.next as! TutorConnectVC
-                vc.displayAddPaymentMethod()
-            }
-        } else if touchStartView is FullProfile {
-            if let current = UIApplication.getPresentedViewController() {
-                current.present(ViewFullProfileVC(), animated: true, completion: nil)
-            }
-        } else if touchStartView is TutorCardProfilePic {
-            let vc = (next?.next?.next as! TutorConnectVC)
-            vc.displayProfileImageViewer(imageCount: datasource.images.filter({ $0.value != "" }).count, userId: datasource.uid)
-        }
-    }
+		tutorCardReviews.setupMostRecentReviews()
+		
+		tutorCardReviews.snp.makeConstraints { (make) in
+			make.top.equalTo(tutorCardSubjects.snp.bottom).inset(-5)
+			make.width.centerX.equalToSuperview()
+			make.height.equalTo(tutorCardReviews.reviewSectionHeight)
+		}
+		tutorCardReviews.divider.snp.makeConstraints { (make) in
+			make.bottom.equalToSuperview().inset(-5)
+			make.centerX.equalToSuperview()
+			make.width.equalToSuperview().inset(20)
+			make.height.equalTo(1)
+		}
+	}
+	
+	private func setupTutorCardPolicy() {
+		guard let policy = tutor.policy else { return }
+		let policies = policy.split(separator: "_")
+		
+		tutorCardPolicy.policiesLabel.attributedText = NSMutableAttributedString()
+			.bold("•  ", 20, .white).regular(tutor.distance.distancePreference(tutor.preference), 16, Colors.grayText)
+			.bold("•  ", 20, .white).regular(tutor.preference.preferenceNormalization(), 16, Colors.grayText)
+			.bold("•  ", 20, .white).regular(String(policies[0]).lateNotice(), 16, Colors.grayText)
+			.bold("•  ", 20, .white).regular(String(policies[2]).cancelNotice(), 16, Colors.grayText)
+			.regular(String(policies[1]).lateFee(), 16, Colors.qtRed)
+			.regular(String(policies[3]).cancelFee(), 16, Colors.qtRed)
+		
+		tutorCardPolicy.snp.makeConstraints { (make) in
+			make.top.equalTo(tutorCardReviews.snp.bottom).inset(-5)
+			make.width.centerX.equalToSuperview()
+		}
+	}
+	
+	private func getViewsForExtraInformationSection() -> [UIView] {
+		var views = [UIView]()
+		
+		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(tutor.tNumSessions ?? 0) sessions", isViewing: true))
+		//this will be optional in the future but the DB only supports this for now.
+		views.append(ProfileItem(icon: UIImage(named: "location")!, title: tutor.region, isViewing: true))
+		
+		if let languages = tutor.languages {
+			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))", isViewing: true))
+		}
+		if tutor.school != "" && tutor.school != nil {
+			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: "Studies at " + tutor.school!, isViewing: true))
+		}
+		return views
+	}
+	
+	private func setupScrollViewContentSize() {
+		var contentSizeHeight : CGFloat = 0.0
+		for view in scrollView.subviews {
+			contentSizeHeight += view.frame.height
+		}
+		scrollView.contentSize.height = contentSizeHeight + 150
+		layoutIfNeeded()
+	}
+	
+	@objc private func connectButtonPressed(_ sender: UIButton) {
+		sender.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+		UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIView.AnimationOptions.allowUserInteraction, animations: {
+			sender.transform = CGAffineTransform.identity
+		}, completion: { Void in()  })
+		
+		DataService.shared.getTutorWithId(tutor.uid) { tutor in
+			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+			vc.receiverId = tutor?.uid
+			vc.chatPartner = tutor
+			navigationController.pushViewController(vc, animated: true)
+		}
+	}
 }
 
 extension TutorCardCollectionViewCell: AddTutorButtonDelegate {
@@ -199,188 +252,6 @@ extension TutorCardCollectionViewCell: AddTutorButtonDelegate {
     }
 }
 
-extension TutorCardCollectionViewCell: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return 5
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.item {
-        case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "aboutMeTableViewCell", for: indexPath) as! AboutMeTableViewCell
-
-            if let bio = datasource?.tBio {
-                cell.bioLabel.text = bio + "\n"
-            } else {
-                cell.bioLabel.text = "Tutor has no bio!\n"
-            }
-
-            return cell
-        case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "extraInfoCardTableViewCell", for: indexPath) as! ExtraInfoCardTableViewCell
-
-            for view in cell.contentView.subviews {
-                view.snp.removeConstraints()
-            }
-
-            cell.speakItem.removeFromSuperview()
-            cell.studysItem.removeFromSuperview()
-            cell.locationItem.label.text = datasource?.region
-            cell.locationItem.snp.makeConstraints { make in
-                make.left.equalToSuperview().inset(12)
-                make.right.equalToSuperview().inset(20)
-                make.height.equalTo(35)
-                make.top.equalTo(cell.label.snp.bottom).inset(-6)
-            }
-
-            cell.tutorItem.label.text = "Has tutored \(datasource?.tNumSessions ?? 0) sessions"
-
-            if let languages = datasource?.languages {
-                cell.speakItem.label.text = "Speaks: \(languages.compactMap({ $0 }).joined(separator: ", "))"
-                cell.contentView.addSubview(cell.speakItem)
-
-                cell.tutorItem.snp.makeConstraints { make in
-                    make.left.equalToSuperview().inset(12)
-                    make.right.equalToSuperview().inset(20)
-                    make.height.equalTo(35)
-                    make.top.equalTo(cell.locationItem.snp.bottom)
-                }
-
-                if datasource.school != "" && datasource.school != nil {
-                    cell.studysItem.label.text = datasource.school
-                    cell.contentView.addSubview(cell.studysItem)
-
-                    cell.speakItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.tutorItem.snp.bottom)
-                    }
-
-                    cell.studysItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.speakItem.snp.bottom)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                } else {
-                    cell.speakItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.tutorItem.snp.bottom)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                }
-            } else {
-                if datasource.school != "" && datasource.school != nil {
-                    cell.studysItem.label.text = datasource.school
-                    cell.contentView.addSubview(cell.studysItem)
-                    cell.tutorItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.locationItem.snp.bottom)
-                    }
-
-                    cell.studysItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.tutorItem.snp.bottom)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                } else {
-                    cell.tutorItem.snp.makeConstraints { make in
-                        make.left.equalToSuperview().inset(12)
-                        make.right.equalToSuperview().inset(20)
-                        make.height.equalTo(35)
-                        make.top.equalTo(cell.locationItem.snp.bottom)
-                        make.bottom.equalToSuperview().inset(10)
-                    }
-                }
-            }
-
-            cell.applyConstraints()
-
-            return cell
-
-        case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "subjectsTableViewCell", for: indexPath) as! SubjectsTableViewCell
-            guard let datasource = datasource?.subjects else { return cell }
-
-            cell.datasource = datasource
-            return cell
-        case 3:
-
-            guard let datasource = datasource?.reviews, datasource.count != 0 else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
-                cell.isViewing = true
-                return cell
-            }
-
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-
-            if datasource.count == 1 {
-                cell.tableView.snp.remakeConstraints { make in
-                    make.top.equalToSuperview()
-                    make.width.equalToSuperview().multipliedBy(0.95)
-                    make.height.equalTo(120)
-                    make.centerX.equalToSuperview()
-                }
-            }
-            cell.isViewing = true
-            cell.datasource = datasource.sorted(by: { $0.date > $1.date })
-
-            return cell
-
-        case 4:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "policiesTableViewCell", for: indexPath) as! PoliciesTableViewCell
-
-            if let policy = datasource?.policy {
-                let policies = policy.split(separator: "_")
-
-                let formattedString = NSMutableAttributedString()
-
-                formattedString
-                    .bold("•  ", 20, .white)
-                    .regular(datasource.distance.distancePreference(datasource.preference), 16, Colors.grayText)
-                    .bold("•  ", 20, .white)
-                    .regular(datasource.preference.preferenceNormalization(), 16, Colors.grayText)
-                    .bold("•  ", 20, .white)
-                    .regular(String(policies[0]).lateNotice(), 16, Colors.grayText)
-                    .bold("•  ", 20, .white)
-                    .regular(String(policies[2]).cancelNotice(), 16, Colors.grayText)
-                    .regular(String(policies[1]).lateFee(), 16, Colors.qtRed)
-                    .regular(String(policies[3]).cancelFee(), 16, Colors.qtRed)
-
-                cell.policiesLabel.attributedText = formattedString
-            } else {
-                // show "No Policies cell"
-            }
-            return cell
-        default:
-            return UITableViewCell()
-        }
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-
-    func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.item {
-        case 0, 1, 3, 4:
-            return UITableView.automaticDimension
-        case 2:
-            return 90
-        default:
-            return 0
-        }
-    }
-}
-
 class TutorCardProfilePic: UIImageView, Interactable {}
 
 class TutorCardHeader: InteractableView {
@@ -388,10 +259,8 @@ class TutorCardHeader: InteractableView {
 
     let profilePics: TutorCardProfilePic = {
         let view = TutorCardProfilePic()
-
         view.isUserInteractionEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
-
         return view
     }()
 
@@ -400,20 +269,17 @@ class TutorCardHeader: InteractableView {
 
         label.textColor = .white
         label.textAlignment = .left
-        label.font = Fonts.createBoldSize(24)
+        label.font = Fonts.createBoldSize(20)
         label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
 
         return label
     }()
 
     let darkPattern: UIImageView = {
-        let view = UIImageView()
-
-        view.image = #imageLiteral(resourceName: "very-dark-pattern")
-        view.contentMode = .scaleAspectFill
-
-        return view
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "very-dark-pattern")
+        imageView.contentMode = .scaleToFill
+        return imageView
     }()
 
     let reviewLabel: UILabel = {
@@ -431,9 +297,8 @@ class TutorCardHeader: InteractableView {
 
         label.textColor = .white
         label.textAlignment = .left
-        label.font = Fonts.createBoldSize(16)
+        label.font = Fonts.createBoldSize(14)
         label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.isHidden = true
 
         return label
@@ -450,14 +315,13 @@ class TutorCardHeader: InteractableView {
         addSubview(featuredSubject)
         super.configureView()
 
-        translatesAutoresizingMaskIntoConstraints = false
 
         applyConstraints()
     }
 
     override func applyConstraints() {
         darkPattern.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+			make.edges.equalToSuperview()
         }
 
         gradientView.snp.makeConstraints { make in
@@ -488,8 +352,6 @@ class TutorCardHeader: InteractableView {
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientView.applyGradient(firstColor: Colors.navBarColor.cgColor, secondColor: UIColor.clear.cgColor, angle: 0, frame: gradientView.bounds)
-
-        // darkPattern.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.63, offset: CGSize(width: 3, height: 3), radius: 6)
     }
 }
 

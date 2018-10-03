@@ -210,6 +210,8 @@ class TutorPolicyVC: BaseViewController {
         contentView.layoutIfNeeded()
         contentView.scrollView.contentSize = CGSize(width: contentView.scrollView.frame.width, height: contentView.scrollViewLabel.frame.height)
         contentView.applyGradient(firstColor: UIColor(hex: "2c467c").cgColor, secondColor: Colors.oldTutorBlue.cgColor, angle: 200, frame: contentView.bounds)
+		
+		
     }
 
     override func viewDidAppear(_ animated: Bool) {

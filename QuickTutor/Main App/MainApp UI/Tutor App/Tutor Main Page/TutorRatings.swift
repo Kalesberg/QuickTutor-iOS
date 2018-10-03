@@ -126,7 +126,7 @@ class TutorRatings: BaseViewController {
         contentView.tableView.register(TutorMainPageSummaryCell.self, forCellReuseIdentifier: "tutorMainPageSummaryCell")
         contentView.tableView.register(TutorMainPageTopSubjectCell.self, forCellReuseIdentifier: "tutorMainPageTopSubjectCell")
         contentView.tableView.register(RatingTableViewCell.self, forCellReuseIdentifier: "ratingTableViewCell")
-        contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
+        //contentView.tableView.register(NoRatingsTableViewCell.self, forCellReuseIdentifier: "noRatingsTableViewCell")
     }
 
     private func findTopSubjects() {
@@ -150,7 +150,7 @@ class TutorRatings: BaseViewController {
 
 extension TutorRatings: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return 6
+        return 5
     }
 
     func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -212,6 +212,7 @@ extension TutorRatings: UITableViewDelegate, UITableViewDataSource {
             cell.infoLabel3.numberOfLines = 0
 
             return cell
+			
         case 2:
             let cell = UITableViewCell()
             cell.backgroundColor = .clear
@@ -237,45 +238,39 @@ extension TutorRatings: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 5:
             guard let datasource = tutor.reviews else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
-                cell.backgroundColor = Colors.registrationDark
-                cell.label2.snp.updateConstraints { make in
-                    make.height.equalTo(55)
-                }
+//				let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+//                cell.backgroundColor = Colors.registrationDark
+//                cell.label2.snp.updateConstraints { make in
+//                    make.height.equalTo(55)
+//                }
+//                cell.label1.snp.makeConstraints { make in
+//                    make.top.equalToSuperview().inset(8)
+//                    make.left.equalToSuperview().inset(20)
+//                }
+//
+//                cell.label1.textColor = .white
 
-                cell.label1.snp.makeConstraints { make in
-                    make.top.equalToSuperview().inset(8)
-                    make.left.equalToSuperview().inset(20)
-                }
-
-                cell.label1.textColor = .white
-
-                return cell
+                return UITableViewCell()
             }
 
             if datasource.count == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
-                cell.backgroundColor = Colors.registrationDark
-                cell.label2.snp.updateConstraints { make in
-                    make.height.equalTo(55)
-                }
+//                let cell = tableView.dequeueReusableCell(withIdentifier: "noRatingsTableViewCell", for: indexPath) as! NoRatingsTableViewCell
+//                cell.backgroundColor = Colors.registrationDark
+//                cell.label2.snp.updateConstraints { make in
+//                    make.height.equalTo(55)
+//                }
+//
+//                cell.label1.snp.makeConstraints { make in
+//                    make.top.equalToSuperview().inset(8)
+//                    make.left.equalToSuperview().inset(20)
+//                }
+//
+//                cell.label1.textColor = .white
 
-                cell.label1.snp.makeConstraints { make in
-                    make.top.equalToSuperview().inset(8)
-                    make.left.equalToSuperview().inset(20)
-                }
-
-                cell.label1.textColor = .white
-
-                return cell
+                return UITableViewCell()
             }
 
             let cell = tableView.dequeueReusableCell(withIdentifier: "ratingTableViewCell", for: indexPath) as! RatingTableViewCell
-            cell.backgroundColor = Colors.registrationDark
-            cell.seeAllButton.snp.updateConstraints { make in
-                make.bottom.equalToSuperview().inset(15)
-            }
-
             if datasource.count == 1 {
                 cell.tableView.snp.remakeConstraints { make in
                     make.top.equalToSuperview()
@@ -288,11 +283,9 @@ extension TutorRatings: UITableViewDelegate, UITableViewDataSource {
             cell.datasource = datasource
 
             return cell
-
         default:
-            break
+            return UITableViewCell()
         }
-        return UITableViewCell()
     }
 
     func getFormattedTimeString(seconds: Int) -> NSMutableAttributedString {

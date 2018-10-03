@@ -98,7 +98,7 @@ class TutorRatingsReviewCell: UICollectionViewCell {
     
     func setupRatingLabel() {
         addSubview(ratingLabel)
-        ratingLabel.anchor(top: topAnchor, left: nameLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 40, height: 10)
+        ratingLabel.anchor(top: topAnchor, left: nameLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 2, paddingBottom: 0, paddingRight: 0, width: 40, height: 10)
     }
     
     func setupSubjectLabel() {

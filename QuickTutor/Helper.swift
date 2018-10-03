@@ -93,7 +93,7 @@ class FeaturedTutorView: BaseView {
         let label = UILabel()
         
         label.textAlignment = .left
-        label.textColor = Colors.yellow
+        label.textColor = Colors.gold
         label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
         
@@ -112,7 +112,7 @@ class FeaturedTutorView: BaseView {
     let numOfRatingsLabel: UILabel = {
         let label = UILabel()
         
-        label.textColor = Colors.yellow
+        label.textColor = Colors.gold
         label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
         
@@ -437,7 +437,7 @@ enum Category {
             fileToRead = "trades"
         }
         
-        return Subcategory(subcategories: subcategories, icon: icon, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], displayName: displayName, fileToRead: fileToRead)
+        return Subcategory(subcategories: subcategories.sorted(), icon: icon, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], displayName: displayName, fileToRead: fileToRead)
     }
     
     var mainPageData: MainPageData {

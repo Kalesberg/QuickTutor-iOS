@@ -42,10 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     let launchScreen = LaunchScreen()
 	
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		guard let gai = GAI.sharedInstance() else {
-            return true
-		}
-		gai.tracker(withTrackingId: "UA-121323472-1")
+//		guard let gai = GAI.sharedInstance() else {
+//            return true
+//		}
+//		gai.tracker(withTrackingId: "UA-121323472-1")
         //Get device info
         let (keyboardHeight, statusbarHeight, fontSize, multiplier) = setDeviceInfo()
         

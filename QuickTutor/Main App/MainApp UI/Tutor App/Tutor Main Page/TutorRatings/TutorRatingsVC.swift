@@ -37,6 +37,7 @@ class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.backgroundDark
+        cv.showsVerticalScrollIndicator = false
         cv.register(TutorRatingsHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         cv.register(TutorRatingsPrimaryCell.self, forCellWithReuseIdentifier: "primaryCell")
         cv.register(TutorRatingsStatisticsCell.self, forCellWithReuseIdentifier: "statisticsCell")

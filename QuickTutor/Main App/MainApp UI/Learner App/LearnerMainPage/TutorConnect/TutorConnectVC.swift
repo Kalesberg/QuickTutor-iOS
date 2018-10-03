@@ -7,8 +7,8 @@
 //
 
 import CoreLocation
-import Foundation
 import UIKit
+import FirebaseUI
 
 protocol ApplyLearnerFilters {
     var filters: (Int, Int, Bool)! { get set }
@@ -31,7 +31,8 @@ class TutorConnectView: MainLayoutTwoButton {
         searchBar.searchBarStyle = .prominent
         searchBar.backgroundImage = UIImage(color: UIColor.clear)
         searchBar.showsCancelButton = false
-        let textField = searchBar.value(forKey: "searchField") as? UITextField
+		
+		let textField = searchBar.value(forKey: "searchField") as? UITextField
         textField?.font = Fonts.createSize(14)
         textField?.textColor = .white
         textField?.tintColor = UIColor.clear
@@ -45,16 +46,16 @@ class TutorConnectView: MainLayoutTwoButton {
 
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        let layout = UICollectionViewFlowLayout()
+		
+		let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 0, right: 10)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
-        collectionView.backgroundColor = Colors.backgroundDark
+		
+		collectionView.backgroundColor = Colors.backgroundDark
         collectionView.collectionViewLayout = layout
-        collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
-        collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
         return collectionView
     }()
 
@@ -75,7 +76,7 @@ class TutorConnectView: MainLayoutTwoButton {
     }
 
     let addPaymentModal = AddPaymentModal()
-
+	
     override func configureView() {
         navbar.addSubview(searchBar)
         addSubview(collectionView)
@@ -87,7 +88,6 @@ class TutorConnectView: MainLayoutTwoButton {
 
     override func applyConstraints() {
         super.applyConstraints()
-
         searchBar.snp.makeConstraints { make in
             make.left.equalTo(backButton.snp.right).inset(15)
             make.right.equalTo(applyFiltersButton.snp.left).inset(15)
@@ -205,6 +205,8 @@ class TutorConnectVC: BaseViewController {
     override func loadView() {
         view = TutorConnectView()
     }
+
+	let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
     var shouldFilterDatasource = false
     var hasAppliedFilters = false
@@ -430,27 +432,31 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let data = shouldFilterDatasource ? filteredDatasource : datasource
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
+		let data = shouldFilterDatasource ? filteredDatasource : datasource
+		let reference = storageRef.child("student-info").child(data[indexPath.item].uid).child("student-profile-pic1")
 
-        cell.header.profilePics.loadUserImagesWithoutMask(by: data[indexPath.row].images["image1"]!)
-        if featuredSubject != nil {
-            cell.header.featuredSubject.text = featuredSubject
-            cell.header.featuredSubject.isHidden = false
-        }
-        cell.header.profilePics.roundCorners(.allCorners, radius: 8)
-        cell.header.name.text = data[indexPath.row].name.formatName()
-        cell.header.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
-        cell.rateLabel.text = data[indexPath.row].price.formatPrice()
-        cell.datasource = data[indexPath.row]
-
-        cell.connectButton.connect.text = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
-        return cell
+		cell.tutor = data[indexPath.item]
+		cell.parentViewController = self
+		cell.tutorCardHeader.profilePics.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        cell.tutorCardHeader.profilePics.roundCorners(.allCorners, radius: 8)
+        cell.tutorCardHeader.name.text = data[indexPath.row].name.formatName()
+        cell.tutorCardHeader.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
+		if featuredSubject != nil {
+			cell.tutorCardHeader.featuredSubject.text = featuredSubject
+			cell.tutorCardHeader.featuredSubject.isHidden = false
+		}
+		
+       // cell.rateLabel.text = data[indexPath.row].price.formatPrice()
+		let title = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
+		cell.connectButton.setTitle(title, for: .normal)
+		
+		return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.width - 20
-        return CGSize(width: width, height: collectionView.frame.height - 20)
+        return CGSize(width: width, height: collectionView.frame.height)
     }
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
