@@ -175,6 +175,7 @@ class SubjectsTableViewCell : UITableViewCell {
     }
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		configureView()
 	}
 	
     let subjectCollectionView: UICollectionView = {
@@ -288,9 +289,7 @@ class RatingTableViewCell: UITableViewCell {
             tableView.reloadData()
         }
     }
-
     var isViewing: Bool = false
-
     let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
 	func configureView() {

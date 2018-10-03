@@ -385,9 +385,10 @@ extension YourListing: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         cell.featuredTutor.namePrice.text = listings[indexPath.item].name
         cell.featuredTutor.region.text = listings[indexPath.item].region
         cell.featuredTutor.subject.text = listings[indexPath.item].subject
-        cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(listings[indexPath.item].rating) ", 14, Colors.gold).regular("(\(listings[indexPath.item].reviews) ratings)", 12, Colors.gold)
-        cell.layer.cornerRadius = 6
+		cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(listings[indexPath.item].rating) ", 14, Colors.gold)
+		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("(\(listings[indexPath.item].reviews) ratings)", 13, Colors.gold)
 
+        cell.layer.cornerRadius = 6
         contentView.categoryLabel.text = categories[indexPath.row].mainPageData.displayName
         contentView.imageView.image = UIImage(named: "\(categories[indexPath.row].subcategory.fileToRead)-pattern")?.alpha(0.35)
 

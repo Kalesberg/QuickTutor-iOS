@@ -93,7 +93,7 @@ class FeaturedTutorView: BaseView {
         let label = UILabel()
         
         label.textAlignment = .left
-        label.textColor = Colors.yellow
+        label.textColor = Colors.gold
         label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
         
@@ -112,7 +112,7 @@ class FeaturedTutorView: BaseView {
     let numOfRatingsLabel: UILabel = {
         let label = UILabel()
         
-        label.textColor = Colors.yellow
+        label.textColor = Colors.gold
         label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
         

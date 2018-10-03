@@ -72,7 +72,7 @@ class TutorMyProfile: BaseViewController, UpdatedTutorCallBack {
 		contentView.myProfileHeader.parentViewController = self
 		contentView.myProfileHeader.price.text = "$\(String(describing: tutor.price!))/hr"
 		let reviewsString = (dataSource.count == 1) ? "Review" : "Reviews"
-		contentView.myProfileHeader.rating.text = "\(String(describing: tutor.tRating ?? 5.0)) (\(String(describing: dataSource.count)) \(reviewsString))"
+		contentView.myProfileHeader.rating.text = "\(String(describing: tutor.tRating ?? 5.0)) ★ (\(String(describing: dataSource.count)) \(reviewsString))"
 	}
 	
 	private func setupMyProfileBioView() {

@@ -226,6 +226,7 @@ extension EditListing: UITableViewDelegate, UITableViewDataSource {
 
             cell.label.text = "Choose featured subject:"
             cell.label.font = Fonts.createBoldSize(18)
+			cell.backgroundColor = Colors.backgroundDark
             cell.selectedSubject = subject
             cell.delegate = self
             guard let subjectsToDisplay = getSubjectsForCategory() else { return cell }
@@ -319,7 +320,6 @@ extension EditListingsSubjectsTableViewCell {
 
         cell.label.text = datasource[indexPath.row]
         cell.layer.borderColor = UIColor.clear.cgColor
-
         if let subject = selectedSubject {
             if cell.label.text == subject {
                 cell.layer.borderColor = UIColor.white.cgColor

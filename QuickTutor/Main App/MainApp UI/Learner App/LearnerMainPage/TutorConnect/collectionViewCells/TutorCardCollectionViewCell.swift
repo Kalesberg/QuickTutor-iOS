@@ -12,7 +12,6 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
-	
 	override init(frame: CGRect) {
 		super.init(frame: .zero)
 		configureCollectionViewCell()
@@ -35,13 +34,15 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 
 	let scrollView : UIScrollView = {
 		let scrollView = UIScrollView()
+		
 		scrollView.showsVerticalScrollIndicator = false
 		scrollView.alwaysBounceVertical = true
 		scrollView.canCancelContentTouches = true
 		scrollView.isDirectionalLockEnabled = true
 		scrollView.isExclusiveTouch = false
 		scrollView.backgroundColor = Colors.navBarColor
-
+		scrollView.layer.cornerRadius = 10
+		
 		return scrollView
 	}()
 	
@@ -98,7 +99,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 			make.height.equalTo(1)
 		}
 		scrollView.snp.makeConstraints { (make) in
-			make.top.equalTo(dropShadowView.snp.bottom).inset(-1)
+			make.top.equalTo(dropShadowView.snp.bottom).inset(5)
 			make.width.centerX.equalToSuperview()
 			make.bottom.equalToSuperview().inset(40)
 		}
