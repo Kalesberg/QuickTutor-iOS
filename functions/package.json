@@ -1,6 +1,9 @@
 {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
+  "engines": {
+    "node": "8"
+  },
   "scripts": {
     "lint": "eslint .",
     "serve": "firebase serve --only functions",
@@ -15,8 +18,8 @@
     "firebase-functions": "^2.0.5"
   },
   "devDependencies": {
-    "eslint": "^4.12.0",
-    "eslint-plugin-promise": "^3.6.0"
+    "eslint": "5.6.1",
+    "eslint-plugin-promise": "4.0.1"
   },
   "private": true
 }
