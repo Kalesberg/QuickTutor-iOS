@@ -11,7 +11,7 @@ import UIKit
 
 class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
     
-    let sectionTitles = ["Your Tutor Rating", "Statistics", "Top Subject", "Learner Reviews"]
+    let sectionTitles = ["Tutor Rating", "Statistics", "Top Subject", "Learner Reviews"]
     let statisticTitles = ["Sessions", "5-Stars", "Hours"]
     
     var tutor: AWTutor! {
