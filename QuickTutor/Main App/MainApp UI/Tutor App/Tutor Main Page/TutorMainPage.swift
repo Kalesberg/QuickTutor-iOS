@@ -416,7 +416,7 @@ extension TutorMainPage: UICollectionViewDelegate, UICollectionViewDataSource, U
 
         // TODO: Crashes when push notification is clicked
         guard let _ = tutor else { return cell }
-        if indexPath.item == 3 && (tutor.hours ?? 16 < 15 || tutor.tRating ?? 5 < 4.5) {
+        if indexPath.item == 3 && (tutor.secondsTaught ?? 16 < 15 || tutor.tRating ?? 5 < 4.5) {
             let lockView = UnlockCellView()
             lockView.frame.size.height = cell.bounds.height - 30
             lockView.frame.size.width = cell.bounds.width
@@ -429,7 +429,7 @@ extension TutorMainPage: UICollectionViewDelegate, UICollectionViewDataSource, U
         let cell = collectionView.cellForItem(at: indexPath) as! TutorMainPageCollectionViewCell
 
         cell.growSemiShrink {
-            if indexPath.item == 3 && (self.tutor.hours < 15 || self.tutor.tRating! < 4.5) {
+            if indexPath.item == 3 && (self.tutor.secondsTaught < 15 || self.tutor.tRating! < 4.5) {
                 AlertController.genericErrorAlertWithoutCancel(self, title: "This Feature is locked", message: "\'Your Listings\' will be unlocked after you have completed 15 hours of tutoring while maintaining at least a 4.5 rating.")
             } else {
                 let viewController = TutorMainPageButtonFactory.buttons[indexPath.item].viewController

@@ -202,7 +202,7 @@ extension TutorRatings: UITableViewDelegate, UITableViewDataSource {
             cell.infoLabel2.textAlignment = .center
             cell.infoLabel3.numberOfLines = 0
 
-            let formattedString3 = getFormattedTimeString(seconds: tutor.hours!)
+            let formattedString3 = getFormattedTimeString(seconds: tutor.secondsTaught!)
             let paragraphStyle3 = NSMutableParagraphStyle()
             paragraphStyle3.lineSpacing = 6
             formattedString3.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle3, range: NSMakeRange(0, formattedString3.length))

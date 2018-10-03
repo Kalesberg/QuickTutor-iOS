@@ -382,7 +382,7 @@ class SessionReview : BaseViewController {
 	private func finishAndUpload() {
 		if AccountService.shared.currentUserType == .learner {
 			let updatedRating = ((tutor.tRating * Double(tutor.tNumSessions)) + Double(PostSessionReviewData.rating)) / Double(tutor.tNumSessions + 1)
-			let updatedHours = tutor.hours + runTime
+			let updatedHours = tutor.secondsTaught + runTime
 			guard let subcategory = SubjectStore.findSubCategory(resource: SubjectStore.findCategoryBy(subject: subject)!, subject: subject) else { return }
 			let tutorInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "tr" : updatedRating.truncate(places: 1)]
 			let subcategoryInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]

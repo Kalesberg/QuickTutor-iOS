@@ -11,7 +11,7 @@ import UIKit
 
 class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
     
-    let sectionTitles = ["Tutor Rating", "Statistics", "Top Subject", "Learner Reviews"]
+    let sectionTitles = ["Tutor Rating", "Statistics", "Top Subcategory", "Learner Reviews"]
     let statisticTitles = ["Sessions", "5-Stars", "Hours"]
     
     var tutor: AWTutor! {
@@ -70,10 +70,11 @@ class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
         navBar.titleLabel.text = "Ratings"
         navBar.backgroundColor = Colors.gold
         navBar.leftAccessoryView.setImage(UIImage(named: "backButton"), for: .normal)
+        navBar.applyDefaultShadow()
     }
     
     func setupCollectionView() {
-        view.addSubview(collectionView)
+        view.insertSubview(collectionView, belowSubview: navBar)
         collectionView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -116,6 +117,21 @@ class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
         }
     }
     
+    func getFormattedTimeString(seconds: Int) -> NSMutableAttributedString {
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+        let seconds = (seconds % 3600) % 60
+        
+        let formattedString3 = NSMutableAttributedString()
+        if hours > 0 {
+            return formattedString3.bold("\(hours)\n", 16, .white).regular("Hours", 15, Colors.grayText)
+        } else if minutes > 0 {
+            return formattedString3.bold("\(minutes)\n", 16, .white).regular("Minutes", 15, Colors.grayText)
+        } else {
+            return formattedString3.bold("\(seconds)\n", 16, .white).regular("Seconds", 15, Colors.grayText)
+        }
+    }
+    
 }
 
 extension TutorRatingsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -142,7 +158,7 @@ extension TutorRatingsVC: UICollectionViewDelegate, UICollectionViewDataSource, 
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "primaryCell", for: indexPath) as! TutorRatingsPrimaryCell
-            cell.ratingLabel.text = cell.ratingLabel.text?.replacingOccurrences(of: "4.71", with: "\((String(format: "%.2f",tutor.tRating)))")
+            cell.ratingLabel.text = cell.ratingLabel.text?.replacingOccurrences(of: "4.71", with: "\((tutor.tRating)!)")
             cell.detailsLabel.text = cell.detailsLabel.text?.replacingOccurrences(of: "450", with: "\((tutor.tNumSessions)!)")
             return cell
         case 1:
@@ -174,7 +190,7 @@ extension TutorRatingsVC: UICollectionViewDelegate, UICollectionViewDataSource, 
         case 1:
             cell.countLabel.text = "\(fiveStars)"
         case 2:
-            cell.countLabel.text = "\((tutor.hours)!)"
+            cell.countLabel.text = "\((getFormattedTimeString(seconds: tutor.secondsTaught)))"
         default:
             break
         }

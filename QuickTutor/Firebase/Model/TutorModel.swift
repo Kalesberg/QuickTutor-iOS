@@ -17,7 +17,7 @@ class AWTutor: AWLearner {
     var topSubject: String?
     
     var price: Int!
-    var hours: Int!
+    var secondsTaught: Int!
     var distance: Int!
     var preference: Int!
     var tNumSessions: Int!
@@ -46,7 +46,7 @@ class AWTutor: AWLearner {
         acctId = dictionary["act"] as? String ?? ""
         username = dictionary["usr"] as? String ?? ""
         price = dictionary["p"] as? Int ?? 0
-        hours = dictionary["hr"] as? Int ?? 0
+        secondsTaught = dictionary["hr"] as? Int ?? 0
         distance = dictionary["dst"] as? Int ?? 75
         preference = dictionary["prf"] as? Int ?? 3
         tNumSessions = dictionary["nos"] as? Int ?? 0
