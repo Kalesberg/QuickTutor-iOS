@@ -34,7 +34,7 @@ class EditListingView: MainLayoutTitleBackTwoButton {
 
     let fakeBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "344161")
+        view.backgroundColor = UIColor(hex: "484782")
         return view
     }()
 
@@ -42,8 +42,11 @@ class EditListingView: MainLayoutTitleBackTwoButton {
         addSubview(fakeBackground)
         addSubview(tableView)
         super.configureView()
-
-        title.label.text = "Edit Listing"
+        
+        navbar.backgroundColor = Colors.learnerPurple
+        statusbarView.backgroundColor = Colors.learnerPurple
+        
+        title.label.text = "Edit"
     }
 
     override func applyConstraints() {
@@ -225,6 +228,7 @@ extension EditListing: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editListingsSubjectsTableViewCell", for: indexPath) as! EditListingsSubjectsTableViewCell
 
             cell.label.text = "Choose featured subject:"
+            cell.label.textColor = .white
             cell.label.font = Fonts.createBoldSize(18)
 			cell.backgroundColor = Colors.backgroundDark
             cell.selectedSubject = subject
@@ -238,12 +242,12 @@ extension EditListing: UITableViewDelegate, UITableViewDataSource {
 
             cell.header.attributedText = NSMutableAttributedString()
                 .regular("\n", 12, .white)
-                .bold("Choose hourly rate:", 18, UIColor(hex: "5785d4"))
+                .bold("Choose hourly rate:", 18, .white)
                 .regular("\n", 5, .white)
-                .bold("\nHourly Rate  ", 15, .white)
+                .regular("\nHourly Rate  ", 15, Colors.grayText)
                 .regular("  [$5-$1000]\n", 15, Colors.grayText)
                 .regular("\n", 8, .white)
-                .regular("Please a rate for this listing.\n\nThis rate will be displayed on your listing.", 14, Colors.grayText)
+                .regular("Please select a rate for this listing.\n\nThis rate will be displayed on your listing.", 14, Colors.grayText)
 
             cell.textFieldObserver = self
             cell.textField.text = (price != nil) ? "$\(price!)" : "$5"
@@ -491,9 +495,9 @@ class EditListingPhotoTableViewCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        container.backgroundColor = UIColor(hex: "344161")
+        container.backgroundColor = UIColor(hex: "484782")
 
-        labelContainer.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 90, frame: labelContainer.bounds)
+        labelContainer.applyGradient(firstColor: UIColor(hex: "6562C9").cgColor, secondColor: UIColor(hex: "6562C9").cgColor, angle: 90, frame: labelContainer.bounds)
 
         listingImage.roundCorners(.allCorners, radius: 10)
     }

@@ -200,9 +200,8 @@ struct SubjectStore {
                 let json = try JSONSerialization.jsonObject(with: data, options: [])
                 
                 for key in category[i].subcategory.subcategories {
-                    guard let object = json as? [String: [String]] else { continue }
-                    guard let subjectArray = object[key] else { continue }
-                    
+                    guard let object = json as? [String: [String]], let subjectArray = object[key] else { continue }
+					
                     for subject in subjectArray {
                         totalSubjects.append((subject, key))
                     }
@@ -222,9 +221,8 @@ struct SubjectStore {
             
             let data = try Data(contentsOf: file)
             let json = try JSONSerialization.jsonObject(with: data, options: [])
-            guard let object = json as? [String: [String]] else { return nil }
-            guard let subjectArray = object[subjectString] else { return nil }
-            
+            guard let object = json as? [String: [String]], let subjectArray = object[subjectString] else { return nil }
+			
             for subject in subjectArray {
                 subjects.append((subject, subjectString))
             }
@@ -242,15 +240,11 @@ struct SubjectStore {
             guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return [] }
             
             let data = try Data(contentsOf: file)
-            
             let json = try JSONSerialization.jsonObject(with: data, options: [])
-            
-            for key in Category.category(for: resource)!.subcategory.subcategories {
-                
-                guard let object = json as? [String: [String]] else { continue }
-                
-                guard let subjectArray = object[key] else { continue }
-                
+			
+			for key in Category.category(for: resource)!.subcategory.subcategories {
+                guard let object = json as? [String: [String]], let subjectArray = object[key] else { continue }
+				
                 for subject in subjectArray {
                     subjects.append((subject, resource))
                 }
@@ -301,9 +295,7 @@ struct SubjectStore {
                 let json = try JSONSerialization.jsonObject(with: data, options: [])
                 
                 for key in category[i].subcategory.subcategories {
-                    guard let object = json as? [String: [String]] else { continue }
-                    guard let subjectArray = object[key] else { continue }
-                    
+                    guard let object = json as? [String: [String]], let subjectArray = object[key] else { continue }
                     for value in subjectArray {
                         if subject == value {
                             return category[i].subcategory.fileToRead
@@ -323,9 +315,8 @@ struct SubjectStore {
             let data = try Data(contentsOf: file)
             let json = try JSONSerialization.jsonObject(with: data, options: [])
             for key in Category.category(for: resource)!.subcategory.subcategories {
-                guard let object = json as? [String: [String]] else { continue }
-                guard let subjectArray = object[key] else { continue }
-                
+                guard let object = json as? [String: [String]], let subjectArray = object[key] else { continue }
+				
                 if subjectArray.contains(subject) {
                     return key
                 }

@@ -64,6 +64,7 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
 		imageView.sd_setImage(with: reference, placeholderImage: nil)
 		
 		contentView.myProfileHeader.userId = learner.uid
+		contentView.myProfileHeader.parentViewController = self
 		contentView.myProfileHeader.nameLabel.text = learner.formattedName
 		contentView.myProfileHeader.imageCount = learner.images.filter({ $0.value != "" }).count
 		contentView.myProfileHeader.profileImageViewButton.setImage(imageView.image, for: .normal)

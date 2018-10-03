@@ -77,7 +77,7 @@ class TutorMyProfileView: MainLayoutTitleTwoButton {
 		}
 		myProfileHeader.snp.makeConstraints { (make) in
 			make.top.width.centerX.equalToSuperview().inset(1)
-			make.height.equalTo((UIScreen.main.bounds.height < 570) ? 240 : 280)
+			make.height.equalTo((UIScreen.main.bounds.height < 570) ? 250 : 290)
 		}
 		myProfileBioView.snp.makeConstraints { (make) in
 			make.top.equalTo(myProfileHeader.snp.bottom)

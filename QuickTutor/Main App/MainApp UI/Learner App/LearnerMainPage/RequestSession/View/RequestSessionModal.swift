@@ -80,7 +80,7 @@ class RequestSessionModal: UIView {
         requestSessionMenu.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.55)
+			make.height.equalToSuperview().multipliedBy(UIScreen.main.bounds.height <= 570 ? 0.65 : 0.55)
         }
     }
 

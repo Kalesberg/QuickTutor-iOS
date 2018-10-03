@@ -134,6 +134,9 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         PostSessionManager.shared.removeObservers()
         BackgroundSoundManager.shared.sessionInProgress = true
         expireSession()
+        
+        guard let session = sessionManager?.session else { return }
+        AnalyticsService.shared.logSessionStart(session)
     }
 
     override func viewWillAppear(_ animated: Bool) {

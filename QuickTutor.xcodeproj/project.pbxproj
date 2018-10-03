@@ -179,7 +179,6 @@
 		84AD7F5720EE9A480012CAA3 /* YourListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AD7F5620EE9A480012CAA3 /* YourListing.swift */; };
 		84B09D41205050E000BC8F80 /* ChangeEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B09D40205050E000BC8F80 /* ChangeEmailVC.swift */; };
 		84B8D67A20E5A53C0026132C /* TutorListings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B8D67920E5A53C0026132C /* TutorListings.swift */; };
-		84BC21D8206DB333002B4721 /* ViewFullProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC21D7206DB333002B4721 /* ViewFullProfileVC.swift */; };
 		84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D520F31A430039E054 /* AACircleCropViewController.swift */; };
 		84BC77DB20F31A470039E054 /* AACircleCropCutterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D620F31A440039E054 /* AACircleCropCutterView.swift */; };
 		84BC77DC20F31A470039E054 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D720F31A450039E054 /* UIImage+Extension.swift */; };
@@ -305,6 +304,7 @@
 		CF528CDB216452D500D81D03 /* TutorRatingsStatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CDA216452D500D81D03 /* TutorRatingsStatisticsCell.swift */; };
 		CF528CDD216452EC00D81D03 /* TutorRatingsPrimaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CDC216452EC00D81D03 /* TutorRatingsPrimaryCell.swift */; };
 		CF528CDF2164530100D81D03 /* TutorRatingsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CDE2164530100D81D03 /* TutorRatingsHeaderCell.swift */; };
+		CF528CE2216489D600D81D03 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CE1216489D600D81D03 /* AnalyticsService.swift */; };
 		CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5BFB042155B19100FB8DD6 /* InAppNotificationView.swift */; };
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
@@ -595,7 +595,6 @@
 		84B09D40205050E000BC8F80 /* ChangeEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmailVC.swift; sourceTree = "<group>"; };
 		84B2F02720354E4700F921C9 /* LearnerEditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerEditProfileVC.swift; sourceTree = "<group>"; };
 		84B8D67920E5A53C0026132C /* TutorListings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorListings.swift; sourceTree = "<group>"; };
-		84BC21D7206DB333002B4721 /* ViewFullProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFullProfileVC.swift; sourceTree = "<group>"; };
 		84BC77D520F31A430039E054 /* AACircleCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACircleCropViewController.swift; sourceTree = "<group>"; };
 		84BC77D620F31A440039E054 /* AACircleCropCutterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACircleCropCutterView.swift; sourceTree = "<group>"; };
 		84BC77D720F31A450039E054 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -729,6 +728,7 @@
 		CF528CDA216452D500D81D03 /* TutorRatingsStatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatingsStatisticsCell.swift; sourceTree = "<group>"; };
 		CF528CDC216452EC00D81D03 /* TutorRatingsPrimaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatingsPrimaryCell.swift; sourceTree = "<group>"; };
 		CF528CDE2164530100D81D03 /* TutorRatingsHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatingsHeaderCell.swift; sourceTree = "<group>"; };
+		CF528CE1216489D600D81D03 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		CF5BFB042155B19100FB8DD6 /* InAppNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppNotificationView.swift; sourceTree = "<group>"; };
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
 		CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionStartVC.swift; sourceTree = "<group>"; };
@@ -1511,7 +1511,6 @@
 				84D8C93120670EC0003C3AEA /* CategorySearchVC.swift */,
 				CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */,
 				84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */,
-				84BC21D7206DB333002B4721 /* ViewFullProfileVC.swift */,
 				845B91C8211799F30000D263 /* ApplyFilters */,
 				844FECF4210F977B00C1797B /* SubjectSearch */,
 				84BC77DF20F3F0BF0039E054 /* RequestSession */,
@@ -1946,6 +1945,7 @@
 				CF0B02B62136760D00B90034 /* PostSessionManager.swift */,
 				CFA0096B213898C900F81EE4 /* InProgressSessionManager.swift */,
 				CFA0096F213A000200F81EE4 /* BackgroundSoundManager.swift */,
+				CF528CE1216489D600D81D03 /* AnalyticsService.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -2071,7 +2071,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -2120,7 +2120,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -2436,7 +2436,6 @@
 				84D433B3204EF2DB00A3EAD2 /* AlertController.swift in Sources */,
 				CF0711052117AF640035A6FF /* ConversationCollectionView.swift in Sources */,
 				84E91B5C20573E5100D1F613 /* SessionDetailsVC.swift in Sources */,
-				84BC21D8206DB333002B4721 /* ViewFullProfileVC.swift in Sources */,
 				842394271FF4DCF400827C7D /* RegistrationBackButton.swift in Sources */,
 				CF12D93B20642236004BE148 /* Session.swift in Sources */,
 				CF833B70207C4B1500323242 /* LearnerSessionContentCell.swift in Sources */,
@@ -2506,6 +2505,7 @@
 				848E643D205A228C000CD921 /* TutorAddSubjectsVC.swift in Sources */,
 				840E75BC201E818C006FC580 /* LearnerSettingsVC.swift in Sources */,
 				842394291FF4DDAB00827C7D /* RegistrationNextButton.swift in Sources */,
+				CF528CE2216489D600D81D03 /* AnalyticsService.swift in Sources */,
 				842394091FF4C94F00827C7D /* BaseViews.swift in Sources */,
 				84A37B78200447C800C19397 /* UserPolicy.swift in Sources */,
 				84D6A7E0215B268F000C0010 /* MyProfileBodyView.swift in Sources */,

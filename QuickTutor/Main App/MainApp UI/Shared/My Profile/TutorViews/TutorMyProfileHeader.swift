@@ -84,8 +84,7 @@ class TutorMyProfileHeader : UIView {
 	private func applyConstraints() {
 		profileImageViewButton.snp.makeConstraints { (make) in
 			make.top.equalToSuperview().inset(20)
-			make.height.equalToSuperview().multipliedBy(0.7)
-			make.width.equalTo(profileImageViewButton.snp.height)
+			make.height.width.equalTo(175)
 			make.centerX.equalToSuperview()
 		}
 		nameContainer.snp.makeConstraints { (make) in
