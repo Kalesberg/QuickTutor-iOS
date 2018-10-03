@@ -8,15 +8,13 @@
 import Foundation
 
 class RequestSessionTypeCell: UITableViewCell {
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
     var requestData: TutorPreferenceData? {
         didSet {
             configureButtons(preference: requestData?.sessionPreference)
@@ -50,7 +48,7 @@ class RequestSessionTypeCell: UITableViewCell {
     let inPersonButton: UIButton = {
         let button = UIButton()
         button.setTitle("In-Person", for: .normal)
-        button.titleLabel?.font = Fonts.createSize(20)
+        button.titleLabel?.font = Fonts.createSize(18)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.textColor = .white
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -62,7 +60,7 @@ class RequestSessionTypeCell: UITableViewCell {
     let videoCallButton: UIButton = {
         let button = UIButton()
         button.setTitle("Online (Video)", for: .normal)
-        button.titleLabel?.font = Fonts.createSize(20)
+        button.titleLabel?.font = Fonts.createSize(18)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.textColor = .white
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -104,15 +102,16 @@ class RequestSessionTypeCell: UITableViewCell {
         }
         videoCallButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.height.equalTo(50)
-            make.width.equalTo(140)
-            make.right.equalToSuperview()
+			make.height.equalTo(UIScreen.main.bounds.height <= 570 ? 35 : 50)
+			make.width.equalTo(UIScreen.main.bounds.height <= 570 ? 100 : 140)
+			make.left.equalTo(container.snp.centerX).inset(2)
+
         }
         inPersonButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.height.equalTo(50)
-            make.width.equalTo(140)
-            make.left.equalToSuperview()
+			make.height.equalTo(UIScreen.main.bounds.height <= 570 ? 35 : 50)
+			make.width.equalTo(UIScreen.main.bounds.height <= 570 ? 100 : 140)
+			make.right.equalTo(container.snp.centerX).inset(-2)
         }
         sessionTypePreferenceLabel.snp.makeConstraints { make in
             make.top.equalTo(container.snp.bottom).inset(-10)
@@ -124,6 +123,7 @@ class RequestSessionTypeCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+		layoutIfNeeded()
         inPersonButton.roundCorners([.topLeft, .bottomLeft], radius: 6)
         videoCallButton.roundCorners([.topRight, .bottomRight], radius: 6)
     }

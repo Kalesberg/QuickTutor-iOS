@@ -440,14 +440,13 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		cell.parentViewController = self
 		cell.tutorCardHeader.profilePics.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         cell.tutorCardHeader.profilePics.roundCorners(.allCorners, radius: 8)
-        cell.tutorCardHeader.name.text = data[indexPath.row].name.formatName()
-        cell.tutorCardHeader.reviewLabel.text = data[indexPath.row].reviews?.count.formatReviewLabel(rating: data[indexPath.row].tRating)
+        cell.tutorCardHeader.name.text = data[indexPath.item].name.formatName()
+        cell.tutorCardHeader.reviewLabel.text = data[indexPath.item].reviews?.count.formatReviewLabel(rating: data[indexPath.item].tRating)
+		cell.tutorCardHeader.price.text = "$\(data[indexPath.item].price ?? 0)/hr"
 		if featuredSubject != nil {
 			cell.tutorCardHeader.featuredSubject.text = featuredSubject
 			cell.tutorCardHeader.featuredSubject.isHidden = false
 		}
-		
-       // cell.rateLabel.text = data[indexPath.row].price.formatPrice()
 		let title = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
 		cell.connectButton.setTitle(title, for: .normal)
 		

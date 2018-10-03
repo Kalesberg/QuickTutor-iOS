@@ -101,7 +101,11 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		scrollView.snp.makeConstraints { (make) in
 			make.top.equalTo(dropShadowView.snp.bottom).inset(5)
 			make.width.centerX.equalToSuperview()
-			make.bottom.equalToSuperview().inset(40)
+			if #available(iOS 11.0, *) {
+				make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
+			} else {
+				make.bottom.equalToSuperview().inset(40)
+			}
 		}
 		tutorCardAboutMe.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
@@ -275,13 +279,6 @@ class TutorCardHeader: InteractableView {
         return label
     }()
 
-    let darkPattern: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "very-dark-pattern")
-        imageView.contentMode = .scaleToFill
-        return imageView
-    }()
-
     let reviewLabel: UILabel = {
         let label = UILabel()
 
@@ -304,30 +301,40 @@ class TutorCardHeader: InteractableView {
         return label
     }()
 
+	let price : UILabel = {
+		let label = UILabel()
+		
+		label.backgroundColor = Colors.green
+		label.textColor = .white
+		label.textAlignment = .center
+		label.font = Fonts.createBoldSize(14)
+		label.layer.masksToBounds = true
+		label.layer.cornerRadius = 10
+		
+		return label
+	}()
+	
     let gradientView = UIView()
 
     override func configureView() {
-        addSubview(darkPattern)
         addSubview(gradientView)
         addSubview(profilePics)
         addSubview(name)
         addSubview(reviewLabel)
         addSubview(featuredSubject)
+		addSubview(price)
         super.configureView()
 
 
+		backgroundColor = Colors.navBarColor
+		
         applyConstraints()
     }
 
     override func applyConstraints() {
-        darkPattern.snp.makeConstraints { make in
-			make.edges.equalToSuperview()
-        }
-
         gradientView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
         profilePics.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(15)
             make.width.height.equalTo(90)
@@ -347,6 +354,11 @@ class TutorCardHeader: InteractableView {
             make.left.equalToSuperview().inset(125)
             make.right.equalToSuperview().inset(5)
         }
+		price.snp.makeConstraints { (make) in
+			make.top.right.equalToSuperview().inset(7)
+			make.width.equalTo(70)
+			make.height.equalTo(20)
+		}
     }
 
     override func layoutSubviews() {

@@ -77,12 +77,12 @@ class TutorMyProfile: BaseViewController, UpdatedTutorCallBack {
 	
 	private func setupMyProfileBioView() {
 		let bio : String
-		if tutor.bio == "" && !isViewing {
+		if tutor.tBio == "" && !isViewing {
 			bio = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen."
-		} else if tutor.bio == "" && isViewing {
+		} else if tutor.tBio == "" && isViewing {
 			bio = "\(tutor.formattedName) has not yet entered a biography."
 		} else {
-			bio = tutor.bio
+			bio = tutor.tBio
 		}
 		contentView.myProfileBioView.bioLabel.text = bio
 	}
