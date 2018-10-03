@@ -307,7 +307,6 @@ extension SearchSubjectsVC: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / -2))
                 }
-
                 return cell
             }
         } else {
