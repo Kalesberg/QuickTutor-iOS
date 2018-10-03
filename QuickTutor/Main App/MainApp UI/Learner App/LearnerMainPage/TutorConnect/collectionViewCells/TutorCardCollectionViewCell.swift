@@ -326,6 +326,8 @@ class TutorCardHeader: InteractableView {
         super.configureView()
 
 
+		backgroundColor = Colors.navBarColor
+		
         applyConstraints()
     }
 
