@@ -42,6 +42,7 @@ class ZFNavBar: UIView {
         setupLeftAccessoryView()
         setupTitleView()
         setupRightAccessoryView()
+        setupTitleLabel()
     }
 
     func setupMainView() {
@@ -64,6 +65,11 @@ class ZFNavBar: UIView {
         addSubview(leftAccessoryView)
         leftAccessoryView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 10, paddingRight: 0, width: 35, height: 35)
         leftAccessoryView.addTarget(self, action: #selector(handleLeftViewTapped), for: .touchUpInside)
+    }
+    
+    func setupTitleLabel() {
+        addSubview(titleLabel)
+        titleLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 65, paddingBottom: 10, paddingRight: 65, width: 0, height: 35)
     }
 
     @objc func handleRightViewTapped() {

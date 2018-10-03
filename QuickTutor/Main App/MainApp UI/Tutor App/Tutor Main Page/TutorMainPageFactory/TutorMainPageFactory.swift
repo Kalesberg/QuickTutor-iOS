@@ -29,7 +29,7 @@ enum TutorMainPageButtonFactory {
 
     var viewController: UIViewController {
         switch self {
-        case .tutorRating: return TutorRatings()
+        case .tutorRating: return TutorRatingsVC()
         case .tutorEarning: return TutorEarnings()
         case .tutorTrending: return TrendingCategories()
         case .tutorListing: return YourListing()

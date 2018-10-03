@@ -12,19 +12,15 @@ import UIKit
 class TutorMainPageHeaderCell: BaseTableViewCell {
     let headerLabel: UILabel = {
         let label = UILabel()
-
         label.textColor = .white
         label.font = Fonts.createBoldSize(38)
-
         return label
     }()
 
     let subHeaderLabel: UILabel = {
         let label = UILabel()
-
         label.textColor = .white
         label.font = Fonts.createSize(14)
-
         return label
     }()
 
@@ -34,11 +30,9 @@ class TutorMainPageHeaderCell: BaseTableViewCell {
 
     let infoContainer: UIView = {
         let view = UIView()
-
         view.backgroundColor = Colors.registrationDark
         view.layer.borderWidth = 1
         view.layer.borderColor = Colors.divider.cgColor
-
         return view
     }()
 
@@ -89,7 +83,6 @@ class TutorMainPageHeaderCell: BaseTableViewCell {
 class TutorMainPageSummaryCell: BaseTableViewCell {
     let infoLabel1: UILabel = {
         let label = UILabel()
-
         return label
     }()
 
