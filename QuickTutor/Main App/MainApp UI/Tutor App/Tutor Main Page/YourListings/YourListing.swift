@@ -39,7 +39,7 @@ class YourListingView: MainLayoutTitleTwoButton {
 
     let fakeBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "344161")
+        view.backgroundColor = UIColor(hex: "484782")
         return view
     }()
 
@@ -58,7 +58,7 @@ class YourListingView: MainLayoutTitleTwoButton {
         layout.minimumInteritemSpacing = 0
 
         collectionView.collectionViewLayout = layout
-        collectionView.backgroundColor = UIColor(hex: "344161")
+        collectionView.backgroundColor = UIColor(hex: "484782")
         collectionView.isPagingEnabled = true
 
         return collectionView
@@ -142,18 +142,18 @@ class YourListingView: MainLayoutTitleTwoButton {
         hideButtonContainer.addSubview(descriptionLabel)
         super.configureView()
 
-        let navbarColor = UIColor(hex: "5785D4")
 
-        navbar.backgroundColor = navbarColor
-        statusbarView.backgroundColor = navbarColor
+        navbar.backgroundColor = Colors.learnerPurple
+        statusbarView.backgroundColor = Colors.learnerPurple
+        
 
-        title.label.text = "Your Listing"
+        title.label.text = "Listings"
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        imageViewBackground.applyGradient(firstColor: UIColor(hex: "456AA8").cgColor, secondColor: UIColor(hex: "5785D4").cgColor, angle: 90, frame: imageViewBackground.bounds)
+        imageViewBackground.applyGradient(firstColor: UIColor(hex: "6562C9").cgColor, secondColor: UIColor(hex: "6562C9").cgColor, angle: 90, frame: imageViewBackground.bounds)
     }
 
     override func applyConstraints() {
@@ -285,7 +285,7 @@ class YourListing: BaseViewController {
     }
 
     private func setupHideListingButton() {
-        contentView.hideButton.backgroundColor = hideListing ? UIColor.gray : Colors.tutorBlue
+        contentView.hideButton.backgroundColor = hideListing ? UIColor.gray : Colors.learnerPurple
         contentView.hideButton.setTitle(hideListing ? "Unhide listing" : "Hide Listing", for: .normal)
         contentView.descriptionLabel.text = hideListing ? "Your listing is currently hidden from the main page." : "Your listing is visible to all learners on the main page."
     }

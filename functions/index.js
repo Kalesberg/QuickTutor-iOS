@@ -121,23 +121,229 @@ exports.sendSessionDetails = functions.database.ref('filereport/{uid}/{reportId}
     return sgMail.send(msg).catch(err => console.error(err.message));
   });
 });
+
 function getAccountInfo(id) {
   return admin.database().ref('account/' + id).once('value').then(snapshot => {
     return snapshot.val();
   });
 }
+
 function getsession(id) {
   return admin.database().ref('sessions/' + id).once('value').then(snapshot => {
     return snapshot.val();
   });
 }
+
 function getStudentInfo(id) {
   return admin.database().ref('student-info/' + id).once('value').then(snapshot => {
     return snapshot.val();
   });
 }
+
 function getTutorInfo(id) {
   return admin.database().ref('tutor-info/' + id).once('value').then(snapshot => {
     return snapshot.val();
   });
 }
+
+exports.sendMessageNotification = functions.database.ref('/messages/{messageId}').onCreate((snap, context) => {
+  const data = snap.val();
+  const receiverId = data.receiverId;
+  const senderId = data.senderId;
+  const receiverAccountType = data.receiverAccountType;
+
+  const senderAccountType = (receiverAccountType === 'learner' ? 'tutor' : 'learner');
+
+  let text = data.text;
+  let sessionRequestId = data.sessionRequestId;
+  let titleCompletion = ' messaged you.';
+
+  if (text === undefined && sessionRequestId === undefined) {
+    text = "Attachment: 1 image";
+    titleCompletion = ' sent an image.'
+  } else if (text === undefined) {
+    text = "Session Request";
+    titleCompletion = ' would like to have a session.'
+  }
+
+  console.log('Message added in database');
+  
+
+  return Promise.all([getFcmTokenForUid(receiverId), getUsernameForUid(senderId)]).then(results => {
+    const fcmToken = results[0];
+    const senderUsername = results[1];
+    console.log('Sending notification');
+    
+    const title = senderUsername + titleCompletion;
+    const data = {
+      category: 'messages',
+      identifier: 'textMessage',
+      receiverId: receiverId,
+      senderId: senderId,
+      receiverAccountType: receiverAccountType,
+      senderAccountType: senderAccountType
+    }
+
+    return sendNotificationTo(fcmToken, title, text, data);
+  }).then((error) => {
+    console.log(error);
+    return error;
+  });
+});
+
+function getUsernameForUid(uid) {
+  return new Promise(((resolve, reject) => {
+    admin.database().ref('student-info/' + uid + '/nm').once('value', (snapshot) => {
+      let username = snapshot.val()
+      if (username) {
+        let lastInitialIndex = username.search(' ') + 2;
+        let formattedName = username.slice(0, lastInitialIndex) + '.';
+        resolve(formattedName);
+      } else {
+        reject(new Error('Could not get username for uid: ', uid));
+      }
+    });
+  }));
+}
+
+function getFcmTokenForUid(uid) {
+  return new Promise(((resolve, reject) => {
+    admin.database().ref('account/' + uid + '/fcmToken').once('value', (snapshot) => {
+      let fcmToken = snapshot.val()
+      if (fcmToken) {
+        resolve(fcmToken);
+      } else {
+        reject(new Error('Could not get fcm token.'));
+      }
+    });
+  }));
+}
+
+function sendNotificationTo(fcmToken, title, body, data) {
+  const payload = createNotificationPayload(title, body, data);
+
+  return admin.messaging().sendToDevice(fcmToken, payload)
+    .then((response) => {
+      console.log('Successfully sent message');
+      return 'successful';
+    })
+    .catch((error) => {
+      console.log('Error sending message:', error);
+    });
+}
+
+function createNotificationPayload(title, body, data) {
+  return {
+    notification: {
+      title: title,
+      sound: 'qtNotificationPop.aiff',
+      body: body
+    },
+    data: data
+  };
+}
+
+exports.sendConnectionRequestNotification = functions.database.ref('/connectionRequests/{receiverId}/{senderId}').onCreate((snap, context) => {
+  const receiverId = context.params.receiverId;
+  const senderId = context.params.senderId;
+
+  return Promise.all([getFcmTokenForUid(receiverId), getUsernameForUid(senderId)]).then(results => {
+    const fcmToken = results[0];
+    const senderUsername = results[1];
+
+    const title = `${senderUsername} would like to connect.`
+    const data = {
+      'receiverAccountType' : 'tutor'
+    }
+
+    return sendNotificationTo(fcmToken, title, null, data);
+  });
+});
+
+exports.sendConnectionRequestAcceptedNotification = functions.database.ref('/connections/{receiverId}/{senderId}').onCreate((snap, context) => {
+  const data = snap.val();
+  const receiverId = context.params.receiverId;
+  const senderId = context.params.senderId;
+
+  return Promise.all([getFcmTokenForUid(receiverId), getUsernameForUid(senderId)]).then(results => {
+    const fcmToken = results[0];
+    const senderUsername = results[1];
+
+    const title = `${senderUsername} accepted your connection request.`
+    const data = {
+      'receiverAccountType' : 'learner'
+    }
+
+    return sendNotificationTo(fcmToken, title, null, data);
+  });
+});
+
+function getSessionById(sessionId) {
+    return admin.database().ref(`sessions/${sessionId}`).once('value').then((snapshot) => {
+        return snapshot.val();
+    });
+}
+
+exports.sendSessionAcceptedNotification = functions.database.ref('/userSessions/{receiverId}/learner/{sessionId}').onCreate((snap, context) => {
+  const data = snap.val();
+  const receiverId = context.params.receiverId;
+  const sessionId = context.params.sessionId;
+  
+  console.log(`ReceieverId: ${receiverId}`);
+  
+  return getSessionById(sessionId).then((session) => {
+    const senderId = session.senderId;
+    console.log(`SenderId: ${senderId}`);
+    return Promise.all([getFcmTokenForUid(receiverId), getUsernameForUid(senderId)]).then(results => {
+      const fcmToken = results[0];
+      const senderUsername = results[1];
+  
+      const title = 'Session Request Accepted'
+      const body = `${senderUsername} accepted your session request.`
+  
+      return sendNotificationTo(fcmToken, title, body, {});
+    }).catch((error) => {
+      console.log(error);
+    });
+  });
+
+});
+
+exports.sendSessionCancelNotification = functions.database.ref('/sessionCancels/{receiverId}/{cancelledById}').onCreate((snap, context) => {
+  const data = snap.val();
+  const receiverId = context.params.receiverId;
+  const cancelledById = context.params.cancelledById;
+
+  return Promise.all([getFcmTokenForUid(receiverId), getUsernameForUid(cancelledById)]).then(results => {
+    const fcmToken = results[0];
+    const senderUsername = results[1];
+
+    const title = `Your session with ${senderUsername} has been cancelled.`
+
+    return sendNotificationTo(fcmToken, title);
+  });
+});
+
+// exports.sendManualStartNotification = functions.database.ref('/sessionStarts/{userId}/{sessionId}').onCreate((snap, context) => {
+//   const userId = context.params.userId;
+//   const sessionId = context.params.sessionId;  
+//   console.log(`User id is ${userId}`);
+  
+//   return Promise.all([getSessionById(sessionId), getFcmTokenForUid(userId), getUsernameForUid(userId)]).then(results => {
+//     const session = results[0];
+//     const fcmToken = results[1];
+//     const senderUsername = results[2];
+    
+//     const title = 'Session Starting Early';
+//     const text = 'Accept or deny the early start.'
+//     const data =  {
+//       senderId: userId,
+//       receiverAccountType: 'tutor'
+//     }
+//     console.log('Sending session start notification');
+//     return sendNotificationTo(fcmToken, title, text, data);
+//   }).then((error) => {
+//     console.log(error);
+//     return error;
+//   });
+// });
