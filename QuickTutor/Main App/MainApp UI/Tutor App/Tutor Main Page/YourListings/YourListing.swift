@@ -129,8 +129,8 @@ class YourListingView: MainLayoutTitleTwoButton {
     }()
 
     override func configureView() {
-        addSubview(fakeBackground)
-        addSubview(scrollView)
+        insertSubview(fakeBackground, belowSubview: navbar)
+        insertSubview(scrollView, belowSubview: navbar)
         scrollView.addSubview(collectionView)
         scrollView.addSubview(hideButtonContainer)
         scrollView.addSubview(imageViewBackground)
@@ -141,6 +141,11 @@ class YourListingView: MainLayoutTitleTwoButton {
         hideButtonContainer.addSubview(hideButton)
         hideButtonContainer.addSubview(descriptionLabel)
         super.configureView()
+        navbar.applyDefaultShadow()
+        navbar.clipsToBounds = false
+        navbar.layer.masksToBounds = false
+        bringSubviewToFront(navbar)
+        navbar.layer.borderWidth = 0
 
 
         navbar.backgroundColor = Colors.learnerPurple
@@ -159,12 +164,12 @@ class YourListingView: MainLayoutTitleTwoButton {
     override func applyConstraints() {
         super.applyConstraints()
         fakeBackground.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom).inset(-1)
+            make.top.equalTo(navbar.snp.bottom).inset(1)
             make.centerX.width.equalToSuperview()
             make.height.equalToSuperview().dividedBy(2)
         }
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom).inset(-1)
+            make.top.equalTo(navbar.snp.bottom).inset(1)
             make.width.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
         }

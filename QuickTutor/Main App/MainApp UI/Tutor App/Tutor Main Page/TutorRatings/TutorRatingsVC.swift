@@ -39,6 +39,7 @@ class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
         cv.backgroundColor = Colors.backgroundDark
         cv.showsVerticalScrollIndicator = false
         cv.register(TutorRatingsHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
+        cv.register(TutorRatingsReviewHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ratingsHeader")
         cv.register(TutorRatingsPrimaryCell.self, forCellWithReuseIdentifier: "primaryCell")
         cv.register(TutorRatingsStatisticsCell.self, forCellWithReuseIdentifier: "statisticsCell")
         cv.register(TutorRatingsTopSubjectCell.self, forCellWithReuseIdentifier: "topSubjectCell")
@@ -206,7 +207,7 @@ extension TutorRatingsVC: UICollectionViewDelegate, UICollectionViewDataSource, 
         case 2:
             return CGSize(width: UIScreen.main.bounds.width - 40, height: 150)
         default:
-            return CGSize(width: UIScreen.main.bounds.width - 40, height: 230)
+            return CGSize(width: UIScreen.main.bounds.width - 40, height: 180)
         }
     }
     
@@ -215,8 +216,21 @@ extension TutorRatingsVC: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard indexPath.section != 3 else {
+            return getReviewHeader(indexPath)
+        }
+        
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell", for: indexPath) as! TutorRatingsHeaderCell
         header.titleLabel.text = sectionTitles[indexPath.section]
+        return header
+    }
+    
+    func getReviewHeader(_ indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ratingsHeader", for: indexPath) as! TutorRatingsReviewHeaderCell
+        header.titleLabel.text = sectionTitles[indexPath.section]
+        if let reviews = tutor.reviews {
+            header.reviews = reviews
+        }
         return header
     }
     

@@ -12,7 +12,6 @@ import UIKit
 class TutorEarningsView: MainLayoutTitleBackButton {
     let summaryLabel: UILabel = {
         let label = UILabel()
-
         let formattedString = NSMutableAttributedString()
         formattedString
             .bold("Earnings in past 7 days:\n", 15, .white)
@@ -25,7 +24,6 @@ class TutorEarningsView: MainLayoutTitleBackButton {
 
         label.attributedText = formattedString
         label.numberOfLines = 0
-
         return label
     }()
 
@@ -38,20 +36,16 @@ class TutorEarningsView: MainLayoutTitleBackButton {
 
     let infoContainer: UIView = {
         let view = UIView()
-
         view.backgroundColor = Colors.navBarColor
-
         return view
     }()
 
     let imageView: UIImageView = {
         let view = UIImageView()
-
         view.image = #imageLiteral(resourceName: "green-pattern").alpha(0.39)
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.backgroundColor = Colors.green
-
         return view
     }()
 
@@ -59,28 +53,23 @@ class TutorEarningsView: MainLayoutTitleBackButton {
 
     let earnings2018: UILabel = {
         let label = UILabel()
-
         label.font = Fonts.createBoldSize(15)
         label.textColor = .white
         label.text = "2018 EARNINGS"
         label.textAlignment = .center
-
         return label
     }()
 
     let recentStatementsLabel: UILabel = {
         let label = UILabel()
-
         label.text = "Recent Statements"
         label.textColor = .white
         label.font = Fonts.createBoldSize(18)
-
         return label
     }()
 
     let tableView: UITableView = {
         let tableView = UITableView()
-
         tableView.rowHeight = 50
         tableView.separatorInset.left = 0
         tableView.separatorColor = Colors.divider
@@ -88,7 +77,6 @@ class TutorEarningsView: MainLayoutTitleBackButton {
         tableView.backgroundColor = .clear
         tableView.tableFooterView = UIView()
         tableView.alwaysBounceVertical = true
-
         return tableView
     }()
 
@@ -208,8 +196,8 @@ class TutorEarnings: BaseViewController {
         Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { _, transactions in
             guard let transactions = transactions else { return }
             self.datasource = transactions.data.sorted { return $0.created < $1.created }
+            self.dismissOverlay()
         }
-        dismissOverlay()
 
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self

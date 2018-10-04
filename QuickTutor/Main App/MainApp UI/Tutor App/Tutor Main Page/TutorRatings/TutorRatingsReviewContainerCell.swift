@@ -30,14 +30,6 @@ class TutorRatingsReviewContainerCell: UICollectionViewCell, UICollectionViewDel
         return cv
     }()
     
-    let seeAllButton : UIButton = {
-        let button = UIButton()
-        button.setTitle("See All »", for: .normal)
-        button.titleLabel?.textColor = Colors.lightGrey
-        button.titleLabel?.font = Fonts.createSize(12)
-        return button
-    }()
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return reviews.count
     }
@@ -54,7 +46,6 @@ class TutorRatingsReviewContainerCell: UICollectionViewCell, UICollectionViewDel
     
     func setupViews() {
         setupCollectionView()
-        setupSeeAllButton()
     }
     
     func setupCollectionView() {
@@ -62,23 +53,6 @@ class TutorRatingsReviewContainerCell: UICollectionViewCell, UICollectionViewDel
         collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 180)
         collectionView.delegate = self
         collectionView.dataSource = self
-    }
-    
-    func setupSeeAllButton() {
-        addSubview(seeAllButton)
-        seeAllButton.anchor(top: collectionView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 64, height: 24)
-        seeAllButton.addTarget(self, action: #selector(showAllReviews), for: .touchUpInside)
-    }
-    
-    @objc func showAllReviews() {
-        if let current = UIApplication.getPresentedViewController() {
-            let next = LearnerReviewsVC()
-            next.isViewing = true
-            next.contentView.navbar.backgroundColor = Colors.gold
-            next.contentView.statusbarView.backgroundColor = Colors.gold
-            next.datasource = reviews
-            current.present(next, animated: true, completion: nil)
-        }
     }
     
     override init(frame: CGRect) {

@@ -102,7 +102,7 @@ class CreatePassword: BaseViewController {
         let emailCredential = EmailAuthProvider.credential(withEmail: Registration.email, password: password!)
         Registration.emailCredential = emailCredential
         dismissOverlay()
-        navigationController!.pushViewController(UploadImage(), animated: true)
+        navigationController!.pushViewController(Birthday(), animated: true)
         contentView.createPasswordTextfield.textField.text = ""
         
     }

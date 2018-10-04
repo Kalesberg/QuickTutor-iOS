@@ -64,7 +64,7 @@ class TutorRatingsReviewCell: UICollectionViewCell {
         ratingLabel.text = "★ \(review.rating)"
         subjectLabel.text = review.subject
         dateLabel.text = review.date
-        reviewTextLabel.text = review.message
+        reviewTextLabel.text = "\"\(review.message)\""
         DataService.shared.getStudentWithId(review.reviewerId) { (learner) in
             guard let learner = learner else { return }
             self.profileImageView.sd_setImage(with: learner.profilePicUrl)

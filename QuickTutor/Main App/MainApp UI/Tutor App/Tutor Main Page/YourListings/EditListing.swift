@@ -22,13 +22,11 @@ class EditListingView: MainLayoutTitleBackTwoButton {
 
     let tableView: UITableView = {
         let tableView = UITableView()
-
         tableView.estimatedRowHeight = 70
         tableView.showsVerticalScrollIndicator = false
         tableView.alwaysBounceVertical = true
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
-
         return tableView
     }()
 
@@ -39,10 +37,13 @@ class EditListingView: MainLayoutTitleBackTwoButton {
     }()
 
     override func configureView() {
-        addSubview(fakeBackground)
-        addSubview(tableView)
+        insertSubview(fakeBackground, belowSubview: navbar)
+        insertSubview(tableView, belowSubview: navbar)
         super.configureView()
-        
+        navbar.applyDefaultShadow()
+        navbar.layer.masksToBounds = false
+        navbar.clipsToBounds = false
+        bringSubviewToFront(navbar)
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple
         
