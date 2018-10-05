@@ -598,8 +598,7 @@ extension TutorAddSubjectsVC: DidSelectSubcategoryCell {
     func didSelectSubcategoryCell(resource: String?, subcategory: String) {
         guard let resource = resource else { return }
         if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subcategory) {
-            print("Partial Subjects: ", partialSubjects)
-            partialSubjects = subjects
+            partialSubjects = subjects.sorted(by: <)
             filteredSubjects = partialSubjects
             contentView.headerView.text = "   " + subcategory
         }

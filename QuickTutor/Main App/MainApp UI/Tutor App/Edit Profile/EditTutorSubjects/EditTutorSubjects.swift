@@ -277,7 +277,6 @@ class EditTutorSubjects: BaseViewController {
 
         if let subjects = SubjectStore.loadTotalSubjectList() {
             allSubjects = subjects
-            allSubjects.shuffle()
         }
     }
 
@@ -680,7 +679,7 @@ extension EditTutorSubjects: DidSelectSubcategoryCell {
     func didSelectSubcategoryCell(resource: String?, subcategory: String) {
         guard let resource = resource else { return }
         if let subjects = SubjectStore.readSubcategory(resource: resource, subjectString: subcategory) {
-            partialSubjects = subjects
+            partialSubjects = subjects.sorted(by: <)
             filteredSubjects = partialSubjects
             contentView.headerView.category.text = subcategory
         }

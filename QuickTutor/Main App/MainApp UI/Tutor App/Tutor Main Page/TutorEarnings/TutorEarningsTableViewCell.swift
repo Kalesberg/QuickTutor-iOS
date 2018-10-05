@@ -55,7 +55,7 @@ class TutorEarningsTableCellView: BaseTableViewCell {
 	override func applyConstraints() {
 		leftLabel.snp.makeConstraints { make in
 			make.top.bottom.equalToSuperview()
-			make.left.equalToSuperview().inset(5)
+			make.left.equalToSuperview().inset(15)
 			make.width.equalToSuperview().multipliedBy(0.8)
 		}
 		rightLabelContainer.snp.makeConstraints { make in
