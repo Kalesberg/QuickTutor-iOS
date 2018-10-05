@@ -315,10 +315,6 @@ class SessionReview : BaseViewController {
 		buttonTitles = ["Submit Rating","Submit Review","Complete"]
 	}
 	
-	func doesContainNaughtyWord(text: String, naughtyWords: [String]) -> Bool {
-		return naughtyWords.reduce(false) {$0 || text.contains ($1.lowercased()) }
-	}
-
 	func displayErrorMessage(text: String) {
 		contentView.errorLabel.text = text
 		contentView.errorLabel.shake()
@@ -335,16 +331,7 @@ class SessionReview : BaseViewController {
 				displayErrorMessage(text: "Please give this tutor a rating.")
 			}
 		case 1:
-			if let review = PostSessionReviewData.review {
-				let naughtyWords : [String] = BadWords.loadBadWords()
-				if !doesContainNaughtyWord(text: review.lowercased(), naughtyWords: naughtyWords) {
-					contentView.collectionView.scrollToItem(at: IndexPath(item: currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
-				} else {
-					displayErrorMessage(text: "Reviews cannot contain inappropriate words.")
-				}
-			} else {
-				contentView.collectionView.scrollToItem(at: IndexPath(item: currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
-			}
+			contentView.collectionView.scrollToItem(at: IndexPath(item: currentItem + 1, section: 0), at: .centeredHorizontally, animated: true)
 		case 2:
 			if  AccountService.shared.currentUserType == .learner {
 				guard hasPaid == false else { return }

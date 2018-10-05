@@ -141,7 +141,7 @@ PODS:
   - Stripe (13.2.0)
   - SwiftKeychainWrapper (3.0.1)
   - SwipeCellKit (2.5.0)
-  - TwilioVideo (2.5.0)
+  - TwilioVideo (2.5.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
@@ -259,8 +259,8 @@ SPEC CHECKSUMS:
   Stripe: 2c69e216061d54d9c538204bb4f58bd597ddfc5b
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
-  TwilioVideo: 429320eacdc954cd38546e5afe40e4f3ce848931
+  TwilioVideo: 4b20135c82e40c44b99536bb66dbd4fe3b55dffe
 
 PODFILE CHECKSUM: 851d90c22632832893a76fe518c9ec3cfe7eb6f3
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0.beta.1

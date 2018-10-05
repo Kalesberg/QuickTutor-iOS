@@ -208,7 +208,6 @@ class EditBioVC: BaseViewController {
         contentView.textView.textView.delegate = self
         NavbarButtonBack.enabled = false
 
-        naughtyWords = BadWords.loadBadWords()
         originalBio = contentView.textView.textView.text
         contentView.characterCount.label.text = String(300 - originalBio.count)
     }
@@ -232,11 +231,6 @@ class EditBioVC: BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    func doesContainNaughtyWord(text: String, naughtyWords: [String]) -> Bool {
-        return naughtyWords.reduce(false) { $0 || text.contains($1.lowercased()) }
-    }
-
     private func displaySavedAlertController() {
         let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
 
@@ -290,14 +284,8 @@ class EditBioVC: BaseViewController {
                 contentView.errorLabel.isHidden = false
             }
         } else {
-            if !doesContainNaughtyWord(text: contentView.textView.textView.text, naughtyWords: naughtyWords) {
-                contentView.errorLabel.isHidden = true
-                dismissKeyboard()
-                saveChanges()
-            } else {
-                contentView.errorLabel.text = "Your bio can't contain inappropriate words."
-                contentView.errorLabel.isHidden = false
-            }
+			dismissKeyboard()
+			saveChanges()
         }
     }
 

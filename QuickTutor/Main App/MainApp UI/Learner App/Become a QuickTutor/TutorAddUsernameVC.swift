@@ -173,14 +173,11 @@ class TutorAddUsernameVC: BaseViewController {
 
     private let ref: DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 
-    var naughtyWords = [String]()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         contentView.textField.textField.delegate = self
         contentView.textField.textField.becomeFirstResponder()
-        naughtyWords = BadWords.loadBadWords()
     }
 
     override func loadView() {
@@ -190,11 +187,7 @@ class TutorAddUsernameVC: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-
-    func doesContainNaughtyWord(text: String, naughtyWords: [String]) -> Bool {
-        return naughtyWords.reduce(false) { $0 || text.contains($1.lowercased()) }
-    }
-
+	
     func isValidUsername(username: String) -> Bool {
         let regex = "\\A\\w{3,15}\\z"
         let test = NSPredicate(format: "SELF MATCHES %@", regex)
@@ -220,7 +213,7 @@ class TutorAddUsernameVC: BaseViewController {
         if touchStartView is NavbarButtonNext {
             let username = contentView.textField.textField.text!
 
-            if !doesContainNaughtyWord(text: username, naughtyWords: naughtyWords) && isValidUsername(username: username) && endsWithSpecial(username: username) {
+            if isValidUsername(username: username) && endsWithSpecial(username: username) {
                 displayLoadingOverlay()
                 checkIfUsernamAlreadyExists(text: username) { success in
                     if success {

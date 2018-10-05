@@ -189,6 +189,9 @@
 		84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B620AB1991003E66D5 /* LegalEntity.swift */; };
 		84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */; };
 		84BDE2BF20AB9168003E66D5 /* AccountVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */; };
+		84BFE1392166ED7A003452DF /* TutorEarningsBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BFE1382166ED7A003452DF /* TutorEarningsBackgroundView.swift */; };
+		84BFE13B2166ED85003452DF /* TutorEarningsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BFE13A2166ED85003452DF /* TutorEarningsView.swift */; };
+		84BFE13D2166ED92003452DF /* TutorEarningsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BFE13C2166ED92003452DF /* TutorEarningsTableViewCell.swift */; };
 		84C255691FC2563A0012C0AA /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C255681FC2563A0012C0AA /* Birthday.swift */; };
 		84C44F5620AE9704009AA5F1 /* CloseAccountChoiceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C44F5520AE9704009AA5F1 /* CloseAccountChoiceVC.swift */; };
 		84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E931206B61A6000C7A2F /* TutorFileReport.swift */; };
@@ -208,7 +211,7 @@
 		84CF77392118DF9B005755CB /* ToggleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF77382118DF9B005755CB /* ToggleTableViewCell.swift */; };
 		84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */; };
 		84CFDDF0207357AB001CA9BF /* TutorRatings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDEF207357AB001CA9BF /* TutorRatings.swift */; };
-		84CFDDF2207357B5001CA9BF /* TutorEarnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */; };
+		84CFDDF2207357B5001CA9BF /* TutorEarningsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDF1207357B5001CA9BF /* TutorEarningsVC.swift */; };
 		84D19DA8207056DD00216238 /* TutorMyProfileCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D19DA7207056DD00216238 /* TutorMyProfileCells.swift */; };
 		84D3A8AD201149DF000C2031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84D3A8AC201149DF000C2031 /* Assets.xcassets */; };
 		84D433B3204EF2DB00A3EAD2 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D433B2204EF2DB00A3EAD2 /* AlertController.swift */; };
@@ -606,6 +609,9 @@
 		84BDE2B620AB1991003E66D5 /* LegalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalEntity.swift; sourceTree = "<group>"; };
 		84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAccounts.swift; sourceTree = "<group>"; };
 		84BDE2BE20AB9168003E66D5 /* AccountVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerification.swift; sourceTree = "<group>"; };
+		84BFE1382166ED7A003452DF /* TutorEarningsBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorEarningsBackgroundView.swift; sourceTree = "<group>"; };
+		84BFE13A2166ED85003452DF /* TutorEarningsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorEarningsView.swift; sourceTree = "<group>"; };
+		84BFE13C2166ED92003452DF /* TutorEarningsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorEarningsTableViewCell.swift; sourceTree = "<group>"; };
 		84C255681FC2563A0012C0AA /* Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
 		84C44F5520AE9704009AA5F1 /* CloseAccountChoiceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountChoiceVC.swift; sourceTree = "<group>"; };
 		84C4E931206B61A6000C7A2F /* TutorFileReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorFileReport.swift; sourceTree = "<group>"; };
@@ -627,7 +633,7 @@
 		84CF77382118DF9B005755CB /* ToggleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleTableViewCell.swift; sourceTree = "<group>"; };
 		84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorManagePolicies.swift; sourceTree = "<group>"; };
 		84CFDDEF207357AB001CA9BF /* TutorRatings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatings.swift; sourceTree = "<group>"; };
-		84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorEarnings.swift; sourceTree = "<group>"; };
+		84CFDDF1207357B5001CA9BF /* TutorEarningsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorEarningsVC.swift; sourceTree = "<group>"; };
 		84D19DA7207056DD00216238 /* TutorMyProfileCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMyProfileCells.swift; sourceTree = "<group>"; };
 		84D3A8AC201149DF000C2031 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84D433B2204EF2DB00A3EAD2 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
@@ -1422,6 +1428,17 @@
 			path = RequestSession;
 			sourceTree = "<group>";
 		};
+		84BFE1372166ED63003452DF /* TutorEarnings */ = {
+			isa = PBXGroup;
+			children = (
+				84CFDDF1207357B5001CA9BF /* TutorEarningsVC.swift */,
+				84BFE1382166ED7A003452DF /* TutorEarningsBackgroundView.swift */,
+				84BFE13A2166ED85003452DF /* TutorEarningsView.swift */,
+				84BFE13C2166ED92003452DF /* TutorEarningsTableViewCell.swift */,
+			);
+			path = TutorEarnings;
+			sourceTree = "<group>";
+		};
 		84C4E938206B61AC000C7A2F /* LearnerUnprofessional */ = {
 			isa = PBXGroup;
 			children = (
@@ -1472,7 +1489,7 @@
 			children = (
 				84F2451D1FDA119E006447A8 /* TutorMainPage.swift */,
 				84CFDDEF207357AB001CA9BF /* TutorRatings.swift */,
-				84CFDDF1207357B5001CA9BF /* TutorEarnings.swift */,
+				84BFE1372166ED63003452DF /* TutorEarnings */,
 				84B8D67920E5A53C0026132C /* TutorListings.swift */,
 				847780BE2119F49100D5487E /* YourListings */,
 				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
@@ -2074,7 +2091,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -2123,7 +2140,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -2207,6 +2224,7 @@
 				8496FE052161835B00BD292F /* TutorMyProfileHeader.swift in Sources */,
 				844FECF8210F9D9300C1797B /* SubjectSearchCategoryCell.swift in Sources */,
 				8423941D1FF4D5E800827C7D /* RegistrationTitleLabel.swift in Sources */,
+				84BFE13B2166ED85003452DF /* TutorEarningsView.swift in Sources */,
 				CF8578C82060AB470089B6F0 /* BaseSessionsContentCell.swift in Sources */,
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
 				CF6F58DC205EE68800ACBD32 /* CustomNavVC.swift in Sources */,
@@ -2334,6 +2352,7 @@
 				CF0B02B72136760D00B90034 /* PostSessionManager.swift in Sources */,
 				848E643B2059EE0A000CD921 /* BecomeTutorVC.swift in Sources */,
 				8421AB4220DFD75B005B652B /* TutorAccountWarning.swift in Sources */,
+				84BFE13D2166ED92003452DF /* TutorEarningsTableViewCell.swift in Sources */,
 				CF528CD72164529E00D81D03 /* TutorRatingsReviewCell.swift in Sources */,
 				8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */,
 				8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */,
@@ -2394,7 +2413,7 @@
 				84367EEE20BCEABF007F3556 /* TutorManagePreferences.swift in Sources */,
 				843BAC962143F51400449EE7 /* ReceiptCell.swift in Sources */,
 				843A1D192047C5BF00299D27 /* EditSchoolVC.swift in Sources */,
-				84CFDDF2207357B5001CA9BF /* TutorEarnings.swift in Sources */,
+				84CFDDF2207357B5001CA9BF /* TutorEarningsVC.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
 				CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */,
 				CF177BCD208FB94B006DD50B /* EndSessionProfileBox.swift in Sources */,
@@ -2409,6 +2428,7 @@
 				8440539520F4E672003F0606 /* PricePickerCell.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				8496FDFF215ED0DE00BD292F /* MyProfileReviewsView.swift in Sources */,
+				84BFE1392166ED7A003452DF /* TutorEarningsBackgroundView.swift in Sources */,
 				844053A020F55BDA003F0606 /* RequestSessionTableView.swift in Sources */,
 				84C82FE420F0068A00E526B4 /* EditListing.swift in Sources */,
 				844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */,
