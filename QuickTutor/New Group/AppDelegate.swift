@@ -20,6 +20,8 @@ var navigationController = UINavigationController()
 func setDeviceInfo() -> (Double, Double, Double, Double) {
     
     switch UIScreen.main.bounds.height {
+	case 896:
+		return (301.0, 40, 28, 0.95)
     case 812:
         return (291.0, 40, 28, 1.0)
     case 736:
@@ -160,7 +162,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
                 self.launchScreen.contentView.icon.alpha = 0.0
             }) { (true) in
-                navigationController = CustomNavVC(rootViewController: controller)
+                navigationController = CustomNavVC(rootViewController: SignInVC())
                 navigationController.navigationBar.isHidden = true
                 self.window?.makeKeyAndVisible()
                 self.window?.rootViewController = navigationController
