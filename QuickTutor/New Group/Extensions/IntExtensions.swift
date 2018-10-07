@@ -121,7 +121,7 @@ extension Int {
         let dateFormatter = DateFormatter()
         
         dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
-        dateFormatter.dateFormat = "MMM dd"
+        dateFormatter.dateFormat = "MMM d"
         return dateFormatter.string(from: date)
     }
 }
