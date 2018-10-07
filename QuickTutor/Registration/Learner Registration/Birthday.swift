@@ -12,11 +12,38 @@ import SnapKit
 class BirthdayView: RegistrationNavBarView {
     
     var birthdayPicker = RegistrationDatePicker()
-    
     var contentView = UIView()
-    var birthdayLabel = RegistrationTextField()
-    var birthdayInfoBig = LeftTextLabel()
-    var birthdayInfoSmall = LeftTextLabel()
+	
+	let birthdayLabel : RegistrationTextField = {
+		let label = RegistrationTextField()
+		
+		label.textField.font = Fonts.createSize(CGFloat(DeviceInfo.textFieldFontSize))
+		label.placeholder.text = "BIRTHDATE"
+		label.isUserInteractionEnabled = false
+		
+		return label
+	}()
+	
+	let birthdayInfoBig : LeftTextLabel = {
+		let label = LeftTextLabel()
+		label.label.font = Fonts.createSize(18)
+		label.label.text = "Others will not be able to see your birthday"
+		label.label.numberOfLines = 2
+		label.label.adjustsFontSizeToFitWidth = true
+		
+		return label
+	}()
+	
+	let birthdayInfoSmall : LeftTextLabel = {
+		let label = LeftTextLabel()
+		label.label.font = Fonts.createLightSize(14.5)
+		
+		label.label.text = "By entering my birthday, I agree that I'm at least 18 years old."
+		label.label.numberOfLines = 2
+		label.label.adjustsFontSizeToFitWidth = true
+		
+		return label
+	}()
     
     let errorLabel: UILabel = {
         let label = UILabel()
@@ -24,46 +51,29 @@ class BirthdayView: RegistrationNavBarView {
         label.textColor = .red
         label.isHidden = true
         label.numberOfLines = 2
+		label.text = "Must be 18 years or older to use QuickTutor"
+
         return label
     }()
     
     override func configureView() {
         super.configureView()
-        
-        progressBar.progress = 0.8
+		progressBar.progress = 0.8
         progressBar.applyConstraints()
-        
         addSubview(birthdayPicker)
         addSubview(contentView)
-        
         contentView.addSubview(birthdayLabel)
         contentView.addSubview(birthdayInfoBig)
         contentView.addSubview(birthdayInfoSmall)
         contentView.addSubview(errorLabel)
         
         titleLabel.label.text = "We need your birthday"
-        errorLabel.text = "Must be 18 years or older to use QuickTutor"
-        
-        birthdayLabel.textField.font = Fonts.createSize(CGFloat(DeviceInfo.textFieldFontSize))
-        birthdayLabel.placeholder.text = "BIRTHDATE"
-        birthdayLabel.isUserInteractionEnabled = false
-        
-        let date = Date()
-        
+		
+		let date = Date()
         birthdayPicker.datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: 1, to: date)
-        birthdayPicker.datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: -90, to: date)
+        birthdayPicker.datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: -113, to: date)
         birthdayPicker.datePicker.setDate(date, animated: true)
-        
-        birthdayInfoBig.label.font = Fonts.createSize(18)
-        birthdayInfoBig.label.text = "Others will not be able to see your birthday"
-        birthdayInfoBig.label.numberOfLines = 2
-        birthdayInfoBig.label.adjustsFontSizeToFitWidth = true
-        
-        birthdayInfoSmall.label.font = Fonts.createLightSize(14.5)
-        
-        birthdayInfoSmall.label.text = "By entering my birthday, I agree that I'm at least 18 years old."
-        birthdayInfoSmall.label.numberOfLines = 2
-        birthdayInfoSmall.label.adjustsFontSizeToFitWidth = true
+		
         applyConstraints()
     }
     
@@ -99,14 +109,13 @@ class BirthdayView: RegistrationNavBarView {
         
         birthdayInfoBig.snp.makeConstraints { make in
             make.top.equalTo(birthdayLabel.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(0.31)
+			make.height.equalTo(35)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
         
         birthdayInfoSmall.snp.makeConstraints { make in
             make.top.equalTo(birthdayInfoBig.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(0.25)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
@@ -140,10 +149,7 @@ class Birthday: BaseViewController {
         contentView.birthdayLabel.textField.text = today
         contentView.birthdayPicker.datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
+
     private func getAgeBirthday() -> Int {
         let birthdate = contentView.birthdayPicker.datePicker.calendar!
         let birthday = birthdate.dateComponents([.day, .month, .year], from: contentView.birthdayPicker.datePicker.date)
@@ -156,7 +162,8 @@ class Birthday: BaseViewController {
         }
         return age.year!
     }
-    override func handleNavigation() {
+	
+	override func handleNavigation() {
         if touchStartView == contentView.backButton {
             navigationController!.view.layer.add(contentView.backButton.transition, forKey: nil)
             navigationController!.popViewController(animated: false)

@@ -12,7 +12,20 @@ import FirebaseAuth
 class UploadImageView: RegistrationNavBarView {
     
     var contentView = UIView()
-    var imageView = UIImageView()
+	let imageView : UIImageView = {
+		let imageView = UIImageView()
+		
+		imageView.image = UIImage(named: "placeholder-square")
+		imageView.contentMode = .scaleAspectFit
+		imageView.clipsToBounds = true
+		if #available(iOS 11.0, *) {
+			imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
+		} else {
+			// Fallback on earlier versions
+		}
+		return imageView
+	}()
+	
     var addImageButton = AddImageButton()
     var info = LeftTextLabel()
     var buttonView = UIView()
@@ -21,14 +34,11 @@ class UploadImageView: RegistrationNavBarView {
     
     override func configureView() {
         super.configureView()
-        
         addSubview(contentView)
         addSubview(addImageButton)
         addSubview(buttonView)
-        
         contentView.addSubview(imageView)
         contentView.addSubview(info)
-        
         buttonView.addSubview(looksGoodButton)
         buttonView.addSubview(chooseNewButton)
         
@@ -39,23 +49,12 @@ class UploadImageView: RegistrationNavBarView {
         titleLabel.label.text = "Alright, time to add a photo!"
         titleLabel.label.numberOfLines = 2
         titleLabel.label.textAlignment = .center
-        
-        imageView.image = UIImage(named: "placeholder-square")
-        if #available(iOS 11.0, *) {
-            imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
-        } else {
-            // Fallback on earlier versions
-        }
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        
+		
         info.label.text = "· Upload a photo of yourself.\n· You will be able to add more photos later."
         info.label.font = Fonts.createLightSize(18)
         
         buttonView.isHidden = true
-        
         looksGoodButton.label.label.text = "Looks good!"
-        
         chooseNewButton.label.label.text = "Choose a different photo"
         
         applyConstraints()
@@ -256,7 +255,7 @@ extension UploadImage: UIImagePickerControllerDelegate, UINavigationControllerDe
     
     func circleCropDidCropImage(_ image: UIImage) {
         chosenImage = image
-        contentView.imageView.image = image.circleMasked
+        contentView.imageView.image = image
         imagePicked = true
         contentView.info.isHidden = true
         contentView.addImageButton.isHidden = true
