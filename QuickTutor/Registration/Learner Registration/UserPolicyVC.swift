@@ -79,27 +79,23 @@ class UserPolicyView: BaseLayoutView {
             make.width.equalToSuperview().multipliedBy(0.8)
             make.centerX.equalToSuperview()
         }
-        
         titleLabel.label.snp.remakeConstraints { make in
             make.centerY.equalToSuperview().multipliedBy(1.5)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-        
         textLabel.snp.makeConstraints { make in
             make.bottom.equalTo(learnMoreButton.snp.top)
             make.height.equalTo(320)
             make.left.equalTo(titleLabel)
             make.right.equalTo(titleLabel)
         }
-        
         learnMoreButton.snp.makeConstraints { make in
             make.bottom.equalTo(buttonView.snp.top)
             make.top.equalTo(textLabel.snp.bottom)
             make.width.equalToSuperview().multipliedBy(0.8)
             make.centerX.equalToSuperview()
         }
-        
         buttonView.snp.makeConstraints { make in
             make.height.equalToSuperview().multipliedBy(0.3)
             if #available(iOS 11.0, *) {
@@ -110,14 +106,12 @@ class UserPolicyView: BaseLayoutView {
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
-        
         acceptButton.snp.makeConstraints { make in
             make.height.equalTo(55)
             make.width.equalTo(270)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.6)
         }
-        
         declineButton.snp.makeConstraints { make in
             make.height.equalTo(55)
             make.width.equalTo(270)

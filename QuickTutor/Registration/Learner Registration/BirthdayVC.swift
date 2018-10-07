@@ -75,47 +75,40 @@ class BirthdayView: RegistrationNavBarView {
     
     override func applyConstraints() {
         super.applyConstraints()
-        
         birthdayPicker.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalTo(DeviceInfo.keyboardHeight)
         }
-        
         nextButton.snp.makeConstraints { make in
             make.bottom.equalTo(birthdayPicker.snp.top)
             make.right.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.25)
             make.height.equalToSuperview().multipliedBy(0.1)
         }
-        
         contentView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom)
             make.bottom.equalTo(nextButton.snp.top)
             make.left.equalTo(titleLabel)
             make.right.equalTo(titleLabel)
         }
-        
         birthdayLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.47)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
-        
         birthdayInfoBig.snp.makeConstraints { make in
             make.top.equalTo(birthdayLabel.snp.bottom)
 			make.height.equalTo(35)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
-        
         birthdayInfoSmall.snp.makeConstraints { make in
             make.top.equalTo(birthdayInfoBig.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
-        
         errorLabel.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.centerY.equalTo(nextButton).inset(4)

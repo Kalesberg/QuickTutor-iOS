@@ -12,13 +12,27 @@ import FirebaseAuth
 
 class EmailView: RegistrationNavBarKeyboardView {
     
-    var emailTextField = RegistrationTextField()
-    var checkboxLabel = LeftTextLabel()
-    var checkbox = RegistrationCheckbox()
+	let emailTextField : RegistrationTextField = {
+		let registrationTextField = RegistrationTextField()
+		registrationTextField.placeholder.text = "EMAIL"
+		registrationTextField.textField.returnKeyType = .next
+		registrationTextField.textField.keyboardType = .emailAddress
+		registrationTextField.textField.autocapitalizationType = .none
+		return registrationTextField
+	}()
+	let checkboxLabel : LeftTextLabel = {
+		let leftTextLabel = LeftTextLabel()
+		leftTextLabel.label.font = Fonts.createLightSize(14.5)
+		leftTextLabel.label.text = "I'd like to recieve promotional content, including events, surveys, motivation, in-app reminders, and goodies from QuickTutor via email."
+		leftTextLabel.label.adjustsFontSizeToFitWidth = true
+
+		return leftTextLabel
+	}()
+	
+	let checkbox = RegistrationCheckbox()
     
     override func configureView() {
         super.configureView()
-        
         contentView.addSubview(emailTextField)
         contentView.addSubview(checkboxLabel)
         contentView.addSubview(checkbox)
@@ -27,36 +41,24 @@ class EmailView: RegistrationNavBarKeyboardView {
         progressBar.applyConstraints()
         
         titleLabel.label.text = "Your Email?"
-        
-        emailTextField.placeholder.text = "EMAIL"
-        emailTextField.textField.returnKeyType = .next
-        emailTextField.textField.keyboardType = .emailAddress
-        emailTextField.textField.autocapitalizationType = .none
-        
-        checkboxLabel.label.font = Fonts.createLightSize(14.5)
-        checkboxLabel.label.text = "I'd like to recieve promotional content, including events, surveys, motivation, in-app reminders, and goodies from QuickTutor via email."
-        checkboxLabel.label.adjustsFontSizeToFitWidth = true
-        
+
         applyConstraints()
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-        
         emailTextField.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.47)
             make.right.equalToSuperview()
             make.left.equalToSuperview()
         }
-        
         checkboxLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.5)
             make.width.equalToSuperview().multipliedBy(0.8)
             make.left.equalToSuperview()
         }
-        
         checkbox.snp.makeConstraints { make in
             make.top.equalTo(checkboxLabel).inset(10)
             make.bottom.equalTo(checkboxLabel).inset(10)
