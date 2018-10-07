@@ -11,8 +11,8 @@ import SnapKit
 
 class BirthdayView: RegistrationNavBarView {
     
-    var birthdayPicker = RegistrationDatePicker()
-    var contentView = UIView()
+    let birthdayPicker = RegistrationDatePicker()
+    let contentView = UIView()
 	
 	let birthdayLabel : RegistrationTextField = {
 		let label = RegistrationTextField()
@@ -69,11 +69,7 @@ class BirthdayView: RegistrationNavBarView {
         
         titleLabel.label.text = "We need your birthday"
 		
-		let date = Date()
-        birthdayPicker.datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: 1, to: date)
-        birthdayPicker.datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: -113, to: date)
-        birthdayPicker.datePicker.setDate(date, animated: true)
-		
+		setupDatePicker()
         applyConstraints()
     }
     
@@ -126,9 +122,15 @@ class BirthdayView: RegistrationNavBarView {
             make.right.equalTo(nextButton.snp.left).inset(20)
         }
     }
+	private func setupDatePicker() {
+		let date = Date()
+		birthdayPicker.datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: 1, to: date)
+		birthdayPicker.datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: -113, to: date)
+		birthdayPicker.datePicker.setDate(date, animated: true)
+	}
 }
 
-class Birthday: BaseViewController {
+class BirthdayVC: BaseViewController {
     
     let date = Date()
     let dateformatter = DateFormatter()
@@ -169,7 +171,7 @@ class Birthday: BaseViewController {
             navigationController!.popViewController(animated: false)
         } else if touchStartView == contentView.nextButton {
             
-            let next = UploadImage()
+            let next = UploadImageVC()
             if getAgeBirthday() >= 18 {
                 navigationController!.pushViewController(next, animated: true)
             } else {

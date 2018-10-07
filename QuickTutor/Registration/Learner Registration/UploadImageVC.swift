@@ -183,7 +183,7 @@ class AddImageButton: InteractableView, Interactable {
     }
 }
 
-class UploadImage: BaseViewController {
+class UploadImageVC: BaseViewController {
     
     override var contentView: UploadImageView {
         return view as! UploadImageView
@@ -213,7 +213,7 @@ class UploadImage: BaseViewController {
         if touchStartView == contentView.backButton {
             let viewControllers: [UIViewController] = navigationController!.viewControllers
             for viewController in viewControllers {
-                if viewController is Birthday {
+                if viewController is BirthdayVC {
                     navigationController!.view.layer.add(contentView.backButton.transition, forKey: nil)
                     navigationController!.popToViewController(viewController, animated: false)
                 }
@@ -230,7 +230,7 @@ class UploadImage: BaseViewController {
                     return
                 }
                 Registration.imageData = data
-                navigationController?.pushViewController(UserPolicy(), animated: true)
+                navigationController?.pushViewController(UserPolicyVC(), animated: true)
             } else {
                 AlertController.genericErrorAlert(self, title: "Please Select A Photo", message: "")
                 contentView.looksGoodButton.isUserInteractionEnabled = true
@@ -251,7 +251,7 @@ class UploadImage: BaseViewController {
     }
 }
 
-extension UploadImage: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
+extension UploadImageVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
     
     func circleCropDidCropImage(_ image: UIImage) {
         chosenImage = image

@@ -11,7 +11,7 @@ import FirebaseAuth
 import FBSDKLoginKit
 import SnapKit
 
-class PhoneTextField: InteractableView, Interactable {
+class PhoneTextFieldView: InteractableView, Interactable {
 	
 	var textField: NoPasteTextField = {
 		let textField = NoPasteTextField()

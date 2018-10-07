@@ -11,40 +11,58 @@ import Firebase
 import Stripe
 import Alamofire
 
-class UserPolicyView: RegistrationGradientView {
+class UserPolicyView: BaseLayoutView {
     
-    var titleLabel = RegistrationTitleLabel()
-    var textLabel = LeftTextLabel()
-    var buttonView = UIView()
-    var learnMoreButton = LearnMoreButton()
-    var acceptButton = RegistrationBigButton()
-    var declineButton = RegistrationBigButton()
+	let titleLabel : RegistrationTitleLabel = {
+		let label = RegistrationTitleLabel()
+		label.label.text = "Before you join"
+		return label
+	}()
+	
+	let textLabel : LeftTextLabel = {
+		let textLabel = LeftTextLabel()
+		textLabel.label.font = Fonts.createLightSize(17)
+		textLabel.label.numberOfLines = 0
+		textLabel.label.textColor = .white
+		textLabel.label.text = "Whether it's your first time on QuickTutor or you've been with us from the very beginning, please commit to respecting and loving everyone in the QuickTutor community.\n\nI agree to treat everyone on QuickTutor regardless of their race, physical features, national origin, ethnicity, religion, sex, disability, gender identity, sexual orientation or age with respect and love, without judgement or bias."
+		textLabel.label.adjustsFontSizeToFitWidth = true
+		textLabel.sizeToFit()
+		return textLabel
+	}()
+	
+    let buttonView = UIView()
+	
+	let learnMoreButton : UIButton = {
+		let button = UIButton()
+		button.titleLabel?.font = Fonts.createSize(20)
+		button.setTitle("Learn More »", for: .normal)
+		button.titleLabel?.textColor = .white
+		return button
+	}()
+	
+	let acceptButton : RegistrationBigButton = {
+		let registrationBigButton = RegistrationBigButton()
+		registrationBigButton.label.label.text = "Accept"
+		return registrationBigButton
+	}()
+	
+	let declineButton : RegistrationBigButton = {
+		let registrationBigButton = RegistrationBigButton()
+		registrationBigButton.label.label.text = "Decline"
+		return registrationBigButton
+	}()
     
     override func configureView() {
         super.configureView()
-        
         addSubview(titleLabel)
         addSubview(textLabel)
         addSubview(buttonView)
         addSubview(learnMoreButton)
-        
         buttonView.addSubview(acceptButton)
         buttonView.addSubview(declineButton)
-        
-        titleLabel.label.text = "Before you join"
-        
-        textLabel.label.font = Fonts.createLightSize(17)
-        textLabel.label.numberOfLines = 0
-        textLabel.label.textColor = .white
-        textLabel.label.text = "Whether it's your first time on QuickTutor or you've been with us from the very beginning, please commit to respecting and loving everyone in the QuickTutor community.\n\nI agree to treat everyone on QuickTutor regardless of their race, physical features, national origin, ethnicity, religion, sex, disability, gender identity, sexual orientation or age with respect and love, without judgement or bias."
-        textLabel.label.adjustsFontSizeToFitWidth = true
-        
-        acceptButton.label.label.text = "Accept"
-        
-        declineButton.label.label.text = "Decline"
-        
-        textLabel.sizeToFit()
-        
+		
+		applyGradient(firstColor: (Colors.oldTutorBlue.cgColor), secondColor: (Colors.oldLearnerPurple.cgColor), angle: 160, frame: frame)
+
         applyConstraints()
     }
     
@@ -109,37 +127,7 @@ class UserPolicyView: RegistrationGradientView {
     }
 }
 
-class LearnMoreButton: InteractableView, Interactable {
-    
-    var label = UILabel()
-    
-    override func configureView() {
-        addSubview(label)
-        super.configureView()
-        
-        label.font = Fonts.createSize(20)
-        label.text = "Learn More »"
-        label.textColor = .white
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        label.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
-    func touchStart() {
-        label.alpha = 0.7
-    }
-    
-    func didDragOff() {
-        label.alpha = 1.0
-    }
-}
-
-class UserPolicy: BaseViewController {
+class UserPolicyVC: BaseViewController {
     
     override var contentView: UserPolicyView {
         return view as! UserPolicyView
@@ -153,8 +141,9 @@ class UserPolicy: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+		contentView.learnMoreButton.addTarget(self, action: #selector(learnMoreButtonPressed(_:)), for: .touchUpInside)
     }
+	
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentView.acceptButton.isUserInteractionEnabled = true
@@ -283,26 +272,20 @@ class UserPolicy: BaseViewController {
         alertController.addAction(delete)
         present(alertController, animated: true, completion: nil)
     }
+	
+	@objc func learnMoreButtonPressed(_ sender: UIButton) {
+		let next = WebViewVC()
+		next.contentView.title.label.text = "Non-Discrimination Policy"
+		next.url = "https://www.quicktutor.com/community/support"
+		next.loadAgreementPdf()
+		navigationController?.pushViewController(next, animated: true)
+	}
     override func handleNavigation() {
         if touchStartView == contentView.acceptButton {
             accepted()
             contentView.acceptButton.isUserInteractionEnabled = false
         } else if touchStartView == contentView.declineButton {
             declined()
-        } else if touchStartView == contentView.learnMoreButton {
-            let next = WebViewVC()
-            next.contentView.title.label.text = "Non-Discrimination Policy"
-            next.url = "https://www.quicktutor.com/community/support"
-            next.loadAgreementPdf()
-            navigationController?.pushViewController(next, animated: true)
-            //            guard let url = URL(string: "https://www.quicktutor.com") else {
-            //                return
-            //            }
-            //            if #available(iOS 10, *) {
-            //                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            //            } else {
-            //                UIApplication.shared.openURL(url)
-            //            }
         }
     }
 }

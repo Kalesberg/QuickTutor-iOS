@@ -66,7 +66,7 @@ class EmailView: RegistrationNavBarKeyboardView {
     }
 }
 
-class Email: BaseViewController {
+class EmailVC: BaseViewController {
     
     override var contentView: EmailView {
         return view as! EmailView
@@ -97,7 +97,7 @@ class Email: BaseViewController {
                         self.dismissOverlay()
                         self.contentView.errorLabel.isHidden = true
                         Registration.email = self.contentView.emailTextField.textField.text!
-                        self.navigationController?.pushViewController(CreatePassword(), animated: true)
+                        self.navigationController?.pushViewController(CreatePasswordVC(), animated: true)
                     } else {
                         self.dismissOverlay()
                         self.contentView.errorLabel.isHidden = false
@@ -130,7 +130,7 @@ class Email: BaseViewController {
     }
     
 }
-extension Email: UITextFieldDelegate {
+extension EmailVC: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         

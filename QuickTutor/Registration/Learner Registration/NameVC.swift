@@ -52,7 +52,7 @@ class NameView: RegistrationNavBarKeyboardView {
     }
 }
 
-class Name: BaseViewController {
+class NameVC: BaseViewController {
     
     override var contentView: NameView {
         return view as! NameView
@@ -94,7 +94,7 @@ class Name: BaseViewController {
                 contentView.errorLabel.isHidden = true
                 Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
                 
-                navigationController?.pushViewController(Email(), animated: true)
+                navigationController?.pushViewController(EmailVC(), animated: true)
             } else {
                 contentView.errorLabel.isHidden = false
             }
@@ -105,7 +105,7 @@ class Name: BaseViewController {
         if checkNameValidity() {
             contentView.errorLabel.isHidden = true
             Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
-            navigationController?.pushViewController(Email(), animated: true)
+            navigationController?.pushViewController(EmailVC(), animated: true)
         } else {
             contentView.errorLabel.isHidden = false
         }
@@ -123,7 +123,7 @@ class Name: BaseViewController {
         super.didReceiveMemoryWarning()
     }
 }
-extension Name: UITextFieldDelegate {
+extension NameVC: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         

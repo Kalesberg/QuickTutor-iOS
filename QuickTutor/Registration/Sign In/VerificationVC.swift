@@ -9,141 +9,6 @@
 import FirebaseAuth
 import FirebaseDatabase
 
-
-class VerificationView: RegistrationNavBarKeyboardView {
-    
-    var vcDigit1         = RegistrationDigitTextField()
-    var vcDigit2         = RegistrationDigitTextField()
-    var vcDigit3         = RegistrationDigitTextField()
-    var vcDigit4         = RegistrationDigitTextField()
-    var vcDigit5         = RegistrationDigitTextField()
-    var vcDigit6         = RegistrationDigitTextField()
-    
-    var digitView        = UIView()
-    var leftDigits       = UIView()
-    var rightDigits      = UIView()
-    
-    var resendButtonView = UIView()
-    var resendVCButton   = ResendButton()
-	
-    override func configureView() {
-        super.configureView()
-        leftDigits.addSubview(vcDigit1)
-        leftDigits.addSubview(vcDigit2)
-        leftDigits.addSubview(vcDigit3)
-        rightDigits.addSubview(vcDigit4)
-        rightDigits.addSubview(vcDigit5)
-        rightDigits.addSubview(vcDigit6)
-        
-        contentView.addSubview(digitView)
-        digitView.addSubview(leftDigits)
-        digitView.addSubview(rightDigits)
-        
-        contentView.addSubview(resendButtonView)
-        resendButtonView.addSubview(resendVCButton)
-        
-        progressBar.progress = 1
-        progressBar.applyConstraints()
-        progressBar.divider.isHidden = true
-        
-		titleLabel.label.text = "Enter the 6-digit code we've sent to: \(Registration.phone.formatPhoneNumber())"
-
-		titleLabel.label.adjustsFontSizeToFitWidth = true
-        titleLabel.label.adjustsFontForContentSizeCategory = true
-        titleLabel.label.numberOfLines = 2
-		
-		applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        super.applyConstraints()
-		
-        titleLabel.snp.remakeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.12)
-            make.top.equalTo(backButton.snp.bottom)
-            make.left.equalToSuperview().inset(20)
-            make.right.equalToSuperview().inset(20)
-        }
-        
-        digitView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(0.6666)
-            make.width.equalToSuperview().multipliedBy(0.8)
-            make.centerX.equalToSuperview()
-        }
-        
-        leftDigits.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.height.equalToSuperview()
-            make.left.equalToSuperview().offset(-5)
-            make.width.equalToSuperview().multipliedBy(0.5)
-        }
-        
-        rightDigits.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.height.equalToSuperview()
-            make.right.equalToSuperview().offset(5)
-            make.width.equalToSuperview().multipliedBy(0.5)
-        }
-        
-        vcDigit1.applyConstraint(rightMultiplier: 0.33333)
-        vcDigit2.applyConstraint(rightMultiplier: 0.66666)
-        vcDigit3.applyConstraint(rightMultiplier: 1.0)
-        vcDigit4.applyConstraint(rightMultiplier: 0.33333)
-        vcDigit5.applyConstraint(rightMultiplier: 0.66666)
-        vcDigit6.applyConstraint(rightMultiplier: 1.0)
-        
-        resendButtonView.snp.makeConstraints { (make) in
-            make.top.equalTo(leftDigits.snp.bottom)
-            make.bottom.equalTo(nextButton.snp.top)
-            make.width.equalToSuperview()
-            make.left.equalTo(titleLabel)
-        }
-        
-        resendVCButton.snp.makeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.width.equalTo(250)
-            make.height.equalTo(40)
-        }
-    }
-}
-
-class ResendButton : InteractableView, Interactable {
-    
-    let label : UILabel = {
-        let label = UILabel()
-        
-        label.textColor = .white
-        label.font = Fonts.createSize(18)
-        label.text = "Resend verification code »"
-        
-        return label
-    }()
-    
-    override func configureView() {
-        addSubview(label)
-        super.configureView()
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        label.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-    }
-    
-    func touchStart() {
-        label.alpha = 0.6
-    }
-    
-    func didDragOff() {
-        label.alpha = 1.0
-    }
-}
-
-
 class VerificationVC : BaseViewController {
 	
 	private var ref: DatabaseReference!
@@ -166,7 +31,9 @@ class VerificationVC : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
-        ref = Database.database().reference(fromURL: Constants.DATABASE_URL)
+		contentView.resendVCButton.addTarget(self, action: #selector(resendVCButtonPressed(_:)), for: .touchUpInside)
+		
+		ref = Database.database().reference(fromURL: Constants.DATABASE_URL)
         
 		textFields = [contentView.vcDigit1.textField, contentView.vcDigit2.textField, contentView.vcDigit3.textField, contentView.vcDigit4.textField, contentView.vcDigit5.textField, contentView.vcDigit6.textField]
 		
@@ -199,18 +66,23 @@ class VerificationVC : BaseViewController {
     @objc func updateTimer() {
         seconds -= 1
         if seconds == -1 {
-            contentView.resendVCButton.label.text = "Resend verification code »"
+			contentView.resendVCButton.setTitle("Resend verification code »", for: .normal)
             contentView.resendVCButton.isUserInteractionEnabled = true
             timer.invalidate()
             seconds = 15
         } else {
             if seconds >= 10 {
-                contentView.resendVCButton.label.text = "Resend code in: 0:\(seconds)"
+                contentView.resendVCButton.setTitle("Resend code in: 0:\(seconds)", for: .normal)
             } else {
-                contentView.resendVCButton.label.text = "Resend code in: 0:0\(seconds)"
+                contentView.resendVCButton.setTitle("Resend code in: 0:0\(seconds)", for: .normal)
             }
         }
     }
+	
+	@objc func resendVCButtonPressed(_ sender: Any) {
+		contentView.resendVCButton.isUserInteractionEnabled = false
+		resendVCAction()
+	}
 	
     override func handleNavigation() {
         if(touchStartView == contentView.backButton) {
@@ -220,10 +92,7 @@ class VerificationVC : BaseViewController {
 			var verificationCode : String = ""
 			textFields.forEach { verificationCode.append($0.text!)}
 			createCredential(verificationCode)
-		} else if (touchStartView == contentView.resendVCButton){
-            contentView.resendVCButton.isUserInteractionEnabled = false
-            resendVCAction()
-        }
+		}
     }
     
     private func textFieldController(current: UITextField, textFieldToChange: UITextField) {
@@ -305,7 +174,7 @@ class VerificationVC : BaseViewController {
                     } else {
 						Registration.uid = user.uid
 						AccountService.shared.currentUserType = .lRegistration
-                        self.navigationController!.pushViewController(Name(), animated: true)
+                        self.navigationController!.pushViewController(NameVC(), animated: true)
                     }
                 })
             }

@@ -59,7 +59,7 @@ class CreatePasswordView: RegistrationNavBarKeyboardView {
     }
 }
 
-class CreatePassword: BaseViewController {
+class CreatePasswordVC: BaseViewController {
     
     override var contentView: CreatePasswordView {
         return view as! CreatePasswordView
@@ -102,7 +102,7 @@ class CreatePassword: BaseViewController {
         let emailCredential = EmailAuthProvider.credential(withEmail: Registration.email, password: password!)
         Registration.emailCredential = emailCredential
         dismissOverlay()
-        navigationController!.pushViewController(Birthday(), animated: true)
+        navigationController!.pushViewController(BirthdayVC(), animated: true)
         contentView.createPasswordTextfield.textField.text = ""
         
     }
@@ -128,7 +128,7 @@ class CreatePassword: BaseViewController {
         return false
     }
 }
-extension CreatePassword: UITextFieldDelegate {
+extension CreatePasswordVC: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let maxlength = 32
