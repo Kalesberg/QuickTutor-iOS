@@ -115,7 +115,7 @@ extension LearnerReviewsVC: UITableViewDelegate, UITableViewDataSource {
 		cell.minHeight = 75
         cell.isViewing = isViewing
 
-		cell.dateLabel.text = "\(data.date)"
+		cell.dateLabel.text = "\(data.formattedDate)"
 		cell.reviewTextLabel.text = "\"\(data.message)\""
 		let formattedName = data.studentName.split(separator: " ")
 		cell.nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()

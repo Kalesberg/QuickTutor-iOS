@@ -110,7 +110,7 @@ class MyProfileReviewsView : UIView {
 		reviewLabel1.nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
 		reviewLabel1.reviewTextLabel.text = "\"\(dataSource[0].message)\""
 		reviewLabel1.subjectLabel.attributedText = NSMutableAttributedString().bold("\(dataSource[0].rating) ★", 14, Colors.gold).bold(" - \(dataSource[0].subject)", 13, .white)
-		reviewLabel1.dateLabel.text = "\(dataSource[0].date)"
+		reviewLabel1.dateLabel.text = "\(dataSource[0].formattedDate)"
 		
 		let reference = storageRef.child("student-info").child(dataSource[0].reviewerId).child("student-profile-pic1")
 		
@@ -128,7 +128,7 @@ class MyProfileReviewsView : UIView {
 		reviewLabel2.nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
 		reviewLabel2.reviewTextLabel.text = "\"\(dataSource[1].message)\""
 		reviewLabel2.subjectLabel.attributedText = NSMutableAttributedString().bold("\(dataSource[1].rating) ★", 14, Colors.gold).bold(" - \(dataSource[1].subject)", 13, .white)
-		reviewLabel2.dateLabel.text = "\(dataSource[1].date)"
+		reviewLabel2.dateLabel.text = "\(dataSource[1].formattedDate)"
 		
 		let reference = storageRef.child("student-info").child(dataSource[1].reviewerId).child("student-profile-pic1")
 		reviewLabel2.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))

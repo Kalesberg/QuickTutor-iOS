@@ -54,20 +54,21 @@ struct Review {
     var sessionId = ""
 
     let studentName: String
-    let date: String
+    let formattedDate: String
     let message: String
     let subject: String
     let rating: Double
     let reviewerId: String
+	let timestamp : Double
 
     init(dictionary: [String: Any]) {
-        let timestamp = dictionary["dte"] as? Double ?? 0
-        date = Int(timestamp).timeIntervalToReviewDateFormat()
-        message = dictionary["m"] as? String ?? ""
-        subject = dictionary["sbj"] as? String ?? ""
-        studentName = dictionary["nm"] as? String ?? ""
+		rating = dictionary["r"] as? Double ?? 0.0
+		message = dictionary["m"] as? String ?? ""
+		subject = dictionary["sbj"] as? String ?? ""
+        timestamp = dictionary["dte"] as? Double ?? 0
         reviewerId = dictionary["uid"] as? String ?? ""
-        rating = dictionary["r"] as? Double ?? 0.0
+		studentName = dictionary["nm"] as? String ?? ""
+		formattedDate = Int(timestamp).timeIntervalToReviewDateFormat()
     }
 }
 
