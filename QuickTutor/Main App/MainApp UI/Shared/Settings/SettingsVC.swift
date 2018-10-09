@@ -18,6 +18,10 @@ class SettingsVC : BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 	}
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		contentView.updateLocationsSubtitle()
+	}
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		contentView.scrollView.setContentSize()

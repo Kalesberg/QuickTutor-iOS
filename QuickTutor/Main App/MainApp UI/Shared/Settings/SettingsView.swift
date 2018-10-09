@@ -26,6 +26,7 @@ class SettingsView : MainLayoutTitleBackButton {
 	}()
 	
 	let scrollViewContainer = UIView()
+	let settingsLocation = SettingsLocation()
 	let settingsProfileHeader = SettingsProfileHeader()
 	let settingsSpreadTheLove = SettingsSpreadTheLove()
 	let settingsCommunity = SettingsCommunity()
@@ -117,7 +118,6 @@ class SettingsView : MainLayoutTitleBackButton {
 	}
 	
 	private func updateConstraintsForTutor() {
-		let settingsLocation = SettingsLocation()
 		settingsLocation.applySettingsShadow()
 		scrollView.addSubview(settingsLocation)
 		settingsLocation.snp.makeConstraints { (make) in
@@ -137,6 +137,11 @@ class SettingsView : MainLayoutTitleBackButton {
 		settingsSpreadTheLove.applySettingsShadow()
 		settingsCommunity.applySettingsShadow()
 		settingsAccount.applySettingsShadow()
+	}
+	func updateLocationsSubtitle() {
+		print("Called.")
+		print(CurrentUser.shared.tutor.region)
+		settingsLocation.location.subtitleLabel.text = CurrentUser.shared.tutor.location != nil ? CurrentUser.shared.tutor.region : "This is the location displayed in your profile."
 	}
 }
 

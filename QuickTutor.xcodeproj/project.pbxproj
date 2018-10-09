@@ -1536,8 +1536,8 @@
 			children = (
 				84F2451D1FDA119E006447A8 /* TutorMainPage.swift */,
 				84CFDDEF207357AB001CA9BF /* TutorRatings.swift */,
-				84BFE1372166ED63003452DF /* TutorEarnings */,
 				84B8D67920E5A53C0026132C /* TutorListings.swift */,
+				84BFE1372166ED63003452DF /* TutorEarnings */,
 				847780BE2119F49100D5487E /* YourListings */,
 				847AC4C92076B4F000B6B27A /* TutorMainPageCells.swift */,
 				843ECCC1207D8D4400C0F622 /* TutorMainTips.swift */,

@@ -127,8 +127,13 @@ extension LocationVC : UITableViewDelegate, UITableViewDataSource {
 				if error != nil {
 					AlertController.genericErrorAlertWithoutCancel(self, title: "Error", message: "Unable to successfully find location. Please try again.")
 				} else if let region = region {
+					print("Region: ", region)
+					CurrentUser.shared.tutor.location?.location = CLLocation(latitude: location.latitude, longitude: location.longitude)
+					CurrentUser.shared.tutor.region = region
 					Tutor.shared.updateValue(value: ["rg" : region])
 					Tutor.shared.geoFire(location: CLLocation(latitude: location.latitude, longitude: location.longitude))
+					
+					AlertController.genericSavedAlert(self, title: "Addressed Saved!", message: "This address has been saved.")
 				}
 			})
 		}
