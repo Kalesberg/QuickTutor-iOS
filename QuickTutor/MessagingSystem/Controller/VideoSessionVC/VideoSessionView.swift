@@ -197,7 +197,7 @@ class VideoSessionView: UIView {
     }
     
     func setupFadeTapRecognizer() {
-        fadeTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(TestVC.handleTap(_:)))
+        fadeTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(VideoSessionView.handleTap(_:)))
         fadeTapRecognizer.numberOfTapsRequired = 1
         addGestureRecognizer(fadeTapRecognizer)
     }
