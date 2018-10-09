@@ -127,7 +127,6 @@ extension LocationVC : UITableViewDelegate, UITableViewDataSource {
 				if error != nil {
 					AlertController.genericErrorAlertWithoutCancel(self, title: "Error", message: "Unable to successfully find location. Please try again.")
 				} else if let region = region {
-					print("Region: ", region)
 					CurrentUser.shared.tutor.location?.location = CLLocation(latitude: location.latitude, longitude: location.longitude)
 					CurrentUser.shared.tutor.region = region
 					Tutor.shared.updateValue(value: ["rg" : region])

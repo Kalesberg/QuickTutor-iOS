@@ -139,7 +139,6 @@ class SettingsView : MainLayoutTitleBackButton {
 		settingsAccount.applySettingsShadow()
 	}
 	func updateLocationsSubtitle() {
-		print("Called.")
 		print(CurrentUser.shared.tutor.region)
 		settingsLocation.location.subtitleLabel.text = CurrentUser.shared.tutor.location != nil ? CurrentUser.shared.tutor.region : "This is the location displayed in your profile."
 	}
