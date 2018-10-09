@@ -313,7 +313,7 @@ class TutorMainPage: MainPageVC {
             hideSidebar()
             hideBackground()
         } else if touchStartView == contentView.sidebar.settingsItem {
-            navigationController?.pushViewController(TutorSettings(), animated: true)
+            navigationController?.pushViewController(SettingsVC(), animated: true)
             hideSidebar()
             hideBackground()
         } else if touchStartView == contentView.sidebar.profileView {

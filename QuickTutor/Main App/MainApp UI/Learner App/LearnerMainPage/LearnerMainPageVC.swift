@@ -245,7 +245,7 @@ class LearnerMainPageVC: MainPageVC {
             hideSidebar()
             hideBackground()
         } else if touchStartView == contentView.sidebar.settingsItem {
-            navigationController?.pushViewController(LearnerSettingsVC(), animated: true)
+            navigationController?.pushViewController(SettingsVC(), animated: true)
             hideSidebar()
             hideBackground()
         } else if touchStartView == contentView.sidebar.profileView {

@@ -9,7 +9,7 @@
 import CoreLocation
 import Foundation
 
-class TutorLocation {
+class TutorLocationFormatter {
     class func convertAddressToLatLong(addressString: String, completion: @escaping (Error?) -> Void) {
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(addressString) { placemark, error in

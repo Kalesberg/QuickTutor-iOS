@@ -127,16 +127,12 @@ struct FeaturedTutor {
     }
 }
 
-struct TutorLocation1 {
-    let geohash: String?
-    let location: CLLocation?
-
+struct TutorLocation {
+    var geohash: String?
+    var location: CLLocation? = nil
     init(dictionary: [String: Any]) {
         geohash = dictionary["g"] as? String ?? nil
-        guard let locationArray = dictionary["l"] as? [Double] else {
-            location = nil
-            return
-        }
+        guard let locationArray = dictionary["l"] as? [Double] else { return }
         location = CLLocation(latitude: locationArray[0], longitude: locationArray[1])
     }
 }

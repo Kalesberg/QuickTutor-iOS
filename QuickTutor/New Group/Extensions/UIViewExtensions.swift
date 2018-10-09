@@ -145,6 +145,12 @@ extension UIView {
 			self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
 		})
 	}
+	func applySettingsShadow() {
+		self.layer.shadowColor = UIColor.black.cgColor
+		self.layer.shadowOffset = CGSize(width: 0, height: -1)
+		self.layer.shadowRadius = 6
+		self.layer.shadowOpacity = 0.3
+	}
 }
 
 // Helper function inserted by Swift 4.2 migrator.

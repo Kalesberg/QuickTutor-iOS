@@ -171,10 +171,6 @@ class AddTutorView: MainLayoutTitleBackButton {
             }
         }
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
 }
 
 class AddTutorVC: BaseViewController, ShowsConversation {

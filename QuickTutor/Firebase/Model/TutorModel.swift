@@ -31,7 +31,7 @@ class AWTutor: AWLearner {
     
     var selected: [Selected] = []
     var reviews: [Review]?
-    var location: TutorLocation1?
+    var location: TutorLocation?
     
     var hasConnectAccount: Bool = false
     var hasPayoutMethod: Bool = true
