@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegistrationNavBarView: RegistrationGradientView {
+class RegistrationNavBarView: BaseLayoutView {
 
     var statusbarView = UIView()
     var progressBar   = ProgressBar()
@@ -23,7 +23,9 @@ class RegistrationNavBarView: RegistrationGradientView {
         addSubview(backButton)
         addSubview(titleLabel)
         addSubview(nextButton)
-        
+		
+		applyGradient(firstColor: (Colors.oldTutorBlue.cgColor), secondColor: (Colors.oldLearnerPurple.cgColor), angle: 160, frame: frame)
+
         statusbarView.backgroundColor = Colors.registrationDark
     }
     

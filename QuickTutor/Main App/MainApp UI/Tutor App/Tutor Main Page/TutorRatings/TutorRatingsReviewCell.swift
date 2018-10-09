@@ -63,7 +63,7 @@ class TutorRatingsReviewCell: UICollectionViewCell {
         layoutIfNeeded()
         ratingLabel.text = "★ \(review.rating)"
         subjectLabel.text = review.subject
-        dateLabel.text = review.date
+        dateLabel.text = review.formattedDate
         reviewTextLabel.text = "\"\(review.message)\""
         DataService.shared.getStudentWithId(review.reviewerId) { (learner) in
             guard let learner = learner else { return }

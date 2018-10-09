@@ -9,38 +9,47 @@
 import FirebaseAuth
 import UIKit
 
-class TheChoiceView: RegistrationGradientView {
-    var titleLabel = RegistrationTitleLabel()
+class TheChoiceView: BaseLayoutView {
+	
+	let titleLabel : RegistrationTitleLabel = {
+		let titleLabel = RegistrationTitleLabel()
+		titleLabel.label.attributedText = NSMutableAttributedString()
+			.bold("You're all set!\n\nWhat would you like to do now?\n\n", 18, .white)
+			.regular("You can always sign up as a tutor later!", 16, .white)
+		titleLabel.label.numberOfLines = 0
+		titleLabel.label.textAlignment = .center
 
-    var buttonView = UIView()
-    var continueButton = RegistrationBigButton()
-    var tutorButton = RegistrationBigButton()
-
-    var partialFlame = UIImageView()
+		return titleLabel
+	}()
+	let continueButton : RegistrationBigButton = {
+		let registrationBigButton = RegistrationBigButton()
+		registrationBigButton.label.label.text = "Continue as Learner"
+		return registrationBigButton
+	}()
+	
+	let tutorButton  : RegistrationBigButton = {
+		let registrationBigButton = RegistrationBigButton()
+		registrationBigButton.label.label.text = "Become a Tutor"
+		return registrationBigButton
+	}()
+	
+	let partialFlame : UIImageView = {
+		let imageView = UIImageView()
+		imageView.image = UIImage(named: "partial-flame")
+		return imageView
+	}()
+	
+	let buttonContainer = UIView()
 
     override func configureView() {
         super.configureView()
         addSubview(titleLabel)
-        addSubview(buttonView)
+        addSubview(buttonContainer)
         addSubview(partialFlame)
-
-        buttonView.addSubview(continueButton)
-        buttonView.addSubview(tutorButton)
-
-        let formattedString = NSMutableAttributedString()
-        formattedString
-            .bold("You're all set!\n\nWhat would you like to do now?\n\n", 18, .white)
-            .regular("You can always sign up as a tutor later!", 16, .white)
-
-        titleLabel.label.attributedText = formattedString
-        titleLabel.label.numberOfLines = 0
-        titleLabel.label.textAlignment = .center
-
-        continueButton.label.label.text = "Continue as Learner"
-
-        tutorButton.label.label.text = "Become a Tutor"
-
-        partialFlame.image = UIImage(named: "partial-flame")
+        buttonContainer.addSubview(continueButton)
+        buttonContainer.addSubview(tutorButton)
+		
+		applyGradient(firstColor: (Colors.oldTutorBlue.cgColor), secondColor: (Colors.oldLearnerPurple.cgColor), angle: 160, frame: frame)
 
         applyConstraints()
     }
@@ -60,7 +69,7 @@ class TheChoiceView: RegistrationGradientView {
             make.bottom.equalToSuperview()
         }
 
-        buttonView.snp.makeConstraints { make in
+        buttonContainer.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.3)
             make.left.equalToSuperview()

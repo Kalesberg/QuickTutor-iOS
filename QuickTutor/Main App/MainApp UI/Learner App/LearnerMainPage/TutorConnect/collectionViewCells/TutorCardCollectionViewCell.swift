@@ -169,7 +169,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	private func setupTutorCardReviews() {
 		guard let reviews = tutor.reviews else { return }
 		tutorCardReviews.parentViewController = parentViewController
-		tutorCardReviews.dataSource = reviews.sorted(by: { $0.date > $1.date })
+		tutorCardReviews.dataSource = reviews.sorted(by: { $0.timestamp > $1.timestamp })
 
 		tutorCardReviews.setupMostRecentReviews()
 		

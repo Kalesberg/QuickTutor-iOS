@@ -9,8 +9,20 @@ import UIKit
 
 class NameView: RegistrationNavBarKeyboardView {
     
-    var firstNameTextField = RegistrationTextField()
-    var lastNameTextField = RegistrationTextField()
+	let firstNameTextField : RegistrationTextField = {
+		let registrationTextField = RegistrationTextField()
+		registrationTextField.placeholder.text = "FIRST NAME"
+		registrationTextField.textField.autocapitalizationType = .words
+		registrationTextField.textField.returnKeyType = .next
+		return registrationTextField
+	}()
+	let lastNameTextField : RegistrationTextField = {
+		let registrationTextField = RegistrationTextField()
+		registrationTextField.placeholder.text = "LAST NAME"
+		registrationTextField.textField.autocapitalizationType = .words
+		registrationTextField.textField.returnKeyType = .next
+		return registrationTextField
+	}()
     
     override func configureView() {
         super.configureView()
@@ -21,28 +33,19 @@ class NameView: RegistrationNavBarKeyboardView {
         progressBar.applyConstraints()
         
         titleLabel.label.text = "Hey, what's your name?"
-        firstNameTextField.placeholder.text = "FIRST NAME"
-        lastNameTextField.placeholder.text = "LAST NAME"
-        errorLabel.text = "Must fill out both fields"
+		errorLabel.text = "Must fill out both fields"
         
-        let textFields = [firstNameTextField.textField, lastNameTextField.textField]
-        for textField in textFields {
-            textField.autocapitalizationType = .words
-            textField.returnKeyType = .next
-        }
         applyConstraints()
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-        
         firstNameTextField.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom)
             make.left.equalTo(titleLabel)
             make.right.equalTo(titleLabel)
             make.height.equalToSuperview().multipliedBy(0.47)
         }
-        
         lastNameTextField.snp.makeConstraints { make in
             make.top.equalTo(firstNameTextField.snp.bottom)
             make.left.equalTo(titleLabel)
@@ -52,7 +55,7 @@ class NameView: RegistrationNavBarKeyboardView {
     }
 }
 
-class Name: BaseViewController {
+class NameVC: BaseViewController {
     
     override var contentView: NameView {
         return view as! NameView
@@ -94,7 +97,7 @@ class Name: BaseViewController {
                 contentView.errorLabel.isHidden = true
                 Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
                 
-                navigationController?.pushViewController(Email(), animated: true)
+                navigationController?.pushViewController(EmailVC(), animated: true)
             } else {
                 contentView.errorLabel.isHidden = false
             }
@@ -105,7 +108,7 @@ class Name: BaseViewController {
         if checkNameValidity() {
             contentView.errorLabel.isHidden = true
             Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
-            navigationController?.pushViewController(Email(), animated: true)
+            navigationController?.pushViewController(EmailVC(), animated: true)
         } else {
             contentView.errorLabel.isHidden = false
         }
@@ -123,7 +126,7 @@ class Name: BaseViewController {
         super.didReceiveMemoryWarning()
     }
 }
-extension Name: UITextFieldDelegate {
+extension NameVC: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         

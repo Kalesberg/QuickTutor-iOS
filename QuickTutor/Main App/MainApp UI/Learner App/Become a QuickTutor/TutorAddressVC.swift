@@ -236,7 +236,7 @@ class TutorAddressVC: BaseViewController {
             contentView.rightButton.isUserInteractionEnabled = false
             if validData {
                 displayLoadingOverlay()
-                TutorLocation.convertAddressToLatLong(addressString: addressString) { error in
+                TutorLocationFormatter.convertAddressToLatLong(addressString: addressString) { error in
                     if error != nil {
                         AlertController.genericErrorAlertWithoutCancel(self, title: "Unable to Find Address", message: "Please make sure your information is correct.")
                         self.contentView.rightButton.isUserInteractionEnabled = true

@@ -54,20 +54,21 @@ struct Review {
     var sessionId = ""
 
     let studentName: String
-    let date: String
+    let formattedDate: String
     let message: String
     let subject: String
     let rating: Double
     let reviewerId: String
+	let timestamp : Double
 
     init(dictionary: [String: Any]) {
-        let timestamp = dictionary["dte"] as? Double ?? 0
-        date = Int(timestamp).timeIntervalToReviewDateFormat()
-        message = dictionary["m"] as? String ?? ""
-        subject = dictionary["sbj"] as? String ?? ""
-        studentName = dictionary["nm"] as? String ?? ""
+		rating = dictionary["r"] as? Double ?? 0.0
+		message = dictionary["m"] as? String ?? ""
+		subject = dictionary["sbj"] as? String ?? ""
+        timestamp = dictionary["dte"] as? Double ?? 0
         reviewerId = dictionary["uid"] as? String ?? ""
-        rating = dictionary["r"] as? Double ?? 0.0
+		studentName = dictionary["nm"] as? String ?? ""
+		formattedDate = Int(timestamp).timeIntervalToReviewDateFormat()
     }
 }
 
@@ -126,16 +127,12 @@ struct FeaturedTutor {
     }
 }
 
-struct TutorLocation1 {
-    let geohash: String?
-    let location: CLLocation?
-
+struct TutorLocation {
+    var geohash: String?
+    var location: CLLocation? = nil
     init(dictionary: [String: Any]) {
         geohash = dictionary["g"] as? String ?? nil
-        guard let locationArray = dictionary["l"] as? [Double] else {
-            location = nil
-            return
-        }
+        guard let locationArray = dictionary["l"] as? [Double] else { return }
         location = CLLocation(latitude: locationArray[0], longitude: locationArray[1])
     }
 }

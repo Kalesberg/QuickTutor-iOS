@@ -8,29 +8,57 @@
 
 import Foundation
 
-class SignInView: RegistrationGradientView, Keyboardable {
+class SignInView: BaseLayoutView, Keyboardable {
 	
 	var keyboardComponent = ViewComponent()
-	
-	var backButton = RegistrationBackButton()
-	var nextButton = RegistrationNextButton()
+	let backButton = RegistrationBackButton()
+	let nextButton = RegistrationNextButton()
 	
 	var phoneNumberTextField = RegistrationTextField()
-	
-	// var facebookButton       = FBSDKLoginButton()
 	var signinLabel = UILabel()
 	
-	var quicktutorText = UIImageView()
-	var learnAnythingLabel = CenterTextLabel()
-	var quicktutorFlame = UIImageView()
+	let quicktutorText : UIImageView = {
+		let imageView = UIImageView()
+		imageView.image = UIImage(named: "quicktutor-text")
+		return imageView
+	}()
 	
-	var numberLabel = LeftTextLabel()
+	let learnAnythingLabel : CenterTextLabel = {
+		let centerTextLabel = CenterTextLabel()
+		centerTextLabel.label.text = "Learn Anything. Teach Anyone."
+		centerTextLabel.label.font = Fonts.createLightSize(20)
+		return centerTextLabel
+	}()
+	
+	var quicktutorFlame : UIImageView = {
+		let imageView = UIImageView()
+		imageView.image = UIImage(named: "qt-flame")
+		return imageView
+	}()
+	
+	let numberLabel : LeftTextLabel = {
+		let leftTextLabel = LeftTextLabel()
+		leftTextLabel.label.text = "YOUR MOBILE NUMBER"
+		leftTextLabel.label.font = Fonts.createBoldSize(14)
+		return leftTextLabel
+	}()
 	
 	var container = UIView()
-	var phoneTextField = PhoneTextField()
-	// var facebookButton2 = FacebookButton()
 	
-	var infoLabel = UILabel()
+	let phoneTextField : PhoneTextFieldView = {
+		let view = PhoneTextFieldView()
+		view.textField.keyboardType = .numberPad
+		return view
+	}()
+	
+	let infoLabel : UILabel = {
+		let label = UILabel()
+		label.attributedText = NSMutableAttributedString()
+			.regular("By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy.\n", 13, .white)
+			.bold("Patent Pending.", 15, Colors.grayText)
+		label.numberOfLines = 0
+		return label
+	}()
 	
 	override func configureView() {
 		addKeyboardView()
@@ -42,7 +70,6 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		addSubview(container)
 		container.addSubview(phoneTextField)
 		phoneTextField.addSubview(numberLabel)
-		// container.addSubview(facebookButton2)
 		addSubview(nextButton)
 		super.configureView()
 		insertSubview(nextButton, aboveSubview: container)
@@ -52,33 +79,9 @@ class SignInView: RegistrationGradientView, Keyboardable {
 		
 		nextButton.alpha = 0.0
 		nextButton.isUserInteractionEnabled = false
-		
-		quicktutorText.image = UIImage(named: "quicktutor-text")
-		
-		learnAnythingLabel.label.text = "Learn Anything. Teach Anyone."
-		learnAnythingLabel.label.font = Fonts.createLightSize(20)
-		
-		let formattedString = NSMutableAttributedString()
-		formattedString
-			.regular("By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy.\n", 13, .white)
-			.bold("Patent Pending.", 15, Colors.grayText)
-		
-		infoLabel.attributedText = formattedString
-		infoLabel.numberOfLines = 0
-		
-		quicktutorFlame.image = UIImage(named: "qt-flame")
-		
-		numberLabel.label.text = "YOUR MOBILE NUMBER"
-		numberLabel.label.font = Fonts.createBoldSize(14)
-		
-		phoneTextField.textField.keyboardType = .numberPad
-		
-		//		phoneNumberTextField.textField.keyboardType = .numberPad
-		//
-		//		facebookButton.setTitle("Log in with facebook", for: .normal)
-		//		signinLabel.text = "Sign in Screen..."
-		//		facebookButton.backgroundColor = UIColor.blue
-		
+	
+		applyGradient(firstColor: (Colors.oldTutorBlue.cgColor), secondColor: (Colors.oldLearnerPurple.cgColor), angle: 160, frame: frame)
+
 		applyConstraints()
 	}
 	
@@ -159,12 +162,5 @@ class SignInView: RegistrationGradientView, Keyboardable {
 			make.centerX.equalToSuperview()
 			make.height.equalTo(30)
 		}
-		
-		//		facebookButton2.snp.makeConstraints { (make) in
-		//			make.centerY.equalToSuperview().multipliedBy(1.5)
-		//			make.height.equalTo(30)
-		//			make.width.equalToSuperview()
-		//			make.centerX.equalToSuperview()
-		//		}
 	}
 }

@@ -285,7 +285,8 @@ class BankManagerTableViewCell: UITableViewCell {
         label.textColor = .white
         label.textColor.withAlphaComponent(1.0)
         label.textAlignment = .center
-        label.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        label.backgroundColor = Colors.navBarColor
+		
         label.isHidden = true
 
         return label
@@ -320,8 +321,8 @@ class BankManagerTableViewCell: UITableViewCell {
         defaultBank.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.2)
-            make.height.equalToSuperview().multipliedBy(0.4)
+            make.width.equalTo(60)
+            make.height.equalTo(20)
         }
     }
 }

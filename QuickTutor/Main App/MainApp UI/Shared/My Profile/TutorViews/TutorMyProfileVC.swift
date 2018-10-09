@@ -113,7 +113,7 @@ class TutorMyProfile: BaseViewController, UpdatedTutorCallBack {
 		guard let reviews = tutor.reviews else { return }
 		contentView.myProfileReviews.isViewing = isViewing
 		contentView.myProfileReviews.parentViewController = self
-		contentView.myProfileReviews.dataSource = reviews.sorted(by: { $0.date > $1.date })
+		contentView.myProfileReviews.dataSource = reviews.sorted(by: { $0.timestamp > $1.timestamp })
 		
 		contentView.myProfileReviews.setupMostRecentReviews()
 

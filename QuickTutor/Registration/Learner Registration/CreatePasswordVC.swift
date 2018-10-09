@@ -12,8 +12,20 @@ import SwiftKeychainWrapper
 
 class CreatePasswordView: RegistrationNavBarKeyboardView {
     
-    var createPasswordTextfield = RegistrationTextField()
-    var passwordInfo = LeftTextLabel()
+	let createPasswordTextfield : RegistrationTextField = {
+		let registrationTextField = RegistrationTextField()
+		registrationTextField.placeholder.text = "PASSWORD"
+		registrationTextField.textField.isSecureTextEntry = true
+		registrationTextField.textField.autocorrectionType = .no
+		registrationTextField.textField.returnKeyType = .next
+		return registrationTextField
+	}()
+	let passwordInfo : LeftTextLabel = {
+		let leftTextLabel = LeftTextLabel()
+		leftTextLabel.label.font = Fonts.createSize(20)
+		leftTextLabel.label.text = "Your password must be at least 8 characters long"
+		return leftTextLabel
+	}()
     
     override func configureView() {
         super.configureView()
@@ -26,30 +38,20 @@ class CreatePasswordView: RegistrationNavBarKeyboardView {
         titleLabel.label.text = "Let's create a password"
         titleLabel.label.adjustsFontSizeToFitWidth = true
         titleLabel.label.adjustsFontForContentSizeCategory = true
-        errorLabel.text = "Password is less than 8 characters"
-        
-        createPasswordTextfield.placeholder.text = "PASSWORD"
-        
-        createPasswordTextfield.textField.isSecureTextEntry = true
-        createPasswordTextfield.textField.autocorrectionType = .no
-        createPasswordTextfield.textField.returnKeyType = .next
-        
-        passwordInfo.label.font = Fonts.createSize(20)
-        passwordInfo.label.text = "Your password must be at least 8 characters long"
-        
+		
+		errorLabel.text = "Password is less than 8 characters"
+		
         applyConstraints()
     }
     
     override func applyConstraints() {
         super.applyConstraints()
-        
         createPasswordTextfield.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.47)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
         }
-        
         passwordInfo.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.5)
@@ -59,7 +61,7 @@ class CreatePasswordView: RegistrationNavBarKeyboardView {
     }
 }
 
-class CreatePassword: BaseViewController {
+class CreatePasswordVC: BaseViewController {
     
     override var contentView: CreatePasswordView {
         return view as! CreatePasswordView
@@ -102,7 +104,7 @@ class CreatePassword: BaseViewController {
         let emailCredential = EmailAuthProvider.credential(withEmail: Registration.email, password: password!)
         Registration.emailCredential = emailCredential
         dismissOverlay()
-        navigationController!.pushViewController(Birthday(), animated: true)
+        navigationController!.pushViewController(BirthdayVC(), animated: true)
         contentView.createPasswordTextfield.textField.text = ""
         
     }
@@ -128,8 +130,7 @@ class CreatePassword: BaseViewController {
         return false
     }
 }
-extension CreatePassword: UITextFieldDelegate {
-    
+extension CreatePasswordVC: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let maxlength = 32
         guard let text = textField.text else { return true }

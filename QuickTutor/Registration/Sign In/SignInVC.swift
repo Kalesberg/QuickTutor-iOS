@@ -11,7 +11,7 @@ import FirebaseAuth
 import FBSDKLoginKit
 import SnapKit
 
-class PhoneTextField: InteractableView, Interactable {
+class PhoneTextFieldView: InteractableView, Interactable {
 	
 	var textField: NoPasteTextField = {
 		let textField = NoPasteTextField()
@@ -148,8 +148,16 @@ class SignInVC: BaseViewController {
 		hideKeyboardWhenTappedAround()
 		fbLoginManager.logOut()
 		contentView.phoneTextField.textField.delegate = self
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 	}
-	
+	@objc func keyboardWillShow(_ notification: Notification) {
+		if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+			let keyboardRectangle = keyboardFrame.cgRectValue
+			print("Screen Height: ", UIScreen.main.bounds.height)
+			print("Keyboard Height: ", keyboardRectangle.height)
+		}
+	}
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
