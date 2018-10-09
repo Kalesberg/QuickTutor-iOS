@@ -13,7 +13,7 @@ import TwilioVideo
 
 class VideoSessionVC: BaseSessionVC {
 
-    let videoSessionView = VideoSessionView()
+    let videoSessionView = VideoSessionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
     var twilioSessionManager: TwilioSessionManager?
     
     override func addTimeModal(_ addTimeModal: AddTimeModal, didAdd minutes: Int) {
@@ -26,6 +26,7 @@ class VideoSessionVC: BaseSessionVC {
         setupView()
         setupButtonActions()
         setupTwilio()
+        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -45,21 +46,29 @@ class VideoSessionVC: BaseSessionVC {
     
     func setupTwilio() {
         guard let id = sessionId else { return }
-        twilioSessionManager = TwilioSessionManager(previewView: videoSessionView.cameraPreviewView, remoteView: videoSessionView.partnerCameraFeed, sessionId: id)
+        DispatchQueue.main.async {
+            self.twilioSessionManager = TwilioSessionManager(previewView: self.videoSessionView.cameraPreviewView, remoteView: self.videoSessionView.partnerFeed, sessionId: id)
+            self.twilioSessionManager?.delegate = self
+        }
     }
     
     func setupButtonActions() {
-        videoSessionView.endSessionButton.addTarget(self, action: #selector(VideoSessionVC.handleEndSession), for: .touchUpInside)
-        videoSessionView.pauseSessionButton.addTarget(self, action: #selector(VideoSessionVC.handleSessionPause), for: .touchUpInside)
+        videoSessionView.endButton.addTarget(self, action: #selector(VideoSessionVC.handleEndSession), for: .touchUpInside)
+        videoSessionView.pauseButton.addTarget(self, action: #selector(VideoSessionVC.handleSessionPause), for: .touchUpInside)
+        videoSessionView.swapCameraButton.addTarget(self, action: #selector(VideoSessionVC.swapCamera), for: .touchUpInside)
     }
     
     override func handleBackgrounded() {
         super.handleBackgrounded()
+        guard let manager = sessionManager, !manager.isPaused else { return }
+        sessionManager?.isPausedBySystem = true
         sessionManager?.pauseSession()
     }
     
     override func handleForegrounded() {
         super.handleForegrounded()
+        guard let manager = sessionManager, manager.isPausedBySystem else { return }
+        sessionManager?.isPausedBySystem = false
         sessionManager?.unpauseSession()
     }
     
@@ -70,14 +79,25 @@ class VideoSessionVC: BaseSessionVC {
     
     @objc func handleSessionPause() {
         guard let manager = sessionManager else { return }
-        manager.pauseSession()
+        if manager.isPaused {
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            guard manager.pausedBy == uid else { return }
+           videoSessionView.pauseButton.setImage(UIImage(named: "newPauseSessionButton"), for: .normal)
+            manager.unpauseSession()
+        } else {
+            manager.pauseSession()
+            videoSessionView.pauseButton.setImage(UIImage(named: "unpauseSessionButtonWhite"), for: .normal)
+
+        }
+    }
+    
+    @objc func swapCamera() {
+        guard let manager = twilioSessionManager else { return }
+        manager.flipCamera()
     }
     
     override func showPauseModal(pausedById: String) {
-        super.showPauseModal(pausedById: pausedById)
-        twilioSessionManager?.stop()
     }
-    
     
     override func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager) {
         
@@ -85,13 +105,35 @@ class VideoSessionVC: BaseSessionVC {
     
     override func sessionManager(_ sessionManager: SessionManager, didUnpause session: Session) {
         super.sessionManager(sessionManager, didUnpause: session)
-        self.twilioSessionManager?.resume()
+        videoSessionView.unpause()
+        twilioSessionManager?.resume()
+    }
+    
+    override func sessionManager(_ sessionManager: SessionManager, userId: String, didPause session: Session) {
+        sessionManager.stopSessionRuntime()
+        videoSessionView.pause()
+        twilioSessionManager?.stop()
     }
     
     override func sessionManager(_ sessionManager: SessionManager, userConnectedWith uid: String) {
-        super.sessionManager(sessionManager, userConnectedWith: uid)
-        twilioSessionManager?.connect()
+        sessionManager.startSessionRuntime()
+//        twilioSessionManager?.connect()
         twilioSessionManager?.resume()
-        self.connectionLostModal?.dismiss()
+        videoSessionView.unpause()
+        videoSessionView.hideLoadingAnimation()
+    }
+    
+    override func sessionManager(_ sessionManager: SessionManager, userLostConnection uid: String) {
+        sessionManager.stopSessionRuntime()
+        if viewIfLoaded?.window != nil {
+            self.videoSessionView.pause()
+            self.videoSessionView.showLoadingAnimation()
+        }
+    }
+}
+
+extension VideoSessionVC: TwilioSessionManagerDelegate {
+    func twilioSessionManagerDidReceiveVideoData(_ twilioSessionManager: TwilioSessionManager) {
+        videoSessionView.hideLoadingAnimation()
     }
 }

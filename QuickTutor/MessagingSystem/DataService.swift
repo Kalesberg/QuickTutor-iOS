@@ -153,6 +153,12 @@ class DataService {
             completion()
         }
     }
+    
+    func sendTextMessage(_ message: UserMessage, metaData: [String: Any]?) {
+        if let metaData = metaData {
+            message.data = message.data.merging(metaData) { $1 }
+        }
+    }
 
     func sendConnectionRequestToId(text: String, _ id: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -163,7 +169,7 @@ class DataService {
         values["receiverAccountType"] = otherUserTypeString
         let timestamp = Date().timeIntervalSince1970
         Database.database().reference().child("connectionRequests").childByAutoId().setValue(values) { (error, ref) in
-            let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": id, "connectionRequestId": ref.key!])
+            let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": id, "connectionRequestId": ref.key!, "receiverAccountType": otherUserTypeString])
             Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
                 let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
                 let receiverRef = Database.database().reference().child("conversations").child(id).child(otherUserTypeString).child(uid)

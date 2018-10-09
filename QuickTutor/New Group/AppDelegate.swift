@@ -154,6 +154,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         }
     }
     
+    func animateLaunchScreen() {
+        UIView.animate(withDuration: 0.3) {
+            self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        }
+        
+    }
+    
     func configureRootViewController(controller: UIViewController, completion: @escaping() -> Void) {
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [], animations: {
             self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
@@ -162,7 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
                 self.launchScreen.contentView.icon.alpha = 0.0
             }) { (true) in
-                navigationController = CustomNavVC(rootViewController: SignInVC())
+                navigationController = CustomNavVC(rootViewController: controller)
                 navigationController.navigationBar.isHidden = true
                 self.window?.makeKeyAndVisible()
                 self.window?.rootViewController = navigationController

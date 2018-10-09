@@ -16,11 +16,6 @@ protocol AddTimeModalDelegate {
 }
 
 class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDelegate {
-    lazy var sessionNavBar: SessionNavBar = {
-        let bar = SessionNavBar()
-        bar.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
-        return bar
-    }()
 
     var partnerId: String?
     var sessionId: String?
@@ -142,17 +137,19 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNotifications()
-        socket = manager.defaultSocket
-        socket.connect()
-        observeSessionEvents()
-        guard let id = sessionId else { return }
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        socket.on(clientEvent: .connect) { _, _ in
-            let joinData = ["roomKey": id, "uid": uid]
-            self.socket.emit("joinRoom", joinData)
+        DispatchQueue.main.async {
+            self.socket = self.manager.defaultSocket
+            self.socket.connect()
+            self.observeSessionEvents()
+            guard let id = self.sessionId else { return }
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            self.socket.on(clientEvent: .connect) { _, _ in
+                let joinData = ["roomKey": id, "uid": uid]
+                self.socket.emit("joinRoom", joinData)
+            }
+            self.sessionManager = SessionManager(sessionId: id, socket: self.socket)
+            self.sessionManager?.delegate = self
         }
-        sessionManager = SessionManager(sessionId: id, socket: socket)
-        sessionManager?.delegate = self
     }
 
     override func viewWillDisappear(_ animated: Bool) {

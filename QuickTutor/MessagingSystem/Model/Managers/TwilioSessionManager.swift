@@ -10,7 +10,7 @@ import Firebase
 import TwilioVideo
 
 protocol TwilioSessionManagerDelegate {
-    func twilioSessionManagerDidConnect(_ twilioSessionManager: TwilioSessionManager)
+    func twilioSessionManagerDidReceiveVideoData(_ twilioSessionManager: TwilioSessionManager)
 }
 
 class TwilioSessionManager: NSObject {
@@ -133,6 +133,7 @@ class TwilioSessionManager: NSObject {
         super.init()
         self.previewView = previewView
         self.remoteView = remoteView
+        self.remoteView.delegate = self
         self.sessionId = sessionId
         fetchAccessToken()
     }
@@ -150,16 +151,12 @@ extension TwilioSessionManager: TVIRoomDelegate {
     }
     
     func room(_ room: TVIRoom, participantDidConnect participant: TVIRemoteParticipant) {
-        if remoteParticipant == nil {
-            remoteParticipant = participant
-            remoteParticipant?.delegate = self
-            if (remoteParticipant?.videoTracks.count)! > 0 {
-                let remoteVideoTrack = remoteParticipant?.remoteVideoTracks[0].remoteTrack
-                remoteVideoTrack?.addRenderer(remoteView)
-            }
+        remoteParticipant = participant
+        remoteParticipant?.delegate = self
+        if (remoteParticipant?.videoTracks.count)! > 0 {
+            let remoteVideoTrack = remoteParticipant?.remoteVideoTracks[0].remoteTrack
+            remoteVideoTrack?.addRenderer(remoteView)
         }
-        
-        
     }
     
     func room(_ room: TVIRoom, participantDidDisconnect participant: TVIRemoteParticipant) {
@@ -185,6 +182,12 @@ extension TwilioSessionManager: TVIRoomDelegate {
             publication.localTrack?.isEnabled = true
         })
     }
+    
+    func listenForVideoStream() {
+        
+    }
+    
+    
 }
 
 extension TwilioSessionManager: TVIRemoteParticipantDelegate, TVICameraCapturerDelegate {
@@ -205,4 +208,10 @@ extension TwilioSessionManager: TVIRemoteParticipantDelegate, TVICameraCapturerD
         }
     }
 
+}
+
+extension TwilioSessionManager: TVIVideoViewDelegate {
+    func videoViewDidReceiveData(_ view: TVIVideoView) {
+        delegate?.twilioSessionManagerDidReceiveVideoData(self)
+    }
 }

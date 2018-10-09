@@ -391,6 +391,8 @@
 		CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */; };
 		CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */; };
 		CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFB0283D210C241600B29972 /* GoogleService-Info.plist */; };
+		CFB40E45216BFE2100828E72 /* connecting.json in Resources */ = {isa = PBXBuildFile; fileRef = CFB40E44216BFE2100828E72 /* connecting.json */; };
+		CFB40E49216D1A9F00828E72 /* qtRingtone.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFB40E48216D1A9F00828E72 /* qtRingtone.aiff */; };
 		CFB60617207FA6B80029CFE4 /* FileReportActionsheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */; };
 		CFB60619207FB60C0029CFE4 /* FileReportActionsheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */; };
 		CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */; };
@@ -820,6 +822,8 @@
 		CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSystemToggle.swift; sourceTree = "<group>"; };
 		CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableButton.swift; sourceTree = "<group>"; };
 		CFB0283D210C241600B29972 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CFB40E44216BFE2100828E72 /* connecting.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = connecting.json; sourceTree = "<group>"; };
+		CFB40E48216D1A9F00828E72 /* qtRingtone.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = qtRingtone.aiff; sourceTree = "<group>"; };
 		CFB60616207FA6B80029CFE4 /* FileReportActionsheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheet.swift; sourceTree = "<group>"; };
 		CFB60618207FB60C0029CFE4 /* FileReportActionsheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReportActionsheetCell.swift; sourceTree = "<group>"; };
 		CFB6061A207FD62F0029CFE4 /* DisconnectModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectModal.swift; sourceTree = "<group>"; };
@@ -867,6 +871,7 @@
 			isa = PBXGroup;
 			children = (
 				840E4DF42136F58E0045CD35 /* loading1.json */,
+				CFB40E44216BFE2100828E72 /* connecting.json */,
 				840E4DF9213761BD0045CD35 /* loading2.json */,
 				840E4DF7213761BB0045CD35 /* loading3.json */,
 				840E4DFF213761C10045CD35 /* loading4.json */,
@@ -1004,6 +1009,7 @@
 				8425767B207133CE00FD295B /* SearchContent */,
 				8491C2A91FBE62350036FC12 /* Info.plist */,
 				CFA0096D2139FFCE00F81EE4 /* background.mp3 */,
+				CFB40E48216D1A9F00828E72 /* qtRingtone.aiff */,
 				CFE18FA221196790000816C4 /* qtNotificationPop.aiff */,
 				CFE18FA02119645E000816C4 /* quickTutorNotification.aiff */,
 				CFB0283D210C241600B29972 /* GoogleService-Info.plist */,
@@ -2054,6 +2060,7 @@
 				840E4E05213761C10045CD35 /* loading7.json in Resources */,
 				842576642070773D00FD295B /* academics.json in Resources */,
 				840E4E06213761C10045CD35 /* loading8.json in Resources */,
+				CFB40E49216D1A9F00828E72 /* qtRingtone.aiff in Resources */,
 				8425766E20712E6C00FD295B /* health.json in Resources */,
 				840E4E09213761C10045CD35 /* loading4.json in Resources */,
 				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
@@ -2062,6 +2069,7 @@
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
 				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
+				CFB40E45216BFE2100828E72 /* connecting.json in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,

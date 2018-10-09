@@ -8,19 +8,18 @@
 
 import UIKit
 
-protocol SessionCellDelgate {
+protocol SessionCellDelgate: class {
     func sessionCell(_ sessionCell: BaseSessionCell, shouldReloadSessionWith id: String)
 }
 
 class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     var session: Session!
-    var delegate: SessionCellDelgate?
+    weak var delegate: SessionCellDelgate?
 
     let monthLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createSize(11)
-        label.text = "Dec"
         label.textAlignment = .center
         return label
     }()
@@ -29,7 +28,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createSize(20)
-        label.text = "31"
         label.textAlignment = .center
         return label
     }()
@@ -39,7 +37,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         label.textColor = .white
         label.font = Fonts.createSize(12)
         label.textAlignment = .center
-        label.text = "Tue"
         return label
     }()
 
@@ -66,7 +63,6 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createSize(11)
-        label.text = "3:05 - 6:05pm, $18.50"
         return label
     }()
 

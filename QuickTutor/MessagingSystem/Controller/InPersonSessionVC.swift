@@ -10,6 +10,13 @@ import Firebase
 import UIKit
 
 class InPersonSessionVC: BaseSessionVC {
+    
+    lazy var sessionNavBar: SessionNavBar = {
+        let bar = SessionNavBar()
+        bar.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+        return bar
+    }()
+    
     let statusBarCover: UIView = {
         let view = UIView()
         view.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue

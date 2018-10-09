@@ -30,6 +30,10 @@ class SessionManager {
 
     var delegate: SessionManagerDelegate?
     var socket: SocketIOClient!
+    
+    var isPaused = false
+    var isPausedBySystem = false
+    var pausedBy: String?
 
     // MARK: Session events -
 
@@ -62,6 +66,7 @@ class SessionManager {
 
     @objc func pauseSession() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard !isPaused else { return }
         socket.emit(SocketEvents.pauseSession, ["pausedBy": uid, "roomKey": sessionId])
     }
 
@@ -129,7 +134,21 @@ class SessionManager {
         if secondsString.count == 2 {
             decimalPlaceString = "0"
         }
-        return "\(hours):\(minutes):\(decimalPlaceString)\(seconds * -1)"
+        
+        var minuteString: String
+        if minutes == 0 {
+            minuteString = "\(minutes)0"
+        } else {
+            minuteString = "\(minutes)"
+        }
+        
+        var timeString: String
+        if hours == 0 {
+            timeString = "\(minutes):\(decimalPlaceString)\(seconds * -1)"
+        } else {
+            timeString = "\(hours):\(minutes):\(decimalPlaceString)\(seconds * -1)"
+        }
+        return timeString
     }
     
     func sessionRuntimeExpired() -> Bool {
@@ -141,10 +160,13 @@ class SessionManager {
     func observeSocketEvents() {
         socket.on(SocketEvents.pauseSession) { data, _ in
             guard let dict = data[0] as? [String: Any], let pausedById = dict["pausedBy"] as? String else { return }
+            self.pausedBy = pausedById
+            self.isPaused = true
             self.delegate?.sessionManager(self, userId: pausedById, didPause: self.session)
         }
         
         socket.on(SocketEvents.unpauseSession) { _, _ in
+            self.isPaused = false
             self.delegate?.sessionManager(self, didUnpause: self.session)
         }
         
