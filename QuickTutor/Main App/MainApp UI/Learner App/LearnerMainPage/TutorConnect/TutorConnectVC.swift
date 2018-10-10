@@ -437,6 +437,8 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		let reference = storageRef.child("student-info").child(data[indexPath.item].uid).child("student-profile-pic1")
 
 		cell.tutor = data[indexPath.item]
+		print("Tutor Name: ", data[indexPath.item].name, " pageNumber: ", indexPath.item, " REVIEWS: ", data[indexPath.item].reviews)
+		
 		cell.parentViewController = self
 		cell.tutorCardHeader.profilePics.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         cell.tutorCardHeader.profilePics.roundCorners(.allCorners, radius: 8)
@@ -447,7 +449,7 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 			cell.tutorCardHeader.featuredSubject.text = featuredSubject
 			cell.tutorCardHeader.featuredSubject.isHidden = false
 		}
-		let title = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.row].uid)) ? "Message" : "Connect"
+		let title = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.item].uid)) ? "Message" : "Connect"
 		cell.connectButton.setTitle(title, for: .normal)
 		
 		return cell

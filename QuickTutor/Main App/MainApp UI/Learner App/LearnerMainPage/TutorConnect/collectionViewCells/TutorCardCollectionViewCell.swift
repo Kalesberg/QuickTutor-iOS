@@ -167,10 +167,12 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	}
 	
 	private func setupTutorCardReviews() {
-		guard let reviews = tutor.reviews else { return }
 		tutorCardReviews.parentViewController = parentViewController
-		tutorCardReviews.dataSource = reviews.sorted(by: { $0.timestamp > $1.timestamp })
-
+		tutorCardReviews.dataSource = tutor.reviews ?? []
+		
+		tutorCardReviews.reviewLabel1.removeFromSuperview()
+		tutorCardReviews.reviewLabel2.removeFromSuperview()
+		tutorCardReviews.backgroundView.removeFromSuperview()
 		tutorCardReviews.setupMostRecentReviews()
 		
 		tutorCardReviews.snp.makeConstraints { (make) in
@@ -225,7 +227,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		for view in scrollView.subviews {
 			contentSizeHeight += view.frame.height
 		}
-		scrollView.contentSize.height = contentSizeHeight + 150
+		scrollView.contentSize.height = contentSizeHeight + 50
 		layoutIfNeeded()
 	}
 	

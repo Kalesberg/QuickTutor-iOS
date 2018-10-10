@@ -54,7 +54,8 @@ class MyProfileReviewsView : UIView {
 	
 	let reviewLabel1 = MyProfileReview()
 	let reviewLabel2 = MyProfileReview()
-	
+	let backgroundView = NoRatingsBackgroundView()
+
 	var reviewSectionHeight : CGFloat {
 		layoutIfNeeded()
 		let maxLabelWidth: CGFloat = (UIScreen.main.bounds.width - 60)
@@ -135,7 +136,6 @@ class MyProfileReviewsView : UIView {
 	}
 	
 	private func setupBackgroundLabel() {
-		let backgroundView = NoRatingsBackgroundView()
 		addSubview(backgroundView)
 		backgroundView.snp.makeConstraints { (make) in
 			make.top.equalTo(reviewTitle.snp.bottom).inset(-5)

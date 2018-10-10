@@ -370,40 +370,37 @@ class SessionReview : BaseViewController {
 		if AccountService.shared.currentUserType == .learner {
 			let updatedRating = ((tutor.tRating * Double(tutor.tNumSessions)) + Double(PostSessionReviewData.rating)) / Double(tutor.tNumSessions + 1)
 			let updatedHours = tutor.secondsTaught + runTime
-			guard let subcategory = SubjectStore.findSubCategory(resource: SubjectStore.findCategoryBy(subject: subject)!, subject: subject) else { return }
+			guard let category = SubjectStore.findCategoryBy(subject: subject) else { return }
+			guard let subcategory = SubjectStore.findSubCategory(resource: category, subject: subject) else { return }
 			let tutorInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "tr" : updatedRating.truncate(places: 1)]
 			let subcategoryInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
 			FirebaseData.manager.updateTutorPostSession(uid: partnerId, subcategory: subcategory.lowercased(), tutorInfo: tutorInfo, subcategoryInfo: subcategoryInfo)
 			FirebaseData.manager.updateTutorRatingPostSession(uid: partnerId, sessionId: sessionId, rating: PostSessionReviewData.rating)
-
-			if PostSessionReviewData.review != nil && PostSessionReviewData.review! != "" {
-				let reviewDict : [String : Any] = [
-					"dte" : Date().timeIntervalSince1970,
-					"uid" : CurrentUser.shared.learner.uid!,
-					"m" : PostSessionReviewData.review!,
-					"nm" : CurrentUser.shared.learner.name,
-					"r" : PostSessionReviewData.rating,
-					"sbj" : subject
-				]
-				FirebaseData.manager.updateReviewPostSession(uid: partnerId, sessionId: sessionId, type: "learner", review: reviewDict)
-			}
+			guard let review = PostSessionReviewData.review, review != "" else { return }
+			let reviewDict : [String : Any] = [
+				"dte" : Date().timeIntervalSince1970,
+				"uid" : CurrentUser.shared.learner.uid!,
+				"m" : PostSessionReviewData.review ?? "",
+				"nm" : CurrentUser.shared.learner.name,
+				"r" : PostSessionReviewData.rating,
+				"sbj" : subject
+			]
+			FirebaseData.manager.updateReviewPostSession(uid: partnerId, sessionId: sessionId, type: "learner", review: reviewDict)
 		} else {
 			let updatedRating = ((learner.lRating * Double(learner.lNumSessions)) + Double(PostSessionReviewData.rating)) / Double(learner.lNumSessions + 1)
 			let updatedHours = learner.lHours + runTime
 			
 			FirebaseData.manager.updateLearnerPostSession(uid: partnerId, studentInfo: ["nos" : learner.lNumSessions + 1, "hr" : updatedHours, "r" : updatedRating.truncate(places: 1)])
-			
-			if let review = PostSessionReviewData.review {
-				let reviewDict : [String : Any] = [
-					"dte" : Date().timeIntervalSince1970,
-					"uid" : CurrentUser.shared.learner.uid!,
-					"m" : review,
-					"nm" : CurrentUser.shared.learner.name,
-					"r" : PostSessionReviewData.rating,
-					"sbj" : subject
-				]
-				FirebaseData.manager.updateReviewPostSession(uid: partnerId, sessionId: sessionId, type: "tutor", review: reviewDict)
-			}
+			guard let review = PostSessionReviewData.review, review != "" else { return }
+			let reviewDict : [String : Any] = [
+				"dte" : Date().timeIntervalSince1970,
+				"uid" : CurrentUser.shared.learner.uid!,
+				"m" : review,
+				"nm" : CurrentUser.shared.learner.name,
+				"r" : PostSessionReviewData.rating,
+				"sbj" : subject
+			]
+			FirebaseData.manager.updateReviewPostSession(uid: partnerId, sessionId: sessionId, type: "tutor", review: reviewDict)
 		}
 	}
 
