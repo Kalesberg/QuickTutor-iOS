@@ -147,12 +147,11 @@ class BirthdayVC: BaseViewController {
 
     private func getAgeBirthday() -> Int {
         let birthdate = contentView.birthdayPicker.datePicker.calendar!
-        let birthday = birthdate.dateComponents([.day, .month, .year], from: contentView.birthdayPicker.datePicker.date)
         let age = birthdate.dateComponents([.year], from: contentView.birthdayPicker.datePicker.date, to: date)
         
         if age.year! > 0 {
             Registration.age = age.year!
-            Registration.dob = String("\(birthday.day!)/\(birthday.month!)/\(birthday.year!)")
+			Registration.dob = dateformatter.string(from: contentView.birthdayPicker.datePicker.date)
             contentView.errorLabel.isHidden = true
         }
         return age.year!
@@ -191,9 +190,18 @@ class BirthdayVC: BaseViewController {
     @objc
     private func datePickerValueChanged(_ sender: UIDatePicker) {
         // show new date on label when its changed.
-        dateformatter.dateFormat = "MMMM d'\(daySuffix(date: contentView.birthdayPicker.datePicker.date))' yyyy"
-        let date = dateformatter.string(from: contentView.birthdayPicker.datePicker.date)
-        contentView.birthdayLabel.textField.text! = date
+		dateformatter.dateFormat = "MMMM d'\(daySuffix(date: contentView.birthdayPicker.datePicker.date))' yyyy"
+		let date = dateformatter.string(from: contentView.birthdayPicker.datePicker.date)
+		UIView.animate(withDuration: 0.2, animations: {
+			self.contentView.birthdayLabel.textField.transform.scaledBy(x: 0.95, y: 0.95)
+			self.contentView.birthdayLabel.textField.alpha = 0
+		}) { (_) in
+			UIView.animate(withDuration: 0.2, animations: {
+				self.contentView.birthdayLabel.textField.alpha = 1
+				self.contentView.birthdayLabel.textField.text! = date
+				self.contentView.birthdayLabel.textField.transform = .identity
+			})
+		}
     }
     
     override func didReceiveMemoryWarning() {

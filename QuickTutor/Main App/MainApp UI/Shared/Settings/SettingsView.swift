@@ -44,7 +44,6 @@ class SettingsView : MainLayoutTitleBackButton {
 		super.configureView()
 		
 		container.backgroundColor = Colors.backgroundDark
-
 		setupShadows()
 		
 		title.label.text = "Settings"
@@ -111,7 +110,7 @@ class SettingsView : MainLayoutTitleBackButton {
 	private func setupGradientViewForHeader() {
 		let gradientLayer = CAGradientLayer()
 		gradientLayer.frame = CGRect(x: 0, y: 0, width: settingsProfileHeader.frame.width, height: settingsProfileHeader.frame.height)
-		gradientLayer.colors =  [Colors.navBarColor, Colors.backgroundDark].map{ $0.cgColor }
+		gradientLayer.colors =  [Colors.navBarColor, Colors.backgroundDark].map { $0.cgColor }
 		gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
 		gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
 		settingsProfileHeader.layer.insertSublayer(gradientLayer, at: 0)
@@ -139,7 +138,6 @@ class SettingsView : MainLayoutTitleBackButton {
 		settingsAccount.applySettingsShadow()
 	}
 	func updateLocationsSubtitle() {
-		print(CurrentUser.shared.tutor.region)
 		settingsLocation.location.subtitleLabel.text = CurrentUser.shared.tutor.location != nil ? CurrentUser.shared.tutor.region : "This is the location displayed in your profile."
 	}
 }

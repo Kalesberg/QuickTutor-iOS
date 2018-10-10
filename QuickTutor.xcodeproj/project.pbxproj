@@ -237,6 +237,8 @@
 		84DF1E4E216C2C2F00AEBD76 /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF1E4D216C2C2F00AEBD76 /* LocationVC.swift */; };
 		84DF1E51216C2C5100AEBD76 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF1E50216C2C5100AEBD76 /* LocationView.swift */; };
 		84DF1E56216C2D8100AEBD76 /* LearnerSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF1E55216C2D8100AEBD76 /* LearnerSettingsVC.swift */; };
+		84DF1E5A216D68E100AEBD76 /* EditBirthdateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF1E59216D68E100AEBD76 /* EditBirthdateVC.swift */; };
+		84DF1E5C216D68EC00AEBD76 /* EditBirthdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF1E5B216D68EC00AEBD76 /* EditBirthdateView.swift */; };
 		84DFD899204C5AE600BA8A3F /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DFD898204C5AE600BA8A3F /* UIViewControllerExtensions.swift */; };
 		84E1E4381FBE630200678531 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E4371FBE630200678531 /* SignInVC.swift */; };
 		84E283572004874300B004E7 /* RegistrationBigButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E283562004874300B004E7 /* RegistrationBigButton.swift */; };
@@ -676,6 +678,8 @@
 		84DF1E4D216C2C2F00AEBD76 /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
 		84DF1E50216C2C5100AEBD76 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		84DF1E55216C2D8100AEBD76 /* LearnerSettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LearnerSettingsVC.swift; path = "QuickTutor/Main App/MainApp UI/Shared/CloseAccount/LearnerSettingsVC.swift"; sourceTree = SOURCE_ROOT; };
+		84DF1E59216D68E100AEBD76 /* EditBirthdateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBirthdateVC.swift; sourceTree = "<group>"; };
+		84DF1E5B216D68EC00AEBD76 /* EditBirthdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBirthdateView.swift; sourceTree = "<group>"; };
 		84DFD898204C5AE600BA8A3F /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		84E1E4371FBE630200678531 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; usesTabs = 1; };
 		84E283562004874300B004E7 /* RegistrationBigButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationBigButton.swift; sourceTree = "<group>"; };
@@ -1336,6 +1340,7 @@
 				84D55E99204F638D00BB899C /* EditPhoneVerificationVC.swift */,
 				8482AFE02038C27000F6F805 /* EditBioVC.swift */,
 				8434B82A20468D6F00E16170 /* EditLanguages.swift */,
+				84DF1E5D216D68EF00AEBD76 /* EditBirthdate */,
 				84E283582004940600B004E7 /* TheChoiceVC.swift */,
 				843A1D182047C5BF00299D27 /* EditSchoolVC.swift */,
 				8423F73E214B60E900B3E4D0 /* languages.txt */,
@@ -1605,6 +1610,15 @@
 				84DF1E50216C2C5100AEBD76 /* LocationView.swift */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		84DF1E5D216D68EF00AEBD76 /* EditBirthdate */ = {
+			isa = PBXGroup;
+			children = (
+				84DF1E5B216D68EC00AEBD76 /* EditBirthdateView.swift */,
+				84DF1E59216D68E100AEBD76 /* EditBirthdateVC.swift */,
+			);
+			path = EditBirthdate;
 			sourceTree = "<group>";
 		};
 		84E4C7D0204E80C9009C2FC4 /* Help */ = {
@@ -2409,6 +2423,7 @@
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
 				CF6F58F0205EE6B300ACBD32 /* DataService.swift in Sources */,
+				84DF1E5A216D68E100AEBD76 /* EditBirthdateVC.swift in Sources */,
 				CF6F58C2205EE68800ACBD32 /* MeetupRequestCell.swift in Sources */,
 				8451FB5E213EF43800F86DC5 /* BasePostSessionCell.swift in Sources */,
 				846252F720637FC5001DD330 /* TutorHelp.swift in Sources */,
@@ -2593,6 +2608,7 @@
 				CFEF943F20B3583800413727 /* ImageMessageSender.swift in Sources */,
 				84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */,
 				CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */,
+				84DF1E5C216D68EC00AEBD76 /* EditBirthdateView.swift in Sources */,
 				CF833B75207C4B6E00323242 /* LearnerPendingSessionCell.swift in Sources */,
 				CF6F58E8205EE68800ACBD32 /* MeetupRequest.swift in Sources */,
 				8496FE082161877500BD292F /* TutorMyProfileView.swift in Sources */,

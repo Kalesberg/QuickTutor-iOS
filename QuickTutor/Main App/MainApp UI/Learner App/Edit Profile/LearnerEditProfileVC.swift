@@ -253,8 +253,8 @@ class LearnerEditProfileVC: BaseViewController {
         let newNodes: [String: Any]
         if CurrentUser.shared.learner.isTutor {
             newNodes = [
-                "/tutor-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName,
-                "/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName,
+                "/tutor-info/\(CurrentUser.shared.learner.uid!)/nm": firstName.trimmingCharacters(in: .whitespaces) + " " + lastName.trimmingCharacters(in: .whitespaces),
+                "/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName.trimmingCharacters(in: .whitespaces) + " " + lastName.trimmingCharacters(in: .whitespaces),
             ]
         } else {
             newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName]
@@ -272,7 +272,7 @@ class LearnerEditProfileVC: BaseViewController {
 
 extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return 11
+        return 12
     }
 
     func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -281,9 +281,9 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
             return 100
         case 1:
             return 50
-        case 2, 3, 4, 6, 7, 9, 10:
+        case 2, 3, 4, 6, 7, 8, 10, 11:
             return 75
-        case 5, 8:
+        case 5, 9:
             return 65
         default:
             break
@@ -329,8 +329,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
 
             cell.infoLabel.label.text = "First Name"
             guard let firstName = firstName else { return cell }
-            cell.textField.attributedText = NSAttributedString(string: "\(firstName)",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            cell.textField.attributedText = NSAttributedString(string: "\(firstName)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 
             return cell
         case 3:
@@ -340,16 +339,14 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
 
             cell.infoLabel.label.text = "Last Name"
             guard let lastName = lastName else { return cell }
-            cell.textField.attributedText = NSAttributedString(string: "\(lastName)",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            cell.textField.attributedText = NSAttributedString(string: "\(lastName)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
 
             cell.infoLabel.label.text = "Biography"
-            cell.textField.attributedText = NSAttributedString(string: "Edit",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            cell.textField.attributedText = NSAttributedString(string: "Edit", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 
             return cell
         case 5:
@@ -362,45 +359,46 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
 
             cell.infoLabel.label.text = "Mobile Number"
-            cell.textField.attributedText = NSAttributedString(string: learner.phone.formatPhoneNumber(),
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            cell.textField.attributedText = NSAttributedString(string: learner.phone.formatPhoneNumber(), attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 
             return cell
-        case 7:
+		case 7:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
+			
+			cell.infoLabel.label.text = "Birthdate"
+			cell.textField.attributedText = NSAttributedString(string: learner.birthday, attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+			
+			return cell
+        case 8:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
 
             cell.infoLabel.label.text = "Email"
-            cell.textField.attributedText = NSAttributedString(string: learner.email,
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            cell.textField.attributedText = NSAttributedString(string: learner.email, attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 
             return cell
-        case 8:
+        case 9:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
 
             cell.label.text = "Optional Information"
 
             return cell
-        case 9:
+        case 10:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
 
             cell.infoLabel.label.text = "Languages I Speak"
-            cell.textField.attributedText = NSAttributedString(string: "Edit",
-                                                               attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            cell.textField.attributedText = NSAttributedString(string: "Edit", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 
             return cell
-        case 10:
+        case 11:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
 
             cell.infoLabel.label.text = "School"
 
             if learner.school != "" && learner.school != nil {
-                cell.textField.attributedText = NSAttributedString(string: learner.school!,
-                                                                   attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.attributedText = NSAttributedString(string: learner.school!, attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             } else {
-                cell.textField.attributedText = NSAttributedString(string: "Enter a School",
-                                                                   attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.attributedText = NSAttributedString(string: "Enter a School", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             }
-
             return cell
         default:
             return UITableViewCell()
@@ -413,11 +411,13 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(EditBioVC(), animated: true)
         case 6:
             navigationController?.pushViewController(EditPhoneVC(), animated: true)
-        case 7:
+		case 7:
+			navigationController?.pushViewController(EditBirthdateVC(), animated: true)
+		case 8:
             navigationController?.pushViewController(ChangeEmailVC(), animated: true)
-        case 9:
-            navigationController?.pushViewController(EditLanguageVC(), animated: true)
         case 10:
+            navigationController?.pushViewController(EditLanguageVC(), animated: true)
+        case 11:
             navigationController?.pushViewController(EditSchoolVC(), animated: true)
         default:
             break

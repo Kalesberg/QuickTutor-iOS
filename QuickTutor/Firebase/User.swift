@@ -90,7 +90,14 @@ class FirebaseData {
 			}
 		}
 	}
-	
+	func updateAge(uid: String, birthdate: String,_ completion: @escaping(Error?) -> Void) {
+		self.ref.child("account").child(uid).updateChildValues(["bd" : birthdate]) { (error, _) in
+			if let error = error {
+				completion(error)
+			}
+			completion(nil)
+		}
+	}
 	/*
 	MARK: // Remove
 	*/
