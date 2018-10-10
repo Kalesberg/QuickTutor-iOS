@@ -197,7 +197,7 @@ class EditProfileItemTableViewCell: BaseTableViewCell {
 
 extension EditProfileItemTableViewCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
-        let inverseSet = NSCharacterSet(charactersIn: "0123456789@#$%^&*()_=+<>?,[]{};'~!").inverted // Add any extra characters here..
+        let inverseSet = NSCharacterSet(charactersIn: "0123456789@#$%^&*()_=+<>?,.[]{};'~! ").inverted // Add any extra characters here..
         let components = string.components(separatedBy: inverseSet)
         let filtered = components.joined(separator: "")
 
