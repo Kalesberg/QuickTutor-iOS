@@ -145,6 +145,7 @@ class YourListingView: MainLayoutTitleTwoButton {
         navbar.clipsToBounds = false
         navbar.layer.masksToBounds = false
         bringSubviewToFront(navbar)
+        bringSubviewToFront(statusbarView)
         navbar.layer.borderWidth = 0
 
 

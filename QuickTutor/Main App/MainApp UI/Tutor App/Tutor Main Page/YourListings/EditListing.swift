@@ -44,6 +44,7 @@ class EditListingView: MainLayoutTitleBackTwoButton {
         navbar.layer.masksToBounds = false
         navbar.clipsToBounds = false
         bringSubviewToFront(navbar)
+        bringSubviewToFront(statusbarView)
         navbar.backgroundColor = Colors.learnerPurple
         statusbarView.backgroundColor = Colors.learnerPurple
         
