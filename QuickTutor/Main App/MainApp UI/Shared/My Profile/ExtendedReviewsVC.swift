@@ -70,7 +70,6 @@ class LearnerReviewsVC: BaseViewController {
 
     var datasource = [Review]() {
         didSet {
-            datasource = datasource.reversed()
             contentView.tableView.reloadData()
         }
     }

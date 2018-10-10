@@ -1,0 +1,8 @@
+git_url("https://bitbucket.org/quicktutordevs/code-signing")
+
+type("development") # The default type, can be: appstore, adhoc, enterprise or development
+
+app_identifier(["com.quicktutor1.quicktutor"])
+username("ios-dev@quicktutor.com") # Your Apple Developer Portal username
+
+# For all available options run `fastlane match --help`

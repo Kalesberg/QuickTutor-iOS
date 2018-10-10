@@ -16,6 +16,7 @@ class BaseContentCell: UICollectionViewCell {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.darkBackground
+        cv.allowsMultipleSelection = false
         return cv
     }()
     

@@ -61,12 +61,6 @@ class ConversationCell: SwipeCollectionViewCell {
         return iv
     }()
 
-    let separatorLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = .darkGray
-        return view
-    }()
-
     let newMessageGradientLayer: CAGradientLayer = {
         let firstColor = Colors.currentUserColor().cgColor
         let secondColor = Colors.navBarColor.cgColor
@@ -96,7 +90,6 @@ class ConversationCell: SwipeCollectionViewCell {
         setupLastMessageLabel()
         setupStarIcon()
         setupStarLabel()
-        setupLine()
         setupNewMessageGradientLayer()
     }
 
@@ -130,11 +123,6 @@ class ConversationCell: SwipeCollectionViewCell {
         contentView.addSubview(starLabel)
         starLabel.anchor(top: nil, left: nil, bottom: nil, right: starIcon.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 60, height: 15)
         addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0))
-    }
-
-    private func setupLine() {
-        contentView.addSubview(separatorLine)
-        separatorLine.anchor(top: nil, left: profileImageView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
     }
 
     func setupNewMessageGradientLayer() {
