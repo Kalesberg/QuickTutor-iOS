@@ -1,4 +1,4 @@
-git_url("https://Zfuller@bitbucket.org/quicktutordevs/code-signing.git")
+git_url("https://bitbucket.org/quicktutordevs/code-signing")
 
 type("development") # The default type, can be: appstore, adhoc, enterprise or development
 

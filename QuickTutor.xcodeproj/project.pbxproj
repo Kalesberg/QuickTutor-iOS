@@ -2791,7 +2791,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "112ef941-c3f2-4d62-9f63-8ac046fcc7ea";
-				PROVISIONING_PROFILE_SPECIFIER = QuickTutor;
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.quicktutor1.quicktutor";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -2818,7 +2818,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4024852e-1476-4a89-8145-2a2e709f7205";
-				PROVISIONING_PROFILE_SPECIFIER = "QuickTutor Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.quicktutor1.quicktutor";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
