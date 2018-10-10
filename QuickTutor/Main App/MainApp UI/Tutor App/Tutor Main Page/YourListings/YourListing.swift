@@ -243,13 +243,12 @@ class YourListing: BaseViewController {
         }
     }
 
-    var featuredCategory: String!
+    var featuredCategory: String?
     var categories = [Category]()
 
     var listings = [FeaturedTutor]() {
         didSet {
-            // LOL
-            _ = listings.count == 0 ? setupViewForNoListing() : setupViewForListing()
+            listings.count == 0 ? setupViewForNoListing() : setupViewForListing()
             contentView.collectionView.reloadData()
         }
     }
@@ -334,6 +333,7 @@ class YourListing: BaseViewController {
             navigationController?.pushViewController(next, animated: true)
 
         } else if touchStartView is NavbarButtonBack {
+			guard let featuredCategory = featuredCategory else { return }
             let value = (hideListing == true) ? 1 : 0
             FirebaseData.manager.hideListing(uid: CurrentUser.shared.learner.uid, category: featuredCategory, isHidden: value)
         }
