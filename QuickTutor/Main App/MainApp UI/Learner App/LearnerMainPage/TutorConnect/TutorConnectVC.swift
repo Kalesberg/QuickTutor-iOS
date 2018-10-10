@@ -455,7 +455,7 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.width - 20
-        return CGSize(width: width, height: collectionView.frame.height)
+        return CGSize(width: width, height: collectionView.frame.height * 0.98)
     }
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {

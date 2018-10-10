@@ -122,7 +122,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 			make.height.equalTo(80)
 		}
 		connectButton.snp.makeConstraints { (make) in
-			make.bottom.equalTo(scrollView.snp.bottom).offset(15)
+			make.centerY.equalTo(scrollView.snp.bottom).inset(5)
 			make.centerX.equalToSuperview()
 			make.width.equalTo(170)
 			make.height.equalTo(35)
@@ -138,8 +138,8 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
     }
 	
 	private func setupTutorCardAboutMe() {
-			tutorCardAboutMe.aboutMeLabel.textColor = Colors.tutorBlue
-			tutorCardAboutMe.bioLabel.text = (tutor.tBio != nil) ? tutor.tBio! : "Tutor has no bio!\n"
+		tutorCardAboutMe.aboutMeLabel.textColor = Colors.tutorBlue
+		tutorCardAboutMe.bioLabel.text = (tutor.tBio != nil) ? tutor.tBio! : "Tutor has no bio!\n"
 	}
 	
 	private func setupTutorCardBody() {
