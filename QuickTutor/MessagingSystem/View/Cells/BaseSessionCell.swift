@@ -15,6 +15,12 @@ protocol SessionCellDelgate: class {
 class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     var session: Session!
     weak var delegate: SessionCellDelgate?
+    
+    override var isSelected: Bool {
+        didSet {
+            isSelected ? actionView.showActionContainerView() : actionView.hideActionContainerView()
+        }
+    }
 
     let monthLabel: UILabel = {
         let label = UILabel()
