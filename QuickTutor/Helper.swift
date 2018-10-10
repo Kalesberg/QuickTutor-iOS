@@ -50,31 +50,25 @@ class FeaturedTutorView: BaseView {
     
     let imageView: UIImageView = {
         let view = UIImageView()
-        
         view.backgroundColor = .clear
         view.contentMode = .scaleAspectFill
-        
         return view
     }()
     
     let subject: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .left
         label.textColor = .white
         label.font = Fonts.createBoldSize(14)
-        
         return label
     }()
     
     let region: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .left
         label.textColor = Colors.grayText
         label.font = Fonts.createSize(12)
         label.adjustsFontSizeToFitWidth = true
-        
         return label
     }()
     

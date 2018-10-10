@@ -244,7 +244,7 @@ class FirebaseData {
 				
 				var review = Review(dictionary: value)
 				review.sessionId = child.key
-				reviews.append(review)
+				reviews.insert(review, at: 0)
 			}
 			return completion(reviews)
 		})
