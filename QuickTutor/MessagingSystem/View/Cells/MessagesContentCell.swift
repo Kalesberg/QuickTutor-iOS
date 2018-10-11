@@ -199,6 +199,7 @@ extension MessagesContentCell: SwipeCollectionViewCellDelegate {
         conversationRef.childByAutoId().removeValue()
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(id).removeValue()
         messages.remove(at: indexPath.item)
+        conversationsDictionary.removeValue(forKey: id)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
             self.collectionView.reloadData()
         }

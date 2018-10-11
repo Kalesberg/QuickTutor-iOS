@@ -194,9 +194,17 @@ class BaseSessionsContentCell: BaseContentCell {
         return header
     }
     
+    var selectedCell: BaseSessionCell? = nil
+    var selectedPastCell: BasePastSessionCell? = nil
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
+        selectedCell?.actionView.hideActionContainerView()
+        selectedPastCell?.toggleStarViewHidden()
+        selectedCell = cell
+        cell.actionView.showActionContainerView()
         if let pastCell = cell as? BasePastSessionCell {
+            selectedPastCell = pastCell
             pastCell.toggleStarViewHidden()
         }
     }

@@ -15,7 +15,7 @@ protocol CancelSessionButtonDelegate {
 extension CancelSessionButtonDelegate {
     func cancelSession(id: String) {
         let userInfo = ["sessionId": id]
-        let notification = Notification(name: NSNotification.Name(rawValue: "cancelSession"), object: nil, userInfo: userInfo)
+        let notification = Notification(name: NSNotification.Name(rawValue: "com.qt.cancelSession"), object: nil, userInfo: userInfo)
         NotificationCenter.default.post(notification)
     }
 }

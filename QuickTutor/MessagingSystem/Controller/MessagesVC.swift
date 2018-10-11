@@ -57,6 +57,11 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
         edgesForExtendedLayout = []
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
 
     func setupViews() {
         setupMainView()
@@ -118,7 +123,7 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
 
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(showConversation(notification:)), name: Notification.Name(rawValue: "sendMessage"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showCancelModal), name: Notification.Name(rawValue: "cancelSession"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showCancelModal), name: Notification.Name(rawValue: "com.qt.cancelSession"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(requestSession(notification:)), name: Notification.Name(rawValue: "requestSession"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MessagesVC.showOverlay), name: Notifications.showOverlay.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MessagesVC.hideOverlay), name: Notifications.hideOverlay.name, object: nil)
