@@ -24,6 +24,7 @@ class LocationVC : BaseViewController {
 		super.viewDidLoad()
 		
 		searchCompleter.delegate = self
+		searchCompleter.filterType = .locationsOnly
 
 		contentView.tableView.dataSource = self
 		contentView.tableView.delegate = self
@@ -64,8 +65,7 @@ class LocationVC : BaseViewController {
 		
 		geoCoder.reverseGeocodeLocation(location) { placemarks, error in
 			if let error = error {
-				print(error.localizedDescription)
-				completion(nil, error)
+				return completion(nil, error)
 			}
 			guard let placemark = placemarks, placemark.count > 0 else {
 				return completion(nil,  NSError(domain: "", code: 100, userInfo: nil) as Error)
@@ -75,10 +75,10 @@ class LocationVC : BaseViewController {
 			var addressString: String = ""
 			
 			if let city = pm.locality {
-				addressString = addressString + city + ", "
+				addressString = city + ", "
 			}
 			if let state = pm.administrativeArea {
-				addressString = addressString + state + " "
+				addressString = addressString + state
 			}
 			completion(addressString, nil)
 		}
@@ -121,17 +121,17 @@ extension LocationVC : UITableViewDelegate, UITableViewDataSource {
 		
 		getCoordinate(addressString: addressString) { (location, error) in
 			if let error = error {
-				print(error.localizedDescription)
+				AlertController.genericErrorAlertWithoutCancel(self, title: "Error", message: error.localizedDescription)
 			}
 			self.formatAddressIntoRegion(location: CLLocation(latitude: location.latitude, longitude: location.longitude), { (region, error) in
 				if error != nil {
 					AlertController.genericErrorAlertWithoutCancel(self, title: "Error", message: "Unable to successfully find location. Please try again.")
 				} else if let region = region {
+					FirebaseData.manager.updateFeaturedTutorRegion(CurrentUser.shared.learner.uid!, region: region)
 					CurrentUser.shared.tutor.location?.location = CLLocation(latitude: location.latitude, longitude: location.longitude)
 					CurrentUser.shared.tutor.region = region
 					Tutor.shared.updateValue(value: ["rg" : region])
 					Tutor.shared.geoFire(location: CLLocation(latitude: location.latitude, longitude: location.longitude))
-					
 					AlertController.genericSavedAlert(self, title: "Addressed Saved!", message: "This address has been saved.")
 				}
 			})

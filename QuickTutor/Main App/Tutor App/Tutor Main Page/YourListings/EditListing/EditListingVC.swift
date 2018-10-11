@@ -9,68 +9,7 @@
 import Foundation
 import UIKit
 
-class EditListingView: MainLayoutTitleBackTwoButton {
-    var saveButton = NavbarButtonSave()
-
-    override var rightButton: NavbarButton {
-        get {
-            return saveButton
-        } set {
-            saveButton = newValue as! NavbarButtonSave
-        }
-    }
-
-    let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.estimatedRowHeight = 70
-        tableView.showsVerticalScrollIndicator = false
-        tableView.alwaysBounceVertical = true
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .clear
-        return tableView
-    }()
-
-    let fakeBackground: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: "484782")
-        return view
-    }()
-
-    override func configureView() {
-        insertSubview(fakeBackground, belowSubview: navbar)
-        insertSubview(tableView, belowSubview: navbar)
-        super.configureView()
-        navbar.applyDefaultShadow()
-        navbar.layer.masksToBounds = false
-        navbar.clipsToBounds = false
-        bringSubviewToFront(navbar)
-        bringSubviewToFront(statusbarView)
-        navbar.backgroundColor = Colors.learnerPurple
-        statusbarView.backgroundColor = Colors.learnerPurple
-        
-        title.label.text = "Edit"
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-        fakeBackground.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
-            make.width.centerX.equalToSuperview()
-            make.height.equalToSuperview().dividedBy(3)
-        }
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
-            make.width.centerX.equalToSuperview()
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaInsets.bottom)
-            } else {
-                make.bottom.equalTo(layoutMargins.bottom)
-            }
-        }
-    }
-}
-
-class EditListing: BaseViewController {
+class EditListingVC: BaseViewController {
     override var contentView: EditListingView {
         return view as! EditListingView
     }
@@ -192,13 +131,13 @@ protocol AmountTextFieldDidChange {
     func amountTextFieldDidChange(amount: Int)
 }
 
-extension EditListing: AmountTextFieldDidChange {
+extension EditListingVC: AmountTextFieldDidChange {
     func amountTextFieldDidChange(amount: Int) {
         price = amount
     }
 }
 
-extension EditListing: UITableViewDelegate, UITableViewDataSource {
+extension EditListingVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return 3
     }
@@ -267,13 +206,13 @@ extension EditListing: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension EditListing: ListingSubject {
+extension EditListingVC: ListingSubject {
     func listingSubjectPicked(subject: String?) {
         self.subject = subject
     }
 }
 
-extension EditListing: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
+extension EditListingVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
     func circleCropDidCropImage(_ image: UIImage) {
         self.image = image
         contentView.tableView.reloadData()

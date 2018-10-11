@@ -32,7 +32,7 @@ enum TutorMainPageButtonFactory {
         case .tutorRating: return TutorRatingsVC()
         case .tutorEarning: return TutorEarnings()
         case .tutorTrending: return TrendingCategories()
-        case .tutorListing: return YourListing()
+        case .tutorListing: return YourListingVC()
         }
     }
 }

@@ -32,7 +32,7 @@ class LearnerMainPageVC: MainPageVC {
         setupStripe()
         queryFeaturedTutors()
         configureView()
-    }
+	}
     
     func confirmSignedInUser() {
         AccountService.shared.currentUserType = .learner

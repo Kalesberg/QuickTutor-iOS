@@ -1,5 +1,5 @@
 //
-//  YourListing.swift
+//  YourListingVC.swift
 //  QuickTutor
 //
 //  Created by QuickTutor on 7/4/18.
@@ -226,7 +226,7 @@ class YourListingView: MainLayoutTitleTwoButton {
     }
 }
 
-class YourListing: BaseViewController {
+class YourListingVC: BaseViewController {
     override var contentView: YourListingView {
         return view as! YourListingView
     }
@@ -324,7 +324,7 @@ class YourListing: BaseViewController {
         if touchStartView is NavbarButtonEdit {
             let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeaturedTutorCollectionViewCell
 
-            let next = EditListing()
+            let next = EditListingVC()
             next.price = listings[0].price
             next.image = cell.featuredTutor.imageView.image
             next.subject = listings[0].subject
@@ -340,7 +340,7 @@ class YourListing: BaseViewController {
     }
 }
 
-extension YourListing: UpdateListingCallBack {
+extension YourListingVC: UpdateListingCallBack {
     func updateListingCallBack(price: Int, subject: String, image: UIImage) {
         let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeaturedTutorCollectionViewCell
         cell.price.text = "$\(price)/hr"
@@ -349,11 +349,11 @@ extension YourListing: UpdateListingCallBack {
     }
 }
 
-extension YourListing: CreateListing {
+extension YourListingVC: CreateListing {
     func createListingButtonPressed() {
         findTopSubjects { category in
             if let category = category {
-                let next = EditListing()
+                let next = EditListingVC()
                 next.category = category
                 self.navigationController?.pushViewController(next, animated: true)
             }
@@ -377,7 +377,7 @@ extension YourListing: CreateListing {
     }
 }
 
-extension YourListing: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension YourListingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return listings.count
     }

@@ -149,14 +149,14 @@ class BankManager: BaseViewController {
                 self.dismissOverlay()
             })
         }
-		let editBillingAddress = UIAlertAction(title: "Edit Billing Address", style: .default) { (action) in
-			self.navigationController?.pushViewController(EditBillingAddressVC(), animated: true)
-		}
+//		let editBillingAddress = UIAlertAction(title: "Edit Billing Address", style: .default) { (action) in
+//			self.navigationController?.pushViewController(EditBillingAddressVC(), animated: true)
+//		}
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             alertController.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(setDefault)
-		alertController.addAction(editBillingAddress)
+//		alertController.addAction(editBillingAddress)
         alertController.addAction(cancel)
 
         present(alertController, animated: true, completion: nil)
