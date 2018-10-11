@@ -239,7 +239,7 @@ class TutorPolicyVC: BaseViewController {
     }
 
     private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
-        FirebaseData.manager.fetchTutor(CurrentUser.shared.learner.uid, isQuery: false) { tutor in
+        FirebaseData.manager.fetchTutor(CurrentUser.shared.learner.uid!, isQuery: false) { tutor in
             if let tutor = tutor {
                 CurrentUser.shared.tutor = tutor
                 Stripe.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
@@ -260,7 +260,7 @@ class TutorPolicyVC: BaseViewController {
     }
 
     private func createConnectAccount(_ completion: @escaping (Bool) -> Void) {
-        Stripe.createConnectAccountToken(ssnLast4: TutorRegistration.last4SSN!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { token, error in
+        Stripe.createConnectAccountToken(ssn: TutorRegistration.ssn!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { token, error in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let token = token {

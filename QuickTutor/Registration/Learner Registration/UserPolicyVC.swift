@@ -145,7 +145,7 @@ class UserPolicyVC: BaseViewController {
     
     func createCustomer(_ completion: @escaping (Error?, String?) -> Void) {
         let requestString = "https://aqueous-taiga-32557.herokuapp.com/createcustomer.php"
-        let params: [String: Any] = ["email": Registration.email, "description": "Student Account"]
+		let params: [String: Any] = ["email": Registration.email ?? "unknown", "description": "Student Account"]
         
         Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
             .validate(statusCode: 200..<300)
@@ -189,11 +189,9 @@ class UserPolicyVC: BaseViewController {
         group.enter()
         createCustomer { error, cusId in
             if let error = error {
-                print("error1")
                 completion(error)
             } else if let cusId = cusId {
                 Registration.customerId = cusId
-                print("customerId created.")
             }
             group.leave()
         }

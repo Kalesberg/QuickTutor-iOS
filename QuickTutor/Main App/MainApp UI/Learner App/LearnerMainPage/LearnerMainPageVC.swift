@@ -197,12 +197,14 @@ class LearnerMainPageVC: MainPageVC {
 
     private func switchToTutorSide(_ completion: @escaping (Bool) -> Void) {
         displayLoadingOverlay()
-        FirebaseData.manager.fetchTutor(learner.uid, isQuery: false) { tutor in
+		print("learnerID: ", learner.uid!)
+        FirebaseData.manager.fetchTutor(learner.uid!, isQuery: false) { tutor in
             guard let tutor = tutor else {
                 AlertController.genericErrorAlert(self, title: "Oops!", message: "Unable to find your tutor account! Please try again.")
                 return completion(false)
             }
             CurrentUser.shared.tutor = tutor
+			print("tutorAcct: ", tutor.acctId!)
             Stripe.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)

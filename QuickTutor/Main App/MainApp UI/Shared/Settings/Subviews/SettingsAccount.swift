@@ -132,6 +132,7 @@ class SettingsAccount : UIView {
 		CurrentUser.shared.tutor.isVisible = sender.isOn ? true : false
 		FirebaseData.manager.updateTutorVisibility(uid: CurrentUser.shared.learner.uid!, status: sender.isOn ? 0 : 1)
 	}
+	
 	@objc private func signOutPressed(_ sender: UIButton) {
 		let alertController = UIAlertController(title: "Are You Sure?", message: "You will be signed out.", preferredStyle: .alert)
 		
@@ -149,6 +150,7 @@ class SettingsAccount : UIView {
 		
 		alertController.addAction(okButton)
 		alertController.addAction(cancelButton)
+		
 		guard let current = UIApplication.getPresentedViewController() else { return }
 		current.present(alertController, animated: true, completion: nil)
 	}

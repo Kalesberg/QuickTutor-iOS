@@ -29,6 +29,9 @@
 		840E4E09213761C10045CD35 /* loading4.json in Resources */ = {isa = PBXBuildFile; fileRef = 840E4DFF213761C10045CD35 /* loading4.json */; };
 		840E75BA201E7DF6006FC580 /* LearnerPaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75B9201E7DF6006FC580 /* LearnerPaymentVC.swift */; };
 		840E75C2201E8419006FC580 /* LearnerFileReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C1201E8419006FC580 /* LearnerFileReportVC.swift */; };
+		841C506C216ED42D0035C6C9 /* EditBillingAddressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841C506B216ED42D0035C6C9 /* EditBillingAddressVC.swift */; };
+		841C506E216ED4380035C6C9 /* EditBillingAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841C506D216ED4380035C6C9 /* EditBillingAddressView.swift */; };
+		841C5070216ED4950035C6C9 /* AddressTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841C506F216ED4950035C6C9 /* AddressTextField.swift */; };
 		841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */; };
 		841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */; };
 		841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */; };
@@ -460,6 +463,9 @@
 		840E75C5201E8500006FC580 /* LearnerHelpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerHelpVC.swift; sourceTree = "<group>"; };
 		840FC67A20040B2E002525D1 /* CropImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropImage.swift; sourceTree = "<group>"; };
 		8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QuickTutor-Bridging-Header.h"; sourceTree = "<group>"; };
+		841C506B216ED42D0035C6C9 /* EditBillingAddressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBillingAddressVC.swift; sourceTree = "<group>"; };
+		841C506D216ED4380035C6C9 /* EditBillingAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBillingAddressView.swift; sourceTree = "<group>"; };
+		841C506F216ED4950035C6C9 /* AddressTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTextField.swift; sourceTree = "<group>"; };
 		841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAccountPayments.swift; sourceTree = "<group>"; };
 		841DD5BB206552D500A70D65 /* TutorUpdatePayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorUpdatePayment.swift; sourceTree = "<group>"; };
 		841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPaymentEarnings.swift; sourceTree = "<group>"; };
@@ -914,6 +920,16 @@
 			path = Animations;
 			sourceTree = "<group>";
 		};
+		841C5071216ED57C0035C6C9 /* EditBillingAddress */ = {
+			isa = PBXGroup;
+			children = (
+				841C506B216ED42D0035C6C9 /* EditBillingAddressVC.swift */,
+				841C506D216ED4380035C6C9 /* EditBillingAddressView.swift */,
+				841C506F216ED4950035C6C9 /* AddressTextField.swift */,
+			);
+			path = EditBillingAddress;
+			sourceTree = "<group>";
+		};
 		841DD5B820654FC800A70D65 /* Account & Payment */ = {
 			isa = PBXGroup;
 			children = (
@@ -1230,6 +1246,7 @@
 			children = (
 				846252F220637FA7001DD330 /* BankManager.swift */,
 				846466992096BBFD006ABA98 /* TutorAddBank.swift */,
+				841C5071216ED57C0035C6C9 /* EditBillingAddress */,
 				84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */,
 			);
 			path = Payment;
@@ -2388,6 +2405,7 @@
 				8440539E20F55B77003F0606 /* SendRequestView.swift in Sources */,
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
+				841C506C216ED42D0035C6C9 /* EditBillingAddressVC.swift in Sources */,
 				CF8E88A020C5A1FB0044344D /* SessionOnHoldModal.swift in Sources */,
 				845B91CB21179A190000D263 /* LearnerFiltersLocationCell.swift in Sources */,
 				84C44F5620AE9704009AA5F1 /* CloseAccountChoiceVC.swift in Sources */,
@@ -2527,6 +2545,7 @@
 				84F2451A1FDA1143006447A8 /* TutorSSNVC.swift in Sources */,
 				8430A8E41FFED70D002FD8A3 /* RegistrationNavBarView.swift in Sources */,
 				84BC77DD20F31A470039E054 /* UIViewController+Extension.swift in Sources */,
+				841C5070216ED4950035C6C9 /* AddressTextField.swift in Sources */,
 				CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */,
 				84F431962070786F00030BD4 /* TutorEditProfileCells.swift in Sources */,
 				846252F120637F9D001DD330 /* TutorMyProfileVC.swift in Sources */,
@@ -2604,6 +2623,7 @@
 				84880A042058643800F204A0 /* TutorOtherVC.swift in Sources */,
 				8496FE022161823100BD292F /* LearnerMyProfileView.swift in Sources */,
 				84D8C92C2066A965003C3AEA /* Helper.swift in Sources */,
+				841C506E216ED4380035C6C9 /* EditBillingAddressView.swift in Sources */,
 				841F849F216A9EE400C9788B /* SettingsCommunity.swift in Sources */,
 				CF6F58CC205EE68800ACBD32 /* SessionRequestView.swift in Sources */,
 				CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */,

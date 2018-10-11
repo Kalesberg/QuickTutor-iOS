@@ -392,13 +392,12 @@ extension TutorEditProfile: UITableViewDelegate, UITableViewDataSource {
             cell.infoLabel.label.text = "Mobile Number"
             cell.textField.attributedText = NSAttributedString(string: tutor.phone.formatPhoneNumber(),
                                                                attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-
             return cell
 		case 11:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
 			
 			cell.infoLabel.label.text = "Birthdate"
-			cell.textField.attributedText = NSAttributedString(string: CurrentUser.shared.learner.birthday, attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+			cell.textField.attributedText = NSAttributedString(string: CurrentUser.shared.learner.birthday.toBirthdatePrettyFormat(), attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 			
 			return cell
         case 12:

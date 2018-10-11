@@ -39,23 +39,23 @@ class Stripe {
 		}
 	}
 	
-	class func createConnectAccountToken(ssnLast4: String, line1: String, city: String, state: String, zipcode: String, _ completion: @escaping STPTokenCompletionBlock) {
+	class func createConnectAccountToken(ssn: String, line1: String, city: String, state: String, zipcode: String, _ completion: @escaping STPTokenCompletionBlock) {
 		
 		let name = CurrentUser.shared.learner.name.split(separator: " ")
 		
 		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "dd/mm/yyyy"
+		dateFormatter.dateFormat = "dd/MM/yyyy"
 		let date = dateFormatter.date(from: CurrentUser.shared.learner.birthday!)
 		
 		let legalEntityParams = STPLegalEntityParams()
-		
 		legalEntityParams.businessName = "QuickTutor - Tutor - \(CurrentUser.shared.learner.name!)"
 		legalEntityParams.entityTypeString = "individual"
 		legalEntityParams.phoneNumber = CurrentUser.shared.learner.phone
-		legalEntityParams.ssnLast4 = ssnLast4
+		legalEntityParams.ssnLast4 = String(ssn.suffix(4))
 		legalEntityParams.firstName = String(name[0])
 		legalEntityParams.lastName = String(name[1])
-
+		legalEntityParams.personalIdNumber = ssn
+		
 		if let date = date {
 			legalEntityParams.dateOfBirth = Calendar.current.dateComponents([.month, .day, .year], from: date)
 		}

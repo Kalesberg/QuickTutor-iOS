@@ -124,11 +124,6 @@ class BirthdayView: RegistrationNavBarView {
 }
 
 class BirthdayVC: BaseViewController {
-    
-    let date = Date()
-    let dateformatter = DateFormatter()
-    let calendar = Calendar.current
-    
     override var contentView: BirthdayView {
         return view as! BirthdayView
     }
@@ -136,7 +131,11 @@ class BirthdayVC: BaseViewController {
     override func loadView() {
         view = BirthdayView()
     }
-    
+	
+	let date = Date()
+	let dateformatter = DateFormatter()
+	let calendar = Calendar.current
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         dateformatter.dateFormat = "MMMM d'\(daySuffix(date: date))' yyyy"
@@ -145,16 +144,23 @@ class BirthdayVC: BaseViewController {
         contentView.birthdayPicker.datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     }
 
-    private func getAgeBirthday() -> Int {
+    private func checkAgeAndBirthdate() -> Bool {
         let birthdate = contentView.birthdayPicker.datePicker.calendar!
+		let birthday = birthdate.dateComponents([.day, .month, .year], from: contentView.birthdayPicker.datePicker.date)
         let age = birthdate.dateComponents([.year], from: contentView.birthdayPicker.datePicker.date, to: date)
-        
-        if age.year! > 0 {
-            Registration.age = age.year!
-			Registration.dob = dateformatter.string(from: contentView.birthdayPicker.datePicker.date)
-            contentView.errorLabel.isHidden = true
-        }
-        return age.year!
+		
+		guard let yearsOld = age.year, yearsOld >= 18,
+			  let day = birthday.day,
+			  let month = birthday.month,
+			  let year = birthday.year
+		else {
+			return false
+		}
+		Registration.age = age.year!
+		Registration.dob = String("\(day)/\(month)/\(year)")
+		contentView.errorLabel.isHidden = true
+		
+		return true
     }
 	
 	override func handleNavigation() {
@@ -162,13 +168,12 @@ class BirthdayVC: BaseViewController {
             navigationController!.view.layer.add(contentView.backButton.transition, forKey: nil)
             navigationController!.popViewController(animated: false)
         } else if touchStartView == contentView.nextButton {
-            
-            let next = UploadImageVC()
-            if getAgeBirthday() >= 18 {
-                navigationController!.pushViewController(next, animated: true)
-            } else {
-                contentView.errorLabel.isHidden = false
-            }
+			if checkAgeAndBirthdate() {
+				let next = UploadImageVC()
+				navigationController!.pushViewController(next, animated: true)
+			} else {
+				contentView.errorLabel.isHidden = false
+			}
         }
     }
     

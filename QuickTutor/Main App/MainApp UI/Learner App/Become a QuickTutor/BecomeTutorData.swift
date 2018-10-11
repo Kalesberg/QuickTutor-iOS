@@ -20,7 +20,7 @@ struct TutorRegistration {
     static var sessionPreference: Int!
     static var username: String!
 
-    static var last4SSN: String!
+    static var ssn: String!
     static var line1: String!
     static var city: String!
     static var state: String!

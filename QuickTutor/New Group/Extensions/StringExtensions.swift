@@ -49,19 +49,6 @@ extension String {
 		
 		return result
 	}
-	
-	func formatBirthdate() -> String {
-		
-		let dateString = self
-		let oldFormat = DateFormatter()
-		oldFormat.dateFormat = "dd/mm/yyyy"
-		let dateFromString = oldFormat.date(from: dateString)
-		
-		let newFormatter = DateFormatter()
-		newFormatter.dateStyle = .long
-		return newFormatter.string(from: dateFromString!) as String
-	}
-	
 	func fullNameRegex() -> Bool {
 		let fullNameRegex = "[A-Za-z]+ [A-Za-z]+"
 		let fullNameTest = NSPredicate(format:"SELF MATCHES %@", fullNameRegex)
@@ -158,6 +145,17 @@ extension String {
 	}
 	mutating func replaceForbiddenChars() -> String {
 		return self.replacingOccurrences(of: "<", with: ".").replacingOccurrences(of: ">", with: "#").replacingOccurrences(of: "_", with: "/")
+	}
+
+	func toBirthdatePrettyFormat() -> String {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "dd/MM/yyyy"
+		if let date = dateFormatter.date(from: self) {
+			print("DATE: ", date)
+			dateFormatter.dateFormat = "MMMM d'\(date.daySuffix())' yyyy"
+			return dateFormatter.string(from: date)
+		}
+		return self
 	}
 }
 

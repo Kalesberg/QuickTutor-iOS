@@ -253,8 +253,8 @@ class LearnerEditProfileVC: BaseViewController {
         let newNodes: [String: Any]
         if CurrentUser.shared.learner.isTutor {
             newNodes = [
-                "/tutor-info/\(CurrentUser.shared.learner.uid!)/nm": firstName.trimmingCharacters(in: .whitespaces) + " " + lastName.trimmingCharacters(in: .whitespaces),
-                "/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName.trimmingCharacters(in: .whitespaces) + " " + lastName.trimmingCharacters(in: .whitespaces),
+                "/tutor-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName,
+                "/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName,
             ]
         } else {
             newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName]
@@ -366,7 +366,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileArrowItemTableViewCell", for: indexPath) as! EditProfileArrowItemTableViewCell
 			
 			cell.infoLabel.label.text = "Birthdate"
-			cell.textField.attributedText = NSAttributedString(string: learner.birthday, attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+			cell.textField.attributedText = NSAttributedString(string: learner.birthday.toBirthdatePrettyFormat(), attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 			
 			return cell
         case 8:

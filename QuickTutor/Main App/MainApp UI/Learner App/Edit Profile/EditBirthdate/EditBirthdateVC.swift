@@ -25,32 +25,37 @@ class EditBirthdateVC: BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		dateformatter.dateFormat = "MMMM d'\(daySuffix(date: date))' yyyy"
-		contentView.birthdayLabel.textField.text = CurrentUser.shared.learner.birthday
+		dateformatter.dateFormat = "MMMM d'\(date.daySuffix())' yyyy"
+		contentView.birthdayLabel.textField.text = CurrentUser.shared.learner.birthday.toBirthdatePrettyFormat()
 		contentView.birthdayPicker.datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
 	}
 	private func showErrorMessage() {
 		contentView.errorLabel.isHidden = false
 		contentView.errorLabel.shake()
 	}
-	
-	private func getAgeBirthday() -> Int {
+
+	private func checkAgeAndBirthdate() -> Bool {
 		let birthdate = contentView.birthdayPicker.datePicker.calendar!
+		let birthday = birthdate.dateComponents([.day, .month, .year], from: contentView.birthdayPicker.datePicker.date)
 		let age = birthdate.dateComponents([.year], from: contentView.birthdayPicker.datePicker.date, to: date)
 		
-		if age.year! > 0 {
-			let dateString = dateformatter.string(from: contentView.birthdayPicker.datePicker.date)
-			birthdateString = dateString
-			contentView.errorLabel.isHidden = true
+		guard let yearsOld = age.year, yearsOld >= 18,
+			let day = birthday.day,
+			let month = birthday.month,
+			let year = birthday.year
+		else {
+				return false
 		}
-		return age.year!
+		
+		birthdateString = String("\(day)/\(month)/\(year)")
+		contentView.errorLabel.isHidden = true
+		
+		return true
 	}
 	
 	override func handleNavigation() {
-		if touchStartView == contentView.backButton {
-			navigationController!.popViewController(animated: false)
-		} else if touchStartView == contentView.saveButton {
-			if getAgeBirthday() >= 18 && birthdateString != "" {
+		if touchStartView == contentView.saveButton {
+			if checkAgeAndBirthdate() && birthdateString != "" {
 				FirebaseData.manager.updateAge(uid: CurrentUser.shared.learner.uid!, birthdate: birthdateString) { (error) in
 					if let error = error {
 						AlertController.genericErrorAlertWithoutCancel(self, title: "Error!", message: error.localizedDescription)
@@ -65,24 +70,9 @@ class EditBirthdateVC: BaseViewController {
 		}
 	}
 	
-	private func daySuffix(date: Date) -> String {
-		let calendar = Calendar.current
-		let dayOfMonth = calendar.component(.day, from: date)
-		switch dayOfMonth {
-		case 1, 21, 31:
-			return "st"
-		case 2, 22:
-			return "nd"
-		case 3, 23:
-			return "rd"
-		default:
-			return "th"
-		}
-	}
-	
 	@objc
 	private func datePickerValueChanged(_ sender: UIDatePicker) {
-		dateformatter.dateFormat = "MMMM d'\(daySuffix(date: contentView.birthdayPicker.datePicker.date))' yyyy"
+		dateformatter.dateFormat = "MMMM d'\(contentView.birthdayPicker.datePicker.date.daySuffix())' yyyy"
 		let date = dateformatter.string(from: contentView.birthdayPicker.datePicker.date)
 		UIView.animate(withDuration: 0.2, animations: {
 			self.contentView.birthdayLabel.textField.transform.scaledBy(x: 0.95, y: 0.95)
