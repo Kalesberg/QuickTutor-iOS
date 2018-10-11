@@ -174,8 +174,10 @@ extension RequestSessionBackgroundView: UITableViewDelegate, UITableViewDataSour
 					let cell = tableView.dequeueReusableCell(withIdentifier: "priceCell", for: indexPath) as! RequestSessionPriceCell
 					cell.addSubview(headerView)
 					cell.delegate = self
+					cell.delegate?.priceDidChange(price: requestData.pricePreference)
 					cell.textField.attributedText = NSMutableAttributedString().bold("$\(RequestSessionData.price ?? requestData.pricePreference)", 32, .white).regular("/hr", 15, .white)
 					cell.header.attributedText = NSMutableAttributedString().bold("Tutors recommended price: $\(requestData.pricePreference)", 15, #colorLiteral(red: 0.3882352941, green: 0.3960784314, blue: 0.7647058824, alpha: 1)).regular("/hr", 11, #colorLiteral(red: 0.3882352941, green: 0.3960784314, blue: 0.7647058824, alpha: 1))
+				
 					cell.currentPrice = RequestSessionData.price ?? requestData.pricePreference
 					cell.amount = "\(RequestSessionData.price ?? requestData.pricePreference)"
 					return cell

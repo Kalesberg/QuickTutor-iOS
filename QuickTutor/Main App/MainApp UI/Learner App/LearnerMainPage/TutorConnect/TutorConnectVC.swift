@@ -437,8 +437,6 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		let reference = storageRef.child("student-info").child(data[indexPath.item].uid).child("student-profile-pic1")
 
 		cell.tutor = data[indexPath.item]
-		print("Tutor Name: ", data[indexPath.item].name, " pageNumber: ", indexPath.item, " REVIEWS: ", data[indexPath.item].reviews)
-		
 		cell.parentViewController = self
 		cell.tutorCardHeader.profilePics.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         cell.tutorCardHeader.profilePics.roundCorners(.allCorners, radius: 8)

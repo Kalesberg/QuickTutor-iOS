@@ -227,7 +227,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		for view in scrollView.subviews {
 			contentSizeHeight += view.frame.height
 		}
-		scrollView.contentSize.height = contentSizeHeight + 50
+		scrollView.contentSize.height = contentSizeHeight + 150
 		layoutIfNeeded()
 	}
 	
