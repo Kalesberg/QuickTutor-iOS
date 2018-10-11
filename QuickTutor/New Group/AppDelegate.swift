@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         DeviceInfo.textFieldFontSize = fontSize
         DeviceInfo.multiplier = multiplier
         // Stripe
-        STPPaymentConfiguration.shared().publishableKey = "pk_test_TtFmn5n1KhfNPgXXoGfg3O97"
+        STPPaymentConfiguration.shared().publishableKey = "pk_live_D8MI9AN23eK4XLw1mCSUHi9V"
         
         registerForPushNotifications(application: application)
         

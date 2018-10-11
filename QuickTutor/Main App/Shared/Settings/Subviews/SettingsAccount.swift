@@ -26,6 +26,7 @@ class SettingsAccount : UIView {
 		label.font = Fonts.createBoldSize(18)
 		return label
 	}()
+	
 	let showMeOnQT = SettingsButtonToggle(title: "Show me on QuickTutor", subtitle: "You are currently visible in search results.")
 	let signOut = SettingsButton(title: "Sign Out", subtitle: nil)
 	let closeAccount = SettingsButton(title: "Close Account", subtitle: "Permanently close your QuickTutor account.")
@@ -56,8 +57,8 @@ class SettingsAccount : UIView {
 		if AccountService.shared.currentUserType == .learner {
 			setupViewForLearner()
 		} else {
-			setupViewForTutor()
 			setupToggle()
+			setupViewForTutor()
 		}
 	}
 	func setupViewForTutor() {
@@ -93,6 +94,7 @@ class SettingsAccount : UIView {
 			make.height.equalTo(60)
 		}
 	}
+	
 	func setupViewForLearner() {
 		addSubview(signOut)
 		addSubview(divider1)
@@ -124,6 +126,7 @@ class SettingsAccount : UIView {
 			closeAccount.roundCorners([.bottomLeft, .bottomRight], radius: 10)
 		}
 	}
+	
 	private func setupToggle() {
 		showMeOnQT.toggle.isOn = CurrentUser.shared.tutor.isVisible
 	}
