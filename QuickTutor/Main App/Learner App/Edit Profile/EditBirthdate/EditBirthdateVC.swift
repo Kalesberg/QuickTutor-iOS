@@ -56,7 +56,7 @@ class EditBirthdateVC: BaseViewController {
 	override func handleNavigation() {
 		if touchStartView == contentView.saveButton {
 			if checkAgeAndBirthdate() && birthdateString != "" {
-				FirebaseData.manager.updateAge(uid: CurrentUser.shared.learner.uid!, birthdate: birthdateString) { (error) in
+				FirebaseData.manager.updateAge(CurrentUser.shared.learner.uid!, birthdate: birthdateString) { (error) in
 					if let error = error {
 						AlertController.genericErrorAlertWithoutCancel(self, title: "Error!", message: error.localizedDescription)
 					}

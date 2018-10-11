@@ -33,7 +33,7 @@ class FirebaseData {
 	private let user = Auth.auth().currentUser!
 	
 	/*
-	MARK: // Learner Updates
+		MARK: // Learner Updates
 	*/
 	
 	func updateValue(node: String, value: [String : Any],_ completion: @escaping (Error?) -> Void) {
@@ -90,7 +90,7 @@ class FirebaseData {
 			}
 		}
 	}
-	func updateAge(uid: String, birthdate: String,_ completion: @escaping(Error?) -> Void) {
+	func updateAge(_ uid: String, birthdate: String,_ completion: @escaping(Error?) -> Void) {
 		self.ref.child("account").child(uid).updateChildValues(["bd" : birthdate]) { (error, _) in
 			if let error = error {
 				completion(error)
@@ -98,20 +98,21 @@ class FirebaseData {
 			completion(nil)
 		}
 	}
-	func updateFeaturedTutorRegion(_ uid: String, region: String, index: Int = 0) {
+	
+	func updateFeaturedTutorRegion(_ uid: String, region: String, index:Int=0) {
 		self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			if snapshot.exists() {
 				self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).updateChildValues(["rg" : region])
 			} else {
-				self.updateFeaturedTutorRegion(uid, region: region, index: index + 1)
+				self.updateFeaturedTutorRegion(uid, region: region, index: index+1)
 			}
 		}
 	}
-	
 	/*
 	MARK: // Remove
 	*/
 	func removeTutorAccount(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
+		
 		var childNodes : [String : Any] = [:]
 		
 		childNodes["/connections/\(uid)"] = NSNull()
@@ -650,7 +651,7 @@ class FirebaseData {
 		}
 		uploadFeaturedImage { (imageUrl) in
 			if let imageUrl = imageUrl {
-				let post : [String : Any] = ["uid": tutor.uid, "img" : imageUrl, "nm" : tutor.name, "p" : price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subject, "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0), "h" : 0]
+				let post : [String : Any] = ["img" : imageUrl, "nm" : tutor.name, "p" : price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subject, "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0), "h" : 0]
 				
 				self.ref.child("featured").child(category).child(tutor.uid).updateChildValues(post)
 				completion(true)
@@ -661,7 +662,8 @@ class FirebaseData {
 	}
 	
 	func hideListing(uid: String, category: String, isHidden: Int) {
-		self.ref.child("featured").child(category).child(uid).updateChildValues(["h" : isHidden])
+		let value = ["h" : isHidden]
+		self.ref.child("featured").child(category).child(uid).updateChildValues(value)
 	}
 	
 	func addUpdateFeaturedTutor(tutor: AWTutor,_ completion: @escaping (Error?) -> Void) {
