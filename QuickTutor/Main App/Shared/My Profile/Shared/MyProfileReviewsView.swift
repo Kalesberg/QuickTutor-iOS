@@ -67,12 +67,11 @@ class MyProfileReviewsView : UIView {
 	
 	func configureView() {
 		addSubview(reviewTitle)
-		addSubview(seeAllButton)
 		addSubview(divider)
 
 		seeAllButton.addTarget(self, action: #selector(seeAllButtonPressed(_:)), for: .touchUpInside)
 		reviewTitle.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
-
+		
 		applyConstraints()
 	}
 	
@@ -83,23 +82,27 @@ class MyProfileReviewsView : UIView {
 			make.width.equalToSuperview().multipliedBy(0.5)
 			make.height.equalTo(30)
 		}
-		seeAllButton.snp.makeConstraints { (make) in
-			make.top.equalToSuperview()
-			make.right.equalToSuperview().inset(12)
-		}
 	}
 	
 	func setupMostRecentReviews() {
 		if dataSource.count >= 2 {
 			setupReviewLabel1()
 			setupReviewLabel2()
+			setupSeeAllButton()
 		} else if dataSource.count == 1 {
 			setupReviewLabel1()
+			setupSeeAllButton()
 		} else {
 			setupBackgroundLabel()
 		}
 	}
-	
+	private func setupSeeAllButton() {
+		addSubview(seeAllButton)
+		seeAllButton.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.right.equalToSuperview().inset(12)
+		}
+	}
 	private func setupReviewLabel1() {
 		addSubview(reviewLabel1)
 		reviewLabel1.snp.makeConstraints { (make) in
@@ -136,6 +139,7 @@ class MyProfileReviewsView : UIView {
 	}
 	
 	private func setupBackgroundLabel() {
+		seeAllButton.removeFromSuperview()
 		addSubview(backgroundView)
 		backgroundView.snp.makeConstraints { (make) in
 			make.top.equalTo(reviewTitle.snp.bottom).inset(-5)
