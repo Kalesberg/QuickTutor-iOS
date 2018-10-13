@@ -135,17 +135,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 completion()
                 return
             }
-            self.updateFCMTokenIfNeeded()
+            AccountService.shared.updateFCMTokenIfNeeded()
             self.configureRootViewController(controller: vc, completion: {
                 
             })
             completion()
-        }
-    }
-    
-    func updateFCMTokenIfNeeded() {
-        if let fcmToken = Messaging.messaging().fcmToken {
-            self.saveFCMToken(fcmToken)
         }
     }
     
@@ -262,11 +256,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
             print("Access granted")
         }
         application.registerForRemoteNotifications()
-    }
-    
-    private func saveFCMToken(_ token: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("account").child(uid).child("fcmToken").setValue(token)
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

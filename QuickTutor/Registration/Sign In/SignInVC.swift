@@ -142,6 +142,8 @@ class SignInVC: BaseViewController {
 	}
 	
 	let fbLoginManager = FBSDKLoginManager()
+	var keyboardAnimationDuration: Double?
+	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -156,6 +158,9 @@ class SignInVC: BaseViewController {
 			let keyboardRectangle = keyboardFrame.cgRectValue
 			print("Screen Height: ", UIScreen.main.bounds.height)
 			print("Keyboard Height: ", keyboardRectangle.height)
+			guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {return}
+			keyboardAnimationDuration = duration
+
 		}
 	}
 	override func viewDidAppear(_ animated: Bool) {
@@ -290,7 +295,7 @@ extension SignInVC: UITextFieldDelegate {
 		})
 		
 		contentView.setNeedsUpdateConstraints()
-		UIView.animate(withDuration: 0.7, delay: 0.2, options: [.curveEaseIn], animations: {
+		UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseInOut], animations: {
 			self.contentView.layoutIfNeeded()
 		}, completion: { (true) in
 			self.contentView.backButton.fadeIn(withDuration: 0.2, alpha: 1.0)

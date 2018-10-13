@@ -145,6 +145,7 @@ class MainPageVC: BaseViewController {
         super.viewDidLoad()
         let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         contentView.addGestureRecognizer(gestureRecognizer)
+        AccountService.shared.updateFCMTokenIfNeeded()
     }
 
     override func viewWillAppear(_ animated: Bool) {
