@@ -49,7 +49,6 @@
 		8421AB3A20DED0FF005B652B /* TutorMainPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3920DED0FF005B652B /* TutorMainPageTableViewCell.swift */; };
 		8421AB3C20DED10B005B652B /* TutorMainPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */; };
 		8421AB3E20DED118005B652B /* TutorMainPageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */; };
-		8421AB4020DEDD34005B652B /* TutorialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB3F20DEDD34005B652B /* TutorialFactory.swift */; };
 		8421AB4220DFD75B005B652B /* TutorAccountWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421AB4120DFD75B005B652B /* TutorAccountWarning.swift */; };
 		8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422F2F0205AB6480061ACE4 /* PageController.swift */; };
 		842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */; };
@@ -485,7 +484,6 @@
 		8421AB3920DED0FF005B652B /* TutorMainPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageTableViewCell.swift; sourceTree = "<group>"; };
 		8421AB3B20DED10B005B652B /* TutorMainPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		8421AB3D20DED118005B652B /* TutorMainPageFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMainPageFactory.swift; sourceTree = "<group>"; };
-		8421AB3F20DEDD34005B652B /* TutorialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialFactory.swift; sourceTree = "<group>"; };
 		8421AB4120DFD75B005B652B /* TutorAccountWarning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAccountWarning.swift; sourceTree = "<group>"; };
 		8422F2F0205AB6480061ACE4 /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		842393FF1FF4C3FC00827C7D /* RegistrationUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfo.swift; sourceTree = "<group>"; };
@@ -1455,7 +1453,6 @@
 				8404F43C20EBB3AE00747C01 /* CustomError.swift */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
-				8421AB3F20DEDD34005B652B /* TutorialFactory.swift */,
 				8474C9AA20C47FB800CDB45B /* LaunchScreen.swift */,
 				84D433B2204EF2DB00A3EAD2 /* AlertController.swift */,
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
@@ -2502,7 +2499,6 @@
 				CFEC492320E2AA8F00060E48 /* MessagingSystemTutorial.swift in Sources */,
 				CF1C6115209ED011009B7B0E /* SocketClient.swift in Sources */,
 				CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */,
-				8421AB4020DEDD34005B652B /* TutorialFactory.swift in Sources */,
 				847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePasswordVC.swift in Sources */,
 				84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */,
