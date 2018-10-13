@@ -9,6 +9,7 @@
 import UIKit
 
 protocol VideoSessionPartnerFeedBehaviorDelegate {
+    func partnerFeedDidFinishAnimating(_ partnerFeed: UIView, to cornerPosition: CardPosition)
     func partnerFeedSwipeDidEnd(_ partnerFeed: UIView)
     func partnerFeedSwipeCancelled(_ parnterFeed: UIView)
 }
@@ -57,7 +58,9 @@ class VideoSessionPartnerFeedBehavior: NSObject {
         let nearestCornerPosition = nearestCornerTo(point)
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .beginFromCurrentState, animations: {
             self.view.center = nearestCornerPosition
-        }, completion: nil)
+        }) { (completed) in
+            self.delegate?.partnerFeedDidFinishAnimating(self.view, to: self.cardPosition)
+        }
     }
     
     func nearestCornerTo(_ point: CGPoint) -> CGPoint {
