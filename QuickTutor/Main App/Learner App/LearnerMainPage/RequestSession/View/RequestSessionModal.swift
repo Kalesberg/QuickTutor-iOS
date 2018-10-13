@@ -92,54 +92,63 @@ class RequestSessionModal: UIView {
         }
     }
 
+    var addPaymentModal = AddPaymentModal()
     @objc private func requestButtonPressed(_: UIButton) {
         var sessionData = [String: Any]()
+        
+        guard CurrentUser.shared.learner.hasPayment else {
+            print("Needs card")
+            self.addPaymentModal.show()
+            return
+        }
 
         guard let subject = RequestSessionData.subject else {
-            showErrorMessage(message: RequestSessionErrorType.subjectNotChosen.rawValue)
+            self.showErrorMessage(message: RequestSessionErrorType.subjectNotChosen.rawValue)
             return
         }
         guard let startTime = RequestSessionData.startTime else {
-            showErrorMessage(message: RequestSessionErrorType.startTimeNotChosen.rawValue)
+            self.showErrorMessage(message: RequestSessionErrorType.startTimeNotChosen.rawValue)
             return
         }
         guard let duration = RequestSessionData.duration else {
-            showErrorMessage(message: RequestSessionErrorType.durationNotChosen.rawValue)
+            self.showErrorMessage(message: RequestSessionErrorType.durationNotChosen.rawValue)
             return
         }
         guard let price = RequestSessionData.price else {
-            showErrorMessage(message: RequestSessionErrorType.priceNotChosen.rawValue)
+            self.showErrorMessage(message: RequestSessionErrorType.priceNotChosen.rawValue)
             return
         }
         guard price >= 5 else {
-            showErrorMessage(message: RequestSessionErrorType.priceLowerThan5.rawValue)
+            self.showErrorMessage(message: RequestSessionErrorType.priceLowerThan5.rawValue)
             return
         }
         guard let sessionType = RequestSessionData.isOnline else {
-            showErrorMessage(message: RequestSessionErrorType.sessionTypeNotChosen.rawValue)
+            self.showErrorMessage(message: RequestSessionErrorType.sessionTypeNotChosen.rawValue)
             return
         }
-
+        
         let endTime = startTime.adding(minutes: duration)
-
+        
         sessionData["status"] = "pending"
         sessionData["type"] = sessionType ? "online" : "in-person"
-        sessionData["expiration"] = getExpiration(endTime: endTime)
+        sessionData["expiration"] = self.getExpiration(endTime: endTime)
         sessionData["senderId"] = CurrentUser.shared.learner.uid
-        sessionData["receiverId"] = chatPartnerId
+        sessionData["receiverId"] = self.chatPartnerId
         sessionData["subject"] = subject
         sessionData["date"] = startTime.timeIntervalSince1970
         sessionData["startTime"] = startTime.timeIntervalSince1970
         sessionData["endTime"] = endTime.timeIntervalSince1970
         sessionData["price"] = Double(price)
-
+        
         let sessionRequest = SessionRequest(data: sessionData)
-        DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, chatPartnerId)
-        removeFromSuperview()
+        DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, self.chatPartnerId)
+        self.removeFromSuperview()
         RequestSessionData.clearSessionData()
         if let current = UIApplication.getPresentedViewController() {
             current.becomeFirstResponder()
         }
+        
+        
     }
 
     func getExpiration(endTime: Date) -> TimeInterval {

@@ -55,7 +55,6 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	
 	let connectButton : UIButton = {
 		let button = UIButton()
-		
 		button.titleLabel?.font = Fonts.createBoldSize(18)
 		button.titleLabel?.textColor = .white
 		button.backgroundColor = Colors.learnerPurple
@@ -64,7 +63,6 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		button.layer.shadowOffset = CGSize(width: 0, height: 2)
 		button.layer.shadowRadius = 5
 		button.layer.shadowOpacity = 0.6
-		
 		return button
 	}()
 	
@@ -231,12 +229,19 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		layoutIfNeeded()
 	}
 	
+    let addPaymentModal = AddPaymentModal()
+    
 	@objc private func connectButtonPressed(_ sender: UIButton) {
 		sender.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
 		UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIView.AnimationOptions.allowUserInteraction, animations: {
 			sender.transform = CGAffineTransform.identity
 		}, completion: { Void in()  })
 		
+        guard CurrentUser.shared.learner.hasPayment else {
+            addPaymentModal.show()
+            return
+        }
+        
 		DataService.shared.getTutorWithId(tutor.uid) { tutor in
 			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
 			vc.receiverId = tutor?.uid

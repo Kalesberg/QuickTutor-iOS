@@ -218,6 +218,7 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
                     AlertController.genericErrorAlert(self, title: "Error Deleting Card", message: error.localizedDescription)
                 } else if let customer = customer {
                     self.cards.remove(at: indexPath.row)
+                    CurrentUser.shared.learner.hasPayment = self.cards.isEmpty
                     tableView.deleteRows(at: [indexPath], with: .automatic)
                     self.customer = customer
                     if self.cards.count == 0 {

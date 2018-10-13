@@ -397,11 +397,6 @@ class TutorConnectVC: BaseViewController {
                 nav?.view.layer.add(CATransition().popFromTop(), forKey: nil)
                 nav?.popViewController(animated: false)
             }
-        } else if touchStartView is AddBankButton {
-            dismissPaymentModal()
-            let next = CardManagerVC()
-            next.popToMain = false
-            navigationController?.pushViewController(next, animated: true)
         }
     }
 }

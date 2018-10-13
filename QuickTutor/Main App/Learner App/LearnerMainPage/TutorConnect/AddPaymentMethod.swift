@@ -46,6 +46,7 @@ class AddBankButton: InteractableView, Interactable {
 }
 
 class AddPaymentModal: InteractableView, Interactable {
+    
     let modal: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
@@ -74,8 +75,8 @@ class AddPaymentModal: InteractableView, Interactable {
     }()
 
     let addBankButton = AddBankButton()
-
-    var delegate: AddPaymentButtonPress?
+    
+    var isShown = false
 
     override func configureView() {
         addSubview(modal)
@@ -88,6 +89,8 @@ class AddPaymentModal: InteractableView, Interactable {
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
 
         applyConstraints()
+        
+        setupTapRecognizers()
     }
 
     override func applyConstraints() {
@@ -119,7 +122,49 @@ class AddPaymentModal: InteractableView, Interactable {
     }
 
     func touchStart() {
-        delegate?.dismissPaymentModal()
+        dismiss()
+    }
+    
+    func setupTapRecognizers() {
+        setupPaymentTap()
+        setupBackgroundTap()
+    }
+    
+    func setupPaymentTap() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handlePaymentTap))
+        tap.numberOfTapsRequired = 1
+        addBankButton.addGestureRecognizer(tap)
+    }
+    
+    @objc func handlePaymentTap() {
+        dismiss()
+        let next = CardManagerVC()
+        navigationController.pushViewController(next, animated: true)
+    }
+    
+    func setupBackgroundTap() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismiss))
+        tap.numberOfTapsRequired = 1
+        self.addGestureRecognizer(tap)
+    }
+    
+    @objc func show() {
+        guard !isShown else { return }
+        isShown = true
+        guard let window = UIApplication.shared.keyWindow else { return }
+        window.addSubview(self)
+        anchor(top: window.topAnchor, left: window.leftAnchor, bottom: window.bottomAnchor, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        growShrink()
+    }
+    
+    @objc func dismiss() {
+        isShown = false
+        UIView.animate(withDuration: 0.2, animations: {
+            self.alpha = 0.0
+            self.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+        }) { _ in
+            self.removeFromSuperview()
+        }
     }
 }
 
@@ -132,7 +177,6 @@ extension UIViewController {
         let addPaymentView = AddPaymentModal()
         addPaymentView.tag = 3
         addPaymentView.frame = view.bounds
-        addPaymentView.delegate = self as? AddPaymentButtonPress
 
         addPaymentView.growShrink()
 
