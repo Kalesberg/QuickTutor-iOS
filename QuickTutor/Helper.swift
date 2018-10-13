@@ -194,10 +194,10 @@ struct SubjectStore {
                 let json = try JSONSerialization.jsonObject(with: data, options: [])
                 
                 for key in category[i].subcategory.subcategories {
-                    guard let object = json as? [String: [String]], let subjectArray = object[key] else { continue }
+                    guard let object = json as? [String: [String]], let subjectArray = object[key.title] else { continue }
 					
                     for subject in subjectArray {
-                        totalSubjects.append((subject, key))
+                        totalSubjects.append((subject, key.title))
                     }
                 }
             } catch {
@@ -237,7 +237,7 @@ struct SubjectStore {
             let json = try JSONSerialization.jsonObject(with: data, options: [])
 			
 			for key in Category.category(for: resource)!.subcategory.subcategories {
-                guard let object = json as? [String: [String]], let subjectArray = object[key] else { continue }
+                guard let object = json as? [String: [String]], let subjectArray = object[key.title] else { continue }
 				
                 for subject in subjectArray {
                     subjects.append((subject, resource))
@@ -252,15 +252,15 @@ struct SubjectStore {
     static func findSubcategoryImage(subcategory: String) -> (String, UIImage) {
         for i in 0..<category.count {
             for key in category[i].subcategory.subcategories {
-                if key.lowercased() == subcategory {
+                if key.title.lowercased() == subcategory {
                     
-                    let subcategories = category[i].subcategory.subcategories.map { $0.lowercased() }
+                    let subcategories = category[i].subcategory.subcategories.map { $0.title.lowercased() }
                     
-                    let indexOfImage = subcategories.index(of: key.lowercased())
-                    let image = category[i].subcategory.icon[indexOfImage!]
+                    let indexOfImage = subcategories.index(of: key.title.lowercased())
+                    let image = category[i].subcategory.subcategories[indexOfImage!].icon
                     
-                    let indexOfSubcategory = subcategories.index(of: key.lowercased())
-                    let subcategory = category[i].subcategory.subcategories[indexOfSubcategory!]
+                    let indexOfSubcategory = subcategories.index(of: key.title.lowercased())
+                    let subcategory = category[i].subcategory.subcategories[indexOfSubcategory!].title
                     
                     return (subcategory, image)
                 }
@@ -271,8 +271,7 @@ struct SubjectStore {
     
     static func findCategoryBy(subcategory: String) -> String? {
         for category in category {
-            let lowercased = category.subcategory.subcategories.map({ $0.lowercased() })
-            print(lowercased)
+            let lowercased = category.subcategory.subcategories.map({ $0.title.lowercased() })
             if lowercased.contains(subcategory) {
                 return category.subcategory.fileToRead
             }
@@ -289,7 +288,7 @@ struct SubjectStore {
                 let json = try JSONSerialization.jsonObject(with: data, options: [])
                 
                 for key in category[i].subcategory.subcategories {
-                    guard let object = json as? [String: [String]], let subjectArray = object[key] else { continue }
+                    guard let object = json as? [String: [String]], let subjectArray = object[key.title] else { continue }
                     for value in subjectArray {
                         if subject == value {
                             return category[i].subcategory.fileToRead
@@ -309,10 +308,10 @@ struct SubjectStore {
             let data = try Data(contentsOf: file)
             let json = try JSONSerialization.jsonObject(with: data, options: [])
             for key in Category.category(for: resource)!.subcategory.subcategories {
-                guard let object = json as? [String: [String]], let subjectArray = object[key] else { continue }
+                guard let object = json as? [String: [String]], let subjectArray = object[key.title] else { continue }
 				
                 if subjectArray.contains(subject) {
-                    return key
+                    return key.title
                 }
             }
         } catch {
@@ -324,26 +323,13 @@ struct SubjectStore {
 
 enum Category {
     
-    case academics
-    case arts
-    case auto
-    case business
-    case lifestyle
-    case health
-    case language
-    case outdoors
-    case remedial
-    case sports
-    case tech
-    case trades
-    
+    case academics, arts, auto, business, lifestyle, health, language, outdoors, remedial, sports, tech, trades
     static let categories: [Category] = [.arts, .business, .language, .academics, .lifestyle, .tech, .sports, .outdoors, .auto, .trades, .health, .remedial]
     
     var subcategory: Subcategory {
         
         let searchBarPhrases: [String]
-        let subcategories: [String]
-        let icon: [UIImage]
+		let subcategories: [(title: String, icon: UIImage)]
         let displayName: String
         let fileToRead: String
         
@@ -351,78 +337,125 @@ enum Category {
             
         case .academics: displayName = "ACADEMICS"
             searchBarPhrases = ["search any academic subject"]
-            subcategories = ["Mathematics", "Language Arts", "Social Studies", "The Sciences", "Extracurricular", "Test Prep"]
-            icon = [#imageLiteral(resourceName: "mathematics"), #imageLiteral(resourceName: "language-arts"), #imageLiteral(resourceName: "social-studies"), #imageLiteral(resourceName: "science"), #imageLiteral(resourceName: "extracurricular"), #imageLiteral(resourceName: "test-prep")]
-            fileToRead = "academics"
+			subcategories = [(title: "Extracurricular", icon: #imageLiteral(resourceName: "extracurricular")),
+							 (title: "Language Arts", icon: #imageLiteral(resourceName: "language-arts")),
+							 (title: "Mathematics", icon: #imageLiteral(resourceName: "mathematics")),
+							 (title: "Social Studies", icon:  #imageLiteral(resourceName: "social-studies")),
+							 (title: "Test Prep", icon: #imageLiteral(resourceName: "test-prep")),
+							 (title: "The Sciences", icon: #imageLiteral(resourceName: "science"))]
+		fileToRead = "academics"
             
         case .arts: displayName = "THE ARTS"
             searchBarPhrases = ["search for any art"]
-            subcategories = ["Literary Arts", "Visual Arts", "Performing Arts", "Art History", "Applied Arts", "Art Criticism"]
-            icon = [#imageLiteral(resourceName: "literacy"), #imageLiteral(resourceName: "visual-arts"), #imageLiteral(resourceName: "performing"), #imageLiteral(resourceName: "history"), #imageLiteral(resourceName: "applied-arts"), #imageLiteral(resourceName: "art-criticism")]
+			subcategories = [(title: "Applied Arts", icon: #imageLiteral(resourceName: "applied-arts")),
+							 (title: "Art Criticism", icon: #imageLiteral(resourceName: "art-criticism")),
+							 (title: "Art History", icon: #imageLiteral(resourceName: "history")),
+							 (title: "Literary Arts", icon: #imageLiteral(resourceName: "literacy")),
+							 (title: "Performing Arts", icon: #imageLiteral(resourceName: "performing")),
+							 (title: "Visual Arts", icon: #imageLiteral(resourceName: "visual-arts"))]
             fileToRead = "arts"
             
         case .auto: displayName = "AUTO"
             searchBarPhrases = ["search anything auto-related"]
-            subcategories = ["Automobiles", "Motor Vehicles", "Vehicle Maintenance", "Auto Repairs", "Auto Upgrades", "Auto Design"]
-            icon = [#imageLiteral(resourceName: "automobiles"), #imageLiteral(resourceName: "motor-vehicles"), #imageLiteral(resourceName: "maintenance"), #imageLiteral(resourceName: "repairs"), #imageLiteral(resourceName: "upgrades"), #imageLiteral(resourceName: "design")]
+			subcategories = [(title: "Auto Design", icon: #imageLiteral(resourceName: "design")),
+							 (title: "Auto Repairs", icon: #imageLiteral(resourceName: "repairs")),
+							 (title: "Auto Upgrades", icon: #imageLiteral(resourceName: "upgrades")),
+							 (title: "Automobiles", icon: #imageLiteral(resourceName: "automobiles")),
+							 (title: "Motor Vehicles", icon: #imageLiteral(resourceName: "motor-vehicles")),
+							 (title: "Vehicle Maintenance", icon: #imageLiteral(resourceName: "maintenance"))]
             fileToRead = "auto"
             
         case .business: displayName = "BUSINESS"
             searchBarPhrases = ["search any business topic"]
-            subcategories = ["Entrepreneurship", "Finance & Law", "Economics & Accounting", "Business Management", "Information Systems", "Marketing & Hospitality"]
-            icon = [#imageLiteral(resourceName: "entrepreneurship"), #imageLiteral(resourceName: "finance-law"), #imageLiteral(resourceName: "economics-accounting"), #imageLiteral(resourceName: "management"), #imageLiteral(resourceName: "information-systems"), #imageLiteral(resourceName: "marketing-hospitality")]
+			subcategories = [(title: "Business Management", icon: #imageLiteral(resourceName: "management")),
+							 (title: "Economics & Accounting", icon: #imageLiteral(resourceName: "economics-accounting")),
+							 (title: "Entrepreneurship", icon: #imageLiteral(resourceName: "entrepreneurship")),
+							 (title: "Finance & Law", icon: #imageLiteral(resourceName: "finance-law")),
+							 (title: "Information Systems", icon: #imageLiteral(resourceName: "information-systems")),
+							 (title: "Marketing & Hospitality", icon: #imageLiteral(resourceName: "marketing-hospitality"))]
             fileToRead = "business"
             
         case .lifestyle: displayName = "LIFESTYLE"
             searchBarPhrases = ["search for any lifestyle"]
-            subcategories = ["Motivation & Consulting", "Creations", "Cooking & Baking", "Fitness", "Travel Destinations", "Careers"]
-            icon = [#imageLiteral(resourceName: "motivation"), #imageLiteral(resourceName: "life_lessons"), #imageLiteral(resourceName: "cooking-baking"), #imageLiteral(resourceName: "fitness"), #imageLiteral(resourceName: "travel-destinations"), #imageLiteral(resourceName: "volunteering")]
+			subcategories = [(title: "Careers", icon: #imageLiteral(resourceName: "volunteering")),
+							 (title: "Cooking & Baking", icon: #imageLiteral(resourceName: "cooking-baking")),
+							 (title: "Creations", icon: #imageLiteral(resourceName: "life_lessons")),
+							 (title: "Fitness", icon: #imageLiteral(resourceName: "fitness")),
+							 (title: "Motivation & Consulting", icon: #imageLiteral(resourceName: "motivation")),
+							 (title: "Travel Destinations", icon: #imageLiteral(resourceName: "travel-destinations"))]
             fileToRead = "lifestyle"
             
         case .health: displayName = "HEALTH"
             searchBarPhrases = ["search health and wellness"]
-            subcategories = ["General Health", "Self-Care", "Nutrition", "Medicine", "Physical Exercise", "Illness"]
-            icon = [#imageLiteral(resourceName: "general-health"), #imageLiteral(resourceName: "selfcare"), #imageLiteral(resourceName: "nutrition"), #imageLiteral(resourceName: "medicine"), #imageLiteral(resourceName: "physical-excercise"), #imageLiteral(resourceName: "illness")]
+			subcategories = [(title: "General Health", icon: #imageLiteral(resourceName: "general-health")),
+							 (title: "Illness", icon: #imageLiteral(resourceName: "illness")),
+							 (title: "Medicine", icon: #imageLiteral(resourceName: "medicine")),
+							 (title: "Nutrition", icon: #imageLiteral(resourceName: "nutrition")),
+							 (title: "Physical Exercise", icon: #imageLiteral(resourceName: "physical-excercise")),
+							 (title: "Self-Care", icon: #imageLiteral(resourceName: "selfcare"))]
             fileToRead = "health"
             
         case .language: displayName = "LANGUAGE"
             searchBarPhrases = ["search for any language skill"]
-            subcategories = ["ESL", "Listening", "Reading", "Sign Language", "Speaking", "Writing"]
-            icon = [#imageLiteral(resourceName: "esl"), #imageLiteral(resourceName: "listening"), #imageLiteral(resourceName: "reading"), #imageLiteral(resourceName: "sign-language"), #imageLiteral(resourceName: "speech"), #imageLiteral(resourceName: "writing")]
+			subcategories = [(title: "ESL", icon: #imageLiteral(resourceName: "esl")),
+							 (title: "Listening", icon: #imageLiteral(resourceName: "listening")),
+							 (title: "Reading", icon: #imageLiteral(resourceName: "reading")),
+							 (title: "Sign Language", icon: #imageLiteral(resourceName: "sign-language")),
+							 (title: "Speaking", icon: #imageLiteral(resourceName: "speech")),
+							 (title: "Writing", icon: #imageLiteral(resourceName: "writing"))]
             fileToRead = "language"
             
         case .outdoors: displayName = "OUTDOORS"
             searchBarPhrases = ["discover the outdoors"]
-            subcategories = ["Survival", "Life Identification", "Outdoors Prep", "Outdoor Activities", "Land & Water", "Seasonal"]
-            icon = [#imageLiteral(resourceName: "survival"), #imageLiteral(resourceName: "life-identity"), #imageLiteral(resourceName: "preperation"), #imageLiteral(resourceName: "activities"), #imageLiteral(resourceName: "land-water"), #imageLiteral(resourceName: "seasonal")]
+			subcategories = [(title: "Land & Water", icon: #imageLiteral(resourceName: "land-water")),
+							 (title: "Life Identification", icon: #imageLiteral(resourceName: "life-identity")),
+							 (title: "Outdoor Activities", icon: #imageLiteral(resourceName: "activities")),
+							 (title: "Outdoors Prep", icon: #imageLiteral(resourceName: "preperation")),
+							 (title: "Seasonal", icon: #imageLiteral(resourceName: "seasonal")),
+							 (title: "Survival", icon: #imageLiteral(resourceName: "survival"))]
             fileToRead = "outdoors"
             
         case .remedial: displayName = "REMEDIAL"
             searchBarPhrases = ["search for help in anything"]
-            subcategories = ["Development", "Conditions", "Impairments", "Disabilities", "Injuries", "Special Education"]
-            icon = [#imageLiteral(resourceName: "development"), #imageLiteral(resourceName: "conditions"), #imageLiteral(resourceName: "disabilities"), #imageLiteral(resourceName: "impairments"), #imageLiteral(resourceName: "injuries"), #imageLiteral(resourceName: "special-education")]
+			subcategories = [(title: "Conditions", icon: #imageLiteral(resourceName: "conditions")),
+							 (title: "Development", icon: #imageLiteral(resourceName: "development")),
+							 (title: "Disabilities", icon: #imageLiteral(resourceName: "disabilities")),
+							 (title: "Impairments", icon: #imageLiteral(resourceName: "impairments")),
+							 (title: "Injuries", icon: #imageLiteral(resourceName: "injuries")),
+							 (title: "Special Education", icon: #imageLiteral(resourceName: "special-education"))]
             fileToRead = "remedial"
             
         case .sports: displayName = "SPORTS"
             searchBarPhrases = ["search sports and games"]
-            subcategories = ["Physical Sports", "Mind Sports", "Skills Training", "eSports", "Fantasy Sports", "Extreme Sports"]
-            icon = [#imageLiteral(resourceName: "physical-sports"), #imageLiteral(resourceName: "mind-sports"), #imageLiteral(resourceName: "skill-training"), #imageLiteral(resourceName: "esports"), #imageLiteral(resourceName: "fantasy-sports"), #imageLiteral(resourceName: "extreme-sports")]
+			subcategories = [(title: "Extreme Sports", icon: #imageLiteral(resourceName: "extreme-sports")),
+							 (title: "Fantasy Sports", icon: #imageLiteral(resourceName: "fantasy-sports")),
+							 (title: "Mind Sports", icon: #imageLiteral(resourceName: "mind-sports")),
+							 (title: "Physical Sports", icon: #imageLiteral(resourceName: "physical-sports")),
+							 (title: "Skills Training", icon: #imageLiteral(resourceName: "skill-training")),
+							 (title: "eSports", icon: #imageLiteral(resourceName: "esports"))]
             fileToRead = "sports"
             
         case .tech: displayName = "TECH"
             searchBarPhrases = ["search technological topics"]
-            subcategories = ["Programming", "Gaming", "Hardware", "Software", "IT", "Tech Repairs"]
-            icon = [#imageLiteral(resourceName: "programming"), #imageLiteral(resourceName: "gaming"), #imageLiteral(resourceName: "hardware"), #imageLiteral(resourceName: "software"), #imageLiteral(resourceName: "it"), #imageLiteral(resourceName: "tech-repairs")]
+			subcategories = [(title: "Gaming", icon: #imageLiteral(resourceName: "gaming")),
+							 (title: "Hardware", icon: #imageLiteral(resourceName: "hardware")),
+							 (title: "IT", icon: #imageLiteral(resourceName: "it")),
+							 (title: "Programming", icon: #imageLiteral(resourceName: "programming")),
+							 (title: "Software", icon: #imageLiteral(resourceName: "software")),
+							 (title: "Tech Repairs", icon: #imageLiteral(resourceName: "tech-repairs"))]
             fileToRead = "tech"
             
         case .trades: displayName = "TRADES"
             searchBarPhrases = ["search for any trade"]
-            subcategories = ["Construction", "Industrial Trades", "Motive Power", "Service Trades", "Home Trades", "General Trades"]
-            icon = [#imageLiteral(resourceName: "construction"), #imageLiteral(resourceName: "industry"), #imageLiteral(resourceName: "motive-power"), #imageLiteral(resourceName: "services"), #imageLiteral(resourceName: "home"), #imageLiteral(resourceName: "general")]
+			subcategories = [(title: "Construction", icon: #imageLiteral(resourceName: "construction")),
+							 (title: "General Trades", icon: #imageLiteral(resourceName: "general")),
+							 (title: "Home Trades", icon: #imageLiteral(resourceName: "home")),
+							 (title: "Industrial Trades", icon: #imageLiteral(resourceName: "industry")),
+							 (title: "Motive Power", icon: #imageLiteral(resourceName: "motive-power")),
+							 (title: "Service Trades", icon: #imageLiteral(resourceName: "services"))]
             fileToRead = "trades"
         }
-        
-        return Subcategory(subcategories: subcategories.sorted(), icon: icon, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], displayName: displayName, fileToRead: fileToRead)
+		return Subcategory(subcategories: subcategories, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], displayName: displayName, fileToRead: fileToRead)
     }
     
     var mainPageData: MainPageData {
@@ -539,8 +572,7 @@ extension Category {
     }
     
     struct Subcategory {
-        let subcategories: [String]
-        let icon: [UIImage]
+		let subcategories: [(title: String, icon: UIImage)]
         let phrase: String
         let displayName: String
         let fileToRead: String

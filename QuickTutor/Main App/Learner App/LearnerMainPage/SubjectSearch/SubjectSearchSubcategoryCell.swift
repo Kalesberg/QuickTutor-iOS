@@ -34,7 +34,7 @@ class SubjectSearchSubcategoryCell: UITableViewCell {
     }()
 
     // TODO: Update this Datasource, it has bad practice written all over it.
-    var dataSource = [String]() {
+	var dataSource = [(title: String, icon: UIImage)]() {
         didSet {
             tableView.reloadData()
         }
@@ -75,8 +75,8 @@ extension SubjectSearchSubcategoryCell: UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "subcategoryCell", for: indexPath) as! SubjectSubcategoryTableViewCell
-        cell.icon.image = subcategoryIcons[indexPath.row]
-        cell.title.text = dataSource[indexPath.row]
+        cell.icon.image = dataSource[indexPath.row].icon
+		cell.title.text = dataSource[indexPath.row].title
         cell.iconHeight = tableView.frame.height / CGFloat(dataSource.count)
         return cell
     }

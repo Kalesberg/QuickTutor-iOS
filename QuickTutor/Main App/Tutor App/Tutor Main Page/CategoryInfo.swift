@@ -313,7 +313,7 @@ extension CategoryInfo: UITableViewDelegate, UITableViewDataSource {
                     .regular("\n", 20, .clear)
                     .regular("Sub-Categories\n", 20, .white)
                     .regular("\n", 10, .clear)
-                    .regular((category?.subcategory.subcategories.compactMap({ $0 }).joined(separator: ", "))! + "\n", 15, Colors.grayText)
+                    .regular((category?.subcategory.subcategories.compactMap({ $0.title }).joined(separator: ", "))! + "\n", 15, Colors.grayText)
 
                 label.attributedText = formattedString
                 label.numberOfLines = 0

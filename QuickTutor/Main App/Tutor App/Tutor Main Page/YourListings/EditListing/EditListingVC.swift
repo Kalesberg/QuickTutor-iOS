@@ -106,7 +106,7 @@ class EditListingVC: BaseViewController {
 
     private func subcategoriesForCategory() -> [String]? {
         guard let subcategories = Category.category(for: self.category)?.subcategory.subcategories else { return nil }
-        return subcategories.map { $0.lowercased() }
+        return subcategories.map { $0.title.lowercased() }
     }
 
     private func getSubjectsForCategory() -> [String]? {

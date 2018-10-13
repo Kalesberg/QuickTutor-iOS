@@ -481,7 +481,6 @@ extension TutorAddSubjectsVC: UITableViewDelegate, UITableViewDataSource {
         if tableView.tag == 1 {
             if inlineCellIndexPath != nil && inlineCellIndexPath?.section == indexPath.section {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "subcategoryCell", for: indexPath) as! SubjectSearchSubcategoryCell
-                cell.subcategoryIcons = categories[indexPath.section - 1].subcategory.icon
                 cell.dataSource = categories[indexPath.section - 1].subcategory.subcategories
                 cell.selectedCategory = categories[indexPath.section - 1].subcategory.fileToRead
                 cell.delegate = self

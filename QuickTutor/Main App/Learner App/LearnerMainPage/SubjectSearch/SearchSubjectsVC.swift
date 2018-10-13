@@ -294,7 +294,6 @@ extension SearchSubjectsVC: UITableViewDelegate, UITableViewDataSource {
         if tableView.tag == 1 {
             if inlineCellIndexPath != nil && inlineCellIndexPath?.section == indexPath.section {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "subcategoryCell", for: indexPath) as! SubjectSearchSubcategoryCell
-                cell.subcategoryIcons = categories[indexPath.section - 1].subcategory.icon
                 cell.dataSource = categories[indexPath.section - 1].subcategory.subcategories
                 cell.delegate = self
                 return cell
