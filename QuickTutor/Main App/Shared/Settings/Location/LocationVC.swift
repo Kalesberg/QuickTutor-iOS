@@ -132,7 +132,7 @@ extension LocationVC : UITableViewDelegate, UITableViewDataSource {
 					CurrentUser.shared.tutor.region = region
 					Tutor.shared.updateValue(value: ["rg" : region])
 					Tutor.shared.geoFire(location: CLLocation(latitude: location.latitude, longitude: location.longitude))
-					AlertController.genericSavedAlert(self, title: "Addressed Saved!", message: "This address has been saved.")
+					AlertController.genericSavedAlert(self, title: "Address Saved!", message: "This address has been saved.")
 				}
 			})
 		}
