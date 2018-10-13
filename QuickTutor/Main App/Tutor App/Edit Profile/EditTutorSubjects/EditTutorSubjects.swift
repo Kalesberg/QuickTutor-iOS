@@ -359,7 +359,7 @@ class EditTutorSubjects: BaseViewController {
     private func getSubjectDictionary() -> [String: [String]]? {
         var subjectDict = [String: [String]]()
 
-        for subcategory in selected.map({ $0.path }).unique {
+		for subcategory in selected.map({ $0.path }).unique {
             var arr = [String]()
             for subject in selected {
                 if subcategory == subject.path {
@@ -378,18 +378,16 @@ class EditTutorSubjects: BaseViewController {
         var updateSubcategoryValues = [String: Any]()
 
         guard let subjectDict = getSubjectDictionary() else { return }
-
         for key in subjectDict {
             let subjects = key.value.compactMap({ $0 }).joined(separator: "$")
             group.enter()
             ref.child("subject").child(CurrentUser.shared.learner.uid!).child(key.key.lowercased()).observeSingleEvent(of: .value) { snapshot in
                 if snapshot.exists() {
                     self.updateSubjects(node: key.key.lowercased(), values: key.value)
-                    group.leave()
                 } else {
                     updateSubjectValues["/subject/\(CurrentUser.shared.learner.uid!)/\(key.key.lowercased())"] = ["p": self.tutor.price!, "r": 5, "sbj": subjects, "hr": 0, "nos": 0]
-                    group.leave()
                 }
+				group.leave()
             }
             group.enter()
             ref.child("subcategory").child(key.key.lowercased()).child(CurrentUser.shared.learner.uid!).observeSingleEvent(of: .value) { snapshot in
@@ -433,7 +431,7 @@ class EditTutorSubjects: BaseViewController {
 
     private func updateSubjects(node: String, values: [String]?) {
         guard values != nil else { return }
-        let subjects = values!.compactMap({ $0 }).joined(separator: "$")
+        let subjects = values!.map({ $0 }).joined(separator: "$")
         ref.child("subject").child(CurrentUser.shared.learner.uid!).child(node).updateChildValues(["sbj": subjects])
     }
 
@@ -549,16 +547,14 @@ extension EditTutorSubjects: UITableViewDelegate, UITableViewDataSource {
                 return height * 5
             }
             return 50
-        } else {
-            return 55
         }
+		return 55
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView.tag == 1 {
             if inlineCellIndexPath != nil && inlineCellIndexPath?.section == indexPath.section {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "subcategoryCell", for: indexPath) as! SubjectSearchSubcategoryCell
-               // cell.subcategoryIcons = categories[indexPath.section - 1].subcategory.icon
                 cell.dataSource = categories[indexPath.section - 1].subcategory.subcategories
                 cell.selectedCategory = categories[indexPath.section - 1].subcategory.fileToRead
                 cell.delegate = self
@@ -654,9 +650,9 @@ extension EditTutorSubjects: UITableViewDelegate, UITableViewDataSource {
             cell.selectedIcon.isSelected = true
             contentView.noSelectedItemsLabel.isHidden = true
             selectedSubjects.append(cell.subject.text!)
-            selected.append(Selected(path: cell.subcategory.text!, subject: cell.subject.text!))
+            selected.append(Selected(path: cell.subcategory.text!.lowercased(), subject: cell.subject.text!))
 
-            let index = IndexPath(item: selectedSubjects.endIndex - 1, section: 0)
+			let index = IndexPath(item: selectedSubjects.endIndex - 1, section: 0)
             contentView.pickedCollectionView.performBatchUpdates({ [weak self] () -> Void in
                 self?.contentView.pickedCollectionView.insertItems(at: [index]) }, completion: nil)
 

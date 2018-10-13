@@ -330,12 +330,11 @@ enum Category {
         
         let searchBarPhrases: [String]
 		let subcategories: [(title: String, icon: UIImage)]
-        let displayName: String
         let fileToRead: String
         
         switch self {
             
-        case .academics: displayName = "ACADEMICS"
+        case .academics:
             searchBarPhrases = ["search any academic subject"]
 			subcategories = [(title: "Extracurricular", icon: #imageLiteral(resourceName: "extracurricular")),
 							 (title: "Language Arts", icon: #imageLiteral(resourceName: "language-arts")),
@@ -345,7 +344,7 @@ enum Category {
 							 (title: "The Sciences", icon: #imageLiteral(resourceName: "science"))]
 		fileToRead = "academics"
             
-        case .arts: displayName = "THE ARTS"
+        case .arts:
             searchBarPhrases = ["search for any art"]
 			subcategories = [(title: "Applied Arts", icon: #imageLiteral(resourceName: "applied-arts")),
 							 (title: "Art Criticism", icon: #imageLiteral(resourceName: "art-criticism")),
@@ -355,7 +354,7 @@ enum Category {
 							 (title: "Visual Arts", icon: #imageLiteral(resourceName: "visual-arts"))]
             fileToRead = "arts"
             
-        case .auto: displayName = "AUTO"
+        case .auto:
             searchBarPhrases = ["search anything auto-related"]
 			subcategories = [(title: "Auto Design", icon: #imageLiteral(resourceName: "design")),
 							 (title: "Auto Repairs", icon: #imageLiteral(resourceName: "repairs")),
@@ -365,7 +364,7 @@ enum Category {
 							 (title: "Vehicle Maintenance", icon: #imageLiteral(resourceName: "maintenance"))]
             fileToRead = "auto"
             
-        case .business: displayName = "BUSINESS"
+        case .business:
             searchBarPhrases = ["search any business topic"]
 			subcategories = [(title: "Business Management", icon: #imageLiteral(resourceName: "management")),
 							 (title: "Economics & Accounting", icon: #imageLiteral(resourceName: "economics-accounting")),
@@ -375,7 +374,7 @@ enum Category {
 							 (title: "Marketing & Hospitality", icon: #imageLiteral(resourceName: "marketing-hospitality"))]
             fileToRead = "business"
             
-        case .lifestyle: displayName = "LIFESTYLE"
+        case .lifestyle:
             searchBarPhrases = ["search for any lifestyle"]
 			subcategories = [(title: "Careers", icon: #imageLiteral(resourceName: "volunteering")),
 							 (title: "Cooking & Baking", icon: #imageLiteral(resourceName: "cooking-baking")),
@@ -385,7 +384,7 @@ enum Category {
 							 (title: "Travel Destinations", icon: #imageLiteral(resourceName: "travel-destinations"))]
             fileToRead = "lifestyle"
             
-        case .health: displayName = "HEALTH"
+        case .health:
             searchBarPhrases = ["search health and wellness"]
 			subcategories = [(title: "General Health", icon: #imageLiteral(resourceName: "general-health")),
 							 (title: "Illness", icon: #imageLiteral(resourceName: "illness")),
@@ -395,7 +394,7 @@ enum Category {
 							 (title: "Self-Care", icon: #imageLiteral(resourceName: "selfcare"))]
             fileToRead = "health"
             
-        case .language: displayName = "LANGUAGE"
+		case .language:
             searchBarPhrases = ["search for any language skill"]
 			subcategories = [(title: "ESL", icon: #imageLiteral(resourceName: "esl")),
 							 (title: "Listening", icon: #imageLiteral(resourceName: "listening")),
@@ -405,7 +404,7 @@ enum Category {
 							 (title: "Writing", icon: #imageLiteral(resourceName: "writing"))]
             fileToRead = "language"
             
-        case .outdoors: displayName = "OUTDOORS"
+        case .outdoors:
             searchBarPhrases = ["discover the outdoors"]
 			subcategories = [(title: "Land & Water", icon: #imageLiteral(resourceName: "land-water")),
 							 (title: "Life Identification", icon: #imageLiteral(resourceName: "life-identity")),
@@ -415,7 +414,7 @@ enum Category {
 							 (title: "Survival", icon: #imageLiteral(resourceName: "survival"))]
             fileToRead = "outdoors"
             
-        case .remedial: displayName = "REMEDIAL"
+        case .remedial:
             searchBarPhrases = ["search for help in anything"]
 			subcategories = [(title: "Conditions", icon: #imageLiteral(resourceName: "conditions")),
 							 (title: "Development", icon: #imageLiteral(resourceName: "development")),
@@ -425,7 +424,7 @@ enum Category {
 							 (title: "Special Education", icon: #imageLiteral(resourceName: "special-education"))]
             fileToRead = "remedial"
             
-        case .sports: displayName = "SPORTS"
+        case .sports:
             searchBarPhrases = ["search sports and games"]
 			subcategories = [(title: "Extreme Sports", icon: #imageLiteral(resourceName: "extreme-sports")),
 							 (title: "Fantasy Sports", icon: #imageLiteral(resourceName: "fantasy-sports")),
@@ -435,7 +434,7 @@ enum Category {
 							 (title: "eSports", icon: #imageLiteral(resourceName: "esports"))]
             fileToRead = "sports"
             
-        case .tech: displayName = "TECH"
+        case .tech:
             searchBarPhrases = ["search technological topics"]
 			subcategories = [(title: "Gaming", icon: #imageLiteral(resourceName: "gaming")),
 							 (title: "Hardware", icon: #imageLiteral(resourceName: "hardware")),
@@ -443,9 +442,9 @@ enum Category {
 							 (title: "Programming", icon: #imageLiteral(resourceName: "programming")),
 							 (title: "Software", icon: #imageLiteral(resourceName: "software")),
 							 (title: "Tech Repairs", icon: #imageLiteral(resourceName: "tech-repairs"))]
-            fileToRead = "tech"
+            fileToRead = "technology"
             
-        case .trades: displayName = "TRADES"
+        case .trades:
             searchBarPhrases = ["search for any trade"]
 			subcategories = [(title: "Construction", icon: #imageLiteral(resourceName: "construction")),
 							 (title: "General Trades", icon: #imageLiteral(resourceName: "general")),
@@ -455,7 +454,7 @@ enum Category {
 							 (title: "Service Trades", icon: #imageLiteral(resourceName: "services"))]
             fileToRead = "trades"
         }
-		return Subcategory(subcategories: subcategories, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], displayName: displayName, fileToRead: fileToRead)
+		return Subcategory(subcategories: subcategories, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], fileToRead: fileToRead)
     }
     
     var mainPageData: MainPageData {
@@ -516,7 +515,7 @@ enum Category {
             categoryInfo = "Snowboarding, video games, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
             suggestedPrices = [8, 19, 40]
             
-        case .tech: displayName = "Tech"
+        case .tech: displayName = "Technology"
             image = #imageLiteral(resourceName: "tech")
             categoryInfo = "Programmers, engineers, gamers, and the creators of the future, come all — here’s where you can share your passion and knowledge with those in need. "
             suggestedPrices = [15, 45, 90]
@@ -552,7 +551,7 @@ enum Category {
             return .remedial
         case "sports":
             return .sports
-        case "tech":
+        case "technology":
             return .tech
         case "trades":
             return .trades
@@ -574,7 +573,6 @@ extension Category {
     struct Subcategory {
 		let subcategories: [(title: String, icon: UIImage)]
         let phrase: String
-        let displayName: String
         let fileToRead: String
     }
 }
