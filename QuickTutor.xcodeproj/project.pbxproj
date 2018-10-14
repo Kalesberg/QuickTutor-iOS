@@ -264,6 +264,8 @@
 		84E91B64205761A600D1F613 /* TutorLateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B63205761A600D1F613 /* TutorLateVC.swift */; };
 		84EA5EA020A7F4C50008292B /* InviteOthersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */; };
 		84EB7CD320F6FD7600EB7291 /* SessionTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EB7CD220F6FD7600EB7291 /* SessionTypeCell.swift */; };
+		84EEFD552173CF2900FE12F9 /* InviteOthersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEFD542173CF2900FE12F9 /* InviteOthersView.swift */; };
+		84EEFD572173CF5A00FE12F9 /* InviteOthersBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEFD562173CF5A00FE12F9 /* InviteOthersBackgroundView.swift */; };
 		84EF13AD206DBD7900EA4DC2 /* TutorPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */; };
 		84F141A1207E490D003D3193 /* TutorPreferencesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A0207E490D003D3193 /* TutorPreferencesVC.swift */; };
 		84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A2207F0D7B003D3193 /* IntExtensions.swift */; };
@@ -710,6 +712,8 @@
 		84E91B63205761A600D1F613 /* TutorLateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLateVC.swift; sourceTree = "<group>"; };
 		84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteOthersVC.swift; sourceTree = "<group>"; };
 		84EB7CD220F6FD7600EB7291 /* SessionTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTypeCell.swift; sourceTree = "<group>"; };
+		84EEFD542173CF2900FE12F9 /* InviteOthersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteOthersView.swift; sourceTree = "<group>"; };
+		84EEFD562173CF5A00FE12F9 /* InviteOthersBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteOthersBackgroundView.swift; sourceTree = "<group>"; };
 		84EF13AC206DBD7900EA4DC2 /* TutorPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPayment.swift; sourceTree = "<group>"; };
 		84F12F6120E3008D00EB14E8 /* TutorListings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorListings.swift; sourceTree = "<group>"; };
 		84F141A0207E490D003D3193 /* TutorPreferencesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutorPreferencesVC.swift; path = "../../Tutor App/Additional Info/TutorPreferencesVC.swift"; sourceTree = "<group>"; };
@@ -1620,7 +1624,7 @@
 				8454890120D987D300932D8D /* AddTutorVC.swift */,
 				84D8C93120670EC0003C3AEA /* CategorySearchVC.swift */,
 				CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */,
-				84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */,
+				84EEFD532173CF0E00FE12F9 /* InviteOthers */,
 				CFB40E67216F1F5300828E72 /* LearnerSettingsVC.swift */,
 				845B91C8211799F30000D263 /* ApplyFilters */,
 				844FECF4210F977B00C1797B /* SubjectSearch */,
@@ -1708,6 +1712,16 @@
 				84716F872087FCC100E80E17 /* EditTutorSubjects.swift */,
 			);
 			path = EditTutorSubjects;
+			sourceTree = "<group>";
+		};
+		84EEFD532173CF0E00FE12F9 /* InviteOthers */ = {
+			isa = PBXGroup;
+			children = (
+				84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */,
+				84EEFD542173CF2900FE12F9 /* InviteOthersView.swift */,
+				84EEFD562173CF5A00FE12F9 /* InviteOthersBackgroundView.swift */,
+			);
+			path = InviteOthers;
 			sourceTree = "<group>";
 		};
 		84F245101FDA0F96006447A8 /* Learner Registration */ = {
@@ -2195,7 +2209,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -2244,7 +2258,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -2290,6 +2304,7 @@
 				841F8498216A7E1900C9788B /* SettingsProfileHeader.swift in Sources */,
 				845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */,
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
+				84EEFD552173CF2900FE12F9 /* InviteOthersView.swift in Sources */,
 				848466E2216FD1DB00620CAA /* YourListingView.swift in Sources */,
 				84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */,
 				8469512320CA243D00325995 /* TutorAgreementWebView.swift in Sources */,
@@ -2545,6 +2560,7 @@
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				8496FDFF215ED0DE00BD292F /* MyProfileReviewsView.swift in Sources */,
 				84BFE1392166ED7A003452DF /* TutorEarningsBackgroundView.swift in Sources */,
+				84EEFD572173CF5A00FE12F9 /* InviteOthersBackgroundView.swift in Sources */,
 				848466E5216FD23200620CAA /* EditListingView.swift in Sources */,
 				844053A020F55BDA003F0606 /* RequestSessionTableView.swift in Sources */,
 				84C82FE420F0068A00E526B4 /* EditListingVC.swift in Sources */,
