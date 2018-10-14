@@ -60,7 +60,7 @@ class SettingsButton : UIView {
 		addSubview(buttonMask)
 		
 		backgroundColor = Colors.navBarColor
-		
+
 		if subtitle == nil {
 			setupViewForTitleOnly()
 		} else {

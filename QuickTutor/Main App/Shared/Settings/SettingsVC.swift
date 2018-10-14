@@ -23,6 +23,7 @@ class SettingsVC : BaseViewController {
 		if AccountService.shared.currentUserType == .tutor {
 			contentView.updateLocationsSubtitle()
 		}
+	
 	}
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)

@@ -14,7 +14,7 @@ class SettingsAccount : UIView {
 		super.init(coder: aDecoder)
 	}
 	override init(frame: CGRect) {
-		super.init(frame: .zero)
+		super.init(frame: frame)
 		configureView()
 	}
 	
@@ -26,11 +26,11 @@ class SettingsAccount : UIView {
 		label.font = Fonts.createBoldSize(18)
 		return label
 	}()
-	
+
 	let showMeOnQT = SettingsButtonToggle(title: "Show me on QuickTutor", subtitle: "You are currently visible in search results.")
-	let signOut = SettingsButton(title: "Sign Out", subtitle: nil)
+	let signOut = SettingsButton(title: "Sign Out")
 	let closeAccount = SettingsButton(title: "Close Account", subtitle: "Permanently close your QuickTutor account.")
-	
+
 	let divider1 : UIView = {
 		let view = UIView()
 		view.backgroundColor = .black
@@ -43,36 +43,39 @@ class SettingsAccount : UIView {
 		return view
 	}()
 	
-	func configureView() {
+	private func configureView() {
 		addSubview(sectionTitle)
 		sectionTitle.snp.makeConstraints { (make) in
 			make.top.left.right.equalToSuperview()
 			make.height.equalTo(30)
+		}
+
+		if AccountService.shared.currentUserType == .learner {
+			setupViewForLearner()
+		} else {
+			setupViewForTutor()
+			setupToggle()
 		}
 		
 		showMeOnQT.toggle.addTarget(self, action: #selector(showMeOnQTPressed(_:)), for: .touchUpInside)
 		signOut.buttonMask.addTarget(self, action: #selector(signOutPressed(_:)), for: .touchUpInside)
 		closeAccount.buttonMask.addTarget(self, action: #selector(closeAccountPressed(_:)), for: .touchUpInside)
 		
-		if AccountService.shared.currentUserType == .learner {
-			setupViewForLearner()
-		} else {
-			setupToggle()
-			setupViewForTutor()
-		}
 	}
-	func setupViewForTutor() {
+	
+	private func setupViewForTutor() {
 		addSubview(showMeOnQT)
 		addSubview(divider1)
 		addSubview(signOut)
 		addSubview(divider2)
 		addSubview(closeAccount)
-		
+
 		showMeOnQT.snp.makeConstraints { (make) in
 			make.top.equalTo(sectionTitle.snp.bottom).offset(10)
 			make.width.centerX.equalToSuperview()
 			make.height.equalTo(60)
 		}
+		
 		divider1.snp.makeConstraints { (make) in
 			make.top.equalTo(showMeOnQT.snp.bottom)
 			make.centerX.width.equalToSuperview()
@@ -95,7 +98,7 @@ class SettingsAccount : UIView {
 		}
 	}
 	
-	func setupViewForLearner() {
+	private func setupViewForLearner() {
 		addSubview(signOut)
 		addSubview(divider1)
 		addSubview(closeAccount)
@@ -116,6 +119,7 @@ class SettingsAccount : UIView {
 			make.height.equalTo(60)
 		}
 	}
+	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		if AccountService.shared.currentUserType == .learner {
@@ -130,7 +134,9 @@ class SettingsAccount : UIView {
 	private func setupToggle() {
 		showMeOnQT.toggle.isOn = CurrentUser.shared.tutor.isVisible
 	}
+	
 	@objc private func showMeOnQTPressed(_ sender: UISwitch) {
+		//to make this more efficient, hold a reference to the variable, and only send it to Firebase when they leave the page.
 		showMeOnQT.subtitleLabel.text = sender.isOn ? "You are currently visible in search results." : "You are not currently visible in search results."
 		CurrentUser.shared.tutor.isVisible = sender.isOn ? true : false
 		FirebaseData.manager.updateTutorVisibility(uid: CurrentUser.shared.learner.uid!, status: sender.isOn ? 0 : 1)
@@ -157,6 +163,7 @@ class SettingsAccount : UIView {
 		guard let current = UIApplication.getPresentedViewController() else { return }
 		current.present(alertController, animated: true, completion: nil)
 	}
+	
 	@objc private func closeAccountPressed(_ sender: UIButton) {
 		navigationController.pushViewController(CloseAccountVC(), animated: true)
 	}

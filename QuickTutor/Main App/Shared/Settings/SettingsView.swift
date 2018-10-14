@@ -17,8 +17,8 @@ class SettingsView : MainLayoutTitleBackButton {
 		
 		scrollView.isDirectionalLockEnabled = true
 		scrollView.alwaysBounceVertical = true
-		scrollView.canCancelContentTouches = false
-		scrollView.isExclusiveTouch = false
+		scrollView.isExclusiveTouch = true
+		scrollView.isUserInteractionEnabled = true
 		scrollView.backgroundColor = .clear
 		scrollView.showsVerticalScrollIndicator = false
 		
@@ -56,21 +56,22 @@ class SettingsView : MainLayoutTitleBackButton {
 			make.centerX.width.bottom.equalToSuperview()
 		}
 		scrollView.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).inset(-1)
-			make.centerX.width.bottom.equalToSuperview()
-			make.bottom.equalToSuperview()
-		}
-		container.snp.makeConstraints { (make) in
-			make.top.equalTo(settingsProfileHeader.snp.bottom)
-			make.width.centerX.equalToSuperview()
-			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 600 : 700)
+			make.centerX.top.width.bottom.equalToSuperview()
 		}
 		settingsProfileHeader.snp.makeConstraints { (make) in
 			make.top.width.centerX.equalToSuperview()
 			make.height.equalTo(100)
 		}
+		container.snp.makeConstraints { (make) in
+			make.top.equalTo(settingsProfileHeader.snp.bottom)
+			make.width.centerX.equalToSuperview()
+			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 600 : 725)
+		}
+		if AccountService.shared.currentUserType == .tutor {
+			addLocationSubview()
+		}
 		settingsSpreadTheLove.snp.makeConstraints { (make) in
-			make.top.equalTo(settingsProfileHeader.snp.bottom).offset(20)
+			make.top.equalTo( AccountService.shared.currentUserType == .tutor ? settingsLocation.snp.bottom : settingsProfileHeader.snp.bottom).offset(20)
 			make.width.equalToSuperview().multipliedBy(0.9)
 			make.centerX.equalToSuperview()
 			make.height.equalTo(230)
@@ -85,10 +86,7 @@ class SettingsView : MainLayoutTitleBackButton {
 			make.top.equalTo(settingsCommunity.snp.bottom).offset(20)
 			make.width.equalToSuperview().multipliedBy(0.9)
 			make.centerX.equalToSuperview()
-			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 200 : 260)
-		}
-		if AccountService.shared.currentUserType == .tutor {
-			updateConstraintsForTutor()
+			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 200 : 230)
 		}
 	}
 	
@@ -116,7 +114,7 @@ class SettingsView : MainLayoutTitleBackButton {
 		settingsProfileHeader.layer.insertSublayer(gradientLayer, at: 0)
 	}
 	
-	private func updateConstraintsForTutor() {
+	private func addLocationSubview() {
 		settingsLocation.applySettingsShadow()
 		scrollView.addSubview(settingsLocation)
 		settingsLocation.snp.makeConstraints { (make) in
@@ -124,12 +122,6 @@ class SettingsView : MainLayoutTitleBackButton {
 			make.width.equalToSuperview().multipliedBy(0.9)
 			make.centerX.equalToSuperview()
 			make.height.equalTo(90)
-		}
-		settingsSpreadTheLove.snp.remakeConstraints { (make) in
-			make.top.equalTo(settingsLocation.snp.bottom).offset(20)
-			make.width.equalToSuperview().multipliedBy(0.9)
-			make.centerX.equalToSuperview()
-			make.height.equalTo(230)
 		}
 	}
 	private func setupShadows() {
