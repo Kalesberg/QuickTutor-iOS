@@ -25,16 +25,12 @@ class NotificationManager {
     func handleInAppPushNotification(userInfo: [AnyHashable: Any]) {
         let notification = PushNotification(userInfo: userInfo)
         guard SessionService.shared.session == nil else { return }
-        let vc = notification.receiverAccountType == "learner" ? LearnerPageVC() : TutorPageViewController()
-        RootControllerManager.shared.configureRootViewController(controller: vc)
         self.handleMessageType(notification: notification)
     }
     
     func handlePushNotification(userInfo:[AnyHashable: Any]) {
         let notification = PushNotification(userInfo: userInfo)
         guard SessionService.shared.session == nil else { return }
-        let vc = notification.receiverAccountType == "learner" ? LearnerPageVC() : TutorPageViewController()
-        RootControllerManager.shared.configureRootViewController(controller: vc)
         self.handleMessageType(notification: notification)
     }
     
