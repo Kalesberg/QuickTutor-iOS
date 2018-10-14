@@ -21,6 +21,8 @@ class BaseSessionsContentCell: BaseContentCell {
         button.setImage(#imageLiteral(resourceName: "requestSessionIcon"), for: .normal)
         return button
     }()
+    
+    var addPaymentModal = AddPaymentModal()
 
     override func setupViews() {
         super.setupViews()

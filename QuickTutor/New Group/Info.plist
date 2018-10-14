@@ -75,7 +75,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>For matching you with tutors in your area</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>For video sessions.</string>
+	<string>For video sessions</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To chose a profile picture</string>
 	<key>UIAppFonts</key>

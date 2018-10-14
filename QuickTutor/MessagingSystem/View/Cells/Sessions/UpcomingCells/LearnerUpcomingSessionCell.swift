@@ -15,4 +15,8 @@ class LearnerUpcomingSessionCell: BaseUpcomingSessionCell {
         vc.partnerId = session.partnerId()
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    override func startSession() {
+        delegate?.sessionCell(self, shouldStart: session)
+    }
 }

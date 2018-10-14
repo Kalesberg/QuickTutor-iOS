@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LearnerSessionsContentCell: BaseSessionsContentCell {
     override func setupCollectionView() {
@@ -39,6 +40,7 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! BaseUpcomingSessionCell
             cell.updateUI(session: upcomingSessions[indexPath.item])
+            cell.delegate = self
             return cell
         }
 
@@ -52,4 +54,37 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
         cell.updateUI(session: pastSessions[indexPath.item])
         return cell
     }
+}
+
+extension LearnerSessionsContentCell: SessionCellDelgate {
+    func sessionCell(_ sessionCell: BaseSessionCell, shouldReloadSessionWith id: String) {
+        
+    }
+    
+    func sessionCell(_ sessionCell: BaseSessionCell, shouldStart session: Session) {
+        currentUserHasPayment { (hasPayment) in
+            guard hasPayment else { return }
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            let value = ["startedBy": uid, "startType": "manual", "sessionType": session.type]
+            Database.database().reference().child("sessionStarts").child(uid).child(session.id).setValue(value)
+            Database.database().reference().child("sessionStarts").child(session.partnerId()).child(session.id).setValue(value)
+        }
+    }
+    
+    func currentUserHasPayment(completion: @escaping (Bool) -> Void) {
+        guard AccountService.shared.currentUserType == .learner else {
+            completion(true)
+            return
+        }
+        
+        guard CurrentUser.shared.learner.hasPayment else {
+            print("Needs card")
+            completion(false)
+            self.addPaymentModal.show()
+            return
+        }
+        
+        completion(true)
+    }
+    
 }

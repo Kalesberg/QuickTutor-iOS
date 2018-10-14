@@ -316,6 +316,8 @@
 		CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */; };
 		CF3CE5F42141A5A300DE8FF0 /* loading12.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3CE5F32141A5A200DE8FF0 /* loading12.json */; };
 		CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */; };
+		CF4CAED42172CC2100B23530 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4CAED32172CC2100B23530 /* NotificationService.swift */; };
+		CF4CAED82172CC2100B23530 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CF4CAED12172CC2100B23530 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */; };
 		CF4EA10E20E687E2007010F0 /* CardPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4EA10D20E687E2007010F0 /* CardPaymentCell.swift */; };
 		CF50ADE420A2C1770035A702 /* TutorAddBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846466992096BBFD006ABA98 /* TutorAddBank.swift */; };
@@ -406,6 +408,7 @@
 		CFA00970213A000200F81EE4 /* BackgroundSoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0096F213A000200F81EE4 /* BackgroundSoundManager.swift */; };
 		CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */; };
 		CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */; };
+		CFA1716D21730548003F195A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA1716C21730548003F195A /* NotificationManager.swift */; };
 		CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */; };
 		CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFB0283D210C241600B29972 /* GoogleService-Info.plist */; };
 		CFB40E45216BFE2100828E72 /* connecting.json in Resources */ = {isa = PBXBuildFile; fileRef = CFB40E44216BFE2100828E72 /* connecting.json */; };
@@ -438,6 +441,30 @@
 		CFF50179206990590085B0E9 /* LearnerMyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BD201E8245006FC580 /* LearnerMyProfileVC.swift */; };
 		CFF5017B206990B20085B0E9 /* ExtendedReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA3212055088B000C7054 /* ExtendedReviewsVC.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CF4CAED62172CC2100B23530 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8491C28F1FBE62350036FC12 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CF4CAED02172CC2100B23530;
+			remoteInfo = NotificationService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CF4CAEDC2172CC2100B23530 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CF4CAED82172CC2100B23530 /* NotificationService.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		415D84F57EAD7371F3D03D9C /* Pods-QuickTutor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor.debug.xcconfig"; sourceTree = "<group>"; };
@@ -768,6 +795,9 @@
 		CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlesSessionStartData.swift; sourceTree = "<group>"; };
 		CF3CE5F32141A5A200DE8FF0 /* loading12.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading12.json; sourceTree = "<group>"; };
 		CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
+		CF4CAED12172CC2100B23530 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF4CAED32172CC2100B23530 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		CF4CAED52172CC2100B23530 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "phone-ring.mp3"; sourceTree = "<group>"; };
 		CF4EA10D20E687E2007010F0 /* CardPaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentCell.swift; sourceTree = "<group>"; };
 		CF528CD42164527A00D81D03 /* TutorRatingsReviewContainerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatingsReviewContainerCell.swift; sourceTree = "<group>"; };
@@ -857,6 +887,7 @@
 		CFA0096F213A000200F81EE4 /* BackgroundSoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSoundManager.swift; sourceTree = "<group>"; };
 		CFA0578F205FA1E6000185B1 /* MessagingSystemToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemToggleCell.swift; sourceTree = "<group>"; };
 		CFA05791205FA21D000185B1 /* MessageSystemToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSystemToggle.swift; sourceTree = "<group>"; };
+		CFA1716C21730548003F195A /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableButton.swift; sourceTree = "<group>"; };
 		CFB0283D210C241600B29972 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CFB40E44216BFE2100828E72 /* connecting.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = connecting.json; sourceTree = "<group>"; };
@@ -891,6 +922,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C82977B331519FA0EC418E5 /* Pods_QuickTutor.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CF4CAECE2172CC2100B23530 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1426,6 +1464,7 @@
 			isa = PBXGroup;
 			children = (
 				8491C2991FBE62350036FC12 /* QuickTutor */,
+				CF4CAED22172CC2100B23530 /* NotificationService */,
 				8491C2981FBE62350036FC12 /* Products */,
 				1ADD82B9544686C1B1CC7BF9 /* Pods */,
 				C3E28A83DDB66A652D92E0F2 /* Frameworks */,
@@ -1437,6 +1476,7 @@
 			isa = PBXGroup;
 			children = (
 				8491C2971FBE62350036FC12 /* QuickTutor.app */,
+				CF4CAED12172CC2100B23530 /* NotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1805,6 +1845,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CF4CAED22172CC2100B23530 /* NotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				CF4CAED32172CC2100B23530 /* NotificationService.swift */,
+				CF4CAED52172CC2100B23530 /* Info.plist */,
+			);
+			path = NotificationService;
+			sourceTree = "<group>";
+		};
 		CF528CE02164539400D81D03 /* TutorRatings */ = {
 			isa = PBXGroup;
 			children = (
@@ -2082,6 +2131,7 @@
 				CFA0096F213A000200F81EE4 /* BackgroundSoundManager.swift */,
 				CF528CE1216489D600D81D03 /* AnalyticsService.swift */,
 				CFB40E4A216D4AEB00828E72 /* VideoSessionViewManager.swift */,
+				CFA1716C21730548003F195A /* NotificationManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -2099,15 +2149,34 @@
 				8491C2951FBE62350036FC12 /* Resources */,
 				1763E96847736E179B79FD3C /* [CP] Embed Pods Frameworks */,
 				CF5BFB0321541EEF00FB8DD6 /* ShellScript */,
+				CF4CAEDC2172CC2100B23530 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CF4CAED72172CC2100B23530 /* PBXTargetDependency */,
 			);
 			name = QuickTutor;
 			productName = QuickTutor;
 			productReference = 8491C2971FBE62350036FC12 /* QuickTutor.app */;
 			productType = "com.apple.product-type.application";
+		};
+		CF4CAED02172CC2100B23530 /* NotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CF4CAEDB2172CC2100B23530 /* Build configuration list for PBXNativeTarget "NotificationService" */;
+			buildPhases = (
+				CF4CAECD2172CC2100B23530 /* Sources */,
+				CF4CAECE2172CC2100B23530 /* Frameworks */,
+				CF4CAECF2172CC2100B23530 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationService;
+			productName = NotificationService;
+			productReference = CF4CAED12172CC2100B23530 /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -2115,7 +2184,7 @@
 		8491C28F1FBE62350036FC12 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0910;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = QuickTutor;
 				TargetAttributes = {
@@ -2135,6 +2204,10 @@
 							};
 						};
 					};
+					CF4CAED02172CC2100B23530 = {
+						CreatedOnToolsVersion = 10.0;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 8491C2921FBE62350036FC12 /* Build configuration list for PBXProject "QuickTutor" */;
@@ -2151,6 +2224,7 @@
 			projectRoot = "";
 			targets = (
 				8491C2961FBE62350036FC12 /* QuickTutor */,
+				CF4CAED02172CC2100B23530 /* NotificationService */,
 			);
 		};
 /* End PBXProject section */
@@ -2197,6 +2271,13 @@
 				840E4DF52136F58E0045CD35 /* loading1.json in Resources */,
 				840E4E02213761C10045CD35 /* loading5.json in Resources */,
 				84257674207131C800FD295B /* remedial.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CF4CAECF2172CC2100B23530 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2438,6 +2519,7 @@
 				84C44F5620AE9704009AA5F1 /* CloseAccountChoiceVC.swift in Sources */,
 				CF528CE42166D88000D81D03 /* TutorRatingsReviewHeaderCell.swift in Sources */,
 				848809FF20585C3A00F204A0 /* TutorProfilePicsVC.swift in Sources */,
+				CFA1716D21730548003F195A /* NotificationManager.swift in Sources */,
 				84D6A7DE215B1FE2000C0010 /* ProfileItemView.swift in Sources */,
 				CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */,
 				84000D2E21246B5E0023355B /* ProfileImageViewer.swift in Sources */,
@@ -2695,7 +2777,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CF4CAECD2172CC2100B23530 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CF4CAED42172CC2100B23530 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CF4CAED72172CC2100B23530 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CF4CAED02172CC2100B23530 /* NotificationService */;
+			targetProxy = CF4CAED62172CC2100B23530 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8491C2A61FBE62350036FC12 /* LaunchScreen.storyboard */ = {
@@ -2826,6 +2924,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 415D84F57EAD7371F3D03D9C /* Pods-QuickTutor.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
@@ -2854,6 +2953,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C777B3ED14C155B5B40069C5 /* Pods-QuickTutor.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
@@ -2876,6 +2976,47 @@
 			};
 			name = Release;
 		};
+		CF4CAED92172CC2100B23530 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QYG3ENEK3P;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CF4CAEDA2172CC2100B23530 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QYG3ENEK3P;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2893,6 +3034,15 @@
 			buildConfigurations = (
 				8491C2AD1FBE62350036FC12 /* Debug */,
 				8491C2AE1FBE62350036FC12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CF4CAEDB2172CC2100B23530 /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CF4CAED92172CC2100B23530 /* Debug */,
+				CF4CAEDA2172CC2100B23530 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

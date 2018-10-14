@@ -106,6 +106,8 @@ class BaseSessionStartVC: UIViewController {
         button.backgroundColor = Colors.qtRed
         return button
     }()
+    
+    let addPaymentModal = AddPaymentModal()
 
     func updateUI() {
         guard let sessionId = sessionId, let uid = Auth.auth().currentUser?.uid else { return }
@@ -239,16 +241,36 @@ class BaseSessionStartVC: UIViewController {
     }
 
     @objc func confirmManualStart() {
-        removeStartData()
-        let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType": (session?.type)!]
-        print(data)
-        socket.emit(SocketEvents.manualStartAccetped, data)
+        currentUserHasPayment { (hasPayment) in
+            guard hasPayment else { return }
+            self.removeStartData()
+            let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": (self.session?.type)!]
+            print(data)
+            self.socket.emit(SocketEvents.manualStartAccetped, data)
+        }
     }
 
     func removeStartData() {
         guard let uid = Auth.auth().currentUser?.uid, let sessionId = session?.id, let partnerId = partnerId else { return }
         Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
         Database.database().reference().child("sessionStarts").child(partnerId).child(sessionId).removeValue()
+    }
+    
+    func currentUserHasPayment(completion: @escaping (Bool) -> Void) {
+        guard AccountService.shared.currentUserType == .learner else {
+            completion(true)
+            return
+        }
+        
+        guard CurrentUser.shared.learner.hasPayment else {
+            print("Needs card")
+            completion(false)
+            self.cancelSession()
+            self.addPaymentModal.show()
+            return
+        }
+        
+        completion(true)
     }
 
     func setupSocket() {

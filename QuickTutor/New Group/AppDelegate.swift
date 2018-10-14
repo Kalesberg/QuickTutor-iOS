@@ -64,12 +64,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         
         window?.rootViewController = launchScreen
         window?.makeKeyAndVisible()
-
-        handleSignIn {
-            self.proceedWithCameraAccess()
-            self.proceedWithMicrophoneAccess()
+        
+        animateLaunchScreen {
+            SignInManager.shared.handleSignIn {
+                self.proceedWithCameraAccess()
+                self.proceedWithMicrophoneAccess()
+                self.observeDataEvents()
+            }
         }
         
+        let icon = UIApplicationShortcutIcon(templateImageName: "plusButton")
+        let item = UIApplicationShortcutItem(type: "testing", localizedTitle: "Request Session", localizedSubtitle: nil, icon: icon, userInfo: nil)
+        UIApplication.shared.shortcutItems = [item]
         return true
     }
     
@@ -114,35 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         AVCaptureDevice.requestAccess(for: .audio) { success in
         }
     }
-    
-    func handleSignIn(completion: @escaping () -> Void) {
-        guard let user = Auth.auth().currentUser else {
-            configureRootViewController(controller: SignInVC(), completion: {
-                
-            })
-            completion()
-            return
-        }
-        
-        let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
-        let vc = typeOfUser == .learner ? LearnerPageVC() : TutorPageViewController()
-        
-        FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
-            guard successful else {
-                self.configureRootViewController(controller: SignInVC(), completion: {
-                    
-                })
-                completion()
-                return
-            }
-            AccountService.shared.updateFCMTokenIfNeeded()
-            self.configureRootViewController(controller: vc, completion: {
-                
-            })
-            completion()
-        }
-    }
-    
+
     func animateLaunchScreen() {
         UIView.animate(withDuration: 0.3) {
             self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
@@ -150,7 +128,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         
     }
     
-    func configureRootViewController(controller: UIViewController, completion: @escaping() -> Void) {
+
+    func observeDataEvents() {
+        self.removeDataObserver()
+        self.listenForData()
+        self.checkForUnfinishedSessions()
+        self.checkForInProgressSessions()
+    }
+    
+    
+    func animateLaunchScreen(completion: @escaping() -> Void) {
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [], animations: {
             self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         }) { (true) in
@@ -158,15 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
                 self.launchScreen.contentView.icon.alpha = 0.0
             }) { (true) in
-                navigationController = CustomNavVC(rootViewController: controller)
-                navigationController.navigationBar.isHidden = true
-                self.window?.makeKeyAndVisible()
-                self.window?.rootViewController = navigationController
                 completion()
-                self.removeDataObserver()
-                self.listenForData()
-                self.checkForUnfinishedSessions()
-                self.checkForInProgressSessions()
             }
         }
     }
@@ -181,7 +160,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func handlIncomingDynamicLink(_ dynamicLink: DynamicLink) {
         if Auth.auth().currentUser == nil {
-            handleSignIn {
+            SignInManager.shared.handleSignIn {
                 self.navigateUsingPathComponents(dynamicLink: dynamicLink)
             }
         } else {
@@ -246,7 +225,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         print("Attempting to register for push notifications")
         Messaging.messaging().delegate = self
         
-        
+        UNUserNotificationCenter.current().delegate = self
+
         let options: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: options) { (granted, error) in
             guard error == nil else {
@@ -266,53 +246,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         firebaseAuth.setAPNSToken(deviceToken, type: .unknown)
         
         //At time of production it will be set to .prod
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        let firebaseAuth = Auth.auth()
-        guard application.applicationState != UIApplication.State.active else { return }
-        if (firebaseAuth.canHandleNotification(userInfo)){
-            print(userInfo)
-        }
-        handlePushNotification(userInfo: userInfo)
-    }
-    
-    func handlePushNotification(userInfo:[AnyHashable: Any]) {
-        let notification = PushNotification(userInfo: userInfo)
-        guard SessionService.shared.session == nil else { return }
-        let vc = notification.receiverAccountType == "learner" ? LearnerPageVC() : TutorPageViewController()
-        configureRootViewController(controller: vc) {
-            self.handleMessageType(notification: notification)
-        }
-    }
-    
-    func handleMessageType(notification: PushNotification) {
-        guard notification.category == "messages" else { return }
-        if let type = notification.receiverAccountType {
-            AccountService.shared.currentUserType = UserType(rawValue: type)!
-        }
-        DataService.shared.getUserOfOppositeTypeWithId(notification.partnerId()) { (userIn) in
-            guard let user = userIn else { return }
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-            vc.receiverId = notification.partnerId()
-            vc.chatPartner = user
-            navigationController.pushViewController(vc, animated: true)
-        }
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        guard let receiverAccountType = userInfo["receiverAccountType"] as? String else { return }
-        if receiverAccountType == "learner" {
-            let vc = LearnerPageVC()
-            configureRootViewController(controller: vc, completion: {
-                
-            })
-        } else {
-            let vc = TutorPageViewController()
-            configureRootViewController(controller: vc, completion: {
-                
-            })
-        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -349,5 +282,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
         return extensionPointIdentifier != UIApplication.ExtensionPointIdentifier.keyboard
+    }
+}
+
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let firebaseAuth = Auth.auth()
+        let userInfo = response.notification.request.content.userInfo
+
+        if (firebaseAuth.canHandleNotification(userInfo)){
+            print(userInfo)
+        }
+        
+        NotificationManager.shared.handlePushNotification(userInfo: userInfo)
+
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
     }
 }

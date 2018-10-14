@@ -10,6 +10,7 @@ import UIKit
 
 protocol SessionCellDelgate: class {
     func sessionCell(_ sessionCell: BaseSessionCell, shouldReloadSessionWith id: String)
+    func sessionCell(_ sessionCell: BaseSessionCell, shouldStart session: Session)
 }
 
 class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {

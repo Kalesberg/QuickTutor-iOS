@@ -7,14 +7,31 @@
 //
 
 import UIKit
+import UserNotifications
 
 class InAppNotificationView: UIView {
     
     var customTopAnchor: NSLayoutConstraint?
     
+    var notification: UNNotification? {
+        didSet {
+            updateUI()
+        }
+    }
+    
+    var pushNotification: PushNotification?
+    
+    let profileImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.layer.cornerRadius = 22
+        iv.clipsToBounds = true
+        return iv
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(18)
+        label.font = Fonts.createBoldSize(14)
         label.textAlignment = .left
         label.textColor = .white
         label.text = "Zach F."
@@ -24,7 +41,7 @@ class InAppNotificationView: UIView {
     let messageLabel: UILabel = {
         let label = UILabel()
         label.font = Fonts.createBoldSize(12)
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.textColor = .white
         label.text = "Do you have time for a session?"
         return label
@@ -37,29 +54,62 @@ class InAppNotificationView: UIView {
         return view
     }()
     
+    func updateUI() {
+        guard let notification = notification, let userInfo = notification.request.content.userInfo as? [String: Any], let apsData = userInfo["aps"] as? [String: Any],
+            let alertData = apsData["alert"] as? [String: Any],
+            let title = alertData["title"] as? String else {
+                print("Parsing error")
+                return
+        }
+        let pushNotification = PushNotification(userInfo: userInfo)
+        
+        DataService.shared.getUserOfOppositeTypeWithId(pushNotification.partnerId()) { (user) in
+            guard let user = user else { return }
+            self.profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: nil)
+        }
+        
+        titleLabel.text = title
+        guard let message = alertData["body"] as? String else { return }
+        messageLabel.text = message
+    }
+    
     func show() {
-        guard let window = UIApplication.shared.keyWindow else { return }
-        customTopAnchor?.constant = UIApplication.shared.statusBarFrame.height
+        let deltaY = UIApplication.shared.statusBarFrame.height + 75
         UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
-            window.layoutIfNeeded()
+            self.transform = CGAffineTransform(translationX: 0, y: deltaY)
         }.startAnimation()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+            self.dismiss()
+        }
         UINotificationFeedbackGenerator().notificationOccurred(.success)
+    }
+    
+    func setupTapRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tap.numberOfTapsRequired = 1
+        addGestureRecognizer(tap)
+    }
+    
+    @objc func handleTap() {
+        guard let notification = notification, let userInfo = notification.request.content.userInfo as? [String: Any] else {
+            return
+        }
+        
+        NotificationManager.shared.handleInAppPushNotification(userInfo: userInfo)
     }
     
     func setupViews() {
         setupMainView()
+        setupProfileImageView()
         setupTitleLabel()
         setupMessageLabel()
-        setupBottomLine()
+        setupTapRecognizer()
+//        setupBottomLine()
     }
     
     func setupMainView() {
-        guard let window = UIApplication.shared.keyWindow else { return }
-        window.addSubview(self)
-        self.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
-        customTopAnchor = self.topAnchor.constraint(equalTo: window.topAnchor, constant: -75)
-        customTopAnchor?.isActive = true
-        backgroundColor = Colors.currentUserColor()
+        backgroundColor = Colors.otherUserColor()
+        layer.cornerRadius = 8
         addShadow()
     }
     
@@ -70,14 +120,19 @@ class InAppNotificationView: UIView {
         layer.shadowOpacity = 0.2
     }
     
+    func setupProfileImageView() {
+        addSubview(profileImageView)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 12, paddingRight: 0, width: 44, height: 0)
+    }
+    
     func setupTitleLabel() {
         addSubview(titleLabel)
-        titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 12, paddingLeft: 55, paddingBottom: 0, paddingRight: 40, width: 0, height: 20)
+        titleLabel.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 16, paddingLeft: 12, paddingBottom: 0, paddingRight: 40, width: 0, height: 17)
     }
     
     func setupMessageLabel() {
         addSubview(messageLabel)
-        messageLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 6, paddingLeft: 40, paddingBottom: 15, paddingRight: 40, width: 0, height: 0)
+        messageLabel.anchor(top: titleLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 12, paddingRight: 40, width: 0, height: 0)
     }
     
     func setupBottomLine() {
@@ -94,10 +149,13 @@ class InAppNotificationView: UIView {
     }
     
     @objc func handleSwipe(_ recognizer: UISwipeGestureRecognizer) {
-        guard let window = UIApplication.shared.keyWindow else { return }
-        self.customTopAnchor?.constant = -75
+        dismiss()
+    }
+    
+    func dismiss() {
+        let deltaY = UIApplication.shared.statusBarFrame.height + 75
         UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
-            window.layoutIfNeeded()
+            self.transform = CGAffineTransform(translationX: 0, y: -deltaY)
         }.startAnimation()
     }
     
