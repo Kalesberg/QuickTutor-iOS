@@ -71,7 +71,7 @@ class TutorMyProfile: BaseViewController, UpdatedTutorCallBack {
 		contentView.myProfileHeader.profileImageViewButton.setImage(imageView.image, for: .normal)
 		contentView.myProfileHeader.parentViewController = self
 		contentView.myProfileHeader.price.text = "$\(String(describing: tutor.price!))/hr"
-		let reviewsString = (dataSource.count == 1) ? "Review" : "Reviews"
+		let reviewsString = (dataSource.count == 1) ? "rating" : "ratings"
 		contentView.myProfileHeader.rating.text = "\(String(describing: tutor.tRating ?? 5.0)) ★ (\(String(describing: dataSource.count)) \(reviewsString))"
 	}
 	

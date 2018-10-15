@@ -37,9 +37,9 @@ extension Int {
     }
     func formatReviewLabel(rating: Double) -> String {
         if self == 1 {
-            return "\(rating)  ★  (\(self) Review)"
+            return "\(rating)  ★  (\(self) rating)"
         }
-        return "\(rating)  ★  (\(self) Reviews)"
+        return "\(rating)  ★  (\(self) ratings)"
     }
     func formatDistance() -> NSMutableAttributedString {
         
