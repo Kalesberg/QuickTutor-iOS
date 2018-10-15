@@ -46,14 +46,11 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
     func handleZoomFor(imageView: UIImageView) {
         delegate?.imageAnimatorWillZoomIn(self)
         guard let window = UIApplication.shared.keyWindow else { return }
-        parentController.resignFirstResponder()
+//        parentController.resignFirstResponder()
         navBarCover.alpha = 0
         inputAccessoryCover.alpha = 0
         window.addSubview(navBarCover)
 
-        guard let navBarHeight = parentController.navigationController?.navigationBar.frame.height else { return }
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        navBarCover.anchor(top: window.topAnchor, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: navBarHeight + statusBarHeight)
 
         imageCellImageView = imageView
 
@@ -64,6 +61,8 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
         zoomBackground.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(zoomOut)))
         parentController.view.addSubview(zoomBackground)
 
+        navBarCover.anchor(top: nil, left: window.leftAnchor, bottom: zoomBackground.topAnchor, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 200)
+        
         imageView.alpha = 0
         guard let startingFrame = imageView.superview?.convert(imageView.frame, to: nil) else { return }
         zoomView.image = imageView.image
@@ -83,7 +82,7 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
             self.zoomBackground.alpha = 1
             self.navBarCover.alpha = 1
             self.parentController.inputAccessoryView?.alpha = 0
-            self.parentController.resignFirstResponder()
+//            self.parentController.resignFirstResponder()
             self.delegate?.imageAnimatorDidZoomIn(self)
         }.startAnimation()
     }
