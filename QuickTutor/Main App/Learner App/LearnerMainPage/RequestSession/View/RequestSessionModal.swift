@@ -37,7 +37,7 @@ class RequestSessionMenu: UIView {
         }
         cancelRequestView.snp.makeConstraints { make in
             make.top.equalTo(requestSessionBackgroundView.snp.bottom)
-            make.bottom.equalToSuperview()
+            make.height.equalTo(90)
             make.width.centerX.equalToSuperview()
         }
     }
@@ -53,10 +53,10 @@ class RequestSessionMenu: UIView {
 class RequestSessionModal: UIView {
     let chatPartnerId: String
 
-    init(uid: String, requestData: TutorPreferenceData) {
+	init(uid: String, requestData: TutorPreferenceData, frame: CGRect) {
         chatPartnerId = uid
         requestSessionMenu.requestSessionBackgroundView.requestData = requestData
-        super.init(frame: .zero)
+        super.init(frame: frame)
         configureView()
     }
 
@@ -80,7 +80,7 @@ class RequestSessionModal: UIView {
         requestSessionMenu.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
-			make.height.equalToSuperview().multipliedBy(UIScreen.main.bounds.height <= 570 ? 0.65 : 0.55)
+			make.height.equalTo(400) 
         }
     }
 
@@ -97,7 +97,6 @@ class RequestSessionModal: UIView {
         var sessionData = [String: Any]()
         
         guard CurrentUser.shared.learner.hasPayment else {
-            print("Needs card")
             self.addPaymentModal.show()
             return
         }

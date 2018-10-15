@@ -44,10 +44,11 @@ class FirebaseData {
 			return completion(nil)
 		}
 	}
-	func updateTutorPostSession(uid: String, subcategory: String, tutorInfo: [String : Any], subcategoryInfo: [String : Any]) {
+	func updateTutorPostSession(uid: String, sessionId: String, subcategory: String, tutorInfo: [String : Any], subcategoryInfo: [String : Any], sessionRating: Int) {
 		self.ref.child("tutor-info").child(uid).updateChildValues(tutorInfo)
 		self.ref.child("subject").child(uid).child(subcategory).updateChildValues(subcategoryInfo)
 		self.ref.child("subcategory").child(subcategory).child(uid).updateChildValues(subcategoryInfo)
+		self.ref.child("sessions").child(sessionId).updateChildValues(["tutorRating" : sessionRating])
 	}
 	func updateReviewPostSession(uid: String,sessionId: String, type: String, review: [String:Any]) {
 		self.ref.child("review").child(uid).child(type).child(sessionId).updateChildValues(review)
@@ -59,9 +60,18 @@ class FirebaseData {
 	func updateTutorVisibility(uid: String, status: Int) {
 		return self.ref.child("tutor-info").child(uid).updateChildValues(["h" : status])
 	}
-	func updateTutorRatingPostSession(uid: String, sessionId: String, rating: Int) {
-		self.ref.child("sessions").child(sessionId).updateChildValues(["tutorRating" : rating])
+	
+	func updateTutorFeaturedPostSession(_ uid: String, sessionId: String, featuredInfo: [String: Any], index:Int=0) {
+		guard index <= 11 else { return }
+		self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
+			if snapshot.exists() {
+				self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).updateChildValues(featuredInfo)
+			} else {
+				self.updateTutorFeaturedPostSession(uid, sessionId: sessionId, featuredInfo: featuredInfo, index: index+1)
+			}
+		}
 	}
+	
 	func updateAdditionalQuestions(value: [String : Any], completion: @escaping (Error?) -> Void) {
 		return self.ref.child("questions").child(user.uid).childByAutoId().updateChildValues(value) { (error,_) in
 			if let error = error {

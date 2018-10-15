@@ -45,12 +45,25 @@ class CancelRequestView: UIView {
         button.backgroundColor = Colors.green
         return button
     }()
+	
+	let minimumSessionPriceLabel: UILabel = {
+		let label = UILabel()
+		label.text = "There is a $5.00 minimum to every session"
+		label.textColor = Colors.grayText
+		label.textAlignment = .center
+		label.font = Fonts.createItalicSize(13)
+		label.adjustsFontSizeToFitWidth = true
+		label.numberOfLines = 1
+		return label
+	}()
+
 
     func configureView() {
         addSubview(container)
         container.addSubview(errorLabel)
         container.addSubview(cancelRequestButton)
         container.addSubview(requestSessionButton)
+		container.addSubview(minimumSessionPriceLabel)
         isUserInteractionEnabled = true
         applyConstraints()
     }
@@ -58,25 +71,28 @@ class CancelRequestView: UIView {
     func applyConstraints() {
         container.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(1)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.width.centerX.equalToSuperview()
         }
         cancelRequestButton.snp.makeConstraints { make in
             make.width.equalToSuperview().multipliedBy(0.4)
-            make.height.equalTo(40)
+            make.height.equalTo(35)
             make.left.equalToSuperview().inset(10)
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.98)
         }
         requestSessionButton.snp.makeConstraints { make in
             make.width.equalToSuperview().multipliedBy(0.4)
-            make.height.equalTo(40)
+            make.height.equalTo(35)
             make.right.equalToSuperview().inset(10)
-            make.centerY.equalToSuperview()
-        }
+			make.centerY.equalToSuperview().multipliedBy(0.98)
+		}
         errorLabel.snp.makeConstraints { make in
             make.top.width.centerX.equalToSuperview()
             make.bottom.equalTo(cancelRequestButton.snp.top)
         }
+		minimumSessionPriceLabel.snp.makeConstraints { (make) in
+			make.centerX.width.bottom.equalToSuperview()
+			make.top.equalTo(cancelRequestButton.snp.bottom)
+		}
     }
 
     override func layoutSubviews() {

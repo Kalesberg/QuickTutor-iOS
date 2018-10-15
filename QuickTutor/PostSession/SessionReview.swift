@@ -219,7 +219,7 @@ class SessionReview : BaseViewController {
 	var tutor : AWTutor!
 	var learner : AWLearner!
 	var cellTitles = [String]()
-	var cellHeaderViewTitles : [String] = ["Rate your overall experience", "Leave your tutor a review"]
+	var cellHeaderViewTitles = [String]()
 	var buttonTitles = [String]()
 
 	var hasPaid: Bool = false
@@ -231,10 +231,9 @@ class SessionReview : BaseViewController {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
 		setupButtons()
-		print(costOfSession)
-		print(runTime)
 		getSessionWithPartner(uid: CurrentUser.shared.learner.uid!)
 		if AccountService.shared.currentUserType == .learner {
+			
 			getTutorAccount(uid: partnerId) { (tutor) in
 				if let tutor = tutor {
 					self.tutor = tutor
@@ -251,8 +250,6 @@ class SessionReview : BaseViewController {
 				}
 			}
 		}
-        let userTypeName = AccountService.shared.currentUserType == .learner ? "tutor" : "learner"
-        cellHeaderViewTitles[1] = "Leave your \(userTypeName) a review"
         SessionService.shared.session = nil
 	}
 
@@ -295,23 +292,25 @@ class SessionReview : BaseViewController {
 	}
 	private func setupViewForTutorReview() {
 		let nameSplit = self.tutor.name.split(separator: " ")
-		name = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))
+		let firstName = String(nameSplit[0]).capitalized
+		name = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
 		contentView.nameLabel.text = name
 		
-		cellTitles =  ["How was your time with \(name!)?", "Was this session helpful?", "It's optional, but highly appreciated."]
-		
-		cellHeaderViewTitles.append("Leave your tutor a tip")
+		cellTitles =  ["How was your time with \(firstName)?", "Was this session helpful?", "It's optional, but highly appreciated."]
+		cellHeaderViewTitles = ["Rate your overall experience.", "Describe your session.", "A little generosity can go a long way."]
 		buttonTitles = ["Submit Rating","Submit Review","Submit & Pay", "Complete"]
 		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1"))
 	}
 	
 	private func setupViewForLearnerReview() {
 		let nameSplit = self.learner.name.split(separator: " ")
-		name = String(nameSplit[0]) + " " +  String(nameSplit[1].prefix(1))
+		let firstName = String(nameSplit[0]).capitalized
+		name = String(nameSplit[0]) + " " +  String(nameSplit[1].prefix(1) + ".")
 		contentView.nameLabel.text = name
 		
+		cellTitles =  ["How was your time with \(firstName)?", "Did you enjoy working with \(firstName)?"]
+		cellHeaderViewTitles = ["Rate your overall experience.", "Describe your session."]
 		contentView.profileImageView.sd_setImage(with: storageRef.child("student-info").child(learner.uid).child("student-profile-pic1"))
-		self.cellTitles =  ["How was your time with \(name!)?", "How was your session?"]
 		buttonTitles = ["Submit Rating","Submit Review","Complete"]
 	}
 	
@@ -374,8 +373,10 @@ class SessionReview : BaseViewController {
 			guard let subcategory = SubjectStore.findSubCategory(resource: category, subject: subject) else { return }
 			let tutorInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "tr" : updatedRating.truncate(places: 1)]
 			let subcategoryInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
-			FirebaseData.manager.updateTutorPostSession(uid: partnerId, subcategory: subcategory.lowercased(), tutorInfo: tutorInfo, subcategoryInfo: subcategoryInfo)
-			FirebaseData.manager.updateTutorRatingPostSession(uid: partnerId, sessionId: sessionId, rating: PostSessionReviewData.rating)
+			let featuredInfo : [String : Any] = ["h" : updatedHours, "rv" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
+			FirebaseData.manager.updateTutorPostSession(uid: partnerId, sessionId: sessionId, subcategory: subcategory.lowercased(), tutorInfo: tutorInfo, subcategoryInfo: subcategoryInfo, sessionRating: PostSessionReviewData.rating)
+			FirebaseData.manager.updateTutorFeaturedPostSession(partnerId, sessionId: sessionId, featuredInfo: featuredInfo)
+			
 			guard let review = PostSessionReviewData.review, review != "" else { return }
 			let reviewDict : [String : Any] = [
 				"dte" : Date().timeIntervalSince1970,
@@ -407,25 +408,26 @@ class SessionReview : BaseViewController {
 	private func createCharge(cost: Int, completion: @escaping (Error?) -> Void) {
 		let fee = Int(Double(cost) * 0.10)
 		self.displayLoadingOverlay()
-		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
-			if let error = error {
-				self.dismissOverlay()
-				completion(error)
-			} else if let customer = customer {
-				guard let card = customer.defaultSource?.stripeID else {
-					self.dismissOverlay()
-					return completion(StripeError.createChargeError)
-				}
-				Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
-					if let error = error {
-						completion(error)
-					} else {
-						completion(nil)
-					}
-					self.dismissOverlay()
-				})
-			}
-		}
+		completion(nil)
+//		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
+//			if let error = error {
+//				self.dismissOverlay()
+//				completion(error)
+//			} else if let customer = customer {
+//				guard let card = customer.defaultSource?.stripeID else {
+//					self.dismissOverlay()
+//					return completion(StripeError.createChargeError)
+//				}
+//				Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
+//					if let error = error {
+//						completion(error)
+//					} else {
+//						completion(nil)
+//					}
+//					self.dismissOverlay()
+//				})
+//			}
+//		}
 	}
 }
 extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

@@ -89,13 +89,11 @@ class TutorMainPageView: MainPageView {
         titleLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-
         menuLabel.snp.makeConstraints { make in
             make.top.equalTo(navbar.snp.bottom)
             make.left.equalToSuperview().inset(20)
             make.height.equalToSuperview().multipliedBy(0.1)
         }
-
         collectionView.snp.makeConstraints { make in
             if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
                 make.height.equalTo(175)
@@ -371,12 +369,25 @@ extension TutorMainPage: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! TutorMainPageTableViewCell
         cell.growSemiShrink {
-            let viewController = TutorMainPageCellFactory.cells[indexPath.section].viewController
-            if viewController.isModalInPopover {
-                self.present(viewController, animated: true, completion: nil)
-            } else {
-                self.navigationController?.pushViewController(viewController, animated: true)
-            }
+			//HOTFIX: this is to get the dynamic link working for Tutor Profiles. Will have to update this architecture.
+			if indexPath.section == 2 {
+				DynamicLinkFactory.shared.createLink(userId: CurrentUser.shared.tutor.uid!, completion: { (url) in
+					if let url = url {
+						let shareAll: [Any] = ["Go checkout QuickTutor!", url]
+						let activityController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+						activityController.isModalInPopover = true
+						self.present(activityController, animated: true, completion: nil)
+					}
+				})
+				return
+			} else {
+				let viewController = TutorMainPageCellFactory.cells[indexPath.section].viewController
+				if viewController.isModalInPopover {
+					self.present(viewController, animated: true, completion: nil)
+				} else {
+					self.navigationController?.pushViewController(viewController, animated: true)
+				}
+			}
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

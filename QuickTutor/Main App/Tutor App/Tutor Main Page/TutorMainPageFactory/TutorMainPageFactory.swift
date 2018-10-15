@@ -68,7 +68,7 @@ enum TutorMainPageCellFactory {
         case .improve: return TutorMainTips()
         case .featured: return TutorListings()
         case .shareUsername:
-            let text = "Go checkout QuickTutor!"
+            let text = "Go checkout QuickTutor!"			
             let webUrl = URL(string: "https://QuickTutor.com")
             let shareAll: [Any] = [text, webUrl ?? ""]
             let activityController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)

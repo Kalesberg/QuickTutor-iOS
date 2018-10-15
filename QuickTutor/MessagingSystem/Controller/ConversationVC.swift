@@ -557,8 +557,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
         resignFirstResponder()
         FirebaseData.manager.fetchRequestSessionData(uid: receiverId) { requestData in
             guard let requestData = requestData else { return }
-            let requestSessionModal = RequestSessionModal(uid: self.receiverId, requestData: requestData)
-            requestSessionModal.frame = self.view.bounds
+			let requestSessionModal = RequestSessionModal(uid: self.receiverId, requestData: requestData, frame: self.view.bounds)
             self.view.addSubview(requestSessionModal)
         }
     }

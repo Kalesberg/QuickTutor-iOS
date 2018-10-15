@@ -191,11 +191,16 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
-        guard let runTime = sessionManager?.sessionRuntime else { return }
-        guard let partnerId = sessionManager?.session.partnerId() else { return }
-        guard let subject = sessionManager?.session.subject else { return }
-        guard let session = sessionManager?.session else { return }
-        let costOfSession = ((session.price / 60) / 60) * Double(runTime)
+        guard let runTime = sessionManager?.sessionRuntime,
+			  let partnerId = sessionManager?.session.partnerId(),
+			  let subject = sessionManager?.session.subject,
+			let session = sessionManager?.session
+		else {
+			return
+		}
+		let minimumSessionPrice = 5.0
+        let costOfSession = minimumSessionPrice + ((session.price / 60) / 60) * Double(runTime)
+
         if AccountService.shared.currentUserType == .learner {
             let vc = SessionReview()
 
@@ -205,6 +210,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
             vc.partnerId = partnerId
             vc.runTime = runTime
             vc.subject = subject
+			
             Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
             Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt": Date().timeIntervalSince1970])
             print("ZACH: continueing out of session")

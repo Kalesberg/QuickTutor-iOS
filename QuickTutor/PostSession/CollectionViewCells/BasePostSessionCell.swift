@@ -27,7 +27,8 @@ class BasePostSessionCell : UICollectionViewCell {
 		
 		label.textAlignment = .left
 		label.textColor = .white
-		label.font = Fonts.createBoldSize(18)
+		label.font = Fonts.createBoldSize(16)
+		label.adjustsFontSizeToFitWidth = true
 		
 		return label
 	}()
@@ -59,7 +60,7 @@ class BasePostSessionCell : UICollectionViewCell {
 			make.top.right.height.equalToSuperview()
 		}
 		title.snp.makeConstraints { (make) in
-			make.centerY.height.width.equalToSuperview()
+			make.centerY.height.equalToSuperview()
 			make.left.equalToSuperview().inset(5)
 		}
 	}

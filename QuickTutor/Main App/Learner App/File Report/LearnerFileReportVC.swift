@@ -591,7 +591,7 @@ extension LearnerFileReportVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sessionHistoryCell", for: indexPath) as! SessionHistoryCell
         let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startedAt))
         let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endedAt))
-        let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].startedAt)).split(separator: "-")
+        let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].startedAt / 1000)).split(separator: "-")
         insertBorder(cell: cell)
         if datasource[indexPath.row].name == "" {
             cell.nameLabel.text = "User no longer exists."
