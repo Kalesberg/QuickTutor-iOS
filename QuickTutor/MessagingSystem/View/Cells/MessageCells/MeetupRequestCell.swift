@@ -129,7 +129,7 @@ class SessionRequestCell: UserMessageCell {
         case "accepted":
             updateAsAccepted()
         case "expired":
-            updateAsCancelled()
+            updateAsExpired()
         case "cancelled":
             updateAsCancelled()
         case "completed":
@@ -207,6 +207,20 @@ class SessionRequestCell: UserMessageCell {
         dimContent()
         buttonView.setupAsCancelled()
 
+        if AccountService.shared.currentUserType == .learner {
+            buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
+        }
+    }
+    
+    func updateAsExpired() {
+        buttonView.removeAllButtonActions()
+        
+        titleBackground.backgroundColor = Colors.grayText
+        titleLabel.text = "Request Expired"
+        buttonView.setupAsExpired()
+        dimContent()
+        buttonView.setupAsExpired()
+        
         if AccountService.shared.currentUserType == .learner {
             buttonView.setButtonActions(#selector(SessionRequestCell.requestSession), target: self)
         }
@@ -502,6 +516,18 @@ class SessionRequestCellButtonView: UIView {
             setupAsSingleButton()
             setButtonTitleColors(Colors.grayText)
             setButtonTitles("This session was cancelled")
+        }
+    }
+    
+    func setupAsExpired() {
+        if AccountService.shared.currentUserType == .learner {
+            setupAsSingleButton()
+            setButtonTitleColors(Colors.navBarGreen)
+            setButtonTitles("Request a new session")
+        } else {
+            setupAsSingleButton()
+            setButtonTitleColors(Colors.grayText)
+            setButtonTitles("This session expired")
         }
     }
     
