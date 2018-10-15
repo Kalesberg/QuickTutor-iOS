@@ -164,14 +164,18 @@ extension CategorySearchVC: UISearchBarDelegate {
 }
 
 extension CategorySearchVC: UIScrollViewDelegate {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate _: Bool) {
-        if allTutorsQueried { return }
-
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-
-        if maximumOffset - currentOffset <= 100.0 {
-            queryTutorsByCategory(lastKnownKey: datasource[datasource.endIndex - 1].uid)
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
+            if allTutorsQueried { return }
+            
+            let currentOffset = scrollView.contentOffset.y
+            let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+            
+            if maximumOffset - currentOffset <= 100.0 {
+                queryTutorsByCategory(lastKnownKey: datasource[datasource.endIndex - 1].uid)
+            }
+            
         }
     }
 }
