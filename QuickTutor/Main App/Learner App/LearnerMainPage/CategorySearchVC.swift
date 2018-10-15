@@ -21,7 +21,7 @@ class CategorySearchVC: BaseViewController {
         view = CategorySearchVCView()
     }
 
-    let itemsPerBatch: UInt = 6
+    let itemsPerBatch: UInt = 10
 
     var datasource = [FeaturedTutor]()
     var didLoadMore: Bool = false
@@ -88,7 +88,7 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 
-        cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: datasource[indexPath.item].imageUrl)
+        cell.featuredTutor.imageView.sd_setImage(with: URL(string: datasource[indexPath.item].imageUrl))
         cell.price.text = datasource[indexPath.item].price.priceFormat()
         cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
         cell.featuredTutor.region.text = datasource[indexPath.item].region

@@ -74,42 +74,34 @@ class FeaturedTutorView: BaseView {
     
     let namePrice: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .left
         label.textColor = Colors.grayText
         label.font = Fonts.createSize(12)
         label.adjustsFontSizeToFitWidth = true
-        
         return label
     }()
     
     let ratingLabel: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .left
         label.textColor = Colors.gold
         label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
-        
         return label
     }()
     
     let starImage: UIImageView = {
         let view = UIImageView()
-        
         view.image = #imageLiteral(resourceName: "gold-star")
         view.scaleImage()
-        
         return view
     }()
     
     let numOfRatingsLabel: UILabel = {
         let label = UILabel()
-        
         label.textColor = Colors.gold
         label.font = Fonts.createSize(14)
         label.adjustsFontSizeToFitWidth = true
-        
         return label
     }()
     

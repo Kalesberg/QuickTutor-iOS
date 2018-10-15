@@ -64,9 +64,9 @@ class CategorySearchVCView: MainLayoutTwoButton {
     }
     
     func setupCollectionView() {
-        addSubview(collectionView)
+        insertSubview(collectionView, belowSubview: navbar)
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom).inset(5)
+            make.top.equalTo(navbar.snp.bottom)
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
             } else {
