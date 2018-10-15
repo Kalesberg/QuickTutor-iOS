@@ -75,7 +75,7 @@
 		842576722071310A00FD295B /* outdoors.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576712071310A00FD295B /* outdoors.json */; };
 		84257674207131C800FD295B /* remedial.json in Resources */ = {isa = PBXBuildFile; fileRef = 84257673207131C800FD295B /* remedial.json */; };
 		842576762071325400FD295B /* sports.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576752071325400FD295B /* sports.json */; };
-		84257678207132DD00FD295B /* technology.json in Resources */ = {isa = PBXBuildFile; fileRef = 84257677207132DD00FD295B /* technology.json */; };
+		84257678207132DD00FD295B /* tech.json in Resources */ = {isa = PBXBuildFile; fileRef = 84257677207132DD00FD295B /* tech.json */; };
 		8425767A2071339500FD295B /* trades.json in Resources */ = {isa = PBXBuildFile; fileRef = 842576792071339500FD295B /* trades.json */; };
 		8425BA08202E1BB100B2C5A7 /* CardManagerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425BA07202E1BB100B2C5A7 /* CardManagerVC.swift */; };
 		8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426A16A2055BC3200EAF1A8 /* Constants.swift */; };
@@ -541,7 +541,7 @@
 		842576712071310A00FD295B /* outdoors.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = outdoors.json; sourceTree = "<group>"; };
 		84257673207131C800FD295B /* remedial.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = remedial.json; sourceTree = "<group>"; };
 		842576752071325400FD295B /* sports.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sports.json; sourceTree = "<group>"; };
-		84257677207132DD00FD295B /* technology.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = technology.json; sourceTree = "<group>"; };
+		84257677207132DD00FD295B /* tech.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tech.json; sourceTree = "<group>"; };
 		842576792071339500FD295B /* trades.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trades.json; sourceTree = "<group>"; };
 		8425BA07202E1BB100B2C5A7 /* CardManagerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManagerVC.swift; sourceTree = "<group>"; };
 		8426A16A2055BC3200EAF1A8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -1111,7 +1111,7 @@
 				842576752071325400FD295B /* sports.json */,
 				842576632070773D00FD295B /* academics.json */,
 				842576792071339500FD295B /* trades.json */,
-				84257677207132DD00FD295B /* technology.json */,
+				84257677207132DD00FD295B /* tech.json */,
 				8425766520712B2A00FD295B /* arts.json */,
 				8404F43A20EAE6EB00747C01 /* badwords.txt */,
 			);
@@ -2262,7 +2262,7 @@
 				840E4E09213761C10045CD35 /* loading4.json in Resources */,
 				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
 				8423F73F214B60E900B3E4D0 /* languages.txt in Resources */,
-				84257678207132DD00FD295B /* technology.json in Resources */,
+				84257678207132DD00FD295B /* tech.json in Resources */,
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
 				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
@@ -2306,7 +2306,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -2355,7 +2355,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {

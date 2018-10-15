@@ -427,14 +427,14 @@ enum Category {
             fileToRead = "sports"
             
         case .tech:
-            searchBarPhrases = ["search technological topics"]
+            searchBarPhrases = ["search topics in technology"]
 			subcategories = [(title: "Gaming", icon: #imageLiteral(resourceName: "gaming")),
 							 (title: "Hardware", icon: #imageLiteral(resourceName: "hardware")),
 							 (title: "IT", icon: #imageLiteral(resourceName: "it")),
 							 (title: "Programming", icon: #imageLiteral(resourceName: "programming")),
 							 (title: "Software", icon: #imageLiteral(resourceName: "software")),
 							 (title: "Tech Repairs", icon: #imageLiteral(resourceName: "tech-repairs"))]
-            fileToRead = "technology"
+            fileToRead = "tech"
             
         case .trades:
             searchBarPhrases = ["search for any trade"]

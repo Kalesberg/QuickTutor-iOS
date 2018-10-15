@@ -110,6 +110,7 @@ class FirebaseData {
 	}
 	
 	func updateFeaturedTutorRegion(_ uid: String, region: String, index:Int=0) {
+		guard index <= 11 else { return }
 		self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			if snapshot.exists() {
 				self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).updateChildValues(["rg" : region])
