@@ -373,7 +373,7 @@ class SessionReview : BaseViewController {
 			guard let subcategory = SubjectStore.findSubCategory(resource: category, subject: subject) else { return }
 			let tutorInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "tr" : updatedRating.truncate(places: 1)]
 			let subcategoryInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
-			let featuredInfo : [String : Any] = ["h" : updatedHours, "rv" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
+			let featuredInfo : [String : Any] = ["rv" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
 			FirebaseData.manager.updateTutorPostSession(uid: partnerId, sessionId: sessionId, subcategory: subcategory.lowercased(), tutorInfo: tutorInfo, subcategoryInfo: subcategoryInfo, sessionRating: PostSessionReviewData.rating)
 			FirebaseData.manager.updateTutorFeaturedPostSession(partnerId, sessionId: sessionId, featuredInfo: featuredInfo)
 			
@@ -408,26 +408,25 @@ class SessionReview : BaseViewController {
 	private func createCharge(cost: Int, completion: @escaping (Error?) -> Void) {
 		let fee = Int(Double(cost) * 0.10)
 		self.displayLoadingOverlay()
-		completion(nil)
-//		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
-//			if let error = error {
-//				self.dismissOverlay()
-//				completion(error)
-//			} else if let customer = customer {
-//				guard let card = customer.defaultSource?.stripeID else {
-//					self.dismissOverlay()
-//					return completion(StripeError.createChargeError)
-//				}
-//				Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
-//					if let error = error {
-//						completion(error)
-//					} else {
-//						completion(nil)
-//					}
-//					self.dismissOverlay()
-//				})
-//			}
-//		}
+		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
+			if let error = error {
+				self.dismissOverlay()
+				completion(error)
+			} else if let customer = customer {
+				guard let card = customer.defaultSource?.stripeID else {
+					self.dismissOverlay()
+					return completion(StripeError.createChargeError)
+				}
+				Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
+					if let error = error {
+						completion(error)
+					} else {
+						completion(nil)
+					}
+					self.dismissOverlay()
+				})
+			}
+		}
 	}
 }
 extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
