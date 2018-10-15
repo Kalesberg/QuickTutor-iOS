@@ -28,7 +28,7 @@ target 'QuickTutor' do
 
 
   # Pods for Facebook
-  pod 'FacebookSDK'
+  pod 'FacebookSDK', '4.36.0'
   pod 'SnapKit', '~> 4.0.1'
   pod 'lottie-ios'
   

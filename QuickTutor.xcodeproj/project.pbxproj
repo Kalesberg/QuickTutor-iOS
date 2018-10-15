@@ -2380,7 +2380,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh",
-				"${PODS_ROOT}/FacebookSDK/FacebookSDKs-iOS-universal-4.37.0/iOS/FacebookSDKStrings.bundle",
+				"${PODS_ROOT}/FacebookSDK/FacebookSDKs-iOS-universal-4.36.0/iOS/FacebookSDKStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
