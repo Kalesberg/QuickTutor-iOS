@@ -27,9 +27,11 @@ class EditListingVC: BaseViewController {
     var price: Int?
     var subject: String?
     var image: UIImage?
-    var category: String!
+	var isEditingExistingListing : Bool!
+	var subjects = [String]()
     var delegate: UpdateListingCallBack?
-
+	var categoryOfCurrentListing : String?
+	
     var selectedIndexPath: IndexPath?
     let listingPicker = UIImagePickerController()
 
@@ -81,17 +83,43 @@ class EditListingVC: BaseViewController {
 
     private func saveListingToFirebase(subject: String, price: Int, image: UIImage) {
         displayLoadingOverlay()
-        FirebaseData.manager.updateListing(tutor: tutor, category: category, image: image, price: price, subject: subject) { success in
-            if success {
-                AlertController.genericSavedAlert(self, title: "Your listing has been saved!", message: nil)
-                self.delegate?.updateListingCallBack(price: price, subject: subject, image: image)
-            } else {
-                AlertController.genericErrorAlertWithoutCancel(self, title: "Error uploading listing", message: "Something went wrong, please try again.")
-            }
-            self.dismissOverlay()
-        }
+		guard let categoryString = SubjectStore.findCategoryBy(subject: subject),
+			  let categoryType = Category.category(for: categoryString.lowercased())
+		else {
+			return displaySubjectError()
+		}
+		if isEditingExistingListing {
+			removeOldListing(subject: subject, price: price, image: image, categoryString: categoryString, categoryType: categoryType)
+		} else {
+			updateNewListing(subject: subject, price: price, image: image, categoryString: categoryString, categoryType: categoryType)
+		}
     }
-
+	
+	private func updateNewListing(subject: String, price: Int, image: UIImage, categoryString: String, categoryType: Category) {
+		FirebaseData.manager.updateListing(tutor: tutor, category: categoryString.lowercased(), image: image, price: price, subject: subject) { success in
+			if success {
+				AlertController.genericSavedAlert(self, title: "Your listing has been saved!", message: nil)
+				self.delegate?.updateListingCallBack(price: price, subject: subject, image: image, category: categoryType)
+			} else {
+				AlertController.genericErrorAlertWithoutCancel(self, title: "Error uploading listing", message: "Something went wrong, please try again.")
+			}
+			self.dismissOverlay()
+		}
+	}
+	
+	private func removeOldListing(subject: String, price: Int, image: UIImage, categoryString: String, categoryType: Category) {
+		if let category = self.categoryOfCurrentListing {
+			FirebaseData.manager.removeCurrentListing(uid: tutor.uid, categories: [category]) {
+				self.updateNewListing(subject: subject, price: price, image: image, categoryString: categoryString, categoryType: categoryType)
+			}
+		} else {
+			let categoryStringsArray = Category.categories.map { $0.subcategory.fileToRead }
+			FirebaseData.manager.removeCurrentListing(uid: tutor.uid, categories: categoryStringsArray) {
+				self.updateNewListing(subject: subject, price: price, image: image, categoryString: categoryString, categoryType: categoryType)
+			}
+		}
+	}
+	
     @objc private func handleAddButton() {
         AlertController.cropImageAlert(self, imagePicker: listingPicker, allowsEditing: false)
     }
@@ -103,23 +131,10 @@ class EditListingVC: BaseViewController {
             contentView.tableView.setContentOffset(CGPoint(x: 0, y: 210), animated: true)
         }
     }
-
-    private func subcategoriesForCategory() -> [String]? {
-        guard let subcategories = Category.category(for: self.category)?.subcategory.subcategories else { return nil }
-        return subcategories.map { $0.title.lowercased() }
-    }
-
-    private func getSubjectsForCategory() -> [String]? {
-        guard let subcategories = subcategoriesForCategory() else { return nil }
-        var subjectsToDisplay = [String]()
-        for subject in tutor.selected {
-            if subcategories.contains(subject.path.lowercased()) {
-                subjectsToDisplay.append(subject.subject)
-            }
-        }
-        return subjectsToDisplay
-    }
-
+	private func displaySubjectError() {
+		AlertController.genericErrorAlertWithoutCancel(self, title: "Error", message: "Unable to update this listing, please try again.")
+	}
+	
     override func handleNavigation() {
         if touchStartView is NavbarButtonSave {
             handleListingErrorsAndSave()
@@ -162,7 +177,7 @@ extension EditListingVC: UITableViewDelegate, UITableViewDataSource {
             if image != nil {
                 cell.listingImage.image = image
             }
-
+			
             cell.addButton.addTarget(self, action: #selector(handleAddButton), for: .touchUpInside)
             return cell
         case 1:
@@ -174,9 +189,8 @@ extension EditListingVC: UITableViewDelegate, UITableViewDataSource {
 			cell.backgroundColor = Colors.backgroundDark
             cell.selectedSubject = subject
             cell.delegate = self
-            guard let subjectsToDisplay = getSubjectsForCategory() else { return cell }
-            cell.datasource = subjectsToDisplay
-
+            cell.datasource = subjects
+			cell.selectionStyle = .none
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHourlyRateTableViewCell", for: indexPath) as! EditProfileHourlyRateTableViewCell

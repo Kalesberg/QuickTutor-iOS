@@ -543,7 +543,7 @@ enum Category {
             return .remedial
         case "sports":
             return .sports
-        case "technology":
+        case "tech":
             return .tech
         case "trades":
             return .trades

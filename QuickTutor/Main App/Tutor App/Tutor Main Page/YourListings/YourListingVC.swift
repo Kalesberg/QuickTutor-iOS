@@ -14,7 +14,7 @@ protocol CreateListing {
 }
 
 protocol UpdateListingCallBack {
-    func updateListingCallBack(price: Int, subject: String, image: UIImage)
+	func updateListingCallBack(price: Int, subject: String, image: UIImage, category: Category)
 }
 
 class YourListingView: MainLayoutTitleTwoButton {
@@ -324,13 +324,15 @@ class YourListingVC: BaseViewController {
         if touchStartView is NavbarButtonEdit {
             let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeaturedTutorCollectionViewCell
 
-            let next = EditListingVC()
-            next.price = listings[0].price
-            next.image = cell.featuredTutor.imageView.image
-            next.subject = listings[0].subject
-            next.category = categories[0].subcategory.fileToRead
-            next.delegate = self
-            navigationController?.pushViewController(next, animated: true)
+            let vc = EditListingVC()
+            vc.price = listings[0].price
+            vc.image = cell.featuredTutor.imageView.image
+            vc.subject = listings[0].subject
+			vc.subjects = tutor.subjects ?? []
+			vc.categoryOfCurrentListing = self.featuredCategory
+            vc.delegate = self
+			vc.isEditingExistingListing = true
+            navigationController?.pushViewController(vc, animated: true)
 
         } else if touchStartView is NavbarButtonBack {
 			guard let featuredCategory = featuredCategory else { return }
@@ -341,40 +343,22 @@ class YourListingVC: BaseViewController {
 }
 
 extension YourListingVC: UpdateListingCallBack {
-    func updateListingCallBack(price: Int, subject: String, image: UIImage) {
+	func updateListingCallBack(price: Int, subject: String, image: UIImage, category: Category) {
         let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeaturedTutorCollectionViewCell
         cell.price.text = "$\(price)/hr"
         cell.featuredTutor.subject.text = subject
         cell.featuredTutor.imageView.image = image
+		
     }
 }
 
 extension YourListingVC: CreateListing {
     func createListingButtonPressed() {
-        findTopSubjects { category in
-            if let category = category {
-                let next = EditListingVC()
-                next.category = category
-                self.navigationController?.pushViewController(next, animated: true)
-            }
-        }
-    }
-
-    private func findTopSubjects(_ completion: @escaping (String?) -> Void) {
-        func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
-            return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
-        }
-        FirebaseData.manager.fetchSubjectsTaught(uid: tutor.uid) { subcategoryList in
-            let avg = subcategoryList.map({ $0.rating / 5 }).average
-
-            let topSubcategory = subcategoryList.sorted {
-                return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 10) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
-            }.first
-
-            guard let subcategory = topSubcategory?.subcategory else { return completion(nil) }
-            completion(SubjectStore.findCategoryBy(subcategory: subcategory))
-        }
-    }
+		let vc = EditListingVC()
+		vc.subjects = CurrentUser.shared.tutor.subjects ?? []
+		vc.isEditingExistingListing = false
+		self.navigationController?.pushViewController(vc, animated: true)
+	}
 }
 
 extension YourListingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

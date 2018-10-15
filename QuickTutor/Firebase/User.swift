@@ -122,6 +122,14 @@ class FirebaseData {
 	/*
 	MARK: // Remove
 	*/
+
+	func removeCurrentListing(uid: String, categories: [String], index:Int=0,_ completion: @escaping () -> Void) {
+		for category in categories {
+			self.ref.child("featured").child(category.lowercased()).child(uid).removeValue()
+		}
+		completion()
+	}
+	
 	func removeTutorAccount(uid: String, reason: String, subcategory: [String], message: String, _ completion: @escaping (Error?) -> Void) {
 		
 		var childNodes : [String : Any] = [:]
