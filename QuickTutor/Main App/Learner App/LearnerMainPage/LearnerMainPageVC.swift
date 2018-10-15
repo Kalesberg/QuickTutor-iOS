@@ -86,6 +86,8 @@ class LearnerMainPageVC: MainPageVC {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.prefetchDataSource = self
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleSeachTap))
+        contentView.search.addGestureRecognizer(tap)
     }
 
 
@@ -295,16 +297,20 @@ class LearnerMainPageVC: MainPageVC {
             }
             hideSidebar()
             hideBackground()
-        } else if touchStartView is SearchBar {
-            let nav = navigationController
-            DispatchQueue.main.async {
-                nav?.view.layer.add(CATransition().segueFromTop(), forKey: nil)
-                nav?.pushViewController(SearchSubjectsVC(), animated: false)
-            }
         } else if touchStartView is InviteButton {
             navigationController?.pushViewController(InviteOthersVC(), animated: true)
             hideSidebar()
             hideBackground()
+        }
+        
+    
+    }
+    
+    @objc func handleSeachTap() {
+        let nav = navigationController
+        DispatchQueue.main.async {
+            nav?.view.layer.add(CATransition().segueFromTop(), forKey: nil)
+            nav?.pushViewController(SearchSubjectsVC(), animated: false)
         }
     }
 }
