@@ -9,12 +9,6 @@
 import UIKit
 
 class LearnerUpcomingSessionCell: BaseUpcomingSessionCell {
-    override func handleButton2() {
-        let vc = BaseSessionStartVC()
-        vc.sessionId = session.id
-        vc.partnerId = session.partnerId()
-        navigationController.pushViewController(vc, animated: true)
-    }
     
     override func startSession() {
         delegate?.sessionCell(self, shouldStart: session)

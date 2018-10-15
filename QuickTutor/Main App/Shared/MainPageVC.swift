@@ -10,6 +10,7 @@ import Firebase
 import UIKit
 
 class MainPageVC: BaseViewController {
+    
     override var contentView: MainPageVCView {
         return view as! MainPageVCView
     }
@@ -43,11 +44,6 @@ class MainPageVC: BaseViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         contentView.sidebar.profileView.profilePicView.sd_setImage(with: storageRef.child("student-info").child(uid).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         contentView.sidebar.profileView.profilePicView.layer.cornerRadius = contentView.sidebar.profileView.profilePicView.frame.height / 2
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @objc func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {

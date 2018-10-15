@@ -1651,13 +1651,13 @@
 			isa = PBXGroup;
 			children = (
 				8470995B20083AA5000DCFD0 /* MainPageVC.swift */,
+				CFA1717021741CFC003F195A /* MainPageVCView.swift */,
 				8422F2F0205AB6480061ACE4 /* PageController.swift */,
 				84000D2D21246B5E0023355B /* ProfileImageViewer.swift */,
+				CFA1716E21741B04003F195A /* SearchBar.swift */,
 				84F5FD1220A5541900CFDA95 /* CloseAccount */,
 				841F8492216A7C6700C9788B /* Settings */,
 				843BA3202055087D000C7054 /* My Profile */,
-				CFA1716E21741B04003F195A /* SearchBar.swift */,
-				CFA1717021741CFC003F195A /* MainPageVCView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -2296,7 +2296,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -2345,7 +2345,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {

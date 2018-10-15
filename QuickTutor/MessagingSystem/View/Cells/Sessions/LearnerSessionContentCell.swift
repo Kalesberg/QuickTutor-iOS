@@ -14,7 +14,7 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
         super.setupCollectionView()
         collectionView.register(LearnerPendingSessionCell.self, forCellWithReuseIdentifier: "pendingSessionCell")
         collectionView.register(LearnerPastSessionCell.self, forCellWithReuseIdentifier: "pastSessionCell")
-        collectionView.register(BaseUpcomingSessionCell.self, forCellWithReuseIdentifier: "upcomingSessionCell")
+        collectionView.register(LearnerUpcomingSessionCell.self, forCellWithReuseIdentifier: "upcomingSessionCell")
         collectionView.register(EmptySessionCell.self, forCellWithReuseIdentifier: "emptyCell")
         collectionView.register(SessionHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
     }
@@ -38,7 +38,7 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
                 return cell
             }
 
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! BaseUpcomingSessionCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingSessionCell", for: indexPath) as! LearnerUpcomingSessionCell
             cell.updateUI(session: upcomingSessions[indexPath.item])
             cell.delegate = self
             return cell
