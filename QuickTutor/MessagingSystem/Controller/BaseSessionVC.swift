@@ -198,7 +198,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
 		else {
 			return
 		}
-		let minimumSessionPrice = 5.0
+		let minimumSessionPrice = 5.0 //$5
         let costOfSession = minimumSessionPrice + ((session.price / 60) / 60) * Double(runTime)
 
         if AccountService.shared.currentUserType == .learner {

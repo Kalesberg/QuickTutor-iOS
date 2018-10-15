@@ -148,7 +148,6 @@ class QueryData {
         for category in categories {
             uids[category] = []
             let categoryString = category.subcategory.fileToRead
-
             group.enter()
             ref?.child("featured").child(categoryString).queryOrderedByKey().queryLimited(toFirst: 5).observeSingleEvent(of: .value, with: { snapshot in
                 for snap in snapshot.children {
