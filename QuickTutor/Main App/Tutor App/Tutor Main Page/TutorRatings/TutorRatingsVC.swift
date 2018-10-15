@@ -117,22 +117,20 @@ class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
             self.topSubject = SubjectStore.findSubcategoryImage(subcategory: subcategory)
         }
     }
-    
-    func getFormattedTimeString(seconds: Int) -> NSMutableAttributedString {
-        let hours = seconds / 3600
-        let minutes = (seconds % 3600) / 60
-        let seconds = (seconds % 3600) % 60
-        
-        let formattedString3 = NSMutableAttributedString()
-        if hours > 0 {
-            return formattedString3.bold("\(hours)\n", 16, .white).regular("Hours", 15, Colors.grayText)
-        } else if minutes > 0 {
-            return formattedString3.bold("\(minutes)\n", 16, .white).regular("Minutes", 15, Colors.grayText)
-        } else {
-            return formattedString3.bold("\(seconds)\n", 16, .white).regular("Seconds", 15, Colors.grayText)
-        }
-    }
-    
+	
+	func getFormattedTimeString(seconds: Int) -> (time: Int, unit: String) {
+		let hours = seconds / 3600
+		let minutes = (seconds % 3600) / 60
+		let seconds = (seconds % 3600) % 60
+		
+		if hours > 0 {
+			return (time: hours, unit: "Hours")
+		} else if minutes > 0 {
+			return (time: minutes, unit: "Minutes")
+		} else {
+			return (time: seconds, unit: "Seconds")
+		}
+	}
 }
 
 extension TutorRatingsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -191,7 +189,9 @@ extension TutorRatingsVC: UICollectionViewDelegate, UICollectionViewDataSource, 
         case 1:
             cell.countLabel.text = "\(fiveStars)"
         case 2:
-            cell.countLabel.text = "\((getFormattedTimeString(seconds: tutor.secondsTaught)))"
+			let formattedTimeString = getFormattedTimeString(seconds: tutor.secondsTaught)
+            cell.countLabel.text = String(formattedTimeString.time)
+			cell.titleLabel.text = formattedTimeString.unit
         default:
             break
         }
