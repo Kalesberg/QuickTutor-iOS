@@ -8,7 +8,6 @@
 
 import UIKit
 import FirebaseAuth
-import FBSDKLoginKit
 import SnapKit
 
 class PhoneTextFieldView: InteractableView, Interactable {
@@ -141,14 +140,12 @@ class SignInVC: BaseViewController {
 		view = SignInView()
 	}
 	
-	let fbLoginManager = FBSDKLoginManager()
 	var keyboardAnimationDuration: Double?
 	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		hideKeyboardWhenTappedAround()
-		fbLoginManager.logOut()
 		contentView.phoneTextField.textField.delegate = self
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -237,43 +234,6 @@ class SignInVC: BaseViewController {
 	}
 	
 	private func facebookSignIn() {
-		displayLoadingOverlay()
-		fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { _, error in
-			if let error = error {
-				print("Failed to login: \(error.localizedDescription)")
-				return
-			}
-			//			guard let accessToken = FBSDKAccessToken.current() else {
-			//				print("Failed to get access token")
-			//				return
-			//			}
-			
-			// let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-			
-			// Perform login by calling Firebase APIs
-			//			Auth.auth().signIn(with: credential, completion: { (user, error) in
-			//				if let error = error {
-			//					print("Login error: \(error.localizedDescription)")
-			//					self.dismissOverlay()
-			//					return
-			//				}else{
-			//					let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":" id, name, email"])
-			//					graphRequest.start(completionHandler: { (connection, result, error) -> Void in
-			//						if let error = error {
-			//							print(error.localizedDescription)
-			//							self.dismissOverlay()
-			//						} else {
-			//							self.dismissOverlay()
-			//							let data : [String : AnyObject] = result as! [String : AnyObject]
-			//							print(data)
-			//						}
-			//					})
-			//					print("Successful!")
-			//					self.dismissOverlay()
-			//				}
-			//			})
-			//			self.dismissOverlay()
-		}
 	}
 }
 extension SignInVC: UITextFieldDelegate {

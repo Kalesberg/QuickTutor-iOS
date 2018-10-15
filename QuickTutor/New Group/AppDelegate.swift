@@ -72,10 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.observeDataEvents()
             }
         }
-        
-        let icon = UIApplicationShortcutIcon(templateImageName: "plusButton")
-        let item = UIApplicationShortcutItem(type: "testing", localizedTitle: "Request Session", localizedSubtitle: nil, icon: icon, userInfo: nil)
-        UIApplication.shared.shortcutItems = [item]
+
         return true
     }
     
@@ -182,30 +179,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     }
     
     func showProfileWithUid(_ uid: String) {
-        let type = AccountService.shared.currentUserType
-        
-        if type == .learner {
-            FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
-                guard let tutor = tutor else { return }
-                let vc = TutorMyProfile()
-                vc.tutor = tutor
-                vc.isViewing = true
-                vc.contentView.rightButton.isHidden = true
-                vc.contentView.title.label.text = tutor.username
-                navigationController.pushViewController(vc, animated: true)
-            })
-        } else {
-            FirebaseData.manager.fetchLearner(uid) { (learner) in
-                guard let learner = learner else { return }
-                let vc = LearnerMyProfileVC()
-                vc.learner = learner
-                vc.isViewing = true
-                vc.contentView.title.label.isHidden = true
-                vc.contentView.rightButton.isHidden = true
-                vc.isViewing = true
-                navigationController.pushViewController(vc, animated: true)
-            }
-        }
+        FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
+            guard let tutor = tutor else { return }
+            let vc = TutorMyProfile()
+            vc.tutor = tutor
+            vc.isViewing = true
+            vc.contentView.rightButton.isHidden = true
+            vc.contentView.title.label.text = tutor.username
+            navigationController.pushViewController(vc, animated: true)
+        })
+
     }
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {

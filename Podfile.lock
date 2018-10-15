@@ -9,12 +9,15 @@ PODS:
   - Crashlytics (3.10.9):
     - Fabric (~> 1.7.13)
   - Fabric (1.7.13)
-  - FBSDKCoreKit (4.24.0):
+  - FacebookSDK (4.37.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.24.0):
-    - FBSDKCoreKit
-  - FBSDKShareKit (4.24.0):
-    - FBSDKCoreKit
+    - FacebookSDK/CoreKit (= 4.37.0)
+    - FacebookSDK/MarketingKit (= 4.37.0)
+  - FacebookSDK/CoreKit (4.37.0):
+    - Bolts (~> 1.7)
+  - FacebookSDK/MarketingKit (4.37.0):
+    - Bolts (~> 1.7)
+    - FacebookSDK/CoreKit
   - Firebase/Auth (5.10.0):
     - Firebase/CoreOnly
     - FirebaseAuth (= 5.0.4)
@@ -148,9 +151,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Crashlytics
   - Fabric
-  - FBSDKCoreKit (= 4.24.0)
-  - FBSDKLoginKit (= 4.24.0)
-  - FBSDKShareKit (= 4.24.0)
+  - FacebookSDK
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -177,9 +178,7 @@ SPEC REPOS:
     - Bolts
     - Crashlytics
     - Fabric
-    - FBSDKCoreKit
-    - FBSDKLoginKit
-    - FBSDKShareKit
+    - FacebookSDK
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -226,9 +225,7 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
   Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
-  FBSDKCoreKit: f8c9eb0dd34a9cd277c7b60da4b32226d142502d
-  FBSDKLoginKit: 1214c6d5a1c4995b694d8db8a9ba6910c6028acf
-  FBSDKShareKit: a2ed9d7781a4eda9ac20d7404305e795b10251ac
+  FacebookSDK: aac401153feabdedd7dfeb46acaccad7ac53fb69
   Firebase: 6691d47562a780c26281ce8464518faafc90c610
   FirebaseAnalytics: 831f1f127f4a75698e9875a87bf7e2668730d953
   FirebaseAnalyticsInterop: 31b00d2a916918327308b2dff47251eb96f9e4ad
@@ -262,6 +259,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
   TwilioVideo: 47c9c7c2b280423090f497f88b2a8a09a0e23427
 
-PODFILE CHECKSUM: 851d90c22632832893a76fe518c9ec3cfe7eb6f3
+PODFILE CHECKSUM: 74f1c9b23fa378a25078dfffe902abbde2dafd3b
 
-COCOAPODS: 1.6.0.beta.1
+COCOAPODS: 1.5.3
