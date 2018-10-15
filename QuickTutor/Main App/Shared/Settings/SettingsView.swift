@@ -65,7 +65,7 @@ class SettingsView : MainLayoutTitleBackButton {
 		container.snp.makeConstraints { (make) in
 			make.top.equalTo(settingsProfileHeader.snp.bottom)
 			make.width.centerX.equalToSuperview()
-			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 600 : 725)
+			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 600 : 760)
 		}
 		if AccountService.shared.currentUserType == .tutor {
 			addLocationSubview()
