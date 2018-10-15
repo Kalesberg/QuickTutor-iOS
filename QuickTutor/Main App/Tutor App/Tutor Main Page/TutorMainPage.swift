@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TutorMainPageView: MainPageView {
+class TutorMainPageView: MainPageVCView {
 
     var tutorSidebar = TutorSideBar()
 

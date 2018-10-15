@@ -9,128 +9,13 @@
 import Firebase
 import UIKit
 
-class MainPageView: MainLayoutTwoButton {
-    var sidebarButton = NavbarButtonLines()
-    var messagesButton = NavbarButtonMessages()
-    var backgroundView = InteractableObject()
-
-    override var leftButton: NavbarButton {
-        get {
-            return sidebarButton
-        } set {
-            sidebarButton = newValue as! NavbarButtonLines
-        }
-    }
-
-    override var rightButton: NavbarButton {
-        get {
-            return messagesButton
-        } set {
-            messagesButton = newValue as! NavbarButtonMessages
-        }
-    }
-
-    var sidebar = Sidebar()
-
-    override func configureView() {
-        addSubview(backgroundView)
-
-        navbar.addSubview(sidebarButton)
-        navbar.addSubview(messagesButton)
-        let circle = UIView()
-        circle.backgroundColor = Colors.notificationRed
-        circle.layer.borderColor = Colors.currentUserColor().cgColor
-        circle.layer.borderWidth = 2
-        circle.layer.cornerRadius = 7
-        circle.isHidden = true
-        circle.layer.zPosition = .greatestFiniteMagnitude
-        navbar.addSubview(circle)
-        circle.anchor(top: messagesButton.topAnchor, left: nil, bottom: nil, right: messagesButton.rightAnchor, paddingTop: -1, paddingLeft: 0, paddingBottom: 0, paddingRight: 16, width: 14, height: 14)
-        bringSubviewToFront(circle)
-        DataService.shared.checkUnreadMessagesForUser { hasUnreadMessages in
-            circle.isHidden = !hasUnreadMessages
-        }
-
-        insertSubview(sidebar, aboveSubview: navbar)
-        super.configureView()
-
-        backgroundView.alpha = 0.0
-
-        sidebar.alpha = 0.0
-
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.isUserInteractionEnabled = false
-        blurEffectView.frame = bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        backgroundView.addSubview(blurEffectView)
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-
-        sidebarButton.allignLeft()
-        messagesButton.allignRight()
-
-        backgroundView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        sidebar.snp.remakeConstraints { make in
-            make.top.equalToSuperview()
-            make.left.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.72)
-        }
-    }
-}
-
-class SearchBar: BaseView, Interactable {
-    var searchIcon = UIImageView()
-    var searchLabel = CenterTextLabel()
-
-    override func configureView() {
-        addSubview(searchIcon)
-        addSubview(searchLabel)
-
-        backgroundColor = .white
-        layer.cornerRadius = 12
-
-        searchIcon.image = UIImage(named: "navbar-search")
-        searchIcon.scaleImage()
-
-        searchLabel.label.text = "Search for Tutors"
-        searchLabel.label.font = Fonts.createSize(17)
-        searchLabel.label.textColor = UIColor(red: 128 / 255, green: 128 / 255, blue: 128 / 255, alpha: 1.0)
-        searchLabel.applyConstraints()
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        searchIcon.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.18)
-            make.height.equalToSuperview().multipliedBy(0.6)
-            make.centerY.equalToSuperview()
-        }
-        searchLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-
-    func touchStart() {}
-
-    func didDragOff() {}
-}
-
 class MainPageVC: BaseViewController {
-    override var contentView: MainPageView {
-        return view as! MainPageView
+    override var contentView: MainPageVCView {
+        return view as! MainPageVCView
     }
 
     override func loadView() {
-        view = MainPageView()
+        view = MainPageVCView()
     }
 
     let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LearnerMainPageVCView: MainPageView {
+class LearnerMainPageVCView: MainPageVCView {
     var search = SearchBar()
     var learnerSidebar = LearnerSideBar()
     
@@ -61,9 +61,9 @@ class LearnerMainPageVCView: MainPageView {
     }
     
     func setupTableView() {
-        insertSubview(tableView, belowSubview: backgroundView)
+        insertSubview(tableView, belowSubview: navbar)
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom).inset(-2)
+            make.top.equalTo(navbar.snp.bottom)
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
