@@ -21,26 +21,26 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb303427473587992</string>
 				<string>com.googleusercontent.apps.306650114424-6a1pbl8253mvagr46vc7rtrb9sf4tie2</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>com.qt.dynamicLinks</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.quicktutor1.quicktutor</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>5</string>
+	<key>FacebookAppID</key>
+	<string>303427473587992</string>
+	<key>FacebookDisplayName</key>
+	<string>QuickTutor</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -100,25 +100,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb303427473587992</string>
-            </array>
-        </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>303427473587992</string>
-    <key>FacebookDisplayName</key>
-    <string>QuickTutor</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-share-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
 </dict>
 </plist>
