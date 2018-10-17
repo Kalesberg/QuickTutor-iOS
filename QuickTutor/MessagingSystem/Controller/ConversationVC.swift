@@ -218,10 +218,13 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         
         tutorial.showIfNeeded()
         conversationManager.readReceiptManager?.markConversationRead()
+        NotificationManager.shared.disableConversationNotificationsFor(uid: chatPartner.uid)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+        NotificationManager.shared.enableConversationNotificationsFor(uid: chatPartner.uid)
+
     }
     
     func setMessageTextViewCoverHidden(_ result: Bool) {

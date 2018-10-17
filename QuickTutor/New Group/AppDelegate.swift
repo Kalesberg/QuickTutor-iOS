@@ -283,6 +283,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
+        let notificationView = InAppNotificationView()
+        notificationView.notification = notification
+        notificationView.show()
     }
 }

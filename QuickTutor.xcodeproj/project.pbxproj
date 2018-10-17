@@ -316,6 +316,8 @@
 		CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */; };
 		CF3CE5F42141A5A300DE8FF0 /* loading12.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3CE5F32141A5A200DE8FF0 /* loading12.json */; };
 		CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */; };
+		CF43AF962177B82F00783819 /* SignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF43AF952177B82F00783819 /* SignInManager.swift */; };
+		CF43AF982177B86000783819 /* RootControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF43AF972177B86000783819 /* RootControllerManager.swift */; };
 		CF4CAED42172CC2100B23530 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4CAED32172CC2100B23530 /* NotificationService.swift */; };
 		CF4CAED82172CC2100B23530 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CF4CAED12172CC2100B23530 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */; };
@@ -797,6 +799,8 @@
 		CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlesSessionStartData.swift; sourceTree = "<group>"; };
 		CF3CE5F32141A5A200DE8FF0 /* loading12.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading12.json; sourceTree = "<group>"; };
 		CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
+		CF43AF952177B82F00783819 /* SignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInManager.swift; sourceTree = "<group>"; };
+		CF43AF972177B86000783819 /* RootControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootControllerManager.swift; sourceTree = "<group>"; };
 		CF4CAED12172CC2100B23530 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF4CAED32172CC2100B23530 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		CF4CAED52172CC2100B23530 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2140,6 +2144,8 @@
 				CF528CE1216489D600D81D03 /* AnalyticsService.swift */,
 				CFB40E4A216D4AEB00828E72 /* VideoSessionViewManager.swift */,
 				CFA1716C21730548003F195A /* NotificationManager.swift */,
+				CF43AF952177B82F00783819 /* SignInManager.swift */,
+				CF43AF972177B86000783819 /* RootControllerManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -2439,6 +2445,7 @@
 				CFA00970213A000200F81EE4 /* BackgroundSoundManager.swift in Sources */,
 				8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */,
 				CF833B73207C4B5400323242 /* BasePendingSessionCell.swift in Sources */,
+				CF43AF982177B86000783819 /* RootControllerManager.swift in Sources */,
 				CF07110C211810A40035A6FF /* Conversation.swift in Sources */,
 				CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */,
 				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
@@ -2627,6 +2634,7 @@
 				844FECFA210FABD600C1797B /* SubjectSearchSubcategoryCell.swift in Sources */,
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBioVC.swift in Sources */,
+				CF43AF962177B82F00783819 /* SignInManager.swift in Sources */,
 				CF6F58D4205EE68800ACBD32 /* QuickChatView.swift in Sources */,
 				CFEC492320E2AA8F00060E48 /* MessagingSystemTutorial.swift in Sources */,
 				CF1C6115209ED011009B7B0E /* SocketClient.swift in Sources */,

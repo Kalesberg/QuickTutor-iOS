@@ -306,11 +306,13 @@ class BaseSessionStartVC: UIViewController {
         #else
         guard checkPermissions() else { return }
         #endif
+        NotificationManager.shared.disableAllNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
         socket.disconnect()
+        NotificationManager.shared.enableAllNotifcations()
     }
     
     func checkPermissions() -> Bool {

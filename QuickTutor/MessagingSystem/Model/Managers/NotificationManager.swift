@@ -9,22 +9,27 @@
 import Foundation
 import Firebase
 
-enum NotificationCategory {
-    case messsage, sessionsStart, sessionPause, sessionRequestAccepted, connectionRequestAccepted, sessionCancelled
+enum NotificationCategory: String {
+    case message = "messages"
+    case sessionsStart = "sessionStart"
+    case sessionPause = "sessionPause"
+    case sessionRequestAccepted = "sessionRequestAccepted"
+    case connectionRequestAccepted = "connectionRequestAccepted"
+    case sessionCancelled = "sessionCancelled"
 }
-
 
 class NotificationManager {
     
     static let shared = NotificationManager()
     
-    var disabledNotificationCategories = [NotificationCategory.sessionsStart]
+    var notificationsEnabled = true
+    var messageNotificationsEnabled = true
     var disabledNotificationForUid: String?
-    
     
     func handleInAppPushNotification(userInfo: [AnyHashable: Any]) {
         let notification = PushNotification(userInfo: userInfo)
         guard SessionService.shared.session == nil else { return }
+        guard canHandle(notificationType: .message) else { return }
         self.handleMessageType(notification: notification)
     }
     
@@ -35,7 +40,7 @@ class NotificationManager {
     }
     
     func handleMessageType(notification: PushNotification) {
-        guard notification.category == "messages" else { return }
+        guard notification.category == .message else { return }
         if let type = notification.receiverAccountType {
             AccountService.shared.currentUserType = UserType(rawValue: type)!
         }
@@ -50,54 +55,41 @@ class NotificationManager {
         }
     }
     
+    func enableAllNotifcations() {
+        messageNotificationsEnabled = true
+        notificationsEnabled = true
+    }
+    
+    func disableAllNotifications() {
+        messageNotificationsEnabled = false
+        notificationsEnabled = false
+    }
+    
     func canHandle(notificationType: NotificationCategory) -> Bool {
-        return disabledNotificationCategories.contains(notificationType)
-    }
-    
-    
-    
-    private init() {}
-}
-
-class RootControllerManager {
-    
-    static let shared = RootControllerManager()
-    
-    func configureRootViewController(controller: UIViewController) {
-        navigationController = CustomNavVC(rootViewController: controller)
-        navigationController.navigationBar.isHidden = true
-        guard let window = UIApplication.shared.keyWindow else { return }
-        window.rootViewController = navigationController
-    }
-    
-    private init() {}
-    
-}
-
-
-class SignInManager {
-    static let shared = SignInManager()
-    
-    func handleSignIn(completion: @escaping () -> Void) {
-        guard let user = Auth.auth().currentUser else {
-            RootControllerManager.shared.configureRootViewController(controller: SignInVC())
-            completion()
-            return
-        }
-        
-        let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
-        let vc = typeOfUser == .learner ? LearnerPageVC() : TutorPageViewController()
-        
-        FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
-            guard successful else {
-                RootControllerManager.shared.configureRootViewController(controller: SignInVC())
-                return
-            }
-            AccountService.shared.updateFCMTokenIfNeeded()
-            RootControllerManager.shared.configureRootViewController(controller: vc)
-            completion()
+        guard notificationsEnabled else { return false }
+        if notificationType == .message {
+            return messageNotificationsEnabled
+        } else {
+            return true
         }
     }
     
+    func enableAllConversationNotifications() {
+        messageNotificationsEnabled = true
+    }
+    
+    func disableAllConversationNotifications() {
+        messageNotificationsEnabled = false
+    }
+    
+    func enableConversationNotificationsFor(uid: String) {
+        disabledNotificationForUid = nil
+    }
+    
+    func disableConversationNotificationsFor(uid: String) {
+        disabledNotificationForUid = uid
+    }
+    
     private init() {}
 }
+

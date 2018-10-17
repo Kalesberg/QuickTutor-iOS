@@ -56,11 +56,13 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
         edgesForExtendedLayout = []
+        NotificationManager.shared.disableAllConversationNotifications()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        NotificationManager.shared.enableAllConversationNotifications()
     }
 
     func setupViews() {

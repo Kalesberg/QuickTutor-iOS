@@ -150,6 +150,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
             self.sessionManager = SessionManager(sessionId: id, socket: self.socket)
             self.sessionManager?.delegate = self
         }
+        NotificationManager.shared.disableAllNotifications()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -158,6 +159,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         sessionManager?.stopSessionRuntime()
         sessionManager = nil
         socket.disconnect()
+        NotificationManager.shared.enableAllNotifcations()
     }
 
     func setupNotifications() {

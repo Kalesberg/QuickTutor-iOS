@@ -304,7 +304,7 @@ class LearnerMainPageVC: MainPageVC {
         }
         
     
-    }
+        }
     
     @objc func handleSeachTap() {
         let nav = navigationController

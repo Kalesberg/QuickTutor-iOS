@@ -21,7 +21,7 @@ struct Notifications {
 
 struct PushNotification {
     var identifier: String
-    var category: String
+    var category: NotificationCategory
     var senderId: String?
     var receiverId: String?
     var senderAccountType: String?
@@ -36,7 +36,7 @@ struct PushNotification {
 
     init(userInfo: [AnyHashable: Any]) {
         identifier = userInfo["identifier"] as? String ?? ""
-        category = userInfo["category"] as? String ?? "sessions"
+        category = NotificationCategory(rawValue: userInfo["category"] as? String ?? "sessions")!
         senderId = userInfo["senderId"] as? String
         receiverId = userInfo["receiverId"] as? String
         senderAccountType = userInfo["senderAccountType"] as? String

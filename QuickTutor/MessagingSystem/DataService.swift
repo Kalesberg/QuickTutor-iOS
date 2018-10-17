@@ -16,6 +16,18 @@ class DataService {
     typealias UserCompletion = (User?) -> Void
     typealias TutorCompletion = (ZFTutor?) -> Void
 
+    func getUserWithId(_ uid: String, type: UserType, completion: @escaping (User?) -> Void) {
+        if type == .tutor {
+            getTutorWithId(uid) { tutor in
+                completion(tutor)
+            }
+        } else {
+            getStudentWithId(uid) { student in
+                completion(student)
+            }
+        }
+    }
+    
     func getUserOfOppositeTypeWithId(_ uid: String, completion: @escaping (User?) -> Void) {
         if AccountService.shared.currentUserType == .learner {
             getTutorWithId(uid) { tutor in

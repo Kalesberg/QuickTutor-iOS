@@ -19,7 +19,7 @@ class InAppNotificationView: UIView {
         }
     }
     
-    var pushNotification: PushNotification?
+    var pushNotification: PushNotification!
     
     let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -54,6 +54,13 @@ class InAppNotificationView: UIView {
         return view
     }()
     
+    let imagePreviewView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        return iv
+    }()
+    
     func updateUI() {
         guard let notification = notification, let userInfo = notification.request.content.userInfo as? [String: Any], let apsData = userInfo["aps"] as? [String: Any],
             let alertData = apsData["alert"] as? [String: Any],
@@ -61,9 +68,12 @@ class InAppNotificationView: UIView {
                 print("Parsing error")
                 return
         }
-        let pushNotification = PushNotification(userInfo: userInfo)
         
-        DataService.shared.getUserOfOppositeTypeWithId(pushNotification.partnerId()) { (user) in
+        pushNotification = PushNotification(userInfo: userInfo)
+        
+        let accountType: UserType  = pushNotification.receiverAccountType == "learner" ? .tutor : .learner
+        
+        DataService.shared.getUserWithId(pushNotification.partnerId(), type: accountType) { (user) in
             guard let user = user else { return }
             self.profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: nil)
         }
@@ -71,9 +81,33 @@ class InAppNotificationView: UIView {
         titleLabel.text = title
         guard let message = alertData["body"] as? String else { return }
         messageLabel.text = message
+        addImagePreview()
     }
     
     func show() {
+        guard shouldShowNotification() else { return }
+        setupInitialPosition()
+        animateOntoScreen()
+    }
+    
+    private func shouldShowNotification() -> Bool {
+        guard NotificationManager.shared.notificationsEnabled else { return false }
+        if pushNotification.category == .message {
+            guard NotificationManager.shared.messageNotificationsEnabled else { return false }
+        }
+        guard NotificationManager.shared.disabledNotificationForUid != pushNotification.partnerId() else { return false}
+        return true
+    }
+    
+    private func setupInitialPosition() {
+        guard let window = UIApplication.shared.keyWindow else { return }
+        window.addSubview(self)
+        self.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 68)
+        customTopAnchor = self.topAnchor.constraint(equalTo: window.topAnchor, constant: -75)
+        customTopAnchor?.isActive = true
+    }
+    
+    private func animateOntoScreen() {
         let deltaY = UIApplication.shared.statusBarFrame.height + 75
         UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.transform = CGAffineTransform(translationX: 0, y: deltaY)
@@ -82,6 +116,17 @@ class InAppNotificationView: UIView {
             self.dismiss()
         }
         UINotificationFeedbackGenerator().notificationOccurred(.success)
+    }
+    
+    private func addImagePreview() {
+        guard let userInfo = notification?.request.content.userInfo as? [String: Any],
+            let apsData = userInfo["aps"] as? [String: Any],
+            let attachmentURLAsString = apsData["attachment-url"] as? String,
+            let attachmentURL = URL(string: attachmentURLAsString) else {
+                return
+        }
+        imagePreviewView.sd_setImage(with: attachmentURL, completed: nil)
+        
     }
     
     func setupTapRecognizer() {
@@ -103,8 +148,8 @@ class InAppNotificationView: UIView {
         setupProfileImageView()
         setupTitleLabel()
         setupMessageLabel()
+        setupImagePreviewView()
         setupTapRecognizer()
-//        setupBottomLine()
     }
     
     func setupMainView() {
@@ -135,12 +180,10 @@ class InAppNotificationView: UIView {
         messageLabel.anchor(top: titleLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 12, paddingRight: 40, width: 0, height: 0)
     }
     
-    func setupBottomLine() {
-        addSubview(bottomLine)
-        bottomLine.anchor(top: nil, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 6, paddingRight: 0, width: 40, height: 6)
-        addConstraint(NSLayoutConstraint(item: bottomLine, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+    func setupImagePreviewView() {
+        addSubview(imagePreviewView)
+        imagePreviewView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom: 12, paddingRight: 12, width: 44, height: 0)
     }
-    
     
     func setupSwipeRecognizer() {
         let swipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
