@@ -149,27 +149,27 @@ class VerificationVC : BaseViewController {
             } else {
                 self.view.endEditing(true)
 				guard let user = authResult?.user else { return }
-                self.ref.child("student-info").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
-                    if snapshot.exists() {
+				self.ref.child("student-info").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+					if snapshot.exists() {
 						UserDefaults.standard.set(true, forKey: "showHomePage")
-							if UserDefaults.standard.bool(forKey: "showHomePage") {
-								FirebaseData.manager.signInLearner(uid: user.uid) { (successful) in
-									if successful {
-										Registration.setLearnerDefaults()
+						if UserDefaults.standard.bool(forKey: "showHomePage") {
+							FirebaseData.manager.signInLearner(uid: user.uid) { (successful) in
+								if successful {
+									Registration.setLearnerDefaults()
 									self.navigationController?.pushViewController(LearnerPageVC(), animated: true)
-									} else {
-										self.navigationController?.pushViewController(SignInVC(), animated: true)
-									}
+								} else {
+									self.navigationController?.pushViewController(SignInVC(), animated: true)
 								}
-							} else {
-								FirebaseData.manager.signInTutor(uid: user.uid) { (successful) in
-									if successful {
-										Registration.setTutorDefaults()
-										self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-									} else {
-										self.navigationController?.pushViewController(SignInVC(), animated: true)
-									}
+							}
+						} else {
+							FirebaseData.manager.signInTutor(uid: user.uid) { (successful) in
+								if successful {
+									Registration.setTutorDefaults()
+									self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+								} else {
+									self.navigationController?.pushViewController(SignInVC(), animated: true)
 								}
+							}
 						}
                     } else {
 						Registration.uid = user.uid

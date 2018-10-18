@@ -152,12 +152,8 @@ class SignInVC: BaseViewController {
 	}
 	@objc func keyboardWillShow(_ notification: Notification) {
 		if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-			let keyboardRectangle = keyboardFrame.cgRectValue
-			print("Screen Height: ", UIScreen.main.bounds.height)
-			print("Keyboard Height: ", keyboardRectangle.height)
 			guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {return}
 			keyboardAnimationDuration = duration
-
 		}
 	}
 	override func viewDidAppear(_ animated: Bool) {
