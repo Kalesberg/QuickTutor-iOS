@@ -160,31 +160,31 @@ class MyProfileReviewsView : UIView {
 	}
 	
 	@objc private func showReviewerProfile(_ sender: UIButton) {
-		if (AccountService.shared.currentUserType == .learner && isViewing) || (AccountService.shared.currentUserType == .tutor && !isViewing) {
-			let vc = LearnerMyProfileVC()
-			FirebaseData.manager.fetchLearner(dataSource[sender.tag].reviewerId) { (learner) in
-				if let learner = learner {
-					vc.learner = learner
-					vc.isViewing = true
-					vc.contentView.rightButton.isHidden = true
-					vc.contentView.title.label.isHidden = true
-					self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
-				}
-			}
-		} else  if (AccountService.shared.currentUserType == .learner) && !isViewing || (AccountService.shared.currentUserType == .tutor && isViewing) {
-			let vc = TutorMyProfileVC()
-			FirebaseData.manager.fetchTutor(dataSource[sender.tag].reviewerId, isQuery: false) { (tutor) in
-				if let tutor = tutor {
-					vc.tutor = tutor
-					vc.isViewing = true
-					vc.contentView.title.label.text = tutor.username
-					vc.contentView.rightButton.isHidden = true
-					self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
-				}
-			}
-		} else {
-			print("No scenario for this.")
-		}
+//		if (AccountService.shared.currentUserType == .learner && isViewing) || (AccountService.shared.currentUserType == .tutor && !isViewing) {
+//			let vc = LearnerMyProfileVC()
+//			FirebaseData.manager.fetchLearner(dataSource[sender.tag].reviewerId) { (learner) in
+//				if let learner = learner {
+//					vc.learner = learner
+//					vc.isViewing = true
+//					vc.contentView.rightButton.isHidden = true
+//					vc.contentView.title.label.isHidden = true
+//					self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+//				}
+//			}
+//		} else  if (AccountService.shared.currentUserType == .learner) && !isViewing || (AccountService.shared.currentUserType == .tutor && isViewing) {
+//			let vc = TutorMyProfileVC()
+//			FirebaseData.manager.fetchTutor(dataSource[sender.tag].reviewerId, isQuery: false) { (tutor) in
+//				if let tutor = tutor {
+//					vc.tutor = tutor
+//					vc.isViewing = true
+//					vc.contentView.title.label.text = tutor.username
+//					vc.contentView.rightButton.isHidden = true
+//					self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+//				}
+//			}
+//		} else {
+//			print("No scenario for this.")
+//		}
 	}
 	
 	private func setupReviewLabel() {
