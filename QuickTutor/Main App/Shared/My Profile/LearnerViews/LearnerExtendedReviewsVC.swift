@@ -15,12 +15,8 @@ class LearnerReviewsView: MainLayoutTitleOneButton {
     var backButton = NavbarButtonXLight()
 
     override var leftButton: NavbarButton {
-        get {
-            return backButton
-        }
-        set {
-            backButton = newValue as! NavbarButtonXLight
-        }
+        get { return backButton }
+        set { backButton = newValue as! NavbarButtonXLight }
     }
 
     let tableView: UITableView = {
@@ -47,7 +43,6 @@ class LearnerReviewsView: MainLayoutTitleOneButton {
 
     override func applyConstraints() {
         super.applyConstraints()
-
         tableView.snp.makeConstraints { make in
             make.top.equalTo(navbar.snp.bottom).inset(-1)
             make.width.equalToSuperview().multipliedBy(0.98)
@@ -78,7 +73,6 @@ class LearnerReviewsVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		print(isViewing)
         contentView.navbar.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
         contentView.statusbarView.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
 
@@ -98,8 +92,8 @@ class LearnerReviewsVC: BaseViewController {
 
     override func handleNavigation() {
         if touchStartView is NavbarButtonXLight {
-            dismiss(animated: true, completion: nil)
-        }
+			self.navigationController?.popViewController(animated: true)
+		}
     }
 }
 
@@ -143,11 +137,20 @@ extension LearnerReviewsVC: UITableViewDelegate, UITableViewDataSource {
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().inset(5)
         }
-
         return view
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+		let vc = LearnerMyProfileVC()
+		FirebaseData.manager.fetchLearner(datasource[indexPath.row].reviewerId) { (learner) in
+			if let learner = learner {
+				vc.learner = learner
+				vc.isViewing = true
+				vc.contentView.rightButton.isHidden = true
+				vc.contentView.title.label.isHidden = true
+				print("Her")
+				self.navigationController?.pushViewController(vc, animated: true)
+			}
+		}
     }
 }

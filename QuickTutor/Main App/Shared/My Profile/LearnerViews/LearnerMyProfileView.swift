@@ -39,7 +39,7 @@ class LearnerMyProfileView: MainLayoutTitleTwoButton {
 	let myProfileHeader = LearnerMyProfileHeader()
 	let myProfileBioView = MyProfileBioView()
 	let myProfileBody = MyProfileBody()
-	let myProfileReviews = MyProfileReviewsView()
+	let myProfileReviews = LearnerMyProfileReviewsView()
 	
 	override func configureView() {
 		addSubview(scrollView)

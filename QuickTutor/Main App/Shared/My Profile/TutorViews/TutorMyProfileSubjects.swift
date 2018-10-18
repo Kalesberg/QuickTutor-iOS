@@ -40,6 +40,7 @@ class TutorMyProfileSubjects : UIView {
 		let collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		collectionView.backgroundColor = .clear
 		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.alwaysBounceHorizontal = true
 		
 		return collectionView
 	}()

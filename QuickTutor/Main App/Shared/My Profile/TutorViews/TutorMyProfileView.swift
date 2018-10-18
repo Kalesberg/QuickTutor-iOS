@@ -42,7 +42,7 @@ class TutorMyProfileView: MainLayoutTitleTwoButton {
 	let myProfileBioView = MyProfileBioView()
 	let myProfileBody = MyProfileBody()
 	let myProfileSubjects = TutorMyProfileSubjects()
-	let myProfileReviews = MyProfileReviewsView()
+	let myProfileReviews = TutorMyProfileReviewsView()
 	let myProfilePolicies = TutorMyProfilePolicies()
 	
 	override func configureView() {

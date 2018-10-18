@@ -1,4 +1,12 @@
 //
+//  TutorMyProfileReviewView.swift
+//  QuickTutor
+//
+//  Created by QuickTutor on 10/17/18.
+//  Copyright © 2018 QuickTutor. All rights reserved.
+//
+
+//
 //  MyProfileReviewsView.swift
 //  QuickTutor
 //
@@ -9,7 +17,7 @@
 import FirebaseUI
 import Foundation
 
-class MyProfileReviewsView : UIView {
+class TutorMyProfileReviewsView : UIView {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
@@ -21,7 +29,7 @@ class MyProfileReviewsView : UIView {
 		super.init(frame: .zero)
 		configureView()
 	}
-
+	
 	let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 	var parentViewController : UIViewController?
 	
@@ -55,22 +63,22 @@ class MyProfileReviewsView : UIView {
 	let reviewLabel1 = MyProfileReview()
 	let reviewLabel2 = MyProfileReview()
 	let backgroundView = NoRatingsBackgroundView()
-
+	
 	var reviewSectionHeight : CGFloat {
 		layoutIfNeeded()
 		let maxLabelWidth: CGFloat = (UIScreen.main.bounds.width - 60)
 		let neededSize1 = reviewLabel1.reviewTextLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
 		let neededSize2 = reviewLabel2.reviewTextLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
-
+		
 		return (neededSize1.height + 50 + neededSize2.height + 50 + 20)
 	}
 	
 	func configureView() {
 		addSubview(reviewTitle)
 		addSubview(divider)
-
+		
 		seeAllButton.addTarget(self, action: #selector(seeAllButtonPressed(_:)), for: .touchUpInside)
-		reviewTitle.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		reviewTitle.textColor = Colors.tutorBlue
 		
 		applyConstraints()
 	}
@@ -111,7 +119,7 @@ class MyProfileReviewsView : UIView {
 		}
 		let formattedName = dataSource[0].studentName.split(separator: " ")
 		reviewLabel1.nameLabel.text = "\(String(formattedName[0])) \(String(formattedName[1]).prefix(1))."
-		reviewLabel1.nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		reviewLabel1.nameLabel.textColor = Colors.tutorBlue
 		reviewLabel1.reviewTextLabel.text = "\"\(dataSource[0].message)\""
 		reviewLabel1.subjectLabel.attributedText = NSMutableAttributedString().bold("\(dataSource[0].rating) ★", 14, Colors.gold).bold(" - \(dataSource[0].subject)", 13, .white)
 		reviewLabel1.dateLabel.text = "\(dataSource[0].formattedDate)"
@@ -130,7 +138,7 @@ class MyProfileReviewsView : UIView {
 		}
 		let formattedName = dataSource[1].studentName.split(separator: " ")
 		reviewLabel2.nameLabel.text = "\(String(formattedName[0])) \(String(formattedName[1]).prefix(1))."
-		reviewLabel2.nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		reviewLabel2.nameLabel.textColor = Colors.tutorBlue
 		reviewLabel2.reviewTextLabel.text = "\"\(dataSource[1].message)\""
 		reviewLabel2.subjectLabel.attributedText = NSMutableAttributedString().bold("\(dataSource[1].rating) ★", 14, Colors.gold).bold(" - \(dataSource[1].subject)", 13, .white)
 		reviewLabel2.dateLabel.text = "\(dataSource[1].formattedDate)"
@@ -151,40 +159,29 @@ class MyProfileReviewsView : UIView {
 	}
 	
 	@objc private func seeAllButtonPressed(_ sender: UIButton) {
-		let vc = LearnerReviewsVC()
+		let vc = TutorReviewsVC()
 		vc.datasource = dataSource
-		vc.contentView.navbar.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
-		vc.contentView.statusbarView.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		vc.contentView.navbar.backgroundColor = Colors.tutorBlue
+		vc.contentView.statusbarView.backgroundColor = Colors.tutorBlue
 		vc.isViewing = isViewing
-		parentViewController?.navigationController?.present(vc, animated: true)
+		let nav = navigationController
+		DispatchQueue.main.async {
+			nav.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
+			nav.pushViewController(vc, animated: false)
+		}
 	}
 	
 	@objc private func showReviewerProfile(_ sender: UIButton) {
-//		if (AccountService.shared.currentUserType == .learner && isViewing) || (AccountService.shared.currentUserType == .tutor && !isViewing) {
-//			let vc = LearnerMyProfileVC()
-//			FirebaseData.manager.fetchLearner(dataSource[sender.tag].reviewerId) { (learner) in
-//				if let learner = learner {
-//					vc.learner = learner
-//					vc.isViewing = true
-//					vc.contentView.rightButton.isHidden = true
-//					vc.contentView.title.label.isHidden = true
-//					self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
-//				}
-//			}
-//		} else  if (AccountService.shared.currentUserType == .learner) && !isViewing || (AccountService.shared.currentUserType == .tutor && isViewing) {
-//			let vc = TutorMyProfileVC()
-//			FirebaseData.manager.fetchTutor(dataSource[sender.tag].reviewerId, isQuery: false) { (tutor) in
-//				if let tutor = tutor {
-//					vc.tutor = tutor
-//					vc.isViewing = true
-//					vc.contentView.title.label.text = tutor.username
-//					vc.contentView.rightButton.isHidden = true
-//					self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
-//				}
-//			}
-//		} else {
-//			print("No scenario for this.")
-//		}
+		let vc = LearnerMyProfileVC()
+		FirebaseData.manager.fetchLearner(dataSource[sender.tag].reviewerId) { (learner) in
+			if let learner = learner {
+				vc.learner = learner
+				vc.isViewing = true
+				vc.contentView.rightButton.isHidden = true
+				vc.contentView.title.label.isHidden = true
+				self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+			}
+		}
 	}
 	
 	private func setupReviewLabel() {

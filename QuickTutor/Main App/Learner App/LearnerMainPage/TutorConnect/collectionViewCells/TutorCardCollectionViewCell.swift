@@ -52,7 +52,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	let tutorCardAboutMe = MyProfileBioView()
 	let tutorCardBody = MyProfileBody()
 	let tutorCardSubjects = TutorMyProfileSubjects()
-	let tutorCardReviews = MyProfileReviewsView(isViewing: true)
+	let tutorCardReviews = TutorMyProfileReviewsView(isViewing: true)
 	let tutorCardPolicy = TutorMyProfilePolicies()
 	
 	let connectButton : UIButton = {
@@ -213,15 +213,15 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	private func getViewsForExtraInformationSection() -> [UIView] {
 		var views = [UIView]()
 		
-		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(tutor.tNumSessions ?? 0) sessions", isViewing: true))
+		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(tutor.tNumSessions ?? 0) sessions", color: Colors.tutorBlue))
 		//this will be optional in the future but the DB only supports this for now.
-		views.append(ProfileItem(icon: UIImage(named: "location")!, title: tutor.region, isViewing: true))
+		views.append(ProfileItem(icon: UIImage(named: "location")!, title: tutor.region, color: Colors.tutorBlue))
 		
 		if let languages = tutor.languages {
-			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))", isViewing: true))
+			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))", color: Colors.tutorBlue))
 		}
 		if tutor.school != "" && tutor.school != nil {
-			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: "Studies at " + tutor.school!, isViewing: true))
+			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: "Studies at " + tutor.school!, color: Colors.tutorBlue))
 		}
 		return views
 	}

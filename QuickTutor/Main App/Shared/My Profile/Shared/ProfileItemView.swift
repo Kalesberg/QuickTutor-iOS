@@ -15,12 +15,12 @@ class ProfileItem: UIView {
 	
 	var icon : UIImage?
 	var title: String?
-	var isViewing : Bool?
+	var color : UIColor?
 	
-	init(icon: UIImage, title: String, isViewing:Bool=false) {
+	init(icon: UIImage, title: String, color: UIColor) {
 		self.icon = icon
 		self.title = title
-		self.isViewing = isViewing
+		self.color = color
 		super.init(frame: .zero)
 		configureView()
 	}
@@ -59,7 +59,7 @@ class ProfileItem: UIView {
 		imageView.image = self.icon
 		translatesAutoresizingMaskIntoConstraints = false
 		backgroundColor = Colors.navBarColor
-		imageViewContainer.backgroundColor = (isViewing ?? false) ? Colors.otherUserColor() : Colors.currentUserColor()
+		imageViewContainer.backgroundColor = self.color
 
 		applyConstraints()
 	}

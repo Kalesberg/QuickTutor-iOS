@@ -33,7 +33,7 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		guard let reviews = tutor.reviews else { return }
 		dataSource = reviews
 		contentView.title.label.text = tutor.username
-	
+		contentView.isViewing = isViewing
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -150,14 +150,14 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 	private func getViewsForExtraInformationSection() -> [UIView] {
 		var views = [UIView]()
 		
-		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(tutor.lNumSessions!) sessions", isViewing: isViewing))
-		views.append(ProfileItem(icon: UIImage(named: "location")!, title: tutor.region, isViewing: isViewing))
+		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(tutor.lNumSessions!) sessions", color: Colors.tutorBlue))
+		views.append(ProfileItem(icon: UIImage(named: "location")!, title: tutor.region, color: Colors.tutorBlue))
 		
 		if let languages = tutor.languages {
-			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))", isViewing: isViewing))
+			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))", color: Colors.tutorBlue))
 		}
 		if tutor.school != "" && tutor.school != nil {
-			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: "Studies at " + tutor.school!, isViewing: isViewing))
+			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: "Studies at " + tutor.school!, color: Colors.tutorBlue))
 		}
 		return views
 	}
