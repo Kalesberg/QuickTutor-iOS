@@ -124,7 +124,13 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
             cell.transform = CGAffineTransform.identity
         }
     }
-
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		guard !allTutorsQueried else { return }
+		if indexPath.item == self.datasource.count - 2 && !didLoadMore {
+			self.didLoadMore = true
+			pageMoreTutors()
+		}
+	}
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
         cell.growSemiShrink {
@@ -158,17 +164,8 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
             return CGSize(width: (screen.width / 2.5) - 13, height: collectionView.frame.height - 20)
         }
     }
-}
-
-extension FeaturedTutorTableViewCell: UIScrollViewDelegate {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate _: Bool) {
-        if allTutorsQueried { return }
-
-        let currentOffset = scrollView.contentOffset.x
-        let maximumOffset = scrollView.contentSize.width - scrollView.frame.size.width
-
-        if maximumOffset - currentOffset <= -50.0 && datasource.count > 0 {
-            queryTutorsByCategory(lastKnownKey: datasource[datasource.endIndex - 1].uid)
-        }
-    }
+	func pageMoreTutors() {
+		queryTutorsByCategory(lastKnownKey: datasource[datasource.endIndex - 1].uid)
+		self.didLoadMore = false
+	}
 }
