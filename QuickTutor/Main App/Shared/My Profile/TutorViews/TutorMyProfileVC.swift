@@ -26,13 +26,14 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 
 	var dataSource = [Review]()
     var tutor: AWTutor!
-	
 	var isViewing: Bool = false
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		guard let reviews = tutor.reviews else { return }
 		dataSource = reviews
+		contentView.title.label.text = tutor.username
+	
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {

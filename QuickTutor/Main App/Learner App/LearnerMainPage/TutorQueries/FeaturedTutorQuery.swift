@@ -183,7 +183,7 @@ class QueryData {
 
         query.observeSingleEvent(of: .value) { snapshot in
             for snap in snapshot.children {
-                guard let child = snap as? DataSnapshot else { continue }
+                guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid! else { continue }
                 group.enter()
                 FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.subcategory.fileToRead, { tutor in
                     if let tutor = tutor {
