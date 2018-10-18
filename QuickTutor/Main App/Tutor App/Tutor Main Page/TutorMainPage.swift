@@ -315,7 +315,7 @@ class TutorMainPage: MainPageVC {
             hideSidebar()
             hideBackground()
         } else if touchStartView == contentView.sidebar.profileView {
-            let next = TutorMyProfile()
+            let next = TutorMyProfileVC()
             next.tutor = CurrentUser.shared.tutor
             navigationController?.pushViewController(next, animated: true)
             hideSidebar()

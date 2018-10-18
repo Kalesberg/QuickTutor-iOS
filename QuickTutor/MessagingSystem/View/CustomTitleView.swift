@@ -76,7 +76,7 @@ class CustomTitleView: UIView {
         let type = AccountService.shared.currentUserType
 
         if type == .learner {
-            let vc = TutorMyProfile()
+            let vc = TutorMyProfileVC()
 			vc.tutor = tutor
 			vc.isViewing = true
             vc.contentView.rightButton.isHidden = true

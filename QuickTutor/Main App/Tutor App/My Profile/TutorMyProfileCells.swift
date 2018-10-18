@@ -459,13 +459,18 @@ class MyProfileReview: UIView {
 		reviewTextLabel.sizeToFit()
 		return (dateLabel.frame.height + reviewTextLabel.frame.height + nameLabel.frame.height)
 	}
-	
+	let buttonMask : UIButton = {
+		let button = UIButton()
+		button.backgroundColor = .clear
+		return button
+	}()
 	func configureView() {
 		addSubview(profilePic)
 		addSubview(nameLabel)
 		addSubview(subjectLabel)
 		addSubview(reviewTextLabel)
 		addSubview(dateLabel)
+		addSubview(buttonMask)
 		
 		backgroundColor = Colors.navBarColor
 		
@@ -499,6 +504,9 @@ class MyProfileReview: UIView {
 			make.width.equalToSuperview()
 			make.right.equalToSuperview().inset(5)
 			make.bottom.equalToSuperview()
+		}
+		buttonMask.snp.makeConstraints { (make) in
+			make.edges.equalToSuperview()
 		}
 	}
 	

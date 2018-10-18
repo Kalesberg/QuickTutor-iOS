@@ -16,11 +16,13 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		super.init(frame: .zero)
 		configureCollectionViewCell()
 	}
+	let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
 	var parentViewController : UIViewController?
 	
 	var tutor: AWTutor! {
 		didSet {
+			setupTutorCardHeader()
 			setupTutorCardAboutMe()
 			setupTutorCardBody()
 			setupTutorCardSubjects()
@@ -69,6 +71,8 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	let dropShadowView = UIView()
 	
     func configureCollectionViewCell() {
+		backgroundColor = .clear
+		
 		addSubview(tutorCardHeader)
 		addSubview(dropShadowView)
 		addSubview(scrollView)
@@ -80,8 +84,6 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		addSubview(connectButton)
 		
 		connectButton.addTarget(self, action: #selector(connectButtonPressed(_:)), for: .touchUpInside)
-		
-		backgroundColor = .clear
 		applyConstraints()
     }
 
@@ -134,7 +136,11 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
         dropShadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 1.0, offset: CGSize(width: 0, height: 1), radius: 1)
         dropShadowView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
     }
-	
+	private func setupTutorCardHeader() {
+		tutorCardHeader.parentViewController = parentViewController
+		tutorCardHeader.userId = tutor.uid
+		tutorCardHeader.imageCount = tutor.images.filter({$0.value != ""}).count
+	}
 	private func setupTutorCardAboutMe() {
 		tutorCardAboutMe.aboutMeLabel.textColor = Colors.tutorBlue
 		tutorCardAboutMe.bioLabel.text = (tutor.tBio != nil) ? tutor.tBio! : "Tutor has no bio!\n"
@@ -263,18 +269,28 @@ extension TutorCardCollectionViewCell: AddTutorButtonDelegate {
     }
 }
 
-class TutorCardProfilePic: UIImageView, Interactable {}
-
-class TutorCardHeader: InteractableView {
+class TutorCardHeader: UIView {
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+	override init(frame: CGRect) {
+		super.init(frame: .zero)
+		configureView()
+	}
+	
+	var parentViewController : UIViewController?
+	var imageCount : Int = 0
+	var userId : String = ""
+	
     let distance = TutorDistanceView()
 
-    let profilePics: TutorCardProfilePic = {
-        let view = TutorCardProfilePic()
-        view.isUserInteractionEnabled = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
+	let profileImageView : UIImageView = {
+		let imageView = UIImageView()
+		imageView.scaleImage()
+		imageView.clipsToBounds = true
+		return imageView
+	}()
+	
     let name: UILabel = {
         var label = UILabel()
 
@@ -321,35 +337,43 @@ class TutorCardHeader: InteractableView {
 		return label
 	}()
 	
+	let buttonMask : UIButton = {
+		let button = UIButton()
+		button.backgroundColor = .clear
+		return button
+	}()
+	
+	
     let gradientView = UIView()
 
-    override func configureView() {
+	func configureView() {
         addSubview(gradientView)
-        addSubview(profilePics)
+        addSubview(profileImageView)
         addSubview(name)
         addSubview(reviewLabel)
         addSubview(featuredSubject)
 		addSubview(price)
-        super.configureView()
+		addSubview(buttonMask)
 
+		buttonMask.addTarget(self, action: #selector(profileImageViewPressed), for: .touchUpInside)
 
 		backgroundColor = Colors.navBarColor
 		
         applyConstraints()
     }
 
-    override func applyConstraints() {
+	func applyConstraints() {
         gradientView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        profilePics.snp.makeConstraints { make in
+        profileImageView.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(15)
             make.width.height.equalTo(90)
             make.bottom.equalToSuperview().inset(15)
         }
         name.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(125)
-            make.top.equalTo(profilePics).inset(5)
+            make.top.equalTo(profileImageView).inset(5)
             make.right.equalToSuperview().inset(5)
         }
         reviewLabel.snp.makeConstraints { make in
@@ -366,12 +390,20 @@ class TutorCardHeader: InteractableView {
 			make.width.equalTo(70)
 			make.height.equalTo(20)
 		}
+		buttonMask.snp.makeConstraints { (make) in
+			make.edges.equalTo(profileImageView)
+		}
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientView.applyGradient(firstColor: Colors.navBarColor.cgColor, secondColor: UIColor.clear.cgColor, angle: 0, frame: gradientView.bounds)
+		profileImageView.roundCorners(.allCorners, radius: 8)
+
     }
+	@objc func profileImageViewPressed(_ sender: UIButton) {
+		parentViewController?.displayProfileImageViewer(imageCount: imageCount, userId: userId)
+	}
 }
 
 class TutorDistanceView: BaseView {
@@ -400,74 +432,6 @@ class TutorDistanceView: BaseView {
             make.center.equalToSuperview()
             make.height.equalToSuperview()
             make.width.equalToSuperview()
-        }
-    }
-}
-
-class TutorCardReviewCell: UITableViewCell {
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureTableViewCell()
-    }
-
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    let profilePic: UIImageView = {
-        let imageView = UIImageView()
-
-        return imageView
-    }()
-
-    let nameLabel: UILabel = {
-        let label = UILabel()
-
-        label.textColor = .white
-        label.font = Fonts.createBoldSize(18)
-
-        return label
-    }()
-
-    let reviewTextLabel: UILabel = {
-        let label = UILabel()
-
-        label.textColor = Colors.grayText
-        label.font = Fonts.createItalicSize(13)
-        label.numberOfLines = 3
-        label.lineBreakMode = .byWordWrapping
-
-        return label
-    }()
-
-    func configureTableViewCell() {
-        addSubview(profilePic)
-        addSubview(nameLabel)
-        addSubview(reviewTextLabel)
-
-        backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-        profilePic.scaleImage()
-
-        applyConstraints()
-    }
-
-    func applyConstraints() {
-        profilePic.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(10)
-            make.centerY.equalToSuperview()
-            make.height.equalTo(49)
-            make.width.equalTo(49)
-        }
-
-        nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(profilePic.snp.right).inset(-10)
-            make.centerY.equalToSuperview().multipliedBy(0.6)
-        }
-
-        reviewTextLabel.snp.makeConstraints { make in
-            make.left.equalTo(profilePic.snp.right).inset(-10)
-            make.centerY.equalToSuperview().multipliedBy(1.4)
-            make.right.equalToSuperview()
         }
     }
 }
@@ -528,81 +492,6 @@ class PriceRating: BaseView {
             make.height.equalTo(1)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-        }
-    }
-}
-
-class ConnectButton: InteractableView, Interactable {
-    let connect: UILabel = {
-        let label = UILabel()
-
-        label.font = Fonts.createBoldSize(18)
-        label.textColor = .white
-        label.text = "Connect"
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
-
-        return label
-    }()
-
-    override func configureView() {
-        addSubview(connect)
-        super.configureView()
-
-        backgroundColor = UIColor(hex: "6562c9")
-        layer.cornerRadius = 8
-        translatesAutoresizingMaskIntoConstraints = false
-        clipsToBounds = false
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        connect.snp.makeConstraints { make in
-            make.height.equalToSuperview()
-            make.width.equalToSuperview()
-            make.center.equalToSuperview()
-        }
-    }
-
-    func touchStart() {
-        alpha = 0.6
-    }
-
-    func didDragOff() {
-        alpha = 1.0
-    }
-
-    func touchEndOnStart() {
-        growShrink()
-    }
-}
-
-class FullProfile: InteractableView, Interactable {
-    let connect: UILabel = {
-        let label = UILabel()
-
-        label.font = Fonts.createBoldSize(18)
-        label.textColor = .white
-        label.text = "View Full Profile"
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
-
-        return label
-    }()
-
-    override func configureView() {
-        addSubview(connect)
-        super.configureView()
-        backgroundColor = .green
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        connect.snp.makeConstraints { make in
-            make.height.equalToSuperview()
-            make.width.equalToSuperview()
-            make.center.equalToSuperview()
         }
     }
 }

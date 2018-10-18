@@ -353,7 +353,7 @@ extension AddTutorVC: UITableViewDelegate, UITableViewDataSource {
         tableView.allowsSelection = false
         FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { tutor in
             if let tutor = tutor {
-                let next = TutorMyProfile()
+                let next = TutorMyProfileVC()
                 next.tutor = tutor
                 next.isViewing = true
                 next.contentView.rightButton.isHidden = true

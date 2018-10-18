@@ -397,7 +397,7 @@ class SettingsScrollView: BaseScrollView {
                 next.learner = CurrentUser.shared.learner
                 navigationController.pushViewController(next, animated: true)
             } else {
-                let next = TutorMyProfile()
+                let next = TutorMyProfileVC()
                 next.tutor = CurrentUser.shared.tutor
                 navigationController.pushViewController(next, animated: true)
             }

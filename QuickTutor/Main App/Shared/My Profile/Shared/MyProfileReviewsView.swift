@@ -117,8 +117,9 @@ class MyProfileReviewsView : UIView {
 		reviewLabel1.dateLabel.text = "\(dataSource[0].formattedDate)"
 		
 		let reference = storageRef.child("student-info").child(dataSource[0].reviewerId).child("student-profile-pic1")
-		
 		reviewLabel1.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+		reviewLabel1.buttonMask.tag = 0
+		reviewLabel1.buttonMask.addTarget(self, action: #selector(showReviewerProfile(_:)), for: .touchUpInside)
 	}
 	
 	private func setupReviewLabel2() {
@@ -136,6 +137,8 @@ class MyProfileReviewsView : UIView {
 		
 		let reference = storageRef.child("student-info").child(dataSource[1].reviewerId).child("student-profile-pic1")
 		reviewLabel2.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+		reviewLabel2.buttonMask.tag = 1
+		reviewLabel2.buttonMask.addTarget(self, action: #selector(showReviewerProfile(_:)), for: .touchUpInside)
 	}
 	
 	private func setupBackgroundLabel() {
@@ -147,13 +150,41 @@ class MyProfileReviewsView : UIView {
 		}
 	}
 	
-	@objc func seeAllButtonPressed(_ sender: UIButton) {
+	@objc private func seeAllButtonPressed(_ sender: UIButton) {
 		let vc = LearnerReviewsVC()
 		vc.datasource = dataSource
 		vc.contentView.navbar.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
 		vc.contentView.statusbarView.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
 		vc.isViewing = isViewing
 		parentViewController?.navigationController?.present(vc, animated: true)
+	}
+	
+	@objc private func showReviewerProfile(_ sender: UIButton) {
+		if (AccountService.shared.currentUserType == .learner && isViewing) || (AccountService.shared.currentUserType == .tutor && !isViewing) {
+			let vc = LearnerMyProfileVC()
+			FirebaseData.manager.fetchLearner(dataSource[sender.tag].reviewerId) { (learner) in
+				if let learner = learner {
+					vc.learner = learner
+					vc.isViewing = true
+					vc.contentView.rightButton.isHidden = true
+					vc.contentView.title.label.isHidden = true
+					self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+				}
+			}
+		} else  if (AccountService.shared.currentUserType == .learner) && !isViewing || (AccountService.shared.currentUserType == .tutor && isViewing) {
+			let vc = TutorMyProfileVC()
+			FirebaseData.manager.fetchTutor(dataSource[sender.tag].reviewerId, isQuery: false) { (tutor) in
+				if let tutor = tutor {
+					vc.tutor = tutor
+					vc.isViewing = true
+					vc.contentView.title.label.text = tutor.username
+					vc.contentView.rightButton.isHidden = true
+					self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+				}
+			}
+		} else {
+			print("No scenario for this.")
+		}
 	}
 	
 	private func setupReviewLabel() {

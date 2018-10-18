@@ -24,11 +24,11 @@ class LearnerMyProfileHeader : UIView {
 	var imageCount : Int = 0
 	var userId : String = ""
 	
-	let profileImageViewButton : UIButton = {
-		let button = UIButton()
-		button.imageView?.scaleImage()
-		button.imageView?.clipsToBounds = true
-		return button
+	let profileImageView : UIImageView = {
+		let imageView = UIImageView()
+		imageView.scaleImage()
+		imageView.clipsToBounds = true
+		return imageView
 	}()
 	
 	let nameContainer = UIView()
@@ -50,26 +50,36 @@ class LearnerMyProfileHeader : UIView {
 		return label
 	}()
 	
+	let buttonMask : UIButton = {
+		let button = UIButton()
+		button.backgroundColor = .clear
+		return button
+	}()
+	
 	private func configureView() {
-		addSubview(profileImageViewButton)
+		addSubview(profileImageView)
 		addSubview(nameContainer)
 		nameContainer.addSubview(nameLabel)
 		addSubview(rating)
+		addSubview(buttonMask)
 		
-		profileImageViewButton.addTarget(self, action: #selector(profileImageViewPressed), for: .touchUpInside)
+		buttonMask.addTarget(self, action: #selector(profileImageViewPressed), for: .touchUpInside)
 		backgroundColor = Colors.navBarColor
 		
 		applyConstraints()
 	}
 	
 	private func applyConstraints() {
-		profileImageViewButton.snp.makeConstraints { (make) in
+		profileImageView.snp.makeConstraints { (make) in
 			make.top.equalToSuperview().inset(20)
 			make.height.width.equalTo(175)
 			make.centerX.equalToSuperview()
 		}
+		buttonMask.snp.makeConstraints { (make) in
+			make.edges.equalTo(profileImageView)
+		}
 		nameContainer.snp.makeConstraints { (make) in
-			make.top.equalTo(profileImageViewButton.snp.bottom)
+			make.top.equalTo(profileImageView.snp.bottom)
 			make.centerX.width.equalToSuperview()
 			make.bottom.equalToSuperview()
 		}
@@ -79,9 +89,9 @@ class LearnerMyProfileHeader : UIView {
 			make.height.equalToSuperview().multipliedBy(0.8)
 		}
 		rating.snp.makeConstraints { (make) in
-			make.top.equalTo(profileImageViewButton.snp.top)
+			make.top.equalTo(profileImageView.snp.top)
 			make.right.equalToSuperview().inset(10)
-			make.left.equalTo(profileImageViewButton.snp.right)
+			make.left.equalTo(profileImageView.snp.right)
 			make.height.equalTo(20)
 		}
 	}
@@ -92,6 +102,6 @@ class LearnerMyProfileHeader : UIView {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		profileImageViewButton.roundCorners(.allCorners, radius: 8)
+		profileImageView.roundCorners(.allCorners, radius: 8)
 	}
 }

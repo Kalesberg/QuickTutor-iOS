@@ -433,8 +433,8 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 
 		cell.tutor = data[indexPath.item]
 		cell.parentViewController = self
-		cell.tutorCardHeader.profilePics.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        cell.tutorCardHeader.profilePics.roundCorners(.allCorners, radius: 8)
+		cell.tutorCardHeader.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+        cell.tutorCardHeader.profileImageView.roundCorners(.allCorners, radius: 8)
         cell.tutorCardHeader.name.text = data[indexPath.item].name.formatName()
         cell.tutorCardHeader.reviewLabel.text = data[indexPath.item].reviews?.count.formatReviewLabel(rating: data[indexPath.item].tRating)
 		cell.tutorCardHeader.price.text = "$\(data[indexPath.item].price ?? 0)/hr"

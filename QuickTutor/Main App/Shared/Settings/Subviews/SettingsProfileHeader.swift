@@ -128,7 +128,7 @@ class SettingsProfileHeader: UIView {
 			vc.learner = CurrentUser.shared.learner
 			navigationController.pushViewController(vc, animated: true)
 		} else {
-			let vc = TutorMyProfile()
+			let vc = TutorMyProfileVC()
 			vc.tutor = CurrentUser.shared.tutor
 			navigationController.pushViewController(vc, animated: true)
 		}

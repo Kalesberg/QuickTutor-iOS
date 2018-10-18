@@ -31,7 +31,7 @@ class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, Reques
         super.handleButton3()
         FirebaseData.manager.fetchTutor(session.partnerId(), isQuery: false, { tutor in
             guard let tutor = tutor else { return }
-            let vc = TutorMyProfile()
+            let vc = TutorMyProfileVC()
             vc.tutor = tutor
             vc.isViewing = true
             vc.contentView.title.label.text = tutor.username

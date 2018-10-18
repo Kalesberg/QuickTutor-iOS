@@ -115,7 +115,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { tutor in
                 guard let tutor = tutor else { return }
-                let vc = TutorMyProfile()
+                let vc = TutorMyProfileVC()
                 vc.tutor = tutor
                 vc.isViewing = true
                 vc.contentView.rightButton.isHidden = true

@@ -58,16 +58,13 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
         contentView.myProfileHeader.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
     }
 	private func setupMyProfileHeader() {
-		//TODO: Look into getting an image from SDWebImage framework.
 		let reference = storageRef.child("student-info").child(learner.uid).child("student-profile-pic1")
-		let imageView = UIImageView()
-		imageView.sd_setImage(with: reference, placeholderImage: nil)
 		
 		contentView.myProfileHeader.userId = learner.uid
 		contentView.myProfileHeader.parentViewController = self
 		contentView.myProfileHeader.nameLabel.text = learner.formattedName
 		contentView.myProfileHeader.imageCount = learner.images.filter({ $0.value != "" }).count
-		contentView.myProfileHeader.profileImageViewButton.setImage(imageView.image, for: .normal)
+		contentView.myProfileHeader.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
 		contentView.myProfileHeader.rating.text = learner.lRating != nil ? "\(learner.lRating!) ★" : ""
 	}
 

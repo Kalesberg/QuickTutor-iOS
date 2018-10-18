@@ -648,7 +648,7 @@ extension LearnerFileReportVC: UITableViewDelegate, UITableViewDataSource {
         tableView.allowsSelection = false
         FirebaseData.manager.fetchTutor(datasource[indexPath.row].otherId, isQuery: false) { tutor in
             if let tutor = tutor {
-                let vc = TutorMyProfile()
+                let vc = TutorMyProfileVC()
                 vc.tutor = tutor
                 vc.isViewing = true
                 vc.contentView.rightButton.isHidden = true

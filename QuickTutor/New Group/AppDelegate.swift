@@ -6,7 +6,6 @@
 //  Copyright © 2017 QuickTutor. All rights reserved.
 //
 
-import UIKit
 import Firebase
 import FirebaseAuth
 import UserNotifications
@@ -181,7 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     func showProfileWithUid(_ uid: String) {
         FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
             guard let tutor = tutor else { return }
-            let vc = TutorMyProfile()
+            let vc = TutorMyProfileVC()
             vc.tutor = tutor
             vc.isViewing = true
             vc.contentView.rightButton.isHidden = true

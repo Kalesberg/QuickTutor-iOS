@@ -14,7 +14,7 @@ protocol UpdatedTutorCallBack: class {
     func tutorWasUpdated(tutor: AWTutor!)
 }
 
-class TutorMyProfile: BaseViewController, UpdatedTutorCallBack {
+class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 
     override var contentView: TutorMyProfileView {
         return view as! TutorMyProfileView
@@ -62,13 +62,10 @@ class TutorMyProfile: BaseViewController, UpdatedTutorCallBack {
 	
 	private func setupMyProfileHeader() {
 		let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
-		let imageView = UIImageView()
-		imageView.sd_setImage(with: reference, placeholderImage: nil)
-		
 		contentView.myProfileHeader.userId = tutor.uid
 		contentView.myProfileHeader.nameLabel.text = tutor.formattedName
 		contentView.myProfileHeader.imageCount = tutor.images.filter({ $0.value != "" }).count
-		contentView.myProfileHeader.profileImageViewButton.setImage(imageView.image, for: .normal)
+		contentView.myProfileHeader.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
 		contentView.myProfileHeader.parentViewController = self
 		contentView.myProfileHeader.price.text = "$\(String(describing: tutor.price!))/hr"
 		let reviewsString = (dataSource.count == 1) ? "rating" : "ratings"
@@ -174,12 +171,12 @@ class TutorMyProfile: BaseViewController, UpdatedTutorCallBack {
     }
 }
 
-extension TutorMyProfile: ProfileImageViewerDelegate {
+extension TutorMyProfileVC: ProfileImageViewerDelegate {
     func dismiss() {
         dismissProfileImageViewer()
     }
 }
-extension TutorMyProfile : UIScrollViewDelegate {
+extension TutorMyProfileVC : UIScrollViewDelegate {
 	//allow scrolling to not be affected by UIButton or UITableView
 	func touchesShouldCancel(in view: UIView) -> Bool {
 		return view is UIButton
