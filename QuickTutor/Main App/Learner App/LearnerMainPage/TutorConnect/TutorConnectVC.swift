@@ -426,17 +426,17 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
         return shouldFilterDatasource ? filteredDatasource.count : datasource.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
 		let data = shouldFilterDatasource ? filteredDatasource : datasource
-		let reference = storageRef.child("student-info").child(data[indexPath.item].uid).child("student-profile-pic1")
-
+		let reference = featuredSubject != nil ?  storageRef.child("featured").child(data[indexPath.item].uid).child("featuredImage") : storageRef.child("student-info").child(data[indexPath.item].uid).child("student-profile-pic1")
+		
 		cell.tutor = data[indexPath.item]
 		cell.parentViewController = self
 		cell.tutorCardHeader.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
-        cell.tutorCardHeader.profileImageView.roundCorners(.allCorners, radius: 8)
-        cell.tutorCardHeader.name.text = data[indexPath.item].name.formatName()
-        cell.tutorCardHeader.reviewLabel.text = data[indexPath.item].reviews?.count.formatReviewLabel(rating: data[indexPath.item].tRating)
+		cell.tutorCardHeader.profileImageView.roundCorners(.allCorners, radius: 8)
+		cell.tutorCardHeader.name.text = data[indexPath.item].name.formatName()
+		cell.tutorCardHeader.reviewLabel.text = data[indexPath.item].reviews?.count.formatReviewLabel(rating: data[indexPath.item].tRating)
 		cell.tutorCardHeader.price.text = "$\(data[indexPath.item].price ?? 0)/hr"
 		if featuredSubject != nil {
 			cell.tutorCardHeader.featuredSubject.text = featuredSubject
@@ -446,7 +446,7 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		cell.connectButton.setTitle(title, for: .normal)
 		
 		return cell
-    }
+	}
 
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.width - 20

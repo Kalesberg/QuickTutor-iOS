@@ -69,8 +69,10 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		contentView.myProfileHeader.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
 		contentView.myProfileHeader.parentViewController = self
 		contentView.myProfileHeader.price.text = "$\(String(describing: tutor.price!))/hr"
-		let reviewsString = (dataSource.count == 1) ? "rating" : "ratings"
-		contentView.myProfileHeader.rating.text = "\(String(describing: tutor.tRating ?? 5.0)) ★ (\(String(describing: dataSource.count)) \(reviewsString))"
+		contentView.myProfileHeader.rating.text = "\(String(describing: tutor.tRating ?? 5.0)) ★ Rating"
+		
+		//let reviewsString = (dataSource.count == 1) ? "rating" : "ratings"
+		//contentView.myProfileHeader.rating.text = "\(String(describing: tutor.tRating ?? 5.0)) ★ (\(String(describing: dataSource.count)) \(reviewsString))"
 	}
 	
 	private func setupMyProfileBioView() {

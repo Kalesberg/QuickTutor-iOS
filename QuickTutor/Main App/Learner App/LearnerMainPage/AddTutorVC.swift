@@ -7,8 +7,8 @@
 //
 
 import Firebase
+import FirebaseUI
 import FirebaseAuth
-import Foundation
 import Lottie
 import UIKit
 
@@ -182,6 +182,8 @@ class AddTutorVC: BaseViewController, ShowsConversation {
     var connectedIds = [String]()
     var queriedIds = [String]()
     var pendingIds = [String]()
+	
+	let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
     var filteredUsername = [UsernameQuery]() {
         didSet {
@@ -312,13 +314,14 @@ extension AddTutorVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addTutorCell", for: indexPath) as! AddTutorTableViewCell
+		let reference = storageRef.child("student-info").child(filteredUsername[indexPath.section].uid).child("student-profile-pic1")
 
         let name = filteredUsername[indexPath.section].name.split(separator: " ")
 
         cell.delegate = self
         cell.usernameLabel.text = filteredUsername[indexPath.section].username
         cell.nameLabel.text = (connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "\(name[0]) \(String(name[1]).prefix(1)) – Connected" : "\(name[0]) \(String(name[1]).prefix(1))"
-        cell.profileImageView.loadUserImages(by: filteredUsername[indexPath.section].imageUrl)
+        cell.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
         cell.uid = filteredUsername[indexPath.section].uid
 
         if pendingIds.contains(filteredUsername[indexPath.section].uid) {

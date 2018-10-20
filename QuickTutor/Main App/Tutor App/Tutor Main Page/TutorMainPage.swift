@@ -6,6 +6,7 @@
 //  Copyright © 2017 QuickTutor. All rights reserved.
 
 import UIKit
+import FirebaseUI
 
 class TutorMainPageView: MainPageVCView {
 
@@ -187,10 +188,11 @@ class TutorMainPage: MainPageVC {
             formattedString
                 .bold(tutor.name, 17, .white)
         }
+		let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
 
         contentView.sidebar.ratingView.ratingLabel.text = String(tutor.tRating) + "  ★"
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
-        contentView.sidebar.profileView.profilePicView.loadUserImages(by: tutor.images["image1"]!)
+        contentView.sidebar.profileView.profilePicView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
     }
 
     private func configureDelegates() {

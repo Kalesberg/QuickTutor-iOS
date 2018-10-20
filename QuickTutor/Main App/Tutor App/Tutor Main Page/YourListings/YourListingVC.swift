@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import FirebaseUI
 
 protocol CreateListing {
     func createListingButtonPressed()
@@ -242,6 +243,7 @@ class YourListingVC: BaseViewController {
             contentView.collectionView.reloadData()
         }
     }
+	let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
     var featuredCategory: String?
     var categories = [Category]()
@@ -348,7 +350,6 @@ extension YourListingVC: UpdateListingCallBack {
         cell.price.text = "$\(price)/hr"
         cell.featuredTutor.subject.text = subject
         cell.featuredTutor.imageView.image = image
-		
     }
 }
 
@@ -368,15 +369,17 @@ extension YourListingVC: UICollectionViewDelegate, UICollectionViewDataSource, U
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
+		let reference = storageRef.child("featured").child(tutor.uid).child("featuredImage")
 
-        cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: listings[indexPath.item].imageUrl)
+		cell.featuredTutor.imageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
         cell.price.text = listings[indexPath.item].price.priceFormat()
         cell.view.backgroundColor = Colors.green
         cell.featuredTutor.namePrice.text = listings[indexPath.item].name
         cell.featuredTutor.region.text = listings[indexPath.item].region
         cell.featuredTutor.subject.text = listings[indexPath.item].subject
 		cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(listings[indexPath.item].rating) ", 14, Colors.gold)
-		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("(\(listings[indexPath.item].reviews) ratings)", 13, Colors.gold)
+		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("Rating", 13, Colors.gold)
+		//cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("(\(listings[indexPath.item].reviews) ratings)", 13, Colors.gold)
 
         cell.layer.cornerRadius = 6
         contentView.categoryLabel.text = categories[indexPath.row].mainPageData.displayName

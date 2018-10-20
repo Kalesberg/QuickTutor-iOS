@@ -6,9 +6,9 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import Foundation
 import SnapKit
 import UIKit
+import FirebaseUI
 
 class FeaturedTutorTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -19,6 +19,8 @@ class FeaturedTutorTableViewCell: UITableViewCell {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+	let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -97,15 +99,17 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
+		let reference = storageRef.child("featured").child(datasource[indexPath.item].uid).child("featuredImage")
 
         cell.price.text = datasource[indexPath.item].price.priceFormat()
         cell.view.backgroundColor = Colors.green
-        cell.featuredTutor.imageView.loadUserImagesWithoutMask(by: datasource[indexPath.item].imageUrl)
+        cell.featuredTutor.imageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
         cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
         cell.featuredTutor.region.text = datasource[indexPath.item].region
         cell.featuredTutor.subject.text = datasource[indexPath.item].subject
         cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(datasource[indexPath.item].rating) ", 14, Colors.gold)
-		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)
+		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("Rating", 13, Colors.gold)
+		//cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)
 
         cell.layer.cornerRadius = 6
         cell.featuredTutor.applyDefaultShadow()
@@ -134,16 +138,16 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
         cell.growSemiShrink {
-            let next = TutorConnectVC()
-            next.featuredSubject = cell.featuredTutor.subject.text
-            next.featuredTutorUid = self.datasource[indexPath.item].uid
-            next.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
+            let vc = TutorConnectVC()
+            vc.featuredSubject = cell.featuredTutor.subject.text
+            vc.featuredTutorUid = self.datasource[indexPath.item].uid
+            vc.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
             let transition = CATransition()
 
             DispatchQueue.main.async {
                 let nav = navigationController
                 nav.view.layer.add(transition.segueFromBottom(), forKey: nil)
-                nav.pushViewController(next, animated: false)
+                nav.pushViewController(vc, animated: false)
             }
         }
     }

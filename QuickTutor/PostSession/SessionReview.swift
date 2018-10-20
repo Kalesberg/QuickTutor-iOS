@@ -337,7 +337,7 @@ class SessionReview : BaseViewController {
 				contentView.nextButton.isEnabled = false
 				let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: Double(PostSessionReviewData.tipAmount))
-				createCharge(cost: Int(costWithTip * 100)) { (error) in
+				createCharge(cost: Int(costWithTip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
 					if let error = error {
 						AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
 						self.hasPaid = false
@@ -405,8 +405,8 @@ class SessionReview : BaseViewController {
 		}
 	}
 
-	private func createCharge(cost: Int, completion: @escaping (Error?) -> Void) {
-		let fee = Int(Double(cost) * 0.10)
+	private func createCharge(cost: Int, secondsTaught: Int, completion: @escaping (Error?) -> Void) {
+		let fee = secondsTaught >= 36000 ? Int(Double(cost) * 0.75) + 200 : Int(Double(cost) * 0.10) + 200
 		self.displayLoadingOverlay()
 		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
 			if let error = error {

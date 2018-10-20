@@ -36,10 +36,11 @@ extension Int {
         return "$\(self) / hour"
     }
     func formatReviewLabel(rating: Double) -> String {
-        if self == 1 {
-            return "\(rating)  ★  (\(self) rating)"
-        }
-        return "\(rating)  ★  (\(self) ratings)"
+		return "\(rating) ★ Rating"
+//        if self == 1 {
+//            return "\(rating)  ★  (\(self) rating)"
+//        }
+//        return "\(rating)  ★  (\(self) ratings)"
     }
     func formatDistance() -> NSMutableAttributedString {
         
