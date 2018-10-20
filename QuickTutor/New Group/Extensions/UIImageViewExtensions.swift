@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-var userImageCache = [String : UIImage]()
-
 extension UIImageView {
     func scaleImage() {
         autoresizingMask = [.flexibleTopMargin, .flexibleHeight, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin, .flexibleWidth]

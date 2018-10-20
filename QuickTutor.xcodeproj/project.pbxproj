@@ -61,7 +61,6 @@
 		8423941D1FF4D5E800827C7D /* RegistrationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423941C1FF4D5E800827C7D /* RegistrationTitleLabel.swift */; };
 		842394271FF4DCF400827C7D /* RegistrationBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394261FF4DCF400827C7D /* RegistrationBackButton.swift */; };
 		842394291FF4DDAB00827C7D /* RegistrationNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394281FF4DDAB00827C7D /* RegistrationNextButton.swift */; };
-		8423942B1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423942A1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift */; };
 		8423F73F214B60E900B3E4D0 /* languages.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8423F73E214B60E900B3E4D0 /* languages.txt */; };
 		842576602070295C00FD295B /* AddSubjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425765F2070295C00FD295B /* AddSubjectTableViewCell.swift */; };
 		84257662207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84257661207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift */; };
@@ -531,7 +530,6 @@
 		8423941C1FF4D5E800827C7D /* RegistrationTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTitleLabel.swift; sourceTree = "<group>"; };
 		842394261FF4DCF400827C7D /* RegistrationBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationBackButton.swift; sourceTree = "<group>"; };
 		842394281FF4DDAB00827C7D /* RegistrationNextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationNextButton.swift; sourceTree = "<group>"; };
-		8423942A1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldDelegateExtensions.swift; sourceTree = "<group>"; };
 		8423F73E214B60E900B3E4D0 /* languages.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = languages.txt; sourceTree = "<group>"; };
 		8425765F2070295C00FD295B /* AddSubjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSubjectTableViewCell.swift; sourceTree = "<group>"; };
 		84257661207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickedSubjectsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1616,7 +1614,6 @@
 				84DFD898204C5AE600BA8A3F /* UIViewControllerExtensions.swift */,
 				8482AFE2203A9E1300F6F805 /* UIImageViewExtensions.swift */,
 				847CF8E7202A7738003BB4FA /* UIScrollViewExtensions.swift */,
-				8423942A1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift */,
 				843BA323205513F4000C7054 /* UIColorExtensions.swift */,
 				84D433B6204F409F00A3EAD2 /* UIApplicationExtenstions.swift */,
 				84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */,
@@ -2702,7 +2699,6 @@
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
-				8423942B1FF4E2F800827C7D /* UITextFieldDelegateExtensions.swift in Sources */,
 				84F2451A1FDA1143006447A8 /* TutorSSNVC.swift in Sources */,
 				8430A8E41FFED70D002FD8A3 /* RegistrationNavBarView.swift in Sources */,
 				84BC77DD20F31A470039E054 /* UIViewController+Extension.swift in Sources */,

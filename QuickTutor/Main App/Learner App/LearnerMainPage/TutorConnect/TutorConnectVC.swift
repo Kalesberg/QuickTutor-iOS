@@ -233,6 +233,7 @@ class TutorConnectVC: BaseViewController {
     }
 
     var featuredSubject: String!
+	var featuredPrice : String!
     var featuredTutorUid: String! {
         didSet {
             displayLoadingOverlay()
@@ -441,6 +442,7 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		if featuredSubject != nil {
 			cell.tutorCardHeader.featuredSubject.text = featuredSubject
 			cell.tutorCardHeader.featuredSubject.isHidden = false
+			cell.tutorCardHeader.price.text = featuredPrice
 		}
 		let title = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.item].uid)) ? "Message" : "Connect"
 		cell.connectButton.setTitle(title, for: .normal)

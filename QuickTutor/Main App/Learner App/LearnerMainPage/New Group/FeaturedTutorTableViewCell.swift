@@ -141,6 +141,7 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
             let vc = TutorConnectVC()
             vc.featuredSubject = cell.featuredTutor.subject.text
             vc.featuredTutorUid = self.datasource[indexPath.item].uid
+			vc.featuredPrice = cell.price.text
             vc.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
             let transition = CATransition()
 
