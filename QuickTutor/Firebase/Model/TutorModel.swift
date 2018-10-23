@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct FeaturedDetails {
+	let subject : String
+	let price : Int
+}
+
 class AWTutor: AWLearner {
     
     var tBio: String!
@@ -32,10 +37,11 @@ class AWTutor: AWLearner {
     var selected: [Selected] = []
     var reviews: [Review]?
     var location: TutorLocation?
-    
-    var hasConnectAccount: Bool = false
+	
     var hasPayoutMethod: Bool = true
-    
+	
+	var featuredDetails : FeaturedDetails?
+	
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
         

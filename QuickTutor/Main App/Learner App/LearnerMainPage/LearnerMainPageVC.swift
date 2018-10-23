@@ -170,14 +170,13 @@ class LearnerMainPageVC: MainPageVC {
         })
 
         view.layoutIfNeeded()
-
         view.profilePicView.layer.cornerRadius = view.profilePicView.bounds.height / 2
     }
 
     private func queryFeaturedTutors() {
         displayLoadingOverlay()
 
-        QueryData.shared.queryFeaturedTutors(categories: Array(category[self.datasource.count ..< self.datasource.count + 4])) { datasource in
+        QueryData.shared.queryFeaturedTutors(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { datasource in
             guard let datasource = datasource else { return }
             if #available(iOS 11.0, *) {
                 self.contentView.tableView.performBatchUpdates({

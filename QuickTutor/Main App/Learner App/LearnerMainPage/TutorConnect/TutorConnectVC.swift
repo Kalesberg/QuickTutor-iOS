@@ -16,187 +16,6 @@ protocol ApplyLearnerFilters {
     func postFilterTutors()
 }
 
-protocol ConnectButtonPress {
-    var connectedTutor: AWTutor! { get set }
-    func connectButtonPressed(uid: String)
-}
-
-class TutorConnectView: MainLayoutTwoButton {
-    var backButton = NavbarButtonXLight()
-    var applyFiltersButton = NavbarButtonFilters()
-
-    let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.sizeToFit()
-        searchBar.searchBarStyle = .prominent
-        searchBar.backgroundImage = UIImage(color: UIColor.clear)
-        searchBar.showsCancelButton = false
-		
-		let textField = searchBar.value(forKey: "searchField") as? UITextField
-        textField?.font = Fonts.createSize(14)
-        textField?.textColor = .white
-        textField?.tintColor = UIColor.clear
-        textField?.adjustsFontSizeToFitWidth = true
-        textField?.autocapitalizationType = .words
-        textField?.attributedPlaceholder = NSAttributedString(string: "search anything", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        textField?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        textField?.keyboardAppearance = .dark
-        return searchBar
-    }()
-
-    let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-		
-		let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 0, right: 10)
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 0
-		
-		collectionView.backgroundColor = Colors.backgroundDark
-        collectionView.collectionViewLayout = layout
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.isPagingEnabled = true
-        return collectionView
-    }()
-
-    override var leftButton: NavbarButton {
-        get {
-            return backButton
-        } set {
-            backButton = newValue as! NavbarButtonXLight
-        }
-    }
-
-    override var rightButton: NavbarButton {
-        get {
-            return applyFiltersButton
-        } set {
-            applyFiltersButton = newValue as! NavbarButtonFilters
-        }
-    }
-
-    let addPaymentModal = AddPaymentModal()
-	
-    override func configureView() {
-        navbar.addSubview(searchBar)
-        addSubview(collectionView)
-        addSubview(addPaymentModal)
-        super.configureView()
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-        searchBar.snp.makeConstraints { make in
-            make.left.equalTo(backButton.snp.right).inset(15)
-            make.right.equalTo(applyFiltersButton.snp.left).inset(15)
-            make.height.equalTo(leftButton.snp.height)
-            make.centerY.equalTo(backButton.image)
-        }
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
-            make.bottom.width.centerX.equalToSuperview()
-        }
-        addPaymentModal.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-}
-
-class TutorCardCollectionViewBackground: BaseView {
-    let imageView: UIImageView = {
-        let view = UIImageView()
-        view.image = #imageLiteral(resourceName: "sad-face")
-        return view
-    }()
-
-    let label: UILabel = {
-        let label = UILabel()
-        let formattedString = NSMutableAttributedString()
-        formattedString
-            .bold("No Tutors Found", 22, .white)
-            .regular("\n\nSorry! We couldn't find anything, try adjusting your filters in the top right of the screen to improve your search results.", 17, .white)
-        label.attributedText = formattedString
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }()
-
-    override func configureView() {
-        addSubview(imageView)
-        addSubview(label)
-        super.configureView()
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        label.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.75)
-            make.centerX.equalToSuperview()
-        }
-
-        imageView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(0.6)
-            make.bottom.equalTo(label.snp.top).inset(-25)
-        }
-    }
-}
-
-class TutorCardTutorial: InteractableView, Interactable {
-    let imageView: UIImageView = {
-        let view = UIImageView()
-        view.image = #imageLiteral(resourceName: "finger")
-        return view
-    }()
-
-    let label: UILabel = {
-        let label = UILabel()
-        label.text = "Swipe left to see more tutors!"
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = Fonts.createBoldSize(20)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-
-    override func configureView() {
-        addSubview(imageView)
-        addSubview(label)
-        super.configureView()
-
-        backgroundColor = UIColor.black.withAlphaComponent(0.85)
-        alpha = 0
-        clipsToBounds = true
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        label.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.2)
-            make.width.equalToSuperview().multipliedBy(0.8)
-        }
-
-        imageView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(0.9)
-        }
-    }
-
-    func touchEndOnStart() {
-        UIView.animate(withDuration: 0.6, animations: {
-            self.alpha = 0.0
-        }) { (true) in
-            self.isHidden = true
-            self.removeFromSuperview()
-        }
-    }
-}
-
 class TutorConnectVC: BaseViewController {
     override var contentView: TutorConnectView {
         return view as! TutorConnectView
@@ -231,25 +50,26 @@ class TutorConnectVC: BaseViewController {
             setupCollectionViewAfterUpdate()
         }
     }
-
-    var featuredSubject: String!
-	var featuredPrice : String!
-    var featuredTutorUid: String! {
-        didSet {
-            displayLoadingOverlay()
-            FirebaseData.manager.fetchTutor(featuredTutorUid, isQuery: false) { tutor in
-                if let tutor = tutor {
-                    self.datasource.append(tutor)
-                    self.contentView.rightButton.isHidden = true
-                } else {
-                    AlertController.genericErrorAlert(self, title: "Error", message: "Unable to load tutor.")
-                    self.navigationController?.popViewController(animated: true)
-                }
-                self.dismissOverlay()
-            }
-        }
-    }
-
+	
+	let itemsPerBatch: UInt = 8
+	
+	var startIndex : IndexPath!
+	var allTutorsQueried: Bool = false
+	var didLoadMore: Bool = false
+	var category: Category!
+	
+	var featuredTutors = [FeaturedTutor]() {
+		didSet {
+			displayLoadingOverlay()
+			fetchFeaturedTutorCards(featuredTutors: featuredTutors) { (tutors) in
+				if let tutors = tutors {
+					self.datasource = tutors
+					self.contentView.collectionView.scrollToItem(at: self.startIndex, at: .centeredHorizontally, animated: false)
+				}
+				self.dismissOverlay()
+			}
+		}
+	}
     var subcategory: String! {
         didSet {
             displayLoadingOverlay()
@@ -293,15 +113,6 @@ class TutorConnectVC: BaseViewController {
             defaults.set(false, forKey: "showTutorCardTutorial1.0")
         }
         contentView.collectionView.reloadData()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        contentView.collectionView.reloadData()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 
     func displayTutorial() {
@@ -359,13 +170,43 @@ class TutorConnectVC: BaseViewController {
             return false
         }
     }
-
-    private func filterBySessionType(searchTheWorld: Bool, tutors: [AWTutor]) -> [AWTutor] {
-        if searchTheWorld {
-            return tutors.filter { $0.preference == 1 || $0.preference == 3 }
-        }
-        return tutors.filter { $0.preference == 2 || $0.preference == 3 }
-    }
+	
+	private func filterBySessionType(searchTheWorld: Bool, tutors: [AWTutor]) -> [AWTutor] {
+		if searchTheWorld {
+			return tutors.filter { $0.preference == 1 || $0.preference == 3 }
+		}
+		return tutors.filter { $0.preference == 2 || $0.preference == 3 }
+	}
+	
+	private func fetchFeaturedTutorCards(featuredTutors: [FeaturedTutor],_ completion: @escaping ([AWTutor]?) -> Void) {
+		QueryData.shared.queryAWFeaturedTutorsCard(featuredTutors: featuredTutors) { (tutors) in
+			if let tutors = tutors {
+				completion(tutors)
+			}
+			completion(nil)
+		}
+	}
+	private func queryTutorsUidsByCategory(lastKnownKey: String?) {
+		QueryData.shared.queryAWTutorUidsByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch) { (featuredTutors) in
+			if let featuredTutors = featuredTutors {
+				self.allTutorsQueried = featuredTutors.count != self.itemsPerBatch
+				let startIndex = self.datasource.count
+				self.fetchFeaturedTutorCards(featuredTutors: featuredTutors, { (tutors) in
+					if let tutors = tutors {
+						self.contentView.collectionView.performBatchUpdates({
+							self.datasource.append(contentsOf: tutors)
+							let endIndex = self.datasource.count
+							
+							let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
+							self.contentView.collectionView.insertItems(at: insertPaths)
+						}, completion: { _ in
+							self.didLoadMore = false
+						})
+					}
+				})
+			}
+		}
+	}
 
     private func setupCollectionViewAfterUpdate() {
         guard filteredDatasource.count > 0 else { return }
@@ -430,7 +271,18 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
 		let data = shouldFilterDatasource ? filteredDatasource : datasource
-		let reference = featuredSubject != nil ?  storageRef.child("featured").child(data[indexPath.item].uid).child("featuredImage") : storageRef.child("student-info").child(data[indexPath.item].uid).child("student-profile-pic1")
+		
+		let reference : StorageReference
+		
+		if let featuredDetails = data[indexPath.item].featuredDetails {
+			reference = storageRef.child("featured").child(data[indexPath.item].uid).child("featuredImage")
+			cell.tutorCardHeader.featuredSubject.text = featuredDetails.subject
+			cell.tutorCardHeader.featuredSubject.isHidden = false
+			cell.tutorCardHeader.price.text = "$\(featuredDetails.price)/hr"
+		} else {
+			reference = storageRef.child("student-info").child(data[indexPath.item].uid).child("student-profile-pic1")
+			cell.tutorCardHeader.price.text = "$\(data[indexPath.item].price ?? 0)/hr"
+		}
 		
 		cell.tutor = data[indexPath.item]
 		cell.parentViewController = self
@@ -438,18 +290,21 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		cell.tutorCardHeader.profileImageView.roundCorners(.allCorners, radius: 8)
 		cell.tutorCardHeader.name.text = data[indexPath.item].name.formatName()
 		cell.tutorCardHeader.reviewLabel.text = data[indexPath.item].reviews?.count.formatReviewLabel(rating: data[indexPath.item].tRating)
-		cell.tutorCardHeader.price.text = "$\(data[indexPath.item].price ?? 0)/hr"
-		if featuredSubject != nil {
-			cell.tutorCardHeader.featuredSubject.text = featuredSubject
-			cell.tutorCardHeader.featuredSubject.isHidden = false
-			cell.tutorCardHeader.price.text = featuredPrice
-		}
+		
 		let title = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.item].uid)) ? "Message" : "Connect"
 		cell.connectButton.setTitle(title, for: .normal)
 		
 		return cell
 	}
-
+	
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		guard !allTutorsQueried else { return }
+		if indexPath.item == self.datasource.count - 2 && !didLoadMore {
+			self.didLoadMore = true
+			pageMoreTutors()
+		}
+	}
+	
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.width - 20
         return CGSize(width: width, height: collectionView.frame.height * 0.98)
@@ -458,6 +313,10 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
         return 20
     }
+	func pageMoreTutors() {
+		queryTutorsUidsByCategory(lastKnownKey: datasource[datasource.endIndex - 1].uid)
+		self.didLoadMore = false
+	}
 }
 
 extension TutorConnectVC: UISearchBarDelegate {

@@ -220,6 +220,9 @@
 		84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9C01020A23773000DE1C9 /* BalanceTransaction.swift */; };
 		84CB7AD720CF97FE00274473 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */; };
 		84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC341A1FCE2979008E7A0B /* StringExtensions.swift */; };
+		84CE13F6217CED4E005A1B2C /* TutorConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE13F5217CED4E005A1B2C /* TutorConnectView.swift */; };
+		84CE13F8217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE13F7217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift */; };
+		84CE13FA217CED8B005A1B2C /* TutorCardTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE13F9217CED8B005A1B2C /* TutorCardTutorial.swift */; };
 		84CF77392118DF9B005755CB /* ToggleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF77382118DF9B005755CB /* ToggleTableViewCell.swift */; };
 		84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */; };
 		84CFDDF0207357AB001CA9BF /* TutorRatings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFDDEF207357AB001CA9BF /* TutorRatings.swift */; };
@@ -696,6 +699,9 @@
 		84CA83C520B3BEAE00B2FBD2 /* badwords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = badwords.json; sourceTree = "<group>"; };
 		84CB7AD620CF97FE00274473 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		84CC341A1FCE2979008E7A0B /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		84CE13F5217CED4E005A1B2C /* TutorConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorConnectView.swift; sourceTree = "<group>"; };
+		84CE13F7217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardCollectionViewBackground.swift; sourceTree = "<group>"; };
+		84CE13F9217CED8B005A1B2C /* TutorCardTutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardTutorial.swift; sourceTree = "<group>"; };
 		84CF77382118DF9B005755CB /* ToggleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleTableViewCell.swift; sourceTree = "<group>"; };
 		84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorManagePolicies.swift; sourceTree = "<group>"; };
 		84CFDDEF207357AB001CA9BF /* TutorRatings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatings.swift; sourceTree = "<group>"; };
@@ -720,7 +726,6 @@
 		84DF1E4B216C220F00AEBD76 /* SettingsButtonToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonToggle.swift; sourceTree = "<group>"; };
 		84DF1E4D216C2C2F00AEBD76 /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
 		84DF1E50216C2C5100AEBD76 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
-		84DF1E55216C2D8100AEBD76 /* LearnerSettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LearnerSettingsVC.swift; path = "QuickTutor/Main App/MainApp UI/Shared/CloseAccount/LearnerSettingsVC.swift"; sourceTree = SOURCE_ROOT; };
 		84DF1E59216D68E100AEBD76 /* EditBirthdateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBirthdateVC.swift; sourceTree = "<group>"; };
 		84DF1E5B216D68EC00AEBD76 /* EditBirthdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBirthdateView.swift; sourceTree = "<group>"; };
 		84DFD898204C5AE600BA8A3F /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
@@ -1383,10 +1388,12 @@
 		8476F7C520D00CE900C8D52D /* TutorConnect */ = {
 			isa = PBXGroup;
 			children = (
-				84DF1E55216C2D8100AEBD76 /* LearnerSettingsVC.swift */,
-				84F4372E2159D283007AADC6 /* collectionViewCells */,
 				84D8C9332067116C003C3AEA /* TutorConnectVC.swift */,
+				84CE13F5217CED4E005A1B2C /* TutorConnectView.swift */,
+				84CE13F7217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift */,
+				84CE13F9217CED8B005A1B2C /* TutorCardTutorial.swift */,
 				8476F7C620D00DB100C8D52D /* AddPaymentMethod.swift */,
+				84F4372E2159D283007AADC6 /* collectionViewCells */,
 			);
 			path = TutorConnect;
 			sourceTree = "<group>";
@@ -2503,6 +2510,7 @@
 				84BC77E320F3F3B20039E054 /* RequestSessionModal.swift in Sources */,
 				84E91B64205761A600D1F613 /* TutorLateVC.swift in Sources */,
 				84CFDDF0207357AB001CA9BF /* TutorRatings.swift in Sources */,
+				84CE13FA217CED8B005A1B2C /* TutorCardTutorial.swift in Sources */,
 				84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */,
 				84746324206940EE00B70AD9 /* TutorConnections.swift in Sources */,
 				846252E720637CF8001DD330 /* LearnerMainPageVC.swift in Sources */,
@@ -2648,6 +2656,7 @@
 				844A6A8C1FCE5B91003992C3 /* CreatePasswordVC.swift in Sources */,
 				84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,
+				84CE13F8217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift in Sources */,
 				CF6F58E4205EE68800ACBD32 /* SystemMessage.swift in Sources */,
 				CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */,
 				CF6F58CA205EE68800ACBD32 /* CustomDatePicker.swift in Sources */,
@@ -2659,6 +2668,7 @@
 				CF8F238A215C0F3A00B4239D /* LearnerMainPageVCView.swift in Sources */,
 				8440539720F4E69C003F0606 /* RequestSessionCell.swift in Sources */,
 				CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */,
+				84CE13F6217CED4E005A1B2C /* TutorConnectView.swift in Sources */,
 				841F84A3216AE88C00C9788B /* SettingsLocation.swift in Sources */,
 				CF1CC98D2118B2D700A6BB81 /* TypingIndicatorView.swift in Sources */,
 				8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */,

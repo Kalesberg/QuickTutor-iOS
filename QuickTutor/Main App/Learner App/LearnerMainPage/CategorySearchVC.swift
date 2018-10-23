@@ -136,12 +136,12 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
         cell.growSemiShrink {
-            let next = TutorConnectVC()
-            next.featuredTutorUid = self.datasource[indexPath.item].uid
+            let vc = TutorConnectVC()
+			vc.featuredTutors = self.datasource
             let nav = self.navigationController
             DispatchQueue.main.async {
                 nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
-                nav?.pushViewController(next, animated: false)
+                nav?.pushViewController(vc, animated: false)
             }
         }
     }

@@ -102,7 +102,6 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
 		let reference = storageRef.child("featured").child(datasource[indexPath.item].uid).child("featuredImage")
 
         cell.price.text = datasource[indexPath.item].price.priceFormat()
-        cell.view.backgroundColor = Colors.green
         cell.featuredTutor.imageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
         cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
         cell.featuredTutor.region.text = datasource[indexPath.item].region
@@ -139,15 +138,14 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
         let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
         cell.growSemiShrink {
             let vc = TutorConnectVC()
-            vc.featuredSubject = cell.featuredTutor.subject.text
-            vc.featuredTutorUid = self.datasource[indexPath.item].uid
-			vc.featuredPrice = cell.price.text
+			vc.category = self.category
+			vc.startIndex = indexPath
+            vc.featuredTutors = self.datasource
             vc.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
-            let transition = CATransition()
 
             DispatchQueue.main.async {
                 let nav = navigationController
-                nav.view.layer.add(transition.segueFromBottom(), forKey: nil)
+                nav.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
                 nav.pushViewController(vc, animated: false)
             }
         }

@@ -386,7 +386,7 @@ class TutorCardHeader: UIView {
             make.right.equalToSuperview().inset(5)
         }
 		price.snp.makeConstraints { (make) in
-			make.top.right.equalToSuperview().inset(7)
+			make.top.right.equalToSuperview().inset(12)
 			make.width.equalTo(70)
 			make.height.equalTo(20)
 		}

@@ -15,7 +15,7 @@ class FeaturedTutorCollectionViewCell: UICollectionViewCell {
 
     let view: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.navBarGreen
+        view.backgroundColor = Colors.green
         view.layer.cornerRadius = 10
         return view
     }()
