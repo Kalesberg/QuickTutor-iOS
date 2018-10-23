@@ -136,14 +136,17 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
         cell.growSemiShrink {
-            let vc = TutorConnectVC()
+			let vc = TutorConnectVC()
+			vc.category = self.category
+			vc.startIndex = indexPath
 			vc.featuredTutors = self.datasource
-            let nav = self.navigationController
-            DispatchQueue.main.async {
-                nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
-                nav?.pushViewController(vc, animated: false)
-            }
-        }
+			vc.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
+			let nav = self.navigationController
+			DispatchQueue.main.async {
+				nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
+				nav?.pushViewController(vc, animated: false)
+			}
+		}
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
