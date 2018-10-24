@@ -92,7 +92,7 @@ class EditBioView: MainLayoutTitleBackSaveButton, Keyboardable {
         characterCount.label.adjustsFontSizeToFitWidth = true
         characterCount.label.textColor = .white
         characterCount.label.font = Fonts.createSize(14)
-        characterCount.label.text = "300"
+        characterCount.label.text = "500"
 
         let attributedString = NSMutableAttributedString(string: "· Tell us about yourself.\n· What would you like to learn?\n· What are you looking for in a tutor?")
 
@@ -206,10 +206,9 @@ class EditBioVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.textView.textView.delegate = self
-        NavbarButtonBack.enabled = false
 
         originalBio = contentView.textView.textView.text
-        contentView.characterCount.label.text = String(300 - originalBio.count)
+        contentView.characterCount.label.text = String(500 - originalBio.count)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -277,12 +276,10 @@ class EditBioVC: BaseViewController {
     }
 
     private func checkBio() {
-        if contentView.textView.textView.text.count < 20 {
-            if !contentView.errorLabel.isHidden {
-                contentView.errorLabel.shake()
-            } else {
-                contentView.errorLabel.isHidden = false
-            }
+        if contentView.textView.textView.text.count < 20 || contentView.textView.textView.text.count > 500 {
+			contentView.errorLabel.text = (contentView.textView.textView.text.count > 500) ? "Bio can not exceed 500 characters" : "Bio must be at least 20 characters"
+			contentView.errorLabel.shake()
+			contentView.errorLabel.isHidden = false
         } else {
 			dismissKeyboard()
 			saveChanges()
@@ -333,7 +330,7 @@ class EditBioVC: BaseViewController {
 
 extension EditBioVC: UITextViewDelegate {
     func textViewDidChange(_: UITextView) {
-        let maxCharacters = 300
+        let maxCharacters = 500
 
         let characters = contentView.textView.textView.text.count
         let charactersFromMax = maxCharacters - characters

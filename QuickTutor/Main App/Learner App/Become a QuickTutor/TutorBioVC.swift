@@ -105,11 +105,10 @@ class TutorBioVC: BaseViewController {
 
     override func handleNavigation() {
         if touchStartView is NavbarButtonNext {
-            guard let bio = contentView.textView.textView.text, bio.count >= 20 else {
-                if !contentView.errorLabel.isHidden {
-                    contentView.errorLabel.shake()
-                }
-                contentView.errorLabel.isHidden = false
+            guard let bio = contentView.textView.textView.text, bio.count >= 20, bio.count <= 500 else {
+				contentView.errorLabel.text = (contentView.textView.textView.text.count > 500) ? "Bio can not exceed 500 characters" : "Bio must be at least 20 characters"
+				contentView.errorLabel.shake()
+				contentView.errorLabel.isHidden = false
                 return
             }
 
@@ -138,7 +137,7 @@ class TutorBioVC: BaseViewController {
 
 extension TutorBioVC: UITextViewDelegate {
     func textViewDidChange(_: UITextView) {
-        let maxCharacters = 300
+        let maxCharacters = 500
 
         let characters = contentView.textView.textView.text.count
         let charactersFromMax = maxCharacters - characters
