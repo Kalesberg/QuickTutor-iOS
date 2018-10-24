@@ -82,10 +82,11 @@ class TutorConnectVC: BaseViewController {
         }
     }
 
-    var subject: (String, String)! {
+	var subject: (subcategory: String, subject: String)! {
         didSet {
+			print("subcategory: ", subject.subcategory , " subject: ", subject.subject)
             self.displayLoadingOverlay()
-            QueryData.shared.queryAWTutorBySubject(subcategory: subject.0, subject: subject.1) { tutors in
+            QueryData.shared.queryAWTutorBySubject(subcategory: subject.subcategory, subject: subject.subject) { tutors in
                 if let tutors = tutors {
                     self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
                 }
@@ -298,10 +299,12 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		guard !allTutorsQueried else { return }
-		if indexPath.item == self.datasource.count - 2 && !didLoadMore {
-			self.didLoadMore = true
-			pageMoreTutors()
+		if featuredTutors.count > 0 {
+			guard !allTutorsQueried else { return }
+			if indexPath.item == self.datasource.count - 2 && !didLoadMore {
+				self.didLoadMore = true
+				pageMoreTutors()
+			}
 		}
 	}
 	
