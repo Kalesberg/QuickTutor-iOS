@@ -121,7 +121,7 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
 			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))", color: Colors.learnerPurple))
 		}
 		if learner.school != "" && learner.school != nil {
-			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: "Studies at " + learner.school!, color : Colors.learnerPurple))
+			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: learner.school!, color : Colors.learnerPurple))
 		}
 		return views
 	}

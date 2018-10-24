@@ -205,7 +205,15 @@ class FirebaseData {
 		
 		childNodes["/student-info/\(uid)"] = NSNull()
 		childNodes["/account/\(uid)"] = NSNull()
-		childNodes["/deleted/\(uid)"] = ["reason" : reason,"email": CurrentUser.shared.learner.email, "type" : "learner", "time": NSDate().timeIntervalSince1970, "name": CurrentUser.shared.learner.name, "phone": CurrentUser.shared.learner.phone, "email" : CurrentUser.shared.learner.email, "birthday" : CurrentUser.shared.learner.birthday]
+		childNodes["/deleted/\(uid)"] = [
+			"reason" : reason,
+			"type" : "learner",
+			"time": NSDate().timeIntervalSince1970,
+			"name": CurrentUser.shared.learner.name,
+			"phone": CurrentUser.shared.learner.phone,
+			"email" : CurrentUser.shared.learner.email,
+			"birthday" : CurrentUser.shared.learner.birthday
+		]
 		
 		func removeImages(imageURL: [String]) {
 			imageURL.forEach({
