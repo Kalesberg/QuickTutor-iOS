@@ -25,7 +25,7 @@ class SystemMessageCell: BaseMessageCell {
 
     func setupTextField() {
         addSubview(textField)
-        textField.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 15)
+        textField.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 72, width: 0, height: 15)
     }
 
     func updateUI(message: SystemMessage) {

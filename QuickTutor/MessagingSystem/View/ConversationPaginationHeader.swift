@@ -28,7 +28,7 @@ class ConversationPaginationHeader: UICollectionReusableView {
     func setupActivityIndicator() {
         addSubview(activityIndicator)
         activityIndicator.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 10, height: 0)
-        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: -30))
         activityIndicator.startAnimating()
     }
     

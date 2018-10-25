@@ -83,6 +83,49 @@ extension Date {
 
         return dateFormatter.string(from: self)
     }
+    
+    func formatRelativeStringForTimeSeparator() -> NSAttributedString {
+        let dateFormatter = DateFormatter()
+        let calendar = Calendar(identifier: .gregorian)
+        dateFormatter.doesRelativeDateFormatting = true
+        let boldAttributes = [NSAttributedString.Key.font: Fonts.createBoldSize(10), NSAttributedString.Key.foregroundColor: Colors.grayText]
+        let normalAttributes = [NSAttributedString.Key.font: Fonts.createSize(10), NSAttributedString.Key.foregroundColor: Colors.grayText]
+        if calendar.isDateInToday(self) {
+            dateFormatter.timeStyle = .short
+            dateFormatter.dateStyle = .none
+            
+            let date = NSMutableAttributedString(string: "Today", attributes: boldAttributes)
+            let time = NSAttributedString(string: " \(dateFormatter.string(from: self))", attributes: normalAttributes)
+            date.append(time)
+            return date
+        } else if calendar.isDateInYesterday(self) {
+            dateFormatter.timeStyle = .short
+            dateFormatter.dateStyle = .none
+            let date = NSMutableAttributedString(string: "Yesterday", attributes: boldAttributes)
+            let time = NSAttributedString(string: " \(dateFormatter.string(from: self))", attributes: normalAttributes)
+            date.append(time)
+            return date
+        } else if calendar.compare(Date(), to: self, toGranularity: .weekOfYear) == .orderedSame {
+            let weekday = calendar.dateComponents([.weekday], from: self).weekday ?? 0
+            dateFormatter.timeStyle = .short
+            dateFormatter.dateStyle = .none
+            let date = NSMutableAttributedString(string: "\(dateFormatter.weekdaySymbols[weekday - 1])", attributes: boldAttributes)
+            let time = NSAttributedString(string: " \(dateFormatter.string(from: self))", attributes: normalAttributes)
+            date.append(time)
+            return date
+        } else {
+            dateFormatter.timeStyle = .none
+            dateFormatter.dateStyle = .short
+            let dateString = dateFormatter.string(from: self)
+            dateFormatter.timeStyle = .short
+            dateFormatter.dateStyle = .none
+            let date = NSMutableAttributedString(string: "\(dateString)", attributes: boldAttributes)
+            let time = NSAttributedString(string: " \(dateFormatter.string(from: self))", attributes: normalAttributes)
+            date.append(time)
+            return date
+        }
+        
+    }
 }
 
 extension UIView {

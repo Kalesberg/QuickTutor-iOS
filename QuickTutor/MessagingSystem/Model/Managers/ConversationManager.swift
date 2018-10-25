@@ -40,7 +40,7 @@ class ConversationManager {
 
     var readReceiptManager: ReadReceiptManager?
 
-    func loadPreviousMessagesByTimeStamp(limit: Int, completion: @escaping ([UserMessage]) -> Void) {
+    func loadPreviousMessagesByTimeStamp(limit: Int, completion: @escaping ([BaseMessage]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard !loadedAllMessages else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -53,11 +53,11 @@ class ConversationManager {
         }
         query = query.queryLimited(toLast: UInt(limit))
 
-        var previousMessages = [UserMessage]()
+        var previousMessages = [BaseMessage]()
         query.observeSingleEvent(of: .value) { snapshot in
             guard let children = snapshot.children.allObjects as? [DataSnapshot] else {
                 self.delegate?.conversationManager(self, didLoadAll: self.messages)
-                completion([UserMessage]())
+                completion([BaseMessage]())
                 return
             }
             var fetchedMessageCount = 0
@@ -70,6 +70,17 @@ class ConversationManager {
             }
             for child in children {
                 DataService.shared.getMessageById(child.key, completion: { message in
+                    
+                    
+                    if let lastMessage = previousMessages.last as? UserMessage, let newMessage = message as? UserMessage,  lastMessage.timeStamp.doubleValue - newMessage.timeStamp.doubleValue < -3600 {
+                        print("Messages are an hour apart")
+                        let timestampDate = Date(timeIntervalSince1970: newMessage.timeStamp.doubleValue)
+                        let text = timestampDate.formatRelativeStringForTimeSeparator()
+                        let systemTimeMessage = MessageBreakTimestamp(attributedText: text)
+                        systemTimeMessage.timestamp = newMessage.timeStamp
+                        previousMessages.append(systemTimeMessage)
+                    }
+                    
                     previousMessages.append(message)
 
                     fetchedMessageCount += 1
@@ -92,6 +103,10 @@ class ConversationManager {
                 })
             }
         }
+    }
+    
+    func insertTimeLabelMessageIfNeeded() {
+        
     }
 
     var messageAlreadyLoaded = true
@@ -148,6 +163,7 @@ class ConversationManager {
         for message in messages {
             location += 1
             guard let userMessage = message as? UserMessage else { continue }
+            guard !(message is MessageBreakTimestamp) else { continue }
             if userMessage.senderId == uid {
                 index = location + 1
             }

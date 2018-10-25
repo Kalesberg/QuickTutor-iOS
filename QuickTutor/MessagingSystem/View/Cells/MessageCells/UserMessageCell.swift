@@ -46,6 +46,15 @@ class UserMessageCell: BaseMessageCell {
         iv.clipsToBounds = true
         return iv
     }()
+    
+    let timeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.grayText
+        label.font = Fonts.createSize(10)
+        label.textAlignment = .center
+        label.text = "3:58 PM"
+        return label
+    }()
 
     var bubbleWidthAnchor: NSLayoutConstraint?
     var bubbleViewRightAnchor: NSLayoutConstraint?
@@ -57,6 +66,16 @@ class UserMessageCell: BaseMessageCell {
         textView.text = message.text
         guard let uid = Auth.auth().currentUser?.uid else { return }
         message.senderId == uid ? setupBubbleViewAsSentMessage() : setupBubbleViewAsReceivedMessage()
+        updateTimeLabel(message: message)
+    }
+    
+    private func updateTimeLabel(message: UserMessage) {
+        let timestampDate = Date(timeIntervalSince1970: message.timeStamp.doubleValue)
+        let dateFormatter = DateFormatter()
+        dateFormatter.doesRelativeDateFormatting = true
+        dateFormatter.timeStyle = .short
+        dateFormatter.dateStyle = .none
+        timeLabel.text = dateFormatter.string(from: timestampDate)
     }
 
     private func setupBubbleView() {
@@ -64,7 +83,7 @@ class UserMessageCell: BaseMessageCell {
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWidthAnchor?.isActive = true
         bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8)
-        bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: rightAnchor, constant: -8)
+        bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: rightAnchor, constant: -68)
     }
 
     private func setupProfileImageView() {
@@ -104,11 +123,17 @@ class UserMessageCell: BaseMessageCell {
         setupProfileImageView()
         setupBubbleView()
         setupTextView()
+        setupTimeLabel()
     }
 
     private func setupTextView() {
         bubbleView.addSubview(textView)
         bubbleView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 4, paddingBottom: 4, paddingRight: 4, width: 0, height: 0)
         textView.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 0, height: 0)
+    }
+    
+    private func setupTimeLabel() {
+        addSubview(timeLabel)
+        timeLabel.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 60, height: 0)
     }
 }

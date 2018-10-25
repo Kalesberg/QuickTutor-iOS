@@ -303,10 +303,12 @@
 		CF1C6111209EA5BD009B7B0E /* PaymentMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6110209EA5BD009B7B0E /* PaymentMethodCell.swift */; };
 		CF1C6113209EA6F4009B7B0E /* AddTimeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6112209EA6F4009B7B0E /* AddTimeModal.swift */; };
 		CF1C6115209ED011009B7B0E /* SocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6114209ED011009B7B0E /* SocketClient.swift */; };
-		CF1CC98D2118B2D700A6BB81 /* TypingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1CC98C2118B2D700A6BB81 /* TypingIndicatorView.swift */; };
 		CF1E43C520705F8D0033F845 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C420705F8D0033F845 /* StarView.swift */; };
 		CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */; };
 		CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C8207067860033F845 /* BaseSessionCell.swift */; };
+		CF249979217E926500614AF0 /* KeyboardLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF249976217E926500614AF0 /* KeyboardLayoutGuide.swift */; };
+		CF24997A217E926500614AF0 /* KeyboardFrameObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF249977217E926500614AF0 /* KeyboardFrameObserver.swift */; };
+		CF24997B217E926500614AF0 /* KeyboardFrameObserversManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF249978217E926500614AF0 /* KeyboardFrameObserversManager.swift */; };
 		CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9773207A828F00914B27 /* AddTutorCell.swift */; };
 		CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D9777207B354F00914B27 /* CustomSearchBar.swift */; };
 		CF2E1A6120A0D20C00BCB53A /* ZFNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2E1A6020A0D20C00BCB53A /* ZFNavBar.swift */; };
@@ -326,6 +328,11 @@
 		CF4CAED82172CC2100B23530 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CF4CAED12172CC2100B23530 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */; };
 		CF4EA10E20E687E2007010F0 /* CardPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4EA10D20E687E2007010F0 /* CardPaymentCell.swift */; };
+		CF507FA321804D05007FE441 /* typing.json in Resources */ = {isa = PBXBuildFile; fileRef = CF507FA221804D05007FE441 /* typing.json */; };
+		CF507FA52181376D007FE441 /* TypingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF507FA42181376D007FE441 /* TypingIndicatorView.swift */; };
+		CF507FA721813798007FE441 /* TypingIndicatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF507FA621813798007FE441 /* TypingIndicatorManager.swift */; };
+		CF507FA92181386D007FE441 /* MessagetTimebreakCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF507FA82181386D007FE441 /* MessagetTimebreakCell.swift */; };
+		CF507FAB218138A5007FE441 /* MessageBreakTimestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF507FAA218138A5007FE441 /* MessageBreakTimestamp.swift */; };
 		CF50ADE420A2C1770035A702 /* TutorAddBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846466992096BBFD006ABA98 /* TutorAddBank.swift */; };
 		CF528CD52164527A00D81D03 /* TutorRatingsReviewContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CD42164527A00D81D03 /* TutorRatingsReviewContainerCell.swift */; };
 		CF528CD72164529E00D81D03 /* TutorRatingsReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CD62164529E00D81D03 /* TutorRatingsReviewCell.swift */; };
@@ -789,10 +796,12 @@
 		CF1C6110209EA5BD009B7B0E /* PaymentMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodCell.swift; sourceTree = "<group>"; };
 		CF1C6112209EA6F4009B7B0E /* AddTimeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimeModal.swift; sourceTree = "<group>"; };
 		CF1C6114209ED011009B7B0E /* SocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketClient.swift; sourceTree = "<group>"; };
-		CF1CC98C2118B2D700A6BB81 /* TypingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingIndicatorView.swift; sourceTree = "<group>"; };
 		CF1E43C420705F8D0033F845 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		CF1E43C620705FAF0033F845 /* SessionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderCell.swift; sourceTree = "<group>"; };
 		CF1E43C8207067860033F845 /* BaseSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionCell.swift; sourceTree = "<group>"; };
+		CF249976217E926500614AF0 /* KeyboardLayoutGuide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutGuide.swift; sourceTree = "<group>"; };
+		CF249977217E926500614AF0 /* KeyboardFrameObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardFrameObserver.swift; sourceTree = "<group>"; };
+		CF249978217E926500614AF0 /* KeyboardFrameObserversManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardFrameObserversManager.swift; sourceTree = "<group>"; };
 		CF2D9773207A828F00914B27 /* AddTutorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorCell.swift; sourceTree = "<group>"; };
 		CF2D9777207B354F00914B27 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		CF2E1A6020A0D20C00BCB53A /* ZFNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZFNavBar.swift; sourceTree = "<group>"; };
@@ -813,6 +822,11 @@
 		CF4CAED52172CC2100B23530 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "phone-ring.mp3"; sourceTree = "<group>"; };
 		CF4EA10D20E687E2007010F0 /* CardPaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentCell.swift; sourceTree = "<group>"; };
+		CF507FA221804D05007FE441 /* typing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = typing.json; sourceTree = "<group>"; };
+		CF507FA42181376D007FE441 /* TypingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingIndicatorView.swift; sourceTree = "<group>"; };
+		CF507FA621813798007FE441 /* TypingIndicatorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingIndicatorManager.swift; sourceTree = "<group>"; };
+		CF507FA82181386D007FE441 /* MessagetTimebreakCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagetTimebreakCell.swift; sourceTree = "<group>"; };
+		CF507FAA218138A5007FE441 /* MessageBreakTimestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBreakTimestamp.swift; sourceTree = "<group>"; };
 		CF528CD42164527A00D81D03 /* TutorRatingsReviewContainerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatingsReviewContainerCell.swift; sourceTree = "<group>"; };
 		CF528CD62164529E00D81D03 /* TutorRatingsReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatingsReviewCell.swift; sourceTree = "<group>"; };
 		CF528CD8216452B600D81D03 /* TutorRatingsTopSubjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatingsTopSubjectCell.swift; sourceTree = "<group>"; };
@@ -963,6 +977,7 @@
 		840E4DF32136F56E0045CD35 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				CF507FA221804D05007FE441 /* typing.json */,
 				840E4DF42136F58E0045CD35 /* loading1.json */,
 				CFB40E44216BFE2100828E72 /* connecting.json */,
 				840E4DF9213761BD0045CD35 /* loading2.json */,
@@ -1509,6 +1524,7 @@
 				8426A1602055B31F00EAF1A8 /* Resources */,
 				849029861FF70F3900A4A1D7 /* Stripe */,
 				842394051FF4C7CF00827C7D /* Firebase */,
+				CF249975217E926500614AF0 /* Keyboard Utility */,
 				844CB54F213EDE3B00656F06 /* PostSession */,
 				84BC77D420F31A320039E054 /* ImageCropper */,
 				8404F43C20EBB3AE00747C01 /* CustomError.swift */,
@@ -1866,6 +1882,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CF249975217E926500614AF0 /* Keyboard Utility */ = {
+			isa = PBXGroup;
+			children = (
+				CF249976217E926500614AF0 /* KeyboardLayoutGuide.swift */,
+				CF249977217E926500614AF0 /* KeyboardFrameObserver.swift */,
+				CF249978217E926500614AF0 /* KeyboardFrameObserversManager.swift */,
+			);
+			path = "Keyboard Utility";
+			sourceTree = "<group>";
+		};
 		CF4CAED22172CC2100B23530 /* NotificationService */ = {
 			isa = PBXGroup;
 			children = (
@@ -1933,7 +1959,7 @@
 				CF833B86207C4D3000323242 /* SessionCellActionView.swift */,
 				CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */,
 				CF1E43C420705F8D0033F845 /* StarView.swift */,
-				CF1CC98C2118B2D700A6BB81 /* TypingIndicatorView.swift */,
+				CF507FA42181376D007FE441 /* TypingIndicatorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1973,6 +1999,7 @@
 				CF6F588E205EE68800ACBD32 /* ImageMessageCell.swift */,
 				CF6F588F205EE68800ACBD32 /* MeetupRequestCell.swift */,
 				CF6F5890205EE68800ACBD32 /* BaseMessageCell.swift */,
+				CF507FA82181386D007FE441 /* MessagetTimebreakCell.swift */,
 			);
 			path = MessageCells;
 			sourceTree = "<group>";
@@ -2056,6 +2083,7 @@
 				CF07110B211810A40035A6FF /* Conversation.swift */,
 				CF88A67C211D297900A10D17 /* AccessManager.swift */,
 				CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */,
+				CF507FAA218138A5007FE441 /* MessageBreakTimestamp.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2156,6 +2184,7 @@
 				CFA1716C21730548003F195A /* NotificationManager.swift */,
 				CF43AF952177B82F00783819 /* SignInManager.swift */,
 				CF43AF972177B86000783819 /* RootControllerManager.swift */,
+				CF507FA621813798007FE441 /* TypingIndicatorManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -2272,6 +2301,7 @@
 				8425767A2071339500FD295B /* trades.json in Resources */,
 				842576702071309000FD295B /* language.json in Resources */,
 				840E4E05213761C10045CD35 /* loading7.json in Resources */,
+				CF507FA321804D05007FE441 /* typing.json in Resources */,
 				842576642070773D00FD295B /* academics.json in Resources */,
 				840E4E06213761C10045CD35 /* loading8.json in Resources */,
 				CFB40E49216D1A9F00828E72 /* qtRingtone.aiff in Resources */,
@@ -2323,7 +2353,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -2366,7 +2396,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -2395,7 +2425,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh",
 				"${PODS_ROOT}/FacebookSDK/FacebookSDKs-iOS-universal-4.36.0/iOS/FacebookSDKStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -2406,7 +2436,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CF5BFB0321541EEF00FB8DD6 /* ShellScript */ = {
@@ -2526,6 +2556,7 @@
 				CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */,
 				84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */,
 				8440539A20F525E0003F0606 /* DateExtensions.swift in Sources */,
+				CF24997A217E926500614AF0 /* KeyboardFrameObserver.swift in Sources */,
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestionVC.swift in Sources */,
 				84B8D67A20E5A53C0026132C /* TutorListings.swift in Sources */,
 				842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */,
@@ -2628,6 +2659,7 @@
 				CF6F58E2205EE68800ACBD32 /* ConversationVC.swift in Sources */,
 				846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */,
 				847463262069425C00B70AD9 /* TutorSessions.swift in Sources */,
+				CF507FA721813798007FE441 /* TypingIndicatorManager.swift in Sources */,
 				84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */,
 				842A5580209DF55700F6870A /* AdjustFiltersCollectViewCell.swift in Sources */,
 				841F8494216A7C8000C9788B /* SettingsVC.swift in Sources */,
@@ -2654,6 +2686,7 @@
 				CF177BD52090FA90006DD50B /* ReviewProfileBox.swift in Sources */,
 				847AC4CA2076B4F000B6B27A /* TutorMainPageCells.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePasswordVC.swift in Sources */,
+				CF507FA92181386D007FE441 /* MessagetTimebreakCell.swift in Sources */,
 				84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,
 				84CE13F8217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift in Sources */,
@@ -2670,7 +2703,7 @@
 				CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */,
 				84CE13F6217CED4E005A1B2C /* TutorConnectView.swift in Sources */,
 				841F84A3216AE88C00C9788B /* SettingsLocation.swift in Sources */,
-				CF1CC98D2118B2D700A6BB81 /* TypingIndicatorView.swift in Sources */,
+				CF249979217E926500614AF0 /* KeyboardLayoutGuide.swift in Sources */,
 				8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */,
 				CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */,
 				849AAEAA2060846800B9CFD7 /* TutorLocationFormatter.swift in Sources */,
@@ -2705,6 +2738,7 @@
 				844053A020F55BDA003F0606 /* RequestSessionTableView.swift in Sources */,
 				84C82FE420F0068A00E526B4 /* EditListingVC.swift in Sources */,
 				844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */,
+				CF24997B217E926500614AF0 /* KeyboardFrameObserversManager.swift in Sources */,
 				84D6A7D8215B0A58000C0010 /* LearnerMyProfileHeader.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
@@ -2743,6 +2777,7 @@
 				84D8C9342067116C003C3AEA /* TutorConnectVC.swift in Sources */,
 				848809FB2057835E00F204A0 /* TutorDidNotHelpVC.swift in Sources */,
 				8451FB5A213EF17C00F86DC5 /* TipCell.swift in Sources */,
+				CF507FA52181376D007FE441 /* TypingIndicatorView.swift in Sources */,
 				84F141A1207E490D003D3193 /* TutorPreferencesVC.swift in Sources */,
 				84F5774420C2B266008486AD /* UserSession.swift in Sources */,
 				84C96C0D1FCE34A900DBD3A6 /* EmailVC.swift in Sources */,
@@ -2797,6 +2832,7 @@
 				CFEF943F20B3583800413727 /* ImageMessageSender.swift in Sources */,
 				84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */,
 				CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */,
+				CF507FAB218138A5007FE441 /* MessageBreakTimestamp.swift in Sources */,
 				84DF1E5C216D68EC00AEBD76 /* EditBirthdateView.swift in Sources */,
 				CF833B75207C4B6E00323242 /* LearnerPendingSessionCell.swift in Sources */,
 				CF6F58E8205EE68800ACBD32 /* MeetupRequest.swift in Sources */,
