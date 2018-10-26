@@ -84,7 +84,6 @@ class TutorConnectVC: BaseViewController {
 
 	var subject: (subcategory: String, subject: String)! {
         didSet {
-			print("subcategory: ", subject.subcategory , " subject: ", subject.subject)
             self.displayLoadingOverlay()
             QueryData.shared.queryAWTutorBySubject(subcategory: subject.subcategory, subject: subject.subject) { tutors in
                 if let tutors = tutors {
@@ -274,7 +273,9 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		let data = shouldFilterDatasource ? filteredDatasource : datasource
 		
 		let reference : StorageReference
-		
+		cell.parentViewController = self
+		cell.tutor = data[indexPath.item]
+
 		if let featuredDetails = data[indexPath.item].featuredDetails {
 			reference = storageRef.child("featured").child(data[indexPath.item].uid).child("featuredImage")
 			cell.tutorCardHeader.featuredSubject.text = featuredDetails.subject
@@ -285,8 +286,6 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 			cell.tutorCardHeader.price.text = "$\(data[indexPath.item].price ?? 0)/hr"
 		}
 		
-		cell.tutor = data[indexPath.item]
-		cell.parentViewController = self
 		cell.tutorCardHeader.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
 		cell.tutorCardHeader.profileImageView.roundCorners(.allCorners, radius: 8)
 		cell.tutorCardHeader.name.text = data[indexPath.item].name.formatName()

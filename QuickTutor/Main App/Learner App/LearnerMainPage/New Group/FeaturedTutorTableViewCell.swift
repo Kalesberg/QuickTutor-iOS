@@ -38,7 +38,7 @@ class FeaturedTutorTableViewCell: UITableViewCell {
     let itemsPerBatch: UInt = 8
     var allTutorsQueried: Bool = false
     var didLoadMore: Bool = false
-
+	
     var datasource = [FeaturedTutor]() {
         didSet {
             collectionView.reloadData()
@@ -142,7 +142,7 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
 			vc.startIndex = indexPath
             vc.featuredTutors = self.datasource
             vc.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
-
+		
             DispatchQueue.main.async {
                 let nav = navigationController
                 nav.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
