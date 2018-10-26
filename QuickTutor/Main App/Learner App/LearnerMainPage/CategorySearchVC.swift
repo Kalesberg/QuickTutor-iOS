@@ -56,7 +56,7 @@ class CategorySearchVC: BaseViewController {
         displayLoadingOverlay()
         QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { tutors in
             if let tutors = tutors {
-                self.allTutorsQueried = tutors.count != self.itemsPerBatch
+                self.allTutorsQueried = tutors.count == 0
 
                 let startIndex = self.datasource.count
                 self.datasource.append(contentsOf: tutors)
