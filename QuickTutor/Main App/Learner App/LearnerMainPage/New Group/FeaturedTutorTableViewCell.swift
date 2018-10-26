@@ -75,14 +75,14 @@ class FeaturedTutorTableViewCell: UITableViewCell {
     private func queryTutorsByCategory(lastKnownKey: String?) {
         QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { tutors in
             if let tutors = tutors {
-                self.allTutorsQueried = tutors.count != self.itemsPerBatch
+                self.allTutorsQueried = tutors.count == 0
 
                 let startIndex = self.datasource.count
                 self.collectionView.performBatchUpdates({
                     self.datasource.append(contentsOf: tutors)
                     let endIndex = self.datasource.count
 
-                    let insertPaths = Array(startIndex ..< endIndex).map { IndexPath(item: $0, section: 0) }
+                    let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
                     self.collectionView.insertItems(at: insertPaths)
                 }, completion: { _ in
                     self.didLoadMore = false
