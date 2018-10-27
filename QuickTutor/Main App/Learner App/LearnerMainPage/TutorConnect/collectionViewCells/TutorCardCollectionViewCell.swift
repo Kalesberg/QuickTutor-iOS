@@ -12,10 +12,12 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
+	
 	override init(frame: CGRect) {
-		super.init(frame: .zero)
+		super.init(frame: frame)
 		configureCollectionViewCell()
 	}
+	
 	let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
 	var parentViewController : UIViewController?
@@ -227,12 +229,9 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	}
 	
 	private func setupScrollViewContentSize() {
-		var contentSizeHeight : CGFloat = 0.0
-		for view in scrollView.subviews {
-			contentSizeHeight += view.frame.height
-		}
-		scrollView.contentSize.height = contentSizeHeight + 50
 		layoutIfNeeded()
+		let connectButtonOffset : CGFloat = 35.0
+		scrollView.contentSize.height = scrollView.subviews.reduce(0) { $0 + $1.frame.height } + connectButtonOffset
 	}
 	
     let addPaymentModal = AddPaymentModal()
@@ -401,6 +400,7 @@ class TutorCardHeader: UIView {
 		profileImageView.roundCorners(.allCorners, radius: 8)
 
     }
+	
 	@objc func profileImageViewPressed(_ sender: UIButton) {
 		parentViewController?.displayProfileImageViewer(imageCount: imageCount, userId: userId)
 	}

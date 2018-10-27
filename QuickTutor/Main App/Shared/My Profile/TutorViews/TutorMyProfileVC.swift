@@ -46,13 +46,9 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		setupMyProfilePolicies()
 	}
 	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		var contentSizeHeight : CGFloat = 0.0
-		for view in contentView.scrollView.subviews {
-			contentSizeHeight += view.frame.height
-		}
-		contentView.scrollView.contentSize.height = contentSizeHeight + 200
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		contentView.scrollView.contentSize.height = contentView.scrollView.subviews.reduce(0) { $0 + $1.frame.height } + 100
 	}
 	
 	func tutorWasUpdated(tutor: AWTutor!) {
