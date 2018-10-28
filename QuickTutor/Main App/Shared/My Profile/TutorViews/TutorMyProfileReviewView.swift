@@ -6,14 +6,6 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-//
-//  MyProfileReviewsView.swift
-//  QuickTutor
-//
-//  Created by QuickTutor on 9/28/18.
-//  Copyright © 2018 QuickTutor. All rights reserved.
-//
-
 import FirebaseUI
 import Foundation
 

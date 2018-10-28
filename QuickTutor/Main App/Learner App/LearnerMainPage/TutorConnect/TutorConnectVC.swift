@@ -272,10 +272,11 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorCardCell", for: indexPath) as! TutorCardCollectionViewCell
 		let data = shouldFilterDatasource ? filteredDatasource : datasource
 		let reference : StorageReference
-
-		cell.tutor = data[indexPath.item]
+		
+		//set up and initializer for this... very brittle.
 		cell.parentViewController = self
-
+		cell.tutor = data[indexPath.item]
+		
 		if let featuredDetails = data[indexPath.item].featuredDetails {
 			reference = storageRef.child("featured").child(data[indexPath.item].uid).child("featuredImage")
 			cell.tutorCardHeader.featuredSubject.text = featuredDetails.subject

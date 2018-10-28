@@ -9,7 +9,7 @@
 //	Maximum of 5 cards per user. The add payment button will be disabled when they have 5 cards.
 
 import Stripe
-import UIKit.UITableView
+import UIKit
 
 class CardManagerView: MainLayoutTitleBackButton {
     let subtitleLabel: UILabel = {

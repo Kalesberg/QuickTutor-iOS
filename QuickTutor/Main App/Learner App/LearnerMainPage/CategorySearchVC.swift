@@ -93,20 +93,8 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
         cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
         cell.featuredTutor.region.text = datasource[indexPath.item].region
         cell.featuredTutor.subject.text = datasource[indexPath.item].subject
-
-        let formattedString = NSMutableAttributedString()
-
-        formattedString
-            .bold("\(datasource[indexPath.item].rating) ", 14, Colors.gold)
-
-        cell.featuredTutor.ratingLabel.attributedText = formattedString
-
-        let formattedString2 = NSMutableAttributedString()
-
-        formattedString2
-            .regular("(\(datasource[indexPath.item].reviews) ratings)", 12, Colors.gold)
-
-        cell.featuredTutor.numOfRatingsLabel.attributedText = formattedString2
+		 cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(datasource[indexPath.item].rating) ", 14, Colors.gold)
+		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("Rating", 13, Colors.gold)
 
         return cell
     }

@@ -113,7 +113,7 @@ extension TutorReviewsVC: UITableViewDelegate, UITableViewDataSource {
 		cell.minHeight = 75
 		cell.isViewing = isViewing
 		
-		cell.dateLabel.text = "\(data.formattedDate)"
+		cell.dateLabel.text = data.formattedDate
 		cell.reviewTextLabel.text = "\"\(data.message)\""
 		let formattedName = data.studentName.split(separator: " ")
 		cell.nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
@@ -145,15 +145,13 @@ extension TutorReviewsVC: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let vc = TutorMyProfileVC()
-		FirebaseData.manager.fetchTutor(datasource[indexPath.row].reviewerId, isQuery: false) { (tutor) in
-			if let tutor = tutor {
-				vc.tutor = tutor
-				vc.isViewing = true
-				vc.contentView.title.label.text = tutor.username
-				vc.contentView.rightButton.isHidden = true
-				self.navigationController?.pushViewController(vc, animated: true)
-			}
+		FirebaseData.manager.fetchLearner(datasource[indexPath.row].reviewerId) { learner in
+			guard let learner = learner else { return }
+			let vc = LearnerMyProfileVC()
+			vc.learner = learner
+			vc.contentView.rightButton.isHidden = true
+			vc.contentView.title.label.isHidden = true
+			self.navigationController?.pushViewController(vc, animated: true)
 		}
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
