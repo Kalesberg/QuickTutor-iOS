@@ -183,6 +183,9 @@
 		8496FE0C216198BE00BD292F /* TutorMyProfilePolicies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496FE0B216198BE00BD292F /* TutorMyProfilePolicies.swift */; };
 		84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */; };
 		849AAEAA2060846800B9CFD7 /* TutorLocationFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AAEA92060846800B9CFD7 /* TutorLocationFormatter.swift */; };
+		84A090A7218624A500DBD48F /* AddTutorLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090A6218624A500DBD48F /* AddTutorLoadingIndicator.swift */; };
+		84A090A9218624B100DBD48F /* AddTutorVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090A8218624B100DBD48F /* AddTutorVCView.swift */; };
+		84A090AB2186250000DBD48F /* AddTutorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */; };
 		84A37B78200447C800C19397 /* UserPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A37B77200447C800C19397 /* UserPolicyVC.swift */; };
 		84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */; };
 		84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */; };
@@ -666,6 +669,9 @@
 		8496FE0B216198BE00BD292F /* TutorMyProfilePolicies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorMyProfilePolicies.swift; sourceTree = "<group>"; };
 		84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResizingExtensions.swift; sourceTree = "<group>"; };
 		849AAEA92060846800B9CFD7 /* TutorLocationFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLocationFormatter.swift; sourceTree = "<group>"; };
+		84A090A6218624A500DBD48F /* AddTutorLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorLoadingIndicator.swift; sourceTree = "<group>"; };
+		84A090A8218624B100DBD48F /* AddTutorVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorVCView.swift; sourceTree = "<group>"; };
+		84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorTableViewCell.swift; sourceTree = "<group>"; };
 		84A37B77200447C800C19397 /* UserPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPolicyVC.swift; sourceTree = "<group>"; };
 		84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDatePicker.swift; sourceTree = "<group>"; };
 		84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTextView.swift; sourceTree = "<group>"; };
@@ -1562,6 +1568,26 @@
 			path = TutorViews;
 			sourceTree = "<group>";
 		};
+		84A090A42186229900DBD48F /* CategorySearch */ = {
+			isa = PBXGroup;
+			children = (
+				CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */,
+				84D8C93120670EC0003C3AEA /* CategorySearchVC.swift */,
+			);
+			path = CategorySearch;
+			sourceTree = "<group>";
+		};
+		84A090A52186248B00DBD48F /* AddTutor */ = {
+			isa = PBXGroup;
+			children = (
+				8454890120D987D300932D8D /* AddTutorVC.swift */,
+				84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */,
+				84A090A6218624A500DBD48F /* AddTutorLoadingIndicator.swift */,
+				84A090A8218624B100DBD48F /* AddTutorVCView.swift */,
+			);
+			path = AddTutor;
+			sourceTree = "<group>";
+		};
 		84A37B75200445C600C19397 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
@@ -1698,10 +1724,9 @@
 			children = (
 				CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */,
 				846252E620637CF8001DD330 /* LearnerMainPageVC.swift */,
-				8454890120D987D300932D8D /* AddTutorVC.swift */,
-				84D8C93120670EC0003C3AEA /* CategorySearchVC.swift */,
-				CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */,
 				CFB40E67216F1F5300828E72 /* LearnerSettingsVC.swift */,
+				84A090A52186248B00DBD48F /* AddTutor */,
+				84A090A42186229900DBD48F /* CategorySearch */,
 				84EEFD532173CF0E00FE12F9 /* InviteOthers */,
 				845B91C8211799F30000D263 /* ApplyFilters */,
 				844FECF4210F977B00C1797B /* SubjectSearch */,
@@ -2472,6 +2497,7 @@
 				845B3B9A2069E664009F8E04 /* CategorySearchVC.swift in Sources */,
 				842576602070295C00FD295B /* AddSubjectTableViewCell.swift in Sources */,
 				CFF5017B206990B20085B0E9 /* LearnerExtendedReviewsVC.swift in Sources */,
+				84A090AB2186250000DBD48F /* AddTutorTableViewCell.swift in Sources */,
 				CFF50179206990590085B0E9 /* LearnerMyProfileVC.swift in Sources */,
 				844CB54E213ED7EB00656F06 /* SessionReview.swift in Sources */,
 				CF387EBD2088314B00087449 /* Notifications.swift in Sources */,
@@ -2543,6 +2569,7 @@
 				84CE13FA217CED8B005A1B2C /* TutorCardTutorial.swift in Sources */,
 				84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */,
 				84746324206940EE00B70AD9 /* TutorConnections.swift in Sources */,
+				84A090A7218624A500DBD48F /* AddTutorLoadingIndicator.swift in Sources */,
 				846252E720637CF8001DD330 /* LearnerMainPageVC.swift in Sources */,
 				CF528CDD216452EC00D81D03 /* TutorRatingsPrimaryCell.swift in Sources */,
 				84E4C7DF204E9342009C2FC4 /* ForgotPasswordVC.swift in Sources */,
@@ -2724,6 +2751,7 @@
 				CF6F58D8205EE68800ACBD32 /* KeyboardAccessory.swift in Sources */,
 				841F8496216A7C8900C9788B /* SettingsView.swift in Sources */,
 				8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */,
+				84A090A9218624B100DBD48F /* AddTutorVCView.swift in Sources */,
 				84C255691FC2563A0012C0AA /* BirthdayVC.swift in Sources */,
 				84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */,
 				84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */,
