@@ -232,6 +232,29 @@ class Stripe {
 			}
 		}
 	}
+    
+    
+    class func attachSource(cusID: String, with token: STPToken, completion: @escaping (String?) -> Void) {
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/AttachSource.php"
+        let params : [String : Any] = ["customer" : cusID, "token" :  token]
+        Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
+            .validate(statusCode: 200..<300)
+            .responseString(completionHandler: { (response) in
+                switch response.result {
+                case .success(let value):
+                    if value == "success" {
+                        completion(nil)
+                    } else {
+                        completion(value)
+                    }
+                case .failure(let error):
+                    completion(error.localizedDescription)
+                }
+            })
+
+    }
+
+    
 	class func updateDefaultBank(account: String, bankId: String, completion: @escaping AWExternalAccountErrorBlock) {
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultbankaccount.php"
 		let params : [String : Any] = ["acct" : account, "bankId" : bankId ]

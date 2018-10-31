@@ -54,6 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         
         registerForPushNotifications(application: application)
         
+        UITextField.appearance().keyboardAppearance = .dark
+
+        
         //Firebase init
         FirebaseApp.configure()
         

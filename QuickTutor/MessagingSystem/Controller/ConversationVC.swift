@@ -598,14 +598,8 @@ extension ConversationVC: ConversationManagerDelegate {
 
 extension ConversationVC: KeyboardAccessoryViewDelegate {
     func handleSendingImage() {
-        messagesCollection.reloadItems(at: [IndexPath(item: conversationManager.messages.count - 2, section: 0)])
-        let message = conversationManager.messages[conversationManager.messages.count - 2] as? UserMessage
-        print("Message says ", message?.text)
-        let cellText = messagesCollection.cellForItem(at: IndexPath(item: conversationManager.messages.count - 2, section: 0)) as? UserMessageCell
-        
-        print("Cell says", cellText?.textView.text)
-//        studentKeyboardAccessory.hideActionView()
-//        imageMessageSender.handleSendingImage()
+        studentKeyboardAccessory.hideActionView()
+        imageMessageSender.handleSendingImage()
     }
 
     func handleSessionRequest() {

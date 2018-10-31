@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AccountKitClientToken</key>
+	<string>{your-account-kit-client-token}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -17,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.8</string>
+	<string>1.2.9</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -36,13 +38,23 @@
 				<string>fb303427473587992</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ak303427473587992</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>1</string>
 	<key>FacebookAppID</key>
 	<string>303427473587992</string>
 	<key>FacebookDisplayName</key>
 	<string>QuickTutor</string>
+    <key>AccountKitClientToken</key>
+    <string>c6647946522623fdcdc200317ba8d692</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -50,6 +62,13 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
 	<key>NSCalendarsUsageDescription</key>
 	<string> Allow access to Calendar to save upcomming session details</string>
 	<key>NSCameraUsageDescription</key>

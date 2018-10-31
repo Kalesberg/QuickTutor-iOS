@@ -27,6 +27,7 @@ class BaseUpcomingSessionCell: BaseSessionCell, MessageButtonDelegate, CancelSes
     }
 
     override func handleButton2() {
+        NotificationManager.shared.disableAllNotifications()
         startSession()
     }
 

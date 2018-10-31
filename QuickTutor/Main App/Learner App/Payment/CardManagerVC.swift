@@ -89,6 +89,7 @@ class CardManagerVC: BaseViewController {
     private var cards = [STPCard]()
     private var defaultCard: STPCard?
 
+    var addCardVC: STPAddCardViewController?
     override func viewDidLoad() {
         super.viewDidLoad()
         displayLoadingOverlay()
@@ -105,6 +106,7 @@ class CardManagerVC: BaseViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.register(CardManagerTableViewCell.self, forCellReuseIdentifier: "cardCell")
         contentView.tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
+        
     }
 
     private func setCustomer() {
@@ -179,10 +181,7 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
                 print("too many cards")
                 return
             }
-            let next = LearnerPaymentVC()
-            next.popToMain = popToMain
-            next.popBackTo = popBackTo
-            navigationController?.pushViewController(next, animated: true)
+            showStripeAddCard()
         } else {
             if cards[indexPath.row] != defaultCard {
                 defaultCardAlert(card: cards[indexPath.row])
@@ -234,6 +233,56 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
         let border = UIView(frame: CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
         border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
         cell.contentView.addSubview(border)
+    }
+    
+    func showStripeAddCard() {
+        let theme = STPTheme()
+        theme.primaryBackgroundColor = Colors.registrationDark
+        theme.font = Fonts.createSize(16)
+        theme.emphasisFont = Fonts.createBoldSize(18)
+        theme.accentColor = Colors.learnerPurple
+        theme.errorColor = Colors.qtRed
+        theme.primaryForegroundColor = .white
+        theme.secondaryForegroundColor = Colors.grayText
+        theme.secondaryBackgroundColor = Colors.darkBackground
+        
+        
+        let theme2 = STPTheme()
+        theme2.primaryBackgroundColor = Colors.learnerPurple
+        theme2.emphasisFont = Fonts.createBoldSize(18)
+        theme2.accentColor = .white
+        theme2.primaryForegroundColor = .white
+        theme2.secondaryForegroundColor = Colors.grayText
+        theme2.secondaryBackgroundColor = Colors.learnerPurple
+        
+        let config = STPPaymentConfiguration()
+        config.requiredBillingAddressFields = .none
+        config.publishableKey = "pk_live_D8MI9AN23eK4XLw1mCSUHi9V"
+        addCardVC = STPAddCardViewController(configuration: config, theme: theme)
+        addCardVC?.delegate = self
+        
+        
+        let navigationController = UINavigationController(rootViewController: addCardVC!)
+        navigationController.navigationBar.stp_theme = theme2
+        present(navigationController, animated: true, completion: nil)
+    }
+}
+
+extension CardManagerVC: STPAddCardViewControllerDelegate {
+    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
+        
+        Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (errorMessage) in
+            guard errorMessage == nil else {
+                AlertController.genericErrorAlert(self, title: "Error Processing Card", message: errorMessage!)
+                return
+            }
+            self.addCardVC?.dismiss(animated: true, completion: nil)
+            self.navigationController?.popBackToMain()
+        }
     }
 }
 

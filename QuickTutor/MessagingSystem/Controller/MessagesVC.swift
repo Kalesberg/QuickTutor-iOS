@@ -56,6 +56,7 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
         edgesForExtendedLayout = []
+        setupObservers()
         NotificationManager.shared.disableAllConversationNotifications()
     }
     
@@ -70,7 +71,6 @@ class MessagesVC: UIViewController, CustomNavBarDisplayer {
         setupNavBar()
         setupMessageSessionControl()
         setupCollectionView()
-        setupObservers()
     }
 
     private func setupMainView() {

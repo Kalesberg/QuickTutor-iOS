@@ -36,7 +36,7 @@ struct PushNotification {
 
     init(userInfo: [AnyHashable: Any]) {
         identifier = userInfo["identifier"] as? String ?? ""
-        category = NotificationCategory(rawValue: userInfo["category"] as? String ?? "sessions")!
+        category = NotificationCategory(rawValue: userInfo["category"] as? String ?? "sessionStart")!
         senderId = userInfo["senderId"] as? String
         receiverId = userInfo["receiverId"] as? String
         senderAccountType = userInfo["senderAccountType"] as? String
