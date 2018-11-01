@@ -227,6 +227,7 @@ extension TutorRatingsVC: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func getReviewHeader(_ indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ratingsHeader", for: indexPath) as! TutorRatingsReviewHeaderCell
+		header.parentViewController = self
         header.titleLabel.text = sectionTitles[indexPath.section]
         if let reviews = tutor.reviews {
             header.reviews = reviews

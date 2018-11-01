@@ -11,7 +11,8 @@ import UIKit
 class TutorRatingsReviewHeaderCell: TutorRatingsHeaderCell {
     
     var reviews = [Review]()
-    
+	var parentViewController : UIViewController?
+	
     let seeAllButton : UIButton = {
         let button = UIButton()
         button.setTitle("See All »", for: .normal)
@@ -31,14 +32,16 @@ class TutorRatingsReviewHeaderCell: TutorRatingsHeaderCell {
         seeAllButton.addTarget(self, action: #selector(showAllReviews), for: .touchUpInside)
     }
     
-    @objc func showAllReviews() {
-        if let current = UIApplication.getPresentedViewController() {
-            let next = LearnerReviewsVC()
-            next.isViewing = true
-            next.contentView.navbar.backgroundColor = Colors.gold
-            next.contentView.statusbarView.backgroundColor = Colors.gold
-            next.datasource = reviews
-            current.present(next, animated: true, completion: nil)
-        }
-    }
+	@objc func showAllReviews() {
+		let vc = LearnerReviewsVC()
+		vc.isViewing = true
+		vc.contentView.navbar.backgroundColor = Colors.gold
+		vc.contentView.statusbarView.backgroundColor = Colors.gold
+		vc.datasource = reviews
+		let nav = parentViewController?.navigationController
+		DispatchQueue.main.async {
+			nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
+			nav?.pushViewController(vc, animated: false)
+		}
+	}
 }

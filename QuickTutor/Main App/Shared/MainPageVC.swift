@@ -21,7 +21,7 @@ class MainPageVC: BaseViewController {
 
     let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
-    var parentPageViewController: PageViewController!
+    var parentPageViewController: PageViewController?
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -90,7 +90,7 @@ class MainPageVC: BaseViewController {
         if touchStartView == contentView.messagesButton {
             let vc = MessagesVC()
             vc.parentPageViewController = parentPageViewController
-            parentPageViewController.setViewControllers([vc], direction: .forward, animated: true, completion: nil)
+            parentPageViewController?.setViewControllers([vc], direction: .forward, animated: true, completion: nil)
         }
     }
 

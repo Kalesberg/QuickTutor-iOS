@@ -186,6 +186,7 @@
 		84A090A7218624A500DBD48F /* AddTutorLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090A6218624A500DBD48F /* AddTutorLoadingIndicator.swift */; };
 		84A090A9218624B100DBD48F /* AddTutorVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090A8218624B100DBD48F /* AddTutorVCView.swift */; };
 		84A090AB2186250000DBD48F /* AddTutorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */; };
+		84A090AD218BA96A00DBD48F /* RandomQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090AC218BA96A00DBD48F /* RandomQuery.swift */; };
 		84A37B78200447C800C19397 /* UserPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A37B77200447C800C19397 /* UserPolicyVC.swift */; };
 		84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */; };
 		84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */; };
@@ -672,6 +673,7 @@
 		84A090A6218624A500DBD48F /* AddTutorLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorLoadingIndicator.swift; sourceTree = "<group>"; };
 		84A090A8218624B100DBD48F /* AddTutorVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorVCView.swift; sourceTree = "<group>"; };
 		84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorTableViewCell.swift; sourceTree = "<group>"; };
+		84A090AC218BA96A00DBD48F /* RandomQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomQuery.swift; sourceTree = "<group>"; };
 		84A37B77200447C800C19397 /* UserPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPolicyVC.swift; sourceTree = "<group>"; };
 		84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDatePicker.swift; sourceTree = "<group>"; };
 		84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTextView.swift; sourceTree = "<group>"; };
@@ -1724,6 +1726,7 @@
 			children = (
 				CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */,
 				846252E620637CF8001DD330 /* LearnerMainPageVC.swift */,
+				84A090AC218BA96A00DBD48F /* RandomQuery.swift */,
 				CFB40E67216F1F5300828E72 /* LearnerSettingsVC.swift */,
 				84A090A52186248B00DBD48F /* AddTutor */,
 				84A090A42186229900DBD48F /* CategorySearch */,
@@ -2731,6 +2734,7 @@
 				CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */,
 				CF8F238A215C0F3A00B4239D /* LearnerMainPageVCView.swift in Sources */,
 				8440539720F4E69C003F0606 /* RequestSessionCell.swift in Sources */,
+				84A090AD218BA96A00DBD48F /* RandomQuery.swift in Sources */,
 				CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */,
 				84CE13F6217CED4E005A1B2C /* TutorConnectView.swift in Sources */,
 				841F84A3216AE88C00C9788B /* SettingsLocation.swift in Sources */,
