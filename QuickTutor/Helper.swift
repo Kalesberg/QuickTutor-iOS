@@ -158,22 +158,6 @@ class FeaturedTutorView: BaseView {
         }
     }
 }
-struct BadWords {
-    static func loadBadWords() -> [String] {
-        let pathToFile = Bundle.main.path(forResource: "badwords", ofType: "txt")
-        if let path = pathToFile {
-            do {
-                let badWords = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-                return badWords.components(separatedBy: ",").filter { !" \n\t\r".contains($0) } as [String]
-            } catch {
-                print("Try-catch error")
-                return []
-            }
-        } else {
-            return []
-        }
-    }
-}
 
 struct SubjectStore {
     static func loadTotalSubjectList() -> [(String, String)]? {
@@ -316,7 +300,7 @@ struct SubjectStore {
 enum Category {
     
     case academics, arts, auto, business, lifestyle, health, language, outdoors, remedial, sports, tech, trades
-    static let categories: [Category] = [.arts, .business, .language, .academics, .lifestyle, .tech, .sports, .outdoors, .auto, .trades, .health, .remedial]
+    static let categories: [Category] = [.academics, .business, .lifestyle, .language,  .arts,  .sports, .health, .tech, .outdoors, .auto, .trades,  .remedial]
     
     var subcategory: Subcategory {
         
