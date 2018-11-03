@@ -38,13 +38,17 @@ class TutorEarnings: BaseViewController {
         displayLoadingOverlay()
         Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { _, transactions in
             guard let transactions = transactions else { return }
-            self.datasource = transactions.data.sorted { return $0.created < $1.created }
+			self.datasource = transactions.data.filter({ (transactions) -> Bool in
+				if transactions.amount != nil && transactions.amount! > 0 {
+					return true
+				}
+				return false
+			})
             self.dismissOverlay()
         }
 
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-
         contentView.tableView.register(TutorEarningsTableCellView.self, forCellReuseIdentifier: "tutorEarningsTableCellView")
     }
 
