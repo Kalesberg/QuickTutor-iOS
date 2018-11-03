@@ -233,7 +233,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { snapshot in
             print("Data needs reload")
-			self.reloadSessionWithId(snapshot.ref.key!)
+            self.reloadSessionWithId(snapshot.ref.key!)
             snapshot.ref.setValue(1)
         }
     }
@@ -717,12 +717,22 @@ extension ConversationVC: CustomModalDelegate {
         DataService.shared.getSessionById(id) { session in
             let chatPartnerId = session.partnerId()
             Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
-            SessionManager(sessionId: id).markDataStale(partnerId: chatPartnerId)
+            self.markDataStale(sessionId: id, partnerId: chatPartnerId)
         }
 
         cancelSessionModal?.dismiss()
         guard let index = cancelSessionIndex else { return }
         messagesCollection.reloadItems(at: [index])
+    }
+    
+    func markDataStale(sessionId: String, partnerId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        Database.database().reference().child("userSessions").child(uid)
+            .child(userTypeString).child(sessionId).setValue(0)
+        Database.database().reference().child("userSessions").child(partnerId)
+            .child(otherUserTypeString).child(sessionId).setValue(0)
     }
 }
 
