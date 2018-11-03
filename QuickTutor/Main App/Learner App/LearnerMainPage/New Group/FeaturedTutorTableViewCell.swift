@@ -35,6 +35,8 @@ class FeaturedTutorTableViewCell: UITableViewCell {
         return collectionView
     }()
 
+	var parentViewController : UIViewController? = nil
+	
     let itemsPerBatch: UInt = 8
     var allTutorsQueried: Bool = false
     var didLoadMore: Bool = false
@@ -75,14 +77,11 @@ class FeaturedTutorTableViewCell: UITableViewCell {
     private func queryTutorsByCategory(lastKnownKey: String?) {
         QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { tutors in
             if let tutors = tutors {
-                self.allTutorsQueried = tutors.count == 0
-
+                self.allTutorsQueried = (tutors.count == 0)
                 let startIndex = self.datasource.count
                 self.collectionView.performBatchUpdates({
                     self.datasource.append(contentsOf: tutors)
-                    let endIndex = self.datasource.count
-
-                    let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
+                    let insertPaths = Array(startIndex..<self.datasource.count).map { IndexPath(item: $0, section: 0) }
                     self.collectionView.insertItems(at: insertPaths)
                 }, completion: { _ in
                     self.didLoadMore = false
@@ -93,6 +92,7 @@ class FeaturedTutorTableViewCell: UITableViewCell {
 }
 
 extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+	
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return datasource.count
     }
@@ -100,17 +100,16 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		let reference = storageRef.child("featured").child(datasource[indexPath.item].uid).child("featuredImage")
-
-        cell.price.text = datasource[indexPath.item].price.priceFormat()
-        cell.featuredTutor.imageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+		cell.featuredTutor.imageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
         cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
         cell.featuredTutor.region.text = datasource[indexPath.item].region
         cell.featuredTutor.subject.text = datasource[indexPath.item].subject
         cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(datasource[indexPath.item].rating) ", 14, Colors.gold)
 		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("Rating", 13, Colors.gold)
+		cell.price.text = datasource[indexPath.item].price.priceFormat()
 		//cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)
 
-        cell.layer.cornerRadius = 6
+       // cell.layer.cornerRadius = 6
         cell.featuredTutor.applyDefaultShadow()
 
         return cell
@@ -127,6 +126,7 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
             cell.transform = CGAffineTransform.identity
         }
     }
+	
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 		guard !allTutorsQueried else { return }
 		if indexPath.item == self.datasource.count - 2 && !didLoadMore {
@@ -134,7 +134,8 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
 			pageMoreTutors()
 		}
 	}
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
         cell.growSemiShrink {
             let vc = TutorConnectVC()
@@ -142,11 +143,11 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
 			vc.startIndex = indexPath
             vc.featuredTutors = self.datasource
             vc.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
-		
+			let nav = self.parentViewController?.navigationController
+			print(self.datasource[indexPath.item].uid)
             DispatchQueue.main.async {
-                let nav = navigationController
-                nav.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
-                nav.pushViewController(vc, animated: false)
+                nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
+                nav?.pushViewController(vc, animated: false)
             }
         }
     }

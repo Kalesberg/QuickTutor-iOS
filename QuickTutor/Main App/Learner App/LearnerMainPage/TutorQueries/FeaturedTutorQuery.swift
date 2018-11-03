@@ -176,7 +176,7 @@ class QueryData {
 		
 		for (index, tutor) in featuredTutors.enumerated() {
 			group.enter()
-			FirebaseData.manager.fetchTutor(tutor.uid, isQuery: true) { (tutor) in
+			FirebaseData.manager.fetchTutor(tutor.uid, isQuery: false) { (tutor) in
 				if let tutor = tutor {
 					tutor.featuredDetails = FeaturedDetails(subject: featuredTutors[index].subject, price: featuredTutors[index].price)
 					tutors.append(tutor)
@@ -192,7 +192,7 @@ class QueryData {
     func queryAWTutorByCategory(category: Category, lastKnownKey: String?, limit: UInt,_ completion: @escaping ([FeaturedTutor]?) -> Void) {
         var tutors = [FeaturedTutor]()
         let group = DispatchGroup()
-        let query: DatabaseQuery!
+        let query: DatabaseQuery?
 
         if let lastKnownKey = lastKnownKey {
             query = ref?.child("featured").child(category.subcategory.fileToRead).queryOrderedByKey().queryStarting(atValue: lastKnownKey).queryLimited(toFirst: limit)
@@ -200,7 +200,7 @@ class QueryData {
             query = ref?.child("featured").child(category.subcategory.fileToRead).queryOrderedByKey().queryLimited(toFirst: limit)
         }
 
-        query.observeSingleEvent(of: .value) { snapshot in
+        query?.observeSingleEvent(of: .value) { snapshot in
             for snap in snapshot.children {
                 guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid! else { continue }
                 group.enter()

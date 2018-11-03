@@ -53,7 +53,7 @@ class TutorConnectVC: BaseViewController {
 	
 	let itemsPerBatch: UInt = 8
 	
-	var startIndex : IndexPath!
+	var startIndex : IndexPath?
 	var allTutorsQueried: Bool = false
 	var didLoadMore: Bool = false
 	var category: Category!
@@ -64,12 +64,13 @@ class TutorConnectVC: BaseViewController {
 			fetchFeaturedTutorCards(featuredTutors: featuredTutors) { (tutors) in
 				if let tutors = tutors {
 					self.datasource = tutors
-					self.contentView.collectionView.scrollToItem(at: self.startIndex, at: .centeredHorizontally, animated: false)
+					self.contentView.collectionView.scrollToItem(at: self.startIndex ?? IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
 				}
 				self.dismissOverlay()
 			}
 		}
 	}
+	
     var subcategory: String! {
         didSet {
             displayLoadingOverlay()
