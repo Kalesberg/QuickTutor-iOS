@@ -60,15 +60,13 @@ class SettingsButton : UIView {
 		addSubview(buttonMask)
 		
 		backgroundColor = Colors.navBarColor
-
-		if subtitle == nil {
-			setupViewForTitleOnly()
-		} else {
-			applyConstraints()
-		}
 		
+		subtitle == nil ? setupViewForTitleOnly() : applyConstraints()
+
 		titleLabel.text = self.title ?? ""
 		subtitleLabel.text = self.subtitle ?? ""
+		
+		buttonMask.addTarget(self, action: #selector(buttonMaskPressed(sender:)), for: .touchUpInside)
 	}
 	
 	func applyConstraints() {
@@ -108,6 +106,15 @@ class SettingsButton : UIView {
 		}
 		buttonMask.snp.makeConstraints { (make) in
 			make.edges.equalToSuperview()
+		}
+	}
+	@objc private func buttonMaskPressed(sender _: UIButton) {
+		UIView.animate(withDuration: 0.1, animations: {
+			self.backgroundColor = self.backgroundColor?.darker()?.withAlphaComponent(0.8)
+		}) { (finished) in
+			UIView.animate(withDuration: 0.1) {
+				self.backgroundColor = Colors.navBarColor
+			}
 		}
 	}
 }

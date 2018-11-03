@@ -71,7 +71,6 @@ class WebViewVC: BaseViewController {
                     AlertController.genericErrorAlert(self, title: "Failed to Load", message: "Agreement Document failed to load, try again or visit our website")
                 }
             }
-
             task.resume()
         }
         dismissOverlay()

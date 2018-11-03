@@ -32,7 +32,6 @@ class SettingsLocation : UIView {
 		addSubview(location)
 		
 		location.buttonMask.addTarget(self, action: #selector(locationButtonPressed(_:)), for: .touchUpInside)
-		
 		applyContstraints()
 	}
 	
@@ -52,7 +51,6 @@ class SettingsLocation : UIView {
 		location.roundCorners(.allCorners , radius: 10)
 	}
 	@objc private func locationButtonPressed(_ sender: UIButton) {
-		let vc = LocationVC()
-		navigationController.pushViewController(vc, animated: true)
+		navigationController.pushViewController(LocationVC(), animated: true)
 	}
 }
