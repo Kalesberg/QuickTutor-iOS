@@ -25,7 +25,6 @@ class CategorySearchVC: BaseViewController {
 
     var datasource = [FeaturedTutor]()
     var didLoadMore: Bool = false
-    var allTutorsQueried: Bool = false
 
     var category: Category! {
         didSet {
@@ -56,14 +55,12 @@ class CategorySearchVC: BaseViewController {
         displayLoadingOverlay()
         QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { tutors in
             if let tutors = tutors {
-                self.allTutorsQueried = tutors.count == 0
-
                 let startIndex = self.datasource.count
                 self.datasource.append(contentsOf: tutors)
                 let endIndex = self.datasource.count
 
                 self.contentView.collectionView.performBatchUpdates({
-                    let insertPaths = Array(startIndex ..< endIndex).map { IndexPath(item: $0, section: 0) }
+                    let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
                     self.contentView.collectionView.insertItems(at: insertPaths)
                 }, completion: { _ in
                     self.didLoadMore = false
@@ -155,11 +152,9 @@ extension CategorySearchVC: UISearchBarDelegate {
 }
 
 extension CategorySearchVC: UIScrollViewDelegate {
-    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
-            if allTutorsQueried { return }
-            
+			
             let currentOffset = scrollView.contentOffset.y
             let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
             

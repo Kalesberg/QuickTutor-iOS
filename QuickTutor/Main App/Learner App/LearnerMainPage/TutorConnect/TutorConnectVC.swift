@@ -54,7 +54,6 @@ class TutorConnectVC: BaseViewController {
 	let itemsPerBatch: UInt = 8
 	
 	var startIndex : IndexPath?
-	var allTutorsQueried: Bool = false
 	var didLoadMore: Bool = false
 	var category: Category!
 	
@@ -190,7 +189,6 @@ class TutorConnectVC: BaseViewController {
 	private func queryTutorsUidsByCategory(lastKnownKey: String?) {
 		QueryData.shared.queryAWTutorUidsByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch) { (featuredTutors) in
 			if let featuredTutors = featuredTutors {
-				self.allTutorsQueried = featuredTutors.count != self.itemsPerBatch
 				let startIndex = self.datasource.count
 				self.fetchFeaturedTutorCards(featuredTutors: featuredTutors, { (tutors) in
 					if let tutors = tutors {
@@ -300,7 +298,6 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 	
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 		if featuredTutors.count > 0 {
-			guard !allTutorsQueried else { return }
 			if indexPath.item == self.datasource.count - 2 && !didLoadMore {
 				self.didLoadMore = true
 				pageMoreTutors()

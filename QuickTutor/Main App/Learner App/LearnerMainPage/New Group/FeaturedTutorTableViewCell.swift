@@ -38,7 +38,6 @@ class FeaturedTutorTableViewCell: UITableViewCell {
 	var parentViewController : UIViewController? = nil
 	
     let itemsPerBatch: UInt = 8
-    var allTutorsQueried: Bool = false
     var didLoadMore: Bool = false
 	
     var datasource = [FeaturedTutor]() {
@@ -77,7 +76,6 @@ class FeaturedTutorTableViewCell: UITableViewCell {
     private func queryTutorsByCategory(lastKnownKey: String?) {
         QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { tutors in
             if let tutors = tutors {
-                self.allTutorsQueried = (tutors.count == 0)
                 let startIndex = self.datasource.count
                 self.collectionView.performBatchUpdates({
                     self.datasource.append(contentsOf: tutors)
@@ -128,7 +126,6 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
     }
 	
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		guard !allTutorsQueried else { return }
 		if indexPath.item == self.datasource.count - 2 && !didLoadMore {
 			self.didLoadMore = true
 			pageMoreTutors()
