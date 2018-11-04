@@ -188,6 +188,7 @@
 		84A090AB2186250000DBD48F /* AddTutorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */; };
 		84A090AD218BA96A00DBD48F /* RandomQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090AC218BA96A00DBD48F /* RandomQuery.swift */; };
 		84A37B78200447C800C19397 /* UserPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A37B77200447C800C19397 /* UserPolicyVC.swift */; };
+		84A6E466218F3A0C00D03681 /* QuickTutorSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E465218F3A0C00D03681 /* QuickTutorSort.swift */; };
 		84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */; };
 		84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */; };
 		84A7E5D01FCE4FDE002EABD5 /* Tutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */; };
@@ -675,6 +676,7 @@
 		84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorTableViewCell.swift; sourceTree = "<group>"; };
 		84A090AC218BA96A00DBD48F /* RandomQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomQuery.swift; sourceTree = "<group>"; };
 		84A37B77200447C800C19397 /* UserPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPolicyVC.swift; sourceTree = "<group>"; };
+		84A6E465218F3A0C00D03681 /* QuickTutorSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTutorSort.swift; sourceTree = "<group>"; };
 		84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDatePicker.swift; sourceTree = "<group>"; };
 		84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTextView.swift; sourceTree = "<group>"; };
 		84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutor.swift; sourceTree = "<group>"; };
@@ -1412,6 +1414,7 @@
 			isa = PBXGroup;
 			children = (
 				84D8C9332067116C003C3AEA /* TutorConnectVC.swift */,
+				84A6E465218F3A0C00D03681 /* QuickTutorSort.swift */,
 				84CE13F5217CED4E005A1B2C /* TutorConnectView.swift */,
 				84CE13F7217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift */,
 				84CE13F9217CED8B005A1B2C /* TutorCardTutorial.swift */,
@@ -2590,6 +2593,7 @@
 				CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */,
 				84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */,
 				8440539A20F525E0003F0606 /* DateExtensions.swift in Sources */,
+				84A6E466218F3A0C00D03681 /* QuickTutorSort.swift in Sources */,
 				CF24997A217E926500614AF0 /* KeyboardFrameObserver.swift in Sources */,
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestionVC.swift in Sources */,
 				84B8D67A20E5A53C0026132C /* TutorListings.swift in Sources */,
@@ -3061,7 +3065,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -3090,6 +3094,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

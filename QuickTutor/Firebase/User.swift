@@ -329,16 +329,7 @@ class FirebaseData {
 			return completion(uids)
 		}
 	}
-	
-	func fetchProfileImages(uid: String,_ completion: @escaping ([String : String]?) -> Void) {
-		ref.child("tutor-info").child(uid).child("img").observeSingleEvent(of: .value) { (snapshot) in
-			if let value = snapshot.value as? [String : String] {
-				return completion(value.filter({ $0.value != "" }))
-			}
-			return completion(nil)
-		}
-	}
-	
+
 	func fetchTutorListings(uid: String,_ completion: @escaping ([Category: FeaturedTutor]?) -> Void) {
 		var listings = [Category : FeaturedTutor]()
 		let group = DispatchGroup()
