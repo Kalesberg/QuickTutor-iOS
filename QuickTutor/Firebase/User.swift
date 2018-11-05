@@ -259,6 +259,14 @@ class FirebaseData {
 	/*
 	MARK: // Fetch
 	*/
+	public func fetchFeaturedTutorCount(_ completion: @escaping (FeaturedTutorCount?) -> Void) {
+		self.ref?.child("featured_count").observeSingleEvent(of: .value, with: { (snapshot) in
+			if let value = snapshot.value as? [String : Any] {
+				return completion(FeaturedTutorCount(dictionary: value))
+			}
+			return completion(nil)
+		})
+	}
 	
 	func fetchTutorLocation(uid: String,_ completion: @escaping (TutorLocation?) -> Void) {
 		self.ref?.child("tutor_loc").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -403,16 +411,20 @@ class FirebaseData {
 			for id in sessionIds {
 				group.enter()
 				self.ref.child("sessions").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
-					guard let value = snapshot.value as? [String : Any] else { return group.leave() }					
-					var session = UserSession(dictionary: value)
-					session.id = id
-					
-					group.enter()
-					self.ref.child("student-info").child(session.otherId).child("nm").observeSingleEvent(of: .value, with: { (snapshot) in
-						session.name = snapshot.value as? String ?? ""
-						sessions.append(session)
-						group.leave()
-					})
+					guard let value = snapshot.value as? [String : Any] else { return group.leave() }
+					if let status = value["status"] as? String {
+						if status == "completed" {
+							var session = UserSession(dictionary: value)
+							session.id = id
+							
+							group.enter()
+							self.ref.child("student-info").child(session.otherId).child("nm").observeSingleEvent(of: .value, with: { (snapshot) in
+								session.name = snapshot.value as? String ?? ""
+								sessions.append(session)
+								group.leave()
+							})
+						}
+					}
 					group.leave()
 				})
 			}
@@ -421,6 +433,7 @@ class FirebaseData {
 			})
 		}
 	}
+	
 	//new functions for grabbing learner, tutor, and account data. not being used yet.
 	func fetchAccount(_ uid: String,_ completion: @escaping([String: Any]?) -> Void) {
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -723,7 +736,7 @@ class FirebaseData {
 				if let error = error {
 					return completion(error, nil)
 				}
-				guard let imageUrl = url?.absoluteString else { return }
+				guard let imageUrl = url?.absoluteString else { return completion(nil, nil) }
 				return completion(nil, imageUrl)
 			})
 		}

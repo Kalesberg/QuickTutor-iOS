@@ -30,6 +30,7 @@ class LearnerMainPageVC: MainPageVC {
         super.viewDidLoad()
         confirmSignedInUser()
         setupStripe()
+//		getFeaturedCategoryCount
         queryFeaturedTutors()
         configureView()
 	}
@@ -86,7 +87,7 @@ class LearnerMainPageVC: MainPageVC {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.prefetchDataSource = self
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleSeachTap))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleSearchTap))
         contentView.search.addGestureRecognizer(tap)
     }
 
@@ -175,20 +176,19 @@ class LearnerMainPageVC: MainPageVC {
 
     private func queryFeaturedTutors() {
         displayLoadingOverlay()
-
         QueryData.shared.queryFeaturedTutors(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { datasource in
             guard let datasource = datasource else { return }
             if #available(iOS 11.0, *) {
                 self.contentView.tableView.performBatchUpdates({
                     self.datasource.merge(datasource, uniquingKeysWith: { _, last in last })
-                    self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3 ..< self.datasource.count + 1), with: .fade)
+                    self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1), with: .fade)
                 }, completion: { _ in
                     self.didLoadMore = false
                 })
             } else {
                 self.contentView.tableView.beginUpdates()
                 self.datasource.merge(datasource, uniquingKeysWith: { _, last in last })
-                self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3 ..< self.datasource.count + 1), with: .none)
+                self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1), with: .fade)
                 self.contentView.tableView.endUpdates()
                 self.didLoadMore = false
             }
@@ -303,7 +303,7 @@ class LearnerMainPageVC: MainPageVC {
 		}
 	}
 	
-    @objc func handleSeachTap() {
+    @objc func handleSearchTap() {
         let nav = navigationController
         DispatchQueue.main.async {
             nav?.view.layer.add(CATransition().segueFromTop(), forKey: nil)

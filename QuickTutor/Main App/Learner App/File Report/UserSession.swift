@@ -42,7 +42,7 @@ struct UserSession {
         reportStatus = dictionary["reported"] as? Int ?? 0
         cost = dictionary["cost"] as? Double ?? 0
         endedAt = dictionary["endedAt"] as? Double ?? 0
-        startedAt = dictionary["startedAt"] as? Double ?? 0
+        startedAt = dictionary["startedAt"] as? Double ?? dictionary["startTime"] as? Double ?? 0
         tutorRating = dictionary["tutorRating"] as? Int ?? 0
     }
 }

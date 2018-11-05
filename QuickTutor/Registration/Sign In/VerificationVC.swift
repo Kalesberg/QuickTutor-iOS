@@ -129,9 +129,9 @@ class VerificationVC : BaseViewController {
             }, completion: { (value: Bool) in
                 for view in self.contentView.leftDigits.subviews + self.contentView.rightDigits.subviews {
                     if view is RegistrationDigitTextField {
-                        let digit = (view as! RegistrationDigitTextField)
-                        digit.textField.fadeOut(withDuration: 0.3)
-                        digit.textField.alpha = 1.0
+                        let digit = (view as? RegistrationDigitTextField)
+						digit?.textField.fadeOut(withDuration: 0.3)
+						digit?.textField.alpha = 1.0
                     }
                 }
             })

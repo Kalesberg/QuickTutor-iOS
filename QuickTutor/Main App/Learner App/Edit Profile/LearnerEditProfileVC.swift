@@ -467,7 +467,7 @@ extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationCon
                 } else if let imageUrl = imageUrl {
                     self.learner.images["image\(index + 1)"] = imageUrl
                     self.uploadImageUrl(imageUrl: imageUrl, number: String(index + 1))
-                }
+				}
             }
 
             SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index + 1)), fromDisk: false) {

@@ -508,10 +508,9 @@ enum Category {
         }
         return MainPageData(displayName: displayName, image: image, categoryInfo: categoryInfo, suggestedPrices: suggestedPrices)
     }
-    static func category(for string: String) -> Category? {
-        
+	
+	static func category(for string: String) -> Category? {
         switch string {
-            
         case "academics":
             return .academics
         case "arts":
