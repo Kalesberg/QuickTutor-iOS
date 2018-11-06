@@ -132,7 +132,6 @@ class CardManagerVC: BaseViewController {
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error Updating Card", message: error.localizedDescription)
                 } else if let customer = customer {
-                    print("Default Updated")
                     self.customer = customer
                 }
                 self.dismissOverlay()
@@ -261,9 +260,9 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
         addCardVC = STPAddCardViewController(configuration: config, theme: theme)
         addCardVC?.delegate = self
         
-        
         let navigationController = UINavigationController(rootViewController: addCardVC!)
         navigationController.navigationBar.stp_theme = theme2
+		
         present(navigationController, animated: true, completion: nil)
     }
 }
@@ -272,17 +271,19 @@ extension CardManagerVC: STPAddCardViewControllerDelegate {
     func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
         dismiss(animated: true, completion: nil)
     }
-    
+
     func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
-        
-        Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (errorMessage) in
-            guard errorMessage == nil else {
-                AlertController.genericErrorAlert(self, title: "Error Processing Card", message: errorMessage!)
-                return
-            }
-            self.addCardVC?.dismiss(animated: true, completion: nil)
-            self.navigationController?.popBackToMain()
-        }
+		addCardViewController.displayLoadingOverlay()
+		Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (error) in
+			if let error = error {
+				addCardViewController.dismissOverlay()
+				AlertController.genericErrorAlert(self, title: "Error Processing Card", message: error)
+				return completion(StripeError.updateCardError)
+			}
+			addCardViewController.dismissOverlay()
+			self.addCardVC?.dismiss(animated: true, completion: nil)
+			self.navigationController?.popBackToMain()
+		}
     }
 }
 
