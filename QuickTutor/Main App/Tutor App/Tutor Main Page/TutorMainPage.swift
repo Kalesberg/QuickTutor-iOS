@@ -375,7 +375,8 @@ extension TutorMainPage: UITableViewDelegate, UITableViewDataSource {
 			if indexPath.section == 2 {
 				DynamicLinkFactory.shared.createLink(userId: CurrentUser.shared.tutor.uid!, completion: { (url) in
 					if let url = url {
-						let shareAll: [Any] = ["Go checkout QuickTutor!", url]
+						let title = CurrentUser.shared.tutor.username != nil ? "Add me on QuickTutor: \(String(CurrentUser.shared.tutor.username!))" : "Add me on QuickTutor"
+						let shareAll: [Any] = [title, url]
 						let activityController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
 						activityController.isModalInPopover = true
 						self.present(activityController, animated: true, completion: nil)
