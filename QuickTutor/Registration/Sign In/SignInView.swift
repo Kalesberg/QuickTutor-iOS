@@ -25,7 +25,7 @@ class SignInView: BaseLayoutView, Keyboardable {
 	
 	let learnAnythingLabel : CenterTextLabel = {
 		let centerTextLabel = CenterTextLabel()
-		centerTextLabel.label.text = "Learn Anything. Teach Anyone."
+		centerTextLabel.label.text = "Learn Anything. Teach Anyone.™"
 		centerTextLabel.label.font = Fonts.createLightSize(20)
 		return centerTextLabel
 	}()
@@ -55,11 +55,16 @@ class SignInView: BaseLayoutView, Keyboardable {
 		let label = UILabel()
 		label.attributedText = NSMutableAttributedString()
 			.regular("By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy.\n", 13, .white)
-			.bold("Patent Pending.", 15, Colors.grayText)
+			.bold("U.S. Patent Pending.", 15, Colors.grayText)
 		label.numberOfLines = 0
 		return label
 	}()
 	
+    let facebookButton: FacebookButton = {
+        let button = FacebookButton()
+        return button
+    }()
+    
 	override func configureView() {
 		addKeyboardView()
 		addSubview(backButton)

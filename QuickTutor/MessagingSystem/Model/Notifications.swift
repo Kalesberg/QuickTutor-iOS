@@ -28,9 +28,9 @@ struct PushNotification {
     var receiverAccountType: String?
     var sessionId: String?
 
-    func partnerId() -> String {
-        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
-        guard let senderIdIn = senderId, let receiverIdIn = receiverId else { return "" }
+    func partnerId() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else { return nil }
+        guard let senderIdIn = senderId, let receiverIdIn = receiverId else { return nil }
         return senderId == uid ? receiverIdIn : senderIdIn
     }
 

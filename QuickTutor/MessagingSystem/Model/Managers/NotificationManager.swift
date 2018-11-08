@@ -45,7 +45,8 @@ class NotificationManager {
             AccountService.shared.currentUserType = UserType(rawValue: type)!
         }
         SignInManager.shared.handleSignIn {
-            DataService.shared.getUserOfOppositeTypeWithId(notification.partnerId()) { (userIn) in
+            guard let partnerId = notification.partnerId() else { return }
+            DataService.shared.getUserOfOppositeTypeWithId(partnerId) { (userIn) in
                 guard let user = userIn else { return }
                 let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
                 vc.receiverId = notification.partnerId()

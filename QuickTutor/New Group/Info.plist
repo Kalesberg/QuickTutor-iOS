@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AccountKitClientToken</key>
-	<string>{your-account-kit-client-token}</string>
+	<string>c6647946522623fdcdc200317ba8d692</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -48,13 +48,18 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>FacebookAppID</key>
 	<string>303427473587992</string>
 	<key>FacebookDisplayName</key>
 	<string>QuickTutor</string>
-    <key>AccountKitClientToken</key>
-    <string>c6647946522623fdcdc200317ba8d692</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -62,13 +67,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-share-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
 	<key>NSCalendarsUsageDescription</key>
 	<string> Allow access to Calendar to save upcomming session details</string>
 	<key>NSCameraUsageDescription</key>

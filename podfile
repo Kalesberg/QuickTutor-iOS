@@ -28,9 +28,9 @@ target 'QuickTutor' do
 
 
   # Pods for Facebook
-  pod 'FacebookSDK'
   pod 'AccountKit'
-  pod 'FBSDKLoginKit'
+  pod 'FacebookCore'
+  pod 'FacebookLogin'
   pod 'SnapKit', '~> 4.0.1'
   pod 'lottie-ios'
   

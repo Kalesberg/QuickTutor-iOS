@@ -10,22 +10,17 @@ PODS:
   - Crashlytics (3.11.1):
     - Fabric (~> 1.8.1)
   - Fabric (1.8.1)
-  - FacebookSDK (4.38.0):
+  - FacebookCore (0.5.0):
     - Bolts (~> 1.9)
-    - FacebookSDK/CoreKit (= 4.38.0)
-    - FacebookSDK/MarketingKit (= 4.38.0)
-  - FacebookSDK/CoreKit (4.38.0):
+    - FBSDKCoreKit (~> 4.37)
+  - FacebookLogin (0.5.0):
     - Bolts (~> 1.9)
-    - FBSDKCoreKit
-  - FacebookSDK/MarketingKit (4.38.0):
-    - Bolts (~> 1.9)
-    - FacebookSDK/CoreKit
-    - FBSDKMarketingKit
+    - FacebookCore (~> 0.5)
+    - FBSDKCoreKit (~> 4.37)
+    - FBSDKLoginKit (~> 4.37)
   - FBSDKCoreKit (4.38.1):
     - Bolts (~> 1.9)
   - FBSDKLoginKit (4.38.1):
-    - FBSDKCoreKit
-  - FBSDKMarketingKit (4.38.0):
     - FBSDKCoreKit
   - Firebase/Auth (5.11.0):
     - Firebase/CoreOnly
@@ -174,8 +169,8 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Crashlytics
   - Fabric
-  - FacebookSDK
-  - FBSDKLoginKit
+  - FacebookCore
+  - FacebookLogin
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -203,10 +198,10 @@ SPEC REPOS:
     - Bolts
     - Crashlytics
     - Fabric
-    - FacebookSDK
+    - FacebookCore
+    - FacebookLogin
     - FBSDKCoreKit
     - FBSDKLoginKit
-    - FBSDKMarketingKit
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -256,10 +251,10 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: ca7ab4bc304aa216bdc2e4c1a96389ee77252203
   Fabric: 43ed7bac010f588f63ee23ab1a0276b296db5e17
-  FacebookSDK: 73f54b8b94e09b05647cdef0af147f470cd3edc6
+  FacebookCore: 74288d0add931d361b1596beae787ab72c438249
+  FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
   FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
-  FBSDKMarketingKit: e609f39d74ab273cf52e2f8b7e8829ed412b2827
   Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
@@ -295,6 +290,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
   TwilioVideo: 44bddf9326a1df809ad939d42b2a7ea93c13c699
 
-PODFILE CHECKSUM: cd88932f9667a27a4ec76214a81ac7c888a5aca7
+PODFILE CHECKSUM: 10364fc8e97de5f05ddf53326ae85f3a06d16fb9
 
-COCOAPODS: 1.6.0.beta.1
+COCOAPODS: 1.5.3
