@@ -170,13 +170,13 @@ exports.sendMessageNotification = functions.database.ref('/messages/{messageId}'
   }
 
   console.log('Message added in database');
-  
+
 
   return Promise.all([getFcmTokenForUid(receiverId), getUsernameForUid(senderId)]).then(results => {
     const fcmToken = results[0];
     const senderUsername = results[1];
     console.log('Sending notification');
-    
+
     const title = senderUsername + titleCompletion;
     const data = {
       category: 'messages',
@@ -263,18 +263,18 @@ exports.sendSessionAcceptedNotification = functions.database.ref('/sessions/{ses
   const status = snap.after.val();
   const sessionId = context.params.sessionId;
   if (!status === "accepted") return;
-  
-  
+
+
   return getSessionById(sessionId).then((session) => {
     const senderId = session.senderId;
     console.log(`SenderId: ${senderId}`);
     return Promise.all([getFcmTokenForUid(senderId), getUsernameForUid(senderId)]).then(results => {
       const fcmToken = results[0];
       const senderUsername = results[1];
-  
+
       const title = 'Session Request Accepted'
       const body = `${senderUsername} accepted your session request.`
-  
+
       return sendNotificationTo(fcmToken, title, body, {});
     }).catch((error) => {
       console.log(error);
@@ -297,17 +297,32 @@ exports.sendSessionCancelNotification = functions.database.ref('/sessionCancels/
     return sendNotificationTo(fcmToken, title);
   });
 });
-
+//run transaction block to increment count on featured_count/category
+exports.incrementFeaturedCategoryCounter = functions.database.ref('/featured/{category}/{uid}').onCreate((snap, context) => {
+    return admin.database().ref('/featured_count/' + context.params.category).transaction((count) => {
+      return (count || 0) + 1;
+    });
+});
+//run transaction block to decerement count on featured_count/category
+exports.decrementFeaturedCategoryCounter = functions.database.ref('/featured/{category}/{uid}').onDelete((snap, context) => {
+    return admin.database().ref('/featured_count/' + context.params.category).transaction((count) => {
+      if (count - 1 < 0) {
+        return 0;
+      } else {
+        return (count - 1);
+      }
+    });
+});
 // exports.sendManualStartNotification = functions.database.ref('/sessionStarts/{userId}/{sessionId}').onCreate((snap, context) => {
 //   const userId = context.params.userId;
-//   const sessionId = context.params.sessionId;  
+//   const sessionId = context.params.sessionId;
 //   console.log(`User id is ${userId}`);
-  
+
 //   return Promise.all([getSessionById(sessionId), getFcmTokenForUid(userId), getUsernameForUid(userId)]).then(results => {
 //     const session = results[0];
 //     const fcmToken = results[1];
 //     const senderUsername = results[2];
-    
+
 //     const title = 'Session Starting Early';
 //     const text = 'Accept or deny the early start.'
 //     const data =  {

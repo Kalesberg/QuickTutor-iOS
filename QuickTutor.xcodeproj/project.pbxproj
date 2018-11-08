@@ -188,6 +188,14 @@
 		84A090AB2186250000DBD48F /* AddTutorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */; };
 		84A090AD218BA96A00DBD48F /* RandomQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090AC218BA96A00DBD48F /* RandomQuery.swift */; };
 		84A37B78200447C800C19397 /* UserPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A37B77200447C800C19397 /* UserPolicyVC.swift */; };
+		84A6E466218F3A0C00D03681 /* QuickTutorSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E465218F3A0C00D03681 /* QuickTutorSort.swift */; };
+		84A6E468218F687C00D03681 /* FeaturedTutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E467218F687C00D03681 /* FeaturedTutor.swift */; };
+		84A6E46A218F689D00D03681 /* LearnerReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E469218F689D00D03681 /* LearnerReview.swift */; };
+		84A6E46C218F68AA00D03681 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E46B218F68AA00D03681 /* Review.swift */; };
+		84A6E46E218F68B600D03681 /* TutorSubcategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E46D218F68B600D03681 /* TutorSubcategory.swift */; };
+		84A6E470218F68C700D03681 /* TutorSubjectSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E46F218F68C700D03681 /* TutorSubjectSearch.swift */; };
+		84A6E472218F68FA00D03681 /* TutorLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E471218F68FA00D03681 /* TutorLocation.swift */; };
+		84A6E474218F697400D03681 /* FeaturedTutorCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E473218F697400D03681 /* FeaturedTutorCount.swift */; };
 		84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */; };
 		84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */; };
 		84A7E5D01FCE4FDE002EABD5 /* Tutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */; };
@@ -675,6 +683,14 @@
 		84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorTableViewCell.swift; sourceTree = "<group>"; };
 		84A090AC218BA96A00DBD48F /* RandomQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomQuery.swift; sourceTree = "<group>"; };
 		84A37B77200447C800C19397 /* UserPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPolicyVC.swift; sourceTree = "<group>"; };
+		84A6E465218F3A0C00D03681 /* QuickTutorSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTutorSort.swift; sourceTree = "<group>"; };
+		84A6E467218F687C00D03681 /* FeaturedTutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTutor.swift; sourceTree = "<group>"; };
+		84A6E469218F689D00D03681 /* LearnerReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerReview.swift; sourceTree = "<group>"; };
+		84A6E46B218F68AA00D03681 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		84A6E46D218F68B600D03681 /* TutorSubcategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSubcategory.swift; sourceTree = "<group>"; };
+		84A6E46F218F68C700D03681 /* TutorSubjectSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSubjectSearch.swift; sourceTree = "<group>"; };
+		84A6E471218F68FA00D03681 /* TutorLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLocation.swift; sourceTree = "<group>"; };
+		84A6E473218F697400D03681 /* FeaturedTutorCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTutorCount.swift; sourceTree = "<group>"; };
 		84A740341FF81C560001AE6D /* RegistrationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDatePicker.swift; sourceTree = "<group>"; };
 		84A740361FF81C7C0001AE6D /* RegistrationTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTextView.swift; sourceTree = "<group>"; };
 		84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutor.swift; sourceTree = "<group>"; };
@@ -1373,6 +1389,13 @@
 			children = (
 				8465E66520BAEA7600F7D72C /* LearnerModel.swift */,
 				8465E66720BAEAA800F7D72C /* TutorModel.swift */,
+				84A6E467218F687C00D03681 /* FeaturedTutor.swift */,
+				84A6E469218F689D00D03681 /* LearnerReview.swift */,
+				84A6E46B218F68AA00D03681 /* Review.swift */,
+				84A6E46D218F68B600D03681 /* TutorSubcategory.swift */,
+				84A6E471218F68FA00D03681 /* TutorLocation.swift */,
+				84A6E46F218F68C700D03681 /* TutorSubjectSearch.swift */,
+				84A6E473218F697400D03681 /* FeaturedTutorCount.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1412,6 +1435,7 @@
 			isa = PBXGroup;
 			children = (
 				84D8C9332067116C003C3AEA /* TutorConnectVC.swift */,
+				84A6E465218F3A0C00D03681 /* QuickTutorSort.swift */,
 				84CE13F5217CED4E005A1B2C /* TutorConnectView.swift */,
 				84CE13F7217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift */,
 				84CE13F9217CED8B005A1B2C /* TutorCardTutorial.swift */,
@@ -2594,8 +2618,10 @@
 				CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */,
 				84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */,
 				8440539A20F525E0003F0606 /* DateExtensions.swift in Sources */,
+				84A6E466218F3A0C00D03681 /* QuickTutorSort.swift in Sources */,
 				CF24997A217E926500614AF0 /* KeyboardFrameObserver.swift in Sources */,
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestionVC.swift in Sources */,
+				84A6E472218F68FA00D03681 /* TutorLocation.swift in Sources */,
 				84B8D67A20E5A53C0026132C /* TutorListings.swift in Sources */,
 				842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */,
 				CF6F58BE205EE68800ACBD32 /* ConnectionRequestCell.swift in Sources */,
@@ -2612,14 +2638,17 @@
 				CF2E1A6120A0D20C00BCB53A /* ZFNavBar.swift in Sources */,
 				CF1C6113209EA6F4009B7B0E /* AddTimeModal.swift in Sources */,
 				84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */,
+				84A6E470218F68C700D03681 /* TutorSubjectSearch.swift in Sources */,
 				CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */,
 				CF0711072117B09A0035A6FF /* EventManager.swift in Sources */,
+				84A6E46E218F68B600D03681 /* TutorSubcategory.swift in Sources */,
 				CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */,
 				CF6F58C4205EE68800ACBD32 /* QuickChatViewCell.swift in Sources */,
 				CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */,
 				84AD7F5720EE9A480012CAA3 /* YourListingVC.swift in Sources */,
 				84C88E712168E2050023A338 /* SignInView.swift in Sources */,
 				841DF2D320F83A1D00DADD5A /* DurationPickerCell.swift in Sources */,
+				84A6E46A218F689D00D03681 /* LearnerReview.swift in Sources */,
 				CF0711012117AE6F0035A6FF /* ConversationPaginationHeader.swift in Sources */,
 				CF6F58C9205EE68800ACBD32 /* MeetupTypeCell.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfoVC.swift in Sources */,
@@ -2746,6 +2775,7 @@
 				8465E66820BAEAA800F7D72C /* TutorModel.swift in Sources */,
 				CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */,
 				849AAEAA2060846800B9CFD7 /* TutorLocationFormatter.swift in Sources */,
+				84A6E468218F687C00D03681 /* FeaturedTutor.swift in Sources */,
 				8422F2F1205AB6480061ACE4 /* PageController.swift in Sources */,
 				CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */,
 				CF6F58CF205EE68800ACBD32 /* CustomNavBar.swift in Sources */,
@@ -2783,6 +2813,7 @@
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
+				84A6E46C218F68AA00D03681 /* Review.swift in Sources */,
 				84F2451A1FDA1143006447A8 /* TutorSSNVC.swift in Sources */,
 				8430A8E41FFED70D002FD8A3 /* RegistrationNavBarView.swift in Sources */,
 				84BC77DD20F31A470039E054 /* UIViewController+Extension.swift in Sources */,
@@ -2892,6 +2923,7 @@
 				CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */,
 				84E4C7D4204E8317009C2FC4 /* QTGuideVC.swift in Sources */,
 				CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */,
+				84A6E474218F697400D03681 /* FeaturedTutorCount.swift in Sources */,
 				84BC77DB20F31A470039E054 /* AACircleCropCutterView.swift in Sources */,
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
 				84052F16206BCCD7007B1248 /* TutorSessionDetails.swift in Sources */,
@@ -3065,7 +3097,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -3094,6 +3126,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

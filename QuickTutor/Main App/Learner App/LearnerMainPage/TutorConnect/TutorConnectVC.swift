@@ -53,10 +53,12 @@ class TutorConnectVC: BaseViewController {
 	
 	let itemsPerBatch: UInt = 8
 	
-	var startIndex : IndexPath!
-	var allTutorsQueried: Bool = false
+	var startIndex : IndexPath?
 	var didLoadMore: Bool = false
 	var category: Category!
+	
+	var connectedIds = [String]()
+	var pendingIds = [String]()
 	
 	var featuredTutors = [FeaturedTutor]() {
 		didSet {
@@ -64,18 +66,19 @@ class TutorConnectVC: BaseViewController {
 			fetchFeaturedTutorCards(featuredTutors: featuredTutors) { (tutors) in
 				if let tutors = tutors {
 					self.datasource = tutors
-					self.contentView.collectionView.scrollToItem(at: self.startIndex, at: .centeredHorizontally, animated: false)
+					self.contentView.collectionView.scrollToItem(at: self.startIndex ?? IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
 				}
 				self.dismissOverlay()
 			}
 		}
 	}
+	
     var subcategory: String! {
         didSet {
             displayLoadingOverlay()
             QueryData.shared.queryAWTutorBySubcategory(subcategory: subcategory!) { tutors in
                 if let tutors = tutors {
-                    self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
+                    self.datasource = QuickTutorSort.shared.sortWeightedList(tutors: tutors)
                 }
                 self.dismissOverlay()
             }
@@ -87,7 +90,7 @@ class TutorConnectVC: BaseViewController {
             self.displayLoadingOverlay()
             QueryData.shared.queryAWTutorBySubject(subcategory: subject.subcategory, subject: subject.subject) { tutors in
                 if let tutors = tutors {
-                    self.datasource = self.sortTutorsWithWeightedList(tutors: tutors)
+                    self.datasource = QuickTutorSort.shared.sortWeightedList(tutors: tutors)
                 }
                 self.dismissOverlay()
             }
@@ -97,8 +100,10 @@ class TutorConnectVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-
-        contentView.searchBar.delegate = self
+		
+		getListOfPendingRequests()
+		
+		contentView.searchBar.delegate = self
         contentView.collectionView.dataSource = self
         contentView.collectionView.delegate = self
         contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
@@ -141,43 +146,19 @@ class TutorConnectVC: BaseViewController {
             })
         })
     }
-
-    private func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
-        return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
-    }
-
-    private func sortTutorsWithWeightedList(tutors: [AWTutor]) -> [AWTutor] {
-        guard tutors.count > 1 else { return tutors }
-        let avg = tutors.map({ $0.tRating / 5 }).average
-        return tutors.sorted {
-            bayesianEstimate(C: avg, r: $0.tRating / 5, v: Double($0.tNumSessions), m: 1) > bayesianEstimate(C: avg, r: $1.tRating / 5, v: Double($1.tNumSessions), m: 1)
-        }
-    }
-
-    private func filterByPrice(priceFilter: Int?, tutors: [AWTutor]) -> [AWTutor] {
-        guard let price = priceFilter, priceFilter != -1, !tutors.isEmpty else { return tutors }
-        return tutors.filter { $0.price <= price }
-    }
-
-    private func filterByDistance(location: CLLocation?, distanceFilter: Int?, tutors: [AWTutor]) -> [AWTutor] {
-        guard let distance = distanceFilter, distanceFilter != -1, !tutors.isEmpty else { return tutors }
-        guard let location = location else { return tutors }
-
-        return tutors.filter {
-            if let tutorLocation = $0.location?.location {
-                return (location.distance(from: tutorLocation) * 0.00062137) <= Double(distance)
-            }
-            return false
-        }
-    }
 	
-	private func filterBySessionType(searchTheWorld: Bool, tutors: [AWTutor]) -> [AWTutor] {
-		if searchTheWorld {
-			return tutors.filter { $0.preference == 1 || $0.preference == 3 }
+	private func getListOfPendingRequests() {
+		FirebaseData.manager.fetchPendingRequests(uid: CurrentUser.shared.learner.uid) { ids in
+			guard let ids = ids else { return }
+			ids.forEach({
+				if !CurrentUser.shared.learner.connectedTutors.contains($0) {
+					self.pendingIds.append($0)
+				}
+			})
+			self.contentView.collectionView.reloadData()
 		}
-		return tutors.filter { $0.preference == 2 || $0.preference == 3 }
 	}
-	
+
 	private func fetchFeaturedTutorCards(featuredTutors: [FeaturedTutor],_ completion: @escaping ([AWTutor]?) -> Void) {
 		QueryData.shared.queryAWFeaturedTutorsCard(featuredTutors: featuredTutors) { (tutors) in
 			if let tutors = tutors {
@@ -186,10 +167,10 @@ class TutorConnectVC: BaseViewController {
 			completion(nil)
 		}
 	}
+	
 	private func queryTutorsUidsByCategory(lastKnownKey: String?) {
 		QueryData.shared.queryAWTutorUidsByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch) { (featuredTutors) in
 			if let featuredTutors = featuredTutors {
-				self.allTutorsQueried = featuredTutors.count != self.itemsPerBatch
 				let startIndex = self.datasource.count
 				self.fetchFeaturedTutorCards(featuredTutors: featuredTutors, { (tutors) in
 					if let tutors = tutors {
@@ -221,8 +202,7 @@ class TutorConnectVC: BaseViewController {
         } else {
             hasAppliedFilters = true
             shouldFilterDatasource = true
-            let filtered = filterBySessionType(searchTheWorld: filters?.sessionType ?? false, tutors: filterByDistance(location: filters?.location, distanceFilter: filters?.distance ?? -1, tutors: filterByPrice(priceFilter: filters?.price ?? -1, tutors: datasource)))
-            filteredDatasource = sortTutorsWithWeightedList(tutors: filtered)
+            filteredDatasource = QuickTutorSort.shared.filterAndSortWeightedList(tutors: datasource, filters: filters)
         }
     }
 
@@ -290,16 +270,22 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		cell.tutorCardHeader.profileImageView.roundCorners(.allCorners, radius: 8)
 		cell.tutorCardHeader.name.text = data[indexPath.item].name.formatName()
 		cell.tutorCardHeader.reviewLabel.text = data[indexPath.item].reviews?.count.formatReviewLabel(rating: data[indexPath.item].tRating)
-
-		let title = (CurrentUser.shared.learner.connectedTutors.contains(data[indexPath.item].uid)) ? "Message" : "Connect"
-		cell.connectButton.setTitle(title, for: .normal)
+		cell.connectButton.setTitle(getConnectButtonTitle(uid: data[indexPath.item].uid), for: .normal)
 		
 		return cell
+	}
+	private func getConnectButtonTitle(uid: String) -> String {
+		if self.pendingIds.contains(uid) {
+			return "Request Sent"
+		} else if CurrentUser.shared.learner.connectedTutors.contains(uid) {
+			return "Message"
+		} else {
+			return "Connect"
+		}
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 		if featuredTutors.count > 0 {
-			guard !allTutorsQueried else { return }
 			if indexPath.item == self.datasource.count - 2 && !didLoadMore {
 				self.didLoadMore = true
 				pageMoreTutors()

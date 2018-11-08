@@ -98,7 +98,7 @@ extension TutorFileReport: UITableViewDelegate, UITableViewDataSource {
 
         let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startedAt))
         let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endedAt))
-        let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].startedAt / 1000)).split(separator: "-")
+        let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].startedAt)).split(separator: "-")
         insertBorder(cell: cell)
 
         if datasource[indexPath.row].name == "" {

@@ -104,8 +104,11 @@ class VerificationVC : BaseViewController {
 		if verificationCode.count != 6 {
 			return displayCredentialError()
 		}
-		let verificationId = UserDefaults.standard.value(forKey: Constants.VRFCTN_ID)
-		let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId! as! String, verificationCode: verificationCode)
+		guard let verificationId = UserDefaults.standard.value(forKey: Constants.VRFCTN_ID) as? String else {
+			AlertController.genericErrorAlertWithoutCancel(self, title: "Unable to Authenticate", message: "We were unable to authenticate your phone number. Please try again.")
+			return
+		}
+		let credential : PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId, verificationCode: verificationCode)
         signInRegisterWithCredential(credential)
     }
     
@@ -129,9 +132,9 @@ class VerificationVC : BaseViewController {
             }, completion: { (value: Bool) in
                 for view in self.contentView.leftDigits.subviews + self.contentView.rightDigits.subviews {
                     if view is RegistrationDigitTextField {
-                        let digit = (view as! RegistrationDigitTextField)
-                        digit.textField.fadeOut(withDuration: 0.3)
-                        digit.textField.alpha = 1.0
+                        let digit = (view as? RegistrationDigitTextField)
+						digit?.textField.fadeOut(withDuration: 0.3)
+						digit?.textField.alpha = 1.0
                     }
                 }
             })

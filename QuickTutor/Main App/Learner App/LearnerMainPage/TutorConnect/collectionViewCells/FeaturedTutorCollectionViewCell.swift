@@ -11,8 +11,17 @@ import SnapKit
 import UIKit
 
 class FeaturedTutorCollectionViewCell: UICollectionViewCell {
-    let featuredTutor = FeaturedTutorView()
+	required init?(coder _: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 
+	override init(frame _: CGRect) {
+		super.init(frame: .zero)
+		configureView()
+	}
+	
+    let featuredTutor = FeaturedTutorView()
+	
     let view: UIView = {
         let view = UIView()
         view.backgroundColor = Colors.green
@@ -29,16 +38,7 @@ class FeaturedTutorCollectionViewCell: UICollectionViewCell {
         label.backgroundColor = .clear
         return label
     }()
-
-    required override init(frame _: CGRect) {
-        super.init(frame: .zero)
-        configureView()
-    }
-
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
+	
     func configureView() {
         contentView.addSubview(featuredTutor)
         contentView.addSubview(view)

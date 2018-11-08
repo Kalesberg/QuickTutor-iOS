@@ -46,8 +46,15 @@ class SectionHeader: UICollectionReusableView {
     }
 }
 
-class FeaturedTutorView: BaseView {
-    
+class FeaturedTutorView: UIView {
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+		configureView()
+	}
+	
     let imageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .clear
@@ -105,7 +112,7 @@ class FeaturedTutorView: BaseView {
         return label
     }()
     
-    override func configureView() {
+	func configureView() {
         addSubview(imageView)
         addSubview(subject)
         addSubview(region)
@@ -113,17 +120,11 @@ class FeaturedTutorView: BaseView {
         addSubview(ratingLabel)
         addSubview(starImage)
         addSubview(numOfRatingsLabel)
-        super.configureView()
-        
+		
         applyConstraints()
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        imageView.roundCorners([.topRight, .topLeft], radius: 6)
-    }
-    
-    override func applyConstraints() {
+
+	func applyConstraints() {
         imageView.snp.makeConstraints { make in
             make.top.centerX.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.55)
@@ -157,6 +158,10 @@ class FeaturedTutorView: BaseView {
             make.left.equalTo(starImage.snp.right).inset(-3)
         }
     }
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		imageView.roundCorners([.topRight, .topLeft], radius: 6)
+	}
 }
 
 struct SubjectStore {
@@ -503,10 +508,9 @@ enum Category {
         }
         return MainPageData(displayName: displayName, image: image, categoryInfo: categoryInfo, suggestedPrices: suggestedPrices)
     }
-    static func category(for string: String) -> Category? {
-        
+	
+	static func category(for string: String) -> Category? {
         switch string {
-            
         case "academics":
             return .academics
         case "arts":
