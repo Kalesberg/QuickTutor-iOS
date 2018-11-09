@@ -151,7 +151,7 @@ class LearnerMyProfileReviewsView : UIView {
 	}
 	
 	@objc private func seeAllButtonPressed(_ sender: UIButton) {
-		let vc = TutorReviewsVC()
+		let vc = LearnerReviewsVC()
 		vc.datasource = dataSource
 		vc.contentView.navbar.backgroundColor = Colors.learnerPurple
 		vc.contentView.statusbarView.backgroundColor = Colors.learnerPurple

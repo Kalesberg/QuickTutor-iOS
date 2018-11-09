@@ -141,14 +141,13 @@ extension LearnerReviewsVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let vc = LearnerMyProfileVC()
-		FirebaseData.manager.fetchLearner(datasource[indexPath.row].reviewerId) { (learner) in
-			if let learner = learner {
-				vc.learner = learner
+		let vc = TutorMyProfileVC()
+		FirebaseData.manager.fetchTutor(datasource[indexPath.row].reviewerId, isQuery: false) { (tutor) in
+			if let tutor = tutor {
+				vc.tutor = tutor
 				vc.isViewing = true
+				vc.contentView.title.label.text = tutor.username
 				vc.contentView.rightButton.isHidden = true
-				vc.contentView.title.label.isHidden = true
-				print("Her")
 				self.navigationController?.pushViewController(vc, animated: true)
 			}
 		}

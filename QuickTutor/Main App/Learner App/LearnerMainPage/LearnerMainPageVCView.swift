@@ -70,7 +70,6 @@ class LearnerMainPageVCView: MainPageVCView {
         }
     }
     
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         sidebar.profileView.backgroundColor = UIColor(hex: "6562C9")
