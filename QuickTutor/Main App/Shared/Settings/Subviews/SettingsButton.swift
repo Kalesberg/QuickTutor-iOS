@@ -8,6 +8,28 @@
 
 import Foundation
 
+class SettingsButtonMask : UIButton {
+	var originalBackgroundColor: UIColor!
+	var highlightedBackgroundColor: UIColor!
+	
+	override var backgroundColor: UIColor? {
+		didSet {
+			if originalBackgroundColor == nil {
+				originalBackgroundColor = backgroundColor
+			}
+		}
+	}
+	
+	override var isHighlighted: Bool {
+		didSet {
+			guard let originalBackgroundColor = originalBackgroundColor else {
+				return
+			}
+			backgroundColor = isHighlighted ? highlightedBackgroundColor : originalBackgroundColor
+		}
+	}
+}
+
 class SettingsButton : UIView {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -47,9 +69,10 @@ class SettingsButton : UIView {
 		imageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
 		return imageView
 	}()
-	let buttonMask : UIButton = {
-		let button = UIButton()
-		button.backgroundColor = .clear
+	let buttonMask : SettingsButtonMask = {
+		let button = SettingsButtonMask()
+		button.originalBackgroundColor = .clear
+		button.highlightedBackgroundColor = Colors.navBarColor.darker()?.withAlphaComponent(0.5)
 		return button
 	}()
 
@@ -64,9 +87,7 @@ class SettingsButton : UIView {
 		subtitle == nil ? setupViewForTitleOnly() : applyConstraints()
 
 		titleLabel.text = self.title ?? ""
-		subtitleLabel.text = self.subtitle ?? ""
-		
-		buttonMask.addTarget(self, action: #selector(buttonMaskPressed(sender:)), for: .touchUpInside)
+		subtitleLabel.text = self.subtitle ?? ""		
 	}
 	
 	func applyConstraints() {
@@ -106,15 +127,6 @@ class SettingsButton : UIView {
 		}
 		buttonMask.snp.makeConstraints { (make) in
 			make.edges.equalToSuperview()
-		}
-	}
-	@objc private func buttonMaskPressed(sender _: UIButton) {
-		UIView.animate(withDuration: 0.1, animations: {
-			self.backgroundColor = self.backgroundColor?.darker()?.withAlphaComponent(0.8)
-		}) { (finished) in
-			UIView.animate(withDuration: 0.1) {
-				self.backgroundColor = Colors.navBarColor
-			}
 		}
 	}
 }
