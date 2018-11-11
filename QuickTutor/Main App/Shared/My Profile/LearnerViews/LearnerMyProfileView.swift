@@ -65,7 +65,7 @@ class LearnerMyProfileView: MainLayoutTitleTwoButton {
 		super.applyConstraints()
 		scrollView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-1)
-			make.width.centerX.height.equalToSuperview()
+			make.width.centerX.bottom.equalToSuperview()
 		}
 		myProfileHeader.snp.makeConstraints { (make) in
 			make.top.width.centerX.equalToSuperview().inset(1)
@@ -80,6 +80,7 @@ class LearnerMyProfileView: MainLayoutTitleTwoButton {
 			make.width.centerX.equalToSuperview()
 			make.height.equalTo(myProfileBody.baseHeight)
 		}
+		layoutIfNeeded()
 	}
 	private func setupViewForLearner() {
 		myProfileBioView.aboutMeLabel.textColor = Colors.learnerPurple
@@ -87,8 +88,5 @@ class LearnerMyProfileView: MainLayoutTitleTwoButton {
 		myProfileReviews.reviewTitle.textColor = Colors.learnerPurple
 		myProfileReviews.reviewLabel1.nameLabel.textColor = Colors.learnerPurple
 		myProfileReviews.reviewLabel2.nameLabel.textColor = Colors.learnerPurple
-	}
-	override func layoutSubviews() {
-		super.layoutSubviews()
 	}
 }

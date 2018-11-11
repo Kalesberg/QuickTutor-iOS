@@ -7,7 +7,6 @@
 //
 
 import FirebaseUI
-import Foundation
 
 class TutorMyProfileReviewsView : UIView {
 	required init?(coder aDecoder: NSCoder) {
@@ -54,15 +53,13 @@ class TutorMyProfileReviewsView : UIView {
 	
 	let reviewLabel1 = MyProfileReview()
 	let reviewLabel2 = MyProfileReview()
-	let backgroundView = NoRatingsBackgroundView()
 	
 	var reviewSectionHeight : CGFloat {
 		layoutIfNeeded()
-		let maxLabelWidth: CGFloat = (UIScreen.main.bounds.width - 60)
-		let neededSize1 = reviewLabel1.reviewTextLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
-		let neededSize2 = reviewLabel2.reviewTextLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
-		
-		return (neededSize1.height + 50 + neededSize2.height + 50 + 20)
+		let baseHeight = self.subviews.reduce(0) { $0 + $1.frame.height } - 40
+		let labelHeight1 = reviewLabel1.reviewTextLabel.text?.height(withConstrainedWidth: 335, font: Fonts.createItalicSize(14)) ?? 0
+		let labelHeight2 = reviewLabel2.reviewTextLabel.text?.height(withConstrainedWidth: 335, font: Fonts.createItalicSize(14)) ?? 0
+		return  baseHeight + labelHeight1 + labelHeight2
 	}
 	
 	func configureView() {
@@ -74,7 +71,7 @@ class TutorMyProfileReviewsView : UIView {
 		
 		applyConstraints()
 	}
-	
+
 	func applyConstraints() {
 		reviewTitle.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
@@ -82,8 +79,12 @@ class TutorMyProfileReviewsView : UIView {
 			make.width.equalToSuperview().multipliedBy(0.5)
 			make.height.equalTo(30)
 		}
+		divider.snp.makeConstraints { (make) in
+			make.bottom.centerX.equalToSuperview()
+			make.height.equalTo(1)
+			make.width.equalToSuperview().inset(20)
+		}
 	}
-	
 	func setupMostRecentReviews() {
 		if dataSource.count >= 2 {
 			setupReviewLabel1()
@@ -92,8 +93,6 @@ class TutorMyProfileReviewsView : UIView {
 		} else if dataSource.count == 1 {
 			setupReviewLabel1()
 			setupSeeAllButton()
-		} else {
-			setupBackgroundLabel()
 		}
 	}
 	private func setupSeeAllButton() {
@@ -141,25 +140,16 @@ class TutorMyProfileReviewsView : UIView {
 		reviewLabel2.buttonMask.addTarget(self, action: #selector(showReviewerProfile(_:)), for: .touchUpInside)
 	}
 	
-	private func setupBackgroundLabel() {
-		seeAllButton.removeFromSuperview()
-		addSubview(backgroundView)
-		backgroundView.snp.makeConstraints { (make) in
-			make.top.equalTo(reviewTitle.snp.bottom).inset(-5)
-			make.centerX.width.equalToSuperview()
-		}
-	}
-	
 	@objc private func seeAllButtonPressed(_ sender: UIButton) {
 		let vc = TutorReviewsVC()
 		vc.datasource = dataSource
 		vc.contentView.navbar.backgroundColor = Colors.tutorBlue
 		vc.contentView.statusbarView.backgroundColor = Colors.tutorBlue
 		vc.isViewing = isViewing
-		let nav = navigationController
+		let nav = parentViewController?.navigationController
 		DispatchQueue.main.async {
-			nav.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
-			nav.pushViewController(vc, animated: false)
+			nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
+			nav?.pushViewController(vc, animated: false)
 		}
 	}
 	
@@ -179,9 +169,64 @@ class TutorMyProfileReviewsView : UIView {
 	private func setupReviewLabel() {
 		reviewTitle.text = dataSource.count > 0 ? "Reviews (\(dataSource.count))" : "Reviews"
 	}
+}
+
+extension String {
+	func heightWithConstrainedWidth(width: CGFloat, font: UIFont) -> CGFloat {
+		let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+		let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+		
+		return boundingBox.height
+	}
+}
+
+class NoReviewsView : UIView {
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
 	
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		seeAllButton.layer.cornerRadius = 8
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+		configureView()
+	}
+	
+	let reviewTitle : UILabel = {
+		let label = UILabel()
+		label.text = "Reviews"
+		label.font = Fonts.createBoldSize(16)
+		label.textAlignment = .left
+		label.textColor = Colors.tutorBlue
+		return label
+	}()
+	
+	let divider : UIView = {
+		let view = UIView()
+		view.backgroundColor = Colors.divider
+		return view
+	}()
+	
+	let backgroundView = NoRatingsBackgroundView()
+	
+	
+	func configureView() {
+		addSubview(reviewTitle)
+		addSubview(divider)
+		addSubview(backgroundView)
+
+		reviewTitle.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.left.equalToSuperview().inset(12)
+			make.width.equalToSuperview().multipliedBy(0.5)
+			make.height.equalTo(30)
+		}
+		backgroundView.snp.makeConstraints { (make) in
+			make.top.equalTo(reviewTitle.snp.bottom).inset(-5)
+			make.centerX.width.equalToSuperview()
+		}
+		divider.snp.makeConstraints { (make) in
+			make.bottom.centerX.equalToSuperview()
+			make.height.equalTo(1)
+			make.width.equalToSuperview().inset(20)
+		}
 	}
 }

@@ -7,7 +7,6 @@
 //
 
 import FirebaseUI
-import Foundation
 
 class LearnerMyProfileReviewsView : UIView {
 	required init?(coder aDecoder: NSCoder) {
@@ -58,11 +57,7 @@ class LearnerMyProfileReviewsView : UIView {
 
 	var reviewSectionHeight : CGFloat {
 		layoutIfNeeded()
-		let maxLabelWidth: CGFloat = (UIScreen.main.bounds.width - 60)
-		let neededSize1 = reviewLabel1.reviewTextLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
-		let neededSize2 = reviewLabel2.reviewTextLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
-
-		return (neededSize1.height + 50 + neededSize2.height + 50 + 20)
+		return self.subviews.reduce(0) { $0 + $1.frame.height } + 20
 	}
 	
 	func configureView() {

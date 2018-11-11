@@ -356,7 +356,7 @@ class NoRatingsBackgroundView : UIView {
 
 	func applyConstraints() {
 		title.snp.makeConstraints { make in
-			make.top.centerX.equalToSuperview()
+			make.center.equalToSuperview()
 			make.height.equalTo(50)
         }
 	}
@@ -442,7 +442,7 @@ class MyProfileReview: UIView {
 		label.font = Fonts.createItalicSize(14)
 		label.numberOfLines = 0
 		label.lineBreakMode = .byWordWrapping
-		
+		label.sizeToFit()
 		return label
 	}()
 	
@@ -457,7 +457,7 @@ class MyProfileReview: UIView {
 	var reviewLabelHeight : CGFloat {
 		layoutIfNeeded()
 		reviewTextLabel.sizeToFit()
-		return (dateLabel.frame.height + reviewTextLabel.frame.height + nameLabel.frame.height)
+		return (dateLabel.frame.height + reviewTextLabel.frame.height + nameLabel.frame.height + reviewTextLabel.intrinsicContentSize.height)
 	}
 	let buttonMask : UIButton = {
 		let button = UIButton()
@@ -621,4 +621,12 @@ class TutorMyProfileLongReviewTableViewCell: UITableViewCell {
         profilePic.layer.cornerRadius = profilePic.frame.height / 2
         nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
     }
+}
+
+extension String {
+	func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+		let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+		let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+		return ceil(boundingBox.height)
+	}
 }

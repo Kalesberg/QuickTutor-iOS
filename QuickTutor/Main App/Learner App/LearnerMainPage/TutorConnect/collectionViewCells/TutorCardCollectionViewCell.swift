@@ -28,7 +28,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 			setupTutorCardAboutMe()
 			setupTutorCardBody()
 			setupTutorCardSubjects()
-			setupTutorCardReviews()
+			tutor.reviews?.count == 0 ? setupNoTutorCardReviews() : setupTutorCardReviews()
 			setupTutorCardPolicy()
 			setupScrollViewContentSize()
 		}
@@ -55,6 +55,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	let tutorCardBody = MyProfileBody()
 	let tutorCardSubjects = TutorMyProfileSubjects()
 	let tutorCardReviews = TutorMyProfileReviewsView(isViewing: true)
+	let noTutorCardReviews = NoReviewsView()
 	let tutorCardPolicy = TutorMyProfilePolicies()
 	
 	let connectButton : UIButton = {
@@ -142,6 +143,21 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		tutorCardHeader.parentViewController = parentViewController
 		tutorCardHeader.userId = tutor.uid
 		tutorCardHeader.imageCount = tutor.images.filter({$0.value != ""}).count
+		let reference : StorageReference!
+		
+		if let featuredDetails = tutor.featuredDetails {
+			reference = storageRef.child("featured").child(tutor.uid).child("featuredImage")
+			tutorCardHeader.featuredSubject.text = featuredDetails.subject
+			tutorCardHeader.featuredSubject.isHidden = false
+			tutorCardHeader.price.text = "$\(featuredDetails.price)/hr"
+		} else {
+			reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
+			tutorCardHeader.price.text = "$\(tutor.price ?? 0)/hr"
+		}
+		tutorCardHeader.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+		tutorCardHeader.profileImageView.roundCorners(.allCorners, radius: 8)
+		tutorCardHeader.name.text = tutor.name.formatName()
+		tutorCardHeader.reviewLabel.text = tutor.reviews?.count.formatReviewLabel(rating: tutor.tRating)
 	}
 	private func setupTutorCardAboutMe() {
 		tutorCardAboutMe.aboutMeLabel.textColor = Colors.tutorBlue
@@ -171,14 +187,28 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		tutorCardSubjects.sectionTitle.textColor = Colors.tutorBlue
 		tutorCardSubjects.datasource = tutor.subjects ?? []
 	}
+	private func setupNoTutorCardReviews() {
+		if self.subviews.contains(tutorCardReviews) {
+			tutorCardReviews.removeFromSuperview()
+		}
+		scrollView.addSubview(noTutorCardReviews)
+		noTutorCardReviews.snp.makeConstraints { (make) in
+			make.top.equalTo(tutorCardSubjects.snp.bottom).inset(-5)
+			make.width.centerX.equalToSuperview()
+			make.height.equalTo(80)
+		}
+	}
 	
 	private func setupTutorCardReviews() {
-		tutorCardReviews.parentViewController = parentViewController
 		tutorCardReviews.dataSource = tutor.reviews ?? []
+		tutorCardReviews.parentViewController = parentViewController
 		
 		tutorCardReviews.reviewLabel1.removeFromSuperview()
 		tutorCardReviews.reviewLabel2.removeFromSuperview()
-		tutorCardReviews.backgroundView.removeFromSuperview()
+		
+		if scrollView.subviews.contains(noTutorCardReviews) {
+			noTutorCardReviews.removeFromSuperview()
+		}
 		tutorCardReviews.setupMostRecentReviews()
 		
 		tutorCardReviews.snp.makeConstraints { (make) in
@@ -186,18 +216,12 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 			make.width.centerX.equalToSuperview()
 			make.height.equalTo(tutorCardReviews.reviewSectionHeight)
 		}
-		tutorCardReviews.divider.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview().inset(-5)
-			make.centerX.equalToSuperview()
-			make.width.equalToSuperview().inset(20)
-			make.height.equalTo(1)
-		}
 	}
-	
+
 	private func setupTutorCardPolicy() {
 		guard let policy = tutor.policy else { return }
 		let policies = policy.split(separator: "_")
-		
+
 		tutorCardPolicy.policiesLabel.attributedText = NSMutableAttributedString()
 			.bold("•  ", 20, .white).regular(tutor.distance.distancePreference(tutor.preference), 16, Colors.grayText)
 			.bold("•  ", 20, .white).regular(tutor.preference.preferenceNormalization(), 16, Colors.grayText)
@@ -206,8 +230,9 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 			.regular(String(policies[1]).lateFee(), 16, Colors.qtRed)
 			.regular(String(policies[3]).cancelFee(), 16, Colors.qtRed)
 		
-		tutorCardPolicy.snp.makeConstraints { (make) in
-			make.top.equalTo(tutorCardReviews.snp.bottom).inset(-5)
+		tutorCardPolicy.snp.remakeConstraints { (make) in
+			let topConstraint = self.tutor.reviews?.count == 0 ? noTutorCardReviews.divider.snp.bottom : tutorCardReviews.divider.snp.bottom
+			make.top.equalTo(topConstraint).inset(-5)
 			make.width.centerX.equalToSuperview()
 		}
 	}
@@ -265,233 +290,5 @@ extension TutorCardCollectionViewCell: AddTutorButtonDelegate {
             navigationController.pushViewController(vc, animated: true)
         }
         completion!()
-    }
-}
-
-class TutorCardHeader: UIView {
-	required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
-	}
-	override init(frame: CGRect) {
-		super.init(frame: .zero)
-		configureView()
-	}
-	
-	var parentViewController : UIViewController?
-	var imageCount : Int = 0
-	var userId : String = ""
-	
-    let distance = TutorDistanceView()
-
-	let profileImageView : UIImageView = {
-		let imageView = UIImageView()
-		imageView.scaleImage()
-		imageView.clipsToBounds = true
-		return imageView
-	}()
-	
-    let name: UILabel = {
-        var label = UILabel()
-
-        label.textColor = .white
-        label.textAlignment = .left
-        label.font = Fonts.createBoldSize(20)
-        label.adjustsFontSizeToFitWidth = true
-
-        return label
-    }()
-
-    let reviewLabel: UILabel = {
-        let label = UILabel()
-
-        label.textColor = Colors.gold
-        label.font = Fonts.createSize(15)
-        label.textAlignment = .left
-
-        return label
-    }()
-
-    let featuredSubject: UILabel = {
-        let label = UILabel()
-
-        label.textColor = .white
-        label.textAlignment = .left
-        label.font = Fonts.createBoldSize(14)
-        label.adjustsFontSizeToFitWidth = true
-        label.isHidden = true
-
-        return label
-    }()
-
-	let price : UILabel = {
-		let label = UILabel()
-		
-		label.backgroundColor = Colors.green
-		label.textColor = .white
-		label.textAlignment = .center
-		label.font = Fonts.createBoldSize(14)
-		label.layer.masksToBounds = true
-		label.layer.cornerRadius = 10
-		
-		return label
-	}()
-	
-	let buttonMask : UIButton = {
-		let button = UIButton()
-		button.backgroundColor = .clear
-		return button
-	}()
-	
-	
-    let gradientView = UIView()
-
-	func configureView() {
-        addSubview(gradientView)
-        addSubview(profileImageView)
-        addSubview(name)
-        addSubview(reviewLabel)
-        addSubview(featuredSubject)
-		addSubview(price)
-		addSubview(buttonMask)
-
-		buttonMask.addTarget(self, action: #selector(profileImageViewPressed), for: .touchUpInside)
-
-		backgroundColor = Colors.navBarColor
-		
-        applyConstraints()
-    }
-
-	func applyConstraints() {
-        gradientView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        profileImageView.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(15)
-            make.width.height.equalTo(90)
-            make.bottom.equalToSuperview().inset(15)
-        }
-        name.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(125)
-            make.top.equalTo(profileImageView).inset(5)
-            make.right.equalToSuperview().inset(5)
-        }
-        reviewLabel.snp.makeConstraints { make in
-            make.top.equalTo(name.snp.bottom).inset(-5)
-            make.left.right.equalTo(name)
-        }
-        featuredSubject.snp.makeConstraints { make in
-            make.top.equalTo(reviewLabel.snp.bottom).inset(-5)
-            make.left.equalToSuperview().inset(125)
-            make.right.equalToSuperview().inset(5)
-        }
-		price.snp.makeConstraints { (make) in
-			make.top.right.equalToSuperview().inset(12)
-			make.width.equalTo(70)
-			make.height.equalTo(20)
-		}
-		buttonMask.snp.makeConstraints { (make) in
-			make.edges.equalTo(profileImageView)
-		}
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        gradientView.applyGradient(firstColor: Colors.navBarColor.cgColor, secondColor: UIColor.clear.cgColor, angle: 0, frame: gradientView.bounds)
-		profileImageView.roundCorners(.allCorners, radius: 8)
-
-    }
-	
-	@objc func profileImageViewPressed(_ sender: UIButton) {
-		parentViewController?.displayProfileImageViewer(imageCount: imageCount, userId: userId)
-	}
-}
-
-class TutorDistanceView: BaseView {
-    let distance: UILabel = {
-        let label = UILabel()
-
-        label.textColor = Colors.tutorBlue
-        label.textAlignment = .center
-        label.font = Fonts.createSize(12)
-        label.adjustsFontSizeToFitWidth = true
-
-        return label
-    }()
-
-    override func configureView() {
-        addSubview(distance)
-        super.configureView()
-
-        backgroundColor = .white
-        layer.cornerRadius = 6
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        distance.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-    }
-}
-
-class PriceRating: BaseView {
-    let price: UILabel = {
-        let label = UILabel()
-
-        label.font = Fonts.createBoldSize(18)
-        label.textColor = .green
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
-
-        return label
-    }()
-
-    let rating: UILabel = {
-        let label = UILabel()
-
-        label.font = Fonts.createSize(18)
-        label.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
-
-        return label
-    }()
-
-    let footer: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        return view
-    }()
-
-    override func configureView() {
-        addSubview(price)
-        addSubview(rating)
-        addSubview(footer)
-        super.configureView()
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        price.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(3)
-        }
-        rating.snp.makeConstraints { make in
-            make.height.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(3)
-            make.right.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
-        footer.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
     }
 }

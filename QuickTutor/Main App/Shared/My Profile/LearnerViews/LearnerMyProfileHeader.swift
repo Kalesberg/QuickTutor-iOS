@@ -81,7 +81,6 @@ class LearnerMyProfileHeader : UIView {
 		nameContainer.snp.makeConstraints { (make) in
 			make.top.equalTo(profileImageView.snp.bottom)
 			make.centerX.width.equalToSuperview()
-			make.bottom.equalToSuperview()
 		}
 		nameLabel.snp.makeConstraints { (make) in
 			make.center.equalToSuperview()

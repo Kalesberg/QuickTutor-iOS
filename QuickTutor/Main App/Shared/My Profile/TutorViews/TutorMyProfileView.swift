@@ -43,6 +43,7 @@ class TutorMyProfileView: MainLayoutTitleTwoButton {
 	let myProfileBody = MyProfileBody()
 	let myProfileSubjects = TutorMyProfileSubjects()
 	let myProfileReviews = TutorMyProfileReviewsView()
+	let myProfileNoReviews = NoReviewsView()
 	let myProfilePolicies = TutorMyProfilePolicies()
 	
 	override func configureView() {
@@ -73,7 +74,7 @@ class TutorMyProfileView: MainLayoutTitleTwoButton {
 		super.applyConstraints()
 		scrollView.snp.makeConstraints { (make) in
 			make.top.equalTo(navbar.snp.bottom).inset(-1)
-			make.width.centerX.height.equalToSuperview()
+			make.width.centerX.bottom.equalToSuperview()
 		}
 		myProfileHeader.snp.makeConstraints { (make) in
 			make.top.width.centerX.equalToSuperview().inset(1)
@@ -101,9 +102,5 @@ class TutorMyProfileView: MainLayoutTitleTwoButton {
 		myProfileReviews.reviewTitle.textColor = Colors.tutorBlue
 		myProfileReviews.reviewLabel1.nameLabel.textColor = Colors.tutorBlue
 		myProfileReviews.reviewLabel2.nameLabel.textColor = Colors.tutorBlue
-	}
-	
-	override func layoutSubviews() {
-		super.layoutSubviews()
 	}
 }

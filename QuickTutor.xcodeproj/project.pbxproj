@@ -107,6 +107,7 @@
 		844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FECF5210F97CD00C1797B /* SubjectSearchTableViewHeader.swift */; };
 		844FECF8210F9D9300C1797B /* SubjectSearchCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FECF7210F9D9300C1797B /* SubjectSearchCategoryCell.swift */; };
 		844FECFA210FABD600C1797B /* SubjectSearchSubcategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FECF9210FABD600C1797B /* SubjectSearchSubcategoryCell.swift */; };
+		8450E6A521986EB20039DEE6 /* TutorCardHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450E6A421986EB20039DEE6 /* TutorCardHeader.swift */; };
 		8451FB54213EF14E00F86DC5 /* RatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8451FB53213EF14E00F86DC5 /* RatingCell.swift */; };
 		8451FB58213EF17000F86DC5 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8451FB57213EF17000F86DC5 /* ReviewCell.swift */; };
 		8451FB5A213EF17C00F86DC5 /* TipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8451FB59213EF17C00F86DC5 /* TipCell.swift */; };
@@ -600,6 +601,7 @@
 		844FECF5210F97CD00C1797B /* SubjectSearchTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchTableViewHeader.swift; sourceTree = "<group>"; };
 		844FECF7210F9D9300C1797B /* SubjectSearchCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchCategoryCell.swift; sourceTree = "<group>"; };
 		844FECF9210FABD600C1797B /* SubjectSearchSubcategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSearchSubcategoryCell.swift; sourceTree = "<group>"; };
+		8450E6A421986EB20039DEE6 /* TutorCardHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardHeader.swift; sourceTree = "<group>"; };
 		8451FB53213EF14E00F86DC5 /* RatingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingCell.swift; sourceTree = "<group>"; };
 		8451FB57213EF17000F86DC5 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		8451FB59213EF17C00F86DC5 /* TipCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipCell.swift; sourceTree = "<group>"; };
@@ -1435,8 +1437,9 @@
 			isa = PBXGroup;
 			children = (
 				84D8C9332067116C003C3AEA /* TutorConnectVC.swift */,
-				84A6E465218F3A0C00D03681 /* QuickTutorSort.swift */,
+				8450E6A421986EB20039DEE6 /* TutorCardHeader.swift */,
 				84CE13F5217CED4E005A1B2C /* TutorConnectView.swift */,
+				84A6E465218F3A0C00D03681 /* QuickTutorSort.swift */,
 				84CE13F7217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift */,
 				84CE13F9217CED8B005A1B2C /* TutorCardTutorial.swift */,
 				8476F7C620D00DB100C8D52D /* AddPaymentMethod.swift */,
@@ -2405,7 +2408,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -2456,7 +2459,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC43C41423DCD263B8C16AC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -2485,7 +2488,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh",
 				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -2496,7 +2499,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutor/Pods-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CF5BFB0321541EEF00FB8DD6 /* ShellScript */ = {
@@ -2717,6 +2720,7 @@
 				84BFE13D2166ED92003452DF /* TutorEarningsTableViewCell.swift in Sources */,
 				CF528CD72164529E00D81D03 /* TutorRatingsReviewCell.swift in Sources */,
 				8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */,
+				8450E6A521986EB20039DEE6 /* TutorCardHeader.swift in Sources */,
 				8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */,
 				8486DC5E206C47900041E158 /* TutorCardCollectionViewCell.swift in Sources */,
 				CFA0096C213898C900F81EE4 /* InProgressSessionManager.swift in Sources */,

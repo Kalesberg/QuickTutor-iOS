@@ -45,7 +45,6 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
 
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		contentView.scrollView.contentSize.height = contentView.scrollView.subviews.reduce(0) { $0 + $1.frame.height } + 100
 	}
 	
     func learnerWasUpdated(learner: AWLearner!) {
@@ -96,16 +95,16 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
 	}
 	
 	private func setupMyProfileReviews() {
+		contentView.myProfileReviews.dataSource = learner.lReviews.sorted(by: { $0.timestamp > $1.timestamp })
 		contentView.myProfileReviews.isViewing = isViewing
 		contentView.myProfileReviews.parentViewController = self
-		contentView.myProfileReviews.dataSource = learner.lReviews.sorted(by: { $0.timestamp > $1.timestamp })
+		
 		contentView.myProfileReviews.setupMostRecentReviews()
 		
 		contentView.myProfileReviews.snp.makeConstraints { (make) in
 			make.top.equalTo(contentView.myProfileBody.divider.snp.bottom).inset(-5)
-			make.width.centerX.equalToSuperview()
+			make.width.centerX.bottom.equalToSuperview()
 			make.height.equalTo(contentView.myProfileReviews.reviewSectionHeight)
-			make.bottom.equalToSuperview()
 		}
 	}
 	

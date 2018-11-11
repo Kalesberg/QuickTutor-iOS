@@ -32,23 +32,24 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		super.viewDidLoad()
 		guard let reviews = tutor.reviews else { return }
 		dataSource = reviews
-		contentView.title.label.text = tutor.username
-		contentView.isViewing = isViewing
+		
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+		contentView.title.label.text = tutor.username
+		contentView.isViewing = isViewing
 		setupMyProfileHeader()
 		setupMyProfileBioView()
 		setupMyProfileBody()
 		setupMyProfileSubjects()
-		setupMyProfileReviews()
+		tutor.reviews?.count == 0 ? setupMyProfileNoReviews() : setupMyProfileReviews()
 		setupMyProfilePolicies()
 	}
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		contentView.scrollView.contentSize.height = contentView.scrollView.subviews.reduce(0) { $0 + $1.frame.height } + 100
+		contentView.scrollView.contentSize.height = contentView.scrollView.subviews.reduce(0) { $0 + $1.frame.height }
 	}
 	
 	func tutorWasUpdated(tutor: AWTutor!) {
@@ -105,6 +106,15 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		contentView.myProfileSubjects.datasource = tutor.subjects ?? []
 	}
 	
+	private func setupMyProfileNoReviews() {
+		contentView.scrollView.addSubview(contentView.myProfileNoReviews)
+		contentView.myProfileNoReviews.snp.makeConstraints { (make) in
+			make.top.equalTo(contentView.myProfileSubjects.snp.bottom).inset(-5)
+			make.width.centerX.equalToSuperview()
+			make.height.equalTo(80)
+		}
+	}
+	
 	private func setupMyProfileReviews() {
 		guard let reviews = tutor.reviews else { return }
 		contentView.myProfileReviews.isViewing = isViewing
@@ -112,25 +122,16 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		contentView.myProfileReviews.dataSource = reviews.sorted(by: { $0.timestamp > $1.timestamp })
 		
 		contentView.myProfileReviews.setupMostRecentReviews()
-
+		
 		contentView.myProfileReviews.snp.makeConstraints { (make) in
 			make.top.equalTo(contentView.myProfileSubjects.snp.bottom).inset(-5)
 			make.width.centerX.equalToSuperview()
 			make.height.equalTo(contentView.myProfileReviews.reviewSectionHeight)
 		}
-
-		contentView.myProfileReviews.divider.snp.makeConstraints { (make) in
-			make.bottom.equalToSuperview().inset(-5)
-			make.centerX.equalToSuperview()
-			make.width.equalToSuperview().inset(20)
-			make.height.equalTo(1)
-		}
 	}
-	
 	private func setupMyProfilePolicies() {
 		guard let policy = tutor.policy else { return }
 		let policies = policy.split(separator: "_")
-
 		contentView.myProfilePolicies.policiesLabel.attributedText = NSMutableAttributedString()
 			.bold("•  ", 20, .white).regular(tutor.distance.distancePreference(tutor.preference), 16, Colors.grayText)
 			.bold("•  ", 20, .white).regular(tutor.preference.preferenceNormalization(), 16, Colors.grayText)
@@ -140,7 +141,8 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 				.regular(String(policies[3]).cancelFee(), 16, Colors.qtRed)
 
 		contentView.myProfilePolicies.snp.makeConstraints { (make) in
-			make.top.equalTo(contentView.myProfileReviews.snp.bottom).inset(-5)
+			let topConstraint = tutor.reviews?.count == 0 ? contentView.myProfileNoReviews.snp.bottom : contentView.myProfileReviews.snp.bottom
+			make.top.equalTo(topConstraint).inset(-5)
 			make.width.centerX.equalToSuperview()
 		}
 	}
