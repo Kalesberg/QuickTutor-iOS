@@ -184,7 +184,7 @@ extension AddTutorVC: UITableViewDelegate, UITableViewDataSource {
         cell.delegate = self
         cell.usernameLabel.text = filteredUsername[indexPath.section].username
         cell.nameLabel.text = (connectedIds.contains(filteredUsername[indexPath.section].uid)) ? "\(name[0]) \(String(name[1]).prefix(1)) – Connected" : "\(name[0]) \(String(name[1]).prefix(1))"
-        cell.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+        cell.profileImageView.sd_setImage(with: reference)
         cell.uid = filteredUsername[indexPath.section].uid
 
         if pendingIds.contains(filteredUsername[indexPath.section].uid) {

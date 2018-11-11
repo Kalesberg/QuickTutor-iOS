@@ -371,7 +371,7 @@ extension YourListingVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		let reference = storageRef.child("featured").child(tutor.uid).child("featuredImage")
 
-		cell.featuredTutor.imageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+		cell.featuredTutor.imageView.sd_setImage(with: reference)
         cell.price.text = listings[indexPath.item].price.priceFormat()
         cell.view.backgroundColor = Colors.green
         cell.featuredTutor.namePrice.text = listings[indexPath.item].name

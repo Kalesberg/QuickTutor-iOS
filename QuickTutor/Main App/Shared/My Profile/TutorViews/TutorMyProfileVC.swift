@@ -63,7 +63,7 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		contentView.myProfileHeader.userId = tutor.uid
 		contentView.myProfileHeader.nameLabel.text = tutor.formattedName
 		contentView.myProfileHeader.imageCount = tutor.images.filter({ $0.value != "" }).count
-		contentView.myProfileHeader.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+		contentView.myProfileHeader.profileImageView.sd_setImage(with: reference)
 		contentView.myProfileHeader.parentViewController = self
 		contentView.myProfileHeader.price.text = "$\(String(describing: tutor.price!))/hr"
 		contentView.myProfileHeader.rating.text = "\(String(describing: tutor.tRating ?? 5.0)) ★ Rating"

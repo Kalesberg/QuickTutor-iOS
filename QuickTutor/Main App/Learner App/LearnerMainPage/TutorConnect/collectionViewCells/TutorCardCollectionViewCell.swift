@@ -154,7 +154,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 			reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
 			tutorCardHeader.price.text = "$\(tutor.price ?? 0)/hr"
 		}
-		tutorCardHeader.profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+		tutorCardHeader.profileImageView.sd_setImage(with: reference)
 		tutorCardHeader.profileImageView.roundCorners(.allCorners, radius: 8)
 		tutorCardHeader.name.text = tutor.name.formatName()
 		tutorCardHeader.reviewLabel.text = tutor.reviews?.count.formatReviewLabel(rating: tutor.tRating)

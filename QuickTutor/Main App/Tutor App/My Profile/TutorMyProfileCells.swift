@@ -382,7 +382,7 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
         cell.dateLabel.text = "\(data.formattedDate)"
 
         let reference = storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1")
-        cell.profilePic.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        cell.profilePic.sd_setImage(with: reference)
 
         return UITableViewCell()
     }

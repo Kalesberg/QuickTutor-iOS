@@ -192,7 +192,7 @@ class TutorMainPage: MainPageVC {
 
         contentView.sidebar.ratingView.ratingLabel.text = String(tutor.tRating) + "  ★"
         contentView.sidebar.profileView.profileNameView.attributedText = formattedString
-        contentView.sidebar.profileView.profilePicView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+        contentView.sidebar.profileView.profilePicView.sd_setImage(with: reference)
     }
 
     private func configureDelegates() {

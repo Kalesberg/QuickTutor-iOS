@@ -119,7 +119,7 @@ class SettingsProfileHeader: UIView {
 		phoneNumberLabel.text = CurrentUser.shared.learner.phone.formatPhoneNumber()
 		nameLabel.text = CurrentUser.shared.learner.formattedName
 		let reference = storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic1")
-		profileImageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+		profileImageView.sd_setImage(with: reference)
 	}
 	
 	@objc private func profileHeaderButtonPressed(_ sender: UIButton) {

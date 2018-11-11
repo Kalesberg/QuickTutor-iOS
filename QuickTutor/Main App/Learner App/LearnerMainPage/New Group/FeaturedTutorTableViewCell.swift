@@ -98,7 +98,7 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
 		let reference = storageRef.child("featured").child(datasource[indexPath.item].uid).child("featuredImage")
-		cell.featuredTutor.imageView.sd_setImage(with: reference, placeholderImage: #imageLiteral(resourceName: "placeholder-square"))
+		cell.featuredTutor.imageView.sd_setImage(with: reference)
         cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
         cell.featuredTutor.region.text = datasource[indexPath.item].region
         cell.featuredTutor.subject.text = datasource[indexPath.item].subject
