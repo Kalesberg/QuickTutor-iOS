@@ -91,8 +91,8 @@ class UploadImageView: RegistrationNavBarView {
             make.right.equalTo(titleLabel)
         }
         imageViewButton.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.7)
-            make.height.equalTo(contentView.snp.width).multipliedBy(0.7)
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalTo(contentView.snp.width).multipliedBy(0.5)
             make.centerY.equalToSuperview().multipliedBy(0.6)
             make.centerX.equalToSuperview()
         }
