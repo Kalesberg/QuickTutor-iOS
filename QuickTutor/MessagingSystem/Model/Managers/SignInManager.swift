@@ -28,7 +28,7 @@ class SignInManager {
                 return
             }
             AccountService.shared.updateFCMTokenIfNeeded()
-            RootControllerManager.shared.configureRootViewController(controller: vc)
+            RootControllerManager.shared.configureRootViewController(controller: CreatePasswordVC())
             completion()
         }
     }

@@ -41,6 +41,12 @@ class CreatePasswordView: RegistrationNavBarKeyboardView {
 		
 		errorLabel.text = "Password is less than 8 characters"
 		
+		if #available(iOS 12, *) {
+			createPasswordTextfield.textField.textContentType = .oneTimeCode
+		} else {
+			createPasswordTextfield.textField.textContentType = .init(rawValue: "")
+		}
+		
         applyConstraints()
     }
     
