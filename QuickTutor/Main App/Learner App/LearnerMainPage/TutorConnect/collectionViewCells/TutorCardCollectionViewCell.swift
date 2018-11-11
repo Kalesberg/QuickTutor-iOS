@@ -82,7 +82,6 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		scrollView.addSubview(tutorCardAboutMe)
 		scrollView.addSubview(tutorCardBody)
 		scrollView.addSubview(tutorCardSubjects)
-		scrollView.addSubview(tutorCardReviews)
 		scrollView.addSubview(tutorCardPolicy)
 		addSubview(connectButton)
 		
@@ -187,10 +186,9 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		tutorCardSubjects.sectionTitle.textColor = Colors.tutorBlue
 		tutorCardSubjects.datasource = tutor.subjects ?? []
 	}
+	
 	private func setupNoTutorCardReviews() {
-		if self.subviews.contains(tutorCardReviews) {
-			tutorCardReviews.removeFromSuperview()
-		}
+		tutorCardReviews.removeFromSuperview()
 		scrollView.addSubview(noTutorCardReviews)
 		noTutorCardReviews.snp.makeConstraints { (make) in
 			make.top.equalTo(tutorCardSubjects.snp.bottom).inset(-5)
@@ -200,17 +198,14 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	}
 	
 	private func setupTutorCardReviews() {
+		noTutorCardReviews.removeFromSuperview()
+		
 		tutorCardReviews.dataSource = tutor.reviews ?? []
 		tutorCardReviews.parentViewController = parentViewController
 		
-		tutorCardReviews.reviewLabel1.removeFromSuperview()
-		tutorCardReviews.reviewLabel2.removeFromSuperview()
-		
-		if scrollView.subviews.contains(noTutorCardReviews) {
-			noTutorCardReviews.removeFromSuperview()
-		}
 		tutorCardReviews.setupMostRecentReviews()
-		
+	
+		scrollView.addSubview(tutorCardReviews)
 		tutorCardReviews.snp.makeConstraints { (make) in
 			make.top.equalTo(tutorCardSubjects.snp.bottom).inset(-5)
 			make.width.centerX.equalToSuperview()

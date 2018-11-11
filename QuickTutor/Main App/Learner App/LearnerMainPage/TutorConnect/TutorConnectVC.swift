@@ -255,7 +255,7 @@ extension TutorConnectVC: UICollectionViewDelegate, UICollectionViewDataSource, 
 		cell.parentViewController = self
 		cell.tutor = dataSource[indexPath.item]
 		cell.connectButton.setTitle(getConnectButtonTitle(uid: dataSource[indexPath.item].uid), for: .normal)
-		
+
 		return cell
 	}
 	private func getConnectButtonTitle(uid: String) -> String {
