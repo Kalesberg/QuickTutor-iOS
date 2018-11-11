@@ -57,7 +57,10 @@ class LearnerMyProfileReviewsView : UIView {
 
 	var reviewSectionHeight : CGFloat {
 		layoutIfNeeded()
-		return self.subviews.reduce(0) { $0 + $1.frame.height } + 20
+		let baseHeight = self.subviews.reduce(0) { $0 + $1.frame.height } - 40
+		let labelHeight1 = reviewLabel1.reviewTextLabel.text?.height(withConstrainedWidth: 335, font: Fonts.createItalicSize(14)) ?? 0
+		let labelHeight2 = reviewLabel2.reviewTextLabel.text?.height(withConstrainedWidth: 335, font: Fonts.createItalicSize(14)) ?? 0
+		return  baseHeight + labelHeight1 + labelHeight2
 	}
 	
 	func configureView() {
