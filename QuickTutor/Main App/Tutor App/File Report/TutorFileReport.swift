@@ -158,9 +158,8 @@ extension TutorFileReport: UITableViewDelegate, UITableViewDataSource {
             if let learner = learner {
                 let vc = LearnerMyProfileVC()
                 vc.learner = learner
-                vc.contentView.rightButton.isHidden = true
                 vc.isViewing = true
-                vc.contentView.title.label.isHidden = true
+                vc.isEditable = false
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             tableView.allowsSelection = true

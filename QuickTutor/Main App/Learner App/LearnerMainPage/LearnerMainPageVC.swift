@@ -12,9 +12,9 @@ import UIKit
 
 var category: [Category] = Category.categories
 
-class LearnerMainPageVC: MainPageVC {
+class LearnerMainPageVC: UIViewController {
     
-    override var contentView: LearnerMainPageVCView {
+    var contentView: LearnerMainPageVCView {
         return view as! LearnerMainPageVCView
     }
 
@@ -30,10 +30,10 @@ class LearnerMainPageVC: MainPageVC {
         super.viewDidLoad()
         confirmSignedInUser()
         setupStripe()
-//		getFeaturedCategoryCount
         queryFeaturedTutors()
         configureView()
-	}
+        navigationController?.navigationBar.isHidden = true
+    }
     
     func confirmSignedInUser() {
         AccountService.shared.currentUserType = .learner
@@ -57,30 +57,7 @@ class LearnerMainPageVC: MainPageVC {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if UserDefaults.standard.bool(forKey: "showMainPageTutorial1.0") {
-            UserDefaults.standard.set(false, forKey: "showMainPageTutorial1.0")
-            displayMessagesTutorial()
-        }
-        configureSideBarView()
         navigationController?.navigationBar.isHidden = true
-    }
-
-    private func configureSideBarView() {
-        let formattedString = NSMutableAttributedString()
-        contentView.sidebar.becomeQTItem.label.label.text = learner.isTutor ? "Start Tutoring" : "Become a QuickTutor"
-
-        if let school = learner.school {
-            formattedString
-                .bold(learner.name + "\n", 17, .white)
-                .regular(school, 14, .white)
-        } else {
-            formattedString
-                .bold(learner.name, 17, .white)
-        }
-
-        contentView.sidebar.ratingView.ratingLabel.text = String(learner.lRating) + "  ★"
-        contentView.sidebar.profileView.profileNameView.attributedText = formattedString
-        contentView.sidebar.profileView.profileNameView.adjustsFontSizeToFitWidth = true
     }
 
     private func configureView() {
@@ -88,90 +65,7 @@ class LearnerMainPageVC: MainPageVC {
         contentView.tableView.dataSource = self
         contentView.tableView.prefetchDataSource = self
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleSearchTap))
-        contentView.search.addGestureRecognizer(tap)
-    }
-
-
-    func displayMessagesTutorial() {
-        let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "navbar-messages")
-
-        let tutorial = TutorCardTutorial()
-        tutorial.label.text = "This is where you'll message your tutors and schedule sessions!"
-        tutorial.label.numberOfLines = 2
-        tutorial.addSubview(image)
-        contentView.addSubview(tutorial)
-
-        tutorial.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        tutorial.label.snp.remakeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.9)
-        }
-        image.snp.makeConstraints { make in
-            make.edges.equalTo(contentView.messagesButton.image)
-        }
-        tutorial.imageView.snp.remakeConstraints { make in
-            make.top.equalTo(image.snp.bottom).inset(-5)
-            make.centerX.equalTo(image)
-        }
-        UIView.animate(withDuration: 1, animations: {
-            tutorial.alpha = 1
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: {
-                tutorial.imageView.center.y += 10
-            })
-        })
-    }
-
-    func displaySidebarTutorial() {
-        let tutorial = TutorCardTutorial()
-        tutorial.label.text = "This is where you can view and edit your profile information!"
-        tutorial.label.numberOfLines = 2
-        contentView.addSubview(tutorial)
-
-        let profileView = contentView.sidebar.profileView
-
-        let view = ProfileView()
-        view.isUserInteractionEnabled = false
-        let formattedString = NSMutableAttributedString()
-        formattedString
-            .bold(learner.name, 17, .white)
-        view.profileNameView.attributedText = formattedString
-        view.profilePicView.sd_setImage(with: storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        contentView.layoutSubviews()
-
-        tutorial.addSubview(view)
-
-        tutorial.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        tutorial.label.snp.remakeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.9)
-        }
-
-        tutorial.imageView.snp.remakeConstraints { make in
-            make.top.equalTo(profileView.snp.bottom).inset(-10)
-            make.centerX.equalTo(profileView)
-        }
-
-        view.snp.makeConstraints { make in
-            make.edges.equalTo(profileView)
-        }
-
-        UIView.animate(withDuration: 1, animations: {
-            tutorial.alpha = 1
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: {
-                tutorial.imageView.center.y += 10
-            })
-        })
-
-        view.layoutIfNeeded()
-        view.profilePicView.layer.cornerRadius = view.profilePicView.bounds.height / 2
+//        contentView.searchBar.addGestureRecognizer(tap)
     }
 
     private func queryFeaturedTutors() {
@@ -215,93 +109,6 @@ class LearnerMainPageVC: MainPageVC {
             })
         }
     }
-
-    override func handleNavigation() {
-        super.handleNavigation()
-
-        if touchStartView == contentView.sidebarButton {
-            contentView.sidebar.center.x -= contentView.sidebar.frame.maxX
-            contentView.sidebar.alpha = 1.0
-            contentView.sidebar.isUserInteractionEnabled = true
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.minX
-            })
-            showBackground()
-            if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
-                displaySidebarTutorial()
-                UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
-            }
-        } else if touchStartView == contentView.backgroundView {
-            contentView.sidebar.isUserInteractionEnabled = false
-            let startX = contentView.sidebar.center.x
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.contentView.sidebar.center.x *= -1
-            }, completion: { (_: Bool) in
-                self.contentView.sidebar.alpha = 0
-                self.contentView.sidebar.center.x = startX
-            })
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.paymentItem {
-            navigationController?.pushViewController(CardManagerVC(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.settingsItem {
-            navigationController?.pushViewController(SettingsVC(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.profileView {
-            let next = LearnerMyProfileVC()
-            next.learner = CurrentUser.shared.learner
-            navigationController?.pushViewController(next, animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.reportItem {
-            navigationController?.pushViewController(LearnerFileReportVC(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.legalItem {
-            hideSidebar()
-            hideBackground()
-            let next = WebViewVC()
-            next.contentView.title.label.text = "Terms of Service"
-            next.url = "https://www.quicktutor.com/legal/terms-of-service"
-            next.loadAgreementPdf()
-            navigationController?.pushViewController(next, animated: true)
-        } else if touchStartView == contentView.sidebar.shopItem {
-            hideSidebar()
-            hideBackground()
-            let next = WebViewVC()
-            next.contentView.title.label.text = "Shop"
-            next.url = "https://www.quicktutor.com/shop"
-            next.loadAgreementPdf()
-            navigationController?.pushViewController(next, animated: true)
-        } else if touchStartView == contentView.sidebar.helpItem {
-            navigationController?.pushViewController(LearnerHelpVC(), animated: true)
-            hideSidebar()
-            hideBackground()
-		} else if touchStartView == contentView.sidebar.becomeQTItem {
-			if learner.isTutor {
-				displayLoadingOverlay()
-				switchToTutorSide { success in
-					if success {
-						AccountService.shared.currentUserType = .tutor
-						self.dismissOverlay()
-						self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
-					}
-					self.dismissOverlay()
-				}
-			} else {
-				AccountService.shared.currentUserType = .tRegistration
-				navigationController?.pushViewController(BecomeTutorVC(), animated: true)
-			}
-			hideSidebar()
-			hideBackground()
-		} else if touchStartView is InviteButton {
-			navigationController?.pushViewController(InviteOthersVC(), animated: true)
-			hideSidebar()
-			hideBackground()
-		}
-	}
 	
     @objc func handleSearchTap() {
         let nav = navigationController

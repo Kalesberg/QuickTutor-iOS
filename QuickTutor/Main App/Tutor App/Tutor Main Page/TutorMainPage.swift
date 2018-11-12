@@ -8,29 +8,7 @@
 import UIKit
 import FirebaseUI
 
-class TutorMainPageView: MainPageVCView {
-
-    var tutorSidebar = TutorSideBar()
-
-    override var sidebar: Sidebar {
-        get {
-            return tutorSidebar
-        } set {
-            if newValue is TutorSideBar {
-                tutorSidebar = newValue as! TutorSideBar
-            } else {
-                print("incorrect sidebar type for TutorMainPage")
-            }
-        }
-    }
-
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.text = "Home"
-        label.font = Fonts.createBoldSize(22)
-        return label
-    }()
+class TutorMainPageView: UIView {
 
     let menuLabel: UILabel = {
         let label = UILabel()
@@ -73,25 +51,17 @@ class TutorMainPageView: MainPageVCView {
         return iv
     }()
 
-    override func configureView() {
-        navbar.addSubview(titleLabel)
+    func configureView() {
         addSubview(menuLabel)
         addSubview(tableView)
         addSubview(collectionView)
-        super.configureView()
-
-        backgroundView.isUserInteractionEnabled = false
+        backgroundColor = Colors.newBackground
         applyConstraints()
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
-        titleLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
+    func applyConstraints() {
         menuLabel.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.left.equalToSuperview().inset(20)
             make.height.equalToSuperview().multipliedBy(0.1)
         }
@@ -115,6 +85,15 @@ class TutorMainPageView: MainPageVCView {
             }
             make.centerX.equalToSuperview()
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -141,8 +120,8 @@ class TutorLayoutView: MainLayoutTitleBackButton {
     }
 }
 
-class TutorMainPage: MainPageVC {
-    override var contentView: TutorMainPageView {
+class TutorMainPage: UIViewController {
+    var contentView: TutorMainPageView {
         return view as! TutorMainPageView
     }
 
@@ -156,43 +135,18 @@ class TutorMainPage: MainPageVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        contentView.sidebar.profileView.backgroundColor = UIColor(hex: "5785D4")
+        navigationController?.navigationBar.isHidden = false
+        navigationItem.title = "Home"
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard let tutor = CurrentUser.shared.tutor, let account = CurrentUser.shared.connectAccount else {
             navigationController?.popBackToMain()
-            AccountService.shared.currentUserType = .learner
             return
         }
         self.tutor = tutor
         self.account = account
-        configureSideBarView()
-
-        navigationController?.navigationBar.isHidden = true
-    }
-
-    private func configureSideBarView() {
-        let formattedString = NSMutableAttributedString()
-
-        if tutor.school != "" {
-            formattedString
-                .bold(tutor.name + "\n", 17, .white)
-                .regular(tutor.school ?? "", 14, .white)
-        } else {
-            formattedString
-                .bold(tutor.name, 17, .white)
-        }
-		let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
-
-        contentView.sidebar.ratingView.ratingLabel.text = String(tutor.tRating) + "  ★"
-        contentView.sidebar.profileView.profileNameView.attributedText = formattedString
-        contentView.sidebar.profileView.profilePicView.sd_setImage(with: reference)
     }
 
     private func configureDelegates() {
@@ -203,159 +157,6 @@ class TutorMainPage: MainPageVC {
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
         contentView.collectionView.register(TutorMainPageCollectionViewCell.self, forCellWithReuseIdentifier: "mainPageCollectionViewCell")
-    }
-
-    func displaySidebarTutorial() {
-        Constants.showMainPageTutorial = false
-        let item = BecomeQTSidebarItem()
-        item.label.label.text = "Start Learning"
-        item.isUserInteractionEnabled = false
-        item.icon.isHidden = true
-
-        let tutorial = TutorCardTutorial()
-        tutorial.label.text = "Press this button to go back to the learner app!"
-        tutorial.label.numberOfLines = 2
-        tutorial.addSubview(item)
-        contentView.addSubview(tutorial)
-
-        tutorial.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        tutorial.imageView.snp.remakeConstraints { make in
-            make.top.equalTo(item.snp.bottom)
-            make.centerX.equalTo(item)
-        }
-
-        tutorial.label.snp.remakeConstraints { make in
-            make.top.equalTo(tutorial.imageView.snp.bottom).inset(-15)
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.9)
-        }
-
-        item.snp.makeConstraints { make in
-            make.edges.equalTo(contentView.sidebar.becomeQTItem)
-        }
-
-        UIView.animate(withDuration: 1, animations: {
-            tutorial.alpha = 1
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: {
-                tutorial.imageView.center.y += 10
-            })
-        })
-    }
-
-    func displayMessagesTutorial() {
-        let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "navbar-messages")
-
-        let tutorial = TutorCardTutorial()
-        tutorial.label.text = "This is where you'll message your learners and manage sessions!"
-        tutorial.label.numberOfLines = 2
-        tutorial.addSubview(image)
-        contentView.addSubview(tutorial)
-
-        tutorial.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        tutorial.label.snp.remakeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.9)
-        }
-
-        image.snp.makeConstraints { make in
-            make.edges.equalTo(contentView.messagesButton.image)
-        }
-
-        tutorial.imageView.snp.remakeConstraints { make in
-            make.top.equalTo(image.snp.bottom).inset(-5)
-            make.centerX.equalTo(image)
-        }
-
-        UIView.animate(withDuration: 1, animations: {
-            tutorial.alpha = 1
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: {
-                tutorial.imageView.center.y += 10
-            })
-        })
-    }
-
-    override func handleNavigation() {
-        super.handleNavigation()
-
-        if touchStartView == contentView.sidebarButton {
-            contentView.sidebar.center.x -= contentView.sidebar.frame.maxX
-            contentView.sidebar.alpha = 1.0
-            contentView.sidebar.isUserInteractionEnabled = true
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.contentView.sidebar.center.x -= self.contentView.sidebar.frame.minX
-            })
-            showBackground()
-            if UserDefaults.standard.bool(forKey: "showLearnerSideBarTutorial1.0") {
-                displaySidebarTutorial()
-                UserDefaults.standard.set(false, forKey: "showLearnerSideBarTutorial1.0")
-            }
-        } else if touchStartView == contentView.backgroundView {
-            contentView.sidebar.isUserInteractionEnabled = false
-            let startX = contentView.sidebar.center.x
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.contentView.sidebar.center.x *= -1
-            }, completion: { (_: Bool) in
-                self.contentView.sidebar.alpha = 0
-                self.contentView.sidebar.center.x = startX
-            })
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.paymentItem {
-            navigationController?.pushViewController(BankManager(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.settingsItem {
-            navigationController?.pushViewController(SettingsVC(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.profileView {
-            let next = TutorMyProfileVC()
-            next.tutor = CurrentUser.shared.tutor
-            navigationController?.pushViewController(next, animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.reportItem {
-            navigationController?.pushViewController(TutorFileReport(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.legalItem {
-            hideSidebar()
-            hideBackground()
-            let next = WebViewVC()
-            next.contentView.title.label.text = "Terms of Service"
-            next.url = "https://www.quicktutor.com/legal/terms-of-service"
-            next.loadAgreementPdf()
-            navigationController?.pushViewController(next, animated: true)
-        } else if touchStartView == contentView.sidebar.shopItem {
-            hideSidebar()
-            hideBackground()
-            let next = WebViewVC()
-            next.contentView.title.label.text = "Shop"
-            next.url = "https://www.quicktutor.com/shop"
-            next.loadAgreementPdf()
-            navigationController?.pushViewController(next, animated: true)
-        } else if touchStartView == contentView.sidebar.helpItem {
-            navigationController?.pushViewController(TutorHelp(), animated: true)
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView == contentView.sidebar.becomeQTItem {
-            navigationController?.pushViewController(LearnerPageVC(), animated: true)
-            AccountService.shared.currentUserType = .learner
-            hideSidebar()
-            hideBackground()
-        } else if touchStartView is InviteButton {
-            navigationController?.pushViewController(InviteOthersVC(), animated: true)
-            hideSidebar()
-            hideBackground()
-        }
     }
 }
 

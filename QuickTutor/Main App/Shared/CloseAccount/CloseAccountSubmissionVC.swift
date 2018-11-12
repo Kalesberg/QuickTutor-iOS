@@ -168,7 +168,7 @@ class CloseAccountSubmissionVC: BaseViewController {
                 } else {
                     self.dismissOverlay()
                     CurrentUser.shared.learner.isTutor = false
-                    self.navigationController?.pushViewController(LearnerPageVC(), animated: true)
+                    self.navigationController?.pushViewController(LearnerMainPageVC(), animated: true)
                 }
             })
         }

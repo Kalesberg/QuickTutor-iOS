@@ -10,60 +10,111 @@ import Foundation
 import SnapKit
 import UIKit
 
-class FeaturedTutorCollectionViewCell: UICollectionViewCell {
-	required init?(coder _: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-
-	override init(frame _: CGRect) {
-		super.init(frame: .zero)
-		configureView()
-	}
-	
-    let featuredTutor = FeaturedTutorView()
-	
-    let view: UIView = {
+class TutorCollectionViewCell: UICollectionViewCell {
+    
+    let profileImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.layer.cornerRadius = 4
+        if #available(iOS 11.0, *) {
+            iv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        }
+        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFill
+        return iv
+    }()
+    
+    let infoContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.green
-        view.layer.cornerRadius = 10
+        view.layer.borderColor = Colors.profileGray.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 4
         return view
     }()
-
-    let price: UILabel = {
+    
+    let nameLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = Fonts.createSize(13)
-        label.adjustsFontSizeToFitWidth = true
-        label.backgroundColor = .clear
+        label.text = "Zach F."
+        label.font = Fonts.createBoldSize(10)
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
         return label
     }()
-	
-    func configureView() {
-        contentView.addSubview(featuredTutor)
-        contentView.addSubview(view)
-        view.addSubview(price)
-        backgroundColor = Colors.navBarColor
-        applyDefaultShadow()
-
-        featuredTutor.backgroundColor = .clear
-        applyConstraints()
+    
+    let priceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(10)
+        label.textAlignment = .right
+        label.text = "$60/hr"
+        return label
+    }()
+    
+    let subjectLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Math"
+        label.textColor = .white
+        label.adjustsFontSizeToFitWidth = true
+        label.font = Fonts.createBlackSize(12)
+        return label
+    }()
+    
+    let starView: StarView = {
+        let view = StarView()
+        return view
+    }()
+    
+    func setupViews() {
+        setupProfileImageView()
+        setupInfoContainerView()
+        setupNameLabel()
+        setupPriceLabel()
+        setupSubjectLabel()
+        setupStarView()
     }
-
-    func applyConstraints() {
-        featuredTutor.snp.makeConstraints { make in
-            make.width.height.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().inset(-3)
-        }
-        view.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(-13)
-            make.left.equalToSuperview().inset(-5)
-            make.width.equalTo(60)
-            make.height.equalTo(20)
-        }
-        price.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+    
+    func setupProfileImageView() {
+        addSubview(profileImageView)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 115)
+    }
+    
+    func setupInfoContainerView() {
+        insertSubview(infoContainerView, belowSubview: profileImageView)
+        infoContainerView.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: -1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    func setupNameLabel() {
+        addSubview(nameLabel)
+        nameLabel.anchor(top: infoContainerView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 13)
+    }
+    
+    func setupPriceLabel() {
+        addSubview(priceLabel)
+        priceLabel.anchor(top: infoContainerView.topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 40, height: 13)
+    }
+    
+    func setupSubjectLabel() {
+        addSubview(subjectLabel)
+        subjectLabel.anchor(top: nameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 15)
+    }
+    
+    func setupStarView() {
+        addSubview(starView)
+        starView.anchor(top: subjectLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 6, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 38, height: 6)
+        starView.tintStars(color: Colors.currentUserColor())
+    }
+    
+    func updateUI(_ tutor: FeaturedTutor) {
+        nameLabel.text = tutor.name
+        subjectLabel.text = tutor.subject
+        priceLabel.text = "$\(tutor.price)/hr"
+        profileImageView.sd_setImage(with: URL(string: tutor.imageUrl)!, completed: nil)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

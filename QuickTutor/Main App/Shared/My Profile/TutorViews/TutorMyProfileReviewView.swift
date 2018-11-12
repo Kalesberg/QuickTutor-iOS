@@ -159,8 +159,7 @@ class TutorMyProfileReviewsView : UIView {
 			if let learner = learner {
 				vc.learner = learner
 				vc.isViewing = true
-				vc.contentView.rightButton.isHidden = true
-				vc.contentView.title.label.isHidden = true
+                vc.isEditable = false
 				self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
 			}
 		}

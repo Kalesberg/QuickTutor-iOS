@@ -11,44 +11,36 @@
 import Stripe
 import UIKit
 
-class CardManagerView: MainLayoutTitleBackButton {
+class CardManagerView: UIView {
     let subtitleLabel: UILabel = {
         let label = UILabel()
-
         label.text = "Payment Methods"
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)
         label.textColor = .white
-
         return label
     }()
 
     let tableView: UITableView = {
         let tableView = UITableView()
-
         tableView.estimatedRowHeight = 44
         tableView.isScrollEnabled = false
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.backgroundColor = Colors.backgroundDark
-
         return tableView
     }()
 
-    override func configureView() {
+    func configureView() {
+        backgroundColor = Colors.backgroundDark
         addSubview(subtitleLabel)
         addSubview(tableView)
-        super.configureView()
-
-        title.label.text = "Payment"
-
         applyConstraints()
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
+    func applyConstraints() {
         subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom).inset(-30)
+            make.top.equalToSuperview().inset(-30)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
@@ -61,10 +53,13 @@ class CardManagerView: MainLayoutTitleBackButton {
         }
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        navbar.backgroundColor = Colors.learnerPurple
-        statusbarView.backgroundColor = Colors.learnerPurple
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -107,6 +102,9 @@ class CardManagerVC: BaseViewController {
         contentView.tableView.register(CardManagerTableViewCell.self, forCellReuseIdentifier: "cardCell")
         contentView.tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
         
+        navigationItem.title = "Payment"
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.navigationBar.isHidden = false
     }
 
     private func setCustomer() {

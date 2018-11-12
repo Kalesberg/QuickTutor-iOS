@@ -20,7 +20,7 @@ class SignInManager {
         }
         
         let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
-        let vc = typeOfUser == .learner ? LearnerPageVC() : TutorPageViewController()
+        let vc = typeOfUser == .learner ? LearnerMainPageVC() : TutorMainPage()
         
         FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
             guard successful else {

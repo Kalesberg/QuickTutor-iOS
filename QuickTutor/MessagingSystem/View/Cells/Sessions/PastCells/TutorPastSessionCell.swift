@@ -25,8 +25,7 @@ class TutorPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestS
             guard let learner = learner else { return }
             let vc = LearnerMyProfileVC()
             vc.learner = learner
-            vc.contentView.rightButton.isHidden = true
-            vc.contentView.title.label.isHidden = true
+            vc.isEditable = false
             navigationController.pushViewController(vc, animated: true)
         }
     }

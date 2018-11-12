@@ -8,258 +8,257 @@
 
 import Firebase
 import UIKit
+import SwipeCellKit
 
-class MessagesVC: UIViewController, CustomNavBarDisplayer {
-    var navBar: ZFNavBar = {
-        let bar = ZFNavBar()
-        bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
-        bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "connectionsIcon"), for: .normal)
-        return bar
-    }()
+class MessagesVC: UIViewController {
+    let refreshControl = UIRefreshControl()
 
-    let mainCollectionView: UICollectionView = {
+    let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.darkBackground
-        cv.register(MessagesContentCell.self, forCellWithReuseIdentifier: "messagesContentCell")
-        cv.register(LearnerSessionsContentCell.self, forCellWithReuseIdentifier: "learnerSessionsContentCell")
-        cv.register(TutorSessionContentCell.self, forCellWithReuseIdentifier: "tutorSessionsContentCell")
-        cv.alwaysBounceHorizontal = false
-        cv.alwaysBounceHorizontal = false
-        cv.isPagingEnabled = true
-        cv.allowsSelection = false
-        cv.isScrollEnabled = false
+        cv.allowsMultipleSelection = false
+        cv.register(ConversationCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
-
-    let messageSessionControl: MessagingSystemToggle = {
-        let control = MessagingSystemToggle()
-        return control
+    
+    var messages = [UserMessage]()
+    var conversationsDictionary = [String: UserMessage]()
+    var swipeRecognizer: UIPanDirectionGestureRecognizer!
+    
+    let emptyBackround: EmptyMessagesBackground = {
+        let bg = EmptyMessagesBackground()
+        bg.isHidden = true
+        return bg
     }()
-
-    var cancelSessionModal: CancelSessionModal?
-    var parentPageViewController: PageViewController?
-
+    
+    func setupViews() {
+        setupMainView()
+        setupCollectionView()
+        setupRefreshControl()
+    }
+    
+    private func setupMainView() {
+        view.backgroundColor = Colors.darkBackground
+        edgesForExtendedLayout = []
+        navigationItem.title = "Messages"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
+        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(named: "backButton"), style: .plain, target: nil, action: nil)
+    }
+    
+    @objc func showContacts() {
+        let vc = ConnectionsVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        view.addSubview(collectionView)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    func setupEmptyBackground() {
+        view.addSubview(emptyBackround)
+        emptyBackround.anchor(top: collectionView.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
+        emptyBackround.setupForCurrentUserType()
+    }
+    
+    func setupRefreshControl() {
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshMessages), for: .valueChanged)
+    }
+    
+    @objc func refreshMessages() {
+        refreshControl.beginRefreshing()
+        fetchConversations()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            self.refreshControl.endRefreshing()
+        })
+    }
+    
+    func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
+    }
+    
+    func postOverlayDismissalNotfication() {
+        NotificationCenter.default.post(name: Notifications.hideOverlay.name, object: nil)
+    }
+    
+    func postOverlayDisplayNotification() {
+        NotificationCenter.default.post(name: Notifications.showOverlay.name, object: nil)
+    }
+    
+    @objc func didDisconnect() {
+        collectionView.reloadData()
+    }
+    
+    var metaDataDictionary = [String: ConversationMetaData]()
+    @objc func fetchConversations() {
+        postOverlayDisplayNotification()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.postOverlayDismissalNotfication()
+        }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        setupEmptyBackground()
+        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
+            self.postOverlayDismissalNotfication()
+            let userId = snapshot.key
+            
+            Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
+                guard let metaData = snapshot.value as? [String: Any] else { return }
+                guard let messageId = metaData["lastMessageId"] as? String else { return }
+                self.emptyBackround.removeFromSuperview()
+                let conversationMetaData = ConversationMetaData(dictionary: metaData)
+                self.metaDataDictionary[userId] = conversationMetaData
+                self.getMessageById(messageId)
+            })
+        }
+    }
+    
+    func getMessageById(_ messageId: String) {
+        Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
+            guard let value = snapshot.value as? [String: Any] else { return }
+            let message = UserMessage(dictionary: value)
+            message.uid = snapshot.key
+            
+            DataService.shared.getUserOfOppositeTypeWithId(message.partnerId(), completion: { (user) in
+                message.user = user
+                self.conversationsDictionary[message.partnerId()] = message
+                self.attemptReloadOfTable()
+            })
+        }
+    }
+    
+    fileprivate func attemptReloadOfTable() {
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    }
+    
+    var timer: Timer?
+    @objc func handleReloadTable() {
+        self.messages = Array(self.conversationsDictionary.values)
+        self.messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
+        
+        DispatchQueue.main.async(execute: {
+            self.collectionView.reloadData()
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        if parentPageViewController == nil {
-            parentPageViewController = AccountService.shared.currentUserType == .learner ? LearnerPageVC() : TutorPageViewController()
-        }
+        fetchConversations()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.navigationBar.isOpaque = false
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = Colors.navBarColor
-        edgesForExtendedLayout = []
-        setupObservers()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         NotificationManager.shared.disableAllConversationNotifications()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
         NotificationManager.shared.enableAllConversationNotifications()
     }
-
-    func setupViews() {
-        setupMainView()
-        setupNavBar()
-        setupMessageSessionControl()
-        setupCollectionView()
-    }
-
-    private func setupMainView() {
-        view.backgroundColor = Colors.darkBackground
-        edgesForExtendedLayout = []
-    }
-
-    func setupNavBar() {
-        addNavBar()
-        navBar.setupTitleLabelWithText("Connect")
-    }
-
-    private func setupCollectionView() {
-        mainCollectionView.delegate = self
-        mainCollectionView.dataSource = self
-        view.addSubview(mainCollectionView)
-        mainCollectionView.anchor(top: messageSessionControl.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    }
-
-    private func setupMessageSessionControl() {
-        view.addSubview(messageSessionControl)
-        messageSessionControl.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
-        messageSessionControl.delegate = self
-    }
-
-    @objc func showContacts() {
-        let vc = NewMessageVC()
-        vc.delegate = self
-        let navVC = CustomNavVC(rootViewController: vc)
-        present(navVC, animated: true, completion: nil)
-    }
-
-    func handleLeftViewTapped() {
-        if AccountService.shared.currentUserType == .learner {
-            let vc = LearnerPageVC()
-            parentPageViewController?.setViewControllers([vc], direction: .reverse, animated: true, completion: nil)
-        } else {
-            let vc = TutorPageViewController()
-            parentPageViewController?.setViewControllers([vc], direction: .reverse, animated: true, completion: nil)
-        }
-    }
-
-    func handleRightViewTapped() {
-        let vc = ConnectionsVC()
-        vc.parentPageViewController = parentPageViewController
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    @objc func handleSeachTapped() {
-        navigationController?.pushViewController(SearchSubjectsVC(), animated: true)
-    }
-
-    func setupObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(showConversation(notification:)), name: Notification.Name(rawValue: "sendMessage"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showCancelModal), name: Notification.Name(rawValue: "com.qt.cancelSession"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(requestSession(notification:)), name: Notification.Name(rawValue: "requestSession"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(MessagesVC.showOverlay), name: Notifications.showOverlay.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(MessagesVC.hideOverlay), name: Notifications.hideOverlay.name, object: nil)
-    }
-
-    @objc func showOverlay() {
-        displayLoadingOverlay()
-    }
-
-    @objc func hideOverlay() {
-        dismissOverlay()
-    }
-
-    @objc func showConversation(notification: Notification) {
-        guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        AccountService.shared.currentUserType == .learner ? getTutor(uid: uid) : getStudent(uid: uid)
-    }
-
-    private func getStudent(uid: String) {
-        DataService.shared.getStudentWithId(uid) { student in
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-            vc.receiverId = uid
-            vc.chatPartner = student!
-            vc.connectionRequestAccepted = true
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-
-    private func getTutor(uid: String) {
-        DataService.shared.getTutorWithId(uid) { tutor in
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-            vc.receiverId = uid
-            vc.chatPartner = tutor!
-            vc.connectionRequestAccepted = true
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-
-    @objc func requestSession(notification: Notification) {
-        guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        DataService.shared.getTutorWithId(uid) { tutor in
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-            vc.receiverId = uid
-            vc.chatPartner = tutor!
-            vc.connectionRequestAccepted = true
-            vc.shouldRequestSession = true
-
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-
-    @objc func showCancelModal(notification: Notification) {
-        guard let userInfo = notification.userInfo, let sessionId = userInfo["sessionId"] as? String else { return }
-        cancelSessionModal = CancelSessionModal(frame: .zero)
-        cancelSessionModal?.delegate = self
-        cancelSessionModal?.sessionId = sessionId
-        cancelSessionModal?.show()
-    }
-}
-
-extension MessagesVC: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        tabBarItem = UITabBarItem(title: "Chat", image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.item == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messagesContentCell", for: indexPath) as! MessagesContentCell
-            cell.parentViewController = self
-            return cell
-        } else {
-            
-            if AccountService.shared.currentUserType == .tutor {
-                print(AccountService.shared.currentUserType == .tutor)
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tutorSessionsContentCell", for: indexPath) as! TutorSessionContentCell
-                return cell
-            } else {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "learnerSessionsContentCell", for: indexPath) as! LearnerSessionsContentCell
-                return cell
-            }
-        }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
-extension MessagesVC: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: collectionView.bounds.height)
+extension MessagesVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
+        cell.updateUI(message: messages[indexPath.item])
+        cell.delegate = self
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        emptyBackround.isHidden = !messages.isEmpty
+        return messages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
+        cell.contentView.backgroundColor = cell.contentView.backgroundColor?.darker(by: 15)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
+        cell.contentView.backgroundColor = cell.contentView.backgroundColor?.lighter(by: 15)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: 80)
     }
     
 }
 
-extension MessagesVC: NewMessageDelegate {
-    func showConversationWithUser(user: User, isConnection: Bool) {
-        
+extension MessagesVC: UIGestureRecognizerDelegate {
+    
+}
+
+extension MessagesVC {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! ConversationCell
+        cell.handleTouchDown()
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-        vc.receiverId = user.uid
-        vc.connectionRequestAccepted = isConnection
-        vc.chatPartner = user
-        
+        vc.receiverId = messages[indexPath.item].partnerId()
+        let tappedCell = collectionView.cellForItem(at: indexPath) as! ConversationCell
+        vc.navigationItem.title = tappedCell.usernameLabel.text
+        vc.chatPartner = tappedCell.chatPartner
+        if let data = metaDataDictionary[tappedCell.chatPartner.uid] {
+            vc.metaData = data
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension MessagesVC: MessagingSystemToggleDelegate {
-
-    func scrollTo(index: Int, animated: Bool) {
-        let indexPath = IndexPath(item: index, section: 0)
-        mainCollectionView.scrollToItem(at: indexPath, at: .left, animated: animated)
-    }
-}
-
-extension MessagesVC: CustomModalDelegate {
-    func handleNevermind() {}
-
-    func handleCancel(id: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
-        DataService.shared.getSessionById(id) { session in
-            let chatPartnerId = session.partnerId()
-            Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
+extension MessagesVC: SwipeCollectionViewCellDelegate {
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
+            // handle action by updating model with deletion
+            self.deleteMessages(index: indexPath.item)
         }
-        cancelSessionModal?.dismiss()
-        guard let cell = mainCollectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? BaseSessionsContentCell else { return }
-        cell.fetchSessions()
+        
+        // customize the action appearance
+        deleteAction.image = #imageLiteral(resourceName: "deleteMessagesIcon")
+        //        deleteAction.title = "Delete"
+        deleteAction.font = Fonts.createSize(12)
+        deleteAction.backgroundColor = UIColor(hex: "#AF1C49")
+        
+        return [deleteAction]
+    }
+    
+    func deleteMessages(index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        guard let uid = Auth.auth().currentUser?.uid,
+            let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
+            let id = cell.chatPartner.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let conversationRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
+        conversationRef.removeValue()
+        conversationRef.childByAutoId().removeValue()
+        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(id).removeValue()
+        messages.remove(at: indexPath.item)
+        conversationsDictionary.removeValue(forKey: id)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
+            self.collectionView.reloadData()
+        }
     }
 }

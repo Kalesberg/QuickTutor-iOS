@@ -298,7 +298,7 @@ class TutorPolicyVC: BaseViewController {
                     if success {
                         CurrentUser.shared.learner.isTutor = true
                         AccountService.shared.currentUserType = .tutor
-                        self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+                        self.navigationController?.pushViewController(TutorMainPage(), animated: true)
                         let endIndex = self.navigationController?.viewControllers.endIndex
                         self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
                     } else {

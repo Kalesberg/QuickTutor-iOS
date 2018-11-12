@@ -36,9 +36,12 @@ class CategorySearchVC: BaseViewController {
         super.viewDidLoad()
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
-        contentView.collectionView.register(FeaturedTutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
+        contentView.collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
         contentView.collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         contentView.searchBar.delegate = self
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: true)
+//        navigationItem.title = category
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,43 +86,30 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
-
-        cell.featuredTutor.imageView.sd_setImage(with: URL(string: datasource[indexPath.item].imageUrl))
-        cell.price.text = datasource[indexPath.item].price.priceFormat()
-        cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
-        cell.featuredTutor.region.text = datasource[indexPath.item].region
-        cell.featuredTutor.subject.text = datasource[indexPath.item].subject
-		 cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(datasource[indexPath.item].rating) ", 14, Colors.gold)
-		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("Rating", 13, Colors.gold)
-
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! TutorCollectionViewCell
+        cell.updateUI(datasource[indexPath.item])
         return cell
     }
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
-
-        if screen.height == 568 || screen.height == 480 {
-            return CGSize(width: (screen.width / 2.5) - 13, height: 190)
-        } else {
-            return CGSize(width: (screen.width / 3) - 13, height: 190)
-        }
+        return CGSize(width: (screen.width - 60) / 2, height: 190)
     }
 
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.shrink()
     }
 
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         UIView.animate(withDuration: 0.2) {
             cell.transform = CGAffineTransform.identity
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
 			let vc = TutorConnectVC()
 			vc.category = self.category
@@ -142,6 +132,14 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 70)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
     }
 }
 

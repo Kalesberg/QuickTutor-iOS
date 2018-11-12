@@ -28,7 +28,7 @@ class SectionHeader: UICollectionReusableView {
     
     func applyConstraints() {
         category.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(15)
+            make.left.equalToSuperview().inset(20)
             make.centerY.equalToSuperview().inset(5)
             make.height.equalToSuperview()
             make.width.equalToSuperview()

@@ -9,6 +9,9 @@
 import UIKit
 
 class StarView: UIView {
+    
+    lazy var stars = [star1, star2, star3, star4, star5]
+    
     let star1: UIImageView = {
         let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
         iv.contentMode = .scaleAspectFit
@@ -71,6 +74,16 @@ class StarView: UIView {
     private func setupStar5() {
         addSubview(star5)
         star5.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star4.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: 7, height: 7)
+    }
+    
+    func tintStars(color: UIColor) {
+        stars.forEach { (iv) in
+            iv.image = iv.image!.withRenderingMode(.alwaysTemplate)
+            iv.tintColor = color
+        }
+    }
+    
+    func setRating() {
     }
     
     override init(frame: CGRect) {

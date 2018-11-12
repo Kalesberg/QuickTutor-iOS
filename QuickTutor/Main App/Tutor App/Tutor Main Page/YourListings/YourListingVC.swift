@@ -315,7 +315,7 @@ class YourListingVC: BaseViewController {
     private func configureDelegates() {
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
-        contentView.collectionView.register(FeaturedTutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
+        contentView.collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
     }
 
     @objc private func handleHideButton() {
@@ -324,11 +324,11 @@ class YourListingVC: BaseViewController {
 
     override func handleNavigation() {
         if touchStartView is NavbarButtonEdit {
-            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeaturedTutorCollectionViewCell
+            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! TutorCollectionViewCell
 
             let vc = EditListingVC()
             vc.price = listings[0].price
-            vc.image = cell.featuredTutor.imageView.image
+            vc.image = cell.profileImageView.image
             vc.subject = listings[0].subject
 			vc.subjects = tutor.subjects ?? []
 			vc.categoryOfCurrentListing = self.featuredCategory
@@ -346,10 +346,10 @@ class YourListingVC: BaseViewController {
 
 extension YourListingVC: UpdateListingCallBack {
 	func updateListingCallBack(price: Int, subject: String, image: UIImage, category: Category) {
-        let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeaturedTutorCollectionViewCell
-        cell.price.text = "$\(price)/hr"
-        cell.featuredTutor.subject.text = subject
-        cell.featuredTutor.imageView.image = image
+        let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! TutorCollectionViewCell
+        cell.priceLabel.text = "$\(price)/hr"
+        cell.subjectLabel.text = subject
+        cell.profileImageView.image = image
     }
 }
 
@@ -368,20 +368,8 @@ extension YourListingVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
-		let reference = storageRef.child("featured").child(tutor.uid).child("featuredImage")
-
-		cell.featuredTutor.imageView.sd_setImage(with: reference)
-        cell.price.text = listings[indexPath.item].price.priceFormat()
-        cell.view.backgroundColor = Colors.green
-        cell.featuredTutor.namePrice.text = listings[indexPath.item].name
-        cell.featuredTutor.region.text = listings[indexPath.item].region
-        cell.featuredTutor.subject.text = listings[indexPath.item].subject
-		cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(listings[indexPath.item].rating) ", 14, Colors.gold)
-		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("Rating", 13, Colors.gold)
-		//cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("(\(listings[indexPath.item].reviews) ratings)", 13, Colors.gold)
-
-        cell.layer.cornerRadius = 6
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! TutorCollectionViewCell
+        cell.updateUI(listings[indexPath.item])
         contentView.categoryLabel.text = categories[indexPath.row].mainPageData.displayName
         contentView.imageView.image = UIImage(named: "\(categories[indexPath.row].subcategory.fileToRead)-pattern")?.alpha(0.35)
 
@@ -406,12 +394,12 @@ extension YourListingVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
 
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.shrink()
     }
 
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         UIView.animate(withDuration: 0.2) {
             cell.transform = CGAffineTransform.identity
         }

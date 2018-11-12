@@ -193,3 +193,15 @@ class DateService {
         return dateFormatter.string(from: dt!)
     }
 }
+
+extension UIViewController {
+//    
+//    func setBackButton(){
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "backButton"), style: .plain, target: self, action: #selector(popVC))
+//    }
+//    
+//    @objc func popVC() {
+//        navigationController?.popViewController(animated: true)
+//    }
+    
+}

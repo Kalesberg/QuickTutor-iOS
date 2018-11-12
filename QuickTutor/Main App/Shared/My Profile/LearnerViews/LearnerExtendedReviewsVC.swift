@@ -146,8 +146,6 @@ extension LearnerReviewsVC: UITableViewDelegate, UITableViewDataSource {
 			if let tutor = tutor {
 				vc.tutor = tutor
 				vc.isViewing = true
-				vc.contentView.title.label.text = tutor.username
-				vc.contentView.rightButton.isHidden = true
 				self.navigationController?.pushViewController(vc, animated: true)
 			}
 		}

@@ -55,8 +55,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         registerForPushNotifications(application: application)
         
         UITextField.appearance().keyboardAppearance = .dark
+        UINavigationBar.appearance().barTintColor = Colors.registrationDark
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
 
-        
+            
         //Firebase init
         FirebaseApp.configure()
         

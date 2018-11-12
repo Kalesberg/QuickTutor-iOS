@@ -59,8 +59,7 @@ class FeaturedTutorTableViewCell: UITableViewCell {
 
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(FeaturedTutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
-
+        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
         applyConstraints()
     }
 
@@ -96,30 +95,18 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! FeaturedTutorCollectionViewCell
-		let reference = storageRef.child("featured").child(datasource[indexPath.item].uid).child("featuredImage")
-		cell.featuredTutor.imageView.sd_setImage(with: reference)
-        cell.featuredTutor.namePrice.text = datasource[indexPath.item].name
-        cell.featuredTutor.region.text = datasource[indexPath.item].region
-        cell.featuredTutor.subject.text = datasource[indexPath.item].subject
-        cell.featuredTutor.ratingLabel.attributedText = NSMutableAttributedString().bold("\(datasource[indexPath.item].rating) ", 14, Colors.gold)
-		cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("Rating", 13, Colors.gold)
-		cell.price.text = datasource[indexPath.item].price.priceFormat()
-		//cell.featuredTutor.numOfRatingsLabel.attributedText = NSMutableAttributedString().regular("(\(datasource[indexPath.item].reviews) ratings)", 13, Colors.gold)
-
-       // cell.layer.cornerRadius = 6
-        cell.featuredTutor.applyDefaultShadow()
-
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! TutorCollectionViewCell
+        cell.updateUI(datasource[indexPath.item])
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.shrink()
     }
 
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         UIView.animate(withDuration: 0.2) {
             cell.transform = CGAffineTransform.identity
         }
@@ -133,7 +120,7 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeaturedTutorCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
             let vc = TutorConnectVC()
 			vc.category = self.category
@@ -158,13 +145,9 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
-
-        if screen.height == 568 || screen.height == 480 {
-            return CGSize(width: (screen.width / 2.5) - 13, height: collectionView.frame.height - 20)
-        } else {
-            return CGSize(width: (screen.width / 2.5) - 13, height: collectionView.frame.height - 20)
-        }
+        return CGSize(width: (screen.width / 2.5) - 13, height: collectionView.frame.height - 20)
     }
+    
 	func pageMoreTutors() {
 		queryTutorsByCategory(lastKnownKey: datasource[datasource.endIndex - 1].uid)
 		self.didLoadMore = false

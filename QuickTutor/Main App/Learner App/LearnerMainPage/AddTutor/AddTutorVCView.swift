@@ -6,49 +6,37 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-class AddTutorView: MainLayoutTitleBackButton {
+class AddTutorView: UIView {
 	let tableView: UITableView = {
 		let tableView = UITableView()
-		
 		tableView.rowHeight = 50
 		tableView.separatorInset.left = 10
 		tableView.separatorStyle = .none
 		tableView.showsVerticalScrollIndicator = false
 		tableView.backgroundColor = Colors.backgroundDark
-		
 		return tableView
 	}()
 	
 	let searchTextField: SearchTextField = {
 		let textField = SearchTextField()
-		
 		textField.placeholder.text = "Search Usernames"
 		textField.textField.font = Fonts.createSize(16)
 		textField.textField.tintColor = Colors.learnerPurple
 		textField.textField.autocapitalizationType = .words
-		
 		return textField
 	}()
 	
 	let loadingIndicator = AWLoadingIndicatorView()
 	
-	override func configureView() {
+    func configureView() {
 		addSubview(tableView)
 		addSubview(searchTextField)
 		addSubview(loadingIndicator)
-		super.configureView()
-		
-		title.label.text = "Add Tutor by Username"
-		title.label.textAlignment = .center
-		
-		navbar.backgroundColor = Colors.learnerPurple
-		statusbarView.backgroundColor = Colors.learnerPurple
 	}
 	
-	override func applyConstraints() {
-		super.applyConstraints()
+    func applyConstraints() {
 		searchTextField.snp.makeConstraints { make in
-			make.top.equalTo(navbar.snp.bottom)
+			make.top.equalToSuperview()
 			make.width.equalToSuperview().multipliedBy(0.9)
 			make.height.equalTo(80)
 			make.centerX.equalToSuperview()
@@ -68,4 +56,14 @@ class AddTutorView: MainLayoutTitleBackButton {
 			}
 		}
 	}
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

@@ -12,7 +12,7 @@ import Firebase
 import UIKit
 import SocketIO
 
-class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
+class ConversationVC: UICollectionViewController {
     var messagingManagerDelegate: ConversationManagerDelegate?
     var conversationManager = ConversationManager()
     var typingIndicatorManager: TypingIndicatorManager?
@@ -31,14 +31,7 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     var headerHeight = 30
 
     // MARK: Layout Views -
-
-    var navBar: ZFNavBar = {
-        let bar = ZFNavBar()
-        bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
-        bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "fileReportFlag"), for: .normal)
-        return bar
-    }()
-
+    
     let messagesCollection: ConversationCollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -101,16 +94,15 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
         collectionView = messagesCollection
-        collectionView?.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: -60, width: 0, height: 0)
+        collectionView?.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: -60, width: 0, height: 0)
     }
 
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
-        emptyCellBackground.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 60, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
+        emptyCellBackground.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 60, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
     }
 
     private func setupNavBar() {
-        addNavBar()
         setupTitleView()
     }
 
@@ -118,10 +110,10 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         if let partner = chatPartner {
             titleView.updateUI(user: partner)
         }
-
-        navBar.addSubview(titleView)
-        titleView.anchor(top: navBar.titleView.topAnchor, left: nil, bottom: navBar.titleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
+//
+//        navBar.addSubview(titleView)
+//        titleView.anchor(top: navBar.titleView.topAnchor, left: nil, bottom: navBar.titleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+//        view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
     }
@@ -153,7 +145,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     }
 
     func enterConnectionRequestMode() {
-        navBar.rightAccessoryView.isHidden = true
         studentKeyboardAccessory.showQuickChatView()
         setupEmptyBackground()
         setActionViewUsable(false)
@@ -162,7 +153,6 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
     }
 
     func exitConnectionRequestMode() {
-        navBar.rightAccessoryView.isHidden = false
         studentKeyboardAccessory.hideQuickChatView()
         emptyCellBackground.removeFromSuperview()
     }
@@ -215,6 +205,24 @@ class ConversationVC: UICollectionViewController, CustomNavBarDisplayer {
         tutorial.showIfNeeded()
         conversationManager.readReceiptManager?.markConversationRead()
         NotificationManager.shared.disableConversationNotificationsFor(uid: chatPartner.uid)
+        addCustomTitleView()
+    }
+    
+    func addCustomTitleView() {
+        let navController = navigationController!
+        let bannerWidth = navController.navigationBar.frame.size.width
+        let bannerHeight = navController.navigationBar.frame.size.height
+        
+        let bannerX = bannerWidth / 2 - titleView.frame.size.width / 2
+        let bannerY = bannerHeight / 2 - titleView.frame.size.height / 2
+        
+        titleView.frame = CGRect(x: bannerX, y: bannerY - 20, width: bannerWidth, height: bannerHeight)
+        navigationItem.title = nil
+        navigationItem.titleView = titleView
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -517,6 +525,11 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: CGFloat(headerHeight))
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        titleView.transform = CGAffineTransform(translationX: 0, y: -20)
+        titleView.arrow.transform = CGAffineTransform(translationX: 0, y: 20)
     }
     
 }

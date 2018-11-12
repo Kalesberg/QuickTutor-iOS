@@ -65,6 +65,7 @@ class AddTutorVC: BaseViewController, ShowsConversation {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         configureDelegates()
+        navigationItem.title = "Add Tutor by Username"
     }
 
     override func loadView() {

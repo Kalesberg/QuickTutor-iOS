@@ -159,7 +159,7 @@ class VerificationVC : BaseViewController {
 							FirebaseData.manager.signInLearner(uid: user.uid) { (successful) in
 								if successful {
 									Registration.setLearnerDefaults()
-									self.navigationController?.pushViewController(LearnerPageVC(), animated: true)
+									self.navigationController?.pushViewController(LearnerMainPageVC(), animated: true)
 								} else {
 									self.navigationController?.pushViewController(SignInVC(), animated: true)
 								}
@@ -168,7 +168,7 @@ class VerificationVC : BaseViewController {
 							FirebaseData.manager.signInTutor(uid: user.uid) { (successful) in
 								if successful {
 									Registration.setTutorDefaults()
-									self.navigationController?.pushViewController(TutorPageViewController(), animated: true)
+									self.navigationController?.pushViewController(TutorMainPage(), animated: true)
 								} else {
 									self.navigationController?.pushViewController(SignInVC(), animated: true)
 								}

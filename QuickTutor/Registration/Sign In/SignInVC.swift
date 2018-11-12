@@ -9,6 +9,8 @@
 import UIKit
 import FirebaseAuth
 import SnapKit
+import FacebookLogin
+import FacebookCore
 
 class PhoneTextFieldView: InteractableView, Interactable {
 	
@@ -209,7 +211,78 @@ class SignInVC: BaseViewController {
 			signIn()
 			contentView.nextButton.isUserInteractionEnabled = false
 		} else if touchStartView is FacebookButton {
-			facebookSignIn()
+			handleFacebookSignIn()
+		}
+	}
+	
+	@objc func handleFacebookSignIn() {
+		let loginManager = LoginManager()
+		
+		loginManager.logIn(readPermissions: [.publicProfile, .email, .userBirthday], viewController: self) { (result) in
+			switch result {
+			case .failed(let error):
+				print(error)
+			case .cancelled:
+				print("User cancelled login.")
+			case .success:
+				self.completeFacebookSignIn()
+				print("Login result", result)
+			}
+		}
+	}
+	
+	func completeFacebookSignIn() {
+		
+		let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
+		Auth.auth().signIn(with: credential, completion: { user, error in
+			guard error == nil else {
+				let ac = UIAlertController(title: "Account already exists.", message: "Please use the sign in method used to create the account.", preferredStyle: .alert)
+				ac.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+				self.present(ac, animated: true, completion: nil)
+				return
+			}
+			print("ZACH: Signed in with Facebook")
+			self.getFacebookEmail(completion: { (userData) in
+				guard let data = userData else { return }
+				guard let email = data["email"], let username = data["name"], let birthday = data["birthday"] else { return }
+				print("ZACH: Facebook user data:", data)
+			})
+			
+		})
+	}
+	
+	func getFacebookEmail(completion: @escaping ([String: Any]?) -> ()) {
+		let params = ["fields": "email, name"]
+		let graphRequest = GraphRequest(graphPath: "me", parameters: params)
+		graphRequest.start {
+			_, requestResult in
+			
+			switch requestResult {
+			case .failed(let error):
+				print("error in graph request:", error)
+				completion(nil)
+			case .success(let graphResponse):
+				if let responseDictionary = graphResponse.dictionaryValue {
+					completion(responseDictionary)
+				}
+			}
+		}
+		var graphRequest2 = GraphRequest(graphPath: "me/picture")
+		graphRequest2.parameters = ["redirect": true, "fields": nil] as [String : Any]
+		graphRequest2.start { (response, graphResult) in
+			switch graphResult {
+			case .failed(let error):
+				print("error in graph request:", error)
+			case .success(let graphResponse2):
+				if let responseDictionary = graphResponse2.dictionaryValue {
+					print("Profile pic data", responseDictionary["data"])
+				}
+			}
+			
+		}
+		var request = GraphRequest(graphPath: "/100029835982924/picture", parameters: ["redirect": "false"], httpMethod: .GET)
+		request.start { (response, result) in
+			print(result)
 		}
 	}
 	
@@ -229,8 +302,6 @@ class SignInVC: BaseViewController {
 		dismissOverlay()
 	}
 	
-	private func facebookSignIn() {
-	}
 }
 extension SignInVC: UITextFieldDelegate {
 	func textFieldDidBeginEditing(_ textField: UITextField) {

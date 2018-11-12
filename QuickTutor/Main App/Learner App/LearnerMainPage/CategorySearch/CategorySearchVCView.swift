@@ -8,9 +8,7 @@
 
 import UIKit
 
-class CategorySearchVCView: MainLayoutTwoButton {
-    
-    var back = NavbarButtonBack()
+class CategorySearchVCView: UIView {
     
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -29,9 +27,9 @@ class CategorySearchVCView: MainLayoutTwoButton {
     }()
     
     let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 3, minimumInteritemSpacing: 5, minimumLineSpacing: 50, sectionInset: UIEdgeInsets(top: 15, left: 10, bottom: 0, right: 10))
-        collectionView.collectionViewLayout = customLayout
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -39,42 +37,34 @@ class CategorySearchVCView: MainLayoutTwoButton {
         return collectionView
     }()
     
-    override var leftButton: NavbarButton {
-        get {
-            return back
-        } set {
-            back = newValue as! NavbarButtonBack
-        }
-    }
-    
-    override func applyConstraints() {
-        super.applyConstraints()
-        setupSearchBar()
+    func applyConstraints() {
+//        setupSearchBar()
         setupCollectionView()
+        backgroundColor = Colors.newBackground
     }
     
     func setupSearchBar() {
-        navbar.addSubview(searchBar)
+        addSubview(searchBar)
         searchBar.snp.makeConstraints { make in
-            make.left.equalTo(back.snp.right)
-            make.right.equalTo(rightButton.snp.left)
+            make.left.equalToSuperview().inset(30)
+            make.right.equalToSuperview().inset(30)
             make.height.equalToSuperview()
             make.center.equalToSuperview()
         }
     }
     
     func setupCollectionView() {
-        insertSubview(collectionView, belowSubview: navbar)
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-            } else {
-                make.bottom.equalToSuperview()
-            }
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview()
-        }
+        addSubview(collectionView)
+        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }

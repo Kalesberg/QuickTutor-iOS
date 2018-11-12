@@ -8,8 +8,7 @@
 
 import Foundation
 
-class InviteOthersView: MainLayoutTitleBackTwoButton {
-	var inviteButton = NavbarButtonInvite()
+class InviteOthersView: UIView {
 	
 	let container: UIView = {
 		let view = UIView()
@@ -63,33 +62,19 @@ class InviteOthersView: MainLayoutTitleBackTwoButton {
 	
 	let connectContacts = InviteOthersBackgroundView()
 	
-	override var rightButton: NavbarButton {
-		get {
-			return inviteButton
-		} set {
-			inviteButton = newValue as! NavbarButtonInvite
-		}
-	}
 	
-	override func configureView() {
+    func configureView() {
 		addSubview(container)
 		addSubview(imageView)
 		container.addSubview(label)
 		addSubview(searchTextField)
 		addSubview(tableView)
 		addSubview(connectContacts)
-		super.configureView()
-		
-		navbar.backgroundColor = Colors.green
-		statusbarView.backgroundColor = Colors.green
-		title.label.text = "Share QuickTutor"
 	}
 	
-	override func applyConstraints() {
-		super.applyConstraints()
-		
+    func applyConstraints() {
 		imageView.snp.makeConstraints { make in
-			make.top.equalTo(navbar.snp.bottom).inset(-10)
+			make.top.equalToSuperview().inset(-10)
 			make.centerX.equalToSuperview()
 		}
 		
@@ -129,4 +114,14 @@ class InviteOthersView: MainLayoutTitleBackTwoButton {
 			}
 		}
 	}
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  LearnerSessionContentCell.swift
+//  LeanerSessionsVC.swift
 //  QuickTutor
 //
 //  Created by Zach Fuller on 4/9/18.
@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class LearnerSessionsContentCell: BaseSessionsContentCell {
+class LearnerSessionsVC: BaseSessionsVC {
     override func setupCollectionView() {
         super.setupCollectionView()
         collectionView.register(LearnerPendingSessionCell.self, forCellWithReuseIdentifier: "pendingSessionCell")
@@ -56,7 +56,7 @@ class LearnerSessionsContentCell: BaseSessionsContentCell {
     }
 }
 
-extension LearnerSessionsContentCell: SessionCellDelgate {
+extension LearnerSessionsVC: SessionCellDelgate {
     func sessionCell(_ sessionCell: BaseSessionCell, shouldReloadSessionWith id: String) {
         
     }

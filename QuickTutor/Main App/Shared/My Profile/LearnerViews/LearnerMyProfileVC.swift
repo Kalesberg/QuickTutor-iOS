@@ -29,6 +29,12 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
     var learner: AWLearner!
 	var datasource = [Review]()
 	var isViewing: Bool = false
+    
+    var isEditable = true {
+        didSet {
+            
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

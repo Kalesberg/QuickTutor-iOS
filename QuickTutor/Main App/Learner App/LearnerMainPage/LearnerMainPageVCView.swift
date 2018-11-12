@@ -8,9 +8,21 @@
 
 import UIKit
 
-class LearnerMainPageVCView: MainPageVCView {
-    var search = SearchBar()
-    var learnerSidebar = LearnerSideBar()
+class LearnerMainPageVCView: UIView {
+
+    lazy var searchBar: PaddedTextField = {
+        let field = PaddedTextField()
+        field.padding.left = 40
+        field.backgroundColor = Colors.profileGray
+        field.textColor = .white
+        let searchIcon = UIImageView(image: UIImage(named:"searchIconMain"))
+        field.leftView = searchIcon
+        field.leftView?.transform = CGAffineTransform(translationX: 12.5, y: 0)
+        field.leftViewMode = .unlessEditing
+        field.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(0.75)])
+        field.font = Fonts.createBoldSize(16)
+        return field
+    }()
     
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -18,62 +30,69 @@ class LearnerMainPageVCView: MainPageVCView {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.estimatedSectionHeaderHeight = 50
+        tableView.estimatedRowHeight = 100
         tableView.sectionHeaderHeight = 50
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor = Colors.newBackground
         tableView.translatesAutoresizingMaskIntoConstraints = true
         tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
         tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
         return tableView
     }()
     
-    override var sidebar: Sidebar {
-        get {
-            return learnerSidebar
-        } set {
-            if newValue is LearnerSideBar {
-                learnerSidebar = newValue as! LearnerSideBar
-            } else {
-                print("incorrect sidebar type for LearnerMainPage")
-            }
-        }
-    }
-    
-    override func configureView() {
-        super.configureView()
-        navbar.backgroundColor = Colors.learnerPurple
-        statusbarView.backgroundColor = Colors.learnerPurple
-    }
-    
-    override func applyConstraints() {
-        super.applyConstraints()
+    func applyConstraints() {
         setupSearchBar()
         setupTableView()
     }
     
     func setupSearchBar() {
-        navbar.addSubview(search)
-        search.snp.makeConstraints { make in
-            make.height.equalTo(30)
-            make.width.equalToSuperview().multipliedBy(0.65)
+        addSubview(searchBar)
+        searchBar.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(53)
+            make.height.equalTo(47)
+            make.width.equalToSuperview().offset(-40)
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
         }
+        searchBar.delegate = self
     }
     
     func setupTableView() {
-        insertSubview(tableView, belowSubview: navbar)
+        addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview().inset(110)
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        sidebar.profileView.backgroundColor = UIColor(hex: "6562C9")
         tableView.layoutSubviews()
         tableView.layoutIfNeeded()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        applyConstraints()
+        backgroundColor = Colors.newBackground
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension LearnerMainPageVCView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard let field = textField as? PaddedTextField else { return }
+        UIView.animate(withDuration: 0.25) {
+            guard field.padding.left == 40 else { return }
+            field.padding.left -= 30
+            field.layoutIfNeeded()
+            field.leftView?.alpha = 0
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.alpha = 1
     }
 }

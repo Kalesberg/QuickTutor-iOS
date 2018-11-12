@@ -71,4 +71,10 @@ class PaddedTextField: UITextField {
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
             return bounds.inset(by: padding)
     }
+    
+    override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+        var textRect = super.leftViewRect(forBounds: bounds)
+        textRect.origin.x += 12.5
+        return textRect
+    }
 }

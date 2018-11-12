@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FBSDKLoginKit
 
 class SignInView: BaseLayoutView, Keyboardable {
 	
@@ -76,6 +77,7 @@ class SignInView: BaseLayoutView, Keyboardable {
 		container.addSubview(phoneTextField)
 		phoneTextField.addSubview(numberLabel)
 		addSubview(nextButton)
+        addSubview(facebookButton)
 		super.configureView()
 		insertSubview(nextButton, aboveSubview: container)
 		
@@ -167,5 +169,12 @@ class SignInView: BaseLayoutView, Keyboardable {
 			make.centerX.equalToSuperview()
 			make.height.equalTo(30)
 		}
+        
+        facebookButton.snp.makeConstraints { (make) in
+            make.top.equalTo(phoneTextField.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(phoneTextField.snp.width)
+            make.height.equalTo(47).priority(1000)
+        }
 	}
 }

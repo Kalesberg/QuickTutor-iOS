@@ -53,6 +53,10 @@ struct Colors {
     static let notSelectedPurple = UIColor(hex: "#4E4C9C")
     static let notSelectedTextColor = UIColor(hex: "#767692")
     
+    //Redesign
+    static let newBackground = UIColor(hex: "1B1B27")
+    static let profileGray = UIColor(hex: "2C2C3A")
+    
     static func currentUserColor() -> UIColor {
         return AccountService.shared.currentUserType == .tutor ? tutorBlue : learnerPurple
     }
@@ -68,6 +72,10 @@ struct Fonts {
     
     static func createBoldSize(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Lato-Bold", size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+    
+    static func createBlackSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "Lato-Black", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
     static func createItalicSize(_ size: CGFloat) -> UIFont {

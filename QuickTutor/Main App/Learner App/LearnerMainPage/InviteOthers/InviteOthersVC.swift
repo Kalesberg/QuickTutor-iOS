@@ -86,6 +86,27 @@ class InviteOthersVC: BaseViewController {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(InviteContactsTableViewCell.self, forCellReuseIdentifier: "contactCell")
+        navigationItem.title = "Share QuickTutor"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Invite", style: .plain, target: self, action: #selector(sendInvite))
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.navigationBar.isHidden = false
+    }
+    
+    @objc func sendInvite() {
+        if selectedContacts.count < 1 {
+            return
+        }
+        if MFMessageComposeViewController.canSendText() {
+            let controller = MFMessageComposeViewController()
+            controller.delegate = self
+            controller.messageComposeDelegate = self
+            controller.body = "Go check out QuickTutor! \n itms-apps://itunes.apple.com/app/id1388092698"
+            controller.recipients = self.selectedContacts
+            self.present(controller, animated: true, completion: nil)
+            
+        } else {
+            AlertController.genericErrorAlert(self, title: "Unable to send text!", message: "Sorry, we can no send SMS messages at this time.")
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -111,7 +132,9 @@ class InviteOthersVC: BaseViewController {
         }
         DispatchQueue.main.async {
             self.datasource = contacts
-            self.contentView.inviteButton.isHidden = (self.datasource.count == 0)
+            if self.datasource.count == 0 {
+                self.navigationItem.rightBarButtonItem = nil
+            }
             self.contentView.tableView.reloadData()
         }
     }
@@ -158,23 +181,6 @@ class InviteOthersVC: BaseViewController {
         }
     }
 
-    private func messageContacts() {
-        if selectedContacts.count < 1 {
-            return
-        }
-        if MFMessageComposeViewController.canSendText() {
-			let controller = MFMessageComposeViewController()
-			controller.delegate = self
-			controller.messageComposeDelegate = self
-			controller.body = "Go check out QuickTutor! \n itms-apps://itunes.apple.com/app/id1388092698"
-			controller.recipients = self.selectedContacts
-			self.present(controller, animated: true, completion: nil)
-			
-        } else {
-            AlertController.genericErrorAlert(self, title: "Unable to send text!", message: "Sorry, we can no send SMS messages at this time.")
-        }
-    }
-
     private func showSettingsAlert(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
         let alert = UIAlertController(title: nil, message: "This app requires access to Contacts to proceed. Would you like to open settings and grant permission to Contacts?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { _ in
@@ -195,9 +201,7 @@ class InviteOthersVC: BaseViewController {
     }
 
     override func handleNavigation() {
-        if touchStartView is NavbarButtonInvite {
-            messageContacts()
-        } else if touchStartView == contentView.connectContacts.button {
+      if touchStartView == contentView.connectContacts.button {
             requestAccess { success in
                 if success {
                     DispatchQueue.main.async {

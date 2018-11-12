@@ -1,5 +1,5 @@
 //
-//  TutorSessionContentCell.swift
+//  TutorSessionsVC.swift
 //  QuickTutor
 //
 //  Created by Zach Fuller on 4/9/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TutorSessionContentCell: BaseSessionsContentCell {
+class TutorSessionsVC: BaseSessionsVC {
     override func setupCollectionView() {
         super.setupCollectionView()
         collectionView.register(TutorPendingSessionCell.self, forCellWithReuseIdentifier: "pendingSessionCell")
