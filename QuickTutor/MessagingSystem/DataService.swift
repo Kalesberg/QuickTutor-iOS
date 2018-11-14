@@ -144,6 +144,24 @@ class DataService {
             completion()
         }
     }
+    
+    func sendInvisibleMessage(text: String, receiverId: String, completion: @escaping (String?) -> Void) {
+        guard let uid = AccountService.shared.currentUser.uid else { return }
+        let timestamp = Date().timeIntervalSince1970
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        var messageDictionary: [String: Any] = ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": receiverId]
+        messageDictionary["receiverAccountType"] = otherUserTypeString
+        let message = UserMessage(dictionary: messageDictionary)
+        Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
+        
+            let messageId = ref.key!
+            ref.updateChildValues(["uid": messageId])
+            self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+            let readReceiptManager = ReadReceiptManager(receiverId: receiverId)
+            readReceiptManager.invalidateReadReceipt()
+            completion(messageId)
+        }
+    }
 
     func sendImageMessage(imageUrl: String, imageWidth: CGFloat, imageHeight: CGFloat, receiverId: String, completion: @escaping () -> Void) {
         guard let uid = AccountService.shared.currentUser.uid else { return }
@@ -236,7 +254,7 @@ class DataService {
         metaData["lastUpdatedAt"] = message.timeStamp
         metaData["lastMessageSenderId"] = uid
         metaData["lastMessageContent"] = message.text ?? ""
-        metaData["lastMessageProfilePicUrl"] = message.user?.profilePicUrl ?? ""
+        metaData["lastMessageProfilePicUrl"] = message.user?.profilePicUrl.absoluteString ?? ""
         metaData["lastMessageUsername"] = message.user?.username ?? ""
         metaData["lastMessageId"] = messageId
         metaData["memberIds"] = [uid, partnerId]

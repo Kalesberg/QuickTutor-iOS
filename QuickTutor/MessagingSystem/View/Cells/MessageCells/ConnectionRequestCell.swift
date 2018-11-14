@@ -164,6 +164,15 @@ class ConnectionRequestCell: UserMessageCell {
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(receiverId).child("connected").setValue(true)
 
         Database.database().reference().child("conversationMetaData").child(receiverId).child(otherUserTypeString).child(uid).child("connected").setValue(true)
+        updateMetaDataForAccepted()
+    }
+    
+    func updateMetaDataForAccepted() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let partnerId = chatPartner?.uid else { return }
+        DataService.shared.sendInvisibleMessage(text: "Connection request accepted", receiverId: partnerId) { (messageId) in
+            
+        }
     }
 
     @objc func denyConnectionRequest() {
