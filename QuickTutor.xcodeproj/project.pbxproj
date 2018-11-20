@@ -352,7 +352,6 @@
 		CF528CE2216489D600D81D03 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CE1216489D600D81D03 /* AnalyticsService.swift */; };
 		CF528CE42166D88000D81D03 /* TutorRatingsReviewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CE32166D88000D81D03 /* TutorRatingsReviewHeaderCell.swift */; };
 		CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5BFB042155B19100FB8DD6 /* InAppNotificationView.swift */; };
-		CF5F9C7F218A4CD000113D2A /* TutorListingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5F9C7E218A4CD000113D2A /* TutorListingCollectionViewCell.swift */; };
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
 		CF6325EB207FF4480037F8AA /* SessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */; };
@@ -2638,7 +2637,6 @@
 				84880A022058603800F204A0 /* TutorHarassmentVC.swift in Sources */,
 				846D9B542069E57A00302773 /* CategoryTableViewCell.swift in Sources */,
 				CF4EA10E20E687E2007010F0 /* CardPaymentCell.swift in Sources */,
-				CF5F9C7F218A4CD000113D2A /* TutorListingCollectionViewCell.swift in Sources */,
 				841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */,
 				CF1E43C520705F8D0033F845 /* StarView.swift in Sources */,
 				CF8E88A220C619A90044344D /* BaseSessionVC.swift in Sources */,
