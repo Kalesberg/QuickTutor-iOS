@@ -73,14 +73,14 @@ class SettingsCommunity : UIView {
 	}
 	@objc private func communityGuideLinesPressed(_ sender: UIButton) {
 		let next = WebViewVC()
-		next.contentView.title.label.text = "Community Guidelines"
+		next.navigationItem.title = "Community Guidelines"
 		next.url = "https://www.quicktutor.com/community/community-guidelines"
 		next.loadAgreementPdf()
 		navigationController.pushViewController(next, animated: true)
 	}
 	@objc private func userSafetyPressed(_ sender: UIButton) {
 		let next = WebViewVC()
-		next.contentView.title.label.text = "User Safety"
+		next.navigationItem.title = "User Safety"
 		next.url = "https://www.quicktutor.com/community/user-safety"
 		next.loadAgreementPdf()
 		navigationController.pushViewController(next, animated: true)

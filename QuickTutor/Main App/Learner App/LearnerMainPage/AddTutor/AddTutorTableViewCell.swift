@@ -73,7 +73,7 @@ class AddTutorTableViewCell: UITableViewCell {
 		cellBackground.backgroundColor = UIColor.black.withAlphaComponent(0.7)
 		selectedBackgroundView = cellBackground
 		
-		backgroundColor = Colors.backgroundDark
+		backgroundColor = Colors.darkBackground
 		addTutorButton.addTarget(self, action: #selector(addTutorButtonPressed(_:)), for: .touchUpInside)
 		
 		applyConstraints()

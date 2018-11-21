@@ -14,13 +14,11 @@ class LearnerMyProfileView: UIView {
 	
 	let scrollView : UIScrollView = {
 		let scrollView = UIScrollView()
-		
 		scrollView.showsVerticalScrollIndicator = false
 		scrollView.alwaysBounceVertical = true
 		scrollView.canCancelContentTouches = true
 		scrollView.isDirectionalLockEnabled = true
 		scrollView.isExclusiveTouch = false
-		
 		return scrollView
 	}()
 	

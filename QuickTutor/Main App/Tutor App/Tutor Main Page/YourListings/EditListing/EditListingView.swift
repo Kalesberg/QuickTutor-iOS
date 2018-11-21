@@ -8,16 +8,7 @@
 
 import Foundation
 
-class EditListingView: MainLayoutTitleBackTwoButton {
-	var saveButton = NavbarButtonSave()
-	
-	override var rightButton: NavbarButton {
-		get {
-			return saveButton
-		} set {
-			saveButton = newValue as! NavbarButtonSave
-		}
-	}
+class EditListingView: UIView {
 	
 	let tableView: UITableView = {
 		let tableView = UITableView()
@@ -35,30 +26,19 @@ class EditListingView: MainLayoutTitleBackTwoButton {
 		return view
 	}()
 	
-	override func configureView() {
-		insertSubview(fakeBackground, belowSubview: navbar)
-		insertSubview(tableView, belowSubview: navbar)
-		super.configureView()
-		navbar.applyDefaultShadow()
-		navbar.layer.masksToBounds = false
-		navbar.clipsToBounds = false
-		bringSubviewToFront(navbar)
-		bringSubviewToFront(statusbarView)
-		navbar.backgroundColor = Colors.learnerPurple
-		statusbarView.backgroundColor = Colors.learnerPurple
-		
-		title.label.text = "Edit"
+    func configureView() {
+        addSubview(fakeBackground)
+        addSubview(tableView)
 	}
 	
-	override func applyConstraints() {
-		super.applyConstraints()
+    func applyConstraints() {
 		fakeBackground.snp.makeConstraints { make in
-			make.top.equalTo(navbar.snp.bottom)
+			make.top.equalToSuperview()
 			make.width.centerX.equalToSuperview()
 			make.height.equalToSuperview().dividedBy(3)
 		}
 		tableView.snp.makeConstraints { make in
-			make.top.equalTo(navbar.snp.bottom)
+			make.top.equalToSuperview()
 			make.width.centerX.equalToSuperview()
 			if #available(iOS 11.0, *) {
 				make.bottom.equalTo(safeAreaInsets.bottom)
@@ -67,4 +47,14 @@ class EditListingView: MainLayoutTitleBackTwoButton {
 			}
 		}
 	}
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

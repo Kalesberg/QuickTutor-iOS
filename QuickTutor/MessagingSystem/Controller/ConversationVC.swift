@@ -116,6 +116,8 @@ class ConversationVC: UICollectionViewController {
 //        view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        titleView.transform = CGAffineTransform(translationX: 0, y: -20)
+        titleView.arrow.transform = CGAffineTransform(translationX: 0, y: 20)
     }
 
     func handleLeftViewTapped() {
@@ -217,7 +219,6 @@ class ConversationVC: UICollectionViewController {
         let bannerY = bannerHeight / 2 - titleView.frame.size.height / 2
         
         titleView.frame = CGRect(x: bannerX, y: bannerY - 20, width: bannerWidth, height: bannerHeight)
-        navigationItem.title = nil
         navigationItem.titleView = titleView
     }
     

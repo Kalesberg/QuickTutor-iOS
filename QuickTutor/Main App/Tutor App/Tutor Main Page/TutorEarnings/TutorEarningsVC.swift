@@ -50,6 +50,7 @@ class TutorEarnings: BaseViewController {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(TutorEarningsTableCellView.self, forCellReuseIdentifier: "tutorEarningsTableCellView")
+        navigationItem.title = "Earnings"
     }
 
     private func getYearlyEarnings() {

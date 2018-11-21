@@ -11,6 +11,8 @@ import FirebaseUI
 
 class SettingsProfileHeader: UIView {
 	
+    var parentViewController: UIViewController?
+    
 	let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
 	required init?(coder aDecoder: NSCoder) {
@@ -29,15 +31,16 @@ class SettingsProfileHeader: UIView {
 		imageView.layer.cornerRadius = 8
 		return imageView
 	}()
+    
 	let nameLabel : UILabel = {
 		let label = UILabel()
-
 		label.textColor = .white
 		label.textAlignment = .left
 		label.adjustsFontSizeToFitWidth = true
 		label.font = Fonts.createBoldSize(18)
 		return label
 	}()
+    
 	let phoneNumberLabel : UILabel = {
 		let label = UILabel()
 		label.textColor = .white
@@ -46,6 +49,7 @@ class SettingsProfileHeader: UIView {
 		label.font = Fonts.createSize(16)
 		return label
 	}()
+    
 	let emailLabel : UILabel = {
 		let label = UILabel()
 		label.textColor = .white
@@ -54,6 +58,7 @@ class SettingsProfileHeader: UIView {
 		label.font = Fonts.createSize(16)
 		return label
 	}()
+    
 	let arrowImage : UIImageView = {
 		let imageView = UIImageView()
 		imageView.image = #imageLiteral(resourceName: "backButton")
@@ -61,6 +66,7 @@ class SettingsProfileHeader: UIView {
 		imageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
 		return imageView
 	}()
+    
 	let buttonMask : UIButton = {
 		let button = UIButton()
 		button.backgroundColor = .clear
@@ -126,11 +132,11 @@ class SettingsProfileHeader: UIView {
 		if AccountService.shared.currentUserType == .learner {
 			let vc = LearnerMyProfileVC()
 			vc.learner = CurrentUser.shared.learner
-			navigationController.pushViewController(vc, animated: true)
+			parentViewController?.navigationController?.pushViewController(vc, animated: true)
 		} else {
 			let vc = TutorMyProfileVC()
 			vc.tutor = CurrentUser.shared.tutor
-			navigationController.pushViewController(vc, animated: true)
+			parentViewController?.navigationController?.pushViewController(vc, animated: true)
 		}
 	}
 	

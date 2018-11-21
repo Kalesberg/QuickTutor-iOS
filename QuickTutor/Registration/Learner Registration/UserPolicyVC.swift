@@ -167,7 +167,9 @@ class UserPolicyVC: BaseViewController {
                 completion(error, nil)
             } else {
                 if response == nil {
-                    Auth.auth().currentUser?.linkAndRetrieveData(with: Registration.emailCredential, completion: { _, error in
+                    //TODO: Should probably remove guard statement, just there so that it builds
+                    guard let credential = Registration.emailCredential else { return }
+                    Auth.auth().currentUser?.linkAndRetrieveData(with: credential, completion: { _, error in
                         if let error = error {
                             completion(error, nil)
                         } else {
@@ -267,7 +269,7 @@ class UserPolicyVC: BaseViewController {
 	
 	@objc func learnMoreButtonPressed(_ sender: UIButton) {
 		let next = WebViewVC()
-		next.contentView.title.label.text = "Non-Discrimination Policy"
+		next.navigationItem.title = "Non-Discrimination Policy"
 		next.url = "https://www.quicktutor.com/community/support"
 		next.loadAgreementPdf()
 		navigationController?.pushViewController(next, animated: true)

@@ -9,18 +9,15 @@ import Foundation
 import SnapKit
 import UIKit
 
-class LearnerHelpView: MainLayoutTitleBackButton {
+class LearnerHelpView: UIView {
     var subtitle = LeftTextLabel()
     var tableView = UITableView()
     var header = UIView()
 
-    override func configureView() {
+    func configureView() {
         addSubview(subtitle)
         addSubview(tableView)
         addSubview(header)
-        super.configureView()
-
-        title.label.text = "Help"
 
         subtitle.label.text = "Choose an option"
         subtitle.label.font = Fonts.createSize(22)
@@ -30,16 +27,14 @@ class LearnerHelpView: MainLayoutTitleBackButton {
         tableView.isScrollEnabled = false
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor(red: 0.1534448862, green: 0.1521476209, blue: 0.1913509965, alpha: 1)
-
+        tableView.backgroundColor = Colors.newBackground
+        backgroundColor = Colors.newBackground
         header.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         subtitle.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.height.equalTo(70)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
@@ -62,6 +57,16 @@ class LearnerHelpView: MainLayoutTitleBackButton {
             make.left.equalTo(tableView.snp.left)
             make.height.equalTo(1)
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -219,6 +224,8 @@ class LearnerHelpVC: BaseViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "helpCell")
+        navigationItem.title = "Help"
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func loadView() {

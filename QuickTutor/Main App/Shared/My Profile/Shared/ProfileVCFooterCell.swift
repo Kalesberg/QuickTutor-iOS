@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol ProfileVCFooterCellDelegate {
+    func profileVCFooterCell(_ cell: ProfileVCFooterCell, didTap button: UIButton)
+}
+
 class ProfileVCFooterCell: UICollectionReusableView {
+    
+    var delegate: ProfileVCFooterCellDelegate?
     
     let inviteButton: UIButton = {
         let button = UIButton()
@@ -26,6 +32,11 @@ class ProfileVCFooterCell: UICollectionReusableView {
     func setupInviteButton() {
         addSubview(inviteButton)
         inviteButton.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        inviteButton.addTarget(self, action: #selector(inviteOthers), for: .touchUpInside)
+    }
+    
+    @objc func inviteOthers() {
+        delegate?.profileVCFooterCell(self, didTap: inviteButton)
     }
     
     override init(frame: CGRect) {

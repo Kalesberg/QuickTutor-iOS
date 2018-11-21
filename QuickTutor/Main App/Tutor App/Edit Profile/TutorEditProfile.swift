@@ -16,56 +16,30 @@ protocol TutorPreferenceChange {
     func inVideoPressed()
 }
 
-class TutorEditProfileView: MainLayoutTitleTwoButton, Keyboardable {
-    var saveButton = NavbarButtonSave()
-    var backButton = NavbarButtonBack()
-
-    override var leftButton: NavbarButton {
-        get {
-            return backButton
-        } set {
-            backButton = newValue as! NavbarButtonBack
-        }
-    }
-
-    override var rightButton: NavbarButton {
-        get {
-            return saveButton
-        } set {
-            saveButton = newValue as! NavbarButtonSave
-        }
-    }
+class TutorEditProfileView: UIView, Keyboardable {
 
     var keyboardComponent = ViewComponent()
 
     let tableView: UITableView = {
         let tableView = UITableView()
-
         tableView.backgroundColor = .clear
         tableView.estimatedRowHeight = 250
         tableView.isScrollEnabled = true
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-
         return tableView
     }()
 
-    override func configureView() {
+    func configureView() {
         addKeyboardView()
         addSubview(tableView)
-        super.configureView()
-
-        title.label.text = "Edit Profile"
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
+        backgroundColor = Colors.darkBackground
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.leading.equalTo(layoutMarginsGuide.snp.leading)
             make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
             if #available(iOS 11.0, *) {
@@ -74,6 +48,16 @@ class TutorEditProfileView: MainLayoutTitleTwoButton, Keyboardable {
                 make.bottom.equalToSuperview()
             }
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -107,6 +91,8 @@ class TutorEditProfile: BaseViewController, TutorPreferenceChange {
 
         hideKeyboardWhenTappedAround()
         configureDelegates()
+        navigationItem.title = "Edit Profile"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveChanges))
     }
 
     override func loadView() {
@@ -146,6 +132,7 @@ class TutorEditProfile: BaseViewController, TutorPreferenceChange {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        delegate?.tutorWasUpdated(tutor: tutor)
     }
 
     func inPersonPressed() {
@@ -177,7 +164,7 @@ class TutorEditProfile: BaseViewController, TutorPreferenceChange {
         contentView.tableView.register(EditProfileVideoCheckboxTableViewCell.self, forCellReuseIdentifier: "editProfileVideoCheckboxTableViewCell")
     }
 
-    private func saveChanges() {
+    @objc private func saveChanges() {
         if firstName.count < 1 || lastName.count < 0 {
             print("invalid name!")
             return
@@ -257,14 +244,6 @@ class TutorEditProfile: BaseViewController, TutorPreferenceChange {
                 CurrentUser.shared.learner.images = CurrentUser.shared.tutor.images
             }
         })
-    }
-
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonSave {
-            saveChanges()
-        } else if touchStartView is NavbarButtonBack {
-            delegate?.tutorWasUpdated(tutor: tutor)
-        }
     }
 }
 

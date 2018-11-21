@@ -13,7 +13,7 @@ class AddTutorView: UIView {
 		tableView.separatorInset.left = 10
 		tableView.separatorStyle = .none
 		tableView.showsVerticalScrollIndicator = false
-		tableView.backgroundColor = Colors.backgroundDark
+		tableView.backgroundColor = Colors.darkBackground
 		return tableView
 	}()
 	
@@ -29,6 +29,7 @@ class AddTutorView: UIView {
 	let loadingIndicator = AWLoadingIndicatorView()
 	
     func configureView() {
+        backgroundColor = Colors.darkBackground
 		addSubview(tableView)
 		addSubview(searchTextField)
 		addSubview(loadingIndicator)

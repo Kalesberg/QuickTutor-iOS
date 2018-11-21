@@ -7,30 +7,26 @@
 
 import UIKit
 
-class EditPhoneView: MainLayoutTitleBackButton, Keyboardable {
+class EditPhoneView: UIView, Keyboardable {
     var keyboardComponent = ViewComponent()
 
     var phoneTextField = EditPhoneTextField()
     var subtitle = LeftTextLabel()
     var enterButton = EnterButton()
 
-    override func configureView() {
+    func configureView() {
         addSubview(phoneTextField)
         phoneTextField.addSubview(subtitle)
         addSubview(enterButton)
         addKeyboardView()
-        super.configureView()
-
-        title.label.text = "Change Number"
 
         subtitle.label.text = "Phone Number"
         subtitle.label.font = Fonts.createBoldSize(18)
         subtitle.label.numberOfLines = 2
+        backgroundColor = Colors.darkBackground
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         subtitle.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
@@ -57,16 +53,22 @@ class EditPhoneView: MainLayoutTitleBackButton, Keyboardable {
         super.layoutSubviews()
 
         if AccountService.shared.currentUserType == .tutor {
-            navbar.backgroundColor = Colors.tutorBlue
-            statusbarView.backgroundColor = Colors.tutorBlue
             enterButton.backgroundColor = Colors.tutorBlue
             phoneTextField.textField.tintColor = Colors.tutorBlue
         } else {
-            navbar.backgroundColor = Colors.learnerPurple
-            statusbarView.backgroundColor = Colors.learnerPurple
             enterButton.backgroundColor = Colors.learnerPurple
             phoneTextField.textField.tintColor = Colors.learnerPurple
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -191,11 +193,15 @@ class EditPhoneVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.phoneTextField.textField.delegate = self
+        navigationItem.title = "Change Number"
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentView.phoneTextField.textField.becomeFirstResponder()
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func didReceiveMemoryWarning() {

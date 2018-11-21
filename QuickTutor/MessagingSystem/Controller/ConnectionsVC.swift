@@ -9,20 +9,10 @@
 import Firebase
 import UIKit
 
-class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
+class ConnectionsVC: UIViewController {
     var connections = [User]()
 
     var isTransitioning = false
-
-    var navBar: ZFNavBar = {
-        let bar = ZFNavBar()
-        bar.leftAccessoryView.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
-        if AccountService.shared.currentUserType == .learner {
-            bar.rightAccessoryView.setImage(#imageLiteral(resourceName: "addTutorByUsernameButton"), for: .normal)
-        }
-        bar.backgroundColor = Colors.navBarGreen
-        return bar
-    }()
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -35,18 +25,19 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
     }()
 
     func setupViews() {
-        setupNavBar()
+        setupMainView()
         setupCollectionView()
     }
-
-    func setupNavBar() {
-        addNavBar()
-        navBar.setupTitleLabelWithText("Connections")
+    
+    func setupMainView() {
+        navigationItem.title = "Connections"
+        guard AccountService.shared.currentUserType == .learner else { return }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addTutorByUsernameButton"), style: .plain, target: self, action: #selector(handleRightViewTapped))
     }
 
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -55,7 +46,6 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         super.viewDidLoad()
         setupViews()
         fetchConnections()
-//        setBackButton()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -88,7 +78,7 @@ class ConnectionsVC: UIViewController, CustomNavBarDisplayer {
         nav.popViewController(animated: true)
     }
     
-    func handleRightViewTapped() {
+    @objc func handleRightViewTapped() {
         if AccountService.shared.currentUserType == .learner {
             navigationController?.pushViewController(AddTutorVC(), animated: true)
         }
@@ -118,8 +108,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
                 let vc = TutorMyProfileVC()
                 vc.tutor = tutor
                 vc.isViewing = true
-                vc.contentView.rightButton.isHidden = true
-                vc.contentView.title.label.text = tutor.username
+                vc.navigationItem.title = tutor.username
                 self.navigationController?.pushViewController(vc, animated: true)
             })
         } else {

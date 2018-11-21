@@ -51,9 +51,6 @@ class TutorFileReport: BaseViewController {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(SessionHistoryCell.self, forCellReuseIdentifier: "sessionHistoryCell")
-
-        contentView.navbar.backgroundColor = Colors.tutorBlue
-        contentView.statusbarView.backgroundColor = Colors.tutorBlue
     }
 
     override func loadView() {

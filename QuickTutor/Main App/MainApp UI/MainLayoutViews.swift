@@ -18,14 +18,14 @@ class MainLayoutView: BaseLayoutView {
         insertSubview(navbar, at: 1)
 
         if AccountService.shared.currentUserType == .learner {
-            statusbarView.backgroundColor = Colors.learnerPurple
-            navbar.backgroundColor = Colors.learnerPurple
+            statusbarView.backgroundColor = Colors.darkBackground
+            navbar.backgroundColor = Colors.darkBackground
         } else if AccountService.shared.currentUserType == .tutor {
-            statusbarView.backgroundColor = Colors.tutorBlue
-            navbar.backgroundColor = Colors.tutorBlue
+            statusbarView.backgroundColor = Colors.darkBackground
+            navbar.backgroundColor = Colors.darkBackground
         } else {
-            statusbarView.backgroundColor = Colors.registrationDark
-            navbar.backgroundColor = Colors.registrationDark
+            statusbarView.backgroundColor = Colors.darkBackground
+            navbar.backgroundColor = Colors.darkBackground
         }
         backgroundColor = Colors.backgroundDark
         navbar.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: CGSize(width: 0, height: 3.0), radius: 1.0)

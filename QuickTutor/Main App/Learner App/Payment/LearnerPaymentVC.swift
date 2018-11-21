@@ -8,7 +8,7 @@
 import Stripe
 import UIKit
 
-class LearnerPaymentView: MainLayoutTitleBackButton, Keyboardable {
+class LearnerPaymentView: UIView, Keyboardable {
     var keyboardComponent = ViewComponent()
 
     var subtitleLabel = LeftTextLabel()
@@ -18,17 +18,13 @@ class LearnerPaymentView: MainLayoutTitleBackButton, Keyboardable {
     fileprivate var nextButton = AddNewCard()
     fileprivate var flipToFront = FlipToFront()
 
-    override func configureView() {
+    func configureView() {
         addSubview(subtitleLabel)
         addSubview(frontOfCard)
         addSubview(backOfCard)
         addSubview(nextButton)
         addSubview(flipToFront)
         addKeyboardView()
-        super.configureView()
-
-        title.label.text = "Payment"
-
         subtitleLabel.label.text = "Enter Your Card Number"
         subtitleLabel.label.font = Fonts.createBoldSize(20)
 
@@ -41,8 +37,7 @@ class LearnerPaymentView: MainLayoutTitleBackButton, Keyboardable {
         applyConstraints()
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
+    func applyConstraints() {
         frontOfCard.snp.makeConstraints { make in
             make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalToSuperview().multipliedBy(DeviceInfo.multiplier * 0.24)
@@ -56,7 +51,7 @@ class LearnerPaymentView: MainLayoutTitleBackButton, Keyboardable {
             make.top.equalTo(subtitleLabel.snp.bottom)
         }
         subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalToSuperview().multipliedBy(0.08)
             make.centerX.equalToSuperview()
@@ -116,6 +111,16 @@ class LearnerPaymentView: MainLayoutTitleBackButton, Keyboardable {
         nextButton.isUserInteractionEnabled = false
         nextButton.alpha = 0.4
         nextButton.title.textColor.withAlphaComponent(0.4)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -404,6 +409,7 @@ class LearnerPaymentVC: BaseViewController {
         contentView.frontOfCard.expirationDate.delegate = self
         contentView.frontOfCard.fullName.delegate = self
         contentView.backOfCard.CVC.delegate = self
+        navigationItem.title = "Payment"
     }
 
     override func viewDidAppear(_ animated: Bool) {

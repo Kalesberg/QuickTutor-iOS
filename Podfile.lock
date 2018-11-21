@@ -161,6 +161,7 @@ PODS:
   - Starscream (3.0.6)
   - Stripe (13.2.0)
   - SwiftKeychainWrapper (3.0.1)
+  - SwiftyJSON (4.2.0)
   - SwipeCellKit (2.5.0)
   - TwilioVideo (2.5.3)
 
@@ -188,6 +189,7 @@ DEPENDENCIES:
   - Socket.IO-Client-Swift (~> 13.1.0)
   - Stripe
   - SwiftKeychainWrapper
+  - SwiftyJSON
   - SwipeCellKit
   - TwilioVideo
 
@@ -233,6 +235,7 @@ SPEC REPOS:
     - Starscream
     - Stripe
     - SwiftKeychainWrapper
+    - SwiftyJSON
     - SwipeCellKit
     - TwilioVideo
 
@@ -287,9 +290,10 @@ SPEC CHECKSUMS:
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   Stripe: 2c69e216061d54d9c538204bb4f58bd597ddfc5b
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
   TwilioVideo: 44bddf9326a1df809ad939d42b2a7ea93c13c699
 
-PODFILE CHECKSUM: 10364fc8e97de5f05ddf53326ae85f3a06d16fb9
+PODFILE CHECKSUM: 43834d468c8fd3560008f914fe5642f603c91608
 
 COCOAPODS: 1.5.3

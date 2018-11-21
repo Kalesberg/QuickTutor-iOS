@@ -137,6 +137,8 @@ class TutorMainPage: UIViewController {
         configureDelegates()
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "Home"
+        navigationController?.navigationBar.barTintColor = Colors.newBackground
+        navigationController?.navigationBar.backgroundColor = Colors.newBackground
     }
 
     override func viewDidAppear(_ animated: Bool) {

@@ -27,12 +27,12 @@ class CardManagerView: UIView {
         tableView.isScrollEnabled = false
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
-        tableView.backgroundColor = Colors.backgroundDark
+        tableView.backgroundColor = Colors.newBackground
         return tableView
     }()
 
     func configureView() {
-        backgroundColor = Colors.backgroundDark
+        backgroundColor = Colors.newBackground
         addSubview(subtitleLabel)
         addSubview(tableView)
         applyConstraints()

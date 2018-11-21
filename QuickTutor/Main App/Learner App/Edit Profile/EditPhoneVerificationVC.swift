@@ -8,7 +8,7 @@
 import FirebaseAuth
 import FirebaseDatabase
 
-class EditPhoneVerificationView: MainLayoutTitleBackButton, Keyboardable {
+class EditPhoneVerificationView: UIView, Keyboardable {
     var keyboardComponent = ViewComponent()
 
     var subtitle = LeftTextLabel()
@@ -26,7 +26,7 @@ class EditPhoneVerificationView: MainLayoutTitleBackButton, Keyboardable {
     var resendVCButton = UIButton()
     var updateButton = UpdateButton()
 
-    override func configureView() {
+    func configureView() {
         addSubview(leftDigits)
 
         leftDigits.addSubview(vcDigit1)
@@ -48,10 +48,7 @@ class EditPhoneVerificationView: MainLayoutTitleBackButton, Keyboardable {
         addSubview(updateButton)
 
         addKeyboardView()
-        super.configureView()
-
-        title.label.text = "Verify Phone Number"
-
+        
         subtitle.label.font = Fonts.createBoldSize(18)
         subtitle.label.numberOfLines = 2
 
@@ -60,8 +57,7 @@ class EditPhoneVerificationView: MainLayoutTitleBackButton, Keyboardable {
         resendVCButton.setTitleColor(UIColor(red: 0.4469467998, green: 0.3617748618, blue: 0.657984674, alpha: 1), for: .normal)
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
+    func applyConstraints() {
 
         subtitle.snp.makeConstraints { make in
             make.centerY.equalToSuperview().multipliedBy(0.55)
@@ -107,6 +103,16 @@ class EditPhoneVerificationView: MainLayoutTitleBackButton, Keyboardable {
             make.height.equalToSuperview().multipliedBy(0.08)
             make.centerX.equalToSuperview()
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -163,6 +169,7 @@ class EditPhoneVerificationVC: BaseViewController {
 
         textFields = [contentView.vcDigit1.textField, contentView.vcDigit2.textField, contentView.vcDigit3.textField, contentView.vcDigit4.textField, contentView.vcDigit5.textField, contentView.vcDigit6.textField]
         configureTextFields()
+        navigationItem.title = "Verify Phone Number"
     }
 
     override func viewDidAppear(_: Bool) {

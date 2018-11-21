@@ -123,7 +123,7 @@ class TheChoiceVC: BaseViewController {
                     self.dismissOverlay()
                     CurrentUser.shared.learner = learner
                     AccountService.shared.currentUserType = .learner
-                    self.navigationController?.pushViewController(LearnerMainPageVC(), animated: true)
+                    RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
                     let endIndex = self.navigationController?.viewControllers.endIndex
                     self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
                 } else {

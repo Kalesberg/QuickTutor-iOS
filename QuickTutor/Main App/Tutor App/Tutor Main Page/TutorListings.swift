@@ -9,89 +9,64 @@
 import Foundation
 import UIKit
 
-class TutorListingsView: MainLayoutTitleOneButton {
-    var backButton = NavbarButtonX()
-
-    override var leftButton: NavbarButton {
-        get {
-            return backButton
-        }
-        set {
-            backButton = newValue as! NavbarButtonX
-        }
-    }
+class TutorListingsView: UIView {
 
     let titleLabel: UILabel = {
         let label = UILabel()
-
         label.textColor = .white
         label.font = Fonts.createBoldSize(22)
         label.text = "Hitting the front page"
-
         return label
     }()
 
     let imageView: UIImageView = {
         let view = UIImageView()
-
         view.image = #imageLiteral(resourceName: "orange-gradient-person")
-
         return view
     }()
 
     let backgroundImageView: UIImageView = {
         let view = UIImageView()
-
         view.image = #imageLiteral(resourceName: "dark-pattern").alpha(0.6)
         view.contentMode = .scaleAspectFill
-
         return view
     }()
 
     let bodyLabel: UILabel = {
         let label = UILabel()
-
         label.font = Fonts.createSize(14)
         label.textColor = .white
         label.numberOfLines = 0
         label.sizeToFit()
         label.text = "The QuickTutor marketplace is currently structured to ensure learners can find the best tutors and that active tutors receive learner leads with a high connection rate.\n\nBeing on the front page of the learner side of the app will highly increase your chances of receiving connection requests and earning money for tutoring.\n\nYour listings enables you to customize how learners view your listing/tutor card on the main page. You can customize your listing photo, price, and subject you tutor so that it differentiates from your actual profile. So, if you'd like to get featured on the main feed -- create a listing and make sure you're tutoring subjects you have experience in."
-
         return label
     }()
 
     let scrollView: UIScrollView = {
         let view = UIScrollView()
-
         view.showsVerticalScrollIndicator = false
         view.alwaysBounceVertical = true
-
         return view
     }()
 
-    override func configureView() {
+    func configureView() {
         addSubview(scrollView)
         addSubview(backgroundImageView)
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(imageView)
         scrollView.addSubview(bodyLabel)
-        super.configureView()
-
-        backButton.image.image = #imageLiteral(resourceName: "backButton")
-        insertSubview(backgroundImageView, belowSubview: statusbarView)
-        title.label.text = "Getting Featured"
+        insertSubview(backgroundImageView, at: 0)
+        backgroundColor = Colors.darkBackground
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         backgroundImageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
         }
 
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
@@ -114,6 +89,16 @@ class TutorListingsView: MainLayoutTitleOneButton {
             make.top.equalTo(imageView.snp.bottom).inset(-25)
         }
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 class TutorListings: BaseViewController {
@@ -129,6 +114,7 @@ class TutorListings: BaseViewController {
         super.viewDidLoad()
         contentView.layoutIfNeeded()
         contentView.scrollView.contentSize = CGSize(width: 280, height: contentView.bodyLabel.frame.maxY)
+        navigationItem.title = "Getting Featured"
     }
 
     override func handleNavigation() {

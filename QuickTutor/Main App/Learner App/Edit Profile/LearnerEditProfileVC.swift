@@ -15,56 +15,30 @@ import UIKit
 let imagePicker = UIImagePickerController()
 var imageToChange: Int = 0
 
-class LearnerEditProfileView: MainLayoutTitleTwoButton, Keyboardable {
-    var saveButton = NavbarButtonSave()
-    var backButton = NavbarButtonBack()
-
-    override var leftButton: NavbarButton {
-        get {
-            return backButton
-        } set {
-            backButton = newValue as! NavbarButtonBack
-        }
-    }
-
-    override var rightButton: NavbarButton {
-        get {
-            return saveButton
-        } set {
-            saveButton = newValue as! NavbarButtonSave
-        }
-    }
+class LearnerEditProfileView: UIView, Keyboardable {
 
     var keyboardComponent = ViewComponent()
 
     let tableView: UITableView = {
         let tableView = UITableView()
-
         tableView.backgroundColor = .clear
         tableView.estimatedRowHeight = 250
         tableView.isScrollEnabled = true
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-
         return tableView
     }()
 
-    override func configureView() {
+    func configureView() {
         addKeyboardView()
         addSubview(tableView)
-        super.configureView()
-
-        title.label.text = "Edit Profile"
-        navbar.backgroundColor = Colors.learnerPurple
-        statusbarView.backgroundColor = Colors.learnerPurple
+        backgroundColor = Colors.darkBackground
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.leading.equalTo(layoutMarginsGuide.snp.leading)
             make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
             if #available(iOS 11.0, *) {
@@ -73,6 +47,16 @@ class LearnerEditProfileView: MainLayoutTitleTwoButton, Keyboardable {
                 make.bottom.equalToSuperview()
             }
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -163,6 +147,8 @@ class LearnerEditProfileVC: BaseViewController {
         hideKeyboardWhenTappedAround()
         configureDelegates()
         definesPresentationContext = true
+        navigationItem.title = "Edit Profile"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveChanges))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -174,6 +160,11 @@ class LearnerEditProfileVC: BaseViewController {
         let name = learner.name.split(separator: " ")
         firstName = String(name[0])
         lastName = String(name[1])
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
     }
 
     override func didReceiveMemoryWarning() {
@@ -203,14 +194,6 @@ class LearnerEditProfileVC: BaseViewController {
         contentView.tableView.register(EditProfileDotItemTableViewCell.self, forCellReuseIdentifier: "editProfileDotItemTableViewCell")
         contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
         contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
-    }
-
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonSave {
-            saveChanges()
-        } else if touchStartView is NavbarButtonBack {
-            delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
-        }
     }
 
     @objc private func firstNameValueChanged(_ textField: UITextField) {
@@ -244,7 +227,7 @@ class LearnerEditProfileVC: BaseViewController {
         }
     }
 
-    private func saveChanges() {
+    @objc private func saveChanges() {
         if firstName.count < 1 || lastName.count < 1 {
             AlertController.genericErrorAlert(self, title: "Invalid Name", message: "Your first and last name must contain at least 1 character.")
             return

@@ -12,7 +12,6 @@ import UIKit
 class AccountPaymentsView: LearnerHelpView {
     override func configureView() {
         super.configureView()
-        title.label.text = "Help"
     }
 
     override func applyConstraints() {
@@ -32,6 +31,7 @@ class AccountPaymentsVC: BaseViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "accountPaymentsCell")
+        navigationItem.title = "Help"
     }
 
     override func loadView() {

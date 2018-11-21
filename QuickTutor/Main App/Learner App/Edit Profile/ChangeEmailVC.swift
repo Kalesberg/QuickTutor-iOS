@@ -9,7 +9,7 @@ import FirebaseAuth
 import SwiftKeychainWrapper
 import UIKit
 
-class ChangeEmailView: MainLayoutTitleBackButton, Keyboardable {
+class ChangeEmailView: UIView, Keyboardable {
     var keyboardComponent = ViewComponent()
 
     var textField = NoPasteTextField()
@@ -17,15 +17,13 @@ class ChangeEmailView: MainLayoutTitleBackButton, Keyboardable {
     fileprivate var subtitle = LeftTextLabel()
     fileprivate var updateEmailButton = UpdateEmailButton()
 
-    override func configureView() {
+    func configureView() {
         addSubview(textField)
         addSubview(subtitle)
         addSubview(updateEmailButton)
         addKeyboardView()
         textField.addSubview(line)
-        super.configureView()
 
-        title.label.text = "Change Email"
 
         subtitle.label.text = "Enter new Email address"
         subtitle.label.font = Fonts.createBoldSize(18)
@@ -39,9 +37,7 @@ class ChangeEmailView: MainLayoutTitleBackButton, Keyboardable {
         line.backgroundColor = Colors.registrationDark
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         subtitle.snp.makeConstraints { make in
             make.width.equalToSuperview().multipliedBy(0.85)
             make.centerX.equalToSuperview()
@@ -73,16 +69,22 @@ class ChangeEmailView: MainLayoutTitleBackButton, Keyboardable {
         super.layoutSubviews()
 
         if AccountService.shared.currentUserType == .tutor {
-            navbar.backgroundColor = Colors.tutorBlue
-            statusbarView.backgroundColor = Colors.tutorBlue
             updateEmailButton.backgroundColor = Colors.tutorBlue
             textField.tintColor = Colors.tutorBlue
         } else {
-            navbar.backgroundColor = Colors.learnerPurple
-            statusbarView.backgroundColor = Colors.learnerPurple
             updateEmailButton.backgroundColor = Colors.learnerPurple
             textField.tintColor = Colors.learnerPurple
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -167,6 +169,7 @@ class ChangeEmailVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.textField.delegate = self
+        navigationItem.title = "Change Email"
     }
 
     override func viewDidAppear(_ animated: Bool) {

@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import StoreKit
 
 class ProfileVC: UIViewController {
     
@@ -44,7 +45,9 @@ class ProfileVC: UIViewController {
     
     func setupMainView() {
         navigationController?.navigationBar.isHidden = true
-        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(named: "backButton"), style: .plain, target: nil, action: nil)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.navigationBar.barTintColor = Colors.darkBackground
+        navigationController?.navigationBar.backgroundColor = Colors.darkBackground
         view.backgroundColor = Colors.newBackground
     }
     
@@ -85,6 +88,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionFooter {
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footerCell", for: indexPath) as! ProfileVCFooterCell
+            footer.delegate = self
             return footer
         } else {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! ProfileVCHeaderCell
@@ -114,6 +118,8 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
             showHelp()
         case 4:
             showShop()
+        case 5:
+            showRatingView()
         default:
             navigationController?.pushViewController(InviteOthersVC(), animated: true)
         }
@@ -121,6 +127,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     
     func showPayment() {
         let vc = AccountService.shared.currentUserType == .learner ? CardManagerVC() : BankManager()
+        navigationItem.hidesBackButton = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -130,7 +137,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     
     func showLegal() {
         let next = WebViewVC()
-        next.contentView.title.label.text = "Terms of Service"
+        next.navigationItem.title = "Terms of Service"
         next.url = "https://www.quicktutor.com/legal/terms-of-service"
         next.loadAgreementPdf()
         navigationController?.pushViewController(next, animated: true)
@@ -143,10 +150,16 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     
     func showShop() {
         let next = WebViewVC()
-        next.contentView.title.label.text = "Shop"
+        next.navigationItem.title = "Shop"
         next.url = "https://www.quicktutor.com/shop"
         next.loadAgreementPdf()
         navigationController?.pushViewController(next, animated: true)
+    }
+    
+    func showRatingView() {
+        if #available( iOS 10.3,*){
+            SKStoreReviewController.requestReview()
+        }
     }
     
     func inviteOthers() {
@@ -157,7 +170,52 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
 
 extension ProfileVC: ProfileModeToggleViewDelegate {
     func profleModeToggleView(_ profileModeToggleView: ProfileModeToggleView, shouldSwitchTo side: UserType) {
-        let vc = side == .learner ? LearnerMainPageVC() : TutorMainPage()
-        RootControllerManager.shared.configureRootViewController(controller: vc)
+        side == .learner ? switchToLearner() : switchToTutor()
+    }
+    
+    func switchToLearner() {
+        RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
+    }
+    
+    func switchToTutor() {
+        if CurrentUser.shared.learner.isTutor {
+            displayLoadingOverlay()
+            prepareForSwitchToTutor { success in
+                if success {
+                    AccountService.shared.currentUserType = .tutor
+                    self.dismissOverlay()
+                    RootControllerManager.shared.configureRootViewController(controller: TutorMainPage())
+                }
+            }
+        } else {
+            AccountService.shared.currentUserType = .tRegistration
+            navigationController?.pushViewController(BecomeTutorVC(), animated: true)
+        }
+    }
+    
+    private func prepareForSwitchToTutor(_ completion: @escaping (Bool) -> Void) {
+        FirebaseData.manager.fetchTutor(CurrentUser.shared.learner.uid!, isQuery: false) { tutor in
+            guard let tutor = tutor else {
+                AlertController.genericErrorAlert(self, title: "Oops!", message: "Unable to find your tutor account! Please try again.")
+                return completion(false)
+            }
+            CurrentUser.shared.tutor = tutor
+            Stripe.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    return completion(false)
+                } else if let account = account {
+                    CurrentUser.shared.connectAccount = account
+                    return completion(true)
+                }
+            })
+        }
+    }
+
+}
+
+extension ProfileVC: ProfileVCFooterCellDelegate {
+    func profileVCFooterCell(_ cell: ProfileVCFooterCell, didTap button: UIButton) {
+        inviteOthers()
     }
 }

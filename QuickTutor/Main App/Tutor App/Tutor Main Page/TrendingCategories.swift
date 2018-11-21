@@ -9,33 +9,26 @@
 import Foundation
 import UIKit
 
-class TrendingCategoriesView: MainLayoutTitleBackButton {
+class TrendingCategoriesView: UIView {
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-
         let customLayout = CategorySearchCollectionViewLayout(cellsPerRow: 2, minimumInteritemSpacing: 5, minimumLineSpacing: 50, sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
-
         customLayout.headerReferenceSize = CGSize(width: collectionView.bounds.width, height: 70)
         collectionView.collectionViewLayout = customLayout
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-
         return collectionView
     }()
 
-    override func configureView() {
+    func configureView() {
         addSubview(collectionView)
-        super.configureView()
-
-        title.label.text = "Trending"
+        backgroundColor = Colors.darkBackground
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             if #available(iOS 11.0, *) {
@@ -44,6 +37,16 @@ class TrendingCategoriesView: MainLayoutTitleBackButton {
                 make.bottom.equalToSuperview()
             }
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -62,6 +65,7 @@ class TrendingCategories: BaseViewController {
         contentView.collectionView.dataSource = self
         contentView.collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "trendingCell")
         contentView.collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
+        navigationItem.title = "Trending"
     }
 }
 

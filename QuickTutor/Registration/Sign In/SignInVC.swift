@@ -7,10 +7,13 @@
 //
 
 import UIKit
-import FirebaseAuth
+import Firebase
 import SnapKit
 import FacebookLogin
 import FacebookCore
+import Alamofire
+import SwiftyJSON
+
 
 class PhoneTextFieldView: InteractableView, Interactable {
 	
@@ -25,10 +28,8 @@ class PhoneTextFieldView: InteractableView, Interactable {
 	
 	var flag: UIImageView = {
 		let imageView = UIImageView()
-		
 		imageView.image = UIImage(named: "flag")
 		imageView.scaleImage()
-		
 		return imageView
 	}()
 	var plusOneLabel: UILabel = {
@@ -218,7 +219,7 @@ class SignInVC: BaseViewController {
 	@objc func handleFacebookSignIn() {
 		let loginManager = LoginManager()
 		
-		loginManager.logIn(readPermissions: [.publicProfile, .email, .userBirthday], viewController: self) { (result) in
+		loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
 			switch result {
 			case .failed(let error):
 				print(error)
@@ -232,27 +233,70 @@ class SignInVC: BaseViewController {
 	}
 	
 	func completeFacebookSignIn() {
-		
 		let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
-		Auth.auth().signIn(with: credential, completion: { user, error in
+		Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
 			guard error == nil else {
-				let ac = UIAlertController(title: "Account already exists.", message: "Please use the sign in method used to create the account.", preferredStyle: .alert)
-				ac.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-				self.present(ac, animated: true, completion: nil)
+				self.showSignInError()
 				return
 			}
-			print("ZACH: Signed in with Facebook")
-			self.getFacebookEmail(completion: { (userData) in
-				guard let data = userData else { return }
-				guard let email = data["email"], let username = data["name"], let birthday = data["birthday"] else { return }
-				print("ZACH: Facebook user data:", data)
-			})
-			
-		})
+			guard let uid = authResult?.user.uid else { return }
+			Database.database().reference().child("student-info").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+				if snapshot.exists() {
+					FirebaseData.manager.signInLearner(uid: uid) { (successful) in
+						if successful {
+							Registration.setLearnerDefaults()
+							RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
+						} else {
+							self.navigationController?.pushViewController(SignInVC(), animated: true)
+						}
+					}
+				} else {
+					Registration.uid = uid
+					self.getFacebookEmail(completion: { (userData) in
+						self.setupForRegistration(userData: userData)
+					})
+				}
+			}
+
+		}
+
 	}
 	
+	func showSignInError() {
+		let ac = UIAlertController(title: "Account already exists.", message: "Please sign in and link to Facebook in settings.", preferredStyle: .alert)
+		ac.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+		self.present(ac, animated: true, completion: nil)
+	}
+	
+	func setupForRegistration(userData: [String: Any]?) {
+		guard let data = userData else { return }
+		guard let email = data["email"] as? String, let name = data["name"] as? String else { return }
+		Registration.email = email
+		AccountService.shared.currentUserType = .lRegistration
+		Registration.name = name
+		if let imageDictionary = data["picture"] as? [String: Any], let imageDataDictionary = imageDictionary["data"] as? [String: Any], let imageUrlPath = imageDataDictionary["url"] as? String {
+			let imageUrl = URL(string: imageUrlPath)!
+			loadImageData(url: imageUrl) { (data) in
+				Registration.imageData = data
+				let next = BirthdayVC()
+				next.isFacebookManaged = true
+				self.navigationController?.pushViewController(next, animated: true)
+			}
+		}
+	}
+	
+	func loadImageData(url: URL, completion: @escaping(Data) -> Void) {
+		DispatchQueue.global().async {
+			if let data = try? Data(contentsOf: url) {
+				DispatchQueue.main.async {
+					completion(data)
+				}
+			}
+		}
+	}
+
 	func getFacebookEmail(completion: @escaping ([String: Any]?) -> ()) {
-		let params = ["fields": "email, name"]
+		let params = ["fields": "picture, name, email", "redirect": "false"]
 		let graphRequest = GraphRequest(graphPath: "me", parameters: params)
 		graphRequest.start {
 			_, requestResult in
@@ -263,27 +307,12 @@ class SignInVC: BaseViewController {
 				completion(nil)
 			case .success(let graphResponse):
 				if let responseDictionary = graphResponse.dictionaryValue {
+					print("Facebook response dictionary", responseDictionary)
 					completion(responseDictionary)
 				}
 			}
 		}
-		var graphRequest2 = GraphRequest(graphPath: "me/picture")
-		graphRequest2.parameters = ["redirect": true, "fields": nil] as [String : Any]
-		graphRequest2.start { (response, graphResult) in
-			switch graphResult {
-			case .failed(let error):
-				print("error in graph request:", error)
-			case .success(let graphResponse2):
-				if let responseDictionary = graphResponse2.dictionaryValue {
-					print("Profile pic data", responseDictionary["data"])
-				}
-			}
-			
-		}
-		var request = GraphRequest(graphPath: "/100029835982924/picture", parameters: ["redirect": "false"], httpMethod: .GET)
-		request.start { (response, result) in
-			print(result)
-		}
+
 	}
 	
 	private func signIn() {

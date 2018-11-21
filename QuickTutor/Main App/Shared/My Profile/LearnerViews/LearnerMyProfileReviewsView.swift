@@ -167,8 +167,6 @@ class LearnerMyProfileReviewsView : UIView {
 			if let tutor = tutor {
 				vc.tutor = tutor
 				vc.isViewing = true
-				vc.contentView.title.label.text = tutor.username
-				vc.contentView.rightButton.isHidden = true
 				self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
 			}
 		}

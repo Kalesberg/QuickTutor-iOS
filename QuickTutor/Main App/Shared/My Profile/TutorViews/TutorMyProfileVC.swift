@@ -32,12 +32,14 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		super.viewDidLoad()
 		guard let reviews = tutor.reviews else { return }
 		dataSource = reviews
-		
-	}
+        navigationItem.title = tutor.username
+        if !isViewing {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editProfile))
+        }
+    }
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		contentView.title.label.text = tutor.username
 		contentView.isViewing = isViewing
 		setupMyProfileHeader()
 		setupMyProfileBioView()
@@ -161,14 +163,12 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		}
 		return views
 	}
-
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonEdit {
-            let next = TutorEditProfile()
-            next.tutor = tutor
-            next.delegate = self
-            navigationController?.pushViewController(next, animated: true)
-        }
+    
+    @objc func editProfile() {
+        let next = TutorEditProfile()
+        next.tutor = tutor
+        next.delegate = self
+        navigationController?.pushViewController(next, animated: true)
     }
 }
 

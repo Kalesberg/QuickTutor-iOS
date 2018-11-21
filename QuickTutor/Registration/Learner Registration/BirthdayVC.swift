@@ -135,6 +135,8 @@ class BirthdayVC: BaseViewController {
 	let date = Date()
 	let dateformatter = DateFormatter()
 	let calendar = Calendar.current
+    
+    var isFacebookManaged = false
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -169,11 +171,20 @@ class BirthdayVC: BaseViewController {
             navigationController!.popViewController(animated: false)
         } else if touchStartView == contentView.nextButton {
 			if checkAgeAndBirthdate() {
-				let next = UploadImageVC()
-				navigationController!.pushViewController(next, animated: true)
+                proceedToNextScreen()
 			} else {
 				contentView.errorLabel.isHidden = false
 			}
+        }
+    }
+    
+    func proceedToNextScreen() {
+        if isFacebookManaged {
+            let next = UserPolicyVC()
+            navigationController?.pushViewController(next, animated: true)
+        } else {
+            let next = UploadImageVC()
+            navigationController!.pushViewController(next, animated: true)
         }
     }
     

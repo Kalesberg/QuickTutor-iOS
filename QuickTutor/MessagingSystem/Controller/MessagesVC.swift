@@ -44,7 +44,7 @@ class MessagesVC: UIViewController {
         edgesForExtendedLayout = []
         navigationItem.title = "Messages"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
-        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(named: "backButton"), style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.barTintColor = Colors.newBackground
     }
     
     @objc func showContacts() {
@@ -218,7 +218,6 @@ extension MessagesVC {
         let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
         vc.receiverId = messages[indexPath.item].partnerId()
         let tappedCell = collectionView.cellForItem(at: indexPath) as! ConversationCell
-        vc.navigationItem.title = tappedCell.usernameLabel.text
         vc.chatPartner = tappedCell.chatPartner
         if let data = metaDataDictionary[tappedCell.chatPartner.uid] {
             vc.metaData = data

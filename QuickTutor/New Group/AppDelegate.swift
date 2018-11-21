@@ -189,8 +189,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
             let vc = TutorMyProfileVC()
             vc.tutor = tutor
             vc.isViewing = true
-            vc.contentView.rightButton.isHidden = true
-            vc.contentView.title.label.text = tutor.username
             navigationController.pushViewController(vc, animated: true)
         })
 

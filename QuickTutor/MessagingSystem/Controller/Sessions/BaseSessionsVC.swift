@@ -63,6 +63,7 @@ class BaseSessionsVC: UIViewController {
     private func setupMainView() {
         view.backgroundColor = Colors.darkBackground
         navigationItem.title = "Sessions"
+        navigationController?.navigationBar.barTintColor = Colors.newBackground
     }
     
     func setupCollectionView() {

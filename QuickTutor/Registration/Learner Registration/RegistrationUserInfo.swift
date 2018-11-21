@@ -22,11 +22,11 @@ struct Registration {
     static var name: String!
     static var age: Int!
     static var email: String!
-    static var phone: String!
+    static var phone: String?
     static var studentImage: UIImage!
     static var studentImageURL: String!
     static var dob: String! 
-    static var emailCredential: AuthCredential!
+    static var emailCredential: AuthCredential?
     static var imageData: Data!
     static var customerId: String!
 

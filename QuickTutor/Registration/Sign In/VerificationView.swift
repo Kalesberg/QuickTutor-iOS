@@ -53,11 +53,12 @@ class VerificationView: RegistrationNavBarKeyboardView {
 		progressBar.applyConstraints()
 		progressBar.divider.isHidden = true
 		
-		titleLabel.label.text = "Enter the 6-digit code we've sent to: \(Registration.phone.formatPhoneNumber())"
-		
-		titleLabel.label.adjustsFontSizeToFitWidth = true
-		titleLabel.label.adjustsFontForContentSizeCategory = true
-		titleLabel.label.numberOfLines = 2
+        if let phone = Registration.phone {
+            titleLabel.label.text = "Enter the 6-digit code we've sent to: \(phone.formatPhoneNumber())"
+            titleLabel.label.adjustsFontSizeToFitWidth = true
+            titleLabel.label.adjustsFontForContentSizeCategory = true
+            titleLabel.label.numberOfLines = 2
+        }
 		
 		applyConstraints()
 	}

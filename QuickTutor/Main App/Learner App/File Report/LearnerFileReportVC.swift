@@ -36,34 +36,24 @@ enum FileReportLearner: String {
     case TutorDidNotHelp = "My Tutor Did Not Help"
 }
 
-class LearnerFileReportView: MainLayoutTitleBackButton {
+class LearnerFileReportView: UIView {
     let tableView: UITableView = {
         let tableView = UITableView()
-
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
         tableView.backgroundColor = Colors.backgroundDark
         tableView.showsVerticalScrollIndicator = false
-
         return tableView
     }()
 
-    override func configureView() {
+    func configureView() {
         addSubview(tableView)
-        super.configureView()
-
-        title.label.text = "Past Sessions"
-
-        navbar.backgroundColor = Colors.learnerPurple
-        statusbarView.backgroundColor = Colors.learnerPurple
-
         applyConstraints()
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
+    func applyConstraints() {
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             if #available(iOS 11.0, *) {
@@ -72,6 +62,15 @@ class LearnerFileReportView: MainLayoutTitleBackButton {
                 make.bottom.equalToSuperview()
             }
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -547,9 +546,7 @@ class LearnerFileReportVC: BaseViewController {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(SessionHistoryCell.self, forCellReuseIdentifier: "sessionHistoryCell")
-
-        contentView.navbar.backgroundColor = Colors.learnerPurple
-        contentView.statusbarView.backgroundColor = Colors.learnerPurple
+        navigationItem.title = "Past Sessions"
     }
 
     override func loadView() {
@@ -651,8 +648,6 @@ extension LearnerFileReportVC: UITableViewDelegate, UITableViewDataSource {
                 let vc = TutorMyProfileVC()
                 vc.tutor = tutor
                 vc.isViewing = true
-                vc.contentView.rightButton.isHidden = true
-                vc.contentView.title.label.text = tutor.username
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             tableView.allowsSelection = true

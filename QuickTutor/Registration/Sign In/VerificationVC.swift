@@ -186,7 +186,8 @@ class VerificationVC : BaseViewController {
     }
 
     private func resendVCAction() {
-        PhoneAuthProvider.provider().verifyPhoneNumber(Registration.phone, uiDelegate: nil) { (verificationId, error) in
+        guard let phone = Registration.phone else { return }
+        PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { (verificationId, error) in
             if let error = error {
 				AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
 				self.contentView.resendVCButton.isUserInteractionEnabled = true

@@ -18,26 +18,8 @@ protocol UpdateListingCallBack {
 	func updateListingCallBack(price: Int, subject: String, image: UIImage, category: Category)
 }
 
-class YourListingView: MainLayoutTitleTwoButton {
-    var editButton = NavbarButtonEdit()
-    var backButton = NavbarButtonBack()
-
-    override var rightButton: NavbarButton {
-        get {
-            return editButton
-        } set {
-            editButton = newValue as! NavbarButtonEdit
-        }
-    }
-
-    override var leftButton: NavbarButton {
-        get {
-            return backButton
-        } set {
-            backButton = newValue as! NavbarButtonBack
-        }
-    }
-
+class YourListingView: UIView {
+    
     let fakeBackground: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "484782")
@@ -53,24 +35,19 @@ class YourListingView: MainLayoutTitleTwoButton {
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
-
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
-
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = UIColor(hex: "484782")
         collectionView.isPagingEnabled = true
-
         return collectionView
     }()
 
     let imageView: UIImageView = {
         let view = UIImageView()
-
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
-
         return view
     }()
 
@@ -78,24 +55,19 @@ class YourListingView: MainLayoutTitleTwoButton {
 
     let categoryLabel: UILabel = {
         let label = UILabel()
-
         label.font = Fonts.createBoldSize(20)
         label.textColor = .white
-
         return label
     }()
 
     let infoLabel: UILabel = {
         let label = UILabel()
-
         let formattedString = NSMutableAttributedString()
         formattedString
             .bold("\nWhat is this?", 18, .white)
             .regular("\n\nThis is where you can view and edit how your listing is seen by learners on the home page. Your listing is different from your actual profile.\n\nYou can customize the photo, price, and subject that you want learners to see on the home page of the learner app.\n\nTap \"Edit\" in the top-right of the screen.\n\n", 15, .white)
-
         label.attributedText = formattedString
         label.numberOfLines = 0
-
         return label
     }()
 
@@ -103,23 +75,19 @@ class YourListingView: MainLayoutTitleTwoButton {
 
     let hideButton: UIButton = {
         let button = UIButton()
-
         button.setTitle("Hide Listing", for: .normal)
         button.backgroundColor = Colors.tutorBlue
         button.layer.cornerRadius = 7
         button.titleLabel?.font = Fonts.createBoldSize(18)
-
         return button
     }()
 
     let descriptionLabel: UILabel = {
         let label = UILabel()
-
         label.textColor = .white
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         label.font = Fonts.createLightSize(13)
-
         return label
     }()
 
@@ -129,9 +97,9 @@ class YourListingView: MainLayoutTitleTwoButton {
         return view
     }()
 
-    override func configureView() {
-        insertSubview(fakeBackground, belowSubview: navbar)
-        insertSubview(scrollView, belowSubview: navbar)
+    func configureView() {
+        addSubview(fakeBackground)
+        addSubview(scrollView)
         scrollView.addSubview(collectionView)
         scrollView.addSubview(hideButtonContainer)
         scrollView.addSubview(imageViewBackground)
@@ -141,37 +109,21 @@ class YourListingView: MainLayoutTitleTwoButton {
         imageView.addSubview(categoryLabel)
         hideButtonContainer.addSubview(hideButton)
         hideButtonContainer.addSubview(descriptionLabel)
-        super.configureView()
-        navbar.applyDefaultShadow()
-        navbar.clipsToBounds = false
-        navbar.layer.masksToBounds = false
-        bringSubviewToFront(navbar)
-        bringSubviewToFront(statusbarView)
-        navbar.layer.borderWidth = 0
-
-
-        navbar.backgroundColor = Colors.learnerPurple
-        statusbarView.backgroundColor = Colors.learnerPurple
-        
-
-        title.label.text = "Listings"
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         imageViewBackground.applyGradient(firstColor: UIColor(hex: "6562C9").cgColor, secondColor: UIColor(hex: "6562C9").cgColor, angle: 90, frame: imageViewBackground.bounds)
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
+    func applyConstraints() {
         fakeBackground.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom).inset(1)
+            make.top.equalToSuperview()
             make.centerX.width.equalToSuperview()
             make.height.equalToSuperview().dividedBy(2)
         }
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom).inset(1)
+            make.top.equalToSuperview()
             make.width.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -225,6 +177,16 @@ class YourListingView: MainLayoutTitleTwoButton {
             make.bottom.equalToSuperview()
         }
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 class YourListingVC: BaseViewController {
@@ -267,18 +229,27 @@ class YourListingVC: BaseViewController {
         self.tutor = tutor
         configureDelegates()
         contentView.hideButton.addTarget(self, action: #selector(handleHideButton), for: .touchUpInside)
+        navigationItem.title = "Listings"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editListing))
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchTutorListings()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let featuredCategory = featuredCategory else { return }
+        let value = (hideListing == true) ? 1 : 0
+        FirebaseData.manager.hideListing(uid: CurrentUser.shared.learner.uid, category: featuredCategory, isHidden: value)
+    }
 
     private func setupViewForNoListing() {
         let view = NoListingBackgroundView()
         view.delegate = self
         contentView.collectionView.backgroundView = view
-        contentView.editButton.isHidden = true
+//        contentView.editButton.isHidden = true
         contentView.hideButton.isHidden = true
         contentView.descriptionLabel.isHidden = true
     }
@@ -286,7 +257,7 @@ class YourListingVC: BaseViewController {
     private func setupViewForListing() {
         hideListing = (listings[0].isHidden == 1)
         contentView.collectionView.backgroundView = nil
-        contentView.editButton.isHidden = false
+//        contentView.editButton.isHidden = false
         contentView.hideButton.isHidden = false
         contentView.descriptionLabel.isHidden = false
     }
@@ -321,26 +292,18 @@ class YourListingVC: BaseViewController {
     @objc private func handleHideButton() {
         hideListing = !hideListing
     }
-
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonEdit {
-            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! TutorCollectionViewCell
-
-            let vc = EditListingVC()
-            vc.price = listings[0].price
-            vc.image = cell.profileImageView.image
-            vc.subject = listings[0].subject
-			vc.subjects = tutor.subjects ?? []
-			vc.categoryOfCurrentListing = self.featuredCategory
-            vc.delegate = self
-			vc.isEditingExistingListing = true
-            navigationController?.pushViewController(vc, animated: true)
-
-        } else if touchStartView is NavbarButtonBack {
-			guard let featuredCategory = featuredCategory else { return }
-            let value = (hideListing == true) ? 1 : 0
-            FirebaseData.manager.hideListing(uid: CurrentUser.shared.learner.uid, category: featuredCategory, isHidden: value)
-        }
+    
+    @objc func editListing() {
+        let cell = contentView.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! TutorCollectionViewCell
+        let vc = EditListingVC()
+        vc.price = listings[0].price
+        vc.image = cell.profileImageView.image
+        vc.subject = listings[0].subject
+        vc.subjects = tutor.subjects ?? []
+        vc.categoryOfCurrentListing = self.featuredCategory
+        vc.delegate = self
+        vc.isEditingExistingListing = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

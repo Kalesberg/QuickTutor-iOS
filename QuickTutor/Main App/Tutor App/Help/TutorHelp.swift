@@ -18,6 +18,7 @@ class TutorHelp: BaseViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "helpCell")
+        navigationItem.title = "Help"
     }
 
     override func loadView() {

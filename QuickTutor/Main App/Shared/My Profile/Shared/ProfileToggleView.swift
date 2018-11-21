@@ -50,6 +50,8 @@ class ProfileModeToggleView: UIView {
     func setupTitleLabel() {
         addSubview(titleLabel)
         titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        let modeText = AccountService.shared.currentUserType.rawValue
+        titleLabel.text = modeText.capitalized + " mode"
     }
     
     func setupSwitchButton() {

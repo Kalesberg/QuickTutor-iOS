@@ -39,6 +39,9 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
     override func viewDidLoad() {
         super.viewDidLoad()
 		datasource = learner.lReviews
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.title = "My Profile"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editProfile))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -126,15 +129,13 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
 			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: learner.school!, color : Colors.learnerPurple))
 		}
 		return views
-	}
-
-	override func handleNavigation() {
-		if touchStartView is NavbarButtonEdit {
-			let next = LearnerEditProfileVC()
-			next.delegate = self
-			navigationController?.pushViewController(next, animated: true)
-		}
-	}
+    }
+    
+    @objc func editProfile() {
+        let next = LearnerEditProfileVC()
+        next.delegate = self
+        navigationController?.pushViewController(next, animated: true)
+    }
 }
 
 extension LearnerMyProfileVC: ProfileImageViewerDelegate {

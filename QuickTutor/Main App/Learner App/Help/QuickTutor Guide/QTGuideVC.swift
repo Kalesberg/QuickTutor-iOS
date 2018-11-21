@@ -10,15 +10,7 @@ import Foundation
 import UIKit
 
 class QTGuideView: LearnerHelpView {
-    override func configureView() {
-        super.configureView()
 
-        title.label.text = "QuickTutor Guide"
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-    }
 }
 
 class QTGuideVC: BaseViewController {
@@ -33,6 +25,7 @@ class QTGuideVC: BaseViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "qtGuideCell")
+        navigationItem.title = "QuickTutor Guide"
     }
 
     override func loadView() {

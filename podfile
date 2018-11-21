@@ -18,6 +18,7 @@ target 'QuickTutor' do
   pod 'GoogleAnalytics'
   pod 'FirebaseUI/Storage'
   pod 'SDWebImage'
+  pod 'SwiftyJSON'
   
   # Pods for backend
   pod 'Alamofire', '~>4.5'

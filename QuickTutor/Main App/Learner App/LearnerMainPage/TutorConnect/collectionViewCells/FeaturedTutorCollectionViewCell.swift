@@ -28,6 +28,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         view.layer.borderColor = Colors.profileGray.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 4
+        view.backgroundColor = Colors.darkBackground
         return view
     }()
     

@@ -10,31 +10,17 @@ import Foundation
 import SnapKit
 import UIKit
 
-class TutorMyProfileView: MainLayoutTitleTwoButton {
-	var editButton = NavbarButtonEdit()
-	var backButton = NavbarButtonBack()
-	
-	override var leftButton: NavbarButton {
-		get { return backButton }
-		set { backButton = newValue as! NavbarButtonBack }
-	}
-	
-	override var rightButton: NavbarButton {
-		get { return editButton }
-		set { editButton = newValue as! NavbarButtonEdit }
-	}
+class TutorMyProfileView: UIView {
 	
 	var isViewing : Bool = false
 	
 	let scrollView : UIScrollView = {
 		let scrollView = UIScrollView()
-		
 		scrollView.showsVerticalScrollIndicator = false
 		scrollView.alwaysBounceVertical = true
 		scrollView.canCancelContentTouches = true
 		scrollView.isDirectionalLockEnabled = true
 		scrollView.isExclusiveTouch = false
-		
 		return scrollView
 	}()
 	
@@ -46,7 +32,7 @@ class TutorMyProfileView: MainLayoutTitleTwoButton {
 	let myProfileNoReviews = NoReviewsView()
 	let myProfilePolicies = TutorMyProfilePolicies()
 	
-	override func configureView() {
+    func configureView() {
 		addSubview(scrollView)
 		scrollView.addSubview(myProfileHeader)
 		scrollView.addSubview(myProfileBioView)
@@ -54,26 +40,14 @@ class TutorMyProfileView: MainLayoutTitleTwoButton {
 		scrollView.addSubview(myProfileSubjects)
 		scrollView.addSubview(myProfileReviews)
 		scrollView.addSubview(myProfilePolicies)
-		
-		super.configureView()
-		insertSubview(statusbarView, at: 1)
-		insertSubview(navbar, at: 2)
-		
-		title.label.text = "My Profile"
-		
-		navbar.backgroundColor = Colors.tutorBlue
-		statusbarView.backgroundColor = Colors.tutorBlue
-		backgroundColor = Colors.navBarColor
 		myProfileReviews.isViewing = isViewing
-		
-		setupViewForTutor()
-		applyConstraints()
+        setupViewForTutor()
+        backgroundColor = Colors.darkBackground
 	}
 	
-	override func applyConstraints() {
-		super.applyConstraints()
+    func applyConstraints() {
 		scrollView.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).inset(-1)
+			make.top.equalToSuperview()
 			make.width.centerX.bottom.equalToSuperview()
 		}
 		myProfileHeader.snp.makeConstraints { (make) in
@@ -103,4 +77,14 @@ class TutorMyProfileView: MainLayoutTitleTwoButton {
 		myProfileReviews.reviewLabel1.nameLabel.textColor = Colors.tutorBlue
 		myProfileReviews.reviewLabel2.nameLabel.textColor = Colors.tutorBlue
 	}
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

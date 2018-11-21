@@ -107,6 +107,8 @@ class TutorConnectVC: BaseViewController {
         contentView.collectionView.dataSource = self
         contentView.collectionView.delegate = self
         contentView.collectionView.register(TutorCardCollectionViewCell.self, forCellWithReuseIdentifier: "tutorCardCell")
+        navigationController?.navigationBar.barTintColor = Colors.darkBackground
+        navigationController?.navigationBar.backgroundColor = Colors.darkBackground
     }
 
     override func viewDidAppear(_ animated: Bool) {

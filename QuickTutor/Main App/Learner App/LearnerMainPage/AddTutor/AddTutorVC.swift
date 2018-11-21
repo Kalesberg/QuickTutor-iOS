@@ -223,8 +223,8 @@ extension AddTutorVC: UITableViewDelegate, UITableViewDataSource {
                 let next = TutorMyProfileVC()
                 next.tutor = tutor
                 next.isViewing = true
-                next.contentView.rightButton.isHidden = true
-                next.contentView.title.label.text = "\(self.filteredUsername[indexPath.section].username)"
+//                next.contentView.rightButton.isHidden = true
+                next.navigationItem.title = "\(self.filteredUsername[indexPath.section].username)"
                 self.navigationController?.pushViewController(next, animated: true)
             }
             tableView.allowsSelection = true

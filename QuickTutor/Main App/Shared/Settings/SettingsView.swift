@@ -10,18 +10,18 @@ import Foundation
 import UIKit
 import FirebaseUI
 
-class SettingsView : MainLayoutTitleBackButton {
+class SettingsView : UIView {
+
+    var parentViewController: UIViewController?
 	
 	let scrollView : UIScrollView = {
 		let scrollView = UIScrollView()
-		
 		scrollView.isDirectionalLockEnabled = true
 		scrollView.alwaysBounceVertical = true
 		scrollView.isExclusiveTouch = true
 		scrollView.isUserInteractionEnabled = true
-		scrollView.backgroundColor = .clear
+		scrollView.backgroundColor = Colors.backgroundDark
 		scrollView.showsVerticalScrollIndicator = false
-		
 		return scrollView
 	}()
 	
@@ -33,7 +33,7 @@ class SettingsView : MainLayoutTitleBackButton {
 	let settingsAccount = SettingsAccount()
 	let container = UIView()
 
-	override func configureView() {
+    func configureView() {
 		addSubview(scrollViewContainer)
 		scrollViewContainer.addSubview(scrollView)
 		scrollView.addSubview(container)
@@ -41,18 +41,13 @@ class SettingsView : MainLayoutTitleBackButton {
 		container.addSubview(settingsSpreadTheLove)
 		container.addSubview(settingsCommunity)
 		container.addSubview(settingsAccount)
-		super.configureView()
-		
 		container.backgroundColor = Colors.backgroundDark
 		setupShadows()
-		
-		title.label.text = "Settings"
 	}
 	
-	override func applyConstraints() {
-		super.applyConstraints()
+    func applyConstraints() {
 		scrollViewContainer.snp.makeConstraints { (make) in
-			make.top.equalTo(navbar.snp.bottom).inset(-1)
+			make.top.equalToSuperview()
 			make.centerX.width.bottom.equalToSuperview()
 		}
 		scrollView.snp.makeConstraints { (make) in
@@ -65,7 +60,7 @@ class SettingsView : MainLayoutTitleBackButton {
 		container.snp.makeConstraints { (make) in
 			make.top.equalTo(settingsProfileHeader.snp.bottom)
 			make.width.centerX.equalToSuperview()
-			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 600 : 760)
+			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 660 : 820)
 		}
 		if AccountService.shared.currentUserType == .tutor {
 			addLocationSubview()
@@ -86,7 +81,7 @@ class SettingsView : MainLayoutTitleBackButton {
 			make.top.equalTo(settingsCommunity.snp.bottom).offset(20)
 			make.width.equalToSuperview().multipliedBy(0.9)
 			make.centerX.equalToSuperview()
-			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 200 : 230)
+			make.height.equalTo(AccountService.shared.currentUserType == .learner ? 260 : 290)
 		}
 	}
 	
@@ -132,5 +127,15 @@ class SettingsView : MainLayoutTitleBackButton {
 	func updateLocationsSubtitle() {
 		settingsLocation.location.subtitleLabel.text = CurrentUser.shared.tutor.location != nil ? CurrentUser.shared.tutor.region : "This is the location displayed in your profile."
 	}
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 

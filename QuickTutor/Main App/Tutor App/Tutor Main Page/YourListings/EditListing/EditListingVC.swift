@@ -43,6 +43,7 @@ class EditListingVC: BaseViewController {
         guard let tutorSubjects = tutor.subjects else { return }
         guard let subject = subject, let index = tutorSubjects.index(of: subject) else { return }
         selectedIndexPath = IndexPath(item: index, section: 0)
+        navigationItem.title = "Edit"
     }
 
     override func viewWillAppear(_: Bool) {

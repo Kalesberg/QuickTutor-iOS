@@ -8,8 +8,12 @@
 
 import Foundation
 import FirebaseAuth
+import FacebookCore
+import FacebookLogin
 
 class SettingsAccount : UIView {
+    
+    var parentViewController: UIViewController?
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
@@ -30,6 +34,7 @@ class SettingsAccount : UIView {
 	let showMeOnQT = SettingsButtonToggle(title: "Show me on QuickTutor", subtitle: "You are currently visible in search results.")
 	let signOut = SettingsButton(title: "Sign Out")
 	let closeAccount = SettingsButton(title: "Close Account", subtitle: "Permanently close your QuickTutor account.")
+    let linkFacebook = SettingsButton(title: "Link Facebook")
 
 	let divider1 : UIView = {
 		let view = UIView()
@@ -43,6 +48,12 @@ class SettingsAccount : UIView {
 		return view
 	}()
 	
+    let divider3 : UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
+    
 	private func configureView() {
 		addSubview(sectionTitle)
 		sectionTitle.snp.makeConstraints { (make) in
@@ -60,7 +71,7 @@ class SettingsAccount : UIView {
 		showMeOnQT.toggle.addTarget(self, action: #selector(showMeOnQTPressed(_:)), for: .touchUpInside)
 		signOut.buttonMask.addTarget(self, action: #selector(signOutPressed(_:)), for: .touchUpInside)
 		closeAccount.buttonMask.addTarget(self, action: #selector(closeAccountPressed(_:)), for: .touchUpInside)
-		
+        linkFacebook.buttonMask.addTarget(self, action: #selector(linkFacebook(_:)), for: .touchUpInside)
 	}
 	
 	private func setupViewForTutor() {
@@ -69,6 +80,8 @@ class SettingsAccount : UIView {
 		addSubview(signOut)
 		addSubview(divider2)
 		addSubview(closeAccount)
+        addSubview(divider3)
+        addSubview(linkFacebook)
 
 		showMeOnQT.snp.makeConstraints { (make) in
 			make.top.equalTo(sectionTitle.snp.bottom).offset(10)
@@ -96,12 +109,24 @@ class SettingsAccount : UIView {
 			make.width.centerX.equalToSuperview()
 			make.height.equalTo(60)
 		}
+        divider3.snp.makeConstraints { (make) in
+            make.top.equalTo(closeAccount.snp.bottom)
+            make.centerX.width.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        linkFacebook.snp.makeConstraints { (make) in
+            make.top.equalTo(divider3.snp.bottom)
+            make.width.centerX.equalToSuperview()
+            make.height.equalTo(60)
+        }
 	}
 	
 	private func setupViewForLearner() {
 		addSubview(signOut)
 		addSubview(divider1)
 		addSubview(closeAccount)
+        addSubview(divider2)
+        addSubview(linkFacebook)
 		
 		signOut.snp.makeConstraints { (make) in
 			make.top.equalTo(sectionTitle.snp.bottom).offset(10)
@@ -118,16 +143,26 @@ class SettingsAccount : UIView {
 			make.width.centerX.equalToSuperview()
 			make.height.equalTo(60)
 		}
+        divider2.snp.makeConstraints { (make) in
+            make.top.equalTo(closeAccount.snp.bottom)
+            make.centerX.width.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        linkFacebook.snp.makeConstraints { (make) in
+            make.top.equalTo(divider2.snp.bottom)
+            make.width.centerX.equalToSuperview()
+            make.height.equalTo(60)
+        }
 	}
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		if AccountService.shared.currentUserType == .learner {
 			signOut.roundCorners([.topLeft, .topRight], radius: 10)
-			closeAccount.roundCorners([.bottomLeft, .bottomRight], radius: 10)
+			linkFacebook.roundCorners([.bottomLeft, .bottomRight], radius: 10)
 		} else {
 			showMeOnQT.roundCorners([.topLeft, .topRight], radius: 10)
-			closeAccount.roundCorners([.bottomLeft, .bottomRight], radius: 10)
+			linkFacebook.roundCorners([.bottomLeft, .bottomRight], radius: 10)
 		}
 	}
 	
@@ -167,4 +202,25 @@ class SettingsAccount : UIView {
 	@objc private func closeAccountPressed(_ sender: UIButton) {
 		navigationController.pushViewController(CloseAccountVC(), animated: true)
 	}
+    
+    @objc private func linkFacebook(_ sender: UIButton) {
+        guard let parent = parentViewController else { return }
+        let loginManager = LoginManager()
+        
+        loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: parent) { (result) in
+            switch result {
+            case .failed(let error):
+                print(error)
+            case .cancelled:
+                print("User cancelled login.")
+            case .success:
+                let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
+                Auth.auth().currentUser?.linkAndRetrieveData(with: credential, completion: { (authResult, error) in
+                    print("Facebook linked")
+                })
+            }
+        }
+        
+    }
+
 }

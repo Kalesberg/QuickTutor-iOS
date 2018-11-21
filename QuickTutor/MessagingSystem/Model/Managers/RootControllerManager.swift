@@ -40,8 +40,8 @@ class RootControllerManager {
         sessions.tabBarItem = UITabBarItem(title: "Sessions", image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
         let messages = UINavigationController(rootViewController: MessagesVC())
         messages.tabBarItem = UITabBarItem(title: "Chat", image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
-        messages.navigationBar.barTintColor = Colors.registrationDark
-        messages.navigationBar.backgroundColor = Colors.registrationDark
+        messages.navigationBar.barTintColor = Colors.newBackground
+        messages.navigationBar.backgroundColor = Colors.newBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
         let controllers = [home, sessions, messages, profile]
@@ -77,12 +77,14 @@ class RootControllerManager {
         let tab = UITabBarController()
         let home = UINavigationController(rootViewController: TutorMainPage())
         home.tabBarItem = UITabBarItem(title: "Dashboard", image: UIImage(named: "dashboardTabIcon"), selectedImage: UIImage(named: "dashboardTabIcon"))
+        home.navigationBar.barTintColor = Colors.newBackground
+        home.navigationBar.backgroundColor = Colors.newBackground
         let sessions = UINavigationController(rootViewController: TutorSessionsVC())
         sessions.tabBarItem = UITabBarItem(title: "Sessions", image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
         let messages = UINavigationController(rootViewController: MessagesVC())
         messages.tabBarItem = UITabBarItem(title: "Chat", image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
-        messages.navigationBar.barTintColor = Colors.registrationDark
-        messages.navigationBar.backgroundColor = Colors.registrationDark
+        messages.navigationBar.barTintColor = Colors.newBackground
+        messages.navigationBar.backgroundColor = Colors.newBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
         let controllers = [home, sessions, messages, profile]

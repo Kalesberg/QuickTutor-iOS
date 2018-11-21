@@ -70,11 +70,12 @@ class InviteOthersView: UIView {
 		addSubview(searchTextField)
 		addSubview(tableView)
 		addSubview(connectContacts)
+        backgroundColor = Colors.darkBackground
 	}
 	
     func applyConstraints() {
 		imageView.snp.makeConstraints { make in
-			make.top.equalToSuperview().inset(-10)
+			make.top.equalToSuperview().inset(10)
 			make.centerX.equalToSuperview()
 		}
 		

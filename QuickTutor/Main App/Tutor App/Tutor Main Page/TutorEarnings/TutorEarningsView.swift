@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TutorEarningsView: MainLayoutTitleBackButton {
+class TutorEarningsView: UIView {
 	let summaryLabel: UILabel = {
 		let label = UILabel()
 		let formattedString = NSMutableAttributedString()
@@ -79,7 +79,7 @@ class TutorEarningsView: MainLayoutTitleBackButton {
 		return tableView
 	}()
 	
-	override func configureView() {
+    func configureView() {
 		addSubview(imageView)
 		imageView.addSubview(label)
 		addSubview(infoContainer)
@@ -89,26 +89,17 @@ class TutorEarningsView: MainLayoutTitleBackButton {
 		earningsContainer.addSubview(earnings2018)
 		addSubview(tableView)
 		addSubview(recentStatementsLabel)
-		super.configureView()
-		insertSubview(statusbarView, at: 1)
-		insertSubview(navbar, at: 2)
-		
-		navbar.backgroundColor = Colors.green
-		statusbarView.backgroundColor = Colors.green
-		title.label.text = "Earnings"
+        backgroundColor = Colors.darkBackground
 	}
 	
-	override func layoutSubviews() {
+    override func layoutSubviews() {
 		super.layoutSubviews()
-		
 		earningsContainer.applyGradient(firstColor: UIColor(hex: "1A943F").cgColor, secondColor: UIColor(hex: "1FB45C").cgColor, angle: 80, frame: earningsContainer.bounds)
 	}
 	
-	override func applyConstraints() {
-		super.applyConstraints()
-		
+    func applyConstraints() {
 		imageView.snp.makeConstraints { make in
-			make.top.equalTo(navbar.snp.bottom)
+			make.top.equalToSuperview()
 			make.width.equalToSuperview()
 			make.height.equalTo(110)
 			make.centerX.equalToSuperview()
@@ -163,4 +154,14 @@ class TutorEarningsView: MainLayoutTitleBackButton {
 			}
 		}
 	}
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

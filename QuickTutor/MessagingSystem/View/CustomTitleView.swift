@@ -23,7 +23,6 @@ class CustomTitleView: UIView {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createBoldSize(16)
-        label.backgroundColor = Colors.currentUserColor()
         return label
     }()
 
@@ -79,8 +78,7 @@ class CustomTitleView: UIView {
             let vc = TutorMyProfileVC()
 			vc.tutor = tutor
 			vc.isViewing = true
-            vc.contentView.rightButton.isHidden = true
-            vc.contentView.title.label.text = tutor.username
+            vc.navigationItem.title = tutor.username
             navigationController.pushViewController(vc, animated: true)
         } else {
             let vc = LearnerMyProfileVC()

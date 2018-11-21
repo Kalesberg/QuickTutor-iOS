@@ -9,24 +9,20 @@
 import Foundation
 import UIKit
 
-class MainLayoutWebView: MainLayoutTitleBackButton {
+class MainLayoutWebView: UIView {
     let webView = UIWebView()
 
-    override func configureView() {
+    func configureView() {
         addSubview(webView)
-        super.configureView()
-
         webView.scrollView.isScrollEnabled = true
         webView.isUserInteractionEnabled = true
         webView.scalesPageToFit = true
-        webView.contentMode = .scaleAspectFill
+        webView.contentMode = .scaleAspectFit
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         webView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.bottom.centerX.equalToSuperview()
             make.width.equalToSuperview()
         }
@@ -34,6 +30,16 @@ class MainLayoutWebView: MainLayoutTitleBackButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -50,6 +56,11 @@ class WebViewVC: BaseViewController {
         super.viewDidLoad()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     var url: String = ""
 
     func loadAgreementPdf() {

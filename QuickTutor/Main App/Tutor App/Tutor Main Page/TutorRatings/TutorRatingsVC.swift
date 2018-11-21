@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
+class TutorRatingsVC: UIViewController {
     
     let sectionTitles = ["Tutor Rating", "Statistics", "Top Subcategory", "Learner Reviews"]
     let statisticTitles = ["Sessions", "5-Stars", "Hours"]
@@ -27,8 +27,6 @@ class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
     }
     
     var fiveStars = 0
-    
-    var navBar: ZFNavBar = ZFNavBar()
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -66,17 +64,13 @@ class TutorRatingsVC: UIViewController, CustomNavBarDisplayer {
     }
     
     func setupMainView() {
-        view.backgroundColor = Colors.backgroundDark
-        addNavBar()
-        navBar.titleLabel.text = "Ratings"
-        navBar.backgroundColor = Colors.gold
-        navBar.leftAccessoryView.setImage(UIImage(named: "backButton"), for: .normal)
-        navBar.applyDefaultShadow()
+        view.backgroundColor = Colors.darkBackground
+        navigationItem.title = "Ratings"
     }
     
     func setupCollectionView() {
-        view.insertSubview(collectionView, belowSubview: navBar)
-        collectionView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        view.addSubview(collectionView)
+        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
