@@ -36,7 +36,7 @@ class RootControllerManager {
         let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
         let home = UINavigationController(rootViewController: LearnerMainPageVC())
         home.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "homeTabBarIcon"), selectedImage: UIImage(named: "homeTabBarIcon"))
-        let saved = UINavigationController(rootViewController: LearnerEditProfileVC())
+        let saved = UINavigationController(rootViewController: SavedTutorsVC())
         saved.tabBarItem = UITabBarItem(title: "Saved", image: UIImage(named: "savedTabBarIcon"), selectedImage: UIImage(named: "savedTabBarIcon"))
         saved.navigationBar.barTintColor = Colors.newBackground
         saved.navigationBar.backgroundColor = Colors.newBackground

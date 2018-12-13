@@ -463,6 +463,19 @@
 		CFB9B7E121C18B800022333F /* SessionRequestTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7E021C18B800022333F /* SessionRequestTypeView.swift */; };
 		CFB9B7E321C18B970022333F /* SessionRequestSendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7E221C18B970022333F /* SessionRequestSendView.swift */; };
 		CFB9B7E521C18BAE0022333F /* DurationCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7E421C18BAE0022333F /* DurationCollectionViewFlowLayout.swift */; };
+		CFB9B7E821C23E3D0022333F /* TutorCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7E721C23E3D0022333F /* TutorCardView.swift */; };
+		CFB9B7EA21C23E690022333F /* TutorCardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7E921C23E690022333F /* TutorCardHeaderView.swift */; };
+		CFB9B7EC21C23E850022333F /* PillCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7EB21C23E850022333F /* PillCollectionViewCell.swift */; };
+		CFB9B7EE21C23EBA0022333F /* TutorCardInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7ED21C23EBA0022333F /* TutorCardInfoView.swift */; };
+		CFB9B7F021C23EE30022333F /* TutorCardInfoViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7EF21C23EE30022333F /* TutorCardInfoViewFlowLayout.swift */; };
+		CFB9B7F221C23F010022333F /* TutorCardReviewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7F121C23F010022333F /* TutorCardReviewsView.swift */; };
+		CFB9B7F421C23F1E0022333F /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7F321C23F1E0022333F /* ReviewView.swift */; };
+		CFB9B7F621C23F3E0022333F /* TutorCardPoliciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7F521C23F3E0022333F /* TutorCardPoliciesView.swift */; };
+		CFB9B7F821C23F700022333F /* TutorCardConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7F721C23F700022333F /* TutorCardConnectView.swift */; };
+		CFB9B7FA21C23F970022333F /* AccessoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7F921C23F970022333F /* AccessoryViews.swift */; };
+		CFB9B7FC21C23FBF0022333F /* CardFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7FB21C23FBF0022333F /* CardFooterView.swift */; };
+		CFB9B7FE21C23FE50022333F /* TutorCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7FD21C23FE50022333F /* TutorCardVC.swift */; };
+		CFB9B80021C240170022333F /* SubjectsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7FF21C240170022333F /* SubjectsCollectionView.swift */; };
 		CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */; };
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
@@ -985,6 +998,19 @@
 		CFB9B7E021C18B800022333F /* SessionRequestTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRequestTypeView.swift; sourceTree = "<group>"; };
 		CFB9B7E221C18B970022333F /* SessionRequestSendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRequestSendView.swift; sourceTree = "<group>"; };
 		CFB9B7E421C18BAE0022333F /* DurationCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		CFB9B7E721C23E3D0022333F /* TutorCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardView.swift; sourceTree = "<group>"; };
+		CFB9B7E921C23E690022333F /* TutorCardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardHeaderView.swift; sourceTree = "<group>"; };
+		CFB9B7EB21C23E850022333F /* PillCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCollectionViewCell.swift; sourceTree = "<group>"; };
+		CFB9B7ED21C23EBA0022333F /* TutorCardInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardInfoView.swift; sourceTree = "<group>"; };
+		CFB9B7EF21C23EE30022333F /* TutorCardInfoViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardInfoViewFlowLayout.swift; sourceTree = "<group>"; };
+		CFB9B7F121C23F010022333F /* TutorCardReviewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardReviewsView.swift; sourceTree = "<group>"; };
+		CFB9B7F321C23F1E0022333F /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
+		CFB9B7F521C23F3E0022333F /* TutorCardPoliciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardPoliciesView.swift; sourceTree = "<group>"; };
+		CFB9B7F721C23F700022333F /* TutorCardConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardConnectView.swift; sourceTree = "<group>"; };
+		CFB9B7F921C23F970022333F /* AccessoryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryViews.swift; sourceTree = "<group>"; };
+		CFB9B7FB21C23FBF0022333F /* CardFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFooterView.swift; sourceTree = "<group>"; };
+		CFB9B7FD21C23FE50022333F /* TutorCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCardVC.swift; sourceTree = "<group>"; };
+		CFB9B7FF21C240170022333F /* SubjectsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsCollectionView.swift; sourceTree = "<group>"; };
 		CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchVCView.swift; sourceTree = "<group>"; };
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
@@ -1914,6 +1940,7 @@
 		84F245211FDA11C6006447A8 /* Learner App */ = {
 			isa = PBXGroup;
 			children = (
+				CFB9B7E621C23E290022333F /* TutorCard */,
 				CFB9B7CB21C18A070022333F /* SessionRequest */,
 				84D8C9262066A8AE003C3AEA /* LearnerMainPage */,
 				8482AFDF2038C25B00F6F805 /* Edit Profile */,
@@ -2282,6 +2309,26 @@
 			path = SessionRequest;
 			sourceTree = "<group>";
 		};
+		CFB9B7E621C23E290022333F /* TutorCard */ = {
+			isa = PBXGroup;
+			children = (
+				CFB9B7E721C23E3D0022333F /* TutorCardView.swift */,
+				CFB9B7E921C23E690022333F /* TutorCardHeaderView.swift */,
+				CFB9B7EB21C23E850022333F /* PillCollectionViewCell.swift */,
+				CFB9B7ED21C23EBA0022333F /* TutorCardInfoView.swift */,
+				CFB9B7EF21C23EE30022333F /* TutorCardInfoViewFlowLayout.swift */,
+				CFB9B7F121C23F010022333F /* TutorCardReviewsView.swift */,
+				CFB9B7F321C23F1E0022333F /* ReviewView.swift */,
+				CFB9B7F521C23F3E0022333F /* TutorCardPoliciesView.swift */,
+				CFB9B7F721C23F700022333F /* TutorCardConnectView.swift */,
+				CFB9B7F921C23F970022333F /* AccessoryViews.swift */,
+				CFB9B7FB21C23FBF0022333F /* CardFooterView.swift */,
+				CFB9B7FD21C23FE50022333F /* TutorCardVC.swift */,
+				CFB9B7FF21C240170022333F /* SubjectsCollectionView.swift */,
+			);
+			path = TutorCard;
+			sourceTree = "<group>";
+		};
 		CFDBD8E320C8788800182E1C /* VideoSessionVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -2599,6 +2646,7 @@
 				841F8498216A7E1900C9788B /* SettingsProfileHeader.swift in Sources */,
 				845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */,
 				CFB9B7DD21C18B590022333F /* SessionRequestPaymentInputView.swift in Sources */,
+				CFB9B7EA21C23E690022333F /* TutorCardHeaderView.swift in Sources */,
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
 				84EEFD552173CF2900FE12F9 /* InviteOthersView.swift in Sources */,
 				848466E2216FD1DB00620CAA /* YourListingView.swift in Sources */,
@@ -2616,6 +2664,7 @@
 				CFF50178206990060085B0E9 /* LearnerEditProfileVC.swift in Sources */,
 				CFB9B7D721C18B080022333F /* SessionRequestDateView.swift in Sources */,
 				8441E65320892D510087AE11 /* CategoryInfo.swift in Sources */,
+				CFB9B80021C240170022333F /* SubjectsCollectionView.swift in Sources */,
 				CFF5017720698F620085B0E9 /* LearnerHelpVC.swift in Sources */,
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
@@ -2626,6 +2675,7 @@
 				CF43AF982177B86000783819 /* RootControllerManager.swift in Sources */,
 				CF07110C211810A40035A6FF /* Conversation.swift in Sources */,
 				CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */,
+				CFB9B7F021C23EE30022333F /* TutorCardInfoViewFlowLayout.swift in Sources */,
 				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
 				8476F7C720D00DB100C8D52D /* AddPaymentMethod.swift in Sources */,
 				CF7D8AB621995F3500463B0E /* ProfileVCHeaderCell.swift in Sources */,
@@ -2718,6 +2768,7 @@
 				84A740371FF81C7C0001AE6D /* RegistrationTextView.swift in Sources */,
 				84A6E470218F68C700D03681 /* TutorSubjectSearch.swift in Sources */,
 				CFB9B7D121C18A690022333F /* BaseSessionRequestViewSection.swift in Sources */,
+				CFB9B7F221C23F010022333F /* TutorCardReviewsView.swift in Sources */,
 				CFA05790205FA1E6000185B1 /* MessagingSystemToggleCell.swift in Sources */,
 				CF0711072117B09A0035A6FF /* EventManager.swift in Sources */,
 				84A6E46E218F68B600D03681 /* TutorSubcategory.swift in Sources */,
@@ -2773,6 +2824,7 @@
 				CFB9B7DB21C18B3C0022333F /* DurationCollectionViewCell.swift in Sources */,
 				84D6A7DC215B1EDF000C0010 /* MyProfileBioView.swift in Sources */,
 				CF6F58E9205EE68800ACBD32 /* BaseMessage.swift in Sources */,
+				CFB9B7F421C23F1E0022333F /* ReviewView.swift in Sources */,
 				84E4C7DB204E91F6009C2FC4 /* UpdatePaymentVC.swift in Sources */,
 				8481265121781B7500B99BED /* TutorMyProfileReviewView.swift in Sources */,
 				CF6F58D2205EE68800ACBD32 /* CustomImageView.swift in Sources */,
@@ -2780,8 +2832,10 @@
 				8440539020F4E614003F0606 /* SubjectPickerCell.swift in Sources */,
 				CF8E88A620C72BFD0044344D /* AcceptAddTimeModal.swift in Sources */,
 				CF07110E211810C10035A6FF /* ReadReceiptManager.swift in Sources */,
+				CFB9B7FC21C23FBF0022333F /* CardFooterView.swift in Sources */,
 				847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */,
 				84E4C7EC204E9829009C2FC4 /* SessionsVC.swift in Sources */,
+				CFB9B7EC21C23E850022333F /* PillCollectionViewCell.swift in Sources */,
 				84F2451E1FDA119E006447A8 /* TutorMainPage.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessionalVC.swift in Sources */,
 				CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */,
@@ -2790,6 +2844,7 @@
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
 				CF6F58F0205EE6B300ACBD32 /* DataService.swift in Sources */,
 				84DF1E5A216D68E100AEBD76 /* EditBirthdateVC.swift in Sources */,
+				CFB9B7E821C23E3D0022333F /* TutorCardView.swift in Sources */,
 				CF51958E21A8C740007EEC37 /* SessionRequestVC.swift in Sources */,
 				CF6F58C2205EE68800ACBD32 /* MeetupRequestCell.swift in Sources */,
 				8451FB5E213EF43800F86DC5 /* BasePostSessionCell.swift in Sources */,
@@ -2842,6 +2897,7 @@
 				844A6A8C1FCE5B91003992C3 /* CreatePasswordVC.swift in Sources */,
 				CF507FA92181386D007FE441 /* MessagetTimebreakCell.swift in Sources */,
 				84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */,
+				CFB9B7FA21C23F970022333F /* AccessoryViews.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,
 				84CE13F8217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift in Sources */,
 				CF6F58E4205EE68800ACBD32 /* SystemMessage.swift in Sources */,
@@ -2893,6 +2949,7 @@
 				848466E5216FD23200620CAA /* EditListingView.swift in Sources */,
 				844053A020F55BDA003F0606 /* RequestSessionTableView.swift in Sources */,
 				84C82FE420F0068A00E526B4 /* EditListingVC.swift in Sources */,
+				CFB9B7F821C23F700022333F /* TutorCardConnectView.swift in Sources */,
 				844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */,
 				CF24997B217E926500614AF0 /* KeyboardFrameObserversManager.swift in Sources */,
 				84D6A7D8215B0A58000C0010 /* LearnerMyProfileHeader.swift in Sources */,
@@ -2915,6 +2972,7 @@
 				CF6F58E3205EE68800ACBD32 /* QuickChatViewDelegate.swift in Sources */,
 				CFB60617207FA6B80029CFE4 /* FileReportActionsheet.swift in Sources */,
 				CFB60619207FB60C0029CFE4 /* FileReportActionsheetCell.swift in Sources */,
+				CFB9B7EE21C23EBA0022333F /* TutorCardInfoView.swift in Sources */,
 				CF6F58E6205EE68800ACBD32 /* ZFUser.swift in Sources */,
 				CF7D8AAE2198ACBA00463B0E /* BaseSessionsVC.swift in Sources */,
 				CF528CD52164527A00D81D03 /* TutorRatingsReviewContainerCell.swift in Sources */,
@@ -2930,6 +2988,7 @@
 				CF833B70207C4B1500323242 /* LearnerSessionsVC.swift in Sources */,
 				CF833B90207C949D00323242 /* RequestSessionButtonDelegate.swift in Sources */,
 				8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */,
+				CFB9B7FE21C23FE50022333F /* TutorCardVC.swift in Sources */,
 				84D19DA8207056DD00216238 /* TutorMyProfileCells.swift in Sources */,
 				CFB40E68216F1F5700828E72 /* LearnerSettingsVC.swift in Sources */,
 				84D8C9342067116C003C3AEA /* TutorConnectVC.swift in Sources */,
@@ -2995,6 +3054,7 @@
 				CF7D8AB421995F0A00463B0E /* ProfileVCCell.swift in Sources */,
 				84DF1E5C216D68EC00AEBD76 /* EditBirthdateView.swift in Sources */,
 				CF833B75207C4B6E00323242 /* LearnerPendingSessionCell.swift in Sources */,
+				CFB9B7F621C23F3E0022333F /* TutorCardPoliciesView.swift in Sources */,
 				CF6F58E8205EE68800ACBD32 /* MeetupRequest.swift in Sources */,
 				8496FE082161877500BD292F /* TutorMyProfileView.swift in Sources */,
 				CF6F58F3205EE6D100ACBD32 /* Extensions.swift in Sources */,
