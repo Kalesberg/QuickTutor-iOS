@@ -19,6 +19,7 @@ class MessagesVC: UIViewController {
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.darkBackground
         cv.allowsMultipleSelection = false
+        cv.alwaysBounceVertical = true
         cv.register(ConversationCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
@@ -36,7 +37,7 @@ class MessagesVC: UIViewController {
     func setupViews() {
         setupMainView()
         setupCollectionView()
-        setupRefreshControl()
+//        setupRefreshControl()
     }
     
     private func setupMainView() {
@@ -45,6 +46,11 @@ class MessagesVC: UIViewController {
         navigationItem.title = "Messages"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
         navigationController?.navigationBar.barTintColor = Colors.newBackground
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+
+        }
     }
     
     @objc func showContacts() {
@@ -215,7 +221,7 @@ extension MessagesVC {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ConversationCell
         cell.handleTouchDown()
-        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let vc = ConversationVC()
         vc.receiverId = messages[indexPath.item].partnerId()
         let tappedCell = collectionView.cellForItem(at: indexPath) as! ConversationCell
         vc.chatPartner = tappedCell.chatPartner

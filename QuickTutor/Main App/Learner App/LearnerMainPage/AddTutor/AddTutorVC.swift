@@ -238,7 +238,7 @@ extension AddTutorVC: AddTutorButtonDelegate {
     func addTutorWithUid(_ uid: String, completion: (() -> Void)?) {
         DataService.shared.getTutorWithId(uid) { tutor in
             if let tutor = tutor {
-                let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+                let vc = ConversationVC()
                 vc.receiverId = uid
                 vc.chatPartner = tutor
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -260,7 +260,7 @@ protocol ShowsConversation {
 
 extension ShowsConversation {
     func showConversation(uid: String) {
-        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let vc = ConversationVC()
         vc.receiverId = uid
         navigationController.pushViewController(vc, animated: true)
     }

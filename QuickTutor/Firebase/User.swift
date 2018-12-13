@@ -294,6 +294,20 @@ class FirebaseData {
 			return completion(reviews)
 		})
 	}
+    
+    private func fetchSavedTutors(uid: String, completion: @escaping([String]?) -> Void) {
+        Database.database().reference().child("saved-tutors").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let tutorDictionary = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            var savedTutorIds = [String]()
+            tutorDictionary.forEach({ (key, value) in
+                savedTutorIds.append(key)
+            })
+            completion(savedTutorIds)
+        }
+    }
 	
 	func fetchTutorSubjects(uid: String, _ completion: @escaping ([TutorSubcategory]?) -> Void) {
 		var subcategories : [TutorSubcategory] = []
@@ -496,6 +510,12 @@ class FirebaseData {
 					}
 					group.leave()
 				})
+                
+                group.enter()
+                self.fetchSavedTutors(uid: uid, completion: { (savedTutorIds) in
+                    learner.savedTutorIds = savedTutorIds
+                    group.leave()
+                })
 				
 				guard let images = learnerData["img"] as? [String : String] else { return }
 				learner.images = images

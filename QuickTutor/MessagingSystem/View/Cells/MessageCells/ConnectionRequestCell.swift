@@ -15,11 +15,13 @@ class ConnectionRequestCell: UserMessageCell {
 
     let actionBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "1E1E25")
+        view.backgroundColor = Colors.darkBackground.darker(by: 5)
         if #available(iOS 11.0, *) {
             view.layer.cornerRadius = 4
             view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
+        view.layer.borderWidth = 2
+        view.layer.borderColor = Colors.gray.cgColor
         return view
     }()
 

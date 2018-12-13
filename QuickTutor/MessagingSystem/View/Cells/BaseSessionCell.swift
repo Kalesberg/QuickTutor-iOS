@@ -142,7 +142,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.currentUserColor()
+        backgroundColor = Colors.darkBackground
     }
     
     func setupMonthLabel() {

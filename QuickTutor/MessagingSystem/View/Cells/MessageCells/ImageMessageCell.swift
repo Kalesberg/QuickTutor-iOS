@@ -18,7 +18,7 @@ class ImageMessageCell: UserMessageCell {
     let imageView: CustomImageView = {
         let iv = CustomImageView()
         iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 4
+        iv.layer.cornerRadius = 8
         iv.clipsToBounds = true
         iv.isUserInteractionEnabled = true
         return iv

@@ -200,7 +200,6 @@ class EditPhoneVC: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentView.phoneTextField.textField.becomeFirstResponder()
-        navigationController?.navigationBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 

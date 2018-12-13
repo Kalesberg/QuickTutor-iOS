@@ -2,17 +2,15 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "connectionsIconNew.png",
+      "filename" : "contact-book.pdf",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "connectionsIconNew@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "connectionsIconNew@3x.png",
       "scale" : "3x"
     }
   ],

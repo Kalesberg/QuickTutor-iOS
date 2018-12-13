@@ -10,17 +10,15 @@ import SnapKit
 import UIKit
 import FirebaseUI
 
-class FeaturedTutorTableViewCell: UITableViewCell {
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureTableViewCell()
-    }
+protocol FeaturedTutorTableViewCellDelegate {
+    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect featuredTutor: FeaturedTutor)
+    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect cell: TutorCollectionViewCell)
+}
 
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+class FeaturedTutorTableViewCell: UITableViewCell {
 
 	let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+    var delegate: FeaturedTutorTableViewCellDelegate?
 
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -86,6 +84,15 @@ class FeaturedTutorTableViewCell: UITableViewCell {
             }
         })
     }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureTableViewCell()
+    }
+    
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -122,17 +129,9 @@ extension FeaturedTutorTableViewCell: UICollectionViewDataSource, UICollectionVi
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
-            let vc = TutorConnectVC()
-			vc.category = self.category
-			vc.startIndex = indexPath
-            vc.featuredTutors = self.datasource
-            vc.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
-			let nav = self.parentViewController?.navigationController
-			print(self.datasource[indexPath.item].uid)
-            DispatchQueue.main.async {
-                nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
-                nav?.pushViewController(vc, animated: false)
-            }
+            let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+            self.delegate?.featuredTutorTableViewCell(self, didSelect: cell)
+            self.delegate?.featuredTutorTableViewCell(self, didSelect: self.datasource[indexPath.item])
         }
     }
 

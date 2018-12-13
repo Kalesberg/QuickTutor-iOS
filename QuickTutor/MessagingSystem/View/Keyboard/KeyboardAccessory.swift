@@ -20,17 +20,18 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
 
     let submitButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Colors.currentUserColor()
+        button.backgroundColor = Colors.gray
         button.contentMode = .scaleAspectFit
-        button.setImage(#imageLiteral(resourceName: "checkIcon"), for: .normal)
         button.applyDefaultShadow()
-        button.layer.cornerRadius = 17
+        button.layer.cornerRadius = 4
+        button.setTitle("Send", for: .normal)
+        button.titleLabel?.font = Fonts.createSize(14)
         return button
     }()
 
     let lineSeparatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.gray
         return view
     }()
 
@@ -43,9 +44,6 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         textView.font = UIFont.systemFont(ofSize: 14)
         textView.isScrollEnabled = false
         textView.clearsOnInsertion = false
-        textView.layer.borderWidth = 1
-        textView.layer.cornerRadius = 17
-        textView.layer.borderColor = Colors.border.cgColor
         textView.keyboardAppearance = .dark
         return textView
     }()
@@ -101,13 +99,13 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
 
     func setupSubmitButton() {
         addSubview(submitButton)
-        submitButton.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 34, height: 34)
+        submitButton.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 67, height: 34)
         submitButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
     }
 
     func setupMessageTextfield() {
         addSubview(messageTextview)
-        messageTextview.anchor(top: nil, left: leftAccessoryView.rightAnchor, bottom: getBottomAnchor(), right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 12, paddingBottom: 8, paddingRight: 12, width: 0, height: 0)
+        messageTextview.anchor(top: nil, left: leftAccessoryView.rightAnchor, bottom: getBottomAnchor(), right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 12, width: 0, height: 0)
         addConstraint(NSLayoutConstraint(item: messageTextview, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: submitButton, attribute: .height, multiplier: 0.68, constant: 0))
         messageFieldTopAnchor = messageTextview.topAnchor.constraint(equalTo: topAnchor, constant: 8)
         messageFieldTopAnchor?.isActive = true
@@ -147,6 +145,12 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
             textViewCover.text = "Unable to send message until\nyou accept connection request."
         }
         textViewCover.isHidden = false
+    }
+    
+    func changeSendButtonColor(_ color: UIColor) {
+        UIView.animate(withDuration: 0.125) {
+            self.submitButton.backgroundColor = color
+        }
     }
     
     convenience init(chatPartnerId: String) {

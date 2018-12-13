@@ -9,7 +9,7 @@
 import Firebase
 import UIKit
 
-class ConnectionsVC: UIViewController {
+class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     var connections = [User]()
 
     var isTransitioning = false
@@ -32,7 +32,16 @@ class ConnectionsVC: UIViewController {
     func setupMainView() {
         navigationItem.title = "Connections"
         guard AccountService.shared.currentUserType == .learner else { return }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addTutorByUsernameButton"), style: .plain, target: self, action: #selector(handleRightViewTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "searchIcon"), style: .plain, target: self, action: #selector(handleRightViewTapped))
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .automatic
+        }
+    }
+    
+    @objc private func onBack() {
+        navigationController?.popViewController(animated: true)
     }
 
     func setupCollectionView() {
@@ -42,10 +51,15 @@ class ConnectionsVC: UIViewController {
         collectionView.dataSource = self
     }
 
+    var searchController = UISearchController(searchResultsController: nil)
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         fetchConnections()
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+            searchController.definesPresentationContext = true
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -79,9 +93,17 @@ class ConnectionsVC: UIViewController {
     }
     
     @objc func handleRightViewTapped() {
-        if AccountService.shared.currentUserType == .learner {
-            navigationController?.pushViewController(AddTutorVC(), animated: true)
-        }
+        searchController.isActive = true
+        searchController.searchBar.becomeFirstResponder()
+    }
+    
+    func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
+        let vc = ConversationVC()
+        vc.receiverId = user.uid
+        vc.chatPartner = user
+        vc.connectionRequestAccepted = true
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -125,7 +147,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 70)
+        return CGSize(width: collectionView.frame.width, height: 60)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -137,13 +159,24 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
 }
 
-extension ConnectionsVC: ConnectionCellDelegate {
-    func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
-        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
-        vc.receiverId = user.uid
-        vc.chatPartner = user
-        vc.connectionRequestAccepted = true
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationController?.pushViewController(vc, animated: true)
+
+class SessionRequestViewConnectionsVC: ConnectionsVC {
+    
+    func postSelectionNotification(_ user: User) {
+        let userInfo = ["tutor": user]
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "com.quicktutor.didSelectTutor"), object: nil, userInfo: userInfo)
+    }
+    
+    override func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
+        postSelectionNotification(user)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConnectionCell
+        cell.updateUI(user: connections[indexPath.item])
+        cell.messageButton.setImage(UIImage(named: "addIconCircle"), for: .normal)
+        cell.delegate = self
+        return cell
     }
 }

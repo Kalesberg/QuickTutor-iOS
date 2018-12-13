@@ -135,7 +135,7 @@ class TutorMainPage: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
-        navigationController?.navigationBar.isHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: false)
         navigationItem.title = "Home"
         navigationController?.navigationBar.barTintColor = Colors.newBackground
         navigationController?.navigationBar.backgroundColor = Colors.newBackground

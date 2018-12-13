@@ -14,6 +14,8 @@ var category: [Category] = Category.categories
 
 class LearnerMainPageVC: UIViewController {
     
+    var selectedCellFrame: CGRect?
+    
     var contentView: LearnerMainPageVCView {
         return view as! LearnerMainPageVCView
     }
@@ -32,7 +34,24 @@ class LearnerMainPageVC: UIViewController {
         setupStripe()
         queryFeaturedTutors()
         configureView()
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        FirebaseData.manager.fetchTutor(CurrentUser.shared.learner.uid!, isQuery: false) { tutor in
+            guard let tutor = tutor else {
+                AlertController.genericErrorAlert(self, title: "Oops!", message: "Unable to find your tutor account! Please try again.")
+                return
+            }
+            CurrentUser.shared.tutor = tutor
+            Stripe.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    return
+                } else if let account = account {
+                    CurrentUser.shared.connectAccount = account
+                    return
+                }
+            })
+        }
+        
     }
     
     func confirmSignedInUser() {
@@ -57,7 +76,7 @@ class LearnerMainPageVC: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     private func configureView() {
@@ -121,7 +140,7 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
 			cell.parentViewController = self
             cell.datasource = datasource[category[indexPath.section - 1]]!
             cell.category = category[indexPath.section - 1]
-			
+            cell.delegate = self
             return cell
         }
     }
@@ -153,3 +172,35 @@ extension LearnerMainPageVC: UITableViewDataSourcePrefetching {
         }
     }
 }
+
+extension LearnerMainPageVC: FeaturedTutorTableViewCellDelegate {
+    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect cell: TutorCollectionViewCell) {
+        let frame = featuredTutorTableViewCell.convert(featuredTutorTableViewCell.frame, to: self.view)
+        self.selectedCellFrame = CGRect(x: 10, y: 488, width: 137, height: 185)
+    }
+    
+    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect featuredTutor: FeaturedTutor) {
+        let uid = featuredTutor.uid
+//        navigationController?.delegate = self
+        FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
+            guard let tutor = tutor else { return }
+            let vc = TutorCardVC()
+            vc.subject = featuredTutor.subject
+            vc.tutor = tutor
+            vc.contentView.updateUI(tutor)
+            DispatchQueue.main.async {
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        })
+    }
+    
+
+}
+
+extension LearnerMainPageVC: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return LearnerMainPageAnimationController(originFrame: selectedCellFrame! )
+    }
+}
+

@@ -71,7 +71,7 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
 
     @objc func pushConversationVC(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let vc = ConversationVC()
         vc.receiverId = uid
         navigationController?.pushViewController(vc, animated: true)
     }

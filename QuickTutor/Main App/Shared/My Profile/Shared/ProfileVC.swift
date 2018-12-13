@@ -16,7 +16,7 @@ class ProfileVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.profileGray
+        cv.backgroundColor = Colors.gray
         cv.allowsMultipleSelection = false
         cv.register(ProfileCVCell.self, forCellWithReuseIdentifier: "cellId")
         cv.register(ProfileVCFooterCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footerCell")
@@ -44,7 +44,7 @@ class ProfileVC: UIViewController {
     }
     
     func setupMainView() {
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.navigationBar.barTintColor = Colors.darkBackground
         navigationController?.navigationBar.backgroundColor = Colors.darkBackground
@@ -169,7 +169,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
 }
 
 extension ProfileVC: ProfileModeToggleViewDelegate {
-    func profleModeToggleView(_ profileModeToggleView: ProfileModeToggleView, shouldSwitchTo side: UserType) {
+    func profleModeToggleView(_ profileModeToggleView: MockCollectionViewCell, shouldSwitchTo side: UserType) {
         side == .learner ? switchToLearner() : switchToTutor()
     }
     

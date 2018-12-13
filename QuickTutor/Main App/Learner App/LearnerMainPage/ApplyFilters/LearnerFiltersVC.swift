@@ -10,25 +10,7 @@ import CoreLocation
 import Foundation
 import UIKit
 
-class LearnerFiltersView: MainLayoutTitleTwoButton {
-    var xButton = NavbarButtonXLight()
-    var applyButton = NavbarButtonApply()
-
-    override var rightButton: NavbarButton {
-        get {
-            return applyButton
-        } set {
-            applyButton = newValue as! NavbarButtonApply
-        }
-    }
-
-    override var leftButton: NavbarButton {
-        get {
-            return xButton
-        } set {
-            xButton = newValue as! NavbarButtonXLight
-        }
-    }
+class LearnerFiltersView: UIView {
 
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -41,18 +23,14 @@ class LearnerFiltersView: MainLayoutTitleTwoButton {
         return tableView
     }()
 
-    override func configureView() {
+    func configureView() {
         addSubview(tableView)
-        super.configureView()
-
-        title.label.text = "Filters"
+        backgroundColor = Colors.darkBackground
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.leading.equalTo(layoutMarginsGuide.snp.leading)
             make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
             if #available(iOS 11.0, *) {
@@ -61,6 +39,16 @@ class LearnerFiltersView: MainLayoutTitleTwoButton {
                 make.bottom.equalToSuperview()
             }
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -87,6 +75,9 @@ class LearnerFiltersVC: BaseViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         configureDelegates()
+        navigationItem.title = "Filters"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Apply", style: .plain, target: self, action: #selector(applyFilters))
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -162,14 +153,10 @@ class LearnerFiltersVC: BaseViewController {
 
         return Filters(distance: distanceFilter, price: Int(priceCell.amount), inPerson: toggleCell.toggle.isOn, location: location)
     }
-
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonXLight {
-            dismiss(animated: true, completion: nil)
-        } else if touchStartView is NavbarButtonApply {
-            delegate?.filtersUpdated(filters: updateFilters())
-            dismiss(animated: true, completion: nil)
-        }
+    
+    @objc func applyFilters() {
+        delegate?.filtersUpdated(filters: updateFilters())
+        dismiss(animated: true, completion: nil)
     }
 
     func animateSlider(_ bool: Bool) {

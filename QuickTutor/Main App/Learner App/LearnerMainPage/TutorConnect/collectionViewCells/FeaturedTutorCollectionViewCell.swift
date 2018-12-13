@@ -9,8 +9,11 @@
 import Foundation
 import SnapKit
 import UIKit
+import Firebase
 
 class TutorCollectionViewCell: UICollectionViewCell {
+    
+    var tutor: FeaturedTutor?
     
     let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -23,9 +26,16 @@ class TutorCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
+    let saveButton: UIButton = {
+        let button = UIButton()
+        button.contentMode = .scaleAspectFit
+        button.setImage(UIImage(named: "saveButton"), for: .normal)
+        return button
+    }()
+    
     let infoContainerView: UIView = {
         let view = UIView()
-        view.layer.borderColor = Colors.profileGray.cgColor
+        view.layer.borderColor = Colors.gray.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 4
         view.backgroundColor = Colors.darkBackground
@@ -65,6 +75,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func setupViews() {
         setupProfileImageView()
+        setupSaveButton()
         setupInfoContainerView()
         setupNameLabel()
         setupPriceLabel()
@@ -75,6 +86,12 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func setupProfileImageView() {
         addSubview(profileImageView)
         profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 115)
+    }
+    
+    func setupSaveButton() {
+        addSubview(saveButton)
+        saveButton.anchor(top: profileImageView.topAnchor, left: nil, bottom: nil, right: profileImageView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 20, height: 20)
+        saveButton.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
     }
     
     func setupInfoContainerView() {
@@ -104,10 +121,39 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func updateUI(_ tutor: FeaturedTutor) {
+        self.tutor = tutor
         nameLabel.text = tutor.name
         subjectLabel.text = tutor.subject
         priceLabel.text = "$\(tutor.price)/hr"
         profileImageView.sd_setImage(with: URL(string: tutor.imageUrl)!, completed: nil)
+        if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
+            savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"saveButtonFilled"), for: .normal) : saveButton.setImage(UIImage(named:"saveButton"), for: .normal)
+        }
+    }
+    
+    @objc func handleSaveButton() {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid, uid != tutorId else { return }
+        if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
+            savedTutorIds.contains(tutorId) ? unsaveTutor() : saveTutor()
+        } else {
+            saveTutor()
+        }
+    }
+    
+    func saveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
+        saveButton.setImage(UIImage(named: "saveButtonFilled"), for: .normal)
+        CurrentUser.shared.learner.savedTutorIds?.append(tutorId)
+    }
+    
+    func unsaveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
+        saveButton.setImage(UIImage(named: "saveButton"), for: .normal)
+        CurrentUser.shared.learner.savedTutorIds?.removeAll(where: { (id) -> Bool in
+            return id == tutorId
+        })
     }
     
     override init(frame: CGRect) {

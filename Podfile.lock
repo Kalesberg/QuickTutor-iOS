@@ -143,6 +143,7 @@ PODS:
   - GoogleUtilities/UserDefaults (5.3.4):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.0)
+  - IQKeyboardManager (6.2.0)
   - leveldb-library (1.20)
   - lottie-ios (2.5.2)
   - nanopb (0.3.901):
@@ -182,6 +183,7 @@ DEPENDENCIES:
   - FirebaseUI/Storage
   - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
   - GoogleAnalytics
+  - IQKeyboardManager
   - lottie-ios
   - Reveal-SDK
   - SDWebImage
@@ -224,6 +226,7 @@ SPEC REPOS:
     - GoogleToolboxForMac
     - GoogleUtilities
     - GTMSessionFetcher
+    - IQKeyboardManager
     - leveldb-library
     - lottie-ios
     - nanopb
@@ -279,6 +282,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
+  IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
@@ -294,6 +298,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
   TwilioVideo: 44bddf9326a1df809ad939d42b2a7ea93c13c699
 
-PODFILE CHECKSUM: 43834d468c8fd3560008f914fe5642f603c91608
+PODFILE CHECKSUM: 9f3783ae277dfc4677368f94952dac431b66e569
 
 COCOAPODS: 1.5.3

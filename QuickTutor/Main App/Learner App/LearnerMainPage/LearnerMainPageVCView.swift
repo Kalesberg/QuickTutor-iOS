@@ -13,7 +13,7 @@ class LearnerMainPageVCView: UIView {
     lazy var searchBar: PaddedTextField = {
         let field = PaddedTextField()
         field.padding.left = 40
-        field.backgroundColor = Colors.profileGray
+        field.backgroundColor = Colors.gray
         field.textColor = .white
         let searchIcon = UIImageView(image: UIImage(named:"searchIconMain"))
         field.leftView = searchIcon

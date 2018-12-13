@@ -13,7 +13,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     var parentViewController: ProfileVC? {
         didSet {
-            profileToggleView.delegate = parentViewController
+            profileToggleView.profileDelegate = parentViewController
         }
     }
     
@@ -47,8 +47,8 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         return button
     }()
     
-    let profileToggleView: ProfileModeToggleView = {
-        let view = ProfileModeToggleView()
+    let profileToggleView: MockCollectionViewCell = {
+        let view = MockCollectionViewCell()
         return view
     }()
     
@@ -89,7 +89,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     func setupProfileToggleView() {
         addSubview(profileToggleView)
         profileToggleView.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 50)
-        profileToggleView.delegate = parentViewController
+        profileToggleView.profileDelegate = parentViewController
     }
     
     func updateUI() {

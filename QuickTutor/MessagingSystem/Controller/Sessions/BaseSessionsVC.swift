@@ -23,15 +23,8 @@ class BaseSessionsVC: UIViewController {
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.darkBackground
         cv.allowsMultipleSelection = false
+        cv.alwaysBounceVertical = true
         return cv
-    }()
-    
-    let requestSessionButton: UIButton = {
-        let button = UIButton()
-        button.contentMode = .scaleAspectFit
-        button.imageView?.contentMode = .scaleAspectFit
-        button.setImage(#imageLiteral(resourceName: "requestSessionIcon"), for: .normal)
-        return button
     }()
     
     var addPaymentModal = AddPaymentModal()
@@ -55,7 +48,7 @@ class BaseSessionsVC: UIViewController {
     func setupViews() {
         setupMainView()
         setupCollectionView()
-        setupRefreshControl()
+//        setupRefreshControl()
         fetchSessions()
         listenForSessionUpdates()
     }
@@ -64,6 +57,11 @@ class BaseSessionsVC: UIViewController {
         view.backgroundColor = Colors.darkBackground
         navigationItem.title = "Sessions"
         navigationController?.navigationBar.barTintColor = Colors.newBackground
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            
+        }
     }
     
     func setupCollectionView() {
@@ -259,7 +257,7 @@ class BaseSessionsVC: UIViewController {
     
     private func getStudent(uid: String) {
         DataService.shared.getStudentWithId(uid) { student in
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            let vc = ConversationVC()
             vc.receiverId = uid
             vc.chatPartner = student!
             vc.connectionRequestAccepted = true
@@ -270,7 +268,7 @@ class BaseSessionsVC: UIViewController {
     
     private func getTutor(uid: String) {
         DataService.shared.getTutorWithId(uid) { tutor in
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            let vc = ConversationVC()
             vc.receiverId = uid
             vc.chatPartner = tutor!
             vc.connectionRequestAccepted = true
@@ -282,7 +280,7 @@ class BaseSessionsVC: UIViewController {
     @objc func requestSession(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
         DataService.shared.getTutorWithId(uid) { tutor in
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            let vc = ConversationVC()
             vc.receiverId = uid
             vc.chatPartner = tutor!
             vc.connectionRequestAccepted = true
@@ -305,7 +303,7 @@ class BaseSessionsVC: UIViewController {
 extension BaseSessionsVC: NewMessageDelegate {
     func showConversationWithUser(user: User, isConnection: Bool) {
         
-        let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let vc = ConversationVC()
         vc.receiverId = user.uid
         vc.connectionRequestAccepted = isConnection
         vc.chatPartner = user

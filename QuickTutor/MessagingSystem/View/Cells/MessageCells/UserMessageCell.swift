@@ -20,11 +20,12 @@ class UserMessageCell: BaseMessageCell {
     let bubbleView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 4
+        view.layer.cornerRadius = 8
         view.layer.masksToBounds = false
         view.clipsToBounds = false
-        view.applyDefaultShadow()
-        view.backgroundColor = UIColor(hex: "ecf0f1")
+        view.backgroundColor = Colors.darkBackground
+        view.layer.borderColor = Colors.gray.cgColor
+        view.layer.borderWidth = 2
         return view
     }()
 
@@ -84,6 +85,8 @@ class UserMessageCell: BaseMessageCell {
         bubbleWidthAnchor?.isActive = true
         bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8)
         bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: rightAnchor, constant: -68)
+        bubbleView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        bubbleView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
     private func setupProfileImageView() {
@@ -95,9 +98,6 @@ class UserMessageCell: BaseMessageCell {
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
         }
-        if userMessage?.sessionRequestId == nil {
-            bubbleView.backgroundColor = Colors.currentUserColor()
-        }
         bubbleViewRightAnchor?.isActive = true
         bubbleViewLeftAnchor?.isActive = false
         profileImageView.isHidden = true
@@ -108,9 +108,6 @@ class UserMessageCell: BaseMessageCell {
     func setupBubbleViewAsReceivedMessage() {
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
-        }
-        if userMessage?.sessionRequestId == nil {
-            bubbleView.backgroundColor = Colors.otherUserColor()
         }
         bubbleViewLeftAnchor?.constant = 52
         bubbleViewLeftAnchor?.isActive = true
@@ -128,8 +125,8 @@ class UserMessageCell: BaseMessageCell {
 
     private func setupTextView() {
         bubbleView.addSubview(textView)
-        bubbleView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 4, paddingBottom: 4, paddingRight: 4, width: 0, height: 0)
-        textView.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 0, height: 0)
+        bubbleView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 9, paddingLeft: 9, paddingBottom: 9, paddingRight: 9, width: 0, height: 0)
+        textView.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 9, width: 0, height: 0)
     }
     
     private func setupTimeLabel() {

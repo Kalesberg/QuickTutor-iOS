@@ -46,6 +46,6 @@ target 'QuickTutor' do
   pod 'Firebase/Performance'
   
   pod 'SwipeCellKit'
-
+  pod 'IQKeyboardManager'
 
 end

@@ -12,7 +12,7 @@ import Firebase
 import UIKit
 import SocketIO
 
-class ConversationVC: UICollectionViewController {
+class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     var messagingManagerDelegate: ConversationManagerDelegate?
     var conversationManager = ConversationManager()
     var typingIndicatorManager: TypingIndicatorManager?
@@ -87,14 +87,20 @@ class ConversationVC: UICollectionViewController {
     @objc func textFieldDidChangeText(_ sender: UITextView) {
         if studentKeyboardAccessory.messageTextview.text.isEmpty && teacherKeyboardAccessory.messageTextview.text.isEmpty {
             typingIndicatorManager?.emitStopTyping()
+            studentKeyboardAccessory.changeSendButtonColor(Colors.gray)
+            teacherKeyboardAccessory.changeSendButtonColor(Colors.gray)
+        } else {
+            guard studentKeyboardAccessory.submitButton.backgroundColor != Colors.learnerPurple else { return }
+            studentKeyboardAccessory.changeSendButtonColor(Colors.learnerPurple)
+            teacherKeyboardAccessory.changeSendButtonColor(Colors.tutorBlue)
         }
     }
 
     private func setupMessagesCollection() {
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
-        collectionView = messagesCollection
-        collectionView?.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: -60, width: 0, height: 0)
+        view.addSubview(messagesCollection)
+        messagesCollection.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: -60, width: 0, height: 0)
     }
 
     private func setupEmptyBackground() {
@@ -174,7 +180,6 @@ class ConversationVC: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        messagesCollection.scrollToBottom(animated: false)
         messagesCollection.layoutTypingLabelIfNeeded()
         setupKeyboardObservers()
         studentKeyboardAccessory.chatView.delegate = self
@@ -194,16 +199,24 @@ class ConversationVC: UICollectionViewController {
                 self.enterConnectionRequestMode()
             }
         }
-
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
     }
 
+    @objc private func onBack() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         becomeFirstResponder()
         if shouldRequestSession {
             handleSessionRequest()
         }
-        
+        messagesCollection.scrollToBottom(animated: true)
         tutorial.showIfNeeded()
         conversationManager.readReceiptManager?.markConversationRead()
         NotificationManager.shared.disableConversationNotificationsFor(uid: chatPartner.uid)
@@ -345,10 +358,10 @@ class ConversationVC: UICollectionViewController {
         case .changed:
             let delta = sender.translation(in: view)
             guard delta.x > -120, delta.x < 0 else { return }
-            collectionView.transform = CGAffineTransform(translationX: delta.x / 2, y: 0)
+            messagesCollection.transform = CGAffineTransform(translationX: delta.x / 2, y: 0)
         case .ended:
             UIView.animate(withDuration: 0.25) {
-                self.collectionView.transform = CGAffineTransform(translationX: 0, y: 0)
+                self.messagesCollection.transform = CGAffineTransform(translationX: 0, y: 0)
             }
         default:
             break
@@ -426,11 +439,11 @@ class ConversationVC: UICollectionViewController {
 }
 
 extension ConversationVC: UICollectionViewDelegateFlowLayout {
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return conversationManager.messages.count
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let message = conversationManager.messages[indexPath.item] as? UserMessage else {
             if let timeStampMessage = conversationManager.messages[indexPath.item] as? MessageBreakTimestamp {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "timestampCell", for: indexPath) as! MessageGapTimestampCell
@@ -476,7 +489,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "textMessage", for: indexPath) as! UserMessageCell
         cell.updateUI(message: message)
-        cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 20
+        cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 30
         cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         return cell
     }
@@ -492,7 +505,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         var height: CGFloat = 0
         
         if let text = message.text {
-            height = text.estimateFrameForFontSize(14).height + 20
+            height = text.estimateFrameForFontSize(14).height + 30
             
         }
         
@@ -505,7 +518,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         }
         
         if message.connectionRequestId != nil {
-            height += 50
+            height += 40
         }
         return CGSize(width: UIScreen.main.bounds.width + 60, height: height)
     }
@@ -518,7 +531,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         return 0
     }
     
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView()}
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "paginationHeader", for: indexPath) as! ConversationPaginationHeader
         return header
@@ -528,7 +541,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: collectionView.frame.width, height: CGFloat(headerHeight))
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        titleView.transform = CGAffineTransform(translationX: 0, y: -20)
         titleView.arrow.transform = CGAffineTransform(translationX: 0, y: 20)
     }
@@ -625,9 +638,15 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
     func showSessionRequestView() {
         resignFirstResponder()
         FirebaseData.manager.fetchRequestSessionData(uid: receiverId) { requestData in
-            guard let requestData = requestData else { return }
-			let requestSessionModal = RequestSessionModal(uid: self.receiverId, requestData: requestData, frame: self.view.bounds)
-            self.view.addSubview(requestSessionModal)
+            let vc = SessionRequestVC()
+            FirebaseData.manager.fetchTutor(self.receiverId, isQuery: false, { (tutorIn) in
+                guard let tutor = tutorIn else { return }
+                vc.tutor = tutor
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+//            guard let requestData = requestData else { return }
+//            let requestSessionModal = RequestSessionModal(uid: self.receiverId, requestData: requestData, frame: self.view.bounds)
+//            self.view.addSubview(requestSessionModal)
         }
     }
 
@@ -758,7 +777,7 @@ extension ConversationVC: ImageMessageAnimatorDelegate {
 }
 
 extension ConversationVC {
-    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard scrollView.contentOffset.y == 0 else { return }
         conversationManager.loadPreviousMessagesByTimeStamp(limit: 50) { messages in
             let oldOffset = self.messagesCollection.contentSize.height - self.messagesCollection.contentOffset.y

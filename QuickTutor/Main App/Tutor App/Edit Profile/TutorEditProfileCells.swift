@@ -42,28 +42,28 @@ class ProfileImagesTableViewCell: BaseTableViewCell {
 
         image1.snp.makeConstraints { make in
             make.height.equalTo(height)
-            make.width.equalToSuperview().multipliedBy(0.25)
+            make.width.equalToSuperview().multipliedBy(0.33)
             make.left.equalToSuperview()
             make.centerY.equalToSuperview()
         }
 
         image2.snp.makeConstraints { make in
             make.height.equalTo(height)
-            make.width.equalToSuperview().multipliedBy(0.25)
+            make.width.equalToSuperview().multipliedBy(0.33)
             make.left.equalTo(image1.snp.right)
             make.centerY.equalToSuperview()
         }
 
         image3.snp.makeConstraints { make in
             make.height.equalTo(height)
-            make.width.equalToSuperview().multipliedBy(0.25)
+            make.width.equalToSuperview().multipliedBy(0.33)
             make.left.equalTo(image2.snp.right)
             make.centerY.equalToSuperview()
         }
 
         image4.snp.makeConstraints { make in
             make.height.equalTo(height)
-            make.width.equalToSuperview().multipliedBy(0.25)
+            make.width.equalToSuperview().multipliedBy(0.33)
             make.right.equalToSuperview()
             make.centerY.equalToSuperview()
         }
@@ -151,8 +151,9 @@ class EditProfileItemTableViewCell: BaseTableViewCell {
         textField.delegate = self
 
         divider.backgroundColor = Colors.divider
-        infoLabel.label.font = Fonts.createBoldSize(15)
-        textField.font = Fonts.createSize(18)
+        infoLabel.label.font = Fonts.createBoldSize(14)
+        textField.font = Fonts.createSize(16)
+        textField.textColor = Colors.gray
 
         applyConstraints()
     }
@@ -315,11 +316,9 @@ class EditProfilePolicyTableViewCell: EditProfileDotItemTableViewCell {
 class EditProfileHeaderTableViewCell: BaseTableViewCell {
     let label: UILabel = {
         let label = UILabel()
-
         label.textColor = .white
-        label.font = Fonts.createSize(20)
+        label.font = Fonts.createBoldSize(16)
         label.sizeToFit()
-
         return label
     }()
 

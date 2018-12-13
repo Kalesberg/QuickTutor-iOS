@@ -89,7 +89,6 @@ class InviteOthersVC: BaseViewController {
         navigationItem.title = "Share QuickTutor"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Invite", style: .plain, target: self, action: #selector(sendInvite))
         navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationController?.navigationBar.isHidden = false
     }
     
     @objc func sendInvite() {

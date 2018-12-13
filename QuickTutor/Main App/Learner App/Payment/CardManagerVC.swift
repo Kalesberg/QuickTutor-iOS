@@ -104,7 +104,6 @@ class CardManagerVC: BaseViewController {
         
         navigationItem.title = "Payment"
         navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationController?.navigationBar.isHidden = false
     }
 
     private func setCustomer() {

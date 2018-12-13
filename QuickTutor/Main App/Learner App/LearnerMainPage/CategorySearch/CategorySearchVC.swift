@@ -39,7 +39,6 @@ class CategorySearchVC: BaseViewController {
         contentView.collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
         contentView.collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         contentView.searchBar.delegate = self
-        navigationController?.navigationBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: true)
 //        navigationItem.title = category
     }
@@ -93,7 +92,7 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
-        return CGSize(width: (screen.width - 60) / 2, height: 190)
+        return CGSize(width: (screen.width - 60) / 2, height: 225)
     }
 
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {

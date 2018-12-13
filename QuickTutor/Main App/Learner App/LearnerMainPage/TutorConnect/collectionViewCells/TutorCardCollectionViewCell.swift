@@ -268,7 +268,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
         }
         
 		DataService.shared.getTutorWithId(tutor.uid) { tutor in
-			let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+			let vc = ConversationVC()
 			vc.receiverId = tutor?.uid
 			vc.chatPartner = tutor
 			navigationController.pushViewController(vc, animated: true)
@@ -279,7 +279,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 extension TutorCardCollectionViewCell: AddTutorButtonDelegate {
     func addTutorWithUid(_ uid: String, completion: (() -> Void)?) {
         DataService.shared.getTutorWithId(uid) { tutor in
-            let vc = ConversationVC(collectionViewLayout: UICollectionViewFlowLayout())
+            let vc = ConversationVC()
             vc.receiverId = uid
             vc.chatPartner = tutor
             navigationController.pushViewController(vc, animated: true)

@@ -82,8 +82,7 @@ class ProfilePicImageView: InteractableView, Interactable {
         }
 
         buttonImageView.snp.makeConstraints { make in
-            make.bottom.equalTo(picView.snp.bottom).inset(-4)
-            make.right.equalTo(picView.snp.right).inset(-4)
+            make.center.equalToSuperview()
             make.height.equalTo(25)
             make.width.equalTo(25)
         }
@@ -92,7 +91,7 @@ class ProfilePicImageView: InteractableView, Interactable {
     override func layoutSubviews() {
         super.layoutSubviews()
         picView.layer.masksToBounds = false
-        picView.layer.cornerRadius = 8
+        picView.layer.cornerRadius = 4
         picView.clipsToBounds = true
     }
 }
@@ -147,8 +146,14 @@ class LearnerEditProfileVC: BaseViewController {
         hideKeyboardWhenTappedAround()
         configureDelegates()
         definesPresentationContext = true
-        navigationItem.title = "Edit Profile"
+        navigationItem.title = "Edit"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveChanges))
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
+    }
+    
+    @objc private func onBack() {
+        navigationController?.popViewController(animated: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {

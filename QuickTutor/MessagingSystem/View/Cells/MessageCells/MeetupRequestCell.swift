@@ -431,6 +431,8 @@ class SessionRequestCellButtonView: UIView {
             layer.cornerRadius = 4
             layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
+        layer.borderColor = Colors.gray.cgColor
+        layer.borderWidth = 2
     }
 
     func setupRightButton() {

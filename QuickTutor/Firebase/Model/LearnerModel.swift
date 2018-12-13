@@ -22,6 +22,7 @@ class AWLearner: User {
     var languages: [String]?
     var lReviews: [Review]!
     var lRating: Double!
+    var savedTutorIds: [String]?
     
     var images = ["image1": "", "image2": "", "image3": "", "image4": ""]
     

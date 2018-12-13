@@ -9,10 +9,25 @@
 import UIKit
 
 protocol ProfileModeToggleViewDelegate: class {
-    func profleModeToggleView(_ profileModeToggleView: ProfileModeToggleView, shouldSwitchTo side: UserType)
+    func profleModeToggleView(_ profileModeToggleView: MockCollectionViewCell, shouldSwitchTo side: UserType)
 }
 
-class ProfileModeToggleView: UIView {
+protocol MockCollectionViewCellDelegate: class {
+    func mockCollectionViewCellDidSelectPrimaryButton( _ cell: MockCollectionViewCell)
+    func mockCollectionViewCellDidSelectSecondaryButton( _ cell: MockCollectionViewCell)
+}
+
+extension MockCollectionViewCellDelegate {
+    func mockCollectionViewCellDidSelectSecondaryButton( _ cell: MockCollectionViewCell) {}
+}
+
+class MockCollectionViewCell: UIView {
+    
+    var numberOfButtons = 1 {
+        didSet {
+            secondaryButton.isHidden = numberOfButtons == 1
+        }
+    }
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -22,8 +37,8 @@ class ProfileModeToggleView: UIView {
         return label
     }()
     
-    let switchButton: UIButton = {
-        let button = UIButton()
+    let primaryButton: DimmableButton = {
+        let button = DimmableButton()
         button.backgroundColor = Colors.currentUserColor()
         button.layer.cornerRadius = 4
         button.setTitle("Switch", for: .normal)
@@ -32,17 +47,31 @@ class ProfileModeToggleView: UIView {
         return button
     }()
     
-    weak var delegate: ProfileModeToggleViewDelegate?
+    let secondaryButton: DimmableButton = {
+        let button = DimmableButton()
+        button.backgroundColor = Colors.gray
+        button.layer.cornerRadius = 4
+        button.setTitle("In-person", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = Fonts.createBoldSize(12)
+        button.isHidden = true
+        return button
+    }()
+    
+    
+    weak var profileDelegate: ProfileModeToggleViewDelegate?
+    weak var delegate: MockCollectionViewCellDelegate?
     
     func setupViews() {
         setupMainView()
         setupTitleLabel()
-        setupSwitchButton()
+        setupPrimaryButton()
+        setupSecondaryButton()
     }
     
     func setupMainView() {
         layer.cornerRadius = 4
-        layer.borderColor = Colors.profileGray.cgColor
+        layer.borderColor = Colors.gray.cgColor
         layer.borderWidth = 2
         backgroundColor = Colors.newBackground
     }
@@ -54,18 +83,37 @@ class ProfileModeToggleView: UIView {
         titleLabel.text = modeText.capitalized + " mode"
     }
     
-    func setupSwitchButton() {
-        addSubview(switchButton)
-        switchButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 60, height: 30)
-        addConstraint(NSLayoutConstraint(item: switchButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
-        switchButton.addTarget(self, action: #selector(switchSide), for: .touchUpInside)
+    func setupPrimaryButton() {
+        addSubview(primaryButton)
+        primaryButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 60, height: 30)
+        addConstraint(NSLayoutConstraint(item: primaryButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        primaryButton.addTarget(self, action: #selector(handlePrimaryButton), for: .touchUpInside)
     }
     
-    @objc func switchSide() {
+    func setupSecondaryButton() {
+        addSubview(secondaryButton)
+        secondaryButton.anchor(top: nil, left: nil, bottom: nil, right: primaryButton.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 75, height: 30)
+        addConstraint(NSLayoutConstraint(item: secondaryButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        secondaryButton.addTarget(self, action: #selector(handleSecondaryButton), for: .touchUpInside)
+    }
+
+    @objc func handlePrimaryButton() {
+        primaryButton.backgroundColor = Colors.currentUserColor()
+        primaryButton.isSelected = true
+        secondaryButton.backgroundColor = Colors.gray
+        secondaryButton.isSelected = false
         let newUserType: UserType = AccountService.shared.currentUserType == .learner ? .tutor : .learner
-        delegate?.profleModeToggleView(self, shouldSwitchTo: newUserType)
+        delegate?.mockCollectionViewCellDidSelectPrimaryButton(self)
+        profileDelegate?.profleModeToggleView(self, shouldSwitchTo: newUserType)
     }
     
+    @objc func handleSecondaryButton() {
+        secondaryButton.backgroundColor = Colors.currentUserColor()
+        secondaryButton.isSelected = true
+        primaryButton.backgroundColor = Colors.gray
+        primaryButton.isSelected = false
+        delegate?.mockCollectionViewCellDidSelectSecondaryButton(self)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

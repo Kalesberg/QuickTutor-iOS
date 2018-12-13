@@ -13,6 +13,7 @@ import FBSDKCoreKit
 import Stripe
 import AVFoundation
 import Crashlytics
+import IQKeyboardManager
 
 var navigationController = UINavigationController()
 
@@ -59,6 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
 
+        IQKeyboardManager.shared().isEnabled = true
+        IQKeyboardManager.shared().isEnableAutoToolbar = false
             
         //Firebase init
         FirebaseApp.configure()

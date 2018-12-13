@@ -10,6 +10,32 @@ import UIKit
 import Firebase
 
 class LearnerSessionsVC: BaseSessionsVC {
+    
+    let requestSessionButton: DimmableButton = {
+        let button = DimmableButton()
+        button.setTitle("Request session", for: .normal)
+        button.titleLabel?.font = Fonts.createBoldSize(16)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Colors.currentUserColor()
+        return button
+    }()
+    
+    override func setupViews() {
+        super.setupViews()
+        setupRequestSessionButton()
+    }
+    
+    func setupRequestSessionButton() {
+        view.addSubview(requestSessionButton)
+        requestSessionButton.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
+        requestSessionButton.addTarget(self, action: #selector(handleRequestSession), for: .touchUpInside)
+    }
+    
+    @objc func handleRequestSession() {
+        let vc = SessionRequestVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     override func setupCollectionView() {
         super.setupCollectionView()
         collectionView.register(LearnerPendingSessionCell.self, forCellWithReuseIdentifier: "pendingSessionCell")

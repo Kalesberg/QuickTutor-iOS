@@ -21,44 +21,30 @@ class ConversationCell: SwipeCollectionViewCell {
 
     let profileImageView: UserImageView = {
         let iv = UserImageView(frame: CGRect.zero)
-        iv.onlineStatusIndicator.backgroundColor = Colors.navBarGreen
+        iv.onlineStatusIndicator.backgroundColor = Colors.gray
         return iv
     }()
 
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(13)
+        label.font = Fonts.createBlackSize(14)
         label.textColor = .white
         return label
     }()
 
     let lastMessageLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(11)
-        label.textColor = .white
+        label.font = Fonts.createBoldSize(10)
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
         return label
     }()
 
     let timestampLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(8)
-        label.textColor = .white
+        label.font = Fonts.createSize(10)
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
         label.textAlignment = .right
         return label
-    }()
-
-    let starLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .right
-        label.font = Fonts.createBoldSize(9)
-        label.textColor = Colors.gold
-        return label
-    }()
-
-    let starIcon: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
-        iv.contentMode = .scaleAspectFit
-        return iv
     }()
 
     let newMessageGradientLayer: CAGradientLayer = {
@@ -88,8 +74,6 @@ class ConversationCell: SwipeCollectionViewCell {
         setupTimestampLabel()
         setupUsernameLabel()
         setupLastMessageLabel()
-        setupStarIcon()
-        setupStarLabel()
         setupNewMessageGradientLayer()
     }
 
@@ -100,29 +84,17 @@ class ConversationCell: SwipeCollectionViewCell {
 
     private func setupTimestampLabel() {
         contentView.addSubview(timestampLabel)
-        timestampLabel.anchor(top: contentView.topAnchor, left: nil, bottom: nil, right: contentView.rightAnchor, paddingTop: 11, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 60, height: 12)
+        timestampLabel.anchor(top: contentView.topAnchor, left: nil, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 60, height: 12)
     }
 
     private func setupUsernameLabel() {
         contentView.addSubview(usernameLabel)
-        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 8, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
+        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 13, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
     }
 
     private func setupLastMessageLabel() {
         contentView.addSubview(lastMessageLabel)
         lastMessageLabel.anchor(top: usernameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 10, paddingRight: 0, width: 0, height: 14)
-    }
-
-    private func setupStarIcon() {
-        contentView.addSubview(starIcon)
-        starIcon.anchor(top: nil, left: nil, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 12, height: 12)
-        addConstraint(NSLayoutConstraint(item: starIcon, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0))
-    }
-
-    private func setupStarLabel() {
-        contentView.addSubview(starLabel)
-        starLabel.anchor(top: nil, left: nil, bottom: nil, right: starIcon.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 60, height: 15)
-        addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0))
     }
 
     func setupNewMessageGradientLayer() {
@@ -151,7 +123,6 @@ class ConversationCell: SwipeCollectionViewCell {
         updateTimestampLabel(message: message)
         updateProfileImage()
         updateLastMessageLabel(message: message)
-        updateRating()
         checkConversationReadStatus(partnerId: message.partnerId())
     }
 
@@ -167,7 +138,7 @@ class ConversationCell: SwipeCollectionViewCell {
     }
 
     private func updateOnlineStatusIndicator() {
-        profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? Colors.navBarGreen : Colors.qtRed
+        profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? Colors.currentUserColor() : Colors.gray
     }
 
     private func updateProfileImage() {
@@ -189,14 +160,6 @@ class ConversationCell: SwipeCollectionViewCell {
         if message.sessionRequestId != nil {
             lastMessageLabel.text = "Session Request"
         }
-    }
-
-    private func updateRating() {
-        guard let tutor = chatPartner as? ZFTutor, let rating = tutor.rating else {
-            starLabel.text = "5.0"
-            return
-        }
-        starLabel.text = "\(rating)"
     }
     
     func checkConversationReadStatus(partnerId: String) {

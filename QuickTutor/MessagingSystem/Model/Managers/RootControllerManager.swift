@@ -36,6 +36,10 @@ class RootControllerManager {
         let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
         let home = UINavigationController(rootViewController: LearnerMainPageVC())
         home.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "homeTabBarIcon"), selectedImage: UIImage(named: "homeTabBarIcon"))
+        let saved = UINavigationController(rootViewController: LearnerEditProfileVC())
+        saved.tabBarItem = UITabBarItem(title: "Saved", image: UIImage(named: "savedTabBarIcon"), selectedImage: UIImage(named: "savedTabBarIcon"))
+        saved.navigationBar.barTintColor = Colors.newBackground
+        saved.navigationBar.backgroundColor = Colors.newBackground
         let sessions = UINavigationController(rootViewController: LearnerSessionsVC())
         sessions.tabBarItem = UITabBarItem(title: "Sessions", image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
         let messages = UINavigationController(rootViewController: MessagesVC())
@@ -44,7 +48,7 @@ class RootControllerManager {
         messages.navigationBar.backgroundColor = Colors.newBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
-        let controllers = [home, sessions, messages, profile]
+        let controllers = [home, saved, sessions, messages, profile]
         tab.tabBar.barTintColor = Colors.registrationDark
         tab.tabBar.tintColor = .white
         tab.tabBar.isOpaque = false
@@ -53,8 +57,7 @@ class RootControllerManager {
 
 
         for vc in controllers {
-//            vc.tabBarItem.imageInsets = UIEdgeInsets(top: 7, left: 0, bottom: -7, right: 0)
-            vc.navigationBar.barTintColor = Colors.currentUserColor()
+            vc.navigationBar.barTintColor = Colors.darkBackground
             vc.navigationBar.isTranslucent = false
             vc.navigationBar.isOpaque = false
         }
