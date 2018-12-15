@@ -76,7 +76,7 @@ class VerificationVC : BaseViewController {
             } else {
                 contentView.resendVCButton.setTitle("Resend code in: 0:0\(seconds)", for: .normal)
             }
-        }
+        } 
     }
 	
 	@objc func resendVCButtonPressed(_ sender: Any) {

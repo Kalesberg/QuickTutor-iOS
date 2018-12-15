@@ -56,6 +56,7 @@ struct Colors {
     //Redesign
     static let newBackground = UIColor(hex: "1B1B27")
     static let gray = UIColor(hex: "2C2C3A")
+    static let registrationGray = UIColor.white.withAlphaComponent(0.5)
     static let darkGray = UIColor(hex: "1b1b26")
     
     static func currentUserColor() -> UIColor {

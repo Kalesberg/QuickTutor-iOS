@@ -14,12 +14,19 @@ import FacebookCore
 import Alamofire
 import SwiftyJSON
 
-
 class PhoneTextFieldView: InteractableView, Interactable {
+	
+	let phoneNumberLabel: UILabel = {
+		let label = UILabel()
+		label.text = "Phone number"
+		label.font = Fonts.createBoldSize(14)
+		label.textColor = .white
+		return label
+	}()
 	
 	var textField: NoPasteTextField = {
 		let textField = NoPasteTextField()
-		textField.font = Fonts.createSize(25)
+		textField.font = Fonts.createSize(16)
 		textField.keyboardAppearance = .dark
 		textField.textColor = .white
 		textField.tintColor = .white
@@ -32,41 +39,58 @@ class PhoneTextFieldView: InteractableView, Interactable {
 		imageView.scaleImage()
 		return imageView
 	}()
+	
 	var plusOneLabel: UILabel = {
 		let label = UILabel()
-		
-		label.textColor = .white
-		label.font = Fonts.createSize(25)
+		label.textColor = Colors.registrationGray
+		label.font = Fonts.createSize(16)
 		label.text = "+1"
 		label.textAlignment = .center
 		
 		return label
 	}()
+    
 	var line = UIView()
 	
+	let invalidNumberLabel: UILabel = {
+		let label = UILabel()
+		label.text = "Invalid phone number"
+		label.font = Fonts.createBoldSize(14)
+		label.textColor = .red
+		label.isHidden = true
+		return label
+	}()
+	
 	override func configureView() {
+		addSubview(phoneNumberLabel)
 		addSubview(textField)
 		addSubview(line)
 		addSubview(flag)
 		addSubview(plusOneLabel)
+		addSubview(invalidNumberLabel)
 		super.configureView()
 		
-		line.backgroundColor = .white
-		
+		line.backgroundColor = Colors.registrationGray
 		applyConstraints()
 	}
 	
 	override func applyConstraints() {
+		phoneNumberLabel.snp.makeConstraints { (make) in
+			make.top.equalToSuperview()
+			make.width.equalToSuperview()
+			make.left.equalToSuperview()
+		}
+
 		flag.snp.makeConstraints { make in
-			make.height.equalToSuperview().multipliedBy(0.6)
+			make.height.equalTo(45)
 			make.width.equalTo(30)
 			make.left.equalToSuperview()
-			make.bottom.equalToSuperview()
+			make.bottom.equalToSuperview().inset(35)
 		}
 		
 		plusOneLabel.snp.makeConstraints { make in
 			make.left.equalTo(flag.snp.right)
-			make.bottom.equalToSuperview()
+			make.bottom.equalToSuperview().inset(35)
 			make.width.equalTo(45)
 			make.height.equalTo(flag)
 		}
@@ -74,151 +98,84 @@ class PhoneTextFieldView: InteractableView, Interactable {
 		textField.snp.makeConstraints { make in
 			make.left.equalTo(plusOneLabel.snp.right)
 			make.right.equalToSuperview()
-			make.bottom.equalToSuperview()
-			make.height.equalToSuperview().multipliedBy(0.6)
+			make.bottom.equalToSuperview().inset(35)
+			make.height.equalTo(45)
 		}
 		
 		line.snp.makeConstraints { make in
 			make.left.equalToSuperview()
 			make.right.equalToSuperview()
-			make.bottom.equalToSuperview().offset(1)
+			make.bottom.equalToSuperview().inset(35)
 			make.height.equalTo(1)
 		}
-	}
-}
-
-class FacebookButton: InteractableView, Interactable {
-	
-	var facebookIcon = UIImageView()
-	var facebookLabel = LeftTextLabel()
-	
-	override func configureView() {
-		addSubview(facebookIcon)
-		addSubview(facebookLabel)
-		super.configureView()
 		
-		facebookIcon.image = UIImage(named: "fb-signin")
-		
-		facebookLabel.label.text = "Continue with Facebook »"
-		facebookLabel.label.font = Fonts.createSize(18)
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		facebookIcon.snp.makeConstraints { make in
+		invalidNumberLabel.snp.makeConstraints { (make) in
 			make.left.equalToSuperview()
-			make.centerY.equalToSuperview()
-		}
-		
-		facebookLabel.snp.makeConstraints { make in
-			make.left.equalToSuperview().inset(30)
+			make.bottom.equalToSuperview()
 			make.right.equalToSuperview()
-			make.centerY.equalToSuperview()
-			make.height.equalTo(30)
+			make.height.equalTo(15)
 		}
 	}
 	
-	func touchStart() {
-		facebookIcon.alpha = 0.6
-		facebookLabel.alpha = 0.6
+	func showInvalidPhoneNumber() {
+		invalidNumberLabel.isHidden = false
+		line.backgroundColor = .red
 	}
 	
-	func didDragOff() {
-		facebookIcon.alpha = 1.0
-		facebookLabel.alpha = 1.0
+	func hideInvalidPhoneNumber() {
+		invalidNumberLabel.isHidden = true
+		line.backgroundColor = Colors.registrationGray
 	}
 }
 
-
-class SignInVC: BaseViewController {
+class SignInVC: UIViewController {
 	
 	var verificationId: String!
 	
-	override var contentView: SignInView {
-		return view as! SignInView
+	let contentView: SignInVCView = {
+		let view = SignInVCView()
+		return view
+	}()
+	
+	let accessoryView: RegistrationAccessoryView = {
+		let view = RegistrationAccessoryView()
+		return view
+	}()
+	
+	override var inputAccessoryView: UIView? {
+		return RegistrationAccessoryView()
 	}
 	
 	override func loadView() {
-		view = SignInView()
+		view = contentView
 	}
 	
 	var keyboardAnimationDuration: Double?
 	
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		setupTargets()
 		hideKeyboardWhenTappedAround()
 		contentView.phoneTextField.textField.delegate = self
-		
+		accessoryView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
+		contentView.phoneTextField.textField.inputAccessoryView = accessoryView
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 	}
+	
 	@objc func keyboardWillShow(_ notification: Notification) {
 		if let _: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
 			guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {return}
 			keyboardAnimationDuration = duration
 		}
 	}
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		
-	}
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		
-		if contentView.nextButton.isUserInteractionEnabled {
-			contentView.phoneTextField.isUserInteractionEnabled = true
-			contentView.phoneTextField.textField.becomeFirstResponder()
-		}
-	}
-
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-	}
 	
-	override func handleNavigation() {
-		if touchStartView is RegistrationBackButton {
-			
-			contentView.backButton.isUserInteractionEnabled = false
-			contentView.nextButton.isUserInteractionEnabled = false
-			
-			contentView.backButton.fadeOut(withDuration: 0.2)
-			contentView.nextButton.fadeOut(withDuration: 0.2)
-			
-			contentView.phoneTextField.snp.removeConstraints()
-			contentView.quicktutorFlame.snp.removeConstraints()
-			
-			contentView.phoneTextField.snp.remakeConstraints { make in
-				make.width.equalToSuperview()
-				make.centerY.equalToSuperview()
-				make.height.equalTo(60)
-				make.centerX.equalToSuperview()
-			}
-			
-			contentView.quicktutorFlame.snp.remakeConstraints { make in
-				make.top.equalTo(contentView.learnAnythingLabel.snp.bottom).offset(30)
-				make.centerX.equalToSuperview()
-			}
-			
-			contentView.setNeedsUpdateConstraints()
-			UIView.animate(withDuration: 0.7, delay: 0.2, options: [.curveEaseIn], animations: {
-				self.contentView.layoutIfNeeded()
-			}, completion: { _ in
-				self.contentView.quicktutorText.fadeIn(withDuration: 0.2, alpha: 1.0)
-				self.contentView.learnAnythingLabel.fadeIn(withDuration: 0.2, alpha: 1.0)
-				self.contentView.infoLabel.fadeIn(withDuration: 0.2, alpha: 1.0)
-			})
-		} else if touchStartView is RegistrationNextButton {
-			signIn()
-			contentView.nextButton.isUserInteractionEnabled = false
-		} else if touchStartView is FacebookButton {
-			handleFacebookSignIn()
-		}
+	func setupTargets() {
+		contentView.facebookButton.addTarget(self, action: #selector(handleFacebookSignIn), for: .touchUpInside)
+		accessoryView.nextButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
 	}
 	
 	@objc func handleFacebookSignIn() {
 		let loginManager = LoginManager()
-		
 		loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
 			switch result {
 			case .failed(let error):
@@ -257,7 +214,6 @@ class SignInVC: BaseViewController {
 					})
 				}
 			}
-
 		}
 
 	}
@@ -315,8 +271,12 @@ class SignInVC: BaseViewController {
 
 	}
 	
-	private func signIn() {
+	@objc func signIn() {
 		let phoneNumber = contentView.phoneTextField.textField.text!
+		guard phoneNumber.cleanPhoneNumber().isPhoneNumber else {
+			contentView.phoneTextField.showInvalidPhoneNumber()
+			return
+		}
 		displayLoadingOverlay()
 		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.cleanPhoneNumber(), uiDelegate: nil) { verificationId, error in
 			if let error = error {
@@ -326,45 +286,15 @@ class SignInVC: BaseViewController {
 				Registration.phone = phoneNumber.cleanPhoneNumber()
 				self.navigationController?.pushViewController(VerificationVC(), animated: true)
 			}
-			self.contentView.nextButton.isUserInteractionEnabled = true
 		}
 		dismissOverlay()
 	}
 	
 }
 extension SignInVC: UITextFieldDelegate {
-	func textFieldDidBeginEditing(_ textField: UITextField) {
-		contentView.quicktutorText.fadeOut(withDuration: 0.2)
-		contentView.learnAnythingLabel.fadeOut(withDuration: 0.2)
-		contentView.infoLabel.fadeOut(withDuration: 0.2)
-		
-		contentView.phoneTextField.snp.remakeConstraints({ make in
-			make.top.equalTo(self.contentView.backButton.snp.bottom)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-			make.height.equalTo(60)
-		})
-		
-		contentView.quicktutorFlame.snp.remakeConstraints({ make in
-			make.centerX.equalToSuperview()
-			make.top.equalTo(contentView.phoneTextField.snp.bottom).offset(30)
-		})
-		
-		contentView.setNeedsUpdateConstraints()
-		UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseInOut], animations: {
-			self.contentView.layoutIfNeeded()
-		}, completion: { (true) in
-			self.contentView.backButton.fadeIn(withDuration: 0.2, alpha: 1.0)
-			self.contentView.backButton.isUserInteractionEnabled = true
-			self.contentView.phoneTextField.textField.becomeFirstResponder()
-			self.contentView.nextButton.fadeIn(withDuration: 0.2, alpha: 1.0)
-		})
-		
-		contentView.nextButton.isUserInteractionEnabled = true
-	}
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-		
+		contentView.phoneTextField.hideInvalidPhoneNumber()
 		let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
 		let components = (newString as NSString).components(separatedBy: NSCharacterSet.decimalDigits.inverted)
 		
@@ -401,3 +331,21 @@ extension SignInVC: UITextFieldDelegate {
 		return false
 	}
 }
+
+
+extension String {
+	var isPhoneNumber: Bool {
+		do {
+			let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
+			let matches = detector.matches(in: self, options: [], range: NSMakeRange(0, self.count))
+			if let res = matches.first {
+				return res.resultType == .phoneNumber && res.range.location == 0 && res.range.length == self.count && self.count == 12
+			} else {
+				return false
+			}
+		} catch {
+			return false
+		}
+	}
+}
+

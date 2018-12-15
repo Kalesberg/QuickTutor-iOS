@@ -9,172 +9,121 @@
 import Foundation
 import FBSDKLoginKit
 
-class SignInView: BaseLayoutView, Keyboardable {
-	
-	var keyboardComponent = ViewComponent()
-	let backButton = RegistrationBackButton()
-	let nextButton = RegistrationNextButton()
-	
-	var phoneNumberTextField = RegistrationTextField()
-	var signinLabel = UILabel()
-	
-	let quicktutorText : UIImageView = {
-		let imageView = UIImageView()
-		imageView.image = UIImage(named: "quicktutor-text")
-		return imageView
-	}()
-	
-	let learnAnythingLabel : CenterTextLabel = {
-		let centerTextLabel = CenterTextLabel()
-		centerTextLabel.label.text = "Learn Anything. Teach Anyone.™"
-		centerTextLabel.label.font = Fonts.createLightSize(20)
-		return centerTextLabel
-	}()
-	
-	var quicktutorFlame : UIImageView = {
-		let imageView = UIImageView()
-		imageView.image = UIImage(named: "qt-flame")
-		return imageView
-	}()
-	
-	let numberLabel : LeftTextLabel = {
-		let leftTextLabel = LeftTextLabel()
-		leftTextLabel.label.text = "YOUR MOBILE NUMBER"
-		leftTextLabel.label.font = Fonts.createBoldSize(14)
-		return leftTextLabel
-	}()
-	
-	var container = UIView()
-	
-	let phoneTextField : PhoneTextFieldView = {
-		let view = PhoneTextFieldView()
-		view.textField.keyboardType = .numberPad
-		return view
-	}()
-	
-	let infoLabel : UILabel = {
-		let label = UILabel()
-		label.attributedText = NSMutableAttributedString()
-			.regular("By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy.\n", 13, .white)
-			.bold("U.S. Patent Pending.", 15, Colors.grayText)
-		label.numberOfLines = 0
-		return label
-	}()
-	
-    let facebookButton: FacebookButton = {
-        let button = FacebookButton()
+class SignInVCView: UIView {
+    
+    let logoImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.image = UIImage(named: "launchScreenImage")
+        return iv
+    }()
+    
+    let welcomeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Welcome to QuickTutor!"
+        label.textColor = .white
+        label.font = Fonts.createBlackSize(24)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    let phoneTextField : PhoneTextFieldView = {
+        let view = PhoneTextFieldView()
+        view.textField.keyboardType = .numberPad
+        return view
+    }()
+    
+    let orLabel: UILabel = {
+        let label = UILabel()
+        label.text = "or"
+        label.textAlignment = .center
+        label.font = Fonts.createSize(16)
+        label.textColor = Colors.registrationGray
+        return label
+    }()
+    
+    let facebookButton: DimmableButton = {
+        let button = DimmableButton()
+        button.backgroundColor = Colors.learnerPurple
+        button.setTitle("Login via Facebook", for: .normal)
+        button.titleLabel?.font = Fonts.createBoldSize(14)
+        button.layer.cornerRadius = 4
         return button
     }()
     
-	override func configureView() {
-		addKeyboardView()
-		addSubview(backButton)
-		addSubview(quicktutorText)
-		addSubview(learnAnythingLabel)
-		addSubview(quicktutorFlame)
-		addSubview(infoLabel)
-		addSubview(container)
-		container.addSubview(phoneTextField)
-		phoneTextField.addSubview(numberLabel)
-		addSubview(nextButton)
+    let infoLabel : UILabel = {
+        let label = UILabel()
+        label.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy.\n"
+        label.numberOfLines = 0
+        label.textColor = .white
+        label.font = Fonts.createSize(12)
+        return label
+    }()
+    
+    let patentLabel: UILabel = {
+        let label = UILabel()
+        label.text = "U.S. Patent Pending"
+        label.textColor = Colors.registrationGray
+        label.font = Fonts.createBoldSize(14)
+        return label
+    }()
+    
+    func setupViews() {
+        setupMainView()
+        setupLogoImageView()
+        setupWelcomeLabel()
+        setupPhoneTextField()
+        setupOrLabel()
+        setupFacebookButton()
+        setupPatentLabel()
+        setupInfoLabel()
+    }
+    
+    func setupMainView() {
+        backgroundColor = Colors.darkBackground
+    }
+    
+    func setupLogoImageView() {
+        addSubview(logoImageView)
+        logoImageView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: nil, paddingTop: 80, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+    }
+    
+    func setupWelcomeLabel() {
+        addSubview(welcomeLabel)
+        welcomeLabel.anchor(top: logoImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 166, height: 72)
+    }
+    
+    func setupPhoneTextField() {
+        addSubview(phoneTextField)
+        phoneTextField.anchor(top: welcomeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 80, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 105)
+    }
+    
+    func setupOrLabel() {
+        addSubview(orLabel)
+        orLabel.anchor(top: phoneTextField.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 21)
+    }
+    
+    func setupFacebookButton() {
         addSubview(facebookButton)
-		super.configureView()
-		insertSubview(nextButton, aboveSubview: container)
-		
-		backButton.alpha = 0.0
-		backButton.isUserInteractionEnabled = false
-		
-		nextButton.alpha = 0.0
-		nextButton.isUserInteractionEnabled = false
-	
-		applyGradient(firstColor: (Colors.oldTutorBlue.cgColor), secondColor: (Colors.oldLearnerPurple.cgColor), angle: 160, frame: frame)
-
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		super.applyConstraints()
-		
-		backButton.snp.makeConstraints { make in
-			if #available(iOS 11.0, *) {
-				make.top.equalTo(safeAreaLayoutGuide.snp.top)
-			} else {
-				make.top.equalToSuperview().inset(DeviceInfo.statusbarHeight)
-			}
-			make.width.equalToSuperview().multipliedBy(0.25)
-			make.height.equalToSuperview().multipliedBy(0.13)
-			make.left.equalToSuperview()
-		}
-		
-		nextButton.snp.makeConstraints { make in
-			make.bottom.equalTo(keyboardView.snp.top)
-			make.right.equalToSuperview().inset(15)
-			make.width.equalToSuperview().multipliedBy(0.25)
-			make.height.equalToSuperview().multipliedBy(0.1)
-		}
-		
-		quicktutorText.snp.makeConstraints { make in
-			make.centerX.equalToSuperview()
-			if #available(iOS 11.0, *) {
-				make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(15)
-			} else {
-				make.top.equalTo(backButton).inset(15)
-			}
-		}
-		
-		learnAnythingLabel.snp.makeConstraints { make in
-			make.top.equalTo(quicktutorText.snp.bottom)
-			make.height.equalTo(30)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-		}
-		
-		quicktutorFlame.snp.makeConstraints { make in
-			make.top.equalTo(learnAnythingLabel.snp.bottom).offset(30)
-			make.centerX.equalToSuperview()
-		}
-		
-		infoLabel.snp.makeConstraints { make in
-			if UIScreen.main.bounds.height == 480 {
-				make.width.equalToSuperview().multipliedBy(0.85)
-				make.centerX.bottom.equalToSuperview()
-			} else {
-				make.width.equalToSuperview().multipliedBy(0.85)
-				if #available(iOS 11.0, *) {
-					make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(15)
-				} else {
-					make.bottom.equalToSuperview().inset(15)
-				}
-				make.centerX.equalToSuperview()
-			}
-		}
-		
-		container.snp.makeConstraints { make in
-			make.top.equalTo(quicktutorFlame.snp.bottom)
-			make.bottom.equalTo(infoLabel.snp.top)
-			make.width.equalToSuperview().multipliedBy(0.85)
-			make.centerX.equalToSuperview()
-		}
-		
-		phoneTextField.snp.makeConstraints { make in
-			make.width.equalToSuperview()
-			make.centerY.equalToSuperview()
-			make.height.equalTo(60)
-			make.centerX.equalToSuperview()
-		}
-		
-		numberLabel.snp.makeConstraints { make in
-			make.top.equalToSuperview()
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-			make.height.equalTo(30)
-		}
-        
-        facebookButton.snp.makeConstraints { (make) in
-            make.top.equalTo(phoneTextField.snp.bottom).offset(10)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(phoneTextField.snp.width)
-            make.height.equalTo(47).priority(1000)
-        }
-	}
+        facebookButton.anchor(top: orLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 40, paddingLeft: 80, paddingBottom: 0, paddingRight: 80, width: 0, height: 45)
+    }
+    
+    func setupPatentLabel() {
+        addSubview(patentLabel)
+        patentLabel.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 0, height: 15)
+    }
+    
+    func setupInfoLabel() {
+        addSubview(infoLabel)
+        infoLabel.anchor(top: nil, left: leftAnchor, bottom: patentLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 0, height: 50)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

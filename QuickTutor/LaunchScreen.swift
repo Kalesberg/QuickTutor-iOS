@@ -24,7 +24,7 @@ class LaunchScreenView : BaseLayoutView {
 	let icon : UIImageView = {
 		let imageView = UIImageView()
 		
-		imageView.image = #imageLiteral(resourceName: "launchScreenImage")
+        imageView.image = #imageLiteral(resourceName: "launchScreenImage")
 		
 		return imageView
 	}()
