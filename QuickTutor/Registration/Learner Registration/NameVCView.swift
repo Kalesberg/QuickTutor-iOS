@@ -53,7 +53,7 @@ class NameVCView: BaseRegistrationView {
         }
     }
     
-    func updateTitleLabel() {
+    override func updateTitleLabel() {
         titleLabel.text = "Hey, what's your name?"
     }
     

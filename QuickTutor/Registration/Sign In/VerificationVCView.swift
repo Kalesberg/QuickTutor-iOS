@@ -99,7 +99,7 @@ class VerificationVCView: BaseRegistrationView {
         }
     }
     
-    func updateTitleLabel() {
+    override func updateTitleLabel() {
         titleLabel.text = "Enter the 6-digit code we've sent to: 334-328-7720"
         if let phone = Registration.phone {
             titleLabel.text = "Enter the 6-digit code we've sent to: \(phone.formatPhoneNumber())"
