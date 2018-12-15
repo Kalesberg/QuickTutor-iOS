@@ -25,7 +25,7 @@ class RootControllerManager {
     
     func setupDefaultConfiguration(controller: UIViewController) {
         navigationController = CustomNavVC(rootViewController: controller)
-        navigationController.navigationBar.isHidden = true
+        navigationController.setNavigationBarHidden(true, animated: false)
         guard let window = UIApplication.shared.keyWindow else { return }
         window.rootViewController = navigationController
     }

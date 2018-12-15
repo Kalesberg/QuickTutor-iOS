@@ -14,23 +14,22 @@ class RegistrationDigitTextField: BaseView {
     
 	var textField : NoPasteTextField = {
 		let textField = NoPasteTextField()
-		
 		textField.font = Fonts.createBoldSize(30)
 		textField.keyboardAppearance = .dark
 		textField.textColor = .white
 		textField.tintColor = .clear
 		textField.textAlignment = .center
 		textField.keyboardType = .asciiCapableNumberPad
-		
 		return textField
 	}()
+    
     var line = UIView()
     
     internal override func configureView() {
         addSubview(textField)
         addSubview(line)
         
-        line.backgroundColor = .white
+        line.backgroundColor = Colors.gray
     }
     
     internal func applyConstraint(rightMultiplier: ConstraintMultiplierTarget) {

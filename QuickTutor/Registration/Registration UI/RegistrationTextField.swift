@@ -12,9 +12,9 @@ import SnapKit
 class RegistrationTextField: BaseView {
     
     var placeholder = UILabel()
-    var textField   = NoPasteTextField()
-    var line        = UIView()
-
+    var textField = NoPasteTextField()
+    var line = UIView()
+    
     override func configureView() {
         addSubview(placeholder)
         addSubview(textField)
@@ -39,19 +39,19 @@ class RegistrationTextField: BaseView {
     
     override func applyConstraints() {
         
-        placeholder.snp.makeConstraints { (make) in
+        placeholder.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.6)
         }
         
-        line.snp.makeConstraints { (make) in
+        line.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.8)
         }
         
-        textField.snp.makeConstraints { (make) in
+        textField.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.35)
@@ -59,8 +59,8 @@ class RegistrationTextField: BaseView {
     }
 }
 
-class SearchTextField : RegistrationTextField {
-    let imageView : UIImageView = {
+class SearchTextField: RegistrationTextField {
+    let imageView: UIImageView = {
         let view = UIImageView()
         
         view.image = #imageLiteral(resourceName: "searchIcon")
@@ -69,7 +69,6 @@ class SearchTextField : RegistrationTextField {
         return view
     }()
     
-    
     override func configureView() {
         addSubview(imageView)
         super.configureView()
@@ -77,29 +76,28 @@ class SearchTextField : RegistrationTextField {
     }
     
     override func applyConstraints() {
-        placeholder.snp.makeConstraints { (make) in
+        placeholder.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.6)
         }
         
-        line.snp.makeConstraints { (make) in
+        line.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.8)
         }
         
-        imageView.snp.makeConstraints({ (make) in
+        imageView.snp.makeConstraints({ make in
             make.left.equalToSuperview()
             make.centerY.equalTo(textField)
             make.height.width.equalTo(15)
         })
         
-        textField.snp.makeConstraints { (make) in
+        textField.snp.makeConstraints { make in
             make.left.equalTo(imageView.snp.right).inset(-10)
             make.right.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.35)
         }
     }
 }
-
