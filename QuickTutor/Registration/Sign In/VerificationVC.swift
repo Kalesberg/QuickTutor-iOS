@@ -9,15 +9,10 @@
 import FirebaseAuth
 import FirebaseDatabase
 
-class VerificationVC: UIViewController {
+class VerificationVC: BaseRegistrationController  {
     
     let contentView: VerificationVCView = {
         let view = VerificationVCView()
-        return view
-    }()
-    
-    let accessoryView: RegistrationAccessoryView = {
-        let view = RegistrationAccessoryView()
         return view
     }()
     
@@ -38,7 +33,6 @@ class VerificationVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavBar()
         hideKeyboardWhenTappedAround()
         contentView.resendVCButton.addTarget(self, action: #selector(resendVCButtonPressed(_:)), for: .touchUpInside)
         
@@ -46,23 +40,7 @@ class VerificationVC: UIViewController {
         accessoryView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
         textFields.forEach({ $0.inputAccessoryView = accessoryView })
         configureTextFields()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "newBackButton"), style: .plain, target: self, action: #selector(onBack))
         setupTargets()
-    }
-    
-    func setupNavBar() {
-        navigationController?.view.backgroundColor = Colors.darkBackground
-        navigationController?.navigationBar.barTintColor = Colors.darkBackground
-        navigationController?.navigationBar.backgroundColor = Colors.darkBackground
-        navigationController?.navigationBar.isOpaque = false
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-    }
-    
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
     }
 
     override func viewDidAppear(_ animated: Bool) {

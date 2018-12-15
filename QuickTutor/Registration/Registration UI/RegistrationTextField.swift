@@ -9,54 +9,74 @@
 import UIKit
 import SnapKit
 
-class RegistrationTextField: BaseView {
+class RegistrationTextField: UIView {
     
-    var placeholder = UILabel()
-    var textField = NoPasteTextField()
-    var line = UIView()
+    let placeholder: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.font = Fonts.createSize(14)
+        return label
+    }()
     
-    override func configureView() {
-        addSubview(placeholder)
-        addSubview(textField)
-        addSubview(line)
-        
-        placeholder.textColor = .white
-        placeholder.textAlignment = .left
-        placeholder.numberOfLines = 1
-        placeholder.font = Fonts.createSize(14)
-        
-        textField.font = Fonts.createSize(CGFloat(DeviceInfo.textFieldFontSize))
-        textField.keyboardAppearance = .dark
-        textField.textColor = .white
-        textField.tintColor = .white
-        textField.adjustsFontSizeToFitWidth = true
-        textField.adjustsFontForContentSizeCategory = true
-        
-        line.backgroundColor = .white
-        
-        applyConstraints()
+    let textField: NoPasteTextField = {
+        let field = NoPasteTextField()
+        field.font = Fonts.createSize(16)
+        field.keyboardAppearance = .dark
+        field.textColor = .white
+        field.tintColor = .white
+        field.adjustsFontSizeToFitWidth = true
+        field.adjustsFontForContentSizeCategory = true
+        return field
+    }()
+
+    let line = UIView()
+    
+    func setupViews() {
+        setupPlaceholder()
+        setupTextField()
+        setupLine()
     }
     
-    override func applyConstraints() {
-        
+    func setupPlaceholder() {
+        addSubview(placeholder)
         placeholder.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.6)
         }
-        
+    }
+    
+    func setupTextField() {
+        addSubview(textField)
+        textField.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(40)
+            make.centerY.equalToSuperview().multipliedBy(1.35)
+        }
+    }
+    
+    func setupLine() {
+        addSubview(line)
+        line.backgroundColor = Colors.gray
         line.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.8)
         }
-        
-        textField.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.35)
-        }
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }
 
 class SearchTextField: RegistrationTextField {
@@ -69,13 +89,9 @@ class SearchTextField: RegistrationTextField {
         return view
     }()
     
-    override func configureView() {
+    override func setupViews() {
+        super.setupViews()
         addSubview(imageView)
-        super.configureView()
-        
-    }
-    
-    override func applyConstraints() {
         placeholder.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.6)
@@ -100,4 +116,5 @@ class SearchTextField: RegistrationTextField {
             make.centerY.equalToSuperview().multipliedBy(1.35)
         }
     }
+
 }

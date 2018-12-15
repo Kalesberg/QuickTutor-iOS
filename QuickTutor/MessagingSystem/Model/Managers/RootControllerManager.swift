@@ -18,7 +18,7 @@ class RootControllerManager {
         } else if controller is TutorMainPage {
             setupTutorTabBar(controller: controller)
         } else {
-            setupDefaultConfiguration(controller: controller)
+            setupDefaultConfiguration(controller: NameVC())
         }
 
     }

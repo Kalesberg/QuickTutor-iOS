@@ -10,17 +10,18 @@ import Foundation
 import UIKit
 
 class NoPasteTextField: UITextField {
-
-	public required init() {
-        super.init(frame: .zero)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         configureTextField()
     }
-    public required init?(coder: NSCoder) {
+    
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         configureTextField()
     }
     
-    internal func configureTextField() {
+    func configureTextField() {
         autocorrectionType = .no
 		keyboardAppearance = .dark
 	}

@@ -7,124 +7,67 @@
 //
 import UIKit
 
-class NameView: RegistrationNavBarKeyboardView {
+class NameVC: BaseRegistrationController {
     
-	let firstNameTextField : RegistrationTextField = {
-		let registrationTextField = RegistrationTextField()
-		registrationTextField.placeholder.text = "FIRST NAME"
-		registrationTextField.textField.autocapitalizationType = .words
-		registrationTextField.textField.returnKeyType = .next
-		return registrationTextField
-	}()
-	let lastNameTextField : RegistrationTextField = {
-		let registrationTextField = RegistrationTextField()
-		registrationTextField.placeholder.text = "LAST NAME"
-		registrationTextField.textField.autocapitalizationType = .words
-		registrationTextField.textField.returnKeyType = .next
-		return registrationTextField
-	}()
-    
-    override func configureView() {
-        super.configureView()
-        contentView.addSubview(firstNameTextField)
-        contentView.addSubview(lastNameTextField)
-        
-        progressBar.progress = 0.2
-        progressBar.applyConstraints()
-        
-        titleLabel.label.text = "Hey, what's your name?"
-		errorLabel.text = "Must fill out both fields"
-        
-        applyConstraints()
-    }
-    
-    override func applyConstraints() {
-        super.applyConstraints()
-        firstNameTextField.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.left.equalTo(titleLabel)
-            make.right.equalTo(titleLabel)
-            make.height.equalToSuperview().multipliedBy(0.47)
-        }
-        lastNameTextField.snp.makeConstraints { make in
-            make.top.equalTo(firstNameTextField.snp.bottom)
-            make.left.equalTo(titleLabel)
-            make.right.equalTo(titleLabel)
-            make.height.equalToSuperview().multipliedBy(0.47)
-        }
-    }
-}
-
-class NameVC: BaseViewController {
-    
-    override var contentView: NameView {
-        return view as! NameView
+    var contentView: NameVCView {
+        return view as! NameVCView
     }
     
     override func loadView() {
-        view = NameView()
+        view = NameVCView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        contentView.firstNameTextField.textField.delegate = self
-        contentView.lastNameTextField.textField.delegate = self
-        
-        contentView.firstNameTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        contentView.lastNameTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        contentView.firstNameTextField.textField.becomeFirstResponder()
+        setupTargets()
+        setupTextFields()
     }
     
     @objc private func textFieldDidChange(_ sender: UITextField) {
-        
         guard checkNameValidity() else { return }
-        
-        // show animation/UI-ish here.
-        
     }
     
-    override func handleNavigation() {
-        if touchStartView == contentView.backButton {
-            navigationController!.view.layer.add(contentView.backButton.transition, forKey: nil)
-            navigationController!.popToRootViewController(animated: false)
-        } else if touchStartView == contentView.nextButton {
-            if checkNameValidity() {
-                contentView.errorLabel.isHidden = true
-                Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
-                
-                navigationController?.pushViewController(EmailVC(), animated: true)
-            } else {
-                contentView.errorLabel.isHidden = false
-            }
-        }
+    func setupTextFields() {
+        setupFirstNameTextField()
+        setupLastNameTextField()
+    }
+    
+    func setupFirstNameTextField() {
+        contentView.firstNameTextField.textField.delegate = self
+        contentView.firstNameTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        contentView.firstNameTextField.textField.inputAccessoryView = accessoryView
+        contentView.firstNameTextField.textField.becomeFirstResponder()
+    }
+    
+    func setupLastNameTextField() {
+        contentView.lastNameTextField.textField.delegate = self
+        contentView.lastNameTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        contentView.lastNameTextField.textField.inputAccessoryView = accessoryView
+    }
+    
+    func setupTargets() {
+        accessoryView.nextButton.addTarget(self, action: #selector(next(_:)), for: .touchUpInside)
+    }
+    
+    @objc func next(_ sender: UIButton) {
+        keyboardNextWasPressed()
     }
     
     private func keyboardNextWasPressed() {
         if checkNameValidity() {
-            contentView.errorLabel.isHidden = true
+            //            contentView.errorLabel.isHidden = true
             Registration.name = "\(contentView.firstNameTextField.textField.text!) \(contentView.lastNameTextField.textField.text!)"
             navigationController?.pushViewController(EmailVC(), animated: true)
         } else {
-            contentView.errorLabel.isHidden = false
+            //            contentView.errorLabel.isHidden = false
         }
     }
     
     private func checkNameValidity() -> Bool {
-        if contentView.firstNameTextField.textField.text!.count >= 1
-            && contentView.lastNameTextField.textField.text!.count >= 1 {
-            return true
-        }
-        return !true // LOL
+        return contentView.firstNameTextField.textField.text!.count >= 1
+            && contentView.lastNameTextField.textField.text!.count >= 1
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
 }
 extension NameVC: UITextFieldDelegate {
     
@@ -134,20 +77,15 @@ extension NameVC: UITextFieldDelegate {
         let components = string.components(separatedBy: inverseSet)
         let filtered = components.joined(separator: "")
         
-        if string == " " {
-            return false
-        }
-        
+        guard string != " " else { return false }
+
         if textField.text!.count <= 24 {
             if string == "" {
                 return true
             }
             return !(string == filtered)
         } else {
-            if string == "" {
-                return true
-            }
-            return false
+            return string == ""
         }
     }
     
