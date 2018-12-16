@@ -65,5 +65,7 @@ class CreatePasswordVCView: BaseRegistrationView {
     override func updateTitleLabel() {
         titleLabel.text = "Let's create a password"
         errorLabel.text = "Password is less than 8 characters"
+        titleLabelHeightAnchor?.constant = 30
+        layoutIfNeeded()
     }
 }

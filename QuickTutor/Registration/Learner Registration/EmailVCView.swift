@@ -37,6 +37,8 @@ class EmailVCView: BaseRegistrationView {
     
     override func updateTitleLabel() {
         titleLabel.text = "Your Email?"
+        titleLabelHeightAnchor?.constant = 30
+        layoutIfNeeded()
     }
     
 }

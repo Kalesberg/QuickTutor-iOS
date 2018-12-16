@@ -55,6 +55,8 @@ class NameVCView: BaseRegistrationView {
     
     override func updateTitleLabel() {
         titleLabel.text = "Hey, what's your name?"
+        titleLabelHeightAnchor?.constant = 30
+        layoutIfNeeded()
     }
     
 }

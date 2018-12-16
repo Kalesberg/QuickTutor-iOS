@@ -28,6 +28,8 @@ class BaseRegistrationView: UIView {
         return label
     }()
     
+    var titleLabelHeightAnchor: NSLayoutConstraint?
+    
     func setupViews() {
         setupMainView()
         setupTitleLabel()
@@ -40,7 +42,9 @@ class BaseRegistrationView: UIView {
     
     func setupTitleLabel() {
         addSubview(titleLabel)
-        titleLabel.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 30, paddingBottom: 0, paddingRight: 60, width: 0, height: 90)
+        titleLabel.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 30, paddingBottom: 0, paddingRight: 60, width: 0, height: 0)
+        titleLabelHeightAnchor = titleLabel.heightAnchor.constraint(equalToConstant: 60)
+        titleLabelHeightAnchor?.isActive = true
     }
     
     func setupErrorLabelBelow(_ view: UIView) {
