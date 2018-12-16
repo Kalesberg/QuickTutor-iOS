@@ -486,6 +486,7 @@
 		CFB9B81021C6195D0022333F /* UploadImageVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B80F21C6195D0022333F /* UploadImageVCView.swift */; };
 		CFB9B81221C627520022333F /* UserPolicyVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81121C627520022333F /* UserPolicyVCView.swift */; };
 		CFB9B81421C633260022333F /* TutorSSNVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81321C633260022333F /* TutorSSNVCView.swift */; };
+		CFB9B81621C6C6330022333F /* TutorPolicyVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81521C6C6330022333F /* TutorPolicyVCView.swift */; };
 		CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */; };
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
@@ -1031,6 +1032,7 @@
 		CFB9B80F21C6195D0022333F /* UploadImageVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageVCView.swift; sourceTree = "<group>"; };
 		CFB9B81121C627520022333F /* UserPolicyVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPolicyVCView.swift; sourceTree = "<group>"; };
 		CFB9B81321C633260022333F /* TutorSSNVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSSNVCView.swift; sourceTree = "<group>"; };
+		CFB9B81521C6C6330022333F /* TutorPolicyVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPolicyVCView.swift; sourceTree = "<group>"; };
 		CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchVCView.swift; sourceTree = "<group>"; };
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
@@ -1588,6 +1590,7 @@
 				8479EA622063E63100C5113E /* TutorAddressVC.swift */,
 				845D403C2079A30F00EFFC6C /* TutorAddUsernameVC.swift */,
 				8479EA642063E66400C5113E /* TutorPolicyVC.swift */,
+				CFB9B81521C6C6330022333F /* TutorPolicyVCView.swift */,
 				849AAEA92060846800B9CFD7 /* TutorLocationFormatter.swift */,
 				848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */,
 				8469512220CA243D00325995 /* TutorAgreementWebView.swift */,
@@ -2850,6 +2853,7 @@
 				8423940F1FF4CA1D00827C7D /* NoPasteTextField.swift in Sources */,
 				CF528CDB216452D500D81D03 /* TutorRatingsStatisticsCell.swift in Sources */,
 				CF6F58E7205EE68800ACBD32 /* KeyboardAccessoryViewDelegate.swift in Sources */,
+				CFB9B81621C6C6330022333F /* TutorPolicyVCView.swift in Sources */,
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
 				84CB7AD720CF97FE00274473 /* ArrayExtensions.swift in Sources */,
 				CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */,
