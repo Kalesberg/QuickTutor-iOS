@@ -16,7 +16,7 @@ class RegistrationTextField: UIView {
         label.textColor = .white
         label.textAlignment = .left
         label.numberOfLines = 1
-        label.font = Fonts.createSize(14)
+        label.font = Fonts.createBoldSize(14)
         return label
     }()
     
