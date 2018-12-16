@@ -11,16 +11,19 @@ import SnapKit
 import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
-    let view: UIView = {
+    
+    let titleBackgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.navBarColor
+        view.backgroundColor = Colors.darkBackground
+        view.layer.borderColor = Colors.gray.cgColor
+        view.layer.borderWidth = 1
         return view
     }()
 
     let label: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.font = Fonts.createBoldSize(14)
         label.adjustsFontSizeToFitWidth = true
         label.adjustsFontForContentSizeCategory = true
@@ -35,47 +38,54 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
-    required override init(frame _: CGRect) {
-        super.init(frame: .zero)
-        configureView()
+    func setupViews() {
+        setupImageView()
+        setupTitleBackgroundView()
+        setupLabel()
     }
-
+    
+    func setupTitleBackgroundView() {
+        insertSubview(titleBackgroundView, belowSubview: imageView)
+        titleBackgroundView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalTo(imageView.snp.bottom).inset(5)
+            make.bottom.equalToSuperview()
+        }
+    }
+    
+    func setupImageView() {
+        addSubview(imageView)
+        imageView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(108)
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    func setupLabel() {
+        addSubview(label)
+        label.snp.makeConstraints { make in
+            make.centerX.equalTo(titleBackgroundView)
+            make.top.equalTo(imageView.snp.bottom)
+            make.bottom.equalToSuperview()
+            make.width.equalToSuperview().inset(10)
+        }
+    }
+    
+    override func layoutSubviews() {
+        roundCorners([.topRight, .topLeft], radius: 4)
+        titleBackgroundView.layer.cornerRadius = 4
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        roundCorners([.topRight, .topLeft], radius: 7)
-        view.layer.cornerRadius = 7
-    }
-
-    func configureView() {
-        addSubview(view)
-        addSubview(label)
-        addSubview(imageView)
-
-        applyDefaultShadow()
-
-        applyConstraints()
-    }
-
-    func applyConstraints() {
-        imageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.8)
-            make.centerX.equalToSuperview()
-        }
-        view.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(10)
-            make.top.equalTo(imageView.snp.bottom).inset(5)
-        }
-        label.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view).inset(2)
-            make.width.equalToSuperview().inset(4)
-        }
-    }
 }

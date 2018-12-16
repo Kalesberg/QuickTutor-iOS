@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "Trades.png",
       "scale" : "1x"
     },
     {
@@ -11,7 +12,6 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Trades@3.png",
       "scale" : "3x"
     }
   ],

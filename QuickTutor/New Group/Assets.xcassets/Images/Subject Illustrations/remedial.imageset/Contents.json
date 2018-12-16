@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "Remedial.png",
       "scale" : "1x"
     },
     {
@@ -11,7 +12,6 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Remedial@3x.png",
       "scale" : "3x"
     }
   ],

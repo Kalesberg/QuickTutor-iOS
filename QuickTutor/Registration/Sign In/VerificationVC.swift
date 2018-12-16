@@ -9,7 +9,7 @@
 import FirebaseAuth
 import FirebaseDatabase
 
-class VerificationVC: BaseRegistrationController  {
+class VerificationVC: BaseRegistrationController {
     
     let contentView: VerificationVCView = {
         let view = VerificationVCView()

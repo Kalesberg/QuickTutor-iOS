@@ -24,12 +24,12 @@ class CategoryTableViewCell: UITableViewCell {
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.contentInset = UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 0)
         return collectionView
     }()
 
@@ -63,6 +63,7 @@ class CategoryTableViewCell: UITableViewCell {
         guard let centerIndexPath = collectionView.indexPathForItem(at: centerPoint) else { return }
         collectionView.scrollToItem(at: centerIndexPath, at: .centeredHorizontally, animated: true)
     }
+    
 }
 
 extension CategoryTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -89,9 +90,7 @@ extension CategoryTableViewCell: UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let screenWidth = UIScreen.main.bounds.width
-        let width = (screenWidth / 3) - 10
-        return CGSize(width: width, height: contentView.frame.height - 10)
+        return CGSize(width: 110, height: 142)
     }
 }
 
