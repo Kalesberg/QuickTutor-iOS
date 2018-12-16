@@ -10,58 +10,54 @@ import Foundation
 import UIKit
 import SnapKit
 
-class LaunchScreenView : BaseLayoutView {
-    
-    let background : UIImageView = {
+class LaunchScreenView: UIView {
+
+    let icon: UIImageView = {
         let imageView = UIImageView()
-        
-        imageView.image = #imageLiteral(resourceName: "launchScreenBackground")
-        imageView.contentMode = .scaleAspectFill
-        
+        imageView.image = #imageLiteral(resourceName: "launchScreenImage")
         return imageView
     }()
-	
-	let icon : UIImageView = {
-		let imageView = UIImageView()
-		
-        imageView.image = #imageLiteral(resourceName: "launchScreenImage")
-		
-		return imageView
-	}()
-	
-	
-	override func configureView() {
-		addSubview(background)
+    
+    func setupViews() {
+        setupMainView()
+        setupIcon()
+    }
+    
+    func setupMainView() {
+        backgroundColor = Colors.learnerPurple
+    }
+    
+    func setupIcon() {
         addSubview(icon)
-		super.configureView()
-        
-		applyConstraints()
-	}
-	override func applyConstraints() {
-        background.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        
-		icon.snp.makeConstraints { (make) in
-			make.centerX.equalToSuperview()
+        icon.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-		}
-	}
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
 }
 
-class LaunchScreen : BaseViewController {
-    override var contentView: LaunchScreenView {
-        return view as! LaunchScreenView
-    }
+class LaunchScreen: UIViewController {
+    
+    let contentView: LaunchScreenView = {
+        let view = LaunchScreenView()
+        return view
+    }()
+    
     override func loadView() {
-        view = LaunchScreenView()
+        view = contentView
     }
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-	}
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		//here.
-	}
+
 }

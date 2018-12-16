@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,22 +21,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenBackground" translatesAutoresizingMaskIntoConstraints="NO" id="Xat-JY-FfG">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenImage" translatesAutoresizingMaskIntoConstraints="NO" id="uOQ-DY-taJ">
-                                <rect key="frame" x="104.66666666666669" y="266.33333333333331" width="205" height="205"/>
+                                <rect key="frame" x="182" y="343" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="4il-uz-QLn"/>
+                                    <constraint firstAttribute="width" constant="50" id="Fxl-Dz-txD"/>
+                                </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.15294117647058825" green="0.15294117647058825" blue="0.18823529411764706" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.396078431372549" green="0.38431372549019605" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Xat-JY-FfG" secondAttribute="bottom" id="NQx-3i-IcT"/>
-                            <constraint firstItem="Xat-JY-FfG" firstAttribute="centerY" secondItem="uOQ-DY-taJ" secondAttribute="centerY" id="PfR-u6-7ew"/>
                             <constraint firstItem="uOQ-DY-taJ" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="TY0-x9-opJ"/>
-                            <constraint firstItem="Xat-JY-FfG" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="YL4-Zs-cvz"/>
-                            <constraint firstItem="Xat-JY-FfG" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="iCu-QH-Zyn"/>
                             <constraint firstItem="uOQ-DY-taJ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="lNp-Xu-ReN"/>
-                            <constraint firstAttribute="trailing" secondItem="Xat-JY-FfG" secondAttribute="trailing" id="xp9-fu-Dla"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -46,7 +42,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launchScreenBackground" width="414" height="736"/>
         <image name="launchScreenImage" width="205" height="205"/>
     </resources>
 </document>
