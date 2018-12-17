@@ -19,7 +19,7 @@ class TutorSSNView: BaseRegistrationView {
         return textField
     }()
     
-    var subtitleLabel: UILabel = {
+    let subtitleLabel: UILabel = {
         let label = UILabel()
         label.text = "For authentication and safety purposes, we'll need your social security number."
         label.numberOfLines = 0
