@@ -11,144 +11,43 @@ import SnapKit
 import Stripe
 import UIKit
 
-class TutorAddBankView: MainLayoutTitleBackTwoButton, Keyboardable {
-    var nextButton = NavbarButtonNext()
-
-    override var rightButton: NavbarButton {
-        get {
-            return nextButton
-        }
-        set {
-            nextButton = newValue as! NavbarButtonNext
-        }
-    }
-
-    var keyboardComponent = ViewComponent()
-    var contentView = UIView()
-    var nameTitle = SectionTitle()
-    var nameTextfield = PaymentTextField()
-    var routingNumberTitle = SectionTitle()
-    var routingNumberTextfield = PaymentTextField()
-    var accountNumberTitle = SectionTitle()
-    var accountNumberTextfield = PaymentTextField()
-
-    override func configureView() {
-        addSubview(contentView)
-        contentView.addSubview(nameTitle)
-        contentView.addSubview(nameTextfield)
-        contentView.addSubview(routingNumberTitle)
-        contentView.addSubview(routingNumberTextfield)
-        contentView.addSubview(accountNumberTitle)
-        contentView.addSubview(accountNumberTextfield)
-
-        addKeyboardView()
-        super.configureView()
-
-        title.label.text = "Payment"
-
-        nameTitle.label.text = "Name"
-        routingNumberTitle.label.text = "Routing Number"
-        accountNumberTitle.label.text = "Account Number"
-
-        nameTextfield.attributedPlaceholder = NSAttributedString(string: "Enter bank holder's name", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        nameTextfield.keyboardType = .asciiCapable
-
-        routingNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Routing Number", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        routingNumberTextfield.keyboardType = .decimalPad
-
-        accountNumberTextfield.attributedPlaceholder = NSAttributedString(string: "Enter Account Number", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        accountNumberTextfield.keyboardType = .decimalPad
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-
-        contentView.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.85)
-            make.top.equalTo(navbar.snp.bottom)
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(keyboardView.snp.top)
-        }
-
-        nameTitle.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.18)
-            make.centerX.equalToSuperview()
-        }
-
-        nameTextfield.snp.makeConstraints { make in
-            make.top.equalTo(nameTitle.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(30)
-        }
-
-        routingNumberTitle.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.top.equalTo(nameTextfield.snp.bottom)
-            make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.18)
-        }
-
-        routingNumberTextfield.snp.makeConstraints { make in
-            make.top.equalTo(routingNumberTitle.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(30)
-        }
-
-        accountNumberTitle.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.top.equalTo(routingNumberTextfield.snp.bottom)
-            make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.18)
-        }
-
-        accountNumberTextfield.snp.makeConstraints { make in
-            make.top.equalTo(accountNumberTitle.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(30)
-        }
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
-    }
-}
-
-class TutorAddBank: BaseViewController {
-    override var contentView: TutorAddBankView {
-        return view as! TutorAddBankView
-    }
-
-    override func loadView() {
-        view = TutorAddBankView()
-    }
-
+class TutorAddBank: BaseRegistrationController {
+    
     var fullName: String!
     var routingNumber: String!
     var accountNumber: String!
     var validAccountData: Bool = false
+    
+    let contentView: TutorAddBankView = {
+        let view = TutorAddBankView()
+        return view
+    }()
+    
+    override func loadView() {
+        view = contentView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let textFields = [contentView.nameTextfield, contentView.routingNumberTextfield, contentView.accountNumberTextfield]
-
+        setupTargets()
+        setupTextFields()
+    }
+    
+    func setupTargets() {
+        accessoryView.nextButton.addTarget(self, action: #selector(handleNext(_:)), for: .touchUpInside)
+        accessoryView.nextButton.setTitle("NEXT", for: .normal)
+    }
+    
+    func setupTextFields() {
+        let textFields = [contentView.nameTextField.textField, contentView.routingNumberTextField.textField, contentView.accountNumberTextField.textField]
+        accessoryView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
         for textField in textFields {
             textField.delegate = self
             textField.returnKeyType = .next
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+            textField.inputAccessoryView = accessoryView
         }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        contentView.nameTextfield.becomeFirstResponder()
+        contentView.nameTextField.textField.becomeFirstResponder()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -156,45 +55,48 @@ class TutorAddBank: BaseViewController {
         contentView.resignFirstResponder()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @objc private func textFieldDidChange(_: UITextField) {
-        guard let name = contentView.nameTextfield.text, name.count <= 30, name.count >= 2 else {
-            contentView.nameTextfield.layer.borderColor = Colors.qtRed.cgColor
-            validAccountData = false
-            return
-        }
-        contentView.nameTextfield.layer.borderColor = Colors.green.cgColor
-
-        print("Good Name")
-        guard let routingNumber = contentView.routingNumberTextfield.text, routingNumber.count == 9 else {
-            if contentView.routingNumberTextfield.text!.count > 1 {
-                contentView.routingNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
-            }
-            validAccountData = false
-            return
-        }
-        contentView.routingNumberTextfield.layer.borderColor = Colors.green.cgColor
-
-        print("Good routing")
-        guard let accountNumber = contentView.accountNumberTextfield.text, accountNumber.count > 5 else {
-            if contentView.accountNumberTextfield.text!.count > 1 {
-                contentView.accountNumberTextfield.layer.borderColor = Colors.qtRed.cgColor
-            }
-            validAccountData = false
-            return
-        }
-        contentView.accountNumberTextfield.layer.borderColor = Colors.green.cgColor
-
-        print("Good account.")
+        guard validateName() else { return }
+        guard validateRoutingNumber() else { return }
+        guard validateAccountNumber() else { return }
         validAccountData = true
-
+    }
+    
+    func validateName() -> Bool {
+        guard let name = contentView.nameTextField.textField.text, name.count <= 30, name.count >= 2 else {
+            contentView.nameTextField.line.backgroundColor = Colors.qtRed
+            validAccountData = false
+            return false
+        }
+        contentView.nameTextField.line.backgroundColor = Colors.green
         fullName = name
+        return true
+    }
+    
+    func validateRoutingNumber() -> Bool {
+        guard let routingNumber = contentView.routingNumberTextField.textField.text, routingNumber.count == 9 else {
+            if contentView.routingNumberTextField.textField.text!.count > 1 {
+                contentView.routingNumberTextField.line.backgroundColor = Colors.qtRed
+            }
+            validAccountData = false
+            return false
+        }
+        contentView.routingNumberTextField.line.backgroundColor = Colors.green
         self.routingNumber = routingNumber
+        return true
+    }
+    
+    func validateAccountNumber() -> Bool {
+        guard let accountNumber = contentView.accountNumberTextField.textField.text, accountNumber.count > 5 else {
+            if contentView.accountNumberTextField.textField.text!.count > 1 {
+                contentView.accountNumberTextField.line.backgroundColor = Colors.qtRed
+            }
+            validAccountData = false
+            return false
+        }
+        contentView.accountNumberTextField.line.backgroundColor = Colors.green
         self.accountNumber = accountNumber
+        return true
     }
 
     private func addTutorBankAccount(fullname: String, routingNumber: String, accountNumber: String, _ completion: @escaping (Error?) -> Void) {
@@ -224,21 +126,28 @@ class TutorAddBank: BaseViewController {
                 })
         }
     }
+    
+    @objc func handleNext(_ sender: UIButton) {
+        if contentView.nameTextField.textField.isFirstResponder {
+            contentView.routingNumberTextField.textField.becomeFirstResponder()
+        } else if contentView.routingNumberTextField.textField.isFirstResponder {
+            contentView.accountNumberTextField.textField.becomeFirstResponder()
+            accessoryView.nextButton.setTitle("CONTINUE", for: .normal)
+        } else {
+            guard validAccountData else { return }
+            addBank()
+        }
+    }
 
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonNext {
-            contentView.rightButton.isUserInteractionEnabled = false
-            guard validAccountData else { return contentView.rightButton.isHidden = true }
-            displayLoadingOverlay()
-            addTutorBankAccount(fullname: fullName, routingNumber: routingNumber, accountNumber: accountNumber) { error in
-                if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Unable to Add Payout Method", message: error.localizedDescription)
-                    self.contentView.rightButton.isUserInteractionEnabled = true
-                } else {
-                    self.navigationController?.popBackToTutorMain()
-                }
-                self.dismissOverlay()
+    func addBank() {
+        displayLoadingOverlay()
+        addTutorBankAccount(fullname: fullName, routingNumber: routingNumber, accountNumber: accountNumber) { error in
+            if let error = error {
+                AlertController.genericErrorAlert(self, title: "Unable to Add Payout Method", message: error.localizedDescription)
+            } else {
+                self.navigationController?.popBackToTutorMain()
             }
+            self.dismissOverlay()
         }
     }
 }
@@ -246,11 +155,11 @@ class TutorAddBank: BaseViewController {
 extension TutorAddBank: UITextFieldDelegate {
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
-        case contentView.nameTextfield:
-            contentView.routingNumberTextfield.becomeFirstResponder()
-        case contentView.routingNumberTextfield:
-            contentView.accountNumberTextfield.becomeFirstResponder()
-        case contentView.accountNumberTextfield:
+        case contentView.nameTextField.textField:
+            contentView.routingNumberTextField.textField.becomeFirstResponder()
+        case contentView.routingNumberTextField.textField:
+            contentView.accountNumberTextField.textField.becomeFirstResponder()
+        case contentView.accountNumberTextField.textField:
             resignFirstResponder()
         default:
             resignFirstResponder()
@@ -268,13 +177,13 @@ extension TutorAddBank: UITextFieldDelegate {
 
 		
         switch textField {
-        case contentView.nameTextfield:
+        case contentView.nameTextField.textField:
             if string == "" { return true }
             if newLength <= 20 { return !(string == filtered) }
             return true
-        case contentView.routingNumberTextfield:
+        case contentView.routingNumberTextField.textField:
             return (filtered == string)
-        case contentView.accountNumberTextfield:
+        case contentView.accountNumberTextField.textField:
             return (filtered == string)
         default:
             return false
