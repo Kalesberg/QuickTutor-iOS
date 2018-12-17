@@ -488,6 +488,8 @@
 		CFB9B81421C633260022333F /* TutorSSNVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81321C633260022333F /* TutorSSNVCView.swift */; };
 		CFB9B81621C6C6330022333F /* TutorPolicyVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81521C6C6330022333F /* TutorPolicyVCView.swift */; };
 		CFB9B81821C6D2A00022333F /* TutorAddBankVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81721C6D2A00022333F /* TutorAddBankVCView.swift */; };
+		CFB9B81A21C842C80022333F /* TutorBioVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81921C842C80022333F /* TutorBioVCView.swift */; };
+		CFB9B81C21C843430022333F /* TutorAddUsernameVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81B21C843430022333F /* TutorAddUsernameVCView.swift */; };
 		CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */; };
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
@@ -1035,6 +1037,8 @@
 		CFB9B81321C633260022333F /* TutorSSNVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSSNVCView.swift; sourceTree = "<group>"; };
 		CFB9B81521C6C6330022333F /* TutorPolicyVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPolicyVCView.swift; sourceTree = "<group>"; };
 		CFB9B81721C6D2A00022333F /* TutorAddBankVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddBankVCView.swift; sourceTree = "<group>"; };
+		CFB9B81921C842C80022333F /* TutorBioVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorBioVCView.swift; sourceTree = "<group>"; };
+		CFB9B81B21C843430022333F /* TutorAddUsernameVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddUsernameVCView.swift; sourceTree = "<group>"; };
 		CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchVCView.swift; sourceTree = "<group>"; };
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
@@ -1587,11 +1591,13 @@
 				8425765E2070292300FD295B /* TutorAddSubjects */,
 				84F141A0207E490D003D3193 /* TutorPreferencesVC.swift */,
 				84F245171FDA1127006447A8 /* TutorBioVC.swift */,
+				CFB9B81921C842C80022333F /* TutorBioVCView.swift */,
 				84F245191FDA1143006447A8 /* TutorSSNVC.swift */,
 				CFB9B81321C633260022333F /* TutorSSNVCView.swift */,
 				84F2451B1FDA1183006447A8 /* TutorRegPaymentVC.swift */,
 				8479EA622063E63100C5113E /* TutorAddressVC.swift */,
 				845D403C2079A30F00EFFC6C /* TutorAddUsernameVC.swift */,
+				CFB9B81B21C843430022333F /* TutorAddUsernameVCView.swift */,
 				8479EA642063E66400C5113E /* TutorPolicyVC.swift */,
 				CFB9B81521C6C6330022333F /* TutorPolicyVCView.swift */,
 				849AAEA92060846800B9CFD7 /* TutorLocationFormatter.swift */,
@@ -2701,6 +2707,7 @@
 				CFF50178206990060085B0E9 /* LearnerEditProfileVC.swift in Sources */,
 				CFB9B7D721C18B080022333F /* SessionRequestDateView.swift in Sources */,
 				8441E65320892D510087AE11 /* CategoryInfo.swift in Sources */,
+				CFB9B81A21C842C80022333F /* TutorBioVCView.swift in Sources */,
 				CFB9B80021C240170022333F /* SubjectsCollectionView.swift in Sources */,
 				CFF5017720698F620085B0E9 /* LearnerHelpVC.swift in Sources */,
 				84A740351FF81C560001AE6D /* RegistrationDatePicker.swift in Sources */,
@@ -2858,6 +2865,7 @@
 				CF6F58E7205EE68800ACBD32 /* KeyboardAccessoryViewDelegate.swift in Sources */,
 				CFB9B81621C6C6330022333F /* TutorPolicyVCView.swift in Sources */,
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
+				CFB9B81C21C843430022333F /* TutorAddUsernameVCView.swift in Sources */,
 				84CB7AD720CF97FE00274473 /* ArrayExtensions.swift in Sources */,
 				CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */,
 				8421AB3C20DED10B005B652B /* TutorMainPageCollectionViewCell.swift in Sources */,
