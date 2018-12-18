@@ -27,10 +27,6 @@ class TutorAccountPayments: BaseViewController {
         view = AccountPaymentsView()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 }
 
 extension TutorAccountPayments: UITableViewDataSource, UITableViewDelegate {
