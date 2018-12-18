@@ -10,6 +10,17 @@ import Foundation
 import UIKit
 import SnapKit
 
+class CategorySearchSectionHeader: SectionHeader {
+    override func applyConstraints() {
+        category.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalToSuperview()
+        }
+    }
+}
+
 class SectionHeader: UICollectionReusableView {
     
     var category: UILabel = {

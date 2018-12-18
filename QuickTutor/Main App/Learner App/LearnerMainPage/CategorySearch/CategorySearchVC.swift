@@ -13,23 +13,22 @@ struct CategorySelected {
 }
 
 class CategorySearchVC: BaseViewController {
-    override var contentView: CategorySearchVCView {
-        return view as! CategorySearchVCView
-    }
-
-    override func loadView() {
-        view = CategorySearchVCView()
-    }
 
     let itemsPerBatch: UInt = 10
-
     var datasource = [FeaturedTutor]()
     var didLoadMore: Bool = false
-
     var category: Category! {
         didSet {
             queryTutorsByCategory(lastKnownKey: nil)
         }
+    }
+    
+    override var contentView: CategorySearchVCView {
+        return view as! CategorySearchVCView
+    }
+    
+    override func loadView() {
+        view = CategorySearchVCView()
     }
 
     override func viewDidLoad() {
@@ -37,8 +36,8 @@ class CategorySearchVC: BaseViewController {
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
         contentView.collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
-        contentView.collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
-        contentView.searchBar.delegate = self
+        contentView.collectionView.register(CategorySearchSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
+//        contentView.searchBar.delegate = self
         navigationController?.setNavigationBarHidden(false, animated: true)
 //        navigationItem.title = category
     }
@@ -72,10 +71,6 @@ class CategorySearchVC: BaseViewController {
         })
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     override func handleNavigation() {}
 }
 
@@ -87,6 +82,8 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! TutorCollectionViewCell
         cell.updateUI(datasource[indexPath.item])
+        cell.profileImageViewHeightAnchor?.constant = 160
+        cell.layoutIfNeeded()
         return cell
     }
 
@@ -110,21 +107,23 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
-			let vc = TutorConnectVC()
-			vc.category = self.category
-			vc.startIndex = indexPath
-			vc.featuredTutors = self.datasource
-			vc.contentView.searchBar.placeholder = "\(self.category.mainPageData.displayName) • \(self.datasource[indexPath.item].subject)"
-			let nav = self.navigationController
-			DispatchQueue.main.async {
-				nav?.view.layer.add(CATransition().segueFromBottom(), forKey: nil)
-				nav?.pushViewController(vc, animated: false)
-			}
+            let featuredTutor = self.datasource[indexPath.item]
+            let uid = featuredTutor.uid
+            FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
+                guard let tutor = tutor else { return }
+                let vc = TutorCardVC()
+                vc.subject = featuredTutor.subject
+                vc.tutor = tutor
+                vc.contentView.updateUI(tutor)
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            })
 		}
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell", for: indexPath) as! SectionHeader
+        let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell", for: indexPath) as! CategorySearchSectionHeader
         cell.category.text = CategorySelected.title
         return cell
     }

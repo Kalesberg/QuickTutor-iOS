@@ -45,6 +45,7 @@ class BasePastSessionCell: BaseSessionCell {
     private func setupStarView() {
         addSubview(starView)
         starView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 12, width: 40, height: 7)
+        starView.tintStars(color: Colors.learnerPurple)
     }
 
     override func cellActionView(_ actionView: SessionCellActionView, didSelectButtonAt position: Int) {

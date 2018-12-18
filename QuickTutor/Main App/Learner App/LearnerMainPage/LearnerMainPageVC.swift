@@ -116,6 +116,7 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
+            cell.delegate = self
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
@@ -153,6 +154,15 @@ extension LearnerMainPageVC: UITableViewDataSourcePrefetching {
             didLoadMore = true
             queryFeaturedTutors()
         }
+    }
+}
+
+extension LearnerMainPageVC: CategoryTableViewCellDelegate {
+    func categoryTableViewCell(_ cell: CategoryTableViewCell, didSelect category: Category) {
+        CategorySelected.title = category.mainPageData.displayName
+        let next = CategorySearchVC()
+        next.category = category
+        navigationController?.pushViewController(next, animated: true)
     }
 }
 

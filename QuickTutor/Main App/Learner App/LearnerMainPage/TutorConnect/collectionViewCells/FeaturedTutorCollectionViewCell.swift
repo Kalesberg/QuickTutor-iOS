@@ -73,6 +73,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    var profileImageViewHeightAnchor: NSLayoutConstraint?
+    
     func setupViews() {
         setupProfileImageView()
         setupSaveButton()
@@ -85,7 +87,9 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func setupProfileImageView() {
         addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 115)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        profileImageViewHeightAnchor = profileImageView.heightAnchor.constraint(equalToConstant: 115)
+        profileImageViewHeightAnchor?.isActive = true
     }
     
     func setupSaveButton() {

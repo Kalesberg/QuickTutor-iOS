@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import StoreKit
+import MessageUI
 
 class ProfileVC: UIViewController {
     
@@ -25,8 +26,8 @@ class ProfileVC: UIViewController {
         return cv
     }()
     
-    let cellTitles = ["Payment", "Settings", "Legal", "Help", "Shop", "Give us feedback"]
-    let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "cartIcon"), UIImage(named: "thumbsUpIcon")]
+    let cellTitles = ["Payment", "Settings", "Legal", "Help", "Leave a review", "Give us feedback"]
+    let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "thumbsUpIcon"), UIImage(named: "feedbackIcon")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,9 +118,9 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         case 3:
             showHelp()
         case 4:
-            showShop()
-        case 5:
             showRatingView()
+        case 5:
+            showFeedback()
         default:
             navigationController?.pushViewController(InviteOthersVC(), animated: true)
         }
@@ -162,10 +163,26 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         }
     }
     
+    func showFeedback() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["contact@quicktutor.com"])
+            mail.setMessageBody("<p>Thanks for reaching out. Please leave your feedback below:\n</p>", isHTML: true)
+            present(mail, animated: true)
+        }
+    }
+    
     func inviteOthers() {
         navigationController?.pushViewController(InviteOthersVC(), animated: true)
     }
     
+}
+
+extension ProfileVC: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
 }
 
 extension ProfileVC: ProfileModeToggleViewDelegate {

@@ -10,20 +10,18 @@ import UIKit
 
 class CategorySearchVCView: UIView {
     
-    let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.sizeToFit()
-        searchBar.searchBarStyle = .prominent
-        searchBar.backgroundImage = UIImage(color: UIColor.clear)
-        let textField = searchBar.value(forKey: "searchField") as? UITextField
-        textField?.font = Fonts.createSize(18)
-        textField?.textColor = .white
-        textField?.adjustsFontSizeToFitWidth = true
-        textField?.autocapitalizationType = .words
-        textField?.attributedPlaceholder = NSAttributedString(string: CategorySelected.title, attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        textField?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        textField?.keyboardAppearance = .dark
-        return searchBar
+    lazy var searchBar: PaddedTextField = {
+        let field = PaddedTextField()
+        field.padding.left = 40
+        field.backgroundColor = Colors.gray
+        field.textColor = .white
+        let searchIcon = UIImageView(image: UIImage(named:"searchIconMain"))
+        field.leftView = searchIcon
+        field.leftView?.transform = CGAffineTransform(translationX: 12.5, y: 0)
+        field.leftViewMode = .unlessEditing
+        field.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(0.75)])
+        field.font = Fonts.createBoldSize(16)
+        return field
     }()
     
     let collectionView: UICollectionView = {
@@ -38,7 +36,7 @@ class CategorySearchVCView: UIView {
     }()
     
     func applyConstraints() {
-//        setupSearchBar()
+        setupSearchBar()
         setupCollectionView()
         backgroundColor = Colors.newBackground
     }
@@ -46,16 +44,16 @@ class CategorySearchVCView: UIView {
     func setupSearchBar() {
         addSubview(searchBar)
         searchBar.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(30)
-            make.right.equalToSuperview().inset(30)
-            make.height.equalToSuperview()
-            make.center.equalToSuperview()
+            make.top.equalToSuperview().inset(53)
+            make.height.equalTo(47)
+            make.width.equalToSuperview().offset(-40)
+            make.centerX.equalToSuperview()
         }
     }
     
     func setupCollectionView() {
         addSubview(collectionView)
-        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 110, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
     }
     
     override init(frame: CGRect) {

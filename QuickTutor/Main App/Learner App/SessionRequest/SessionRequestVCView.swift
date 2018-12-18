@@ -98,6 +98,14 @@ class SessionRequestVCView: UIView, TutorDataSource {
         subjectViewHeightAnchor?.isActive = true
         subjectView.dataSource = self
         subjectView.delegate = self
+        setupTemporaryDataSource()
+    }
+    
+    func setupTemporaryDataSource() {
+        let tempTutor = AWTutor(dictionary: [String : Any]())
+        tempTutor.subjects = ["None"]
+        tutor = tempTutor
+        subjectView.collectionView.reloadData()
     }
     
     func setupDateView() {

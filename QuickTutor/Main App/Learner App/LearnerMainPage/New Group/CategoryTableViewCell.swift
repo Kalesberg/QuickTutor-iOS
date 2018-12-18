@@ -10,16 +10,13 @@ import Foundation
 import SnapKit
 import UIKit
 
+protocol CategoryTableViewCellDelegate: class {
+    func categoryTableViewCell(_ cell: CategoryTableViewCell, didSelect category: Category)
+}
+
 class CategoryTableViewCell: UITableViewCell {
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureTableViewCell()
-    }
-
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    weak var delegate: CategoryTableViewCellDelegate?
 
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -64,6 +61,15 @@ class CategoryTableViewCell: UITableViewCell {
         collectionView.scrollToItem(at: centerIndexPath, at: .centeredHorizontally, animated: true)
     }
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureTableViewCell()
+    }
+    
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }
 
 extension CategoryTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -79,13 +85,9 @@ extension CategoryTableViewCell: UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        CategorySelected.title = category[indexPath.item].mainPageData.displayName
         let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
-
         cell.growSemiShrink {
-            let next = CategorySearchVC()
-            next.category = category[indexPath.item]
-            navigationController.pushViewController(next, animated: true)
+            self.delegate?.categoryTableViewCell(self, didSelect: category[indexPath.item])
         }
     }
 

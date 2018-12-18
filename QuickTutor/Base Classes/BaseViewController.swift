@@ -24,11 +24,7 @@ public class BaseViewController: UIViewController {
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-    }
+
     
     override public func loadView() {
         view = contentView
