@@ -75,6 +75,9 @@ class TutorPolicyVCView: BaseRegistrationView {
         return button
     }()
     
+    var contentLabelHeightAnchor: NSLayoutConstraint?
+    var bottomViewHeightAnchor: NSLayoutConstraint?
+    
     override func setupViews() {
         super.setupViews()
         setupScrollView()
@@ -93,12 +96,16 @@ class TutorPolicyVCView: BaseRegistrationView {
     
     func setupContentLabel() {
         scrollView.addSubview(contentLabel)
-        contentLabel.anchor(top: scrollView.topAnchor, left: leftAnchor, bottom: scrollView.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 525)
+        contentLabel.anchor(top: scrollView.topAnchor, left: leftAnchor, bottom: scrollView.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 0)
+        contentLabelHeightAnchor = contentLabel.heightAnchor.constraint(equalToConstant: 525)
+        contentLabelHeightAnchor?.isActive = true
     }
     
     func setupBottomView() {
         addSubview(bottomView)
-        bottomView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 128)
+        bottomView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        bottomViewHeightAnchor = bottomView.heightAnchor.constraint(equalToConstant: 128)
+        bottomViewHeightAnchor?.isActive = true
     }
     
     func setupCheckBox() {
