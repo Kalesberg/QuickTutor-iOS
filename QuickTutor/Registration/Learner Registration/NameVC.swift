@@ -21,6 +21,7 @@ class NameVC: BaseRegistrationController {
         super.viewDidLoad()
         setupTargets()
         setupTextFields()
+        progressView.setProgress(1/5)
     }
     
     @objc private func textFieldDidChange(_ sender: UITextField) {

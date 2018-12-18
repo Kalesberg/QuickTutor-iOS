@@ -25,6 +25,7 @@ class TutorPolicyVC: BaseRegistrationController {
         super.viewDidLoad()
         setupContentView()
         setupTargets()
+        progressView.isHidden = true
     }
     
     func setupContentView() {

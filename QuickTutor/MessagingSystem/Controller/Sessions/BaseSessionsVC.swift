@@ -29,7 +29,7 @@ class BaseSessionsVC: UIViewController {
     
     var addPaymentModal = AddPaymentModal()
     var cancelSessionModal: CancelSessionModal?
-
+    var collectionViewBottomAnchor: NSLayoutConstraint?
     
     override func viewDidLoad() {
         setupViews()
@@ -48,7 +48,6 @@ class BaseSessionsVC: UIViewController {
     func setupViews() {
         setupMainView()
         setupCollectionView()
-//        setupRefreshControl()
         fetchSessions()
         listenForSessionUpdates()
     }
@@ -60,7 +59,6 @@ class BaseSessionsVC: UIViewController {
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            
         }
     }
     
@@ -68,7 +66,9 @@ class BaseSessionsVC: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionViewBottomAnchor = collectionView.bottomAnchor.constraint(equalTo: view.getBottomAnchor(), constant: 0)
+        collectionViewBottomAnchor?.isActive = true
         collectionView.register(BasePendingSessionCell.self, forCellWithReuseIdentifier: "pendingSessionCell")
         collectionView.register(BasePastSessionCell.self, forCellWithReuseIdentifier: "pastSessionCell")
         collectionView.register(BaseUpcomingSessionCell.self, forCellWithReuseIdentifier: "upcomingSessionCell")

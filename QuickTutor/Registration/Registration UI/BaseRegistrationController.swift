@@ -15,6 +15,11 @@ class BaseRegistrationController: UIViewController {
         return view
     }()
     
+    let progressView: ProgressView = {
+        let view = ProgressView()
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
@@ -31,6 +36,12 @@ class BaseRegistrationController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "newBackButton"), style: .plain, target: self, action: #selector(onBack))
+        setupProgressView()
+    }
+    
+    func setupProgressView() {
+        progressView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: progressView)
     }
     
     @objc private func onBack() {

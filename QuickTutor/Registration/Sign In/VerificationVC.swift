@@ -41,6 +41,7 @@ class VerificationVC: BaseRegistrationController {
         textFields.forEach({ $0.inputAccessoryView = accessoryView })
         configureTextFields()
         setupTargets()
+        progressView.isHidden = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -157,9 +158,9 @@ class VerificationVC: BaseRegistrationController {
                             FirebaseData.manager.signInLearner(uid: user.uid) { successful in
                                 if successful {
                                     Registration.setLearnerDefaults()
-                                    self.navigationController?.pushViewController(LearnerMainPageVC(), animated: true)
+                                    RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
                                 } else {
-                                    self.navigationController?.pushViewController(SignInVC(), animated: true)
+                                    RootControllerManager.shared.configureRootViewController(controller: SignInVC())
                                 }
                             }
                         } else {

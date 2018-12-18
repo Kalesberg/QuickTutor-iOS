@@ -1,0 +1,119 @@
+[debug] [2018-11-30T18:54:36.122Z] ----------------------------------------------------------------------
+[debug] [2018-11-30T18:54:36.126Z] Command:       /Users/Zf97/.nvm/versions/node/v8.1.3/bin/node /Users/Zf97/.nvm/versions/node/v8.1.3/bin/firebase deploy --only functions --project quicktutor-3c23b
+[debug] [2018-11-30T18:54:36.126Z] CLI Version:   5.0.1
+[debug] [2018-11-30T18:54:36.126Z] Platform:      darwin
+[debug] [2018-11-30T18:54:36.126Z] Node Version:  v8.1.3
+[debug] [2018-11-30T18:54:36.127Z] Time:          Fri Nov 30 2018 12:54:36 GMT-0600 (CST)
+[debug] [2018-11-30T18:54:36.127Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-11-30T18:54:36.148Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-11-30T18:54:36.148Z] > authorizing via signed-in user
+[debug] [2018-11-30T18:54:36.148Z] [iam] checking project quicktutor-3c23b for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2018-11-30T18:54:36.152Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/quicktutor-3c23b:testIamPermissions  
+
+[debug] [2018-11-30T18:54:36.487Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'quicktutor-3c23b'...
+[info] 
+[info] i  deploying functions
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] ✔  functions: Finished running predeploy script.
+[debug] [2018-11-30T18:54:45.835Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "engines": {
+    "node": "8"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
+    "firebase-admin": "6.0.0",
+    "firebase-functions": "^2.0.5"
+  },
+  "devDependencies": {
+    "eslint": "5.6.1",
+    "eslint-plugin-promise": "^4.0.1"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2018-11-30T18:54:45.838Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/quicktutor-3c23b?view=CONSUMER_VIEW  
+ 
+[debug] [2018-11-30T18:54:45.841Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/quicktutor-3c23b?view=CONSUMER_VIEW  
+ 
+[debug] [2018-11-30T18:54:46.729Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2018-11-30T18:54:46.736Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:46.737Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/quicktutor-3c23b  
+ 
+[debug] [2018-11-30T18:54:46.967Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:46.968Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/306650114424:getServerAppConfig  
+ 
+[debug] [2018-11-30T18:54:47.164Z] <<< HTTP RESPONSE 200
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2018-11-30T18:54:47.173Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quicktutor-3c23b/configs  
+ 
+[debug] [2018-11-30T18:54:47.817Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:47.818Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quicktutor-3c23b/configs/someservice/variables  
+ 
+[debug] [2018-11-30T18:54:47.819Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quicktutor-3c23b/configs/gmail/variables  
+ 
+[debug] [2018-11-30T18:54:47.819Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quicktutor-3c23b/configs/sendgrid/variables  
+ 
+[debug] [2018-11-30T18:54:48.082Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:48.083Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quicktutor-3c23b/configs/someservice/variables/id  
+ 
+[debug] [2018-11-30T18:54:48.084Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quicktutor-3c23b/configs/someservice/variables/key  
+ 
+[debug] [2018-11-30T18:54:48.147Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:48.148Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quicktutor-3c23b/configs/gmail/variables/password  
+ 
+[debug] [2018-11-30T18:54:48.148Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quicktutor-3c23b/configs/gmail/variables/email  
+ 
+[debug] [2018-11-30T18:54:48.385Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:48.385Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quicktutor-3c23b/configs/sendgrid/variables/key  
+ 
+[debug] [2018-11-30T18:54:48.410Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:48.418Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:48.537Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:48.538Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:48.700Z] <<< HTTP RESPONSE 200
+[info] i  functions: packaged functions (57.16 KB) for uploading
+[debug] [2018-11-30T18:54:49.676Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/quicktutor-3c23b/locations/us-central1/functions:generateUploadUrl  
+ 
+[debug] [2018-11-30T18:54:50.174Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-30T18:54:50.175Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-535a3bf5-ac9f-4286-abe8-6ca6fbe59e7b/2aa73941-6c43-4ec6-aa61-e79e5695dabe.zip?GoogleAccessId=service-306650114424@gcf-admin-robot.iam.gserviceaccount.com&Expires=1543605890&Signature=rj80qt9DpDYxM0IspVgD92C4xHXDgM37%2F%2BLYaRKjtWzUlAP5uhzMrcRnk%2Fz1xbwKzmGMn0ncB0R%2FMVFaeseJH%2By5nSli7%2FoE11Tf3qUqmtt74Z256OxQlFrvAtB0XCg%2BaQWwPFjMq3ATvkQako1VYyUEtaUEk3O3wcgD80zAFohqTVCSOonDX36985ZeW9%2BV5qIbN0f%2FvkKAnDUmGXZFiYtVotd4mv0qWD%2B43SNutdxT%2BagYepiV9e%2B2QUwZioiLHY5sAXqkOCG1s6zpbf2K0gAs7Jl25%2BY%2FxqJgXecnzq7dt%2FCFLCOS5N1PloK1omBM48kTSaY4MmnDE%2FLboKcypA%3D%3D  
+
+[debug] [2018-11-30T18:54:50.741Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: functions folder uploaded successfully
+[debug] [2018-11-30T18:54:50.744Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/quicktutor-3c23b/locations/-/functions  
+ 
+[debug] [2018-11-30T18:54:51.278Z] <<< HTTP RESPONSE 200
+[info] i  functions: updating Node.js 8 function sendReceivedReportEmail(us-central1)...
+[debug] [2018-11-30T18:54:51.282Z] Trigger is:  {"eventTrigger":{"resource":"projects/_/instances/quicktutor-3c23b/refs/filereport/{uid}/{reportId}","eventType":"providers/google.firebase.database/eventTypes/ref.write","service":"firebaseio.com"}}
+[info] i  functions: updating Node.js 8 function sendSessionDetails(us-central1)...
+[debug] [2018-11-30T18:54:51.283Z] Trigger is:  {"eventTrigger":{"resource":"projects/_/instances/quicktutor-3c23b/refs/filereport/{uid}/{reportId}","eventType":"providers/google.firebase.database/eventTypes/ref.write","service":"firebaseio.com"}}
+[info] i  functions: updating Node.js 8 function sendMessageNotification(us-central1)...
+[debug] [2018-11-30T18:54:51.283Z] Trigger is:  {"eventTrigger":{"resource":"projects/_/instances/quicktutor-3c23b/refs/messages/{messageId}","eventType":"providers/google.firebase.database/eventTypes/ref.create","service":"firebaseio.com"}}
+[info] i  functions: updating Node.js 8 function sendConnectionRequestAcceptedNotification(us-central1)...
+[debug] [2018-11-30T18:54:51.284Z] Trigger is:  {"eventTrigger":{"resource":"projects/_/instances/quicktutor-3c23b/refs/connections/{receiverId}/learner/{senderId}","eventType":"providers/google.firebase.database/eventTypes/ref.create","service":"firebaseio.com"}}
+[info] i  functions: updating Node.js 8 function sendSessionAcceptedNotification(us-central1)...
+[debug] [2018-11-30T18:54:51.285Z] Trigger is:  {"eventTrigger":{"resource":"projects/_/instances/quicktutor-3c23b/refs/sessions/{sessionId}/status","eventType":"providers/google.firebase.database/eventTypes/ref.update","service":"firebaseio.com"}}
+[info] i  functions: updating Node.js 8 function incrementFeaturedCategoryCounter(us-central1)...
+[debug] [2018-11-30T18:54:51.285Z] Trigger is:  {"eventTrigger":{"resource":"projects/_/instances/quicktutor-3c23b/refs/featured/{category}/{uid}","eventType":"providers/google.firebase.database/eventTypes/ref.create","service":"firebaseio.com"}}
+[info] i  functions: updating Node.js 8 function decrementFeaturedCategoryCounter(us-central1)...
+[debug] [2018-11-30T18:54:51.285Z] Trigger is:  {"eventTrigger":{"resource":"projects/_/instances/quicktutor-3c23b/refs/featured/{category}/{uid}","eventType":"providers/google.firebase.database/eventTypes/ref.delete","service":"firebaseio.com"}}
+[info] 
+The following functions are found in your project but do not exist in your local source code:
+	sendManualStartNotification(us-central1)
+	sendSessionCancelNotification(us-central1)
+
+If you are renaming a function or changing its region, it is recommended that you create the new function first before deleting the old one to prevent event loss. For more info, visit https://firebase.google.com/docs/functions/manage-functions#modify
+

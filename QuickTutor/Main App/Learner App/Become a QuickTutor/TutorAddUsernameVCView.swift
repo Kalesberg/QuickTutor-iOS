@@ -14,6 +14,7 @@ class TutorAddUsernameVCView: BaseRegistrationView {
         let textField = RegistrationTextField()
         textField.placeholder.text = "Username"
         textField.textField.keyboardAppearance = .dark
+        textField.textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -41,6 +42,8 @@ class TutorAddUsernameVCView: BaseRegistrationView {
         setupSubtitleLabel()
         setupTextField()
         setupInfoLabel()
+        setupErrorLabelBelow(textField)
+        errorLabel.transform = CGAffineTransform(translationX: 0, y: -10)
     }
     
     func setupSubtitleLabel() {

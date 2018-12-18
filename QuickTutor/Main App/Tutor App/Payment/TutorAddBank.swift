@@ -17,6 +17,7 @@ class TutorAddBank: BaseRegistrationController {
     var routingNumber: String!
     var accountNumber: String!
     var validAccountData: Bool = false
+    var isRegistration = false
     
     let contentView: TutorAddBankView = {
         let view = TutorAddBankView()
@@ -31,6 +32,8 @@ class TutorAddBank: BaseRegistrationController {
         super.viewDidLoad()
         setupTargets()
         setupTextFields()
+        progressView.setProgress(4/6)
+        progressView.isHidden = !isRegistration
     }
     
     func setupTargets() {
@@ -135,7 +138,7 @@ class TutorAddBank: BaseRegistrationController {
             accessoryView.nextButton.setTitle("CONTINUE", for: .normal)
         } else {
             guard validAccountData else { return }
-            addBank()
+            isRegistration ? createStripeAccount() : addBank()
         }
     }
 
@@ -146,6 +149,18 @@ class TutorAddBank: BaseRegistrationController {
                 AlertController.genericErrorAlert(self, title: "Unable to Add Payout Method", message: error.localizedDescription)
             } else {
                 self.navigationController?.popBackToTutorMain()
+            }
+            self.dismissOverlay()
+        }
+    }
+    
+    func createStripeAccount() {
+        Stripe.createBankAccountToken(accountHoldersName: fullName, routingNumber: routingNumber, accountNumber: accountNumber) { token, _ in
+            if let token = token {
+                TutorRegistration.bankToken = token
+                self.navigationController?.pushViewController(TutorAddressVC(), animated: true)
+            } else {
+                AlertController.genericErrorAlert(self, title: "Bank Account Error", message: "Unable to create bank account. Please verify the information is correct.")
             }
             self.dismissOverlay()
         }

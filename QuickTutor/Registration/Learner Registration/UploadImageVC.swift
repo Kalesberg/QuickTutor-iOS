@@ -30,6 +30,7 @@ class UploadImageVC: BaseRegistrationController {
         setupAccessoryView()
         profilePicker.delegate = self
         profilePicker.allowsEditing = false
+        progressView.setProgress(5/5)
     }
     
     func setupAccessoryView() {

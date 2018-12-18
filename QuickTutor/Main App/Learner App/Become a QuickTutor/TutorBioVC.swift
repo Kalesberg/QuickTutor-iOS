@@ -18,6 +18,7 @@ class TutorBioVC: BaseRegistrationController {
         setupTargets()
         setupTextView()
         hideKeyboardWhenTappedAround()
+        progressView.setProgress(2/6)
     }
     
     func setupTargets() {
@@ -27,6 +28,7 @@ class TutorBioVC: BaseRegistrationController {
     func setupTextView() {
         contentView.textView.delegate = self
         contentView.textView.inputAccessoryView = accessoryView
+        contentView.textView.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

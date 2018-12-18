@@ -27,6 +27,7 @@ class EmailVC: BaseRegistrationController {
         contentView.emailTextField.textField.delegate = self
         contentView.emailTextField.textField.becomeFirstResponder()
         contentView.emailTextField.textField.inputAccessoryView = accessoryView
+        progressView.setProgress(2/5)
     }
     
     @objc func nextButtonPress() {

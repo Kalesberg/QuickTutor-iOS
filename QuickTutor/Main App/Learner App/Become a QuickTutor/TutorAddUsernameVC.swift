@@ -21,6 +21,7 @@ class TutorAddUsernameVC: BaseRegistrationController {
         super.viewDidLoad()
         setupTextField()
         setupTargets()
+        progressView.setProgress(6/6)
     }
 
     override func loadView() {
@@ -38,7 +39,24 @@ class TutorAddUsernameVC: BaseRegistrationController {
     }
     
     @objc func handleNext(_ sender: UIButton) {
-        
+        guard let username = contentView.textField.textField.text else { return }
+        if isValidUsername(username: username) && endsWithSpecial(username: username) {
+            displayLoadingOverlay()
+            checkIfUsernamAlreadyExists(text: username) { success in
+                if success {
+                    TutorRegistration.username = username
+                    self.navigationController?.pushViewController(TutorPolicyVC(), animated: true)
+                    self.contentView.errorLabel.isHidden = true
+                } else {
+                    self.contentView.errorLabel.isHidden = false
+                    self.contentView.errorLabel.text = "username already exists."
+                }
+                self.dismissOverlay()
+            }
+        } else {
+            contentView.errorLabel.isHidden = false
+            contentView.errorLabel.text = "Something went wrong. Please try again."
+        }
     }
     
     func isValidUsername(username: String) -> Bool {
@@ -57,30 +75,7 @@ class TutorAddUsernameVC: BaseRegistrationController {
             completion(snapshot.childrenCount == 0)
         })
     }
-
-//    override func handleNavigation() {
-//        if touchStartView is NavbarButtonNext {
-//            let username = contentView.textField.textField.text!
-//
-//            if isValidUsername(username: username) && endsWithSpecial(username: username) {
-//                displayLoadingOverlay()
-//                checkIfUsernamAlreadyExists(text: username) { success in
-//                    if success {
-//                        TutorRegistration.username = username
-//                        self.navigationController?.pushViewController(TutorPolicyVC(), animated: true)
-//                        self.contentView.errorLabel.isHidden = true
-//                    } else {
-//                        self.contentView.errorLabel.isHidden = false
-//                        self.contentView.errorLabel.text = "username already exists."
-//                    }
-//                    self.dismissOverlay()
-//                }
-//            } else {
-//                contentView.errorLabel.isHidden = false
-//                contentView.errorLabel.text = "Soemthing went wrong. Please try again."
-//            }
-//        }
-//    }
+    
 }
 
 extension TutorAddUsernameVC: UITextFieldDelegate {

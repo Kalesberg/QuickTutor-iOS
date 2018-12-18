@@ -26,6 +26,7 @@ class BirthdayVC: BaseRegistrationController {
         super.viewDidLoad()
         setupTargets()
         setupAccessoryView()
+        progressView.setProgress(4/5)
     }
     
     func setupAccessoryView() {

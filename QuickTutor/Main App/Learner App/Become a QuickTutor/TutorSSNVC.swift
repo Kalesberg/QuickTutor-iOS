@@ -24,6 +24,7 @@ class TutorSSNVC: BaseRegistrationController {
         setupTargets()
         hideKeyboardWhenTappedAround()
         setupTextField()
+        progressView.setProgress(3/6)
     }
     
     func setupTargets() {
@@ -44,7 +45,7 @@ class TutorSSNVC: BaseRegistrationController {
     @objc func handleNext() {
         if let tutorSSN = checkForValidSSN() {
             TutorRegistration.ssn = tutorSSN
-            navigationController?.pushViewController(TutorRegPaymentVC(), animated: true)
+            navigationController?.pushViewController(TutorAddBank(), animated: true)
         }
     }
 

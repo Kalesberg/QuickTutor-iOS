@@ -26,6 +26,7 @@ class UserPolicyVC: BaseRegistrationController {
         super.viewDidLoad()
         setupTargets()
         removeNavBarButton()
+        progressView.isHidden = true
     }
     
     func setupTargets() {

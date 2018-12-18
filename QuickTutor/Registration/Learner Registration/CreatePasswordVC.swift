@@ -25,6 +25,7 @@ class CreatePasswordVC: BaseRegistrationController {
         super.viewDidLoad()
         setupTargets()
         setupPasswordField()
+        progressView.setProgress(3/5)
     }
     
     func setupTargets() {
