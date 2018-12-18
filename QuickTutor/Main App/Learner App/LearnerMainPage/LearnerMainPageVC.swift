@@ -34,24 +34,7 @@ class LearnerMainPageVC: UIViewController {
         setupStripe()
         queryFeaturedTutors()
         configureView()
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        FirebaseData.manager.fetchTutor(CurrentUser.shared.learner.uid!, isQuery: false) { tutor in
-            guard let tutor = tutor else {
-                AlertController.genericErrorAlert(self, title: "Oops!", message: "Unable to find your tutor account! Please try again.")
-                return
-            }
-            CurrentUser.shared.tutor = tutor
-            Stripe.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
-                if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-                    return
-                } else if let account = account {
-                    CurrentUser.shared.connectAccount = account
-                    return
-                }
-            })
-        }
-        
+        navigationController?.setNavigationBarHidden(true, animated: false)        
     }
     
     func confirmSignedInUser() {

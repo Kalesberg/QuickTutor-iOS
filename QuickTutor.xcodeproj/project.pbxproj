@@ -491,6 +491,7 @@
 		CFB9B81A21C842C80022333F /* TutorBioVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81921C842C80022333F /* TutorBioVCView.swift */; };
 		CFB9B81C21C843430022333F /* TutorAddUsernameVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81B21C843430022333F /* TutorAddUsernameVCView.swift */; };
 		CFB9B81E21C887D40022333F /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81D21C887D40022333F /* ProgressView.swift */; };
+		CFB9B82021C88ED90022333F /* TutorAddressVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81F21C88ED90022333F /* TutorAddressVCView.swift */; };
 		CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */; };
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
@@ -1041,6 +1042,7 @@
 		CFB9B81921C842C80022333F /* TutorBioVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorBioVCView.swift; sourceTree = "<group>"; };
 		CFB9B81B21C843430022333F /* TutorAddUsernameVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddUsernameVCView.swift; sourceTree = "<group>"; };
 		CFB9B81D21C887D40022333F /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		CFB9B81F21C88ED90022333F /* TutorAddressVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddressVCView.swift; sourceTree = "<group>"; };
 		CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchVCView.swift; sourceTree = "<group>"; };
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
@@ -1599,6 +1601,7 @@
 				CFB9B81321C633260022333F /* TutorSSNVCView.swift */,
 				84F2451B1FDA1183006447A8 /* TutorRegPaymentVC.swift */,
 				8479EA622063E63100C5113E /* TutorAddressVC.swift */,
+				CFB9B81F21C88ED90022333F /* TutorAddressVCView.swift */,
 				845D403C2079A30F00EFFC6C /* TutorAddUsernameVC.swift */,
 				CFB9B81B21C843430022333F /* TutorAddUsernameVCView.swift */,
 				8479EA642063E66400C5113E /* TutorPolicyVC.swift */,
@@ -2843,6 +2846,7 @@
 				84052F14206BCCB8007B1248 /* LearnerOther.swift in Sources */,
 				845D403D2079A30F00EFFC6C /* TutorAddUsernameVC.swift in Sources */,
 				8482AFE3203A9E1300F6F805 /* UIImageViewExtensions.swift in Sources */,
+				CFB9B82021C88ED90022333F /* TutorAddressVCView.swift in Sources */,
 				840E75C2201E8419006FC580 /* LearnerFileReportVC.swift in Sources */,
 				84257662207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift in Sources */,
 				8440539E20F55B77003F0606 /* SendRequestView.swift in Sources */,

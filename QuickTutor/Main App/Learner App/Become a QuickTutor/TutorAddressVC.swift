@@ -8,137 +8,15 @@
 import UIKit
 import SnapKit
 
-class TutorAddressView: TutorRegistrationLayout, Keyboardable {
-    var keyboardComponent = ViewComponent()
-    var contentView = UIView()
+class TutorAddressVC: BaseRegistrationController {
 
-    var addressLine1Title = SectionTitle()
-    fileprivate var addressLine1TextField = AddressTextField()
-
-    var cityTitle = SectionTitle()
-    fileprivate var cityTextField = AddressTextField()
-
-    var stateTitle = SectionTitle()
-    fileprivate var stateTextField = AddressTextField()
-
-    var zipTitle = SectionTitle()
-    fileprivate var zipTextField = AddressTextField()
-
-    override func configureView() {
-        addSubview(contentView)
-        contentView.addSubview(addressLine1Title)
-        contentView.addSubview(addressLine1TextField)
-        contentView.addSubview(cityTitle)
-        contentView.addSubview(cityTextField)
-        contentView.addSubview(stateTitle)
-        contentView.addSubview(stateTextField)
-        contentView.addSubview(zipTitle)
-        contentView.addSubview(zipTextField)
-
-        addKeyboardView()
-        super.configureView()
-
-        title.label.text = "Billing Address"
-
-        progressBar.progress = 0.8333333
-        progressBar.applyConstraints()
-
-        addressLine1Title.label.text = "Address"
-        cityTitle.label.text = "City"
-        stateTitle.label.text = "State"
-        zipTitle.label.text = "Postal Code"
-
-        addressLine1TextField.attributedPlaceholder = NSAttributedString(string: "Enter Billing Address", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        addressLine1TextField.keyboardType = .asciiCapable
-
-        cityTextField.attributedPlaceholder = NSAttributedString(string: "Enter City", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        cityTextField.keyboardType = .asciiCapable
-
-        stateTextField.attributedPlaceholder = NSAttributedString(string: "Enter State", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        stateTextField.keyboardType = .asciiCapable
-        stateTextField.autocapitalizationType = .allCharacters
-
-        zipTextField.attributedPlaceholder = NSAttributedString(string: "Enter Postal Code", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        zipTextField.keyboardType = .decimalPad
-
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-
-        contentView.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.85)
-            make.top.equalTo(navbar.snp.bottom)
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(keyboardView.snp.top)
-        }
-
-        addressLine1Title.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.18)
-            make.centerX.equalToSuperview()
-        }
-
-        addressLine1TextField.snp.makeConstraints { make in
-            make.top.equalTo(addressLine1Title.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(30)
-        }
-
-        cityTitle.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.top.equalTo(addressLine1TextField.snp.bottom)
-            make.centerX.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.18)
-        }
-
-        cityTextField.snp.makeConstraints { make in
-            make.top.equalTo(cityTitle.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(30)
-        }
-
-        stateTitle.snp.makeConstraints { make in
-            make.width.equalToSuperview().dividedBy(2)
-            make.top.equalTo(cityTextField.snp.bottom)
-            make.left.equalTo(cityTitle.snp.left)
-            make.height.equalToSuperview().multipliedBy(0.18)
-        }
-
-        stateTextField.snp.makeConstraints { make in
-            make.top.equalTo(stateTitle.snp.bottom)
-            make.width.equalToSuperview().dividedBy(2)
-            make.left.equalTo(cityTextField.snp.left)
-            make.height.equalTo(30)
-        }
-        zipTitle.snp.makeConstraints { make in
-            make.width.equalToSuperview().dividedBy(2)
-            make.top.equalTo(cityTextField.snp.bottom)
-            make.right.equalTo(cityTitle.snp.right)
-            make.height.equalToSuperview().multipliedBy(0.18)
-        }
-
-        zipTextField.snp.makeConstraints { make in
-            make.top.equalTo(zipTitle.snp.bottom)
-            make.width.equalToSuperview().dividedBy(2)
-            make.right.equalTo(cityTextField.snp.right)
-            make.height.equalTo(30)
-        }
-    }
-}
-
-class TutorAddressVC: BaseViewController {
-    override var contentView: TutorAddressView {
-        return view as! TutorAddressView
-    }
+    let contentView: TutorAddressVCView = {
+        let view = TutorAddressVCView()
+        return view
+    }()
 
     override func loadView() {
-        view = TutorAddressView()
+        view = contentView
     }
 
     private var textFields: [UITextField] = []
@@ -147,87 +25,112 @@ class TutorAddressVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        textFields = [contentView.addressLine1TextField, contentView.cityTextField, contentView.stateTextField, contentView.zipTextField]
-
+        setupTargets()
+        setupTextFields()
+        progressView.setProgress(5/6)
+        accessoryView.nextButton.setTitle("NEXT", for: .normal)
+    }
+    
+    func setupTargets() {
+        accessoryView.nextButton.addTarget(self, action: #selector(handleNext(_:)), for: .touchUpInside)
+    }
+    
+    func setupTextFields() {
+        textFields = [contentView.addressLine1TextField.textField, contentView.cityTextField.textField, contentView.stateTextField.textField, contentView.zipTextField.textField]
+        
         for textField in textFields {
             textField.delegate = self
             textField.returnKeyType = .next
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+            textField.inputAccessoryView = accessoryView
         }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        contentView.nextButton.isUserInteractionEnabled = true
+        textFields[0].becomeFirstResponder()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         contentView.resignFirstResponder()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
     @objc private func textFieldDidChange(_: UITextField) {
-        guard let line1 = textFields[0].text, line1.streetRegex() else {
-            textFields[0].layer.borderColor = Colors.qtRed.cgColor
-            validData = false
-            return
-        }
-        textFields[0].layer.borderColor = Colors.green.cgColor
-
-        guard let city = textFields[1].text, city.cityRegex() else {
-            textFields[1].layer.borderColor = Colors.qtRed.cgColor
-            validData = false
-            return
-        }
-        textFields[1].layer.borderColor = Colors.green.cgColor
-
-        guard let state = textFields[2].text, state.stateRegex() else {
-            textFields[2].layer.borderColor = Colors.qtRed.cgColor
-            validData = false
-            return
-        }
-        textFields[2].layer.borderColor = Colors.green.cgColor
-
-        guard let zipcode = textFields[3].text, zipcode.zipcodeRegex() else {
-            textFields[3].layer.borderColor = Colors.qtRed.cgColor
-            validData = false
-            return
-        }
-        textFields[3].layer.borderColor = Colors.green.cgColor
+        guard let line1 = validateAddress() else { return }
+        guard let city = validateCity() else { return }
+        guard let state = validateState() else { return }
+        guard let zipcode = validateZip() else { return }
         addressString = line1 + " " + city + " " + state + ", " + zipcode
         validData = true
     }
-
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonNext {
-            contentView.rightButton.isUserInteractionEnabled = false
-            if validData {
-                displayLoadingOverlay()
-                TutorLocationFormatter.convertAddressToLatLong(addressString: addressString) { error in
-                    if error != nil {
-                        AlertController.genericErrorAlertWithoutCancel(self, title: "Unable to Find Address", message: "Please make sure your information is correct.")
-                        self.contentView.rightButton.isUserInteractionEnabled = true
-                    } else {
-                        self.navigationController?.pushViewController(TutorAddUsernameVC(), animated: true)
-                    }
-                    self.dismissOverlay()
-                }
-            } else {
-                contentView.rightButton.isUserInteractionEnabled = true
-                print("fill out the correct information.")
-            }
+    
+    func validateAddress() -> String? {
+        guard let line1 = textFields[0].text, line1.streetRegex() else {
+            contentView.addressLine1TextField.line.backgroundColor = Colors.qtRed
+            validData = false
+            return nil
+        }
+        contentView.addressLine1TextField.line.backgroundColor = Colors.green
+        return line1
+    }
+    
+    func validateCity() -> String? {
+        guard let city = textFields[1].text, city.cityRegex() else {
+            contentView.cityTextField.line.backgroundColor = Colors.qtRed
+            validData = false
+            return nil
+        }
+        contentView.cityTextField.line.backgroundColor = Colors.green
+        return city
+    }
+    
+    func validateState() -> String? {
+        guard let state = textFields[2].text, state.stateRegex() else {
+            contentView.stateTextField.line.backgroundColor = Colors.qtRed
+            validData = false
+            return nil
+        }
+        contentView.stateTextField.line.backgroundColor = Colors.green
+        return state
+    }
+    
+    func validateZip() -> String? {
+        guard let zipcode = textFields[3].text, zipcode.zipcodeRegex() else {
+            contentView.zipTextField.line.backgroundColor = Colors.qtRed
+            validData = false
+            return nil
+        }
+        contentView.zipTextField.line.backgroundColor = Colors.green
+        return zipcode
+    }
+    
+    @objc func handleNext(_ sender: UIButton) {
+        if textFields[0].isFirstResponder {
+            textFields[1].becomeFirstResponder()
+        } else if textFields[1].isFirstResponder {
+            textFields[2].becomeFirstResponder()
+        } else if textFields[2].isFirstResponder {
+            textFields[3].becomeFirstResponder()
+            accessoryView.nextButton.setTitle("CONTINUE", for: .normal)
+        } else if textFields[3].isFirstResponder {
+            continueToNextScreen()
         }
     }
+    
+    func continueToNextScreen() {
+        guard validData else { return }
+        displayLoadingOverlay()
+        TutorLocationFormatter.convertAddressToLatLong(addressString: addressString) { error in
+            if error != nil {
+                AlertController.genericErrorAlertWithoutCancel(self, title: "Unable to Find Address", message: "Please make sure your information is correct.")
+            } else {
+                self.navigationController?.pushViewController(TutorAddUsernameVC(), animated: true)
+            }
+            self.dismissOverlay()
+        }
+    }
+
 }
 
 extension TutorAddressVC: UITextFieldDelegate {
-    internal func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let inverseSet = NSCharacterSet(charactersIn: "0123456789-").inverted
         let components = string.components(separatedBy: inverseSet)
         let filtered = components.joined(separator: "")
@@ -237,10 +140,7 @@ extension TutorAddressVC: UITextFieldDelegate {
 
         switch textField {
         case textFields[0]:
-            if newLength < 30 {
-                return true
-            }
-            return false
+            return newLength < 30
         case textFields[1]:
             if string == "" { return true }
             return !(string == filtered)
@@ -262,7 +162,7 @@ extension TutorAddressVC: UITextFieldDelegate {
         return false
     }
 
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case textFields[0]:
             textFields[1].becomeFirstResponder()
@@ -270,6 +170,7 @@ extension TutorAddressVC: UITextFieldDelegate {
             textFields[2].becomeFirstResponder()
         case textFields[2]:
             textFields[3].becomeFirstResponder()
+            accessoryView.nextButton.setTitle("CONTINUE", for: .normal)
         default:
             break
         }
