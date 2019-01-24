@@ -18,7 +18,7 @@ class CardFooterView: UIView {
     
     let connectButton: DimmableButton = {
         let button = DimmableButton()
-        button.backgroundColor = Colors.learnerPurple
+        button.backgroundColor = Colors.purple
         button.setTitle("CONNECT", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(14)
         button.layer.cornerRadius = 4

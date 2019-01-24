@@ -9,7 +9,13 @@
 import UIKit
 import Firebase
 
+protocol ProfileVCHeaderCellDelegate: class {
+    func profileVCHeaderCellShouldHandleTap(_ cell: ProfileVCHeaderCell)
+}
+
 class ProfileVCHeaderCell: UICollectionReusableView {
+    
+    weak var delegate: ProfileVCHeaderCellDelegate?
     
     var parentViewController: ProfileVC? {
         didSet {
@@ -35,7 +41,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     let ratingLabel: UILabel = {
         let label = UILabel()
-        label.textColor = Colors.currentUserColor()
+        label.textColor = Colors.purple
         label.text = "★ 5.0"
         label.font = Fonts.createBoldSize(14)
         return label
@@ -43,7 +49,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     let actionsButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "profileEditButton"), for: .normal)
+        button.setImage(UIImage(named: "profileEditPencil"), for: .normal)
         return button
     }()
     
@@ -82,7 +88,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     func setupActionsButton() {
         addSubview(actionsButton)
-        actionsButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 10, height: 20)
+        actionsButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 20, height: 20)
         addConstraint(NSLayoutConstraint(item: actionsButton, attribute: .centerY, relatedBy: .equal, toItem: profileImageView, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
@@ -101,10 +107,19 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         }
     }
     
+    func setupTargets() {
+        actionsButton.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
+    }
+    
+    @objc func handleEditProfile() {
+        delegate?.profileVCHeaderCellShouldHandleTap(self)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
         updateUI()
+        setupTargets()
     }
     
     required init?(coder aDecoder: NSCoder) {

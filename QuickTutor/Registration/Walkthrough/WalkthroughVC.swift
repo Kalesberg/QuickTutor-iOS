@@ -57,7 +57,7 @@ class WalkthroughVCView: UIView {
     
     let nextButton: DimmableButton = {
         let button = DimmableButton()
-        button.backgroundColor = Colors.learnerPurple
+        button.backgroundColor = Colors.purple
         button.titleLabel?.font = Fonts.createBoldSize(14)
         button.setTitle("GET STARTED", for: .normal)
         button.layer.cornerRadius = 4

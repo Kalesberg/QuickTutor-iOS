@@ -236,7 +236,7 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
         theme.primaryBackgroundColor = Colors.registrationDark
         theme.font = Fonts.createSize(16)
         theme.emphasisFont = Fonts.createBoldSize(18)
-        theme.accentColor = Colors.learnerPurple
+        theme.accentColor = Colors.purple
         theme.errorColor = Colors.qtRed
         theme.primaryForegroundColor = .white
         theme.secondaryForegroundColor = Colors.grayText
@@ -244,12 +244,12 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
         
         
         let theme2 = STPTheme()
-        theme2.primaryBackgroundColor = Colors.learnerPurple
+        theme2.primaryBackgroundColor = Colors.purple
         theme2.emphasisFont = Fonts.createBoldSize(18)
         theme2.accentColor = .white
         theme2.primaryForegroundColor = .white
         theme2.secondaryForegroundColor = Colors.grayText
-        theme2.secondaryBackgroundColor = Colors.learnerPurple
+        theme2.secondaryBackgroundColor = Colors.purple
         
         let config = STPPaymentConfiguration()
         config.requiredBillingAddressFields = .none
@@ -335,13 +335,11 @@ class AddCardTableViewCell: UITableViewCell {
 
     let addCard: UILabel = {
         let label = UILabel()
-
         label.text = "Add debit or credit card"
         label.textColor = .white
         label.font = Fonts.createSize(18)
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
-
         return label
     }()
 
@@ -352,10 +350,10 @@ class AddCardTableViewCell: UITableViewCell {
         addSubview(footer)
 
         let cellBackground = UIView()
-        cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        cellBackground.backgroundColor = Colors.darkBackground
         selectedBackgroundView = cellBackground
-        footer.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-        backgroundColor = Colors.backgroundDark
+        footer.backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.darkBackground
         applyConstraints()
     }
 
@@ -377,22 +375,18 @@ class AddCardTableViewCell: UITableViewCell {
 class CardManagerTableViewCell: UITableViewCell {
     var hiddenCardNumbers: UILabel = {
         let label = UILabel()
-
         label.text = "••••"
         label.adjustsFontSizeToFitWidth = true
         label.font = Fonts.createSize(22)
         label.textColor = .white
-
         return label
     }()
 
     var last4: UILabel = {
         let label = UILabel()
-
         label.adjustsFontSizeToFitWidth = true
         label.font = Fonts.createBoldSize(22)
         label.textColor = .white
-
         return label
     }()
 
@@ -400,7 +394,6 @@ class CardManagerTableViewCell: UITableViewCell {
 
     var defaultcard: UILabel = {
         let label = UILabel()
-
         label.text = "Default"
         label.font = Fonts.createSize(15)
         label.textColor = .white
@@ -408,7 +401,6 @@ class CardManagerTableViewCell: UITableViewCell {
         label.textAlignment = .center
         label.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
         label.isHidden = true
-
         return label
     }()
 
@@ -428,10 +420,10 @@ class CardManagerTableViewCell: UITableViewCell {
         addSubview(defaultcard)
 
         let cellBackground = UIView()
-        cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        cellBackground.backgroundColor = Colors.darkBackground
         selectedBackgroundView = cellBackground
 
-        backgroundColor = Colors.backgroundDark
+        backgroundColor = Colors.darkBackground
 
         applyConstraints()
     }

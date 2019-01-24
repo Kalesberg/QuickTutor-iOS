@@ -179,13 +179,13 @@ class EditBioView: MainLayoutTitleBackSaveButton, Keyboardable {
         super.layoutSubviews()
 
         if AccountService.shared.currentUserType == .tutor {
-            navbar.backgroundColor = Colors.tutorBlue
-            statusbarView.backgroundColor = Colors.tutorBlue
-            textView.textView.tintColor = Colors.tutorBlue
+            navbar.backgroundColor = Colors.purple
+            statusbarView.backgroundColor = Colors.purple
+            textView.textView.tintColor = Colors.purple
         } else if AccountService.shared.currentUserType == .learner {
-            navbar.backgroundColor = Colors.learnerPurple
-            statusbarView.backgroundColor = Colors.learnerPurple
-            textView.textView.tintColor = Colors.learnerPurple
+            navbar.backgroundColor = Colors.purple
+            statusbarView.backgroundColor = Colors.purple
+            textView.textView.tintColor = Colors.purple
 
         } else {}
     }

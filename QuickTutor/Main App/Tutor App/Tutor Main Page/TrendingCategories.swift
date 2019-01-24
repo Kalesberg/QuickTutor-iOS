@@ -71,7 +71,7 @@ class TrendingCategories: BaseViewController {
 
 extension TrendingCategories: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return category.count
+        return categories.count
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -96,8 +96,8 @@ extension TrendingCategories: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingCell", for: indexPath) as! CategoryCollectionViewCell
 
-        cell.label.text = category[indexPath.item].mainPageData.displayName
-        cell.imageView.image = category[indexPath.item].mainPageData.image
+        cell.label.text = categories[indexPath.item].mainPageData.displayName
+        cell.imageView.image = categories[indexPath.item].mainPageData.image
 
         return cell
     }
@@ -106,7 +106,7 @@ extension TrendingCategories: UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
         cell.growSemiShrink {
             let next = CategoryInfo()
-            next.category = category[indexPath.item]
+            next.category = categories[indexPath.item]
             self.navigationController?.pushViewController(next, animated: true)
         }
         collectionView.deselectItem(at: indexPath, animated: true)

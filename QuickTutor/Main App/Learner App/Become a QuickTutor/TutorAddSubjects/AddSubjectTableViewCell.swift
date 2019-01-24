@@ -55,7 +55,7 @@ class AddSubjectsTableViewCell: UITableViewCell {
         selectedIcon.isSelected = false
         selectedBackgroundView = cellBackground
         subcatContainer.layer.cornerRadius = 9
-        subcatContainer.backgroundColor = Colors.tutorBlue
+        subcatContainer.backgroundColor = Colors.purple
         backgroundColor = .clear
 
         applyConstraints()
@@ -84,7 +84,7 @@ class AddSubjectsTableViewCell: UITableViewCell {
 
         if selected {
             cellBackground.backgroundColor = color
-            subcategory.backgroundColor = Colors.tutorBlue
+            subcategory.backgroundColor = Colors.purple
         }
     }
 

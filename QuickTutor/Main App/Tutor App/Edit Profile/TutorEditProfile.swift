@@ -16,56 +16,13 @@ protocol TutorPreferenceChange {
     func inVideoPressed()
 }
 
-class TutorEditProfileView: UIView, Keyboardable {
-
-    var keyboardComponent = ViewComponent()
-
-    let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.backgroundColor = .clear
-        tableView.estimatedRowHeight = 250
-        tableView.isScrollEnabled = true
-        tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        return tableView
-    }()
-
-    func configureView() {
-        addKeyboardView()
-        addSubview(tableView)
-        backgroundColor = Colors.darkBackground
-    }
-
-    func applyConstraints() {
-        tableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalTo(layoutMarginsGuide.snp.leading)
-            make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-            } else {
-                make.bottom.equalToSuperview()
-            }
-        }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureView()
-        applyConstraints()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 class TutorEditProfile: BaseViewController, TutorPreferenceChange {
+    let imagePicker = UIImagePickerController()
+
     let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 
-    override var contentView: TutorEditProfileView {
-        return view as! TutorEditProfileView
+    override var contentView: LearnerEditProfileVCView {
+        return view as! LearnerEditProfileVCView
     }
 
     var tutor: AWTutor! {
@@ -96,7 +53,7 @@ class TutorEditProfile: BaseViewController, TutorPreferenceChange {
     }
 
     override func loadView() {
-        view = TutorEditProfileView()
+        view = LearnerEditProfileVCView()
     }
 
     var delegate: UpdatedTutorCallBack?
@@ -154,7 +111,7 @@ class TutorEditProfile: BaseViewController, TutorPreferenceChange {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
 
-        contentView.tableView.register(ProfileImagesTableViewCell.self, forCellReuseIdentifier: "profileImagesTableViewCell")
+        contentView.tableView.register(EditProfileImagesCell.self, forCellReuseIdentifier: "profileImagesTableViewCell")
         contentView.tableView.register(EditProfileDotItemTableViewCell.self, forCellReuseIdentifier: "editProfileDotItemTableViewCell")
         contentView.tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
         contentView.tableView.register(EditProfileArrowItemTableViewCell.self, forCellReuseIdentifier: "editProfileArrowItemTableViewCell")
@@ -273,26 +230,7 @@ extension TutorEditProfile: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! ProfileImagesTableViewCell
-
-            let image1Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic1")
-            cell.image1.picView.sd_setImage(with: image1Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { _, _, _, _ in
-                cell.image1.buttonImageView.image = (cell.image1.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
-            }
-            let image2Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic2")
-            cell.image2.picView.sd_setImage(with: image2Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { _, _, _, _ in
-                cell.image2.buttonImageView.image = (cell.image2.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
-            }
-            let image3Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic3")
-            cell.image3.picView.sd_setImage(with: image3Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { _, _, _, _ in
-                cell.image3.buttonImageView.image = (cell.image3.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
-            }
-            let image4Ref = storageRef.child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic4")
-            cell.image4.picView.sd_setImage(with: image4Ref, placeholderImage: #imageLiteral(resourceName: "placeholder-square")) { _, _, _, _ in
-                cell.image4.buttonImageView.image = (cell.image4.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
-            }
-            cell.layoutSubviews()
-
+            let cell = tableView.dequeueReusableCell(withIdentifier: "profileImagesTableViewCell", for: indexPath) as! EditProfileImagesCell
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileHeaderTableViewCell", for: indexPath) as! EditProfileHeaderTableViewCell
@@ -469,44 +407,44 @@ extension TutorEditProfile: UITableViewDelegate, UITableViewDataSource {
 
 extension TutorEditProfile: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
     func circleCropDidCropImage(_ image: UIImage) {
-        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! ProfileImagesTableViewCell
-        let imageViews = [cell.image1, cell.image2, cell.image3, cell.image4]
-
-        guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
-            AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
-            return
-        }
-
-        func checkForEmptyImagesBeforeCurrentIndex() -> Int {
-            for (index, imageView) in imageViews.enumerated() {
-                if imageView.picView.image == nil || imageView.picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
-                    return index
-                }
-            }
-            return imageToChange - 1
-        }
-
-        func setAndSaveImage() {
-            var index = imageToChange - 1
-            if imageViews[index].picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
-                index = checkForEmptyImagesBeforeCurrentIndex()
-            }
-            FirebaseData.manager.uploadImage(data: data, number: String(index + 1)) { error, imageUrl in
-                if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-                } else if let imageUrl = imageUrl {
-                    self.tutor.images["image\(index + 1)"] = imageUrl
-                    self.uploadImageUrl(imageUrl: imageUrl, number: String(index + 1))
-                }
-            }
-            SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index + 1)), fromDisk: false) {
-                SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index + 1)), toDisk: false) {
-                    imageViews[index].picView.image = image
-                    imageViews[index].buttonImageView.image = UIImage(named: "remove-image")
-                }
-            }
-        }
-        setAndSaveImage()
+//        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileImagesCell
+//        let imageViews = [cell.image1, cell.image2, cell.image3, cell.image4]
+//
+//        guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
+//            AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
+//            return
+//        }
+//
+//        func checkForEmptyImagesBeforeCurrentIndex() -> Int {
+//            for (index, imageView) in imageViews.enumerated() {
+//                if imageView.picView.image == nil || imageView.picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+//                    return index
+//                }
+//            }
+//            return imageToChange - 1
+//        }
+//
+//        func setAndSaveImage() {
+//            var index = imageToChange - 1
+//            if imageViews[index].picView.image == #imageLiteral(resourceName: "registration-image-placeholder") {
+//                index = checkForEmptyImagesBeforeCurrentIndex()
+//            }
+//            FirebaseData.manager.uploadImage(data: data, number: String(index + 1)) { error, imageUrl in
+//                if let error = error {
+//                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+//                } else if let imageUrl = imageUrl {
+//                    self.tutor.images["image\(index + 1)"] = imageUrl
+//                    self.uploadImageUrl(imageUrl: imageUrl, number: String(index + 1))
+//                }
+//            }
+//            SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index + 1)), fromDisk: false) {
+//                SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index + 1)), toDisk: false) {
+//                    imageViews[index].picView.image = image
+//                    imageViews[index].buttonImageView.image = UIImage(named: "remove-image")
+//                }
+//            }
+//        }
+//        setAndSaveImage()
     }
 
     func circleCropDidCancel() {

@@ -243,7 +243,7 @@ class HideMeButton: InteractableView, Interactable {
         addSubview(label)
         super.configureView()
 
-        backgroundColor = Colors.learnerPurple
+        backgroundColor = Colors.purple
         layer.cornerRadius = 7
 
         applyConstraints()

@@ -51,7 +51,7 @@ class AddTutorTableViewCell: UITableViewCell {
 	let addTutorButton: UIButton = {
 		let button = UIButton()
 		
-		button.backgroundColor = Colors.learnerPurple
+		button.backgroundColor = Colors.purple
 		button.setTitleColor(.white, for: .normal)
 		button.titleLabel?.textAlignment = .center
 		button.titleLabel?.font = Fonts.createSize(14)

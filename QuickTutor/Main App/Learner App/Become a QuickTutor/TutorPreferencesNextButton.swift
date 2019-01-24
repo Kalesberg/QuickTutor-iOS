@@ -23,7 +23,7 @@ class TutorPreferencesNextButton: InteractableView, Interactable {
         addSubview(label)
         super.configureView()
         
-        backgroundColor = Colors.tutorBlue
+        backgroundColor = Colors.purple
         
         applyConstraints()
     }
@@ -39,6 +39,6 @@ class TutorPreferencesNextButton: InteractableView, Interactable {
     }
     
     func didDragOff() {
-        backgroundColor = Colors.tutorBlue
+        backgroundColor = Colors.purple
     }
 }

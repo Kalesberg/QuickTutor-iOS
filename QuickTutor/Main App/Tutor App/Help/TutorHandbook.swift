@@ -45,7 +45,6 @@ class TutorHandookView: MainLayoutHeaderScroll {
         scrollView.addSubview(privateInfoBody)
         super.configureView()
 
-        title.label.text = "Tutor Handbook"
         header.label.text = "Set your own schedule"
 
         setScheduleBody.text = "You can tutor whenever you want – day or night, 365 days a year. When you tutor is always up to you so that it won’t interfere with the most important things in life. Sessions can be scheduled as early as fifteen minutes in the future or up to thirty days in advance."
@@ -121,18 +120,13 @@ class TutorHandook: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Tutor Handbook"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
 
     override func loadView() {
         view = TutorHandookView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func handleNavigation() {}

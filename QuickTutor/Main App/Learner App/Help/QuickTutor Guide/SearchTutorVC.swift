@@ -36,7 +36,6 @@ class SearchTutorView: MainLayoutHeaderScroll {
         scrollView.addSubview(examineProfileBody)
         super.configureView()
 
-        title.label.text = "Searching for a Tutor"
         header.label.text = "Searching"
 
         searchBody.text = "You can search for tutors by tapping on the search bar (top, center) on the home page and then either typing in a subject you'd like to learn or tapping on one of the six subcategories associated within each category.\n\nYou can do a quick search by tapping on one of our twelve categories on the home page, which will then filter all tutors who teach subjects in that category."
@@ -81,18 +80,13 @@ class SearchTutorVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Searching for a tutor"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
 
     override func loadView() {
         view = SearchTutorView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func handleNavigation() {}

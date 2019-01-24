@@ -49,7 +49,6 @@ class TheChoiceView: BaseLayoutView {
         buttonContainer.addSubview(continueButton)
         buttonContainer.addSubview(tutorButton)
 		
-		applyGradient(firstColor: (Colors.oldTutorBlue.cgColor), secondColor: (Colors.oldLearnerPurple.cgColor), angle: 160, frame: frame)
 
         applyConstraints()
     }

@@ -68,7 +68,7 @@ class LearnerMyProfileReviewsView : UIView {
 		addSubview(divider)
 
 		seeAllButton.addTarget(self, action: #selector(seeAllButtonPressed(_:)), for: .touchUpInside)
-		reviewTitle.textColor = Colors.learnerPurple
+		reviewTitle.textColor = Colors.purple
 		
 		applyConstraints()
 	}
@@ -109,7 +109,7 @@ class LearnerMyProfileReviewsView : UIView {
 		}
 		let formattedName = dataSource[0].studentName.split(separator: " ")
 		reviewLabel1.nameLabel.text = "\(String(formattedName[0])) \(String(formattedName[1]).prefix(1))."
-		reviewLabel1.nameLabel.textColor = Colors.learnerPurple
+		reviewLabel1.nameLabel.textColor = Colors.purple
 		reviewLabel1.reviewTextLabel.text = "\"\(dataSource[0].message)\""
 		reviewLabel1.subjectLabel.attributedText = NSMutableAttributedString().bold("\(dataSource[0].rating) ★", 14, Colors.gold).bold(" - \(dataSource[0].subject)", 13, .white)
 		reviewLabel1.dateLabel.text = "\(dataSource[0].formattedDate)"
@@ -128,7 +128,7 @@ class LearnerMyProfileReviewsView : UIView {
 		}
 		let formattedName = dataSource[1].studentName.split(separator: " ")
 		reviewLabel2.nameLabel.text = "\(String(formattedName[0])) \(String(formattedName[1]).prefix(1))."
-		reviewLabel2.nameLabel.textColor = Colors.learnerPurple
+		reviewLabel2.nameLabel.textColor = Colors.purple
 		reviewLabel2.reviewTextLabel.text = "\"\(dataSource[1].message)\""
 		reviewLabel2.subjectLabel.attributedText = NSMutableAttributedString().bold("\(dataSource[1].rating) ★", 14, Colors.gold).bold(" - \(dataSource[1].subject)", 13, .white)
 		reviewLabel2.dateLabel.text = "\(dataSource[1].formattedDate)"
@@ -151,8 +151,8 @@ class LearnerMyProfileReviewsView : UIView {
 	@objc private func seeAllButtonPressed(_ sender: UIButton) {
 		let vc = LearnerReviewsVC()
 		vc.datasource = dataSource
-		vc.contentView.navbar.backgroundColor = Colors.learnerPurple
-		vc.contentView.statusbarView.backgroundColor = Colors.learnerPurple
+		vc.contentView.navbar.backgroundColor = Colors.purple
+		vc.contentView.statusbarView.backgroundColor = Colors.purple
 		vc.isViewing = isViewing
 		let nav = navigationController
 		DispatchQueue.main.async {

@@ -26,7 +26,6 @@ class PaymentOptionsView: MainLayoutHeaderScroll {
         scrollView.addSubview(gratuityBody)
         super.configureView()
 
-        title.label.text = "Help"
         header.label.text = "Payments and earnings"
 
         cardTitle.label.text = "DEBIT AND CREDIT CARD"
@@ -63,18 +62,13 @@ class PaymentOptionsVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Help"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
 
     override func loadView() {
         view = PaymentOptionsView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func handleNavigation() {}

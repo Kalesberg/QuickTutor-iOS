@@ -8,53 +8,53 @@
 import Foundation
 import UIKit
 
-class EditLanguageView: EditProfileMainLayout {
-    var tableView = UITableView()
+class EditLanguageView: UIView {
+    
+    var tableView: UITableView = {
+        let table = UITableView()
+        table.estimatedRowHeight = 25
+        table.separatorStyle = .singleLine
+        table.separatorColor = .black
+        table.showsVerticalScrollIndicator = false
+        table.backgroundColor = Colors.darkBackground
+        table.allowsMultipleSelection = true
+        return table
+    }()
 
-    override func configureView() {
+    func setupViews() {
+        setupMainView()
+        setupTableView()
+    }
+    
+    func setupMainView() {
+        backgroundColor = Colors.darkBackground
+    }
+    
+    func setupTableView() {
         addSubview(tableView)
-        super.configureView()
-
-        title.label.text = "Languages"
-        titleLabel.label.text = "Languages you speak"
-
-        tableView.estimatedRowHeight = 25
-        tableView.separatorStyle = .singleLine
-        tableView.separatorColor = .black
-        tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = Colors.backgroundDark
-        tableView.allowsMultipleSelection = true
+        tableView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.width.equalToSuperview()
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-            } else {
-                make.bottom.equalToSuperview()
-            }
-            make.centerX.equalToSuperview()
-        }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        navbar.backgroundColor = Colors.currentUserColor()
-        statusbarView.backgroundColor = Colors.currentUserColor()
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
-class EditLanguageVC: BaseViewController {
-    override var contentView: EditLanguageView {
-        return view as! EditLanguageView
-    }
+class EditLanguageVC: UIViewController {
+    
+    let contentView: EditLanguageView = {
+        let view = EditLanguageView()
+        return view
+    }()
 
     override func loadView() {
-        view = EditLanguageView()
+        view = contentView
     }
 
     var datasource: [String]?
@@ -67,6 +67,7 @@ class EditLanguageVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavBar()
         configureDelegates()
         loadListOfLanguages()
 
@@ -81,11 +82,14 @@ class EditLanguageVC: BaseViewController {
         contentView.tableView.register(CustomLanguageCell.self, forCellReuseIdentifier: "idCell")
     }
 
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonSave {
-            dismissKeyboard()
-            saveLanguages()
-        }
+    func setupNavBar() {
+        navigationItem.title = "Languages I Speak"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveLanguages))
+    }
+    
+    @objc private func onBack() {
+        navigationController?.popViewController(animated: true)
     }
 
     private func displaySavedAlertController() {
@@ -101,7 +105,7 @@ class EditLanguageVC: BaseViewController {
         }
     }
 
-    private func saveLanguages() {
+    @objc func saveLanguages() {
         let selectedLanguages = selectedCells.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
 
         switch AccountService.shared.currentUserType {
@@ -148,6 +152,7 @@ class EditLanguageVC: BaseViewController {
             do {
                 let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
                 datasource = school.components(separatedBy: "\n") as [String]
+                datasource = datasource?.filter({ !$0.isEmpty && $0.count > 0})
             } catch {
                 datasource = nil
                 print("Try-catch error")
@@ -198,38 +203,45 @@ extension EditLanguageVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 class CustomLanguageCell: UITableViewCell {
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureTableViewCell()
-    }
-
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     let checkbox = RegistrationCheckbox()
 
-    func configureTableViewCell() {
-        addSubview(checkbox)
-
-        checkbox.isSelected = false
-
+    func setupViews() {
+        setupBackground()
+        setupTextLabel()
+        setupCheckBox()
+    }
+    
+    func setupBackground() {
         let cellBackground = UIView()
-        cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        cellBackground.backgroundColor = Colors.darkBackground.darker(by: 15)
         selectedBackgroundView = cellBackground
-
-        backgroundColor = Colors.backgroundDark
+        
+        backgroundColor = Colors.darkBackground
+    }
+    
+    func setupTextLabel() {
         textLabel?.textColor = UIColor.white
         textLabel?.font = Fonts.createSize(16)
-
-        applyConstraints()
+        textLabel?.adjustsFontSizeToFitWidth = true
     }
-
-    func applyConstraints() {
+    
+    func setupCheckBox() {
+        addSubview(checkbox)
+        checkbox.isSelected = false
         checkbox.snp.makeConstraints { make in
             make.right.equalToSuperview()
             make.centerY.equalToSuperview()
             make.width.equalTo(50)
         }
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
+    
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

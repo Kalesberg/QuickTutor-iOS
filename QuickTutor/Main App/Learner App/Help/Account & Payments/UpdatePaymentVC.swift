@@ -27,7 +27,6 @@ class UpdatePaymentView: MainLayoutHeaderScroll {
         scrollView.addSubview(updateCardBody)
         super.configureView()
 
-        title.label.text = "Help"
         header.label.text = "Updating a payment method"
 
         addPaymentTitle.label.text = "ADD A PAYMENT METHOD"
@@ -112,18 +111,13 @@ class UpdatePaymentVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Help"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
 
     override func loadView() {
         view = UpdatePaymentView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func handleNavigation() {}

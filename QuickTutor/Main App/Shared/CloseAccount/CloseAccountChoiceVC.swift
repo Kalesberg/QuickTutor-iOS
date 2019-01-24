@@ -128,7 +128,7 @@ class CloseAccountChoiceButton: InteractableBackgroundView {
 class TutorOnlyChoiceButton: CloseAccountChoiceButton {
     override func configureView() {
         super.configureView()
-        backgroundColor = Colors.learnerPurple
+        backgroundColor = Colors.purple
         label.text = "Tutor & Learner Accounts"
     }
 }
@@ -136,7 +136,7 @@ class TutorOnlyChoiceButton: CloseAccountChoiceButton {
 class TutorAndLearnerChoiceButton: CloseAccountChoiceButton {
     override func configureView() {
         super.configureView()
-        backgroundColor = Colors.tutorBlue
+        backgroundColor = Colors.purple
         label.text = "Just Tutor Account"
     }
 }

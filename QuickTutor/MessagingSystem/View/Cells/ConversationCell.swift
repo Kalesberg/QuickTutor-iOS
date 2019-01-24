@@ -48,7 +48,7 @@ class ConversationCell: SwipeCollectionViewCell {
     }()
 
     let newMessageGradientLayer: CAGradientLayer = {
-        let firstColor = Colors.currentUserColor().cgColor
+        let firstColor = Colors.purple.cgColor
         let secondColor = Colors.navBarColor.cgColor
 
         let gradientLayer = CAGradientLayer()
@@ -103,13 +103,13 @@ class ConversationCell: SwipeCollectionViewCell {
     }
 
     func highlightMessageGradient() {
-        guard let firstColor = Colors.currentUserColor().darker(by: 15)?.cgColor,
+        guard let firstColor = Colors.purple.darker(by: 15)?.cgColor,
             let secondColor = Colors.navBarColor.darker(by: 15)?.cgColor else { return }
         newMessageGradientLayer.colors = [firstColor, secondColor]
     }
 
     func resetMessageGradientColors() {
-        let firstColor = Colors.currentUserColor().cgColor
+        let firstColor = Colors.purple.cgColor
         let secondColor = Colors.navBarColor.cgColor
         newMessageGradientLayer.colors = [firstColor, secondColor]
     }
@@ -138,7 +138,7 @@ class ConversationCell: SwipeCollectionViewCell {
     }
 
     private func updateOnlineStatusIndicator() {
-        profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? Colors.currentUserColor() : Colors.gray
+        profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? Colors.purple : Colors.gray
     }
 
     private func updateProfileImage() {

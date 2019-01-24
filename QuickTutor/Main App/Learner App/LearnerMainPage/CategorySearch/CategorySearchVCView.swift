@@ -36,7 +36,7 @@ class CategorySearchVCView: UIView {
     }()
     
     func applyConstraints() {
-        setupSearchBar()
+//        setupSearchBar()
         setupCollectionView()
         backgroundColor = Colors.newBackground
     }
@@ -53,7 +53,7 @@ class CategorySearchVCView: UIView {
     
     func setupCollectionView() {
         addSubview(collectionView)
-        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 110, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
     }
     
     override init(frame: CGRect) {

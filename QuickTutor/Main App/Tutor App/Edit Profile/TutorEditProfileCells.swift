@@ -6,129 +6,148 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import FirebaseUI
-import Foundation
 import UIKit
+import FirebaseUI
+import Firebase
 
-class ProfileImagesTableViewCell: BaseTableViewCell {
-    let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
-
-    var image1 = ProfilePicImageView()
-    var image2 = ProfilePicImageView()
-    var image3 = ProfilePicImageView()
-    var image4 = ProfilePicImageView()
-
-    override func configureView() {
-        contentView.addSubview(image1)
-        contentView.addSubview(image2)
-        contentView.addSubview(image3)
-        contentView.addSubview(image4)
-        super.configureView()
-
-        selectionStyle = .none
-        backgroundColor = .clear
-
-        applyConstraints()
+class EditProfileImageCell: UICollectionViewCell {
+    
+    let backgrounImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.image = UIImage(named: "addPhotoButtonBackground")
+        return iv
+    }()
+    
+    let foregroundImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        return iv
+    }()
+    
+    func setupViews() {
+        setupMainView()
+        setupBackgroundImageView()
+        setupForegroundImageView()
     }
-
-    override func applyConstraints() {
-        var height: Int
-
-        if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
-            height = 67
-        } else {
-            height = 75
-        }
-
-        image1.snp.makeConstraints { make in
-            make.height.equalTo(height)
-            make.width.equalToSuperview().multipliedBy(0.33)
-            make.left.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
-
-        image2.snp.makeConstraints { make in
-            make.height.equalTo(height)
-            make.width.equalToSuperview().multipliedBy(0.33)
-            make.left.equalTo(image1.snp.right)
-            make.centerY.equalToSuperview()
-        }
-
-        image3.snp.makeConstraints { make in
-            make.height.equalTo(height)
-            make.width.equalToSuperview().multipliedBy(0.33)
-            make.left.equalTo(image2.snp.right)
-            make.centerY.equalToSuperview()
-        }
-
-        image4.snp.makeConstraints { make in
-            make.height.equalTo(height)
-            make.width.equalToSuperview().multipliedBy(0.33)
-            make.right.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
+    
+    func setupMainView() {
+        layer.cornerRadius = 4
+        clipsToBounds = true
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let imageViews: [ProfilePicImageView] = [image1, image2, image3, image4]
-        for imageView in imageViews {
-            imageView.buttonImageView.image = (imageView.picView.image != #imageLiteral(resourceName: "placeholder-square")) ? UIImage(named: "remove-image") : UIImage(named: "add-image-profile")
-        }
+    
+    func setupBackgroundImageView() {
+        addSubview(backgrounImageView)
+        backgrounImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
+    
+    func setupForegroundImageView() {
+        addSubview(foregroundImageView)
+        foregroundImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 
-    override func handleNavigation() {
-        guard let current = UIApplication.getPresentedViewController() else { return }
-        if touchStartView == image1 {
-            image1.picView.growShrink()
-            AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
-            imageToChange = 1
-        } else if touchStartView == image2 {
-            image2.picView.growShrink()
+protocol EditProfileImagesCellDelegate: class {
+    func editProfileImageCell( _ imagesCell: EditProfileImagesCell, didSelect index: Int)
+}
 
-            if image2.picView.image != #imageLiteral(resourceName: "placeholder-square") {
-                AlertController.cropImageWithRemoveAlert(current, imagePicker: imagePicker) { shouldRemove in
-                    if shouldRemove {
-                        FirebaseData.manager.removeUserImage("2")
-                        self.image2.picView.image = #imageLiteral(resourceName: "placeholder-square")
-                        self.image2.buttonImageView.image = UIImage(named: "add-image-profile")
-                    }
-                }
-            } else {
-                AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
+class EditProfileImagesCell: UITableViewCell {
+    
+    var profilePicReferences = [URL?]()
+    weak var delegate: EditProfileImagesCellDelegate?
+
+    let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.register(EditProfileImageCell.self, forCellWithReuseIdentifier: "cellId")
+        cv.backgroundColor = Colors.darkBackground 
+        cv.showsHorizontalScrollIndicator = false
+        cv.alwaysBounceVertical = true
+        cv.isScrollEnabled = false
+        return cv
+    }()
+    
+    func setupViews() {
+        backgroundColor = .red
+        setupCollectionView()
+    }
+    
+    func setupCollectionView() {
+        addSubview(collectionView)
+        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
+    
+    func loadImages() {
+        let databaseRef = Database.database().reference().child("student-info").child(CurrentUser.shared.learner.uid!).child("img")
+        databaseRef.observe(.childAdded) { (snapshot) in
+            guard let urlString = snapshot.value as? String, let url = URL(string: urlString) else {
+                self.profilePicReferences.append(nil)
+                return
             }
-            imageToChange = 2
-        } else if touchStartView == image3 {
-            image3.picView.growShrink()
-
-            if image3.picView.image != #imageLiteral(resourceName: "placeholder-square") {
-                AlertController.cropImageWithRemoveAlert(current, imagePicker: imagePicker) { shouldRemove in
-                    if shouldRemove {
-                        FirebaseData.manager.removeUserImage("3")
-                        self.image3.picView.image = #imageLiteral(resourceName: "placeholder-square")
-                        self.image3.buttonImageView.image = UIImage(named: "add-image-profile")
-                    }
-                }
-            } else {
-                AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
-            }
-            imageToChange = 3
-        } else if touchStartView == image4 {
-            image4.picView.growShrink()
-            if image4.picView.image != #imageLiteral(resourceName: "placeholder-square") {
-                AlertController.cropImageWithRemoveAlert(current, imagePicker: imagePicker) { shouldRemove in
-                    if shouldRemove {
-                        FirebaseData.manager.removeUserImage("4")
-                        self.image4.picView.image = #imageLiteral(resourceName: "placeholder-square")
-                        self.image4.buttonImageView.image = UIImage(named: "add-image-profile")
-                    }
-                }
-            } else {
-                AlertController.cropImageAlert(current, imagePicker: imagePicker, allowsEditing: false)
-            }
-            imageToChange = 4
+            self.profilePicReferences.append(url)
+            self.collectionView.reloadData()
         }
     }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+        loadImages()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension EditProfileImagesCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return profilePicReferences.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 105, height: 105)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! EditProfileImageCell
+        guard let url = profilePicReferences[indexPath.item] else {
+            return cell
+        }
+        cell.backgrounImageView.sd_setImage(with: url, placeholderImage: nil, options: []) { (image, error, cacheType, url) in
+            if image == nil {
+                cell.backgrounImageView.image = UIImage(named: "addPhotoButtonBackground")
+            } else {
+                cell.foregroundImageView.image = UIImage(named:"deletePhotoIcon")
+            }
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.editProfileImageCell(self, didSelect: indexPath.item)
+    }
+
 }
 
 class EditProfileItemTableViewCell: BaseTableViewCell {
@@ -314,20 +333,19 @@ class EditProfilePolicyTableViewCell: EditProfileDotItemTableViewCell {
 }
 
 class EditProfileHeaderTableViewCell: BaseTableViewCell {
+    
     let label: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = Fonts.createBoldSize(16)
+        label.font = Fonts.createBoldSize(18)
         label.sizeToFit()
         return label
     }()
 
     override func configureView() {
         contentView.addSubview(label)
-
         selectionStyle = .none
         backgroundColor = .clear
-
         applyConstraints()
     }
 
@@ -423,7 +441,7 @@ class EditProfileSliderTableViewCell: BaseTableViewCell {
         let slider = BaseSlider()
 
         slider.maximumTrackTintColor = Colors.registrationDark
-        slider.minimumTrackTintColor = Colors.tutorBlue
+        slider.minimumTrackTintColor = Colors.purple
         slider.isContinuous = true
 
         return slider
@@ -504,7 +522,7 @@ class EditProfileHourlyRateTableViewCell: BaseTableViewCell {
         textField.textAlignment = .left
         textField.keyboardType = .numberPad
         textField.keyboardAppearance = .dark
-        textField.tintColor = Colors.tutorBlue
+        textField.tintColor = Colors.purple
 
         return textField
     }()
@@ -817,5 +835,92 @@ class EditProfilePersonCheckboxTableViewCell: BaseTableViewCell {
 extension LearnerFiltersVC: UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_: UIScrollView) {
         view.endEditing(true)
+    }
+}
+
+
+class EditProfileCell: UITableViewCell {
+    
+    let textField: RegistrationTextField = {
+        let field = RegistrationTextField()
+        return field
+    }()
+    
+    func setupViews() {
+        backgroundColor = Colors.darkBackground
+        setupTextField()
+    }
+    
+    func setupTextField() {
+        addSubview(textField)
+        textField.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+        setupViews()
+    }
+    
+    override func prepareForReuse() {
+        textField.isUserInteractionEnabled = true
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class EditProfileBioCell: UITableViewCell {
+    
+    let placeholder: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.font = Fonts.createBoldSize(14)
+        return label
+    }()
+    
+    let textView: MessageTextView = {
+        let field = MessageTextView()
+        field.layer.borderColor = Colors.gray.cgColor
+        field.layer.borderWidth = 1
+        field.layer.cornerRadius = 4
+        field.placeholderLabel.text = "Enter a bio..."
+        field.tintColor = .white
+        field.font = Fonts.createSize(14)
+        field.textColor = .white
+        field.keyboardAppearance = .dark
+        return field
+    }()
+    
+    func setupViews() {
+        backgroundColor = Colors.darkBackground
+        setupPlaceholder()
+        setupTextView()
+    }
+    
+    func setupPlaceholder() {
+        addSubview(placeholder)
+        placeholder.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.6)
+        }
+    }
+    
+    func setupTextView() {
+        addSubview(textView)
+        textView.anchor(top: placeholder.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 66)
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

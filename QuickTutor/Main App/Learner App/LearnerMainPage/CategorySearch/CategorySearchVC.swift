@@ -13,13 +13,23 @@ struct CategorySelected {
 }
 
 class CategorySearchVC: BaseViewController {
+    
+//    enum SearchMode {
+//        case category, subcategory, subject
+//    }
 
     let itemsPerBatch: UInt = 10
     var datasource = [FeaturedTutor]()
     var didLoadMore: Bool = false
-    var category: Category! {
+    var category: CategoryNew! {
         didSet {
             queryTutorsByCategory(lastKnownKey: nil)
+        }
+    }
+    
+    var subcategory: SubcategoryNew! {
+        didSet {
+            queryTutorsBySubcategory(lastKnownKey: nil)
         }
     }
     
@@ -37,9 +47,22 @@ class CategorySearchVC: BaseViewController {
         contentView.collectionView.dataSource = self
         contentView.collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
         contentView.collectionView.register(CategorySearchSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
-//        contentView.searchBar.delegate = self
         navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.navigationBar.isHidden = false
 //        navigationItem.title = category
+        navigationItem.title = "Arts"
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -70,8 +93,10 @@ class CategorySearchVC: BaseViewController {
             }
         })
     }
+    
+    private func queryTutorsBySubcategory(lastKnownKey: String?) {
+    }
 
-    override func handleNavigation() {}
 }
 
 extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -122,15 +147,15 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
 		}
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell", for: indexPath) as! CategorySearchSectionHeader
-        cell.category.text = CategorySelected.title
-        return cell
-    }
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell", for: indexPath) as! CategorySearchSectionHeader
+//        cell.category.text = CategorySelected.title
+//        return cell
+//    }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 70)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        return CGSize(width: collectionView.frame.width, height: 70)
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20

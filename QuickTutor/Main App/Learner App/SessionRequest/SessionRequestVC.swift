@@ -31,7 +31,7 @@ class SessionRequestVC: UIViewController {
             contentView.sendView.accessoryView.titleLabel.text = requestError.rawValue
             if requestError == .none {
                 contentView.sendView.connectButton.isUserInteractionEnabled = true
-                contentView.sendView.connectButton.backgroundColor = Colors.learnerPurple
+                contentView.sendView.connectButton.backgroundColor = Colors.purple
             }
         }
     }

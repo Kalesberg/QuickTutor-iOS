@@ -16,7 +16,7 @@ class LearnerSessionsVC: BaseSessionsVC {
         button.setTitle("Request session", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(16)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = Colors.currentUserColor()
+        button.backgroundColor = Colors.purple
         return button
     }()
     
@@ -85,6 +85,7 @@ class LearnerSessionsVC: BaseSessionsVC {
 }
 
 extension LearnerSessionsVC: SessionCellDelgate {
+    
     func sessionCell(_ sessionCell: BaseSessionCell, shouldReloadSessionWith id: String) {
         
     }

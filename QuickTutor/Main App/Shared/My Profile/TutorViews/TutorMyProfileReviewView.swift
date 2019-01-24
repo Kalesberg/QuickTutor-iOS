@@ -67,7 +67,7 @@ class TutorMyProfileReviewsView : UIView {
 		addSubview(divider)
 		
 		seeAllButton.addTarget(self, action: #selector(seeAllButtonPressed(_:)), for: .touchUpInside)
-		reviewTitle.textColor = Colors.tutorBlue
+		reviewTitle.textColor = Colors.purple
 		
 		applyConstraints()
 	}
@@ -110,7 +110,7 @@ class TutorMyProfileReviewsView : UIView {
 		}
 		let formattedName = dataSource[0].studentName.split(separator: " ")
 		reviewLabel1.nameLabel.text = "\(String(formattedName[0])) \(String(formattedName[1]).prefix(1))."
-		reviewLabel1.nameLabel.textColor = Colors.tutorBlue
+		reviewLabel1.nameLabel.textColor = Colors.purple
 		reviewLabel1.reviewTextLabel.text = "\"\(dataSource[0].message)\""
 		reviewLabel1.subjectLabel.attributedText = NSMutableAttributedString().bold("\(dataSource[0].rating) ★", 14, Colors.gold).bold(" - \(dataSource[0].subject)", 13, .white)
 		reviewLabel1.dateLabel.text = "\(dataSource[0].formattedDate)"
@@ -129,7 +129,7 @@ class TutorMyProfileReviewsView : UIView {
 		}
 		let formattedName = dataSource[1].studentName.split(separator: " ")
 		reviewLabel2.nameLabel.text = "\(String(formattedName[0])) \(String(formattedName[1]).prefix(1))."
-		reviewLabel2.nameLabel.textColor = Colors.tutorBlue
+		reviewLabel2.nameLabel.textColor = Colors.purple
 		reviewLabel2.reviewTextLabel.text = "\"\(dataSource[1].message)\""
 		reviewLabel2.subjectLabel.attributedText = NSMutableAttributedString().bold("\(dataSource[1].rating) ★", 14, Colors.gold).bold(" - \(dataSource[1].subject)", 13, .white)
 		reviewLabel2.dateLabel.text = "\(dataSource[1].formattedDate)"
@@ -143,8 +143,8 @@ class TutorMyProfileReviewsView : UIView {
 	@objc private func seeAllButtonPressed(_ sender: UIButton) {
 		let vc = TutorReviewsVC()
 		vc.datasource = dataSource
-		vc.contentView.navbar.backgroundColor = Colors.tutorBlue
-		vc.contentView.statusbarView.backgroundColor = Colors.tutorBlue
+		vc.contentView.navbar.backgroundColor = Colors.purple
+		vc.contentView.statusbarView.backgroundColor = Colors.purple
 		vc.isViewing = isViewing
 		let nav = parentViewController?.navigationController
 		DispatchQueue.main.async {
@@ -194,7 +194,7 @@ class NoReviewsView : UIView {
 		label.text = "Reviews"
 		label.font = Fonts.createBoldSize(16)
 		label.textAlignment = .left
-		label.textColor = Colors.tutorBlue
+		label.textColor = Colors.purple
 		return label
 	}()
 	

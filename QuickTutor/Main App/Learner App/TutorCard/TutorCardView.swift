@@ -48,6 +48,7 @@ class TutorCardView: UIView, TutorDataSource {
     
     let connectView: TutorCardConnectView = {
         let view = TutorCardConnectView()
+        view.applyDefaultShadow()
         return view
     }()
     

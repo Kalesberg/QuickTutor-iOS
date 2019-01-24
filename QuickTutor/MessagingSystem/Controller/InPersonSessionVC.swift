@@ -13,13 +13,13 @@ class InPersonSessionVC: BaseSessionVC {
     
     lazy var sessionNavBar: SessionNavBar = {
         let bar = SessionNavBar()
-        bar.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+        bar.backgroundColor = Colors.purple
         return bar
     }()
     
     let statusBarCover: UIView = {
         let view = UIView()
-        view.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+        view.backgroundColor = Colors.purple
         return view
     }()
 

@@ -19,14 +19,6 @@ class TutorTipsView: FileReportYesNoLayout {
         textBody.text = "Tutors who operate through QuickTutor are independent contractors and may request tips.\n\nPlease note that the session fare charged to your account does not include gratuity. QuickTutor does not require learners to offer their tutor's tips, but you are welcome to do so if you please.\n\nIf you choose to tip, it is the tutors choice to accept or decline your gratuity. Tutors care about their ratings and reviews and will do their best to ensure your learning experience is ideal.\n\n"
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-    }
-
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.learnerPurple
-        navbar.backgroundColor = Colors.learnerPurple
-    }
 }
 
 class TutorTipsVC: BaseViewController {
@@ -42,6 +34,7 @@ class TutorTipsVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "File Report"
     }
 
     override func loadView() {

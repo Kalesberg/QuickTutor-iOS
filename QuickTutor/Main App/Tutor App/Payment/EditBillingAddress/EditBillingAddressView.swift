@@ -57,8 +57,8 @@ class EditBillingAddressView: MainLayoutTitleBackSaveButton {
 		zipTextField.attributedPlaceholder = NSAttributedString(string: "Enter Postal Code", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 		zipTextField.keyboardType = .decimalPad
 		
-		navbar.backgroundColor = Colors.tutorBlue
-		statusbarView.backgroundColor = Colors.tutorBlue
+		navbar.backgroundColor = Colors.purple
+		statusbarView.backgroundColor = Colors.purple
 	}
 	
 	override func applyConstraints() {

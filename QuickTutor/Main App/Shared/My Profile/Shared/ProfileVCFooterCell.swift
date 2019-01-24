@@ -21,7 +21,7 @@ class ProfileVCFooterCell: UICollectionReusableView {
         button.setTitle("Invite others", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(16)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = Colors.currentUserColor()
+        button.backgroundColor = Colors.purple
         return button
     }()
     

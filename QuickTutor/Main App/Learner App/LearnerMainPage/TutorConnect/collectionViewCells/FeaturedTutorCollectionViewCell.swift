@@ -77,7 +77,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func setupViews() {
         setupProfileImageView()
-        setupSaveButton()
+//        setupSaveButton()
         setupInfoContainerView()
         setupNameLabel()
         setupPriceLabel()
@@ -121,7 +121,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func setupStarView() {
         addSubview(starView)
         starView.anchor(top: subjectLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 6, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 38, height: 6)
-        starView.tintStars(color: Colors.currentUserColor())
+        starView.tintStars(color: Colors.purple)
     }
     
     func updateUI(_ tutor: FeaturedTutor) {

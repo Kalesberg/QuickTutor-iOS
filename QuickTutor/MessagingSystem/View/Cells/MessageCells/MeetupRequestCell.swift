@@ -189,7 +189,7 @@ class SessionRequestCell: UserMessageCell {
     func updateAsPending() {
         buttonView.removeAllButtonActions()
 
-        titleBackground.backgroundColor = Colors.learnerPurple
+        titleBackground.backgroundColor = Colors.purple
         titleLabel.text = "Request Pending"
         buttonView.setupAsPending()
 

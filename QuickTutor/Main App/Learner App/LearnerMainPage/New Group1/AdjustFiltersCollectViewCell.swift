@@ -25,7 +25,7 @@ class ResetFiltersButton: InteractableView, Interactable {
         addSubview(resetButton)
         super.configureView()
 
-        backgroundColor = Colors.learnerPurple
+        backgroundColor = Colors.purple
         layer.cornerRadius = resetButton.frame.height / 2
         translatesAutoresizingMaskIntoConstraints = false
         clipsToBounds = false

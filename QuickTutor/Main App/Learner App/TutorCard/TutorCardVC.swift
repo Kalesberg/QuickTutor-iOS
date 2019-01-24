@@ -20,7 +20,7 @@ class TutorCardVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        setupNavBar()
+        setupNavBar()
         contentView.tutor = tutor
         contentView.headerView.subjectLabel.text = subject
         contentView.parentViewController = self
@@ -28,6 +28,7 @@ class TutorCardVC: UIViewController {
     
     func setupNavBar() {
         navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.navigationBar.isHidden = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         navigationController?.view.backgroundColor = Colors.darkBackground
     }

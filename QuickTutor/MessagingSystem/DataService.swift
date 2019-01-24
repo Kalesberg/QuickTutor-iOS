@@ -335,3 +335,36 @@ class DataService {
         }
     }
 }
+
+
+class TutorSearchService {
+    static let shared = TutorSearchService()
+    
+    func getTutorsByCategory(_ category: CategoryNew) {
+        Database.database().reference().child("categories").child(category.name).observeSingleEvent(of: .childAdded) { (snapshot) in
+            
+        }
+    }
+    
+    private init() {}
+}
+
+
+class DataBaseCleaner {
+    static let shared = DataBaseCleaner()
+    
+    func sendFeaturedTutorsToCorrectNode() {
+        Database.database().reference().child("subcategory").observe(.childAdded) { (snapshot) in
+            guard let category = snapshot.value as? [String: [String: Any]] else {
+                print("Error with categories")
+                return
+            }
+            
+            category.forEach({ (uid, tutorInfo) in
+                Database.database().reference().child("subcategories").child(snapshot.key).child(uid).setValue(1)
+            })
+        }
+    }
+    
+    private init() {}
+}

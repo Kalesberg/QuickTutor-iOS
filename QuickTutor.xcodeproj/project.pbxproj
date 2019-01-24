@@ -438,6 +438,13 @@
 		CFA1716F21741B05003F195A /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA1716E21741B04003F195A /* SearchBar.swift */; };
 		CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */; };
 		CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFB0283D210C241600B29972 /* GoogleService-Info.plist */; };
+		CFB1475321E807D200C49BA5 /* LearnerEditProfileVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475221E807D200C49BA5 /* LearnerEditProfileVCView.swift */; };
+		CFB1475521E8160C00C49BA5 /* TutorManagePoliciesVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475421E8160C00C49BA5 /* TutorManagePoliciesVCView.swift */; };
+		CFB1475721F3A9E900C49BA5 /* QuickSearchVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475621F3A9E900C49BA5 /* QuickSearchVCView.swift */; };
+		CFB1475921F3AA1600C49BA5 /* QuickSearchSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475821F3AA1600C49BA5 /* QuickSearchSectionHeader.swift */; };
+		CFB1475B21F3AA3E00C49BA5 /* QuickSearchCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475A21F3AA3E00C49BA5 /* QuickSearchCategoryCell.swift */; };
+		CFB1475D21F3AA7000C49BA5 /* QuickSearchSubcategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475C21F3AA7000C49BA5 /* QuickSearchSubcategoryCell.swift */; };
+		CFB1475F21F3B86F00C49BA5 /* QuickSearchResultsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475E21F3B86F00C49BA5 /* QuickSearchResultsVC.swift */; };
 		CFB40E45216BFE2100828E72 /* connecting.json in Resources */ = {isa = PBXBuildFile; fileRef = CFB40E44216BFE2100828E72 /* connecting.json */; };
 		CFB40E49216D1A9F00828E72 /* qtRingtone.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFB40E48216D1A9F00828E72 /* qtRingtone.aiff */; };
 		CFB40E4B216D4AEB00828E72 /* VideoSessionViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB40E4A216D4AEB00828E72 /* VideoSessionViewManager.swift */; };
@@ -993,6 +1000,13 @@
 		CFA1717221744919003F195A /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
 		CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableButton.swift; sourceTree = "<group>"; };
 		CFB0283D210C241600B29972 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CFB1475221E807D200C49BA5 /* LearnerEditProfileVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerEditProfileVCView.swift; sourceTree = "<group>"; };
+		CFB1475421E8160C00C49BA5 /* TutorManagePoliciesVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorManagePoliciesVCView.swift; sourceTree = "<group>"; };
+		CFB1475621F3A9E900C49BA5 /* QuickSearchVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchVCView.swift; sourceTree = "<group>"; };
+		CFB1475821F3AA1600C49BA5 /* QuickSearchSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchSectionHeader.swift; sourceTree = "<group>"; };
+		CFB1475A21F3AA3E00C49BA5 /* QuickSearchCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchCategoryCell.swift; sourceTree = "<group>"; };
+		CFB1475C21F3AA7000C49BA5 /* QuickSearchSubcategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchSubcategoryCell.swift; sourceTree = "<group>"; };
+		CFB1475E21F3B86F00C49BA5 /* QuickSearchResultsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchResultsVC.swift; sourceTree = "<group>"; };
 		CFB40E44216BFE2100828E72 /* connecting.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = connecting.json; sourceTree = "<group>"; };
 		CFB40E48216D1A9F00828E72 /* qtRingtone.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = qtRingtone.aiff; sourceTree = "<group>"; };
 		CFB40E4A216D4AEB00828E72 /* VideoSessionViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionViewManager.swift; sourceTree = "<group>"; };
@@ -1251,19 +1265,19 @@
 		8425767B207133CE00FD295B /* SearchContent */ = {
 			isa = PBXGroup;
 			children = (
-				8425766D20712E6C00FD295B /* health.json */,
-				8425766B20712D9E00FD295B /* lifestyle.json */,
-				8425766920712D0300FD295B /* business.json */,
+				842576632070773D00FD295B /* academics.json */,
+				8425766520712B2A00FD295B /* arts.json */,
 				8425766720712C3600FD295B /* auto.json */,
+				8404F43A20EAE6EB00747C01 /* badwords.txt */,
+				8425766920712D0300FD295B /* business.json */,
+				8425766D20712E6C00FD295B /* health.json */,
 				8425766F2071309000FD295B /* language.json */,
+				8425766B20712D9E00FD295B /* lifestyle.json */,
 				842576712071310A00FD295B /* outdoors.json */,
 				84257673207131C800FD295B /* remedial.json */,
 				842576752071325400FD295B /* sports.json */,
-				842576632070773D00FD295B /* academics.json */,
-				842576792071339500FD295B /* trades.json */,
 				84257677207132DD00FD295B /* tech.json */,
-				8425766520712B2A00FD295B /* arts.json */,
-				8404F43A20EAE6EB00747C01 /* badwords.txt */,
+				842576792071339500FD295B /* trades.json */,
 			);
 			path = SearchContent;
 			sourceTree = "<group>";
@@ -1380,6 +1394,11 @@
 			isa = PBXGroup;
 			children = (
 				84D8C92F2066E8CC003C3AEA /* SearchSubjectsVC.swift */,
+				CFB1475E21F3B86F00C49BA5 /* QuickSearchResultsVC.swift */,
+				CFB1475C21F3AA7000C49BA5 /* QuickSearchSubcategoryCell.swift */,
+				CFB1475A21F3AA3E00C49BA5 /* QuickSearchCategoryCell.swift */,
+				CFB1475821F3AA1600C49BA5 /* QuickSearchSectionHeader.swift */,
+				CFB1475621F3A9E900C49BA5 /* QuickSearchVCView.swift */,
 				844FECF9210FABD600C1797B /* SubjectSearchSubcategoryCell.swift */,
 				844FECF7210F9D9300C1797B /* SubjectSearchCategoryCell.swift */,
 				844FECF5210F97CD00C1797B /* SubjectSearchTableViewHeader.swift */,
@@ -1436,6 +1455,7 @@
 				84367EED20BCEABF007F3556 /* TutorManagePreferences.swift */,
 				84F431942070786F00030BD4 /* TutorEditProfileCells.swift */,
 				84CFDDEC2072836F001CA9BF /* TutorManagePolicies.swift */,
+				CFB1475421E8160C00C49BA5 /* TutorManagePoliciesVCView.swift */,
 			);
 			path = "Edit Profile";
 			sourceTree = "<group>";
@@ -1561,6 +1581,7 @@
 			children = (
 				8448C573204BC87100C3247D /* EditPhoneVC.swift */,
 				84B2F02720354E4700F921C9 /* LearnerEditProfileVC.swift */,
+				CFB1475221E807D200C49BA5 /* LearnerEditProfileVCView.swift */,
 				84B09D40205050E000BC8F80 /* ChangeEmailVC.swift */,
 				84D55E99204F638D00BB899C /* EditPhoneVerificationVC.swift */,
 				8482AFE02038C27000F6F805 /* EditBioVC.swift */,
@@ -2747,6 +2768,7 @@
 				CF07110C211810A40035A6FF /* Conversation.swift in Sources */,
 				CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */,
 				CFB9B7F021C23EE30022333F /* TutorCardInfoViewFlowLayout.swift in Sources */,
+				CFB1475521E8160C00C49BA5 /* TutorManagePoliciesVCView.swift in Sources */,
 				CF833B8A207C93D800323242 /* MessageButtonDelegate.swift in Sources */,
 				8476F7C720D00DB100C8D52D /* AddPaymentMethod.swift in Sources */,
 				CF7D8AB621995F3500463B0E /* ProfileVCHeaderCell.swift in Sources */,
@@ -2815,6 +2837,7 @@
 				8421AB3E20DED118005B652B /* TutorMainPageFactory.swift in Sources */,
 				CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */,
 				CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */,
+				CFB1475D21F3AA7000C49BA5 /* QuickSearchSubcategoryCell.swift in Sources */,
 				CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */,
 				84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */,
 				8440539A20F525E0003F0606 /* DateExtensions.swift in Sources */,
@@ -3015,6 +3038,7 @@
 				84D55E9A204F638D00BB899C /* EditPhoneVerificationVC.swift in Sources */,
 				CF6F58D8205EE68800ACBD32 /* KeyboardAccessory.swift in Sources */,
 				841F8496216A7C8900C9788B /* SettingsView.swift in Sources */,
+				CFB1475321E807D200C49BA5 /* LearnerEditProfileVCView.swift in Sources */,
 				8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */,
 				84A090A9218624B100DBD48F /* AddTutorVCView.swift in Sources */,
 				84C255691FC2563A0012C0AA /* BirthdayVC.swift in Sources */,
@@ -3038,6 +3062,7 @@
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
+				CFB1475F21F3B86F00C49BA5 /* QuickSearchResultsVC.swift in Sources */,
 				84A6E46C218F68AA00D03681 /* Review.swift in Sources */,
 				84F2451A1FDA1143006447A8 /* TutorSSNVC.swift in Sources */,
 				8430A8E41FFED70D002FD8A3 /* RegistrationNavBarView.swift in Sources */,
@@ -3059,6 +3084,7 @@
 				CF7D8AAE2198ACBA00463B0E /* BaseSessionsVC.swift in Sources */,
 				CF528CD52164527A00D81D03 /* TutorRatingsReviewContainerCell.swift in Sources */,
 				CFEF944120B35BA500413727 /* ConversationManager.swift in Sources */,
+				CFB1475921F3AA1600C49BA5 /* QuickSearchSectionHeader.swift in Sources */,
 				CF6F58D5205EE68800ACBD32 /* KeyboardActionView.swift in Sources */,
 				CF6F58C5205EE68800ACBD32 /* ContactCell.swift in Sources */,
 				8421AB3A20DED0FF005B652B /* TutorMainPageTableViewCell.swift in Sources */,
@@ -3125,6 +3151,7 @@
 				84DA9F242019138100D53D78 /* NavbarButtons.swift in Sources */,
 				84880A042058643800F204A0 /* TutorOtherVC.swift in Sources */,
 				8496FE022161823100BD292F /* LearnerMyProfileView.swift in Sources */,
+				CFB1475721F3A9E900C49BA5 /* QuickSearchVCView.swift in Sources */,
 				84D8C92C2066A965003C3AEA /* Helper.swift in Sources */,
 				CF7D8AB221995EF400463B0E /* ProfileVC.swift in Sources */,
 				841C506E216ED4380035C6C9 /* EditBillingAddressView.swift in Sources */,
@@ -3155,6 +3182,7 @@
 				CF6F58DB205EE68800ACBD32 /* MessagesVC.swift in Sources */,
 				CFB9B81421C633260022333F /* TutorSSNVCView.swift in Sources */,
 				CF6F58D0205EE68800ACBD32 /* CustomTextFields.swift in Sources */,
+				CFB1475B21F3AA3E00C49BA5 /* QuickSearchCategoryCell.swift in Sources */,
 				84C9C00D20A2374C000DE1C9 /* ConnectAccount.swift in Sources */,
 				CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */,
 				84E4C7D4204E8317009C2FC4 /* QTGuideVC.swift in Sources */,

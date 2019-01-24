@@ -9,10 +9,10 @@ import FirebaseAuth
 import Foundation
 import UIKit
 
-class EditSchoolView: EditProfileMainLayout {
+class EditSchoolView: UIView {
+    
     let tableView: UITableView = {
         let tableView = UITableView()
-
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         tableView.separatorStyle = .singleLine
@@ -20,7 +20,7 @@ class EditSchoolView: EditProfileMainLayout {
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = Colors.backgroundDark
         tableView.tableFooterView = UIView()
-
+        tableView.backgroundColor = Colors.darkBackground
         return tableView
     }()
 
@@ -28,32 +28,35 @@ class EditSchoolView: EditProfileMainLayout {
         let textField = SearchTextField()
         textField.placeholder.text = "Search Schools"
         textField.textField.font = Fonts.createSize(16)
-        textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
+        textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.purple : Colors.purple
         textField.textField.autocapitalizationType = .words
-
         return textField
     }()
-
-    override func configureView() {
-        addSubview(tableView)
-        addSubview(searchTextField)
-        super.configureView()
-
-        title.label.text = "School"
-        titleLabel.label.text = "School I attend"
+    
+    func setupViews() {
+        setupMainView()
+        setupSearchField()
+        setupTableView()
     }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    
+    func setupMainView() {
+        backgroundColor = Colors.darkBackground
+    }
+    
+    func setupSearchField() {
+        addSubview(searchTextField)
         searchTextField.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).inset(15)
+            make.top.equalToSuperview().inset(15)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalTo(80)
             make.centerX.equalToSuperview()
         }
+    }
+    
+    func setupTableView() {
+        addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(searchTextField.snp.bottom)
+            make.top.equalToSuperview()
             make.width.equalToSuperview()
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide)
@@ -63,25 +66,24 @@ class EditSchoolView: EditProfileMainLayout {
             make.centerX.equalToSuperview()
         }
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if AccountService.shared.currentUserType == .tutor {
-            navbar.backgroundColor = Colors.tutorBlue
-            statusbarView.backgroundColor = Colors.tutorBlue
-            searchTextField.tintColor = Colors.tutorBlue
-        } else {
-            navbar.backgroundColor = Colors.learnerPurple
-            statusbarView.backgroundColor = Colors.learnerPurple
-            searchTextField.tintColor = Colors.learnerPurple
-        }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 }
 
-class EditSchoolVC: BaseViewController {
-    override var contentView: EditSchoolView {
-        return view as! EditSchoolView
-    }
+class EditSchoolVC: UIViewController {
+    
+    let contentView: EditSchoolView = {
+        let view = EditSchoolView()
+        return view
+    }()
 
     var schoolArray: [String] = [] {
         didSet {
@@ -97,20 +99,35 @@ class EditSchoolVC: BaseViewController {
 
     var shouldUpdateSearchResults: Bool = false
     var automaticScroll: Bool = false
+    var searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        setupSearchController()
         hideKeyboardWhenTappedAround()
         configureDelegates()
         loadListOfSchools()
+        navigationItem.title = "Edit Shool"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(displaySavedAlertController))
+    }
+    
+    func setupSearchController() {
+        if #available(iOS 11.0, *) {
+            searchController.searchBar.tintColor = .white
+            searchController.obscuresBackgroundDuringPresentation = false
+            searchController.searchBar.placeholder = "Search schools"
+            definesPresentationContext = true
+            navigationItem.searchController = searchController
+        }
+    }
+    
+    @objc private func onBack() {
+        navigationController?.popViewController(animated: true)
     }
 
     override func loadView() {
-        view = EditSchoolView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        view = contentView
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -149,7 +166,7 @@ class EditSchoolVC: BaseViewController {
         }
     }
 
-    private func displaySavedAlertController() {
+    @objc func displaySavedAlertController() {
         let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
 
         present(alertController, animated: true, completion: nil)
@@ -167,12 +184,6 @@ class EditSchoolVC: BaseViewController {
         let indexPath = IndexPath(row: 0, section: 0)
         contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
         automaticScroll = false
-    }
-
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonSave {
-            // save button
-        }
     }
 
     private func loadListOfSchools() {
@@ -198,12 +209,13 @@ extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath)
         let data = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
 
-        cell.backgroundColor = Colors.backgroundDark
+        cell.backgroundColor = Colors.darkBackground
         cell.textLabel?.textColor = UIColor.white
         cell.textLabel?.font = Fonts.createSize(16)
+        cell.textLabel?.adjustsFontSizeToFitWidth = true
 
         let cellBackground = UIView()
-        cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        cellBackground.backgroundColor = Colors.darkBackground.darker(by: 15)
         cell.selectedBackgroundView = cellBackground
 
         cell.textLabel?.text = data

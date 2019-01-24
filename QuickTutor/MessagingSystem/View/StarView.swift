@@ -89,7 +89,7 @@ class StarView: UIView {
         for x in 0..<rating {
             stars[x].image = UIImage(named: "filledStar")
         }
-        tintStars(color: Colors.learnerPurple)
+        tintStars(color: Colors.purple)
     }
     
     override init(frame: CGRect) {

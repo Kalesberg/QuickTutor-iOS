@@ -26,7 +26,7 @@ class MessagingSystemToggle: UIView {
     lazy var cv: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.currentUserColor()
+        cv.backgroundColor = Colors.purple
         cv.delegate = self
         cv.dataSource = self
         cv.register(MessagingSystemToggleCell.self, forCellWithReuseIdentifier: "cellId")

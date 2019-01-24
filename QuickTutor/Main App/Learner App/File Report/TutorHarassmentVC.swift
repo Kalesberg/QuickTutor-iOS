@@ -18,14 +18,6 @@ class TutorHarassmentView: FileReportSubmissionLayout {
         textBody.text = "QuickTutor’s Non-Discrimination Policy is set in place to protect all users from harassment and ensure the safety of everyone using our platform.\n\nAggressive or inappropriate physical contact or verbal harassment is not tolerated. If your tutor did anything to make you feel uncomfortable, unsafe, or harassed you in any way, please let us know here."
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-    }
-
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.learnerPurple
-        navbar.backgroundColor = Colors.learnerPurple
-    }
 }
 
 class TutorHarassmentVC: SubmissionViewControllerVC {

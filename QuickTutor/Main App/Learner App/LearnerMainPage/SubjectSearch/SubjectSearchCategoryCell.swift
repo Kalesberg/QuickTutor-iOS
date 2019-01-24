@@ -42,7 +42,7 @@ class SubjectSearchCategoryCell: UITableViewCell {
         container.addSubview(dropDownArrow)
 
         selectionStyle = .none
-        backgroundColor = Colors.learnerPurple
+        backgroundColor = Colors.purple
         container.backgroundColor = Colors.navBarColor
         layer.cornerRadius = 4
 

@@ -20,7 +20,6 @@ class TutorConnectionsView: MainLayoutHeaderScroll {
         scrollView.addSubview(onceConnectedBody)
         super.configureView()
 
-        title.label.text = "Connections"
         header.label.text = "Connecting"
 
         connectingBody.text = "After tutor registration, you can connect with learners.\n\nLearners will send connection requests through the messenger, which will be delivered to you with manually typed messages or custom messages.\n\nConnection requests that have not yet been accepted will appear in your \"messages\" tab in the messenger. This is where you can see all your message threads with learners.  Once you accept a learner's connection request, you'll be able to communicate freely and schedule tutoring sessions."
@@ -45,7 +44,7 @@ class TutorConnections: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Connections"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
@@ -54,8 +53,4 @@ class TutorConnections: BaseViewController {
         view = TutorConnectionsView()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 }

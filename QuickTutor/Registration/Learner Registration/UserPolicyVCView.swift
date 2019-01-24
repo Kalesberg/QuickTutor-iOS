@@ -27,7 +27,7 @@ class UserPolicyVCView: BaseRegistrationView {
         let button = UIButton()
         button.titleLabel?.font = Fonts.createSize(16)
         button.setTitle("Learn More", for: .normal)
-        button.setTitleColor(Colors.learnerPurple, for: .normal)
+        button.setTitleColor(Colors.purple, for: .normal)
         button.titleLabel?.textAlignment = .left
         return button
     }()
@@ -35,7 +35,7 @@ class UserPolicyVCView: BaseRegistrationView {
     let acceptButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Accept", for: .normal)
-        button.backgroundColor = Colors.learnerPurple
+        button.backgroundColor = Colors.purple
         button.titleLabel?.font = Fonts.createBoldSize(14)
         button.layer.cornerRadius = 4
         return button

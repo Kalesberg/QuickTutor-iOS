@@ -62,7 +62,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		let button = UIButton()
 		button.titleLabel?.font = Fonts.createBoldSize(18)
 		button.titleLabel?.textColor = .white
-		button.backgroundColor = Colors.learnerPurple
+		button.backgroundColor = Colors.purple
 		button.layer.cornerRadius = 8
 		button.layer.shadowColor = UIColor.black.cgColor
 		button.layer.shadowOffset = CGSize(width: 0, height: 2)
@@ -159,12 +159,12 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 		tutorCardHeader.reviewLabel.text = tutor.reviews?.count.formatReviewLabel(rating: tutor.tRating)
 	}
 	private func setupTutorCardAboutMe() {
-		tutorCardAboutMe.aboutMeLabel.textColor = Colors.tutorBlue
+		tutorCardAboutMe.aboutMeLabel.textColor = Colors.purple
 		tutorCardAboutMe.bioLabel.text = (tutor.tBio != nil) ? tutor.tBio! : "Tutor has no bio!\n"
 	}
 	
 	private func setupTutorCardBody() {
-		tutorCardBody.additionalInformation.textColor = Colors.tutorBlue
+		tutorCardBody.additionalInformation.textColor = Colors.purple
 		let extraInfomationViews = getViewsForExtraInformationSection()
 		tutorCardBody.stackView.subviews.forEach({ $0.removeFromSuperview() })
 		extraInfomationViews.forEach({ tutorCardBody.stackView.addArrangedSubview($0) })
@@ -183,7 +183,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	}
 	
 	private func setupTutorCardSubjects() {
-		tutorCardSubjects.sectionTitle.textColor = Colors.tutorBlue
+		tutorCardSubjects.sectionTitle.textColor = Colors.purple
 		tutorCardSubjects.datasource = tutor.subjects ?? []
 	}
 	
@@ -235,15 +235,15 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	private func getViewsForExtraInformationSection() -> [UIView] {
 		var views = [UIView]()
 		
-		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(tutor.tNumSessions ?? 0) sessions", color: Colors.tutorBlue))
+		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(tutor.tNumSessions ?? 0) sessions", color: Colors.purple))
 		//this will be optional in the future but the DB only supports this for now.
-		views.append(ProfileItem(icon: UIImage(named: "location")!, title: tutor.region, color: Colors.tutorBlue))
+		views.append(ProfileItem(icon: UIImage(named: "location")!, title: tutor.region, color: Colors.purple))
 		
 		if let languages = tutor.languages {
-			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))", color: Colors.tutorBlue))
+			views.append(ProfileItem(icon: UIImage(named: "speaks")!, title: "Speaks: \(languages.compactMap({$0}).joined(separator: ", "))", color: Colors.purple))
 		}
 		if tutor.school != "" && tutor.school != nil {
-			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: tutor.school!, color: Colors.tutorBlue))
+			views.append(ProfileItem(icon: UIImage(named: "studys-at")!, title: tutor.school!, color: Colors.purple))
 		}
 		return views
 	}

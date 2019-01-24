@@ -33,7 +33,7 @@ class PickedSubjectsCollectionViewCell: UICollectionViewCell {
         let view = UIView()
 
         view.clipsToBounds = true
-        view.backgroundColor = Colors.tutorBlue
+        view.backgroundColor = Colors.purple
 
         return view
     }()

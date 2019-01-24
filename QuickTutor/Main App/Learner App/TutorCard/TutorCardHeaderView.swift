@@ -34,7 +34,7 @@ class TutorCardHeaderView: UIView {
     let subjectLabel: UILabel = {
         let label = UILabel()
         label.text = "Politics"
-        label.textColor = Colors.learnerPurple
+        label.textColor = Colors.purple
         label.textAlignment = .left
         label.font = Fonts.createSize(14)
         return label

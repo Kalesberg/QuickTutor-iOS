@@ -44,7 +44,7 @@ class FeaturedTutorTableViewCell: UITableViewCell {
         }
     }
 
-    var category: Category! {
+    var category: CategoryNew! {
         didSet {
             collectionView.reloadData()
         }

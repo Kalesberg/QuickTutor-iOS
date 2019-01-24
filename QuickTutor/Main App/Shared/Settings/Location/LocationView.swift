@@ -23,7 +23,7 @@ class LocationView : MainLayoutTitleBackButton {
 		let textField = SearchTextField()
 		textField.placeholder.text = "Search For an Address"
 		textField.textField.font = Fonts.createSize(18)
-		textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
+		textField.textField.tintColor = Colors.purple
 		textField.textField.autocapitalizationType = .words
 		
 		return textField

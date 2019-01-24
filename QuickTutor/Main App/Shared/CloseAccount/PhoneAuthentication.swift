@@ -99,19 +99,16 @@ class PhoneAuthenicationActionCancel: InteractableView, Interactable {
 class PhoneAuthenticationAlertView: InteractableView {
     var alertView: UIView = {
         let view = UIView()
-
-        view.backgroundColor = UIColor.lightGray
+        view.backgroundColor = UIColor.black
         view.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.7, offset: CGSize(width: -2, height: 2), radius: 5)
-
         return view
     }()
 
     let title: UILabel = {
         let label = UILabel()
-
         label.text = "Phone Verification"
         label.font = Fonts.createBoldSize(22)
-        label.textColor = .black
+        label.textColor = .white
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -119,26 +116,22 @@ class PhoneAuthenticationAlertView: InteractableView {
 
     let message: UILabel = {
         let label = UILabel()
-
         label.font = Fonts.createSize(16)
-        label.textColor = .black
+        label.textColor = .white
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 3
-
         return label
     }()
 
     let errorLabel: UILabel = {
         let label = UILabel()
-
         label.font = Fonts.createSize(14)
         label.textColor = .red
         label.textAlignment = .center
         label.numberOfLines = 3
         label.adjustsFontSizeToFitWidth = true
         label.isHidden = true
-
         return label
     }()
 
@@ -147,7 +140,6 @@ class PhoneAuthenticationAlertView: InteractableView {
 
     let verificationTextField: NoPasteTextField = {
         let textField = NoPasteTextField()
-
         textField.text = "——————"
         textField.font = Fonts.createBoldSize(35)
         textField.textColor = .black
@@ -156,7 +148,6 @@ class PhoneAuthenticationAlertView: InteractableView {
         textField.adjustsFontSizeToFitWidth = true
         textField.keyboardType = .numberPad
         textField.keyboardAppearance = .dark
-
         return textField
     }()
 

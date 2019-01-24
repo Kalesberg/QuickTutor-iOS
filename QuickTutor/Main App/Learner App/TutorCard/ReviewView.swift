@@ -39,7 +39,7 @@ class ReviewView: UIView {
     
     let starView: StarView = {
         let view = StarView()
-        view.tintStars(color: Colors.learnerPurple)
+        view.tintStars(color: Colors.purple)
         return view
     }()
     

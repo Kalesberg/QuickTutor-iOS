@@ -203,8 +203,8 @@ class EditTutorSubjectsView: MainLayoutTitleTwoButton, Keyboardable {
 
     override func layoutSubviews() {
         layoutIfNeeded()
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
+        navbar.backgroundColor = Colors.purple
+        statusbarView.backgroundColor = Colors.purple
     }
 }
 
@@ -563,7 +563,7 @@ extension EditTutorSubjects: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! SubjectSearchCategoryCell
                 let index = (inlineCellIndexPath != nil && indexPath.section > inlineCellIndexPath!.section) ? indexPath.section - 1 : indexPath.section
                 cell.title.text = categories[index].mainPageData.displayName
-                cell.backgroundColor = Colors.tutorBlue
+                cell.backgroundColor = Colors.purple
 
                 if inlineCellIndexPath != nil && inlineCellIndexPath!.section - 1 == indexPath.section {
                     cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))

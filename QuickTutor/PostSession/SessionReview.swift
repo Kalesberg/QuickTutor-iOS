@@ -132,7 +132,7 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 	let nextButton : UIButton = {
 		let button = UIButton()
 		
-		button.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+		button.backgroundColor = Colors.purple
 		button.setTitle("Submit", for: .normal)
 		button.setTitleColor(.white, for: .normal)
 		button.titleLabel?.font = Fonts.createBoldSize(20)
@@ -159,8 +159,8 @@ class SessionReviewView : MainLayoutTitleTwoButton {
 		super.configureView()
 		
 		title.label.text = "Session Complete!"
-		navbar.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
-		statusbarView.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+		navbar.backgroundColor = Colors.purple
+		statusbarView.backgroundColor = Colors.purple
 	}
 	
 	override func applyConstraints() {
@@ -473,9 +473,9 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 				cell.total.infoLabel.text = "$" + String(format: "%.2f", total)
 				cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
 				
-				cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.tutorBlue).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
+				cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.purple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.purple).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
 				
-				cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With \(name!):    ", 14, Colors.learnerPurple).bold("\(self.sessionsWithPartner + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With \(name!):     ", 14, Colors.tutorBlue).bold("\(self.sessionsWithPartner + 1)", 14, .white)
+				cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With \(name!):    ", 14, Colors.purple).bold("\(self.sessionsWithPartner + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With \(name!):     ", 14, Colors.purple).bold("\(self.sessionsWithPartner + 1)", 14, .white)
 				
 				return cell
 			}
@@ -491,9 +491,9 @@ extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, 
 			cell.total.infoLabel.text = "$" + String(format: "%.2f", total)
 			cell.tip.infoLabel.text = "$\(PostSessionReviewData.tipAmount)"
 		
-			cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.learnerPurple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.tutorBlue).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
+			cell.totalSessions.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.purple).bold("\(CurrentUser.shared.learner.lNumSessions + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed:    ", 14, Colors.purple).bold("\(CurrentUser.shared.tutor.tNumSessions + 1)", 14, .white)
 			
-			cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With \(name!):    ", 14, Colors.learnerPurple).bold("\(self.sessionsWithPartner + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With \(name ?? ""):     ", 14, Colors.tutorBlue).bold("\(self.sessionsWithPartner + 1)", 14, .white)
+			cell.totalSessionsWithPartner.attributedText = AccountService.shared.currentUserType == .learner ? NSMutableAttributedString().regular("Sessions Completed With \(name!):    ", 14, Colors.purple).bold("\(self.sessionsWithPartner + 1)", 14, .white) : NSMutableAttributedString().regular("Sessions Completed With \(name ?? ""):     ", 14, Colors.purple).bold("\(self.sessionsWithPartner + 1)", 14, .white)
 			
 			return cell
 		default:

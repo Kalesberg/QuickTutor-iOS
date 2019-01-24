@@ -90,9 +90,9 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             studentKeyboardAccessory.changeSendButtonColor(Colors.gray)
             teacherKeyboardAccessory.changeSendButtonColor(Colors.gray)
         } else {
-            guard studentKeyboardAccessory.submitButton.backgroundColor != Colors.learnerPurple else { return }
-            studentKeyboardAccessory.changeSendButtonColor(Colors.learnerPurple)
-            teacherKeyboardAccessory.changeSendButtonColor(Colors.tutorBlue)
+            guard studentKeyboardAccessory.submitButton.backgroundColor != Colors.purple else { return }
+            studentKeyboardAccessory.changeSendButtonColor(Colors.purple)
+            teacherKeyboardAccessory.changeSendButtonColor(Colors.purple)
         }
     }
 

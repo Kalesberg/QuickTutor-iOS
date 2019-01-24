@@ -26,15 +26,12 @@ struct Colors {
     static let grayText = UIColor(hex:"999999")
     static let green = UIColor(hex:"1EAD4A")
     static let brightGreen = UIColor(hex:"31d662")
-    static let oldLearnerPurple = UIColor(hex:"4E376F")
-    static let learnerPurple = UIColor(hex:"6562C9")
+    static let purple = UIColor(hex:"6562C9")
     static let progressBlue = UIColor(hex:"4B5F8E")
     static let qtRed = UIColor(hex:"AF1C49")
     static let registrationDark = UIColor(hex:"1B1B26")
     static let remainderProgressDark = UIColor(hex:"2A2A2F")
     static let sidebarPurple = UIColor(hex:"544177")
-    static let tutorBlue = UIColor(hex:"5785D4")
-    static let oldTutorBlue = UIColor(hex: "3E5486")
     static let yellow = UIColor(hex:"FADA4A")
     static let lightBlue = UIColor(hex: "6882BC")
     static let lightGrey = UIColor(hex: "0D0925").withAlphaComponent(0.2)
@@ -59,12 +56,6 @@ struct Colors {
     static let registrationGray = UIColor.white.withAlphaComponent(0.5)
     static let darkGray = UIColor(hex: "1b1b26")
     
-    static func currentUserColor() -> UIColor {
-        return AccountService.shared.currentUserType == .tutor ? tutorBlue : learnerPurple
-    }
-    static func otherUserColor() -> UIColor {
-        return AccountService.shared.currentUserType == .tutor ? learnerPurple : tutorBlue
-    }
 }
 
 struct Fonts {

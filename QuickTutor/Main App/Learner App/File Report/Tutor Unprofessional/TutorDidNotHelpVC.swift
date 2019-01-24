@@ -18,14 +18,6 @@ class TutorDidNotHelpView: FileReportYesNoLayout {
         textBody.text = "QuickTutor is committed to ensure quality tutoring for everyone. While anyone can be a tutor, we have instilled a strict rating and reviewing system in order to police the quality of QuickTutors and ensure learner satisfaction.\n\nPlease utilize the post-session rating and reviewing system to your full capability so you can ensure quality learning for others. Give tutors the rating you feel they deserve, and refer to our Learner Handbook in the Help menu for any questions regarding rating and reviewing tutors.\n\n\n"
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-    }
-
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.learnerPurple
-        navbar.backgroundColor = Colors.learnerPurple
-    }
 }
 
 class TutorDidNotHelpVC: BaseViewController {
@@ -41,6 +33,7 @@ class TutorDidNotHelpVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "File Report"
     }
 
     override func loadView() {

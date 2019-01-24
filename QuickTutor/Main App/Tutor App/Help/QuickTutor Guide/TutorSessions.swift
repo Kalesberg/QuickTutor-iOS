@@ -41,7 +41,6 @@ class TutorSessionsView: MainLayoutHeaderScroll {
         scrollView.addSubview(postSessionBody)
         super.configureView()
 
-        title.label.text = "Sessions"
         header.label.text = "Accepting session requests"
 
         acceptSessionBody.text = "Once you have accepted a learner’s connection request through the messaging system, they can send session requests. Session requests can be scheduled as early as fifteen minutes in the future, and up to thirty days in advance.\n"
@@ -111,7 +110,7 @@ class TutorSessions: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Sessions"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
@@ -120,8 +119,4 @@ class TutorSessions: BaseViewController {
         view = TutorSessionsView()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 }

@@ -41,7 +41,7 @@ class InviteOthersView: UIView {
 																	   attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
 		textField.placeholder.font = Fonts.createBoldSize(20)
 		textField.textField.font = Fonts.createSize(20)
-		textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
+		textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.purple : Colors.purple
 		return textField
 	}()
 	

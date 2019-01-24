@@ -62,22 +62,22 @@ class QueryData {
 		}
 	}
 	
-    func queryAWTutorByCategory(category: Category, lastKnownKey: String?, limit: UInt,_ completion: @escaping ([FeaturedTutor]?) -> Void) {
+    func queryAWTutorByCategory(category: CategoryNew, lastKnownKey: String?, limit: UInt,_ completion: @escaping ([FeaturedTutor]?) -> Void) {
         var tutors = [FeaturedTutor]()
         let group = DispatchGroup()
         let query: DatabaseQuery?
 
         if let lastKnownKey = lastKnownKey {
-            query = ref?.child("featured").child(category.subcategory.fileToRead).queryOrderedByKey().queryStarting(atValue: lastKnownKey).queryLimited(toFirst: limit)
+            query = ref?.child("featured").child(category.name.lowercased()).queryOrderedByKey().queryStarting(atValue: lastKnownKey).queryLimited(toFirst: limit)
         } else {
-            query = ref?.child("featured").child(category.subcategory.fileToRead).queryOrderedByKey().queryLimited(toFirst: limit)
+            query = ref?.child("featured").child(category.name.lowercased()).queryOrderedByKey().queryLimited(toFirst: limit)
         }
 
         query?.observeSingleEvent(of: .value) { snapshot in
             for snap in snapshot.children {
                 guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid! else { continue }
                 group.enter()
-                FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.subcategory.fileToRead, { tutor in
+                FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.name.lowercased(), { tutor in
                     if let tutor = tutor {
                         if tutor.isHidden == 0 {
                             tutors.append(tutor)

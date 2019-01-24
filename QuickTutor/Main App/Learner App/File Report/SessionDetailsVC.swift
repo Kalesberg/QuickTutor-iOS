@@ -20,7 +20,6 @@ class SessionDetailsView: MainLayoutHeader {
         addSubview(sessionHeader)
         super.configureView()
 
-        title.label.text = "File Report"
         header.text = "Session Details"
 
         tableView.estimatedRowHeight = 44
@@ -52,10 +51,6 @@ class SessionDetailsView: MainLayoutHeader {
         }
     }
 
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
-        navbar.backgroundColor = (AccountService.shared.currentUserType == .learner) ? Colors.learnerPurple : Colors.tutorBlue
-    }
 }
 
 class SessionDetailsVC: BaseViewController {
@@ -79,14 +74,14 @@ class SessionDetailsVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "File Report"
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomFileReportTableViewCell.self, forCellReuseIdentifier: "fileReportCell")
     }
 
     override func viewDidLayoutSubviews() {
-        contentView.sessionHeader.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: contentView.sessionHeader.bounds)
+        contentView.sessionHeader.applyGradient(firstColor: Colors.purple.cgColor, secondColor: Colors.purple.cgColor, angle: 110, frame: contentView.sessionHeader.bounds)
     }
 
     override func loadView() {

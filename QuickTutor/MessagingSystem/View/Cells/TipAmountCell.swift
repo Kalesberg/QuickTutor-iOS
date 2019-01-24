@@ -11,7 +11,7 @@ import UIKit
 class TipAmountCell: UICollectionViewCell {
     let button: DimmableButton = {
         let button = DimmableButton()
-        button.setTitleColor(Colors.learnerPurple, for: .normal)
+        button.setTitleColor(Colors.purple, for: .normal)
         button.titleLabel?.font = Fonts.createSize(14)
         button.backgroundColor = .white
         button.setTitle("$6", for: .normal)
@@ -25,11 +25,11 @@ class TipAmountCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                button.backgroundColor = Colors.learnerPurple
+                button.backgroundColor = Colors.purple
                 button.setTitleColor(.white, for: .normal)
             } else {
                 button.backgroundColor = .white
-                button.setTitleColor(Colors.learnerPurple, for: .normal)
+                button.setTitleColor(Colors.purple, for: .normal)
             }
         }
     }

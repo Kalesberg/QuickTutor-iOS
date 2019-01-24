@@ -59,6 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         UINavigationBar.appearance().barTintColor = Colors.registrationDark
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+
 
         IQKeyboardManager.shared().isEnabled = true
         IQKeyboardManager.shared().isEnableAutoToolbar = false
@@ -81,6 +83,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
             }
         }
 
+        
+        DataBaseCleaner.shared.sendFeaturedTutorsToCorrectNode()
         return true
     }
     

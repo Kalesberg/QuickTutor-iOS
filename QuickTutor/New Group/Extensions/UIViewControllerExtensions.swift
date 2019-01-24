@@ -50,9 +50,9 @@ extension UIViewController {
             view.layer.borderWidth = 2
             
             if AccountService.shared.currentUserType == .learner {
-                view.layer.borderColor = Colors.learnerPurple.cgColor
+                view.layer.borderColor = Colors.purple.cgColor
             } else {
-                view.layer.borderColor = Colors.tutorBlue.cgColor
+                view.layer.borderColor = Colors.purple.cgColor
             }
             
             

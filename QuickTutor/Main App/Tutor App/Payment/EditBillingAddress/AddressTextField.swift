@@ -17,7 +17,7 @@ class AddressTextField: NoPasteTextField {
 		autocapitalizationType = .words
 		layer.cornerRadius = 6
 		layer.borderWidth = 1
-		layer.borderColor = Colors.learnerPurple.cgColor
+		layer.borderColor = Colors.purple.cgColor
 	}
 	
 	let padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)

@@ -274,7 +274,7 @@ extension TutorTaxInfo: UITableViewDelegate, UITableViewDataSource {
             cell.backgroundColor = .clear
 
             let button = SubmitButton()
-            button.backgroundColor = Colors.tutorBlue
+            button.backgroundColor = Colors.purple
             button.label.label.text = "Submit"
 
             cell.addSubview(button)

@@ -457,7 +457,7 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     
     func setTitleBlue(index: Int) {
         guard let cell = inputTable.cellForRow(at: IndexPath(row: index, section: 0)) as? SessionTableCell else { return }
-        cell.textLabel?.textColor = Colors.tutorBlue
+        cell.textLabel?.textColor = Colors.purple
     }
     
     func setAllTitlesWhite() {

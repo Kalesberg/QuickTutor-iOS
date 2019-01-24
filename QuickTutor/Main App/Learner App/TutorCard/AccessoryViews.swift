@@ -54,7 +54,7 @@ class TutorCardAccessoryView: BaseAccessoryView {
     func setupStarView() {
         addSubview(starView)
         starView.anchor(top: priceLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 8)
-        starView.tintStars(color: Colors.learnerPurple)
+        starView.tintStars(color: Colors.purple)
     }
 }
 

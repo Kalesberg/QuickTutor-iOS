@@ -13,55 +13,44 @@ import UIKit
 class EditProfilePolicyView: InteractableView {
     let infoLabel: LeftTextLabel = {
         let label = LeftTextLabel()
-
         label.label.font = Fonts.createBoldSize(15)
-
         return label
     }()
 
     let textField: NoPasteTextField = {
         let textField = NoPasteTextField()
-
         textField.font = Fonts.createSize(18)
         textField.textColor = .white
         textField.textAlignment = .left
         textField.adjustsFontSizeToFitWidth = true
-
         return textField
     }()
 
     let sideLabel: UILabel = {
         let label = UILabel()
-
         label.textColor = .white
         label.font = Fonts.createBoldSize(15)
         label.text = "•"
-
         return label
     }()
 
     let divider: BaseView = {
         let view = BaseView()
-
         view.backgroundColor = Colors.divider
-
         return view
     }()
 
     let spacer: BaseView = {
         let view = BaseView()
-
         return view
     }()
 
     let label: UILabel = {
         let label = UILabel()
-
         label.font = Fonts.createSize(13)
         label.textColor = Colors.grayText
         label.sizeToFit()
         label.numberOfLines = 0
-
         return label
     }()
 
@@ -115,166 +104,12 @@ class EditProfilePolicyView: InteractableView {
     }
 }
 
-class TutorManagePoliciesView: MainLayoutTitleBackTwoButton {
-    let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.isScrollEnabled = true
-
-        return scrollView
-    }()
-
-    let latePolicy: EditProfilePolicyView = {
-        let view = EditProfilePolicyView()
-
-        view.infoLabel.label.text = "Late Policy"
-        view.textField.attributedPlaceholder = NSAttributedString(string: "Enter how many minutes",
-                                                                  attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        view.label.text = "How much time will you allow to pass before a learner is late to a session?"
-
+class TutorManagePolicies: UIViewController {
+    
+    let contentView: TutorManagePoliciesVCView = {
+        let view = TutorManagePoliciesVCView()
         return view
     }()
-
-    let lateFee: EditProfilePolicyView = {
-        let view = EditProfilePolicyView()
-
-        view.infoLabel.label.text = "Late Fee"
-        view.textField.attributedPlaceholder = NSAttributedString(string: "Enter a late fee",
-                                                                  attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        view.label.text = "How much a learner pays if they arrive late to a session."
-
-        return view
-    }()
-
-    let cancelNotice: EditProfilePolicyView = {
-        let view = EditProfilePolicyView()
-
-        view.infoLabel.label.text = "Cancellation Notice"
-        view.textField.attributedPlaceholder = NSAttributedString(string: "Enter how many hours",
-                                                                  attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        view.label.text = "How many hours before a session should a learner notify you of a cancellation?"
-
-        return view
-
-    }()
-
-    let cancelFee: EditProfilePolicyView = {
-        let view = EditProfilePolicyView()
-
-        view.infoLabel.label.text = "Cancellation Fee"
-        view.textField.attributedPlaceholder = NSAttributedString(string: "Enter cancellation fee",
-                                                                  attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-        view.label.text = "How much a learner pays if they cancel a session after the above time."
-
-        return view
-    }()
-
-    let subTitle: UILabel = {
-        let label = UILabel()
-
-        label.text = "Policies"
-        label.font = Fonts.createBoldSize(18)
-        label.textColor = .white
-
-        return label
-    }()
-
-    var saveButton = NavbarButtonSave()
-
-    override var rightButton: NavbarButton {
-        get {
-            return saveButton
-        } set {
-            saveButton = newValue as! NavbarButtonSave
-        }
-    }
-
-    let emptySpace = UIView()
-
-    override func configureView() {
-        addSubview(scrollView)
-
-        scrollView.addSubview(subTitle)
-        scrollView.addSubview(latePolicy)
-        scrollView.addSubview(lateFee)
-        scrollView.addSubview(cancelNotice)
-        scrollView.addSubview(cancelFee)
-        scrollView.addSubview(emptySpace)
-
-        super.configureView()
-
-        title.label.text = "Manage Policies"
-
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-
-        scrollView.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide)
-            } else {
-                make.bottom.equalToSuperview()
-            }
-            make.width.equalToSuperview().multipliedBy(0.95)
-            make.centerX.equalToSuperview()
-        }
-
-        subTitle.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(10)
-            make.height.equalTo(50)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-
-        latePolicy.snp.makeConstraints { make in
-            make.top.equalTo(subTitle.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(120)
-        }
-        lateFee.snp.makeConstraints { make in
-            make.top.equalTo(latePolicy.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(120)
-        }
-        cancelNotice.snp.makeConstraints { make in
-            make.top.equalTo(lateFee.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(120)
-        }
-        cancelFee.snp.makeConstraints { make in
-            make.top.equalTo(cancelNotice.snp.bottom)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(120)
-        }
-        emptySpace.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.top.equalTo(cancelFee.snp.bottom)
-            make.height.equalTo(250)
-        }
-    }
-
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.tutorBlue
-        navbar.backgroundColor = Colors.tutorBlue
-    }
-}
-
-class TutorManagePolicies: BaseViewController {
-    override var contentView: TutorManagePoliciesView {
-        return view as! TutorManagePoliciesView
-    }
 
     var ref: DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 
@@ -302,21 +137,28 @@ class TutorManagePolicies: BaseViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         configureDelegates()
-        loadTutorPolicy()
+//        loadTutorPolicy()
 
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
+        setupNavigationBar()
+    }
+    
+    func setupNavigationBar() {
+        navigationItem.title = "Manage Policies"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(savePolicies))
+    }
+    
+    @objc private func onBack() {
+        navigationController?.popViewController(animated: true)
     }
 
     override func loadView() {
-        view = TutorManagePoliciesView()
+        view = contentView
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    private func configureDelegates() {
+    func configureDelegates() {
         pickerView.delegate = self
         pickerView.dataSource = self
 
@@ -327,7 +169,7 @@ class TutorManagePolicies: BaseViewController {
         contentView.cancelFee.textField.delegate = self
     }
 
-    private func loadTutorPolicy() {
+    func loadTutorPolicy() {
         guard let tutorPolicy = tutor.policy else {
             return
         }
@@ -349,7 +191,7 @@ class TutorManagePolicies: BaseViewController {
         return
     }
 
-    private func savePolicies() {
+    @objc func savePolicies() {
         var latePolicy = contentView.latePolicy.textField.text!
 
         if latePolicy == "None" || latePolicy == "" {
@@ -384,7 +226,7 @@ class TutorManagePolicies: BaseViewController {
 
         let policyString = "\(latePolicy)_\(lateFee)_\(cancelNotice)_\(cancelFee)"
 
-        ref.child("tutor-info").child(CurrentUser.shared.learner.uid!).updateChildValues(["pol": policyString]) { error, _ in
+        Database.database().reference().child("tutor-info").child(CurrentUser.shared.learner.uid!).updateChildValues(["pol": policyString]) { error, _ in
             if let error = error {
                 print(error)
             } else {
@@ -394,7 +236,7 @@ class TutorManagePolicies: BaseViewController {
         }
     }
 
-    private func displaySavedAlertController() {
+    @objc private func displaySavedAlertController() {
         let alertController = UIAlertController(title: "Saved!", message: "Your policy changes have been saved", preferredStyle: .alert)
 
         present(alertController, animated: true, completion: nil)
@@ -404,12 +246,6 @@ class TutorManagePolicies: BaseViewController {
             alertController.dismiss(animated: true) {
                 self.navigationController?.popViewController(animated: true)
             }
-        }
-    }
-
-    override func handleNavigation() {
-        if touchStartView is NavbarButtonSave {
-            savePolicies()
         }
     }
 }

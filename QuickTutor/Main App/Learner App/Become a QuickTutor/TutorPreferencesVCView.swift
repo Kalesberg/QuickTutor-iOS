@@ -57,7 +57,8 @@ class TutorPreferencesView: BaseRegistrationView {
         let label = UILabel()
         label.textColor = Colors.registrationGray
         label.font = Fonts.createBoldSize(16)
-        label.text = "Must not be londer than 15 characters."
+        label.text = "Must not be longer than 15 characters."
+        label.isHidden = true
         return label
     }()
     

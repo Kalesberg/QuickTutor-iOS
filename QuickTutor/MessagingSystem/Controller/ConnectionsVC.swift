@@ -59,6 +59,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
             searchController.definesPresentationContext = true
+            searchController.searchBar.tintColor = .white
         }
     }
 
@@ -105,6 +106,14 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func connectionCell(_ connectionCell: ConnectionCell, shouldRequestSessionWith user: User) {
+        let vc = SessionRequestVC()
+        FirebaseData.manager.fetchTutor(user.uid, isQuery: false) { (tutor) in
+            vc.tutor = tutor
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
 
 extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -115,6 +124,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConnectionCell
         cell.updateUI(user: connections[indexPath.item])
+        cell.requestSessionButton.isHidden = false
         cell.delegate = self
         return cell
     }

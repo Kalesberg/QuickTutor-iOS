@@ -16,7 +16,7 @@ class SubmitButton: InteractableView, Interactable {
         addSubview(label)
         super.configureView()
 
-        backgroundColor = Colors.learnerPurple
+        backgroundColor = Colors.purple
         layer.cornerRadius = 20
         label.label.text = "SUBMIT"
         label.label.font = Fonts.createBoldSize(16)

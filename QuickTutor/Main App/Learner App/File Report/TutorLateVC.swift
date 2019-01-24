@@ -22,14 +22,6 @@ class TutorLateView: FileReportCheckboxLayout {
         cb3.label.text = "Tutor didn't show up to the session"
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-    }
-
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.learnerPurple
-        navbar.backgroundColor = Colors.learnerPurple
-    }
 }
 
 class TutorLateVC: BaseViewController {
@@ -47,6 +39,7 @@ class TutorLateVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "File Report"
     }
 
     override func viewDidLayoutSubviews() {}

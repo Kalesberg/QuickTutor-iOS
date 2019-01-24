@@ -77,8 +77,8 @@ class TutorReviewsVC: BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		contentView.navbar.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
-		contentView.statusbarView.backgroundColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		contentView.navbar.backgroundColor = isViewing ? Colors.purple : Colors.purple
+		contentView.statusbarView.backgroundColor = isViewing ? Colors.purple : Colors.purple
 		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
@@ -116,7 +116,7 @@ extension TutorReviewsVC: UITableViewDelegate, UITableViewDataSource {
 		cell.dateLabel.text = data.formattedDate
 		cell.reviewTextLabel.text = "\"\(data.message)\""
 		let formattedName = data.studentName.split(separator: " ")
-		cell.nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+		cell.nameLabel.textColor = isViewing ? Colors.purple : Colors.purple
 		cell.nameLabel.text = "\(String(formattedName[0]).capitalized) \(String(formattedName[1]).capitalized.prefix(1))."
 		cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
 		cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))

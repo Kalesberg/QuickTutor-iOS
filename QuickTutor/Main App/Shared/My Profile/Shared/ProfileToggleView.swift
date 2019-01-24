@@ -39,7 +39,7 @@ class MockCollectionViewCell: UIView {
     
     let primaryButton: DimmableButton = {
         let button = DimmableButton()
-        button.backgroundColor = Colors.currentUserColor()
+        button.backgroundColor = Colors.purple
         button.layer.cornerRadius = 4
         button.setTitle("Switch", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -98,7 +98,7 @@ class MockCollectionViewCell: UIView {
     }
 
     @objc func handlePrimaryButton() {
-        primaryButton.backgroundColor = Colors.currentUserColor()
+        primaryButton.backgroundColor = Colors.purple
         primaryButton.isSelected = true
         secondaryButton.backgroundColor = Colors.gray
         secondaryButton.isSelected = false
@@ -108,7 +108,7 @@ class MockCollectionViewCell: UIView {
     }
     
     @objc func handleSecondaryButton() {
-        secondaryButton.backgroundColor = Colors.currentUserColor()
+        secondaryButton.backgroundColor = Colors.purple
         secondaryButton.isSelected = true
         primaryButton.backgroundColor = Colors.gray
         primaryButton.isSelected = false

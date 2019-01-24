@@ -62,8 +62,8 @@ class BankManagerView: MainLayoutTitleBackButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
+        navbar.backgroundColor = Colors.purple
+        statusbarView.backgroundColor = Colors.purple
     }
 }
 

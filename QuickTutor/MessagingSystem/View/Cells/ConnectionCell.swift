@@ -36,6 +36,7 @@ class SessionRequestTutorCell: ConnectionCell {
 
 protocol ConnectionCellDelegate {
     func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User)
+    func connectionCell(_ connectionCell: ConnectionCell, shouldRequestSessionWith user: User)
 }
 
 class ConnectionCell: UICollectionViewCell {
@@ -77,6 +78,13 @@ class ConnectionCell: UICollectionViewCell {
         button.setImage(UIImage(named: "messageIconCircle"), for: .normal)
         return button
     }()
+    
+    let requestSessionButton: DimmableButton = {
+        let button = DimmableButton()
+        button.setImage(UIImage(named: "sessionIcon"), for: .normal)
+        button.isHidden = true
+        return button
+    }()
 
     let separatorLine: UIView = {
         let view = UIView()
@@ -89,6 +97,7 @@ class ConnectionCell: UICollectionViewCell {
         setupNameLabel()
         setupLocationLabel()
         setupMessageButton()
+        setupRequestSessionButton()
         setupSeparatorLine()
     }
     
@@ -114,6 +123,13 @@ class ConnectionCell: UICollectionViewCell {
         messageButton.addTarget(self, action: #selector(showConversation), for: .touchUpInside)
     }
     
+    func setupRequestSessionButton() {
+        addSubview(requestSessionButton)
+        requestSessionButton.anchor(top: nil, left: nil, bottom: nil, right: messageButton.leftAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 20, width: 35, height: 35)
+        addConstraint(NSLayoutConstraint(item: requestSessionButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        requestSessionButton.addTarget(self, action: #selector(requestSession), for: .touchUpInside)
+    }
+    
      func setupSeparatorLine() {
         addSubview(separatorLine)
         separatorLine.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
@@ -127,6 +143,10 @@ class ConnectionCell: UICollectionViewCell {
     
     @objc func showConversation() {
         delegate?.connectionCell(self, shouldShowConversationWith: user)
+    }
+    
+    @objc func requestSession() {
+        delegate?.connectionCell(self, shouldRequestSessionWith: user)
     }
     
     func handleTouchDown() {

@@ -227,7 +227,7 @@ extension LearnerFiltersVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileSliderTableViewCell", for: indexPath) as! EditProfileSliderTableViewCell
 
             cell.slider.addTarget(self, action: #selector(distanceSliderValueDidChange), for: .valueChanged)
-            cell.slider.minimumTrackTintColor = Colors.learnerPurple
+            cell.slider.minimumTrackTintColor = Colors.purple
             cell.slider.minimumValue = 0
             cell.slider.maximumValue = 150
 

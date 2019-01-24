@@ -10,7 +10,7 @@ import Firebase
 import Foundation
 import UIKit
 
-var category: [Category] = Category.categories
+var categories: [Category] = Category.categories
 
 class LearnerMainPageVC: UIViewController {
     
@@ -61,18 +61,26 @@ class LearnerMainPageVC: UIViewController {
         super.viewDidAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
 
     private func configureView() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.prefetchDataSource = self
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleSearchTap))
-//        contentView.searchBar.addGestureRecognizer(tap)
+        contentView.searchBar.addGestureRecognizer(tap)
     }
 
     private func queryFeaturedTutors() {
         displayLoadingOverlay()
-        QueryData.shared.queryFeaturedTutors(categories: Array(category[self.datasource.count..<self.datasource.count + 4])) { datasource in
+        QueryData.shared.queryFeaturedTutors(categories: Array(categories[self.datasource.count..<self.datasource.count + 4])) { datasource in
             guard let datasource = datasource else { return }
             if #available(iOS 11.0, *) {
                 self.contentView.tableView.performBatchUpdates({
@@ -95,7 +103,6 @@ class LearnerMainPageVC: UIViewController {
     @objc func handleSearchTap() {
         let nav = navigationController
         DispatchQueue.main.async {
-            nav?.view.layer.add(CATransition().segueFromTop(), forKey: nil)
             nav?.pushViewController(SearchSubjectsVC(), animated: false)
         }
     }
@@ -122,8 +129,9 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
 
 			cell.parentViewController = self
-            cell.datasource = datasource[category[indexPath.section - 1]]!
-            cell.category = category[indexPath.section - 1]
+            cell.datasource = datasource[categories[indexPath.section - 1]]!
+//            cell.category = categories[indexPath.section - 1]
+            //TODO: Update to new category models
             cell.delegate = self
             return cell
         }
@@ -135,7 +143,7 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = SectionHeader()
-        view.category.text = (section == 0) ? "Categories" : category[section - 1].mainPageData.displayName
+        view.category.text = (section == 0) ? "Categories" : categories[section - 1].mainPageData.displayName
         return view
     }
 
@@ -161,7 +169,8 @@ extension LearnerMainPageVC: CategoryTableViewCellDelegate {
     func categoryTableViewCell(_ cell: CategoryTableViewCell, didSelect category: Category) {
         CategorySelected.title = category.mainPageData.displayName
         let next = CategorySearchVC()
-        next.category = category
+        //TODO: Update to new category data structure
+//        next.category = category
         navigationController?.pushViewController(next, animated: true)
     }
 }

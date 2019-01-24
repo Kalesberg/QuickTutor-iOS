@@ -49,7 +49,7 @@ class InAppNotificationView: UIView {
     
     let bottomLine: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.currentUserColor().darker(by: 15)
+        view.backgroundColor = Colors.purple.darker(by: 15)
         view.layer.cornerRadius = 3
         return view
     }()
@@ -155,7 +155,7 @@ class InAppNotificationView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.otherUserColor()
+        backgroundColor = Colors.purple
         layer.cornerRadius = 8
         addShadow()
     }

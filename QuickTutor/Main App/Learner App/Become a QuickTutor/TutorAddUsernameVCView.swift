@@ -29,7 +29,7 @@ class TutorAddUsernameVCView: BaseRegistrationView {
     
     let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "Must not be londer than 15 characters."
+        label.text = "Must not be longer than 15 characters."
         label.font = Fonts.createSize(16)
         label.textColor = Colors.registrationGray
         label.textAlignment = .left

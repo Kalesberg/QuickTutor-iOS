@@ -13,7 +13,7 @@ class MessagingSystemTutorial: UIButton {
     
     let view: UIButton = {
         let view = UIButton()
-        view.backgroundColor = Colors.learnerPurple
+        view.backgroundColor = Colors.purple
         view.setImage(#imageLiteral(resourceName: "plusButton"), for: .normal)
         view.applyDefaultShadow()
         view.layer.cornerRadius = 17
