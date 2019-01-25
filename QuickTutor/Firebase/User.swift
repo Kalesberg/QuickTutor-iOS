@@ -352,8 +352,8 @@ class FirebaseData {
 		}
 	}
 
-	func fetchTutorListings(uid: String,_ completion: @escaping ([Category: FeaturedTutor]?) -> Void) {
-		var listings = [Category : FeaturedTutor]()
+	func fetchTutorListings(uid: String,_ completion: @escaping ([Category: AWTutor]?) -> Void) {
+		var listings = [Category : AWTutor]()
 		let group = DispatchGroup()
 		
 		for category in Category.categories {
@@ -361,7 +361,7 @@ class FirebaseData {
 			self.ref.child("featured").child(category.subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 				if snapshot.exists() {
 					guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
-					var featuredTutor = FeaturedTutor(dictionary: value)
+					var featuredTutor = AWTutor(dictionary: value)
 					featuredTutor.uid = snapshot.key
 					listings[category] = featuredTutor
 				}
@@ -571,11 +571,11 @@ class FirebaseData {
 		}
 	}
 	
-	func fetchFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
+	func fetchFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (AWTutor?) -> Void) {
 		self.ref.child("featured").child(category).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			
-			var featuredTutor = FeaturedTutor(dictionary: value)
+			var featuredTutor = AWTutor(dictionary: value)
 			featuredTutor.uid = snapshot.key
 			return completion(featuredTutor)
 		}

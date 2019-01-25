@@ -340,9 +340,21 @@ class DataService {
 class TutorSearchService {
     static let shared = TutorSearchService()
     
-    func getTutorsByCategory(_ category: CategoryNew) {
-        Database.database().reference().child("categories").child(category.name).observeSingleEvent(of: .childAdded) { (snapshot) in
-            
+    func getTutorsByCategory(_ categoryName: String) {
+        Database.database().reference().child("categories").child(categoryName).observe(.childAdded) { (snapshot) in
+            print(snapshot.key)
+        }
+    }
+    
+    func getTutorsBySubcategory(_ subcategoryName: String) {
+        Database.database().reference().child("subcategories").child(subcategoryName).observe(.childAdded) { (snapshot) in
+            print(snapshot.key)
+        }
+    }
+    
+    func getTutorsBySubject(_ subject: String) {
+        Database.database().reference().child("subjects").child(subject).observe(.childAdded) { (snapshot) in
+            print(snapshot.key)
         }
     }
     
@@ -362,6 +374,31 @@ class DataBaseCleaner {
             
             category.forEach({ (uid, tutorInfo) in
                 Database.database().reference().child("subcategories").child(snapshot.key).child(uid).setValue(1)
+            })
+        }
+    }
+    
+    func setSubjectsToCorrectNode() {
+        Database.database().reference().child("subject").observe(.childAdded) { (snapshot) in
+            guard let userProfile = snapshot.value as? [String: [String: Any]] else {
+                print("Error with categories")
+                return
+            }
+            
+            userProfile.forEach({ (subcategory, userData) in
+                guard let subjectsString = userData["sbj"] as? String else {
+                    print("Error with subjects string")
+                    return
+                }
+                
+                let subjects = subjectsString.components(separatedBy: "$")
+                print(subjects)
+                subjects.forEach({ (subject) in
+                    print(subject)
+                    print(snapshot.key)
+                    let formattedSubject = subject.replacingOccurrences(of: "#", with: "sharp").replacingOccurrences(of: ".", with: "dot")
+                    Database.database().reference().child("subjects").child(formattedSubject).child(snapshot.key).setValue(1)
+                })
             })
         }
     }

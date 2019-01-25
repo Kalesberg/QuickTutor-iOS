@@ -11,7 +11,7 @@ import Firebase
 
 class SavedTutorsVC: UIViewController {
     
-    var datasource = [FeaturedTutor]()
+    var datasource = [AWTutor]()
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()

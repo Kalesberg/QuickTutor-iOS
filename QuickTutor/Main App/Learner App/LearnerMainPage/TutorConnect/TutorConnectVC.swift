@@ -60,7 +60,7 @@ class TutorConnectVC: BaseViewController {
 	var connectedIds = [String]()
 	var pendingIds = [String]()
 	
-	var featuredTutors = [FeaturedTutor]() {
+	var featuredTutors = [AWTutor]() {
 		didSet {
 			displayLoadingOverlay()
 			fetchFeaturedTutorCards(featuredTutors: featuredTutors) { (tutors) in
@@ -161,7 +161,7 @@ class TutorConnectVC: BaseViewController {
 		}
 	}
 
-	private func fetchFeaturedTutorCards(featuredTutors: [FeaturedTutor],_ completion: @escaping ([AWTutor]?) -> Void) {
+	private func fetchFeaturedTutorCards(featuredTutors: [AWTutor],_ completion: @escaping ([AWTutor]?) -> Void) {
 		QueryData.shared.queryAWFeaturedTutorsCard(featuredTutors: featuredTutors) { (tutors) in
 			if let tutors = tutors {
 				completion(tutors)

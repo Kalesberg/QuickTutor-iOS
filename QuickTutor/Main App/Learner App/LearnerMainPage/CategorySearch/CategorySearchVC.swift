@@ -19,7 +19,7 @@ class CategorySearchVC: BaseViewController {
 //    }
 
     let itemsPerBatch: UInt = 10
-    var datasource = [FeaturedTutor]()
+    var datasource = [AWTutor]()
     var didLoadMore: Bool = false
     var category: CategoryNew! {
         didSet {
@@ -134,10 +134,10 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
         cell.growSemiShrink {
             let featuredTutor = self.datasource[indexPath.item]
             let uid = featuredTutor.uid
-            FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
+            FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
                 guard let tutor = tutor else { return }
                 let vc = TutorCardVC()
-                vc.subject = featuredTutor.subject
+                vc.subject = featuredTutor.featuredSubject
                 vc.tutor = tutor
                 vc.contentView.updateUI(tutor)
                 DispatchQueue.main.async {

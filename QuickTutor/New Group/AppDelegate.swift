@@ -83,8 +83,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
             }
         }
 
-        
-        DataBaseCleaner.shared.sendFeaturedTutorsToCorrectNode()
+        TutorSearchService.shared.getTutorsBySubcategory("applied arts")
+//        DataBaseCleaner.shared.sendFeaturedTutorsToCorrectNode()
+        DataBaseCleaner.shared.setSubjectsToCorrectNode()
         return true
     }
     

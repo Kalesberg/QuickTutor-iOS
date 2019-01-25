@@ -210,7 +210,7 @@ class YourListingVC: BaseViewController {
     var featuredCategory: String?
     var categories = [Category]()
 
-    var listings = [FeaturedTutor]() {
+    var listings = [AWTutor]() {
         didSet {
             listings.count == 0 ? setupViewForNoListing() : setupViewForListing()
             contentView.collectionView.reloadData()
@@ -255,7 +255,7 @@ class YourListingVC: BaseViewController {
     }
 
     private func setupViewForListing() {
-        hideListing = (listings[0].isHidden == 1)
+//        hideListing = (listings[0].isHidden == 1)
         contentView.collectionView.backgroundView = nil
 //        contentView.editButton.isHidden = false
         contentView.hideButton.isHidden = false
@@ -298,7 +298,7 @@ class YourListingVC: BaseViewController {
         let vc = EditListingVC()
         vc.price = listings[0].price
         vc.image = cell.profileImageView.image
-        vc.subject = listings[0].subject
+//        vc.subject = listings[0].subject
         vc.subjects = tutor.subjects ?? []
         vc.categoryOfCurrentListing = self.featuredCategory
         vc.delegate = self

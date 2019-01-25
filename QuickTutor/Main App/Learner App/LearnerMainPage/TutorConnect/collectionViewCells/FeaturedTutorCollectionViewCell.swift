@@ -13,7 +13,7 @@ import Firebase
 
 class TutorCollectionViewCell: UICollectionViewCell {
     
-    var tutor: FeaturedTutor?
+    var tutor: AWTutor?
     
     let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -124,12 +124,12 @@ class TutorCollectionViewCell: UICollectionViewCell {
         starView.tintStars(color: Colors.purple)
     }
     
-    func updateUI(_ tutor: FeaturedTutor) {
+    func updateUI(_ tutor: AWTutor) {
         self.tutor = tutor
         nameLabel.text = tutor.name
-        subjectLabel.text = tutor.subject
-        priceLabel.text = "$\(tutor.price)/hr"
-        profileImageView.sd_setImage(with: URL(string: tutor.imageUrl)!, completed: nil)
+        subjectLabel.text = tutor.featuredSubject
+        priceLabel.text = "$\(tutor.price!)/hr"
+        profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)
         if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
             savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"saveButtonFilled"), for: .normal) : saveButton.setImage(UIImage(named:"saveButton"), for: .normal)
         }

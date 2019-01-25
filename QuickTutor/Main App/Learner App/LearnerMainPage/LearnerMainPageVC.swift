@@ -24,7 +24,7 @@ class LearnerMainPageVC: UIViewController {
         view = LearnerMainPageVCView()
     }
     
-    var datasource = [Category: [FeaturedTutor]]()
+    var datasource = [Category: [AWTutor]]()
     var didLoadMore = false
     var learner: AWLearner!
 
@@ -181,13 +181,13 @@ extension LearnerMainPageVC: FeaturedTutorTableViewCellDelegate {
         self.selectedCellFrame = CGRect(x: 10, y: 488, width: 137, height: 185)
     }
     
-    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect featuredTutor: FeaturedTutor) {
+    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect featuredTutor: AWTutor) {
         let uid = featuredTutor.uid
 //        navigationController?.delegate = self
-        FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
+        FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
             guard let tutor = tutor else { return }
             let vc = TutorCardVC()
-            vc.subject = featuredTutor.subject
+            vc.subject = featuredTutor.featuredSubject
             vc.tutor = tutor
             vc.contentView.updateUI(tutor)
             DispatchQueue.main.async {
