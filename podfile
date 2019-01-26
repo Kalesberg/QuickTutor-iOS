@@ -47,5 +47,6 @@ target 'QuickTutor' do
   
   pod 'SwipeCellKit'
   pod 'IQKeyboardManager'
+  pod 'Charts', '~> 3.2.1'
 
 end

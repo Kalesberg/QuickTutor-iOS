@@ -27,4 +27,8 @@ extension UIColor {
         }
         self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
+    
+    static var qtWoodsmokeColor = UIColor(hex: "16161e")
+    static var qtSteelGrayColor = UIColor(hex: "1b1b26")
+    static var qtAccentColor = UIColor(hex: "6462c9")
 }

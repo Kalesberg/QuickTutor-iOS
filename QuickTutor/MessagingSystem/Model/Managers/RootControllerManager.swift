@@ -15,7 +15,7 @@ class RootControllerManager {
     func configureRootViewController(controller: UIViewController) {
         if controller is LearnerMainPageVC {
             setupLearnerTabBar(controller: controller)
-        } else if controller is TutorMainPage {
+        } else if controller is QTTutorDashboardViewController { //TutorMainPage
             setupTutorTabBar(controller: controller)
         } else {
             setupDefaultConfiguration(controller: BecomeTutorVC())
@@ -78,7 +78,7 @@ class RootControllerManager {
     func setupTutorTabBar(controller: UIViewController) {
         AccountService.shared.currentUserType = .tutor
         let tab = UITabBarController()
-        let home = UINavigationController(rootViewController: TutorMainPage())
+        let home = UINavigationController(rootViewController: QTTutorDashboardViewController.load()) // TutorMainPage()
         home.tabBarItem = UITabBarItem(title: "Dashboard", image: UIImage(named: "dashboardTabIcon"), selectedImage: UIImage(named: "dashboardTabIcon"))
         home.navigationBar.barTintColor = Colors.newBackground
         home.navigationBar.backgroundColor = Colors.newBackground

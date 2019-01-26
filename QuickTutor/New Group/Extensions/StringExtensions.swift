@@ -157,6 +157,10 @@ extension String {
 		}
 		return self
 	}
+    
+    func getStringWidth(font: UIFont) -> CGFloat {
+        return self.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 0.0), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil).width
+    }
 }
 
 extension MutableCollection {
