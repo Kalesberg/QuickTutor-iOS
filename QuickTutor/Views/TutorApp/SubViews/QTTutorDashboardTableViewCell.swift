@@ -67,6 +67,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         lineChartView.chartDescription?.enabled = false
         lineChartView.pinchZoomEnabled = false
         lineChartView.doubleTapToZoomEnabled = false
+        lineChartView.highlightPerTapEnabled = false
         lineChartView.rightAxis.enabled = false
         lineChartView.leftAxis.enabled = false
         lineChartView.xAxis.enabled = false
@@ -164,8 +165,9 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
             set.setDrawHighlightIndicators(false)
             
             let gradientColors = [UIColor.qtAccentColor.cgColor,
-                                  UIColor.qtAccentColor.withAlphaComponent(0.2).cgColor]
-            let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: [1, 0.3])!
+                                  UIColor.qtAccentColor.withAlphaComponent(0.5).cgColor,
+                                  UIColor.clear.cgColor]
+            let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: [1, 0.5, 0])!
             
             set.fillAlpha = 1
             set.fill = Fill(linearGradient: gradient, angle: 90)

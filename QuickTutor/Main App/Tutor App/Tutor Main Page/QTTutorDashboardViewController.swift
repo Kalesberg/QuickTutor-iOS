@@ -20,115 +20,13 @@ class QTTutorDashboardViewController: UIViewController {
     var tutor: AWTutor?
     var transactions = [BalanceTransaction.Data]() {
         didSet {
-            var unit: TimeInterval = 00
-            var mergeUnit: TimeInterval = 00
-            var chartData = [QTTutorDashboardChartData]()
-            
-            switch durationType {
-            case .week:
-                unit = NSDate().timeIntervalSince1970 - 604_800 // subctract 7 days
-            case .month:
-                unit = NSDate().timeIntervalSince1970 - 2_629_743 // subctract 30.43685 days
-            case .quarter:
-                unit = NSDate().timeIntervalSince1970 - 7_889_229 // subctract 3 months
-            case .year:
-                unit = NSDate().timeIntervalSince1970 - 31_556_926 // subctract 365.2422 days
-            }
-            
-            let fiteredTransactions = transactions.filter({$0.created > Int(unit)})
-            switch durationType {
-            case .week, .month:
-                var benefit: Double = 00
-                for dayIndex in 0...6 {
-                    mergeUnit = unit + Double(dayIndex * 86_400)
-                    fiteredTransactions
-                        .filter({$0.created > Int(mergeUnit)})
-                        .forEach({ benefit += Double($0.net ?? 0)})
-                    chartData.append(QTTutorDashboardChartData(valueY: benefit, date: mergeUnit))
-                }
-            case .quarter:
-                var benefit: Double = 00
-                for weekIndex in 0...12 {
-                    mergeUnit = unit + Double(weekIndex * 604_800)
-                    fiteredTransactions
-                        .filter({$0.created > Int(mergeUnit)})
-                        .forEach({ benefit += Double($0.net ?? 0)})
-                    chartData.append(QTTutorDashboardChartData(valueY: benefit, date: mergeUnit))
-                }
-            case .year:
-                var benefit: Double = 00
-                for monthIndex in 0...11 {
-                    mergeUnit = unit + Double(monthIndex * 2_629_743)
-                    fiteredTransactions
-                        .filter({$0.created > Int(mergeUnit)})
-                        .forEach({ benefit += Double($0.net ?? 0)})
-                    chartData.append(QTTutorDashboardChartData(valueY: benefit, date: mergeUnit))
-                }
-                break
-            }
-            
-            earningsChartData = chartData
+            filterEarnsings(self.durationType)
         }
     }
     
     var sessions = [UserSession]() {
         didSet {
-            
-            var unit: TimeInterval = 00
-            var mergeUnit: TimeInterval = 00
-            var sessionsChartData = [QTTutorDashboardChartData]()
-            var hoursChartData = [QTTutorDashboardChartData]()
-            
-            switch durationType {
-            case .week:
-                unit = NSDate().timeIntervalSince1970 - 604_800 // subctract 7 days
-            case .month:
-                unit = NSDate().timeIntervalSince1970 - 2_629_743 // subctract 30.43685 days
-            case .quarter:
-                unit = NSDate().timeIntervalSince1970 - 7_889_229 // subctract 3 months
-            case .year:
-                unit = NSDate().timeIntervalSince1970 - 31_556_926 // subctract 365.2422 days
-            }
-            
-            let fiteredSessions = sessions.filter({$0.endedAt > unit})
-            switch durationType {
-            case .week, .month:
-                var sessionCount: Double = 00
-                var hours: Double = 00
-                for dayIndex in 0...6 {
-                    mergeUnit = unit + Double(dayIndex * 86_400)
-                    fiteredSessions
-                        .filter({$0.endedAt > mergeUnit})
-                        .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
-                    sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
-                    hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
-                }
-            case .quarter:
-                var sessionCount: Double = 00
-                var hours: Double = 00
-                for weekIndex in 0...12 {
-                    mergeUnit = unit + Double(weekIndex * 604_800)
-                    fiteredSessions
-                        .filter({$0.endedAt > mergeUnit})
-                        .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
-                    sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
-                    hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
-                }
-            case .year:
-                var sessionCount: Double = 00
-                var hours: Double = 00
-                for monthIndex in 0...11 {
-                    mergeUnit = unit + Double(monthIndex * 2_629_743)
-                    fiteredSessions
-                        .filter({$0.endedAt > mergeUnit})
-                        .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
-                    sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
-                    hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
-                }
-                break
-            }
-            self.hoursChartData = hoursChartData
-            self.sessionsChartData = sessionsChartData
+            filterSessionsAndHours(self.durationType)
         }
     }
     
@@ -174,11 +72,9 @@ class QTTutorDashboardViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(QTTutorDashboardTableViewCell.nib,
                            forCellReuseIdentifier: QTTutorDashboardTableViewCell.reuseIdentifier)
-        tableView.tableHeaderView = headerView
-        tableView.sectionHeaderHeight = QTDashboardDimension.sectionHeaderViewHeight
-        tableView.estimatedSectionHeaderHeight = QTDashboardDimension.sectionHeaderViewHeight
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = QTDashboardDimension.rowHeight
+        tableView.sectionHeaderHeight = QTDashboardDimension.sectionHeaderViewHeight
         tableView.separatorStyle = .none
         
         self.tutor = CurrentUser.shared.tutor
@@ -192,9 +88,7 @@ class QTTutorDashboardViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         // Set table header view
-        tableView.tableHeaderView?.bounds.size = CGSize(width: tableView.frame.width,
-                                                        height: QTDashboardDimension.headerViewHeight)
-        tableView.reloadData()
+        tableView.tableHeaderView = headerView
     }
 
     // MARK: - Actions
@@ -254,6 +148,158 @@ class QTTutorDashboardViewController: UIViewController {
             self.topSubject = subcategory
         }
     }
+    
+    func filterEarnsings(_ durationType: QTTutorDashboardDurationType) {
+        var unit: TimeInterval = 00
+        var mergeUnit: TimeInterval = 00
+        var nextMergeUnit: TimeInterval = 00
+        var chartData = [QTTutorDashboardChartData]()
+        
+        switch durationType {
+        case .week:
+            unit = NSDate().timeIntervalSince1970 - 604_800 // subctract 7 days
+        case .month:
+            unit = NSDate().timeIntervalSince1970 - 2_629_743 // subctract 30.43685 days
+        case .quarter:
+            unit = NSDate().timeIntervalSince1970 - 7_889_229 // subctract 3 months
+        case .year:
+            unit = NSDate().timeIntervalSince1970 - 31_556_926 // subctract 365.2422 days
+        }
+        
+        let fiteredTransactions = transactions.filter({$0.created > Int(unit)})
+        switch durationType {
+        case .week:
+            var benefit: Double = 00
+            for dayIndex in 0...6 {
+                benefit = 0
+                mergeUnit = unit + Double(dayIndex * 86_400)
+                nextMergeUnit = unit + Double((1 + dayIndex) * 86_400)
+                fiteredTransactions
+                    .filter({Double($0.created) >= mergeUnit && Double($0.created) < nextMergeUnit})
+                    .forEach({ benefit += Double($0.net ?? 0)})
+                chartData.append(QTTutorDashboardChartData(valueY: benefit, date: mergeUnit))
+            }
+        case .month:
+            var benefit: Double = 00
+            for dayIndex in 0...30 {
+                benefit = 0
+                mergeUnit = unit + Double(dayIndex * 86_400)
+                nextMergeUnit = unit + Double((1 + dayIndex) * 86_400)
+                fiteredTransactions
+                    .filter({Double($0.created) >= mergeUnit && Double($0.created) < nextMergeUnit})
+                    .forEach({ benefit += Double($0.net ?? 0)})
+                chartData.append(QTTutorDashboardChartData(valueY: benefit, date: mergeUnit))
+            }
+        case .quarter:
+            var benefit: Double = 00
+            for weekIndex in 0...12 {
+                benefit = 0
+                mergeUnit = unit + Double(weekIndex * 604_800)
+                nextMergeUnit = unit + Double((1 + weekIndex) * 604_800)
+                fiteredTransactions
+                    .filter({Double($0.created) >= mergeUnit && Double($0.created) < nextMergeUnit})
+                    .forEach({ benefit += Double($0.net ?? 0)})
+                chartData.append(QTTutorDashboardChartData(valueY: benefit, date: mergeUnit))
+            }
+        case .year:
+            var benefit: Double = 00
+            for monthIndex in 0...11 {
+                benefit = 0
+                mergeUnit = unit + Double(monthIndex * 2_629_743)
+                nextMergeUnit = unit + Double((1 + monthIndex) * 2_629_743)
+                fiteredTransactions
+                    .filter({Double($0.created) >= mergeUnit && Double($0.created) < nextMergeUnit})
+                    .forEach({ benefit += Double($0.net ?? 0)})
+                chartData.append(QTTutorDashboardChartData(valueY: benefit, date: mergeUnit))
+            }
+            break
+        }
+        
+        earningsChartData = chartData
+    }
+    
+    func filterSessionsAndHours(_ durationType: QTTutorDashboardDurationType) {
+        var unit: TimeInterval = 00
+        var mergeUnit: TimeInterval = 00
+        var nextMergeUnit: TimeInterval = 00
+        var sessionsChartData = [QTTutorDashboardChartData]()
+        var hoursChartData = [QTTutorDashboardChartData]()
+        
+        switch durationType {
+        case .week:
+            unit = NSDate().timeIntervalSince1970 - 604_800 // subctract 7 days
+        case .month:
+            unit = NSDate().timeIntervalSince1970 - 2_629_743 // subctract 30.43685 days
+        case .quarter:
+            unit = NSDate().timeIntervalSince1970 - 7_889_229 // subctract 3 months
+        case .year:
+            unit = NSDate().timeIntervalSince1970 - 31_556_926 // subctract 365.2422 days
+        }
+        
+        let fiteredSessions = sessions.filter({$0.endedAt > unit})
+        switch durationType {
+        case .week:
+            var sessionCount: Double = 00
+            var hours: Double = 00
+            for dayIndex in 0...6 {
+                sessionCount = 0
+                hours = 0
+                mergeUnit = unit + Double(dayIndex * 86_400)
+                nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
+                fiteredSessions
+                    .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
+                    .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
+                sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
+                hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
+            }
+        case .month:
+            var sessionCount: Double = 00
+            var hours: Double = 00
+            for dayIndex in 0...30 {
+                sessionCount = 0
+                hours = 0
+                mergeUnit = unit + Double(dayIndex * 86_400)
+                nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
+                fiteredSessions
+                    .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
+                    .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
+                sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
+                hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
+            }
+        case .quarter:
+            var sessionCount: Double = 00
+            var hours: Double = 00
+            for weekIndex in 0...12 {
+                sessionCount = 0
+                hours = 0
+                mergeUnit = unit + Double(weekIndex * 604_800)
+                nextMergeUnit = unit + Double((weekIndex + 1) * 604_800)
+                fiteredSessions
+                    .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
+                    .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
+                sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
+                hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
+            }
+        case .year:
+            var sessionCount: Double = 00
+            var hours: Double = 00
+            for monthIndex in 0...11 {
+                sessionCount = 0
+                hours = 0
+                mergeUnit = unit + Double(monthIndex * 2_629_743)
+                nextMergeUnit = unit + Double((monthIndex + 1) * 2_629_743)
+                fiteredSessions
+                    .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
+                    .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
+                sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
+                hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
+            }
+            break
+        }
+        self.hoursChartData = hoursChartData
+        self.sessionsChartData = sessionsChartData
+    }
+    
 }
 
 // MARK: - UITableViewDelegate
@@ -267,6 +313,8 @@ extension QTTutorDashboardViewController: UITableViewDelegate {
         
         durationView.durationDidSelect = { type in
             self.durationType = type
+            self.filterEarnsings(type)
+            self.filterSessionsAndHours(type)
             tableView.reloadData()
         }
         durationView.setData(durationType: durationType)

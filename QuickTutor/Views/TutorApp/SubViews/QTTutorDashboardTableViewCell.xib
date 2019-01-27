@@ -198,7 +198,7 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" horizontalCompressionResistancePriority="748" verticalCompressionResistancePriority="748" translatesAutoresizingMaskIntoConstraints="NO" id="eDD-lc-gWY" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="10" y="63" width="258" height="119.5"/>
+                                <rect key="frame" x="10" y="63" width="258" height="139.5"/>
                                 <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </view>
                         </subviews>
@@ -214,7 +214,7 @@
                             <constraint firstAttribute="trailing" secondItem="QAa-iI-4gK" secondAttribute="trailing" constant="20" id="luW-t7-xrh"/>
                             <constraint firstItem="2Bx-S8-Dfc" firstAttribute="top" secondItem="Fmc-At-fKc" secondAttribute="top" constant="15" id="nSf-w5-6cG"/>
                             <constraint firstAttribute="trailing" secondItem="cFx-5Q-B0n" secondAttribute="trailing" constant="20" id="qdK-Sf-J49"/>
-                            <constraint firstAttribute="bottom" secondItem="eDD-lc-gWY" secondAttribute="bottom" constant="20" id="tEF-bn-ozg"/>
+                            <constraint firstAttribute="bottom" secondItem="eDD-lc-gWY" secondAttribute="bottom" id="tEF-bn-ozg"/>
                             <constraint firstAttribute="height" constant="202" id="w6b-ul-Drk"/>
                             <constraint firstItem="cFx-5Q-B0n" firstAttribute="top" secondItem="Fmc-At-fKc" secondAttribute="top" constant="15" id="ykR-Iq-PVC"/>
                         </constraints>
