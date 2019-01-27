@@ -75,6 +75,8 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         lineChartView.dragYEnabled = false
         lineChartView.scaleXEnabled = false
         lineChartView.scaleYEnabled = false
+        lineChartView.noDataFont = UIFont.qtRegularFont(size: 12)
+        lineChartView.noDataTextColor = UIColor.qtAccentColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -123,54 +125,58 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         })
         leftValueLabel.text = chartType == .earnings ? total.currencyFormat() : "\(total)"
         
-        let marker = QTTutorDashboardMarkerView.load() as QTTutorDashboardMarkerView
-        marker.setChartType(type: chartType)
-        marker.chartView = lineChartView
-        marker.contentDidChanged = { data in
-            DispatchQueue.main.async {
-                self.leftValueLabel.text = chartType == .earnings ? "\((data?.valueY ?? 0).currencyFormat())" : "\(data?.valueY ?? 0)"
-                
-                let formatter: DateFormatter = DateFormatter()
-                switch durationType {
-                case .week, .month:
-                    formatter.dateFormat = "MMM dd"
-                case .quarter, .year:
-                    formatter.dateFormat = "MMM YYYY"
+        if total > 0 {
+            let marker = QTTutorDashboardMarkerView.load() as QTTutorDashboardMarkerView
+            marker.setChartType(type: chartType)
+            marker.chartView = lineChartView
+            marker.contentDidChanged = { data in
+                DispatchQueue.main.async {
+                    self.leftValueLabel.text = chartType == .earnings ? "\((data?.valueY ?? 0).currencyFormat())" : "\(data?.valueY ?? 0)"
+                    
+                    let formatter: DateFormatter = DateFormatter()
+                    switch durationType {
+                    case .week, .month:
+                        formatter.dateFormat = "MMM dd"
+                    case .quarter, .year:
+                        formatter.dateFormat = "MMM YYYY"
+                    }
+                    self.leftTitleLabel.text = formatter.string(from: Date(timeIntervalSince1970: data?.date ?? 0))
                 }
-                self.leftTitleLabel.text = formatter.string(from: Date(timeIntervalSince1970: data?.date ?? 0))
             }
+            lineChartView.marker = marker
+            
+            
+            var index = -1
+            let values = chartData?.map({ (data) -> ChartDataEntry in
+                index += 1
+                return ChartDataEntry(x: Double(index), y: data.valueY, data: data as AnyObject)
+            })
+            
+            let set = LineChartDataSet(values: values, label: nil)
+            set.drawIconsEnabled = false
+            set.lineDashLengths = [1, 0]
+            set.setColor(UIColor.qtAccentColor)
+            set.lineWidth = 2.5
+            set.circleRadius = 0
+            set.drawCircleHoleEnabled = false
+            set.valueFont = .systemFont(ofSize: 0)
+            set.valueTextColor = .white
+            set.setDrawHighlightIndicators(false)
+            
+            let gradientColors = [UIColor.qtAccentColor.cgColor,
+                                  UIColor.qtAccentColor.withAlphaComponent(0.2).cgColor]
+            let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: [1, 0.3])!
+            
+            set.fillAlpha = 1
+            set.fill = Fill(linearGradient: gradient, angle: 90)
+            set.drawFilledEnabled = true
+            set.drawCirclesEnabled = false
+            set.mode = .horizontalBezier
+            let data = LineChartData(dataSet: set)
+            lineChartView.data = data
+        } else {
+            lineChartView.data = nil
         }
-        lineChartView.marker = marker
-        
-        
-        var index = -1
-        let values = chartData?.map({ (data) -> ChartDataEntry in
-            index += 1
-            return ChartDataEntry(x: Double(index), y: data.valueY, data: data as AnyObject)
-        })
-        
-        let set = LineChartDataSet(values: values, label: nil)
-        set.drawIconsEnabled = false
-        set.lineDashLengths = [1, 0]
-        set.setColor(UIColor.qtAccentColor)
-        set.lineWidth = 2.5
-        set.circleRadius = 0
-        set.drawCircleHoleEnabled = false
-        set.valueFont = .systemFont(ofSize: 0)
-        set.valueTextColor = .white
-        set.setDrawHighlightIndicators(false)
-        
-        let gradientColors = [UIColor.qtAccentColor.cgColor,
-                              UIColor.qtAccentColor.withAlphaComponent(0.2).cgColor]
-        let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: [1, 0.3])!
-        
-        set.fillAlpha = 1
-        set.fill = Fill(linearGradient: gradient, angle: 90)
-        set.drawFilledEnabled = true
-        set.drawCirclesEnabled = false
-        set.mode = .horizontalBezier
-        let data = LineChartData(dataSet: set)
-        lineChartView.data = data
     }
 }
 
