@@ -34,7 +34,6 @@ class InAppNotificationView: UIView {
         label.font = Fonts.createBoldSize(14)
         label.textAlignment = .left
         label.textColor = .white
-        label.text = "Zach F."
         return label
     }()
     

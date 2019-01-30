@@ -34,7 +34,6 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "Zach F."
         label.font = Fonts.createBoldSize(24)
         return label
     }()

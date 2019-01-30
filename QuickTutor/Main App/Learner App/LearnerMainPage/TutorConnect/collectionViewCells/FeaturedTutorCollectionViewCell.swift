@@ -44,7 +44,6 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Zach F."
         label.font = Fonts.createBoldSize(10)
         label.textColor = UIColor.white.withAlphaComponent(0.5)
         return label
