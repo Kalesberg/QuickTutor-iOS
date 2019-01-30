@@ -353,11 +353,11 @@ class SessionReview : BaseViewController {
 				finishAndUpload()
 				hasCompleted = true
                 PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
-                let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : TutorMainPage()
+                let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
 		case 3:
-            let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : TutorMainPage()
+            let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController()
             PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
 			self.navigationController?.pushViewController(vc, animated: true)
 		default:

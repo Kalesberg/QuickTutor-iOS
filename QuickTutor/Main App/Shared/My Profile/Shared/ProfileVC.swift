@@ -202,7 +202,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
                 if success {
                     AccountService.shared.currentUserType = .tutor
                     self.dismissOverlay()
-                    RootControllerManager.shared.configureRootViewController(controller: TutorMainPage())
+                    RootControllerManager.shared.configureRootViewController(controller: QTTutorDashboardViewController())
                 }
             }
         } else {
