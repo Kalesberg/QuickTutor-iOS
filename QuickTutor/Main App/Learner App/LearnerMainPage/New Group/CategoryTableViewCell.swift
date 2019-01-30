@@ -11,7 +11,7 @@ import SnapKit
 import UIKit
 
 protocol CategoryTableViewCellDelegate: class {
-    func categoryTableViewCell(_ cell: CategoryTableViewCell, didSelect category: Category)
+    func categoryTableViewCell(_ cell: CategoryTableViewCell, didSelect category: CategoryNew)
 }
 
 class CategoryTableViewCell: UITableViewCell {
@@ -87,7 +87,8 @@ extension CategoryTableViewCell: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
         cell.growSemiShrink {
-            self.delegate?.categoryTableViewCell(self, didSelect: categories[indexPath.item])
+            let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.item].subcategory.fileToRead)
+            self.delegate?.categoryTableViewCell(self, didSelect: category!)
         }
     }
 

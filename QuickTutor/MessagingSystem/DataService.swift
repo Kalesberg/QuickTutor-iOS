@@ -12,10 +12,10 @@ import Foundation
 class DataService {
     static let shared = DataService()
     private init() {}
-
+    
     typealias UserCompletion = (User?) -> Void
     typealias TutorCompletion = (ZFTutor?) -> Void
-
+    
     func getUserWithId(_ uid: String, type: UserType, completion: @escaping (User?) -> Void) {
         if type == .tutor {
             getTutorWithId(uid) { tutor in
@@ -39,7 +39,7 @@ class DataService {
             }
         }
     }
-
+    
     func getUserOfCurrentTypeWithId(_ uid: String, completion: @escaping (User?) -> Void) {
         if AccountService.shared.currentUserType == .tutor {
             getTutorWithId(uid) { tutor in
@@ -51,7 +51,7 @@ class DataService {
             }
         }
     }
-
+    
     func getUserWithUid(_ uid: String, completion: @escaping (User?) -> Void) {
         Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
@@ -63,7 +63,7 @@ class DataService {
             completion(user)
         }
     }
-
+    
     func getTutorWithId(_ uid: String, completion: @escaping TutorCompletion) {
         Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
@@ -82,7 +82,7 @@ class DataService {
             })
         }
     }
-
+    
     func getStudentWithId(_ uid: String, completion: @escaping TutorCompletion) {
         Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
@@ -106,7 +106,7 @@ class DataService {
         
     }
     
-    func getMessageById(_ messageId: String, completion: @escaping (UserMessage) -> ()) {
+    func getMessageById(_ messageId: String, completion: @escaping (UserMessage) -> Void) {
         Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
             let message = UserMessage(dictionary: value)
@@ -114,7 +114,7 @@ class DataService {
             completion(message)
         }
     }
-
+    
     func getSessionById(_ sessionId: String, completion: @escaping (Session) -> Void) {
         Database.database().reference().child("sessions").child(sessionId).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
@@ -122,7 +122,7 @@ class DataService {
             completion(session)
         }
     }
-
+    
     func sendTextMessage(text: String, receiverId: String, completion: @escaping () -> Void) {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         let timestamp = Date().timeIntervalSince1970
@@ -134,13 +134,13 @@ class DataService {
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
             let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId)
             let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(otherUserTypeString).child(uid)
-
+            
             let messageId = ref.key!
             ref.updateChildValues(["uid": messageId])
             senderRef.updateChildValues([messageId: 1])
             receiverRef.updateChildValues([messageId: 1])
             self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
-
+            
             completion()
         }
     }
@@ -153,7 +153,7 @@ class DataService {
         messageDictionary["receiverAccountType"] = otherUserTypeString
         let message = UserMessage(dictionary: messageDictionary)
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
-        
+            
             let messageId = ref.key!
             ref.updateChildValues(["uid": messageId])
             self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
@@ -162,7 +162,7 @@ class DataService {
             completion(messageId)
         }
     }
-
+    
     func sendImageMessage(imageUrl: String, imageWidth: CGFloat, imageHeight: CGFloat, receiverId: String, completion: @escaping () -> Void) {
         guard let uid = AccountService.shared.currentUser.uid else { return }
         let timestamp = Date().timeIntervalSince1970
@@ -174,7 +174,7 @@ class DataService {
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
             let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId)
             let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(otherUserTypeString).child(uid)
-
+            
             let messageId = ref.key!
             ref.updateChildValues(["uid": messageId])
             senderRef.updateChildValues([messageId: 1])
@@ -189,7 +189,7 @@ class DataService {
             message.data = message.data.merging(metaData) { $1 }
         }
     }
-
+    
     func sendConnectionRequestToId(text: String, _ id: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let expiration = Calendar.current.date(byAdding: .day, value: 7, to: Date())?.timeIntervalSince1970 else { return }
@@ -198,7 +198,7 @@ class DataService {
         var values: [String: Any] = ["expiration": expiration, "status": "pending"]
         values["receiverAccountType"] = otherUserTypeString
         let timestamp = Date().timeIntervalSince1970
-        Database.database().reference().child("connectionRequests").childByAutoId().setValue(values) { (error, ref) in
+        Database.database().reference().child("connectionRequests").childByAutoId().setValue(values) { _, ref in
             let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": id, "connectionRequestId": ref.key!, "receiverAccountType": otherUserTypeString])
             Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
                 let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(id)
@@ -225,7 +225,7 @@ class DataService {
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         values["receiverAccountType"] = otherUserTypeString
         let timestamp = Date().timeIntervalSince1970
-        Database.database().reference().child("sessions").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { (error, ref1) in
+        Database.database().reference().child("sessions").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { _, ref1 in
             let messageData: [String: Any] = ["timestamp": timestamp, "senderId": uid, "receiverId": id, "sessionRequestId": ref1.key!, "receiverAccountType": otherUserTypeString]
             let message = UserMessage(dictionary: messageData)
             Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
@@ -242,7 +242,7 @@ class DataService {
                 
                 senderSessionRef.updateChildValues([ref1.key!: 1])
                 receiverSessionRef.updateChildValues([ref1.key!: 1])
-				self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+                self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
                 
             }
         }
@@ -265,7 +265,7 @@ class DataService {
         Database.database().reference().child("conversationMetaData").child(partnerId).child(otherUserTypeString).child(uid).setValue(metaData)
     }
     
-    func uploadImageToFirebase(image: UIImage, completion: @escaping(String) -> Void) {
+    func uploadImageToFirebase(image: UIImage, completion: @escaping (String) -> Void) {
         guard let data = image.jpegData(compressionQuality: 0.2) else {
             return
         }
@@ -274,13 +274,13 @@ class DataService {
         let metaDataDictionary = ["width": image.size.width, "height": image.size.height]
         let metaData = StorageMetadata(dictionary: metaDataDictionary)
         
-        Storage.storage().reference().child(imageName).putData(data, metadata: metaData) { metadata, _ in
-            //guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
+        Storage.storage().reference().child(imageName).putData(data, metadata: metaData) { _, _ in
+            // guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
             completion("imageUrl")
         }
     }
     
-    func loadInitialMessagesForUserId(_ chatPartnerId: String, lastMessageId: String, completion: @escaping([BaseMessage]) -> Void) {
+    func loadInitialMessagesForUserId(_ chatPartnerId: String, lastMessageId: String, completion: @escaping ([BaseMessage]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         var messages = [BaseMessage]()
@@ -303,7 +303,7 @@ class DataService {
             }
         }
     }
-
+    
     func checkUnreadMessagesForUser(completion: @escaping (Bool) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -312,7 +312,7 @@ class DataService {
             var hasUnreadMessages = false
             for child in children {
                 guard let metaDataIn = child.value as? [String: Any] else { return }
-
+                
                 let metaData = ConversationMetaData(dictionary: metaDataIn)
                 if let read = metaData.hasRead, !read, let _ = metaData.lastMessageId {
                     hasUnreadMessages = true
@@ -321,7 +321,7 @@ class DataService {
             completion(hasUnreadMessages)
         }
     }
-
+    
     func getConversationMetaDataForUid(_ partnerId: String, completion: @escaping (ConversationMetaData?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -336,56 +336,95 @@ class DataService {
     }
 }
 
-
 class TutorSearchService {
     static let shared = TutorSearchService()
     
-    func getTutorsByCategory(_ categoryName: String) {
-        Database.database().reference().child("categories").child(categoryName).observe(.childAdded) { (snapshot) in
+    func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?) -> Void) {
+        var tutors = [AWTutor]()
+        
+        var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey().queryLimited(toFirst: 20)
+        if let key = lastKnownKey {
+            ref = ref.queryStarting(atValue: key)
+        }
+        ref.observe(.childAdded) { snapshot in
             print(snapshot.key)
+            FirebaseData.manager.fetchTutor(snapshot.key, isQuery: false, { tutor in
+                guard let tutor = tutor else { return }
+                tutors.append(tutor)
+                if tutors.count == 20 {
+                    completion(tutors)
+                    return
+                }
+            })
         }
     }
     
-    func getTutorsBySubcategory(_ subcategoryName: String) {
-        Database.database().reference().child("subcategories").child(subcategoryName).observe(.childAdded) { (snapshot) in
+    func getTutorsBySubcategory(_ subcategoryName: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?) -> Void) {
+        var tutors = [AWTutor]()
+        
+        Database.database().reference().child("subcategories").child(subcategoryName.lowercased()).queryOrderedByKey().queryLimited(toFirst: 20).observe(.childAdded) { snapshot in
             print(snapshot.key)
+            FirebaseData.manager.fetchTutor(snapshot.key, isQuery: false, { tutor in
+                guard let tutor = tutor else { return }
+                tutors.append(tutor)
+                if tutors.count == 20 {
+                    completion(tutors)
+                    return
+                }
+            })
         }
     }
     
-    func getTutorsBySubject(_ subject: String) {
-        Database.database().reference().child("subjects").child(subject).observe(.childAdded) { (snapshot) in
-            print(snapshot.key)
+    func getTutorsBySubject(_ subject: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?) -> Void) {
+        var tutors = [AWTutor]()
+        print(subject)
+        
+        var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: 20)
+        
+        if let key = lastKnownKey {
+            ref = ref.queryStarting(atValue: key)
+        }
+        ref.observeSingleEvent(of: .value) { snapshot in
+            guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            tutorIds.forEach({ uid, _ in
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
+                    guard let tutor = tutor else { return }
+                    tutors.append(tutor)
+                    if tutors.count == snapshot.childrenCount {
+                        completion(tutors)
+                    }
+                })
+            })
         }
     }
     
     private init() {}
 }
 
-
 class DataBaseCleaner {
     static let shared = DataBaseCleaner()
     
     func sendFeaturedTutorsToCorrectNode() {
-        Database.database().reference().child("subcategory").observe(.childAdded) { (snapshot) in
+        Database.database().reference().child("subcategory").observe(.childAdded) { snapshot in
             guard let category = snapshot.value as? [String: [String: Any]] else {
                 print("Error with categories")
                 return
             }
             
-            category.forEach({ (uid, tutorInfo) in
+            category.forEach({ uid, _ in
                 Database.database().reference().child("subcategories").child(snapshot.key).child(uid).setValue(1)
             })
         }
     }
     
     func setSubjectsToCorrectNode() {
-        Database.database().reference().child("subject").observe(.childAdded) { (snapshot) in
+        Database.database().reference().child("subject").observe(.childAdded) { snapshot in
             guard let userProfile = snapshot.value as? [String: [String: Any]] else {
                 print("Error with categories")
                 return
             }
             
-            userProfile.forEach({ (subcategory, userData) in
+            userProfile.forEach({ _, userData in
                 guard let subjectsString = userData["sbj"] as? String else {
                     print("Error with subjects string")
                     return
@@ -393,12 +432,27 @@ class DataBaseCleaner {
                 
                 let subjects = subjectsString.components(separatedBy: "$")
                 print(subjects)
-                subjects.forEach({ (subject) in
+                subjects.forEach({ subject in
                     print(subject)
                     print(snapshot.key)
                     let formattedSubject = subject.replacingOccurrences(of: "#", with: "sharp").replacingOccurrences(of: ".", with: "dot")
                     Database.database().reference().child("subjects").child(formattedSubject).child(snapshot.key).setValue(1)
                 })
+            })
+        }
+    }
+    
+    func setFeaturedSubjectsForTutors() {
+        Database.database().reference().child("featured").observe(.childAdded) { snapshot in
+            guard let category = snapshot.value as? [String: [String: Any]] else {
+                print("Error with categories")
+                return
+            }
+            
+            category.forEach({ userId, userData in
+                guard let subject = userData["sbj"] as? String else { return }
+                print(subject)
+                Database.database().reference().child("tutor-info").child(userId).child("sbj").setValue(subject)
             })
         }
     }

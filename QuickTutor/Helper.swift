@@ -199,6 +199,13 @@ struct SubjectStore {
         return totalSubjects
     }
     
+    /**
+     
+ 
+     */
+ 
+ 
+ 
     static func readSubcategory(resource: String, subjectString: String) -> [(String, String)]? {
         var subjects: [(String, String)] = []
         
@@ -672,6 +679,22 @@ class CategoryFactory {
         }
         
         return categoryIcons[index ?? 0]
+    }
+    
+    /**
+     Get a list of of all subjects belonging to a specific subcategory
+     
+     
+     - Parameter subcategoryName: The name of the subcategory
+     - Returns: List of subjects
+     */
+    
+    func getSubjectsFor(subcategoryName: String) -> [String]? {
+        let categoryIn = allCategories.first(where: {$0.subcategories.contains(where: {$0.name == subcategoryName})})
+        guard let category = categoryIn else { return nil }
+        let subcategoryIn = category.subcategories.first(where: {$0.name == subcategoryName})
+        guard let subcategory = subcategoryIn else { return nil }
+        return subcategory.subjects
     }
     
     private func loadContentFrom(_ fileName: String) -> [String: [String]]? {

@@ -81,7 +81,7 @@ class ZFNavBar: UIView {
     }
 
     @objc func handleSearchTapped() {
-        navigationController.pushViewController(SearchSubjectsVC(), animated: true)
+        navigationController.pushViewController(QuickSearchVC(), animated: true)
     }
 
     func addSearchBar() {

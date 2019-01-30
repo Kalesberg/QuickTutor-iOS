@@ -111,7 +111,7 @@ class QueryData {
 				else {
 					continue
 				}
-				var featuredTutor = AWTutor(dictionary: value)
+				let featuredTutor = AWTutor(dictionary: value)
 				featuredTutor.uid = child.key
 				tutors.append(featuredTutor)
 			}

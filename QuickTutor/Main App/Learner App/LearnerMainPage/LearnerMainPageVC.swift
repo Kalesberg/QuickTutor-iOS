@@ -103,7 +103,7 @@ class LearnerMainPageVC: UIViewController {
     @objc func handleSearchTap() {
         let nav = navigationController
         DispatchQueue.main.async {
-            nav?.pushViewController(SearchSubjectsVC(), animated: false)
+            nav?.pushViewController(QuickSearchVC(), animated: false)
         }
     }
 }
@@ -130,7 +130,8 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
 
 			cell.parentViewController = self
             cell.datasource = datasource[categories[indexPath.section - 1]]!
-//            cell.category = categories[indexPath.section - 1]
+            let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.section - 1].subcategory.fileToRead)
+            cell.category = category
             //TODO: Update to new category models
             cell.delegate = self
             return cell
@@ -166,18 +167,17 @@ extension LearnerMainPageVC: UITableViewDataSourcePrefetching {
 }
 
 extension LearnerMainPageVC: CategoryTableViewCellDelegate {
-    func categoryTableViewCell(_ cell: CategoryTableViewCell, didSelect category: Category) {
-        CategorySelected.title = category.mainPageData.displayName
+    func categoryTableViewCell(_ cell: CategoryTableViewCell, didSelect category: CategoryNew) {
+        CategorySelected.title = category.name
         let next = CategorySearchVC()
-        //TODO: Update to new category data structure
-//        next.category = category
+        next.category = category.name
+        next.navigationItem.title = category.name.capitalized
         navigationController?.pushViewController(next, animated: true)
     }
 }
 
 extension LearnerMainPageVC: FeaturedTutorTableViewCellDelegate {
     func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect cell: TutorCollectionViewCell) {
-        let frame = featuredTutorTableViewCell.convert(featuredTutorTableViewCell.frame, to: self.view)
         self.selectedCellFrame = CGRect(x: 10, y: 488, width: 137, height: 185)
     }
     

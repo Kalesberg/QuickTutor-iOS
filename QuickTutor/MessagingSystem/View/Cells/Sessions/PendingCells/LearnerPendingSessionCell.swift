@@ -31,8 +31,6 @@ class LearnerPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate, 
             guard let tutor = tutor else { return }
             let vc = TutorMyProfileVC()
             vc.tutor = tutor
-            vc.isViewing = true
-            vc.navigationItem.title = tutor.username
             navigationController.pushViewController(vc, animated: true)
         })
     }

@@ -33,7 +33,6 @@ class RootControllerManager {
     func setupLearnerTabBar(controller: UIViewController) {
         AccountService.shared.currentUserType = .learner
         let tab = UITabBarController()
-        let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
         let home = UINavigationController(rootViewController: LearnerMainPageVC())
         home.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "homeTabBarIcon"), selectedImage: UIImage(named: "homeTabBarIcon"))
         let sessions = UINavigationController(rootViewController: LearnerSessionsVC())

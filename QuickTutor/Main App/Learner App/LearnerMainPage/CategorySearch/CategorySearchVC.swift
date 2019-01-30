@@ -14,24 +14,16 @@ struct CategorySelected {
 
 class CategorySearchVC: BaseViewController {
     
-//    enum SearchMode {
-//        case category, subcategory, subject
-//    }
+    enum SearchMode {
+        case category, subcategory, subject
+    }
 
     let itemsPerBatch: UInt = 10
     var datasource = [AWTutor]()
     var didLoadMore: Bool = false
-    var category: CategoryNew! {
-        didSet {
-            queryTutorsByCategory(lastKnownKey: nil)
-        }
-    }
-    
-    var subcategory: SubcategoryNew! {
-        didSet {
-            queryTutorsBySubcategory(lastKnownKey: nil)
-        }
-    }
+    var category: String!
+    var subcategory: String!
+    var subject: String!
     
     override var contentView: CategorySearchVCView {
         return view as! CategorySearchVCView
@@ -49,11 +41,8 @@ class CategorySearchVC: BaseViewController {
         contentView.collectionView.register(CategorySearchSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.isHidden = false
-//        navigationItem.title = category
-        navigationItem.title = "Arts"
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        }
+        queryNeededTutors(lastKnownKey: nil)
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -74,28 +63,62 @@ class CategorySearchVC: BaseViewController {
         super.viewDidLayoutSubviews()
         contentView.collectionView.reloadData()
     }
-
+    
+    func queryNeededTutors(lastKnownKey: String?) {
+        if category != nil {
+            queryTutorsByCategory(lastKnownKey: lastKnownKey)
+        } else if subcategory != nil {
+            queryTutorsBySubcategory(lastKnownKey: lastKnownKey)
+        } else if subject != nil {
+            queryTutorsBySubject(lastKnownKey: lastKnownKey)
+        }
+    }
+    
     private func queryTutorsByCategory(lastKnownKey: String?) {
-        displayLoadingOverlay()
-        QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { tutors in
-            if let tutors = tutors {
-                let startIndex = self.datasource.count
-                self.datasource.append(contentsOf: tutors)
-                let endIndex = self.datasource.count
-
-                self.contentView.collectionView.performBatchUpdates({
-                    let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
-                    self.contentView.collectionView.insertItems(at: insertPaths)
-                }, completion: { _ in
-                    self.didLoadMore = false
-                    self.dismissOverlay()
-                })
-            }
-        })
+        TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors) in
+            guard let tutors = tutors else { return }
+            self.datasource.append(contentsOf: tutors)
+            self.contentView.collectionView.reloadData()
+        }
     }
     
     private func queryTutorsBySubcategory(lastKnownKey: String?) {
+        TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors) in
+            guard let tutors = tutors else { return }
+            self.datasource.append(contentsOf: tutors)
+            self.contentView.collectionView.reloadData()
+        }
     }
+    
+    private func queryTutorsBySubject(lastKnownKey: String?) {
+        TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors) in
+            guard let tutors = tutors else { return }
+            self.datasource.append(contentsOf: tutors)
+            self.contentView.collectionView.reloadData()
+        }
+    }
+
+//    private func queryTutorsByCategory(lastKnownKey: String?) {
+////        displayLoadingOverlay()
+////        QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { tutors in
+////            if let tutors = tutors {
+////                let startIndex = self.datasource.count
+////                self.datasource.append(contentsOf: tutors)
+////                let endIndex = self.datasource.count
+////
+////                self.contentView.collectionView.performBatchUpdates({
+////                    let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
+////                    self.contentView.collectionView.insertItems(at: insertPaths)
+////                }, completion: { _ in
+////                    self.didLoadMore = false
+////                    self.dismissOverlay()
+////                })
+////            }
+////        })
+//    }
+//
+//    private func queryTutorsBySubcategory(lastKnownKey: String?) {
+//    }
 
 }
 
@@ -147,16 +170,6 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
 		}
     }
     
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell", for: indexPath) as! CategorySearchSectionHeader
-//        cell.category.text = CategorySelected.title
-//        return cell
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: collectionView.frame.width, height: 70)
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
@@ -168,7 +181,7 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
 
 extension CategorySearchVC: UISearchBarDelegate {
     internal func searchBarTextDidBeginEditing(_: UISearchBar) {
-        navigationController?.pushViewController(SearchSubjectsVC(), animated: true)
+        navigationController?.pushViewController(QuickSearchVC(), animated: true)
     }
 }
 
@@ -180,7 +193,7 @@ extension CategorySearchVC: UIScrollViewDelegate {
             let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
             
             if maximumOffset - currentOffset <= 100.0 {
-                queryTutorsByCategory(lastKnownKey: datasource[datasource.endIndex - 1].uid)
+                queryNeededTutors(lastKnownKey: datasource[datasource.endIndex - 1].uid)
             }
             
         }

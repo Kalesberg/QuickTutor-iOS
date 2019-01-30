@@ -495,7 +495,6 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
         default:
             return UITableViewCell()
         }
-        return UITableViewCell()
     }
 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {

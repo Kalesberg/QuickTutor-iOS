@@ -27,19 +27,10 @@ struct Filters {
     }
 }
 
-class SearchSubjectsVC: UIViewController {
+class QuickSearchVC: UIViewController {
     
     var connectedTutor: AWTutor!
     var sectionHeights = [Int: CGFloat]()
-    
-    let contentView: QuickSearchVCView = {
-        let view = QuickSearchVCView()
-        return view
-    }()
-
-    override func loadView() {
-        view = contentView
-    }
 
     var categories: [Category] = [.academics, .business, .lifestyle, .language,  .arts,  .sports, .health, .tech, .outdoors, .auto, .trades,  .remedial]
 
@@ -53,17 +44,7 @@ class SearchSubjectsVC: UIViewController {
     
     let child = QuickSearchResultsVC()
 
-    var filteredSubjects = [(String, String)]() {
-        didSet {
-//            if filteredSubjects.count == 0 {
-//                let backgroundView = TutorCardCollectionViewBackground()
-//                backgroundView.label.attributedText = NSMutableAttributedString().bold("No Search Results", 22, .white)
-//                contentView.tableView.backgroundView = backgroundView
-//            } else {
-//                contentView.tableView.backgroundView = nil
-//            }
-        }
-    }
+    var filteredSubjects = [(String, String)]()
 
     var allSubjects = [(String, String)]()
 
@@ -71,6 +52,15 @@ class SearchSubjectsVC: UIViewController {
         didSet {
             shouldUpdateSearchResults = tableViewIsActive
         }
+    }
+    
+    let contentView: QuickSearchVCView = {
+        let view = QuickSearchVCView()
+        return view
+    }()
+    
+    override func loadView() {
+        view = contentView
     }
 
     override func viewDidLoad() {
@@ -91,6 +81,10 @@ class SearchSubjectsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         contentView.searchBarContainer.searchBar.becomeFirstResponder()
     }
 
@@ -99,26 +93,15 @@ class SearchSubjectsVC: UIViewController {
         contentView.collectionView.dataSource = self
         contentView.searchBarContainer.delegate = self
     }
-
-    private func tableView(shouldDisplay bool: Bool, completion: (() -> Void)?) {
-        tableViewIsActive = bool
-        UIView.animate(withDuration: 0.15, animations: {}) { _ in
-            UIView.animate(withDuration: 0.15, animations: {
-//                self.contentView.tableView.alpha = bool ? 1.0 : 0.0
-                completion?()
-                return
-            })
-        }
-    }
 }
 
-extension SearchSubjectsVC: UpdatedFiltersCallback {
+extension QuickSearchVC: UpdatedFiltersCallback {
     func filtersUpdated(filters: Filters) {
         self.filters = filters
     }
 }
 
-extension SearchSubjectsVC: UITextFieldDelegate {
+extension QuickSearchVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         contentView.searchBarContainer.shouldBeginEditing()
     }
@@ -141,7 +124,7 @@ extension SearchSubjectsVC: UITextFieldDelegate {
     }
 }
 
-extension SearchSubjectsVC: UIScrollViewDelegate {
+extension QuickSearchVC: UIScrollViewDelegate {
     func scrollViewWillBeginDecelerating(_: UIScrollView) {
         if !automaticScroll {
             view.endEditing(true)
@@ -156,13 +139,10 @@ extension SearchSubjectsVC: UIScrollViewDelegate {
 
 }
 
-extension SearchSubjectsVC: QuickSearchCategoryCellDelegate {
+extension QuickSearchVC: QuickSearchCategoryCellDelegate {
     func quickSearchCategoryCell(_ cell: QuickSearchCategoryCell, didSelect subcategory: String, at indexPath: IndexPath) {
         let vc = CategorySearchVC()
-        let category = CategoryFactory.shared.getCategoryFor(subcategoryTitle: subcategory)
-        print(category?.name)
-        
-        vc.category = category
+        vc.subcategory = subcategory
         vc.navigationItem.title = subcategory.capitalized
         navigationController?.pushViewController(vc, animated: true)
         
@@ -175,7 +155,7 @@ extension SearchSubjectsVC: QuickSearchCategoryCellDelegate {
     }
 }
 
-extension SearchSubjectsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension QuickSearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
@@ -212,7 +192,7 @@ extension SearchSubjectsVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
 }
 
-extension SearchSubjectsVC: CustomSearchBarDelegate {
+extension QuickSearchVC: CustomSearchBarDelegate {
     func customSearchBar(_ searchBar: PaddedTextField, shouldBeginEditing: Bool) {
         
     }

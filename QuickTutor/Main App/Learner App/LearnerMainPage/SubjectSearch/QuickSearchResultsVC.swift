@@ -70,7 +70,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = CategorySearchVC()
-        vc.category = CategoryFactory.shared.getCategoryFor(subject: currentSubjects[indexPath.item].0)
+        vc.subject = currentSubjects[indexPath.item].0
         vc.navigationItem.title = currentSubjects[indexPath.item].0
         navigationController?.pushViewController(vc, animated: true)
     }

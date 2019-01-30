@@ -361,7 +361,7 @@ class FirebaseData {
 			self.ref.child("featured").child(category.subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 				if snapshot.exists() {
 					guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
-					var featuredTutor = AWTutor(dictionary: value)
+					let featuredTutor = AWTutor(dictionary: value)
 					featuredTutor.uid = snapshot.key
 					listings[category] = featuredTutor
 				}
@@ -606,7 +606,7 @@ class FirebaseData {
 					return completion(nil)
 				}
 				tutor.images = images
-				
+                tutor.profilePicUrl = URL(string: images["image1"] ?? "")!
 				self.fetchTutorLocation(uid: uid, { (location) in
 					if let location = location {
 						tutor.location = location
@@ -656,7 +656,7 @@ class FirebaseData {
 			}
 		}
 	}
-	
+    	
 	func uploadUser(_ completion: @escaping (Error?) -> Void) {
 		
 		let account : [String : Any] = ["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
