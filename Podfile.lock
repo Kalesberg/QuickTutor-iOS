@@ -7,6 +7,9 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - Charts (3.2.1):
+    - Charts/Core (= 3.2.1)
+  - Charts/Core (3.2.1)
   - Crashlytics (3.11.1):
     - Fabric (~> 1.8.1)
   - Fabric (1.8.1)
@@ -169,6 +172,7 @@ PODS:
 DEPENDENCIES:
   - AccountKit
   - Alamofire (~> 4.5)
+  - Charts (~> 3.2.1)
   - Crashlytics
   - Fabric
   - FacebookCore
@@ -200,6 +204,7 @@ SPEC REPOS:
     - AccountKit
     - Alamofire
     - Bolts
+    - Charts
     - Crashlytics
     - Fabric
     - FacebookCore
@@ -255,6 +260,7 @@ SPEC CHECKSUMS:
   AccountKit: 870ccaf5d33facda9408783e28fbe68c5211e069
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  Charts: f122fb70b19847fa5817d018b77d6c5a2296ab25
   Crashlytics: ca7ab4bc304aa216bdc2e4c1a96389ee77252203
   Fabric: 43ed7bac010f588f63ee23ab1a0276b296db5e17
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
@@ -298,6 +304,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
   TwilioVideo: 44bddf9326a1df809ad939d42b2a7ea93c13c699
 
-PODFILE CHECKSUM: 9f3783ae277dfc4677368f94952dac431b66e569
+PODFILE CHECKSUM: b0a0bfab1b06e29b90dacdb486b008b2948127f9
 
 COCOAPODS: 1.5.3
