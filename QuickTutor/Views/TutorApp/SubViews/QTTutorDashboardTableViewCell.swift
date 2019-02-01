@@ -49,6 +49,9 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
     var chartType: QTTutorDashboardChartType!
     var durationType: QTTutorDashboardDurationType!
     var chartData: [QTTutorDashboardChartData]?
+    var longPressGesture: UILongPressGestureRecognizer?
+    var panGesture: UIPanGestureRecognizer?
+    var lastPoint: CGPoint?
     
     static var reuseIdentifier: String {
         return String(describing: QTTutorDashboardTableViewCell.self)
@@ -72,12 +75,23 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         lineChartView.leftAxis.enabled = false
         lineChartView.xAxis.enabled = false
         lineChartView.legend.form = .none
-        lineChartView.dragXEnabled = true
+        lineChartView.dragXEnabled = false
         lineChartView.dragYEnabled = false
         lineChartView.scaleXEnabled = false
         lineChartView.scaleYEnabled = false
         lineChartView.noDataFont = UIFont.qtRegularFont(size: 12)
         lineChartView.noDataTextColor = UIColor.qtAccentColor
+        panGesture = UIPanGestureRecognizer.init(target: self, action: #selector(onLineChartViewTapGestureRecognized(_:)))
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(onLineChartViewTapGestureRecognized(_:)))
+        longPressGesture?.minimumPressDuration = 0
+        if let gesture = longPressGesture, let panGesture = panGesture {
+            panGesture.require(toFail: gesture)
+            panGesture.delegate = self
+            gesture.delegate = self
+            lineChartView.addGestureRecognizer(gesture)
+            lineChartView.addGestureRecognizer(panGesture)
+        }
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -85,6 +99,25 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    @objc
+    func onLineChartViewTapGestureRecognized(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began || gesture.state == .changed {
+            let h = lineChartView.getHighlightByTouchPoint(gesture.location(in: lineChartView))
+            lineChartView.highlightValue(h)
+            print("long press gesture started")
+        } else {
+            lineChartView.highlightValue(nil)
+            setData(chartType: chartType, durationType: durationType, chartData: chartData)
+            print("long press gesture ended")
+        }
+    }
+    
+    @objc
+    func onLineChartViewPanGestureRecognized(_ gesture: UIPanGestureRecognizer) {
+        
+    }
+    
     
     func setData(chartType: QTTutorDashboardChartType,
                  durationType: QTTutorDashboardDurationType,
@@ -118,7 +151,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
             formatter.dateFormat = "MMM YYYY"
         }
         self.leftTitleLabel.text = formatter.string(from: Date(timeIntervalSince1970: chartData?.first?.date ?? Date().timeIntervalSince1970))
-            + " -> "
+            + " → "
             + formatter.string(from: Date(timeIntervalSince1970: chartData?.last?.date ?? Date().timeIntervalSince1970))
         var total: Double = 0
         chartData?.forEach({ (data) in
@@ -180,6 +213,35 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
             lineChartView.data = nil
         }
     }
+    
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let panGesture = panGesture, gestureRecognizer == panGesture {
+            let velocity = panGesture.velocity(in: lineChartView)
+            lastPoint = panGesture.location(in: lineChartView)
+            if lineChartView.data === nil || abs(velocity.y) > abs(velocity.x) {
+                return false
+            }
+        } else if let longPressGesture = longPressGesture, gestureRecognizer == longPressGesture {
+            
+            let point = longPressGesture.location(in: lineChartView)
+            if lastPoint == nil {
+                lastPoint = point
+                return true
+            }
+            
+            // Disable recognizer while vertical scroll
+            if let lastPoint = lastPoint, abs(lastPoint.y - point.y) > abs(lastPoint.x - point.x) {
+                return false
+            }
+            lastPoint = point
+            
+            if lineChartView.data === nil {
+                return false
+            }
+        }
+        
+        return true
+    }
 }
 
 extension QTTutorDashboardTableViewCell: ChartViewDelegate {
@@ -187,3 +249,4 @@ extension QTTutorDashboardTableViewCell: ChartViewDelegate {
         setData(chartType: chartType, durationType: durationType, chartData: chartData)
     }
 }
+

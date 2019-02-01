@@ -125,7 +125,10 @@ class QTTutorDashboardViewController: UIViewController {
     func getSessions() {
         guard let tutor = self.tutor else { return }
         FirebaseData.manager.fetchUserSessions(uid: tutor.uid, type: "tutor") { sessions in
-            guard let sessions = sessions else { return }
+            guard let sessions = sessions else {
+                self.filterSessionsAndHours(self.durationType)
+                return
+            }
             self.sessions = sessions
         }
     }
