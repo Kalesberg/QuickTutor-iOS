@@ -65,7 +65,10 @@ class QTTutorDashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.navigationBar.barTintColor = Colors.darkBackground
+        navigationController?.navigationBar.backgroundColor = Colors.darkBackground
+        navigationController?.setNavigationBarHidden(true, animated: false)
         
         // Register a resuable cell and set dimensions for table view.
         tableView.delegate = self
@@ -86,13 +89,17 @@ class QTTutorDashboardViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         // Set table header view
         tableView.tableHeaderView = headerView
     }
 
     // MARK: - Actions
     @IBAction func onTutorSettingsViewTapped(_ sender: Any) {
+        let controller = TutorEditProfile()
+        controller.tutor = tutor
+        controller.automaticScroll = true
+        controller.delegate = self
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     // MARK: - Functions
@@ -361,5 +368,11 @@ extension QTTutorDashboardViewController: UITableViewDataSource {
         
         return UITableViewCell()
     }
-    
+}
+
+extension QTTutorDashboardViewController: UpdatedTutorCallBack {
+    func tutorWasUpdated(tutor: AWTutor!) {
+        self.tutor = tutor
+        initUserBasicInformation()
+    }
 }

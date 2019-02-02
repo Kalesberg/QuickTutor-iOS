@@ -39,7 +39,11 @@ class TutorEditProfileView: UIView, Keyboardable {
 
     func applyConstraints() {
         tableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(safeAreaLayoutGuide.snp.top)
+            } else {
+                make.top.equalToSuperview()
+            }
             make.leading.equalTo(layoutMarginsGuide.snp.leading)
             make.trailing.equalTo(layoutMarginsGuide.snp.trailing)
             if #available(iOS 11.0, *) {
@@ -128,13 +132,23 @@ class TutorEditProfile: BaseViewController, TutorPreferenceChange {
             inPerson = false
             inVideo = false
         }
+        
+        if automaticScroll {
+            scrollToTutorFirstRow()
+        }
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         delegate?.tutorWasUpdated(tutor: tutor)
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        super.viewWillDisappear(animated)
+    }
+    
     func inPersonPressed() {
         inPerson = !inPerson
     }
@@ -145,6 +159,11 @@ class TutorEditProfile: BaseViewController, TutorPreferenceChange {
 
     func scrollToFirstRow() {
         let indexPath = IndexPath(row: 0, section: 0)
+        contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+    }
+    
+    func scrollToTutorFirstRow() {
+        let indexPath = IndexPath(row: 5, section: 0)
         contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
     }
 

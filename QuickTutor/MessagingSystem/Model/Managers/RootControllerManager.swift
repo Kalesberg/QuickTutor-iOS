@@ -15,7 +15,7 @@ class RootControllerManager {
     func configureRootViewController(controller: UIViewController) {
         if controller is LearnerMainPageVC {
             setupLearnerTabBar(controller: controller)
-        } else if controller is QTTutorDashboardViewController { //TutorMainPage
+        } else if controller is QTTutorDashboardViewController { // TutorMainPage
             setupTutorTabBar(controller: controller)
         } else {
             setupDefaultConfiguration(controller: BecomeTutorVC())
