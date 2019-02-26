@@ -152,7 +152,7 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 	private func getViewsForExtraInformationSection() -> [UIView] {
 		var views = [UIView]()
 		
-		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(tutor.lNumSessions!) sessions", color: Colors.purple))
+		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Has tutored \(tutor.lNumSessions!) sessions", color: Colors.purple))
 		views.append(ProfileItem(icon: UIImage(named: "location")!, title: tutor.region, color: Colors.purple))
 		
 		if let languages = tutor.languages {

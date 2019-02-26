@@ -87,14 +87,12 @@ class CardManagerVC: BaseViewController {
     var addCardVC: STPAddCardViewController?
     override func viewDidLoad() {
         super.viewDidLoad()
-        displayLoadingOverlay()
         Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error Retrieving Cards", message: error.localizedDescription)
             } else if let customer = customer {
                 self.customer = customer
             }
-            self.dismissOverlay()
         }
 
         contentView.tableView.delegate = self
@@ -124,14 +122,12 @@ class CardManagerVC: BaseViewController {
     private func defaultCardAlert(card: STPCard) {
         let alertController = UIAlertController(title: "Default Payment Method?", message: "Do you want this card to be your default Payment method?", preferredStyle: .actionSheet)
         let setDefault = UIAlertAction(title: "Set as Default", style: .default) { _ in
-            self.displayLoadingOverlay()
             Stripe.updateDefaultSource(customer: self.customer, new: card, completion: { customer, error in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error Updating Card", message: error.localizedDescription)
                 } else if let customer = customer {
                     self.customer = customer
                 }
-                self.dismissOverlay()
             })
         }
 
@@ -206,8 +202,6 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            displayLoadingOverlay()
-
             Stripe.dettachSource(customer: customer, deleting: cards[indexPath.row]) { customer, error in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error Deleting Card", message: error.localizedDescription)
@@ -220,7 +214,6 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
                         CurrentUser.shared.learner.hasPayment = false
                     }
                 }
-                self.dismissOverlay()
             }
         }
     }
@@ -270,14 +263,11 @@ extension CardManagerVC: STPAddCardViewControllerDelegate {
     }
 
     func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
-		addCardViewController.displayLoadingOverlay()
 		Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (error) in
 			if let error = error {
-				addCardViewController.dismissOverlay()
 				AlertController.genericErrorAlert(self, title: "Error Processing Card", message: error)
 				return completion(StripeError.updateCardError)
 			}
-			addCardViewController.dismissOverlay()
 			self.addCardVC?.dismiss(animated: true, completion: nil)
 			self.navigationController?.popBackToMain()
 		}

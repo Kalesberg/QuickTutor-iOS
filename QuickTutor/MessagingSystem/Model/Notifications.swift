@@ -17,6 +17,8 @@ struct Notifications {
     static let showOverlay = Notification(name: Notification.Name(rawValue: "com.quickTutor.showOverlay"))
     static let hideOverlay = Notification(name: Notification.Name(rawValue: "com.quickTutor.hideOverlay"))
     static let didDisconnect = Notification(name: Notification.Name(rawValue: "com.quickTutor.didDisconnect"))
+    static let tutorSubjectsDidChange = Notification(name: Notification.Name("com.quickTutor.tutorSubjectsChanged"))
+
 }
 
 struct PushNotification {

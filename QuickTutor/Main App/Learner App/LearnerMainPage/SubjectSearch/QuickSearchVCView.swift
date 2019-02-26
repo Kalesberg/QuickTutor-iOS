@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import Firebase
 
 protocol CustomSearchBarDelegate: class {
     func customSearchBar(_ searchBar: PaddedTextField, shouldEndEditing: Bool)
     func customSearchBar(_ searchBar: PaddedTextField, shouldBeginEditing: Bool)
+    func customSearchBarDidTapLeftView(_ searchBar: PaddedTextField)
+    func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField)
+}
+
+extension CustomSearchBarDelegate {
+    func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField) {}
 }
 
 class CustomSearchBarContainer: UIView {
@@ -33,6 +40,13 @@ class CustomSearchBarContainer: UIView {
         return field
     }()
     
+    let mockLeftViewButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named:"newBackButton"), for: .normal)
+        button.isHidden = true
+        return button
+    }()
+    
     let cancelEditingButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.white, for: .normal)
@@ -45,7 +59,9 @@ class CustomSearchBarContainer: UIView {
 
     func setupViews() {
         setupSearchBar()
+        setupMockLeftViewButton()
         setupCancelEditingButton()
+        setupLeftView()
     }
     
     func setupSearchBar() {
@@ -59,6 +75,26 @@ class CustomSearchBarContainer: UIView {
         insertSubview(cancelEditingButton, belowSubview: searchBar)
         cancelEditingButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 60, height: 0)
         cancelEditingButton.addTarget(self, action: #selector(shouldEndEditing), for: .touchUpInside)
+    }
+    
+    func setupMockLeftViewButton() {
+        addSubview(mockLeftViewButton)
+        mockLeftViewButton.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 9, paddingLeft: 7, paddingBottom: 0, paddingRight: 0, width: 30, height: 30)
+        mockLeftViewButton.addTarget(self, action: #selector(handleMockLeftViewTapped), for: .touchUpInside)
+    }
+    
+    func setupLeftView() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleLeftViewTap))
+        tap.numberOfTapsRequired = 1
+        searchBar.leftView?.addGestureRecognizer(tap)
+    }
+    
+    @objc func handleLeftViewTap() {
+        delegate?.customSearchBarDidTapLeftView(searchBar)
+    }
+    
+    @objc func handleMockLeftViewTapped() {
+        delegate?.customSearchBarDidTapMockLeftView(searchBar)
     }
     
     func shouldBeginEditing() {
@@ -110,7 +146,6 @@ class QuickSearchVCView: UIView {
         return cv
     }()
     
-    
     func setupViews() {
         setupMainView()
         setupSearchBarContainer()
@@ -142,31 +177,116 @@ class QuickSearchVCView: UIView {
     }
 }
 
+class TutorRegistrationService {
+    static let shared = TutorRegistrationService()
+    
+    var subjects = [String]()
+    
+    func addSubject(_ subject: String) {
+        subjects.append(subject)
+        NotificationCenter.default.post(name: Notifications.tutorSubjectsDidChange.name, object: nil, userInfo: nil)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("subjects").child(subject).child(uid).setValue(1)
+    }
+    
+    func removeSubject(_ subject: String) {
+        subjects = subjects.filter({ $0 != subject})
+        NotificationCenter.default.post(name: Notifications.tutorSubjectsDidChange.name, object: nil, userInfo: nil)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("subjects").child(subject).child(uid).removeValue()
+    }
+    
+    func setFeaturedSubject(_ subject: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("tutor-info").child(uid).child("sbj").setValue(subject)
+        
+    }
+    
+    func restructureTutorSubjectData() {
+        Database.database().reference().child("subject")
+    }
+    
+    private init() {
+        if CurrentUser.shared.learner.isTutor {
+            subjects = CurrentUser.shared.tutor.subjects ?? [String]()
+        } else {
+            subjects = [String]()
+        }
+    }
+}
 
 class TutorAddSubjectsVCView: QuickSearchVCView {
+    
+    let noSubjectsLabel: UILabel = {
+        let label = UILabel()
+        label.font = Fonts.createSize(12)
+        label.text = "You haven't added any subjects yet"
+        label.textColor = Colors.gray
+        label.textAlignment = .center
+        return label
+    }()
     
     let selectedSubjectsCV: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = .red
+        cv.backgroundColor = Colors.darkBackground
         cv.allowsMultipleSelection = false
-        cv.alwaysBounceVertical = true
-        cv.register(PillCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        cv.alwaysBounceHorizontal = true
+        cv.showsHorizontalScrollIndicator = false
+        cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        cv.register(QuickSearchSubcategoryCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
+    }()
+    
+    let accessoryView: RegistrationAccessoryView = {
+        let view = RegistrationAccessoryView()
+        return view
+    }()
+    
+    let accessoryTextLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Add up to 30 subjects"
+        label.textAlignment = .left
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(14)
+        label.numberOfLines = 0
+        return label
     }()
     
     override func setupViews() {
         super.setupViews()
+        setupNoSubjectsLabel()
         setupSelectedSubjectsCV()
+        setupAccessoryView()
+        setupAccessoryTextLabel()
         let backIcon = UIImageView(image: UIImage(named:"newBackButton"))
         searchBarContainer.searchBar.leftView = backIcon
-
+        searchBarContainer.cancelEditingButton.setTitle("Done", for: .normal)
+        setupObservers()
+        searchBarContainer.mockLeftViewButton.isHidden = false
+    }
+    
+    func setupNoSubjectsLabel() {
+        addSubview(noSubjectsLabel)
+        noSubjectsLabel.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
     }
     
     func setupSelectedSubjectsCV() {
         addSubview(selectedSubjectsCV)
         selectedSubjectsCV.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+        selectedSubjectsCV.delegate = self
+        selectedSubjectsCV.dataSource = self
+    }
+    
+    func setupAccessoryView() {
+        addSubview(accessoryView)
+        accessoryView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
+    }
+    
+    func setupAccessoryTextLabel() {
+        accessoryView.addSubview(accessoryTextLabel)
+        accessoryTextLabel.anchor(top: accessoryView.topAnchor, left: accessoryView.leftAnchor, bottom: accessoryView.bottomAnchor, right: accessoryView.nextButton.leftAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
     }
     
     override func setupCollectionView() {
@@ -174,12 +294,65 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         collectionView.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
+    func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSubjectChange(_:)), name: Notifications.tutorSubjectsDidChange.name, object: nil)
+    }
+
+    @objc func handleSubjectChange(_ notification: Notification) {
+        selectedSubjectsCV.reloadData()
+        let indexPath = IndexPath(item: selectedSubjectsCV.numberOfItems(inSection: 0) - 1, section: 0)
+        selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
+    }
+    
+    func showRemovePromptFor(subject: String) {
+        let ac = UIAlertController(title: "Remove subject?", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: { (action) in
+            TutorRegistrationService.shared.removeSubject(subject)
+        }))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+            ac.dismiss(animated: true, completion: nil)
+        }))
+        parentContainerViewController?.present(ac, animated: true, completion: nil)
+    }
+}
+
+extension TutorAddSubjectsVCView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return TutorRegistrationService.shared.subjects.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchSubcategoryCell
+        cell.titleLabel.text = TutorRegistrationService.shared.subjects[indexPath.item]
+        cell.backgroundColor =  Colors.purple
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var width: CGFloat = 60
+        width = TutorRegistrationService.shared.subjects[indexPath.item].estimateFrameForFontSize(12).width + 40
+        return CGSize(width: width, height: 35)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        showRemovePromptFor(subject: TutorRegistrationService.shared.subjects[indexPath.item])
+    }
 }
 
 class NewTutorAddSubjectsVC: UIViewController {
     
+    
+    var isViewing = true
     var sectionHeights = [Int: CGFloat]()
-    let child = QuickSearchResultsVC()
+    let child = TutorAddSubjectsResultsVC()
 
     
     let contentView: TutorAddSubjectsVCView = {
@@ -194,12 +367,19 @@ class NewTutorAddSubjectsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
+        contentView.accessoryView.isHidden = isViewing
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     private func configureDelegates() {
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
         contentView.searchBarContainer.delegate = self
+        contentView.searchBarContainer.searchBar.delegate = self
     }
 }
 
@@ -241,6 +421,10 @@ extension NewTutorAddSubjectsVC: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 extension NewTutorAddSubjectsVC: CustomSearchBarDelegate {
+    func customSearchBarDidTapLeftView(_ searchBar: PaddedTextField) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     func customSearchBar(_ searchBar: PaddedTextField, shouldBeginEditing: Bool) {
         
     }
@@ -249,11 +433,15 @@ extension NewTutorAddSubjectsVC: CustomSearchBarDelegate {
         removeChild()
     }
     
+    func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField) {
+        navigationController?.popViewController(animated: true)
+    }
+    
     func removeChild() {
         child.willMove(toParent: nil)
         child.view.removeFromSuperview()
         child.removeFromParent()
-        navigationController?.popViewController(animated: false)
+        contentView.searchBarContainer.searchBar.resignFirstResponder()
     }
 }
 
@@ -266,13 +454,14 @@ extension NewTutorAddSubjectsVC: UITextFieldDelegate {
         beginEditing()
         child.inSearchMode = true
         guard let text = textField.text, !text.isEmpty else { return true}
-        child.filteredSubjects = child.subjects.filter({ $0.0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
+        child.filteredSubjects = child.subjects.filter({ $0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.count < $1.count })
         child.contentView.collectionView.reloadData()
         return true
     }
     
     func beginEditing() {
         guard child.view?.superview == nil else { return }
+        child.isBeingControlled = true
         addChild(child)
         contentView.addSubview(child.view)
         child.view.anchor(top: contentView.searchBarContainer.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -293,9 +482,8 @@ extension NewTutorAddSubjectsVC: UIScrollViewDelegate {
 
 extension NewTutorAddSubjectsVC: QuickSearchCategoryCellDelegate {
     func quickSearchCategoryCell(_ cell: QuickSearchCategoryCell, didSelect subcategory: String, at indexPath: IndexPath) {
-        let vc = QuickSearchResultsVC()
-        vc.subjects = SubjectStore.loadCategory(resource: subcategory) ?? [(String, String)]()
-        CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory)
+        let vc = TutorAddSubjectsResultsVC()
+        vc.subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory) ?? [String]()
         vc.navigationItem.title = subcategory.capitalized
         navigationController?.pushViewController(vc, animated: true)
     }

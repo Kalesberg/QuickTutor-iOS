@@ -34,7 +34,6 @@ class TutorCardInfoView: UIView {
     let seeAllView: MockCollectionViewCell = {
         let cell = MockCollectionViewCell()
         cell.primaryButton.setTitle("See all", for: .normal)
-        cell.titleLabel.text = "Tutored in 11 sessions."
         cell.titleLabel.font = Fonts.createSize(14)
         return cell
     }()
@@ -80,7 +79,7 @@ class TutorCardInfoView: UIView {
         bioLabel.text = tutor.tBio
         bioHeightAnchor?.constant = bioLabel.heightForLabel(text: tutor.tBio, font: Fonts.createSize(16), width: UIScreen.main.bounds.width - 40)
         if let numSessions = tutor.tNumSessions {
-            seeAllView.titleLabel.text = "Tutored in \(numSessions) sessions."
+            seeAllView.titleLabel.text = "Has tutored \(numSessions) sessions."
         }
         layoutIfNeeded()
         updateHeight()

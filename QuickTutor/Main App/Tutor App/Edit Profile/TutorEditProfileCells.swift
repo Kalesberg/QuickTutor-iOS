@@ -78,13 +78,13 @@ class EditProfileImagesCell: UITableViewCell {
     }()
     
     func setupViews() {
-        backgroundColor = .red
+        backgroundColor = Colors.darkBackground
         setupCollectionView()
     }
     
     func setupCollectionView() {
         addSubview(collectionView)
-        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.dataSource = self
         collectionView.delegate = self
     }
@@ -139,6 +139,9 @@ extension EditProfileImagesCell: UICollectionViewDelegate, UICollectionViewDataS
                 cell.backgrounImageView.image = UIImage(named: "addPhotoButtonBackground")
             } else {
                 cell.foregroundImageView.image = UIImage(named:"deletePhotoIcon")
+                if indexPath.item  == 0 {
+                    cell.foregroundImageView.image = UIImage(named: "uploadImageIcon")
+                }
             }
         }
         return cell

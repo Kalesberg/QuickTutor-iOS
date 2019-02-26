@@ -48,7 +48,14 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     let actionsButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "profileEditPencil"), for: .normal)
+        button.setImage(UIImage(named: "rightArrow"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    let topAreaButtonMask: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
         return button
     }()
     
@@ -64,6 +71,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         setupRatingLabel()
         setupActionsButton()
         setupProfileToggleView()
+        setupTopAreaButtonMask()
     }
     
     func setupMainView() {
@@ -97,6 +105,11 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         profileToggleView.profileDelegate = parentViewController
     }
     
+    func setupTopAreaButtonMask() {
+        addSubview(topAreaButtonMask)
+        topAreaButtonMask.anchor(top: topAnchor, left: leftAnchor, bottom: profileToggleView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
     func updateUI() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         DataService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
@@ -108,6 +121,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     func setupTargets() {
         actionsButton.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
+        topAreaButtonMask.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
     }
     
     @objc func handleEditProfile() {

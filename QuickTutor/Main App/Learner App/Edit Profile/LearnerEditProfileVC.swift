@@ -44,7 +44,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         case 1:
             return 3
         case 2:
-            return 3
+            return 4
         case 3:
             return 3
         case 4:
@@ -57,7 +57,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     override func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 105
+            return 115
         case 1:
             return indexPath.row == 2 ? 110 : 75
         default:
@@ -110,9 +110,12 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                 cell.textField.placeholder.text = "Subjects"
                 cell.textField.textField.attributedText = NSAttributedString(string: "Manage Subjects", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             case 1:
+                cell.textField.placeholder.text = "Featured Subject"
+                cell.textField.textField.attributedText = NSAttributedString(string: "Set Featured Subject", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            case 2:
                 cell.textField.placeholder.text = "Policies"
                 cell.textField.textField.attributedText = NSAttributedString(string: "Manage Policies", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
-            case 2:
+            case 3:
                 cell.textField.placeholder.text = "Preferences"
                 cell.textField.textField.attributedText = NSAttributedString(string: "Manage Preferences", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             default:
@@ -174,10 +177,14 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         case 2:
             switch indexPath.item {
             case 0:
-                navigationController?.pushViewController(TutorAddSubjectsVC(), animated: true)
+                let vc = NewTutorAddSubjectsVC()
+                vc.isViewing = true
+                navigationController?.pushViewController(vc, animated: true)
             case 1:
-                navigationController?.pushViewController(TutorManagePolicies(), animated: true)
+                navigationController?.pushViewController(FeaturedSubjectVC(), animated: true)
             case 2:
+                navigationController?.pushViewController(TutorManagePolicies(), animated: true)
+            case 3:
                 navigationController?.pushViewController(EditPreferencesVC(), animated: true)
             default:
                 break
@@ -257,6 +264,7 @@ class LearnerEditProfileVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         updateLearner()
         setupName()
     }
@@ -398,7 +406,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 105
+            return 115
         case 1:
             return indexPath.row == 2 ? 110 : 75
         case 2:

@@ -108,4 +108,16 @@ extension QuickSearchCategoryCell: UICollectionViewDataSource, UICollectionViewD
         let index = IndexPath(item: indexPath.item, section: tag)
         delegate?.quickSearchCategoryCell(self, didSelect: title, at: index)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! QuickSearchSubcategoryCell
+        cell.backgroundColor = Colors.gray.darker(by: 30)
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! QuickSearchSubcategoryCell
+        cell.backgroundColor = Colors.gray
+    }
+    
 }

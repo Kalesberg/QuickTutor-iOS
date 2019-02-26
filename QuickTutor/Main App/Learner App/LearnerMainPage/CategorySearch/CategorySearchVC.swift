@@ -21,6 +21,7 @@ class CategorySearchVC: BaseViewController {
     let itemsPerBatch: UInt = 10
     var datasource = [AWTutor]()
     var didLoadMore: Bool = false
+    var loadedAllTutors = false
     var category: String!
     var subcategory: String!
     var subject: String!
@@ -65,6 +66,7 @@ class CategorySearchVC: BaseViewController {
     }
     
     func queryNeededTutors(lastKnownKey: String?) {
+        guard !loadedAllTutors else { return }
         if category != nil {
             queryTutorsByCategory(lastKnownKey: lastKnownKey)
         } else if subcategory != nil {
@@ -77,6 +79,7 @@ class CategorySearchVC: BaseViewController {
     private func queryTutorsByCategory(lastKnownKey: String?) {
         TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors) in
             guard let tutors = tutors else { return }
+            self.loadedAllTutors = tutors.count < 60
             self.datasource.append(contentsOf: tutors)
             self.contentView.collectionView.reloadData()
         }
@@ -85,6 +88,7 @@ class CategorySearchVC: BaseViewController {
     private func queryTutorsBySubcategory(lastKnownKey: String?) {
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors) in
             guard let tutors = tutors else { return }
+            self.loadedAllTutors = tutors.count < 60
             self.datasource.append(contentsOf: tutors)
             self.contentView.collectionView.reloadData()
         }
@@ -93,6 +97,7 @@ class CategorySearchVC: BaseViewController {
     private func queryTutorsBySubject(lastKnownKey: String?) {
         TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors) in
             guard let tutors = tutors else { return }
+            self.loadedAllTutors = tutors.count < 60
             self.datasource.append(contentsOf: tutors)
             self.contentView.collectionView.reloadData()
         }
@@ -115,9 +120,6 @@ class CategorySearchVC: BaseViewController {
 ////                })
 ////            }
 ////        })
-//    }
-//
-//    private func queryTutorsBySubcategory(lastKnownKey: String?) {
 //    }
 
 }
@@ -193,7 +195,9 @@ extension CategorySearchVC: UIScrollViewDelegate {
             let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
             
             if maximumOffset - currentOffset <= 100.0 {
-                queryNeededTutors(lastKnownKey: datasource[datasource.endIndex - 1].uid)
+                guard let uid = datasource.last?.uid else { return }
+                print("ZACH: uid is", uid)
+                queryNeededTutors(lastKnownKey: uid)
             }
             
         }

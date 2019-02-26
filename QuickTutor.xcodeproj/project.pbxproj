@@ -366,6 +366,7 @@
 		CF528CDF2164530100D81D03 /* TutorRatingsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CDE2164530100D81D03 /* TutorRatingsHeaderCell.swift */; };
 		CF528CE2216489D600D81D03 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CE1216489D600D81D03 /* AnalyticsService.swift */; };
 		CF528CE42166D88000D81D03 /* TutorRatingsReviewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CE32166D88000D81D03 /* TutorRatingsReviewHeaderCell.swift */; };
+		CF5A3FB6221B5BEE0016C332 /* FeaturedSubjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5A3FB5221B5BEE0016C332 /* FeaturedSubjectVC.swift */; };
 		CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5BFB042155B19100FB8DD6 /* InAppNotificationView.swift */; };
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
@@ -940,6 +941,7 @@
 		CF528CDE2164530100D81D03 /* TutorRatingsHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatingsHeaderCell.swift; sourceTree = "<group>"; };
 		CF528CE1216489D600D81D03 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		CF528CE32166D88000D81D03 /* TutorRatingsReviewHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRatingsReviewHeaderCell.swift; sourceTree = "<group>"; };
+		CF5A3FB5221B5BEE0016C332 /* FeaturedSubjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedSubjectVC.swift; sourceTree = "<group>"; };
 		CF5BFB042155B19100FB8DD6 /* InAppNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppNotificationView.swift; sourceTree = "<group>"; };
 		CF5F9C7E218A4CD000113D2A /* TutorListingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorListingCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
@@ -1321,6 +1323,7 @@
 				848E643C205A228C000CD921 /* TutorAddSubjectsVC.swift */,
 				8425765F2070295C00FD295B /* AddSubjectTableViewCell.swift */,
 				84257661207029DE00FD295B /* PickedSubjectsCollectionViewCell.swift */,
+				CF5A3FB5221B5BEE0016C332 /* FeaturedSubjectVC.swift */,
 			);
 			path = TutorAddSubjects;
 			sourceTree = "<group>";
@@ -3179,6 +3182,7 @@
 				84D19DA8207056DD00216238 /* TutorMyProfileCells.swift in Sources */,
 				CFB40E68216F1F5700828E72 /* LearnerSettingsVC.swift in Sources */,
 				84D8C9342067116C003C3AEA /* TutorConnectVC.swift in Sources */,
+				CF5A3FB6221B5BEE0016C332 /* FeaturedSubjectVC.swift in Sources */,
 				848809FB2057835E00F204A0 /* TutorDidNotHelpVC.swift in Sources */,
 				8451FB5A213EF17C00F86DC5 /* TipCell.swift in Sources */,
 				CF507FA52181376D007FE441 /* TypingIndicatorView.swift in Sources */,

@@ -235,7 +235,7 @@ class TutorCardCollectionViewCell: UICollectionViewCell {
 	private func getViewsForExtraInformationSection() -> [UIView] {
 		var views = [UIView]()
 		
-		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Tutored in \(tutor.tNumSessions ?? 0) sessions", color: Colors.purple))
+		views.append(ProfileItem(icon: UIImage(named: "tutored-in")!, title: "Has tutored \(tutor.tNumSessions ?? 0) sessions", color: Colors.purple))
 		//this will be optional in the future but the DB only supports this for now.
 		views.append(ProfileItem(icon: UIImage(named: "location")!, title: tutor.region, color: Colors.purple))
 		

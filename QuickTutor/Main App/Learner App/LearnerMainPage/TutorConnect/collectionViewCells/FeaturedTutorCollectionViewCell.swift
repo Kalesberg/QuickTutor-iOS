@@ -39,6 +39,9 @@ class TutorCollectionViewCell: UICollectionViewCell {
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 4
         view.backgroundColor = Colors.darkBackground
+        if #available(iOS 11.0, *) {
+            view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
         return view
     }()
     
