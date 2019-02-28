@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseUI
 import Charts
+import FirebaseAuth
 
 class QTTutorDashboardViewController: UIViewController {
 

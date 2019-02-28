@@ -88,7 +88,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         PostSessionManager.shared.checkForUnfinishedSession { (sessionId, sessionStatus) in
             DataService.shared.getSessionById(sessionId, completion: { (session) in
                 SessionService.shared.session = session
-                let vc = SessionReview()
+                let vc = QTRatingReviewViewController.loadView()
+                //SessionReview()
                 vc.session = session
                 vc.sessionId = sessionId
                 vc.costOfSession = session.cost

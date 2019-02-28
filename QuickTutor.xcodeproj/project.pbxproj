@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		1C82977B331519FA0EC418E5 /* Pods_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A3B0EC84A5F4A56226BC1D /* Pods_QuickTutor.framework */; };
+		568B82D5222539C2004DF011 /* QTRatingReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */; };
+		568B82D6222539C2004DF011 /* QTRatingReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */; };
+		568B82DA222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82D8222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift */; };
+		568B82DB222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82D9222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib */; };
+		568B82DE222540CD004DF011 /* QTRatingTipCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82DC222540CD004DF011 /* QTRatingTipCollectionViewCell.swift */; };
+		568B82DF222540CD004DF011 /* QTRatingTipCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82DD222540CD004DF011 /* QTRatingTipCollectionViewCell.xib */; };
+		568B82E2222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82E0222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift */; };
+		568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82E1222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib */; };
 		569ECDA421F9A1E6005491CB /* QTTutorDashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 569ECDA321F9A1E6005491CB /* QTTutorDashboardViewController.xib */; };
 		569ECDA621F9A235005491CB /* QTTutorDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569ECDA521F9A235005491CB /* QTTutorDashboardViewController.swift */; };
 		569ECDA821F9A7FD005491CB /* QTCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569ECDA721F9A7FC005491CB /* QTCustomView.swift */; };
@@ -570,6 +578,14 @@
 
 /* Begin PBXFileReference section */
 		415D84F57EAD7371F3D03D9C /* Pods-QuickTutor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor.debug.xcconfig"; sourceTree = "<group>"; };
+		568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReviewViewController.swift; sourceTree = "<group>"; };
+		568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingReviewViewController.xib; sourceTree = "<group>"; };
+		568B82D8222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		568B82D9222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingReviewCollectionViewCell.xib; sourceTree = "<group>"; };
+		568B82DC222540CD004DF011 /* QTRatingTipCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingTipCollectionViewCell.swift; sourceTree = "<group>"; };
+		568B82DD222540CD004DF011 /* QTRatingTipCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingTipCollectionViewCell.xib; sourceTree = "<group>"; };
+		568B82E0222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReceiptCollectionViewCell.swift; sourceTree = "<group>"; };
+		568B82E1222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingReceiptCollectionViewCell.xib; sourceTree = "<group>"; };
 		569ECDA321F9A1E6005491CB /* QTTutorDashboardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDashboardViewController.xib; sourceTree = "<group>"; };
 		569ECDA521F9A235005491CB /* QTTutorDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDashboardViewController.swift; sourceTree = "<group>"; };
 		569ECDA721F9A7FC005491CB /* QTCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomView.swift; sourceTree = "<group>"; };
@@ -1149,9 +1165,32 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		568B82D2222537F3004DF011 /* PostSession */ = {
+			isa = PBXGroup;
+			children = (
+				568B82D722254023004DF011 /* SubViews */,
+				568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */,
+			);
+			path = PostSession;
+			sourceTree = "<group>";
+		};
+		568B82D722254023004DF011 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				568B82D8222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift */,
+				568B82D9222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib */,
+				568B82DC222540CD004DF011 /* QTRatingTipCollectionViewCell.swift */,
+				568B82DD222540CD004DF011 /* QTRatingTipCollectionViewCell.xib */,
+				568B82E0222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift */,
+				568B82E1222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
 		569ECDA121F9A134005491CB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				568B82D2222537F3004DF011 /* PostSession */,
 				569ECDA221F9A134005491CB /* TutorApp */,
 			);
 			path = Views;
@@ -1468,6 +1507,7 @@
 		844CB54F213EDE3B00656F06 /* PostSession */ = {
 			isa = PBXGroup;
 			children = (
+				568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */,
 				844CB552213EDE5500656F06 /* CollectionViewCells */,
 				844CB54D213ED7EB00656F06 /* SessionReview.swift */,
 			);
@@ -2679,9 +2719,12 @@
 				8425766A20712D0300FD295B /* business.json in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
 				CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */,
+				568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
+				568B82DF222540CD004DF011 /* QTRatingTipCollectionViewCell.xib in Resources */,
 				56DC6DA5220BD7DF00935F47 /* Lato-Regular.ttf in Resources */,
 				8425766820712C3600FD295B /* auto.json in Resources */,
 				8425766620712B2A00FD295B /* arts.json in Resources */,
+				568B82DB222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib in Resources */,
 				840E4E04213761C10045CD35 /* loading6.json in Resources */,
 				56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */,
 				840E4E08213761C10045CD35 /* loading11.json in Resources */,
@@ -2693,6 +2736,7 @@
 				840E4E03213761C10045CD35 /* loading2.json in Resources */,
 				CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */,
 				56DC6DA1220BD7DF00935F47 /* Lato-Italic.ttf in Resources */,
+				568B82D6222539C2004DF011 /* QTRatingReviewViewController.xib in Resources */,
 				CF3CE5F42141A5A300DE8FF0 /* loading12.json in Resources */,
 				569ECDA421F9A1E6005491CB /* QTTutorDashboardViewController.xib in Resources */,
 				842576722071310A00FD295B /* outdoors.json in Resources */,
@@ -2734,6 +2778,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
+				"${BUILT_PRODUCTS_DIR}/PlaceholderTextView/PlaceholderTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${PODS_ROOT}/Reveal-SDK/RevealServer-19/iOS/RevealServer.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -2762,6 +2807,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlaceholderTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -2991,6 +3037,7 @@
 				CF0711012117AE6F0035A6FF /* ConversationPaginationHeader.swift in Sources */,
 				CF6F58C9205EE68800ACBD32 /* MeetupTypeCell.swift in Sources */,
 				569ECDBB21FA0C1E005491CB /* PinterestSegment.swift in Sources */,
+				568B82D5222539C2004DF011 /* QTRatingReviewViewController.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfoVC.swift in Sources */,
 				CF51958A21A60F72007EEC37 /* SavedTutorsVC.swift in Sources */,
 				CFB9B80621C5C2330022333F /* BaseRegistrationController.swift in Sources */,
@@ -3027,6 +3074,7 @@
 				8423940F1FF4CA1D00827C7D /* NoPasteTextField.swift in Sources */,
 				CF528CDB216452D500D81D03 /* TutorRatingsStatisticsCell.swift in Sources */,
 				CF6F58E7205EE68800ACBD32 /* KeyboardAccessoryViewDelegate.swift in Sources */,
+				568B82DE222540CD004DF011 /* QTRatingTipCollectionViewCell.swift in Sources */,
 				CFB9B81621C6C6330022333F /* TutorPolicyVCView.swift in Sources */,
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
 				CFB9B81C21C843430022333F /* TutorAddUsernameVCView.swift in Sources */,
@@ -3101,6 +3149,7 @@
 				84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */,
 				848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */,
 				844FECFA210FABD600C1797B /* SubjectSearchSubcategoryCell.swift in Sources */,
+				568B82E2222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift in Sources */,
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBioVC.swift in Sources */,
 				CF43AF962177B82F00783819 /* SignInManager.swift in Sources */,
@@ -3245,6 +3294,7 @@
 				848E91FC20A60C13002D22AA /* CloseAccountSubmissionVC.swift in Sources */,
 				569ECDAD21F9AF92005491CB /* QTTutorDashboardHeaderView.swift in Sources */,
 				84E283572004874300B004E7 /* RegistrationBigButton.swift in Sources */,
+				568B82DA222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift in Sources */,
 				CFB6061D207FD7000029CFE4 /* CustomModal.swift in Sources */,
 				8421007E207A7E0800422A31 /* FeaturedTutorQuery.swift in Sources */,
 				84F5FD1420A5544200CFDA95 /* CloseAccountVC.swift in Sources */,

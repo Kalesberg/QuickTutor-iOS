@@ -204,7 +204,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         let costOfSession = minimumSessionPrice + ((session.price / 60) / 60) * Double(runTime)
 
         if AccountService.shared.currentUserType == .learner {
-            let vc = SessionReview()
+            let vc = QTRatingReviewViewController.loadView() //SessionReview()
 
             vc.session = session
             vc.sessionId = sessionId
@@ -218,7 +218,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
             print("ZACH: continueing out of session")
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = SessionReview()
+            let vc = QTRatingReviewViewController.loadView() //SessionReview()
             vc.session = session
             vc.sessionId = sessionId
             vc.costOfSession = costOfSession
