@@ -43,6 +43,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         case avatarHeight = 160
         case avatarMinHeight = 100
         case tipTextFieldHeight = 50
+        case profileInfoHeight = 65
     }
     
     let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
@@ -139,16 +140,24 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         
         UIView.animate(withDuration: TimeInterval(1.5)) {
             if delta > 0 {
-                let realHeight = CGFloat(Dimension.avatarHeight.rawValue) - delta
-                if realHeight < CGFloat(Dimension.avatarMinHeight.rawValue) {
-                    self.nameView.isHidden = true
-                    self.subjectView.isHidden = true
-                    self.profileRatingView.isHidden = true
+                if delta < CGFloat(Dimension.avatarHeight.rawValue - Dimension.avatarMinHeight.rawValue) {
+                    // Update the avatar height with min height.
                     self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarMinHeight.rawValue)
                 } else {
-                    self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarHeight.rawValue) - delta
+                    // Decrease the height of profile info (65px)
+                    if delta > CGFloat(Dimension.profileInfoHeight.rawValue) {
+                        self.nameView.isHidden = true
+                        self.subjectView.isHidden = true
+                        self.profileRatingView.isHidden = true
+                        if delta - CGFloat(Dimension.profileInfoHeight.rawValue) < CGFloat(Dimension.avatarHeight.rawValue - Dimension.avatarMinHeight.rawValue) {
+                            // Update the avatar height with min height.
+                            self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarMinHeight.rawValue)
+                        } else {
+                            // Hide the avatar
+                            self.avatarHeightConstraint.constant = 0
+                        }
+                    }
                 }
-                
                 self.avatarWidthConstraint.constant = self.avatarHeightConstraint.constant * CGFloat(Dimension.avatarWidth.rawValue / Dimension.avatarHeight.rawValue)
             }
             self.layoutIfNeeded()

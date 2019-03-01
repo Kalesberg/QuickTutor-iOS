@@ -174,7 +174,16 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func inviteOthers() {
-        navigationController?.pushViewController(InviteOthersVC(), animated: true)
+        let vc = QTRatingReviewViewController.loadView() //SessionReview()
+        vc.session = Session(dictionary: [:], id: "12345678")
+        vc.sessionId = "100"
+        vc.costOfSession = 80
+        vc.partnerId = "GRtxYYdaLigRCNTitZtrkT7iF2u2"
+        vc.runTime = 1000
+        vc.subject = "swift"
+        self.navigationController?.present(vc, animated: true, completion: nil)
+        // TODO: Jack uncomment the following statement
+        //navigationController?.pushViewController(InviteOthersVC(), animated: true)
     }
     
 }

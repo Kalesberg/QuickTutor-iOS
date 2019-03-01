@@ -56,7 +56,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
                 hourlyRateLabel.text = "$\(hourlyRate)/h"
                 hourlyRateLabel.isHidden = false
             }
-            partnerSessionLabel.text = "Sessions Completed With \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+            partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
         } else if let learner = user as? AWLearner {
             let nameSplit = learner.name.split(separator: " ")
             nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
@@ -66,7 +66,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
                 hourlyRateLabel.text = "$\(hourlyRate)/h"
                 hourlyRateLabel.isHidden = false
             }
-            partnerSessionLabel.text = "Sessions Completed With \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+            partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
         }
         
         subjectLabel.text = subject

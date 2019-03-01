@@ -87,6 +87,29 @@ class QTTutorDashboardViewController: UIViewController {
         findTopSubjects()
         getSessions()
         getEarnings()
+        
+        // TODO: Jack should remove this test case
+        if AccountService.shared.currentUserType == .learner {
+            let vc = QTRatingReviewViewController.loadView() //SessionReview()
+            vc.session = Session(dictionary: [:], id: "12345678")
+            vc.sessionId = "100"
+            vc.costOfSession = 80
+            vc.partnerId = "qPAF4gG5qgTBTwrjkRVzReVwcOd2"
+            vc.runTime = 1000
+            vc.subject = "swift"
+            navigationController?.present(vc, animated: true, completion: nil)
+        } else {
+            let vc = QTRatingReviewViewController.loadView() //SessionReview()
+            vc.session = Session(dictionary: [:], id: "12345678")
+            vc.sessionId = "100"
+            vc.costOfSession = 80
+            vc.partnerId = "GRtxYYdaLigRCNTitZtrkT7iF2u2"
+            vc.runTime = 1000
+            vc.subject = "swift"
+            navigationController?.present(vc, animated: true, completion: nil)
+        }
+        
+
     }
     
     override func viewDidAppear(_ animated: Bool) {

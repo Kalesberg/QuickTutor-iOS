@@ -42,14 +42,17 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var ratingStar5ImageView: UIImageView!
     @IBOutlet weak var ratingDescriptionLabel: UILabel!
     @IBOutlet weak var feedbackTextView: PlaceholderTextView!
+    var isTutorProfile = false
     
     enum Dimension: Float {
         case superViewTop = 94
         case stackViewTopConstraint = 57
         case feedbackTextViewHeight = 66
+        case feedbackTextViewBottomDelta = 5
         case avatarWidth = 180
         case avatarHeight = 160
         case avatarMinHeight = 100
+        case profileInfoHeight = 65
     }
     
     var ratingStars: [UIImageView]?
@@ -115,27 +118,32 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             // Check whether or not the keyboard overlays text view or not
             let window = UIView(frame: CGRect(origin: CGPoint.zero, size: UIScreen.main.bounds.size))
             let newFrame = feedbackTextView.convert(feedbackTextView.bounds, to: window)
-            let bottom = newFrame.origin.y + CGFloat(Dimension.feedbackTextViewHeight.rawValue) - CGFloat(Dimension.stackViewTopConstraint.rawValue)
+            let bottom = newFrame.origin.y + CGFloat(Dimension.feedbackTextViewHeight.rawValue)
             let keyboardTop = UIScreen.main.bounds.height - keyboardSize.size.height
             if keyboardTop < bottom {
                 // overlay
-                delta = bottom - keyboardTop
+                delta = bottom - keyboardTop + CGFloat(Dimension.feedbackTextViewBottomDelta.rawValue)
             }
         }
         ratingCommentLabel.isHidden = true
         UIView.animate(withDuration: TimeInterval(1.5)) {
-            self.ratingStarStackViewTopConstraint.constant = 0
             if delta > 0 {
-                let realHeight = CGFloat(Dimension.avatarHeight.rawValue) - delta
-                if realHeight < CGFloat(Dimension.avatarMinHeight.rawValue) {
+                // Decrease the height of "please rate..." (57px)
+                self.ratingStarStackViewTopConstraint.constant = 0
+                if delta - CGFloat(Dimension.stackViewTopConstraint.rawValue) > CGFloat(Dimension.avatarHeight.rawValue) - CGFloat(Dimension.avatarMinHeight.rawValue) {
+                    // Decrease the height of profile info (65px)
                     self.nameView.isHidden = true
                     self.subjectView.isHidden = true
                     self.profileRatingView.isHidden = true
+                    // Decrease the avatar size
+                    if delta > CGFloat(Dimension.stackViewTopConstraint.rawValue) + CGFloat(Dimension.profileInfoHeight.rawValue) {
+                        self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarHeight.rawValue) -
+                            (delta - CGFloat(Dimension.stackViewTopConstraint.rawValue) - CGFloat(Dimension.profileInfoHeight.rawValue))
+                    }
+                } else if delta > CGFloat(Dimension.stackViewTopConstraint.rawValue) {
+                    // Update the avatar height with min height.
                     self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarMinHeight.rawValue)
-                } else {
-                    self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarHeight.rawValue) - delta
                 }
-                
                 self.avatarWidthConstraint.constant = self.avatarHeightConstraint.constant * CGFloat(Dimension.avatarWidth.rawValue / Dimension.avatarHeight.rawValue)
             }
             self.layoutIfNeeded()
@@ -152,7 +160,9 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             self.ratingStarStackViewTopConstraint.constant = 57
             self.ratingCommentLabel.isHidden = false
             self.nameView.isHidden = false
-            self.subjectView.isHidden = false
+            if self.isTutorProfile {
+                self.subjectView.isHidden = false
+            }
             self.profileRatingView.isHidden = false
             self.layoutIfNeeded()
         }
@@ -203,6 +213,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
                 hourlyRateLabel.isHidden = true
             }
             
+            isTutorProfile = true
         } else if let learner = user as? AWLearner {
             let nameSplit = learner.name.split(separator: " ")
             nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
@@ -220,6 +231,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             
             subjectView.isHidden = true
             hourlyRateLabel.isHidden = true
+            isTutorProfile = false
         }
     }
     

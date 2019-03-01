@@ -113,29 +113,34 @@ class QTRatingReviewViewController: UIViewController {
             break
         case 1:
             if AccountService.shared.currentUserType == .learner {
-                guard hasPaid == false else { return }
-                nextButton.isEnabled = false
-                let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
-                AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: Double(PostSessionReviewData.tipAmount))
-                createCharge(cost: Int(costWithTip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
-                    if let error = error {
-                        AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
-                        self.hasPaid = false
-                    } else {
-                        self.hasPaid = true
-                        self.finishAndUpload()
-                        self.currentStep = self.currentStep + 1
-                        self.collectionView.scrollToItem(at: IndexPath(item: self.currentStep, section: 0), at: .centeredHorizontally, animated: true)
-                        self.collectionView.reloadItems(at: [IndexPath(item: currentStep, section: 0)])
-                        self.nextButton.setTitle((AccountService.shared.currentUserType == .learner ?
-                            self.learnerButtonNames[self.currentStep] : self.tutorButtonNames[self.currentStep]), for: .normal)
-                    }
-                    self.nextButton.isEnabled = true
-                }
+//                guard hasPaid == false else { return }
+//                nextButton.isEnabled = false
+//                let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
+//                AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: Double(PostSessionReviewData.tipAmount))
+//                createCharge(cost: Int(costWithTip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
+//                    if let error = error {
+//                        AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
+//                        self.hasPaid = false
+//                    } else {
+//                        self.hasPaid = true
+//                        self.finishAndUpload()
+//                        self.currentStep = self.currentStep + 1
+//                        self.collectionView.scrollToItem(at: IndexPath(item: self.currentStep, section: 0), at: .centeredHorizontally, animated: true)
+//                        self.collectionView.reloadItems(at: [IndexPath(item: self.currentStep, section: 0)])
+//                        self.nextButton.setTitle((AccountService.shared.currentUserType == .learner ?
+//                            self.learnerButtonNames[self.currentStep] : self.tutorButtonNames[self.currentStep]), for: .normal)
+//                    }
+//                    self.nextButton.isEnabled = true
+//                }
+                self.currentStep = self.currentStep + 1
+                self.collectionView.scrollToItem(at: IndexPath(item: self.currentStep, section: 0), at: .centeredHorizontally, animated: true)
+                self.collectionView.reloadItems(at: [IndexPath(item: self.currentStep, section: 0)])
+                self.nextButton.setTitle((AccountService.shared.currentUserType == .learner ?
+                    self.learnerButtonNames[self.currentStep] : self.tutorButtonNames[self.currentStep]), for: .normal)
             } else {
-                guard hasCompleted == false else { return }
-                finishAndUpload()
-                hasCompleted = true
+//                guard hasCompleted == false else { return }
+//                finishAndUpload()
+//                hasCompleted = true
                 PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
                 let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : TutorMainPage()
                 self.navigationController?.pushViewController(vc, animated: true)
