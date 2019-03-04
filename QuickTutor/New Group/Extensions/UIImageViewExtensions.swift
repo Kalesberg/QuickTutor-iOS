@@ -16,4 +16,9 @@ extension UIImageView {
         layer.minificationFilter = CALayerContentsFilter.trilinear
         clipsToBounds = true
     }
+    
+    func overlayTintColor(color: UIColor) {
+        self.image = self.image?.withRenderingMode(.alwaysTemplate)
+        self.tintColor = color
+    }
 }

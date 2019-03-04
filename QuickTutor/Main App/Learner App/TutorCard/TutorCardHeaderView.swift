@@ -40,16 +40,18 @@ class TutorCardHeaderView: UIView {
         return label
     }()
     
-    let saveButton: UIButton = {
+    let messageButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named:"heartIcon"), for: .normal)
+        button.setImage(UIImage(named:"chatTabBarIcon"), for: .normal)
         button.contentMode = .scaleAspectFit
         return button
     }()
     
-    let shareButton: UIButton = {
+    let detailButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named:"shareIconProfile"), for: .normal)
+        if let image = UIImage(named:"ic_details")?.maskWithColor(color: UIColor.white) {
+            button.setImage(image, for: .normal)
+        }
         button.contentMode = .scaleAspectFit
         return button
     }()
@@ -58,8 +60,8 @@ class TutorCardHeaderView: UIView {
         setupProfileImageView()
         setupNameLabel()
         setupSubjectLabel()
-        setupShareButton()
-        setupSaveButton()
+        setupDetailButton()
+        setupMessageButton()
     }
     
     func setupProfileImageView() {
@@ -80,17 +82,17 @@ class TutorCardHeaderView: UIView {
         bottomConstraint.isActive = true
     }
     
-    func setupShareButton() {
-        addSubview(shareButton)
-        shareButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 20, height: 20)
-        addConstraint(NSLayoutConstraint(item: shareButton, attribute: .centerY, relatedBy: .equal, toItem: nameLabel, attribute: .centerY, multiplier: 1, constant: 0))
+    func setupDetailButton() {
+        addSubview(detailButton)
+        detailButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 20, height: 20)
+        addConstraint(NSLayoutConstraint(item: detailButton, attribute: .centerY, relatedBy: .equal, toItem: nameLabel, attribute: .centerY, multiplier: 1, constant: 0))
+        detailButton.addTarget(self, action: #selector(handleDetailButton), for: .touchUpInside)
     }
     
-    func setupSaveButton() {
-        addSubview(saveButton)
-        saveButton.anchor(top: nil, left: nil, bottom: nil, right: shareButton.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 20, height: 20)
-        addConstraint(NSLayoutConstraint(item: saveButton, attribute: .centerY, relatedBy: .equal, toItem: nameLabel, attribute: .centerY, multiplier: 1, constant: 0))
-        saveButton.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
+    func setupMessageButton() {
+        addSubview(messageButton)
+        messageButton.anchor(top: nil, left: nil, bottom: nil, right: detailButton.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 20, height: 20)
+        addConstraint(NSLayoutConstraint(item: messageButton, attribute: .centerY, relatedBy: .equal, toItem: nameLabel, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func updateUI(_ tutor: AWTutor) {
@@ -104,12 +106,15 @@ class TutorCardHeaderView: UIView {
             self.profileImageView.sd_setImage(with: tutor2.profilePicUrl)
         }
         
+        // Changed hart icon into message icon, so don't need the following code snippets
+        /*
         if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
-            savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : saveButton.setImage(UIImage(named:"heartIcon"), for: .normal)
+            savedTutorIds.contains(tutor.uid) ? messageButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : messageButton.setImage(UIImage(named:"heartIcon"), for: .normal)
         }
+         */
     }
     
-    @objc func handleSaveButton() {
+    @objc func handleMessageButton() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid, uid != tutorId else { return }
         if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
             savedTutorIds.contains(tutorId) ? unsaveTutor() : saveTutor()
@@ -118,17 +123,21 @@ class TutorCardHeaderView: UIView {
         }
     }
     
+    @objc func handleDetailButton() {
+        
+    }
+    
     func saveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
-        saveButton.setImage(UIImage(named: "heartIconFilled"), for: .normal)
+        messageButton.setImage(UIImage(named: "heartIconFilled"), for: .normal)
         CurrentUser.shared.learner.savedTutorIds?.append(tutorId)
     }
     
     func unsaveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
-        saveButton.setImage(UIImage(named: "heartIcon"), for: .normal)
+        messageButton.setImage(UIImage(named: "heartIcon"), for: .normal)
         CurrentUser.shared.learner.savedTutorIds?.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
