@@ -18,7 +18,7 @@ class RootControllerManager {
         } else if controller is QTTutorDashboardViewController { // TutorMainPage
             setupTutorTabBar(controller: controller)
         } else {
-            setupDefaultConfiguration(controller: BecomeTutorVC())
+            setupDefaultConfiguration(controller: controller) //BecomeTutorVC()
         }
 
     }

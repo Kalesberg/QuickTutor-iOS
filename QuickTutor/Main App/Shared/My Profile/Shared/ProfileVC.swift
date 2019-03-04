@@ -133,7 +133,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func showSettings() {
-        navigationController?.pushViewController(SettingsVC(), animated: true)
+        navigationController?.pushViewController(QTSettingsViewController.loadView(), animated: true) //SettingsVC
     }
     
     func showLegal() {
