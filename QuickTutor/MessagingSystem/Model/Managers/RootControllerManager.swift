@@ -78,7 +78,7 @@ class RootControllerManager {
     func setupTutorTabBar(controller: UIViewController) {
         AccountService.shared.currentUserType = .tutor
         let tab = UITabBarController()
-        let home = UINavigationController(rootViewController: QTTutorDashboardViewController.load()) // TutorMainPage()
+        let home = UINavigationController(rootViewController: QTTutorDashboardViewController.loadView()) // TutorMainPage()
         home.tabBarItem = UITabBarItem(title: "Dashboard", image: UIImage(named: "dashboardTabIcon"), selectedImage: UIImage(named: "dashboardTabIcon"))
         home.navigationBar.barTintColor = Colors.newBackground
         home.navigationBar.backgroundColor = Colors.newBackground

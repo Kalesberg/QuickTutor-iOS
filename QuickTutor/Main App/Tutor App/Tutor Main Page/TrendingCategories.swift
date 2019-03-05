@@ -9,6 +9,22 @@
 import Foundation
 import UIKit
 
+struct TopSubcategory {
+    var subcategory = ""
+    let hours: Int
+    let numSessions: Int
+    let rating: Double
+    let subjects: String
+    
+    init(dictionary: [String: Any]) {
+        hours = dictionary["hr"] as? Int ?? 0
+        numSessions = dictionary["nos"] as? Int ?? 0
+        rating = dictionary["r"] as? Double ?? 0.0
+        subjects = dictionary["sbj"] as? String ?? ""
+    }
+}
+
+
 class TrendingCategoriesView: UIView {
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
