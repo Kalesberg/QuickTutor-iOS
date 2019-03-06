@@ -17,6 +17,8 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         }
     }
     
+    var didClickProfileHeader: (() -> ())?
+    
     let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -101,10 +103,22 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         }
     }
     
+    func addAction() {
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelfTap)))
+    }
+    
+    @objc
+    func handleSelfTap() {
+        if let didClickProfileHeader = didClickProfileHeader {
+            didClickProfileHeader()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
         updateUI()
+        addAction()
     }
     
     required init?(coder aDecoder: NSCoder) {

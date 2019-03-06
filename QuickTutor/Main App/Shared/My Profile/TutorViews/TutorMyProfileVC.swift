@@ -32,14 +32,29 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 		super.viewDidLoad()
 		guard let reviews = tutor.reviews else { return }
 		dataSource = reviews
-        navigationItem.title = tutor.username
-        if !isViewing {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editProfile))
+        
+        if AccountService.shared.currentUser != nil && tutor != nil {
+            if AccountService.shared.currentUser.uid.caseInsensitiveCompare(tutor.uid) == ComparisonResult.orderedSame {
+                // If this is my profile, app will show the edit icon and the title with "My Profile" string.
+                navigationItem.title = "My Profile"
+                navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_pencil"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(editProfile))
+            } else {
+                // If this is not my profile, app will just show a title with a learner's nickname
+                navigationItem.title = tutor.username
+                navigationItem.rightBarButtonItem = nil
+            }
+            navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
 		contentView.isViewing = isViewing
 		setupMyProfileHeader()
 		setupMyProfileBioView()

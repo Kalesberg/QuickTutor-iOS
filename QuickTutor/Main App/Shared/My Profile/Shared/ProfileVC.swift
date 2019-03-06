@@ -94,6 +94,9 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         } else {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! ProfileVCHeaderCell
             header.parentViewController = self
+            header.didClickProfileHeader = {
+                self.showMyProfile()
+            }
             return header
         }
     }
@@ -123,6 +126,18 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
             showFeedback()
         default:
             navigationController?.pushViewController(InviteOthersVC(), animated: true)
+        }
+    }
+    
+    func showMyProfile() {
+        if AccountService.shared.currentUserType == .learner {
+            let vc = LearnerMyProfileVC()
+            vc.learner = CurrentUser.shared.learner
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = TutorMyProfileVC()
+            vc.tutor = CurrentUser.shared.tutor
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
     
