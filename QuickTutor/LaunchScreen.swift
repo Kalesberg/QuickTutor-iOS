@@ -24,7 +24,7 @@ class LaunchScreenView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.learnerPurple
+        backgroundColor = Colors.purple
     }
     
     func setupIcon() {

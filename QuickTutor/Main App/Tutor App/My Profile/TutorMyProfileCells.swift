@@ -400,7 +400,7 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
 
         label.font = Fonts.createBoldSize(16)
         label.text = "Reviews (\((datasource.count)))"
-        label.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+        label.textColor = isViewing ? Colors.purple : Colors.purple
         return label
     }
 
@@ -619,7 +619,7 @@ class TutorMyProfileLongReviewTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         profilePic.layer.cornerRadius = profilePic.frame.height / 2
-        nameLabel.textColor = isViewing ? Colors.otherUserColor() : Colors.currentUserColor()
+        nameLabel.textColor = isViewing ? Colors.purple : Colors.purple
     }
 }
 

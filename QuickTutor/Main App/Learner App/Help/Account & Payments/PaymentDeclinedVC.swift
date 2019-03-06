@@ -19,7 +19,6 @@ class PaymentDeclinedView: MainLayoutHeader {
         addSubview(paymentDeclinedBody2)
         super.configureView()
 
-        title.label.text = "Help"
         header.text = "Why was my payment declined?"
 
         strings = ["•  “Card Declined”.\n", "•  “Payment method invalid. Please review your settings.”\n", "•  “Transaction error.”"]
@@ -56,6 +55,7 @@ class PaymentDeclinedVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Help"
     }
 
     override func loadView() {

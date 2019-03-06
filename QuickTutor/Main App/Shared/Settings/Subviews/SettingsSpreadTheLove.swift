@@ -29,7 +29,7 @@ class SettingsSpreadTheLove : UIView {
 	let socialMediaTitle : UILabel = {
 		let label = UILabel()
 		label.text = "Follow us for updates!"
-		label.textColor = Colors.currentUserColor()
+		label.textColor = Colors.purple
 		label.textAlignment = .left
 		label.font = Fonts.createBoldSize(14)
 		return label

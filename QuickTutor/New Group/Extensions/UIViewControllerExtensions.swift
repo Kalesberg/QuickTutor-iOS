@@ -50,9 +50,9 @@ extension UIViewController {
             view.layer.borderWidth = 2
             
             if AccountService.shared.currentUserType == .learner {
-                view.layer.borderColor = Colors.learnerPurple.cgColor
+                view.layer.borderColor = Colors.purple.cgColor
             } else {
-                view.layer.borderColor = Colors.tutorBlue.cgColor
+                view.layer.borderColor = Colors.purple.cgColor
             }
             
             
@@ -252,12 +252,12 @@ extension UINavigationController {
 	
 	func popOrPushSearchSubjects() {
 		for controller in self.viewControllers {
-			if controller is SearchSubjectsVC {
+			if controller is QuickSearchVC {
 				self.popToViewController(controller, animated: true)
 				return
 			}
 		}
-		pushViewController(SearchSubjectsVC(), animated: true)
+		pushViewController(QuickSearchVC(), animated: true)
 	}
 	
 	func popBackToMainWithAddTutor(){

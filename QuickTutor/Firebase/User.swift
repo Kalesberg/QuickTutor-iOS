@@ -63,9 +63,9 @@ class FirebaseData {
 	
 	func updateTutorFeaturedPostSession(_ uid: String, sessionId: String, featuredInfo: [String: Any], index:Int=0) {
 		guard index <= 11 else { return }
-		self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
+		self.ref.child("featured").child(categories[index].subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			if snapshot.exists() {
-				self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).updateChildValues(featuredInfo)
+				self.ref.child("featured").child(categories[index].subcategory.fileToRead).child(uid).updateChildValues(featuredInfo)
 			} else {
 				self.updateTutorFeaturedPostSession(uid, sessionId: sessionId, featuredInfo: featuredInfo, index: index+1)
 			}
@@ -111,9 +111,9 @@ class FirebaseData {
 	
 	func updateFeaturedTutorRegion(_ uid: String, region: String, index:Int=0) {
 		guard index <= 11 else { return }
-		self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
+		self.ref.child("featured").child(categories[index].subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			if snapshot.exists() {
-				self.ref.child("featured").child(category[index].subcategory.fileToRead).child(uid).updateChildValues(["rg" : region])
+				self.ref.child("featured").child(categories[index].subcategory.fileToRead).child(uid).updateChildValues(["rg" : region])
 			} else {
 				self.updateFeaturedTutorRegion(uid, region: region, index: index+1)
 			}
@@ -352,8 +352,8 @@ class FirebaseData {
 		}
 	}
 
-	func fetchTutorListings(uid: String,_ completion: @escaping ([Category: FeaturedTutor]?) -> Void) {
-		var listings = [Category : FeaturedTutor]()
+	func fetchTutorListings(uid: String,_ completion: @escaping ([Category: AWTutor]?) -> Void) {
+		var listings = [Category : AWTutor]()
 		let group = DispatchGroup()
 		
 		for category in Category.categories {
@@ -361,7 +361,7 @@ class FirebaseData {
 			self.ref.child("featured").child(category.subcategory.fileToRead).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 				if snapshot.exists() {
 					guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
-					var featuredTutor = FeaturedTutor(dictionary: value)
+					let featuredTutor = AWTutor(dictionary: value)
 					featuredTutor.uid = snapshot.key
 					listings[category] = featuredTutor
 				}
@@ -571,11 +571,11 @@ class FirebaseData {
 		}
 	}
 	
-	func fetchFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (FeaturedTutor?) -> Void) {
+	func fetchFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (AWTutor?) -> Void) {
 		self.ref.child("featured").child(category).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			
-			var featuredTutor = FeaturedTutor(dictionary: value)
+			var featuredTutor = AWTutor(dictionary: value)
 			featuredTutor.uid = snapshot.key
 			return completion(featuredTutor)
 		}
@@ -606,7 +606,7 @@ class FirebaseData {
 					return completion(nil)
 				}
 				tutor.images = images
-				
+                tutor.profilePicUrl = URL(string: images["image1"] ?? "")!
 				self.fetchTutorLocation(uid: uid, { (location) in
 					if let location = location {
 						tutor.location = location
@@ -656,7 +656,7 @@ class FirebaseData {
 			}
 		}
 	}
-	
+    	
 	func uploadUser(_ completion: @escaping (Error?) -> Void) {
 		
 		let account : [String : Any] = ["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
@@ -745,18 +745,20 @@ class FirebaseData {
 	}
 	
 	func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
-		let userId : String
-		userId = (AccountService.shared.currentUserType == .lRegistration) ? Registration.uid : CurrentUser.shared.learner.uid
-		
-		self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).putData(data, metadata: nil) { (meta, error) in
-			if let error = error {
-				return completion(error, nil)
-			}
-			self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).downloadURL(completion: { (url, error) in
-				if let error = error {
-					return completion(error, nil)
-				}
-				guard let imageUrl = url?.absoluteString else { return completion(nil, nil) }
+        guard let userId = Auth.auth().currentUser?.uid else {
+            completion(nil, nil)
+            return
+        }
+        self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).putData(data, metadata: nil) { (meta, error) in
+            if let error = error {
+                return completion(error, nil)
+            }
+            self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).downloadURL(completion: { (url, error) in
+                if let error = error {
+                    return completion(error, nil)
+                }
+                guard let imageUrl = url?.absoluteString else { return completion(nil, nil) }
+                Database.database().reference().child("student-info").child(userId).child("img").child("image" + number).setValue(imageUrl)
 				return completion(nil, imageUrl)
 			})
 		}

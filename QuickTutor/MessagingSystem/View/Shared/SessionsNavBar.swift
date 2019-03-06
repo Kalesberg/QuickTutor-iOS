@@ -12,13 +12,13 @@ class SessionNavBar: UIView {
     
     let backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.learnerPurple
+        view.backgroundColor = Colors.purple
         return view
     }()
     
     let clockBackgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.currentUserColor()
+        view.backgroundColor = Colors.purple
         view.layer.cornerRadius = 20
         return view
     }()
@@ -45,7 +45,7 @@ class SessionNavBar: UIView {
     func setupBackgroundView() {
         addSubview(backgroundView)
         backgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        backgroundView.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+        backgroundView.backgroundColor = Colors.purple
     }
     
     func setupClockBackgroundView() {

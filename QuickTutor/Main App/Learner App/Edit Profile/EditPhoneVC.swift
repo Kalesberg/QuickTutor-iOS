@@ -53,11 +53,11 @@ class EditPhoneView: UIView, Keyboardable {
         super.layoutSubviews()
 
         if AccountService.shared.currentUserType == .tutor {
-            enterButton.backgroundColor = Colors.tutorBlue
-            phoneTextField.textField.tintColor = Colors.tutorBlue
+            enterButton.backgroundColor = Colors.purple
+            phoneTextField.textField.tintColor = Colors.purple
         } else {
-            enterButton.backgroundColor = Colors.learnerPurple
-            phoneTextField.textField.tintColor = Colors.learnerPurple
+            enterButton.backgroundColor = Colors.purple
+            phoneTextField.textField.tintColor = Colors.purple
         }
     }
     
@@ -203,10 +203,6 @@ class EditPhoneVC: BaseViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     private func displaySavedAlertController() {
         let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
 
@@ -228,8 +224,9 @@ class EditPhoneVC: BaseViewController {
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Unable to Update", message: error.localizedDescription)
                 } else {
-                    EditPhoneVerificationVC.phoneNumber = phoneNumber.formatPhoneNumber()
-                    self.displaySavedAlertController()
+                    let vc = EditPhoneVerificationVC()
+                    vc.phoneNumber = phoneNumber.formatPhoneNumber()
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             })
         } else {

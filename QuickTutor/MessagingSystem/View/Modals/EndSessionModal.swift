@@ -27,7 +27,7 @@ class EndSessionModal: BaseCustomModal {
         let button = DimmableButton()
         button.setTitle("Never mind", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = Colors.currentUserColor()
+        button.backgroundColor = Colors.purple
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(16)
         return button

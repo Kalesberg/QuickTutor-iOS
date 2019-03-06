@@ -66,6 +66,9 @@ class AddTutorVC: BaseViewController, ShowsConversation {
         hideKeyboardWhenTappedAround()
         configureDelegates()
         navigationItem.title = "Add Tutor by Username"
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
     }
 
     override func loadView() {

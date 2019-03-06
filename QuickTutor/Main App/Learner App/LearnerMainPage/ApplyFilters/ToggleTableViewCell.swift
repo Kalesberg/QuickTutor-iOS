@@ -20,7 +20,7 @@ class ToggleTableViewCell: BaseTableViewCell {
 
     let toggle: UISwitch = {
         let toggle = UISwitch()
-        toggle.onTintColor = Colors.learnerPurple
+        toggle.onTintColor = Colors.purple
         return toggle
     }()
 

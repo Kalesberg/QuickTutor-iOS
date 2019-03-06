@@ -18,14 +18,6 @@ class TutorOtherView: FileReportSubmissionLayout {
         textBody.text = "QuickTutor's mission is to ensure all learners have the best experience possible. Tell us what happened during your session and we'll do our best to make sure it doesn't happen again. Refer to the Learner Handbook for more information."
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-    }
-
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.learnerPurple
-        navbar.backgroundColor = Colors.learnerPurple
-    }
 }
 
 class TutorOtherVC: SubmissionViewControllerVC {

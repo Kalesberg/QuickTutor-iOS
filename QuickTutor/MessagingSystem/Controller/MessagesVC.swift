@@ -241,13 +241,32 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
             self.deleteMessages(index: indexPath.item)
         }
         
-        // customize the action appearance
-        deleteAction.image = #imageLiteral(resourceName: "deleteMessagesIcon")
-        //        deleteAction.title = "Delete"
-        deleteAction.font = Fonts.createSize(12)
-        deleteAction.backgroundColor = UIColor(hex: "#AF1C49")
+        deleteAction.image = UIImage(named: "deleteCellIcon")
         
-        return [deleteAction]
+        deleteAction.font = Fonts.createSize(12)
+        deleteAction.backgroundColor = Colors.darkBackground
+        
+        let requestSessionAction = SwipeAction(style: .default, title: nil) { action, indexPath in
+            // handle action by updating model with deletion
+            self.requestSession(index: indexPath.item)
+            
+        }
+        
+        requestSessionAction.image = UIImage(named: "sessionIcon")
+        
+        requestSessionAction.font = Fonts.createSize(12)
+        requestSessionAction.backgroundColor = Colors.darkBackground
+        
+        
+        return [deleteAction, requestSessionAction]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.transitionStyle = .drag
+        options.buttonPadding = 5
+        options.maximumButtonWidth = 60
+        return options
     }
     
     func deleteMessages(index: Int) {
@@ -264,6 +283,18 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         conversationsDictionary.removeValue(forKey: id)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
             self.collectionView.reloadData()
+        }
+    }
+    
+    func requestSession(index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
+            let id = cell.chatPartner.uid else { return }
+        FirebaseData.manager.fetchTutor(id, isQuery: false) { (tutor) in
+            self.collectionView.reloadItems(at: [indexPath])
+            let vc = SessionRequestVC()
+            vc.tutor = tutor
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

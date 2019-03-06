@@ -39,7 +39,7 @@ class TutorSessionDetails: BaseViewController {
     }
 
     override func viewDidLayoutSubviews() {
-        contentView.sessionHeader.applyGradient(firstColor: Colors.learnerPurple.cgColor, secondColor: Colors.tutorBlue.cgColor, angle: 110, frame: contentView.sessionHeader.bounds)
+        contentView.sessionHeader.applyGradient(firstColor: Colors.purple.cgColor, secondColor: Colors.purple.cgColor, angle: 110, frame: contentView.sessionHeader.bounds)
     }
 
     override func loadView() {

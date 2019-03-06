@@ -11,6 +11,7 @@ import CoreLocation
 import Firebase
 import UIKit
 import SocketIO
+import IQKeyboardManager
 
 class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     var messagingManagerDelegate: ConversationManagerDelegate?
@@ -90,9 +91,9 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             studentKeyboardAccessory.changeSendButtonColor(Colors.gray)
             teacherKeyboardAccessory.changeSendButtonColor(Colors.gray)
         } else {
-            guard studentKeyboardAccessory.submitButton.backgroundColor != Colors.learnerPurple else { return }
-            studentKeyboardAccessory.changeSendButtonColor(Colors.learnerPurple)
-            teacherKeyboardAccessory.changeSendButtonColor(Colors.tutorBlue)
+            guard studentKeyboardAccessory.submitButton.backgroundColor != Colors.purple else { return }
+            studentKeyboardAccessory.changeSendButtonColor(Colors.purple)
+            teacherKeyboardAccessory.changeSendButtonColor(Colors.purple)
         }
     }
 
@@ -122,8 +123,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 //        view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        titleView.transform = CGAffineTransform(translationX: 0, y: -20)
-        titleView.arrow.transform = CGAffineTransform(translationX: 0, y: 20)
+//        titleView.transform = CGAffineTransform(translationX: 0, y: -20)
+//        titleView.arrow.transform = CGAffineTransform(translationX: 0, y: 20)
     }
 
     func handleLeftViewTapped() {
@@ -185,6 +186,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         studentKeyboardAccessory.chatView.delegate = self
         listenForSessionUpdates()
         loadAWUsers()
+        addCustomTitleView()
 
         imageMessageSender.receiverId = receiverId
         DataService.shared.getConversationMetaDataForUid(receiverId) { metaDataIn in
@@ -220,7 +222,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         tutorial.showIfNeeded()
         conversationManager.readReceiptManager?.markConversationRead()
         NotificationManager.shared.disableConversationNotificationsFor(uid: chatPartner.uid)
-        addCustomTitleView()
+        IQKeyboardManager.shared().isEnabled = false
     }
     
     func addCustomTitleView() {
@@ -231,8 +233,23 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let bannerX = bannerWidth / 2 - titleView.frame.size.width / 2
         let bannerY = bannerHeight / 2 - titleView.frame.size.height / 2
         
-        titleView.frame = CGRect(x: bannerX, y: bannerY - 20, width: bannerWidth, height: bannerHeight)
+//        titleView.frame = CGRect(x: bannerX, y: bannerY - 20, width: bannerWidth, height: bannerHeight)
+        titleView.isUserInteractionEnabled = true
+        titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tap.numberOfTapsRequired = 1
+        titleView.addGestureRecognizer(tap)
         navigationItem.titleView = titleView
+    }
+    
+    @objc func handleTap() {
+        let vc = TutorCardVC()
+        FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
+            guard let tutor = tutor else { return }
+            vc.tutor = tutor
+            vc.contentView.updateUI(tutor)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -243,6 +260,11 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         NotificationCenter.default.removeObserver(self)
         typingIndicatorManager?.disconnect()
         NotificationManager.shared.enableConversationNotificationsFor(uid: chatPartner.uid)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        IQKeyboardManager.shared().isEnabled = true
     }
     
     func setMessageTextViewCoverHidden(_ result: Bool) {

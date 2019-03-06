@@ -46,7 +46,7 @@ class TutorMainPageTableViewCell: UITableViewCell {
 
     let blueView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.tutorBlue
+        view.backgroundColor = Colors.purple
         view.clipsToBounds = true
         return view
     }()
@@ -55,7 +55,7 @@ class TutorMainPageTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = "»"
         label.font = Fonts.createSize(40)
-        label.textColor = Colors.tutorBlue
+        label.textColor = Colors.purple
         return label
     }()
 

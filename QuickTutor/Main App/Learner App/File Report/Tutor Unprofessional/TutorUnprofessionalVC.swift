@@ -16,7 +16,6 @@ class TutorUnprofessionalView: MainLayoutHeader {
         addSubview(tableView)
         super.configureView()
 
-        title.label.text = "File Report"
         header.text = "My tutor was unprofessional"
 
         tableView.rowHeight = UITableView.automaticDimension
@@ -43,11 +42,6 @@ class TutorUnprofessionalView: MainLayoutHeader {
             }
         }
     }
-
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.learnerPurple
-        navbar.backgroundColor = Colors.learnerPurple
-    }
 }
 
 class TutorUnprofessionalVC: BaseViewController {
@@ -66,6 +60,7 @@ class TutorUnprofessionalVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.title = "File Report"
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(CustomFileReportTableViewCell.self, forCellReuseIdentifier: "fileReportCell")

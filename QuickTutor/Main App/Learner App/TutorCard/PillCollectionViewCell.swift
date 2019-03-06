@@ -12,7 +12,7 @@ class PillCollectionViewCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            backgroundColor = isSelected ? Colors.learnerPurple : Colors.gray
+            backgroundColor = isSelected ? Colors.purple : Colors.gray
         }
     }
     

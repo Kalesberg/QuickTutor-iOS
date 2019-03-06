@@ -24,7 +24,6 @@ class ConnectionsView: MainLayoutHeaderScroll {
         scrollView.addSubview(onceConnectedBody)
         super.configureView()
 
-        title.label.text = "Connections"
         header.label.text = "Connecting"
 
         connectingBody.text = "The first step to connecting with a tutor is tapping the purple \"Connect\" button at the bottom of a tutor’s card on their tutor card in search. Doing this will take you to your messenger where you can send a connection request to that tutor.\n\nConnection requests can be sent with manually typed messages or custom messages. You’ll be unable to message a tutor again until they accept your connection request.\n\nConnection requests that have not yet been accepted will appear in the \"sessions\" tab of your messenger. Once your connection request is accepted — you’ll be able to communicate freely, schedule sessions and send photos."
@@ -54,18 +53,13 @@ class Connections: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Connections"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
 
     override func loadView() {
         view = ConnectionsView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func handleNavigation() {}

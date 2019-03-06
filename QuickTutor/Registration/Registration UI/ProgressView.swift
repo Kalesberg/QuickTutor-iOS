@@ -12,7 +12,7 @@ class ProgressView: UIView {
     
     let backgroundLayer: CAShapeLayer = {
         let myLayer = CAShapeLayer()
-        myLayer.strokeColor = Colors.learnerPurple.withAlphaComponent(0.5).cgColor
+        myLayer.strokeColor = Colors.purple.withAlphaComponent(0.5).cgColor
         myLayer.lineWidth = 4
         myLayer.fillColor = UIColor.clear.cgColor
         myLayer.lineCap = CAShapeLayerLineCap.round
@@ -21,7 +21,7 @@ class ProgressView: UIView {
     
     let progressLayer: CAShapeLayer = {
         let myLayer = CAShapeLayer()
-        myLayer.strokeColor = Colors.learnerPurple.cgColor
+        myLayer.strokeColor = Colors.purple.cgColor
         myLayer.lineWidth = 4
         myLayer.fillColor = UIColor.clear.cgColor
         myLayer.lineCap = CAShapeLayerLineCap.round

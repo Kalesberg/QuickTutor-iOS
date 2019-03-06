@@ -62,8 +62,8 @@ class BankManagerView: MainLayoutTitleBackButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
+        navbar.backgroundColor = Colors.purple
+        statusbarView.backgroundColor = Colors.purple
     }
 }
 
@@ -92,15 +92,12 @@ class BankManager: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        displayLoadingOverlay()
         Stripe.retrieveBankList(acctId: CurrentUser.shared.tutor.acctId) { error, list in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let list = list {
                 self.bankList = list.data
             }
-            self.dismissOverlay()
         }
 
         contentView.tableView.delegate = self
@@ -139,14 +136,12 @@ class BankManager: BaseViewController {
     private func defaultBankAlert(bankId: String) {
         let alertController = UIAlertController(title: "Default Payout Method?", message: "Do you want this card to be your default payout method?", preferredStyle: .actionSheet)
         let setDefault = UIAlertAction(title: "Set as Default", style: .default) { _ in
-            self.displayLoadingOverlay()
             Stripe.updateDefaultBank(account: CurrentUser.shared.tutor.acctId, bankId: bankId, completion: { error, account in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else if let account = account {
                     self.bankList = account.data
                 }
-                self.dismissOverlay()
             })
         }
 //		let editBillingAddress = UIAlertAction(title: "Edit Billing Address", style: .default) { (action) in
@@ -225,7 +220,6 @@ extension BankManager: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            displayLoadingOverlay()
             Stripe.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { error, bankList in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -235,7 +229,6 @@ extension BankManager: UITableViewDelegate, UITableViewDataSource {
                     self.bankList = bankList.data
                     guard self.bankList.count > 0 else { return CurrentUser.shared.tutor.hasPayoutMethod = false }
                 }
-                self.dismissOverlay()
             }
         }
     }

@@ -20,6 +20,7 @@ class AWTutor: AWLearner {
     var policy: String?
     var acctId: String!
     var topSubject: String?
+    var featuredSubject: String?
     
     var price: Int!
     var secondsTaught: Int!
@@ -44,7 +45,6 @@ class AWTutor: AWLearner {
 	
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
-        
         policy = dictionary["pol"] as? String ?? ""
         region = dictionary["rg"] as? String ?? ""
         topSubject = dictionary["tp"] as? String ?? ""
@@ -59,6 +59,9 @@ class AWTutor: AWLearner {
         isVisible = ((dictionary["h"] as? Int) == 0) ? true : false
         tRating = dictionary["tr"] as? Double ?? 5.0
         earnings = dictionary["ern"] as? Double ?? 0.0
+        featuredSubject = dictionary["sbj"] as? String ?? ""
+        profilePicUrl = URL(string: dictionary["img"] as? String ?? "")
+
     }
     
     required init(from decoder: Decoder) throws {

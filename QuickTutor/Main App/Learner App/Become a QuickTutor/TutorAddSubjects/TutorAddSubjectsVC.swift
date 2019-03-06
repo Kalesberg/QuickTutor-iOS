@@ -219,8 +219,8 @@ class TutorAddSubjectsView: MainLayoutTwoButton, Keyboardable {
 
     override func layoutSubviews() {
         layoutIfNeeded()
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
+        navbar.backgroundColor = Colors.purple
+        statusbarView.backgroundColor = Colors.purple
     }
 }
 
@@ -292,47 +292,6 @@ class TutorAddSubjectsVC: BaseViewController {
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //		if UserDefaults.standard.bool(forKey: "showBecomeTutorTutorial1.0") {
-        //			displayTutorial()
-        //			UserDefaults.standard.set(false, forKey: "showBecomeTutorTutorial1.0")
-        //		}
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-
-    //	func displayTutorial() {
-//
-    //		let tutorial = TutorCardTutorial()
-    //		tutorial.label.text = "Swipe left and right for more subjects!"
-    //		contentView.addSubview(tutorial)
-//
-    //		tutorial.snp.makeConstraints { (make) in
-    //			make.edges.equalToSuperview()
-    //		}
-//
-    //		contentView.leftButton.isUserInteractionEnabled = false
-    //		contentView.rightButton.isUserInteractionEnabled = false
-    //		contentView.searchBar.isUserInteractionEnabled = false
-//
-    //		UIView.animate(withDuration: 1, animations: {
-    //			tutorial.alpha = 1
-    //		}, completion: { (true) in
-    //			UIView.animate(withDuration: 0.6, delay: 0, options: [.repeat, .autoreverse], animations: {
-    //				tutorial.imageView.center.x -= 20
-    //				tutorial.imageView.center.x += 20
-    //			}, completion: { (true) in
-//
-    //				self.contentView.leftButton.isUserInteractionEnabled = true
-    //				self.contentView.rightButton.isUserInteractionEnabled = true
-    //				self.contentView.searchBar.isUserInteractionEnabled = true
-    //			})
-    //		})
-    //	}
-
     private func configureDelegates() {
         contentView.pickedCollectionView.delegate = self
         contentView.pickedCollectionView.dataSource = self
@@ -375,11 +334,6 @@ class TutorAddSubjectsVC: BaseViewController {
             self.contentView.noSelectedItemsLabel.isHidden = (self.selectedSubjects.count == 0) ? false : true
             self.contentView.tableView.reloadData()
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     private func backButtonAlert() {
@@ -489,7 +443,7 @@ extension TutorAddSubjectsVC: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! SubjectSearchCategoryCell
                 let index = (inlineCellIndexPath != nil && indexPath.section > inlineCellIndexPath!.section) ? indexPath.section - 1 : indexPath.section
                 cell.title.text = categories[index].mainPageData.displayName
-                cell.backgroundColor = Colors.tutorBlue
+                cell.backgroundColor = Colors.purple
 
                 if inlineCellIndexPath != nil && inlineCellIndexPath!.section - 1 == indexPath.section {
                     cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))

@@ -71,11 +71,11 @@ class TutorMyProfileView: UIView {
 	}
 	
 	private func setupViewForTutor() {
-		myProfileBioView.aboutMeLabel.textColor = Colors.tutorBlue
-		myProfileBody.additionalInformation.textColor = Colors.tutorBlue
-		myProfileReviews.reviewTitle.textColor = Colors.tutorBlue
-		myProfileReviews.reviewLabel1.nameLabel.textColor = Colors.tutorBlue
-		myProfileReviews.reviewLabel2.nameLabel.textColor = Colors.tutorBlue
+		myProfileBioView.aboutMeLabel.textColor = Colors.purple
+		myProfileBody.additionalInformation.textColor = Colors.purple
+		myProfileReviews.reviewTitle.textColor = Colors.purple
+		myProfileReviews.reviewLabel1.nameLabel.textColor = Colors.purple
+		myProfileReviews.reviewLabel2.nameLabel.textColor = Colors.purple
 	}
     
     override init(frame: CGRect) {

@@ -25,7 +25,7 @@ class TutorCardReviewsView: UIView {
         let button = UIButton()
         button.setTitle("Read all 12 reviews", for: .normal)
         button.titleLabel?.font = Fonts.createSize(16)
-        button.setTitleColor(Colors.learnerPurple, for: .normal)
+        button.setTitleColor(Colors.purple, for: .normal)
         button.contentHorizontalAlignment = .left
         return button
     }()

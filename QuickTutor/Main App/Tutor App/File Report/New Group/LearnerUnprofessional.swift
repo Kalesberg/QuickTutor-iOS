@@ -16,10 +16,6 @@ class LearnerUnprofessionalView: TutorUnprofessionalView {
         header.text = "My learner was unprofessional"
     }
 
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.tutorBlue
-        navbar.backgroundColor = Colors.tutorBlue
-    }
 }
 
 class LearnerUnprofessional: BaseViewController {

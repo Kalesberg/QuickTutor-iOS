@@ -22,10 +22,6 @@ class LearnerCancelledView: FileReportCheckboxLayout {
         cb3.label.text = "Learner didn't show up"
     }
 
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.tutorBlue
-        navbar.backgroundColor = Colors.tutorBlue
-    }
 }
 
 class LearnerCancelled: BaseViewController {
@@ -43,9 +39,9 @@ class LearnerCancelled: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "File Report"
     }
 
-    override func viewDidLayoutSubviews() {}
 
     override func loadView() {
         view = LearnerCancelledView()

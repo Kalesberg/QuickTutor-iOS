@@ -71,7 +71,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         let label = UILabel()
         label.textAlignment = .right
         label.font = Fonts.createBoldSize(9)
-        label.textColor = Colors.learnerPurple
+        label.textColor = Colors.purple
         label.text = "5.0"
         return label
     }()
@@ -80,7 +80,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
         iv.contentMode = .scaleAspectFit
         iv.image = iv.image!.withRenderingMode(.alwaysTemplate)
-        iv.tintColor = Colors.learnerPurple
+        iv.tintColor = Colors.purple
         return iv
     }()
 

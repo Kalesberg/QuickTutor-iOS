@@ -20,7 +20,7 @@ class TutorRatingsReviewCell: UICollectionViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = Colors.learnerPurple
+        label.textColor = Colors.purple
         label.font = Fonts.createBoldSize(12)
         return label
     }()

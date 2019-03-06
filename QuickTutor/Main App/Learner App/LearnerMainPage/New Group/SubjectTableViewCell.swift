@@ -46,7 +46,7 @@ class SubjectTableViewCell: UITableViewCell {
     let subcategoryContainer: UIView = {
         let view = UIView()
 
-        view.backgroundColor = Colors.tutorBlue
+        view.backgroundColor = Colors.purple
         view.layer.cornerRadius = 8
 
         return view

@@ -9,7 +9,13 @@
 import UIKit
 import Firebase
 
+protocol ProfileVCHeaderCellDelegate: class {
+    func profileVCHeaderCellShouldHandleTap(_ cell: ProfileVCHeaderCell)
+}
+
 class ProfileVCHeaderCell: UICollectionReusableView {
+    
+    weak var delegate: ProfileVCHeaderCellDelegate?
     
     var parentViewController: ProfileVC? {
         didSet {
@@ -28,14 +34,13 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "Zach F."
         label.font = Fonts.createBoldSize(24)
         return label
     }()
     
     let ratingLabel: UILabel = {
         let label = UILabel()
-        label.textColor = Colors.currentUserColor()
+        label.textColor = Colors.purple
         label.text = "★ 5.0"
         label.font = Fonts.createBoldSize(14)
         return label
@@ -43,7 +48,14 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     let actionsButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "profileEditButton"), for: .normal)
+        button.setImage(UIImage(named: "rightArrow"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    let topAreaButtonMask: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
         return button
     }()
     
@@ -59,6 +71,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         setupRatingLabel()
         setupActionsButton()
         setupProfileToggleView()
+        setupTopAreaButtonMask()
     }
     
     func setupMainView() {
@@ -82,7 +95,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     func setupActionsButton() {
         addSubview(actionsButton)
-        actionsButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 10, height: 20)
+        actionsButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 20, height: 20)
         addConstraint(NSLayoutConstraint(item: actionsButton, attribute: .centerY, relatedBy: .equal, toItem: profileImageView, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
@@ -90,6 +103,11 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         addSubview(profileToggleView)
         profileToggleView.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 50)
         profileToggleView.profileDelegate = parentViewController
+    }
+    
+    func setupTopAreaButtonMask() {
+        addSubview(topAreaButtonMask)
+        topAreaButtonMask.anchor(top: topAnchor, left: leftAnchor, bottom: profileToggleView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     func updateUI() {
@@ -101,10 +119,20 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         }
     }
     
+    func setupTargets() {
+        actionsButton.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
+        topAreaButtonMask.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
+    }
+    
+    @objc func handleEditProfile() {
+        delegate?.profileVCHeaderCellShouldHandleTap(self)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
         updateUI()
+        setupTargets()
     }
     
     required init?(coder aDecoder: NSCoder) {

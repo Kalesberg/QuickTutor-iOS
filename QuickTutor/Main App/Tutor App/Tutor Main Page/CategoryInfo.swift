@@ -84,7 +84,7 @@ class PriceSuggesterTableCellView: UITableViewCell {
         view.backgroundColor = .clear
         view.layer.cornerRadius = 14
         view.layer.borderWidth = 1.5
-        view.layer.borderColor = Colors.learnerPurple.cgColor
+        view.layer.borderColor = Colors.purple.cgColor
         view.textAlignment = .center
         view.font = Fonts.createBoldSize(16)
         view.textColor = .white
@@ -112,7 +112,7 @@ class PriceSuggesterTableCellView: UITableViewCell {
         view.backgroundColor = .clear
         view.layer.cornerRadius = 14
         view.layer.borderWidth = 1.5
-        view.layer.borderColor = Colors.tutorBlue.cgColor
+        view.layer.borderColor = Colors.purple.cgColor
         view.textAlignment = .center
         view.font = Fonts.createBoldSize(16)
         view.textColor = .white

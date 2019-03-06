@@ -94,6 +94,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         } else {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! ProfileVCHeaderCell
             header.parentViewController = self
+            header.delegate = self
             return header
         }
     }
@@ -201,7 +202,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
                 if success {
                     AccountService.shared.currentUserType = .tutor
                     self.dismissOverlay()
-                    RootControllerManager.shared.configureRootViewController(controller: TutorMainPage())
+                    RootControllerManager.shared.configureRootViewController(controller: QTTutorDashboardViewController())
                 }
             }
         } else {
@@ -234,5 +235,12 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
 extension ProfileVC: ProfileVCFooterCellDelegate {
     func profileVCFooterCell(_ cell: ProfileVCFooterCell, didTap button: UIButton) {
         inviteOthers()
+    }
+}
+
+extension ProfileVC: ProfileVCHeaderCellDelegate {
+    func profileVCHeaderCellShouldHandleTap(_ cell: ProfileVCHeaderCell) {
+        let vc = AccountService.shared.currentUserType == .learner ? LearnerEditProfileVC() : TutorEditProfileVC()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

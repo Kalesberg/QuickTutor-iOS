@@ -23,7 +23,6 @@ class TutorUpdatePaymentView: MainLayoutHeaderScroll {
         scrollView.addSubview(yourBankBody)
         super.configureView()
 
-        title.label.text = "Help"
         header.label.text = "Updating your bank"
 
         addBankTitle.label.text = "ADD A BANK"
@@ -69,7 +68,7 @@ class TutorUpdatePayment: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Help"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
@@ -78,8 +77,4 @@ class TutorUpdatePayment: BaseViewController {
         view = TutorUpdatePaymentView()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 }

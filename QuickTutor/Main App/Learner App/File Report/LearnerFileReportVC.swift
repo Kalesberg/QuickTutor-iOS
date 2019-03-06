@@ -242,7 +242,6 @@ class FileReportCheckboxLayout: MainLayoutHeader {
         addSubview(submitButton)
         super.configureView()
 
-        title.label.text = "File Report"
     }
 
     override func applyConstraints() {
@@ -295,7 +294,6 @@ class FileReportSubmissionLayout: MainLayoutHeader, Keyboardable {
 
         super.configureView()
 
-        title.label.text = "File Report"
         keyboardView.isUserInteractionEnabled = false
 
         textView.textView.text = ""
@@ -304,7 +302,7 @@ class FileReportSubmissionLayout: MainLayoutHeader, Keyboardable {
         textView.backgroundColor = Colors.registrationDark
         textView.layer.borderWidth = 1.0
         textView.layer.cornerRadius = 10
-        textView.textView.tintColor = Colors.learnerPurple
+        textView.textView.tintColor = Colors.purple
         textView.textView.font = Fonts.createSize(18)
         textView.textView.delegate = self
 
@@ -398,6 +396,11 @@ class FileReportSubmissionLayout: MainLayoutHeader, Keyboardable {
 }
 
 class SubmissionViewControllerVC: BaseViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.title = "File Report"
+    }
     override func viewWillAppear(_: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -467,8 +470,6 @@ class FileReportYesNoLayout: MainLayoutHeader {
         addSubview(yesButton)
         addSubview(noButton)
         super.configureView()
-
-        title.label.text = "File Report"
 
         label.font = Fonts.createSize(22)
         label.textColor = .white

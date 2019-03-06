@@ -18,9 +18,9 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     let messageButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Message", for: .normal)
-        button.setTitleColor(Colors.learnerPurple, for: .normal)
+        button.setTitleColor(Colors.purple, for: .normal)
         button.layer.borderWidth = 1.5
-        button.layer.borderColor = Colors.learnerPurple.cgColor
+        button.layer.borderColor = Colors.purple.cgColor
         button.titleLabel?.font = Fonts.createSize(16)
         button.layer.cornerRadius = 4
         button.backgroundColor = Colors.navBarColor

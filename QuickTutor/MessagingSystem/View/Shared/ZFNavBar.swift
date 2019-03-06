@@ -81,7 +81,7 @@ class ZFNavBar: UIView {
     }
 
     @objc func handleSearchTapped() {
-        navigationController.pushViewController(SearchSubjectsVC(), animated: true)
+        navigationController.pushViewController(QuickSearchVC(), animated: true)
     }
 
     func addSearchBar() {
@@ -124,7 +124,7 @@ extension CustomNavBarDisplayer where Self: UIViewController {
         } else {
             navBar.anchor(top: nil, left: view.leftAnchor, bottom: view.getTopAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -70, paddingRight: 0, width: 0, height: 150)
         }
-        navBar.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+        navBar.backgroundColor = Colors.purple
     }
 
     func handleLeftViewTapped() {}

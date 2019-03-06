@@ -20,7 +20,7 @@ class SessionReceiptItemWithImage : UIView {
 	let title : UILabel = {
 		let label = UILabel()
 
-		label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+		label.textColor = Colors.purple
 		label.textAlignment = .right
 		label.font = Fonts.createSize(14)
 		label.sizeToFit()
@@ -81,7 +81,7 @@ class SessionReceiptItem : UIView {
 	let title : UILabel = {
 		let label = UILabel()
 		
-		label.textColor = Colors.learnerPurple
+		label.textColor = Colors.purple
 		label.textAlignment = .right
 		label.font = Fonts.createSize(14)
 		label.sizeToFit()
@@ -130,7 +130,7 @@ class ReceiptCell : UICollectionViewCell {
 	
 	let containerView : UIView = {
 		let view = UIView()
-		view.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+		view.backgroundColor = Colors.purple
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
 		return view
@@ -186,7 +186,7 @@ class ReceiptCell : UICollectionViewCell {
     
     let totalSessions : UILabel = {
         let label = UILabel()
-        label.textColor = Colors.learnerPurple
+        label.textColor = Colors.purple
         label.font = Fonts.createSize(14)
         label.sizeToFit()
         return label
@@ -194,7 +194,7 @@ class ReceiptCell : UICollectionViewCell {
     
     let totalSessionsWithPartner : UILabel = {
         let label = UILabel()
-        label.textColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+        label.textColor = Colors.purple
         label.font = Fonts.createSize(14)
         label.sizeToFit()
         return label

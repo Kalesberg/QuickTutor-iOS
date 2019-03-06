@@ -57,7 +57,6 @@ class LearnerHandookView: MainLayoutHeaderScroll {
         scrollView.addSubview(privateInfoBody)
         super.configureView()
 
-        title.label.text = "Learner Handbook"
         header.label.text = "Learning made easy"
 
         learningEasyBody.text = "Learn anything, from anyone, anywhere, at any time. Connect to anyone in your area or all over the world, negotiate a price, and begin learning. You can learn in person or through instant video calling. You can schedule a session as soon as 15 minutes in advance or late as 30 days in advance."
@@ -142,18 +141,13 @@ class LearnerHandookVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Learner Handbook"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
 
     override func loadView() {
         view = LearnerHandookView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func handleNavigation() {}

@@ -92,6 +92,7 @@ class CustomTitleView: UIView {
     private func setupImageView() {
         addSubview(imageView)
         imageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 38, height: 38)
+        addConstraint(NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 38))
     }
     
     private func setupTitleView() {
@@ -112,7 +113,7 @@ class CustomTitleView: UIView {
         addConstraint(NSLayoutConstraint(item: arrow, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     private func updateOnlineStatusIndicator() {
-        imageView.onlineStatusIndicator.backgroundColor = OnlineStatusService.shared.isActive ? Colors.green : Colors.qtRed
+        imageView.onlineStatusIndicator.backgroundColor = OnlineStatusService.shared.isActive ? Colors.purple : Colors.gray
     }
     
     func updateNameLabelAsInactive() {

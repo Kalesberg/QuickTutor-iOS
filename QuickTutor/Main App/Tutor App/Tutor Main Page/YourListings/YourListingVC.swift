@@ -76,7 +76,7 @@ class YourListingView: UIView {
     let hideButton: UIButton = {
         let button = UIButton()
         button.setTitle("Hide Listing", for: .normal)
-        button.backgroundColor = Colors.tutorBlue
+        button.backgroundColor = Colors.purple
         button.layer.cornerRadius = 7
         button.titleLabel?.font = Fonts.createBoldSize(18)
         return button
@@ -210,7 +210,7 @@ class YourListingVC: BaseViewController {
     var featuredCategory: String?
     var categories = [Category]()
 
-    var listings = [FeaturedTutor]() {
+    var listings = [AWTutor]() {
         didSet {
             listings.count == 0 ? setupViewForNoListing() : setupViewForListing()
             contentView.collectionView.reloadData()
@@ -255,7 +255,7 @@ class YourListingVC: BaseViewController {
     }
 
     private func setupViewForListing() {
-        hideListing = (listings[0].isHidden == 1)
+//        hideListing = (listings[0].isHidden == 1)
         contentView.collectionView.backgroundView = nil
 //        contentView.editButton.isHidden = false
         contentView.hideButton.isHidden = false
@@ -263,7 +263,7 @@ class YourListingVC: BaseViewController {
     }
 
     private func setupHideListingButton() {
-        contentView.hideButton.backgroundColor = hideListing ? UIColor.gray : Colors.learnerPurple
+        contentView.hideButton.backgroundColor = hideListing ? UIColor.gray : Colors.purple
         contentView.hideButton.setTitle(hideListing ? "Unhide listing" : "Hide Listing", for: .normal)
         contentView.descriptionLabel.text = hideListing ? "Your listing is currently hidden from the main page." : "Your listing is visible to all learners on the main page."
     }
@@ -298,7 +298,7 @@ class YourListingVC: BaseViewController {
         let vc = EditListingVC()
         vc.price = listings[0].price
         vc.image = cell.profileImageView.image
-        vc.subject = listings[0].subject
+//        vc.subject = listings[0].subject
         vc.subjects = tutor.subjects ?? []
         vc.categoryOfCurrentListing = self.featuredCategory
         vc.delegate = self

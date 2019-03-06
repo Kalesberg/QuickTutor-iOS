@@ -50,7 +50,7 @@ class SettingsButton : UIView {
 		label.textAlignment = .left
 		label.font = Fonts.createBoldSize(15)
 		label.adjustsFontSizeToFitWidth = true
-		label.textColor = Colors.currentUserColor()
+		label.textColor = Colors.purple
 		return label
 	}()
 	

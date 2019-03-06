@@ -34,10 +34,14 @@ class EmptyMessagesBackground: UIView {
     
     
     func setupViews() {
-        backgroundColor = UIColor(red: 30.0/255.0, green: 30.0/255.0, blue: 38.0/255.0, alpha: 1.0)
+        setupMainBackground()
         setupIcon()
         setupTitleLabel()
         setupDescriptionLabel()
+    }
+    
+    func setupMainBackground() {
+        backgroundColor = Colors.darkBackground
     }
     
     private func setupIcon() {

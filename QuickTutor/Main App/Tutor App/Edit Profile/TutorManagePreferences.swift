@@ -46,8 +46,8 @@ class TutorManagePreferencesView: MainLayoutTitleBackSaveButton {
     }
 
     override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.tutorBlue
-        navbar.backgroundColor = Colors.tutorBlue
+        statusbarView.backgroundColor = Colors.purple
+        navbar.backgroundColor = Colors.purple
     }
 }
 

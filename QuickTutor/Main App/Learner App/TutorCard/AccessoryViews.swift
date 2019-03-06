@@ -40,10 +40,19 @@ class TutorCardAccessoryView: BaseAccessoryView {
         return view
     }()
     
+    let starCountLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.purple
+        label.font = Fonts.createBlackSize(10)
+        label.text = "12"
+        return label
+    }()
+    
     override func setupViews() {
         super.setupViews()
         setupPriceLabel()
         setupStarView()
+        setupStarCountLabel()
     }
     
     func setupPriceLabel() {
@@ -54,7 +63,12 @@ class TutorCardAccessoryView: BaseAccessoryView {
     func setupStarView() {
         addSubview(starView)
         starView.anchor(top: priceLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 8)
-        starView.tintStars(color: Colors.learnerPurple)
+        starView.tintStars(color: Colors.purple)
+    }
+    
+    func setupStarCountLabel() {
+        addSubview(starCountLabel)
+        starCountLabel.anchor(top: starView.topAnchor, left: starView.rightAnchor, bottom: starView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 0)
     }
 }
 

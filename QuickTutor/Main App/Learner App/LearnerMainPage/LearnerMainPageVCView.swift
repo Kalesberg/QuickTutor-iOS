@@ -21,6 +21,7 @@ class LearnerMainPageVCView: UIView {
         field.leftViewMode = .unlessEditing
         field.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(0.75)])
         field.font = Fonts.createBoldSize(16)
+        field.layer.cornerRadius = 4
         return field
     }()
     

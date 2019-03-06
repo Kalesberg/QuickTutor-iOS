@@ -12,7 +12,7 @@ class RegistrationAccessoryView: UIView {
     
     let nextButton: DimmableButton = {
         let button = DimmableButton()
-        button.backgroundColor = Colors.learnerPurple
+        button.backgroundColor = Colors.purple
         button.titleLabel?.font = Fonts.createBoldSize(14)
         button.setTitle("CONTINUE", for: .normal)
         button.layer.cornerRadius = 4

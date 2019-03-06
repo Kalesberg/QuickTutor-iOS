@@ -18,14 +18,6 @@ class TutorRudeView: FileReportSubmissionLayout {
         textBody.text = "QuickTutor has a zero tolerance policy for tutors who are unprofessional/rude to their learners. \n\nAs a learner, your feedback on sessions, including ratings and reviews, helps us improve session quality for others. All tutors agree to a high standard of service that includes being polite, professional, and respectful. If you believe your tutor has been unprofessional, please share your experience."
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-    }
-
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.learnerPurple
-        navbar.backgroundColor = Colors.learnerPurple
-    }
 }
 
 class TutorRudeVC: SubmissionViewControllerVC {

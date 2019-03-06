@@ -228,7 +228,7 @@ class BaseSessionStartVC: UIViewController {
     }
 
     func setupNavBar() {
-        navigationController?.navigationBar.barTintColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+        navigationController?.navigationBar.barTintColor = Colors.purple
         navigationItem.title = "Attempting to Start Session"
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = false

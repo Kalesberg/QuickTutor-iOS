@@ -41,7 +41,6 @@ class SessionsView: MainLayoutHeaderScroll {
         scrollView.addSubview(postSessionBody)
         super.configureView()
 
-        title.label.text = "Sessions"
         header.label.text = "Requesting Sessions"
 
         requestingSessionsBody.text = "Once you have connected with a tutor, you can send session requests. Session requests can be scheduled as early as fifteen minutes in the future, and up to thirty days in advance.\n\nAlthough a tutor has a set hourly rate, you can negotiate with them in the messaging system and schedule a session for any price up to $12,000, at a maximum session length of 12 hours."
@@ -92,18 +91,13 @@ class SessionsVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "Sessions"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }
 
     override func loadView() {
         view = SessionsView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func handleNavigation() {}

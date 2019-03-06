@@ -30,7 +30,7 @@ class TutorSSNView: BaseRegistrationView {
     
     let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "· Your SSN remains private.\n· No credit check - credit won't be affected.\n· Your information is safe and secure."
+        label.text = "· Your SSN remains private.\n· No credit check - your credit won't be affected.\n· Your information is encrypted."
         label.font = Fonts.createSize(16)
         label.textColor = Colors.registrationGray
         label.textAlignment = .left

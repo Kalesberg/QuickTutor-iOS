@@ -28,7 +28,7 @@ class ProfileImageViewer: InteractableView, Interactable {
 
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .white
-        pageControl.currentPageIndicatorTintColor = Colors.learnerPurple
+        pageControl.currentPageIndicatorTintColor = Colors.purple
 
         return pageControl
     }()

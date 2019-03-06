@@ -28,12 +28,11 @@ class AnotherQuestionView: MainLayoutHeader, Keyboardable {
         container.addSubview(submitButton)
         super.configureView()
 
-        title.label.text = "Help"
         header.text = "I have another question"
 
         anotherQuestionBody.text = "If you’ve run into a problem we haven’t mentioned, please leave us a note of your issue and we’ll get back to you as soon as possible via email. "
 
-        textField.tintColor = Colors.learnerPurple
+        textField.tintColor = Colors.purple
         textField.font = Fonts.createSize(20)
         textField.isEnabled = true
         textField.textColor = .white
@@ -82,6 +81,7 @@ class AnotherQuestionVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Help"
 
         contentView.textField.becomeFirstResponder()
     }

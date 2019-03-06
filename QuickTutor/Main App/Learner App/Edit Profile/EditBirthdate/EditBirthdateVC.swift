@@ -15,19 +15,24 @@ class EditBirthdateVC: BaseViewController {
 	let calendar = Calendar.current
 	var birthdateString : String = ""
 	
-	override var contentView: EditBirthdateView {
-		return view as! EditBirthdateView
+	override var contentView: BirthdayVCView {
+		return view as! BirthdayVCView
 	}
 	
 	override func loadView() {
-		view = EditBirthdateView()
+		view = BirthdayVCView()
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        navigationItem.title = "Edit Birthday"
+        contentView.datePicker.maximumDate = Date().adding(days: 365 * -18)
+        contentView.titleLabel.text = "Enter birthday"
 		dateformatter.dateFormat = "MMMM d'\(date.daySuffix())' yyyy"
 		contentView.birthdayLabel.textField.text = CurrentUser.shared.learner.birthday.toBirthdatePrettyFormat()
-		contentView.birthdayPicker.datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+		contentView.datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveChanges))
+        
 	}
 	private func showErrorMessage() {
 		contentView.errorLabel.isHidden = false
@@ -35,9 +40,9 @@ class EditBirthdateVC: BaseViewController {
 	}
 
 	private func checkAgeAndBirthdate() -> Bool {
-		let birthdate = contentView.birthdayPicker.datePicker.calendar!
-		let birthday = birthdate.dateComponents([.day, .month, .year], from: contentView.birthdayPicker.datePicker.date)
-		let age = birthdate.dateComponents([.year], from: contentView.birthdayPicker.datePicker.date, to: date)
+		let birthdate = contentView.datePicker.calendar!
+		let birthday = birthdate.dateComponents([.day, .month, .year], from: contentView.datePicker.date)
+		let age = birthdate.dateComponents([.year], from: contentView.datePicker.date, to: date)
 		
 		guard let yearsOld = age.year, yearsOld >= 18,
 			let day = birthday.day,
@@ -52,28 +57,25 @@ class EditBirthdateVC: BaseViewController {
 		
 		return true
 	}
+    
+    @objc func saveChanges() {
+        if checkAgeAndBirthdate() && birthdateString != "" {
+            FirebaseData.manager.updateAge(CurrentUser.shared.learner.uid!, birthdate: birthdateString) { (error) in
+                if let error = error {
+                    AlertController.genericErrorAlertWithoutCancel(self, title: "Error!", message: error.localizedDescription)
+                }
+                AlertController.genericSavedAlert(self, title: "Saved!", message: "Your birthdate has been saved!")
+                CurrentUser.shared.learner.birthday = self.birthdateString
+                self.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            showErrorMessage()
+        }
+    }
 	
-	override func handleNavigation() {
-		if touchStartView == contentView.saveButton {
-			if checkAgeAndBirthdate() && birthdateString != "" {
-				FirebaseData.manager.updateAge(CurrentUser.shared.learner.uid!, birthdate: birthdateString) { (error) in
-					if let error = error {
-						AlertController.genericErrorAlertWithoutCancel(self, title: "Error!", message: error.localizedDescription)
-					}
-					AlertController.genericSavedAlert(self, title: "Saved!", message: "Your birthdate has been saved!")
-					CurrentUser.shared.learner.birthday = self.birthdateString
-					self.navigationController?.popViewController(animated: true)
-				}
-			} else {
-				showErrorMessage()
-			}
-		}
-	}
-	
-	@objc
-	private func datePickerValueChanged(_ sender: UIDatePicker) {
-		dateformatter.dateFormat = "MMMM d'\(contentView.birthdayPicker.datePicker.date.daySuffix())' yyyy"
-		let date = dateformatter.string(from: contentView.birthdayPicker.datePicker.date)
+	@objc func datePickerValueChanged(_ sender: UIDatePicker) {
+		dateformatter.dateFormat = "MMMM d'\(contentView.datePicker.date.daySuffix())' yyyy"
+		let date = dateformatter.string(from: contentView.datePicker.date)
 		UIView.animate(withDuration: 0.2, animations: {
 			self.contentView.birthdayLabel.textField.transform.scaledBy(x: 0.95, y: 0.95)
 			self.contentView.birthdayLabel.textField.alpha = 0
@@ -84,10 +86,5 @@ class EditBirthdateVC: BaseViewController {
 				self.contentView.birthdayLabel.textField.transform = .identity
 			})
 		}
-	}
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
 }

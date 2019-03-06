@@ -20,7 +20,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	let tipOption0 : UIButton = {
 		let button = UIButton()
 		
-		button.backgroundColor = Colors.learnerPurple
+		button.backgroundColor = Colors.purple
 		button.setTitle("No Tip", for: .normal)
 		button.titleLabel?.font = Fonts.createSize(15)
 		button.tag = 0
@@ -30,7 +30,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	let tipOption1 : UIButton = {
 		let button = UIButton()
 		
-		button.backgroundColor = Colors.learnerPurple
+		button.backgroundColor = Colors.purple
 		button.setTitle("$2", for: .normal)
 		button.titleLabel?.font = Fonts.createSize(15)
 		button.tag = 1
@@ -41,7 +41,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	let tipOption2 : UIButton = {
 		let button = UIButton()
 		
-		button.backgroundColor = Colors.learnerPurple
+		button.backgroundColor = Colors.purple
 		button.setTitle("$4", for: .normal)
 		button.titleLabel?.font = Fonts.createSize(15)
 		button.tag = 2
@@ -52,7 +52,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	let tipOption3 : UIButton = {
 		let button = UIButton()
 		
-		button.backgroundColor = Colors.learnerPurple
+		button.backgroundColor = Colors.purple
 		button.setTitle("$6", for: .normal)
 		button.titleLabel?.font = Fonts.createSize(15)
 		button.tag = 3
@@ -63,7 +63,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	let tipOption4 : UIButton = {
 		let button = UIButton()
 		
-		button.backgroundColor = Colors.learnerPurple
+		button.backgroundColor = Colors.purple
 		button.setTitle("Custom", for: .normal)
 		button.setTitleColor(Colors.selectedPurple, for: .selected)
 		button.titleLabel?.font = Fonts.createSize(18)
@@ -76,7 +76,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	let totalLabel : UILabel = {
 		let label = UILabel()
 		
-		label.textColor = Colors.learnerPurple
+		label.textColor = Colors.purple
 		label.textAlignment = .center
 		label.font = Fonts.createBoldSize(18)
 		label.text = "Total: $18.00"
@@ -160,7 +160,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 		if sender.tag == selectedButton {
 			guard sender.tag != 4 else { return }
 			totalLabel.text = "Total: $" + String(format: "%.2f", total)
-			buttons[sender.tag].backgroundColor = Colors.learnerPurple
+			buttons[sender.tag].backgroundColor = Colors.purple
 			selectedButton = nil
 			delegate?.didSelectTipPercentage(tipAmount: buttonAmounts[sender.tag])
 		} else if selectedButton == nil {
@@ -172,7 +172,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 		} else {
 			updateTotalLabel(tag: sender.tag)
 			buttons[sender.tag].backgroundColor = Colors.selectedPurple
-			buttons[selectedButton!].backgroundColor = Colors.learnerPurple
+			buttons[selectedButton!].backgroundColor = Colors.purple
 			selectedButton = sender.tag
 			guard sender.tag != 4 else { return }
 			delegate?.didSelectTipPercentage(tipAmount: Int(buttonAmounts[sender.tag]))
@@ -195,7 +195,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 		return []
 	}
 	func didPressCancel() {
-		tipOption4.backgroundColor = Colors.learnerPurple
+		tipOption4.backgroundColor = Colors.purple
 		selectedButton = nil
 		delegate?.didSelectTipPercentage(tipAmount: 0)
 	}

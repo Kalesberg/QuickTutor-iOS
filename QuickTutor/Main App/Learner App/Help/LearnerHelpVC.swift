@@ -76,9 +76,10 @@ class HelpHeaderScroll: MainLayoutTitleBackButton {
 
     override func configureView() {
         addSubview(scrollView)
+        backgroundColor = Colors.darkBackground
         scrollView.addSubview(header)
         super.configureView()
-
+        scrollView.backgroundColor = Colors.darkBackground
         header.label.font = Fonts.createSize(22)
     }
 
@@ -118,7 +119,7 @@ class HelpSubmitButton: InteractableView, Interactable {
         addSubview(label)
         super.configureView()
 
-        backgroundColor = Colors.learnerPurple
+        backgroundColor = Colors.purple
         layer.cornerRadius = 20
 
         label.label.text = "SUBMIT"

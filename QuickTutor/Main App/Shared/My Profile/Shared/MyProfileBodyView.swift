@@ -50,7 +50,7 @@ class MyProfileBody : UIView {
 		addSubview(stackView)
 		addSubview(divider)
 		
-		additionalInformation.textColor = isViewing ? Colors.otherUserColor() :  Colors.currentUserColor()
+		additionalInformation.textColor = isViewing ? Colors.purple :  Colors.purple
 		
 		applyConstraints()
 	}

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TutorCardHeaderViewDelegate: class {
+    func tutorCardHeaderViewDidTapProfilePicture(_ tutorCard: TutorCardHeaderView)
+}
+
 class TutorCardView: UIView, TutorDataSource {
     
     var tutor: AWTutor?
@@ -48,6 +52,10 @@ class TutorCardView: UIView, TutorDataSource {
     
     let connectView: TutorCardConnectView = {
         let view = TutorCardConnectView()
+        view.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 3
         return view
     }()
     
@@ -85,6 +93,7 @@ class TutorCardView: UIView, TutorDataSource {
         reviewsView.anchor(top: infoView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         reviewsHeightAnchor = reviewsView.heightAnchor.constraint(equalToConstant: 200)
         reviewsHeightAnchor?.isActive = true
+        reviewsView.seeAllButton.addTarget(self, action: #selector(seeAllReviews(_:)), for: .touchUpInside)
     }
     
     func setupPoliciesView() {
@@ -109,7 +118,14 @@ class TutorCardView: UIView, TutorDataSource {
     }
     
     @objc func seeAllReviews(_ sender: UIButton) {
-        
+        guard let tutor = tutor else { return }
+        FirebaseData.manager.fetchTutor(tutor.uid, isQuery: false) { (fetchedTutorIn) in
+            guard let fetchedTutor = fetchedTutorIn else { return }
+            let vc = TutorReviewsVC()
+            vc.datasource = fetchedTutor.reviews ?? [Review]()
+            vc.isViewing = true
+            self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     override init(frame: CGRect) {

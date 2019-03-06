@@ -24,7 +24,7 @@ class TutorMyProfileSubjects : UIView {
 		label.text = "Subjects"
 		label.textAlignment = .left
 		label.font = Fonts.createBoldSize(16)
-		label.textColor = Colors.tutorBlue
+		label.textColor = Colors.purple
 		
 		return label
 	}()

@@ -13,20 +13,10 @@ class TutorProfilePicsView: FileReportSubmissionLayout {
     override func configureView() {
         super.configureView()
 
-        title.label.text = "File Report"
         header.text = "My tutor didn't match their profile picture(s)"
 
         textBody.font = Fonts.createSize(14)
         textBody.text = "Upon registration, every learner and QuickTutor is required to upload a profile picture, which helps both users recognize each other when meeting for in-person tutoring sessions.\n\nIf you believe that your tutor for this session was not who you were expecting, please notify us here.\n"
-    }
-
-    override func applyConstraints() {
-        super.applyConstraints()
-    }
-
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.learnerPurple
-        navbar.backgroundColor = Colors.learnerPurple
     }
 }
 
@@ -43,6 +33,7 @@ class TutorProfilePicsVC: SubmissionViewControllerVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "File Report"
         hideKeyboardWhenTappedAround()
     }
 

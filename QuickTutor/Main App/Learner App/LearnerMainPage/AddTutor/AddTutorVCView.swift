@@ -7,6 +7,7 @@
 //
 
 class AddTutorView: UIView {
+    
 	let tableView: UITableView = {
 		let tableView = UITableView()
 		tableView.rowHeight = 50
@@ -21,8 +22,9 @@ class AddTutorView: UIView {
 		let textField = SearchTextField()
 		textField.placeholder.text = "Search Usernames"
 		textField.textField.font = Fonts.createSize(16)
-		textField.textField.tintColor = Colors.learnerPurple
+		textField.textField.tintColor = Colors.purple
 		textField.textField.autocapitalizationType = .words
+        textField.imageView.image = nil
 		return textField
 	}()
 	

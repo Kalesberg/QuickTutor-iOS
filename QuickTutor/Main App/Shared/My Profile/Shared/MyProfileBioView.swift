@@ -21,7 +21,7 @@ class MyProfileBioView : UIView {
 		
 		label.text = "About Me"
 		label.font = Fonts.createBoldSize(16)
-		label.textColor = Colors.currentUserColor()
+		label.textColor = Colors.purple
 		label.translatesAutoresizingMaskIntoConstraints = false
 
 		return label

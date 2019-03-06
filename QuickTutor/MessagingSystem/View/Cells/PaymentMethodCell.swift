@@ -34,7 +34,7 @@ class PaymentMethodCell: UICollectionViewCell {
     
     let separatorLine: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.learnerPurple
+        view.backgroundColor = Colors.purple
         return view
     }()
     

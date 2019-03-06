@@ -60,11 +60,11 @@ class LearnerMyProfileView: UIView {
 		layoutIfNeeded()
 	}
 	private func setupViewForLearner() {
-		myProfileBioView.aboutMeLabel.textColor = Colors.learnerPurple
-		myProfileBody.additionalInformation.textColor = Colors.learnerPurple
-		myProfileReviews.reviewTitle.textColor = Colors.learnerPurple
-		myProfileReviews.reviewLabel1.nameLabel.textColor = Colors.learnerPurple
-		myProfileReviews.reviewLabel2.nameLabel.textColor = Colors.learnerPurple
+		myProfileBioView.aboutMeLabel.textColor = Colors.purple
+		myProfileBody.additionalInformation.textColor = Colors.purple
+		myProfileReviews.reviewTitle.textColor = Colors.purple
+		myProfileReviews.reviewLabel1.nameLabel.textColor = Colors.purple
+		myProfileReviews.reviewLabel2.nameLabel.textColor = Colors.purple
 	}
 	override func layoutSubviews() {
 		super.layoutSubviews()

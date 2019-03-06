@@ -203,8 +203,8 @@ class EditTutorSubjectsView: MainLayoutTitleTwoButton, Keyboardable {
 
     override func layoutSubviews() {
         layoutIfNeeded()
-        navbar.backgroundColor = Colors.tutorBlue
-        statusbarView.backgroundColor = Colors.tutorBlue
+        navbar.backgroundColor = Colors.purple
+        statusbarView.backgroundColor = Colors.purple
     }
 }
 
@@ -325,12 +325,6 @@ class EditTutorSubjects: BaseViewController {
             self.contentView.tableView.reloadData()
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     private func deleteSubjects() {
         var newSubs = [String]()
         var subcategoriesToDelete = [String]()
@@ -563,7 +557,7 @@ extension EditTutorSubjects: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! SubjectSearchCategoryCell
                 let index = (inlineCellIndexPath != nil && indexPath.section > inlineCellIndexPath!.section) ? indexPath.section - 1 : indexPath.section
                 cell.title.text = categories[index].mainPageData.displayName
-                cell.backgroundColor = Colors.tutorBlue
+                cell.backgroundColor = Colors.purple
 
                 if inlineCellIndexPath != nil && inlineCellIndexPath!.section - 1 == indexPath.section {
                     cell.dropDownArrow.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))

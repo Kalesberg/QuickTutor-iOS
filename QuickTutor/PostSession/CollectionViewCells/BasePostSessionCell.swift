@@ -39,7 +39,7 @@ class BasePostSessionCell : UICollectionViewCell {
 		backgroundHeaderView.addSubview(headerView)
 		headerView.addSubview(title)
 
-		backgroundHeaderView.backgroundColor = AccountService.shared.currentUserType == .learner ? Colors.learnerPurple : Colors.tutorBlue
+		backgroundHeaderView.backgroundColor = Colors.purple
 		headerView.backgroundColor = Colors.navBarColor
 		
 		applyConstraints()

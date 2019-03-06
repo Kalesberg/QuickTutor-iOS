@@ -11,8 +11,8 @@ import UIKit
 class CustomSlider: UISlider {
     
     func setupViews() {
-        thumbTintColor = Colors.learnerPurple
-        minimumTrackTintColor = Colors.learnerPurple
+        thumbTintColor = Colors.purple
+        minimumTrackTintColor = Colors.purple
         maximumTrackTintColor = Colors.gray
         setThumbImage(UIImage(named: "Oval"), for: .normal)
         setThumbImage(UIImage(named: "Oval"), for: .highlighted)

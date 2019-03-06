@@ -36,7 +36,7 @@ class BecomeTutorVC: BaseRegistrationController {
     }
 
     @objc func handleNext(_ sender: UIButton) {
-        navigationController?.pushViewController(TutorAddSubjectsVC(), animated: true)
+        navigationController?.pushViewController(NewTutorAddSubjectsVC(), animated: true)
     }
 
 }

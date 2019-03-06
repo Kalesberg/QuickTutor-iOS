@@ -22,10 +22,6 @@ class LearnerLateView: FileReportCheckboxLayout {
         cb3.label.text = "Lerner didn't show up"
     }
 
-    override func layoutSubviews() {
-        statusbarView.backgroundColor = Colors.tutorBlue
-        navbar.backgroundColor = Colors.tutorBlue
-    }
 }
 
 class LearnerLate: BaseViewController {
@@ -42,6 +38,7 @@ class LearnerLate: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "File Report"
     }
 
     override func viewDidLayoutSubviews() {}

@@ -51,7 +51,7 @@ class RequestSessionPriceCell: UITableViewCell {
         textField.textAlignment = .center
         textField.keyboardType = .numberPad
         textField.keyboardAppearance = .dark
-        textField.tintColor = Colors.tutorBlue
+        textField.tintColor = Colors.purple
         textField.isUserInteractionEnabled = false
         return textField
     }()

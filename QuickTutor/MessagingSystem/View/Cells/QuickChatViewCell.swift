@@ -16,7 +16,7 @@ class QuickChatCell: UICollectionViewCell {
         view.layer.masksToBounds = false
         view.clipsToBounds = false
         view.applyDefaultShadow()
-        view.backgroundColor = Colors.learnerPurple
+        view.backgroundColor = Colors.purple
         return view
     }()
     

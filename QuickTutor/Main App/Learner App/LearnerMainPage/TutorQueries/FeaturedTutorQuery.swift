@@ -14,8 +14,8 @@ class QueryData {
     static let shared = QueryData()
     private var ref: DatabaseReference? = Database.database().reference(fromURL: Constants.DATABASE_URL)
 
-	func queryFeaturedTutors(categories: [Category], _ completion: @escaping ([Category: [FeaturedTutor]]?) -> Void) {
-        var uids = [Category: [FeaturedTutor]]()
+	func queryFeaturedTutors(categories: [Category], _ completion: @escaping ([Category: [AWTutor]]?) -> Void) {
+        var uids = [Category: [AWTutor]]()
         let group = DispatchGroup()
 
         for category in categories {
@@ -28,9 +28,8 @@ class QueryData {
                     group.enter()
                     FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.subcategory.fileToRead, { tutor in
                         if let tutor = tutor {
-                            if tutor.isHidden == 0 {
                                 uids[category]!.append(tutor)
-                            }
+                            
                         }
                         group.leave()
                     })
@@ -43,7 +42,7 @@ class QueryData {
         }
     }
 	
-	func queryAWFeaturedTutorsCard(featuredTutors: [FeaturedTutor],_ completion: @escaping ([AWTutor]?) -> Void) {
+	func queryAWFeaturedTutorsCard(featuredTutors: [AWTutor],_ completion: @escaping ([AWTutor]?) -> Void) {
 		var tutors = [AWTutor]()
 		let group = DispatchGroup()
 		
@@ -51,7 +50,7 @@ class QueryData {
 			group.enter()
 			FirebaseData.manager.fetchTutor(tutor.uid, isQuery: false) { (tutor) in
 				if let tutor = tutor {
-					tutor.featuredDetails = FeaturedDetails(subject: featuredTutors[index].subject, price: featuredTutors[index].price)
+                    tutor.featuredDetails = FeaturedDetails(subject: featuredTutors[index].featuredSubject ?? "", price: featuredTutors[index].price)
 					tutors.append(tutor)
 				}
 				group.leave()
@@ -62,26 +61,25 @@ class QueryData {
 		}
 	}
 	
-    func queryAWTutorByCategory(category: Category, lastKnownKey: String?, limit: UInt,_ completion: @escaping ([FeaturedTutor]?) -> Void) {
-        var tutors = [FeaturedTutor]()
+    func queryAWTutorByCategory(category: CategoryNew, lastKnownKey: String?, limit: UInt,_ completion: @escaping ([AWTutor]?) -> Void) {
+        var tutors = [AWTutor]()
         let group = DispatchGroup()
         let query: DatabaseQuery?
 
         if let lastKnownKey = lastKnownKey {
-            query = ref?.child("featured").child(category.subcategory.fileToRead).queryOrderedByKey().queryStarting(atValue: lastKnownKey).queryLimited(toFirst: limit)
+            query = ref?.child("featured").child(category.name.lowercased()).queryOrderedByKey().queryStarting(atValue: lastKnownKey).queryLimited(toFirst: limit)
         } else {
-            query = ref?.child("featured").child(category.subcategory.fileToRead).queryOrderedByKey().queryLimited(toFirst: limit)
+            query = ref?.child("featured").child(category.name.lowercased()).queryOrderedByKey().queryLimited(toFirst: limit)
         }
 
         query?.observeSingleEvent(of: .value) { snapshot in
             for snap in snapshot.children {
                 guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid! else { continue }
                 group.enter()
-                FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.subcategory.fileToRead, { tutor in
+                FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.name.lowercased(), { tutor in
                     if let tutor = tutor {
-                        if tutor.isHidden == 0 {
                             tutors.append(tutor)
-                        }
+                        
                     }
                     group.leave()
                 })
@@ -95,8 +93,8 @@ class QueryData {
         }
     }
 
-	func queryAWTutorUidsByCategory(category: Category, lastKnownKey: String?, limit: UInt, _ completion: @escaping ([FeaturedTutor]?) -> Void) {
-		var tutors = [FeaturedTutor]()
+	func queryAWTutorUidsByCategory(category: Category, lastKnownKey: String?, limit: UInt, _ completion: @escaping ([AWTutor]?) -> Void) {
+		var tutors = [AWTutor]()
 		let query: DatabaseQuery!
 		
 		if let lastKnownKey = lastKnownKey {
@@ -113,7 +111,7 @@ class QueryData {
 				else {
 					continue
 				}
-				var featuredTutor = FeaturedTutor(dictionary: value)
+				let featuredTutor = AWTutor(dictionary: value)
 				featuredTutor.uid = child.key
 				tutors.append(featuredTutor)
 			}

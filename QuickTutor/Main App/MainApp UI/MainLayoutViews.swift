@@ -166,53 +166,57 @@ class MainLayoutTitleBackSaveButton: MainLayoutTitleBackTwoButton {
     }
 }
 
-class MainLayoutHeader: MainLayoutTitleBackButton {
+class MainLayoutHeader: UIView {
     var header: UILabel = {
         var label = UILabel()
-
         label.font = Fonts.createSize(21)
         label.numberOfLines = 1
         label.textColor = .white
         label.adjustsFontSizeToFitWidth = true
-
         return label
     }()
 
-    override func configureView() {
+    func configureView() {
+        backgroundColor = Colors.darkBackground
         addSubview(header)
-        super.configureView()
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         header.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.1)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
-class MainLayoutHeaderScroll: MainLayoutTitleBackButton {
+class MainLayoutHeaderScroll: UIView {
     var scrollView = BaseScrollView()
     var header = LeftTextLabel()
 
-    override func configureView() {
+    func configureView() {
         addSubview(scrollView)
         scrollView.addSubview(header)
-        super.configureView()
-
+        backgroundColor = Colors.darkBackground
+        scrollView.backgroundColor = Colors.darkBackground
         header.label.font = Fonts.createSize(22)
     }
 
-    override func applyConstraints() {
-        super.applyConstraints()
-
+    func applyConstraints() {
         scrollView.snp.makeConstraints { make in
             make.width.equalToSuperview()
-            make.top.equalTo(navbar.snp.bottom)
+            make.top.equalToSuperview()
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
             } else {
@@ -222,7 +226,7 @@ class MainLayoutHeaderScroll: MainLayoutTitleBackButton {
         }
 
         header.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalTo(scrollView.snp.top)
             make.height.equalTo(70)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
@@ -233,5 +237,15 @@ class MainLayoutHeaderScroll: MainLayoutTitleBackButton {
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.2)
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+        applyConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

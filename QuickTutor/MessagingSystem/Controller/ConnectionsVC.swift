@@ -11,6 +11,7 @@ import UIKit
 
 class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     var connections = [User]()
+    var filteredConnections = [User]()
 
     var isTransitioning = false
 
@@ -32,7 +33,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     func setupMainView() {
         navigationItem.title = "Connections"
         guard AccountService.shared.currentUserType == .learner else { return }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "searchIcon"), style: .plain, target: self, action: #selector(handleRightViewTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addTutor"), style: .plain, target: self, action: #selector(handleRightViewTapped))
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         if #available(iOS 11.0, *) {
@@ -59,6 +60,8 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
             searchController.definesPresentationContext = true
+            searchController.searchBar.tintColor = .white
+            searchController.searchResultsUpdater = self
         }
     }
 
@@ -80,6 +83,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
                     self.collectionView.reloadData()
                 })
             })
+            self.connections = self.connections.sorted(by: {$0.formattedName > $1.formattedName})
         }
     }
     
@@ -93,8 +97,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     }
     
     @objc func handleRightViewTapped() {
-        searchController.isActive = true
-        searchController.searchBar.becomeFirstResponder()
+        navigationController?.pushViewController(AddTutorVC(), animated: true)
     }
     
     func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
@@ -105,16 +108,39 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func connectionCell(_ connectionCell: ConnectionCell, shouldRequestSessionWith user: User) {
+        let vc = SessionRequestVC()
+        FirebaseData.manager.fetchTutor(user.uid, isQuery: false) { (tutor) in
+            vc.tutor = tutor
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterUserForSearchText(_ searchText: String, scope: String = "All") {
+        filteredConnections = connections.filter({$0.formattedName.contains(searchText)})
+        collectionView.reloadData()
+    }
+    
+    func inSearchMode() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
 }
 
 extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return connections.count
+        return inSearchMode() ? filteredConnections.count : connections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConnectionCell
-        cell.updateUI(user: connections[indexPath.item])
+        let connection = inSearchMode() ? filteredConnections[indexPath.item] : connections[indexPath.item]
+        cell.updateUI(user: connection)
+        cell.requestSessionButton.isHidden = false
         cell.delegate = self
         return cell
     }
@@ -178,5 +204,11 @@ class SessionRequestViewConnectionsVC: ConnectionsVC {
         cell.messageButton.setImage(UIImage(named: "addIconCircle"), for: .normal)
         cell.delegate = self
         return cell
+    }
+}
+
+extension ConnectionsVC: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterUserForSearchText(searchController.searchBar.text!)
     }
 }

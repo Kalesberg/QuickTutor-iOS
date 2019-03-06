@@ -24,8 +24,6 @@ class RegistrationNavBarView: BaseLayoutView {
         addSubview(titleLabel)
         addSubview(nextButton)
 		
-		applyGradient(firstColor: (Colors.oldTutorBlue.cgColor), secondColor: (Colors.oldLearnerPurple.cgColor), angle: 160, frame: frame)
-
         statusbarView.backgroundColor = Colors.registrationDark
     }
     

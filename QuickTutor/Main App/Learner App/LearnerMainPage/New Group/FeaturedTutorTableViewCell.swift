@@ -11,7 +11,7 @@ import UIKit
 import FirebaseUI
 
 protocol FeaturedTutorTableViewCellDelegate {
-    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect featuredTutor: FeaturedTutor)
+    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect featuredTutor: AWTutor)
     func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect cell: TutorCollectionViewCell)
 }
 
@@ -38,13 +38,13 @@ class FeaturedTutorTableViewCell: UITableViewCell {
     let itemsPerBatch: UInt = 8
     var didLoadMore: Bool = false
 	
-    var datasource = [FeaturedTutor]() {
+    var datasource = [AWTutor]() {
         didSet {
             collectionView.reloadData()
         }
     }
 
-    var category: Category! {
+    var category: CategoryNew! {
         didSet {
             collectionView.reloadData()
         }

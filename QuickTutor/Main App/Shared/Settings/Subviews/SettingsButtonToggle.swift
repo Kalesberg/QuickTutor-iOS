@@ -26,7 +26,7 @@ class SettingsButtonToggle : UIView {
 		label.textAlignment = .left
 		label.font = Fonts.createBoldSize(15)
 		label.adjustsFontSizeToFitWidth = true
-		label.textColor = Colors.currentUserColor()
+		label.textColor = Colors.purple
 		return label
 	}()
 	
@@ -40,9 +40,9 @@ class SettingsButtonToggle : UIView {
 	}()
 	let toggle : UISwitch = {
 		let toggle = UISwitch(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
-		toggle.tintColor = Colors.tutorBlue
+		toggle.tintColor = Colors.purple
 		toggle.thumbTintColor = .white
-		toggle.onTintColor = Colors.tutorBlue
+		toggle.onTintColor = Colors.purple
 		return toggle
 	}()
 	

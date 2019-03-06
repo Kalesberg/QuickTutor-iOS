@@ -27,7 +27,7 @@ class ProfileItem: UIView {
 	
 	var imageViewContainer : UIView = {
 		let view = UIView()
-		view.backgroundColor = Colors.currentUserColor()
+		view.backgroundColor = Colors.purple
 		view.layer.cornerRadius = 12.5
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view

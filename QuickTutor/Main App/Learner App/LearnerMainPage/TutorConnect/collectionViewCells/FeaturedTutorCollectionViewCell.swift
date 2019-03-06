@@ -13,7 +13,7 @@ import Firebase
 
 class TutorCollectionViewCell: UICollectionViewCell {
     
-    var tutor: FeaturedTutor?
+    var tutor: AWTutor?
     
     let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -39,12 +39,14 @@ class TutorCollectionViewCell: UICollectionViewCell {
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 4
         view.backgroundColor = Colors.darkBackground
+        if #available(iOS 11.0, *) {
+            view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
         return view
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Zach F."
         label.font = Fonts.createBoldSize(10)
         label.textColor = UIColor.white.withAlphaComponent(0.5)
         return label
@@ -77,7 +79,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func setupViews() {
         setupProfileImageView()
-        setupSaveButton()
+//        setupSaveButton()
         setupInfoContainerView()
         setupNameLabel()
         setupPriceLabel()
@@ -121,15 +123,15 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func setupStarView() {
         addSubview(starView)
         starView.anchor(top: subjectLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 6, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 38, height: 6)
-        starView.tintStars(color: Colors.currentUserColor())
+        starView.tintStars(color: Colors.purple)
     }
     
-    func updateUI(_ tutor: FeaturedTutor) {
+    func updateUI(_ tutor: AWTutor) {
         self.tutor = tutor
         nameLabel.text = tutor.name
-        subjectLabel.text = tutor.subject
-        priceLabel.text = "$\(tutor.price)/hr"
-        profileImageView.sd_setImage(with: URL(string: tutor.imageUrl)!, completed: nil)
+        subjectLabel.text = tutor.featuredSubject
+        priceLabel.text = "$\(tutor.price!)/hr"
+        profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)
         if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
             savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"saveButtonFilled"), for: .normal) : saveButton.setImage(UIImage(named:"saveButton"), for: .normal)
         }
