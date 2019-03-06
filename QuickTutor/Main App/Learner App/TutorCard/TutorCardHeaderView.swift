@@ -106,6 +106,11 @@ class TutorCardHeaderView: UIView {
             self.profileImageView.sd_setImage(with: tutor2.profilePicUrl, for: .normal, completed: nil)
         }
         
+        getConnectionStatus { (connected) in
+            self.messageButton.isEnabled = connected
+            self.messageButton.alpha = connected ? 1 : 0.5
+        }
+        
         // Changed hart icon into message icon, so don't need the following code snippets
         /*
         if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
@@ -119,12 +124,7 @@ class TutorCardHeaderView: UIView {
     }
     
     @objc func handleMessageButton() {
-        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid, uid != tutorId else { return }
-        if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
-            savedTutorIds.contains(tutorId) ? unsaveTutor() : saveTutor()
-        } else {
-            saveTutor()
-        }
+        delegate?.tutorCardHeaderViewDidTapMessageIcon()
     }
     
     @objc func handleDetailButton() {
@@ -145,6 +145,21 @@ class TutorCardHeaderView: UIView {
         CurrentUser.shared.learner.savedTutorIds?.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
+    }
+    
+    func getConnectionStatus(completionHandler: ((Bool) -> ())?) {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+    
+        Database.database().reference()
+            .child("connections")
+            .child(uid)
+            .child(userTypeString)
+            .child(tutorId).observeSingleEvent(of: .value) { (snapshot) in
+                if let completionHandler = completionHandler {
+                    completionHandler(snapshot.exists())
+                }
+        }
     }
     
     override init(frame: CGRect) {

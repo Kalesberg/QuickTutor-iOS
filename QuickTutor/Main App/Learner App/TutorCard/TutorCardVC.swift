@@ -38,6 +38,13 @@ class TutorCardVC: UIViewController {
     @objc private func onBack() {
         navigationController?.popViewController(animated: true)
     }
+    
+    func showMessageVC() {
+        let vc = ConversationVC()
+        vc.receiverId = tutor?.uid
+        vc.chatPartner = tutor
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension TutorCardVC: TutorCardHeaderViewDelegate {
@@ -60,5 +67,9 @@ extension TutorCardVC: TutorCardHeaderViewDelegate {
         let controller = LightboxController(images: images, startIndex: 0)
         controller.dynamicBackground = true
         present(controller, animated: true, completion: nil)
+    }
+    
+    func tutorCardHeaderViewDidTapMessageIcon() {
+        showMessageVC()
     }
 }

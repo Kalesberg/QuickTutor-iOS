@@ -12,6 +12,7 @@ import FirebaseDatabase
 
 protocol TutorCardHeaderViewDelegate: class {
     func tutorCardHeaderViewDidTapProfilePicture(_ tutorCard: TutorCardHeaderView)
+    func tutorCardHeaderViewDidTapMessageIcon()
 }
 
 class TutorCardView: UIView, TutorDataSource {
