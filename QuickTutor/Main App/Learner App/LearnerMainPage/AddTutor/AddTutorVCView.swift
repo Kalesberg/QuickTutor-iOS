@@ -7,6 +7,7 @@
 //
 
 class AddTutorView: UIView {
+    
 	let tableView: UITableView = {
 		let tableView = UITableView()
 		tableView.rowHeight = 50
@@ -23,6 +24,7 @@ class AddTutorView: UIView {
 		textField.textField.font = Fonts.createSize(16)
 		textField.textField.tintColor = Colors.purple
 		textField.textField.autocapitalizationType = .words
+        textField.imageView.image = nil
 		return textField
 	}()
 	

@@ -122,6 +122,11 @@ extension QuickSearchVC: UITextFieldDelegate {
         child.view.anchor(top: contentView.searchBarContainer.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         child.didMove(toParent: self)
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        contentView.searchBarContainer.searchBar.resignFirstResponder()
+        return true
+    }
 }
 
 extension QuickSearchVC: UIScrollViewDelegate {

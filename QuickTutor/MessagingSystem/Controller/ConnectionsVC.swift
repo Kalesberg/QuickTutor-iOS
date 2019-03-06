@@ -33,7 +33,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     func setupMainView() {
         navigationItem.title = "Connections"
         guard AccountService.shared.currentUserType == .learner else { return }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "searchIcon"), style: .plain, target: self, action: #selector(handleRightViewTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addTutor"), style: .plain, target: self, action: #selector(handleRightViewTapped))
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         if #available(iOS 11.0, *) {
@@ -83,6 +83,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
                     self.collectionView.reloadData()
                 })
             })
+            self.connections = self.connections.sorted(by: {$0.formattedName > $1.formattedName})
         }
     }
     
@@ -96,8 +97,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     }
     
     @objc func handleRightViewTapped() {
-        searchController.isActive = true
-        searchController.searchBar.becomeFirstResponder()
+        navigationController?.pushViewController(AddTutorVC(), animated: true)
     }
     
     func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {

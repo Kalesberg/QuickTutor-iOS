@@ -23,7 +23,6 @@ target 'QuickTutor' do
   # Pods for backend
   pod 'Alamofire', '~>4.5'
   pod 'SwiftKeychainWrapper'
-#  pod 'AAPhotoCircleCrop'
   pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'
   pod 'Stripe'
 
@@ -36,7 +35,7 @@ target 'QuickTutor' do
   pod 'lottie-ios'
   
   # Pods for Sessions
-  pod 'Reveal-SDK', :configurations => ['Debug']
+#  pod 'Reveal-SDK', :configurations => ['Debug']
   pod 'TwilioVideo'
   pod 'Socket.IO-Client-Swift', '~> 13.1.0'
   
@@ -46,6 +45,7 @@ target 'QuickTutor' do
   pod 'Firebase/Performance'
   
   pod 'SwipeCellKit'
+  pod 'Imaginary'
   pod 'IQKeyboardManager'
   pod 'Charts', '~> 3.2.1'
 

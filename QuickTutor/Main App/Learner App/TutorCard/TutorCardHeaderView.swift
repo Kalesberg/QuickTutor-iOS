@@ -13,13 +13,14 @@ class TutorCardHeaderView: UIView {
     
     var tutor: AWTutor?
     var subject: String?
+    weak var delegate: TutorCardHeaderViewDelegate?
     
-    let profileImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.layer.cornerRadius = 4
-        iv.backgroundColor = Colors.gray
-        iv.clipsToBounds = true
-        return iv
+    let profileImageView: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 4
+        button.backgroundColor = Colors.gray
+        button.clipsToBounds = true
+        return button
     }()
     
     let nameLabel: UILabel = {
@@ -49,7 +50,7 @@ class TutorCardHeaderView: UIView {
     
     let shareButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named:"shareIconProfile"), for: .normal)
+        button.setImage(UIImage(named:"moreIcon"), for: .normal)
         button.contentMode = .scaleAspectFit
         return button
     }()
@@ -65,6 +66,7 @@ class TutorCardHeaderView: UIView {
     func setupProfileImageView() {
         addSubview(profileImageView)
         profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
+        profileImageView.addTarget(self, action: #selector(handleImageViewTap), for: .touchUpInside)
     }
     
     func setupNameLabel() {
@@ -101,12 +103,16 @@ class TutorCardHeaderView: UIView {
         }
         DataService.shared.getTutorWithId(tutor.uid) { (tutor2) in
             guard let tutor2 = tutor2 else { return }
-            self.profileImageView.sd_setImage(with: tutor2.profilePicUrl)
+            self.profileImageView.sd_setImage(with: tutor2.profilePicUrl, for: .normal, completed: nil)
         }
         
         if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
             savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : saveButton.setImage(UIImage(named:"heartIcon"), for: .normal)
         }
+    }
+    
+    @objc func handleImageViewTap() {
+        delegate?.tutorCardHeaderViewDidTapProfilePicture(self)
     }
     
     @objc func handleSaveButton() {

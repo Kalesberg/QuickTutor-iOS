@@ -32,6 +32,7 @@ class CategorySearchVCView: UIView {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.alwaysBounceVertical = true
+        collectionView.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         return collectionView
     }()
     

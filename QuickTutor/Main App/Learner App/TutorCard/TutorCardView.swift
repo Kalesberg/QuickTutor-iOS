@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TutorCardHeaderViewDelegate: class {
+    func tutorCardHeaderViewDidTapProfilePicture(_ tutorCard: TutorCardHeaderView)
+}
+
 class TutorCardView: UIView, TutorDataSource {
     
     var tutor: AWTutor?

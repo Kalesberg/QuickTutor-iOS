@@ -113,7 +113,7 @@ class CustomTitleView: UIView {
         addConstraint(NSLayoutConstraint(item: arrow, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     private func updateOnlineStatusIndicator() {
-        imageView.onlineStatusIndicator.backgroundColor = OnlineStatusService.shared.isActive ? Colors.green : Colors.qtRed
+        imageView.onlineStatusIndicator.backgroundColor = OnlineStatusService.shared.isActive ? Colors.purple : Colors.gray
     }
     
     func updateNameLabelAsInactive() {
