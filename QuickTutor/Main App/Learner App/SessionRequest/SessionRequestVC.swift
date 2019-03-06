@@ -82,12 +82,7 @@ class SessionRequestVC: UIViewController {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         }
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         navigationController?.view.backgroundColor = Colors.darkBackground
-    }
-    
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

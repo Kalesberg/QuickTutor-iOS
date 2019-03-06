@@ -35,7 +35,6 @@ class BaseRegistrationController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "newBackButton"), style: .plain, target: self, action: #selector(onBack))
         setupProgressView()
     }
     
@@ -43,9 +42,4 @@ class BaseRegistrationController: UIViewController {
         progressView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: progressView)
     }
-    
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
-    }
-    
 }

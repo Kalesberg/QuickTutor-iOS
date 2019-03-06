@@ -84,14 +84,9 @@ class EditLanguageVC: UIViewController {
 
     func setupNavBar() {
         navigationItem.title = "Languages I Speak"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveLanguages))
     }
     
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
-    }
-
     private func displaySavedAlertController() {
         let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
 

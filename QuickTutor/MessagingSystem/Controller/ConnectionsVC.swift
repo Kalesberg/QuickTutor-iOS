@@ -35,16 +35,11 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         guard AccountService.shared.currentUserType == .learner else { return }
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addTutor"), style: .plain, target: self, action: #selector(handleRightViewTapped))
         navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .automatic
         }
     }
     
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
-    }
-
     func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

@@ -116,7 +116,7 @@ class TutorPolicyVC: BaseRegistrationController {
                     if success {
                         CurrentUser.shared.learner.isTutor = true
                         AccountService.shared.currentUserType = .tutor
-                        self.navigationController?.pushViewController(QTTutorDashboardViewController(), animated: true)
+                        self.navigationController?.pushViewController(QTTutorDashboardViewController.loadView(), animated: true)
                         let endIndex = self.navigationController?.viewControllers.endIndex
                         self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
                     } else {

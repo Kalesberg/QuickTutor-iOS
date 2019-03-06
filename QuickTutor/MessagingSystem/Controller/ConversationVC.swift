@@ -202,16 +202,11 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             }
         }
         navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
     }
 
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         becomeFirstResponder()

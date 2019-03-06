@@ -37,6 +37,9 @@ class ProfileVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
     }
     
     func setupViews() {
@@ -148,7 +151,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func showSettings() {
-        navigationController?.pushViewController(QTSettingsViewController.loadView(), animated: true) //SettingsVC
+        navigationController?.pushViewController(QTSettingsViewController.loadView(), animated: true)
     }
     
     func showLegal() {
@@ -216,7 +219,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
                 if success {
                     AccountService.shared.currentUserType = .tutor
                     self.dismissOverlay()
-                    RootControllerManager.shared.configureRootViewController(controller: QTTutorDashboardViewController())
+                    RootControllerManager.shared.configureRootViewController(controller: QTTutorDashboardViewController.loadView())
                 }
             }
         } else {

@@ -30,13 +30,8 @@ class TutorCardVC: UIViewController {
     func setupNavBar() {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.isHidden = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         navigationController?.view.backgroundColor = Colors.darkBackground
         navigationItem.title = tutor?.username
-    }
-    
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
     }
     
     func showMessageVC() {

@@ -58,7 +58,7 @@ class QTTutorDashboardViewController: UIViewController {
     let headerView: QTTutorDashboardHeaderView = QTTutorDashboardHeaderView.load()
     let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
     
-    static func load() -> QTTutorDashboardViewController {
+    static func loadView() -> QTTutorDashboardViewController {
         return QTTutorDashboardViewController(nibName: String(describing: QTTutorDashboardViewController.self), bundle: nil)
     }
     

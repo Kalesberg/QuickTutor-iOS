@@ -146,14 +146,9 @@ class TutorManagePolicies: UIViewController {
     
     func setupNavigationBar() {
         navigationItem.title = "Manage Policies"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(savePolicies))
     }
     
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
-    }
-
     override func loadView() {
         view = contentView
     }

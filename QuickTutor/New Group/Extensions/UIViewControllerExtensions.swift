@@ -215,7 +215,7 @@ extension UINavigationController {
 					self.popToViewController(controller, animated: true)
 				}
 			} else {
-				if controller is TutorMainPage {
+				if controller is QTTutorDashboardViewController {
 					self.popToViewController(controller, animated: true)
 					break
 				}
@@ -272,7 +272,7 @@ extension UINavigationController {
 	}
 	func popBackToTutorMain() {
 		for controller in self.viewControllers {
-			if controller is TutorMainPage {
+			if controller is QTTutorDashboardViewController {
 				self.popToViewController(controller, animated: true)
 				break
 			}

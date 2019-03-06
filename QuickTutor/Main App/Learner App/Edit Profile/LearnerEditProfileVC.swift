@@ -255,13 +255,8 @@ class LearnerEditProfileVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isOpaque = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
     }
     
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)

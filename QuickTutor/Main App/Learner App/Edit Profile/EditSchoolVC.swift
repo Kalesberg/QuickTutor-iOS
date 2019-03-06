@@ -108,7 +108,6 @@ class EditSchoolVC: UIViewController {
         configureDelegates()
         loadListOfSchools()
         navigationItem.title = "Edit Shool"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(displaySavedAlertController))
     }
     
@@ -122,10 +121,6 @@ class EditSchoolVC: UIViewController {
         }
     }
     
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
-    }
-
     override func loadView() {
         view = contentView
     }

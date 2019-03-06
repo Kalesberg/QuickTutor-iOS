@@ -155,14 +155,8 @@ class ChangeEmailVC: UIViewController {
     }
     
     func setupNavBar() {
-        navigationItem.title = "Change Email"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
-    }
+        navigationItem.title = "Change Email"    }
     
-    @objc private func onBack() {
-        navigationController?.popViewController(animated: true)
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentView.textField.becomeFirstResponder()

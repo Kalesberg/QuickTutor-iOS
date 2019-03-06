@@ -59,8 +59,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         UINavigationBar.appearance().barTintColor = Colors.registrationDark
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        let backImage = UIImage(named: "ic_back_arrow")
+        UINavigationBar.appearance().backIndicatorImage = backImage
+        UINavigationBar.appearance().backIndicatorTransitionMaskImage = backImage
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset(horizontal: -200, vertical: 0), for: .default)
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-
 
         IQKeyboardManager.shared().isEnabled = true
         IQKeyboardManager.shared().isEnableAutoToolbar = false

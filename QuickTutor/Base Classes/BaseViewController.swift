@@ -116,10 +116,5 @@ public class BaseViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"newBackButton"), style: .plain, target: self, action: #selector(onBack))
-    }
-    
-    @objc func onBack() {
-        navigationController?.popViewController(animated: true)
     }
 }
