@@ -47,7 +47,7 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
         gradientLayer.colors = [Colors.wheat,
                                 Colors.orange,
                                 Colors.pink,
-                                Colors.purple,
+                                Colors.brightPurple,
                                 Colors.warmBlue].map({$0.cgColor})
         gradientLayer.locations = [0, 0.27, 0.52, 0.75, 1]
         gradientLayer.transform = CATransform3DMakeRotation(CGFloat.pi * 1.25, 0, 0, 1)

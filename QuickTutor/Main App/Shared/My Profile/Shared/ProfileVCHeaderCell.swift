@@ -9,19 +9,14 @@
 import UIKit
 import Firebase
 
-protocol ProfileVCHeaderCellDelegate: class {
-    func profileVCHeaderCellShouldHandleTap(_ cell: ProfileVCHeaderCell)
-}
-
 class ProfileVCHeaderCell: UICollectionReusableView {
-    
-    weak var delegate: ProfileVCHeaderCellDelegate?
-    
     var parentViewController: ProfileVC? {
         didSet {
             profileToggleView.profileDelegate = parentViewController
         }
     }
+    
+    var didClickProfileHeader: (() -> ())?
     
     let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -53,12 +48,6 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         return button
     }()
     
-    let topAreaButtonMask: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .clear
-        return button
-    }()
-    
     let profileToggleView: MockCollectionViewCell = {
         let view = MockCollectionViewCell()
         return view
@@ -71,7 +60,6 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         setupRatingLabel()
         setupActionsButton()
         setupProfileToggleView()
-        setupTopAreaButtonMask()
     }
     
     func setupMainView() {
@@ -105,11 +93,6 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         profileToggleView.profileDelegate = parentViewController
     }
     
-    func setupTopAreaButtonMask() {
-        addSubview(topAreaButtonMask)
-        topAreaButtonMask.anchor(top: topAnchor, left: leftAnchor, bottom: profileToggleView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    }
-    
     func updateUI() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         DataService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
@@ -120,12 +103,15 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     }
     
     func setupTargets() {
-        actionsButton.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
-        topAreaButtonMask.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
+        actionsButton.addTarget(self, action: #selector(handleSelfTap), for: .touchUpInside)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelfTap)))
     }
     
-    @objc func handleEditProfile() {
-        delegate?.profileVCHeaderCellShouldHandleTap(self)
+    @objc
+    func handleSelfTap() {
+        if let didClickProfileHeader = didClickProfileHeader {
+            didClickProfileHeader()
+        }
     }
     
     override init(frame: CGRect) {

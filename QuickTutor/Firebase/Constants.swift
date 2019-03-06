@@ -58,7 +58,7 @@ struct Colors {
     static let wheat = UIColor(hex: "feda75")
     static let orange = UIColor(hex: "fa7e1e")
     static let pink = UIColor(hex: "d62976")
-    static let purple = UIColor(hex: "962fbf")
+    static let brightPurple = UIColor(hex: "962fbf")
     static let warmBlue = UIColor(hex: "4f5bd5")
     
 }
