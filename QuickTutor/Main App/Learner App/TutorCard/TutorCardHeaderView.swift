@@ -107,8 +107,7 @@ class TutorCardHeaderView: UIView {
         }
         
         getConnectionStatus { (connected) in
-            self.messageButton.isEnabled = connected
-            self.messageButton.alpha = connected ? 1 : 0.5
+            self.messageButton.isHidden = !connected
         }
         
         // Changed hart icon into message icon, so don't need the following code snippets

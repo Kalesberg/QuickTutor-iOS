@@ -19,6 +19,7 @@ class TutorCardView: UIView, TutorDataSource {
     
     var tutor: AWTutor?
     var subject: String?
+    var isConnected = false
     var parentViewController: UIViewController?
     
     let scrollView: UIScrollView = {
@@ -111,13 +112,35 @@ class TutorCardView: UIView, TutorDataSource {
         connectView.connectButton.addTarget(self, action: #selector(connect), for: .touchUpInside)
     }
     
+    func getConnectionStatus(completionHandler: ((Bool) -> ())?) {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        
+        Database.database().reference()
+            .child("connections")
+            .child(uid)
+            .child(userTypeString)
+            .child(tutorId).observeSingleEvent(of: .value) { (snapshot) in
+                if let completionHandler = completionHandler {
+                    completionHandler(snapshot.exists())
+                }
+        }
+    }
+    
     @objc func connect() {
         guard let tutor = tutor else { return }
-        DataService.shared.getTutorWithId(tutor.uid) { tutor in
-            let vc = ConversationVC()
-            vc.receiverId = tutor?.uid
-            vc.chatPartner = tutor
+        
+        if isConnected {
+            let vc = SessionRequestVC()
+            vc.tutor = tutor
             self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            DataService.shared.getTutorWithId(tutor.uid) { tutor in
+                let vc = ConversationVC()
+                vc.receiverId = tutor?.uid
+                vc.chatPartner = tutor
+                self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
@@ -161,7 +184,6 @@ class TutorCardView: UIView, TutorDataSource {
         infoView.updateUI(tutor)
         reviewsView.updateUI(tutor)
         policiesView.updateUI(tutor)
-        connectView.updateUI(tutor)
         self.tutor = tutor
         infoView.dataSource = self
         infoView.delegate = self
@@ -169,6 +191,10 @@ class TutorCardView: UIView, TutorDataSource {
         if tutor.reviews?.count == 0 {
             reviewsHeightAnchor?.constant = 0
             reviewsView.clipsToBounds = true
+        }
+        getConnectionStatus { (connected) in
+            self.isConnected = connected
+            self.connectView.updateUI(tutor, connected: connected)
         }
     }
     

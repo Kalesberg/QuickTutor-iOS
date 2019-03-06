@@ -44,12 +44,13 @@ class CardFooterView: UIView {
         connectButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 168, height: 0)
     }
     
-    func updateUI(_ tutor: AWTutor) {
+    func updateUI(_ tutor: AWTutor, connected: Bool = false) {
         guard let price = tutor.price else { return }
         guard let priceView = leftAccessoryView as? TutorCardAccessoryView else { return }
         priceView.priceLabel.text = "$\(price) per hour"
         let rating = Int(tutor.tRating)
         priceView.starView.setRating(rating)
+        connectButton.setTitle(connected ? "REQUEST SESSION" : "CONNECT", for: .normal)
     }
     
     override init(frame: CGRect) {
