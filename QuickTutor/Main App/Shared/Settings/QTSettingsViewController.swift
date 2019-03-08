@@ -75,6 +75,9 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
         instagramView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidInstagramViewTap(_:))))
         instagramView.isUserInteractionEnabled = true
         
+        facebookView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidFacebookViewTap(_:))))
+        facebookView.isUserInteractionEnabled = true
+        
         linkFacebookView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidLinkFacebookViewTap(_:))))
         
         showMeSwitch.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowMeSwitchTap(_:))))
