@@ -93,6 +93,7 @@ class TutorCardHeaderView: UIView {
         addSubview(messageButton)
         messageButton.anchor(top: nil, left: nil, bottom: nil, right: detailButton.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 20, height: 20)
         addConstraint(NSLayoutConstraint(item: messageButton, attribute: .centerY, relatedBy: .equal, toItem: nameLabel, attribute: .centerY, multiplier: 1, constant: 0))
+        messageButton.addTarget(self, action: #selector(handleMessageButton), for: .touchUpInside)
     }
     
     func updateUI(_ tutor: AWTutor) {
@@ -106,9 +107,10 @@ class TutorCardHeaderView: UIView {
             self.profileImageView.sd_setImage(with: tutor2.profilePicUrl, for: .normal, completed: nil)
         }
         
-        getConnectionStatus { (connected) in
-            self.messageButton.isHidden = !connected
-        }
+        // If this is my profile, just hide the message and three dots button
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        messageButton.isHidden = uid.elementsEqual(tutor.uid)
+        detailButton.isHidden = messageButton.isHidden
         
         // Changed hart icon into message icon, so don't need the following code snippets
         /*
@@ -144,21 +146,6 @@ class TutorCardHeaderView: UIView {
         CurrentUser.shared.learner.savedTutorIds?.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
-    }
-    
-    func getConnectionStatus(completionHandler: ((Bool) -> ())?) {
-        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
-        let userTypeString = AccountService.shared.currentUserType.rawValue
-    
-        Database.database().reference()
-            .child("connections")
-            .child(uid)
-            .child(userTypeString)
-            .child(tutorId).observeSingleEvent(of: .value) { (snapshot) in
-                if let completionHandler = completionHandler {
-                    completionHandler(snapshot.exists())
-                }
-        }
     }
     
     override init(frame: CGRect) {
