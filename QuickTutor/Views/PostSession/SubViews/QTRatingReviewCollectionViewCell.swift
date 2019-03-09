@@ -109,6 +109,8 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             imageView.isUserInteractionEnabled = true
             imageView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(handleReviewStarTap(_:))))
         }
+        
+        feedbackTextView.font = UIFont.qtRegularFont(size: 14)
     }
 
     @objc

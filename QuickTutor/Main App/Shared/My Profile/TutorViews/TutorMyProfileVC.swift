@@ -46,8 +46,11 @@ class TutorMyProfileVC: BaseViewController {
                 navigationItem.title = tutor.username
                 navigationItem.rightBarButtonItem = nil
             }
-            navigationController?.setNavigationBarHidden(false, animated: true)
         }
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 	
 	override func viewWillAppear(_ animated: Bool) {

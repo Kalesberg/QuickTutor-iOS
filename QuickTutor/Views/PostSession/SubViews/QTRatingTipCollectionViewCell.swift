@@ -101,6 +101,14 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         if let didSelectTip = didSelectTip {
             didSelectTip(tip)
         }
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.minusButton.alpha = 0.3
+        }) { (completed) in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.minusButton.alpha = 1
+            })
+        }
     }
     
     @IBAction func onPlusButtonClicked(_ sender: Any) {
@@ -109,6 +117,14 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         priceLabel.text = "$\(costOfSession + Double(tip))"
         if let didSelectTip = didSelectTip {
             didSelectTip(tip)
+        }
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.plusButton.alpha = 0.3
+        }) { (completed) in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.plusButton.alpha = 1
+            })
         }
     }
     
