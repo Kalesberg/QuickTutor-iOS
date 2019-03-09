@@ -32,6 +32,10 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         sectionTitles.insert("Tutoring", at: 2)
+        if automaticScroll {
+            let indexPath = IndexPath(row: 0, section: 2)
+            contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+        }
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 5
@@ -356,7 +360,7 @@ class LearnerEditProfileVC: UIViewController {
     }
     
     func saveBio() {
-        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 3, section: 1)) as! EditProfileBioCell
+        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as! EditProfileBioCell
         guard let newBio = cell.textView.text else { return }
         switch AccountService.shared.currentUserType {
         case .learner:

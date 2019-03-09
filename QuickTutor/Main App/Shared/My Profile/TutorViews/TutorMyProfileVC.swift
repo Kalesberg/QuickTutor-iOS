@@ -14,7 +14,7 @@ protocol UpdatedTutorCallBack: class {
     func tutorWasUpdated(tutor: AWTutor!)
 }
 
-class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
+class TutorMyProfileVC: BaseViewController {
 
     override var contentView: TutorMyProfileView {
         return view as! TutorMyProfileView
@@ -67,12 +67,6 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		contentView.scrollView.contentSize.height = contentView.scrollView.subviews.reduce(0) { $0 + $1.frame.height }
-	}
-	
-	func tutorWasUpdated(tutor: AWTutor!) {
-		self.tutor = tutor
-		let name = tutor.name.split(separator: " ")
-		contentView.myProfileHeader.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
 	}
 	
 	private func setupMyProfileHeader() {
@@ -180,8 +174,7 @@ class TutorMyProfileVC: BaseViewController, UpdatedTutorCallBack {
 	}
     
     @objc func editProfile() {
-        let next = TutorEditProfile()
-        next.tutor = tutor
+        let next = TutorEditProfileVC()
         next.delegate = self
         navigationController?.pushViewController(next, animated: true)
     }
@@ -201,4 +194,12 @@ extension TutorMyProfileVC : UIScrollViewDelegate {
 	func scrollViewDidScroll(_ scrollView: UIScrollView) {
 		scrollView.setContentOffset(CGPoint(x: 0, y: scrollView.contentOffset.y), animated: true)
 	}
+}
+
+extension TutorMyProfileVC: LearnerWasUpdatedCallBack {
+    func learnerWasUpdated(learner: AWLearner!) {
+        tutor = tutor.copy(learner: learner)
+        let name = tutor.name.split(separator: " ")
+        contentView.myProfileHeader.nameLabel.text = "\(String(name[0])) \(String(name[1]).prefix(1))."
+    }
 }
