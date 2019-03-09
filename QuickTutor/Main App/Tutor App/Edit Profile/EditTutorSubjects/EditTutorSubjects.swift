@@ -278,8 +278,9 @@ class EditTutorSubjects: BaseViewController {
         if let subjects = SubjectStore.loadTotalSubjectList() {
             allSubjects = subjects
         }
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
-
+    
     private func configureDelegates() {
         contentView.pickedCollectionView.delegate = self
         contentView.pickedCollectionView.dataSource = self

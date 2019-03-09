@@ -25,15 +25,22 @@ class EditBirthdateVC: BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        navigationItem.title = "Edit Birthday"
         contentView.datePicker.maximumDate = Date().adding(days: 365 * -18)
         contentView.titleLabel.text = "Enter birthday"
 		dateformatter.dateFormat = "MMMM d'\(date.daySuffix())' yyyy"
 		contentView.birthdayLabel.textField.text = CurrentUser.shared.learner.birthday.toBirthdatePrettyFormat()
 		contentView.datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+        navigationItem.title = "Edit Birthday"
+        navigationController?.setNavigationBarHidden(false, animated: false)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveChanges))
         
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
 	private func showErrorMessage() {
 		contentView.errorLabel.isHidden = false
 		contentView.errorLabel.shake()

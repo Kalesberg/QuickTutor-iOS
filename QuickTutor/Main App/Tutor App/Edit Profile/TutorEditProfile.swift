@@ -65,7 +65,7 @@ class TutorEditProfileView: UIView, Keyboardable {
     }
 }
 
-class TutorEditProfile: BaseViewController, TutorPreferenceChange {
+class TutorEditProfile: BaseViewController, TutorPreferenceChange, QTTutorEditProfileNavigation {
     let imagePicker = UIImagePickerController()
 
     let storageRef = Storage.storage().reference(forURL: Constants.STORAGE_URL)
@@ -147,8 +147,8 @@ class TutorEditProfile: BaseViewController, TutorPreferenceChange {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: true)
         super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     func inPersonPressed() {
@@ -448,9 +448,7 @@ extension TutorEditProfile: UITableViewDelegate, UITableViewDataSource {
             next.tutor = tutor
             navigationController?.pushViewController(next, animated: true)
         case 8:
-            let next = TutorManagePreferences()
-            next.tutor = tutor
-            navigationController?.pushViewController(next, animated: true)
+            goToTutorManagePreferences(tutor: tutor)
         // case 9:
         case 10:
             navigationController?.pushViewController(EditPhoneVC(), animated: true)
@@ -549,6 +547,18 @@ extension TutorEditProfile: UIScrollViewDelegate {
         if !automaticScroll {
             view.endEditing(true)
         }
+    }
+}
+
+protocol QTTutorEditProfileNavigation {
+    func goToTutorManagePreferences(tutor: AWTutor)
+}
+
+extension QTTutorEditProfileNavigation {
+    func goToTutorManagePreferences(tutor: AWTutor) {
+        let next = TutorManagePreferences()
+        next.tutor = tutor
+        navigationController.pushViewController(next, animated: true)
     }
 }
 
