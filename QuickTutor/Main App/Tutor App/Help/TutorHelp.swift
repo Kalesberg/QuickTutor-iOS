@@ -19,6 +19,7 @@ class TutorHelp: BaseViewController {
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "helpCell")
         navigationItem.title = "Help"
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func loadView() {
