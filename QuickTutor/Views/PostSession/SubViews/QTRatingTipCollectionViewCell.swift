@@ -97,7 +97,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         }
         
         tipTextField.text = "$\(tip)"
-        priceLabel.text = "$\(costOfSession - Double(tip))"
+        priceLabel.text = "$\(Int(costOfSession) - tip)"
         if let didSelectTip = didSelectTip {
             didSelectTip(tip)
         }
@@ -114,7 +114,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     @IBAction func onPlusButtonClicked(_ sender: Any) {
         tip += 5
         tipTextField.text = "$\(tip)"
-        priceLabel.text = "$\(costOfSession + Double(tip))"
+        priceLabel.text = "$\(Int(costOfSession) + tip)"
         if let didSelectTip = didSelectTip {
             didSelectTip(tip)
         }
