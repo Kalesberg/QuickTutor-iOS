@@ -11,6 +11,7 @@ import FirebaseStorage
 
 class QTRatingTipCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var profileView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -36,6 +37,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     
     var isPayWithoutTip = false
     var tip = 0
+    var costOfSession: Double = 0.0
     var didSelectTip: ((Int) ->())?
     
     enum Dimension: Float {
@@ -93,7 +95,9 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         } else {
             tip -= 5
         }
+        
         tipTextField.text = "$\(tip)"
+        priceLabel.text = "$\(costOfSession - Double(tip))"
         if let didSelectTip = didSelectTip {
             didSelectTip(tip)
         }
@@ -102,6 +106,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     @IBAction func onPlusButtonClicked(_ sender: Any) {
         tip += 5
         tipTextField.text = "$\(tip)"
+        priceLabel.text = "$\(costOfSession + Double(tip))"
         if let didSelectTip = didSelectTip {
             didSelectTip(tip)
         }
@@ -184,6 +189,11 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     }
     
     public func setProfileInfo(user: Any, subject: String?, costOfSession: Double) {
+        
+        scrollView.contentSize.width = UIScreen.main.bounds.width
+        scrollView.backgroundColor = UIColor.red
+        
+        
         if let tutor = user as? AWTutor {
             let nameSplit = tutor.name.split(separator: " ")
             nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
@@ -208,6 +218,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
                 hourlyRateLabel.isHidden = true
             }
             
+            self.costOfSession = costOfSession
             priceLabel.text = "$\(costOfSession)"
         }
     }

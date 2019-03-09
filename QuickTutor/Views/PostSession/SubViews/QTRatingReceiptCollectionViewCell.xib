@@ -33,7 +33,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="468" height="500"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wGa-ad-zEV">
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wGa-ad-zEV">
                         <rect key="frame" x="0.0" y="0.0" width="468" height="500"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yzp-wg-7QO">
@@ -418,6 +418,7 @@
                 <outlet property="partnerSessionLabel" destination="Q4P-mJ-8uv" id="sy0-0C-RdZ"/>
                 <outlet property="partnerSessionNumberLabel" destination="Kk3-hu-FkY" id="PM3-BQ-IbG"/>
                 <outlet property="receiptView" destination="3zO-Qy-6W6" id="BII-bI-nen"/>
+                <outlet property="scrollView" destination="wGa-ad-zEV" id="uO3-Qm-ASL"/>
                 <outlet property="sessionLengthLabel" destination="YA6-xN-E2a" id="pNw-0d-Vit"/>
                 <outlet property="subjectLabel" destination="5U3-S9-MlJ" id="SBK-76-7oE"/>
                 <outlet property="tipLabel" destination="NmU-ug-Vce" id="g8E-no-jsY"/>

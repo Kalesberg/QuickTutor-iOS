@@ -40,7 +40,7 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="UNL-Ug-JM0">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="UNL-Ug-JM0">
                     <rect key="frame" x="0.0" y="94" width="375" height="489"/>
                     <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="unO-4d-ZNh">
