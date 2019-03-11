@@ -64,6 +64,23 @@ class AWTutor: AWLearner {
 
     }
     
+    func copy(learner: AWLearner) -> AWTutor {
+        self.name = learner.name
+        self.bio = learner.bio
+        self.birthday = learner.birthday
+        self.email = learner.email
+        self.phone = learner.phone
+        self.lNumSessions = learner.lNumSessions
+        self.customer = learner.customer
+        self.lHours = learner.lHours
+        self.school = learner.name
+        self.languages = learner.languages
+        self.lReviews = learner.lReviews
+        self.lRating = learner.lRating
+        self.savedTutorIds = learner.savedTutorIds
+        return self
+    }
+    
     required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }

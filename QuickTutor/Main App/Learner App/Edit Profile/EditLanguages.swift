@@ -75,6 +75,11 @@ class EditLanguageVC: UIViewController {
 
         selectedCells = languages
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
 
     private func configureDelegates() {
         contentView.tableView.delegate = self
@@ -85,6 +90,7 @@ class EditLanguageVC: UIViewController {
     func setupNavBar() {
         navigationItem.title = "Languages I Speak"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveLanguages))
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     private func displaySavedAlertController() {

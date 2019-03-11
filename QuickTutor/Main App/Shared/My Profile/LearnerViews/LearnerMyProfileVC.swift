@@ -39,8 +39,6 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
     override func viewDidLoad() {
         super.viewDidLoad()
 		datasource = learner.lReviews
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        
         if AccountService.shared.currentUser != nil && learner != nil {
             if AccountService.shared.currentUser.uid.caseInsensitiveCompare(learner.uid) == ComparisonResult.orderedSame {
                 // If this is my profile, app will show the edit icon and the title with "My Profile" string.
@@ -54,7 +52,10 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
                 navigationItem.title = learner.name
                 navigationItem.rightBarButtonItem = nil
             }
-            navigationController?.setNavigationBarHidden(false, animated: true)
+        }
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
         }
     }
 

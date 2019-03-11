@@ -68,6 +68,7 @@ class TutorManagePreferences: BaseViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         configureDelegates()
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func loadView() {

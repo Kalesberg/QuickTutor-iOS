@@ -11,6 +11,7 @@ import FirebaseStorage
 
 class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var receiptView: UIView!
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -47,6 +48,9 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
                                tip: Int,
                                sessionDuration: Int,
                                partnerSessionNumber: Int) {
+        
+        scrollView.contentSize.width = UIScreen.main.bounds.width
+        
         if let tutor = user as? AWTutor {
             let nameSplit = tutor.name.split(separator: " ")
             nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")

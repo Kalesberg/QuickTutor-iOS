@@ -144,9 +144,15 @@ class TutorManagePolicies: UIViewController {
         setupNavigationBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     func setupNavigationBar() {
         navigationItem.title = "Manage Policies"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(savePolicies))
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func loadView() {

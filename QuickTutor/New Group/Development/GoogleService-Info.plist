@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>805182221905-pu1qc5q4fgqdon1dc7onh7mpf8u4pbd4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.805182221905-pu1qc5q4fgqdon1dc7onh7mpf8u4pbd4</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA2Mpk0GRYRDUR8FOHHjuDgjT9H_Uc6cu8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>805182221905</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.quicktutor1.quicktutor</string>
+	<key>PROJECT_ID</key>
+	<string>quicktutor-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>quicktutor-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:805182221905:ios:a2ebf0f1c443a0ea</string>
+	<key>DATABASE_URL</key>
+	<string>https://quicktutor-dev.firebaseio.com</string>
+</dict>
+</plist>

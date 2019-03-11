@@ -12,6 +12,7 @@ import FirebaseStorage
 
 class QTRatingReviewCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var profileView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -108,6 +109,8 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             imageView.isUserInteractionEnabled = true
             imageView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(handleReviewStarTap(_:))))
         }
+        
+        feedbackTextView.font = UIFont.qtRegularFont(size: 14)
     }
 
     @objc
@@ -233,6 +236,9 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             hourlyRateLabel.isHidden = true
             isTutorProfile = false
         }
+        
+        scrollView.contentSize.width = UIScreen.main.bounds.width
+        
     }
     
     private func setProfileRating(_ rating: Int) {

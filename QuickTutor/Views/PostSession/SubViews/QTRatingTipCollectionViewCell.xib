@@ -33,7 +33,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="472" height="680"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KQN-mU-nYo">
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KQN-mU-nYo">
                         <rect key="frame" x="0.0" y="0.0" width="472" height="680"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ye-dM-RkG">
@@ -328,7 +328,7 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="3ye-dM-RkG" firstAttribute="top" secondItem="KQN-mU-nYo" secondAttribute="top" id="0su-kc-MoE"/>
-                            <constraint firstAttribute="trailing" secondItem="3ye-dM-RkG" secondAttribute="trailing" constant="235" id="3vm-Gc-8tZ"/>
+                            <constraint firstAttribute="trailing" secondItem="3ye-dM-RkG" secondAttribute="trailing" id="3vm-Gc-8tZ"/>
                             <constraint firstItem="3ye-dM-RkG" firstAttribute="centerX" secondItem="KQN-mU-nYo" secondAttribute="centerX" id="IQo-Y9-RRm"/>
                             <constraint firstItem="3ye-dM-RkG" firstAttribute="leading" secondItem="KQN-mU-nYo" secondAttribute="leading" id="N27-rs-6PO"/>
                             <constraint firstItem="3ye-dM-RkG" firstAttribute="width" secondItem="KQN-mU-nYo" secondAttribute="width" id="bY9-W7-n3o"/>
@@ -364,6 +364,7 @@
                 <outlet property="profileStar5ImageView" destination="bUn-em-H5J" id="iJY-y0-SmT"/>
                 <outlet property="profileView" destination="Toa-ZN-kVe" id="2jd-gK-Xyu"/>
                 <outlet property="reviewNumberLabel" destination="NaZ-Pj-jdJ" id="nUo-Ka-va1"/>
+                <outlet property="scrollView" destination="KQN-mU-nYo" id="XEX-Jh-6bb"/>
                 <outlet property="subjectLabel" destination="I87-QK-tEi" id="YeC-pY-9HZ"/>
                 <outlet property="subjectView" destination="dTh-TH-aZ4" id="yh2-IR-u9F"/>
                 <outlet property="tipCheckImageView" destination="0mT-dN-oaG" id="7eR-bO-yqF"/>

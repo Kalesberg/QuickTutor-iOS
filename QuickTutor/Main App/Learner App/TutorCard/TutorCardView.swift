@@ -83,7 +83,6 @@ class TutorCardView: UIView, TutorDataSource {
     func setupHeaderView() {
         scrollView.addSubview(headerView)
         headerView.anchor(top: scrollView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
-        headerView.messageButton.addTarget(self, action: #selector(handleMessageButton), for: .touchUpInside)
     }
     
     func setupInfoView() {
@@ -144,21 +143,6 @@ class TutorCardView: UIView, TutorDataSource {
         }
     }
     
-    @objc func handleMessageButton() {
-        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
-        let userTypeString = AccountService.shared.currentUserType.rawValue
-        Database.database().reference()
-            .child("connections")
-            .child(uid)
-            .child(userTypeString)
-            .child(tutorId)
-            .observeSingleEvent(of: .value) { snapshot in
-                if snapshot.exists() {
-                    self.connect()
-                }
-        }
-    }
-    
     @objc func seeAllReviews(_ sender: UIButton) {
         guard let tutor = tutor else { return }
         FirebaseData.manager.fetchTutor(tutor.uid, isQuery: false) { (fetchedTutorIn) in
@@ -192,6 +176,7 @@ class TutorCardView: UIView, TutorDataSource {
             reviewsHeightAnchor?.constant = 0
             reviewsView.clipsToBounds = true
         }
+        
         getConnectionStatus { (connected) in
             self.isConnected = connected
             self.connectView.updateUI(tutor, connected: connected)

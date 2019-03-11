@@ -209,6 +209,7 @@ class EditBioVC: BaseViewController {
 
         originalBio = contentView.textView.textView.text
         contentView.characterCount.label.text = String(500 - originalBio.count)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {

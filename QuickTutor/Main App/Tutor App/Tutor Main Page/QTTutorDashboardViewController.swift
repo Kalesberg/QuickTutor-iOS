@@ -96,8 +96,7 @@ class QTTutorDashboardViewController: UIViewController {
 
     // MARK: - Actions
     @IBAction func onTutorSettingsViewTapped(_ sender: Any) {
-        let controller = TutorEditProfile()
-        controller.tutor = tutor
+        let controller = TutorEditProfileVC()
         controller.automaticScroll = true
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
@@ -371,9 +370,9 @@ extension QTTutorDashboardViewController: UITableViewDataSource {
     }
 }
 
-extension QTTutorDashboardViewController: UpdatedTutorCallBack {
-    func tutorWasUpdated(tutor: AWTutor!) {
-        self.tutor = tutor
+extension QTTutorDashboardViewController: LearnerWasUpdatedCallBack {
+    func learnerWasUpdated(learner: AWLearner!) {
+        tutor = tutor?.copy(learner: learner)
         initUserBasicInformation()
     }
 }

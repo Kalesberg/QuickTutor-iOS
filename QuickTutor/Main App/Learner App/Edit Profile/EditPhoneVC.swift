@@ -194,13 +194,17 @@ class EditPhoneVC: BaseViewController {
         super.viewDidLoad()
         contentView.phoneTextField.textField.delegate = self
         navigationItem.title = "Change Number"
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentView.phoneTextField.textField.becomeFirstResponder()
-        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     private func displaySavedAlertController() {

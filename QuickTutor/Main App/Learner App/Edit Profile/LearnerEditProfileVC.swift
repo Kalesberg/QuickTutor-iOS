@@ -32,6 +32,10 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         sectionTitles.insert("Tutoring", at: 2)
+        if automaticScroll {
+            let indexPath = IndexPath(row: 0, section: 2)
+            contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+        }
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 5
