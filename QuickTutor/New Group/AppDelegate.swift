@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
 
         IQKeyboardManager.shared().isEnabled = true
         IQKeyboardManager.shared().isEnableAutoToolbar = false
-            
+        
         //Firebase init
         FirebaseApp.configure()
         

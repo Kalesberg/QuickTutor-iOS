@@ -28,8 +28,9 @@ class QueryData {
                     group.enter()
                     FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.subcategory.fileToRead, { tutor in
                         if let tutor = tutor {
+                            if tutor.uid != Auth.auth().currentUser?.uid {
                                 uids[category]!.append(tutor)
-                            
+                            }
                         }
                         group.leave()
                     })
@@ -79,7 +80,6 @@ class QueryData {
                 FirebaseData.manager.fetchFeaturedTutor(child.key, category: category.name.lowercased(), { tutor in
                     if let tutor = tutor {
                             tutors.append(tutor)
-                        
                     }
                     group.leave()
                 })

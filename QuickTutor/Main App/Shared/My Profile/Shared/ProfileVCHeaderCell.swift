@@ -36,7 +36,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     let ratingLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.purple
-        label.text = "★ 5.0"
+        label.text = "5.0 ★"
         label.font = Fonts.createBoldSize(14)
         return label
     }()

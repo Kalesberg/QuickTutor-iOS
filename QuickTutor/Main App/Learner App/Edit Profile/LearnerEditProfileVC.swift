@@ -59,7 +59,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         case 0:
             return 115
         case 1:
-            return indexPath.row == 2 ? 110 : 75
+            return indexPath.row == 2 ? 140 : 75
         default:
             return 75
         }
@@ -356,7 +356,7 @@ class LearnerEditProfileVC: UIViewController {
     }
     
     func saveBio() {
-        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 3, section: 1)) as! EditProfileBioCell
+        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as! EditProfileBioCell
         guard let newBio = cell.textView.text else { return }
         switch AccountService.shared.currentUserType {
         case .learner:
@@ -403,7 +403,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 115
         case 1:
-            return indexPath.row == 2 ? 110 : 75
+            return indexPath.row == 2 ? 140 : 75
         case 2:
             return 75
         case 3:

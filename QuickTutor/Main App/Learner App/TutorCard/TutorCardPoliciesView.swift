@@ -10,6 +10,30 @@ import UIKit
 
 class TutorCardPoliciesView: UIView {
     
+    let sessionTypeIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    let travelIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    let latePolicyIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    let cancellationPolicyIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white

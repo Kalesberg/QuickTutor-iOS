@@ -26,7 +26,7 @@ class AWLoadingIndicatorView: BaseView {
 	}()
 	
 	let containerView = UIView()
-	let defaultText = "Try searching for tutors by their username"
+	let defaultText = "Try searching for tutors by entering their username"
 	
 	override func configureView() {
 		addSubview(containerView)
