@@ -40,7 +40,11 @@ class UserPolicyVC: BaseRegistrationController {
     }
     
     func createCustomer(_ completion: @escaping (Error?, String?) -> Void) {
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/createcustomer.php"
+        #else
         let requestString = "https://aqueous-taiga-32557.herokuapp.com/createcustomer.php"
+        #endif
         let params: [String: Any] = ["email": Registration.email ?? "unknown", "description": "Student Account"]
         
         Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)

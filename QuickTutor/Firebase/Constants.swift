@@ -12,8 +12,13 @@ import UIKit
 public struct Constants {
     static let BCK_SPACE = -92
     static let VRFCTN_ID = "firebase_verification_id"
+    #if DEVELOPMENT
+    static let DATABASE_URL = "https://quicktutor-dev.firebaseio.com/"
+    static let STORAGE_URL = "gs://quicktutor-dev.appspot.com"
+    #else
     static let DATABASE_URL = "https://quicktutor-3c23b.firebaseio.com/"
     static let STORAGE_URL = "gs://quicktutor-3c23b.appspot.com"
+    #endif
     
     static var showSwipeTutorial : Bool = false
     static var showMainPageTutorial : Bool = false

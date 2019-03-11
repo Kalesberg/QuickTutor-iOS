@@ -82,7 +82,11 @@ class Stripe {
 	}
 	
 	class func createConnectAccount(bankAccountToken: STPToken, connectAccountToken: STPToken, _ completion: @escaping AWErrorValueCompletionblock) {
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/connect.php"
+        #else
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/connect.php"
+        #endif
 		let params = ["acct_token" : connectAccountToken, "bank_token" : bankAccountToken]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -98,7 +102,11 @@ class Stripe {
 			})
 	}
 	class func retrieveConnectAccount(acctId: String, _ completion: @escaping AWConnectedAccountErrorBlock) {
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/retrieveconnect.php"
+        #else
 		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrieveconnect.php"
+        #endif
 		let params : [String : Any] = ["acct" : acctId]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -122,7 +130,11 @@ class Stripe {
 	}
 	
 	class func destinationCharge(acctId: String, customerId: String, sourceId: String, amount: Int, fee: Int, description: String, _ completion: @escaping (Error?) -> ()) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/charge.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/charge.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/charge.php"
+        #endif
 		let params : [String : Any] = ["acct" : acctId, "customer" : customerId, "source": sourceId, "fee" : fee, "amount" : amount, "description" : description]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -138,7 +150,11 @@ class Stripe {
 	}
 	
 	class func retrieveBankList(acctId: String, _ completion: @escaping AWExternalAccountErrorBlock) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievebank.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/retrievebank.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievebank.php"
+        #endif
 		let params : [String : Any] = ["acct" : acctId]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -162,7 +178,11 @@ class Stripe {
 	}
 	
 	class func retrieveBalanceTransactionList(acctId: String, _ completion: @escaping AWBalanceTransactionErrorBlock) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/transfer.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/transfer.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/transfer.php"
+        #endif
 		let params : [String : Any] = ["acct" : acctId]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -185,7 +205,11 @@ class Stripe {
 	}
 	
 	class func retrieveCustomer(cusID: String, _ completion: @escaping STPCustomerCompletionBlock) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievecustomer.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/retrievecustomer.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/retrievecustomer.php"
+        #endif
 		let params : [String : Any] = ["customer" : cusID]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -213,7 +237,11 @@ class Stripe {
 				return
 			}
 			if let token = token {
-				let requestString = "https://aqueous-taiga-32557.herokuapp.com/AttachSource.php"
+                #if DEVELOPMENT
+                let requestString = "https://quick-tutor-dev.herokuapp.com/AttachSource.php"
+                #else
+                let requestString = "https://aqueous-taiga-32557.herokuapp.com/AttachSource.php"
+                #endif
 				let params : [String : Any] = ["customer" : cusID, "token" :  token]
 				Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 					.validate(statusCode: 200..<300)
@@ -235,7 +263,11 @@ class Stripe {
     
     
     class func attachSource(cusID: String, with token: STPToken, completion: @escaping (String?) -> Void) {
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/AttachSource.php"
+        #else
         let requestString = "https://aqueous-taiga-32557.herokuapp.com/AttachSource.php"
+        #endif
         let params : [String : Any] = ["customer" : cusID, "token" :  token]
         Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
             .validate(statusCode: 200..<300)
@@ -256,7 +288,11 @@ class Stripe {
 
     
 	class func updateDefaultBank(account: String, bankId: String, completion: @escaping AWExternalAccountErrorBlock) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultbankaccount.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/defaultbankaccount.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultbankaccount.php"
+        #endif
 		let params : [String : Any] = ["acct" : account, "bankId" : bankId ]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -279,7 +315,11 @@ class Stripe {
 	}
 	
 	class func removeBank(account: String, bankId: String, completion: @escaping AWExternalAccountErrorBlock) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/removebank.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/removebank.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/removebank.php"
+        #endif
 		let params : [String : Any] = ["acct" : account, "bankId" : bankId ]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -301,7 +341,11 @@ class Stripe {
 			})
 	}
 	class func dettachSource(customer: STPCustomer, deleting card: STPCard, completion: @escaping STPCustomerCompletionBlock) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/detachsource.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/detachsource.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/detachsource.php"
+        #endif
 		let params : [String : Any] = ["customer" : customer.stripeID, "card" : card.stripeID ]
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
 			.validate(statusCode: 200..<300)
@@ -325,7 +369,11 @@ class Stripe {
 	}
 	
 	class func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPCustomerCompletionBlock) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultsource.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/defaultsource.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/defaultsource.php"
+        #endif
 		let params : [String : Any] = ["customer" : customer.stripeID, "card" : defaultCard.stripeID]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -346,7 +394,11 @@ class Stripe {
 	}
 	
 	class func removeCustomer(customerId: String, completion: @escaping (Error?) -> Void) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/removecustomer.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/removecustomer.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/removecustomer.php"
+        #endif
 		let params : [String : Any] = ["customer" : customerId]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
@@ -361,7 +413,11 @@ class Stripe {
 			})
 	}
 	class func removeConnectAccount(accountId: String, completion: @escaping (Error?) -> Void) {
-		let requestString = "https://aqueous-taiga-32557.herokuapp.com/removeconnect.php"
+        #if DEVELOPMENT
+        let requestString = "https://quick-tutor-dev.herokuapp.com/removeconnect.php"
+        #else
+        let requestString = "https://aqueous-taiga-32557.herokuapp.com/removeconnect.php"
+        #endif
 		let params : [String : Any] = ["acct" : accountId]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)

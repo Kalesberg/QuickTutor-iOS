@@ -401,12 +401,14 @@ class TutorSearchService {
         }
         ref.observeSingleEvent(of: .value) { snapshot in
             guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            var tutorsCount = 0
             tutorIds.forEach({ uid, _ in
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
+                    tutorsCount += 1
                     guard let tutor = tutor else { return }
                     tutor.featuredSubject = subject
                     tutors.append(tutor)
-                    if tutors.count == snapshot.childrenCount {
+                    if tutorsCount == snapshot.childrenCount {
                         completion(tutors)
                     }
                 })

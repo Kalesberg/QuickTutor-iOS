@@ -112,8 +112,11 @@ class TutorAddBank: BaseRegistrationController {
 
         STPAPIClient.shared().createToken(withBankAccount: bankAccount) { token, error in
             guard let token = token else { return completion(error) }
-
+            #if DEVELOPMENT
+            let requestString = "https://quick-tutor-dev.herokuapp.com/addbank.php"
+            #else
             let requestString = "https://aqueous-taiga-32557.herokuapp.com/addbank.php"
+            #endif
             let params: [String: Any] = ["acct": CurrentUser.shared.tutor.acctId!, "token": token]
 
             Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
