@@ -182,8 +182,8 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
             set.valueTextColor = .white
             set.setDrawHighlightIndicators(false)
             set.highlightEnabled = true
-            let gradientColors = [UIColor.qtAccentColor.cgColor,
-                                  UIColor.qtAccentColor.withAlphaComponent(0.5).cgColor,
+            let gradientColors = [UIColor.qtAccentColor.withAlphaComponent(0.6).cgColor,
+                                  UIColor.qtAccentColor.withAlphaComponent(0.3).cgColor,
                                   UIColor.clear.cgColor]
             let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: [1, 0.5, 0])!
             
@@ -191,7 +191,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
             set.fill = Fill(linearGradient: gradient, angle: 90)
             set.drawFilledEnabled = true
             set.drawCirclesEnabled = false
-            set.mode = .horizontalBezier
+            set.mode = .linear
             let data = LineChartData(dataSet: set)
             lineChartView.data = data
             
@@ -211,6 +211,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
                 
                 if let maxIndex = maxIndex, let maxData = maxData {
                     highlights.append(Highlight(x: Double(maxIndex), y: maxData.valueY, dataSetIndex: 0))
+                    lineChartView.setVisibleYRangeMaximum(maxData.valueY + maxData.valueY / 4, axis: YAxis.AxisDependency.left)
                 }
                 lineChartView.highlightValues(highlights)
             }

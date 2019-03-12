@@ -43,7 +43,7 @@ class QTTutorDashboardMarkerView: MarkerView {
         }
         
         if let text = valueLabel.text {
-            let width = text.getStringWidth(font: valueLabel.font)
+            let width = text.getStringWidth(font: valueLabel.font) + 16
             self.frame.size.width = width > 20 ? width : 20
             self.offset.x = -self.frame.size.width / 2.0
             
