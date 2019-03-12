@@ -19,18 +19,16 @@ class QTTutorDashboardViewController: UIViewController {
     
     var durationType: QTTutorDashboardDurationType = QTTutorDashboardDurationType.month
     var tutor: AWTutor?
-    var transactions = [BalanceTransaction.Data]() /*{
+    var transactions = [BalanceTransaction.Data]() {
         didSet {
             filterEarnsings(self.durationType)
         }
-    }*/
-    
-    var sessions = [UserSession]() /*{
+    }
+    var sessions = [UserSession]() {
         didSet {
             filterSessionsAndHours(self.durationType)
         }
-    }*/
-    
+    }
     var earningsChartData = [QTTutorDashboardChartData]() {
         didSet {
             tableView.reloadData()
@@ -86,13 +84,9 @@ class QTTutorDashboardViewController: UIViewController {
         self.tutor = CurrentUser.shared.tutor
         
         initUserBasicInformation()
-//        findTopSubjects()
-//        getSessions()
-//        getEarnings()
-        
-        // TODO: Jack remove the statement below
-        filterEarnsings(self.durationType)
-        filterSessionsAndHours(self.durationType)
+        findTopSubjects()
+        getSessions()
+        getEarnings()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -178,57 +172,7 @@ class QTTutorDashboardViewController: UIViewController {
         var mergeUnit: TimeInterval = 00
         var nextMergeUnit: TimeInterval = 00
         var chartData = [QTTutorDashboardChartData]()
-        // Make dummpy data for test.
-        transactions = [
-            BalanceTransaction.Data(id: "0",
-                                    amount: 0,
-                                    created: Int(Date().adding(days: -200).timeIntervalSince1970),
-                                    description: nil,
-                                    fee: nil,
-                                    net: 0,
-                                    status: "okay"),
-            BalanceTransaction.Data(id: "1",
-                                    amount: 1000,
-                                    created: Int(Date().adding(days: -100).timeIntervalSince1970),
-                                    description: nil,
-                                    fee: nil,
-                                    net: 1000,
-                                    status: "okay"),
-            BalanceTransaction.Data(id: "2",
-                                    amount: 500,
-                                    created: Int(Date().adding(days: -90).timeIntervalSince1970),
-                                    description: nil,
-                                    fee: nil,
-                                    net: 500,
-                                    status: "okay"),
-            BalanceTransaction.Data(id: "3",
-                                    amount: 600,
-                                    created: Int(Date().adding(days: -30).timeIntervalSince1970),
-                                    description: nil,
-                                    fee: nil,
-                                    net: 600,
-                                    status: "okay"),
-            BalanceTransaction.Data(id: "4",
-                                    amount: 800,
-                                    created: Int(Date().adding(days: -3).timeIntervalSince1970),
-                                    description: nil,
-                                    fee: nil,
-                                    net: 800,
-                                    status: "okay"),
-            BalanceTransaction.Data(id: "5",
-                                    amount: 300,
-                                    created: Int(Date().adding(days: -2).timeIntervalSince1970),
-                                    description: nil,
-                                    fee: nil,
-                                    net: 300,
-                                    status: "okay"),
-            BalanceTransaction.Data(id: "6",
-                                    amount: 1000,
-                                    created: Int(Date().adding(days: -1).timeIntervalSince1970),
-                                    description: nil,
-                                    fee: nil,
-                                    net: 1000,
-                                    status: "okay")]
+        
         switch durationType {
         case .week:
             unit = NSDate().timeIntervalSince1970 - 604_800 // subctract 7 days
@@ -299,99 +243,6 @@ class QTTutorDashboardViewController: UIViewController {
         var sessionsChartData = [QTTutorDashboardChartData]()
         var hoursChartData = [QTTutorDashboardChartData]()
         
-        // Make dummpy data for test.
-        sessions = [
-            UserSession(dictionary: ["cost": 100,
-                                     "startedAt": Date()
-                                        .adding(days: -200)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -200)
-                                        .adding(hours: 2)
-                                        .adding(minutes: 10)
-                                        .timeIntervalSince1970]),
-            UserSession(dictionary: ["cost": 300,
-                                     "startedAt": Date()
-                                        .adding(days: -150)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -150)
-                                        .adding(hours: 0)
-                                        .adding(minutes: 40)
-                                        .timeIntervalSince1970]),
-            UserSession(dictionary: ["cost": 1200,
-                                     "startedAt": Date()
-                                        .adding(days: -80)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -80)
-                                        .adding(hours: 1)
-                                        .adding(minutes: 20)
-                                        .timeIntervalSince1970]),
-            UserSession(dictionary: ["cost": 0,
-                                     "startedAt": Date()
-                                        .adding(days: -20)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -20)
-                                        .adding(hours: 0)
-                                        .adding(minutes: 1)
-                                        .timeIntervalSince1970]),
-            UserSession(dictionary: ["cost": 500,
-                                     "startedAt": Date()
-                                        .adding(days: -18)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -18)
-                                        .adding(hours: 5)
-                                        .adding(minutes: 0)
-                                        .timeIntervalSince1970]),
-            UserSession(dictionary: ["cost": 5400,
-                                     "startedAt": Date()
-                                        .adding(days: -16)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -16)
-                                        .adding(hours: 6)
-                                        .adding(minutes: 20)
-                                        .timeIntervalSince1970]),
-            UserSession(dictionary: ["cost": 350,
-                                     "startedAt": Date()
-                                        .adding(days: -5)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -5)
-                                        .adding(hours: 1)
-                                        .adding(minutes: 10)
-                                        .timeIntervalSince1970]),
-            UserSession(dictionary: ["cost": 20,
-                                     "startedAt": Date()
-                                        .adding(days: -4)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -4)
-                                        .adding(hours: 0)
-                                        .adding(minutes: 50)
-                                        .timeIntervalSince1970]),
-            UserSession(dictionary: ["cost": 10,
-                                     "startedAt": Date()
-                                        .adding(days: -3)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -3)
-                                        .adding(hours: 0)
-                                        .adding(minutes: 5)
-                                        .timeIntervalSince1970]),
-            UserSession(dictionary: ["cost": 1000,
-                                     "startedAt": Date()
-                                        .adding(days: -2)
-                                        .timeIntervalSince1970,
-                                     "endedAt": Date()
-                                        .adding(days: -2)
-                                        .adding(hours: 3)
-                                        .adding(minutes: 10)
-                                        .timeIntervalSince1970]),
-            ]
         switch durationType {
         case .week:
             unit = NSDate().timeIntervalSince1970 - 604_800 // subctract 7 days
@@ -415,7 +266,7 @@ class QTTutorDashboardViewController: UIViewController {
                 nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
                 fiteredSessions
                     .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
-                    .forEach({sessionCount += 1; ($0.endedAt - $0.startedAt) / 3_600 })
+                    .forEach({sessionCount += 1; hours += ($0.endedAt - $0.startedAt) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }

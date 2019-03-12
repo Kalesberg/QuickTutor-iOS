@@ -54,7 +54,6 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
     var chartType: QTTutorDashboardChartType!
     var durationType: QTTutorDashboardDurationType!
     var chartData: [QTTutorDashboardChartData]?
-//    var longPressGesture: UILongPressGestureRecognizer?
     var panGesture: UIPanGestureRecognizer?
     var lastPoint: CGPoint?
     
@@ -88,7 +87,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         lineChartView.noDataTextColor = UIColor.qtAccentColor
         lineChartView.noDataText = "There is no data available."
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(onLineChartViewPanGestureRecognized(_:)))
-        if let panGesture = panGesture { //let gesture = longPressGesture,
+        if let panGesture = panGesture {
             panGesture.delegate = self
             lineChartView.addGestureRecognizer(panGesture)
         }
@@ -113,7 +112,6 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
             print("long press gesture ended")
         }
     }
-    
     
     func setData(chartType: QTTutorDashboardChartType,
                  durationType: QTTutorDashboardDurationType,
