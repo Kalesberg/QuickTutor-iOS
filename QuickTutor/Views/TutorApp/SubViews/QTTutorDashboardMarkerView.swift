@@ -35,20 +35,22 @@ class QTTutorDashboardMarkerView: MarkerView {
         guard let chartType = chartType else { return }
         switch chartType {
         case .earnings:
-            valueLabel.text = entry.y.currencyFormat()
-        case .sessions, .hours:
+            valueLabel.text = entry.y.currencyFormat(precision: 2)
+        case .hours:
+            valueLabel.text = String(format: "%.2f", entry.y)
+        case .sessions:
             valueLabel.text = String(format: "%d", Int(round(entry.y)))
         }
         
         if let text = valueLabel.text {
-            self.frame.size.width = text.getStringWidth(font: valueLabel.font) + 10
+            let width = text.getStringWidth(font: valueLabel.font)
+            self.frame.size.width = width > 40 ? width : 40
             self.offset.x = -self.frame.size.width / 2.0
             
             if let contentDidChanged = self.contentDidChanged {
                 contentDidChanged(entry.data as? QTTutorDashboardChartData)
             }
         }
-        
         
         layoutIfNeeded()
     }
