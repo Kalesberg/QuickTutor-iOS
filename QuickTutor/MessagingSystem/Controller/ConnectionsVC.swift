@@ -55,6 +55,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
             searchController.definesPresentationContext = true
+            searchController.dimsBackgroundDuringPresentation = false
             searchController.searchBar.tintColor = .white
             searchController.searchResultsUpdater = self
         }

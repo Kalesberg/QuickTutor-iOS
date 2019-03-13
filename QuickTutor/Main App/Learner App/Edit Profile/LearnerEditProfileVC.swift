@@ -63,7 +63,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         case 0:
             return 115
         case 1:
-            return indexPath.row == 2 ? 110 : 75
+            return indexPath.row == 2 ? 140 : 75
         default:
             return 75
         }
@@ -407,7 +407,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 115
         case 1:
-            return indexPath.row == 2 ? 110 : 75
+            return indexPath.row == 2 ? 140 : 75
         case 2:
             return 75
         case 3:

@@ -15,7 +15,8 @@ var categories: [Category] = Category.categories
 class LearnerMainPageVC: UIViewController {
     
     var selectedCellFrame: CGRect?
-    
+    var featuredSubjects = [MainPageFeaturedSubject]()
+
     var contentView: LearnerMainPageVCView {
         return view as! LearnerMainPageVCView
     }
@@ -34,7 +35,8 @@ class LearnerMainPageVC: UIViewController {
         setupStripe()
         queryFeaturedTutors()
         configureView()
-        navigationController?.setNavigationBarHidden(true, animated: false)        
+        loadFeaturedSubjects()
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     func confirmSignedInUser() {
@@ -57,6 +59,14 @@ class LearnerMainPageVC: UIViewController {
         }
     }
 
+    func loadFeaturedSubjects() {
+        DataService.shared.featchMainPageFeaturedSubject { (subjects) in
+            guard let subjects = subjects else { return }
+            self.featuredSubjects = subjects
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "com.qt.fetchedSubjects"), object: nil)
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -115,20 +125,29 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
+            return 250
+        } else if indexPath.section == 1 {
             return 162
+        } else {
+            return 205
+            
         }
-        return 205
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "featuredCell", for: indexPath) as! LearnerMainPageFeaturedSubjectTableViewCell
+            cell.collectionView.delegate = self
+            cell.collectionView.dataSource = self
+            return cell
+        } else if indexPath.section == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
             cell.delegate = self
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
-
-			cell.parentViewController = self
+            
+            cell.parentViewController = self
             cell.datasource = datasource[categories[indexPath.section - 1]]!
             let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.section - 1].subcategory.fileToRead)
             cell.category = category
@@ -139,17 +158,20 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func numberOfSections(in _: UITableView) -> Int {
-        return datasource.count + 1
+        return datasource.count + 2
     }
 
     func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            return nil
+        }
         let view = SectionHeader()
         view.category.text = (section == 0) ? "Categories" : categories[section - 1].mainPageData.displayName
         return view
     }
 
-    func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
-        return 50
+    func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 20 : 50
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -206,3 +228,33 @@ extension LearnerMainPageVC: UINavigationControllerDelegate {
     }
 }
 
+extension LearnerMainPageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! LearnerMainPageFeaturedSubjectCell
+        cell.updateUI(featuredSubjects[indexPath.item])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return featuredSubjects.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = CategorySearchVC()
+        vc.subject = featuredSubjects[indexPath.item].subject
+        vc.navigationItem.title = featuredSubjects[indexPath.item].subject
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}

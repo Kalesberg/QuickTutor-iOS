@@ -1097,6 +1097,7 @@
 		CFD92A71222F502800704531 /* TutorRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A70222F502800704531 /* TutorRegistrationService.swift */; };
 		CFD92A73222F507A00704531 /* TutorAddSubjectsVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A72222F507A00704531 /* TutorAddSubjectsVCView.swift */; };
 		CFD92A75222F50A900704531 /* NewTutorAddSubjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A74222F50A900704531 /* NewTutorAddSubjects.swift */; };
+		CFD92A772231BA9D00704531 /* TheChoiceVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A762231BA9D00704531 /* TheChoiceVCView.swift */; };
 		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
 		CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8EF20C8921900182E1C /* SessionManager.swift */; };
@@ -1726,6 +1727,7 @@
 		CFD92A70222F502800704531 /* TutorRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorRegistrationService.swift; sourceTree = "<group>"; };
 		CFD92A72222F507A00704531 /* TutorAddSubjectsVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddSubjectsVCView.swift; sourceTree = "<group>"; };
 		CFD92A74222F50A900704531 /* NewTutorAddSubjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTutorAddSubjects.swift; sourceTree = "<group>"; };
+		CFD92A762231BA9D00704531 /* TheChoiceVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheChoiceVCView.swift; sourceTree = "<group>"; };
 		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
 		CFDBD8EF20C8921900182E1C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
@@ -2366,6 +2368,7 @@
 				8434B82A20468D6F00E16170 /* EditLanguages.swift */,
 				84DF1E5D216D68EF00AEBD76 /* EditBirthdate */,
 				84E283582004940600B004E7 /* TheChoiceVC.swift */,
+				CFD92A762231BA9D00704531 /* TheChoiceVCView.swift */,
 				843A1D182047C5BF00299D27 /* EditSchoolVC.swift */,
 				8423F73E214B60E900B3E4D0 /* languages.txt */,
 				84681F9F204B63DC00F45DFC /* schools.txt */,
@@ -4289,6 +4292,7 @@
 				CFF5017B206990B20085B0E9 /* LearnerExtendedReviewsVC.swift in Sources */,
 				84A090AB2186250000DBD48F /* AddTutorTableViewCell.swift in Sources */,
 				CFF50179206990590085B0E9 /* LearnerMyProfileVC.swift in Sources */,
+				CFD92A772231BA9D00704531 /* TheChoiceVCView.swift in Sources */,
 				844CB54E213ED7EB00656F06 /* SessionReview.swift in Sources */,
 				CFD92A65222F24B200704531 /* LightboxImageStub.swift in Sources */,
 				CF387EBD2088314B00087449 /* Notifications.swift in Sources */,

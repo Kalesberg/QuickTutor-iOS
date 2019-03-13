@@ -906,15 +906,12 @@ class EditProfileBioCell: UITableViewCell {
     
     func setupPlaceholder() {
         addSubview(placeholder)
-        placeholder.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(0.6)
-        }
+        placeholder.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 30)
     }
     
     func setupTextView() {
         addSubview(textView)
-        textView.anchor(top: placeholder.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 66)
+        textView.anchor(top: placeholder.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 96)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

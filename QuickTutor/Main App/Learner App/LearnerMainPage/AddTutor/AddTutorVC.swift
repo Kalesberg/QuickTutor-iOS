@@ -36,7 +36,7 @@ struct UsernameQuery {
 }
 
 
-class AddTutorVC: BaseViewController, ShowsConversation {
+class AddTutorVC: BaseViewController {
     override var contentView: AddTutorView {
         return view as! AddTutorView
     }
@@ -69,14 +69,17 @@ class AddTutorVC: BaseViewController, ShowsConversation {
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        navigationItem.backBarButtonItem = backButton
+    }
+    
+    @objc func onBack() {
+        
     }
 
     override func loadView() {
         view = AddTutorView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -226,7 +229,6 @@ extension AddTutorVC: UITableViewDelegate, UITableViewDataSource {
                 let next = TutorMyProfileVC()
                 next.tutor = tutor
                 next.isViewing = true
-//                next.contentView.rightButton.isHidden = true
                 next.navigationItem.title = "\(self.filteredUsername[indexPath.section].username)"
                 self.navigationController?.pushViewController(next, animated: true)
             }

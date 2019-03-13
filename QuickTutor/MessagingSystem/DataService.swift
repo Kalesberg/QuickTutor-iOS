@@ -334,6 +334,39 @@ class DataService {
             completion(metaData)
         }
     }
+    
+    func featchMainPageFeaturedSubject(completion: @escaping([MainPageFeaturedSubject]?) -> Void) {
+        let myGroup = DispatchGroup()
+        var subjects = [MainPageFeaturedSubject]()
+        Database.database().reference().child("featuredSubjects").observeSingleEvent(of: .value) { (snapshot) in
+            guard let subjectsIn = snapshot.value as? [String: Any] else { return }
+            subjectsIn.forEach({ (_, childValueIn) in
+                myGroup.enter()
+                guard let childValue = childValueIn as? [String: Any],
+                    let subject = childValue["subject"] as? String,
+                    let backgroundImageUrl = childValue["imgUrl"] as? String,
+                    let url = URL(string: backgroundImageUrl)
+                    else {
+                        myGroup.leave()
+                        return
+                }
+                let featuredSubject = MainPageFeaturedSubject(subject: subject, backgroundImageUrl: url)
+                subjects.append(featuredSubject)
+                myGroup.leave()
+                
+            })
+            
+            myGroup.notify(queue: .main, execute: {
+                completion(subjects)
+            })
+        }
+
+    }
+    
+    func setFeaturedSubjectNow() {
+        let dict = ["subject": "Cooking", "imgUrl": "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/adult-blond-board-298926.jpg?alt=media&token=316575cc-debf-4e9b-9cee-c50e1faa514e"]
+        Database.database().reference().child("featuredSubjects").childByAutoId().setValue(dict)
+    }
 }
 
 class TutorSearchService {
@@ -341,7 +374,7 @@ class TutorSearchService {
     
     func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?) -> Void) {
         var tutors = [AWTutor]()
-        
+        let myGroup = DispatchGroup()
         var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey().queryLimited(toFirst: 60)
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
@@ -349,14 +382,21 @@ class TutorSearchService {
         ref.observeSingleEvent(of: .value) { snapshot in
             guard let tutorIds = snapshot.value as? [String: Any] else { return }
             tutorIds.forEach({ uid, _ in
+                myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
-                    guard let tutor = tutor else { return }
-                    tutors.append(tutor)
-                    if tutors.count == snapshot.childrenCount - 1 {
-                        completion(tutors)
+                    guard let tutor = tutor else {
+                        myGroup.leave()
+                        return
                     }
+                    if tutor.uid != Auth.auth().currentUser?.uid {
+                        tutors.append(tutor)
+                    }
+                    myGroup.leave()
                 })
             })
+            myGroup.notify(queue: .main) {
+                completion(tutors)
+            }
         }
     }
     
@@ -380,7 +420,9 @@ class TutorSearchService {
                     tutor.featuredSubject = tutor.subjects?.first(where: { (subject) -> Bool in
                         return desiredSubjects?.contains(subject) ?? false
                     })
-                    tutors.append(tutor)
+                    if tutor.uid != Auth.auth().currentUser?.uid {
+                        tutors.append(tutor)
+                    }
                     myGroup.leave()
                 })
             })
@@ -392,8 +434,7 @@ class TutorSearchService {
     
     func getTutorsBySubject(_ subject: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?) -> Void) {
         var tutors = [AWTutor]()
-        print(subject)
-        
+        let myGroup = DispatchGroup()
         var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: 60)
         
         if let key = lastKnownKey {
@@ -401,17 +442,22 @@ class TutorSearchService {
         }
         ref.observeSingleEvent(of: .value) { snapshot in
             guard let tutorIds = snapshot.value as? [String: Any] else { return }
-            var tutorsCount = 0
             tutorIds.forEach({ uid, _ in
+                myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
-                    tutorsCount += 1
-                    guard let tutor = tutor else { return }
-                    tutor.featuredSubject = subject
-                    tutors.append(tutor)
-                    if tutorsCount == snapshot.childrenCount {
-                        completion(tutors)
+                    guard let tutor = tutor else {
+                        myGroup.leave()
+                        return
                     }
+                    tutor.featuredSubject = subject
+                    if tutor.uid != Auth.auth().currentUser?.uid {
+                        tutors.append(tutor)
+                    }
+                    myGroup.leave()
                 })
+            })
+            myGroup.notify(queue: .main, execute: {
+                completion(tutors)
             })
         }
     }
@@ -474,6 +520,7 @@ class DataBaseCleaner {
             })
         }
     }
+    
     
     private init() {}
 }

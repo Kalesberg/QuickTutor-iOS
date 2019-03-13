@@ -433,12 +433,36 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         NotificationCenter.default.addObserver(self, selector: #selector(becomeFirstResponder), name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChangeText(_:)), name: UITextView.textDidChangeNotification, object: nil)
+        
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
-    @objc func handleKeyboardDidShow() {
+    @objc func adjustForKeyboard(notification: Notification) {
         guard conversationManager.messages.count > 0 else { return }
+        let userInfo = notification.userInfo!
+        
+        let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            messagesCollection.contentInset = UIEdgeInsets.zero
+        } else {
+            let heightAdjustment: CGFloat = UIScreen.main.bounds.height > 700 ? 50 : 84
+            messagesCollection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - 84, right: 0)
+        }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
         messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
+    }
+
+    
+    @objc func handleKeyboardDidShow() {
+//        guard conversationManager.messages.count > 0 else { return }
+//        messagesCollection.transform = CGAffineTransform(translationX: 0, y: -200)
+//        let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
+//        messagesCollection.scrollToItem(at: indexPath, at: .bottom, animated: true)
     }
     
     @objc func didDisconnect() {
