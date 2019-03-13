@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4DE3668A2238AA2F00A94C37 /* Pods_QuickTutorApp_QuickTutorDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE366892238AA2F00A94C37 /* Pods_QuickTutorApp_QuickTutorDev.framework */; };
 		4DE3668C2238AA3B00A94C37 /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE3668B2238AA3B00A94C37 /* Pods_QuickTutorApp_QuickTutor.framework */; };
+		4DE3668D2238BC5F00A94C37 /* TheChoiceVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A762231BA9D00704531 /* TheChoiceVCView.swift */; };
 		5647A778222CB59000E8A26F /* QTSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5647A776222CB59000E8A26F /* QTSettingsViewController.swift */; };
 		5647A779222CB59000E8A26F /* QTSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5647A777222CB59000E8A26F /* QTSettingsViewController.xib */; };
 		564B6C1D222D83D5004A9EB7 /* QTLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B6C1B222D83D5004A9EB7 /* QTLocationsViewController.swift */; };
@@ -3797,6 +3798,7 @@
 				569F16E1223554FD00820A20 /* LearnerExtendedReviewsVC.swift in Sources */,
 				569F16E2223554FD00820A20 /* AddTutorTableViewCell.swift in Sources */,
 				569F16E3223554FD00820A20 /* LearnerMyProfileVC.swift in Sources */,
+				4DE3668D2238BC5F00A94C37 /* TheChoiceVCView.swift in Sources */,
 				569F16E4223554FD00820A20 /* SessionReview.swift in Sources */,
 				569F16E5223554FD00820A20 /* LightboxImageStub.swift in Sources */,
 				569F16E6223554FD00820A20 /* Notifications.swift in Sources */,
