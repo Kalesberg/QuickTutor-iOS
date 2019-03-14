@@ -10,7 +10,7 @@ import UIKit
 
 class NewTutorAddSubjectsVC: UIViewController {
     
-    var isViewing = true
+    var isViewing = false
     var sectionHeights = [Int: CGFloat]()
     let child = TutorAddSubjectsResultsVC()
     
@@ -28,6 +28,7 @@ class NewTutorAddSubjectsVC: UIViewController {
         super.viewDidLoad()
         configureDelegates()
         contentView.accessoryView.isHidden = isViewing
+        TutorRegistrationService.shared.shouldSaveSubjects = isViewing
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +41,11 @@ class NewTutorAddSubjectsVC: UIViewController {
         contentView.collectionView.dataSource = self
         contentView.searchBarContainer.delegate = self
         contentView.searchBarContainer.searchBar.delegate = self
+        contentView.accessoryView.nextButton.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
+    }
+    
+    @objc func handleNext() {
+        navigationController?.pushViewController(TutorPreferencesVC(), animated: true)
     }
 }
 

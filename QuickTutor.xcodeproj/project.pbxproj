@@ -1104,6 +1104,8 @@
 		CFE18F9F2118F6F2000816C4 /* EmptyConversationBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0711022117AEC00035A6FF /* EmptyConversationBackground.swift */; };
 		CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFE18FA02119645E000816C4 /* quickTutorNotification.aiff */; };
 		CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFE18FA221196790000816C4 /* qtNotificationPop.aiff */; };
+		CFE43E16223AD56F00BF1F71 /* loadingNew.json in Resources */ = {isa = PBXBuildFile; fileRef = CFE43E15223AD56F00BF1F71 /* loadingNew.json */; };
+		CFE43E17223AD56F00BF1F71 /* loadingNew.json in Resources */ = {isa = PBXBuildFile; fileRef = CFE43E15223AD56F00BF1F71 /* loadingNew.json */; };
 		CFEC492320E2AA8F00060E48 /* MessagingSystemTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */; };
 		CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEDF90220D57FF100457E77 /* OnlineStatusService.swift */; };
 		CFEF943920B3287100413727 /* ConnectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943820B3287100413727 /* ConnectionsVC.swift */; };
@@ -1725,6 +1727,7 @@
 		CFDBD8EF20C8921900182E1C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		CFE18FA02119645E000816C4 /* quickTutorNotification.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = quickTutorNotification.aiff; sourceTree = "<group>"; };
 		CFE18FA221196790000816C4 /* qtNotificationPop.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = qtNotificationPop.aiff; sourceTree = "<group>"; };
+		CFE43E15223AD56F00BF1F71 /* loadingNew.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loadingNew.json; sourceTree = "<group>"; };
 		CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingSystemTutorial.swift; sourceTree = "<group>"; };
 		CFEDF90220D57FF100457E77 /* OnlineStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusService.swift; sourceTree = "<group>"; };
 		CFEF943820B3287100413727 /* ConnectionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsVC.swift; sourceTree = "<group>"; };
@@ -1877,6 +1880,7 @@
 		840E4DF32136F56E0045CD35 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				CFE43E15223AD56F00BF1F71 /* loadingNew.json */,
 				CF507FA221804D05007FE441 /* typing.json */,
 				840E4DF42136F58E0045CD35 /* loading1.json */,
 				CFB40E44216BFE2100828E72 /* connecting.json */,
@@ -3396,6 +3400,7 @@
 				569F18E2223554FD00820A20 /* Lato-Regular.ttf in Resources */,
 				569F18E3223554FD00820A20 /* auto.json in Resources */,
 				569F18E4223554FD00820A20 /* arts.json in Resources */,
+				CFE43E17223AD56F00BF1F71 /* loadingNew.json in Resources */,
 				569F18E5223554FD00820A20 /* QTRatingReviewCollectionViewCell.xib in Resources */,
 				569F18E6223554FD00820A20 /* loading6.json in Resources */,
 				569F18E7223554FD00820A20 /* Lato-Semibold.ttf in Resources */,
@@ -3466,6 +3471,7 @@
 				56DC6DA5220BD7DF00935F47 /* Lato-Regular.ttf in Resources */,
 				8425766820712C3600FD295B /* auto.json in Resources */,
 				8425766620712B2A00FD295B /* arts.json in Resources */,
+				CFE43E16223AD56F00BF1F71 /* loadingNew.json in Resources */,
 				568B82DB222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib in Resources */,
 				840E4E04213761C10045CD35 /* loading6.json in Resources */,
 				56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */,
@@ -3749,7 +3755,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/upload-symbols\" -gsp \"${PROJECT_DIR}/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n\"${PODS_ROOT}/Fabric/run\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/upload-symbols\" -gsp \"${PROJECT_DIR}/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n\"${PODS_ROOT}/Fabric/run\"\nfile=\"unused.rb\"\nif [ -f \"$file\" ]\nthen\necho \"$file found.\"\nruby unused.rb xcode\nelse\necho \"unused.rb doesn't exist\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -12,7 +12,7 @@ class UserPolicyVCView: BaseRegistrationView {
     
     let textLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createLightSize(16)
+        label.font = Fonts.createSize(16)
         label.numberOfLines = 0
         label.textColor = Colors.registrationGray
         label.text = "Whether it's your first time on QuickTutor or you've been with us from the very beginning, please commit to respecting and loving everyone in the QuickTutor community.\n\nI agree to treat everyone on QuickTutor regardless of their race, physical features, national origin, ethnicity, religion, sex, disability, gender identity, sexual orientation or age with respect and love, without judgement or bias."

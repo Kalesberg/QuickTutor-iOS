@@ -88,6 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.observeDataEvents()
             }
         }
+        
         return true
     }
     

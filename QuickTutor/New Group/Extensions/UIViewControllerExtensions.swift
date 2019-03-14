@@ -152,14 +152,14 @@ extension UIViewController {
 		}
 		UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-		let loadingView : LOTAnimationView = LOTAnimationView(name: "loading12")
+		let loadingView : LOTAnimationView = LOTAnimationView(name: "loadingNew")
         
-        loadingView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        loadingView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         loadingView.center = self.view.center
         loadingView.contentMode = .scaleAspectFill
         loadingView.loopAnimation = true
         loadingView.tag = 69
-        loadingView.animationSpeed = 0.75
+        loadingView.animationSpeed = 1
         
         view.addSubview(loadingView)
         

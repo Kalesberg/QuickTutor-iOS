@@ -667,6 +667,15 @@ class CategoryFactory {
         })
     }
     
+    func getSubcategoryFor(subject: String) -> SubcategoryNew? {
+        let category = allCategories.first { (categoryIn) -> Bool in
+            return categoryIn.subcategories.contains(where: {$0.subjects.contains(subject)})
+        }
+
+        let subcategory = category?.subcategories.first(where: {$0.subjects.contains(subject)})
+        return subcategory
+    }
+    
     func getImageFor(subject: String) -> UIImage? {
         let parentCategory = allCategories.first { (category) -> Bool in
             return category.subcategories.contains(where: {$0.subjects.contains(where: {$0 == subject})})

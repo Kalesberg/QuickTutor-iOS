@@ -9,13 +9,35 @@
 import UIKit
 
 class FileReportActionsheet: UIView {
-    let titles = ["Report", "Disconnect", "Cancel"]
-    var bottomLayoutMargin: CGFloat!
+    
+    var titles = ["Share profile", "Disconnect", "Report"]
+    var images = [UIImage(named: "fileReportShareIcon"), UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
+    
+    var bottomLayoutMargin: CGFloat = 0
     var actionSheetBottomAnchor: NSLayoutConstraint?
     var alert: CustomModal?
     var reportTypeModal: ReportTypeModal?
     var partnerId: String?
     var name: String!
+    var panelHeight: CGFloat = 200
+    
+    var isConnected = true {
+        didSet {
+            if isConnected {
+                guard titles.count == 2 && images.count == 2 else { return }
+                titles.insert("Disconnect", at: 1)
+                images.insert(UIImage(named: "fileReportDisconnectIcon"), at: 1)
+                panelHeight = 200
+                collectionView.reloadData()
+            } else {
+                guard titles.count == 3 && images.count == 3 else { return }
+                titles.remove(at: 1)
+                images.remove(at: 1)
+                panelHeight = 150
+                collectionView.reloadData()
+            }
+        }
+    }
 
     let backgroundBlur: UIView = {
         let view = UIView()
@@ -26,8 +48,23 @@ class FileReportActionsheet: UIView {
 
     let actionSheetBackground: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 8
+        view.backgroundColor = Colors.darkBackground
         return view
+    }()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(16)
+        label.text = "Options"
+        return label
+    }()
+    
+    let dismissButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "closeCircle"), for: .normal)
+        return button
     }()
 
     let collectionView: UICollectionView = {
@@ -47,10 +84,12 @@ class FileReportActionsheet: UIView {
     func setupViews() {
         setupBackgroundBlur()
         setupActionsheetBackground()
+        setupTitleLabel()
+        setupDismissButton()
         setupCollectionView()
     }
 
-    private func setupBackgroundBlur() {
+    func setupBackgroundBlur() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(backgroundBlur)
         backgroundBlur.anchor(top: window.topAnchor, left: window.leftAnchor, bottom: window.bottomAnchor, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -58,15 +97,26 @@ class FileReportActionsheet: UIView {
         backgroundBlur.addGestureRecognizer(dismissTap)
     }
 
-    private func setupActionsheetBackground() {
+    func setupActionsheetBackground() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(actionSheetBackground)
-        actionSheetBackground.frame = CGRect(x: 0, y: window.frame.height - bottomLayoutMargin, width: window.frame.width, height: 150)
+        actionSheetBackground.frame = CGRect(x: 0, y: window.frame.height - bottomLayoutMargin, width: window.frame.width, height: panelHeight)
+    }
+    
+    func setupTitleLabel() {
+        actionSheetBackground.addSubview(titleLabel)
+        titleLabel.anchor(top: actionSheetBackground.topAnchor, left: actionSheetBackground.leftAnchor, bottom: nil, right: actionSheetBackground.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+    }
+    
+    func setupDismissButton() {
+        actionSheetBackground.addSubview(dismissButton)
+        dismissButton.anchor(top: actionSheetBackground.topAnchor, left: nil, bottom: nil, right: actionSheetBackground.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 20, height: 20)
+        dismissButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
     }
 
-    private func setupCollectionView() {
+    func setupCollectionView() {
         actionSheetBackground.addSubview(collectionView)
-        collectionView.anchor(top: actionSheetBackground.topAnchor, left: actionSheetBackground.leftAnchor, bottom: actionSheetBackground.bottomAnchor, right: actionSheetBackground.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: actionSheetBackground.topAnchor, left: actionSheetBackground.leftAnchor, bottom: actionSheetBackground.bottomAnchor, right: actionSheetBackground.rightAnchor, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -74,7 +124,7 @@ class FileReportActionsheet: UIView {
     func show() {
         UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.layoutIfNeeded()
-            self.actionSheetBackground.transform = CGAffineTransform(translationX: 0, y: -150)
+            self.actionSheetBackground.transform = CGAffineTransform(translationX: 0, y: -self.panelHeight)
             self.backgroundBlur.alpha = 1
         }.startAnimation()
     }
@@ -82,7 +132,7 @@ class FileReportActionsheet: UIView {
     @objc func dismiss() {
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.layoutIfNeeded()
-            self.actionSheetBackground.transform = CGAffineTransform(translationX: 0, y: 150)
+            self.actionSheetBackground.transform = CGAffineTransform(translationX: 0, y: self.panelHeight)
             self.backgroundBlur.alpha = 0
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
         }
@@ -116,6 +166,15 @@ class FileReportActionsheet: UIView {
         dismiss()
     }
     
+    func shareUsernameForUserId() {
+        guard let id = partnerId else { return }
+//        DynamicLinkFactory.shared.createLink(userId: id) { shareUrl in
+//            guard let shareUrlString = shareUrl?.absoluteString else { return }
+//            let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
+//            self.present(ac, animated: true, completion: nil)
+//        }
+    }
+    
     private override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -140,12 +199,14 @@ extension FileReportActionsheet: UICollectionViewDelegate {
 
 extension FileReportActionsheet: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return isConnected ? 3 : 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! FileReportActionsheetCell
         cell.button.setTitle(titles[indexPath.item], for: .normal)
+        cell.button.setImage(images[indexPath.item], for: .normal)
+        cell.button.imageView?.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         cell.delegate = self
         cell.tag = indexPath.item
         return cell
@@ -165,15 +226,27 @@ extension FileReportActionsheet: UICollectionViewDelegateFlowLayout {
 
 extension FileReportActionsheet: FileReportActionsheetCellDelegate {
     func fileReportActionSheetCellDidSelect(_ fileReportActionSheetCell: FileReportActionsheetCell) {
-        switch fileReportActionSheetCell.tag {
-        case 0:
-            handleReportButton()
-        case 1:
-            handleDisconnectButton()
-        case 2:
-            handleCancelButton()
-        default:
-            break
+        if isConnected {
+            switch fileReportActionSheetCell.tag {
+            case 0:
+                shareUsernameForUserId()
+            case 1:
+                handleDisconnectButton()
+            case 2:
+                handleReportButton()
+            default:
+                break
+            }
+        } else {
+            switch fileReportActionSheetCell.tag {
+            case 0:
+                shareUsernameForUserId()
+            case 1:
+                handleReportButton()
+            default:
+                break
+            }
         }
+
     }
 }

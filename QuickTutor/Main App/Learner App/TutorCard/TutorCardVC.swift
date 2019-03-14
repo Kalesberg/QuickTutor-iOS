@@ -15,6 +15,7 @@ class TutorCardVC: UIViewController {
     let contentView = TutorCardView()
     var tutor: AWTutor?
     var subject: String?
+    var actionSheet: FileReportActionsheet?
     
     override func loadView() {
         view = contentView
@@ -71,5 +72,20 @@ extension TutorCardVC: TutorCardHeaderViewDelegate {
     
     func tutorCardHeaderViewDidTapMessageIcon() {
         showMessageVC()
+    }
+    
+    func tutorCardHeaderViewDidTapMoreIcon() {
+        showActionSheet()
+    }
+    
+    func showActionSheet() {
+        if #available(iOS 11.0, *) {
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String("Zach"))
+        } else {
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String("Zach"))
+        }
+        actionSheet?.partnerId = tutor?.uid
+        actionSheet?.isConnected = contentView.isConnected
+        actionSheet?.show()
     }
 }

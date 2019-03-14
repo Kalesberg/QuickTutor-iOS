@@ -158,7 +158,7 @@ class UserPolicyVC: BaseRegistrationController {
     }
     
     @objc func declined() {
-        let alertController = UIAlertController(title: "All your progress will be deleted", message: "By pressing delete your account will not be created.", preferredStyle: UIAlertController.Style.alert)
+        let alertController = UIAlertController(title: "All your progress will be lost.", message: "By pressing delete your account will not be created.", preferredStyle: UIAlertController.Style.alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
         
         let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in

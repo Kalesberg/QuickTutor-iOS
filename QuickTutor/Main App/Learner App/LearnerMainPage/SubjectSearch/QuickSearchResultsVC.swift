@@ -154,6 +154,11 @@ class TutorAddSubjectsResultsVC: UIViewController {
         super.viewWillAppear(animated)
         guard !isBeingControlled else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(onBack))
+    }
+    
+    @objc func onBack() {
+        navigationController?.popViewController(animated: true)
     }
     
     func setupDelegates() {
@@ -220,6 +225,11 @@ class TutorAddSubjectsResultsCell: QuickSearchResultsCell {
         addSubview(selectionView)
         selectionView.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 10, height: 10)
         addConstraint(NSLayoutConstraint(item: selectionView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        selectionView.isHidden = true
     }
 }
 

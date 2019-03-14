@@ -30,7 +30,7 @@ class QuickSearchCategoryCell: UICollectionViewCell {
         cv.allowsMultipleSelection = false
         cv.alwaysBounceHorizontal = true
         cv.showsHorizontalScrollIndicator = false
-        cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         cv.register(QuickSearchSubcategoryCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
@@ -61,6 +61,11 @@ class QuickSearchCategoryCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        collectionView.reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {

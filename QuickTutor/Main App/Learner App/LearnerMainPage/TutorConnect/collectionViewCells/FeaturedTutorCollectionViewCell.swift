@@ -128,7 +128,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func updateUI(_ tutor: AWTutor) {
         self.tutor = tutor
-        nameLabel.text = tutor.name
+        nameLabel.text = tutor.formattedName
         subjectLabel.text = tutor.featuredSubject
         priceLabel.text = "$\(tutor.price!)/hr"
         profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)

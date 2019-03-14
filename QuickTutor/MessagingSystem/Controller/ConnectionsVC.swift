@@ -138,6 +138,9 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.updateUI(user: connection)
         cell.requestSessionButton.isHidden = false
         cell.delegate = self
+        if AccountService.shared.currentUserType == .tutor {
+            cell.updateAsLearnerCell()
+        }
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

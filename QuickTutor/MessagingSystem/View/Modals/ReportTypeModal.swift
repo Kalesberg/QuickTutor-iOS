@@ -10,20 +10,23 @@ import Firebase
 import UIKit
 
 class ReportTypeModal: BaseCustomModal {
-    let reportTypeStrings = ["Innapropriate Messages", "Innapropriate Photos", "Harassment", "Fake Profile"]
+    
+    let reportTypeStrings = ["Innapropriate Messages", "Innapropriate Photos", "Harassment", "Fake Profile", "Cancel"]
     var reportSuccessfulModal: ReportSuccessfulModal?
     var chatPartnerId: String?
 
     let tableView: UITableView = {
         let tv = UITableView()
         tv.register(SessionTableCell.self, forCellReuseIdentifier: "cellId")
-        tv.backgroundColor = .red
         tv.isScrollEnabled = false
+        tv.separatorStyle = .none
+        tv.backgroundColor = Colors.darkBackground
         return tv
     }()
 
     override func setupViews() {
         super.setupViews()
+        backgroundHeightAnchor?.constant = 350
         setupTableView()
     }
 
@@ -42,23 +45,29 @@ class ReportTypeModal: BaseCustomModal {
 
 extension ReportTypeModal: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SessionTableCell
-        cell.textLabel?.text = reportTypeStrings[indexPath.row]
-        cell.backgroundColor = Colors.navBarColor
-        cell.textLabel?.font = Fonts.createBoldSize(13)
+        cell.button.setTitle(reportTypeStrings[indexPath.row], for: .normal)
+        cell.delegate = self
+        if indexPath.row == 4 {
+            cell.button.backgroundColor = Colors.darkBackground
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 41
+        return 60
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.item {
+        handleReportAtIndex(indexPath.row)
+    }
+    
+    func handleReportAtIndex(_ index: Int) {
+        switch index {
         case 0:
             reportForReason(.inappropriateMessages)
         case 1:
@@ -68,17 +77,25 @@ extension ReportTypeModal: UITableViewDelegate, UITableViewDataSource {
         case 3:
             reportForReason(.fakeProfile)
         default:
-            break
+            dismiss()
         }
+        guard index != 4 else { return }
         dismiss()
         reportSuccessfulModal = ReportSuccessfulModal()
         reportSuccessfulModal?.show()
+
     }
 
     func reportForReason(_ reason: ReportType) {
         guard let partnerId = chatPartnerId, let uid = Auth.auth().currentUser?.uid else { return }
         let reportData = ["reportedBy": uid, "reason": reason.rawValue]
         Database.database().reference().child("reports").child(partnerId).childByAutoId().setValue(reportData)
+    }
+}
+
+extension ReportTypeModal: SessionTableCellDelegate {
+    func sessionTableCell(_ cell: SessionTableCell, didSelectItemAt index: Int) {
+        handleReportAtIndex(index)
     }
 }
 

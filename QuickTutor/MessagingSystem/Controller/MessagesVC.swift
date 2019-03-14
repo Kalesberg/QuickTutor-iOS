@@ -49,7 +49,7 @@ class MessagesVC: UIViewController {
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-
+        navigationController?.view.backgroundColor = Colors.darkBackground
         }
     }
     

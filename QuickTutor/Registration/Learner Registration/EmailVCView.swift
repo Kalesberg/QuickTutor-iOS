@@ -12,7 +12,7 @@ class EmailVCView: BaseRegistrationView {
     
     let emailTextField : RegistrationTextField = {
         let registrationTextField = RegistrationTextField()
-        registrationTextField.placeholder.text = "Email"
+        registrationTextField.placeholder.text = "Email address"
         registrationTextField.textField.returnKeyType = .next
         registrationTextField.textField.keyboardType = .emailAddress
         registrationTextField.textField.autocapitalizationType = .none
@@ -36,7 +36,7 @@ class EmailVCView: BaseRegistrationView {
     }
     
     override func updateTitleLabel() {
-        titleLabel.text = "Your Email?"
+        titleLabel.text = "What's your email?"
         titleLabelHeightAnchor?.constant = 30
         layoutIfNeeded()
     }

@@ -53,7 +53,7 @@ class UploadImageVCView: BaseRegistrationView {
         label.text = "· Upload a photo of yourself.\n· You will be able to add more photos later."
         label.textColor = Colors.registrationGray
         label.numberOfLines = 0
-        label.font = Fonts.createLightSize(16)
+        label.font = Fonts.createSize(16)
         return label
     }()
     

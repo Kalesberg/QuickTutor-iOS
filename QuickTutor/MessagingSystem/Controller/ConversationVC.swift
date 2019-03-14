@@ -111,27 +111,36 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     private func setupNavBar() {
         setupTitleView()
+        setUpMenuButton()
+    }
+    
+    func setUpMenuButton(){
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+        menuBtn.setImage(UIImage(named:"fileReportFlag"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(handleRightViewTapped), for: .touchUpInside)
+        
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
+        currHeight?.isActive = true
+        self.navigationItem.rightBarButtonItem = menuBarItem
     }
 
     private func setupTitleView() {
         if let partner = chatPartner {
             titleView.updateUI(user: partner)
         }
-//
-//        navBar.addSubview(titleView)
-//        titleView.anchor(top: navBar.titleView.topAnchor, left: nil, bottom: navBar.titleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-//        view.addConstraint(NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navBar, attribute: .centerX, multiplier: 1, constant: 0))
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
         titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-//        titleView.transform = CGAffineTransform(translationX: 0, y: -20)
-//        titleView.arrow.transform = CGAffineTransform(translationX: 0, y: 20)
     }
 
     func handleLeftViewTapped() {
         pop()
     }
 
-    func handleRightViewTapped() {
+    @objc func handleRightViewTapped() {
         showReportSheet()
     }
 
@@ -149,6 +158,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         } else {
             actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(firstName))
         }
+        actionSheet?.isConnected = connectionRequestAccepted
         actionSheet?.partnerId = chatPartner.uid
         actionSheet?.show()
     }

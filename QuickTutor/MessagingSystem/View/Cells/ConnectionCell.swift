@@ -141,6 +141,13 @@ class ConnectionCell: UICollectionViewCell {
         nameLabel.text = user.formattedName
     }
     
+    func updateAsLearnerCell() {
+        locationLabel.removeFromSuperview()
+        nameLabel.removeFromSuperview()
+        addSubview(nameLabel)
+        nameLabel.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 250, height: 0)
+    }
+    
     @objc func showConversation() {
         delegate?.connectionCell(self, shouldShowConversationWith: user)
     }

@@ -98,7 +98,7 @@ class TutorCardHeaderView: UIView {
     
     func updateUI(_ tutor: AWTutor) {
         self.tutor = tutor
-        nameLabel.text = tutor.name
+        nameLabel.text = tutor.formattedName
         if let subject = subject {
             subjectLabel.text = subject
         }
@@ -129,7 +129,7 @@ class TutorCardHeaderView: UIView {
     }
     
     @objc func handleDetailButton() {
-        
+        delegate?.tutorCardHeaderViewDidTapMoreIcon()
     }
     
     func saveTutor() {

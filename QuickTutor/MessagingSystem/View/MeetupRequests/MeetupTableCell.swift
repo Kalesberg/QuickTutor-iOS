@@ -8,19 +8,42 @@
 
 import UIKit
 
+protocol SessionTableCellDelegate: class {
+    func sessionTableCell(_ cell: SessionTableCell, didSelectItemAt index: Int)
+}
+
 class SessionTableCell: UITableViewCell {
+    
+    weak var delegate: SessionTableCellDelegate?
+    
+    let button: DimmableButton = {
+        let button = DimmableButton()
+        button.titleLabel?.font = Fonts.createBoldSize(14)
+        button.contentHorizontalAlignment = .center
+        button.backgroundColor = Colors.gray
+        button.setTitle("Fake profile", for: .normal)
+        button.layer.cornerRadius = 4
+        return button
+    }()
+    
     func setupViews() {
         setupMainView()
+        setupButton()
     }
 
     private func setupMainView() {
         backgroundColor = Colors.darkBackground
-        accessoryType = .disclosureIndicator
-        accessoryView?.isHidden = false
-        textLabel?.text = "Mathematics"
-        textLabel?.isHidden = false
-        textLabel?.textColor = .white
         selectionStyle = .none
+    }
+    
+    func setupButton() {
+        addSubview(button)
+        button.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 60, paddingBottom: 5, paddingRight: 60, width: 0, height: 0)
+        button.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+    }
+    
+    @objc func handleButton() {
+        delegate?.sessionTableCell(self, didSelectItemAt: tag)
     }
     
     @objc func darken() {

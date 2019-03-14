@@ -19,7 +19,7 @@ class BaseCustomModal: UIView {
 
     let background: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 38.0 / 255.0, alpha: 1.0)
+        view.backgroundColor = Colors.darkBackground
         view.alpha = 0
         view.layer.cornerRadius = 4
         return view
@@ -27,7 +27,7 @@ class BaseCustomModal: UIView {
 
     let titleBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.purple
+        view.backgroundColor = Colors.darkBackground
         view.layer.cornerRadius = 8
         if #available(iOS 11.0, *) {
             view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -81,7 +81,7 @@ class BaseCustomModal: UIView {
     
     func setupTitleLabel() {
         background.addSubview(titleLabel)
-        titleLabel.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
+        titleLabel.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
     }
     
     func setHeightTo(_ height: CGFloat) {

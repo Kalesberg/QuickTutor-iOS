@@ -53,7 +53,7 @@ class SignInVCView: UIView {
     
     let infoLabel : UILabel = {
         let label = UILabel()
-        label.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy.\n"
+        label.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy."
         label.numberOfLines = 0
         label.textColor = .white
         label.font = Fonts.createSize(12)

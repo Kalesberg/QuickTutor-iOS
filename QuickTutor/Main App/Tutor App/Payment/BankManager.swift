@@ -10,48 +10,49 @@
 import Stripe
 import UIKit.UITableView
 
-class BankManagerView: MainLayoutTitleBackButton {
+class BankManagerView: UIView {
     let subtitleLabel: UILabel = {
         let label = UILabel()
-
         label.text = "Payout Methods"
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)
         label.textColor = .white
-
         return label
     }()
 
     let tableView: UITableView = {
         let tableView = UITableView()
-
         tableView.estimatedRowHeight = 50
         tableView.isScrollEnabled = false
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
-        tableView.backgroundColor = Colors.backgroundDark
-
+        tableView.backgroundColor = Colors.darkBackground
+        tableView.register(BankManagerTableViewCell.self, forCellReuseIdentifier: "bankCell")
+        tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
         return tableView
     }()
 
-    override func configureView() {
-        addSubview(subtitleLabel)
-        addSubview(tableView)
-        super.configureView()
-
-        title.label.text = "Payment"
-
-        applyConstraints()
+    func setupViews() {
+        setupMainView()
+        setupSubtitleLabel()
+        setupTableView()
     }
-
-    override func applyConstraints() {
-        super.applyConstraints()
+    
+    func setupMainView() {
+        backgroundColor = Colors.darkBackground
+    }
+    
+    func setupSubtitleLabel() {
+        addSubview(subtitleLabel)
         subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(navbar.snp.bottom).inset(-30)
+            make.top.equalToSuperview().inset(-30)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
-
+    }
+    
+    func setupTableView() {
+        addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
             make.width.equalToSuperview().multipliedBy(0.9)
@@ -59,21 +60,27 @@ class BankManagerView: MainLayoutTitleBackButton {
             make.centerX.equalToSuperview()
         }
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        navbar.backgroundColor = Colors.purple
-        statusbarView.backgroundColor = Colors.purple
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }
 
-class BankManager: BaseViewController {
-    override var contentView: BankManagerView {
-        return view as! BankManagerView
-    }
+class BankManager: UIViewController {
+    
+    let contentView: BankManagerView = {
+        let view = BankManagerView()
+        return view
+    }()
 
     override func loadView() {
-        view = BankManagerView()
+        view = contentView
     }
 
     var acctId: String! {
@@ -92,6 +99,12 @@ class BankManager: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Payment"
+        fetchBanks()
+        setupDelegates()
+    }
+    
+    func fetchBanks() {
         Stripe.retrieveBankList(acctId: CurrentUser.shared.tutor.acctId) { error, list in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -99,37 +112,27 @@ class BankManager: BaseViewController {
                 self.bankList = list.data
             }
         }
-
+    }
+    
+    func setupDelegates() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-        contentView.tableView.register(BankManagerTableViewCell.self, forCellReuseIdentifier: "bankCell")
-        contentView.tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentView.tableView.reloadData()
     }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     private func setBank() {
         banks = bankList
         contentView.tableView.reloadData()
     }
-
-    override func handleNavigation() {}
 
     // TODO: Check if they have any pending sessions.
 
@@ -263,7 +266,6 @@ class BankManagerTableViewCell: UITableViewCell {
 
     let accountLast4: UILabel = {
         let label = UILabel()
-
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.font = Fonts.createSize(15)
@@ -274,7 +276,6 @@ class BankManagerTableViewCell: UITableViewCell {
 
     let defaultBank: UILabel = {
         let label = UILabel()
-
         label.text = "Default"
         label.font = Fonts.createSize(15)
         label.textColor = .white
@@ -293,10 +294,9 @@ class BankManagerTableViewCell: UITableViewCell {
         addSubview(defaultBank)
 
         let cellBackground = UIView()
-        cellBackground.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        cellBackground.backgroundColor = Colors.darkBackground.darker(by: 15)
         selectedBackgroundView = cellBackground
-        backgroundColor = Colors.backgroundDark
-
+        backgroundColor = Colors.darkBackground
         applyConstraints()
     }
 
