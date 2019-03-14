@@ -40,18 +40,23 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zlc-S7-Izo">
-                    <rect key="frame" x="20" y="71" width="47" height="17"/>
-                    <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="14"/>
-                    <color key="textColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hourly rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fm-5S-Q5Q">
-                    <rect key="frame" x="72" y="71" width="73.5" height="17"/>
-                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
-                    <color key="textColor" red="0.39215686274509803" green="0.38431372549019605" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L92-75-8rm">
+                    <rect key="frame" x="20" y="71" width="120.5" height="17"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zlc-S7-Izo">
+                            <rect key="frame" x="0.0" y="0.0" width="47" height="17"/>
+                            <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hourly rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fm-5S-Q5Q">
+                            <rect key="frame" x="47" y="0.0" width="73.5" height="17"/>
+                            <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
+                            <color key="textColor" red="0.39215686274509803" green="0.38431372549019605" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DAU-pg-yRr" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
                     <rect key="frame" x="20" y="126" width="352" height="1"/>
                     <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -206,7 +211,6 @@
             <color key="backgroundColor" red="0.086274509799999996" green="0.086274509799999996" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstItem="5UY-Rf-mWE" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="ANh-2t-3xS"/>
-                <constraint firstItem="zlc-S7-Izo" firstAttribute="top" secondItem="GkQ-Go-2b3" secondAttribute="bottom" constant="5" id="Bpa-zn-HCS"/>
                 <constraint firstItem="YQD-Fl-cvt" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="Caj-Z9-S4G"/>
                 <constraint firstItem="5UY-Rf-mWE" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="GUu-U4-v7I"/>
                 <constraint firstItem="YQD-Fl-cvt" firstAttribute="top" secondItem="DAU-pg-yRr" secondAttribute="bottom" constant="20" id="IeN-Y0-xHe"/>
@@ -215,17 +219,15 @@
                 <constraint firstItem="eRN-hz-Bjm" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="Pbh-eQ-XBx"/>
                 <constraint firstItem="DAU-pg-yRr" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" constant="-40" id="QSE-1z-t0M"/>
                 <constraint firstItem="5UY-Rf-mWE" firstAttribute="top" secondItem="YQD-Fl-cvt" secondAttribute="bottom" constant="20" id="SkR-mv-Jxg"/>
-                <constraint firstItem="6fm-5S-Q5Q" firstAttribute="top" secondItem="GkQ-Go-2b3" secondAttribute="bottom" constant="5" id="UXY-9S-qTe"/>
                 <constraint firstItem="GkQ-Go-2b3" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="VIN-1b-ElV"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="eRN-hz-Bjm" secondAttribute="trailing" constant="20" id="WP3-Ll-dwO"/>
-                <constraint firstItem="6fm-5S-Q5Q" firstAttribute="centerY" secondItem="zlc-S7-Izo" secondAttribute="centerY" id="XDH-zV-8s2"/>
-                <constraint firstItem="zlc-S7-Izo" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="XDy-RM-sod"/>
-                <constraint firstItem="6fm-5S-Q5Q" firstAttribute="leading" secondItem="zlc-S7-Izo" secondAttribute="trailing" constant="5" id="a8s-Cp-gpd"/>
                 <constraint firstItem="eRN-hz-Bjm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GkQ-Go-2b3" secondAttribute="trailing" constant="16" id="aq5-N5-8T7"/>
-                <constraint firstItem="eRN-hz-Bjm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6fm-5S-Q5Q" secondAttribute="trailing" constant="8" id="feG-fM-WfV"/>
+                <constraint firstItem="L92-75-8rm" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="cnR-8G-bkz"/>
+                <constraint firstItem="L92-75-8rm" firstAttribute="top" secondItem="GkQ-Go-2b3" secondAttribute="bottom" constant="5" id="nfF-Xv-Rdn"/>
                 <constraint firstItem="DAU-pg-yRr" firstAttribute="top" secondItem="eRN-hz-Bjm" secondAttribute="bottom" constant="20" id="wVo-dY-0qs"/>
                 <constraint firstItem="YQD-Fl-cvt" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" constant="-40" id="xG6-3g-FYx"/>
                 <constraint firstItem="GkQ-Go-2b3" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="37" id="xih-om-Bc9"/>
+                <constraint firstItem="eRN-hz-Bjm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="L92-75-8rm" secondAttribute="trailing" constant="10" id="yNl-Ms-nnZ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

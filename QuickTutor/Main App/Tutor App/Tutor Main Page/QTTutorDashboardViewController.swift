@@ -24,13 +24,11 @@ class QTTutorDashboardViewController: UIViewController {
             filterEarnsings(self.durationType)
         }
     }
-    
     var sessions = [UserSession]() {
         didSet {
             filterSessionsAndHours(self.durationType)
         }
     }
-    
     var earningsChartData = [QTTutorDashboardChartData]() {
         didSet {
             tableView.reloadData()
@@ -45,7 +43,9 @@ class QTTutorDashboardViewController: UIViewController {
     var hoursChartData = [QTTutorDashboardChartData]()
     var topSubject: String? {
         didSet {
-            headerView.subjectLabel.text = topSubject == nil || topSubject?.isEmpty ?? true ? self.tutor?.subjects?.first : topSubject
+            guard let text = topSubject == nil || topSubject?.isEmpty ?? true
+                ? self.tutor?.subjects?.first : topSubject else { return }
+            headerView.subjectLabel.text = text + " • "
         }
     }
     
@@ -93,6 +93,11 @@ class QTTutorDashboardViewController: UIViewController {
         // Set table header view
         tableView.tableHeaderView = headerView
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
 
     // MARK: - Actions
     @IBAction func onTutorSettingsViewTapped(_ sender: Any) {
@@ -108,9 +113,12 @@ class QTTutorDashboardViewController: UIViewController {
         
         let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
         headerView.nameLabel.text = tutor.formattedName
-        headerView.subjectLabel.text = topSubject == nil || topSubject?.isEmpty ?? true ? tutor.subjects?.first : topSubject
+        if let text = topSubject == nil || topSubject?.isEmpty ?? true
+            ? self.tutor?.subjects?.first : topSubject {
+            headerView.subjectLabel.text = text + " • "
+        }
         headerView.avatarImageView.sd_setImage(with: reference)
-        headerView.hourlyRateLabel.text = "$\(String(describing: tutor.price ?? 0)) per hour"
+        headerView.hourlyRateLabel.text = "$\(String(describing: tutor.price ?? 0))/hr"
         headerView.ratingLabel.text = "\(String(describing: tutor.tRating ?? 5.0))"
         headerView.subjectsLabel.text = "\(tutor.subjects?.count ?? 0)"
         headerView.sessionsLabel.text = "\(tutor.tNumSessions ?? 0)"
@@ -258,7 +266,7 @@ class QTTutorDashboardViewController: UIViewController {
                 nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
                 fiteredSessions
                     .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
-                    .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
+                    .forEach({sessionCount += 1; hours += ($0.endedAt - $0.startedAt) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
@@ -272,7 +280,7 @@ class QTTutorDashboardViewController: UIViewController {
                 nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
                 fiteredSessions
                     .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
-                    .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
+                    .forEach({sessionCount += 1; hours += ($0.endedAt - $0.startedAt) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
@@ -286,7 +294,7 @@ class QTTutorDashboardViewController: UIViewController {
                 nextMergeUnit = unit + Double((weekIndex + 1) * 604_800)
                 fiteredSessions
                     .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
-                    .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
+                    .forEach({sessionCount += 1; hours += ($0.endedAt - $0.startedAt) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
@@ -300,7 +308,7 @@ class QTTutorDashboardViewController: UIViewController {
                 nextMergeUnit = unit + Double((monthIndex + 1) * 2_629_743)
                 fiteredSessions
                     .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
-                    .forEach({sessionCount += 1; hours += $0.endedAt - $0.startedAt })
+                    .forEach({sessionCount += 1; hours += ($0.endedAt - $0.startedAt) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
