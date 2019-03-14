@@ -32,6 +32,8 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        
+        navigationController?.pushViewController(QTProfileViewController.loadView(), animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
