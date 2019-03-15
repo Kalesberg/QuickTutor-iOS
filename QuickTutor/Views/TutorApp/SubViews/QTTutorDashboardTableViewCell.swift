@@ -21,8 +21,8 @@ extension Double {
         return currency
     }
     
-    func currencyFormat(precision: Int) -> String {
-        let number = self / 100
+    func currencyFormat(precision: Int, divider: Double = 100) -> String {
+        let number = self / divider
         return String(format: "$%.*f", precision, number)
     }
 }

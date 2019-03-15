@@ -97,10 +97,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         }
         
         tipTextField.text = "$\(tip)"
-        priceLabel.text = "$\(Int(costOfSession) - tip)"
-        if let didSelectTip = didSelectTip {
-            didSelectTip(tip)
-        }
+        updateTipAmount(text: tipTextField.text)
         
         UIView.animate(withDuration: 0.1, animations: {
             self.minusButton.alpha = 0.3
@@ -114,10 +111,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     @IBAction func onPlusButtonClicked(_ sender: Any) {
         tip += 5
         tipTextField.text = "$\(tip)"
-        priceLabel.text = "$\(Int(costOfSession) + tip)"
-        if let didSelectTip = didSelectTip {
-            didSelectTip(tip)
-        }
+        updateTipAmount(text: tipTextField.text)
         
         UIView.animate(withDuration: 0.1, animations: {
             self.plusButton.alpha = 0.3
@@ -138,6 +132,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         tipCheckImageView.isHighlighted = isPayWithoutTip
         tip = 0
         tipTextField.text = "$0"
+        updateTipAmount(text: tipTextField.text)
         if let didSelectTip = didSelectTip {
             didSelectTip(tip)
         }
@@ -235,7 +230,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
             }
             
             self.costOfSession = costOfSession
-            priceLabel.text = "$\(costOfSession)"
+            priceLabel.text = costOfSession.currencyFormat(precision: 2, divider: 1)
         }
     }
     
@@ -249,11 +244,12 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     private func updateTipAmount(text: String?) {
         if var text = text, text.hasPrefix("$") {
             text = text.replacingOccurrences(of: "$", with: "")
-            if let value = Int(text) {
-                tip = value
-                if let didSelectTip = didSelectTip {
-                    didSelectTip(tip)
-                }
+            tip = Int(text) ?? 0
+            let cost = costOfSession + Double(tip)
+            priceLabel.text = cost.currencyFormat(precision: 2, divider: 1)
+            
+            if let didSelectTip = didSelectTip {
+                didSelectTip(tip)
             }
         }
     }

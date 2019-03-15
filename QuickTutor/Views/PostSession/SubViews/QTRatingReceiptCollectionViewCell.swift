@@ -75,9 +75,9 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         
         subjectLabel.text = subject
         sessionLengthLabel.text = getFormattedTimeString(seconds: sessionDuration)
-        billLabel.text = "$\(Int(bill))"
+        billLabel.text = bill.currencyFormat(precision: 2, divider: 1)
         tipLabel.text = "$\(tip)"
-        totalLabel.text = "$\(Int(bill) + tip)"
+        totalLabel.text = (bill + Double(tip)).currencyFormat(precision: 2, divider: 1)
         
         totalSessionNumberLabel.text = AccountService.shared.currentUserType == .learner ?
             "\(CurrentUser.shared.learner.lNumSessions + 1)" : "\(CurrentUser.shared.tutor.tNumSessions + 1)"
