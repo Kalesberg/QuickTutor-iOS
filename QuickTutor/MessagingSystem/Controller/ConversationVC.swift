@@ -459,8 +459,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if notification.name == UIResponder.keyboardWillHideNotification {
             messagesCollection.contentInset = UIEdgeInsets.zero
         } else {
-            let heightAdjustment: CGFloat = UIScreen.main.bounds.height > 700 ? 50 : 84
-            messagesCollection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - 84, right: 0)
+            let heightAdjustment: CGFloat = UIScreen.main.bounds.height > 700 ? 86 : 52
+            messagesCollection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - heightAdjustment, right: 0)
         }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
         messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
