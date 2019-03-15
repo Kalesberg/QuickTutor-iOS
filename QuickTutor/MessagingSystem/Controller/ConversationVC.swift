@@ -520,7 +520,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestCell
 
             cell.updateUI(message: message)
-            cell.bubbleWidthAnchor?.constant = 220
+            cell.bubbleWidthAnchor?.constant = 285
             cell.delegate = self
             cell.indexPath = [indexPath]
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
@@ -564,7 +564,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         }
         
         if message.sessionRequestId != nil {
-            height = 173
+            height = 150
         }
         
         if message.connectionRequestId != nil {
