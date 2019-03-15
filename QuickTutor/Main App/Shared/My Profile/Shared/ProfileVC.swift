@@ -134,13 +134,16 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     
     func showMyProfile() {
         if AccountService.shared.currentUserType == .learner {
-            let vc = LearnerMyProfileVC()
-            vc.learner = CurrentUser.shared.learner
-            navigationController?.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            let tutor = CurrentUser.shared.tutor ?? AWTutor(dictionary: [:])
+            controller.user = tutor.copy(learner: CurrentUser.shared.learner)
+            controller.profileViewType = .myLearner
+            navigationController?.pushViewController(controller, animated: true)
         } else {
-            let vc = TutorMyProfileVC()
-            vc.tutor = CurrentUser.shared.tutor
-            navigationController?.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            controller.user = CurrentUser.shared.tutor
+            controller.profileViewType = .myTutor
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
     
@@ -161,7 +164,6 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
             controller.profileViewType = QTProfileViewType.myTutor
             controller.user = CurrentUser.shared.tutor
         }
-        
         navigationController?.pushViewController(controller, animated: true)
         
 //        navigationController?.pushViewController(QTSettingsViewController.controller, animated: true)

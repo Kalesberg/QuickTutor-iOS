@@ -149,20 +149,19 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { tutor in
                 guard let tutor = tutor else { return }
-                let vc = TutorMyProfileVC()
-                vc.tutor = tutor
-                vc.isViewing = true
-                vc.navigationItem.title = tutor.username
-                self.navigationController?.pushViewController(vc, animated: true)
+                let controller = QTProfileViewController.controller
+                controller.user = tutor
+                controller.profileViewType = .tutor
+                self.navigationController?.pushViewController(controller, animated: true)
             })
         } else {
             FirebaseData.manager.fetchLearner(user.uid) { learner in
                 guard let learner = learner else { return }
-                let vc = LearnerMyProfileVC()
-                vc.learner = learner
-                vc.isViewing = true
-                vc.isEditable = false
-                self.navigationController?.pushViewController(vc, animated: true)
+                let controller = QTProfileViewController.controller
+                let tutor = AWTutor(dictionary: [:])
+                controller.user = tutor.copy(learner: learner)
+                controller.profileViewType = .learner
+                self.navigationController?.pushViewController(controller, animated: true)
             }
         }
         

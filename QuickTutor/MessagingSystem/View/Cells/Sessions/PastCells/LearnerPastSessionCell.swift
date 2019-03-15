@@ -31,10 +31,10 @@ class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, Reques
         super.handleButton3()
         FirebaseData.manager.fetchTutor(session.partnerId(), isQuery: false, { tutor in
             guard let tutor = tutor else { return }
-            let vc = TutorCardVC()
-            vc.tutor = tutor
-            vc.contentView.updateUI(tutor)
-            navigationController.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            controller.user = tutor
+            controller.profileViewType = .tutor
+            navigationController.pushViewController(controller, animated: true)
         })
     }
 }

@@ -208,8 +208,7 @@ extension LearnerMainPageVC: FeaturedTutorTableViewCellDelegate {
 //        navigationController?.delegate = self
         FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
             guard let tutor = tutor else { return }
-            
-            let controller = QTProfileViewController.controller//TutorCardVC()
+            let controller = QTProfileViewController.controller
             controller.subject = featuredTutor.featuredSubject
             controller.profileViewType = .tutor
             controller.user = tutor

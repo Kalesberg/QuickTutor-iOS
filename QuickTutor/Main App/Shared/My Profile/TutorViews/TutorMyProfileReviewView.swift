@@ -154,13 +154,13 @@ class TutorMyProfileReviewsView : UIView {
 	}
 	
 	@objc private func showReviewerProfile(_ sender: UIButton) {
-		let vc = LearnerMyProfileVC()
 		FirebaseData.manager.fetchLearner(dataSource[sender.tag].reviewerId) { (learner) in
 			if let learner = learner {
-				vc.learner = learner
-				vc.isViewing = true
-                vc.isEditable = false
-				self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+                let controller = QTProfileViewController.controller
+                let tutor = AWTutor(dictionary: [:])
+                controller.user = tutor.copy(learner: learner)
+                controller.profileViewType = .learner
+                self.parentViewController?.navigationController?.pushViewController(controller, animated: true)
 			}
 		}
 	}

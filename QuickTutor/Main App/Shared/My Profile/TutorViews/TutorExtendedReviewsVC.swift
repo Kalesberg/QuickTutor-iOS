@@ -147,10 +147,11 @@ extension TutorReviewsVC: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		FirebaseData.manager.fetchLearner(datasource[indexPath.row].reviewerId) { learner in
 			guard let learner = learner else { return }
-			let vc = LearnerMyProfileVC()
-			vc.learner = learner
-            vc.isEditable = false
-			self.navigationController?.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            let tutor = AWTutor(dictionary: [:])
+            controller.user = tutor.copy(learner: learner)
+            controller.profileViewType = .learner
+            self.navigationController?.pushViewController(controller, animated: true)
 		}
 		tableView.deselectRow(at: indexPath, animated: true)
 	}

@@ -130,13 +130,16 @@ class SettingsProfileHeader: UIView {
 	
 	@objc private func profileHeaderButtonPressed(_ sender: UIButton) {
 		if AccountService.shared.currentUserType == .learner {
-			let vc = LearnerMyProfileVC()
-			vc.learner = CurrentUser.shared.learner
-			parentViewController?.navigationController?.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            let tutor = CurrentUser.shared.tutor ?? AWTutor(dictionary: [:])
+            controller.user = tutor.copy(learner: CurrentUser.shared.learner)
+            controller.profileViewType = .myLearner
+			parentViewController?.navigationController?.pushViewController(controller, animated: true)
 		} else {
-			let vc = TutorMyProfileVC()
-			vc.tutor = CurrentUser.shared.tutor
-			parentViewController?.navigationController?.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            controller.user = CurrentUser.shared.tutor
+            controller.profileViewType = .myTutor
+            parentViewController?.navigationController?.pushViewController(controller, animated: true)
 		}
 	}
 	

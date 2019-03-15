@@ -663,6 +663,19 @@ class FirebaseData {
 			})
 		})
 	}
+    
+    func fetchConnectionStatus(uid: String, userType: UserType,  opponentId: String, completionHandler: ((Bool) -> ())?) {
+        Database.database().reference()
+            .child("connections")
+            .child(uid)
+            .child(userType.rawValue)
+            .child(opponentId).observeSingleEvent(of: .value) { (snapshot) in
+                if let completionHandler = completionHandler {
+                    completionHandler(snapshot.exists())
+                }
+        }
+    }
+    
 	
 	func linkEmail(email: String) {
 		let password: String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")

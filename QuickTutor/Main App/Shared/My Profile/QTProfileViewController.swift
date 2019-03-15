@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseStorage
+import FirebaseAuth
 
 enum QTProfileViewType {
     case tutor, learner, myTutor, myLearner
@@ -49,6 +50,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var cancellationFeeLabel: UILabel!
     @IBOutlet weak var connectView: UIView!
     @IBOutlet weak var ratingView: QTRatingView!
+    @IBOutlet weak var numberOfReviewsLabel: UILabel!
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var rateLabel: UILabel!
     
@@ -56,13 +58,14 @@ class QTProfileViewController: UIViewController {
         return QTProfileViewController(nibName: String(describing: QTProfileViewController.self), bundle: nil)
     }
     
+    // Parameters
     var user: AWTutor!
     var profileViewType: QTProfileViewType!
     var subject: String?
     
     let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
     
-    
+    var isConnected: Bool = false
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -72,11 +75,17 @@ class QTProfileViewController: UIViewController {
         initData()
         
         navigationController?.setNavigationBarHidden(false, animated: false)
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
     }
 
     // MARK: - Actions
     @IBAction func onMessageButtonClicked(_ sender: Any) {
-        
+        let vc = ConversationVC()
+        vc.receiverId = user.uid
+        vc.chatPartner = user
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func onMoreButtonClicked(_ sender: Any) {
@@ -84,12 +93,46 @@ class QTProfileViewController: UIViewController {
     }
     
     @IBAction func onReadFeedbacksButtonClicked(_ sender: Any) {
+        guard let user = user, let profileViewType = profileViewType else { return }
+        
+        switch profileViewType {
+        case .tutor, .myTutor:
+            FirebaseData.manager.fetchTutor(user.uid, isQuery: false) { (fetchedTutorIn) in
+                guard let fetchedTutor = fetchedTutorIn else { return }
+                let vc = TutorReviewsVC()
+                vc.datasource = fetchedTutor.reviews ?? [Review]()
+                vc.isViewing = profileViewType == .tutor
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        case .learner, .myLearner:
+            FirebaseData.manager.fetchLearner(user.uid) { (learner) in
+                guard let learner = learner else { return }
+                let vc = LearnerReviewsVC()
+                vc.datasource = learner.lReviews ?? [Review]()
+                vc.isViewing = profileViewType == .learner
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
     
     @IBAction func onConnectButtonClicked(_ sender: Any) {
+        guard let user = user else { return }
+        if isConnected {
+            let vc = SessionRequestVC()
+            vc.tutor = user
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            DataService.shared.getTutorWithId(user.uid) { tutor in
+                let vc = ConversationVC()
+                vc.receiverId = tutor?.uid
+                vc.chatPartner = tutor
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
     
-    @objc func handleEditProfile() {
+    @objc
+    func handleEditProfile() {
         
         guard let profileViewType = profileViewType else { return }
         
@@ -105,6 +148,12 @@ class QTProfileViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    @objc
+    func handleDidAvatarImageViewTap() {
+        let images = createLightBoxImages()
+        presentLightBox(images)
     }
     
     // MARK: - Functions
@@ -154,7 +203,14 @@ class QTProfileViewController: UIViewController {
         // Set the avatar of user profile.
         let reference = storageRef.child("student-info").child(user.uid).child("student-profile-pic1")
         avatarImageView.sd_setImage(with: reference)
+        avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidAvatarImageViewTap)))
         
+        // Set the active status of user.
+        self.statusImageView.backgroundColor = Colors.gray
+        OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result in
+            guard let result = result else { return }
+            self.statusImageView.backgroundColor = result.isEmpty ? Colors.purple : Colors.gray
+        }
         // User name
         usernameLabel.text = user.formattedName
         switch profileViewType {
@@ -280,6 +336,35 @@ class QTProfileViewController: UIViewController {
     func initConnectView() {
         connectButton.layer.cornerRadius = 3
         connectButton.clipsToBounds = true
+        
+        guard let profileViewType = profileViewType else { return }
+        switch profileViewType {
+        case .tutor:
+            connectView.isHidden = false
+            guard let price = user.price else { return }
+            rateLabel.text = "$\(price) per hour"
+            let rating = Int(user.tRating)
+            ratingView.setRatingTo(rating)
+            
+            // Disable the connect button until app gets the connection status.
+            connectButton.isEnabled = false
+            // Update the title of connect button based on the connection status.
+            guard let uid = Auth.auth().currentUser?.uid, let opponentId = user?.uid else { return }
+            FirebaseData.manager.fetchConnectionStatus(uid: uid,
+                                                       userType: AccountService.shared.currentUserType,
+                                                       opponentId: opponentId) { (connected) in
+                                                        
+                                                        // Enable the connect button
+                                                        self.connectButton.isEnabled = true
+                                                        self.isConnected = connected
+                                                        self.connectButton.setTitle(connected ? "REQUEST SESSION" : "CONNECT", for: .normal)
+            }
+            numberOfReviewsLabel.text = "\(user.reviews?.count ?? 0)"
+        case .learner,
+             .myTutor,
+             .myLearner:
+            connectView.isHidden = true
+        }
     }
     
     func updateUI() {
@@ -288,7 +373,22 @@ class QTProfileViewController: UIViewController {
         reviewsView.layoutIfNeeded()
         scrollView.layoutIfNeeded()
     }
-
+    
+    func createLightBoxImages() -> [LightboxImage] {
+        var images = [LightboxImage]()
+        user?.images.forEach({ (arg) in
+            let (_, imageUrl) = arg
+            guard let url = URL(string: imageUrl) else { return }
+            images.append(LightboxImage(imageURL: url))
+        })
+        return images
+    }
+    
+    func presentLightBox(_ images: [LightboxImage]) {
+        let controller = LightboxController(images: images, startIndex: 0)
+        controller.dynamicBackground = true
+        present(controller, animated: true, completion: nil)
+    }
 }
 
 extension QTProfileViewController: UICollectionViewDelegate {

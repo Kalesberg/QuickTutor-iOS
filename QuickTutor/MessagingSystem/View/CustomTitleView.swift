@@ -75,17 +75,16 @@ class CustomTitleView: UIView {
         let type = AccountService.shared.currentUserType
 
         if type == .learner {
-            let vc = TutorMyProfileVC()
-			vc.tutor = tutor
-			vc.isViewing = true
-            vc.navigationItem.title = tutor.username
-            navigationController.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            controller.user = tutor
+            controller.profileViewType = .tutor
+            navigationController.pushViewController(controller, animated: true)
         } else {
-            let vc = LearnerMyProfileVC()
-			vc.isViewing = true
-            vc.learner = learner
-            vc.isEditable = false
-            navigationController.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            let tutor = AWTutor(dictionary: [:])
+            controller.user = tutor.copy(learner: learner)
+            controller.profileViewType = .learner
+            navigationController.pushViewController(controller, animated: true)
         }
     }
     

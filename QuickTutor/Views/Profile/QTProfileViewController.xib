@@ -45,6 +45,7 @@
                 <outlet property="moreButton" destination="ET6-ZD-WwM" id="ZeX-Lc-hpk"/>
                 <outlet property="moreButtonsView" destination="a0N-aR-lNB" id="c4v-im-Yib"/>
                 <outlet property="numberOfLearnersLabel" destination="QN3-3q-aNs" id="dP0-1e-8nT"/>
+                <outlet property="numberOfReviewsLabel" destination="GKh-AL-yOi" id="PhC-MM-5Pu"/>
                 <outlet property="numberOfSessionsLabel" destination="dR9-MN-BaL" id="XkJ-Xw-msu"/>
                 <outlet property="numberOfSubjectsLabel" destination="vOd-9V-RVX" id="0xO-mC-m9P"/>
                 <outlet property="policiesView" destination="Z9V-UR-w87" id="EpJ-qI-rmW"/>
@@ -72,16 +73,16 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G4J-AK-EAf">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4J-AK-EAf">
                     <rect key="frame" x="20" y="20" width="335" height="647"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="GUu-Sf-9Cv">
-                            <rect key="frame" x="0.0" y="0.0" width="335" height="830"/>
+                        <stackView contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="GUu-Sf-9Cv">
+                            <rect key="frame" x="0.0" y="0.0" width="335" height="828"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eap-EV-Oeh">
                                     <rect key="frame" x="0.0" y="0.0" width="335" height="253"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dfC-4n-0zd" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
+                                        <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dfC-4n-0zd" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="30" width="90" height="90"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="90" id="AP3-Jz-aRb"/>
@@ -418,6 +419,7 @@
                                         </tableView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZ8-Ft-oLZ">
                                             <rect key="frame" x="0.0" y="141" width="107" height="32"/>
+                                            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="JBQ-H4-g3p"/>
                                             </constraints>
@@ -456,61 +458,61 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z9V-UR-w87">
-                                    <rect key="frame" x="0.0" y="600" width="335" height="230"/>
+                                    <rect key="frame" x="0.0" y="600" width="335" height="228"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Policies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdS-1D-fua">
-                                            <rect key="frame" x="0.0" y="0.0" width="47" height="17"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="47" height="15"/>
                                             <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_earth" translatesAutoresizingMaskIntoConstraints="NO" id="csT-iF-b7n">
-                                            <rect key="frame" x="0.0" y="39" width="13" height="13"/>
+                                            <rect key="frame" x="0.0" y="37" width="13" height="13"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="13" id="MMT-fk-YcG"/>
                                                 <constraint firstAttribute="height" constant="13" id="Xsb-LN-ekS"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username will tutor online or in-person" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2B-pJ-83f">
-                                            <rect key="frame" x="23" y="37" width="312" height="17"/>
+                                            <rect key="frame" x="23" y="35" width="312" height="17"/>
                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_car" translatesAutoresizingMaskIntoConstraints="NO" id="uqo-48-Yeo">
-                                            <rect key="frame" x="0.0" y="66" width="13" height="13"/>
+                                            <rect key="frame" x="0.0" y="64" width="13" height="13"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="13" id="Wro-JX-ZuH"/>
                                                 <constraint firstAttribute="width" constant="13" id="d1L-CW-vEJ"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username will travel up to 0 miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kEv-db-QeO">
-                                            <rect key="frame" x="23" y="64" width="205" height="17"/>
+                                            <rect key="frame" x="23" y="62" width="205" height="17"/>
                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_clock" translatesAutoresizingMaskIntoConstraints="NO" id="O6h-tt-HMA">
-                                            <rect key="frame" x="0.0" y="104" width="13" height="13"/>
+                                            <rect key="frame" x="0.0" y="102" width="13" height="13"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="13" id="99H-7z-B1y"/>
                                                 <constraint firstAttribute="height" constant="13" id="ERD-o4-osB"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Late Policy: 0 Minutes Notice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H6G-6l-Rwh">
-                                            <rect key="frame" x="23" y="102" width="186" height="17"/>
+                                            <rect key="frame" x="23" y="100" width="186" height="17"/>
                                             <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" text="Late Fee: $0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IzK-UI-gic">
-                                            <rect key="frame" x="23" y="129" width="93.5" height="17"/>
+                                            <rect key="frame" x="23" y="127" width="93.5" height="17"/>
                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                             <color key="textColor" red="1" green="0.23529411764705882" blue="0.2196078431372549" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_close" translatesAutoresizingMaskIntoConstraints="NO" id="e1I-fO-VOt" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="168" width="13" height="13"/>
+                                            <rect key="frame" x="0.0" y="166" width="13" height="13"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="13" id="201-rt-AJo"/>
                                                 <constraint firstAttribute="height" constant="13" id="feU-Xz-dZs"/>
@@ -522,13 +524,13 @@
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancellation Policy: 0 Hours Notice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BCA-xc-gDk">
-                                            <rect key="frame" x="23" y="166" width="224.5" height="17"/>
+                                            <rect key="frame" x="23" y="164" width="224.5" height="17"/>
                                             <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="752" text="Cancellation Fee: $0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A88-Fk-v0I">
-                                            <rect key="frame" x="23" y="193" width="143.5" height="17"/>
+                                            <rect key="frame" x="23" y="191" width="143.5" height="17"/>
                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                             <color key="textColor" red="1" green="0.23529411759999999" blue="0.21960784310000001" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -563,11 +565,10 @@
                                     </constraints>
                                 </view>
                             </subviews>
-                            <constraints>
-                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Z9V-UR-w87" secondAttribute="bottom" id="qhk-uv-fO6"/>
-                            </constraints>
+                            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         </stackView>
                     </subviews>
+                    <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstItem="GUu-Sf-9Cv" firstAttribute="top" secondItem="G4J-AK-EAf" secondAttribute="top" id="4tF-59-dqM"/>
                         <constraint firstItem="GUu-Sf-9Cv" firstAttribute="width" secondItem="G4J-AK-EAf" secondAttribute="width" id="JdA-Uh-Z8A"/>
@@ -575,8 +576,8 @@
                         <constraint firstItem="H6G-6l-Rwh" firstAttribute="centerY" secondItem="O6h-tt-HMA" secondAttribute="centerY" id="WNH-Mv-Uo7"/>
                         <constraint firstItem="GUu-Sf-9Cv" firstAttribute="centerX" secondItem="G4J-AK-EAf" secondAttribute="centerX" id="WuQ-RN-pEQ"/>
                         <constraint firstAttribute="trailing" secondItem="GUu-Sf-9Cv" secondAttribute="trailing" id="buh-Re-sYV"/>
-                        <constraint firstAttribute="bottom" secondItem="GUu-Sf-9Cv" secondAttribute="bottom" id="pXg-o0-EVf"/>
-                        <constraint firstItem="GUu-Sf-9Cv" firstAttribute="height" secondItem="G4J-AK-EAf" secondAttribute="height" priority="750" id="vxk-CU-FOS"/>
+                        <constraint firstAttribute="bottom" secondItem="GUu-Sf-9Cv" secondAttribute="bottom" constant="84" id="pXg-o0-EVf"/>
+                        <constraint firstItem="GUu-Sf-9Cv" firstAttribute="height" relation="lessThanOrEqual" secondItem="G4J-AK-EAf" secondAttribute="height" priority="750" id="vxk-CU-FOS"/>
                         <constraint firstItem="GUu-Sf-9Cv" firstAttribute="leading" secondItem="G4J-AK-EAf" secondAttribute="leading" id="ytg-GS-CTX"/>
                     </constraints>
                 </scrollView>
@@ -638,7 +639,7 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="Yjq-S4-ZO1" secondAttribute="bottom" constant="25" id="2bt-gS-xWI"/>
                         <constraint firstAttribute="height" constant="84" id="NDz-iX-AhU"/>
@@ -651,7 +652,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstItem="G4J-AK-EAf" firstAttribute="height" secondItem="fnl-2z-Ty3" secondAttribute="height" id="M2T-2X-aE7"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="G4J-AK-EAf" secondAttribute="bottom" id="Mlm-EW-iMm"/>

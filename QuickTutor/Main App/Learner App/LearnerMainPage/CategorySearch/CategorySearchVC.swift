@@ -168,8 +168,6 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
                 DispatchQueue.main.async {
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
-//                let vc = TutorCardVC()
-//                vc.contentView.updateUI(tutor)
             })
 		}
     }

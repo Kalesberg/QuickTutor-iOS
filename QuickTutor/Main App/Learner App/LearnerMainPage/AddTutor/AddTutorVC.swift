@@ -226,11 +226,10 @@ extension AddTutorVC: UITableViewDelegate, UITableViewDataSource {
         tableView.allowsSelection = false
         FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { tutor in
             if let tutor = tutor {
-                let next = TutorMyProfileVC()
-                next.tutor = tutor
-                next.isViewing = true
-                next.navigationItem.title = "\(self.filteredUsername[indexPath.section].username)"
-                self.navigationController?.pushViewController(next, animated: true)
+                let controller = QTProfileViewController.controller
+                controller.user = tutor
+                controller.profileViewType = .tutor
+                self.navigationController?.pushViewController(controller, animated: true)
             }
             tableView.allowsSelection = true
             self.dismissOverlay()

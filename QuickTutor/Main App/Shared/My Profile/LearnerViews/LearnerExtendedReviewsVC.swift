@@ -141,12 +141,12 @@ extension LearnerReviewsVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let vc = TutorMyProfileVC()
 		FirebaseData.manager.fetchTutor(datasource[indexPath.row].reviewerId, isQuery: false) { (tutor) in
 			if let tutor = tutor {
-				vc.tutor = tutor
-				vc.isViewing = true
-				self.navigationController?.pushViewController(vc, animated: true)
+                let controller = QTProfileViewController.controller
+                controller.user = tutor
+                controller.profileViewType = .tutor
+				self.navigationController?.pushViewController(controller, animated: true)
 			}
 		}
     }

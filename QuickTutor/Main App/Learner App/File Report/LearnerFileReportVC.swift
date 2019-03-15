@@ -646,10 +646,10 @@ extension LearnerFileReportVC: UITableViewDelegate, UITableViewDataSource {
         tableView.allowsSelection = false
         FirebaseData.manager.fetchTutor(datasource[indexPath.row].otherId, isQuery: false) { tutor in
             if let tutor = tutor {
-                let vc = TutorMyProfileVC()
-                vc.tutor = tutor
-                vc.isViewing = true
-                self.navigationController?.pushViewController(vc, animated: true)
+                let controller = QTProfileViewController.controller
+                controller.user = tutor
+                controller.profileViewType = .tutor
+                self.navigationController?.pushViewController(controller, animated: true)
             }
             tableView.allowsSelection = true
             self.dismissOverlay()
