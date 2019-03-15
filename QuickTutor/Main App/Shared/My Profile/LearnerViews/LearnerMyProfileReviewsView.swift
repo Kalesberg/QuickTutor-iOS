@@ -162,7 +162,7 @@ class LearnerMyProfileReviewsView : UIView {
 	}
 	
 	@objc private func showReviewerProfile(_ sender: UIButton) {
-		let vc = TutorMyProfileVC()
+		let vc = TutorCardVC()
 		FirebaseData.manager.fetchTutor(dataSource[sender.tag].reviewerId, isQuery: false) { (tutor) in
 			if let tutor = tutor {
 				vc.tutor = tutor

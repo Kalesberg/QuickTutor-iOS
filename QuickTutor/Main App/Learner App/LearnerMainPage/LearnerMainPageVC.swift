@@ -211,7 +211,6 @@ extension LearnerMainPageVC: FeaturedTutorTableViewCellDelegate {
             let vc = TutorCardVC()
             vc.subject = featuredTutor.featuredSubject
             vc.tutor = tutor
-            vc.contentView.updateUI(tutor)
             DispatchQueue.main.async {
                 self.navigationController?.pushViewController(vc, animated: true)
             }

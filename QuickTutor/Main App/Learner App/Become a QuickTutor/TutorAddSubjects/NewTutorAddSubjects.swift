@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewTutorAddSubjectsVC: UIViewController {
+class TutorAddSubjectsVC: UIViewController {
     
     var isViewing = false
     var sectionHeights = [Int: CGFloat]()
@@ -49,7 +49,7 @@ class NewTutorAddSubjectsVC: UIViewController {
     }
 }
 
-extension NewTutorAddSubjectsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension TutorAddSubjectsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
@@ -86,7 +86,7 @@ extension NewTutorAddSubjectsVC: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
-extension NewTutorAddSubjectsVC: CustomSearchBarDelegate {
+extension TutorAddSubjectsVC: CustomSearchBarDelegate {
     func customSearchBarDidTapLeftView(_ searchBar: PaddedTextField) {
         dismiss(animated: true, completion: nil)
     }
@@ -111,7 +111,7 @@ extension NewTutorAddSubjectsVC: CustomSearchBarDelegate {
     }
 }
 
-extension NewTutorAddSubjectsVC: UITextFieldDelegate {
+extension TutorAddSubjectsVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         contentView.searchBarContainer.shouldBeginEditing()
     }
@@ -135,7 +135,7 @@ extension NewTutorAddSubjectsVC: UITextFieldDelegate {
     }
 }
 
-extension NewTutorAddSubjectsVC: UIScrollViewDelegate {
+extension TutorAddSubjectsVC: UIScrollViewDelegate {
     func scrollViewWillBeginDecelerating(_: UIScrollView) {
         view.endEditing(true)
     }
@@ -146,7 +146,7 @@ extension NewTutorAddSubjectsVC: UIScrollViewDelegate {
     
 }
 
-extension NewTutorAddSubjectsVC: QuickSearchCategoryCellDelegate {
+extension TutorAddSubjectsVC: QuickSearchCategoryCellDelegate {
     func quickSearchCategoryCell(_ cell: QuickSearchCategoryCell, didSelect subcategory: String, at indexPath: IndexPath) {
         let vc = TutorAddSubjectsResultsVC()
         vc.subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory) ?? [String]()

@@ -230,14 +230,7 @@ extension UINavigationController {
 			}
 		}
 	}
-	func popBackToTutorConnect() {
-		for controller in self.viewControllers {
-			if controller is TutorConnectVC {
-				self.popToViewController(controller, animated: false)
-				break
-			}
-		}
-	}
+
 	
     func popBackToMainAnimated() {
         for controller in self.viewControllers {

@@ -138,7 +138,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
             vc.learner = CurrentUser.shared.learner
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = TutorMyProfileVC()
+            let vc = TutorCardVC()
             vc.tutor = CurrentUser.shared.tutor
             navigationController?.pushViewController(vc, animated: true)
         }

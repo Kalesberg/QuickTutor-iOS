@@ -226,7 +226,7 @@ extension AddTutorVC: UITableViewDelegate, UITableViewDataSource {
         tableView.allowsSelection = false
         FirebaseData.manager.fetchTutor(filteredUsername[indexPath.section].uid, isQuery: false) { tutor in
             if let tutor = tutor {
-                let next = TutorMyProfileVC()
+                let next = TutorCardVC()
                 next.tutor = tutor
                 next.isViewing = true
                 next.navigationItem.title = "\(self.filteredUsername[indexPath.section].username)"

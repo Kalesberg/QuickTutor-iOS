@@ -141,7 +141,7 @@ extension LearnerReviewsVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let vc = TutorMyProfileVC()
+		let vc = TutorCardVC()
 		FirebaseData.manager.fetchTutor(datasource[indexPath.row].reviewerId, isQuery: false) { (tutor) in
 			if let tutor = tutor {
 				vc.tutor = tutor

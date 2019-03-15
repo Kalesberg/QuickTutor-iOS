@@ -584,8 +584,6 @@ class LearnerPaymentVC: BaseViewController {
                             nav?.popBackToAddTutor()
                         } else if self.popToMain {
                             nav?.popBackToMain()
-                        } else {
-                            nav?.popBackToTutorConnect()
                         }
                     }
                 }

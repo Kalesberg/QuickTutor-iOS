@@ -75,7 +75,7 @@ class CustomTitleView: UIView {
         let type = AccountService.shared.currentUserType
 
         if type == .learner {
-            let vc = TutorMyProfileVC()
+            let vc = TutorCardVC()
 			vc.tutor = tutor
 			vc.isViewing = true
             vc.navigationItem.title = tutor.username

@@ -33,7 +33,6 @@ class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, Reques
             guard let tutor = tutor else { return }
             let vc = TutorCardVC()
             vc.tutor = tutor
-            vc.contentView.updateUI(tutor)
             navigationController.pushViewController(vc, animated: true)
         })
     }

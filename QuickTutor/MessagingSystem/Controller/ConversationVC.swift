@@ -252,7 +252,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
             guard let tutor = tutor else { return }
             vc.tutor = tutor
-            vc.contentView.updateUI(tutor)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

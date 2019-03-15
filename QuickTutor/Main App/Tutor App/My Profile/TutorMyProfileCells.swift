@@ -13,6 +13,11 @@ import SDWebImage
 import SnapKit
 import UIKit
 
+struct Selected {
+    let path: String
+    let subject: String
+}
+
 class SubjectSelectionCollectionViewCell: UICollectionViewCell {
 	required init?(coder _: NSCoder) {
 		fatalError("init(coder:) has not been implemented")

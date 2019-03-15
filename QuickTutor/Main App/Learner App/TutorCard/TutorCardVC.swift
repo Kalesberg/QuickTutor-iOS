@@ -13,7 +13,13 @@ import FirebaseAuth
 class TutorCardVC: UIViewController {
     
     let contentView = TutorCardView()
-    var tutor: AWTutor?
+    var isViewing = false
+    var tutor: AWTutor? {
+        didSet {
+            guard let tutor = tutor else { return }
+            contentView.updateUI(tutor)
+        }
+    }
     var subject: String?
     var actionSheet: FileReportActionsheet?
     

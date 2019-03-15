@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class SubmitButton: InteractableView, Interactable {
+    
     var label = CenterTextLabel()
 
     override func configureView() {

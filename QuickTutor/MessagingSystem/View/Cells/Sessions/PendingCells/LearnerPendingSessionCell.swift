@@ -29,7 +29,7 @@ class LearnerPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate, 
         super.handleButton3()
         FirebaseData.manager.fetchTutor(session.partnerId(), isQuery: false, { tutor in
             guard let tutor = tutor else { return }
-            let vc = TutorMyProfileVC()
+            let vc = TutorCardVC()
             vc.tutor = tutor
             navigationController.pushViewController(vc, animated: true)
         })
