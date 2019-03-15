@@ -193,8 +193,6 @@ class QTProfileViewController: UIViewController {
     }
     
     func initUserInfo() {
-        ratingView.setupViews()
-        
         distanceLabel.layer.cornerRadius = 3
         distanceLabel.clipsToBounds = true
         
@@ -334,6 +332,9 @@ class QTProfileViewController: UIViewController {
     }
     
     func initConnectView() {
+        ratingView.setupViews()
+        ratingView.isUserInteractionEnabled = false
+        
         connectButton.layer.cornerRadius = 3
         connectButton.clipsToBounds = true
         

@@ -30,6 +30,7 @@ class QTReviewTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         ratingView.setupViews()
+        ratingView.isUserInteractionEnabled = false
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
