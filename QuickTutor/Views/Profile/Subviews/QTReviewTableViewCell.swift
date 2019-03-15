@@ -17,7 +17,7 @@ class QTReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var ratingView: QTRatingView!
     @IBOutlet weak var reviewLabel: UILabel!
     
-    static var resuableIdentifier: String {
+    static var reuseIdentifier: String {
         return String(describing: QTReviewTableViewCell.self)
     }
     
@@ -38,4 +38,16 @@ class QTReviewTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    // MARK: - Functions
+    func setData(review: Review) {
+        usernameLabel.text = review.studentName
+        reviewDateLabel.text = review.formattedDate
+        reviewLabel.text = review.message
+        let rating = Int(review.rating)
+        ratingView.setRatingTo(rating)
+        DataService.shared.getStudentWithId(review.reviewerId) { (student) in
+            guard let student = student else { return }
+            self.avatarImageView.sd_setImage(with: student.profilePicUrl)
+        }
+    }
 }

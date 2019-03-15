@@ -91,6 +91,22 @@ extension String {
 		}
 		return text
 	}
+    
+    func cancelNoticeNew() -> NSAttributedString {
+        var text : NSMutableAttributedString
+        
+        let blackAttributes = [NSAttributedString.Key.font: Fonts.createBlackSize(14), NSAttributedString.Key.foregroundColor: Colors.grayText80]
+        let normalAttributes = [NSAttributedString.Key.font: Fonts.createSize(14), NSAttributedString.Key.foregroundColor: Colors.grayText80]
+        
+        if self != "0" {
+            text = NSMutableAttributedString(string: "Cancellation Policy:", attributes: blackAttributes)
+            text.append(NSAttributedString(string: " \(self) Hour Notice\n", attributes: normalAttributes))
+        } else {
+            text = NSMutableAttributedString(string: "No Cancellation Policy.", attributes: normalAttributes)
+        }
+        return text
+    }
+    
 	func lateNotice() -> String {
 		let text : String
 		
@@ -101,6 +117,22 @@ extension String {
 		}
 		return text
 	}
+    
+    func lateNoticeNew() -> NSAttributedString {
+        var text : NSMutableAttributedString
+        
+        let blackAttributes = [NSAttributedString.Key.font: Fonts.createBlackSize(14), NSAttributedString.Key.foregroundColor: Colors.grayText80]
+        let normalAttributes = [NSAttributedString.Key.font: Fonts.createSize(14), NSAttributedString.Key.foregroundColor: Colors.grayText80]
+        
+        if self != "0" {
+            text = NSMutableAttributedString(string: "Late Policy:", attributes: blackAttributes)
+            text.append(NSAttributedString(string: "  \(self) Minute Notice", attributes: normalAttributes))
+        } else {
+            text = NSMutableAttributedString(string: "No Late Policy.", attributes: normalAttributes)
+        }
+        return text
+    }
+    
 	func cancelFee() -> String {
 		let text : String
 		
@@ -111,6 +143,7 @@ extension String {
 		}
 		return text
 	}
+    
 	func lateFee() -> String {
 		let text : String
 		
