@@ -133,6 +133,9 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
     func tutorView(_ tutorView: SessionRequestTutorView, didChoose tutor: AWTutor) {
         tutorView.tutorCell.alpha = 1
         self.tutor = tutor
+        contentView.tutorView.tutorCell.nameLabel.text = tutor.formattedName
+        contentView.tutorView.tutorCell.profileImageView.sd_setImage(with: tutor.profilePicUrl, completed: nil)
+        contentView.tutorView.tutorCell.locationLabel.text = tutor.region
     }
 }
 
