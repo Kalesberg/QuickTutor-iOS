@@ -16,6 +16,7 @@ class TutorRegistrationService {
     var subjects = [String]()
     
     func addSubject(_ subject: String) {
+        guard !subjects.contains(subject) else { return }
         if shouldSaveSubjects {
             guard let uid = Auth.auth().currentUser?.uid else { return }
             Database.database().reference().child("subjects").child(subject).child(uid).setValue(1)

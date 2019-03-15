@@ -188,6 +188,7 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
         let categoryString = SubjectStore.findCategoryBy(subject: currentSubjects[indexPath.item]) ?? ""
         let category = Category.category(for: categoryString)!
         cell.imageView.image = Category.imageFor(category: category)
+        cell.selectionView.isHidden = !TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item])
         return cell
     }
     
