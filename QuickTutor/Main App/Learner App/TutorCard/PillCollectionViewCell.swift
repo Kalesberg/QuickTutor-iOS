@@ -25,6 +25,10 @@ class PillCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    static var reuseIdentifier: String {
+        return String(describing: PillCollectionViewCell.self)
+    }
+    
     func setupViews() {
         setupMainView()
         setupTitleLabel()

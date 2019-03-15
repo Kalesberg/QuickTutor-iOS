@@ -38,6 +38,7 @@ class AWTutor: AWLearner {
     var selected: [Selected] = []
     var reviews: [Review]?
     var location: TutorLocation?
+    var learners: [String] = []
 	
     var hasPayoutMethod: Bool = true
 	
@@ -65,6 +66,15 @@ class AWTutor: AWLearner {
     }
     
     func copy(learner: AWLearner) -> AWTutor {
+        // User's variables
+        self.username = learner.username
+        self.profilePicUrl = learner.profilePicUrl
+        self.uid = learner.uid
+        self.type = learner.type
+        self.isOnline = learner.isOnline
+        self.rating = learner.rating
+        
+        // Leaner's variables
         self.name = learner.name
         self.bio = learner.bio
         self.birthday = learner.birthday

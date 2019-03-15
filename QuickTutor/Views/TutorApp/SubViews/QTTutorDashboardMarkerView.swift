@@ -20,7 +20,7 @@ class QTTutorDashboardMarkerView: MarkerView {
         chartType = type
     }
     
-    static func load() -> QTTutorDashboardMarkerView {
+    static var view: QTTutorDashboardMarkerView {
         return Bundle.main.loadNibNamed(String(describing: QTTutorDashboardMarkerView.self),
                                         owner: nil,
                                         options: [:])?.first as! QTTutorDashboardMarkerView

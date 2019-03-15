@@ -14,13 +14,14 @@ class QTReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var reviewDateLabel: UILabel!
+    @IBOutlet weak var ratingView: QTRatingView!
     @IBOutlet weak var reviewLabel: UILabel!
     
-    static var resuableIdentifier: String = {
+    static var resuableIdentifier: String {
         return String(describing: QTReviewTableViewCell.self)
     }
     
-    static var nib: UINib = {
+    static var nib: UINib {
         return UINib(nibName: String(describing: QTReviewTableViewCell.self), bundle:nil)
     }
     
@@ -28,6 +29,7 @@ class QTReviewTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        ratingView.setupViews()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

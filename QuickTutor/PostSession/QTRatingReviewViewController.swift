@@ -56,7 +56,7 @@ class QTRatingReviewViewController: UIViewController {
     var hasPaid: Bool = false
     var hasCompleted: Bool = false
     
-    static func loadView() -> QTRatingReviewViewController {
+    static var controller: QTRatingReviewViewController {
         return QTRatingReviewViewController(nibName: String(describing: QTRatingReviewViewController.self), bundle: nil)
     }
     
@@ -137,12 +137,12 @@ class QTRatingReviewViewController: UIViewController {
                 finishAndUpload()
                 hasCompleted = true
                 PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
-                let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.loadView()
+                let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.controller
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
         case 2:
-            let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.loadView()
+            let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.controller
             PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
             self.navigationController?.pushViewController(vc, animated: true)
             break

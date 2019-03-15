@@ -23,10 +23,9 @@ class QTTutorDashboardHeaderView: UIView {
     @IBOutlet weak var sessionsLabel: UILabel!
     @IBOutlet weak var subjectsLabel: UILabel!
     
-    static func load() -> QTTutorDashboardHeaderView {
+    static var view: QTTutorDashboardHeaderView {
         return Bundle.main.loadNibNamed(String(describing: QTTutorDashboardHeaderView.self),
                                         owner: nil,
                                         options: [:])?.first as! QTTutorDashboardHeaderView
     }
-    
 }

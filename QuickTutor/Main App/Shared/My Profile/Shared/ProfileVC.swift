@@ -32,8 +32,6 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        
-        navigationController?.pushViewController(QTProfileViewController.loadView(), animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,7 +151,20 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func showSettings() {
-        navigationController?.pushViewController(QTSettingsViewController.loadView(), animated: true)
+        
+        let controller = QTProfileViewController.controller
+        if AccountService.shared.currentUserType == .learner {
+            controller.profileViewType = QTProfileViewType.myLearner
+            let tutor = CurrentUser.shared.tutor ?? AWTutor(dictionary: [:])
+            controller.user = tutor.copy(learner: CurrentUser.shared.learner)
+        } else {
+            controller.profileViewType = QTProfileViewType.myTutor
+            controller.user = CurrentUser.shared.tutor
+        }
+        
+        navigationController?.pushViewController(controller, animated: true)
+        
+//        navigationController?.pushViewController(QTSettingsViewController.controller, animated: true)
     }
     
     func showLegal() {
@@ -221,7 +232,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
                 if success {
                     AccountService.shared.currentUserType = .tutor
                     self.dismissOverlay()
-                    RootControllerManager.shared.configureRootViewController(controller: QTTutorDashboardViewController.loadView())
+                    RootControllerManager.shared.configureRootViewController(controller: QTTutorDashboardViewController.controller)
                 }
             }
         } else {
