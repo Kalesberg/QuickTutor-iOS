@@ -237,29 +237,25 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         guard orientation == .right else { return nil }
         
         let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
-            // handle action by updating model with deletion
             self.deleteMessages(index: indexPath.item)
         }
         
         deleteAction.image = UIImage(named: "deleteCellIcon")
-        
         deleteAction.font = Fonts.createSize(12)
         deleteAction.backgroundColor = Colors.darkBackground
         
         let requestSessionAction = SwipeAction(style: .default, title: nil) { action, indexPath in
-            // handle action by updating model with deletion
             self.requestSession(index: indexPath.item)
-            
         }
         
         requestSessionAction.image = UIImage(named: "sessionIcon")
-        
         requestSessionAction.font = Fonts.createSize(12)
         requestSessionAction.backgroundColor = Colors.darkBackground
         
-        
-        return [deleteAction, requestSessionAction]
+        return AccountService.shared.currentUserType == .learner ? [deleteAction, requestSessionAction] : [deleteAction]
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()

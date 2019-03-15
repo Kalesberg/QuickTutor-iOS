@@ -140,6 +140,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.delegate = self
         if AccountService.shared.currentUserType == .tutor {
             cell.updateAsLearnerCell()
+            cell.requestSessionButton.isHidden = true
         }
         return cell
     }
