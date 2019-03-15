@@ -45,7 +45,7 @@ class QTTutorDashboardViewController: UIViewController {
         didSet {
             guard let text = topSubject == nil || topSubject?.isEmpty ?? true
                 ? self.tutor?.subjects?.first : topSubject else { return }
-            headerView.subjectLabel.text = text + " • "
+            headerView.subjectLabel.text = text.capitalizingFirstLetter() + " • "
         }
     }
     
@@ -115,7 +115,7 @@ class QTTutorDashboardViewController: UIViewController {
         headerView.nameLabel.text = tutor.formattedName
         if let text = topSubject == nil || topSubject?.isEmpty ?? true
             ? self.tutor?.subjects?.first : topSubject {
-            headerView.subjectLabel.text = text + " • "
+            headerView.subjectLabel.text = text.capitalizingFirstLetter() + " • "
         }
         headerView.avatarImageView.sd_setImage(with: reference)
         headerView.hourlyRateLabel.text = "$\(String(describing: tutor.price ?? 0))/hr"

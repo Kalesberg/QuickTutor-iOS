@@ -161,6 +161,10 @@ extension String {
     func getStringWidth(font: UIFont) -> CGFloat {
         return self.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 0.0), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil).width
     }
+    
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
 }
 
 extension MutableCollection {
