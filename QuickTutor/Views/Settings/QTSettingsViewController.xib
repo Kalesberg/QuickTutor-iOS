@@ -54,10 +54,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="lx4-oa-0C1">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="928.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="942"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e8u-nI-AiX">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="74.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="77"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84m-6f-tWV" userLabel="separator">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
@@ -67,13 +67,13 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2n-LF-o7b">
-                                            <rect key="frame" x="20" y="21" width="71.5" height="14.5"/>
-                                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                                            <rect key="frame" x="20" y="21" width="83.5" height="17"/>
+                                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Select" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4V2-Bs-AbN">
-                                            <rect key="frame" x="20" y="45.5" width="335" height="28"/>
+                                            <rect key="frame" x="20" y="48" width="335" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="28" id="UO7-8B-yaO"/>
                                             </constraints>
@@ -82,7 +82,7 @@
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EYT-R0-j9b" userLabel="separator">
-                                            <rect key="frame" x="20" y="73.5" width="335" height="1"/>
+                                            <rect key="frame" x="20" y="76" width="335" height="1"/>
                                             <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="JEZ-cC-FoH"/>
@@ -107,31 +107,31 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2EN-Hw-cfy">
-                                    <rect key="frame" x="0.0" y="74.5" width="375" height="293"/>
+                                    <rect key="frame" x="0.0" y="77" width="375" height="299"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Spread the love" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNs-KD-nHK">
-                                            <rect key="frame" x="20" y="20" width="96" height="17"/>
-                                            <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                            <rect key="frame" x="20" y="20" width="109.5" height="19.5"/>
+                                            <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="16"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ENe-ad-jkF" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                            <rect key="frame" x="20" y="57" width="335" height="45"/>
+                                            <rect key="frame" x="20" y="59.5" width="335" height="45"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate us in the App Store!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZc-Wd-9qr">
-                                                    <rect key="frame" x="15" y="15" width="135.5" height="15"/>
-                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
+                                                    <rect key="frame" x="15" y="15" width="158" height="15"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mp5-s6-1yb">
-                                                    <rect key="frame" x="255" y="11.5" width="65" height="22"/>
+                                                    <rect key="frame" x="250" y="7.5" width="70" height="30"/>
                                                     <color key="backgroundColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="22" id="QfI-GQ-8hn"/>
-                                                        <constraint firstAttribute="width" constant="65" id="i4Z-Mi-G30"/>
+                                                        <constraint firstAttribute="height" constant="30" id="QfI-GQ-8hn"/>
+                                                        <constraint firstAttribute="width" constant="70" id="i4Z-Mi-G30"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
                                                     <state key="normal" title="Rate"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -165,22 +165,22 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We appreciate any feedback you give us." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhc-yL-1S9">
-                                            <rect key="frame" x="20" y="112" width="178.5" height="11"/>
-                                            <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="10"/>
+                                            <rect key="frame" x="20" y="114.5" width="214" height="14.5"/>
+                                            <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zAA-K4-9hS" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                            <rect key="frame" x="20" y="143" width="335" height="129"/>
+                                            <rect key="frame" x="20" y="149" width="335" height="129"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follow us for updates!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3GX-WG-Kle">
-                                                    <rect key="frame" x="15" y="15" width="121" height="14.5"/>
-                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
+                                                    <rect key="frame" x="15" y="15" width="141" height="17"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="jVf-db-BmL">
-                                                    <rect key="frame" x="37.5" y="49.5" width="260" height="60"/>
+                                                    <rect key="frame" x="37.5" y="52" width="260" height="60"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Z7-EP-FXH" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -280,7 +280,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jBP-wQ-tzE" userLabel="separator">
-                                            <rect key="frame" x="20" y="292" width="335" height="1"/>
+                                            <rect key="frame" x="20" y="298" width="335" height="1"/>
                                             <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="kdk-mO-3uz"/>
@@ -291,6 +291,7 @@
                                     <constraints>
                                         <constraint firstItem="mhc-yL-1S9" firstAttribute="leading" secondItem="2EN-Hw-cfy" secondAttribute="leading" constant="20" id="3eX-Uu-JNF"/>
                                         <constraint firstItem="ENe-ad-jkF" firstAttribute="leading" secondItem="2EN-Hw-cfy" secondAttribute="leading" constant="20" id="82W-Pn-g2m"/>
+                                        <constraint firstAttribute="height" constant="299" id="ABR-a4-OXu"/>
                                         <constraint firstItem="LNs-KD-nHK" firstAttribute="top" secondItem="2EN-Hw-cfy" secondAttribute="top" constant="20" id="Arp-8z-nVh"/>
                                         <constraint firstItem="jBP-wQ-tzE" firstAttribute="top" secondItem="zAA-K4-9hS" secondAttribute="bottom" constant="20" id="YZ5-uk-Mnh"/>
                                         <constraint firstItem="mhc-yL-1S9" firstAttribute="top" secondItem="ENe-ad-jkF" secondAttribute="bottom" constant="10" id="Z2B-6P-r28"/>
@@ -303,35 +304,34 @@
                                         <constraint firstAttribute="bottom" secondItem="jBP-wQ-tzE" secondAttribute="bottom" id="nHS-d7-ce9"/>
                                         <constraint firstItem="LNs-KD-nHK" firstAttribute="leading" secondItem="2EN-Hw-cfy" secondAttribute="leading" constant="20" id="ohH-gM-WNU"/>
                                         <constraint firstAttribute="trailing" secondItem="jBP-wQ-tzE" secondAttribute="trailing" constant="20" id="wdB-iN-9Ip"/>
-                                        <constraint firstAttribute="height" constant="293" id="zzc-Aa-0kf"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UwH-pd-07Z">
-                                    <rect key="frame" x="0.0" y="367.5" width="375" height="230"/>
+                                    <rect key="frame" x="0.0" y="376" width="375" height="230"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Community" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lv6-K1-3RZ">
-                                            <rect key="frame" x="20" y="20" width="72.5" height="17"/>
-                                            <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                            <rect key="frame" x="20" y="20" width="82.5" height="19.5"/>
+                                            <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="16"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="meK-jl-RAG" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                            <rect key="frame" x="20" y="57" width="335" height="45"/>
+                                            <rect key="frame" x="20" y="59.5" width="335" height="45"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Community guidelines" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6V-uj-GQr">
-                                                    <rect key="frame" x="15" y="15" width="122.5" height="15"/>
-                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
+                                                    <rect key="frame" x="15" y="15" width="143" height="15"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAT-bp-Lx4">
-                                                    <rect key="frame" x="255" y="11.5" width="65" height="22"/>
+                                                    <rect key="frame" x="250" y="7.5" width="70" height="30"/>
                                                     <color key="backgroundColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="65" id="FXs-66-6Bo"/>
-                                                        <constraint firstAttribute="height" constant="22" id="mW5-v1-WVY"/>
+                                                        <constraint firstAttribute="width" constant="70" id="FXs-66-6Bo"/>
+                                                        <constraint firstAttribute="height" constant="30" id="mW5-v1-WVY"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
                                                     <state key="normal" title="Read"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -365,28 +365,28 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read our guidelines on interacting with others." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cV2-ka-pro">
-                                            <rect key="frame" x="20" y="112" width="204.5" height="12"/>
-                                            <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="10"/>
+                                            <rect key="frame" x="20" y="114.5" width="245.5" height="14.5"/>
+                                            <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s3M-Xr-CPU" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                            <rect key="frame" x="20" y="144" width="335" height="45"/>
+                                            <rect key="frame" x="20" y="149" width="335" height="45"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User safety" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sni-Vo-UOL">
-                                                    <rect key="frame" x="15" y="15" width="62" height="15"/>
-                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
+                                                    <rect key="frame" x="15" y="15" width="72.5" height="15"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="az4-mY-YKE">
-                                                    <rect key="frame" x="255" y="11.5" width="65" height="22"/>
+                                                    <rect key="frame" x="250" y="7.5" width="70" height="30"/>
                                                     <color key="backgroundColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="65" id="2Jl-wJ-N1L"/>
-                                                        <constraint firstAttribute="height" constant="22" id="gdC-Mm-kZF"/>
+                                                        <constraint firstAttribute="width" constant="70" id="2Jl-wJ-N1L"/>
+                                                        <constraint firstAttribute="height" constant="30" id="gdC-Mm-kZF"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
                                                     <state key="normal" title="Read"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -420,13 +420,13 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read how to stay safe using QuickTutor. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NsN-hF-uKs">
-                                            <rect key="frame" x="20" y="199" width="177.5" height="12"/>
-                                            <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="10"/>
+                                            <rect key="frame" x="20" y="204" width="212.5" height="14.5"/>
+                                            <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="607-wT-uec" userLabel="separator">
-                                            <rect key="frame" x="20" y="231" width="335" height="1"/>
+                                            <rect key="frame" x="20" y="238.5" width="335" height="1"/>
                                             <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="Vf8-bx-f8V"/>
@@ -441,6 +441,7 @@
                                         <constraint firstAttribute="trailing" secondItem="meK-jl-RAG" secondAttribute="trailing" constant="20" id="91Y-Ko-2Ej"/>
                                         <constraint firstItem="meK-jl-RAG" firstAttribute="top" secondItem="Lv6-K1-3RZ" secondAttribute="bottom" constant="20" id="Ack-S1-iuJ"/>
                                         <constraint firstItem="Lv6-K1-3RZ" firstAttribute="top" secondItem="UwH-pd-07Z" secondAttribute="top" constant="20" id="Cgt-yu-Dyt"/>
+                                        <constraint firstAttribute="height" constant="230" id="DHV-Ed-5NS"/>
                                         <constraint firstItem="607-wT-uec" firstAttribute="top" secondItem="NsN-hF-uKs" secondAttribute="bottom" constant="20" id="FLx-jn-vK2"/>
                                         <constraint firstAttribute="trailing" secondItem="s3M-Xr-CPU" secondAttribute="trailing" constant="20" id="Jfc-Bg-U7t"/>
                                         <constraint firstItem="607-wT-uec" firstAttribute="leading" secondItem="UwH-pd-07Z" secondAttribute="leading" constant="20" id="Xds-mN-YeV"/>
@@ -449,16 +450,15 @@
                                         <constraint firstItem="NsN-hF-uKs" firstAttribute="leading" secondItem="UwH-pd-07Z" secondAttribute="leading" constant="20" id="kHg-u2-uOn"/>
                                         <constraint firstItem="cV2-ka-pro" firstAttribute="top" secondItem="meK-jl-RAG" secondAttribute="bottom" constant="10" id="nF8-yq-C4g"/>
                                         <constraint firstItem="s3M-Xr-CPU" firstAttribute="leading" secondItem="UwH-pd-07Z" secondAttribute="leading" constant="20" id="oUO-zO-RiX"/>
-                                        <constraint firstAttribute="height" constant="230" id="q68-3n-CLD"/>
                                         <constraint firstItem="cV2-ka-pro" firstAttribute="leading" secondItem="UwH-pd-07Z" secondAttribute="leading" constant="20" id="t9W-aN-Zx7"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y3T-P6-U0a">
-                                    <rect key="frame" x="0.0" y="597.5" width="375" height="56"/>
+                                    <rect key="frame" x="0.0" y="606" width="375" height="56"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fb2-hf-Y65">
                                             <rect key="frame" x="20" y="20" width="335" height="36"/>
-                                            <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                            <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="16"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -472,28 +472,28 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f6O-SZ-Mav">
-                                    <rect key="frame" x="0.0" y="653.5" width="375" height="54"/>
+                                    <rect key="frame" x="0.0" y="662" width="375" height="59"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show me on QuickTutor " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JfT-MK-1bm">
-                                            <rect key="frame" x="20" y="20" width="149" height="17"/>
-                                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                            <rect key="frame" x="20" y="20" width="170.5" height="19.5"/>
+                                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="You are currently visible in search results." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gvo-9y-fCv">
-                                            <rect key="frame" x="20" y="42" width="180.5" height="12"/>
-                                            <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="10"/>
+                                            <rect key="frame" x="20" y="44.5" width="216.5" height="14.5"/>
+                                            <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Ya-av-emd" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                            <rect key="frame" x="305" y="12" width="50" height="30"/>
+                                            <rect key="frame" x="293" y="11.5" width="62" height="36"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_switch_off" translatesAutoresizingMaskIntoConstraints="NO" id="AXD-0b-6X3" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
-                                                    <rect key="frame" x="2" y="2" width="26" height="26"/>
+                                                    <rect key="frame" x="2" y="2" width="32" height="32"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="26" id="Qq8-he-imO"/>
-                                                        <constraint firstAttribute="height" constant="26" id="xwV-Kl-Syf"/>
+                                                        <constraint firstAttribute="width" constant="32" id="Qq8-he-imO"/>
+                                                        <constraint firstAttribute="height" constant="32" id="xwV-Kl-Syf"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -502,10 +502,10 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_switch_on" translatesAutoresizingMaskIntoConstraints="NO" id="LyP-nm-HLV" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
-                                                    <rect key="frame" x="22" y="2" width="26" height="26"/>
+                                                    <rect key="frame" x="28" y="2" width="32" height="32"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="26" id="U5f-7u-Vbk"/>
-                                                        <constraint firstAttribute="width" constant="26" id="be9-GO-heg"/>
+                                                        <constraint firstAttribute="height" constant="32" id="U5f-7u-Vbk"/>
+                                                        <constraint firstAttribute="width" constant="32" id="be9-GO-heg"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -516,10 +516,10 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="Bno-da-4fG"/>
+                                                <constraint firstAttribute="width" constant="62" id="Bno-da-4fG"/>
                                                 <constraint firstItem="LyP-nm-HLV" firstAttribute="centerY" secondItem="7Ya-av-emd" secondAttribute="centerY" id="IOe-ri-rWY"/>
                                                 <constraint firstItem="AXD-0b-6X3" firstAttribute="leading" secondItem="7Ya-av-emd" secondAttribute="leading" constant="2" id="Osc-Fw-8aJ"/>
-                                                <constraint firstAttribute="height" constant="30" id="aJH-zO-bDE"/>
+                                                <constraint firstAttribute="height" constant="36" id="aJH-zO-bDE"/>
                                                 <constraint firstItem="AXD-0b-6X3" firstAttribute="centerY" secondItem="7Ya-av-emd" secondAttribute="centerY" id="llm-qT-52C"/>
                                                 <constraint firstAttribute="trailing" secondItem="LyP-nm-HLV" secondAttribute="trailing" constant="2" id="ncu-Ik-QK1"/>
                                             </constraints>
@@ -531,7 +531,7 @@
                                                     <real key="value" value="1"/>
                                                 </userDefinedRuntimeAttribute>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                    <real key="value" value="15"/>
+                                                    <real key="value" value="18"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
@@ -548,20 +548,20 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jxn-07-a19">
-                                    <rect key="frame" x="0.0" y="707.5" width="375" height="106"/>
+                                    <rect key="frame" x="0.0" y="721" width="375" height="106"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m69-cg-Qhz">
                                             <rect key="frame" x="20" y="20" width="335" height="65"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pv6-3d-wz1">
-                                                    <rect key="frame" x="0.0" y="0.0" width="88.5" height="48"/>
-                                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="101" height="45.5"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Connect your account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7HZ-QQ-djj">
-                                                    <rect key="frame" x="0.0" y="53" width="97" height="12"/>
-                                                    <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="10"/>
+                                                    <rect key="frame" x="0.0" y="50.5" width="116" height="14.5"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -604,7 +604,7 @@
                                     </constraints>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jnL-pt-u3t">
-                                    <rect key="frame" x="0.0" y="813.5" width="375" height="115"/>
+                                    <rect key="frame" x="0.0" y="827" width="375" height="115"/>
                                     <subviews>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BY8-1B-VaJ" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="118"/>

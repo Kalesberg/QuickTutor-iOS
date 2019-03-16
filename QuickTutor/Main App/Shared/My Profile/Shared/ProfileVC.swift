@@ -154,19 +154,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func showSettings() {
-        
-        let controller = QTProfileViewController.controller
-        if AccountService.shared.currentUserType == .learner {
-            controller.profileViewType = QTProfileViewType.myLearner
-            let tutor = CurrentUser.shared.tutor ?? AWTutor(dictionary: [:])
-            controller.user = tutor.copy(learner: CurrentUser.shared.learner)
-        } else {
-            controller.profileViewType = QTProfileViewType.myTutor
-            controller.user = CurrentUser.shared.tutor
-        }
-        navigationController?.pushViewController(controller, animated: true)
-        
-//        navigationController?.pushViewController(QTSettingsViewController.controller, animated: true)
+        navigationController?.pushViewController(QTSettingsViewController.controller, animated: true)
     }
     
     func showLegal() {
