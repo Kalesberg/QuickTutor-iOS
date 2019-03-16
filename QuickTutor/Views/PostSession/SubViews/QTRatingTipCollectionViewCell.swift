@@ -58,6 +58,8 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         return UINib(nibName: String(describing: QTRatingTipCollectionViewCell.self), bundle: nil)
     }
     
+    let maxTip = 250
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -109,6 +111,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func onPlusButtonClicked(_ sender: Any) {
+        if tip == maxTip { return }
         tip += 5
         tipTextField.text = "$\(tip)"
         updateTipAmount(text: tipTextField.text)
@@ -245,6 +248,10 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         if var text = text, text.hasPrefix("$") {
             text = text.replacingOccurrences(of: "$", with: "")
             tip = Int(text) ?? 0
+            if tip > maxTip {
+                tipTextField.text = "$250"
+                tip = maxTip
+            }
             let cost = costOfSession + Double(tip)
             priceLabel.text = cost.currencyFormat(precision: 2, divider: 1)
             

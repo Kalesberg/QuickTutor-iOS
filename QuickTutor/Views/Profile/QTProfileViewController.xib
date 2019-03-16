@@ -50,6 +50,7 @@
                 <outlet property="numberOfSubjectsLabel" destination="vOd-9V-RVX" id="0xO-mC-m9P"/>
                 <outlet property="policiesView" destination="Z9V-UR-w87" id="EpJ-qI-rmW"/>
                 <outlet property="rateLabel" destination="32Q-Iw-Nbg" id="K3N-HD-uxi"/>
+                <outlet property="ratingLabel" destination="CC5-9W-O72" id="YnA-6j-O3g"/>
                 <outlet property="ratingStarImageView" destination="CMW-hq-mef" id="Lds-8l-Q46"/>
                 <outlet property="ratingView" destination="ddt-1C-PKl" id="7tV-sA-g7i"/>
                 <outlet property="readFeedbacksButton" destination="bZ8-Ft-oLZ" id="deB-BH-kWQ"/>
@@ -62,7 +63,7 @@
                 <outlet property="statusImageView" destination="L8b-3j-RqW" id="bkx-GQ-N49"/>
                 <outlet property="subjectsCollectionView" destination="uR5-Kl-tlZ" id="0sy-KR-O4z"/>
                 <outlet property="subjectsCollectionViewHeight" destination="Tya-ug-lmj" id="RLH-mY-5pv"/>
-                <outlet property="topSubjectLabel" destination="CC5-9W-O72" id="q7j-n5-Cdd"/>
+                <outlet property="topSubjectLabel" destination="hbV-DZ-rL9" id="5mr-Jk-d5z"/>
                 <outlet property="travelDistanceLabel" destination="kEv-db-QeO" id="sKF-gS-eZt"/>
                 <outlet property="usernameLabel" destination="6vE-CP-9AF" id="TOO-JZ-PCF"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -101,7 +102,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="225" height="40"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6vE-CP-9AF">
-                                                            <rect key="frame" x="0.0" y="0.0" width="88" height="24"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="88" height="18"/>
                                                             <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="20"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -162,21 +163,27 @@
                                                             </constraints>
                                                         </view>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="6i0-qX-rKr">
-                                                            <rect key="frame" x="0.0" y="29" width="87" height="11"/>
+                                                            <rect key="frame" x="0.0" y="23" width="112" height="17"/>
                                                             <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="top subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbV-DZ-rL9">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="71" height="17"/>
+                                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
+                                                                    <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-9W-O72">
+                                                                    <rect key="frame" x="76" y="0.0" width="20" height="17"/>
+                                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
+                                                                    <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="CMW-hq-mef">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="11" height="11"/>
+                                                                    <rect key="frame" x="101" y="3" width="11" height="11"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="11" id="7am-WB-94W"/>
                                                                         <constraint firstAttribute="width" constant="11" id="FNb-IV-tbe"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="top subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-9W-O72">
-                                                                    <rect key="frame" x="16" y="0.0" width="71" height="11"/>
-                                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
-                                                                    <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                             </subviews>
                                                         </stackView>
                                                     </subviews>

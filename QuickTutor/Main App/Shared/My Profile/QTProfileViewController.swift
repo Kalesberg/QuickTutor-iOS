@@ -25,6 +25,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var messageButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var ratingStarImageView: UIImageView!
+    @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var topSubjectLabel: UILabel!
     @IBOutlet weak var statisticStackView: UIStackView!
     @IBOutlet weak var numberOfLearnersLabel: UILabel!
@@ -227,8 +228,9 @@ class QTProfileViewController: UIViewController {
         case .tutor:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = false
-            ratingStarImageView.isHidden = true
+            topSubjectLabel.isHidden = false
             topSubjectLabel.text = subject
+            ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             numberOfLearnersLabel.text = "\(user.learners.count)"
             numberOfSessionsLabel.text = "\(user.tNumSessions ?? 0)"
             numberOfSubjectsLabel.text = "\(user.subjects?.count ?? 0)"
@@ -243,8 +245,8 @@ class QTProfileViewController: UIViewController {
         case .learner:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = true
-            ratingStarImageView.isHidden = false
-            topSubjectLabel.text = "\(String(describing: user.tRating ?? 5.0))"
+            topSubjectLabel.isHidden = true
+            ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             addressView.isHidden = true
             if let bio = user.bio, !bio.isEmpty {
                 bioLabel.text = "\(bio)"
@@ -255,8 +257,9 @@ class QTProfileViewController: UIViewController {
         case .myTutor:
             moreButtonsView.isHidden = true
             statisticStackView.isHidden = true
-            ratingStarImageView.isHidden = false
-            topSubjectLabel.text = "\(String(describing: user.tRating ?? 5.0))"
+            topSubjectLabel.isHidden = false
+            topSubjectLabel.text = subject
+            ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             addressView.isHidden = false
             distanceView.isHidden = true
             if let bio = user.tBio, !bio.isEmpty {
@@ -272,8 +275,8 @@ class QTProfileViewController: UIViewController {
         case .myLearner:
             moreButtonsView.isHidden = true
             statisticStackView.isHidden = true
-            ratingStarImageView.isHidden = false
-            topSubjectLabel.text = "\(String(describing: user.tRating ?? 5.0))"
+            topSubjectLabel.isHidden = true
+            ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             addressView.isHidden = true
             if let bio = user.bio, !bio.isEmpty {
                 bioLabel.text = "\(bio)"

@@ -88,7 +88,8 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         feedbackTextView.layer.cornerRadius = 3
         feedbackTextView.layer.borderColor = Colors.gray.cgColor
         feedbackTextView.layer.borderWidth = 1
-        
+        feedbackTextView.font = Fonts.createSize(14)
+        feedbackTextView.keyboardAppearance = .dark
         
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self,
@@ -109,8 +110,6 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             imageView.isUserInteractionEnabled = true
             imageView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(handleReviewStarTap(_:))))
         }
-        
-        feedbackTextView.font = UIFont.qtRegularFont(size: 14)
     }
 
     @objc
@@ -187,6 +186,9 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     }
     
     public func setProfileInfo(user: Any, subject: String?) {
+        
+        feedbackTextView.font = Fonts.createSize(14)
+        
         if let tutor = user as? AWTutor {
             let nameSplit = tutor.name.split(separator: " ")
             nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
