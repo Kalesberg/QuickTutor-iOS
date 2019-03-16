@@ -35,8 +35,8 @@ class AddTutorTableViewCell: UITableViewCell {
 		return label
 	}()
 	
-	let addTutorButton: UIButton = {
-		let button = UIButton()
+	let addTutorButton: DimmableButton = {
+		let button = DimmableButton()
 		button.backgroundColor = Colors.purple
 		button.setTitleColor(.white, for: .normal)
 		button.titleLabel?.textAlignment = .center
@@ -110,16 +110,12 @@ class AddTutorTableViewCell: UITableViewCell {
     }
 	
 	@objc func addTutorButtonPressed(_: Any) {
-		addTutorButton.isEnabled = false
-		if CurrentUser.shared.learner.hasPayment {
-			guard let uid = self.uid else { return }
-			delegate?.addTutorWithUid(uid, completion: {
-				self.addTutorButton.isEnabled = true
-			})
-		} else {
-			let vc = next?.next?.next as! AddTutorVC
-			vc.displayAddPaymentMethod()
-		}
+        addTutorButton.isEnabled = false
+        guard let uid = self.uid else { return }
+        delegate?.addTutorWithUid(uid, completion: {
+            self.addTutorButton.isEnabled = true
+        })
+		
 	}
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

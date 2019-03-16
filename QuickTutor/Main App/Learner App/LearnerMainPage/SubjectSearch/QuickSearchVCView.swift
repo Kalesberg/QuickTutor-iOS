@@ -23,6 +23,7 @@ class QuickSearchVCView: UIView {
         cv.backgroundColor = Colors.darkBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
+        cv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
         cv.register(QuickSearchCategoryCell.self, forCellWithReuseIdentifier: "cellId")
         cv.register(QuickSearchSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
         return cv

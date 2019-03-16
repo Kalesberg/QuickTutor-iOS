@@ -23,7 +23,7 @@ class ReportSuccessfulModal: BaseCustomModal {
         let button = DimmableButton()
         button.setTitle("Okay", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = Colors.green
+        button.backgroundColor = Colors.purple
         button.titleLabel?.font = Fonts.createSize(16)
         button.layer.cornerRadius = 4
         return button
@@ -36,11 +36,6 @@ class ReportSuccessfulModal: BaseCustomModal {
         setHeightTo(180)
     }
 
-    override func setupTitleBackground() {
-        super.setupTitleBackground()
-        titleBackground.backgroundColor = UIColor(red: 30.0 / 255.0, green: 173.0 / 255.0, blue: 74.0 / 255.0, alpha: 1.0)
-    }
-
     override func setupTitleLabel() {
         super.setupTitleLabel()
         titleLabel.text = "Report Successful"
@@ -48,7 +43,7 @@ class ReportSuccessfulModal: BaseCustomModal {
 
     func setupMessageLabel() {
         background.addSubview(messageLabel)
-        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 75)
+        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 75)
     }
 
     func setupConfirmButton() {

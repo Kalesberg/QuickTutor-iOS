@@ -309,20 +309,17 @@ class FirebaseData {
         }
     }
 	
-	func fetchTutorSubjects(uid: String, _ completion: @escaping ([TutorSubcategory]?) -> Void) {
-		var subcategories : [TutorSubcategory] = []
-		self.ref?.child("subject").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-			if let snap = snapshot.children.allObjects as? [DataSnapshot] {
-				for child in snap {
-					guard let value = child.value as? [String : Any] else { continue }
-					
-					var subcategory = TutorSubcategory(dictionary: value)
-					subcategory.subcategory = child.key
-					subcategories.append(subcategory)
-				}
-			}
-			return completion(subcategories)
-		})
+	func fetchTutorSubjects(uid: String, _ completion: @escaping ([String]?) -> Void) {
+        Database.database().reference().child("tutor-info").child(uid).child("subjects").observeSingleEvent(of: .value) { (snapshot) in
+            guard let subjectDict = snapshot.value as? [String: Any] else  {
+                return
+            }
+            var subjects = [String]()
+            subjectDict.forEach({ (key,value) in
+                subjects.append(key)
+            })
+            completion(subjects)
+        }
 	}
 	
 	func fetchTutorSessionPreferences(uid: String,_ completion: @escaping([String : Any]?) -> Void) {
@@ -378,16 +375,9 @@ class FirebaseData {
 		let group = DispatchGroup()
 		
 		group.enter()
-		fetchTutorSubjects(uid: uid) { (subcategory) in
-			var subjects = [String]()
-			guard let subcategory = subcategory else { return }
-			for subject in subcategory {
-				let subjectArray = subject.subjects.split(separator: "$")
-				for i in subjectArray {
-					subjects.append(String(i))
-				}
-				requestData["subjects"] = ["Choose a subject"] + subjects
-			}
+		fetchTutorSubjects(uid: uid) { (subjects) in
+            guard let subjects = subjects else { return }
+            requestData["subjects"] = ["Choose a subject"] + subjects
 			group.leave()
 		}
 		group.enter()
@@ -564,30 +554,12 @@ class FirebaseData {
 			return completion(subjectsTaught)
 		}
 	}
-	//Not working yet. there are some things Fuller and I (Austin) have to collaborate on to make this work.
-	func checkIfSessionHasTimeConflict(_ uid: String, startTime: TimeInterval, endTime: TimeInterval,_ completion: @escaping (String?) -> Void) {
-		
-		self.ref.child("sessions").queryOrdered(byChild: "senderId").queryEqual(toValue: uid).observeSingleEvent(of: .value) { (snapshot) in
-			for snap in snapshot.children {
-				guard let child = snap as? DataSnapshot else { print("continue1"); continue }
-				let value = child.value as! [String : Any]
-				guard let sessionStartTime = value["startTime"] as? Double else { print("continu2e"); continue }
-				guard let sessionEndTime = value["endTime"] as? Double else { print("continu3e"); continue }
-				
-				if (startTime < sessionEndTime) && endTime > (sessionStartTime) {
-					print("Session overlaps.")
-				} else {
-					print("Session does not overlap.")
-				}
-			}
-		}
-	}
 	
 	func fetchFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (AWTutor?) -> Void) {
 		self.ref.child("featured").child(category).child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			
-			var featuredTutor = AWTutor(dictionary: value)
+			let featuredTutor = AWTutor(dictionary: value)
 			featuredTutor.uid = snapshot.key
 			return completion(featuredTutor)
 		}
@@ -633,21 +605,14 @@ class FirebaseData {
 					group.leave()
 				})
 				group.enter()
-				self.fetchTutorSubjects(uid: uid, { (subcategory) in
-					var subjects : [String] = []
-					var selected : [Selected] = []
-					
-					if let subcategory = subcategory {
-						for subject in subcategory {
-							let this = subject.subjects.split(separator: "$")
-							for i in this {
-								selected.append(Selected(path: "\(subject.subcategory)", subject: String(i)))
-								subjects.append(String(i))
-							}
-						}
-						tutor.subjects = subjects
-						tutor.selected = selected
-					}
+				self.fetchTutorSubjects(uid: uid, { (subjects) in
+                    guard let subjects = subjects else {
+                        group.leave()
+                        return
+                    }
+					let selected : [Selected] = []
+                    tutor.subjects = subjects
+                    tutor.selected = selected
 					group.leave()
 				})
                 
@@ -676,35 +641,6 @@ class FirebaseData {
         }
     }
     
-	
-	func linkEmail(email: String) {
-		let password: String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")
-		let credential = EmailAuthProvider.credential(withEmail: email, password: password!)
-		user.linkAndRetrieveData(with: credential) { (result, error) in
-			if let error = error {
-				print(error.localizedDescription)
-			} else if let result = result {
-				print(result)
-			}
-		}
-	}
-    	
-	func uploadUser(_ completion: @escaping (Error?) -> Void) {
-		
-		let account : [String : Any] = ["phn" : Registration.phone,"age" : Registration.age, "em" : Registration.email, "bd" : Registration.dob, "logged" : "", "init" : (Date().timeIntervalSince1970 * 1000)]
-		
-		let studentInfo : [String : Any] = ["nm" : Registration.name, "r" : 5.0,
-											"img": ["image1" : Registration.studentImageURL, "image2" : "", "image3" : "", "image4" : ""]]
-		
-		let newUser = ["/account/\(user.uid)/" : account, "/student-info/\(user.uid)/" : studentInfo]
-		
-		self.ref.root.updateChildValues(newUser) { (error, reference) in
-			if let error = error {
-				return completion(error)
-			}
-			return completion(nil)
-		}
-	}
 	
 	func fileReport(sessionId: String, reportStatus: Int, value: [String : Any], completion: @escaping (Error?) -> Void) {
 		self.ref.child("filereport").child(user.uid).child(sessionId).updateChildValues(value) { (error, reference) in
@@ -747,33 +683,6 @@ class FirebaseData {
 	func hideListing(uid: String, category: String, isHidden: Int) {
 		let value = ["h" : isHidden]
 		self.ref.child("featured").child(category).child(uid).updateChildValues(value)
-	}
-	
-	func addUpdateFeaturedTutor(tutor: AWTutor,_ completion: @escaping (Error?) -> Void) {
-		func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
-			return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
-		}
-		
-		fetchSubjectsTaught(uid: tutor.uid) { (subcategoryList) in
-			let avg = subcategoryList.map({$0.rating / 5}).average
-			
-			let topSubcategory = subcategoryList.sorted {
-				return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 10) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
-				}.first
-			
-			guard let subjects = topSubcategory?.subjects.split(separator: "$") else { return }
-			guard let category = SubjectStore.findCategoryBy(subject: String(subjects[0])) else { return }
-			
-			let post : [String : Any] = ["img" : tutor.images["image1"]!,"nm" : tutor.name, "p" : tutor.price, "r": tutor.tRating, "rv": tutor.reviews?.count ?? 0, "sbj" : subjects[0], "rg" : tutor.region, "t" : UInt64(NSDate().timeIntervalSince1970 * 1000.0)]
-			
-			
-			self.ref.child("featured").child(category).child(tutor.uid).updateChildValues(post) { (error, _) in
-				if let error = error {
-					return completion(error)
-				}
-				return completion(nil)
-			}
-		}
 	}
 	
 	func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {

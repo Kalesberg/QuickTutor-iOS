@@ -10,6 +10,11 @@ import UIKit
 import FirebaseUI
 import Firebase
 
+protocol TutorPreferenceChange {
+    func inPersonPressed()
+    func inVideoPressed()
+}
+
 class EditProfileImageCell: UICollectionViewCell {
     
     let backgrounImageView: UIImageView = {
@@ -501,6 +506,11 @@ class EditProfileSliderTableViewCell: BaseTableViewCell {
         }
     }
 }
+
+protocol AmountTextFieldDidChange {
+    func amountTextFieldDidChange(amount: Int)
+}
+
 
 class EditProfileHourlyRateTableViewCell: BaseTableViewCell {
     let header: UILabel = {

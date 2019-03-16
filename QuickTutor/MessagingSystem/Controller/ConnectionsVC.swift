@@ -138,6 +138,10 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.updateUI(user: connection)
         cell.requestSessionButton.isHidden = false
         cell.delegate = self
+        if AccountService.shared.currentUserType == .tutor {
+            cell.updateAsLearnerCell()
+            cell.requestSessionButton.isHidden = true
+        }
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -145,7 +149,7 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         isTransitioning = true
         let cell = collectionView.cellForItem(at: indexPath) as! ConnectionCell
         cell.handleTouchDown()
-        let user = connections[indexPath.item]
+        let user = inSearchMode() ? filteredConnections[indexPath.item] : connections[indexPath.item]
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.fetchTutor(user.uid, isQuery: false, { tutor in
                 guard let tutor = tutor else { return }

@@ -442,6 +442,7 @@ class TutorSearchService {
         }
         ref.observeSingleEvent(of: .value) { snapshot in
             guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            var tutorsCount = 0
             tutorIds.forEach({ uid, _ in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
@@ -518,31 +519,6 @@ class DataBaseCleaner {
                 print(subject)
                 Database.database().reference().child("tutor-info").child(userId).child("sbj").setValue(subject)
             })
-        }
-    }
-    
-    func restructureTutorSubjects() {
-        Database.database().reference().child("subject").observe(.childAdded) { (snapshot) in
-            guard let subcategoryList = snapshot.value as? [String: Any] else {
-                print("Error with subcategory")
-                return
-            }
-            
-            subcategoryList.forEach({ (key, value) in
-                guard let data = value as? [String: Any] else { return }
-                guard let subjectString = data["sbj"] as? String else {
-                    print("Error with subject string")
-                    return
-                }
-                let subjects = subjectString.split(separator: "$")
-                let ref = Database.database().reference().child("tutor-info").child(snapshot.key).child("subjects")
-                subjects.forEach({ (subject) in
-                let formattedSubject = subject.replacingOccurrences(of: "#", with: "sharp").replacingOccurrences(of: ".", with: "dot")
-                    ref.child(String(formattedSubject)).setValue(1)
-                })
-            })
-            
-
         }
     }
     

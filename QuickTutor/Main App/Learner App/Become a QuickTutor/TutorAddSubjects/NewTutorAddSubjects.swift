@@ -8,9 +8,9 @@
 
 import UIKit
 
-class NewTutorAddSubjectsVC: UIViewController {
+class TutorAddSubjectsVC: UIViewController {
     
-    var isViewing = true
+    var isViewing = false
     var sectionHeights = [Int: CGFloat]()
     let child = TutorAddSubjectsResultsVC()
     
@@ -28,6 +28,7 @@ class NewTutorAddSubjectsVC: UIViewController {
         super.viewDidLoad()
         configureDelegates()
         contentView.accessoryView.isHidden = isViewing
+        TutorRegistrationService.shared.shouldSaveSubjects = isViewing
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,10 +41,15 @@ class NewTutorAddSubjectsVC: UIViewController {
         contentView.collectionView.dataSource = self
         contentView.searchBarContainer.delegate = self
         contentView.searchBarContainer.searchBar.delegate = self
+        contentView.accessoryView.nextButton.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
+    }
+    
+    @objc func handleNext() {
+        navigationController?.pushViewController(TutorPreferencesVC(), animated: true)
     }
 }
 
-extension NewTutorAddSubjectsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension TutorAddSubjectsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
@@ -80,7 +86,7 @@ extension NewTutorAddSubjectsVC: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
-extension NewTutorAddSubjectsVC: CustomSearchBarDelegate {
+extension TutorAddSubjectsVC: CustomSearchBarDelegate {
     func customSearchBarDidTapLeftView(_ searchBar: PaddedTextField) {
         dismiss(animated: true, completion: nil)
     }
@@ -105,7 +111,7 @@ extension NewTutorAddSubjectsVC: CustomSearchBarDelegate {
     }
 }
 
-extension NewTutorAddSubjectsVC: UITextFieldDelegate {
+extension TutorAddSubjectsVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         contentView.searchBarContainer.shouldBeginEditing()
     }
@@ -129,7 +135,7 @@ extension NewTutorAddSubjectsVC: UITextFieldDelegate {
     }
 }
 
-extension NewTutorAddSubjectsVC: UIScrollViewDelegate {
+extension TutorAddSubjectsVC: UIScrollViewDelegate {
     func scrollViewWillBeginDecelerating(_: UIScrollView) {
         view.endEditing(true)
     }
@@ -140,7 +146,7 @@ extension NewTutorAddSubjectsVC: UIScrollViewDelegate {
     
 }
 
-extension NewTutorAddSubjectsVC: QuickSearchCategoryCellDelegate {
+extension TutorAddSubjectsVC: QuickSearchCategoryCellDelegate {
     func quickSearchCategoryCell(_ cell: QuickSearchCategoryCell, didSelect subcategory: String, at indexPath: IndexPath) {
         let vc = TutorAddSubjectsResultsVC()
         vc.subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory) ?? [String]()

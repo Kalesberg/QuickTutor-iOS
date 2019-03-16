@@ -27,7 +27,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         cv.allowsMultipleSelection = false
         cv.alwaysBounceHorizontal = true
         cv.showsHorizontalScrollIndicator = false
-        cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         cv.register(QuickSearchSubcategoryCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
@@ -39,12 +39,21 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     let accessoryTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "Add up to 30 subjects"
+        label.text = "Add up to 20 subjects"
         label.textAlignment = .left
         label.textColor = .white
         label.font = Fonts.createBoldSize(14)
         label.numberOfLines = 0
         return label
+    }()
+    
+    let requestSessionButton: DimmableButton = {
+        let button = DimmableButton()
+        button.setTitle("Save", for: .normal)
+        button.titleLabel?.font = Fonts.createBoldSize(16)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Colors.purple
+        return button
     }()
     
     override func setupViews() {
@@ -53,6 +62,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         setupSelectedSubjectsCV()
         setupAccessoryView()
         setupAccessoryTextLabel()
+//        setupRequestSessionButton()
         let backIcon = UIImageView(image: UIImage(named:"newBackButton"))
         searchBarContainer.searchBar.leftView = backIcon
         searchBarContainer.cancelEditingButton.setTitle("Done", for: .normal)
@@ -81,6 +91,19 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         accessoryView.addSubview(accessoryTextLabel)
         accessoryTextLabel.anchor(top: accessoryView.topAnchor, left: accessoryView.leftAnchor, bottom: accessoryView.bottomAnchor, right: accessoryView.nextButton.leftAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
     }
+    
+    func setupRequestSessionButton() {
+        addSubview(requestSessionButton)
+        requestSessionButton.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
+        requestSessionButton.addTarget(self, action: #selector(handleRequestSession), for: .touchUpInside)
+        layoutIfNeeded()
+    }
+    
+    @objc func handleRequestSession() {
+        let vc = SessionRequestVC()
+//        navigationController?.pushViewController(vc, animated: true)
+    }
+
     
     override func setupCollectionView() {
         addSubview(collectionView)

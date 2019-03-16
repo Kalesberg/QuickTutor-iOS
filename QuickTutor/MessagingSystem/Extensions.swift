@@ -7,6 +7,17 @@
 //
 
 import UIKit
+import CoreLocation
+
+protocol UpdatedTutorCallBack: class {
+    func tutorWasUpdated(tutor: AWTutor!)
+}
+
+protocol ApplyLearnerFilters {
+    var filters: (Int, Int, Bool)! { get set }
+    var location: CLLocation? { get set }
+    func postFilterTutors()
+}
 
 enum Vibration {
     case error

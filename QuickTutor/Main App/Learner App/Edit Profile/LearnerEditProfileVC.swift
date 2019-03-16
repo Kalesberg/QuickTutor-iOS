@@ -181,7 +181,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         case 2:
             switch indexPath.item {
             case 0:
-                let vc = NewTutorAddSubjectsVC()
+                let vc = TutorAddSubjectsVC()
                 vc.isViewing = true
                 navigationController?.pushViewController(vc, animated: true)
             case 1:

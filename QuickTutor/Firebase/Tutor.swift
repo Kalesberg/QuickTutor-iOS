@@ -97,6 +97,10 @@ class Tutor {
 				for key in self.subjectsToUploadAfterTheFactUntilIFindABetterWay {
 					self.updateSubcategorySubjects(node: key.key, values: key.value)
 				}
+                TutorRegistrationService.shared.shouldSaveSubjects = true
+                TutorRegistrationService.shared.subjects.forEach({ (subject) in
+                    TutorRegistrationService.shared.addSubject(subject)
+                })
                 completion(nil)
             }
         }

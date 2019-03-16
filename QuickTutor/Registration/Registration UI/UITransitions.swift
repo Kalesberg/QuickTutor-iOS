@@ -7,11 +7,3 @@
 //
 
 import UIKit
-
-class Transition {
-	
-	let transition = CATransition()
-	transition.duration = 0.4
-	transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-	transition.type = kCATransitionPu
-}

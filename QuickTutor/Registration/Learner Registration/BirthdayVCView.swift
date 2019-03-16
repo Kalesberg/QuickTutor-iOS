@@ -42,7 +42,7 @@ class BirthdayVCView: BaseRegistrationView {
     
     let ageAgreementLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createLightSize(14.5)
+        label.font = Fonts.createSize(14)
         label.textColor = Colors.registrationGray
         label.text = "By entering my birthday, I agree that I'm at least 18 years old."
         label.numberOfLines = 2
