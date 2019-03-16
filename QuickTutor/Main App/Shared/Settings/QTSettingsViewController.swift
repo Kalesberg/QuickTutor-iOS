@@ -31,7 +31,7 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     var isShowMe: Bool = false
     
     // MARK: - static functions
-    static func loadView() -> QTSettingsViewController {
+    static var controller: QTSettingsViewController {
         return QTSettingsViewController(nibName: String(describing: QTSettingsViewController.self), bundle: nil)
     }
     
@@ -139,7 +139,7 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     
     @objc
     func handleDidLocationViewTap(_ recognizer: UITapGestureRecognizer) {
-        let controller = QTLocationsViewController.loadView()
+        let controller = QTLocationsViewController.controller
         controller.address = CurrentUser.shared.tutor.region
         navigationController?.pushViewController(controller, animated: true)
     }

@@ -475,6 +475,18 @@ class FirebaseData {
 		}
 	}
 	
+    func fetchTutorConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
+        var uids = [String]()
+        self.ref.child("connections").child(uid).child(UserType.tutor.rawValue).observeSingleEvent(of: .value) { (snapshot) in
+            if let snap = snapshot.children.allObjects as? [DataSnapshot] {
+                for child in snap {
+                    uids.append(child.key)
+                }
+            }
+            return completion(uids)
+        }
+    }
+    
 	func fetchLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
 		let group = DispatchGroup()
 		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -638,12 +650,32 @@ class FirebaseData {
 					}
 					group.leave()
 				})
+                
+                group.enter()
+                self.fetchTutorConnections(uid: uid, { uids in
+                    tutor.learners = uids ?? []
+                    group.leave()
+                })
+                
 				group.notify(queue: .main, execute: {
 					completion(tutor)
 				})
 			})
 		})
 	}
+    
+    func fetchConnectionStatus(uid: String, userType: UserType,  opponentId: String, completionHandler: ((Bool) -> ())?) {
+        Database.database().reference()
+            .child("connections")
+            .child(uid)
+            .child(userType.rawValue)
+            .child(opponentId).observeSingleEvent(of: .value) { (snapshot) in
+                if let completionHandler = completionHandler {
+                    completionHandler(snapshot.exists())
+                }
+        }
+    }
+    
 	
 	func linkEmail(email: String) {
 		let password: String? = KeychainWrapper.standard.string(forKey: "emailAccountPassword")

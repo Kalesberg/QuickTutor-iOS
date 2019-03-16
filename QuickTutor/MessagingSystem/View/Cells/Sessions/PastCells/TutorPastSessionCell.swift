@@ -23,10 +23,11 @@ class TutorPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestS
     override func handleButton2() {
         FirebaseData.manager.fetchLearner(session.partnerId()) { learner in
             guard let learner = learner else { return }
-            let vc = LearnerMyProfileVC()
-            vc.learner = learner
-            vc.isEditable = false
-            navigationController.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            let tutor = AWTutor(dictionary: [:])
+            controller.user = tutor.copy(learner: learner)
+            controller.profileViewType = .learner
+            navigationController.pushViewController(controller, animated: true)
         }
     }
 }

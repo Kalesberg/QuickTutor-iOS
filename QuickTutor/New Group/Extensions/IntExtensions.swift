@@ -29,7 +29,7 @@ extension Int {
         if preference == 3 || preference == 2 {
             return "Will travel up to \(self) miles\n"
         } else {
-            return "Unable to travel.\n"
+            return "Is unable to travel.\n"
         }
     }
     func formatPrice() -> String {

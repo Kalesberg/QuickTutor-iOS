@@ -55,10 +55,10 @@ class QTTutorDashboardViewController: UIViewController {
         static let rowHeight: CGFloat = 224
     }
     
-    let headerView: QTTutorDashboardHeaderView = QTTutorDashboardHeaderView.load()
+    let headerView: QTTutorDashboardHeaderView = QTTutorDashboardHeaderView.view
     let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
     
-    static func loadView() -> QTTutorDashboardViewController {
+    static var controller: QTTutorDashboardViewController {
         return QTTutorDashboardViewController(nibName: String(describing: QTTutorDashboardViewController.self), bundle: nil)
     }
     
@@ -327,7 +327,7 @@ extension QTTutorDashboardViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let durationView: QTTutorDashboardDurationView = QTTutorDashboardDurationView.load()
+        let durationView: QTTutorDashboardDurationView = QTTutorDashboardDurationView.view
         
         durationView.durationDidSelect = { type in
             self.durationType = type

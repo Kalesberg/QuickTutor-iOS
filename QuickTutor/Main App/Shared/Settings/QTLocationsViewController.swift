@@ -23,7 +23,7 @@ class QTLocationsViewController: UIViewController {
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
     
-    static func loadView() -> QTLocationsViewController {
+    static var controller: QTLocationsViewController {
         return QTLocationsViewController(nibName: String(describing: QTLocationsViewController.self), bundle: nil)
     }
     

@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         PostSessionManager.shared.checkForUnfinishedSession { (sessionId, sessionStatus) in
             DataService.shared.getSessionById(sessionId, completion: { (session) in
                 SessionService.shared.session = session
-                let vc = QTRatingReviewViewController.loadView()
+                let vc = QTRatingReviewViewController.controller
                 //SessionReview()
                 vc.session = session
                 vc.sessionId = sessionId
@@ -197,10 +197,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     func showProfileWithUid(_ uid: String) {
         FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
             guard let tutor = tutor else { return }
-            let vc = TutorMyProfileVC()
-            vc.tutor = tutor
-            vc.isViewing = true
-            navigationController.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            controller.user = tutor
+            controller.profileViewType = .tutor
+            navigationController.pushViewController(controller, animated: true)
         })
 
     }

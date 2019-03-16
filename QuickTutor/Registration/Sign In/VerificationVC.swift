@@ -167,7 +167,7 @@ class VerificationVC: BaseRegistrationController {
                             FirebaseData.manager.signInTutor(uid: user.uid) { successful in
                                 if successful {
                                     Registration.setTutorDefaults()
-                                    self.navigationController?.pushViewController(QTTutorDashboardViewController.loadView(), animated: true)
+                                    self.navigationController?.pushViewController(QTTutorDashboardViewController.controller, animated: true)
                                 } else {
                                     self.navigationController?.pushViewController(SignInVC(), animated: true)
                                 }

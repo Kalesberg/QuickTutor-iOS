@@ -65,6 +65,7 @@ struct Colors {
     static let pink = UIColor(hex: "d62976")
     static let brightPurple = UIColor(hex: "962fbf")
     static let warmBlue = UIColor(hex: "4f5bd5")
+    static let grayText80 = UIColor.white.withAlphaComponent(0.5)
     
 }
 
@@ -91,5 +92,9 @@ struct Fonts {
     
     static func createLightSize(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Lato-Light", size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+    
+    static func createMediumSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "Lato-Medium", size: size) ?? UIFont.systemFont(ofSize: size)
     }
 }

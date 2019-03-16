@@ -161,7 +161,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         }
         
         if total > 0 {
-            let marker = QTTutorDashboardMarkerView.load() as QTTutorDashboardMarkerView
+            let marker = QTTutorDashboardMarkerView.view as QTTutorDashboardMarkerView
             marker.setChartType(type: chartType)
             marker.chartView = lineChartView
             lineChartView.marker = marker

@@ -23,7 +23,7 @@ class QTTutorDashboardDurationView: UIView {
     
     public var durationDidSelect: ((QTTutorDashboardDurationType) -> Void)?
     
-    static func load() -> QTTutorDashboardDurationView {
+    static var view:  QTTutorDashboardDurationView {
         return Bundle.main.loadNibNamed(String(describing: QTTutorDashboardDurationView.self),
                                         owner: nil,
                                         options: [:])?.first as! QTTutorDashboardDurationView

@@ -7,9 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D3480FF223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */; };
+		4D348100223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */; };
+		4D348101223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */; };
+		4D348102223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */; };
+		4D348104223A35370004C29A /* QTRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D348103223A35370004C29A /* QTRatingView.swift */; };
+		4D348105223A35370004C29A /* QTRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D348103223A35370004C29A /* QTRatingView.swift */; };
 		4DE3668A2238AA2F00A94C37 /* Pods_QuickTutorApp_QuickTutorDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE366892238AA2F00A94C37 /* Pods_QuickTutorApp_QuickTutorDev.framework */; };
 		4DE3668C2238AA3B00A94C37 /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE3668B2238AA3B00A94C37 /* Pods_QuickTutorApp_QuickTutor.framework */; };
 		4DE3668D2238BC5F00A94C37 /* TheChoiceVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A762231BA9D00704531 /* TheChoiceVCView.swift */; };
+		4DE366912239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
+		4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
+		4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
+		4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
 		5647A778222CB59000E8A26F /* QTSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5647A776222CB59000E8A26F /* QTSettingsViewController.swift */; };
 		5647A779222CB59000E8A26F /* QTSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5647A777222CB59000E8A26F /* QTSettingsViewController.xib */; };
 		564B6C1D222D83D5004A9EB7 /* QTLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B6C1B222D83D5004A9EB7 /* QTLocationsViewController.swift */; };
@@ -1164,8 +1174,13 @@
 		04684BACAC64C33FB9AF449E /* Pods-QuickTutorApp-QuickTutorDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; sourceTree = "<group>"; };
 		415D84F57EAD7371F3D03D9C /* Pods-QuickTutor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor/Pods-QuickTutor.debug.xcconfig"; sourceTree = "<group>"; };
 		448FFD32BAE160B451479497 /* Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig"; sourceTree = "<group>"; };
+		4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTReviewTableViewCell.swift; sourceTree = "<group>"; };
+		4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTReviewTableViewCell.xib; sourceTree = "<group>"; };
+		4D348103223A35370004C29A /* QTRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingView.swift; sourceTree = "<group>"; };
 		4DE366892238AA2F00A94C37 /* Pods_QuickTutorApp_QuickTutorDev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_QuickTutorApp_QuickTutorDev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DE3668B2238AA3B00A94C37 /* Pods_QuickTutorApp_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_QuickTutorApp_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTProfileViewController.swift; sourceTree = "<group>"; };
+		4DE366902239F06C00A94C37 /* QTProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTProfileViewController.xib; sourceTree = "<group>"; };
 		541B6EB28135189A9A8BAEA4 /* Pods-QuickTutor-QuickTutorDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutor-QuickTutorDev.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutor-QuickTutorDev/Pods-QuickTutor-QuickTutorDev.release.xcconfig"; sourceTree = "<group>"; };
 		5647A776222CB59000E8A26F /* QTSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSettingsViewController.swift; sourceTree = "<group>"; };
 		5647A777222CB59000E8A26F /* QTSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTSettingsViewController.xib; sourceTree = "<group>"; };
@@ -1786,6 +1801,26 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		4D3480FC223A31420004C29A /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */,
+				4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */,
+				4D348103223A35370004C29A /* QTRatingView.swift */,
+			);
+			name = SubViews;
+			path = Subviews;
+			sourceTree = "<group>";
+		};
+		4DE3668E2239F03C00A94C37 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				4D3480FC223A31420004C29A /* SubViews */,
+				4DE366902239F06C00A94C37 /* QTProfileViewController.xib */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		5647A775222CB06100E8A26F /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1830,6 +1865,7 @@
 		569ECDA121F9A134005491CB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4DE3668E2239F03C00A94C37 /* Profile */,
 				5647A775222CB06100E8A26F /* Settings */,
 				568B82D2222537F3004DF011 /* PostSession */,
 				569ECDA221F9A134005491CB /* TutorApp */,
@@ -2117,6 +2153,7 @@
 		843BA3202055087D000C7054 /* My Profile */ = {
 			isa = PBXGroup;
 			children = (
+				4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */,
 				8496FE032161833900BD292F /* TutorViews */,
 				84D6A7D5215B08F6000C0010 /* LearnerViews */,
 				8496FE002161817500BD292F /* Shared */,
@@ -3377,6 +3414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				569F18BE223554FD00820A20 /* Lato-Light.ttf in Resources */,
+				4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				569F18BF223554FD00820A20 /* loading10.json in Resources */,
 				569F18C0223554FD00820A20 /* loading3.json in Resources */,
 				569F18C1223554FD00820A20 /* Lato-HairlineItalic.ttf in Resources */,
@@ -3385,6 +3423,7 @@
 				569F18C4223554FD00820A20 /* language.json in Resources */,
 				569F18C5223554FD00820A20 /* Lato-BlackItalic.ttf in Resources */,
 				569F18C6223554FD00820A20 /* loading7.json in Resources */,
+				4D348102223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */,
 				569F18C7223554FD00820A20 /* typing.json in Resources */,
 				569F18C8223554FD00820A20 /* academics.json in Resources */,
 				569F18C9223554FD00820A20 /* loading8.json in Resources */,
@@ -3447,6 +3486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				56DC6DA2220BD7DF00935F47 /* Lato-Light.ttf in Resources */,
+				4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				840E4E07213761C10045CD35 /* loading10.json in Resources */,
 				840E4E01213761C10045CD35 /* loading3.json in Resources */,
 				56DC6D9F220BD7DF00935F47 /* Lato-HairlineItalic.ttf in Resources */,
@@ -3455,6 +3495,7 @@
 				842576702071309000FD295B /* language.json in Resources */,
 				56DC6D9B220BD7DF00935F47 /* Lato-BlackItalic.ttf in Resources */,
 				840E4E05213761C10045CD35 /* loading7.json in Resources */,
+				4D348101223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */,
 				CF507FA321804D05007FE441 /* typing.json in Resources */,
 				842576642070773D00FD295B /* academics.json in Resources */,
 				840E4E06213761C10045CD35 /* loading8.json in Resources */,
@@ -4013,6 +4054,7 @@
 				569F17B7223554FD00820A20 /* BecomeTutorVC.swift in Sources */,
 				569F17B8223554FD00820A20 /* RegistrationCheckbox.swift in Sources */,
 				569F17B9223554FD00820A20 /* TutorCardHeader.swift in Sources */,
+				4D348100223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */,
 				569F17BA223554FD00820A20 /* TutorAddSubjectsVCView.swift in Sources */,
 				569F17BB223554FD00820A20 /* NewTutorAddSubjects.swift in Sources */,
 				569F17BC223554FD00820A20 /* QuickTutor.xcdatamodeld in Sources */,
@@ -4038,6 +4080,7 @@
 				569F17D0223554FD00820A20 /* UIScrollViewExtensions.swift in Sources */,
 				569F17D1223554FD00820A20 /* MeetupTimePicker.swift in Sources */,
 				569F17D2223554FD00820A20 /* TutorTipsVC.swift in Sources */,
+				4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */,
 				569F17D3223554FD00820A20 /* ToggleTableViewCell.swift in Sources */,
 				569F17D4223554FD00820A20 /* CloseAccountReasonVC.swift in Sources */,
 				569F17D5223554FD00820A20 /* UIViewExtensions.swift in Sources */,
@@ -4173,6 +4216,7 @@
 				569F1857223554FD00820A20 /* ConnectionCell.swift in Sources */,
 				569F1858223554FD00820A20 /* StudentKeyboardAccessory.swift in Sources */,
 				569F1859223554FD00820A20 /* LocationView.swift in Sources */,
+				4D348105223A35370004C29A /* QTRatingView.swift in Sources */,
 				569F185A223554FD00820A20 /* EndSessionModal.swift in Sources */,
 				569F185B223554FD00820A20 /* CancelSessionButtonDelegate.swift in Sources */,
 				569F185C223554FD00820A20 /* ConversationMetaData.swift in Sources */,
@@ -4509,6 +4553,7 @@
 				848E643B2059EE0A000CD921 /* BecomeTutorVC.swift in Sources */,
 				8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */,
 				8450E6A521986EB20039DEE6 /* TutorCardHeader.swift in Sources */,
+				4D3480FF223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */,
 				CFD92A73222F507A00704531 /* TutorAddSubjectsVCView.swift in Sources */,
 				CFD92A75222F50A900704531 /* NewTutorAddSubjects.swift in Sources */,
 				8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */,
@@ -4534,6 +4579,7 @@
 				847CF8E8202A7738003BB4FA /* UIScrollViewExtensions.swift in Sources */,
 				CF6F58CD205EE68800ACBD32 /* MeetupTimePicker.swift in Sources */,
 				848809FD2057875700F204A0 /* TutorTipsVC.swift in Sources */,
+				4DE366912239F06C00A94C37 /* QTProfileViewController.swift in Sources */,
 				84CF77392118DF9B005755CB /* ToggleTableViewCell.swift in Sources */,
 				84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */,
 				848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */,
@@ -4669,6 +4715,7 @@
 				CFEF943B20B32B7C00413727 /* ConnectionCell.swift in Sources */,
 				CF6F58D9205EE68800ACBD32 /* StudentKeyboardAccessory.swift in Sources */,
 				84DF1E51216C2C5100AEBD76 /* LocationView.swift in Sources */,
+				4D348104223A35370004C29A /* QTRatingView.swift in Sources */,
 				CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */,
 				CF833B8C207C940A00323242 /* CancelSessionButtonDelegate.swift in Sources */,
 				CF8F238C215C5B2C00B4239D /* ConversationMetaData.swift in Sources */,

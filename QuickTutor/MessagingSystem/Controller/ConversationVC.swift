@@ -238,12 +238,12 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @objc func handleTap() {
-        let vc = TutorCardVC()
         FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
             guard let tutor = tutor else { return }
-            vc.tutor = tutor
-            vc.contentView.updateUI(tutor)
-            self.navigationController?.pushViewController(vc, animated: true)
+            let controller = QTProfileViewController.controller
+            controller.user = tutor
+            controller.profileViewType = .tutor
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
     
