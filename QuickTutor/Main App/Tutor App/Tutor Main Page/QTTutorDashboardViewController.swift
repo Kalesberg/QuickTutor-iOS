@@ -122,6 +122,7 @@ class QTTutorDashboardViewController: UIViewController {
         headerView.ratingLabel.text = "\(String(describing: tutor.tRating ?? 5.0))"
         headerView.subjectsLabel.text = "\(tutor.subjects?.count ?? 0)"
         headerView.sessionsLabel.text = "\(tutor.tNumSessions ?? 0)"
+        headerView.learnersLabel.text = "\(tutor.learners.count)"
     }
     
     func getEarnings() {
