@@ -271,7 +271,9 @@ class FirebaseData {
 	func fetchTutorLocation(uid: String,_ completion: @escaping (TutorLocation?) -> Void) {
 		self.ref?.child("tutor_loc").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
 			if snapshot.exists() {
-				guard let value = snapshot.value as? [String : Any] else { return }
+				guard let value = snapshot.value as? [String : Any] else {
+                    return completion(nil)
+                }
 				let tutorLocation = TutorLocation(dictionary: value)
 				return completion(tutorLocation)
 			}
@@ -298,8 +300,7 @@ class FirebaseData {
     private func fetchSavedTutors(uid: String, completion: @escaping([String]?) -> Void) {
         Database.database().reference().child("saved-tutors").child(uid).observeSingleEvent(of: .value) { (snapshot) in
             guard let tutorDictionary = snapshot.value as? [String: Any] else {
-                completion(nil)
-                return
+                return completion(nil)
             }
             var savedTutorIds = [String]()
             tutorDictionary.forEach({ (key, value) in
@@ -312,7 +313,7 @@ class FirebaseData {
 	func fetchTutorSubjects(uid: String, _ completion: @escaping ([String]?) -> Void) {
         Database.database().reference().child("tutor-info").child(uid).child("subjects").observeSingleEvent(of: .value) { (snapshot) in
             guard let subjectDict = snapshot.value as? [String: Any] else  {
-                return
+                return completion(nil)
             }
             var subjects = [String]()
             subjectDict.forEach({ (key,value) in
@@ -591,10 +592,12 @@ class FirebaseData {
 				}
 				tutor.images = images
                 tutor.profilePicUrl = URL(string: images["image1"] ?? "")!
+                group.enter()
 				self.fetchTutorLocation(uid: uid, { (location) in
 					if let location = location {
 						tutor.location = location
 					}
+                    group.leave()
 				})
 				
 				group.enter()
