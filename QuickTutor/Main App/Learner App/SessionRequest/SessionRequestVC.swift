@@ -79,7 +79,7 @@ class SessionRequestVC: UIViewController {
         edgesForExtendedLayout = []
         navigationController?.setNavigationBarHidden(false, animated: true)
         if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.prefersLargeTitles = false
             navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         }
         navigationController?.view.backgroundColor = Colors.darkBackground
