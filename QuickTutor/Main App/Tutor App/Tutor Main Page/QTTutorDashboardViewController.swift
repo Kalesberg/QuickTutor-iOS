@@ -65,7 +65,6 @@ class QTTutorDashboardViewController: UIViewController {
     }
     
     struct QTDashboardDimension {
-        static let headerViewHeight: CGFloat = 252
         static let sectionHeaderViewHeight: CGFloat = 54
         static let rowHeight: CGFloat = 224
     }

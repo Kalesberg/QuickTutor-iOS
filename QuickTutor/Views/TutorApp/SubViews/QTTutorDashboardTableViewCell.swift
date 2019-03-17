@@ -195,24 +195,38 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
             let data = LineChartData(dataSet: set)
             lineChartView.data = data
             
-            // Highlight min and max values.
+            // Highlight the min and pinch values.
             if let chartData = chartData, !chartData.isEmpty {
-                // Get min and max data to highlight.
+                var highlights: [Highlight] = []
+                // Get min value.
                 let minData = chartData.min {a, b in a.valueY < b.valueY}
                 let minIndex = chartData.firstIndex(where: {$0.valueY == minData?.valueY})
                 
-                let maxData = chartData.max {a, b in a.valueY < b.valueY}
-                let maxIndex = chartData.firstIndex(where: {$0.valueY == maxData?.valueY})
-                
-                var highlights: [Highlight] = []
                 if let minIndex = minIndex, let minData = minData {
                     highlights.append(Highlight(x: Double(minIndex), y: minData.valueY, dataSetIndex: 0))
                 }
                 
-                if let maxIndex = maxIndex, let maxData = maxData {
-                    highlights.append(Highlight(x: Double(maxIndex), y: maxData.valueY, dataSetIndex: 0))
-                    lineChartView.setVisibleYRangeMaximum(maxData.valueY + maxData.valueY / 4, axis: YAxis.AxisDependency.left)
+                // Get pinch values.
+                for index in 0 ..< chartData.count {
+                    if index == 0 && chartData.count >= 1 {
+                        // If it's the first value, will check that is greater than the next one.
+                        if chartData[index].valueY > chartData[index + 1].valueY {
+                            highlights.append(Highlight(x: Double(index), y: chartData[index].valueY, dataSetIndex: 0))
+                        }
+                    } else if index == chartData.count - 1 && chartData.count >= 2 {
+                        // If it's the last value, will check that is greater than the previous one.
+                        if chartData[index].valueY > chartData[index - 1].valueY {
+                            highlights.append(Highlight(x: Double(index), y: chartData[index].valueY, dataSetIndex: 0))
+                        }
+                    } else if chartData.count >= 3 {
+                        // If it's a value in middle, will check the previous one > that >= the next one or the previous one >= that > the next one
+                        if chartData[index].valueY > chartData[index - 1].valueY && chartData[index].valueY >= chartData[index + 1].valueY || chartData[index].valueY >= chartData[index - 1].valueY && chartData[index].valueY > chartData[index + 1].valueY {
+                            highlights.append(Highlight(x: Double(index), y: chartData[index].valueY, dataSetIndex: 0))
+                        }
+                    }
                 }
+                
+                // Highlight the min and pinch values.
                 lineChartView.highlightValues(highlights)
             }
         } else {
