@@ -246,7 +246,11 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
         
         let config = STPPaymentConfiguration()
         config.requiredBillingAddressFields = .none
+        #if DEVELOPMENT
+        config.publishableKey = "pk_test_TtFmn5n1KhfNPgXXoGfg3O97"
+        #else
         config.publishableKey = "pk_live_D8MI9AN23eK4XLw1mCSUHi9V"
+        #endif
         addCardVC = STPAddCardViewController(configuration: config, theme: theme)
         addCardVC?.delegate = self
         
