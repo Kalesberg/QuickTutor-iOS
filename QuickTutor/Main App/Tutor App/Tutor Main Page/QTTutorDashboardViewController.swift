@@ -225,7 +225,7 @@ class QTTutorDashboardViewController: UIViewController {
             }
         case .quarter:
             var benefit: Double = 00
-            for weekIndex in 0...12 {
+            for weekIndex in 0...13 {
                 benefit = 0
                 mergeUnit = unit + Double(weekIndex * 604_800)
                 nextMergeUnit = unit + Double((1 + weekIndex) * 604_800)
@@ -302,7 +302,7 @@ class QTTutorDashboardViewController: UIViewController {
         case .quarter:
             var sessionCount: Double = 00
             var hours: Double = 00
-            for weekIndex in 0...12 {
+            for weekIndex in 0...13 {
                 sessionCount = 0
                 hours = 0
                 mergeUnit = unit + Double(weekIndex * 604_800)
