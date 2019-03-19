@@ -131,6 +131,9 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         expireSession()
         
         guard let session = sessionManager?.session else { return }
+        
+        // Updated the startedAt of a session because the session is able to start early than expected.
+        Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["startedAt": Date().timeIntervalSince1970])
         AnalyticsService.shared.logSessionStart(session)
     }
 

@@ -551,6 +551,10 @@
 		569F18FC223554FD00820A20 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D95220BD7DF00935F47 /* Lato-LightItalic.ttf */; };
 		569F1900223554FD00820A20 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CF4CAED12172CC2100B23530 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		569F19092235564000820A20 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 569F19082235564000820A20 /* GoogleService-Info.plist */; };
+		56A8D0B22240A4AB00866AD7 /* QTStartSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */; };
+		56A8D0B32240A4AB00866AD7 /* QTStartSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */; };
+		56A8D0B42240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */; };
+		56A8D0B52240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */; };
 		56DC6D9A220BD7DF00935F47 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */; };
 		56DC6D9B220BD7DF00935F47 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */; };
 		56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */; };
@@ -1114,6 +1118,8 @@
 		569ECDCC21FB116D005491CB /* QTCustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomImageView.swift; sourceTree = "<group>"; };
 		569F1905223554FD00820A20 /* QuickTutorDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickTutorDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		569F19082235564000820A20 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTStartSessionViewController.swift; sourceTree = "<group>"; };
+		56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTStartSessionViewController.xib; sourceTree = "<group>"; };
 		56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
 		56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
 		56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
@@ -1691,13 +1697,13 @@
 			path = SubViews;
 			sourceTree = "<group>";
 		};
-		568B82D2222537F3004DF011 /* PostSession */ = {
+		568B82D2222537F3004DF011 /* RatingReviews */ = {
 			isa = PBXGroup;
 			children = (
 				568B82D722254023004DF011 /* SubViews */,
 				568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */,
 			);
-			path = PostSession;
+			path = RatingReviews;
 			sourceTree = "<group>";
 		};
 		568B82D722254023004DF011 /* SubViews */ = {
@@ -1716,10 +1722,9 @@
 		569ECDA121F9A134005491CB /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4DE3668E2239F03C00A94C37 /* Profile */,
-				5647A775222CB06100E8A26F /* Settings */,
-				568B82D2222537F3004DF011 /* PostSession */,
-				569ECDA221F9A134005491CB /* TutorApp */,
+				56A8D0AE2240A43500866AD7 /* Sessions */,
+				56A8D0AD2240A42900866AD7 /* Dashboard */,
+				56A8D0AC2240A3EB00866AD7 /* Profile */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1754,6 +1759,40 @@
 				569F19082235564000820A20 /* GoogleService-Info.plist */,
 			);
 			path = Development;
+			sourceTree = "<group>";
+		};
+		56A8D0AC2240A3EB00866AD7 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				4DE3668E2239F03C00A94C37 /* Profile */,
+				5647A775222CB06100E8A26F /* Settings */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		56A8D0AD2240A42900866AD7 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				569ECDA221F9A134005491CB /* TutorApp */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		56A8D0AE2240A43500866AD7 /* Sessions */ = {
+			isa = PBXGroup;
+			children = (
+				56A8D0AF2240A45800866AD7 /* Sessions */,
+				568B82D2222537F3004DF011 /* RatingReviews */,
+			);
+			path = Sessions;
+			sourceTree = "<group>";
+		};
+		56A8D0AF2240A45800866AD7 /* Sessions */ = {
+			isa = PBXGroup;
+			children = (
+				56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */,
+			);
+			path = Sessions;
 			sourceTree = "<group>";
 		};
 		56DC6D8B220BD7DF00935F47 /* Lato */ = {
@@ -2797,6 +2836,7 @@
 		CF6F58AA205EE68800ACBD32 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */,
 				CF7D8AAC2198ACAC00463B0E /* Sessions */,
 				CFDBD8E320C8788800182E1C /* VideoSessionVC */,
 				CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */,
@@ -3195,6 +3235,7 @@
 				569F18D4223554FD00820A20 /* tech.json in Resources */,
 				569F18D6223554FD00820A20 /* schools.txt in Resources */,
 				569F18D7223554FD00820A20 /* QTLocationsViewController.xib in Resources */,
+				56A8D0B52240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */,
 				569F18D8223554FD00820A20 /* quickTutorNotification.aiff in Resources */,
 				569F18D9223554FD00820A20 /* QTTutorDashboardMarkerView.xib in Resources */,
 				569F18DA223554FD00820A20 /* Lato-Medium.ttf in Resources */,
@@ -3268,6 +3309,7 @@
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
 				564B6C1E222D83D5004A9EB7 /* QTLocationsViewController.xib in Resources */,
+				56A8D0B42240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */,
 				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
 				569ECDCB21FB1049005491CB /* QTTutorDashboardMarkerView.xib in Resources */,
 				56DC6DA4220BD7DF00935F47 /* Lato-Medium.ttf in Resources */,
@@ -3875,6 +3917,7 @@
 				569F1807223554FD00820A20 /* InfoLabel.swift in Sources */,
 				569F1808223554FD00820A20 /* EndSessionProfileBox.swift in Sources */,
 				569F1809223554FD00820A20 /* ProfileToggleView.swift in Sources */,
+				56A8D0B32240A4AB00866AD7 /* QTStartSessionViewController.swift in Sources */,
 				569F180A223554FD00820A20 /* EditPhoneVerificationVC.swift in Sources */,
 				569F180B223554FD00820A20 /* KeyboardAccessory.swift in Sources */,
 				569F180D223554FD00820A20 /* LearnerEditProfileVCView.swift in Sources */,
@@ -4327,6 +4370,7 @@
 				CFD92A6A222F24B200704531 /* InfoLabel.swift in Sources */,
 				CF177BCD208FB94B006DD50B /* EndSessionProfileBox.swift in Sources */,
 				CF7D8AB821995F8200463B0E /* ProfileToggleView.swift in Sources */,
+				56A8D0B22240A4AB00866AD7 /* QTStartSessionViewController.swift in Sources */,
 				84D55E9A204F638D00BB899C /* EditPhoneVerificationVC.swift in Sources */,
 				CF6F58D8205EE68800ACBD32 /* KeyboardAccessory.swift in Sources */,
 				CFB1475321E807D200C49BA5 /* LearnerEditProfileVCView.swift in Sources */,

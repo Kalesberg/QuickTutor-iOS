@@ -32,15 +32,26 @@ extension HandlesSessionStartData {
                 fatalError("Error with sessionType")
             }
 
-            let vc = sessionType == "online" ? VideoSessionStartVC() : InpersonSessionStartVC()
-            vc.sessionId = snapshot.key
-
-            if let initiatorId = value["startedBy"] as? String {
-                vc.initiatorId = initiatorId
+            if sessionType == "online" {
+                let vc = QTStartSessionViewController.controller
+                vc.sessionId = snapshot.key
+                if let initiatorId = value["startedBy"] as? String {
+                    vc.initiatorId = initiatorId
+                }
+                vc.sessionType = QTSessionType.online
+                vc.startType = QTSessionStartType(rawValue: startType)
+                navigationController.navigationBar.isHidden = false
+                navigationController.pushViewController(vc, animated: true)
+            } else {
+                let vc = InpersonSessionStartVC()
+                vc.sessionId = snapshot.key
+                if let initiatorId = value["startedBy"] as? String {
+                    vc.initiatorId = initiatorId
+                }
+                vc.startType = startType
+                navigationController.navigationBar.isHidden = false
+                navigationController.pushViewController(vc, animated: true)
             }
-            vc.startType = startType
-            navigationController.navigationBar.isHidden = false
-            navigationController.pushViewController(vc, animated: true)
         })
     }
 

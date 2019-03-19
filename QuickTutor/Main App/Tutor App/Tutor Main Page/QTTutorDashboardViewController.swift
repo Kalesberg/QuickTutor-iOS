@@ -203,7 +203,7 @@ class QTTutorDashboardViewController: UIViewController {
         switch durationType {
         case .week:
             var benefit: Double = 00
-            for dayIndex in 0...6 {
+            for dayIndex in 1...7 {
                 benefit = 0
                 mergeUnit = unit + Double(dayIndex * 86_400)
                 nextMergeUnit = unit + Double((1 + dayIndex) * 86_400)
@@ -214,7 +214,7 @@ class QTTutorDashboardViewController: UIViewController {
             }
         case .month:
             var benefit: Double = 00
-            for dayIndex in 0...30 {
+            for dayIndex in 1...31 {
                 benefit = 0
                 mergeUnit = unit + Double(dayIndex * 86_400)
                 nextMergeUnit = unit + Double((1 + dayIndex) * 86_400)
@@ -225,7 +225,7 @@ class QTTutorDashboardViewController: UIViewController {
             }
         case .quarter:
             var benefit: Double = 00
-            for weekIndex in 0...13 {
+            for weekIndex in 1...13 {
                 benefit = 0
                 mergeUnit = unit + Double(weekIndex * 604_800)
                 nextMergeUnit = unit + Double((1 + weekIndex) * 604_800)
@@ -236,7 +236,7 @@ class QTTutorDashboardViewController: UIViewController {
             }
         case .year:
             var benefit: Double = 00
-            for monthIndex in 0...11 {
+            for monthIndex in 1...13 {
                 benefit = 0
                 mergeUnit = unit + Double(monthIndex * 2_629_743)
                 nextMergeUnit = unit + Double((1 + monthIndex) * 2_629_743)
@@ -269,61 +269,61 @@ class QTTutorDashboardViewController: UIViewController {
             unit = NSDate().timeIntervalSince1970 - 31_556_926 // subctract 365.2422 days
         }
         
-        let fiteredSessions = sessions.filter({$0.endedAt > unit})
+        let fiteredSessions = sessions.filter({$0.endTime > Int(unit)})
         switch durationType {
         case .week:
             var sessionCount: Double = 00
             var hours: Double = 00
-            for dayIndex in 0...6 {
+            for dayIndex in 1...7 {
                 sessionCount = 0
                 hours = 0
                 mergeUnit = unit + Double(dayIndex * 86_400)
                 nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
                 fiteredSessions
-                    .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
-                    .forEach({sessionCount += 1; hours += ($0.endedAt - $0.startedAt) / 3_600 })
+                    .filter({$0.endTime >= Int(mergeUnit) && $0.endTime < Int(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += Double($0.endTime - $0.startTime) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
         case .month:
             var sessionCount: Double = 00
             var hours: Double = 00
-            for dayIndex in 0...30 {
+            for dayIndex in 1...31 {
                 sessionCount = 0
                 hours = 0
                 mergeUnit = unit + Double(dayIndex * 86_400)
                 nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
                 fiteredSessions
-                    .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
-                    .forEach({sessionCount += 1; hours += ($0.endedAt - $0.startedAt) / 3_600 })
+                    .filter({$0.endTime >= Int(mergeUnit) && $0.endTime < Int(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += Double($0.endTime - $0.startTime) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
         case .quarter:
             var sessionCount: Double = 00
             var hours: Double = 00
-            for weekIndex in 0...13 {
+            for weekIndex in 1...13 {
                 sessionCount = 0
                 hours = 0
                 mergeUnit = unit + Double(weekIndex * 604_800)
                 nextMergeUnit = unit + Double((weekIndex + 1) * 604_800)
                 fiteredSessions
-                    .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
-                    .forEach({sessionCount += 1; hours += ($0.endedAt - $0.startedAt) / 3_600 })
+                    .filter({$0.endTime >= Int(mergeUnit) && $0.endTime < Int(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += Double($0.endTime - $0.startTime) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
         case .year:
             var sessionCount: Double = 00
             var hours: Double = 00
-            for monthIndex in 0...11 {
+            for monthIndex in 1...13 {
                 sessionCount = 0
                 hours = 0
                 mergeUnit = unit + Double(monthIndex * 2_629_743)
                 nextMergeUnit = unit + Double((monthIndex + 1) * 2_629_743)
                 fiteredSessions
-                    .filter({$0.endedAt >= mergeUnit && $0.endedAt < nextMergeUnit})
-                    .forEach({sessionCount += 1; hours += ($0.endedAt - $0.startedAt) / 3_600 })
+                    .filter({$0.endTime >= Int(mergeUnit) && $0.endTime < Int(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += Double($0.endTime - $0.startTime) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
