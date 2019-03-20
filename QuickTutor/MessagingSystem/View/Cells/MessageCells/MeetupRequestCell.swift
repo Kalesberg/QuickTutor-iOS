@@ -121,7 +121,8 @@ class SessionRequestCell: UserMessageCell {
     func updateTextData() {
         guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime(), let type = sessionRequest?.type else { return }
         subjectLabel.text = subject
-        priceLabel.text = "$\(price)0"
+        let priceString = String(format: "%.2f", price)
+        priceLabel.text = "$\(priceString)"
         sessionTypeLabel.text = type == "online" ? "Online" : "In-Person"
         dateLabel.text = "\(date)"
         sessionTimeLabel.text = "\(startTime) - \(endTime)"

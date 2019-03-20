@@ -17,7 +17,7 @@ class LearnerMainPageFeaturedSubjectTableViewCell: UITableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Popular now"
+        label.text = "Trending"
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)

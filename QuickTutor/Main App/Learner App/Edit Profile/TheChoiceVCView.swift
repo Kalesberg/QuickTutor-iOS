@@ -67,8 +67,8 @@ class TheChoiceVCView: UIView {
         return button
     }()
     
-    let startButton: UIButton = {
-        let button = UIButton()
+    let startButton: DimmableButton = {
+        let button = DimmableButton()
         button.backgroundColor = Colors.purple
         button.layer.cornerRadius = 4
         button.setTitle("Start", for: .normal)
@@ -96,7 +96,7 @@ class TheChoiceVCView: UIView {
         addSubview(buttonContainer)
         buttonContainer.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 270, height: 122)
         addConstraint(NSLayoutConstraint(item: buttonContainer, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: buttonContainer, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: buttonContainer, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: -61))
     }
     
     func setupLearnButton() {
