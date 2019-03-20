@@ -220,7 +220,7 @@ class QTProfileViewController: UIViewController {
         self.statusImageView.backgroundColor = Colors.gray
         OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result in
             guard let result = result else { return }
-            self.statusImageView.backgroundColor = result.isEmpty ? Colors.purple : Colors.gray
+            self.statusImageView.backgroundColor = !result.isEmpty ? Colors.purple : Colors.gray
         }
         // User name
         usernameLabel.text = user.formattedName

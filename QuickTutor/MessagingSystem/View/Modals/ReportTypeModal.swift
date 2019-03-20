@@ -51,6 +51,7 @@ extension ReportTypeModal: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SessionTableCell
         cell.button.setTitle(reportTypeStrings[indexPath.row], for: .normal)
+        cell.tag = indexPath.row
         cell.delegate = self
         if indexPath.row == 4 {
             cell.button.backgroundColor = Colors.darkBackground

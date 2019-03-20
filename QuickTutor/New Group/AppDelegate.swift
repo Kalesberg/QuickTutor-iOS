@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         InProgressSessionManager.shared.checkForSessions { (sessionId) in
             DataService.shared.getSessionById(sessionId, completion: { (session) in
                 if session.type == "online" {
-                    let vc = VideoSessionVC()
+                    let vc = QTVideoSessionViewController.controller
                     vc.sessionId = sessionId
                     navigationController.pushViewController(vc, animated: true)
                 } else {

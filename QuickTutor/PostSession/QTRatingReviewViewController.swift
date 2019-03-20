@@ -138,13 +138,13 @@ class QTRatingReviewViewController: UIViewController {
                 hasCompleted = true
                 PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
                 let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.controller
-                self.navigationController?.pushViewController(vc, animated: true)
+                RootControllerManager.shared.configureRootViewController(controller: vc)
             }
             break
         case 2:
-            let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.controller
             PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
-            self.navigationController?.pushViewController(vc, animated: true)
+            let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.controller
+            RootControllerManager.shared.configureRootViewController(controller: vc)
             break
         default:
             break
@@ -211,7 +211,6 @@ class QTRatingReviewViewController: UIViewController {
             FirebaseData.manager.updateTutorPostSession(uid: partnerId, sessionId: sessionId, subcategory: subcategory.lowercased(), tutorInfo: tutorInfo, subcategoryInfo: subcategoryInfo, sessionRating: PostSessionReviewData.rating)
             FirebaseData.manager.updateTutorFeaturedPostSession(partnerId, sessionId: sessionId, featuredInfo: featuredInfo)
             
-            guard let review = PostSessionReviewData.review, review != "" else { return }
             let reviewDict : [String : Any] = [
                 "dte" : Date().timeIntervalSince1970,
                 "uid" : CurrentUser.shared.learner.uid!,
@@ -226,11 +225,11 @@ class QTRatingReviewViewController: UIViewController {
             let updatedHours = learner.lHours + runTime
             
             FirebaseData.manager.updateLearnerPostSession(uid: partnerId, studentInfo: ["nos" : learner.lNumSessions + 1, "hr" : updatedHours, "r" : updatedRating.truncate(places: 1)])
-            guard let review = PostSessionReviewData.review, review != "" else { return }
+            
             let reviewDict : [String : Any] = [
                 "dte" : Date().timeIntervalSince1970,
                 "uid" : CurrentUser.shared.learner.uid!,
-                "m" : review,
+                "m" : PostSessionReviewData.review ?? "",
                 "nm" : CurrentUser.shared.learner.name,
                 "r" : PostSessionReviewData.rating,
                 "sbj" : subject

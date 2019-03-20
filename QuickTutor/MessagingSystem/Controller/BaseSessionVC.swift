@@ -130,10 +130,10 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         BackgroundSoundManager.shared.sessionInProgress = true
         expireSession()
         
-        guard let session = sessionManager?.session else { return }
-        
         // Updated the startedAt of a session because the session is able to start early than expected.
         Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["startedAt": Date().timeIntervalSince1970])
+        
+        guard let session = sessionManager?.session else { return }
         AnalyticsService.shared.logSessionStart(session)
     }
 
@@ -160,6 +160,7 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
         sessionManager?.stopSessionRuntime()
+        
         sessionManager = nil
         socket.disconnect()
         NotificationManager.shared.enableAllNotifcations()

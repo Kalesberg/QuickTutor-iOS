@@ -555,6 +555,10 @@
 		56A8D0B32240A4AB00866AD7 /* QTStartSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */; };
 		56A8D0B42240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */; };
 		56A8D0B52240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */; };
+		56A8D0B82240DA9900866AD7 /* QTVideoSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8D0B62240DA9900866AD7 /* QTVideoSessionViewController.swift */; };
+		56A8D0B92240DA9900866AD7 /* QTVideoSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8D0B62240DA9900866AD7 /* QTVideoSessionViewController.swift */; };
+		56A8D0BA2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0B72240DA9900866AD7 /* QTVideoSessionViewController.xib */; };
+		56A8D0BB2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0B72240DA9900866AD7 /* QTVideoSessionViewController.xib */; };
 		56DC6D9A220BD7DF00935F47 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */; };
 		56DC6D9B220BD7DF00935F47 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */; };
 		56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */; };
@@ -1120,6 +1124,8 @@
 		569F19082235564000820A20 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTStartSessionViewController.swift; sourceTree = "<group>"; };
 		56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTStartSessionViewController.xib; sourceTree = "<group>"; };
+		56A8D0B62240DA9900866AD7 /* QTVideoSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTVideoSessionViewController.swift; sourceTree = "<group>"; };
+		56A8D0B72240DA9900866AD7 /* QTVideoSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTVideoSessionViewController.xib; sourceTree = "<group>"; };
 		56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
 		56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
 		56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
@@ -1791,6 +1797,7 @@
 			isa = PBXGroup;
 			children = (
 				56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */,
+				56A8D0B72240DA9900866AD7 /* QTVideoSessionViewController.xib */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -2837,6 +2844,7 @@
 			isa = PBXGroup;
 			children = (
 				56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */,
+				56A8D0B62240DA9900866AD7 /* QTVideoSessionViewController.swift */,
 				CF7D8AAC2198ACAC00463B0E /* Sessions */,
 				CFDBD8E320C8788800182E1C /* VideoSessionVC */,
 				CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */,
@@ -3255,6 +3263,7 @@
 				569F18E7223554FD00820A20 /* Lato-Semibold.ttf in Resources */,
 				569F18E8223554FD00820A20 /* loading11.json in Resources */,
 				569F18E9223554FD00820A20 /* Lato-Hairline.ttf in Resources */,
+				56A8D0BB2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */,
 				569F18EA223554FD00820A20 /* Lato-Black.ttf in Resources */,
 				569F18EB223554FD00820A20 /* Lato-Heavy.ttf in Resources */,
 				569F18EC223554FD00820A20 /* phone-ring.mp3 in Resources */,
@@ -3329,6 +3338,7 @@
 				56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */,
 				840E4E08213761C10045CD35 /* loading11.json in Resources */,
 				56DC6D9E220BD7DF00935F47 /* Lato-Hairline.ttf in Resources */,
+				56A8D0BA2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */,
 				56DC6D9A220BD7DF00935F47 /* Lato-Black.ttf in Resources */,
 				56DC6DA0220BD7DF00935F47 /* Lato-Heavy.ttf in Resources */,
 				CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */,
@@ -3885,6 +3895,7 @@
 				569F17E2223554FD00820A20 /* MessagetTimebreakCell.swift in Sources */,
 				569F17E3223554FD00820A20 /* ProgressView.swift in Sources */,
 				569F17E4223554FD00820A20 /* BalanceTransaction.swift in Sources */,
+				56A8D0B92240DA9900866AD7 /* QTVideoSessionViewController.swift in Sources */,
 				569F17E5223554FD00820A20 /* AccessoryViews.swift in Sources */,
 				569F17E6223554FD00820A20 /* StringExtensions.swift in Sources */,
 				569F17E7223554FD00820A20 /* LightboxImage.swift in Sources */,
@@ -4338,6 +4349,7 @@
 				CF507FA92181386D007FE441 /* MessagetTimebreakCell.swift in Sources */,
 				CFB9B81E21C887D40022333F /* ProgressView.swift in Sources */,
 				84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */,
+				56A8D0B82240DA9900866AD7 /* QTVideoSessionViewController.swift in Sources */,
 				CFB9B7FA21C23F970022333F /* AccessoryViews.swift in Sources */,
 				84CC341B1FCE2979008E7A0B /* StringExtensions.swift in Sources */,
 				CFD92A68222F24B200704531 /* LightboxImage.swift in Sources */,

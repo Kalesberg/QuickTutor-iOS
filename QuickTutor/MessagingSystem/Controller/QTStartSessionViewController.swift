@@ -113,7 +113,7 @@ class QTStartSessionViewController: UIViewController {
     // MARK: - Functions
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
-            let vc = VideoSessionVC()
+            let vc = QTVideoSessionViewController.controller
             vc.sessionId = self.sessionId
             self.navigationController?.pushViewController(vc, animated: true)
         }
