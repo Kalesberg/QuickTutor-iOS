@@ -25,7 +25,7 @@ class TutorBioVCView: BaseRegistrationView {
     
     let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "• What experience and expertise do you have?\n• Any certification or awards earned?\n• What are you looking for in learners?"
+        label.text = "• What experience or expertise do you have?\n• Any certifications or awards?\n• What are you looking for in learners?"
         label.font = Fonts.createSize(16)
         label.textColor = Colors.registrationGray
         label.textAlignment = .left

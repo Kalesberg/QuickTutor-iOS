@@ -13,31 +13,31 @@ class StarView: UIView {
     lazy var stars = [star1, star2, star3, star4, star5]
     
     let star1: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
+        let iv = UIImageView(image: UIImage(named: "ic_star_sm_filled"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
 
     let star2: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
+        let iv = UIImageView(image: UIImage(named: "ic_star_sm_filled"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
 
     let star3: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
+        let iv = UIImageView(image: UIImage(named: "ic_star_sm_filled"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
 
     let star4: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
+        let iv = UIImageView(image: UIImage(named: "ic_star_sm_filled"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
 
     let star5: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "filledStar"))
+        let iv = UIImageView(image: UIImage(named: "ic_star_sm_filled"))
         iv.contentMode = .scaleAspectFit
         return iv
     }()
@@ -85,9 +85,9 @@ class StarView: UIView {
     
     func setRating(_ rating: Int) {
         print("Rating is", rating)
-        stars.forEach({ $0.image = UIImage(named: "emptyStar") })
+        stars.forEach({ $0.image = UIImage(named: "ic_star_sm_empty") })
         for x in 0..<rating {
-            stars[x].image = UIImage(named: "filledStar")
+            stars[x].image = UIImage(named: "ic_star_sm_filled")
         }
         tintStars(color: Colors.purple)
     }

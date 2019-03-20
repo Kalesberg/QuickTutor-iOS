@@ -154,7 +154,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
         super.viewWillAppear(animated)
         guard !isBeingControlled else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(onBack))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "newBackButton"), style: .plain, target: self, action: #selector(onBack))
     }
     
     @objc func onBack() {

@@ -59,7 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         registerForPushNotifications(application: application)
         
         UITextField.appearance().keyboardAppearance = .dark
-        UINavigationBar.appearance().barTintColor = Colors.registrationDark
+        UINavigationBar.appearance().barTintColor = Colors.darkBackground
+        UINavigationBar.appearance().isOpaque = false
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         let backImage = UIImage(named: "ic_back_arrow")

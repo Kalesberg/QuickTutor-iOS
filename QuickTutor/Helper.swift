@@ -333,127 +333,126 @@ enum Category {
         let searchBarPhrases: [String]
 		let subcategories: [(title: String, icon: UIImage)]
         let fileToRead: String
-        
+        let defaultImage = UIImage(named: "uploadImageDefaultImage")!
         switch self {
             
         case .academics:
             searchBarPhrases = ["search any academic subject"]
-			subcategories = [(title: "Extracurricular", icon: #imageLiteral(resourceName: "extracurricular")),
-							 (title: "Language Arts", icon: #imageLiteral(resourceName: "language-arts")),
-							 (title: "Mathematics", icon: #imageLiteral(resourceName: "mathematics")),
-							 (title: "Social Studies", icon:  #imageLiteral(resourceName: "social-studies")),
-							 (title: "Test Prep", icon: #imageLiteral(resourceName: "test-prep")),
-							 (title: "The Sciences", icon: #imageLiteral(resourceName: "science"))]
+			subcategories = [(title: "Extracurricular", icon: defaultImage),
+							 (title: "Language Arts", icon: defaultImage),
+							 (title: "Mathematics", icon: defaultImage),
+							 (title: "Social Studies", icon:  defaultImage),
+							 (title: "Test Prep", icon: defaultImage),
+							 (title: "The Sciences", icon: defaultImage)]
 		fileToRead = "academics"
             
         case .arts:
             searchBarPhrases = ["search for any art"]
-			subcategories = [(title: "Applied Arts", icon: #imageLiteral(resourceName: "applied-arts")),
-							 (title: "Art Criticism", icon: #imageLiteral(resourceName: "art-criticism")),
-							 (title: "Art History", icon: #imageLiteral(resourceName: "history")),
-							 (title: "Literary Arts", icon: #imageLiteral(resourceName: "literacy")),
-							 (title: "Performing Arts", icon: #imageLiteral(resourceName: "performing")),
-							 (title: "Visual Arts", icon: #imageLiteral(resourceName: "visual-arts"))]
+			subcategories = [(title: "Applied Arts", icon: defaultImage),
+							 (title: "Art Criticism", icon: defaultImage),
+							 (title: "Literary Arts", icon: defaultImage),
+							 (title: "Performing Arts", icon: defaultImage),
+							 (title: "Visual Arts", icon: defaultImage)]
             fileToRead = "arts"
             
         case .auto:
             searchBarPhrases = ["search anything auto-related"]
-			subcategories = [(title: "Auto Design", icon: #imageLiteral(resourceName: "design")),
-							 (title: "Auto Repairs", icon: #imageLiteral(resourceName: "repairs")),
-							 (title: "Auto Upgrades", icon: #imageLiteral(resourceName: "upgrades")),
-							 (title: "Automobiles", icon: #imageLiteral(resourceName: "automobiles")),
-							 (title: "Motor Vehicles", icon: #imageLiteral(resourceName: "motor-vehicles")),
-							 (title: "Vehicle Maintenance", icon: #imageLiteral(resourceName: "maintenance"))]
+			subcategories = [(title: "Auto Design", icon: defaultImage),
+							 (title: "Auto Repairs", icon: defaultImage),
+							 (title: "Auto Upgrades", icon: defaultImage),
+							 (title: "Automobiles", icon: defaultImage),
+							 (title: "Motor Vehicles", icon: defaultImage),
+							 (title: "Vehicle Maintenance", icon: defaultImage)]
             fileToRead = "auto"
             
         case .business:
             searchBarPhrases = ["search any business topic"]
-			subcategories = [(title: "Business Management", icon: #imageLiteral(resourceName: "management")),
-							 (title: "Economics & Accounting", icon: #imageLiteral(resourceName: "economics-accounting")),
-							 (title: "Entrepreneurship", icon: #imageLiteral(resourceName: "entrepreneurship")),
-							 (title: "Finance & Law", icon: #imageLiteral(resourceName: "finance-law")),
-							 (title: "Information Systems", icon: #imageLiteral(resourceName: "information-systems")),
-							 (title: "Marketing & Hospitality", icon: #imageLiteral(resourceName: "marketing-hospitality"))]
+			subcategories = [(title: "Business Management", icon: defaultImage),
+							 (title: "Economics & Accounting", icon: defaultImage),
+							 (title: "Entrepreneurship", icon: defaultImage),
+							 (title: "Finance & Law", icon: defaultImage),
+							 (title: "Information Systems", icon: defaultImage),
+							 (title: "Marketing & Hospitality", icon: defaultImage)]
             fileToRead = "business"
             
         case .lifestyle:
             searchBarPhrases = ["search for any lifestyle"]
-			subcategories = [(title: "Careers", icon: #imageLiteral(resourceName: "volunteering")),
-							 (title: "Cooking & Baking", icon: #imageLiteral(resourceName: "cooking-baking")),
-							 (title: "Creations", icon: #imageLiteral(resourceName: "life_lessons")),
-							 (title: "Fitness", icon: #imageLiteral(resourceName: "fitness")),
-							 (title: "Motivation & Consulting", icon: #imageLiteral(resourceName: "motivation")),
-							 (title: "Travel Destinations", icon: #imageLiteral(resourceName: "travel-destinations"))]
+			subcategories = [(title: "Careers", icon: defaultImage),
+							 (title: "Cooking & Baking", icon: defaultImage),
+							 (title: "Creations", icon: defaultImage),
+							 (title: "Fitness", icon: defaultImage),
+							 (title: "Motivation & Consulting", icon: defaultImage),
+							 (title: "Travel Destinations", icon: defaultImage)]
             fileToRead = "lifestyle"
             
         case .health:
             searchBarPhrases = ["search health and wellness"]
-			subcategories = [(title: "General Health", icon: #imageLiteral(resourceName: "general-health")),
-							 (title: "Illness", icon: #imageLiteral(resourceName: "illness")),
-							 (title: "Medicine", icon: #imageLiteral(resourceName: "medicine")),
-							 (title: "Nutrition", icon: #imageLiteral(resourceName: "nutrition")),
-							 (title: "Physical Exercise", icon: #imageLiteral(resourceName: "physical-excercise")),
-							 (title: "Self-Care", icon: #imageLiteral(resourceName: "selfcare"))]
+			subcategories = [(title: "General Health", icon: defaultImage),
+							 (title: "Illness", icon: defaultImage),
+							 (title: "Medicine", icon: defaultImage),
+							 (title: "Nutrition", icon: defaultImage),
+							 (title: "Physical Exercise", icon: defaultImage),
+							 (title: "Self-Care", icon: defaultImage)]
             fileToRead = "health"
             
 		case .language:
             searchBarPhrases = ["search for any language skill"]
-			subcategories = [(title: "ESL", icon: #imageLiteral(resourceName: "esl")),
-							 (title: "Listening", icon: #imageLiteral(resourceName: "listening")),
-							 (title: "Reading", icon: #imageLiteral(resourceName: "reading")),
-							 (title: "Sign Language", icon: #imageLiteral(resourceName: "sign-language")),
-							 (title: "Speaking", icon: #imageLiteral(resourceName: "speech")),
-							 (title: "Writing", icon: #imageLiteral(resourceName: "writing"))]
+			subcategories = [(title: "ESL", icon: defaultImage),
+							 (title: "Listening", icon: defaultImage),
+							 (title: "Reading", icon: defaultImage),
+							 (title: "Sign Language", icon: defaultImage),
+							 (title: "Speaking", icon: defaultImage),
+							 (title: "Writing", icon: defaultImage)]
             fileToRead = "language"
             
         case .outdoors:
             searchBarPhrases = ["discover the outdoors"]
-			subcategories = [(title: "Land & Water", icon: #imageLiteral(resourceName: "land-water")),
-							 (title: "Life Identification", icon: #imageLiteral(resourceName: "life-identity")),
-							 (title: "Outdoor Activities", icon: #imageLiteral(resourceName: "activities")),
-							 (title: "Outdoors Prep", icon: #imageLiteral(resourceName: "preperation")),
-							 (title: "Seasonal", icon: #imageLiteral(resourceName: "seasonal")),
-							 (title: "Survival", icon: #imageLiteral(resourceName: "survival"))]
+			subcategories = [(title: "Land & Water", icon: defaultImage),
+							 (title: "Life Identification", icon: defaultImage),
+							 (title: "Outdoor Activities", icon: defaultImage),
+							 (title: "Outdoors Prep", icon: defaultImage),
+							 (title: "Seasonal", icon: defaultImage),
+							 (title: "Survival", icon: defaultImage)]
             fileToRead = "outdoors"
             
         case .remedial:
             searchBarPhrases = ["search for help in anything"]
-			subcategories = [(title: "Conditions", icon: #imageLiteral(resourceName: "conditions")),
-							 (title: "Development", icon: #imageLiteral(resourceName: "development")),
-							 (title: "Disabilities", icon: #imageLiteral(resourceName: "disabilities")),
-							 (title: "Impairments", icon: #imageLiteral(resourceName: "impairments")),
-							 (title: "Injuries", icon: #imageLiteral(resourceName: "injuries")),
-							 (title: "Special Education", icon: #imageLiteral(resourceName: "special-education"))]
+			subcategories = [(title: "Conditions", icon: defaultImage),
+							 (title: "Development", icon: defaultImage),
+							 (title: "Disabilities", icon: defaultImage),
+							 (title: "Impairments", icon: defaultImage),
+							 (title: "Injuries", icon: defaultImage),
+							 (title: "Special Education", icon: defaultImage)]
             fileToRead = "remedial"
             
         case .sports:
             searchBarPhrases = ["search sports and games"]
-			subcategories = [(title: "Extreme Sports", icon: #imageLiteral(resourceName: "extreme-sports")),
-							 (title: "Fantasy Sports", icon: #imageLiteral(resourceName: "fantasy-sports")),
-							 (title: "Mind Sports", icon: #imageLiteral(resourceName: "mind-sports")),
-							 (title: "Physical Sports", icon: #imageLiteral(resourceName: "physical-sports")),
-							 (title: "Skills Training", icon: #imageLiteral(resourceName: "skill-training")),
-							 (title: "eSports", icon: #imageLiteral(resourceName: "esports"))]
+			subcategories = [(title: "Extreme Sports", icon: defaultImage),
+							 (title: "Fantasy Sports", icon: defaultImage),
+							 (title: "Mind Sports", icon: defaultImage),
+							 (title: "Physical Sports", icon: defaultImage),
+							 (title: "Skills Training", icon: defaultImage),
+							 (title: "eSports", icon: defaultImage)]
             fileToRead = "sports"
             
         case .tech:
             searchBarPhrases = ["search topics in technology"]
-			subcategories = [(title: "Gaming", icon: #imageLiteral(resourceName: "gaming")),
-							 (title: "Hardware", icon: #imageLiteral(resourceName: "hardware")),
-							 (title: "IT", icon: #imageLiteral(resourceName: "it")),
-							 (title: "Programming", icon: #imageLiteral(resourceName: "programming")),
-							 (title: "Software", icon: #imageLiteral(resourceName: "software")),
-							 (title: "Tech Repairs", icon: #imageLiteral(resourceName: "tech-repairs"))]
+			subcategories = [(title: "Gaming", icon: defaultImage),
+							 (title: "Hardware", icon: defaultImage),
+							 (title: "IT", icon: defaultImage),
+							 (title: "Programming", icon: defaultImage),
+							 (title: "Software", icon: defaultImage),
+							 (title: "Tech Repairs", icon: defaultImage)]
             fileToRead = "tech"
             
         case .trades:
             searchBarPhrases = ["search for any trade"]
-			subcategories = [(title: "Construction", icon: #imageLiteral(resourceName: "construction")),
-							 (title: "General Trades", icon: #imageLiteral(resourceName: "general")),
-							 (title: "Home Trades", icon: #imageLiteral(resourceName: "home")),
-							 (title: "Industrial Trades", icon: #imageLiteral(resourceName: "industry")),
-							 (title: "Motive Power", icon: #imageLiteral(resourceName: "motive-power")),
-							 (title: "Service Trades", icon: #imageLiteral(resourceName: "services"))]
+			subcategories = [(title: "Construction", icon: defaultImage),
+							 (title: "General Trades", icon: defaultImage),
+							 (title: "Home Trades", icon: defaultImage),
+							 (title: "Industrial Trades", icon: defaultImage),
+							 (title: "Motive Power", icon: defaultImage),
+							 (title: "Service Trades", icon: defaultImage)]
             fileToRead = "trades"
         }
 		return Subcategory(subcategories: subcategories, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], fileToRead: fileToRead)

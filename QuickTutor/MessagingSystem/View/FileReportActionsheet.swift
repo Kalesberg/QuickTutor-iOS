@@ -12,7 +12,7 @@ class FileReportActionsheet: UIView {
     
     var titles = ["Share profile", "Disconnect", "Report"]
     var images = [UIImage(named: "fileReportShareIcon"), UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
-    
+    var parentViewController: UIViewController?
     var bottomLayoutMargin: CGFloat = 0
     var actionSheetBottomAnchor: NSLayoutConstraint?
     var alert: CustomModal?
@@ -167,12 +167,13 @@ class FileReportActionsheet: UIView {
     }
     
     func shareUsernameForUserId() {
+        dismiss()
         guard let id = partnerId else { return }
-//        DynamicLinkFactory.shared.createLink(userId: id) { shareUrl in
-//            guard let shareUrlString = shareUrl?.absoluteString else { return }
-//            let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
-//            self.present(ac, animated: true, completion: nil)
-//        }
+        DynamicLinkFactory.shared.createLink(userId: id) { shareUrl in
+            guard let shareUrlString = shareUrl?.absoluteString else { return }
+            let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
+            self.parentViewController?.present(ac, animated: true, completion: nil)
+        }
     }
     
     private override init(frame: CGRect) {
