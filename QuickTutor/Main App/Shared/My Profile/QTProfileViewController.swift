@@ -85,6 +85,11 @@ class QTProfileViewController: UIViewController {
             navigationItem.largeTitleDisplayMode = .never
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
 
     // MARK: - Actions
     @IBAction func onMessageButtonClicked(_ sender: Any) {
@@ -310,8 +315,13 @@ class QTProfileViewController: UIViewController {
     func initReviews() {
         guard let user = user else { return }
         
-        reviewsView.isHidden = user.reviews?.isEmpty ?? true
-        readFeedbacksButton.setTitle("Read \(user.reviews?.count ?? 0) feedbacks", for: .normal)
+        if profileViewType == .tutor || profileViewType == .myTutor {
+            reviewsView.isHidden = user.reviews?.isEmpty ?? true
+            readFeedbacksButton.setTitle("Read \(user.reviews?.count ?? 0) feedbacks", for: .normal)
+        } else {
+            reviewsView.isHidden = user.lReviews?.isEmpty ?? true
+            readFeedbacksButton.setTitle("Read \(user.lReviews?.count ?? 0) feedbacks", for: .normal)
+        }
         
         reviewsTableView.reloadData()
     }
@@ -454,16 +464,17 @@ extension QTProfileViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension QTProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let reviews = user.reviews else { return 0 }
+        guard let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews else { return 0 }
         return reviews.count >= 2 ? 2 : reviews.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: QTReviewTableViewCell.reuseIdentifier, for: indexPath) as! QTReviewTableViewCell
         cell.selectionStyle = .none
-        if let reviews = user.reviews {
+        if let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews {
             cell.setData(review: reviews[indexPath.row])
         }
+        
         updateUI()
         return cell
     }

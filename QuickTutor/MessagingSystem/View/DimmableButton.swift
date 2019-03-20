@@ -9,23 +9,16 @@
 import UIKit
 
 class DimmableButton: UIButton {
-    func setupTargets() {
-        addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
-        addTarget(self, action: #selector(handleTouchUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+    @objc override func setupTargets() {
+        super.setupTargets()
     }
 
-    @objc func handleTouchDown() {
-        backgroundColor = backgroundColor?.darker(by: 15)
-        guard let titleColor = titleColor(for: .normal), let borderColor = layer.borderColor?.uiColor() else { return }
-        setTitleColor(titleColor.darker(by: 15), for: .normal)
-        layer.borderColor = borderColor.darker(by: 15)?.cgColor
+    @objc override func handleTouchDown() {
+        super.handleTouchDown()
     }
 
-    @objc func handleTouchUp() {
-        backgroundColor = backgroundColor?.lighter(by: 15)
-        guard let titleColor = titleColor(for: .normal), let borderColor = layer.borderColor?.uiColor() else { return }
-        setTitleColor(titleColor.lighter(by: 15), for: .normal)
-        layer.borderColor = borderColor.lighter(by: 15)?.cgColor
+    @objc override func handleTouchUp() {
+        super.handleTouchUp()
     }
 
     override init(frame: CGRect) {
@@ -63,5 +56,26 @@ extension UIColor {
 extension CGColor {
     func uiColor() -> UIColor {
         return UIColor(cgColor: self)
+    }
+}
+
+extension UIButton {
+    @objc func setupTargets() {
+        addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
+        addTarget(self, action: #selector(handleTouchUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+    }
+    
+    @objc func handleTouchDown() {
+        backgroundColor = backgroundColor?.darker(by: 15)
+        guard let titleColor = titleColor(for: .normal), let borderColor = layer.borderColor?.uiColor() else { return }
+        setTitleColor(titleColor.darker(by: 15), for: .normal)
+        layer.borderColor = borderColor.darker(by: 15)?.cgColor
+    }
+    
+    @objc func handleTouchUp() {
+        backgroundColor = backgroundColor?.lighter(by: 15)
+        guard let titleColor = titleColor(for: .normal), let borderColor = layer.borderColor?.uiColor() else { return }
+        setTitleColor(titleColor.lighter(by: 15), for: .normal)
+        layer.borderColor = borderColor.lighter(by: 15)?.cgColor
     }
 }

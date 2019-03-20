@@ -71,7 +71,7 @@ class QTVideoSessionViewController: UIViewController {
                 menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 16.5, bottom: 12, right: 16.5)
                 let animator = UIViewPropertyAnimator(duration: 0.15, curve: .easeInOut, animations: nil)
                 animator.addAnimations {
-                    self.bottomSheetViewBottom.constant = -156
+                    self.bottomSheetViewBottom.constant = -120
                     self.bottomSheetView.layoutIfNeeded()
                 }
                 animator.startAnimation()
@@ -225,7 +225,7 @@ class QTVideoSessionViewController: UIViewController {
                 self.sessionManager?.sessionLengthInSeconds += (self.minutesToAdd * 60)
                 self.sessionManager?.startSessionRuntime()
             } else {
-                self.continueOutOfSession()
+                self.sessionManager?.endSocketSession()
             }
             self.sessionOnHoldModal?.dismiss()
             self.addTimeModal?.dismiss()
@@ -267,6 +267,8 @@ class QTVideoSessionViewController: UIViewController {
         closeButton.layer.cornerRadius = 18
         closeButton.clipsToBounds = true
         
+        bottomSheetView.cornerRadius(corners: [UIRectCorner.topLeft, UIRectCorner.topRight], radius: 5.0)
+        
         flipCameraImageView.overlayTintColor(color: UIColor.white)
         pauseImageView.overlayTintColor(color: UIColor.white)
         shareFileImageView.overlayTintColor(color: UIColor.white)
@@ -303,7 +305,6 @@ class QTVideoSessionViewController: UIViewController {
         pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
-        sessionManager?.endSocketSession()
         guard let runTime = sessionManager?.sessionRuntime,
             let partnerId = sessionManager?.session.partnerId(),
             let subject = sessionManager?.session.subject,
@@ -465,7 +466,6 @@ extension QTVideoSessionViewController: SessionManagerDelegate {
     }
     
     func sessionManager(_ sessionManager: SessionManager, didEnd session: Session) {
-        PostSessionManager.shared.sessionDidEnd(sessionId: session.id, partnerId: session.partnerId())
         sessionId = session.id
         partnerId = session.partnerId()
         continueOutOfSession()
