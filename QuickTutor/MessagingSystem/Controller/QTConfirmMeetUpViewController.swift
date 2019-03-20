@@ -192,7 +192,7 @@ class QTConfirmMeetUpViewController: UIViewController {
     func moveToNearestCornerTo(_ point: CGPoint) {
         if point.x > placeholderPoint {
             UIView.animate(withDuration: 0.2, animations: {
-                self.slidingButton.center.x = endPoint
+                self.slidingButton.center.x = self.endPoint
                 self.slidingButton.layoutIfNeeded()
             }) { (completed) in
                 if completed {
@@ -284,7 +284,7 @@ class QTConfirmMeetUpViewController: UIViewController {
     }
     
     func proceedToSession() {
-        let vc = InPersonSessionVC()
+        let vc = QTInPersonSessionViewController.controller
         vc.sessionId = sessionId
         navigationController?.pushViewController(vc, animated: true)
     }

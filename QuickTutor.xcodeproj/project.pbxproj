@@ -18,6 +18,10 @@
 		4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
 		4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
 		4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
+		561003B62242A9AF00A4688F /* QTInPersionSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */; };
+		561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */; };
+		561003B82242A9BB00A4688F /* QTInPersionSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */; };
+		561003B92242BCC100A4688F /* QTInPersonSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */; };
 		5647A778222CB59000E8A26F /* QTSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5647A776222CB59000E8A26F /* QTSettingsViewController.swift */; };
 		5647A779222CB59000E8A26F /* QTSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5647A777222CB59000E8A26F /* QTSettingsViewController.xib */; };
 		564B6C1D222D83D5004A9EB7 /* QTLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B6C1B222D83D5004A9EB7 /* QTLocationsViewController.swift */; };
@@ -1096,6 +1100,8 @@
 		4D348103223A35370004C29A /* QTRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingView.swift; sourceTree = "<group>"; };
 		4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTProfileViewController.swift; sourceTree = "<group>"; };
 		4DE366902239F06C00A94C37 /* QTProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTProfileViewController.xib; sourceTree = "<group>"; };
+		561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTInPersionSessionViewController.swift; sourceTree = "<group>"; };
+		561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTInPersonSessionViewController.xib; sourceTree = "<group>"; };
 		5647A776222CB59000E8A26F /* QTSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSettingsViewController.swift; sourceTree = "<group>"; };
 		5647A777222CB59000E8A26F /* QTSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTSettingsViewController.xib; sourceTree = "<group>"; };
 		564B6C1B222D83D5004A9EB7 /* QTLocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLocationsViewController.swift; sourceTree = "<group>"; };
@@ -1805,6 +1811,7 @@
 				56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */,
 				56A8D0B72240DA9900866AD7 /* QTVideoSessionViewController.xib */,
 				56A8D0C122421F6100866AD7 /* QTConfirmMeetUpViewController.xib */,
+				561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -2853,6 +2860,7 @@
 				56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */,
 				56A8D0B62240DA9900866AD7 /* QTVideoSessionViewController.swift */,
 				56A8D0C022421F6100866AD7 /* QTConfirmMeetUpViewController.swift */,
+				561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */,
 				CF7D8AAC2198ACAC00463B0E /* Sessions */,
 				CFDBD8E320C8788800182E1C /* VideoSessionVC */,
 				CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */,
@@ -3247,6 +3255,7 @@
 				569F18D1223554FD00820A20 /* languages.txt in Resources */,
 				569F19092235564000820A20 /* GoogleService-Info.plist in Resources */,
 				569F18D2223554FD00820A20 /* Lato-Bold.ttf in Resources */,
+				561003B92242BCC100A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				569F18D3223554FD00820A20 /* Lato-BoldItalic.ttf in Resources */,
 				569F18D4223554FD00820A20 /* tech.json in Resources */,
 				569F18D6223554FD00820A20 /* schools.txt in Resources */,
@@ -3323,6 +3332,7 @@
 				8423F73F214B60E900B3E4D0 /* languages.txt in Resources */,
 				56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */,
 				56DC6D9D220BD7DF00935F47 /* Lato-BoldItalic.ttf in Resources */,
+				561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				84257678207132DD00FD295B /* tech.json in Resources */,
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
@@ -3961,6 +3971,7 @@
 				569F181F223554FD00820A20 /* KeyboardFrameObserversManager.swift in Sources */,
 				569F1820223554FD00820A20 /* LearnerMyProfileHeader.swift in Sources */,
 				569F1821223554FD00820A20 /* DynamicLinkFactory.swift in Sources */,
+				561003B82242A9BB00A4688F /* QTInPersionSessionViewController.swift in Sources */,
 				569F1822223554FD00820A20 /* UserMessageCell.swift in Sources */,
 				569F1823223554FD00820A20 /* TutorBioVC.swift in Sources */,
 				569F1824223554FD00820A20 /* QuickSearchResultsVC.swift in Sources */,
@@ -4416,6 +4427,7 @@
 				CF24997B217E926500614AF0 /* KeyboardFrameObserversManager.swift in Sources */,
 				84D6A7D8215B0A58000C0010 /* LearnerMyProfileHeader.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
+				561003B62242A9AF00A4688F /* QTInPersionSessionViewController.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
 				CFB1475F21F3B86F00C49BA5 /* QuickSearchResultsVC.swift in Sources */,

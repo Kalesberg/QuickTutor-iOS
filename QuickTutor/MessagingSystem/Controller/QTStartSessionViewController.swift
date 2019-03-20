@@ -13,7 +13,7 @@ import AVFoundation
 
 enum QTSessionType: String {
     case online = "online"
-    case inPersion = "in-person"
+    case inPerson = "in-person"
 }
 
 enum QTSessionStartType: String {

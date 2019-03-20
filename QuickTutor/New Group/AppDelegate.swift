@@ -116,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                     vc.sessionId = sessionId
                     navigationController.pushViewController(vc, animated: true)
                 } else {
-                  let vc = InPersonSessionVC()
+                  let vc = QTInPersonSessionViewController.controller
                     vc.sessionId = sessionId
                     navigationController.pushViewController(vc, animated: true)
                 }
