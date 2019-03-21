@@ -38,10 +38,11 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var bioLabel: UILabel!
     @IBOutlet weak var subjectsCollectionView: UICollectionView!
     @IBOutlet weak var subjectsCollectionViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var reviewsView: UIView!
+    @IBOutlet weak var reviewsStackView: UIStackView!
     @IBOutlet weak var reviewsTableView: UITableView!
     @IBOutlet weak var reviewsTabeViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var readFeedbacksButton: UIButton!
+    @IBOutlet weak var readAllReviewLabel: UILabel!
+    @IBOutlet weak var readReviewsButton: UIButton!
     @IBOutlet weak var sessionTypesLabel: UILabel!
     @IBOutlet weak var travelDistanceLabel: UILabel!
     @IBOutlet weak var policiesView: UIView!
@@ -119,7 +120,7 @@ class QTProfileViewController: UIViewController {
         actionSheet?.show()
     }
     
-    @IBAction func onReadFeedbacksButtonClicked(_ sender: Any) {
+    @IBAction func onReadReviewsButtonClicked(_ sender: Any) {
         guard let user = user, let profileViewType = profileViewType else { return }
         
         switch profileViewType {
@@ -226,8 +227,12 @@ class QTProfileViewController: UIViewController {
         guard let user = user, let profileViewType = profileViewType else { return }
         
         // Set the avatar of user profile.
-        let reference = storageRef.child("student-info").child(user.uid).child("student-profile-pic1")
-        avatarImageView.sd_setImage(with: reference)
+        if profileViewType == .tutor || profileViewType == .myTutor {
+            avatarImageView.sd_setImage(with: user.profilePicUrl)
+        } else {
+            let reference = storageRef.child("student-info").child(user.uid).child("student-profile-pic1")
+            avatarImageView.sd_setImage(with: reference)
+        }
         avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidAvatarImageViewTap)))
         
         // Set the active status of user.
@@ -324,12 +329,18 @@ class QTProfileViewController: UIViewController {
     func initReviews() {
         guard let user = user else { return }
         
+        readReviewsButton.layer.cornerRadius = 3
+        readReviewsButton.clipsToBounds = true
+        readReviewsButton.setupTargets()
+        
         if profileViewType == .tutor || profileViewType == .myTutor {
-            reviewsView.isHidden = user.reviews?.isEmpty ?? true
-            readFeedbacksButton.setTitle("Read \(user.reviews?.count ?? 0) feedbacks", for: .normal)
+            reviewsTableView.isHidden = user.reviews?.isEmpty ?? true
+            let numberOfReviews = user.reviews?.count ?? 0
+            readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
         } else {
-            reviewsView.isHidden = user.lReviews?.isEmpty ?? true
-            readFeedbacksButton.setTitle("Read \(user.lReviews?.count ?? 0) feedbacks", for: .normal)
+            reviewsTableView.isHidden = user.lReviews?.isEmpty ?? true
+            let numberOfReviews = user.lReviews?.count ?? 0
+            readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
         }
         
         reviewsTableView.reloadData()
@@ -371,6 +382,7 @@ class QTProfileViewController: UIViewController {
         
         connectButton.layer.cornerRadius = 3
         connectButton.clipsToBounds = true
+        connectButton.setupTargets()
         
         guard let profileViewType = profileViewType else { return }
         switch profileViewType {
@@ -403,7 +415,7 @@ class QTProfileViewController: UIViewController {
     func updateUI() {
         subjectsCollectionViewHeight.constant = subjectsCollectionView.contentSize.height
         reviewsTabeViewHeight.constant = reviewsTableView.contentSize.height
-        reviewsView.layoutIfNeeded()
+        reviewsStackView.layoutIfNeeded()
         scrollView.layoutIfNeeded()
     }
     
