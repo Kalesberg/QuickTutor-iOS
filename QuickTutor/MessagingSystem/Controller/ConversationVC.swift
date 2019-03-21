@@ -159,6 +159,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(firstName))
         }
         actionSheet?.isConnected = connectionRequestAccepted
+        actionSheet?.parentViewController = self
         actionSheet?.partnerId = chatPartner.uid
         actionSheet?.show()
     }
@@ -461,8 +462,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if notification.name == UIResponder.keyboardWillHideNotification {
             messagesCollection.contentInset = UIEdgeInsets.zero
         } else {
-            let heightAdjustment: CGFloat = UIScreen.main.bounds.height > 700 ? 50 : 84
-            messagesCollection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - 84, right: 0)
+            let heightAdjustment: CGFloat = UIScreen.main.bounds.height > 700 ? 86 : 52
+            messagesCollection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - heightAdjustment, right: 0)
         }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
         messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
@@ -522,7 +523,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestCell
 
             cell.updateUI(message: message)
-            cell.bubbleWidthAnchor?.constant = 220
+            cell.bubbleWidthAnchor?.constant = 285
             cell.delegate = self
             cell.indexPath = [indexPath]
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
@@ -566,7 +567,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         }
         
         if message.sessionRequestId != nil {
-            height = 173
+            height = 150
         }
         
         if message.connectionRequestId != nil {

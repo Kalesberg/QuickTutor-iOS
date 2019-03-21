@@ -33,7 +33,6 @@ class MessagingSystemTutorial: UIButton {
     
     let image: UIImageView = {
         let view = UIImageView()
-        view.image = #imageLiteral(resourceName: "finger")
         view.transform = CGAffineTransform(scaleX: 1, y: -1)
         view.scaleImage()
         view.alpha = 0

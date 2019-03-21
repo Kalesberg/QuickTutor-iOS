@@ -151,7 +151,7 @@
                                 <action selector="onClickCancelButton:" destination="-1" eventType="touchUpInside" id="cL6-zb-Eac"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="stW-rA-G1Y" customClass="LOTAnimationView">
+                        <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="stW-rA-G1Y" customClass="LOTAnimationView">
                             <rect key="frame" x="137.5" y="213.5" width="100" height="100"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>

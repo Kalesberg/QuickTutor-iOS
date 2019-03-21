@@ -55,7 +55,7 @@ class CreatePasswordVCView: BaseRegistrationView {
     func setupPasswordInfoLabel() {
         addSubview(passwordInfoLabel)
         passwordInfoLabel.snp.makeConstraints { make in
-            make.top.equalTo(createPasswordTextfield.snp.bottom).offset(10)
+            make.top.equalTo(createPasswordTextfield.snp.bottom).offset(40)
             make.left.equalTo(titleLabel)
             make.right.equalToSuperview()
             make.height.equalTo(22)

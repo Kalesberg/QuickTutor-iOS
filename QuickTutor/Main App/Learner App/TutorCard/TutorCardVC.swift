@@ -91,6 +91,7 @@ extension TutorCardVC: TutorCardHeaderViewDelegate {
             actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String("Zach"))
         }
         actionSheet?.partnerId = tutor?.uid
+        actionSheet?.parentViewController = self
         actionSheet?.isConnected = contentView.isConnected
         actionSheet?.show()
     }

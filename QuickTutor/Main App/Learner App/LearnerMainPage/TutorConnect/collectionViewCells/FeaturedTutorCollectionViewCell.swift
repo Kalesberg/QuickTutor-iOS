@@ -75,6 +75,15 @@ class TutorCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    let starLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.purple
+        label.text = "0"
+        label.textAlignment = .left
+        label.font = Fonts.createBoldSize(10)
+        return label
+    }()
+    
     var profileImageViewHeightAnchor: NSLayoutConstraint?
     
     func setupViews() {
@@ -85,6 +94,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         setupPriceLabel()
         setupSubjectLabel()
         setupStarView()
+        setupStarLabel()
     }
     
     func setupProfileImageView() {
@@ -126,6 +136,11 @@ class TutorCollectionViewCell: UICollectionViewCell {
         starView.tintStars(color: Colors.purple)
     }
     
+    func setupStarLabel() {
+        addSubview(starLabel)
+        starLabel.anchor(top: nil, left: starView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 10, paddingRight: 0, width: 30, height: 20)
+    }
+    
     func updateUI(_ tutor: AWTutor) {
         self.tutor = tutor
         nameLabel.text = tutor.formattedName
@@ -135,6 +150,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
             savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"saveButtonFilled"), for: .normal) : saveButton.setImage(UIImage(named:"saveButton"), for: .normal)
         }
+        guard let reviewCount = tutor.reviews?.count else { return }
+        starLabel.text = "\(reviewCount)"
     }
     
     @objc func handleSaveButton() {

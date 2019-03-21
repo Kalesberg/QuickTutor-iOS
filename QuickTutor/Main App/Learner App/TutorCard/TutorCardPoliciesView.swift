@@ -10,30 +10,6 @@ import UIKit
 
 class TutorCardPoliciesView: UIView {
     
-    let sessionTypeIcon: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
-    
-    let travelIcon: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
-    
-    let latePolicyIcon: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
-    
-    let cancellationPolicyIcon: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
-    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -41,6 +17,13 @@ class TutorCardPoliciesView: UIView {
         label.font = Fonts.createSize(16)
         label.text = "Policies"
         return label
+    }()
+    
+    let sessionTypeIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.image = UIImage(named: "sessionTypePolicyIcon")
+        return iv
     }()
     
     let sessionTypeLabel: UILabel = {
@@ -52,6 +35,13 @@ class TutorCardPoliciesView: UIView {
         return label
     }()
     
+    let travelIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.image = UIImage(named: "travelPolicyIcon")
+        return iv
+    }()
+    
     let travelLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -59,6 +49,13 @@ class TutorCardPoliciesView: UIView {
         label.font = Fonts.createSize(16)
         label.text = "Travel up to 5 miles"
         return label
+    }()
+    
+    let latePolicyIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.image = UIImage(named: "latePolicyIcon")
+        return iv
     }()
     
     let latePolicyLabel: UILabel = {
@@ -77,6 +74,13 @@ class TutorCardPoliciesView: UIView {
         label.font = Fonts.createSize(16)
         label.text = "Late Fee: $10.00"
         return label
+    }()
+    
+    let cancellationPolicyIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.image = UIImage(named: "cancellationPolicyIcon")
+        return iv
     }()
     
     let cancellationPolicyLabel: UILabel = {
@@ -99,10 +103,14 @@ class TutorCardPoliciesView: UIView {
     
     func setupViews() {
         setupTitleLabel()
+        setupSessionTypeIcon()
         setupSessionTypeLabel()
+        setupTravelIcon()
         setupTravelLabel()
+        setupLatePolicyIcon()
         setupLatePolicyLabel()
         setupLateFeeLabel()
+        setupCancellationPolicyIcon()
         setupCancellationPolicyLabel()
         setupCancellationFeeLabel()
     }
@@ -112,34 +120,54 @@ class TutorCardPoliciesView: UIView {
         titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 22)
     }
     
+    func setupSessionTypeIcon() {
+        addSubview(sessionTypeIcon)
+        sessionTypeIcon.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+    }
+    
     func setupSessionTypeLabel() {
         addSubview(sessionTypeLabel)
-        sessionTypeLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 22)
+        sessionTypeLabel.anchor(top: titleLabel.bottomAnchor, left: sessionTypeIcon.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
+    }
+    
+    func setupTravelIcon() {
+        addSubview(travelIcon)
+        travelIcon.anchor(top: sessionTypeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
     }
     
     func setupTravelLabel() {
         addSubview(travelLabel)
-        travelLabel.anchor(top: sessionTypeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 22)
+        travelLabel.anchor(top: sessionTypeLabel.bottomAnchor, left: travelIcon.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
+    }
+    
+    func setupLatePolicyIcon() {
+        addSubview(latePolicyIcon)
+        latePolicyIcon.anchor(top: travelLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
     }
     
     func setupLatePolicyLabel() {
         addSubview(latePolicyLabel)
-        latePolicyLabel.anchor(top: travelLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 22)
+        latePolicyLabel.anchor(top: travelLabel.bottomAnchor, left: latePolicyIcon.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
     }
     
     func setupLateFeeLabel() {
         addSubview(lateFeeLabel)
-        lateFeeLabel.anchor(top: latePolicyLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 22)
+        lateFeeLabel.anchor(top: latePolicyLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 22)
+    }
+    
+    func setupCancellationPolicyIcon() {
+        addSubview(cancellationPolicyIcon)
+        cancellationPolicyIcon.anchor(top: lateFeeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
     }
     
     func setupCancellationPolicyLabel() {
         addSubview(cancellationPolicyLabel)
-        cancellationPolicyLabel.anchor(top: lateFeeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 22)
+        cancellationPolicyLabel.anchor(top: lateFeeLabel.bottomAnchor, left: cancellationPolicyIcon.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
     }
     
     func setupCancellationFeeLabel() {
         addSubview(cancellationFeeLabel)
-        cancellationFeeLabel.anchor(top: cancellationPolicyLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 22)
+        cancellationFeeLabel.anchor(top: cancellationPolicyLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 22)
     }
     
     func updateUI(_ tutor: AWTutor) {

@@ -67,7 +67,6 @@ class UploadImageVC: BaseRegistrationController {
     
     @objc func saveImageAndContinue() {
         if imagePicked {
-            displayLoadingOverlay()
             guard let image = chosenImage else { return }
             guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
                 AlertController.genericErrorAlert(self, title: "Error", message: "Please choose a new photo")

@@ -32,7 +32,7 @@ class BecomeTutorVCView: TutorPolicyVCView {
     
     let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "Make money teaching the things you're good at!"
+        label.text = "Earn money teaching the things you're good at!"
         label.numberOfLines = 0
         label.font = Fonts.createSize(14)
         label.textColor = Colors.registrationGray
@@ -53,7 +53,7 @@ class BecomeTutorVCView: TutorPolicyVCView {
         let formattedString = NSMutableAttributedString()
         formattedString
             .bold("Earn money tutoring\n\n", 15, .white)
-            .regular("No matter who you are, QuickTutor enables you to simply run a freelance tutoring business. QuickTutor makes it safe and straightforward to earn money and teach people around the world - either in-person with people near you or through video calling, globally..\n\n", 13, Colors.registrationGray, 8.0)
+            .regular("No matter who you are, QuickTutor enables you to simply run a freelance tutoring business. QuickTutor makes it safe and straightforward to earn money and teach people around the world - either in-person with people near you or through video calling, globally.\n\n", 13, Colors.registrationGray, 8.0)
             .bold("User Freedom\n\n", 15, .white)
             .regular("With QuickTutor, you are in complete control of your schedule, hourly rate, preferences, policies, and how you communicate with learners.\n\n", 13, Colors.registrationGray, 8.0)
             .bold("Your Safety Matters\n\n", 15, .white)
