@@ -85,7 +85,12 @@ class QTProfileViewController: UIViewController {
             navigationItem.largeTitleDisplayMode = .never
         }
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     // MARK: - Actions
     @IBAction func onMessageButtonClicked(_ sender: Any) {
         let vc = ConversationVC()
@@ -220,8 +225,9 @@ class QTProfileViewController: UIViewController {
         self.statusImageView.backgroundColor = Colors.gray
         OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result in
             guard let result = result else { return }
-            self.statusImageView.backgroundColor = !result.isEmpty ? Colors.purple : Colors.gray
+            self.statusImageView.backgroundColor = result == "Active now" ? Colors.purple : Colors.gray
         }
+        
         // User name
         usernameLabel.text = user.formattedName
         switch profileViewType {
@@ -311,7 +317,7 @@ class QTProfileViewController: UIViewController {
         guard let user = user else { return }
         
         reviewsView.isHidden = user.reviews?.isEmpty ?? true
-        readFeedbacksButton.setTitle("Read \(user.reviews?.count ?? 0) feedbacks", for: .normal)
+        readFeedbacksButton.setTitle("Read \(user.reviews?.count ?? 0) reviews", for: .normal)
         
         reviewsTableView.reloadData()
     }
@@ -423,7 +429,7 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: CGFloat = 60
         if let subjects = user?.subjects {
-            width = subjects[indexPath.item].estimateFrameForFontSize(10).width + 20
+            width = subjects[indexPath.item].estimateFrameForFontSize(14).width + 20
         }
         return CGSize(width: width, height: 30)
     }
@@ -438,7 +444,6 @@ extension QTProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PillCollectionViewCell.reuseIdentifier, for: indexPath) as! PillCollectionViewCell
         if let subjects = user?.subjects {
-            cell.titleLabel.font = Fonts.createMediumSize(10)
             cell.titleLabel.text = subjects[indexPath.item]
         }
         updateUI()
@@ -461,6 +466,8 @@ extension QTProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: QTReviewTableViewCell.reuseIdentifier, for: indexPath) as! QTReviewTableViewCell
         cell.selectionStyle = .none
+        cell.backgroundColor = Colors.darkBackground
+        cell.contentView.backgroundColor = Colors.darkBackground
         if let reviews = user.reviews {
             cell.setData(review: reviews[indexPath.row])
         }

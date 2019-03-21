@@ -28,7 +28,6 @@ class ConversationManager {
     var messages = [BaseMessage]()
     var chatPartnerId: String?
     var chatPartner: User?
-    var canSendMessage = true
     var isConnected = false
     var uid: String!
     var earliestLoadedMessageId: String?
@@ -36,7 +35,6 @@ class ConversationManager {
     var loadedAllMessages = false
     var isInitialLoad = true
     var lastSendMessageIndex = -1
-    var statusIndex = -1
 
     var readReceiptManager: ReadReceiptManager?
 
@@ -62,7 +60,6 @@ class ConversationManager {
             }
             var fetchedMessageCount = 0
             if children.count == 0 {
-                self.messageAlreadyLoaded = false
                 completion([UserMessage]())
             }
             if children.count < limit {
@@ -104,20 +101,12 @@ class ConversationManager {
             }
         }
     }
-    
-    func insertTimeLabelMessageIfNeeded() {
-        
-    }
 
-    var messageAlreadyLoaded = true
     func listenForNewMessages() {
         let query = getConversationQueryRef()
         query.observe(.childAdded) { snapshot in
             let messageId = snapshot.key
-            guard !self.messageAlreadyLoaded else {
-                self.messageAlreadyLoaded = false
-                return
-            }
+            guard !self.messages.contains(where: {$0.uid == messageId}) else { return }
             DataService.shared.getMessageById(messageId, completion: { message in
                 if message.senderId == self.uid {
                     self.lastSendMessageIndex = self.messages.count - 1

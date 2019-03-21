@@ -16,6 +16,7 @@ class QTReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var reviewDateLabel: UILabel!
     @IBOutlet weak var ratingView: QTRatingView!
     @IBOutlet weak var reviewLabel: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
     
     static var reuseIdentifier: String {
         return String(describing: QTReviewTableViewCell.self)
@@ -35,13 +36,13 @@ class QTReviewTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     
     // MARK: - Functions
     func setData(review: Review) {
-        usernameLabel.text = review.studentName
+        usernameLabel.text = review.formattedStudentName
+        subjectLabel.text = review.subject
         reviewDateLabel.text = review.formattedDate
         reviewLabel.text = review.message
         let rating = Int(review.rating)

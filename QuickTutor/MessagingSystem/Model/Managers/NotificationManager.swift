@@ -45,13 +45,19 @@ class NotificationManager {
             AccountService.shared.currentUserType = UserType(rawValue: type)!
         }
         SignInManager.shared.handleSignIn {
+            
             guard let partnerId = notification.partnerId() else { return }
             DataService.shared.getUserOfOppositeTypeWithId(partnerId) { (userIn) in
                 guard let user = userIn else { return }
                 let vc = ConversationVC()
                 vc.receiverId = notification.partnerId()
                 vc.chatPartner = user
-                navigationController.pushViewController(vc, animated: true)
+                let nav = UIApplication.shared.windows[0].rootViewController as! UINavigationController
+                let tab = nav.topViewController as! UITabBarController
+                tab.selectedIndex = 2
+                let controller = tab.selectedViewController as! UINavigationController
+                controller.pushViewController(vc, animated: true)
+//                nav.pushViewController(vc, animated: true)
             }
         }
     }

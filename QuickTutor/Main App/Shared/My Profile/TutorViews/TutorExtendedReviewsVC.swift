@@ -11,61 +11,48 @@ import Foundation
 import SDWebImage
 import UIKit
 
-class TutorReviewsView: MainLayoutTitleOneButton {
-	var backButton = NavbarButtonXLight()
-	
-	override var leftButton: NavbarButton {
-		get {
-			return backButton
-		}
-		set {
-			backButton = newValue as! NavbarButtonXLight
-		}
-	}
-	
-	let tableView: UITableView = {
-		let tableView = UITableView(frame: .zero, style: .grouped)
-		tableView.showsVerticalScrollIndicator = false
-		tableView.rowHeight = UITableView.automaticDimension
-		tableView.estimatedRowHeight = 80
-		tableView.separatorInset.left = 0
-		tableView.separatorColor = Colors.navBarColor
-		tableView.backgroundColor = Colors.navBarColor
-		tableView.showsVerticalScrollIndicator = false
-		return tableView
-	}()
-	
-	override func configureView() {
-		addSubview(tableView)
-		super.configureView()
-		
-		title.label.text = "Reviews"
-		backgroundColor = Colors.navBarColor
-		
-		applyConstraints()
-	}
-	
-	override func applyConstraints() {
-		super.applyConstraints()
-		tableView.snp.makeConstraints { make in
-			make.top.equalTo(navbar.snp.bottom).inset(-1)
-			make.width.equalToSuperview().multipliedBy(0.98)
-			make.centerX.equalToSuperview()
-			if #available(iOS 11.0, *) {
-				make.bottom.equalTo(safeAreaLayoutGuide)
-			} else {
-				make.bottom.equalToSuperview()
-			}
-		}
-	}
+
+class TutorReviewsVCView: UIView {
+    
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorColor = Colors.navBarColor
+        tableView.backgroundColor = Colors.navBarColor
+        tableView.showsVerticalScrollIndicator = false
+        tableView.register(QTReviewTableViewCell.nib, forCellReuseIdentifier: QTReviewTableViewCell.reuseIdentifier)
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        return tableView
+    }()
+    
+    func setupViews() {
+        setupTableView()
+    }
+    
+    func setupTableView() {
+        addSubview(tableView)
+        tableView.anchor(top: topAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
-class TutorReviewsVC: BaseViewController {
+class TutorReviewsVC: UIViewController {
 	let storageRef = Storage.storage().reference()
-	
-	override var contentView: LearnerReviewsView {
-		return view as! LearnerReviewsView
-	}
+
+    let contentView: TutorReviewsVCView = {
+        let view = TutorReviewsVCView()
+        return view
+    }()
 	
 	var datasource = [Review]() {
 		didSet {
@@ -77,28 +64,15 @@ class TutorReviewsVC: BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		contentView.navbar.backgroundColor = isViewing ? Colors.purple : Colors.purple
-		contentView.statusbarView.backgroundColor = isViewing ? Colors.purple : Colors.purple
-		
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
-		contentView.tableView.register(TutorMyProfileLongReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
+        navigationItem.title = "Reviews"
 	}
 	
 	override func loadView() {
-		view = LearnerReviewsView()
+		view = contentView
 	}
 	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-	
-	override func handleNavigation() {
-		if touchStartView is NavbarButtonXLight {
-			self.navigationController?.popViewController(animated: true)
-		}
-	}
 }
 
 extension TutorReviewsVC: UITableViewDelegate, UITableViewDataSource {
@@ -107,43 +81,18 @@ extension TutorReviewsVC: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! TutorMyProfileLongReviewTableViewCell
-		
-		let data = datasource[indexPath.row]
-		cell.minHeight = 75
-		cell.isViewing = isViewing
-		
-		cell.dateLabel.text = data.formattedDate
-		cell.reviewTextLabel.text = "\"\(data.message)\""
-		let formattedName = data.studentName.split(separator: " ")
-		cell.nameLabel.textColor = isViewing ? Colors.purple : Colors.purple
-		cell.nameLabel.text = "\(String(formattedName[0]).capitalized) \(String(formattedName[1]).capitalized.prefix(1))."
-		cell.subjectLabel.attributedText = NSMutableAttributedString().bold("\(data.rating) ★", 14, Colors.gold).bold(" - \(data.subject)", 13, .white)
-		cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(data.reviewerId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-		
-		return cell
-	}
+		let cell = tableView.dequeueReusableCell(withIdentifier: QTReviewTableViewCell.reuseIdentifier, for: indexPath) as! QTReviewTableViewCell
+        cell.selectionStyle = .none
+        cell.backgroundColor = Colors.darkBackground
+        cell.contentView.backgroundColor = Colors.darkBackground
+        cell.setData(review: datasource[indexPath.row])
+        return cell
+    }
 	
-	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 50
-	}
-	
-	func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? {
-		let view = UIView()
-		let label = UILabel()
-		
-		label.text = "Reviews (\((datasource.count)))"
-		label.textColor = .white
-		label.font = Fonts.createBoldSize(18)
-		view.addSubview(label)
-		label.snp.makeConstraints { make in
-			make.width.equalToSuperview().multipliedBy(0.95)
-			make.centerX.equalToSuperview()
-			make.centerY.equalToSuperview().inset(5)
-		}
-		return view
-	}
-	
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
+    }
+    
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		FirebaseData.manager.fetchLearner(datasource[indexPath.row].reviewerId) { learner in
 			guard let learner = learner else { return }

@@ -249,13 +249,24 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @objc func handleTap() {
-        FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
-            guard let tutor = tutor else { return }
-            let controller = QTProfileViewController.controller
-            controller.user = tutor
-            controller.profileViewType = .tutor
-            self.navigationController?.pushViewController(controller, animated: true)
+        if AccountService.shared.currentUserType == .learner {
+            FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
+                guard let tutor = tutor else { return }
+                let controller = QTProfileViewController.controller
+                controller.user = tutor
+                controller.profileViewType = .tutor
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
+        } else {
+//            FirebaseData.manager.fetchLearner(receiverId) { (learner) in
+//                guard let learner = learner else { return }
+//                let controller = QTProfileViewController.controller
+//                controller.user = learner
+//                controller.profileViewType = .tutor
+//                self.navigationController?.pushViewController(controller, animated: true)
+//            }
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

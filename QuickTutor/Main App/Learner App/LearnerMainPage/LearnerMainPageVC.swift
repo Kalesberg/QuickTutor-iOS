@@ -148,8 +148,8 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
             
             cell.parentViewController = self
-            cell.datasource = datasource[categories[indexPath.section - 1]]!
-            let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.section - 1].subcategory.fileToRead)
+            cell.datasource = datasource[categories[indexPath.section - 2]]!
+            let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.section - 2].subcategory.fileToRead)
             cell.category = category
             //TODO: Update to new category models
             cell.delegate = self
@@ -166,7 +166,7 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
         let view = SectionHeader()
-        view.category.text = (section == 0) ? "Categories" : categories[section - 1].mainPageData.displayName
+        view.category.text = (section == 1) ? "Categories" : categories[section - 2].mainPageData.displayName
         return view
     }
 
