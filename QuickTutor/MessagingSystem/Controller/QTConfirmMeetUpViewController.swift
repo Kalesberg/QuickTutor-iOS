@@ -294,7 +294,7 @@ class QTConfirmMeetUpViewController: UIViewController {
         waitingLabel.isHidden = false
         slidingView.isHidden = true
         animationView.isHidden = false
-        animationView.animation = "connecting"
+        animationView.animation = "loadingNew"
         animationView.loopAnimation = true
         animationView.play()
         socket.emit(SocketEvents.meetupConfirmed, ["roomKey": sessionId!, "confirmedBy": uid])

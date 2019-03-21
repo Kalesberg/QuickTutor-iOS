@@ -26,7 +26,7 @@ class ProfileVC: UIViewController {
         return cv
     }()
     
-    let cellTitles = ["Payment", "Settings", "Legal", "Help", "Leave a review", "Give us feedback"]
+    let cellTitles = ["Payment", "Settings", "Legal", "Help", "Leave a review", "Past sessions"]
     let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "thumbsUpIcon"), UIImage(named: "feedbackIcon")]
     
     override func viewDidLoad() {
@@ -126,7 +126,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         case 4:
             showRatingView()
         case 5:
-            showFeedback()
+            showPastSessions()
         default:
             navigationController?.pushViewController(InviteOthersVC(), animated: true)
         }
@@ -182,6 +182,10 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         if #available( iOS 10.3,*){
             SKStoreReviewController.requestReview()
         }
+    }
+    
+    func showPastSessions() {
+        navigationController?.pushViewController(QTPastSessionsViewController.controller, animated: true)
     }
     
     func showFeedback() {

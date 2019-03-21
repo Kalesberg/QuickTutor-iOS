@@ -86,6 +86,15 @@ class QTProfileViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -233,7 +242,7 @@ class QTProfileViewController: UIViewController {
         case .tutor:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = false
-            topSubjectLabel.isHidden = false
+            topSubjectLabel.isHidden = subject?.isEmpty ?? true
             topSubjectLabel.text = subject
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             numberOfLearnersLabel.text = "\(user.learners.count)"
@@ -262,7 +271,7 @@ class QTProfileViewController: UIViewController {
         case .myTutor:
             moreButtonsView.isHidden = true
             statisticStackView.isHidden = true
-            topSubjectLabel.isHidden = false
+            topSubjectLabel.isHidden = subject?.isEmpty ?? true
             topSubjectLabel.text = subject
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             addressView.isHidden = false

@@ -254,7 +254,7 @@ class QTVideoSessionViewController: UIViewController {
     
     func updateUI() {
         
-        animationView.animation = "connecting"
+        animationView.animation = "loadingNew"
         animationView.loopAnimation = true
         animationView.play()
         
