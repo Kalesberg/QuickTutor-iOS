@@ -13,7 +13,7 @@ import AVFoundation
 
 enum QTSessionType: String {
     case online = "online"
-    case inPersion = "in-person"
+    case inPerson = "in-person"
 }
 
 enum QTSessionStartType: String {
@@ -29,8 +29,8 @@ class QTStartSessionViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var hourlyRateLabel: UILabel!
-    @IBOutlet weak var cancelButton: DimmableButton!
-    @IBOutlet weak var acceptButton: DimmableButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var acceptButton: UIButton!
     
     let manager = SocketManager(socketURL: URL(string: socketUrl)!, config: [.log(true), .forceWebsockets(true)])
     var socket: SocketIOClient!
@@ -56,18 +56,16 @@ class QTStartSessionViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupNavBar()
-        setupSocket()
-        if sessionType == .online {
-            setupObservers()
-        }
         updateUI()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        setupSocket()
+        setupObservers()
+        
         #if targetEnvironment(simulator)
         // for sim only
         #else
@@ -113,9 +111,15 @@ class QTStartSessionViewController: UIViewController {
     // MARK: - Functions
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
-            let vc = QTVideoSessionViewController.controller
-            vc.sessionId = self.sessionId
-            self.navigationController?.pushViewController(vc, animated: true)
+            if self.sessionType == .online {
+                let vc = QTVideoSessionViewController.controller
+                vc.sessionId = self.sessionId
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let vc = QTConfirmMeetUpViewController.controller
+                vc.sessionId = self.sessionId
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
@@ -166,8 +170,10 @@ class QTStartSessionViewController: UIViewController {
         
         cancelButton.layer.cornerRadius = 3
         cancelButton.clipsToBounds = true
+        cancelButton.setupTargets()
         acceptButton.layer.cornerRadius = 3
-        cancelButton.clipsToBounds = true
+        acceptButton.clipsToBounds = true
+        acceptButton.setupTargets()
         
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in

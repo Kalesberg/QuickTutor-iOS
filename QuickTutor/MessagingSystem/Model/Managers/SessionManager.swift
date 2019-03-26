@@ -171,8 +171,9 @@ class SessionManager {
         }
         
         socket.on(SocketEvents.endSession) { _, _ in
-            InProgressSessionManager.shared.removeSessionFromInProgress(sessionId: self.sessionId, partnerId: self.session.partnerId())
-            self.delegate?.sessionManager(self, didEnd: self.session)
+            guard let session = self.session else { return }
+            InProgressSessionManager.shared.removeSessionFromInProgress(sessionId: self.sessionId, partnerId: session.partnerId())
+            self.delegate?.sessionManager(self, didEnd: session)
         }
         
         socket.on(SocketEvents.partnerDisconnected) { (data, ack) in

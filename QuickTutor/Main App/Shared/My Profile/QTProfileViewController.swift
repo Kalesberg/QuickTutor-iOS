@@ -38,10 +38,11 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var bioLabel: UILabel!
     @IBOutlet weak var subjectsCollectionView: UICollectionView!
     @IBOutlet weak var subjectsCollectionViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var reviewsView: UIView!
+    @IBOutlet weak var reviewsStackView: UIStackView!
     @IBOutlet weak var reviewsTableView: UITableView!
     @IBOutlet weak var reviewsTabeViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var readFeedbacksButton: UIButton!
+    @IBOutlet weak var readAllReviewLabel: UILabel!
+    @IBOutlet weak var readReviewsButton: UIButton!
     @IBOutlet weak var sessionTypesLabel: UILabel!
     @IBOutlet weak var travelDistanceLabel: UILabel!
     @IBOutlet weak var policiesView: UIView!
@@ -88,9 +89,18 @@ class QTProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
     // MARK: - Actions
     @IBAction func onMessageButtonClicked(_ sender: Any) {
         let vc = ConversationVC()
@@ -111,7 +121,7 @@ class QTProfileViewController: UIViewController {
         actionSheet?.show()
     }
     
-    @IBAction func onReadFeedbacksButtonClicked(_ sender: Any) {
+    @IBAction func onReadReviewsButtonClicked(_ sender: Any) {
         guard let user = user, let profileViewType = profileViewType else { return }
         
         switch profileViewType {
@@ -218,8 +228,12 @@ class QTProfileViewController: UIViewController {
         guard let user = user, let profileViewType = profileViewType else { return }
         
         // Set the avatar of user profile.
-        let reference = storageRef.child("student-info").child(user.uid).child("student-profile-pic1")
-        avatarImageView.sd_setImage(with: reference)
+        if profileViewType == .tutor || profileViewType == .myTutor {
+            avatarImageView.sd_setImage(with: user.profilePicUrl)
+        } else {
+            let reference = storageRef.child("student-info").child(user.uid).child("student-profile-pic1")
+            avatarImageView.sd_setImage(with: reference)
+        }
         avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidAvatarImageViewTap)))
         
         // Set the active status of user.
@@ -235,7 +249,7 @@ class QTProfileViewController: UIViewController {
         case .tutor:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = false
-            topSubjectLabel.isHidden = false
+            topSubjectLabel.isHidden = subject?.isEmpty ?? true
             topSubjectLabel.text = subject
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             numberOfLearnersLabel.text = "\(user.learners.count)"
@@ -264,7 +278,7 @@ class QTProfileViewController: UIViewController {
         case .myTutor:
             moreButtonsView.isHidden = true
             statisticStackView.isHidden = true
-            topSubjectLabel.isHidden = false
+            topSubjectLabel.isHidden = subject?.isEmpty ?? true
             topSubjectLabel.text = subject
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             addressView.isHidden = false
@@ -317,8 +331,19 @@ class QTProfileViewController: UIViewController {
     func initReviews() {
         guard let user = user else { return }
         
-        reviewsView.isHidden = user.reviews?.isEmpty ?? true
-        readFeedbacksButton.setTitle("Read \(user.reviews?.count ?? 0) reviews", for: .normal)
+        readReviewsButton.layer.cornerRadius = 3
+        readReviewsButton.clipsToBounds = true
+        readReviewsButton.setupTargets()
+        
+        if profileViewType == .tutor || profileViewType == .myTutor {
+            reviewsTableView.isHidden = user.reviews?.isEmpty ?? true
+            let numberOfReviews = user.reviews?.count ?? 0
+            readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+        } else {
+            reviewsTableView.isHidden = user.lReviews?.isEmpty ?? true
+            let numberOfReviews = user.lReviews?.count ?? 0
+            readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+        }
         
         reviewsTableView.reloadData()
     }
@@ -359,6 +384,7 @@ class QTProfileViewController: UIViewController {
         
         connectButton.layer.cornerRadius = 3
         connectButton.clipsToBounds = true
+        connectButton.setupTargets()
         
         connectView.layer.shadowOffset = CGSize(width: 0, height: -5)
         connectView.layer.shadowRadius = 5
@@ -397,7 +423,7 @@ class QTProfileViewController: UIViewController {
     func updateUI() {
         subjectsCollectionViewHeight.constant = subjectsCollectionView.contentSize.height
         reviewsTabeViewHeight.constant = reviewsTableView.contentSize.height
-        reviewsView.layoutIfNeeded()
+        reviewsStackView.layoutIfNeeded()
         scrollView.layoutIfNeeded()
     }
     
@@ -466,18 +492,17 @@ extension QTProfileViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension QTProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let reviews = user.reviews else { return 0 }
+        guard let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews else { return 0 }
         return reviews.count >= 2 ? 2 : reviews.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: QTReviewTableViewCell.reuseIdentifier, for: indexPath) as! QTReviewTableViewCell
         cell.selectionStyle = .none
-        cell.backgroundColor = Colors.darkBackground
-        cell.contentView.backgroundColor = Colors.darkBackground
-        if let reviews = user.reviews {
+        if let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews {
             cell.setData(review: reviews[indexPath.row])
         }
+        
         updateUI()
         return cell
     }

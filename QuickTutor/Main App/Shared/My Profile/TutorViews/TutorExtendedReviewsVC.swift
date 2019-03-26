@@ -28,6 +28,7 @@ class TutorReviewsVCView: UIView {
     }()
     
     func setupViews() {
+        backgroundColor = Colors.darkBackground
         setupTableView()
     }
     
@@ -68,6 +69,11 @@ class TutorReviewsVC: UIViewController {
 		contentView.tableView.dataSource = self
         navigationItem.title = "Reviews"
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
 	
 	override func loadView() {
 		view = contentView

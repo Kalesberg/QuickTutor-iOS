@@ -18,6 +18,18 @@
 		4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
 		4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
 		4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
+		561003B62242A9AF00A4688F /* QTInPersionSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */; };
+		561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */; };
+		561003B82242A9BB00A4688F /* QTInPersionSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */; };
+		561003B92242BCC100A4688F /* QTInPersonSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */; };
+		561003BC2242D23600A4688F /* QTPastSessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003BA2242D23600A4688F /* QTPastSessionsViewController.swift */; };
+		561003BD2242D23600A4688F /* QTPastSessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003BA2242D23600A4688F /* QTPastSessionsViewController.swift */; };
+		561003BE2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003BB2242D23600A4688F /* QTPastSessionsViewController.xib */; };
+		561003BF2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003BB2242D23600A4688F /* QTPastSessionsViewController.xib */; };
+		561003C32243163600A4688F /* QTPastSessionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003C12243163600A4688F /* QTPastSessionTableViewCell.swift */; };
+		561003C42243163600A4688F /* QTPastSessionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003C12243163600A4688F /* QTPastSessionTableViewCell.swift */; };
+		561003C52243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003C22243163600A4688F /* QTPastSessionTableViewCell.xib */; };
+		561003C62243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003C22243163600A4688F /* QTPastSessionTableViewCell.xib */; };
 		5647A778222CB59000E8A26F /* QTSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5647A776222CB59000E8A26F /* QTSettingsViewController.swift */; };
 		5647A779222CB59000E8A26F /* QTSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5647A777222CB59000E8A26F /* QTSettingsViewController.xib */; };
 		564B6C1D222D83D5004A9EB7 /* QTLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B6C1B222D83D5004A9EB7 /* QTLocationsViewController.swift */; };
@@ -559,6 +571,10 @@
 		56A8D0B92240DA9900866AD7 /* QTVideoSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8D0B62240DA9900866AD7 /* QTVideoSessionViewController.swift */; };
 		56A8D0BA2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0B72240DA9900866AD7 /* QTVideoSessionViewController.xib */; };
 		56A8D0BB2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0B72240DA9900866AD7 /* QTVideoSessionViewController.xib */; };
+		56A8D0C222421F6100866AD7 /* QTConfirmMeetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8D0C022421F6100866AD7 /* QTConfirmMeetUpViewController.swift */; };
+		56A8D0C322421F6100866AD7 /* QTConfirmMeetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8D0C022421F6100866AD7 /* QTConfirmMeetUpViewController.swift */; };
+		56A8D0C422421F6100866AD7 /* QTConfirmMeetUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0C122421F6100866AD7 /* QTConfirmMeetUpViewController.xib */; };
+		56A8D0C522421F6100866AD7 /* QTConfirmMeetUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56A8D0C122421F6100866AD7 /* QTConfirmMeetUpViewController.xib */; };
 		56DC6D9A220BD7DF00935F47 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */; };
 		56DC6D9B220BD7DF00935F47 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */; };
 		56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */; };
@@ -1092,6 +1108,12 @@
 		4D348103223A35370004C29A /* QTRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingView.swift; sourceTree = "<group>"; };
 		4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTProfileViewController.swift; sourceTree = "<group>"; };
 		4DE366902239F06C00A94C37 /* QTProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTProfileViewController.xib; sourceTree = "<group>"; };
+		561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTInPersionSessionViewController.swift; sourceTree = "<group>"; };
+		561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTInPersonSessionViewController.xib; sourceTree = "<group>"; };
+		561003BA2242D23600A4688F /* QTPastSessionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTPastSessionsViewController.swift; sourceTree = "<group>"; };
+		561003BB2242D23600A4688F /* QTPastSessionsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTPastSessionsViewController.xib; sourceTree = "<group>"; };
+		561003C12243163600A4688F /* QTPastSessionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTPastSessionTableViewCell.swift; sourceTree = "<group>"; };
+		561003C22243163600A4688F /* QTPastSessionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTPastSessionTableViewCell.xib; sourceTree = "<group>"; };
 		5647A776222CB59000E8A26F /* QTSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSettingsViewController.swift; sourceTree = "<group>"; };
 		5647A777222CB59000E8A26F /* QTSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTSettingsViewController.xib; sourceTree = "<group>"; };
 		564B6C1B222D83D5004A9EB7 /* QTLocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLocationsViewController.swift; sourceTree = "<group>"; };
@@ -1126,6 +1148,8 @@
 		56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTStartSessionViewController.xib; sourceTree = "<group>"; };
 		56A8D0B62240DA9900866AD7 /* QTVideoSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTVideoSessionViewController.swift; sourceTree = "<group>"; };
 		56A8D0B72240DA9900866AD7 /* QTVideoSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTVideoSessionViewController.xib; sourceTree = "<group>"; };
+		56A8D0C022421F6100866AD7 /* QTConfirmMeetUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTConfirmMeetUpViewController.swift; sourceTree = "<group>"; };
+		56A8D0C122421F6100866AD7 /* QTConfirmMeetUpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTConfirmMeetUpViewController.xib; sourceTree = "<group>"; };
 		56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
 		56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
 		56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
@@ -1684,6 +1708,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		561003C02243160300A4688F /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				561003C12243163600A4688F /* QTPastSessionTableViewCell.swift */,
+				561003C22243163600A4688F /* QTPastSessionTableViewCell.xib */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
 		5647A775222CB06100E8A26F /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1796,8 +1829,12 @@
 		56A8D0AF2240A45800866AD7 /* Sessions */ = {
 			isa = PBXGroup;
 			children = (
+				561003C02243160300A4688F /* SubViews */,
 				56A8D0B12240A4AA00866AD7 /* QTStartSessionViewController.xib */,
 				56A8D0B72240DA9900866AD7 /* QTVideoSessionViewController.xib */,
+				56A8D0C122421F6100866AD7 /* QTConfirmMeetUpViewController.xib */,
+				561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */,
+				561003BB2242D23600A4688F /* QTPastSessionsViewController.xib */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -2845,6 +2882,9 @@
 			children = (
 				56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */,
 				56A8D0B62240DA9900866AD7 /* QTVideoSessionViewController.swift */,
+				56A8D0C022421F6100866AD7 /* QTConfirmMeetUpViewController.swift */,
+				561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */,
+				561003BA2242D23600A4688F /* QTPastSessionsViewController.swift */,
 				CF7D8AAC2198ACAC00463B0E /* Sessions */,
 				CFDBD8E320C8788800182E1C /* VideoSessionVC */,
 				CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */,
@@ -3237,8 +3277,10 @@
 				569F18CF223554FD00820A20 /* badwords.txt in Resources */,
 				569F18D0223554FD00820A20 /* QTTutorDashboardTableViewCell.xib in Resources */,
 				569F18D1223554FD00820A20 /* languages.txt in Resources */,
+				561003BF2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
 				569F19092235564000820A20 /* GoogleService-Info.plist in Resources */,
 				569F18D2223554FD00820A20 /* Lato-Bold.ttf in Resources */,
+				561003B92242BCC100A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				569F18D3223554FD00820A20 /* Lato-BoldItalic.ttf in Resources */,
 				569F18D4223554FD00820A20 /* tech.json in Resources */,
 				569F18D6223554FD00820A20 /* schools.txt in Resources */,
@@ -3248,6 +3290,7 @@
 				569F18D9223554FD00820A20 /* QTTutorDashboardMarkerView.xib in Resources */,
 				569F18DA223554FD00820A20 /* Lato-Medium.ttf in Resources */,
 				569F18DB223554FD00820A20 /* connecting.json in Resources */,
+				561003C62243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */,
 				569F18DC223554FD00820A20 /* LaunchScreen.storyboard in Resources */,
 				569F18DD223554FD00820A20 /* business.json in Resources */,
 				569F18DE223554FD00820A20 /* lifestyle.json in Resources */,
@@ -3261,6 +3304,7 @@
 				569F18E5223554FD00820A20 /* QTRatingReviewCollectionViewCell.xib in Resources */,
 				569F18E6223554FD00820A20 /* loading6.json in Resources */,
 				569F18E7223554FD00820A20 /* Lato-Semibold.ttf in Resources */,
+				56A8D0C522421F6100866AD7 /* QTConfirmMeetUpViewController.xib in Resources */,
 				569F18E8223554FD00820A20 /* loading11.json in Resources */,
 				569F18E9223554FD00820A20 /* Lato-Hairline.ttf in Resources */,
 				56A8D0BB2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */,
@@ -3312,8 +3356,10 @@
 				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
 				569ECDB521F9B682005491CB /* QTTutorDashboardTableViewCell.xib in Resources */,
 				8423F73F214B60E900B3E4D0 /* languages.txt in Resources */,
+				561003BE2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
 				56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */,
 				56DC6D9D220BD7DF00935F47 /* Lato-BoldItalic.ttf in Resources */,
+				561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				84257678207132DD00FD295B /* tech.json in Resources */,
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
@@ -3323,6 +3369,7 @@
 				569ECDCB21FB1049005491CB /* QTTutorDashboardMarkerView.xib in Resources */,
 				56DC6DA4220BD7DF00935F47 /* Lato-Medium.ttf in Resources */,
 				CFB40E45216BFE2100828E72 /* connecting.json in Resources */,
+				561003C52243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
@@ -3336,6 +3383,7 @@
 				568B82DB222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib in Resources */,
 				840E4E04213761C10045CD35 /* loading6.json in Resources */,
 				56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */,
+				56A8D0C422421F6100866AD7 /* QTConfirmMeetUpViewController.xib in Resources */,
 				840E4E08213761C10045CD35 /* loading11.json in Resources */,
 				56DC6D9E220BD7DF00935F47 /* Lato-Hairline.ttf in Resources */,
 				56A8D0BA2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */,
@@ -3692,6 +3740,7 @@
 				569F1708223554FD00820A20 /* SessionRequestSendView.swift in Sources */,
 				569F170B223554FD00820A20 /* MeetupTableCell.swift in Sources */,
 				569F170C223554FD00820A20 /* LightboxTransition.swift in Sources */,
+				561003C42243163600A4688F /* QTPastSessionTableViewCell.swift in Sources */,
 				569F170E223554FD00820A20 /* TutorUnsafeVC.swift in Sources */,
 				569F170F223554FD00820A20 /* SearchBar.swift in Sources */,
 				569F1710223554FD00820A20 /* VideoSessionViewManager.swift in Sources */,
@@ -3748,6 +3797,7 @@
 				569F1745223554FD00820A20 /* QuickTutorSort.swift in Sources */,
 				569F1746223554FD00820A20 /* KeyboardFrameObserver.swift in Sources */,
 				569F1747223554FD00820A20 /* AnotherQuestionVC.swift in Sources */,
+				56A8D0C322421F6100866AD7 /* QTConfirmMeetUpViewController.swift in Sources */,
 				569F1748223554FD00820A20 /* TutorLocation.swift in Sources */,
 				569F174A223554FD00820A20 /* RegistrationUserInfo.swift in Sources */,
 				569F174B223554FD00820A20 /* ConnectionRequestCell.swift in Sources */,
@@ -3950,6 +4000,7 @@
 				569F181F223554FD00820A20 /* KeyboardFrameObserversManager.swift in Sources */,
 				569F1820223554FD00820A20 /* LearnerMyProfileHeader.swift in Sources */,
 				569F1821223554FD00820A20 /* DynamicLinkFactory.swift in Sources */,
+				561003B82242A9BB00A4688F /* QTInPersionSessionViewController.swift in Sources */,
 				569F1822223554FD00820A20 /* UserMessageCell.swift in Sources */,
 				569F1823223554FD00820A20 /* TutorBioVC.swift in Sources */,
 				569F1824223554FD00820A20 /* QuickSearchResultsVC.swift in Sources */,
@@ -4006,6 +4057,7 @@
 				569F185B223554FD00820A20 /* CancelSessionButtonDelegate.swift in Sources */,
 				569F185C223554FD00820A20 /* ConversationMetaData.swift in Sources */,
 				569F185D223554FD00820A20 /* FooterView.swift in Sources */,
+				561003BD2242D23600A4688F /* QTPastSessionsViewController.swift in Sources */,
 				569F185F223554FD00820A20 /* MessageSystemToggle.swift in Sources */,
 				569F1860223554FD00820A20 /* SearchTutorVC.swift in Sources */,
 				569F1861223554FD00820A20 /* SessionRequestTutorView.swift in Sources */,
@@ -4146,6 +4198,7 @@
 				CFB9B7E321C18B970022333F /* SessionRequestSendView.swift in Sources */,
 				CF6F58C7205EE68800ACBD32 /* MeetupTableCell.swift in Sources */,
 				CFD92A63222F24B200704531 /* LightboxTransition.swift in Sources */,
+				561003C32243163600A4688F /* QTPastSessionTableViewCell.swift in Sources */,
 				848809F92057827F00F204A0 /* TutorUnsafeVC.swift in Sources */,
 				CFA1716F21741B05003F195A /* SearchBar.swift in Sources */,
 				CFB40E4B216D4AEB00828E72 /* VideoSessionViewManager.swift in Sources */,
@@ -4202,6 +4255,7 @@
 				84A6E466218F3A0C00D03681 /* QuickTutorSort.swift in Sources */,
 				CF24997A217E926500614AF0 /* KeyboardFrameObserver.swift in Sources */,
 				84E4C7E5204E948A009C2FC4 /* AnotherQuestionVC.swift in Sources */,
+				56A8D0C222421F6100866AD7 /* QTConfirmMeetUpViewController.swift in Sources */,
 				84A6E472218F68FA00D03681 /* TutorLocation.swift in Sources */,
 				842394001FF4C3FC00827C7D /* RegistrationUserInfo.swift in Sources */,
 				CF6F58BE205EE68800ACBD32 /* ConnectionRequestCell.swift in Sources */,
@@ -4404,6 +4458,7 @@
 				CF24997B217E926500614AF0 /* KeyboardFrameObserversManager.swift in Sources */,
 				84D6A7D8215B0A58000C0010 /* LearnerMyProfileHeader.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
+				561003B62242A9AF00A4688F /* QTInPersionSessionViewController.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
 				CFB1475F21F3B86F00C49BA5 /* QuickSearchResultsVC.swift in Sources */,
@@ -4460,6 +4515,7 @@
 				CF833B8C207C940A00323242 /* CancelSessionButtonDelegate.swift in Sources */,
 				CF8F238C215C5B2C00B4239D /* ConversationMetaData.swift in Sources */,
 				CFD92A69222F24B200704531 /* FooterView.swift in Sources */,
+				561003BC2242D23600A4688F /* QTPastSessionsViewController.swift in Sources */,
 				CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */,
 				84E4C7E8204E9774009C2FC4 /* SearchTutorVC.swift in Sources */,
 				CFB9B7D521C18AE60022333F /* SessionRequestTutorView.swift in Sources */,

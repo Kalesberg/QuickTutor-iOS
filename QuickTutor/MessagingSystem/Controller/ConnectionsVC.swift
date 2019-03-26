@@ -64,6 +64,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isTransitioning = false
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     func fetchConnections() {

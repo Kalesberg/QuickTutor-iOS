@@ -43,8 +43,8 @@ class QTReviewTableViewCell: UITableViewCell {
     func setData(review: Review) {
         usernameLabel.text = review.formattedStudentName
         subjectLabel.text = review.subject
-        reviewDateLabel.text = review.formattedDate
-        reviewLabel.text = review.message
+        reviewDateLabel.text = "•  \(review.formattedDate)"
+        reviewLabel.text = "\"\(review.message)\""
         let rating = Int(review.rating)
         ratingView.setRatingTo(rating)
         DataService.shared.getStudentWithId(review.reviewerId) { (student) in

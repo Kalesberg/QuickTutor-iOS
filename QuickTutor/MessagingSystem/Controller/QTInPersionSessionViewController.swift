@@ -1,122 +1,76 @@
 //
-//  QTVideoSessionViewController.swift
+//  QTInPersonSessionViewController.swift
 //  QuickTutor
 //
-//  Created by jcooperation0137 on 3/19/19.
+//  Created by jcooperation0137 on 3/20/19.
 //  Copyright © 2019 QuickTutor. All rights reserved.
 //
 
 import UIKit
-import TwilioVideo
-import Lottie
 import Firebase
 import SocketIO
 
-class QTVideoSessionViewController: UIViewController {
+class QTInPersonSessionViewController: UIViewController {
 
     // MARK: - Properties
-    @IBOutlet weak var cameraPreview: TVIVideoView!
-    @IBOutlet var cameraPreviewTop: NSLayoutConstraint!
-    @IBOutlet var cameraPreviewTrailing: NSLayoutConstraint!
-    @IBOutlet var cameraPreviewLeading: NSLayoutConstraint!
-    @IBOutlet var cameraPreviewBottom: NSLayoutConstraint!
-    @IBOutlet weak var partnerView: TVIVideoView!
-    @IBOutlet weak var bottomSheetView: UIView!
-    @IBOutlet weak var bottomSheetViewBottom: NSLayoutConstraint!
-    @IBOutlet weak var avatarImageView: QTCustomImageView!
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var smallAvatarImageView: QTCustomImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
-    @IBOutlet weak var menuButton: UIButton!
-    @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var flipCameraImageView: UIImageView!
-    @IBOutlet weak var flipCameraButton: DimmableButton!
-    @IBOutlet weak var pauseImageView: UIImageView!
-    @IBOutlet weak var pauseButton: DimmableButton!
-    @IBOutlet weak var shareFileImageView: UIImageView!
-    @IBOutlet weak var shareFileButton: DimmableButton!
-    @IBOutlet weak var reportImageView: UIImageView!
-    @IBOutlet weak var reportButton: UIButton!
-    @IBOutlet weak var animationView: LOTAnimationView!
+    @IBOutlet weak var pauseButton: UIButton!
+    @IBOutlet weak var timerView: UIView!
+    @IBOutlet weak var finishView: UIView!
+    @IBOutlet weak var durationCountLabel: UILabel!
+    @IBOutlet weak var finishButton: UIButton!
+    @IBOutlet weak var bottomSheetView: UIView!
     
-    // Parameters
-    var sessionId: String!
-    
-    // Static variables
-    static var controller: QTVideoSessionViewController {
-        return QTVideoSessionViewController(nibName: String(describing: QTVideoSessionViewController.self), bundle: nil)
+    static var controller: QTInPersonSessionViewController {
+        return QTInPersonSessionViewController(nibName: String(describing: QTInPersonSessionViewController.self), bundle: nil)
     }
     
-    // Variables
+    var session: Session?
     var partnerId: String?
+    var partner: User?
+    var partnerUsername: String?
+    
     var sessionLengthInSeconds: Double?
     let manager = SocketManager(socketURL: URL(string: socketUrl)!, config: [.log(true), .forceWebsockets(true)])
     var socket: SocketIOClient!
     var sessionManager: SessionManager?
-    var twilioSessionManager: TwilioSessionManager?
     
-    var isMenuOpened = false {
-        didSet {
-            menuButton.tintColor = .white
-            if isMenuOpened {
-                menuButton.setImage(UIImage(named: "ic_arrow_down")?.withRenderingMode(.alwaysTemplate), for: .normal)
-                menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-                let animator = UIViewPropertyAnimator(duration: 0.15, curve: .easeInOut, animations: nil)
-                animator.addAnimations {
-                    self.bottomSheetViewBottom.constant = 0
-                    self.bottomSheetView.layoutIfNeeded()
-                }
-                animator.startAnimation()
-            } else {
-                menuButton.setImage(UIImage(named: "moreIcon"), for: .normal)
-                menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 16.5, bottom: 12, right: 16.5)
-                let animator = UIViewPropertyAnimator(duration: 0.15, curve: .easeInOut, animations: nil)
-                animator.addAnimations {
-                    self.bottomSheetViewBottom.constant = -120
-                    self.bottomSheetView.layoutIfNeeded()
-                }
-                animator.startAnimation()
-            }
-        }
-    }
-    var behavior: VideoSessionPartnerFeedBehavior!
-    
-    var addTimeModal: AddTimeModal?
-    var sessionOnHoldModal: SessionOnHoldModal?
-    var acceptAddTimeModal: AcceptAddTimeModal?
-    var endSessionModal: EndSessionModal?
     var pauseSessionModal: PauseSessionModal?
     var connectionLostModal: PauseSessionModal?
-    var reportTypeModal: ReportTypeModal?
+    var sessionOnHoldModal: SessionOnHoldModal?
+    var addTimeModal: AddTimeModal?
+    var acceptAddTimeModal: AcceptAddTimeModal?
     
     var minutesToAdd = 0
+    var isFinishViewOpened = false
+    
+    // MARK: - Parameters
+    var sessionId: String!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupNavBar()
+        updateUI()
+        
         InProgressSessionManager.shared.removeObservers()
         PostSessionManager.shared.removeObservers()
         BackgroundSoundManager.shared.sessionInProgress = true
         expireSession()
         
         // Updated the startedAt of a session because the session is able to start early than expected.
-        Database.database().reference()
-            .child("sessions")
-            .child(sessionId)
-            .updateChildValues(["startedAt": Date().timeIntervalSince1970])
+        Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["startedAt": Date().timeIntervalSince1970])
         
-        updateUI()
-        setupTwilio()
-        
-        DataService.shared.getSessionById(sessionId) { session in
-            AnalyticsService.shared.logSessionStart(session)
-            self.updatePartnerInformation(session: session)
-        }
-        
+        guard let session = sessionManager?.session else { return }
+        AnalyticsService.shared.logSessionStart(session)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         setupNotifications()
         DispatchQueue.main.async {
             self.socket = self.manager.defaultSocket
@@ -132,58 +86,42 @@ class QTVideoSessionViewController: UIViewController {
             self.sessionManager?.delegate = self
         }
         NotificationManager.shared.disableAllNotifications()
-        
-        UIApplication.shared.isIdleTimerDisabled = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         NotificationCenter.default.removeObserver(self)
         sessionManager?.stopSessionRuntime()
+        
         sessionManager = nil
         socket.disconnect()
         NotificationManager.shared.enableAllNotifcations()
-        twilioSessionManager?.stop()
-        twilioSessionManager?.disconnect()
-        UIApplication.shared.isIdleTimerDisabled = false
     }
-
+    
     // MARK: - Actions
-    @IBAction func onCloseButtonClicked(_ sender: Any) {
-        showEndModal()
-    }
-    
-    @IBAction func onClickMenuButtonClicked(_ sender: Any) {
-        isMenuOpened = !isMenuOpened
-    }
-    
-    @IBAction func onFlipCamerButtonClicked(_ sender: Any) {
-        guard let manager = twilioSessionManager else { return }
-        manager.flipCamera()
-    }
-    
-    @IBAction func onClickPauseButtonClicked(_ sender: Any) {
+    @IBAction func onPauseButtonClicked(_ sender: Any) {
         guard let manager = sessionManager else { return }
-        if manager.isPaused {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            guard manager.pausedBy == uid else { return }
-            manager.unpauseSession()
-        } else {
-            manager.pauseSession()
-        }
+        manager.pauseSession()
     }
     
-    @IBAction func onShareFileButtonClicked(_ sender: Any) {
-        
+    @IBAction func onFinishButtonClicked(_ sender: Any) {
+        isFinishViewOpened = true
+        finishView.isHidden = false
+        timerView.isHidden = true
+        pauseButton.isHidden = true
     }
     
-    @IBAction func onReportButtonClicked(_ sender: Any) {
-        guard let id = partnerId else { return }
-        reportTypeModal = ReportTypeModal()
-        reportTypeModal?.chatPartnerId = id
-        
-        reportTypeModal?.show()
+    @IBAction func onCancelButtonClicked(_ sender: Any) {
+        isFinishViewOpened = false
+        // Set the subject.
+        durationLabel.text = session?.subject
+        finishView.isHidden = true
+        timerView.isHidden = false
+        pauseButton.isHidden = false
+    }
+    
+    @IBAction func onEndSessionButtonClicked(_ sender: Any) {
+        sessionManager?.endSocketSession()
     }
     
     @objc
@@ -203,8 +141,12 @@ class QTVideoSessionViewController: UIViewController {
     @objc
     func handleUpdateDuration(notification: Notification) {
         guard let info = notification.userInfo as? [String: Any], let timeString = info["timeString"] as? String else { return }
-        durationLabel.text = timeString
+        if isFinishViewOpened {
+            durationLabel.text = timeString
+        }
+        durationCountLabel.text = timeString
     }
+    
     
     // MARK: - Functions
     func observeSessionEvents() {
@@ -232,17 +174,46 @@ class QTVideoSessionViewController: UIViewController {
         }
     }
     
-    func expireSession() {
-        guard let id = sessionId else { return }
-        Database.database().reference().child("sessions").child(id).child("status").setValue("completed")
+    func updateUI() {
+        
+        pauseButton.layer.cornerRadius = 18
+        pauseButton.clipsToBounds = true
+        pauseButton.setupTargets()
+        pauseButton.setImage(UIImage(named: "ic_pause")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate), for: .normal)
+        pauseButton.imageView?.overlayTintColor(color: UIColor.white)
+        
+        finishButton.layer.cornerRadius = 3
+        finishButton.clipsToBounds = true
+        finishButton.setupTargets()
+        
+        bottomSheetView.cornerRadius(corners: [.topLeft, .topRight], radius: 5)
+        
+        // Get the session information.
+        DataService.shared.getSessionById(sessionId) { (session) in
+            self.session = session
+            
+            // Get the partner name.
+            self.partnerId = self.session?.partnerId()
+            if let partnerId = self.partnerId {
+                DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
+                    self.partner = user
+                    // Set the partner name.
+                    self.usernameLabel.text = user?.formattedName
+                    
+                    // Set the partner avatar.
+                    self.avatarImageView.sd_setImage(with: user?.profilePicUrl)
+                    self.smallAvatarImageView.sd_setImage(with: user?.profilePicUrl)
+                })
+            }
+            // Set the subject.
+            self.durationLabel.text = session.subject
+        }
     }
     
-    
-    func setupTwilio() {
-        guard let id = sessionId else { return }
-        DispatchQueue.main.async {
-            self.twilioSessionManager = TwilioSessionManager(previewView: self.cameraPreview, remoteView: self.partnerView, sessionId: id)
-            self.twilioSessionManager?.delegate = self
+    func setupNavBar() {
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = false
         }
     }
     
@@ -252,51 +223,9 @@ class QTVideoSessionViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateDuration(notification:)), name: NSNotification.Name("com.qt.updateTime"), object: nil)
     }
     
-    func updateUI() {
-        
-        animationView.animation = "loadingNew"
-        animationView.loopAnimation = true
-        animationView.play()
-        
-        isMenuOpened = false
-        menuButton.layer.cornerRadius = 18
-        menuButton.clipsToBounds = true
-        menuButton.layer.borderColor = Colors.grayText80.cgColor
-        menuButton.layer.borderWidth = 0.5
-        
-        closeButton.layer.cornerRadius = 18
-        closeButton.clipsToBounds = true
-        
-        bottomSheetView.cornerRadius(corners: [UIRectCorner.topLeft, UIRectCorner.topRight], radius: 5.0)
-        
-        flipCameraImageView.overlayTintColor(color: UIColor.white)
-        pauseImageView.overlayTintColor(color: UIColor.white)
-        shareFileImageView.overlayTintColor(color: UIColor.white)
-        reportImageView.overlayTintColor(color: UIColor.white)
-        
-        behavior = VideoSessionPartnerFeedBehavior()
-        behavior.view = cameraPreview
-        behavior.delegate = self
-    }
-    
-    func updatePartnerInformation(session: Session) {
-        // Get the partner name.
-        self.partnerId = session.partnerId()
-        if let partnerId = self.partnerId {
-            DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
-                // Set the partner name.
-                self.usernameLabel.text = user?.formattedName
-                
-                // Set the partner avatar.
-                self.avatarImageView.sd_setImage(with: user?.profilePicUrl)
-            })
-        }
-    }
-    
-    func hideLoadingAnimation() {
-        view.sendSubviewToBack(animationView)
-        animationView.stop()
-        animationView.isHidden = true
+    func expireSession() {
+        guard let id = sessionId else { return }
+        Database.database().reference().child("sessions").child(id).child("status").setValue("completed")
     }
     
     func continueOutOfSession() {
@@ -344,17 +273,6 @@ class QTVideoSessionViewController: UIViewController {
         }
     }
     
-    func showEndModal() {
-        endSessionModal = EndSessionModal(frame: .zero)
-        endSessionModal?.delegate = self
-        endSessionModal?.show()
-    }
-    
-    func pauseSession() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        socket.emit(SocketEvents.pauseSession, ["pausedBy": uid, "roomKey": sessionId!])
-    }
-    
     func showPauseModal(pausedById: String) {
         guard pauseSessionModal == nil else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -391,6 +309,12 @@ class QTVideoSessionViewController: UIViewController {
         }
     }
     
+    func showSessionOnHoldModal() {
+        sessionOnHoldModal = SessionOnHoldModal(frame: .zero)
+        sessionOnHoldModal?.delegate = self
+        sessionOnHoldModal?.show()
+    }
+    
     func showAddTimeModal() {
         addTimeModal = AddTimeModal(frame: .zero)
         addTimeModal?.delegate = self
@@ -402,58 +326,10 @@ class QTVideoSessionViewController: UIViewController {
         acceptAddTimeModal?.delegate = self
         acceptAddTimeModal?.show()
     }
-    
-    func showSessionOnHoldModal() {
-        sessionOnHoldModal = SessionOnHoldModal(frame: .zero)
-        sessionOnHoldModal?.delegate = self
-        sessionOnHoldModal?.show()
-    }
-    
-}
-
-// MARK: - VideoSessionPartnerFeedBehaviorDelegate
-extension QTVideoSessionViewController: VideoSessionPartnerFeedBehaviorDelegate {
-    func partnerFeedDidFinishAnimating(_ partnerFeed: UIView, to cornerPosition: CardPosition) {
-        cameraPreviewTop?.isActive = false
-        cameraPreviewBottom?.isActive = false
-        cameraPreviewLeading?.isActive = false
-        cameraPreviewTrailing?.isActive = false
-        switch cornerPosition {
-        case .topLeft:
-            cameraPreviewTop?.isActive = true
-            cameraPreviewTop.constant = 20
-            cameraPreviewLeading?.isActive = true
-            cameraPreviewLeading.constant = 20
-        case .topRight:
-            cameraPreviewTop?.isActive = true
-            cameraPreviewTop.constant = 20
-            cameraPreviewTrailing?.isActive = true
-            cameraPreviewTrailing.constant = 20
-        case .bottomRight:
-            cameraPreviewBottom?.isActive = true
-            cameraPreviewBottom.constant = 20
-            cameraPreviewTrailing?.isActive = true
-            cameraPreviewTrailing.constant = 20
-        case .bottomLeft:
-            cameraPreviewBottom?.isActive = true
-            cameraPreviewBottom.constant = 20
-            cameraPreviewLeading?.isActive = true
-            cameraPreviewLeading.constant = 20
-        }
-        
-        self.view.layoutIfNeeded()
-    }
-}
-
-// MARK: - TwilioSessionManagerDelegate
-extension QTVideoSessionViewController: TwilioSessionManagerDelegate {
-    func twilioSessionManagerDidReceiveVideoData(_ twilioSessionManager: TwilioSessionManager) {
-        hideLoadingAnimation()
-    }
 }
 
 // MARK: - SessionManagerDelegate
-extension QTVideoSessionViewController: SessionManagerDelegate {
+extension QTInPersonSessionViewController: SessionManagerDelegate {
     func sessionManager(_ sessionManager: SessionManager, userId: String, didPause session: Session) {
         sessionManager.stopSessionRuntime()
         showPauseModal(pausedById: userId)
@@ -473,12 +349,10 @@ extension QTVideoSessionViewController: SessionManagerDelegate {
     
     func sessionManagerSessionTimeDidExpire(_ sessionManager: SessionManager) {
         sessionManager.endSocketSession()
-        // continueOutOfSession()
-        /*AccountService.shared.currentUserType == .learner ? showAddTimeModal() : showSessionOnHoldModal()*/
     }
     
     func sessionManagerShouldShowEndSessionModal(_ sessionManager: SessionManager) {
-        showEndModal()
+        self.onFinishButtonClicked(self.finishButton)
     }
     
     func sessionManager(_ sessionManager: SessionManager, userLostConnection uid: String) {
@@ -495,14 +369,35 @@ extension QTVideoSessionViewController: SessionManagerDelegate {
         if uid != myUid {
             connectionLostModal?.dismiss()
         }
-        
-        guard let session = self.sessionManager?.session else { return }
-        self.updatePartnerInformation(session: session)
+    }
+}
+
+// MARK: - PauseSessionModalDelegate
+extension QTInPersonSessionViewController: PauseSessionModalDelegate {
+    func pauseSessionModalShouldEndSession(_ pauseSessionModal: PauseSessionModal) {
+        self.onFinishButtonClicked(self.finishButton)
+    }
+    
+    func pauseSessionModalDidUnpause(_ pauseSessionModal: PauseSessionModal) {
+        socket.emit(SocketEvents.unpauseSession, ["roomKey": sessionId!])
+    }
+}
+
+// MARK: - AcceptAddTimeDelegate
+extension QTInPersonSessionViewController: AcceptAddTimeDelegate {
+    func didAccept() {
+        guard let id = sessionManager?.session.id else { return }
+        socket.emit(SocketEvents.addTimeRequestAnswered, ["didAccept": true, "roomKey": id])
+    }
+    
+    func didDecline() {
+        guard let id = sessionManager?.session.id else { return }
+        socket.emit(SocketEvents.addTimeRequestAnswered, ["didAccept": false, "roomKey": id])
     }
 }
 
 // MARK: - AddTimeModalDelegate
-extension QTVideoSessionViewController: AddTimeModalDelegate {
+extension QTInPersonSessionViewController: AddTimeModalDelegate {
     func addTimeModalDidDecline(_ addTimeModal: AddTimeModal) {
         addTimeModal.dismiss()
         sessionOnHoldModal?.dismiss()
@@ -517,36 +412,5 @@ extension QTVideoSessionViewController: AddTimeModalDelegate {
         addTimeModal.dismiss()
         sessionOnHoldModal?.dismiss()
         socket.emit(SocketEvents.requestAddTime, ["id": uid, "roomKey": id, "seconds": minutes * 60])
-    }
-}
-
-// MARK: - EndSessionModalDelegate
-extension QTVideoSessionViewController: EndSessionModalDelegate {
-    func endSessionModalDidConfirm(_ endSessionModal: EndSessionModal) {
-        sessionManager?.endSocketSession()
-    }
-}
-
-// MARK: - PauseSessionModalDelegate
-extension QTVideoSessionViewController: PauseSessionModalDelegate {
-    func pauseSessionModalShouldEndSession(_ pauseSessionModal: PauseSessionModal) {
-        showEndModal()
-    }
-    
-    func pauseSessionModalDidUnpause(_ pauseSessionModal: PauseSessionModal) {
-        socket.emit(SocketEvents.unpauseSession, ["roomKey": sessionId!])
-    }
-}
-
-// MARK: - AcceptAddTimeDelegate
-extension QTVideoSessionViewController: AcceptAddTimeDelegate {
-    func didAccept() {
-        guard let id = sessionManager?.session.id else { return }
-        socket.emit(SocketEvents.addTimeRequestAnswered, ["didAccept": true, "roomKey": id])
-    }
-    
-    func didDecline() {
-        guard let id = sessionManager?.session.id else { return }
-        socket.emit(SocketEvents.addTimeRequestAnswered, ["didAccept": false, "roomKey": id])
     }
 }
