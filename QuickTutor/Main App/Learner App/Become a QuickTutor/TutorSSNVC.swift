@@ -45,7 +45,9 @@ class TutorSSNVC: BaseRegistrationController {
     @objc func handleNext() {
         if let tutorSSN = checkForValidSSN() {
             TutorRegistration.ssn = tutorSSN
-            navigationController?.pushViewController(TutorAddBank(), animated: true)
+            let vc = TutorAddBank()
+            vc.isRegistration = true
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 

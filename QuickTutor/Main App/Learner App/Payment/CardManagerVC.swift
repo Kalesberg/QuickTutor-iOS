@@ -87,13 +87,7 @@ class CardManagerVC: BaseViewController {
     var addCardVC: STPAddCardViewController?
     override func viewDidLoad() {
         super.viewDidLoad()
-        Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
-            if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error Retrieving Cards", message: error.localizedDescription)
-            } else if let customer = customer {
-                self.customer = customer
-            }
-        }
+        loadStripe()
 
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
@@ -102,6 +96,16 @@ class CardManagerVC: BaseViewController {
         
         navigationItem.title = "Payment"
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func loadStripe() {
+        Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
+            if let error = error {
+                AlertController.genericErrorAlert(self, title: "Error Retrieving Cards", message: error.localizedDescription)
+            } else if let customer = customer {
+                self.customer = customer
+            }
+        }
     }
 
     private func setCustomer() {
@@ -202,6 +206,7 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            tableView.isUserInteractionEnabled = false
             Stripe.dettachSource(customer: customer, deleting: cards[indexPath.row]) { customer, error in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error Deleting Card", message: error.localizedDescription)
@@ -209,6 +214,7 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
                     self.cards.remove(at: indexPath.row)
                     CurrentUser.shared.learner.hasPayment = self.cards.isEmpty
                     tableView.deleteRows(at: [indexPath], with: .automatic)
+                    tableView.isUserInteractionEnabled = true
                     self.customer = customer
                     if self.cards.count == 0 {
                         CurrentUser.shared.learner.hasPayment = false
@@ -273,6 +279,7 @@ extension CardManagerVC: STPAddCardViewControllerDelegate {
 				return completion(StripeError.updateCardError)
 			}
 			self.addCardVC?.dismiss(animated: true, completion: nil)
+            self.loadStripe()
 			self.navigationController?.popBackToMain()
 		}
     }

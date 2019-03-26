@@ -22,7 +22,7 @@ class EmptyConversationBackground: UIView {
         label.textAlignment = .center
         label.numberOfLines = 0
         label.font = Fonts.createSize(11)
-        label.text = "Select a custom message, or introduce yourself by typing a message. A tutor must accept your connection request before you are able to message them again"
+        label.text = "Select a custom message, or introduce yourself by typing a message. A tutor must accept your connection request before you are able to message them again."
         return label
     }()
 

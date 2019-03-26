@@ -80,7 +80,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         label.textColor = Colors.purple
         label.text = "0"
         label.textAlignment = .left
-        label.font = Fonts.createBoldSize(10)
+        label.font = Fonts.createBoldSize(12)
         return label
     }()
     
@@ -132,13 +132,14 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func setupStarView() {
         addSubview(starView)
-        starView.anchor(top: subjectLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 6, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 38, height: 6)
+        starView.anchor(top: subjectLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 6, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 50, height: 10)
         starView.tintStars(color: Colors.purple)
     }
     
     func setupStarLabel() {
         addSubview(starLabel)
-        starLabel.anchor(top: nil, left: starView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 3, paddingBottom: 10, paddingRight: 0, width: 30, height: 20)
+        starLabel.anchor(top: nil, left: starView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 10, paddingRight: 0, width: 30, height: 20)
+        addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: starView, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func updateUI(_ tutor: AWTutor) {

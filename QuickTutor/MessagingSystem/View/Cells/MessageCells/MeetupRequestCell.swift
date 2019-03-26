@@ -329,7 +329,7 @@ class SessionRequestCell: UserMessageCell {
     
     func setupTitleLabel() {
         addSubview(titleLabel)
-        titleLabel.anchor(top: nil, left: sessionTimeLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 100, height: 12)
+        titleLabel.anchor(top: nil, left: sessionTimeLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 100, height: 16)
         addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: sessionTimeLabel, attribute: .centerY, multiplier: 1, constant: 0))
     }
 
@@ -431,8 +431,8 @@ class SessionRequestCellButtonView: UIView {
     lazy var mainButton = leftButton
     lazy var auxillaryButton = rightButton
 
-    let leftButton: UIButton = {
-        let button = UIButton()
+    let leftButton: DimmableButton = {
+        let button = DimmableButton()
         button.backgroundColor = Colors.purple
         button.layer.cornerRadius = 4
         button.setTitleColor(.white, for: .normal)
@@ -440,8 +440,8 @@ class SessionRequestCellButtonView: UIView {
         return button
     }()
 
-    let rightButton: UIButton = {
-        let button = UIButton()
+    let rightButton: DimmableButton = {
+        let button = DimmableButton()
         button.backgroundColor = Colors.navBarColor
         button.titleLabel?.font = Fonts.createBoldSize(12)
         return button

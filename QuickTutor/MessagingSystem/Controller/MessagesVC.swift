@@ -19,7 +19,6 @@ class MessagesVC: UIViewController {
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.darkBackground
         cv.allowsMultipleSelection = false
-        cv.alwaysBounceVertical = true
         cv.register(ConversationCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
@@ -117,6 +116,7 @@ class MessagesVC: UIViewController {
                 guard let metaData = snapshot.value as? [String: Any] else { return }
                 guard let messageId = metaData["lastMessageId"] as? String else { return }
                 self.emptyBackround.removeFromSuperview()
+                self.collectionView.alwaysBounceVertical = true
                 let conversationMetaData = ConversationMetaData(dictionary: metaData)
                 self.metaDataDictionary[userId] = conversationMetaData
                 self.getMessageById(messageId)

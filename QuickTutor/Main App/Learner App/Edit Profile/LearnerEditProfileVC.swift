@@ -189,7 +189,9 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             case 2:
                 navigationController?.pushViewController(TutorManagePolicies(), animated: true)
             case 3:
-                navigationController?.pushViewController(EditPreferencesVC(), animated: true)
+                let vc = EditPreferencesVC()
+                vc.inRegistrationMode = false
+                navigationController?.pushViewController(vc, animated: true)
             default:
                 break
             }

@@ -164,11 +164,8 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="6i0-qX-rKr">
                                                             <rect key="frame" x="0.0" y="23" width="112" height="17"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="top subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hbV-DZ-rL9">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="top subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbV-DZ-rL9">
                                                                     <rect key="frame" x="0.0" y="0.0" width="71" height="17"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="110" id="LAl-TH-p4V"/>
-                                                                    </constraints>
                                                                     <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                                                     <color key="textColor" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -422,7 +419,11 @@
                                     <subviews>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dRP-ae-8qx">
                                             <rect key="frame" x="0.0" y="0.0" width="335" height="128"/>
+<<<<<<< HEAD
                                             <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="calibratedRGB"/>
+=======
+                                            <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+>>>>>>> f90258a1e53a1f8506f5988b45c4fdfeeec5be49
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="128" id="3Rd-ah-SfD"/>
                                             </constraints>
@@ -454,7 +455,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstItem="bZ8-Ft-oLZ" firstAttribute="leading" secondItem="6jJ-nt-JqM" secondAttribute="leading" id="AsI-Tk-rLA"/>
                                         <constraint firstItem="dRP-ae-8qx" firstAttribute="centerX" secondItem="6jJ-nt-JqM" secondAttribute="centerX" id="Dwo-hS-NnR"/>
@@ -575,7 +576,7 @@
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <color key="backgroundColor" red="0.1058681383728981" green="0.10589457303285599" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </stackView>
                     </subviews>
                     <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -611,20 +612,20 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$60 per hour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="32Q-Iw-Nbg">
-                            <rect key="frame" x="20" y="22" width="80.5" height="15"/>
+                            <rect key="frame" x="20" y="22" width="80.5" height="17"/>
                             <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yjq-S4-ZO1">
-                            <rect key="frame" x="20" y="45" width="72" height="14"/>
+                            <rect key="frame" x="20" y="47" width="59" height="12"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ddt-1C-PKl" customClass="QTRatingView" customModule="QuickTutor" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="2" width="60" height="10"/>
+                                    <rect key="frame" x="0.0" y="2" width="48" height="8"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="60" id="Usi-fc-Mph"/>
-                                        <constraint firstAttribute="height" constant="10" id="pVd-qi-Khb"/>
+                                        <constraint firstAttribute="width" constant="48" id="Usi-fc-Mph"/>
+                                        <constraint firstAttribute="height" constant="8" id="pVd-qi-Khb"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="spacing">
@@ -633,8 +634,8 @@
                                     </userDefinedRuntimeAttributes>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GKh-AL-yOi">
-                                    <rect key="frame" x="65" y="0.0" width="7" height="14.5"/>
-                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
+                                    <rect key="frame" x="53" y="0.0" width="6" height="12"/>
+                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="10"/>
                                     <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>

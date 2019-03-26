@@ -52,7 +52,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         let label = UILabel()
         label.textColor = Colors.grayText
         label.textAlignment = .center
-        label.text = "Unable to send message until\ntutor accepts connection request."
+        label.text = "You are unable to message this tutor until\n they accept your connection request."
         label.font = Fonts.createBoldSize(14)
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
@@ -142,7 +142,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     
     func showTextViewCover() {
         if AccountService.shared.currentUserType == .tutor {
-            textViewCover.text = "Unable to send message until\nyou accept connection request."
+            textViewCover.text = "You are unable to send messages until\nyou accept the connection request."
         }
         textViewCover.isHidden = false
     }

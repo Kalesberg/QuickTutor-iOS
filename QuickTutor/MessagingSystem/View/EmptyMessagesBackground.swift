@@ -25,7 +25,7 @@ class EmptyMessagesBackground: UIView {
 
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createLightSize(13)
+        label.font = Fonts.createSize(13)
         label.numberOfLines = 0
         label.textAlignment = .center
         label.textColor = .white
@@ -46,7 +46,7 @@ class EmptyMessagesBackground: UIView {
     
     private func setupIcon() {
         addSubview(icon)
-        icon.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 18, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 95, height: 95)
+        icon.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 18, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 60, height: 60)
         addConstraint(NSLayoutConstraint(item: icon, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
     }
     
@@ -67,7 +67,7 @@ class EmptyMessagesBackground: UIView {
     }
     
     private func setupForLearner() {
-        icon.image = #imageLiteral(resourceName: "searchIcon")
+        icon.image = UIImage(named: "searchIcon")
         titleLabel.text = "Start Searching"
         descriptionLabel.text = "When you connect with tutors they’ll appear here, where you can send them messages and schedule sessions."
     }

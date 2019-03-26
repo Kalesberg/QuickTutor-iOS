@@ -60,6 +60,17 @@ class FeaturedSubjectVCView: BaseRegistrationView {
         return cv
     }()
     
+    let infoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = Fonts.createSize(12)
+        label.text = "Your featured subject will be at the top of your profile. Be sure to select your favorite or most experienced subject. You can change your featured subject at any time"
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    var subjectsHeightAnchor: NSLayoutConstraint?
+    
     override func updateTitleLabel() {
         titleLabel.text = "Set Featured Subject"
     }
@@ -67,11 +78,25 @@ class FeaturedSubjectVCView: BaseRegistrationView {
     override func setupViews() {
         super.setupViews()
         setupSubjectsCV()
+        setupInfoLabel()
     }
     
     func setupSubjectsCV() {
         addSubview(subjectsCV)
-        subjectsCV.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 300)
+        subjectsCV.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        subjectsHeightAnchor = subjectsCV.heightAnchor.constraint(equalToConstant: 300)
+        subjectsHeightAnchor?.isActive = true
+    }
+    
+    func setupInfoLabel() {
+        addSubview(infoLabel)
+        infoLabel.anchor(top: subjectsCV.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 50)
+    }
+    
+    func updateHeight() {
+        let height = subjectsCV.collectionViewLayout.collectionViewContentSize.height
+        subjectsHeightAnchor?.constant = height
+        layoutIfNeeded()
     }
 }
 
@@ -83,6 +108,7 @@ extension FeaturedSubjectVC: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! PillCollectionViewCell
         cell.titleLabel.text = subjects[indexPath.item]
+        contentView.updateHeight()
         return cell
     }
     

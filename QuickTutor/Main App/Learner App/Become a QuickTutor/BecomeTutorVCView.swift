@@ -53,11 +53,11 @@ class BecomeTutorVCView: TutorPolicyVCView {
         let formattedString = NSMutableAttributedString()
         formattedString
             .bold("Earn money tutoring\n\n", 15, .white)
-            .regular("No matter who you are, QuickTutor enables you to simply run a freelance tutoring business. QuickTutor makes it safe and straightforward to earn money and teach people around the world - either in-person with people near you or through video calling, globally.\n\n", 13, Colors.registrationGray, 8.0)
+            .regular("No matter who you are, QuickTutor enables you to simply run a freelance tutoring business. QuickTutor makes it safe and straightforward to earn money and teach people around the world - either in-person with people near you or through video calling, globally.\n\n", 12, Colors.registrationGray, 5.0)
             .bold("User Freedom\n\n", 15, .white)
-            .regular("With QuickTutor, you are in complete control of your schedule, hourly rate, preferences, policies, and how you communicate with learners.\n\n", 13, Colors.registrationGray, 8.0)
+            .regular("With QuickTutor, you are in complete control of your schedule, hourly rate, preferences, policies, and how you communicate with learners.\n\n", 12, Colors.registrationGray, 5.0)
             .bold("Your Safety Matters\n\n", 15, .white)
-            .regular("QuickTutor has a rating, reviewing and reporting system to ensure your safety as a tutor. Remember to thoroughly analyze a learner's profile before meeting up with them in-person.", 13, Colors.registrationGray, 8.0)
+            .regular("QuickTutor has a rating, reviewing and reporting system to ensure your safety as a tutor. Remember to thoroughly analyze a learner's profile before meeting up with them in-person.", 12, Colors.registrationGray, 5.0)
         contentLabel.attributedText = formattedString
     }
     
@@ -67,7 +67,8 @@ class BecomeTutorVCView: TutorPolicyVCView {
     
     override func setupContentLabel() {
         super.setupContentLabel()
-        contentLabelHeightAnchor?.constant = 450
+        contentLabelHeightAnchor?.constant = 400
+        scrollView.isScrollEnabled = false
         contentLabel.layoutIfNeeded()
     }
     

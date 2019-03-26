@@ -85,7 +85,7 @@ class SignInVCView: UIView {
     
     func setupLogoImageView() {
         addSubview(logoImageView)
-        logoImageView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: nil, paddingTop: 80, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        logoImageView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: nil, paddingTop: 80, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 55, height: 55)
     }
     
     func setupWelcomeLabel() {
