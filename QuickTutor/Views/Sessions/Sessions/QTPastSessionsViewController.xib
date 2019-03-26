@@ -26,7 +26,7 @@
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </tableView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JfR-OC-lbz" customClass="LOTAnimationView">
+                <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="JfR-OC-lbz" customClass="LOTAnimationView">
                     <rect key="frame" x="137.5" y="293.5" width="100" height="100"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>

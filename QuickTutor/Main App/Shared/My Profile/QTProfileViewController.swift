@@ -73,6 +73,7 @@ class QTProfileViewController: UIViewController {
     var connectionStatus = QTConnectionStatus.none
     var actionSheet: FileReportActionsheet?
     var conversationManager = ConversationManager()
+    var reviewsHeight: CGFloat = 0.0
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -106,6 +107,7 @@ class QTProfileViewController: UIViewController {
         let vc = ConversationVC()
         vc.receiverId = user.uid
         vc.chatPartner = user
+        vc.subject = subject
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -249,8 +251,29 @@ class QTProfileViewController: UIViewController {
         case .tutor:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = false
-            topSubjectLabel.isHidden = subject?.isEmpty ?? true
-            topSubjectLabel.text = subject
+            if subject?.isEmpty ?? true {
+                // Find the top subject
+                func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
+                    return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
+                }
+                
+                FirebaseData.manager.fetchSubjectsTaught(uid: user.uid) { subcategoryList in
+                    let avg = subcategoryList.map({ $0.rating / 5 }).average
+                    let topSubcategory = subcategoryList.sorted {
+                        return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 0) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
+                        }.first
+                    guard let subcategory = topSubcategory?.subcategory else {
+                        self.subject = nil
+                        return
+                    }
+                    self.subject = subcategory
+                    self.topSubjectLabel.isHidden = self.subject?.isEmpty ?? true
+                    self.topSubjectLabel.text = self.subject?.capitalized
+                }
+            } else {
+                topSubjectLabel.isHidden = subject?.isEmpty ?? true
+                topSubjectLabel.text = subject
+            }
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             numberOfLearnersLabel.text = "\(user.learners.count)"
             numberOfSessionsLabel.text = "\(user.tNumSessions ?? 0)"
@@ -337,11 +360,13 @@ class QTProfileViewController: UIViewController {
         
         if profileViewType == .tutor || profileViewType == .myTutor {
             reviewsTableView.isHidden = user.reviews?.isEmpty ?? true
+            self.reviewsHeight = self.getHeightOfReviews(reviews: user.reviews ?? [Review]())
             let numberOfReviews = user.reviews?.count ?? 0
             readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
         } else {
             reviewsTableView.isHidden = user.lReviews?.isEmpty ?? true
             let numberOfReviews = user.lReviews?.count ?? 0
+            self.reviewsHeight = self.getHeightOfReviews(reviews: user.lReviews ?? [Review]())
             readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
         }
         
@@ -422,8 +447,9 @@ class QTProfileViewController: UIViewController {
     
     func updateUI() {
         subjectsCollectionViewHeight.constant = subjectsCollectionView.contentSize.height
-        reviewsTabeViewHeight.constant = reviewsTableView.contentSize.height
-        reviewsStackView.layoutIfNeeded()
+        reviewsTabeViewHeight.constant = reviewsHeight
+        reviewsTableView.layoutIfNeeded()
+        subjectsCollectionView.layoutIfNeeded()
         scrollView.layoutIfNeeded()
     }
     
@@ -441,6 +467,26 @@ class QTProfileViewController: UIViewController {
         let controller = LightboxController(images: images, startIndex: 0)
         controller.dynamicBackground = true
         present(controller, animated: true, completion: nil)
+    }
+    
+    func getHeightOfReviews(reviews: [Review]) -> CGFloat {
+        var height: CGFloat = 0.0
+        var index = 0
+        
+        let threeLinesHeight = "A".height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(14)) * 3
+        
+        reviews.forEach { review in
+            if index == 1 { return }
+            let reviewHeight = review.message.height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(14))
+            if reviewHeight > threeLinesHeight {
+                height += threeLinesHeight + 78
+            } else {
+                height += reviewHeight + 78
+            }
+            index += 1
+        }
+        
+        return height + 10
     }
 }
 
@@ -493,7 +539,7 @@ extension QTProfileViewController: UITableViewDelegate {
 extension QTProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews else { return 0 }
-        return reviews.count >= 2 ? 2 : reviews.count
+        return reviews.count >= 1 ? 1 : reviews.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -501,9 +547,8 @@ extension QTProfileViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         if let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews {
             cell.setData(review: reviews[indexPath.row])
+            self.updateUI()
         }
-        
-        updateUI()
         return cell
     }
 }

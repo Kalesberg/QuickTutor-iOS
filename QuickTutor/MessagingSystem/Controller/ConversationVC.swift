@@ -30,6 +30,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var shouldRequestSession = false
     var canSendMessages = true
     var headerHeight = 30
+    var subject: String?
 
     // MARK: Layout Views -
     
@@ -117,7 +118,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     func setUpMenuButton(){
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        menuBtn.setImage(UIImage(named:"moreIcon"), for: .normal)
+        menuBtn.setImage(UIImage(named:"fileReportFlag"), for: .normal)
         menuBtn.addTarget(self, action: #selector(handleRightViewTapped), for: .touchUpInside)
         
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
@@ -249,24 +250,14 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @objc func handleTap() {
-        if AccountService.shared.currentUserType == .learner {
-            FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
-                guard let tutor = tutor else { return }
-                let controller = QTProfileViewController.controller
-                controller.user = tutor
-                controller.profileViewType = .tutor
-                self.navigationController?.pushViewController(controller, animated: true)
-            }
-        } else {
-//            FirebaseData.manager.fetchLearner(receiverId) { (learner) in
-//                guard let learner = learner else { return }
-//                let controller = QTProfileViewController.controller
-//                controller.user = learner
-//                controller.profileViewType = .tutor
-//                self.navigationController?.pushViewController(controller, animated: true)
-//            }
+        FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
+            guard let tutor = tutor else { return }
+            let controller = QTProfileViewController.controller
+            controller.user = tutor
+            controller.profileViewType = .tutor
+            controller.subject = self.subject
+            self.navigationController?.pushViewController(controller, animated: true)
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

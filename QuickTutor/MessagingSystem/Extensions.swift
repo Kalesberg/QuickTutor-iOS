@@ -113,6 +113,13 @@ extension String {
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         return NSString(string: self).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: Fonts.createSize(fontSize)], context: nil)
     }
+    
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return ceil(boundingBox.height)
+    }
 }
 
 extension UIView {
