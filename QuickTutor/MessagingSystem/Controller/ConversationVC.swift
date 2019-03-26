@@ -30,6 +30,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var shouldRequestSession = false
     var canSendMessages = true
     var headerHeight = 30
+    var subject: String?
 
     // MARK: Layout Views -
     
@@ -254,6 +255,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             let controller = QTProfileViewController.controller
             controller.user = tutor
             controller.profileViewType = .tutor
+            controller.subject = self.subject
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }

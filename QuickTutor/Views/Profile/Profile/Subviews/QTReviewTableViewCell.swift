@@ -16,6 +16,8 @@ class QTReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var reviewDateLabel: UILabel!
     @IBOutlet weak var ratingView: QTRatingView!
     @IBOutlet weak var reviewLabel: UILabel!
+    @IBOutlet weak var reviewLabelHeight: NSLayoutConstraint!
+    
     
     static var reuseIdentifier: String {
         return String(describing: QTReviewTableViewCell.self)
@@ -42,7 +44,12 @@ class QTReviewTableViewCell: UITableViewCell {
     // MARK: - Functions
     func setData(review: Review) {
         usernameLabel.text = review.studentName
-        reviewDateLabel.text = review.formattedDate
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .bold(review.subject, 10, Colors.purple)
+            .regular(" • ", 10, UIColor.white)
+            .regular(review.formattedDate, 10, Colors.grayText80)
+        reviewDateLabel.attributedText = formattedString
         reviewLabel.text = review.message
         let rating = Int(review.rating)
         ratingView.setRatingTo(rating)
