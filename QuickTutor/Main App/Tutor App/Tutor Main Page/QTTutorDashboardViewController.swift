@@ -95,6 +95,9 @@ class QTTutorDashboardViewController: UIViewController {
         tableView.sectionHeaderHeight = QTDashboardDimension.sectionHeaderViewHeight
         tableView.separatorStyle = .none
         
+        headerView.avatarImageView.isUserInteractionEnabled = true
+        headerView.avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapTutorProfileImageView)))
+        
         self.tutor = CurrentUser.shared.tutor
         
         initUserBasicInformation()
@@ -119,6 +122,12 @@ class QTTutorDashboardViewController: UIViewController {
         controller.automaticScroll = true
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc
+    func onTapTutorProfileImageView () {
+        let images = createLightBoxImages()
+        presentLightBox(images)
     }
     
     // MARK: - Functions
@@ -332,7 +341,24 @@ class QTTutorDashboardViewController: UIViewController {
         self.hoursChartData = hoursChartData
         self.sessionsChartData = sessionsChartData
     }
+ 
+    func createLightBoxImages() -> [LightboxImage] {
+        guard let tutor = self.tutor else { return [] }
+        
+        var images = [LightboxImage]()
+        tutor.images.forEach({ (arg) in
+            let (_, imageUrl) = arg
+            guard let url = URL(string: imageUrl) else { return }
+            images.append(LightboxImage(imageURL: url))
+        })
+        return images
+    }
     
+    func presentLightBox(_ images: [LightboxImage]) {
+        let controller = LightboxController(images: images, startIndex: 0)
+        controller.dynamicBackground = true
+        present(controller, animated: true, completion: nil)
+    }
 }
 
 // MARK: - UITableViewDelegate

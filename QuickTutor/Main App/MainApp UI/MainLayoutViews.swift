@@ -85,7 +85,7 @@ struct TitleComponent {
     var title = CenterTextLabel()
 }
 
-protocol HasTitleComponent {
+protocol HasTitleComponent: class {
     var titleComponent: TitleComponent { get set }
 }
 

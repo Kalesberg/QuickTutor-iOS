@@ -145,7 +145,7 @@ class BaseSessionsVC: UIViewController {
     
     func reloadSessionWithId(_ id: String) {
         DataService.shared.getSessionById(id) { session in
-            if let fooOffset = self.pendingSessions.index(where: { $0.id == id }) {
+            if let fooOffset = self.pendingSessions.firstIndex(where: { $0.id == id }) {
                 // do something with fooOffset
                 self.pendingSessions.remove(at: fooOffset)
                 if session.status == "accepted" {

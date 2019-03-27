@@ -192,7 +192,7 @@ extension EditLanguageVC: UITableViewDelegate, UITableViewDataSource {
         }
 
         if selectedCells.contains((cell.textLabel?.text)!) {
-            selectedCells.remove(at: selectedCells.index(of: selectedLanguage)!)
+            selectedCells.remove(at: selectedCells.firstIndex(of: selectedLanguage)!)
             cell.checkbox.isSelected = false
         } else {
             selectedCells.append(selectedLanguage)
