@@ -43,7 +43,7 @@ class QTReviewTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     func setData(review: Review) {
-        usernameLabel.text = review.studentName
+        usernameLabel.text = review.studentName.formatName()
         let formattedString = NSMutableAttributedString()
         formattedString
             .bold(review.subject, 10, Colors.purple)
