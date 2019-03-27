@@ -90,6 +90,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         feedbackTextView.layer.borderWidth = 1
         feedbackTextView.font = Fonts.createSize(14)
         feedbackTextView.keyboardAppearance = .dark
+        feedbackTextView.delegate = self
         
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self,
