@@ -274,7 +274,7 @@ extension InviteOthersVC: UITableViewDelegate, UITableViewDataSource {
         }
         if selectedContacts.contains(phoneNumber) {
             cell.checkbox.isSelected = false
-            selectedContacts.remove(at: selectedContacts.index(of: phoneNumber)!)
+            selectedContacts.remove(at: selectedContacts.firstIndex(of: phoneNumber)!)
             tableView.deselectRow(at: indexPath, animated: true)
             return
         }

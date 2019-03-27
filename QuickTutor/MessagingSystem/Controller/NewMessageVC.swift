@@ -182,14 +182,14 @@ extension NewMessageVC {
 
 extension NewMessageVC: ConnectionRequestCellDelegate {
     func handleApprovedRequestForUser(_ user: User) {
-        guard let index = connectionRequests.index(where: { $0.uid == user.uid }) else { return }
+        guard let index = connectionRequests.firstIndex(where: { $0.uid == user.uid }) else { return }
         connectionRequests.remove(at: index)
         connections.append(user)
         contactsCV.reloadSections(IndexSet(integersIn: 0 ... 1))
     }
 
     func handleDeniedRequestForUser(_ user: User) {
-        guard let index = connectionRequests.index(where: { $0.uid == user.uid }) else { return }
+        guard let index = connectionRequests.firstIndex(where: { $0.uid == user.uid }) else { return }
         connectionRequests.remove(at: index)
         contactsCV.reloadSections(IndexSet(integer: 0))
     }
