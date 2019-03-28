@@ -37,6 +37,9 @@ class OnlineStatusService {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let timeStamp = Date().timeIntervalSince1970
         Database.database().reference().child("account").child(uid).child("online").setValue(timeStamp)
+        
+        // add status function
+        UserStatusService.shared.updateUserStatus(uid, status: .online)
     }
     
     func getLastActiveStringFor(uid: String, completion: @escaping (String?) -> Void) {

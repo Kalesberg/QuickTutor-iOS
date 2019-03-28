@@ -258,6 +258,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         BackgroundSoundManager.shared.start()
         
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserStatusService.shared.updateUserStatus(uid, status: .offline)
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -276,6 +278,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         NotificationCenter.default.post(name: Notifications.willTerminate.name, object: nil)
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserStatusService.shared.updateUserStatus(uid, status: .offline)
     }
     
     func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {

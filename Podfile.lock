@@ -1,6 +1,6 @@
 PODS:
   - AccountKit (4.35.0)
-  - Alamofire (4.8.1)
+  - Alamofire (4.8.2)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -172,7 +172,7 @@ PODS:
   - Stripe (15.0.0)
   - SwiftKeychainWrapper (3.2.0)
   - SwiftyJSON (4.2.0)
-  - SwipeCellKit (2.5.2)
+  - SwipeCellKit (2.5.4)
   - TwilioVideo (2.8.1)
 
 DEPENDENCIES:
@@ -267,7 +267,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AccountKit: 870ccaf5d33facda9408783e28fbe68c5211e069
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
@@ -312,9 +312,9 @@ SPEC CHECKSUMS:
   Stripe: 312b22a67af9fa55c246d26148b3f3a9636a0ff2
   SwiftKeychainWrapper: 82c4c02cdc36f9a24f7edfcaab3e336401caa1a1
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
-  SwipeCellKit: a19e328c69c4ba983f317eeabf36ed299c69bfa4
+  SwipeCellKit: 4eada3884ab1bbae5e8d2fb9030c242aa23d7f42
   TwilioVideo: 482bbbb23807e424e00500c367fea3656e136d61
 
 PODFILE CHECKSUM: 8055085979aea6edc853907dec60e79d7c93102f
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0
