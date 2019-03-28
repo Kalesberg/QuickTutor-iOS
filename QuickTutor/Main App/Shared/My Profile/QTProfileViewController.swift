@@ -92,6 +92,7 @@ class QTProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(false, animated: false)
+        
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
@@ -101,7 +102,7 @@ class QTProfileViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
-
+    
     // MARK: - Actions
     @IBAction func onMessageButtonClicked(_ sender: Any) {
         let vc = ConversationVC()
@@ -411,11 +412,11 @@ class QTProfileViewController: UIViewController {
         connectButton.clipsToBounds = true
         connectButton.setupTargets()
         
-        connectView.layer.shadowOffset = CGSize(width: 0, height: -5)
-        connectView.layer.shadowRadius = 5
-        connectView.layer.shadowColor = UIColor.black.cgColor
-        connectView.layer.shadowOpacity = 0.5
-        
+        connectView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        connectView.layer.shadowOpacity = 1
+        connectView.layer.shadowRadius = 2
+        connectView.layer.shadowOffset = CGSize(width: 0, height: -2)
+
         
         guard let profileViewType = profileViewType else { return }
         switch profileViewType {
@@ -445,12 +446,14 @@ class QTProfileViewController: UIViewController {
         }
     }
     
-    func updateUI() {
+    func updateSubjectsHeight() {
         subjectsCollectionViewHeight.constant = subjectsCollectionView.contentSize.height
+        subjectsCollectionView.layoutIfNeeded()
+    }
+    
+    func updateReviewsHeight() {
         reviewsTabeViewHeight.constant = reviewsHeight
         reviewsTableView.layoutIfNeeded()
-        subjectsCollectionView.layoutIfNeeded()
-        scrollView.layoutIfNeeded()
     }
     
     func createLightBoxImages() -> [LightboxImage] {
@@ -473,11 +476,11 @@ class QTProfileViewController: UIViewController {
         var height: CGFloat = 0.0
         var index = 0
         
-        let threeLinesHeight = "A".height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(14)) * 3
+        let threeLinesHeight = "A".height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(16)) * 3
         
         reviews.forEach { review in
             if index == 1 { return }
-            let reviewHeight = review.message.height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(14))
+            let reviewHeight = review.message.height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(16))
             if reviewHeight > threeLinesHeight {
                 height += threeLinesHeight + 78
             } else {
@@ -523,9 +526,10 @@ extension QTProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PillCollectionViewCell.reuseIdentifier, for: indexPath) as! PillCollectionViewCell
         if let subjects = user?.subjects {
+            cell.titleLabel.font = Fonts.createMediumSize(14)
             cell.titleLabel.text = subjects[indexPath.item]
         }
-        updateUI()
+        updateSubjectsHeight()
         return cell
     }
 }
@@ -538,8 +542,12 @@ extension QTProfileViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension QTProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews else { return 0 }
-        return reviews.count >= 1 ? 1 : reviews.count
+        let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews
+        if let reviews = reviews, reviews.count > 0 {
+            return 1
+        }
+        
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -547,7 +555,7 @@ extension QTProfileViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         if let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews {
             cell.setData(review: reviews[indexPath.row])
-            self.updateUI()
+            self.updateReviewsHeight()
         }
         return cell
     }

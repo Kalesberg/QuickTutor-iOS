@@ -78,8 +78,8 @@ struct ViewComponent {
 }
 
 //Component protocols
-protocol HasBackgroundComponent { var backgroundComponent: ViewComponent { get set } }
-protocol HasKeyboardComponent { var keyboardComponent: ViewComponent { get set } }
+protocol HasBackgroundComponent: class { var backgroundComponent: ViewComponent { get set } }
+protocol HasKeyboardComponent: class { var keyboardComponent: ViewComponent { get set } }
 
 //Adds an additional blank view that is the size of the keyboard
 protocol Keyboardable: HasKeyboardComponent where Self: UIView { }

@@ -16,7 +16,8 @@ class QTReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var reviewDateLabel: UILabel!
     @IBOutlet weak var ratingView: QTRatingView!
     @IBOutlet weak var reviewLabel: UILabel!
-    @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var reviewLabelHeight: NSLayoutConstraint!
+    
     
     static var reuseIdentifier: String {
         return String(describing: QTReviewTableViewCell.self)
@@ -36,15 +37,20 @@ class QTReviewTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+
         // Configure the view for the selected state
     }
     
     // MARK: - Functions
     func setData(review: Review) {
-        usernameLabel.text = review.formattedStudentName
-        subjectLabel.text = review.subject
-        reviewDateLabel.text = "•  \(review.formattedDate)"
-        reviewLabel.text = "\"\(review.message)\""
+        usernameLabel.text = review.studentName.formatName()
+        let formattedString = NSMutableAttributedString()
+        formattedString
+            .bold(review.subject, 12, Colors.purple)
+            .regular(" • ", 12, UIColor.white)
+            .regular(review.formattedDate, 12, Colors.grayText80)
+        reviewDateLabel.attributedText = formattedString
+        reviewLabel.text = review.message
         let rating = Int(review.rating)
         ratingView.setRatingTo(rating)
         DataService.shared.getStudentWithId(review.reviewerId) { (student) in

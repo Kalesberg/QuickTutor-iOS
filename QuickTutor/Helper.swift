@@ -255,10 +255,10 @@ struct SubjectStore {
                     
                     let subcategories = categories[i].subcategory.subcategories.map { $0.title.lowercased() }
                     
-                    let indexOfImage = subcategories.index(of: key.title.lowercased())
+                    let indexOfImage = subcategories.firstIndex(of: key.title.lowercased())
                     let image = categories[i].subcategory.subcategories[indexOfImage!].icon
                     
-                    let indexOfSubcategory = subcategories.index(of: key.title.lowercased())
+                    let indexOfSubcategory = subcategories.firstIndex(of: key.title.lowercased())
                     let subcategory = categories[i].subcategory.subcategories[indexOfSubcategory!].title
                     
                     return (subcategory, image)

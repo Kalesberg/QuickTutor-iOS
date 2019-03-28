@@ -261,11 +261,14 @@ class LearnerEditProfileVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isOpaque = false
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         navigationController?.setNavigationBarHidden(false, animated: true)
+        
         updateLearner()
         setupName()
     }

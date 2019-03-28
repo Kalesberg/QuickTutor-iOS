@@ -27,6 +27,7 @@ class RootControllerManager {
     func setupDefaultConfiguration(controller: UIViewController) {
         navigationController = CustomNavVC(rootViewController: controller)
         navigationController.setNavigationBarHidden(true, animated: false)
+        navigationController.view.backgroundColor = Colors.newBackground
         guard let window = UIApplication.shared.keyWindow else { return }
         window.rootViewController = navigationController
     }
@@ -50,8 +51,8 @@ class RootControllerManager {
         tab.tabBar.isOpaque = false
         tab.tabBar.isTranslucent = false
         tab.tabBar.backgroundColor = Colors.registrationDark
-
-
+        tab.view.backgroundColor = Colors.registrationDark
+        
         for vc in controllers {
             vc.navigationBar.barTintColor = Colors.darkBackground
             vc.navigationBar.isTranslucent = false

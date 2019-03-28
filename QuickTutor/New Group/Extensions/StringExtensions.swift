@@ -161,7 +161,7 @@ extension String {
 	}
 	
 	func getIntIndex(of char: Character) -> Int? {
-		if let idx = self.index(of: char) {
+		if let idx = self.firstIndex(of: char) {
 			return self.distance(from: startIndex, to: idx)
 		}
 		return nil
