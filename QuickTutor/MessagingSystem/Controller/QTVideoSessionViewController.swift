@@ -343,9 +343,7 @@ class QTVideoSessionViewController: UIViewController {
     
     func continueOutOfSession() {
         BackgroundSoundManager.shared.sessionInProgress = false
-        sessionOnHoldModal?.dismiss()
-        pauseSessionModal?.dismiss()
-        connectionLostModal?.dismiss()
+        dismissAllModals()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
         guard let runTime = sessionManager?.sessionRuntime,
             let partnerId = sessionManager?.session.partnerId(),
@@ -356,6 +354,8 @@ class QTVideoSessionViewController: UIViewController {
         }
         let minimumSessionPrice = 5.0 //$5
         let costOfSession = minimumSessionPrice + ((session.price / 60) / 60) * Double(runTime)
+        
+        
         
         if AccountService.shared.currentUserType == .learner {
             let vc = QTRatingReviewViewController.controller //SessionReview()
@@ -451,6 +451,15 @@ class QTVideoSessionViewController: UIViewController {
         sessionOnHoldModal?.show()
     }
     
+    func dismissAllModals() {
+        addTimeModal?.dismiss()
+        sessionOnHoldModal?.dismiss()
+        acceptAddTimeModal?.dismiss()
+        endSessionModal?.dismiss()
+        pauseSessionModal?.dismiss()
+        connectionLostModal?.dismiss()
+        reportTypeModal?.dismiss()
+    }
 }
 
 // MARK: - VideoSessionPartnerFeedBehaviorDelegate
