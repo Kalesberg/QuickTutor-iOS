@@ -814,6 +814,8 @@
 		84F5FD1420A5544200CFDA95 /* CloseAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1320A5544200CFDA95 /* CloseAccountVC.swift */; };
 		84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */; };
 		B0294039C491D8CB61037410 /* Pods_QuickTutorApp_QuickTutorDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C01852611B18C798569090 /* Pods_QuickTutorApp_QuickTutorDev.framework */; };
+		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
+		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
@@ -1409,6 +1411,7 @@
 		84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountReasonVC.swift; sourceTree = "<group>"; };
 		914050F784FC942BA6F7CFE6 /* Pods_QuickTutorApp_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorApp_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F50E2F131767D24D8C94876 /* Pods-QuickTutorApp-QuickTutor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutor.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor.release.xcconfig"; sourceTree = "<group>"; };
+		C41F17E0224D2D3A007758FC /* QTCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomButton.swift; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
 		CF046422206EE3D800BFE898 /* CancelSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSessionModal.swift; sourceTree = "<group>"; };
@@ -1972,6 +1975,7 @@
 				84C8F5E31FF8997400737A59 /* TextLabel.swift */,
 				569ECDA721F9A7FC005491CB /* QTCustomView.swift */,
 				569ECDCC21FB116D005491CB /* QTCustomImageView.swift */,
+				C41F17E0224D2D3A007758FC /* QTCustomButton.swift */,
 			);
 			path = "Base Classes";
 			sourceTree = "<group>";
@@ -3996,6 +4000,7 @@
 				569F1814223554FD00820A20 /* DimmableButton.swift in Sources */,
 				569F1815223554FD00820A20 /* PricePickerCell.swift in Sources */,
 				569F1816223554FD00820A20 /* SocialMedia.swift in Sources */,
+				C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */,
 				569F1817223554FD00820A20 /* LearnerMyProfileReviewsView.swift in Sources */,
 				569F1818223554FD00820A20 /* InviteOthersBackgroundView.swift in Sources */,
 				569F181A223554FD00820A20 /* EmailVCView.swift in Sources */,
@@ -4455,6 +4460,7 @@
 				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
 				8440539520F4E672003F0606 /* PricePickerCell.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
+				C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */,
 				8496FDFF215ED0DE00BD292F /* LearnerMyProfileReviewsView.swift in Sources */,
 				84EEFD572173CF5A00FE12F9 /* InviteOthersBackgroundView.swift in Sources */,
 				CFB9B80A21C5C49B0022333F /* EmailVCView.swift in Sources */,
