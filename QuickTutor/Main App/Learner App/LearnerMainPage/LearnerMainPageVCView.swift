@@ -190,7 +190,7 @@ class LearnerMainPageVCView: UIView {
         tableView.backgroundColor = Colors.newBackground
         tableView.translatesAutoresizingMaskIntoConstraints = true
         tableView.register(LearnerMainPageFeaturedSubjectTableViewCell.self, forCellReuseIdentifier: "featuredCell")
-        tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
+//        tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell")
         tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
         return tableView
     }()

@@ -95,6 +95,9 @@ class LearnerMainPageVC: UIViewController {
             if #available(iOS 11.0, *) {
                 self.contentView.tableView.performBatchUpdates({
                     self.datasource.merge(datasource, uniquingKeysWith: { _, last in last })
+                    for index in 1..<self.datasource.count {
+                        self.contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell_\(index)")
+                    }
                     self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1), with: .fade)
                 }, completion: { _ in
                     self.didLoadMore = false
@@ -102,6 +105,9 @@ class LearnerMainPageVC: UIViewController {
             } else {
                 self.contentView.tableView.beginUpdates()
                 self.datasource.merge(datasource, uniquingKeysWith: { _, last in last })
+                for index in 1..<self.datasource.count {
+                    self.contentView.tableView.register(FeaturedTutorTableViewCell.self, forCellReuseIdentifier: "tutorCell_\(index)")
+                }
                 self.contentView.tableView.insertSections(IndexSet(integersIn: self.datasource.count - 3..<self.datasource.count + 1), with: .fade)
                 self.contentView.tableView.endUpdates()
                 self.didLoadMore = false
@@ -140,25 +146,27 @@ extension LearnerMainPageVC: UITableViewDelegate, UITableViewDataSource {
             cell.collectionView.delegate = self
             cell.collectionView.dataSource = self
             return cell
-        } else if indexPath.section == 1{
+        } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryTableViewCell
             cell.delegate = self
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell", for: indexPath) as! FeaturedTutorTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "tutorCell_\(indexPath.section - 1)", for: indexPath) as! FeaturedTutorTableViewCell
             
-            cell.parentViewController = self
-            cell.datasource = datasource[categories[indexPath.section - 1]]!
-            let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.section - 1].subcategory.fileToRead)
-            cell.category = category
-            //TODO: Update to new category models
-            cell.delegate = self
+            if cell.datasource.isEmpty {
+                cell.parentViewController = self
+                cell.datasource = datasource[categories[indexPath.section - 1]]!
+                let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.section - 1].subcategory.fileToRead)
+                cell.category = category
+                //TODO: Update to new category models
+                cell.delegate = self
+            }
             return cell
         }
     }
 
     func numberOfSections(in _: UITableView) -> Int {
-        return datasource.count + 2
+        return datasource.count + 1
     }
 
     func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -218,7 +226,10 @@ extension LearnerMainPageVC: FeaturedTutorTableViewCellDelegate {
         })
     }
     
-
+    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didLoad dataSources: [AWTutor]) {
+        guard let indexPath = contentView.tableView.indexPath(for: featuredTutorTableViewCell) else { return }
+        datasource[categories[indexPath.section - 1]]?.append(contentsOf: dataSources)
+    }
 }
 
 extension LearnerMainPageVC: UINavigationControllerDelegate {

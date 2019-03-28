@@ -13,6 +13,7 @@ import FirebaseUI
 protocol FeaturedTutorTableViewCellDelegate {
     func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect featuredTutor: AWTutor)
     func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didSelect cell: TutorCollectionViewCell)
+    func featuredTutorTableViewCell(_ featuredTutorTableViewCell: FeaturedTutorTableViewCell, didLoad dataSources: [AWTutor])
 }
 
 class FeaturedTutorTableViewCell: UITableViewCell {
@@ -37,7 +38,7 @@ class FeaturedTutorTableViewCell: UITableViewCell {
 	
     let itemsPerBatch: UInt = 8
     var didLoadMore: Bool = false
-	
+    
     var datasource = [AWTutor]() {
         didSet {
             collectionView.reloadData()
@@ -46,7 +47,7 @@ class FeaturedTutorTableViewCell: UITableViewCell {
 
     var category: CategoryNew! {
         didSet {
-            collectionView.reloadData()
+//            collectionView.reloadData()
         }
     }
 
@@ -76,6 +77,7 @@ class FeaturedTutorTableViewCell: UITableViewCell {
                 let startIndex = self.datasource.count
                 self.collectionView.performBatchUpdates({
                     self.datasource.append(contentsOf: tutors)
+                    self.delegate?.featuredTutorTableViewCell(self, didLoad: tutors)
                     let insertPaths = Array(startIndex..<self.datasource.count).map { IndexPath(item: $0, section: 0) }
                     self.collectionView.insertItems(at: insertPaths)
                 }, completion: { _ in
