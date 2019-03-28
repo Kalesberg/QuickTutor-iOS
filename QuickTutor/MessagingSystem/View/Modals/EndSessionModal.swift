@@ -35,7 +35,14 @@ class EndSessionModal: BaseCustomModal {
 
     let messageLabel: UILabel = {
         let label = UILabel()
-        label.text = "Please make sure that your learner is ready to end the session early."
+        
+        if AccountService.shared.currentUserType == .tutor {
+            label.text = "Please make sure that your learner is ready to end the session."
+        } else {
+            label.text = "Are you sure you want to end this session?"
+        }
+        
+        
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -55,7 +62,7 @@ class EndSessionModal: BaseCustomModal {
 
     override func setupTitleLabel() {
         super.setupTitleLabel()
-        titleLabel.text = "END THIS SESSION?"
+        titleLabel.text = "END SESSION"
     }
 
     func setupMessageLabel() {
