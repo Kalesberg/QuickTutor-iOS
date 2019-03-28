@@ -46,9 +46,9 @@ class QTReviewTableViewCell: UITableViewCell {
         usernameLabel.text = review.studentName.formatName()
         let formattedString = NSMutableAttributedString()
         formattedString
-            .bold(review.subject, 10, Colors.purple)
-            .regular(" • ", 10, UIColor.white)
-            .regular(review.formattedDate, 10, Colors.grayText80)
+            .bold(review.subject, 12, Colors.purple)
+            .regular(" • ", 12, UIColor.white)
+            .regular(review.formattedDate, 12, Colors.grayText80)
         reviewDateLabel.attributedText = formattedString
         reviewLabel.text = review.message
         let rating = Int(review.rating)

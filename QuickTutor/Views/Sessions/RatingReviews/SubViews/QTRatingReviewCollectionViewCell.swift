@@ -95,7 +95,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleKeyboardShow(_:)),
-                                               name: UIResponder.keyboardWillShowNotification,
+                                               name: UIResponder.keyboardWillChangeFrameNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleKeyboardHide(_:)),
@@ -122,7 +122,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             let window = UIView(frame: CGRect(origin: CGPoint.zero, size: UIScreen.main.bounds.size))
             let newFrame = feedbackTextView.convert(feedbackTextView.bounds, to: window)
             let bottom = newFrame.origin.y + CGFloat(Dimension.feedbackTextViewHeight.rawValue)
-            let keyboardTop = UIScreen.main.bounds.height - keyboardSize.size.height
+            let keyboardTop = UIScreen.main.bounds.height - keyboardSize.size.height - 40
             if keyboardTop < bottom {
                 // overlay
                 delta = bottom - keyboardTop + CGFloat(Dimension.feedbackTextViewBottomDelta.rawValue)
