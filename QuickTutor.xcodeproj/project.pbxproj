@@ -814,6 +814,8 @@
 		84F5FD1420A5544200CFDA95 /* CloseAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1320A5544200CFDA95 /* CloseAccountVC.swift */; };
 		84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */; };
 		B0294039C491D8CB61037410 /* Pods_QuickTutorApp_QuickTutorDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C01852611B18C798569090 /* Pods_QuickTutorApp_QuickTutorDev.framework */; };
+		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
+		C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
 		CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046422206EE3D800BFE898 /* CancelSessionModal.swift */; };
 		CF0711012117AE6F0035A6FF /* ConversationPaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0711002117AE6F0035A6FF /* ConversationPaginationHeader.swift */; };
@@ -1407,6 +1409,7 @@
 		84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountReasonVC.swift; sourceTree = "<group>"; };
 		914050F784FC942BA6F7CFE6 /* Pods_QuickTutorApp_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorApp_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F50E2F131767D24D8C94876 /* Pods-QuickTutorApp-QuickTutor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutor.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor.release.xcconfig"; sourceTree = "<group>"; };
+		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
 		CF046422206EE3D800BFE898 /* CancelSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSessionModal.swift; sourceTree = "<group>"; };
 		CF0711002117AE6F0035A6FF /* ConversationPaginationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationPaginationHeader.swift; sourceTree = "<group>"; };
@@ -2923,6 +2926,7 @@
 				CF88A67C211D297900A10D17 /* AccessManager.swift */,
 				CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */,
 				CF507FAA218138A5007FE441 /* MessageBreakTimestamp.swift */,
+				C46A2F10224CD309005058B1 /* UserStatus.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3428,7 +3432,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh",
 				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -3439,7 +3443,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		569F18FE223554FD00820A20 /* ShellScript */ = {
@@ -3464,7 +3468,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
@@ -3527,7 +3531,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6747C7AB2888A82121A82300 /* [CP] Embed Pods Frameworks */ = {
@@ -3538,7 +3542,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
@@ -3601,7 +3605,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6A28D653F9C24D11889CF2FF /* [CP] Copy Pods Resources */ = {
@@ -3612,7 +3616,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh",
 				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -3623,7 +3627,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7929869E632F88C597D6209C /* [CP] Check Pods Manifest.lock */ = {
@@ -4013,6 +4017,7 @@
 				569F182B223554FD00820A20 /* TutorEditProfileCells.swift in Sources */,
 				569F182D223554FD00820A20 /* LaunchScreen.swift in Sources */,
 				569F182E223554FD00820A20 /* ConnectionsVC.swift in Sources */,
+				C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */,
 				569F182F223554FD00820A20 /* CardManagerVC.swift in Sources */,
 				569F1830223554FD00820A20 /* ImageMessageAnimator.swift in Sources */,
 				569F1831223554FD00820A20 /* QTLocationTableViewCell.swift in Sources */,
@@ -4471,6 +4476,7 @@
 				84F431962070786F00030BD4 /* TutorEditProfileCells.swift in Sources */,
 				8474C9AB20C47FB800CDB45B /* LaunchScreen.swift in Sources */,
 				CFEF943920B3287100413727 /* ConnectionsVC.swift in Sources */,
+				C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */,
 				8425BA08202E1BB100B2C5A7 /* CardManagerVC.swift in Sources */,
 				CFEF943D20B355C200413727 /* ImageMessageAnimator.swift in Sources */,
 				564B6C22222D8891004A9EB7 /* QTLocationTableViewCell.swift in Sources */,
