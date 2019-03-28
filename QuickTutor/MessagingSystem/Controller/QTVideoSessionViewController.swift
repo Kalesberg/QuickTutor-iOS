@@ -46,6 +46,10 @@ class QTVideoSessionViewController: UIViewController {
         return QTVideoSessionViewController(nibName: String(describing: QTVideoSessionViewController.self), bundle: nil)
     }
     
+    enum QTBottomMenuStatus {
+        case expanded, collapsed, hidden
+    }
+    
     // Variables
     var partnerId: String?
     var sessionLengthInSeconds: Double?
@@ -54,30 +58,47 @@ class QTVideoSessionViewController: UIViewController {
     var sessionManager: SessionManager?
     var twilioSessionManager: TwilioSessionManager?
     
-    var isMenuOpened = false {
+    var bottomMenuStatus: QTBottomMenuStatus = .collapsed {
         didSet {
             menuButton.tintColor = .white
-            if isMenuOpened {
+            switch bottomMenuStatus {
+            case .expanded:
                 menuButton.setImage(UIImage(named: "ic_arrow_down")?.withRenderingMode(.alwaysTemplate), for: .normal)
                 menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-                let animator = UIViewPropertyAnimator(duration: 0.15, curve: .easeInOut, animations: nil)
+                self.bottomSheetView.layoutIfNeeded()
+                let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut, animations: nil)
                 animator.addAnimations {
                     self.bottomSheetViewBottom.constant = 0
-                    self.bottomSheetView.layoutIfNeeded()
+                    self.view.layoutIfNeeded()
                 }
                 animator.startAnimation()
-            } else {
+                break
+            case .collapsed:
                 menuButton.setImage(UIImage(named: "moreIcon"), for: .normal)
                 menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 16.5, bottom: 12, right: 16.5)
-                let animator = UIViewPropertyAnimator(duration: 0.15, curve: .easeInOut, animations: nil)
+                self.bottomSheetView.layoutIfNeeded()
+                let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn, animations: nil)
                 animator.addAnimations {
                     self.bottomSheetViewBottom.constant = -120
-                    self.bottomSheetView.layoutIfNeeded()
+                    self.view.layoutIfNeeded()
                 }
                 animator.startAnimation()
+                break
+            case .hidden:
+                menuButton.setImage(UIImage(named: "moreIcon"), for: .normal)
+                menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 16.5, bottom: 12, right: 16.5)
+                self.bottomSheetView.layoutIfNeeded()
+                let animator = UIViewPropertyAnimator(duration: 0.15, curve: .easeIn, animations: nil)
+                animator.addAnimations {
+                    self.bottomSheetViewBottom.constant = -200
+                    self.view.layoutIfNeeded()
+                }
+                animator.startAnimation()
+                break
             }
         }
     }
+    
     var behavior: VideoSessionPartnerFeedBehavior!
     
     var addTimeModal: AddTimeModal?
@@ -106,6 +127,7 @@ class QTVideoSessionViewController: UIViewController {
         
         updateUI()
         setupTwilio()
+        setupActions()
         
         DataService.shared.getSessionById(sessionId) { session in
             AnalyticsService.shared.logSessionStart(session)
@@ -155,7 +177,11 @@ class QTVideoSessionViewController: UIViewController {
     }
     
     @IBAction func onClickMenuButtonClicked(_ sender: Any) {
-        isMenuOpened = !isMenuOpened
+        if bottomMenuStatus == .collapsed {
+            bottomMenuStatus = .expanded
+        } else {
+            bottomMenuStatus = .collapsed
+        }
     }
     
     @IBAction func onFlipCamerButtonClicked(_ sender: Any) {
@@ -206,6 +232,15 @@ class QTVideoSessionViewController: UIViewController {
         durationLabel.text = timeString
     }
     
+    @objc
+    func handleDidTapPartnerView(_ gesture: UITapGestureRecognizer) {
+        if bottomMenuStatus == .hidden {
+            bottomMenuStatus = .collapsed
+        } else {
+            bottomMenuStatus = .hidden
+        }
+    }
+    
     // MARK: - Functions
     func observeSessionEvents() {
         socket.on(SocketEvents.requestAddTime) { data, _ in
@@ -247,9 +282,16 @@ class QTVideoSessionViewController: UIViewController {
     }
     
     func setupNotifications() {
+        NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(handleBackgrounded), name: Notifications.didEnterBackground.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleForegrounded), name: Notifications.didEnterForeground.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateDuration(notification:)), name: NSNotification.Name("com.qt.updateTime"), object: nil)
+    }
+    
+    func setupActions() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleDidTapPartnerView(_:)))
+        partnerView.addGestureRecognizer(gesture)
+        partnerView.isUserInteractionEnabled = true
     }
     
     func updateUI() {
@@ -258,7 +300,7 @@ class QTVideoSessionViewController: UIViewController {
         animationView.loopAnimation = true
         animationView.play()
         
-        isMenuOpened = false
+        bottomMenuStatus = .collapsed
         menuButton.layer.cornerRadius = 18
         menuButton.clipsToBounds = true
         menuButton.layer.borderColor = Colors.grayText80.cgColor

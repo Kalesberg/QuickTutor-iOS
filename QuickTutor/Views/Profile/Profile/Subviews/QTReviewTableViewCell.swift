@@ -57,7 +57,7 @@ class QTReviewTableViewCell: UITableViewCell {
         DataService.shared.getStudentWithId(review.reviewerId) { (student) in
             guard let student = student else { return }
             self.avatarImageView.sd_setImage(with: student.profilePicUrl,
-                                             placeholderImage: UIImage(named: "registration-image-placeholder"),
+                                             placeholderImage: UIImage(named: "ic_avatar_placeholder"),
                                              options: [],
                                              completed: nil)
             

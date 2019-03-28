@@ -57,7 +57,7 @@ class QTPastSessionTableViewCell: UITableViewCell {
         DataService.shared.getTutorWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.usernameLabel.text = username
-            self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: UIImage(named: "ic_avatar_placeholder"))
         }
     }
     
@@ -65,7 +65,7 @@ class QTPastSessionTableViewCell: UITableViewCell {
         DataService.shared.getStudentWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.usernameLabel.text = username
-            self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: UIImage(named: "ic_avatar_placeholder"))
         }
     }
     
