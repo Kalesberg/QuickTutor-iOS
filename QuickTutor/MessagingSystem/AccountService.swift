@@ -50,3 +50,44 @@ class SessionService {
 
     private init() {}
 }
+
+class UserStatusService {
+    static let shared = UserStatusService ()
+    
+    func getUserStatuses (completion: @escaping ([UserStatus]) -> Void) {
+        Database.database().reference().child("userStatus").observe(.value) { snapshot in
+            var statuses = [UserStatus]()
+            for child in snapshot.children {
+                guard let childSnapshot = child as? DataSnapshot,
+                    let dict = childSnapshot.value as? [String:Any], let status = dict["status"] as? Int else { continue }
+                statuses.append(UserStatus(childSnapshot.key, status: status))
+            }
+            completion (statuses)
+        }
+    }
+    
+    func getUserStatus (_ userId: String, completion: @escaping (UserStatus?) -> Void) {
+        Database.database().reference().child("userStatus").child(userId).observe(.value) { snapshot in
+            guard let dict = snapshot.value as? [String:Any], let status = dict["status"] as? Int else {
+                completion (nil)
+                return
+            }
+            completion (UserStatus(userId, status: status))
+        }
+    }
+    
+    func updateUserStatus (_ userId: String, status: UserStatusType) {
+        let dbRef = Database.database().reference().child("userStatus").child(userId)
+        switch status {
+        case .offline:
+            dbRef.removeValue()
+            break
+        case .away:
+            dbRef.updateChildValues(["status" : status.rawValue])
+            break
+        case .online:
+            dbRef.setValue(["status" : status.rawValue])
+            break
+        }
+    }
+}
