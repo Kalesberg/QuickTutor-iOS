@@ -157,7 +157,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         case .hours:
             self.leftValueLabel.text = String(format: "%.2f", total)
         case .sessions:
-            self.leftValueLabel.text = String(format: "%d", total)
+            self.leftValueLabel.text = "\(Int(total))"
         }
         
         if total > 0 {
@@ -264,7 +264,7 @@ extension QTTutorDashboardTableViewCell: ChartViewDelegate {
             case .hours:
                 self.leftValueLabel.text = String(format: "%.2f", data.valueY)
             case .sessions:
-                self.leftValueLabel.text = String(format: "%d", Int(data.valueY))
+                self.leftValueLabel.text = "\(Int(data.valueY))"
             }
             
             let formatter: DateFormatter = DateFormatter()
