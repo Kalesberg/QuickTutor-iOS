@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,19 +29,19 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTSettingsViewController" customModule="QuickTutor" customModuleProvider="target">
             <connections>
-                <outlet property="facebookImageView" destination="pgV-hf-eBN" id="tgN-sc-7nF"/>
-                <outlet property="facebookView" destination="trF-Uj-7wL" id="gF1-AK-iOZ"/>
-                <outlet property="instagramImageView" destination="VjN-lB-NnK" id="Hw6-fg-BpX"/>
-                <outlet property="instagramView" destination="ISh-O5-Dlz" id="Kjl-PD-jwz"/>
+                <outlet property="facebookButton" destination="Tv4-7f-wjd" id="Mj4-5h-08z"/>
+                <outlet property="guidelinesReadButton" destination="hAT-bp-Lx4" id="3kI-Rr-s30"/>
+                <outlet property="instagramButton" destination="04g-3F-0Km" id="WBi-iB-IgB"/>
                 <outlet property="linkFacebookView" destination="m69-cg-Qhz" id="tAw-gW-fLY"/>
                 <outlet property="locationTextField" destination="4V2-Bs-AbN" id="84Q-h5-cw3"/>
                 <outlet property="locationView" destination="e8u-nI-AiX" id="3Sn-ie-Kys"/>
+                <outlet property="rateButton" destination="Mp5-s6-1yb" id="Mkf-qa-iSK"/>
+                <outlet property="safetyReadButton" destination="az4-mY-YKE" id="Xii-Mr-DvM"/>
                 <outlet property="showMeSwitch" destination="7Ya-av-emd" id="L63-SX-UzU"/>
                 <outlet property="showMeView" destination="f6O-SZ-Mav" id="Brd-D4-HPU"/>
                 <outlet property="switchOffImageView" destination="AXD-0b-6X3" id="okd-hm-V6K"/>
                 <outlet property="switchOnImageView" destination="LyP-nm-HLV" id="CP2-e0-OTj"/>
-                <outlet property="twitterIconView" destination="57S-Fg-4bX" id="U6e-Rz-Ane"/>
-                <outlet property="twitterView" destination="6Z7-EP-FXH" id="STu-HO-CcO"/>
+                <outlet property="twitterButton" destination="iIc-yf-DMR" id="ThY-UF-x9c"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -182,80 +182,55 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="jVf-db-BmL">
                                                     <rect key="frame" x="37.5" y="52" width="260" height="60"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Z7-EP-FXH" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIc-yf-DMR" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                            <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_twitter" translatesAutoresizingMaskIntoConstraints="NO" id="57S-Fg-4bX">
-                                                                    <rect key="frame" x="18" y="18" width="24" height="24"/>
-                                                                    <color key="tintColor" red="0.86274509799999999" green="0.1333333333" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="24" id="LD1-BM-0FP"/>
-                                                                        <constraint firstAttribute="width" constant="24" id="ttv-Oi-U28"/>
-                                                                    </constraints>
-                                                                </imageView>
-                                                            </subviews>
-                                                            <color key="backgroundColor" red="0.11372549019607843" green="0.63137254901960782" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="backgroundColor" red="0.11372549019607843" green="0.63137254901960782" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <constraints>
-                                                                <constraint firstItem="57S-Fg-4bX" firstAttribute="centerY" secondItem="6Z7-EP-FXH" secondAttribute="centerY" id="Dko-nH-zFn"/>
-                                                                <constraint firstAttribute="height" constant="60" id="T54-Kn-MPL"/>
-                                                                <constraint firstItem="57S-Fg-4bX" firstAttribute="centerX" secondItem="6Z7-EP-FXH" secondAttribute="centerX" id="h1u-JC-cdh"/>
-                                                                <constraint firstAttribute="width" constant="60" id="mdc-Kg-MU3"/>
+                                                                <constraint firstAttribute="width" constant="60" id="Zzr-fI-LYH"/>
                                                             </constraints>
+                                                            <state key="normal" image="ic_twitter"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                                     <real key="value" value="30"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
-                                                        </view>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="trF-Uj-7wL" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                                                            <connections>
+                                                                <action selector="handleDidTwitterViewTap:" destination="-1" eventType="touchUpInside" id="Oq2-tP-OY5"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tv4-7f-wjd" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
                                                             <rect key="frame" x="100" y="0.0" width="60" height="60"/>
-                                                            <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_facebook" translatesAutoresizingMaskIntoConstraints="NO" id="pgV-hf-eBN">
-                                                                    <rect key="frame" x="18" y="18" width="24" height="24"/>
-                                                                    <color key="tintColor" red="0.86274509799999999" green="0.1333333333" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="24" id="Oqw-zA-ltx"/>
-                                                                        <constraint firstAttribute="height" constant="24" id="tdL-Xm-GFv"/>
-                                                                    </constraints>
-                                                                </imageView>
-                                                            </subviews>
-                                                            <color key="backgroundColor" red="0.25882352941176467" green="0.40392156862745099" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="backgroundColor" red="0.25882352941176467" green="0.40392156862745099" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="60" id="870-1e-6b1"/>
-                                                                <constraint firstAttribute="height" constant="60" id="Bdf-nd-2S3"/>
-                                                                <constraint firstItem="pgV-hf-eBN" firstAttribute="centerY" secondItem="trF-Uj-7wL" secondAttribute="centerY" id="Inl-OC-Z0z"/>
-                                                                <constraint firstItem="pgV-hf-eBN" firstAttribute="centerX" secondItem="trF-Uj-7wL" secondAttribute="centerX" id="llS-N1-gBe"/>
+                                                                <constraint firstAttribute="width" constant="60" id="1Wi-6Y-Pjf"/>
                                                             </constraints>
+                                                            <state key="normal" image="ic_facebook"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                                     <real key="value" value="30"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
-                                                        </view>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ISh-O5-Dlz" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                                                            <connections>
+                                                                <action selector="handleDidFacebookViewTap:" destination="-1" eventType="touchUpInside" id="tnI-HA-6nk"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="04g-3F-0Km" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
                                                             <rect key="frame" x="200" y="0.0" width="60" height="60"/>
-                                                            <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_instagram" translatesAutoresizingMaskIntoConstraints="NO" id="VjN-lB-NnK">
-                                                                    <rect key="frame" x="18" y="18" width="24" height="24"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="24" id="YQg-0I-Ro3"/>
-                                                                        <constraint firstAttribute="height" constant="24" id="ZMC-yC-DdH"/>
-                                                                    </constraints>
-                                                                </imageView>
-                                                            </subviews>
-                                                            <color key="backgroundColor" red="0.1137254902" green="0.63137254899999995" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="backgroundColor" red="0.11372549019607843" green="0.63137254901960782" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="60" id="6z8-6u-bcu"/>
-                                                                <constraint firstItem="VjN-lB-NnK" firstAttribute="centerY" secondItem="ISh-O5-Dlz" secondAttribute="centerY" id="Qg9-T5-CZx"/>
-                                                                <constraint firstAttribute="height" constant="60" id="btz-Lm-u2L"/>
-                                                                <constraint firstItem="VjN-lB-NnK" firstAttribute="centerX" secondItem="ISh-O5-Dlz" secondAttribute="centerX" id="dMT-vl-Q8S"/>
+                                                                <constraint firstAttribute="width" constant="60" id="18S-Oj-E3k"/>
+                                                                <constraint firstAttribute="height" constant="60" id="JiM-BR-FX0"/>
                                                             </constraints>
+                                                            <state key="normal" image="ic_instagram"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                                     <real key="value" value="30"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
-                                                        </view>
+                                                            <connections>
+                                                                <action selector="handleDidInstagramViewTap:" destination="-1" eventType="touchUpInside" id="bKM-oa-Ddm"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
@@ -318,8 +293,8 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="meK-jl-RAG" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
                                             <rect key="frame" x="20" y="59.5" width="335" height="45"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Community guidelines" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6V-uj-GQr">
-                                                    <rect key="frame" x="15" y="15" width="143" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Community Guidelines" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6V-uj-GQr">
+                                                    <rect key="frame" x="15" y="15" width="145.5" height="15"/>
                                                     <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -364,8 +339,8 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read our guidelines on interacting with others." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cV2-ka-pro">
-                                            <rect key="frame" x="20" y="114.5" width="245.5" height="14.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read our guidelines on interacting with other users." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cV2-ka-pro">
+                                            <rect key="frame" x="20" y="114.5" width="271" height="14.5"/>
                                             <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -373,8 +348,8 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s3M-Xr-CPU" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
                                             <rect key="frame" x="20" y="149" width="335" height="45"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User safety" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sni-Vo-UOL">
-                                                    <rect key="frame" x="15" y="15" width="72.5" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Safety" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sni-Vo-UOL">
+                                                    <rect key="frame" x="15" y="15" width="74" height="15"/>
                                                     <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -419,8 +394,8 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read how to stay safe using QuickTutor. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NsN-hF-uKs">
-                                            <rect key="frame" x="20" y="204" width="212.5" height="14.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read our suggestions for staying safe on QuickTutor." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NsN-hF-uKs">
+                                            <rect key="frame" x="20" y="204" width="275.5" height="14.5"/>
                                             <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -438,6 +413,7 @@
                                         <constraint firstItem="meK-jl-RAG" firstAttribute="leading" secondItem="UwH-pd-07Z" secondAttribute="leading" constant="20" id="3ly-xe-lFg"/>
                                         <constraint firstAttribute="trailing" secondItem="607-wT-uec" secondAttribute="trailing" constant="20" id="4Yd-8L-l9r"/>
                                         <constraint firstItem="s3M-Xr-CPU" firstAttribute="top" secondItem="cV2-ka-pro" secondAttribute="bottom" constant="20" id="61P-bV-q8S"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cV2-ka-pro" secondAttribute="trailing" constant="20" id="7FT-PX-8f9"/>
                                         <constraint firstAttribute="trailing" secondItem="meK-jl-RAG" secondAttribute="trailing" constant="20" id="91Y-Ko-2Ej"/>
                                         <constraint firstItem="meK-jl-RAG" firstAttribute="top" secondItem="Lv6-K1-3RZ" secondAttribute="bottom" constant="20" id="Ack-S1-iuJ"/>
                                         <constraint firstItem="Lv6-K1-3RZ" firstAttribute="top" secondItem="UwH-pd-07Z" secondAttribute="top" constant="20" id="Cgt-yu-Dyt"/>
@@ -451,6 +427,7 @@
                                         <constraint firstItem="cV2-ka-pro" firstAttribute="top" secondItem="meK-jl-RAG" secondAttribute="bottom" constant="10" id="nF8-yq-C4g"/>
                                         <constraint firstItem="s3M-Xr-CPU" firstAttribute="leading" secondItem="UwH-pd-07Z" secondAttribute="leading" constant="20" id="oUO-zO-RiX"/>
                                         <constraint firstItem="cV2-ka-pro" firstAttribute="leading" secondItem="UwH-pd-07Z" secondAttribute="leading" constant="20" id="t9W-aN-Zx7"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NsN-hF-uKs" secondAttribute="trailing" constant="20" id="tHT-E3-nlZ"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y3T-P6-U0a">
@@ -559,8 +536,8 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Connect your account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7HZ-QQ-djj">
-                                                    <rect key="frame" x="0.0" y="50.5" width="116" height="14.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Sign into your account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7HZ-QQ-djj">
+                                                    <rect key="frame" x="0.0" y="50.5" width="117.5" height="14.5"/>
                                                     <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
