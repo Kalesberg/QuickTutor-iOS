@@ -33,8 +33,8 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         super.viewDidLoad()
         sectionTitles.insert("Tutoring", at: 1)
         if automaticScroll {
-            let indexPath = IndexPath(row: 0, section: 2)
-            contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+            let indexPath = IndexPath(row: 2, section: 1)
+            contentView.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -273,6 +273,11 @@ class LearnerEditProfileVC: UIViewController {
         setupName()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
+    }
+    
     func updateLearner() {
         guard let learner = CurrentUser.shared.learner else { return }
         self.learner = learner
@@ -284,11 +289,6 @@ class LearnerEditProfileVC: UIViewController {
         lastName = String(name[1])
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
-    }
-
      func displaySavedAlertController() {
         let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
         

@@ -232,10 +232,13 @@ class QTProfileViewController: UIViewController {
         
         // Set the avatar of user profile.
         if profileViewType == .tutor || profileViewType == .myTutor {
-            avatarImageView.sd_setImage(with: user.profilePicUrl)
+            DataService.shared.getUserWithId(user.uid, type: UserType.tutor) { (tutor) in
+                self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
+            }
         } else {
-            let reference = storageRef.child("student-info").child(user.uid).child("student-profile-pic1")
-            avatarImageView.sd_setImage(with: reference)
+            DataService.shared.getUserWithId(user.uid, type: UserType.learner) { (learner) in
+                self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
+            }
         }
         avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidAvatarImageViewTap)))
         
@@ -348,8 +351,12 @@ class QTProfileViewController: UIViewController {
     func initSubjects() {
         guard let user = user else { return }
         
-        subjectsCollectionView.isHidden = user.subjects?.isEmpty ?? true
-        subjectsCollectionView.reloadData()
+        if profileViewType == QTProfileViewType.tutor || profileViewType == QTProfileViewType.myTutor {
+            subjectsCollectionView.isHidden = (user.subjects?.isEmpty ?? true) && (user.featuredSubject?.isEmpty ?? true)
+            subjectsCollectionView.reloadData()
+        } else {
+            subjectsCollectionView.isHidden = true
+        }
     }
     
     func initReviews() {
@@ -449,11 +456,13 @@ class QTProfileViewController: UIViewController {
     func updateSubjectsHeight() {
         subjectsCollectionViewHeight.constant = subjectsCollectionView.contentSize.height
         subjectsCollectionView.layoutIfNeeded()
+        scrollView.layoutIfNeeded()
     }
     
     func updateReviewsHeight() {
         reviewsTabeViewHeight.constant = reviewsHeight
         reviewsTableView.layoutIfNeeded()
+        scrollView.layoutIfNeeded()
     }
     
     func createLightBoxImages() -> [LightboxImage] {
@@ -512,6 +521,8 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
         var width: CGFloat = 60
         if let subjects = user?.subjects {
             width = subjects[indexPath.item].estimateFrameForFontSize(14).width + 20
+        } else if let featuredSubject = user.featuredSubject {
+            width = featuredSubject.estimateFrameForFontSize(14).width + 20
         }
         return CGSize(width: width, height: 30)
     }
@@ -520,14 +531,24 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UICollectionViewDataSource
 extension QTProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return user?.subjects?.count ?? 0
+        if let subjects = user.subjects, subjects.count > 0 {
+            return subjects.count
+        }
+        
+        if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+            return 1
+        }
+        
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PillCollectionViewCell.reuseIdentifier, for: indexPath) as! PillCollectionViewCell
+        cell.titleLabel.font = Fonts.createMediumSize(14)
         if let subjects = user?.subjects {
-            cell.titleLabel.font = Fonts.createMediumSize(14)
             cell.titleLabel.text = subjects[indexPath.item]
+        } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+            cell.titleLabel.text = featuredSubject
         }
         updateSubjectsHeight()
         return cell

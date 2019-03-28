@@ -29,8 +29,8 @@ struct TopSubcategory {
 class QTTutorDashboardViewController: UIViewController {
 
     // MARK: - Properties
-    @IBOutlet weak var tutorSettingView: QTCustomView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tutorSettingsButton: UIButton!
     
     var durationType: QTTutorDashboardDurationType = QTTutorDashboardDurationType.month
     var tutor: AWTutor?
@@ -98,6 +98,10 @@ class QTTutorDashboardViewController: UIViewController {
         headerView.avatarImageView.isUserInteractionEnabled = true
         headerView.avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapTutorProfileImageView)))
         
+        tutorSettingsButton.cornerRadius(corners: [.topLeft, .topRight], radius: 3)
+        tutorSettingsButton.clipsToBounds = true
+        tutorSettingsButton.setupTargets()
+        
         self.tutor = CurrentUser.shared.tutor
         
         initUserBasicInformation()
@@ -117,7 +121,7 @@ class QTTutorDashboardViewController: UIViewController {
     }
 
     // MARK: - Actions
-    @IBAction func onTutorSettingsViewTapped(_ sender: Any) {
+    @IBAction func onClickTutorSettingsButton(_ sender: Any) {
         let controller = TutorEditProfileVC()
         controller.automaticScroll = true
         controller.delegate = self
