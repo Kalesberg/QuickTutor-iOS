@@ -168,28 +168,33 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     @objc
     func handleDidLinkFacebookViewTap(_ recognizer: UILongPressGestureRecognizer) {
         
-        if recognizer.state == .began {
+        switch recognizer.state {
+        case .began:
             linkFacebookView.didTouchDown()
-        } else {
+            break
+        case .changed:
+            break
+        case .ended:
             linkFacebookView.didTouchUp()
+            let loginManager = LoginManager()
             
-            if recognizer.state == .ended {
-                let loginManager = LoginManager()
-                
-                loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
-                    switch result {
-                    case .failed(let error):
-                        print(error)
-                    case .cancelled:
-                        print("User cancelled login.")
-                    case .success:
-                        let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
-                        Auth.auth().currentUser?.linkAndRetrieveData(with: credential, completion: { (authResult, error) in
-                            print("Facebook linked")
-                        })
-                    }
+            loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
+                switch result {
+                case .failed(let error):
+                    print(error)
+                case .cancelled:
+                    print("User cancelled login.")
+                case .success:
+                    let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
+                    Auth.auth().currentUser?.linkAndRetrieveData(with: credential, completion: { (authResult, error) in
+                        print("Facebook linked")
+                    })
                 }
             }
+            break
+        default:
+            linkFacebookView.didTouchUp()
+            break
         }
     }
     

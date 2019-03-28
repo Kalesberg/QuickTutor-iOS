@@ -48,7 +48,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kgc-YS-wOD">
                                                         <rect key="frame" x="0.0" y="0.0" width="180" height="160"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="753" verticalCompressionResistancePriority="753" translatesAutoresizingMaskIntoConstraints="NO" id="uPv-hL-9io">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="753" verticalCompressionResistancePriority="753" translatesAutoresizingMaskIntoConstraints="NO" id="uPv-hL-9io">
                                                                 <rect key="frame" x="0.0" y="0.0" width="180" height="160"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="160" id="4QZ-i1-eU8"/>
