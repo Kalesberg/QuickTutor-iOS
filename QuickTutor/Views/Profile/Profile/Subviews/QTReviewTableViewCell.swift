@@ -53,9 +53,14 @@ class QTReviewTableViewCell: UITableViewCell {
         reviewLabel.text = review.message
         let rating = Int(review.rating)
         ratingView.setRatingTo(rating)
+        
         DataService.shared.getStudentWithId(review.reviewerId) { (student) in
             guard let student = student else { return }
-            self.avatarImageView.sd_setImage(with: student.profilePicUrl)
+            self.avatarImageView.sd_setImage(with: student.profilePicUrl,
+                                             placeholderImage: UIImage(named: "registration-image-placeholder"),
+                                             options: [],
+                                             completed: nil)
+            
         }
     }
 }
