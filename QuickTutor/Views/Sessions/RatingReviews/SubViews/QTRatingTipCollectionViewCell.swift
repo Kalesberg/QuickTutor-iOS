@@ -40,13 +40,17 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     var costOfSession: Double = 0.0
     var didSelectTip: ((Int) ->())?
     
-    enum Dimension: Float {
-        case avatarWidth = 180
-        case avatarHeight = 160
-        case avatarMinHeight = 100
-        case tipTextFieldHeight = 50
-        case profileInfoHeight = 65
+    struct Dimension {
+        let avatarWidth = 180
+        let avatarHeight = 160
+        let avatarMinHeight = 100
+        let tipTextFieldHeight = 50
+        let profileInfoHeight = 65
+        let tipCheckStackViewTop = 30
+        let tipCheckStackViewHeight = 40
     }
+    
+    var dimension: Dimension = Dimension()
     
     let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
     
@@ -149,7 +153,10 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
             // Check whether or not the keyboard overlays text view or not
             let window = UIView(frame: CGRect(origin: CGPoint.zero, size: UIScreen.main.bounds.size))
             let newFrame = tipTextField.convert(tipTextField.bounds, to: window)
-            let bottom = newFrame.origin.y + CGFloat(Dimension.tipTextFieldHeight.rawValue)
+            let bottom = newFrame.origin.y +
+                CGFloat(dimension.tipTextFieldHeight +
+                    dimension.tipCheckStackViewTop +
+                    dimension.tipCheckStackViewHeight)
             let keyboardTop = UIScreen.main.bounds.height - keyboardSize.size.height
             if keyboardTop < bottom {
                 // overlay
@@ -159,25 +166,25 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         
         UIView.animate(withDuration: TimeInterval(1.5)) {
             if delta > 0 {
-                if delta < CGFloat(Dimension.avatarHeight.rawValue - Dimension.avatarMinHeight.rawValue) {
+                if delta < CGFloat(self.dimension.avatarHeight - self.dimension.avatarMinHeight) {
                     // Update the avatar height with min height.
-                    self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarMinHeight.rawValue)
+                    self.avatarHeightConstraint.constant = CGFloat(self.dimension.avatarMinHeight)
                 } else {
                     // Decrease the height of profile info (65px)
-                    if delta > CGFloat(Dimension.profileInfoHeight.rawValue) {
+                    if delta > CGFloat(self.dimension.profileInfoHeight) {
                         self.nameView.isHidden = true
                         self.subjectView.isHidden = true
                         self.profileRatingView.isHidden = true
-                        if delta - CGFloat(Dimension.profileInfoHeight.rawValue) < CGFloat(Dimension.avatarHeight.rawValue - Dimension.avatarMinHeight.rawValue) {
+                        if delta - CGFloat(self.dimension.profileInfoHeight) < CGFloat(self.dimension.avatarHeight - self.dimension.avatarMinHeight) {
                             // Update the avatar height with min height.
-                            self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarMinHeight.rawValue)
+                            self.avatarHeightConstraint.constant = CGFloat(self.dimension.avatarMinHeight)
                         } else {
                             // Hide the avatar
                             self.avatarHeightConstraint.constant = 0
                         }
                     }
                 }
-                self.avatarWidthConstraint.constant = self.avatarHeightConstraint.constant * CGFloat(Dimension.avatarWidth.rawValue / Dimension.avatarHeight.rawValue)
+                self.avatarWidthConstraint.constant = self.avatarHeightConstraint.constant * CGFloat(self.dimension.avatarWidth / self.dimension.avatarHeight)
             }
             self.layoutIfNeeded()
         }
@@ -186,9 +193,9 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     @objc
     func handleKeyboardHide(_ notification: Notification) {
         UIView.animate(withDuration: TimeInterval(1.5)) {
-            if self.avatarWidthConstraint.constant < CGFloat(Dimension.avatarWidth.rawValue) {
-                self.avatarWidthConstraint.constant = CGFloat(Dimension.avatarWidth.rawValue)
-                self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarHeight.rawValue)
+            if self.avatarWidthConstraint.constant < CGFloat(self.dimension.avatarWidth) {
+                self.avatarWidthConstraint.constant = CGFloat(self.dimension.avatarWidth)
+                self.avatarHeightConstraint.constant = CGFloat(self.dimension.avatarHeight)
             }
             self.nameView.isHidden = false
             self.subjectView.isHidden = false

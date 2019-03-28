@@ -230,9 +230,7 @@ class QTInPersonSessionViewController: UIViewController {
     
     func continueOutOfSession() {
         BackgroundSoundManager.shared.sessionInProgress = false
-        sessionOnHoldModal?.dismiss()
-        pauseSessionModal?.dismiss()
-        connectionLostModal?.dismiss()
+        dismissAllModals()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
         guard let runTime = sessionManager?.sessionRuntime,
             let partnerId = sessionManager?.session.partnerId(),
@@ -325,6 +323,14 @@ class QTInPersonSessionViewController: UIViewController {
         acceptAddTimeModal = AcceptAddTimeModal(frame: .zero)
         acceptAddTimeModal?.delegate = self
         acceptAddTimeModal?.show()
+    }
+    
+    func dismissAllModals() {
+        addTimeModal?.dismiss()
+        sessionOnHoldModal?.dismiss()
+        acceptAddTimeModal?.dismiss()
+        pauseSessionModal?.dismiss()
+        connectionLostModal?.dismiss()
     }
 }
 
