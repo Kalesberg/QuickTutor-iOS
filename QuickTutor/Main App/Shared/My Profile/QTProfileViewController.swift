@@ -275,6 +275,13 @@ class QTProfileViewController: UIViewController {
             numberOfSubjectsLabel.text = "\(user.subjects?.count ?? 0)"
             addressView.isHidden = false
             distanceView.isHidden = false
+            // Set address
+            addressLabel.text = user.region
+            if let distance = user.distance {
+                distanceLabel.text = distance == 1 ? "\(distance) mile from you" : "\(distance) miles from you"
+            } else {
+                distanceLabel.text = "\(0) miles from you"
+            }
             if let bio = user.tBio, !bio.isEmpty {
                 bioLabel.text = "\(bio)"
             } else {
@@ -286,7 +293,9 @@ class QTProfileViewController: UIViewController {
             statisticStackView.isHidden = true
             topSubjectLabel.isHidden = true
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
-            addressView.isHidden = true
+            addressView.isHidden = false
+            addressLabel.text = "United States"
+            distanceView.isHidden = true
             if let bio = user.bio, !bio.isEmpty {
                 bioLabel.text = "\(bio)"
             } else {
@@ -312,7 +321,9 @@ class QTProfileViewController: UIViewController {
             }
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             addressView.isHidden = false
-            distanceView.isHidden = true
+            addressLabel.text = user.region
+            distanceView.isHidden = false
+            distanceLabel.text = "1 mile or 0 miles away"
             if let bio = user.tBio, !bio.isEmpty {
                 bioLabel.text = "\(bio)"
             } else {
@@ -328,7 +339,10 @@ class QTProfileViewController: UIViewController {
             statisticStackView.isHidden = true
             topSubjectLabel.isHidden = true
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
-            addressView.isHidden = true
+            addressView.isHidden = false
+            addressLabel.text = "United States"
+            distanceView.isHidden = false
+            distanceLabel.text = "1 mile or 0 miles away"
             if let bio = user.bio, !bio.isEmpty {
                 bioLabel.text = "\(bio)"
             } else {
@@ -339,14 +353,6 @@ class QTProfileViewController: UIViewController {
                                                                 style: .plain,
                                                                 target: self,
                                                                 action: #selector(handleEditProfile))
-        }
-        
-        // Set address
-        addressLabel.text = user.region
-        if let distance = user.distance {
-            distanceLabel.text = distance == 1 ? "\(distance) mile from you" : "\(distance) miles from you"
-        } else {
-            distanceLabel.text = "\(0) miles from you"
         }
         bioLabel.superview?.layoutIfNeeded()
     }
