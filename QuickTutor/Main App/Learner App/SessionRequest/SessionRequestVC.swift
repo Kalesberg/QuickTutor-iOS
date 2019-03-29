@@ -59,8 +59,7 @@ class SessionRequestVC: UIViewController {
         setupNavBar()
         if let tutor = tutor {
             contentView.tutor = tutor
-            contentView.tutorView.tutorCell.nameLabel.text = tutor.name
-            contentView.tutorView.tutorCell.profileImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            contentView.tutorView.tutorCell.updateUI(user: tutor)
             contentView.tutorView.tutorCell.alpha = 1
             checkForErrors()
         }
@@ -133,9 +132,7 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
     func tutorView(_ tutorView: SessionRequestTutorView, didChoose tutor: AWTutor) {
         tutorView.tutorCell.alpha = 1
         self.tutor = tutor
-        contentView.tutorView.tutorCell.nameLabel.text = tutor.formattedName
-        contentView.tutorView.tutorCell.profileImageView.sd_setImage(with: tutor.profilePicUrl, completed: nil)
-        contentView.tutorView.tutorCell.locationLabel.text = tutor.region
+        contentView.tutorView.tutorCell.updateUI(user: tutor)
     }
 }
 
