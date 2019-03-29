@@ -12,6 +12,7 @@ import Firebase
 class FeaturedSubjectVC: BaseRegistrationController {
     
     var subjects = [String]()
+    var featuredSubject: String?
     
     let contentView: FeaturedSubjectVCView = {
         let view = FeaturedSubjectVCView()
@@ -38,7 +39,10 @@ class FeaturedSubjectVC: BaseRegistrationController {
     }
     
     @objc func saveChanges() {
-        
+        if let featuredSubject = featuredSubject {
+            CurrentUser.shared.tutor.featuredSubject = featuredSubject
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     func loadFeatuedSubject() {
@@ -128,6 +132,7 @@ extension FeaturedSubjectVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         TutorRegistrationService.shared.setFeaturedSubject(subjects[indexPath.item])
+        featuredSubject = subjects[indexPath.item]
     }
 }
 

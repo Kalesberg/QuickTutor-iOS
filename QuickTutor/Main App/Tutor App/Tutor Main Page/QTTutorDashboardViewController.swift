@@ -58,9 +58,12 @@ class QTTutorDashboardViewController: UIViewController {
     var hoursChartData = [QTTutorDashboardChartData]()
     var topSubject: String? {
         didSet {
-            guard let text = topSubject == nil || topSubject?.isEmpty ?? true
-                ? self.tutor?.subjects?.first : topSubject else { return }
-            headerView.subjectLabel.text = text.capitalizingFirstLetter() + " • "
+            if let topSubject = topSubject, !topSubject.isEmpty {
+                headerView.subjectLabel.text = topSubject.capitalizingFirstLetter() + " • "
+                return
+            } else if topSubject == nil {
+                findTopSubjects()
+            }
         }
     }
     
@@ -103,9 +106,6 @@ class QTTutorDashboardViewController: UIViewController {
         tutorSettingsButton.setupTargets()
         
         self.tutor = CurrentUser.shared.tutor
-        
-        initUserBasicInformation()
-        findTopSubjects()
         getSessions()
         getEarnings()
     }
@@ -117,6 +117,10 @@ class QTTutorDashboardViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.tutor = CurrentUser.shared.tutor
+        initUserBasicInformation()
+        
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
@@ -140,10 +144,7 @@ class QTTutorDashboardViewController: UIViewController {
         
         let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
         headerView.nameLabel.text = tutor.formattedName
-        if let text = topSubject == nil || topSubject?.isEmpty ?? true
-            ? self.tutor?.subjects?.first : topSubject {
-            headerView.subjectLabel.text = text.capitalizingFirstLetter() + " • "
-        }
+        topSubject = tutor.featuredSubject
         headerView.avatarImageView.sd_setImage(with: reference)
         headerView.hourlyRateLabel.text = "$\(String(describing: tutor.price ?? 0))/hr"
         headerView.ratingLabel.text = "\(String(describing: tutor.tRating ?? 5.0))"
@@ -188,7 +189,7 @@ class QTTutorDashboardViewController: UIViewController {
                 return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 0) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
                 }.first
             guard let subcategory = topSubcategory?.subcategory else {
-                self.topSubject = nil
+                self.topSubject = self.tutor?.subjects?.first ?? ""
                 return
             }
             self.topSubject = subcategory
@@ -423,9 +424,14 @@ extension QTTutorDashboardViewController: UITableViewDataSource {
     }
 }
 
-extension QTTutorDashboardViewController: LearnerWasUpdatedCallBack {
-    func learnerWasUpdated(learner: AWLearner!) {
-        tutor = tutor?.copy(learner: learner)
+// MARK: - QTProfileDelegate
+extension QTTutorDashboardViewController: QTProfileDelegate {
+    func didUpdateLearnerProfile(learner: AWLearner) {
+        
+    }
+    
+    func didUpdateTutorProfile(tutor: AWTutor) {
+        self.tutor = tutor
         initUserBasicInformation()
     }
 }

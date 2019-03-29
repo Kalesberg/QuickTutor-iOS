@@ -13,6 +13,10 @@ import SDWebImage
 import SnapKit
 import SwiftKeychainWrapper
 
+protocol QTProfileDelegate {
+    func didUpdateTutorProfile(tutor: AWTutor)
+    func didUpdateLearnerProfile(learner: AWLearner)
+}
 
 class EditPreferencesVC: TutorPreferencesVC {
     override func viewDidLoad() {
@@ -37,6 +41,12 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             contentView.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.didUpdateTutorProfile(tutor: CurrentUser.shared.tutor)
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 5
     }
@@ -225,7 +235,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
 class LearnerEditProfileVC: UIViewController {
     
     var sectionTitles = ["About me", "Private information", "Optional information"]
-    var delegate: LearnerWasUpdatedCallBack?
+    var delegate: QTProfileDelegate?
     var firstName: String!
     var lastName: String!
     var automaticScroll = false
@@ -275,7 +285,7 @@ class LearnerEditProfileVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
+        delegate?.didUpdateLearnerProfile(learner: CurrentUser.shared.learner)
     }
     
     func updateLearner() {
@@ -295,7 +305,6 @@ class LearnerEditProfileVC: UIViewController {
         present(alertController, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             alertController.dismiss(animated: true) {
-                self.delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
                 self.navigationController?.popViewController(animated: true)
             }
         }
@@ -365,23 +374,24 @@ class LearnerEditProfileVC: UIViewController {
     }
     
     func saveBio() {
-        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as! EditProfileBioCell
-        guard let newBio = cell.textView.text else { return }
-        switch AccountService.shared.currentUserType {
-        case .learner:
-            FirebaseData.manager.updateValue(node: "student-info", value: ["bio": newBio]) { error in
-                if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+        if let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? EditProfileBioCell {
+            guard let newBio = cell.textView.text else { return }
+            switch AccountService.shared.currentUserType {
+            case .learner:
+                FirebaseData.manager.updateValue(node: "student-info", value: ["bio": newBio]) { error in
+                    if let error = error {
+                        AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    }
                 }
+                CurrentUser.shared.learner.bio = newBio
+                displaySavedAlertController()
+            case .tutor:
+                Tutor.shared.updateValue(value: ["tbio": newBio])
+                CurrentUser.shared.tutor.tBio = newBio
+                displaySavedAlertController()
+            default:
+                break
             }
-            CurrentUser.shared.learner.bio = newBio
-            displaySavedAlertController()
-        case .tutor:
-            Tutor.shared.updateValue(value: ["tbio": newBio])
-            CurrentUser.shared.tutor.tBio = newBio
-            displaySavedAlertController()
-        default:
-            break
         }
     }
 }

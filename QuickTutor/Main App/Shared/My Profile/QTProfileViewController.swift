@@ -253,26 +253,18 @@ class QTProfileViewController: UIViewController {
         usernameLabel.text = user.formattedName
         switch profileViewType {
         case .tutor:
+            usernameLabel.text = user.username
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = false
-            if subject?.isEmpty ?? true {
-                // Find the top subject
-                func bayesianEstimate(C: Double, r: Double, v: Double, m: Double) -> Double {
-                    return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
-                }
-                
-                FirebaseData.manager.fetchSubjectsTaught(uid: user.uid) { subcategoryList in
-                    let avg = subcategoryList.map({ $0.rating / 5 }).average
-                    let topSubcategory = subcategoryList.sorted {
-                        return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 0) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
-                        }.first
-                    guard let subcategory = topSubcategory?.subcategory else {
-                        self.subject = nil
-                        return
-                    }
-                    self.subject = subcategory
-                    self.topSubjectLabel.isHidden = self.subject?.isEmpty ?? true
-                    self.topSubjectLabel.text = self.subject?.capitalized
+            if subject == nil || subject?.isEmpty ?? true {
+                if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+                    // Set the featured subject.
+                    subject = user.featuredSubject
+                    self.topSubjectLabel.text = subject
+                } else {
+                    // Set the first subject
+                    subject = user.subjects?.first
+                    self.topSubjectLabel.text = subject
                 }
             } else {
                 topSubjectLabel.isHidden = subject?.isEmpty ?? true
@@ -305,8 +297,20 @@ class QTProfileViewController: UIViewController {
         case .myTutor:
             moreButtonsView.isHidden = true
             statisticStackView.isHidden = true
-            topSubjectLabel.isHidden = subject?.isEmpty ?? true
-            topSubjectLabel.text = subject
+            if subject == nil || subject?.isEmpty ?? true {
+                if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+                    // Set the featured subject.
+                    subject = user.featuredSubject
+                    self.topSubjectLabel.text = subject
+                } else {
+                    // Set the first subject
+                    subject = user.subjects?.first
+                    self.topSubjectLabel.text = subject
+                }
+            } else {
+                topSubjectLabel.isHidden = subject?.isEmpty ?? true
+                topSubjectLabel.text = subject
+            }
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             addressView.isHidden = false
             distanceView.isHidden = true
@@ -370,12 +374,21 @@ class QTProfileViewController: UIViewController {
             reviewsTableView.isHidden = user.reviews?.isEmpty ?? true
             self.reviewsHeight = self.getHeightOfReviews(reviews: user.reviews ?? [Review]())
             let numberOfReviews = user.reviews?.count ?? 0
-            readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+            if numberOfReviews == 0 {
+                readAllReviewLabel.text = "No Reviews Yet!"
+            } else {
+                readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+            }
+            
         } else {
             reviewsTableView.isHidden = user.lReviews?.isEmpty ?? true
             let numberOfReviews = user.lReviews?.count ?? 0
             self.reviewsHeight = self.getHeightOfReviews(reviews: user.lReviews ?? [Review]())
-            readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+            if numberOfReviews == 0 {
+                readAllReviewLabel.text = "No Reviews Yet!"
+            } else {
+                readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+            }
         }
         
         reviewsTableView.reloadData()
@@ -582,10 +595,17 @@ extension QTProfileViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - LearnerWasUpdatedCallBack
-extension QTProfileViewController: LearnerWasUpdatedCallBack {
-    func learnerWasUpdated(learner: AWLearner!) {
-        
+// MARK: - QTProfileDelegate
+extension QTProfileViewController: QTProfileDelegate {
+    func didUpdateLearnerProfile(learner: AWLearner) {
+        self.user = AWTutor(dictionary: [:]).copy(learner: learner)
+        initUserInfo()
+    }
+    
+    func didUpdateTutorProfile(tutor: AWTutor) {
+        self.user = tutor
+        self.subject = nil
+        initUserInfo()
     }
 }
 

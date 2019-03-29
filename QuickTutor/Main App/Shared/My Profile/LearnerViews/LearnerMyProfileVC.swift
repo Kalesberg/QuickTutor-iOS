@@ -15,7 +15,6 @@ protocol LearnerWasUpdatedCallBack {
 }
 
 class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
-
     override var contentView: LearnerMyProfileView {
         return view as! LearnerMyProfileView
     }
@@ -151,7 +150,7 @@ class LearnerMyProfileVC: BaseViewController, LearnerWasUpdatedCallBack {
     
     @objc func editProfile() {
         let next = LearnerEditProfileVC()
-        next.delegate = self
+//        next.delegate = self
         navigationController?.pushViewController(next, animated: true)
     }
 }
