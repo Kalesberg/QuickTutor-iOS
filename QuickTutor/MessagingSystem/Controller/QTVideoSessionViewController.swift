@@ -30,13 +30,14 @@ class QTVideoSessionViewController: UIViewController {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var flipCameraImageView: UIImageView!
     @IBOutlet weak var flipCameraButton: DimmableButton!
+    @IBOutlet weak var pauseButtonView: UIView!
     @IBOutlet weak var pauseImageView: UIImageView!
     @IBOutlet weak var pauseButton: DimmableButton!
-    @IBOutlet weak var shareFileImageView: UIImageView!
-    @IBOutlet weak var shareFileButton: DimmableButton!
     @IBOutlet weak var reportImageView: UIImageView!
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var animationView: LOTAnimationView!
+    @IBOutlet weak var pauseBlurView: UIVisualEffectView!
+    @IBOutlet weak var pauseLabel: UILabel!
     
     // Parameters
     var sessionId: String!
@@ -105,7 +106,6 @@ class QTVideoSessionViewController: UIViewController {
     var sessionOnHoldModal: SessionOnHoldModal?
     var acceptAddTimeModal: AcceptAddTimeModal?
     var endSessionModal: EndSessionModal?
-    var pauseSessionModal: PauseSessionModal?
     var connectionLostModal: PauseSessionModal?
     var reportTypeModal: ReportTypeModal?
     
@@ -313,7 +313,6 @@ class QTVideoSessionViewController: UIViewController {
         
         flipCameraImageView.overlayTintColor(color: UIColor.white)
         pauseImageView.overlayTintColor(color: UIColor.white)
-        shareFileImageView.overlayTintColor(color: UIColor.white)
         reportImageView.overlayTintColor(color: UIColor.white)
         
         behavior = VideoSessionPartnerFeedBehavior()
@@ -398,21 +397,21 @@ class QTVideoSessionViewController: UIViewController {
     }
     
     func showPauseModal(pausedById: String) {
-        guard pauseSessionModal == nil else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        pauseSessionModal?.delegate = self
         DataService.shared.getUserOfOppositeTypeWithId(sessionManager?.session.partnerId() ?? "test") { user in
             guard let username = user?.formattedName else { return }
-            self.pauseSessionModal = PauseSessionModal(frame: .zero)
+            // Show the pause blur view
+            self.pauseBlurView.isHidden = false
+            
+            // Configure the pause label and the pause button
             if pausedById == uid {
-                self.pauseSessionModal?.pausedByCurrentUser()
-            }
-            self.pauseSessionModal?.partnerUsername = username
-            self.pauseSessionModal?.delegate = self
-            self.pauseSessionModal?.pausedById = pausedById
-            self.pauseSessionModal?.show()
-            if let type = self.sessionManager?.session.type {
-                self.pauseSessionModal?.setupEndSessionButtons(type: type)
+                self.pauseLabel.text = "Paused"
+                self.pauseButtonView.isHidden = false
+                self.pauseImageView.image = UIImage(named: "ic_play")
+                self.pauseButton.setTitle("Resume", for: .normal)
+            } else {
+                self.pauseLabel.text = "\(username) paused"
+                self.pauseButtonView.isHidden = true
             }
         }
     }
@@ -451,14 +450,24 @@ class QTVideoSessionViewController: UIViewController {
         sessionOnHoldModal?.show()
     }
     
+    func hidePauseModal() {
+        // Hide the pause blur view
+        self.pauseBlurView.isHidden = true
+        
+        // Reset the pause button
+        self.pauseButtonView.isHidden = false
+        self.pauseImageView.image = UIImage(named: "ic_pause")
+        self.pauseButton.setTitle("Pause", for: .normal)
+    }
+    
     func dismissAllModals() {
         addTimeModal?.dismiss()
         sessionOnHoldModal?.dismiss()
         acceptAddTimeModal?.dismiss()
         endSessionModal?.dismiss()
-        pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()
         reportTypeModal?.dismiss()
+        hidePauseModal()
     }
 }
 
@@ -512,8 +521,7 @@ extension QTVideoSessionViewController: SessionManagerDelegate {
     
     func sessionManager(_ sessionManager: SessionManager, didUnpause session: Session) {
         sessionManager.startSessionRuntime()
-        pauseSessionModal?.dismiss()
-        pauseSessionModal = nil
+        hidePauseModal()
     }
     
     func sessionManager(_ sessionManager: SessionManager, didEnd session: Session) {
@@ -541,7 +549,7 @@ extension QTVideoSessionViewController: SessionManagerDelegate {
     
     func sessionManager(_ sessionManager: SessionManager, userConnectedWith uid: String) {
         sessionManager.startSessionRuntime()
-        pauseSessionModal?.dismiss()
+        hidePauseModal()
         guard let myUid = Auth.auth().currentUser?.uid else { return }
         if uid != myUid {
             connectionLostModal?.dismiss()
