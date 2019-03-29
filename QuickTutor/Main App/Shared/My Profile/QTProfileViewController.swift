@@ -253,7 +253,6 @@ class QTProfileViewController: UIViewController {
         usernameLabel.text = user.formattedName
         switch profileViewType {
         case .tutor:
-            usernameLabel.text = user.username
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = false
             if subject == nil || subject?.isEmpty ?? true {
@@ -281,7 +280,7 @@ class QTProfileViewController: UIViewController {
             } else {
                 bioLabel.text = "\(user.formattedName) has not yet entered a biography."
             }
-            navigationItem.title = user.formattedName
+            navigationItem.title = user.username
         case .learner:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = true
