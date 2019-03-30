@@ -14,9 +14,9 @@ class BaseUpcomingSessionCell: BaseSessionCell, MessageButtonDelegate, CancelSes
         super.setupViews()
         actionView.setupAsTripleButton()
 
-        let cancelSessionImage = AccountService.shared.currentUserType == .learner ? #imageLiteral(resourceName: "cancelSessionButton") : #imageLiteral(resourceName: "cancelSessionWhiteTutor")
-        let startSessionImage = AccountService.shared.currentUserType == .learner ? #imageLiteral(resourceName: "startSessionButton") : #imageLiteral(resourceName: "startSessionButtonTutor")
-        let messageButtomimage = AccountService.shared.currentUserType == .learner ? #imageLiteral(resourceName: "messageButton") : #imageLiteral(resourceName: "messageButtonWhiteTutor")
+        let cancelSessionImage = UIImage(named: "cancelSessionButton")
+        let startSessionImage = UIImage(named: "startSessionButton")
+        let messageButtomimage =  UIImage(named: "messageSessionButton")
         actionView.actionButton3.setImage(cancelSessionImage, for: .normal)
         actionView.actionButton2.setImage(startSessionImage, for: .normal)
         actionView.actionButton1.setImage(messageButtomimage, for: .normal)

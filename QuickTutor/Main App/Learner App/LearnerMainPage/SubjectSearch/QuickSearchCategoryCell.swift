@@ -30,6 +30,7 @@ class QuickSearchCategoryCell: UICollectionViewCell {
         cv.allowsMultipleSelection = false
         cv.alwaysBounceHorizontal = true
         cv.showsHorizontalScrollIndicator = false
+        cv.delaysContentTouches = false
         cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         cv.register(QuickSearchSubcategoryCell.self, forCellWithReuseIdentifier: "cellId")
         return cv

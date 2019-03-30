@@ -23,10 +23,10 @@ class UserPolicyVCView: BaseRegistrationView {
     
     let buttonView = UIView()
     
-    let learnMoreButton: UIButton = {
-        let button = UIButton()
+    let learnMoreButton: DimmableButton = {
+        let button = DimmableButton()
         button.titleLabel?.font = Fonts.createSize(16)
-        button.setTitle("Learn More", for: .normal)
+        button.setTitle("Learn More  →", for: .normal)
         button.setTitleColor(Colors.purple, for: .normal)
         button.titleLabel?.textAlignment = .left
         return button
@@ -74,7 +74,7 @@ class UserPolicyVCView: BaseRegistrationView {
         learnMoreButton.snp.makeConstraints { make in
             make.top.equalTo(textLabel.snp.bottom)
             make.height.equalTo(20)
-            make.width.equalTo(90)
+            make.width.equalTo(115)
             make.left.equalTo(textLabel.snp.left)
         }
     }

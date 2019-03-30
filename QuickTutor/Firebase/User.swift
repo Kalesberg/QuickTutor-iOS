@@ -539,22 +539,7 @@ class FirebaseData {
 			return completion(conversationId)
 		}
 	}
-	
-	func fetchSubjectsTaught(uid: String,_ completion: @escaping ([TopSubcategory]) -> Void) {
-		var subjectsTaught = [TopSubcategory]()
-		
-		ref.child("subject").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
-			
-			for child in snap {
-				guard let value = child.value as? [String : Any] else { return }
-				var topSubjects = TopSubcategory(dictionary: value)
-				topSubjects.subcategory = child.key
-				subjectsTaught.append(topSubjects)
-			}
-			return completion(subjectsTaught)
-		}
-	}
+
 	
 	func fetchFeaturedTutor(_ uid: String, category: String,_ completion: @escaping (AWTutor?) -> Void) {
 		self.ref.child("featured").child(category).child(uid).observeSingleEvent(of: .value) { (snapshot) in

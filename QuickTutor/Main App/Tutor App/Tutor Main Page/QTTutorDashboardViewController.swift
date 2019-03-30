@@ -169,16 +169,9 @@ class QTTutorDashboardViewController: UIViewController {
             return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
         }
         
-        FirebaseData.manager.fetchSubjectsTaught(uid: tutor.uid) { subcategoryList in
-            let avg = subcategoryList.map({ $0.rating / 5 }).average
-            let topSubcategory = subcategoryList.sorted {
-                return bayesianEstimate(C: avg, r: $0.rating / 5, v: Double($0.numSessions), m: 0) > bayesianEstimate(C: avg, r: $1.rating / 5, v: Double($1.numSessions), m: 10)
-                }.first
-            guard let subcategory = topSubcategory?.subcategory else {
-                self.topSubject = nil
-                return
-            }
-            self.topSubject = subcategory
+        FirebaseData.manager.fetchTutorSubjects(uid: tutor.uid) { (subjects) in
+            guard let subjects = subjects else { return }
+            self.topSubject = subjects.first
         }
     }
     

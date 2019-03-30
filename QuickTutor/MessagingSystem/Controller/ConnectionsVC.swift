@@ -66,6 +66,11 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         isTransitioning = false
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
 
     func fetchConnections() {
         guard let uid = Auth.auth().currentUser?.uid else { return }

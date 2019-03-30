@@ -16,8 +16,8 @@ class ProfileVCFooterCell: UICollectionReusableView {
     
     var delegate: ProfileVCFooterCellDelegate?
     
-    let inviteButton: UIButton = {
-        let button = UIButton()
+    let inviteButton: DimmableButton = {
+        let button = DimmableButton()
         button.setTitle("Invite others", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(16)
         button.setTitleColor(.white, for: .normal)

@@ -71,7 +71,6 @@
 		569F16DF223554FD00820A20 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A5F222F24B200704531 /* PageView.swift */; };
 		569F16E1223554FD00820A20 /* LearnerExtendedReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA3212055088B000C7054 /* LearnerExtendedReviewsVC.swift */; };
 		569F16E2223554FD00820A20 /* AddTutorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090AA2186250000DBD48F /* AddTutorTableViewCell.swift */; };
-		569F16E3223554FD00820A20 /* LearnerMyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BD201E8245006FC580 /* LearnerMyProfileVC.swift */; };
 		569F16E4223554FD00820A20 /* SessionReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CB54D213ED7EB00656F06 /* SessionReview.swift */; };
 		569F16E5223554FD00820A20 /* LightboxImageStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A56222F24B200704531 /* LightboxImageStub.swift */; };
 		569F16E6223554FD00820A20 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBC2088314B00087449 /* Notifications.swift */; };
@@ -352,14 +351,12 @@
 		569F1814223554FD00820A20 /* DimmableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */; };
 		569F1815223554FD00820A20 /* PricePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440539420F4E672003F0606 /* PricePickerCell.swift */; };
 		569F1816223554FD00820A20 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DAF6FB2044615A005687F6 /* SocialMedia.swift */; };
-		569F1817223554FD00820A20 /* LearnerMyProfileReviewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496FDFE215ED0DE00BD292F /* LearnerMyProfileReviewsView.swift */; };
 		569F1818223554FD00820A20 /* InviteOthersBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEFD562173CF5A00FE12F9 /* InviteOthersBackgroundView.swift */; };
 		569F181A223554FD00820A20 /* EmailVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B80921C5C49B0022333F /* EmailVCView.swift */; };
 		569F181B223554FD00820A20 /* RequestSessionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440539F20F55BDA003F0606 /* RequestSessionTableView.swift */; };
 		569F181D223554FD00820A20 /* TutorCardConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7F721C23F700022333F /* TutorCardConnectView.swift */; };
 		569F181E223554FD00820A20 /* SubjectSearchTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FECF5210F97CD00C1797B /* SubjectSearchTableViewHeader.swift */; };
 		569F181F223554FD00820A20 /* KeyboardFrameObserversManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF249978217E926500614AF0 /* KeyboardFrameObserversManager.swift */; };
-		569F1820223554FD00820A20 /* LearnerMyProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7D7215B0A58000C0010 /* LearnerMyProfileHeader.swift */; };
 		569F1821223554FD00820A20 /* DynamicLinkFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58ED205EE6B300ACBD32 /* DynamicLinkFactory.swift */; };
 		569F1822223554FD00820A20 /* UserMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F588D205EE68800ACBD32 /* UserMessageCell.swift */; };
 		569F1823223554FD00820A20 /* TutorBioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F245171FDA1127006447A8 /* TutorBioVC.swift */; };
@@ -447,7 +444,6 @@
 		569F187F223554FD00820A20 /* TutorRudeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848809F42057692600F204A0 /* TutorRudeVC.swift */; };
 		569F1880223554FD00820A20 /* NavbarButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DA9F232019138100D53D78 /* NavbarButtons.swift */; };
 		569F1881223554FD00820A20 /* TutorOtherVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84880A032058643800F204A0 /* TutorOtherVC.swift */; };
-		569F1882223554FD00820A20 /* LearnerMyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496FE012161823100BD292F /* LearnerMyProfileView.swift */; };
 		569F1883223554FD00820A20 /* QuickSearchVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475621F3A9E900C49BA5 /* QuickSearchVCView.swift */; };
 		569F1884223554FD00820A20 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8C92B2066A965003C3AEA /* Helper.swift */; };
 		569F1885223554FD00820A20 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7D8AB121995EF400463B0E /* ProfileVC.swift */; };
@@ -717,8 +713,6 @@
 		8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8491C29A1FBE62350036FC12 /* AppDelegate.swift */; };
 		8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8491C2A11FBE62350036FC12 /* QuickTutor.xcdatamodeld */; };
 		8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8491C2A61FBE62350036FC12 /* LaunchScreen.storyboard */; };
-		8496FDFF215ED0DE00BD292F /* LearnerMyProfileReviewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496FDFE215ED0DE00BD292F /* LearnerMyProfileReviewsView.swift */; };
-		8496FE022161823100BD292F /* LearnerMyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496FE012161823100BD292F /* LearnerMyProfileView.swift */; };
 		84978D36200A8BC300D97F0B /* ImageResizingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */; };
 		849AAEAA2060846800B9CFD7 /* TutorLocationFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AAEA92060846800B9CFD7 /* TutorLocationFormatter.swift */; };
 		84A090A7218624A500DBD48F /* AddTutorLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A090A6218624A500DBD48F /* AddTutorLoadingIndicator.swift */; };
@@ -770,7 +764,6 @@
 		84D433B3204EF2DB00A3EAD2 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D433B2204EF2DB00A3EAD2 /* AlertController.swift */; };
 		84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D433B6204F409F00A3EAD2 /* UIApplicationExtenstions.swift */; };
 		84D55E9A204F638D00BB899C /* EditPhoneVerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D55E99204F638D00BB899C /* EditPhoneVerificationVC.swift */; };
-		84D6A7D8215B0A58000C0010 /* LearnerMyProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7D7215B0A58000C0010 /* LearnerMyProfileHeader.swift */; };
 		84D6A7DC215B1EDF000C0010 /* MyProfileBioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7DB215B1EDF000C0010 /* MyProfileBioView.swift */; };
 		84D6A7DE215B1FE2000C0010 /* ProfileItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7DD215B1FE2000C0010 /* ProfileItemView.swift */; };
 		84D6A7E0215B268F000C0010 /* MyProfileBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6A7DF215B268F000C0010 /* MyProfileBodyView.swift */; };
@@ -869,6 +862,8 @@
 		CF528CE2216489D600D81D03 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF528CE1216489D600D81D03 /* AnalyticsService.swift */; };
 		CF5A3FB6221B5BEE0016C332 /* FeaturedSubjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5A3FB5221B5BEE0016C332 /* FeaturedSubjectVC.swift */; };
 		CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5BFB042155B19100FB8DD6 /* InAppNotificationView.swift */; };
+		CF5D06DF224B170B00270115 /* LearnerTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D06DE224B170B00270115 /* LearnerTabBarController.swift */; };
+		CF5D06E1224B172700270115 /* TutorTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D06E0224B172700270115 /* TutorTabBarController.swift */; };
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
 		CF6325EB207FF4480037F8AA /* SessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */; };
@@ -1055,7 +1050,6 @@
 		CFEF944120B35BA500413727 /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF944020B35BA500413727 /* ConversationManager.swift */; };
 		CFF5017720698F620085B0E9 /* LearnerHelpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C5201E8500006FC580 /* LearnerHelpVC.swift */; };
 		CFF50178206990060085B0E9 /* LearnerEditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2F02720354E4700F921C9 /* LearnerEditProfileVC.swift */; };
-		CFF50179206990590085B0E9 /* LearnerMyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75BD201E8245006FC580 /* LearnerMyProfileVC.swift */; };
 		CFF5017B206990B20085B0E9 /* LearnerExtendedReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA3212055088B000C7054 /* LearnerExtendedReviewsVC.swift */; };
 		E77D00C095D84B6D71935E12 /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 914050F784FC942BA6F7CFE6 /* Pods_QuickTutorApp_QuickTutor.framework */; };
 /* End PBXBuildFile section */
@@ -1186,7 +1180,6 @@
 		840E4DFE213761C10045CD35 /* loading11.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading11.json; sourceTree = "<group>"; };
 		840E4DFF213761C10045CD35 /* loading4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading4.json; sourceTree = "<group>"; };
 		840E75B9201E7DF6006FC580 /* LearnerPaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerPaymentVC.swift; sourceTree = "<group>"; };
-		840E75BD201E8245006FC580 /* LearnerMyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMyProfileVC.swift; sourceTree = "<group>"; };
 		840E75C1201E8419006FC580 /* LearnerFileReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerFileReportVC.swift; sourceTree = "<group>"; };
 		840E75C5201E8500006FC580 /* LearnerHelpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerHelpVC.swift; sourceTree = "<group>"; };
 		840FC67A20040B2E002525D1 /* CropImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropImage.swift; sourceTree = "<group>"; };
@@ -1302,8 +1295,6 @@
 		8491C2A21FBE62350036FC12 /* QuickTutor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = QuickTutor.xcdatamodel; sourceTree = "<group>"; };
 		8491C2A71FBE62350036FC12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8491C2A91FBE62350036FC12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8496FDFE215ED0DE00BD292F /* LearnerMyProfileReviewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMyProfileReviewsView.swift; sourceTree = "<group>"; };
-		8496FE012161823100BD292F /* LearnerMyProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnerMyProfileView.swift; sourceTree = "<group>"; };
 		84978D35200A8BC300D97F0B /* ImageResizingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResizingExtensions.swift; sourceTree = "<group>"; };
 		849AAEA92060846800B9CFD7 /* TutorLocationFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLocationFormatter.swift; sourceTree = "<group>"; };
 		84A090A6218624A500DBD48F /* AddTutorLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTutorLoadingIndicator.swift; sourceTree = "<group>"; };
@@ -1358,7 +1349,6 @@
 		84D433B2204EF2DB00A3EAD2 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		84D433B6204F409F00A3EAD2 /* UIApplicationExtenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtenstions.swift; sourceTree = "<group>"; };
 		84D55E99204F638D00BB899C /* EditPhoneVerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhoneVerificationVC.swift; sourceTree = "<group>"; };
-		84D6A7D7215B0A58000C0010 /* LearnerMyProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMyProfileHeader.swift; sourceTree = "<group>"; };
 		84D6A7DB215B1EDF000C0010 /* MyProfileBioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileBioView.swift; sourceTree = "<group>"; };
 		84D6A7DD215B1FE2000C0010 /* ProfileItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileItemView.swift; sourceTree = "<group>"; };
 		84D6A7DF215B268F000C0010 /* MyProfileBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileBodyView.swift; sourceTree = "<group>"; };
@@ -1463,6 +1453,8 @@
 		CF528CE1216489D600D81D03 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		CF5A3FB5221B5BEE0016C332 /* FeaturedSubjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedSubjectVC.swift; sourceTree = "<group>"; };
 		CF5BFB042155B19100FB8DD6 /* InAppNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppNotificationView.swift; sourceTree = "<group>"; };
+		CF5D06DE224B170B00270115 /* LearnerTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerTabBarController.swift; sourceTree = "<group>"; };
+		CF5D06E0224B172700270115 /* TutorTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorTabBarController.swift; sourceTree = "<group>"; };
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
 		CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionStartVC.swift; sourceTree = "<group>"; };
 		CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProfileBox.swift; sourceTree = "<group>"; };
@@ -2524,10 +2516,6 @@
 		84D6A7D5215B08F6000C0010 /* LearnerViews */ = {
 			isa = PBXGroup;
 			children = (
-				840E75BD201E8245006FC580 /* LearnerMyProfileVC.swift */,
-				8496FE012161823100BD292F /* LearnerMyProfileView.swift */,
-				84D6A7D7215B0A58000C0010 /* LearnerMyProfileHeader.swift */,
-				8496FDFE215ED0DE00BD292F /* LearnerMyProfileReviewsView.swift */,
 				843BA3212055088B000C7054 /* LearnerExtendedReviewsVC.swift */,
 			);
 			path = LearnerViews;
@@ -2899,6 +2887,8 @@
 				CFEF943820B3287100413727 /* ConnectionsVC.swift */,
 				CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */,
 				CFEF943E20B3583800413727 /* ImageMessageSender.swift */,
+				CF5D06DE224B170B00270115 /* LearnerTabBarController.swift */,
+				CF5D06E0224B172700270115 /* TutorTabBarController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3703,7 +3693,6 @@
 				569F16DF223554FD00820A20 /* PageView.swift in Sources */,
 				569F16E1223554FD00820A20 /* LearnerExtendedReviewsVC.swift in Sources */,
 				569F16E2223554FD00820A20 /* AddTutorTableViewCell.swift in Sources */,
-				569F16E3223554FD00820A20 /* LearnerMyProfileVC.swift in Sources */,
 				4DE3668D2238BC5F00A94C37 /* TheChoiceVCView.swift in Sources */,
 				569F16E4223554FD00820A20 /* SessionReview.swift in Sources */,
 				569F16E5223554FD00820A20 /* LightboxImageStub.swift in Sources */,
@@ -3991,14 +3980,12 @@
 				569F1814223554FD00820A20 /* DimmableButton.swift in Sources */,
 				569F1815223554FD00820A20 /* PricePickerCell.swift in Sources */,
 				569F1816223554FD00820A20 /* SocialMedia.swift in Sources */,
-				569F1817223554FD00820A20 /* LearnerMyProfileReviewsView.swift in Sources */,
 				569F1818223554FD00820A20 /* InviteOthersBackgroundView.swift in Sources */,
 				569F181A223554FD00820A20 /* EmailVCView.swift in Sources */,
 				569F181B223554FD00820A20 /* RequestSessionTableView.swift in Sources */,
 				569F181D223554FD00820A20 /* TutorCardConnectView.swift in Sources */,
 				569F181E223554FD00820A20 /* SubjectSearchTableViewHeader.swift in Sources */,
 				569F181F223554FD00820A20 /* KeyboardFrameObserversManager.swift in Sources */,
-				569F1820223554FD00820A20 /* LearnerMyProfileHeader.swift in Sources */,
 				569F1821223554FD00820A20 /* DynamicLinkFactory.swift in Sources */,
 				561003B82242A9BB00A4688F /* QTInPersionSessionViewController.swift in Sources */,
 				569F1822223554FD00820A20 /* UserMessageCell.swift in Sources */,
@@ -4089,7 +4076,6 @@
 				569F187F223554FD00820A20 /* TutorRudeVC.swift in Sources */,
 				569F1880223554FD00820A20 /* NavbarButtons.swift in Sources */,
 				569F1881223554FD00820A20 /* TutorOtherVC.swift in Sources */,
-				569F1882223554FD00820A20 /* LearnerMyProfileView.swift in Sources */,
 				569F1883223554FD00820A20 /* QuickSearchVCView.swift in Sources */,
 				569F1884223554FD00820A20 /* Helper.swift in Sources */,
 				569F1885223554FD00820A20 /* ProfileVC.swift in Sources */,
@@ -4152,6 +4138,7 @@
 				CFB9B7DD21C18B590022333F /* SessionRequestPaymentInputView.swift in Sources */,
 				CFB9B7EA21C23E690022333F /* TutorCardHeaderView.swift in Sources */,
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
+				CF5D06DF224B170B00270115 /* LearnerTabBarController.swift in Sources */,
 				84EEFD552173CF2900FE12F9 /* InviteOthersView.swift in Sources */,
 				CFB9B81021C6195D0022333F /* UploadImageVCView.swift in Sources */,
 				84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */,
@@ -4161,7 +4148,6 @@
 				CFD92A6D222F24B200704531 /* PageView.swift in Sources */,
 				CFF5017B206990B20085B0E9 /* LearnerExtendedReviewsVC.swift in Sources */,
 				84A090AB2186250000DBD48F /* AddTutorTableViewCell.swift in Sources */,
-				CFF50179206990590085B0E9 /* LearnerMyProfileVC.swift in Sources */,
 				CFD92A772231BA9D00704531 /* TheChoiceVCView.swift in Sources */,
 				844CB54E213ED7EB00656F06 /* SessionReview.swift in Sources */,
 				CFD92A65222F24B200704531 /* LightboxImageStub.swift in Sources */,
@@ -4387,6 +4373,7 @@
 				4DE366912239F06C00A94C37 /* QTProfileViewController.swift in Sources */,
 				84CF77392118DF9B005755CB /* ToggleTableViewCell.swift in Sources */,
 				84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */,
+				CF5D06E1224B172700270115 /* TutorTabBarController.swift in Sources */,
 				848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */,
 				844FECFA210FABD600C1797B /* SubjectSearchSubcategoryCell.swift in Sources */,
 				568B82E2222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift in Sources */,
@@ -4449,14 +4436,12 @@
 				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
 				8440539520F4E672003F0606 /* PricePickerCell.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
-				8496FDFF215ED0DE00BD292F /* LearnerMyProfileReviewsView.swift in Sources */,
 				84EEFD572173CF5A00FE12F9 /* InviteOthersBackgroundView.swift in Sources */,
 				CFB9B80A21C5C49B0022333F /* EmailVCView.swift in Sources */,
 				844053A020F55BDA003F0606 /* RequestSessionTableView.swift in Sources */,
 				CFB9B7F821C23F700022333F /* TutorCardConnectView.swift in Sources */,
 				844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */,
 				CF24997B217E926500614AF0 /* KeyboardFrameObserversManager.swift in Sources */,
-				84D6A7D8215B0A58000C0010 /* LearnerMyProfileHeader.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
 				561003B62242A9AF00A4688F /* QTInPersionSessionViewController.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
@@ -4547,7 +4532,6 @@
 				848809F52057692600F204A0 /* TutorRudeVC.swift in Sources */,
 				84DA9F242019138100D53D78 /* NavbarButtons.swift in Sources */,
 				84880A042058643800F204A0 /* TutorOtherVC.swift in Sources */,
-				8496FE022161823100BD292F /* LearnerMyProfileView.swift in Sources */,
 				CFB1475721F3A9E900C49BA5 /* QuickSearchVCView.swift in Sources */,
 				84D8C92C2066A965003C3AEA /* Helper.swift in Sources */,
 				CF7D8AB221995EF400463B0E /* ProfileVC.swift in Sources */,

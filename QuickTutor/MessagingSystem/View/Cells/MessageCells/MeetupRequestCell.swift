@@ -443,6 +443,7 @@ class SessionRequestCellButtonView: UIView {
     let rightButton: DimmableButton = {
         let button = DimmableButton()
         button.backgroundColor = Colors.navBarColor
+        button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createBoldSize(12)
         return button
     }()
@@ -461,7 +462,8 @@ class SessionRequestCellButtonView: UIView {
 
     func setupRightButton() {
         addSubview(rightButton)
-        rightButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 0)
+        rightButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 135, height: 0)
+        
     }
 
     func setupLeftButton() {
@@ -478,6 +480,7 @@ class SessionRequestCellButtonView: UIView {
 
     func setupAsDoubleButton() {
         leftButtonWidthAnchor?.constant = 135
+        
     }
 
     func setButtonTitles(_ titles: String...) {
@@ -528,6 +531,7 @@ class SessionRequestCellButtonView: UIView {
         setupAsDoubleButton()
         setButtonTitleColors(.white, .white)
         setLeftButtonToSecondaryUI()
+        
         rightButton.backgroundColor = Colors.purple
         setButtonTitles("Decline", "Accept")
     }
@@ -576,6 +580,11 @@ class SessionRequestCellButtonView: UIView {
     func setLeftButtonToPrimaryUI() {
         leftButton.backgroundColor = Colors.purple
         leftButton.layer.borderWidth = 0
+    }
+    
+    func setRightButtonToPrimaryUI() {
+        rightButton.backgroundColor = Colors.purple
+        rightButton.layer.borderWidth = 0
     }
     
     override init(frame: CGRect) {

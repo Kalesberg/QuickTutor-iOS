@@ -118,7 +118,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     func setUpMenuButton(){
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        menuBtn.setImage(UIImage(named:"fileReportFlag"), for: .normal)
+        menuBtn.setImage(UIImage(named:"moreIcon"), for: .normal)
         menuBtn.addTarget(self, action: #selector(handleRightViewTapped), for: .touchUpInside)
         
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
@@ -250,14 +250,25 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @objc func handleTap() {
-        FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
-            guard let tutor = tutor else { return }
-            let controller = QTProfileViewController.controller
-            controller.user = tutor
-            controller.profileViewType = .tutor
-            controller.subject = self.subject
-            self.navigationController?.pushViewController(controller, animated: true)
+        if AccountService.shared.currentUserType == .learner {
+            FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
+                guard let tutor = tutor else { return }
+                let controller = QTProfileViewController.controller
+                controller.user = tutor
+                controller.profileViewType = .tutor
+                controller.subject = self.subject
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
+        } else {
+            FirebaseData.manager.fetchLearner(receiverId) { (learner) in
+                guard let learner = learner else { return }
+                let controller = QTProfileViewController.controller
+                controller.user = learner
+                controller.profileViewType = .learner
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
         }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -535,7 +546,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
 
         if message.connectionRequestId != nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "connectionRequest", for: indexPath) as! ConnectionRequestCell
-            cell.bubbleWidthAnchor?.constant = 220
+            cell.bubbleWidthAnchor?.constant = 285
             cell.chatPartner = chatPartner
             cell.updateUI(message: message)
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
@@ -573,7 +584,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         }
         
         if message.connectionRequestId != nil {
-            height += 40
+            height += 45
         }
         return CGSize(width: UIScreen.main.bounds.width + 60, height: height)
     }

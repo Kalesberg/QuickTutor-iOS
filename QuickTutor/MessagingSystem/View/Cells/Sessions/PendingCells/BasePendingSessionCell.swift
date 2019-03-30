@@ -9,9 +9,5 @@
 import UIKit
 
 class BasePendingSessionCell: BaseSessionCell {
-    override func setupViews() {
-        super.setupViews()
-        //        actionView.setupActionButton2()
-        //        actionView.updateButtonImages([#imageLiteral(resourceName: "messageButton"), #imageLiteral(resourceName: "cancelSessionButton")])
-    }
+
 }

@@ -13,122 +13,76 @@ class ConnectionRequestCell: UserMessageCell {
     var status: String?
     var connectionRequestId: String?
 
-    let actionBackground: UIView = {
+    let mockBubbleViewBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.darkBackground.darker(by: 5)
-        if #available(iOS 11.0, *) {
-            view.layer.cornerRadius = 4
-            view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        }
-        view.layer.borderWidth = 2
         view.layer.borderColor = Colors.gray.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 4
         return view
     }()
 
-    let statusLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = Fonts.createSize(16)
-        label.text = "Connection Request Pending"
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-
-    let acceptButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Accept", for: .normal)
-        button.setTitleColor(Colors.green, for: .normal)
-        button.tag = 0
-        button.isHidden = true
-        button.backgroundColor = Colors.navBarColor
-        button.titleLabel?.font = Fonts.createBoldSize(12)
-        if #available(iOS 11.0, *) {
-            button.layer.cornerRadius = 4
-            button.layer.maskedCorners = [.layerMaxXMaxYCorner]
-        }
-        return button
-    }()
-
-    let declineButton: UIButton = {
-        let button = UIButton()
-        button.setTitleColor(Colors.qtRed, for: .normal)
-        button.setTitle("Decline", for: .normal)
-        button.tag = 1
-        button.isHidden = true
-        button.backgroundColor = Colors.navBarColor
-        button.titleLabel?.font = Fonts.createBoldSize(12)
-        if #available(iOS 11.0, *) {
-            button.layer.cornerRadius = 4
-            button.layer.maskedCorners = [.layerMinXMaxYCorner]
-        }
-        return button
-    }()
+    let buttonView = SessionRequestCellButtonView()
 
     override func setupViews() {
         super.setupViews()
-        setupActionBackground()
-        setupStatusLabel()
-        setupAcceptButton()
-        setupDeclineButton()
+        setupMockBubbleViewBackground()
+        setupButtonView()
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-        }
-    }
-
-    override func setupBubbleViewAsSentMessage() {
-        super.setupBubbleViewAsSentMessage()
-        if #available(iOS 11.0, *) {
-            actionBackground.layer.maskedCorners = [.layerMinXMaxYCorner]
-        }
-    }
-
-    override func setupBubbleViewAsReceivedMessage() {
-        super.setupBubbleViewAsReceivedMessage()
-        if #available(iOS 11.0, *) {
-            actionBackground.layer.maskedCorners = [.layerMaxXMaxYCorner]
         }
     }
 
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         userMessage = message
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        if message.senderId != uid && status == "pending" {
-            setupForTeacherView()
-        }
 
         guard let requestId = message.connectionRequestId else { return }
         connectionRequestId = requestId
         loadFromRequest()
+
     }
 
-    private func setupActionBackground() {
-        addSubview(actionBackground)
-        actionBackground.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
-    }
-
-    private func setupStatusLabel() {
-        addSubview(statusLabel)
-        statusLabel.anchor(top: actionBackground.topAnchor, left: actionBackground.leftAnchor, bottom: actionBackground.bottomAnchor, right: actionBackground.rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
-    }
-
-    func setupAcceptButton() {
-        addSubview(acceptButton)
-        acceptButton.anchor(top: nil, left: nil, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
-        acceptButton.addTarget(self, action: #selector(approveConnectionRequest), for: .touchUpInside)
-    }
-
-    func setupDeclineButton() {
-        addSubview(declineButton)
-        declineButton.anchor(top: nil, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 109.5, height: 40)
-        declineButton.addTarget(self, action: #selector(denyConnectionRequest), for: .touchUpInside)
+    func setupMockBubbleViewBackground() {
+        addSubview(mockBubbleViewBackground)
+        mockBubbleViewBackground.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
+        bubbleView.layer.borderWidth = 0
     }
 
     func setupForTeacherView() {
-        statusLabel.isHidden = true
-        acceptButton.isHidden = false
-        declineButton.isHidden = false
+        buttonView.isUserInteractionEnabled = true
+        buttonView.setRightButtonToPrimaryUI()
+        buttonView.setLeftButtonToSecondaryUI()
+        buttonView.setupAsDoubleButton()
+        buttonView.setButtonTitles("Decline", "Accept")
+        buttonView.auxillaryButton.addTarget(self, action: #selector(approveConnectionRequest), for: .touchUpInside)
+        buttonView.mainButton.addTarget(self, action: #selector(denyConnectionRequest), for: .touchUpInside)
+    }
+    
+    func setupButtonViewAsAccepted() {
+        buttonView.setupAsSingleButton()
+        buttonView.isUserInteractionEnabled = false
+        buttonView.setButtonTitles("Connection request accepted.")
+        buttonView.setLeftButtonToSecondaryUI()
+    }
+    
+    func setupButtonViewAsDeclined() {
+        buttonView.setupAsSingleButton()
+        buttonView.isUserInteractionEnabled = false
+        buttonView.setButtonTitles("Connection request declined.")
+        buttonView.setLeftButtonToSecondaryUI()
+    }
+    
+    func setupButtonViewAsPending() {
+        buttonView.setupAsSingleButton()
+        buttonView.isUserInteractionEnabled = false
+        buttonView.setButtonTitles("Connection request pending.")
+        buttonView.setLeftButtonToSecondaryUI()
+    }
+    
+    func setupButtonView() {
+        addSubview(buttonView)
+        buttonView.anchor(top: mockBubbleViewBackground.bottomAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
+        setupButtonViewAsPending()
     }
 
     func loadFromRequest() {
@@ -152,9 +106,7 @@ class ConnectionRequestCell: UserMessageCell {
         let values = ["/\(uid)/\(userTypeString)/\(receiverId)": 1, "/\(receiverId)/\(otherUserTypeString)/\(uid)": 1]
         Database.database().reference().child("connections").updateChildValues(values)
         updateMetaDataConnection()
-        acceptButton.isHidden = true
-        declineButton.isHidden = true
-        statusLabel.isHidden = false
+        setupButtonViewAsAccepted()
         status = "accepted"
         setStatusLabel()
     }
@@ -180,9 +132,7 @@ class ConnectionRequestCell: UserMessageCell {
     @objc func denyConnectionRequest() {
         guard let id = connectionRequestId else { return }
         Database.database().reference().child("connectionRequests").child(id).child("status").setValue("declined")
-        acceptButton.isHidden = true
-        declineButton.isHidden = true
-        statusLabel.isHidden = false
+        setupButtonViewAsDeclined()
         status = "declined"
         setStatusLabel()
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -196,36 +146,24 @@ class ConnectionRequestCell: UserMessageCell {
     func setStatusLabel() {
         guard let status = self.status else { return }
 
-        if status == "pending" {
-            showActionButtons()
+        if status == "pending" && AccountService.shared.currentUserType == .tutor {
+            setupForTeacherView()
         } else {
-            hideActionButtons()
+            setupButtonViewAsPending()
         }
         switch status {
         case "pending":
             break
         case "declined":
-            statusLabel.text = "Connection Request Declined"
+            setupButtonViewAsDeclined()
         case "accepted":
-            statusLabel.text = "Connection Request Accepted"
+            setupButtonViewAsAccepted()
         case "expired":
-            statusLabel.text = "Connection Request Expired"
+            break
+//            statusLabel.text = "Connection Request Expired"
         default:
             break
         }
     }
-
-    func showActionButtons() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard userMessage?.senderId != uid else { return }
-        acceptButton.isHidden = false
-        declineButton.isHidden = false
-        statusLabel.isHidden = true
-    }
-
-    func hideActionButtons() {
-        acceptButton.isHidden = true
-        declineButton.isHidden = true
-        statusLabel.isHidden = false
-    }
+    
 }

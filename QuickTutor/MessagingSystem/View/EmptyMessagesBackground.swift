@@ -58,7 +58,7 @@ class EmptyMessagesBackground: UIView {
     
     private func setupDescriptionLabel() {
         addSubview(descriptionLabel)
-        descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 325, height: 35)
+        descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 325, height: 60)
         addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
     }
     
@@ -75,7 +75,7 @@ class EmptyMessagesBackground: UIView {
     private func setupForTutor() {
         icon.image = #imageLiteral(resourceName: "buildIcon")
         titleLabel.text = "Build Your Profile"
-        descriptionLabel.text = "When you connect with learners they’ll appear here, where you can send them messages and schedule sessions"
+        descriptionLabel.text = "This is where your tutor connections will appear. Currently, it looks like you don't have any connections. You can add tutors by their username by tapping on the icon located in the top right corner of this screen."
     }
     
     override init(frame: CGRect) {

@@ -8,6 +8,30 @@
 
 import UIKit
 
+
+class DimmableUICollectionViewCell: UICollectionViewCell {
+    override var isHighlighted: Bool {
+        didSet {
+            
+        }
+    }
+    
+    
+    override var isSelected: Bool {
+        didSet {
+            
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class DimmableButton: UIButton {
     @objc override func setupTargets() {
         super.setupTargets()

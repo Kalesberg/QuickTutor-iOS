@@ -38,14 +38,22 @@ class FeaturedSubjectVC: BaseRegistrationController {
     }
     
     @objc func saveChanges() {
-        
+        guard let uid = Auth.auth().currentUser?.uid, let index = contentView.subjectsCV.indexPathsForSelectedItems?.first else { return }
+        let subject = subjects[index.item]
+        Database.database().reference().child("tutor-info").child(uid).child("sbj").setValue(subject)
+        navigationController?.popViewController(animated: true)
     }
     
+    
+    
     func loadFeatuedSubject() {
-        if let subject = CurrentUser.shared.tutor.featuredSubject {
-            guard let item = subjects.firstIndex(where: { $0 == subject }) else { return }
-            contentView.subjectsCV.selectItem(at: IndexPath(item: item, section: 0), animated: false, scrollPosition: .top)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("tutor-info").child(uid).child("sbj").observeSingleEvent(of: .value) { (snapshot) in
+            guard let subject = snapshot.value as? String else { return }
+            guard let item = self.subjects.firstIndex(where: { $0 == subject }) else { return }
+            self.contentView.subjectsCV.selectItem(at: IndexPath(item: item, section: 0), animated: false, scrollPosition: .top)
         }
+        
     }
     
 }
@@ -64,7 +72,7 @@ class FeaturedSubjectVCView: BaseRegistrationView {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createSize(12)
-        label.text = "Your featured subject will be at the top of your profile. Be sure to select your favorite or most experienced subject. You can change your featured subject at any time"
+        label.text = "Your featured subject resides on the top section of your profile, next to your name. Make sure you choose the subject you are most experienced in. You can change your featured subject at any time"
         label.numberOfLines = 0
         return label
     }()
@@ -90,7 +98,7 @@ class FeaturedSubjectVCView: BaseRegistrationView {
     
     func setupInfoLabel() {
         addSubview(infoLabel)
-        infoLabel.anchor(top: subjectsCV.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 50)
+        infoLabel.anchor(top: subjectsCV.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 60)
     }
     
     func updateHeight() {

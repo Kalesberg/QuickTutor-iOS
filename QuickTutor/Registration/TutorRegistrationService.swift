@@ -17,6 +17,10 @@ class TutorRegistrationService {
     
     func addSubject(_ subject: String) {
         guard !subjects.contains(subject) else { return }
+        guard subjects.count < 20 else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "com.qt.tooManySubjects"), object: nil)
+            return
+        }
         if shouldSaveSubjects {
             guard let uid = Auth.auth().currentUser?.uid else { return }
             Database.database().reference().child("subjects").child(subject).child(uid).setValue(1)

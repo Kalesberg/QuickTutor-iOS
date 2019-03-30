@@ -23,6 +23,8 @@ class SessionRequestPaymentView: BaseSessionRequestViewSection {
         cell.titleLabel.text = "Type of payment"
         cell.titleLabel.font = Fonts.createSize(14)
         cell.numberOfButtons = 2
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = Colors.gray.cgColor
         return cell
     }()
     

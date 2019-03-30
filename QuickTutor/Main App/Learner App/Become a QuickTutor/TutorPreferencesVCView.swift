@@ -24,7 +24,7 @@ class TutorPreferencesView: BaseRegistrationView {
         let label = UILabel()
         label.textColor = Colors.registrationGray
         label.font = Fonts.createBoldSize(16)
-        label.text = "Individual sessions can be negotiable. "
+        label.text = "Individual sessions can be negotiated. "
         return label
     }()
     

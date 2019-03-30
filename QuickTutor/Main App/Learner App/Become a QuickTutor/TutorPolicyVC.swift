@@ -136,7 +136,7 @@ class TutorPolicyVC: BaseRegistrationController {
     }
     
     @objc func showIndependentTutorAgreement() {
-        guard let url = URL(string: "https://www.quicktutor.com/ita.pdf") else { return }
+        guard let url = URL(string: "https://www.quicktutor.com/legal/ita") else { return }
         if #available(iOS 10, *) {
             UIApplication.shared.open(url, options: [:]) { _ in }
         } else {

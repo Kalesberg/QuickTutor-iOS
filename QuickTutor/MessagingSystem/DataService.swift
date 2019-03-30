@@ -531,7 +531,7 @@ class DataBaseCleaner {
             subcategoryList.forEach({ (key, value) in
                 guard let data = value as? [String: Any] else { return }
                 guard let subjectString = data["sbj"] as? String else {
-                    print("Error with subject string")
+                    print("Error with subject string for id:", key)
                     return
                 }
                 let subjects = subjectString.split(separator: "$")

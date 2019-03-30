@@ -18,6 +18,7 @@ class ProfileVC: UIViewController {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.gray
+        cv.delaysContentTouches = false
         cv.allowsMultipleSelection = false
         cv.register(ProfileCVCell.self, forCellWithReuseIdentifier: "cellId")
         cv.register(ProfileVCFooterCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footerCell")
@@ -114,6 +115,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
         switch indexPath.item {
         case 0:
             showPayment()
