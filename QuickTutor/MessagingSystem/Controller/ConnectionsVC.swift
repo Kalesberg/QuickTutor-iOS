@@ -79,11 +79,11 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
             self.shouldShowEmptyBackground(snapshot.exists())
             guard let connections = snapshot.value as? [String: Any] else { return }
             connections.forEach({ key, _ in
-                DataService.shared.getStudentWithId(key, completion: { userIn in
+                DataService.shared.getUserOfOppositeTypeWithId(key, completion: { userIn in
                     guard let user = userIn else { return }
                     self.connections.append(user)
                     self.collectionView.reloadData()
-                })
+                })                
             })
             self.connections = self.connections.sorted(by: {$0.formattedName > $1.formattedName})
         }

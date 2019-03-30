@@ -54,11 +54,15 @@ class CustomTitleView: UIView {
         OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result in
             guard let result = result else { return }
             self.activeLabel.text = result
-            self.updateOnlineStatusIndicator()
+//            self.updateOnlineStatusIndicator()
             if result == "" {
                 self.updateNameLabelAsInactive()
             }
         }
+        
+//        UserStatusService.shared.getUserStatus(user.uid) { status in
+//            self.imageView.onlineStatusIndicator.backgroundColor = status?.status == .online ? Colors.purple : Colors.gray
+//        }
     }
 
     func setupViews() {

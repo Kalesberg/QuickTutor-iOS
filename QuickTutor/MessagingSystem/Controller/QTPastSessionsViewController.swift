@@ -38,6 +38,11 @@ class QTPastSessionsViewController: UIViewController {
         setupNavBar()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     // MARK: - Actions
     @objc func handleReloadTable() {
         DispatchQueue.main.async(execute: {
@@ -50,26 +55,24 @@ class QTPastSessionsViewController: UIViewController {
         pastSessions.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
-        Database.database().reference()
-            .child("userSessions")
-            .child(uid)
-            .child(userTypeString).observeSingleEvent(of: .value) { (snapshot) in
-                
-        }
+        
         Database.database().reference()
             .child("userSessions")
             .child(uid)
             .child(userTypeString)
             .observe(.value) { (snapshot) in
             
-                guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
+                guard let snap = snapshot.children.allObjects as? [DataSnapshot] else {
+                    self.animationView.isHidden = true
+                    return
+                }
             
                 let group = DispatchGroup()
                 
                 for child in snap {
                     group.enter()
                     DataService.shared.getSessionById(child.key, completion: { session in
-                        guard session.status != "cancelled" && session.status != "declined" else {
+                        if session.status.isEmpty || session.status == "cancelled" || session.status == "declined" {
                             group.leave()
                             return
                         }
@@ -104,11 +107,11 @@ class QTPastSessionsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        navigationItem.title = "Past session"
+        navigationItem.title = "Past sessions"
     }
     
     func setupNavBar() {
-        navigationItem.title = "Past session"
+        navigationItem.title = "Past sessions"
         navigationController?.setNavigationBarHidden(false, animated: false)
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never

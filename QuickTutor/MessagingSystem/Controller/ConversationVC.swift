@@ -304,7 +304,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func reloadSessionWithId(_ id: String) {
         DataService.shared.getSessionById(id) { session in
-            if let fooOffset = self.conversationManager.messages.index(where: { (message) -> Bool in
+            if let fooOffset = self.conversationManager.messages.firstIndex(where: { (message) -> Bool in
                 guard let userMessage = message as? UserMessage else { return false }
                 return userMessage.sessionRequestId == id
             }) {
@@ -327,7 +327,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
 
     func removeCurrentStatusLabel() {
-        guard let testIndex = conversationManager.messages.index(where: { !($0 is UserMessage || $0 is MessageBreakTimestamp) }) else { return }
+        guard let testIndex = conversationManager.messages.firstIndex(where: { !($0 is UserMessage || $0 is MessageBreakTimestamp) }) else { return }
         conversationManager.messages.remove(at: testIndex)
     }
 

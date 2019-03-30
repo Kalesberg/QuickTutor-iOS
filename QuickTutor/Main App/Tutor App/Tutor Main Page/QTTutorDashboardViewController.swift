@@ -29,8 +29,8 @@ struct TopSubcategory {
 class QTTutorDashboardViewController: UIViewController {
 
     // MARK: - Properties
-    @IBOutlet weak var tutorSettingView: QTCustomView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tutorSettingsButton: UIButton!
     
     var durationType: QTTutorDashboardDurationType = QTTutorDashboardDurationType.month
     var tutor: AWTutor?
@@ -58,9 +58,12 @@ class QTTutorDashboardViewController: UIViewController {
     var hoursChartData = [QTTutorDashboardChartData]()
     var topSubject: String? {
         didSet {
-            guard let text = topSubject == nil || topSubject?.isEmpty ?? true
-                ? self.tutor?.subjects?.first : topSubject else { return }
-            headerView.subjectLabel.text = text.capitalizingFirstLetter() + " • "
+            if let topSubject = topSubject, !topSubject.isEmpty {
+                headerView.subjectLabel.text = topSubject.capitalizingFirstLetter() + " • "
+                return
+            } else if topSubject == nil {
+                findTopSubjects()
+            }
         }
     }
     
@@ -95,10 +98,14 @@ class QTTutorDashboardViewController: UIViewController {
         tableView.sectionHeaderHeight = QTDashboardDimension.sectionHeaderViewHeight
         tableView.separatorStyle = .none
         
-        self.tutor = CurrentUser.shared.tutor
+        headerView.avatarImageView.isUserInteractionEnabled = true
+        headerView.avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapTutorProfileImageView)))
         
-        initUserBasicInformation()
-        findTopSubjects()
+        tutorSettingsButton.cornerRadius(corners: [.topLeft, .topRight], radius: 3)
+        tutorSettingsButton.clipsToBounds = true
+        tutorSettingsButton.setupTargets()
+        
+        self.tutor = CurrentUser.shared.tutor
         getSessions()
         getEarnings()
     }
@@ -110,15 +117,25 @@ class QTTutorDashboardViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.tutor = CurrentUser.shared.tutor
+        initUserBasicInformation()
+        
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     // MARK: - Actions
-    @IBAction func onTutorSettingsViewTapped(_ sender: Any) {
+    @IBAction func onClickTutorSettingsButton(_ sender: Any) {
         let controller = TutorEditProfileVC()
         controller.automaticScroll = true
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc
+    func onTapTutorProfileImageView () {
+        let images = createLightBoxImages()
+        presentLightBox(images)
     }
     
     // MARK: - Functions
@@ -127,10 +144,7 @@ class QTTutorDashboardViewController: UIViewController {
         
         let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
         headerView.nameLabel.text = tutor.formattedName
-        if let text = topSubject == nil || topSubject?.isEmpty ?? true
-            ? self.tutor?.subjects?.first : topSubject {
-            headerView.subjectLabel.text = text.capitalizingFirstLetter() + " • "
-        }
+        topSubject = tutor.featuredSubject
         headerView.avatarImageView.sd_setImage(with: reference)
         headerView.hourlyRateLabel.text = "$\(String(describing: tutor.price ?? 0))/hr"
         headerView.ratingLabel.text = "\(String(describing: tutor.tRating ?? 5.0))"
@@ -169,9 +183,9 @@ class QTTutorDashboardViewController: UIViewController {
             return (v / (v + m)) * ((r + Double((m / (v + m)))) * C)
         }
         
-        FirebaseData.manager.fetchTutorSubjects(uid: tutor.uid) { (subjects) in
-            guard let subjects = subjects else { return }
-            self.topSubject = subjects.first
+        FirebaseData.manager.fetchTutor(tutor.uid, isQuery: false) { (tutor) in
+            guard let tutor = tutor else { return }
+            self.topSubject = tutor.featuredSubject
         }
     }
     
@@ -262,7 +276,7 @@ class QTTutorDashboardViewController: UIViewController {
             unit = NSDate().timeIntervalSince1970 - 31_556_926 // subctract 365.2422 days
         }
         
-        let fiteredSessions = sessions.filter({$0.endTime > Int(unit)})
+        let fiteredSessions = sessions.filter({$0.endedAt > Double(unit)})
         switch durationType {
         case .week:
             var sessionCount: Double = 00
@@ -273,8 +287,8 @@ class QTTutorDashboardViewController: UIViewController {
                 mergeUnit = unit + Double(dayIndex * 86_400)
                 nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
                 fiteredSessions
-                    .filter({$0.endTime >= Int(mergeUnit) && $0.endTime < Int(nextMergeUnit)})
-                    .forEach({sessionCount += 1; hours += Double($0.endTime - $0.startTime) / 3_600 })
+                    .filter({$0.endedAt >= Double(mergeUnit) && $0.endedAt < Double(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += fabs(Double($0.endedAt - $0.startedAt)) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
@@ -287,8 +301,8 @@ class QTTutorDashboardViewController: UIViewController {
                 mergeUnit = unit + Double(dayIndex * 86_400)
                 nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
                 fiteredSessions
-                    .filter({$0.endTime >= Int(mergeUnit) && $0.endTime < Int(nextMergeUnit)})
-                    .forEach({sessionCount += 1; hours += Double($0.endTime - $0.startTime) / 3_600 })
+                    .filter({$0.endedAt >= Double(mergeUnit) && $0.endedAt < Double(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += fabs(Double($0.endedAt - $0.startedAt)) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
@@ -301,22 +315,22 @@ class QTTutorDashboardViewController: UIViewController {
                 mergeUnit = unit + Double(weekIndex * 604_800)
                 nextMergeUnit = unit + Double((weekIndex + 1) * 604_800)
                 fiteredSessions
-                    .filter({$0.endTime >= Int(mergeUnit) && $0.endTime < Int(nextMergeUnit)})
-                    .forEach({sessionCount += 1; hours += Double($0.endTime - $0.startTime) / 3_600 })
+                    .filter({$0.endedAt >= Double(mergeUnit) && $0.endedAt < Double(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += fabs(Double($0.endedAt - $0.startedAt)) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
         case .year:
             var sessionCount: Double = 00
             var hours: Double = 00
-            for monthIndex in 1...13 {
+            for monthIndex in 0...12 {
                 sessionCount = 0
                 hours = 0
                 mergeUnit = unit + Double(monthIndex * 2_629_743)
                 nextMergeUnit = unit + Double((monthIndex + 1) * 2_629_743)
                 fiteredSessions
-                    .filter({$0.endTime >= Int(mergeUnit) && $0.endTime < Int(nextMergeUnit)})
-                    .forEach({sessionCount += 1; hours += Double($0.endTime - $0.startTime) / 3_600 })
+                    .filter({$0.endedAt >= Double(mergeUnit) && $0.endedAt < Double(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += fabs(Double($0.endedAt - $0.startedAt)) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
@@ -325,7 +339,24 @@ class QTTutorDashboardViewController: UIViewController {
         self.hoursChartData = hoursChartData
         self.sessionsChartData = sessionsChartData
     }
+ 
+    func createLightBoxImages() -> [LightboxImage] {
+        guard let tutor = self.tutor else { return [] }
+        
+        var images = [LightboxImage]()
+        tutor.images.forEach({ (arg) in
+            let (_, imageUrl) = arg
+            guard let url = URL(string: imageUrl) else { return }
+            images.append(LightboxImage(imageURL: url))
+        })
+        return images
+    }
     
+    func presentLightBox(_ images: [LightboxImage]) {
+        let controller = LightboxController(images: images, startIndex: 0)
+        controller.dynamicBackground = true
+        present(controller, animated: true, completion: nil)
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -386,9 +417,14 @@ extension QTTutorDashboardViewController: UITableViewDataSource {
     }
 }
 
-extension QTTutorDashboardViewController: LearnerWasUpdatedCallBack {
-    func learnerWasUpdated(learner: AWLearner!) {
-        tutor = tutor?.copy(learner: learner)
+// MARK: - QTProfileDelegate
+extension QTTutorDashboardViewController: QTProfileDelegate {
+    func didUpdateLearnerProfile(learner: AWLearner) {
+        
+    }
+    
+    func didUpdateTutorProfile(tutor: AWTutor) {
+        self.tutor = tutor
         initUserBasicInformation()
     }
 }

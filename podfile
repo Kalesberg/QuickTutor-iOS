@@ -31,7 +31,7 @@ abstract_target 'QuickTutorApp' do
     pod 'FacebookCore'
     pod 'FacebookLogin'
     pod 'SnapKit', '~> 4.0.1'
-    pod 'lottie-ios'
+    pod 'lottie-ios', '~> 2.5.3'
     
     # Pods for Sessions
     #  pod 'Reveal-SDK', :configurations => ['Debug']

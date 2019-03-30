@@ -13,6 +13,10 @@ import SDWebImage
 import SnapKit
 import SwiftKeychainWrapper
 
+protocol QTProfileDelegate {
+    func didUpdateTutorProfile(tutor: AWTutor)
+    func didUpdateLearnerProfile(learner: AWLearner)
+}
 
 class EditPreferencesVC: TutorPreferencesVC {
     override func viewDidLoad() {
@@ -33,10 +37,16 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         super.viewDidLoad()
         sectionTitles.insert("Tutoring", at: 1)
         if automaticScroll {
-            let indexPath = IndexPath(row: 0, section: 2)
-            contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+            let indexPath = IndexPath(row: 2, section: 1)
+            contentView.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.didUpdateTutorProfile(tutor: CurrentUser.shared.tutor)
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 5
     }
@@ -228,7 +238,7 @@ protocol LearnerWasUpdatedCallBack {
 class LearnerEditProfileVC: UIViewController {
     
     var sectionTitles = ["About me", "Private information", "Optional information"]
-    var delegate: LearnerWasUpdatedCallBack?
+    var delegate: QTProfileDelegate?
     var firstName: String!
     var lastName: String!
     var automaticScroll = false
@@ -264,13 +274,21 @@ class LearnerEditProfileVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isOpaque = false
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         navigationController?.setNavigationBarHidden(false, animated: true)
+        
         updateLearner()
         setupName()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.didUpdateLearnerProfile(learner: CurrentUser.shared.learner)
     }
     
     func updateLearner() {
@@ -284,18 +302,12 @@ class LearnerEditProfileVC: UIViewController {
         lastName = String(name[1])
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
-    }
-
      func displaySavedAlertController() {
         let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
         
         present(alertController, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             alertController.dismiss(animated: true) {
-                self.delegate?.learnerWasUpdated(learner: CurrentUser.shared.learner)
                 self.navigationController?.popViewController(animated: true)
             }
         }
@@ -365,23 +377,24 @@ class LearnerEditProfileVC: UIViewController {
     }
     
     func saveBio() {
-        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as! EditProfileBioCell
-        guard let newBio = cell.textView.text else { return }
-        switch AccountService.shared.currentUserType {
-        case .learner:
-            FirebaseData.manager.updateValue(node: "student-info", value: ["bio": newBio]) { error in
-                if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+        if let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? EditProfileBioCell {
+            guard let newBio = cell.textView.text else { return }
+            switch AccountService.shared.currentUserType {
+            case .learner:
+                FirebaseData.manager.updateValue(node: "student-info", value: ["bio": newBio]) { error in
+                    if let error = error {
+                        AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    }
                 }
+                CurrentUser.shared.learner.bio = newBio
+                displaySavedAlertController()
+            case .tutor:
+                Tutor.shared.updateValue(value: ["tbio": newBio])
+                CurrentUser.shared.tutor.tBio = newBio
+                displaySavedAlertController()
+            default:
+                break
             }
-            CurrentUser.shared.learner.bio = newBio
-            displaySavedAlertController()
-        case .tutor:
-            Tutor.shared.updateValue(value: ["tbio": newBio])
-            CurrentUser.shared.tutor.tBio = newBio
-            displaySavedAlertController()
-        default:
-            break
         }
     }
 }

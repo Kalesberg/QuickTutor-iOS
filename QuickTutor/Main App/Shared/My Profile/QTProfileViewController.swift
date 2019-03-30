@@ -92,6 +92,7 @@ class QTProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(false, animated: false)
+        
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
@@ -101,7 +102,7 @@ class QTProfileViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
-
+    
     // MARK: - Actions
     @IBAction func onMessageButtonClicked(_ sender: Any) {
         let vc = ConversationVC()
@@ -222,7 +223,7 @@ class QTProfileViewController: UIViewController {
         initReviews()
         initPolicies()
         initConnectView()
-        updateUI()
+//        updateUI()
     }
     
     func initUserInfo() {
@@ -233,10 +234,13 @@ class QTProfileViewController: UIViewController {
         
         // Set the avatar of user profile.
         if profileViewType == .tutor || profileViewType == .myTutor {
-            avatarImageView.sd_setImage(with: user.profilePicUrl)
+            DataService.shared.getUserWithId(user.uid, type: UserType.tutor) { (tutor) in
+                self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
+            }
         } else {
-            let reference = storageRef.child("student-info").child(user.uid).child("student-profile-pic1")
-            avatarImageView.sd_setImage(with: reference)
+            DataService.shared.getUserWithId(user.uid, type: UserType.learner) { (learner) in
+                self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
+            }
         }
         avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidAvatarImageViewTap)))
         
@@ -279,7 +283,7 @@ class QTProfileViewController: UIViewController {
             } else {
                 bioLabel.text = "\(user.formattedName) has not yet entered a biography."
             }
-            navigationItem.title = user.formattedName
+            navigationItem.title = user.username
         case .learner:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = true
@@ -363,7 +367,11 @@ class QTProfileViewController: UIViewController {
             reviewsTableView.isHidden = user.lReviews?.isEmpty ?? true
             let numberOfReviews = user.lReviews?.count ?? 0
             self.reviewsHeight = self.getHeightOfReviews(reviews: user.lReviews ?? [Review]())
-            readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+            if numberOfReviews == 0 {
+                readAllReviewLabel.text = "No Reviews Yet!"
+            } else {
+                readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+            }
         }
         
         reviewsTableView.reloadData()
@@ -409,11 +417,11 @@ class QTProfileViewController: UIViewController {
         connectButton.clipsToBounds = true
         connectButton.setupTargets()
         
-        connectView.layer.shadowOffset = CGSize(width: 0, height: -5)
-        connectView.layer.shadowRadius = 5
-        connectView.layer.shadowColor = UIColor.black.cgColor
-        connectView.layer.shadowOpacity = 0.5
-        
+        connectView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        connectView.layer.shadowOpacity = 1
+        connectView.layer.shadowRadius = 2
+        connectView.layer.shadowOffset = CGSize(width: 0, height: -2)
+
         
         guard let profileViewType = profileViewType else { return }
         switch profileViewType {
@@ -444,11 +452,15 @@ class QTProfileViewController: UIViewController {
         }
     }
     
-    func updateUI() {
+    func updateSubjectsHeight() {
         subjectsCollectionViewHeight.constant = subjectsCollectionView.contentSize.height
+        subjectsCollectionView.layoutIfNeeded()
+        scrollView.layoutIfNeeded()
+    }
+    
+    func updateReviewsHeight() {
         reviewsTabeViewHeight.constant = reviewsHeight
         reviewsTableView.layoutIfNeeded()
-        subjectsCollectionView.layoutIfNeeded()
         scrollView.layoutIfNeeded()
     }
     
@@ -472,11 +484,11 @@ class QTProfileViewController: UIViewController {
         var height: CGFloat = 0.0
         var index = 0
         
-        let threeLinesHeight = "A".height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(14)) * 3
+        let threeLinesHeight = "A".height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(16)) * 3
         
         reviews.forEach { review in
             if index == 1 { return }
-            let reviewHeight = review.message.height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(14))
+            let reviewHeight = review.message.height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(16))
             if reviewHeight > threeLinesHeight {
                 height += threeLinesHeight + 78
             } else {
@@ -508,6 +520,8 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
         var width: CGFloat = 60
         if let tutor = user as? AWTutor, let subjects = tutor.subjects {
             width = subjects[indexPath.item].estimateFrameForFontSize(14).width + 20
+        } else if let tutor = user as? AWTutor, let featuredSubject = tutor.featuredSubject {
+            width = featuredSubject.estimateFrameForFontSize(14).width + 20
         }
         return CGSize(width: width, height: 30)
     }
@@ -529,8 +543,10 @@ extension QTProfileViewController: UICollectionViewDataSource {
         }
         if let subjects = tutor.subjects {
             cell.titleLabel.text = subjects[indexPath.item]
+        } else if let featuredSubject = tutor.featuredSubject, !featuredSubject.isEmpty {
+            cell.titleLabel.text = featuredSubject
         }
-        updateUI()
+        updateSubjectsHeight()
         return cell
     }
 }
@@ -558,12 +574,12 @@ extension QTProfileViewController: UITableViewDataSource {
         if profileViewType == .tutor {
             guard let tutor = user as? AWTutor, let reviews = tutor.reviews else { return QTReviewTableViewCell() }
             cell.setData(review: reviews[indexPath.row])
-            self.updateUI()
+//            self.updateUI()
             
         } else {
             guard let reviews = user.lReviews else { return QTReviewTableViewCell() }
             cell.setData(review: reviews[indexPath.row])
-            self.updateUI()
+            self.updateReviewsHeight()
         }
 
         return cell
@@ -574,6 +590,21 @@ extension QTProfileViewController: UITableViewDataSource {
 extension QTProfileViewController: LearnerWasUpdatedCallBack {
     func learnerWasUpdated(learner: AWLearner!) {
         
+    }
+    
+}
+        
+// MARK: - QTProfileDelegate
+extension QTProfileViewController: QTProfileDelegate {
+    func didUpdateLearnerProfile(learner: AWLearner) {
+        self.user = AWTutor(dictionary: [:]).copy(learner: learner)
+        initUserInfo()
+    }
+    
+    func didUpdateTutorProfile(tutor: AWTutor) {
+        self.user = tutor
+        self.subject = nil
+        initUserInfo()
     }
 }
 

@@ -37,7 +37,9 @@ class ProfileVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        
+//        navigationController?.setNavigationBarHidden(true, animated: false)
+        
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
@@ -53,6 +55,7 @@ class ProfileVC: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.navigationBar.barTintColor = Colors.darkBackground
         navigationController?.navigationBar.backgroundColor = Colors.darkBackground
+        navigationController?.view.backgroundColor = Colors.darkBackground
         view.backgroundColor = Colors.newBackground
     }
     

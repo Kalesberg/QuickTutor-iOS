@@ -1,6 +1,6 @@
 PODS:
   - AccountKit (4.35.0)
-  - Alamofire (4.8.1)
+  - Alamofire (4.8.2)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -22,67 +22,68 @@ PODS:
     - FacebookCore (~> 0.5)
     - FBSDKCoreKit (~> 4.37)
     - FBSDKLoginKit (~> 4.37)
-  - FBSDKCoreKit (4.40.0):
+  - FBSDKCoreKit (4.42.0):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.40.0):
+  - FBSDKLoginKit (4.42.0):
     - FBSDKCoreKit
-  - Firebase/Auth (5.18.0):
+  - Firebase/Auth (5.19.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (= 5.4.0)
-  - Firebase/Core (5.18.0):
+    - FirebaseAuth (= 5.4.1)
+  - Firebase/Core (5.19.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.7.0)
-  - Firebase/CoreOnly (5.18.0):
-    - FirebaseCore (= 5.3.1)
-  - Firebase/Database (5.18.0):
+    - FirebaseAnalytics (= 5.8.0)
+  - Firebase/CoreOnly (5.19.0):
+    - FirebaseCore (= 5.4.0)
+  - Firebase/Database (5.19.0):
     - Firebase/CoreOnly
-    - FirebaseDatabase (= 5.1.0)
-  - Firebase/DynamicLinks (5.18.0):
+    - FirebaseDatabase (= 5.1.1)
+  - Firebase/DynamicLinks (5.19.0):
     - Firebase/CoreOnly
-    - FirebaseDynamicLinks (= 3.4.1)
-  - Firebase/Messaging (5.18.0):
+    - FirebaseDynamicLinks (= 3.4.2)
+  - Firebase/Messaging (5.19.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (= 3.3.2)
-  - Firebase/Performance (5.18.0):
+    - FirebaseMessaging (= 3.4.0)
+  - Firebase/Performance (5.19.0):
     - Firebase/Core
-    - FirebasePerformance (= 2.2.3)
-  - Firebase/Storage (5.18.0):
+    - FirebasePerformance (= 2.2.4)
+  - Firebase/Storage (5.19.0):
     - Firebase/CoreOnly
-    - FirebaseStorage (= 3.1.0)
+    - FirebaseStorage (= 3.1.1)
   - FirebaseABTesting (2.0.0):
     - FirebaseCore (~> 5.0)
     - Protobuf (~> 3.5)
-  - FirebaseAnalytics (5.7.0):
-    - FirebaseCore (~> 5.3)
-    - FirebaseInstanceID (~> 3.6)
-    - GoogleAppMeasurement (= 5.7.0)
+  - FirebaseAnalytics (5.8.0):
+    - FirebaseCore (~> 5.4)
+    - FirebaseInstanceID (~> 3.8)
+    - GoogleAppMeasurement (= 5.8.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
   - FirebaseAnalyticsInterop (1.2.0)
-  - FirebaseAuth (5.4.0):
+  - FirebaseAuth (5.4.1):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.0.0)
-  - FirebaseCore (5.3.1):
+  - FirebaseCore (5.4.0):
+    - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Logger (~> 5.2)
-  - FirebaseDatabase (5.1.0):
+  - FirebaseDatabase (5.1.1):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
     - leveldb-library (~> 1.18)
-  - FirebaseDynamicLinks (3.4.1):
+  - FirebaseDynamicLinks (3.4.2):
     - FirebaseAnalytics (~> 5.1)
     - FirebaseAnalyticsInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
-  - FirebaseInstanceID (3.7.0):
+  - FirebaseInstanceID (3.8.0):
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/UserDefaults (~> 5.2)
-  - FirebaseMessaging (3.3.2):
+  - FirebaseMessaging (3.4.0):
     - FirebaseAnalyticsInterop (~> 1.1)
     - FirebaseCore (~> 5.2)
     - FirebaseInstanceID (~> 3.6)
@@ -90,9 +91,9 @@ PODS:
     - GoogleUtilities/Reachability (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
     - Protobuf (~> 3.1)
-  - FirebasePerformance (2.2.3):
-    - FirebaseAnalytics (~> 5.6)
-    - FirebaseInstanceID (~> 3.5)
+  - FirebasePerformance (2.2.4):
+    - FirebaseAnalytics (~> 5.8)
+    - FirebaseInstanceID (~> 3.8)
     - FirebaseRemoteConfig (~> 3.1)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
@@ -108,17 +109,17 @@ PODS:
     - GoogleUtilities/Environment (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - Protobuf (~> 3.5)
-  - FirebaseStorage (3.1.0):
+  - FirebaseStorage (3.1.1):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseUI/Storage (6.1.1):
+  - FirebaseUI/Storage (6.2.1):
     - Firebase/Storage (~> 5.0)
     - SDWebImage (~> 4.0)
   - GeoFire (3.0.0):
     - Firebase/Database (~> 5.0)
   - GoogleAnalytics (3.17.0)
-  - GoogleAppMeasurement (5.7.0):
+  - GoogleAppMeasurement (5.8.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
@@ -129,29 +130,29 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.2.0)
   - "GoogleToolboxForMac/NSData+zlib (2.2.0)":
     - GoogleToolboxForMac/Defines (= 2.2.0)
-  - GoogleUtilities/AppDelegateSwizzler (5.3.7):
+  - GoogleUtilities/AppDelegateSwizzler (5.5.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.3.7)
-  - GoogleUtilities/ISASwizzler (5.3.7)
-  - GoogleUtilities/Logger (5.3.7):
+  - GoogleUtilities/Environment (5.5.0)
+  - GoogleUtilities/ISASwizzler (5.5.0)
+  - GoogleUtilities/Logger (5.5.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.3.7):
+  - GoogleUtilities/MethodSwizzler (5.5.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.3.7):
+  - GoogleUtilities/Network (5.5.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.3.7)"
-  - GoogleUtilities/Reachability (5.3.7):
+  - "GoogleUtilities/NSData+zlib (5.5.0)"
+  - GoogleUtilities/Reachability (5.5.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (5.3.7):
+  - GoogleUtilities/UserDefaults (5.5.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.1)
   - Imaginary (4.2.0):
     - Cache (~> 5.0)
-  - IQKeyboardManager (6.2.0)
+  - IQKeyboardManager (6.2.1)
   - leveldb-library (1.20)
   - lottie-ios (2.5.3)
   - nanopb (0.3.901):
@@ -168,11 +169,11 @@ PODS:
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.6)
-  - Stripe (14.0.0)
+  - Stripe (15.0.0)
   - SwiftKeychainWrapper (3.2.0)
   - SwiftyJSON (4.2.0)
-  - SwipeCellKit (2.5.1)
-  - TwilioVideo (2.7.0)
+  - SwipeCellKit (2.5.4)
+  - TwilioVideo (2.8.1)
 
 DEPENDENCIES:
   - AccountKit
@@ -194,7 +195,7 @@ DEPENDENCIES:
   - GoogleAnalytics
   - Imaginary
   - IQKeyboardManager
-  - lottie-ios
+  - lottie-ios (~> 2.5.3)
   - PlaceholderTextView
   - SDWebImage
   - SnapKit (~> 4.0.1)
@@ -261,12 +262,12 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   GeoFire:
-    :commit: 7bc124db5d7c428bffe7ee4bd10ea9ad55f54523
+    :commit: 95a0bf39b1bcc87685dc7aba3caf4e23d9600c30
     :git: https://github.com/firebase/geofire-objc.git
 
 SPEC CHECKSUMS:
   AccountKit: 870ccaf5d33facda9408783e28fbe68c5211e069
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
@@ -274,31 +275,31 @@ SPEC CHECKSUMS:
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
-  FBSDKCoreKit: ae214474b25033399c131dc81d258e412582a2ba
-  FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
-  Firebase: 02f3281965c075426141a0ce1277e9de6649cab9
+  FBSDKCoreKit: aa42f1c384775f8b075f53a43080474278e9701d
+  FBSDKLoginKit: 373830c68aa48c9e8f0bfed93a3e32d2ca8963a0
+  Firebase: c60d49e9c2630875a96207d15e2affb8364996d1
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
-  FirebaseAnalytics: 23851fe602c872130a2c5c55040b302120346cc2
+  FirebaseAnalytics: fd72a26bf8dac84cefba2f0864366f718555a5b0
   FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
-  FirebaseAuth: d85d052354447f30b4b2a805ab91b511458b56a6
+  FirebaseAuth: cbb892a66baed025efc179372598941252acf853
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
-  FirebaseCore: 52f851b30e11360f1e67cf04b1edfebf0a47a2d3
-  FirebaseDatabase: 23acb0c53cd4d4070a427b60100b2e4aaa97c45d
-  FirebaseDynamicLinks: f209c3caccd82102caa0e91d393e3ccc593501fd
-  FirebaseInstanceID: bd6fc5a258884e206fd5c474ebe4f5b00e21770e
-  FirebaseMessaging: d740150547f7686b33799f6489f5b69a4706631b
-  FirebasePerformance: b97b1c301790b4fddc9fe675bca05b71c04e24a6
+  FirebaseCore: 22a79a961c3951ef2f77b67bfbc99e454247b319
+  FirebaseDatabase: 2c15b0ea6f2c6eb5e57413f9d6340f1e50b81ae3
+  FirebaseDynamicLinks: 29dd0deb458bfb8f845349f8b0b7e90af20758c6
+  FirebaseInstanceID: cf488df2f4b79782f0e430b04a0e17c0aa7979b2
+  FirebaseMessaging: 2d53d08d752fbe63ce0820428d70be5ab87c11fb
+  FirebasePerformance: 25ecee2a260bcf398d7f32d6f4804438df953100
   FirebaseRemoteConfig: 7e11c65f0769c09bff6947997c209515058c5318
-  FirebaseStorage: 29075f874c2b3cf61e5221a62c4ceefc809e5412
-  FirebaseUI: 1345f778d53f9484f21474c7b10bba313b28a76b
+  FirebaseStorage: 6162ef4322502b818d9de0ec552f5226d283de43
+  FirebaseUI: c9e227a7d44e2e422a461cb3f4ead8dc5c7326e6
   GeoFire: e3ae6f4be3f2466c3467ef6c1c203db3af935c59
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
-  GoogleAppMeasurement: 6cf307834da065863f9faf4c0de0a936d81dd832
+  GoogleAppMeasurement: 1624046ab1bcc5e170061a56ef5679000b079c8e
   GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
-  GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
+  GoogleUtilities: 6481e6318c5fcabaaa8513ef8120f329055d7c10
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
-  IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
+  IQKeyboardManager: 964638372b4a61892cc74fdfa6fd26de8c9464a2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
@@ -308,12 +309,12 @@ SPEC CHECKSUMS:
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
-  Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
+  Stripe: 312b22a67af9fa55c246d26148b3f3a9636a0ff2
   SwiftKeychainWrapper: 82c4c02cdc36f9a24f7edfcaab3e336401caa1a1
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
-  SwipeCellKit: 30fd6a4f8a8b8ac864ea389c8b4c8bac5ba5471a
-  TwilioVideo: 847eb873d3d67f068bbd50486391be94d9878b4d
+  SwipeCellKit: 4eada3884ab1bbae5e8d2fb9030c242aa23d7f42
+  TwilioVideo: 482bbbb23807e424e00500c367fea3656e136d61
 
-PODFILE CHECKSUM: 08394296bbed21cfcb445e6a9dfc947d836a58e2
+PODFILE CHECKSUM: 8055085979aea6edc853907dec60e79d7c93102f
 
 COCOAPODS: 1.5.3

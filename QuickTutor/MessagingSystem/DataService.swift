@@ -117,7 +117,10 @@ class DataService {
     
     func getSessionById(_ sessionId: String, completion: @escaping (Session) -> Void) {
         Database.database().reference().child("sessions").child(sessionId).observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? [String: Any] else { return }
+            guard let value = snapshot.value as? [String: Any] else {
+                completion(Session(dictionary: [:], id: sessionId))
+                return
+            }
             let session = Session(dictionary: value, id: sessionId)
             completion(session)
         }

@@ -33,6 +33,8 @@ class MessagesVC: UIViewController {
         return bg
     }()
     
+//    private var userStatuses = [UserStatus]()
+    
     func setupViews() {
         setupMainView()
         setupCollectionView()
@@ -132,6 +134,11 @@ class MessagesVC: UIViewController {
             
             DataService.shared.getUserOfOppositeTypeWithId(message.partnerId(), completion: { (user) in
                 message.user = user
+                
+//                if !self.userStatuses.isEmpty {
+//                    message.user?.isOnline = self.userStatuses.first(where: { $0.userId == user?.uid })?.status == .online
+//                }
+                
                 self.conversationsDictionary[message.partnerId()] = message
                 self.attemptReloadOfTable()
             })
@@ -153,10 +160,32 @@ class MessagesVC: UIViewController {
         })
     }
     
+    private func getUserStatuses () {
+//        UserStatusService.shared.getUserStatuses { statuses in
+//            if !statuses.isEmpty {
+//                self.userStatuses = statuses
+//
+//                var reloadIndexPaths = [IndexPath]()
+//                for index in 0..<self.messages.count {
+//                    let isOnline = self.userStatuses.first(where: { $0.userId == self.messages[index].user?.uid })?.status == .online
+//                    if isOnline != self.messages[index].user?.isOnline {
+//                        self.messages[index].user?.isOnline = isOnline
+//                        reloadIndexPaths.append(IndexPath(item: index, section: 0))
+//                    }
+//                }
+//
+//                if !reloadIndexPaths.isEmpty {
+//                    self.collectionView.reloadItems(at: reloadIndexPaths)
+//                }
+//            }
+//        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         fetchConversations()
+        getUserStatuses ()
     }
     
     override func viewDidAppear(_ animated: Bool) {

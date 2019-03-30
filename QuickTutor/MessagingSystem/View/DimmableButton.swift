@@ -103,3 +103,32 @@ extension UIButton {
         layer.borderColor = borderColor.lighter(by: 15)?.cgColor
     }
 }
+
+extension UIView {
+    func didTouchDown() {
+        backgroundColor = backgroundColor?.darker(by: 15)
+        guard let borderColor = layer.borderColor?.uiColor() else { return }
+        layer.borderColor = borderColor.darker(by: 15)?.cgColor
+        
+        for subView in subviews {
+            if subView is UILabel {
+                let label = subView as! UILabel
+                label.textColor = label.textColor.darker(by: 15)
+            }
+        }
+        
+    }
+    
+    func didTouchUp() {
+        backgroundColor = backgroundColor?.lighter(by: 15)
+        guard let borderColor = layer.borderColor?.uiColor() else { return }
+        layer.borderColor = borderColor.lighter(by: 15)?.cgColor
+        
+        for subView in subviews {
+            if subView is UILabel {
+                let label = subView as! UILabel
+                label.textColor = label.textColor.lighter(by: 15)
+            }
+        }
+    }
+}

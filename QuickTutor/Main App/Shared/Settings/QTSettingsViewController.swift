@@ -16,17 +16,17 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     // MARK: - variables
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var locationTextField: UITextField!
-    @IBOutlet weak var twitterView: QTCustomView!
-    @IBOutlet weak var twitterIconView: UIImageView!
-    @IBOutlet weak var facebookView: QTCustomView!
-    @IBOutlet weak var facebookImageView: UIImageView!
-    @IBOutlet weak var instagramView: QTCustomView!
-    @IBOutlet weak var instagramImageView: UIImageView!
+    @IBOutlet weak var twitterButton: QTCustomButton!
+    @IBOutlet weak var facebookButton: QTCustomButton!
+    @IBOutlet weak var instagramButton: QTCustomButton!
     @IBOutlet weak var showMeView: UIView!
     @IBOutlet weak var showMeSwitch: QTCustomView!
     @IBOutlet weak var switchOffImageView: QTCustomImageView!
     @IBOutlet weak var switchOnImageView: QTCustomImageView!
     @IBOutlet weak var linkFacebookView: UIView!
+    @IBOutlet weak var rateButton: UIButton!
+    @IBOutlet weak var guidelinesReadButton: UIButton!
+    @IBOutlet weak var safetyReadButton: UIButton!
     
     var isShowMe: Bool = false
     
@@ -43,7 +43,7 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
         
         // Change social button colors.
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = instagramView.bounds
+        gradientLayer.frame = instagramButton.bounds
         gradientLayer.colors = [Colors.wheat,
                                 Colors.orange,
                                 Colors.pink,
@@ -51,14 +51,27 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
                                 Colors.warmBlue].map({$0.cgColor})
         gradientLayer.locations = [0, 0.27, 0.52, 0.75, 1]
         gradientLayer.transform = CATransform3DMakeRotation(CGFloat.pi * 1.25, 0, 0, 1)
-        instagramView.layer.insertSublayer(gradientLayer, at: 0)
-        instagramView.layer.cornerRadius = 30.0
-        instagramView.clipsToBounds = true
+        instagramButton.layer.insertSublayer(gradientLayer, at: 0)
+        instagramButton.layer.cornerRadius = 30
+        instagramButton.layer.masksToBounds = true
+        instagramButton.bringSubviewToFront(instagramButton.imageView!)
         
-        twitterIconView.image = twitterIconView.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        twitterIconView.tintColor = UIColor.white
-        facebookImageView.image = facebookImageView.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        facebookImageView.tintColor = UIColor.white
+        let twitterImage = twitterButton.image(for: .normal)?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        twitterButton.setImage(twitterImage, for: .normal)
+        twitterButton.tintColor = UIColor.white
+        
+        let facebookImage = facebookButton.image(for: .normal)?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        facebookButton.setImage(facebookImage, for: .normal)
+        facebookButton.tintColor = UIColor.white
+        
+        // add dimming
+        rateButton.setupTargets()
+        guidelinesReadButton.setupTargets()
+        safetyReadButton.setupTargets()
+        twitterButton.setupTargets()
+        facebookButton.setupTargets()
+        instagramButton.setupTargets()
+        
         
         // Update location
         locationTextField.attributedPlaceholder = NSAttributedString.init(string: "Select",
@@ -69,16 +82,9 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
         locationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidLocationViewTap(_:))))
         locationView.isUserInteractionEnabled = true
         
-        twitterView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidTwitterViewTap(_:))))
-        twitterView.isUserInteractionEnabled = true
-        
-        instagramView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidInstagramViewTap(_:))))
-        instagramView.isUserInteractionEnabled = true
-        
-        facebookView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidFacebookViewTap(_:))))
-        facebookView.isUserInteractionEnabled = true
-        
-        linkFacebookView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidLinkFacebookViewTap(_:))))
+        let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleDidLinkFacebookViewTap(_:)))
+        tapGestureRecognizer.minimumPressDuration = 0
+        linkFacebookView.addGestureRecognizer(tapGestureRecognizer)
         
         showMeSwitch.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowMeSwitchTap(_:))))
     }
@@ -144,40 +150,51 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    @objc
-    func handleDidTwitterViewTap(_ recognizer: UITapGestureRecognizer) {
+    @IBAction func handleDidTwitterViewTap(_ sender: Any) {
         SocialMedia.rateApp(appUrl: "twitter://user?screen_name=QuickTutor", webUrl: "https://twitter.com/QuickTutor", completion: { _ in
         })
     }
     
-    @objc
-    func handleDidFacebookViewTap(_ recognizer: UITapGestureRecognizer) {
+    @IBAction func handleDidFacebookViewTap(_ sender: Any) {
         SocialMedia.rateApp(appUrl: "fb://profile/1346980958682540", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { _ in
         })
     }
     
-    @objc
-    func handleDidInstagramViewTap(_ recognizer: UITapGestureRecognizer) {
+    @IBAction func handleDidInstagramViewTap(_ sender: Any) {
         SocialMedia.rateApp(appUrl: "instagram://user?username=QuickTutor", webUrl: "https://www.instagram.com/quicktutor/", completion: { _ in
         })
     }
     
     @objc
-    func handleDidLinkFacebookViewTap(_ recognizer: UITapGestureRecognizer) {
-        let loginManager = LoginManager()
+    func handleDidLinkFacebookViewTap(_ recognizer: UILongPressGestureRecognizer) {
         
-        loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
-            switch result {
-            case .failed(let error):
-                print(error)
-            case .cancelled:
-                print("User cancelled login.")
-            case .success:
-                let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
-                Auth.auth().currentUser?.linkAndRetrieveData(with: credential, completion: { (authResult, error) in
-                    print("Facebook linked")
-                })
+        switch recognizer.state {
+        case .began:
+            linkFacebookView.didTouchDown()
+            break
+        case .changed:
+            break
+        case .ended:
+            linkFacebookView.didTouchUp()
+            let loginManager = LoginManager()
+            
+            loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
+                switch result {
+                case .failed(let error):
+                    print(error)
+                case .cancelled:
+                    print("User cancelled login.")
+                case .success:
+                    let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
+                    Auth.auth().currentUser?.linkAndRetrieveData(with: credential, completion: { (authResult, error) in
+                        print("Facebook linked")
+                    })
+                }
             }
+            break
+        default:
+            linkFacebookView.didTouchUp()
+            break
         }
     }
     

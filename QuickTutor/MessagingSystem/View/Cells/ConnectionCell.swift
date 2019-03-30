@@ -64,10 +64,10 @@ class ConnectionCell: UICollectionViewCell {
         return label
     }()
 
-    let locationLabel: UILabel = {
+    let featuredSubject: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.textColor = Colors.grayText
+        label.textColor = Colors.purple
         label.font = Fonts.createBoldSize(12)
         label.text = "Auburn, AL"
         return label
@@ -95,7 +95,7 @@ class ConnectionCell: UICollectionViewCell {
     func setupViews() {
         setupProfileImageView()
         setupNameLabel()
-        setupLocationLabel()
+        setupFeaturedSubject()
         setupMessageButton()
         setupRequestSessionButton()
         setupSeparatorLine()
@@ -111,9 +111,9 @@ class ConnectionCell: UICollectionViewCell {
         nameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 100, height: 15)
     }
     
-    func setupLocationLabel() {
-        addSubview(locationLabel)
-        locationLabel.anchor(top: nameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 150, height: 0)
+    func setupFeaturedSubject() {
+        addSubview(featuredSubject)
+        featuredSubject.anchor(top: nameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 150, height: 0)
     }
     
     func setupMessageButton() {
@@ -139,10 +139,15 @@ class ConnectionCell: UICollectionViewCell {
         self.user = user
         profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         nameLabel.text = user.formattedName
+        if let zfUser = user as? ZFTutor {
+            featuredSubject.text = zfUser.featuredSubject
+        } else if let awUser = user as? AWTutor {
+            featuredSubject.text = awUser.featuredSubject
+        }
     }
     
     func updateAsLearnerCell() {
-        locationLabel.removeFromSuperview()
+        featuredSubject.removeFromSuperview()
         nameLabel.removeFromSuperview()
         addSubview(nameLabel)
         nameLabel.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 250, height: 0)
