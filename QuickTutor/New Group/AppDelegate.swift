@@ -259,7 +259,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         BackgroundSoundManager.shared.start()
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
-//        UserStatusService.shared.updateUserStatus(uid, status: .offline)
+        UserStatusService.shared.updateUserStatus(uid, status: .offline)
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -280,7 +280,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         NotificationCenter.default.post(name: Notifications.willTerminate.name, object: nil)
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
-//        UserStatusService.shared.updateUserStatus(uid, status: .offline)
+        UserStatusService.shared.updateUserStatus(uid, status: .offline)
     }
     
     func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {

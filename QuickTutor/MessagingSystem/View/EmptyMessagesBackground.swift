@@ -75,7 +75,7 @@ class EmptyMessagesBackground: UIView {
     private func setupForTutor() {
         icon.image = #imageLiteral(resourceName: "buildIcon")
         titleLabel.text = "Build Your Profile"
-        descriptionLabel.text = "This is where your tutor connections will appear. Currently, it looks like you don't have any connections. You can add tutors by their username by tapping on the icon located in the top right corner of this screen."
+        descriptionLabel.text = "When you connect with learners they’ll appear here, where you can send them messages and schedule sessions"
     }
     
     override init(frame: CGRect) {

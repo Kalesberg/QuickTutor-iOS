@@ -60,9 +60,9 @@ class CustomTitleView: UIView {
             }
         }
         
-//        UserStatusService.shared.getUserStatus(user.uid) { status in
-//            self.imageView.onlineStatusIndicator.backgroundColor = status?.status == .online ? Colors.purple : Colors.gray
-//        }
+        UserStatusService.shared.getUserStatus(user.uid) { status in
+            self.imageView.onlineStatusIndicator.backgroundColor = status?.status == .online ? Colors.purple : Colors.gray
+        }
     }
 
     func setupViews() {

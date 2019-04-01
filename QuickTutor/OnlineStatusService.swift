@@ -39,7 +39,7 @@ class OnlineStatusService {
         Database.database().reference().child("account").child(uid).child("online").setValue(timeStamp)
         
         // add status function
-//        UserStatusService.shared.updateUserStatus(uid, status: .online)
+        UserStatusService.shared.updateUserStatus(uid, status: .online)
     }
     
     func getLastActiveStringFor(uid: String, completion: @escaping (String?) -> Void) {
