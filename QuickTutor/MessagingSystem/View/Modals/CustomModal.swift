@@ -11,10 +11,13 @@ import UIKit
 protocol CustomModalDelegate {
     func handleNevermind()
     func handleCancel(id: String)
+    func handleConfirm()
 }
 
 extension CustomModalDelegate {
     func handleNevermind() {}
+    func handleConfirm() {}
+    func handleCancel(id: String) {}
 }
 
 class CustomModal: BaseCustomModal {
@@ -109,7 +112,10 @@ class CustomModal: BaseCustomModal {
         dismiss()
     }
 
-    @objc func handleConfirmButton() {}
+    @objc func handleConfirmButton() {
+        delegate?.handleConfirm()
+        dismiss()
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

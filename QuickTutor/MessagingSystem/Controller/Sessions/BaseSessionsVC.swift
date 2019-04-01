@@ -331,6 +331,11 @@ extension BaseSessionsVC: NewMessageDelegate {
 extension BaseSessionsVC: CustomModalDelegate {
     func handleNevermind() {}
     
+    func handleConfirm() {
+        let next = CardManagerVC()
+        navigationController?.pushViewController(next, animated: true)
+    }
+    
     func handleCancel(id: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
