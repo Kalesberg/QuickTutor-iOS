@@ -20,7 +20,7 @@ class RootControllerManager {
         } else {
             setupDefaultConfiguration(controller: controller)
         }
-//        setupDefaultConfiguration(controller: UserPolicyVC())
+//        setupDefaultConfiguration(controller: TutorPolicyVC())
 
     }
     
