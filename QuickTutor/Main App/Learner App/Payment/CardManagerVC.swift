@@ -167,6 +167,9 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "addCardCell", for: indexPath) as! AddCardTableViewCell
+            cell.didTapAddCard = {
+                self.showStripeAddCard()
+            }
             return cell
         }
     }
@@ -177,7 +180,6 @@ extension CardManagerVC: UITableViewDelegate, UITableViewDataSource {
                 print("too many cards")
                 return
             }
-            showStripeAddCard()
         } else {
             if cards[indexPath.row] != defaultCard {
                 defaultCardAlert(card: cards[indexPath.row])
@@ -334,6 +336,8 @@ class AddCardTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    var didTapAddCard: (() -> ())?
+    
     let addCard: UILabel = {
         let label = UILabel()
         label.text = "Add debit or credit card"
@@ -356,6 +360,14 @@ class AddCardTableViewCell: UITableViewCell {
         footer.backgroundColor = Colors.darkBackground
         backgroundColor = Colors.darkBackground
         applyConstraints()
+        
+        addCard.setupTargets(gestureState: { gestureState in
+            if gestureState == .ended {
+                if let didTapAddCard = self.didTapAddCard {
+                    didTapAddCard()
+                }
+            }
+        })
     }
 
     func applyConstraints() {

@@ -96,39 +96,25 @@ extension UIButton {
         layer.borderColor = borderColor.darker(by: 15)?.cgColor
     }
     
+    @objc func handleTouchUpTitleDimming() {
+        guard let titleColor = titleColor(for: .normal) else { return }
+        setTitleColor(titleColor.lighter(by: 30), for: .normal)
+    }
+    
+    @objc func handleTouchDownTitleDimming() {
+        guard let titleColor = titleColor(for: .normal) else { return }
+        setTitleColor(titleColor.darker(by: 30), for: .normal)
+    }
+    
     @objc func handleTouchUp() {
         backgroundColor = backgroundColor?.lighter(by: 15)
         guard let titleColor = titleColor(for: .normal), let borderColor = layer.borderColor?.uiColor() else { return }
         setTitleColor(titleColor.lighter(by: 15), for: .normal)
         layer.borderColor = borderColor.lighter(by: 15)?.cgColor
     }
-}
-
-extension UIView {
-    func didTouchDown() {
-        backgroundColor = backgroundColor?.darker(by: 15)
-        guard let borderColor = layer.borderColor?.uiColor() else { return }
-        layer.borderColor = borderColor.darker(by: 15)?.cgColor
-        
-        for subView in subviews {
-            if subView is UILabel {
-                let label = subView as! UILabel
-                label.textColor = label.textColor.darker(by: 15)
-            }
-        }
-        
-    }
     
-    func didTouchUp() {
-        backgroundColor = backgroundColor?.lighter(by: 15)
-        guard let borderColor = layer.borderColor?.uiColor() else { return }
-        layer.borderColor = borderColor.lighter(by: 15)?.cgColor
-        
-        for subView in subviews {
-            if subView is UILabel {
-                let label = subView as! UILabel
-                label.textColor = label.textColor.lighter(by: 15)
-            }
-        }
+    @objc func setupDimmingTitle() {
+        addTarget(self, action: #selector(handleTouchDownTitleDimming), for: .touchDown)
+        addTarget(self, action: #selector(handleTouchUpTitleDimming), for: [.touchUpInside, .touchUpOutside, .touchCancel])
     }
 }

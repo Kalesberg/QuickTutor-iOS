@@ -234,6 +234,72 @@ extension UIView {
     }
 }
 
+class QTDimmingLongPressGestureRecognizer: UILongPressGestureRecognizer {
+    var gestureState: ((UIGestureRecognizer.State) -> ())?
+}
+
+extension UIView {
+    @objc func handleDidLongPress(_ gesture: QTDimmingLongPressGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            didTouchDown()
+        case .changed:
+            break
+        default:
+            didTouchUp()
+        }
+        
+        if let gestureState = gesture.gestureState {
+            gestureState(gesture.state)
+        }
+    }
+    
+    func setupTargets(gestureState: ((UIGestureRecognizer.State) -> ())?) {
+        let dimmingGesture = QTDimmingLongPressGestureRecognizer(target: self, action: #selector(handleDidLongPress(_:)))
+        dimmingGesture.gestureState = gestureState
+        dimmingGesture.minimumPressDuration = 0
+        addGestureRecognizer(dimmingGesture)
+        isUserInteractionEnabled = true
+    }
+    
+    func didTouchDown() {
+        if let label = self as? UILabel {
+            label.textColor = label.textColor.darker(by: 15)
+            return
+        }
+        
+        backgroundColor = backgroundColor?.darker(by: 15)
+        guard let borderColor = layer.borderColor?.uiColor() else { return }
+        layer.borderColor = borderColor.darker(by: 15)?.cgColor
+        
+        for subView in subviews {
+            if subView is UILabel {
+                let label = subView as! UILabel
+                label.textColor = label.textColor.darker(by: 15)
+            }
+        }
+        
+    }
+    
+    func didTouchUp() {
+        if let label = self as? UILabel {
+            label.textColor = label.textColor.lighter(by: 15)
+            return
+        }
+        
+        backgroundColor = backgroundColor?.lighter(by: 15)
+        guard let borderColor = layer.borderColor?.uiColor() else { return }
+        layer.borderColor = borderColor.lighter(by: 15)?.cgColor
+        
+        for subView in subviews {
+            if subView is UILabel {
+                let label = subView as! UILabel
+                label.textColor = label.textColor.lighter(by: 15)
+            }
+        }
+    }
+}
+
 extension UILabel {
     func heightForLabel(text:String, font:UIFont, width:CGFloat) -> CGFloat {
         let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))

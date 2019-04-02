@@ -105,7 +105,11 @@ extension TutorReviewsVC: UITableViewDelegate, UITableViewDataSource {
             let controller = QTProfileViewController.controller
             let tutor = AWTutor(dictionary: [:])
             controller.user = tutor.copy(learner: learner)
-            controller.profileViewType = .learner
+            if learner.uid == AccountService.shared.currentUser.uid {
+                controller.profileViewType = .myLearner
+            } else {
+                controller.profileViewType = .learner
+            }
             self.navigationController?.pushViewController(controller, animated: true)
 		}
 		tableView.deselectRow(at: indexPath, animated: true)

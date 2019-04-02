@@ -213,7 +213,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             }
             
             if let hourlyRate = tutor.price {
-                hourlyRateLabel.text = "$\(hourlyRate)"
+                hourlyRateLabel.text = "$\(hourlyRate)/hr"
                 hourlyRateLabel.isHidden = false
             } else {
                 hourlyRateLabel.isHidden = true

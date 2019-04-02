@@ -104,6 +104,11 @@ extension LearnerReviewsVC: UITableViewDelegate, UITableViewDataSource {
                 let controller = QTProfileViewController.controller
                 controller.user = tutor
                 controller.profileViewType = .tutor
+                if tutor.uid == AccountService.shared.currentUser.uid {
+                    controller.profileViewType = .myTutor
+                } else {
+                    controller.profileViewType = .tutor
+                }
 				self.navigationController?.pushViewController(controller, animated: true)
 			}
 		}
