@@ -101,10 +101,6 @@ class QTTutorDashboardViewController: UIViewController {
         headerView.avatarImageView.isUserInteractionEnabled = true
         headerView.avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapTutorProfileImageView)))
         
-        tutorSettingsButton.cornerRadius(corners: [.topLeft, .topRight], radius: 3)
-        tutorSettingsButton.clipsToBounds = true
-        tutorSettingsButton.setupTargets()
-        
         self.tutor = CurrentUser.shared.tutor
         getSessions()
         getEarnings()
@@ -113,6 +109,10 @@ class QTTutorDashboardViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         // Set table header view
         tableView.tableHeaderView = headerView
+        
+        tutorSettingsButton.cornerRadius(corners: [.topLeft, .topRight], radius: 3)
+        tutorSettingsButton.clipsToBounds = true
+        tutorSettingsButton.setupTargets()
     }
     
     override func viewWillAppear(_ animated: Bool) {

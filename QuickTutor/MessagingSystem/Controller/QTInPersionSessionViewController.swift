@@ -88,6 +88,11 @@ class QTInPersonSessionViewController: UIViewController {
         NotificationManager.shared.disableAllNotifications()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        bottomSheetView.cornerRadius(corners: [.topLeft, .topRight], radius: 5)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -185,8 +190,6 @@ class QTInPersonSessionViewController: UIViewController {
         finishButton.layer.cornerRadius = 3
         finishButton.clipsToBounds = true
         finishButton.setupTargets()
-        
-        bottomSheetView.cornerRadius(corners: [.topLeft, .topRight], radius: 5)
         
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in

@@ -158,6 +158,11 @@ class QTVideoSessionViewController: UIViewController {
         UIApplication.shared.isIdleTimerDisabled = true
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        bottomSheetView.cornerRadius(corners: [UIRectCorner.topLeft, UIRectCorner.topRight], radius: 5.0)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -308,8 +313,6 @@ class QTVideoSessionViewController: UIViewController {
         
         closeButton.layer.cornerRadius = 18
         closeButton.clipsToBounds = true
-        
-        bottomSheetView.cornerRadius(corners: [UIRectCorner.topLeft, UIRectCorner.topRight], radius: 5.0)
         
         flipCameraImageView.overlayTintColor(color: UIColor.white)
         pauseImageView.overlayTintColor(color: UIColor.white)
