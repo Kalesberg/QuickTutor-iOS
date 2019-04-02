@@ -56,6 +56,7 @@ class BaseSessionsVC: UIViewController {
         view.backgroundColor = Colors.darkBackground
         navigationItem.title = "Sessions"
         navigationController?.navigationBar.barTintColor = Colors.newBackground
+        navigationController?.view.backgroundColor = Colors.darkBackground
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]

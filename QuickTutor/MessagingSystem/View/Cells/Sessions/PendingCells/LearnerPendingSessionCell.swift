@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LearnerPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate, CancelSessionButtonDelegate {
+class LearnerPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate, CancelSessionButtonDelegate, ViewProfileButtonDelegate {
     override func setupViews() {
         super.setupViews()
         actionView.setupAsTripleButton()
@@ -28,12 +28,6 @@ class LearnerPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate, 
     
     override func handleButton3() {
         super.handleButton3()
-        FirebaseData.manager.fetchTutor(session.partnerId(), isQuery: false, { tutor in
-            guard let tutor = tutor else { return }
-            let controller = QTProfileViewController.controller
-            controller.user = tutor
-            controller.profileViewType = .tutor
-            navigationController.pushViewController(controller, animated: true)
-        })
+        viewProfileWithUID(session.partnerId())
     }
 }
