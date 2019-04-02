@@ -16,8 +16,8 @@ class SessionTableCell: UITableViewCell {
     
     weak var delegate: SessionTableCellDelegate?
     
-    let button: DimmableButton = {
-        let button = DimmableButton()
+    let button: UIButton = {
+        let button = UIButton()
         button.titleLabel?.font = Fonts.createBoldSize(14)
         button.contentHorizontalAlignment = .center
         button.backgroundColor = Colors.gray
@@ -40,6 +40,7 @@ class SessionTableCell: UITableViewCell {
         addSubview(button)
         button.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 60, paddingBottom: 5, paddingRight: 60, width: 0, height: 0)
         button.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+        button.setupDimmingTitle()
     }
     
     @objc func handleButton() {

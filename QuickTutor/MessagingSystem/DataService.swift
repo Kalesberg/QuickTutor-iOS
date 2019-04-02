@@ -392,6 +392,10 @@ class TutorSearchService {
                         return
                     }
                     if tutor.uid != Auth.auth().currentUser?.uid {
+                        tutor.featuredSubject = tutor.subjects?.first(where: { (subject) -> Bool in
+                            let category = CategoryFactory.shared.getCategoryFor(subject: subject)
+                            return category?.name == categoryName
+                        })
                         tutors.append(tutor)
                     }
                     myGroup.leave()
@@ -534,7 +538,7 @@ class DataBaseCleaner {
             subcategoryList.forEach({ (key, value) in
                 guard let data = value as? [String: Any] else { return }
                 guard let subjectString = data["sbj"] as? String else {
-                    print("Error with subject string")
+                    print("Error with subject string for id:", key)
                     return
                 }
                 let subjects = subjectString.split(separator: "$")

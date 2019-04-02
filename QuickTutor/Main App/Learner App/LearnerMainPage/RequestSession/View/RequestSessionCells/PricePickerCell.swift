@@ -32,7 +32,7 @@ class RequestSessionPriceCell: UITableViewCell {
         label.textColor = UIColor.white
         label.textAlignment = .center
         label.font = Fonts.createLightSize(13)
-        label.text = "Although your tutor has a set rate, each individual session can be negotiable."
+        label.text = "Although your tutor has a set rate, each individual session can be negotiated."
         label.numberOfLines = 0
         return label
     }()

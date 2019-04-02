@@ -93,37 +93,37 @@
                     <rect key="frame" x="0.0" y="467" width="375" height="200"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hdG-oQ-12s" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
-                            <rect key="frame" x="20" y="20" width="40" height="40"/>
+                            <rect key="frame" x="20" y="15" width="50" height="50"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="gFi-Wf-ltf"/>
-                                <constraint firstAttribute="width" constant="40" id="vZy-de-LVD"/>
+                                <constraint firstAttribute="height" constant="50" id="gFi-Wf-ltf"/>
+                                <constraint firstAttribute="width" constant="50" id="vZy-de-LVD"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="20"/>
+                                    <real key="value" value="25"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xrS-cw-vtA">
-                            <rect key="frame" x="70" y="23" width="62" height="17"/>
-                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                            <rect key="frame" x="80" y="20" width="71" height="19.5"/>
+                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p30-KP-NXc">
-                            <rect key="frame" x="70" y="45" width="46.5" height="14.5"/>
-                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                            <rect key="frame" x="80" y="44.5" width="54" height="17"/>
+                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCc-iT-GKf">
-                            <rect key="frame" x="319" y="22" width="36" height="36"/>
+                            <rect key="frame" x="315" y="22" width="40" height="40"/>
                             <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="FSP-Tm-LfW"/>
-                                <constraint firstAttribute="height" constant="36" id="JbE-Ju-jnf"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="wvO-i0-JkU"/>
-                                <constraint firstAttribute="width" constant="36" id="yya-F4-pld"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="FSP-Tm-LfW"/>
+                                <constraint firstAttribute="height" constant="40" id="JbE-Ju-jnf"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="wvO-i0-JkU"/>
+                                <constraint firstAttribute="width" constant="40" id="yya-F4-pld"/>
                             </constraints>
                             <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                             <state key="normal" image="ic_arrow_down"/>
@@ -132,13 +132,13 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ttm-Ef-1n3">
-                            <rect key="frame" x="263" y="22" width="36" height="36"/>
+                            <rect key="frame" x="255" y="22" width="40" height="40"/>
                             <color key="backgroundColor" red="1" green="0.23529411764705882" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="R5P-aM-dBS"/>
-                                <constraint firstAttribute="width" constant="36" id="l6T-Xn-5Gw"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="niG-Ny-dmi"/>
-                                <constraint firstAttribute="height" constant="36" id="tjh-bw-R3b"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="R5P-aM-dBS"/>
+                                <constraint firstAttribute="width" constant="40" id="l6T-Xn-5Gw"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="niG-Ny-dmi"/>
+                                <constraint firstAttribute="height" constant="40" id="tjh-bw-R3b"/>
                             </constraints>
                             <state key="normal" image="ic_cross"/>
                             <connections>
@@ -164,10 +164,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="335" height="34"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_refresh" translatesAutoresizingMaskIntoConstraints="NO" id="iKX-Rc-ANK">
-                                            <rect key="frame" x="0.0" y="12" width="10" height="10"/>
+                                            <rect key="frame" x="0.0" y="11" width="12" height="12"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="10" id="FgQ-Tw-7Da"/>
-                                                <constraint firstAttribute="width" constant="10" id="mkv-gV-54u"/>
+                                                <constraint firstAttribute="height" constant="12" id="FgQ-Tw-7Da"/>
+                                                <constraint firstAttribute="width" constant="12" id="mkv-gV-54u"/>
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rs-iX-Zje">
@@ -175,8 +175,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="34" id="tKr-ux-FlB"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
-                                            <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                                            <inset key="titleEdgeInsets" minX="18" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="Flip camera">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
@@ -200,10 +200,10 @@
                                     <rect key="frame" x="0.0" y="34" width="335" height="34"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_pause" translatesAutoresizingMaskIntoConstraints="NO" id="O2r-71-gTW">
-                                            <rect key="frame" x="0.0" y="12" width="10" height="10"/>
+                                            <rect key="frame" x="0.0" y="11" width="12" height="12"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="10" id="BNN-3R-trF"/>
-                                                <constraint firstAttribute="width" constant="10" id="HbR-n7-dnz"/>
+                                                <constraint firstAttribute="height" constant="12" id="BNN-3R-trF"/>
+                                                <constraint firstAttribute="width" constant="12" id="HbR-n7-dnz"/>
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0y1-5X-BnZ">
@@ -211,8 +211,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="34" id="xRy-cY-CfG"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
-                                            <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                                            <inset key="titleEdgeInsets" minX="18" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="Pause">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
@@ -236,10 +236,10 @@
                                     <rect key="frame" x="0.0" y="68" width="335" height="34"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_flag" translatesAutoresizingMaskIntoConstraints="NO" id="V0u-RE-UuK">
-                                            <rect key="frame" x="0.0" y="12" width="10" height="10"/>
+                                            <rect key="frame" x="0.0" y="11" width="12" height="12"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="10" id="1Wg-u6-GrK"/>
-                                                <constraint firstAttribute="width" constant="10" id="pym-Ij-i2t"/>
+                                                <constraint firstAttribute="height" constant="12" id="1Wg-u6-GrK"/>
+                                                <constraint firstAttribute="width" constant="12" id="pym-Ij-i2t"/>
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qfd-vQ-cMe">
@@ -247,8 +247,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="34" id="uVB-BO-dHz"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
-                                            <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                                            <inset key="titleEdgeInsets" minX="18" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="Report">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
@@ -273,7 +273,7 @@
                     </subviews>
                     <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="xrS-cw-vtA" firstAttribute="top" secondItem="w0y-pT-8Lp" secondAttribute="top" constant="23" id="0kH-A1-w8G"/>
+                        <constraint firstItem="xrS-cw-vtA" firstAttribute="top" secondItem="w0y-pT-8Lp" secondAttribute="top" constant="20" id="0kH-A1-w8G"/>
                         <constraint firstItem="wCc-iT-GKf" firstAttribute="top" secondItem="w0y-pT-8Lp" secondAttribute="top" constant="22" id="8MP-x7-5A9"/>
                         <constraint firstItem="XuZ-kD-9EC" firstAttribute="width" secondItem="w0y-pT-8Lp" secondAttribute="width" constant="-40" id="EoZ-k0-TZB"/>
                         <constraint firstItem="RXJ-22-kDQ" firstAttribute="leading" secondItem="w0y-pT-8Lp" secondAttribute="leading" constant="20" id="JEW-3z-yGW"/>
@@ -286,9 +286,9 @@
                         <constraint firstItem="RXJ-22-kDQ" firstAttribute="top" secondItem="XuZ-kD-9EC" secondAttribute="bottom" constant="10" id="kjJ-nB-NKW"/>
                         <constraint firstItem="ttm-Ef-1n3" firstAttribute="centerY" secondItem="wCc-iT-GKf" secondAttribute="centerY" id="lgw-lF-Dil"/>
                         <constraint firstItem="p30-KP-NXc" firstAttribute="leading" secondItem="hdG-oQ-12s" secondAttribute="trailing" constant="10" id="n4K-Gg-7br"/>
-                        <constraint firstItem="XuZ-kD-9EC" firstAttribute="top" secondItem="hdG-oQ-12s" secondAttribute="bottom" constant="20" id="ol0-AM-o1L"/>
+                        <constraint firstItem="XuZ-kD-9EC" firstAttribute="top" secondItem="hdG-oQ-12s" secondAttribute="bottom" constant="15" id="ol0-AM-o1L"/>
                         <constraint firstItem="xrS-cw-vtA" firstAttribute="leading" secondItem="hdG-oQ-12s" secondAttribute="trailing" constant="10" id="tft-aK-zEt"/>
-                        <constraint firstItem="hdG-oQ-12s" firstAttribute="top" secondItem="w0y-pT-8Lp" secondAttribute="top" constant="20" id="wgi-FD-EXw"/>
+                        <constraint firstItem="hdG-oQ-12s" firstAttribute="top" secondItem="w0y-pT-8Lp" secondAttribute="top" constant="15" id="wgi-FD-EXw"/>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="RXJ-22-kDQ" secondAttribute="bottom" constant="7" id="xEb-8O-8Iz"/>
                         <constraint firstItem="hdG-oQ-12s" firstAttribute="leading" secondItem="w0y-pT-8Lp" secondAttribute="leading" constant="20" id="zew-tZ-k5F"/>
                     </constraints>

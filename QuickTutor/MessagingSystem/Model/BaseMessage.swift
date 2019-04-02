@@ -8,36 +8,40 @@
 
 import Foundation
 
-class MessageingTest {
-    var type: MessageType = .image
+//enum MessageType {
+//    case text, image, sessionRequest, connectionRequest, readRecieptLabel
+//}
+
+enum MessageType: String {
+    case text = "textMessage"
+    case image = "imageMessage"
+    case sessionRequest = "sessionRequestMessage"
+    case connectionRequest = "connectionRequestMessage"
+    case readReceiptLabel = "readReceiptMessage"
 }
 
-enum MessageType {
-    case text, image, sessionRequest, connectionRequest, readRecieptLabel
-}
+//class MessageBuilder {
+//    func loadFromData(_ data: [String: Any]) -> Message {
+//        if let _ = data["connectionRequestId"] as? String {
+//            return ConnectionRequestMessage(dictionary: data)
+//        } else if let _ = data["sessionRequestId"] as? String {
+//            return SessionRequestMessage(dictionary: data)
+//        } else if let _ = data["imageUrl"] as? String {
+//            return ImageMessage(dictionary: data)
+//        } else {
+//            return TextMessage(dictionary: data)
+//        }
+//    }
+//}
 
-class MessageBuilder {
-    func loadFromData(_ data: [String: Any]) -> Message {
-        if let _ = data["connectionRequestId"] as? String {
-            return ConnectionRequestMessage(dictionary: data)
-        } else if let _ = data["sessionRequestId"] as? String {
-            return SessionRequestMessage(dictionary: data)
-        } else if let _ = data["imageUrl"] as? String {
-            return ImageMessage(dictionary: data)
-        } else {
-            return TextMessage(dictionary: data)
-        }
-    }
-}
-
-class BaseMessage: Message {
+class BaseMessage {
     var type: MessageType
     var uid: String!
     var timestamp: NSNumber!
     var isRead = false
 
     init() {
-        type = .image
+        type = .text
     }
 }
 
@@ -49,7 +53,3 @@ class ConnectionRequestMessage: UserMessage {}
 
 class SessionRequestMessage: UserMessage {}
 
-protocol Message {
-    var type: MessageType { get set }
-    var uid: String! { get set }
-}

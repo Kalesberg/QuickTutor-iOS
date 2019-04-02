@@ -283,6 +283,9 @@ class QTVideoSessionViewController: UIViewController {
         DispatchQueue.main.async {
             self.twilioSessionManager = TwilioSessionManager(previewView: self.cameraPreview, remoteView: self.partnerView, sessionId: id)
             self.twilioSessionManager?.delegate = self
+            
+            self.partnerView.contentMode = .scaleAspectFill
+            self.cameraPreview.contentMode = .scaleAspectFill
         }
     }
     
@@ -306,12 +309,12 @@ class QTVideoSessionViewController: UIViewController {
         animationView.play()
         
         bottomMenuStatus = .collapsed
-        menuButton.layer.cornerRadius = 18
+        menuButton.layer.cornerRadius = 20
         menuButton.clipsToBounds = true
         menuButton.layer.borderColor = Colors.grayText80.cgColor
         menuButton.layer.borderWidth = 0.5
         
-        closeButton.layer.cornerRadius = 18
+        closeButton.layer.cornerRadius = 20
         closeButton.clipsToBounds = true
         
         flipCameraImageView.overlayTintColor(color: UIColor.white)

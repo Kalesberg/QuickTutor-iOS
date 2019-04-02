@@ -6,8 +6,8 @@
 //  Copyright © 2018 QuickTutor. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import Firebase
 
 class TutorPreferencesVC: BaseRegistrationController {
 
@@ -25,6 +25,7 @@ class TutorPreferencesVC: BaseRegistrationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTargets()
+        loadPrefences()
         progressView.setProgress(1/6)
     }
 
@@ -34,6 +35,19 @@ class TutorPreferencesVC: BaseRegistrationController {
 
     func setupTargets() {
         contentView.accessoryView.nextButton.addTarget(self, action: #selector(savePreferences), for: .touchUpInside)
+    }
+    
+    func loadPrefences() {
+        guard let uid = Auth.auth().currentUser?.uid, !inRegistrationMode else { return }
+        FirebaseData.manager.fetchTutorSessionPreferences(uid: uid) { (preferenceData) in
+            guard let preferenceData = preferenceData else { return }
+            let price = preferenceData["p"] as? Int
+            self.contentView.hourSliderView.slider.value = Float(price ?? 25)
+            self.contentView.hourSliderView.amountLabel.text = "$\(price)/hr"
+            let distance = preferenceData["dst"] as? Int
+            self.contentView.distanceSliderView.slider.value = Float(distance ?? 10)
+            self.contentView.distanceSliderView.amountLabel.text = "\(distance) miles"
+        }
     }
     
     @objc func savePreferences() {
@@ -54,7 +68,27 @@ class TutorPreferencesVC: BaseRegistrationController {
             let next = TutorBioVC()
             navigationController?.pushViewController(next, animated: true)
         } else {
+            guard let uid = Auth.auth().currentUser?.uid, let index = contentView.collectionView.indexPathsForSelectedItems?[0].item else { return }
+            var preferenceData = [String: Any]()
+            preferenceData["prf"] = index
+            preferenceData["dst"] = Int(contentView.distanceSliderView.slider.value)
+            preferenceData["p"] = Int(contentView.hourSliderView.slider.value)
+            Database.database().reference().child("tutor-info").child(uid).updateChildValues(preferenceData)
+            displaySavedAlertController()
             navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func displaySavedAlertController() {
+        let alertController = UIAlertController(title: "Saved!", message: "Your preference changes have been saved", preferredStyle: .alert)
+        
+        present(alertController, animated: true, completion: nil)
+        
+        let when = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            alertController.dismiss(animated: true) {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
 }

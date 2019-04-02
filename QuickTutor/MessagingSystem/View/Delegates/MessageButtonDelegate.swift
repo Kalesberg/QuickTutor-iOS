@@ -19,3 +19,16 @@ extension MessageButtonDelegate {
         NotificationCenter.default.post(notification)
     }
 }
+
+protocol ViewProfileButtonDelegate {
+    func viewProfileWithUID(_ uid: String)
+}
+
+extension ViewProfileButtonDelegate {
+    func viewProfileWithUID(_ uid: String) {
+        let userInfo = ["uid": uid]
+        let notification = Notification(name: NSNotification.Name(rawValue: "com.qt.viewProfile"), object: nil, userInfo: userInfo)
+        NotificationCenter.default.post(notification)
+    }
+    
+}

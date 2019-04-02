@@ -147,14 +147,14 @@ class AddTutorVC: BaseViewController {
             self.filteredUsername = queriedUsername
         }
     }
+    
+}
 
-    override func handleNavigation() {
-        if touchStartView is AddBankButton {
-            dismissPaymentModal()
-            let next = CardManagerVC()
-            next.popBackTo = AddTutorVC()
-            navigationController?.pushViewController(next, animated: true)
-        }
+extension AddTutorVC: CustomModalDelegate {
+    func handleConfirm() {
+        let next = CardManagerVC()
+        next.popBackTo = AddTutorVC()
+        navigationController?.pushViewController(next, animated: true)
     }
 }
 
@@ -164,12 +164,6 @@ extension AddTutorVC: UITextFieldDelegate {
             contentView.loadingIndicator.displayDefaultText()
         }
         return true
-    }
-}
-
-extension AddTutorVC: AddPaymentButtonPress {
-    func dismissPaymentModal() {
-        dismissAddPaymentMethod()
     }
 }
 

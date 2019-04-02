@@ -8,12 +8,12 @@
 
 import UIKit
 
-class TutorPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestSessionButtonDelegate {
+class TutorPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestSessionButtonDelegate, ViewProfileButtonDelegate {
     override func setupViews() {
         super.setupViews()
         actionView.setupAsDoubleButton()
-        actionView.actionButton1.setImage(#imageLiteral(resourceName: "messageButtonWhiteTutor"), for: .normal)
-        actionView.actionButton2.setImage(#imageLiteral(resourceName: "viewProfileIconWhiteTutor"), for: .normal)
+        actionView.actionButton1.setImage(UIImage(named: "messageSessionButton"), for: .normal)
+        actionView.actionButton2.setImage(UIImage(named: "viewProfileButton"), for: .normal)
     }
 
     override func handleButton1() {
@@ -21,13 +21,6 @@ class TutorPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestS
     }
 
     override func handleButton2() {
-        FirebaseData.manager.fetchLearner(session.partnerId()) { learner in
-            guard let learner = learner else { return }
-            let controller = QTProfileViewController.controller
-            let tutor = AWTutor(dictionary: [:])
-            controller.user = tutor.copy(learner: learner)
-            controller.profileViewType = .learner
-            navigationController.pushViewController(controller, animated: true)
-        }
+        viewProfileWithUID(session.partnerId())
     }
 }

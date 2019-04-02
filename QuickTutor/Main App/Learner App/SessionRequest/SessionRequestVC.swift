@@ -18,6 +18,9 @@ class SessionRequestVC: UIViewController {
             contentView.tutor = tutor
             contentView.subjectView.collectionView.reloadData()
             contentView.subjectView.updateUI()
+            self.price = Double(tutor.price / 3)
+            contentView.paymentView.paymentInputView.digitsLabel.text = "$\(tutor.price! / 3)"
+            contentView.paymentView.paymentInputView.inputField.text = "\(tutor.price!)"
             checkForErrors()
         }
     }
@@ -103,6 +106,10 @@ class SessionRequestVC: UIViewController {
     @objc func sendRequest() {
         var sessionData = [String: Any] ()
         guard let tutor = tutor, let subject = subject, let price = price, let uid = Auth.auth().currentUser?.uid else { return }
+        guard price >= 5 else {
+            showPriceAlert()
+            return
+        }
         sessionData["subject"] = subject
         sessionData["date"] = startTime.timeIntervalSince1970
         sessionData["startTime"] = startTime.timeIntervalSince1970
@@ -119,6 +126,14 @@ class SessionRequestVC: UIViewController {
         let sessionRequest = SessionRequest(data: sessionData)
         DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, tutor.uid)
         navigationController?.popViewController(animated: true)
+    }
+    
+    func showPriceAlert() {
+        let ac = UIAlertController(title: nil, message: "There is a $5 minimum to every session", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
+            ac.dismiss(animated: true, completion: nil)
+        }))
+        present(ac, animated: true, completion: nil)
     }
     
 }

@@ -92,6 +92,11 @@ class FeaturedTutorTableViewCell: UITableViewCell {
         configureTableViewCell()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        collectionView.reloadData()
+    }
+    
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

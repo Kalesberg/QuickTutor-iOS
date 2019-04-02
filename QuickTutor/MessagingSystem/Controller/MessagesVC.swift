@@ -164,7 +164,7 @@ class MessagesVC: UIViewController {
         UserStatusService.shared.getUserStatuses { statuses in
             if !statuses.isEmpty {
                 self.userStatuses = statuses
-                
+
                 var reloadIndexPaths = [IndexPath]()
                 for index in 0..<self.messages.count {
                     let isOnline = self.userStatuses.first(where: { $0.userId == self.messages[index].user?.uid })?.status == .online
@@ -173,7 +173,7 @@ class MessagesVC: UIViewController {
                         reloadIndexPaths.append(IndexPath(item: index, section: 0))
                     }
                 }
-                
+
                 if !reloadIndexPaths.isEmpty {
                     self.collectionView.reloadItems(at: reloadIndexPaths)
                 }
@@ -185,7 +185,7 @@ class MessagesVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         fetchConversations()
-        getUserStatuses ()
+        getUserStatuses()
     }
     
     override func viewDidAppear(_ animated: Bool) {

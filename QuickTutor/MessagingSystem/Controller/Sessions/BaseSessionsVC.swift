@@ -170,6 +170,8 @@ class BaseSessionsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showConversation(notification:)), name: Notification.Name(rawValue: "sendMessage"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showCancelModal), name: Notification.Name(rawValue: "com.qt.cancelSession"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(requestSession(notification:)), name: Notification.Name(rawValue: "requestSession"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showProfile(_:)), name: Notification.Name(rawValue: "com.qt.viewProfile"), object: nil)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -249,6 +251,27 @@ class BaseSessionsVC: UIViewController {
         }
     }
     
+    @objc func showProfile(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
+        if AccountService.shared.currentUserType == .learner {
+            FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
+                guard let tutor = tutor else { return }
+                let controller = QTProfileViewController.controller
+                controller.user = tutor
+                controller.profileViewType = .tutor
+                self.navigationController?.pushViewController(controller, animated: true)
+            })
+        } else {
+            FirebaseData.manager.fetchLearner(uid) { (learner) in
+                guard let learner = learner else { return }
+                let controller = QTProfileViewController.controller
+                let tutor = AWTutor(dictionary: [:])
+                controller.user = tutor.copy(learner: learner)
+                controller.profileViewType = .learner
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
+        }
+    }
     
     @objc func showConversation(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
@@ -279,14 +302,10 @@ class BaseSessionsVC: UIViewController {
     
     @objc func requestSession(notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        DataService.shared.getTutorWithId(uid) { tutor in
-            let vc = ConversationVC()
-            vc.receiverId = uid
-            vc.chatPartner = tutor!
-            vc.connectionRequestAccepted = true
-            vc.shouldRequestSession = true
-            
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
+        FirebaseData.manager.fetchTutor(uid, isQuery: false) { (tutor) in
+            guard let tutor = tutor else { return }
+            let vc = SessionRequestVC()
+            vc.tutor = tutor
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -302,18 +321,21 @@ class BaseSessionsVC: UIViewController {
 
 extension BaseSessionsVC: NewMessageDelegate {
     func showConversationWithUser(user: User, isConnection: Bool) {
-        
         let vc = ConversationVC()
         vc.receiverId = user.uid
         vc.connectionRequestAccepted = isConnection
         vc.chatPartner = user
-        
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension BaseSessionsVC: CustomModalDelegate {
     func handleNevermind() {}
+    
+    func handleConfirm() {
+        let next = CardManagerVC()
+        navigationController?.pushViewController(next, animated: true)
+    }
     
     func handleCancel(id: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }

@@ -8,6 +8,30 @@
 
 import UIKit
 
+
+class DimmableUICollectionViewCell: UICollectionViewCell {
+    override var isHighlighted: Bool {
+        didSet {
+            
+        }
+    }
+    
+    
+    override var isSelected: Bool {
+        didSet {
+            
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class DimmableButton: UIButton {
     @objc override func setupTargets() {
         super.setupTargets()
@@ -77,5 +101,20 @@ extension UIButton {
         guard let titleColor = titleColor(for: .normal), let borderColor = layer.borderColor?.uiColor() else { return }
         setTitleColor(titleColor.lighter(by: 15), for: .normal)
         layer.borderColor = borderColor.lighter(by: 15)?.cgColor
+    }
+    
+    @objc func handleTouchUpTitleDimming() {
+        guard let titleColor = titleColor(for: .normal) else { return }
+        setTitleColor(titleColor.lighter(by: 30), for: .normal)
+    }
+    
+    @objc func handleTouchDownTitleDimming() {
+        guard let titleColor = titleColor(for: .normal) else { return }
+        setTitleColor(titleColor.darker(by: 30), for: .normal)
+    }
+    
+    @objc func setupDimmingTitle() {
+        addTarget(self, action: #selector(handleTouchDownTitleDimming), for: .touchDown)
+        addTarget(self, action: #selector(handleTouchUpTitleDimming), for: [.touchUpInside, .touchUpOutside, .touchCancel])
     }
 }

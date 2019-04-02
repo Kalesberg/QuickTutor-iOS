@@ -57,7 +57,6 @@ class NotificationManager {
                 tab.selectedIndex = 2
                 let controller = tab.selectedViewController as! UINavigationController
                 controller.pushViewController(vc, animated: true)
-//                nav.pushViewController(vc, animated: true)
             }
         }
     }

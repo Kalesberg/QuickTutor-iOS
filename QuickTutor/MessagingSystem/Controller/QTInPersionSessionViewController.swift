@@ -181,7 +181,7 @@ class QTInPersonSessionViewController: UIViewController {
     
     func updateUI() {
         
-        pauseButton.layer.cornerRadius = 18
+        pauseButton.layer.cornerRadius = 20
         pauseButton.clipsToBounds = true
         pauseButton.setupTargets()
         pauseButton.setImage(UIImage(named: "ic_pause")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate), for: .normal)
@@ -361,6 +361,7 @@ extension QTInPersonSessionViewController: SessionManagerDelegate {
     }
     
     func sessionManagerShouldShowEndSessionModal(_ sessionManager: SessionManager) {
+        pauseSessionModal?.dismiss()
         self.onFinishButtonClicked(self.finishButton)
     }
     

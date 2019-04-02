@@ -146,6 +146,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupObserers()
         loadSubjects()
         setupDelegates()
     }
@@ -173,6 +174,18 @@ class TutorAddSubjectsResultsVC: UIViewController {
             self.subjects.shuffle()
             contentView.collectionView.reloadData()
         }
+    }
+    
+    func setupObserers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: NSNotification.Name(rawValue: "com.qt.tooManySubjects"), object: nil)
+    }
+    
+    @objc func showAlert() {
+        let ac = UIAlertController(title: "Too many subjects", message: "We currently only allow users to choose 20 subjects", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
+            ac.dismiss(animated: true, completion: nil)
+        }))
+        present(ac, animated: true, completion: nil)
     }
     
 }

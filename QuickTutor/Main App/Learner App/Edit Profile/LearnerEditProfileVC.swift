@@ -231,6 +231,9 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     }
 }
 
+protocol LearnerWasUpdatedCallBack {
+    func learnerWasUpdated(learner: AWLearner!)
+}
 
 class LearnerEditProfileVC: UIViewController {
     
@@ -560,6 +563,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
 extension LearnerEditProfileVC: EditProfileImagesCellDelegate {
     func editProfileImageCell(_ imagesCell: EditProfileImagesCell, didSelect index: Int) {
         let cell = imagesCell.collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as! EditProfileImageCell
+        cell.growShrink()
         imageToChange = index + 1
         if index > 0 && cell.backgrounImageView.image != UIImage(named: "addPhotoButtonBackground") {
             AlertController.cropImageWithRemoveAlert(self, imagePicker: imagePicker) { (removed) in

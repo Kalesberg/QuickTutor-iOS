@@ -8,13 +8,15 @@
 
 import UIKit
 
-class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestSessionButtonDelegate {
+
+
+class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestSessionButtonDelegate, ViewProfileButtonDelegate {
     override func setupViews() {
         super.setupViews()
         actionView.setupAsTripleButton()
-        actionView.actionButton1.setImage(#imageLiteral(resourceName: "requestSessionIcon"), for: .normal)
-        actionView.actionButton2.setImage(#imageLiteral(resourceName: "messageButton"), for: .normal)
-        actionView.actionButton3.setImage(#imageLiteral(resourceName: "viewProfileButton"), for: .normal)
+        actionView.actionButton1.setImage(UIImage(named: "requestSessionButtonCircle"), for: .normal)
+        actionView.actionButton2.setImage(UIImage(named: "messageSessionButton"), for: .normal)
+        actionView.actionButton3.setImage(UIImage(named: "viewProfileButton"), for: .normal)
     }
 
     override func handleButton1() {
@@ -29,12 +31,6 @@ class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, Reques
 
     override func handleButton3() {
         super.handleButton3()
-        FirebaseData.manager.fetchTutor(session.partnerId(), isQuery: false, { tutor in
-            guard let tutor = tutor else { return }
-            let controller = QTProfileViewController.controller
-            controller.user = tutor
-            controller.profileViewType = .tutor
-            navigationController.pushViewController(controller, animated: true)
-        })
+        viewProfileWithUID(session.partnerId())
     }
 }

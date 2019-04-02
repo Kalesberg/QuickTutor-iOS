@@ -232,12 +232,15 @@ class QTProfileViewController: UIViewController {
         
         // Set the avatar of user profile.
         if profileViewType == .tutor || profileViewType == .myTutor {
-            DataService.shared.getUserWithId(user.uid, type: UserType.tutor) { (tutor) in
+            DataService.shared.getUserWithId(user.uid, type: .tutor) { (tutor) in
                 self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
             }
         } else {
-            DataService.shared.getUserWithId(user.uid, type: UserType.learner) { (learner) in
+            DataService.shared.getUserWithId(user.uid, type: .learner) { (learner) in
                 self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
+                if let url = learner?.profilePicUrl {
+                    self.user.images["image1"] = url.absoluteString
+                }
             }
         }
         avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidAvatarImageViewTap)))
@@ -255,7 +258,7 @@ class QTProfileViewController: UIViewController {
         case .tutor:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = false
-            if subject == nil || subject?.isEmpty ?? true {
+            if subject?.isEmpty ?? true {
                 if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
                     // Set the featured subject.
                     subject = user.featuredSubject
@@ -264,6 +267,7 @@ class QTProfileViewController: UIViewController {
                     // Set the first subject
                     subject = user.subjects?.first
                     self.topSubjectLabel.text = subject
+                    self.topSubjectLabel.isHidden = subject?.isEmpty ?? true
                 }
             } else {
                 topSubjectLabel.isHidden = subject?.isEmpty ?? true
@@ -288,6 +292,11 @@ class QTProfileViewController: UIViewController {
                 bioLabel.text = "\(user.formattedName) has not yet entered a biography."
             }
             navigationItem.title = user.username
+            
+            // If a tutor visits an another tutor's profile, hide message and more icons.
+            if AccountService.shared.currentUserType == UserType.tutor {
+                moreButtonsView.isHidden = true
+            }
         case .learner:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = true
@@ -302,30 +311,23 @@ class QTProfileViewController: UIViewController {
                 bioLabel.text = "\(user.formattedName) has not yet entered a biography."
             }
             navigationItem.title = user.formattedName
+            
+            // If a learner visits an another learner's profile, hide message and more icons.
+            if AccountService.shared.currentUserType == UserType.learner {
+                moreButtonsView.isHidden = true
+            }
         case .myTutor:
             moreButtonsView.isHidden = true
             statisticStackView.isHidden = true
-            if subject == nil || subject?.isEmpty ?? true {
-                if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
-                    // Set the featured subject.
-                    subject = user.featuredSubject
-                    self.topSubjectLabel.text = subject
-                } else {
-                    // Set the first subject
-                    subject = user.subjects?.first
-                    self.topSubjectLabel.text = subject
-                }
-            } else {
-                topSubjectLabel.isHidden = subject?.isEmpty ?? true
-                topSubjectLabel.text = subject
-            }
+            topSubjectLabel.isHidden = subject?.isEmpty ?? true
+            topSubjectLabel.text = subject
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             addressView.isHidden = false
             addressLabel.text = user.region
             distanceView.isHidden = false
             distanceLabel.text = "1 mile or 0 miles away"
             if let bio = user.tBio, !bio.isEmpty {
-                bioLabel.text = "\(bio)"
+                bioLabel.text = "\(bio.trimmingCharacters(in: .whitespacesAndNewlines))"
             } else {
                 bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen."
             }
@@ -359,8 +361,7 @@ class QTProfileViewController: UIViewController {
     
     func initSubjects() {
         guard let user = user else { return }
-        
-        if profileViewType == QTProfileViewType.tutor || profileViewType == QTProfileViewType.myTutor {
+        if profileViewType == .tutor || profileViewType == .myTutor {
             subjectsCollectionView.isHidden = (user.subjects?.isEmpty ?? true) && (user.featuredSubject?.isEmpty ?? true)
             subjectsCollectionView.reloadData()
         } else {
@@ -384,7 +385,6 @@ class QTProfileViewController: UIViewController {
             } else {
                 readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
             }
-            
         } else {
             reviewsTableView.isHidden = user.lReviews?.isEmpty ?? true
             let numberOfReviews = user.lReviews?.count ?? 0
@@ -400,8 +400,7 @@ class QTProfileViewController: UIViewController {
     }
     
     func initPolicies() {
-        guard let policy = user.policy, let profileViewType = profileViewType else { return }
-        let policies = policy.split(separator: "_")
+        guard let profileViewType = profileViewType else { return }
         switch profileViewType {
         case .tutor:
             policiesView.isHidden = false
@@ -412,6 +411,8 @@ class QTProfileViewController: UIViewController {
         case .myLearner:
             policiesView.isHidden = true
         }
+        guard let policy = user.policy else { return }
+        let policies = policy.split(separator: "_")
         sessionTypesLabel.text = user.formattedName + " " + user.preference.preferenceNormalization().lowercased()
         travelDistanceLabel.text = user.formattedName + " " + user.distance.distancePreference(user.preference).lowercased()
         if policies.count > 0 {
@@ -464,6 +465,11 @@ class QTProfileViewController: UIViewController {
                 self.conversationManager.setup()
             }
             numberOfReviewsLabel.text = "\(user.reviews?.count ?? 0)"
+            
+            // If a tutor visits an another tutor's profile, hide connect button
+            if AccountService.shared.currentUserType == UserType.tutor {
+                connectView.isHidden = true
+            }
         case .learner,
              .myTutor,
              .myLearner:
@@ -537,7 +543,7 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: CGFloat = 60
-        if let subjects = user?.subjects {
+        if let subjects = user.subjects {
             width = subjects[indexPath.item].estimateFrameForFontSize(14).width + 20
         } else if let featuredSubject = user.featuredSubject {
             width = featuredSubject.estimateFrameForFontSize(14).width + 20
@@ -551,19 +557,15 @@ extension QTProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let subjects = user.subjects, subjects.count > 0 {
             return subjects.count
-        }
-        
-        if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+        } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
             return 1
         }
-        
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PillCollectionViewCell.reuseIdentifier, for: indexPath) as! PillCollectionViewCell
-        cell.titleLabel.font = Fonts.createMediumSize(14)
-        if let subjects = user?.subjects {
+        if let subjects = user.subjects {
             cell.titleLabel.text = subjects[indexPath.item]
         } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
             cell.titleLabel.text = featuredSubject
@@ -585,7 +587,6 @@ extension QTProfileViewController: UITableViewDataSource {
         if let reviews = reviews, reviews.count > 0 {
             return 1
         }
-        
         return 0
     }
     
@@ -594,12 +595,21 @@ extension QTProfileViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         if let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews {
             cell.setData(review: reviews[indexPath.row])
-            self.updateReviewsHeight()
         }
+        self.updateReviewsHeight()
+        
         return cell
     }
 }
 
+// MARK: - LearnerWasUpdatedCallBack
+extension QTProfileViewController: LearnerWasUpdatedCallBack {
+    func learnerWasUpdated(learner: AWLearner!) {
+        
+    }
+    
+}
+        
 // MARK: - QTProfileDelegate
 extension QTProfileViewController: QTProfileDelegate {
     func didUpdateLearnerProfile(learner: AWLearner) {

@@ -11,10 +11,13 @@ import UIKit
 protocol CustomModalDelegate {
     func handleNevermind()
     func handleCancel(id: String)
+    func handleConfirm()
 }
 
 extension CustomModalDelegate {
     func handleNevermind() {}
+    func handleConfirm() {}
+    func handleCancel(id: String) {}
 }
 
 class CustomModal: BaseCustomModal {
@@ -84,6 +87,9 @@ class CustomModal: BaseCustomModal {
     func setupNoteLabel() {
         background.addSubview(noteLabel)
         noteLabel.anchor(top: messageLabel.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 7, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 30)
+        if AccountService.shared.currentUserType == .tutor {
+            noteLabel.text = "We highly recommed tutors do not cancel scheduled sessions"
+        }
     }
 
     func setupNevermindButton() {
@@ -106,7 +112,10 @@ class CustomModal: BaseCustomModal {
         dismiss()
     }
 
-    @objc func handleConfirmButton() {}
+    @objc func handleConfirmButton() {
+        delegate?.handleConfirm()
+        dismiss()
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

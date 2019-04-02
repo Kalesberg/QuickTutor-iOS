@@ -10,6 +10,12 @@ import UIKit
 
 class ProfileCVCell: UICollectionViewCell {
     
+    override var isSelected: Bool {
+        didSet {
+            backgroundColor = isSelected ? Colors.darkBackground.darker(by: 30) : Colors.darkBackground
+        }
+    }
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = Fonts.createBoldSize(16)
