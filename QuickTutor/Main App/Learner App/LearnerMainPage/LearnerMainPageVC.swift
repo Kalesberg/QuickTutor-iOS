@@ -97,7 +97,7 @@ class LearnerMainPageVC: UIViewController {
                     self.group.leave()
                     return
                 }
-                self.datasource[category] = tutors
+                self.datasource[category] = tutors.shuffled()
                 self.group.leave()
             })
         }
