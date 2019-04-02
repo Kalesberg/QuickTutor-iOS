@@ -37,9 +37,7 @@ class ProfileVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        navigationController?.setNavigationBarHidden(true, animated: false)
-        
+        navigationController?.setNavigationBarHidden(true, animated: false)
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
