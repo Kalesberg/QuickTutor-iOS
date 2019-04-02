@@ -48,7 +48,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWy-QK-aoU">
                                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenImage" translatesAutoresizingMaskIntoConstraints="NO" id="DPW-2U-Epe">
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_qt_icon" translatesAutoresizingMaskIntoConstraints="NO" id="DPW-2U-Epe">
                                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="YBb-9w-nk7"/>
@@ -67,7 +67,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o4v-2C-xpW">
                                                         <rect key="frame" x="38" y="0.0" width="128" height="30"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quicktutor-text" translatesAutoresizingMaskIntoConstraints="NO" id="DGs-fx-O84">
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_logo" translatesAutoresizingMaskIntoConstraints="NO" id="DGs-fx-O84">
                                                                 <rect key="frame" x="0.0" y="4" width="128" height="22"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" secondItem="DGs-fx-O84" secondAttribute="height" multiplier="163:28" id="X0t-TL-hk7"/>
@@ -447,7 +447,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="launchScreenImage" width="200" height="200"/>
-        <image name="quicktutor-text" width="326" height="56"/>
+        <image name="ic_logo" width="335" height="56"/>
+        <image name="ic_qt_icon" width="205" height="205"/>
     </resources>
 </document>

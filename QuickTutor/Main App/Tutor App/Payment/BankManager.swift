@@ -185,7 +185,9 @@ extension BankManager: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "addCardCell", for: indexPath) as! AddCardTableViewCell
 
             cell.addCard.text = "Add bank account"
-
+            cell.didTapAddCard = {
+                self.navigationController?.pushViewController(TutorAddBank(), animated: true)
+            }
             return cell
         }
     }
@@ -200,7 +202,6 @@ extension BankManager: UITableViewDelegate, UITableViewDataSource {
                 AlertController.genericErrorAlert(self, title: "Too Many Payout Methods", message: "We currently only allow users to have 5 payout methods.")
                 return
             }
-            navigationController?.pushViewController(TutorAddBank(), animated: true)
         } else {
             defaultBankAlert(bankId: banks[indexPath.row].id)
         }

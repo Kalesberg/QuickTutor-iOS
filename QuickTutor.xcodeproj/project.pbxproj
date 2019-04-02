@@ -18,6 +18,8 @@
 		4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
 		4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
 		4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
+		56056EA3225301900060C251 /* TutorTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D06E0224B172700270115 /* TutorTabBarController.swift */; };
+		56056EA4225301E50060C251 /* LearnerTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D06DE224B170B00270115 /* LearnerTabBarController.swift */; };
 		561003B62242A9AF00A4688F /* QTInPersionSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */; };
 		561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */; };
 		561003B82242A9BB00A4688F /* QTInPersionSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */; };
@@ -4008,6 +4010,7 @@
 				569F182A223554FD00820A20 /* BaseCustomModal.swift in Sources */,
 				569F182B223554FD00820A20 /* TutorEditProfileCells.swift in Sources */,
 				569F182D223554FD00820A20 /* LaunchScreen.swift in Sources */,
+				56056EA4225301E50060C251 /* LearnerTabBarController.swift in Sources */,
 				569F182E223554FD00820A20 /* ConnectionsVC.swift in Sources */,
 				C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */,
 				569F182F223554FD00820A20 /* CardManagerVC.swift in Sources */,
@@ -4133,6 +4136,7 @@
 				569F18B3223554FD00820A20 /* BaseMessageCell.swift in Sources */,
 				569F18B4223554FD00820A20 /* SessionRequestDurationView.swift in Sources */,
 				569F18B5223554FD00820A20 /* TutorAddBank.swift in Sources */,
+				56056EA3225301900060C251 /* TutorTabBarController.swift in Sources */,
 				569F18B6223554FD00820A20 /* QTTutorDashboardMarkerView.swift in Sources */,
 				569F18B7223554FD00820A20 /* PhoneAuthentication.swift in Sources */,
 				569F18B8223554FD00820A20 /* LearnerHandbook.swift in Sources */,

@@ -67,7 +67,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             avatarImageView.sd_setImage(with: storageRef.child("student-info").child(learner.uid).child("student-profile-pic1"))
             
             if let hourlyRate = CurrentUser.shared.tutor.price {
-                hourlyRateLabel.text = "$\(hourlyRate)/h"
+                hourlyRateLabel.text = "$\(hourlyRate)/hr"
                 hourlyRateLabel.isHidden = false
             }
             partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"

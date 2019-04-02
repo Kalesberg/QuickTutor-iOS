@@ -88,6 +88,11 @@ class QTInPersonSessionViewController: UIViewController {
         NotificationManager.shared.disableAllNotifications()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        bottomSheetView.cornerRadius(corners: [.topLeft, .topRight], radius: 5)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -176,7 +181,7 @@ class QTInPersonSessionViewController: UIViewController {
     
     func updateUI() {
         
-        pauseButton.layer.cornerRadius = 18
+        pauseButton.layer.cornerRadius = 20
         pauseButton.clipsToBounds = true
         pauseButton.setupTargets()
         pauseButton.setImage(UIImage(named: "ic_pause")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate), for: .normal)
@@ -185,8 +190,6 @@ class QTInPersonSessionViewController: UIViewController {
         finishButton.layer.cornerRadius = 3
         finishButton.clipsToBounds = true
         finishButton.setupTargets()
-        
-        bottomSheetView.cornerRadius(corners: [.topLeft, .topRight], radius: 5)
         
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in
@@ -358,6 +361,7 @@ extension QTInPersonSessionViewController: SessionManagerDelegate {
     }
     
     func sessionManagerShouldShowEndSessionModal(_ sessionManager: SessionManager) {
+        pauseSessionModal?.dismiss()
         self.onFinishButtonClicked(self.finishButton)
     }
     
