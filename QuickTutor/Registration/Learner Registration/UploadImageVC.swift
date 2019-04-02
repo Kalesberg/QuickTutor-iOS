@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import CropViewController
 
 class UploadImageVC: BaseRegistrationController {
     
@@ -47,7 +48,7 @@ class UploadImageVC: BaseRegistrationController {
     @objc func choosePhoto() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             profilePicker.sourceType = .photoLibrary
-            profilePicker.allowsEditing = true
+            profilePicker.allowsEditing = false
             self.present(profilePicker, animated: true, completion: nil)
         } else {
             AlertController.genericErrorAlert(self, title: "Oops", message: "Photo Library is not available")
@@ -88,11 +89,10 @@ extension UploadImageVC: UIImagePickerControllerDelegate, UINavigationController
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         
         if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
-            imagePicked = true
-            chosenImage = image
-            contentView.imageView.image = image
-            imagePicked = true
-            
+            let cropViewController = CropViewController(image: image)
+            cropViewController.delegate = self
+            cropViewController.aspectRatioPreset = .presetSquare
+            navigationController?.pushViewController(cropViewController, animated: true)
             profilePicker.dismiss(animated: true, completion: nil)
         }
     }
@@ -105,6 +105,18 @@ extension UploadImageVC: UIImagePickerControllerDelegate, UINavigationController
             self.profilePicker.dismiss(animated: true, completion: nil)
         }
     }
+}
+
+extension UploadImageVC: CropViewControllerDelegate {
+    
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        imagePicked = true
+        chosenImage = image
+        contentView.imageView.image = image
+        imagePicked = true
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 // Helper function inserted by Swift 4.2 migrator.

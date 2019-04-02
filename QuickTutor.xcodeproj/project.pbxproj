@@ -126,7 +126,6 @@
 		569F171F223554FD00820A20 /* TutorCancelledVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B612057421900D1F613 /* TutorCancelledVC.swift */; };
 		569F1720223554FD00820A20 /* BaseSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C8207067860033F845 /* BaseSessionCell.swift */; };
 		569F1721223554FD00820A20 /* TutorExtendedReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84812652217820E800B99BED /* TutorExtendedReviewsVC.swift */; };
-		569F1722223554FD00820A20 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D720F31A450039E054 /* UIImage+Extension.swift */; };
 		569F1723223554FD00820A20 /* RatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8451FB53213EF14E00F86DC5 /* RatingCell.swift */; };
 		569F1724223554FD00820A20 /* BecomeTutorVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B82C21C979970022333F /* BecomeTutorVCView.swift */; };
 		569F1725223554FD00820A20 /* Stripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849029871FF70F4600A4A1D7 /* Stripe.swift */; };
@@ -158,7 +157,6 @@
 		569F173F223554FD00820A20 /* TutorPastSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B84207C4C4200323242 /* TutorPastSessionCell.swift */; };
 		569F1740223554FD00820A20 /* QuickSearchSubcategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475C21F3AA7000C49BA5 /* QuickSearchSubcategoryCell.swift */; };
 		569F1741223554FD00820A20 /* CustomTipModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C610E209EA593009B7B0E /* CustomTipModal.swift */; };
-		569F1742223554FD00820A20 /* AACircleCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D520F31A430039E054 /* AACircleCropViewController.swift */; };
 		569F1743223554FD00820A20 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440539920F525E0003F0606 /* DateExtensions.swift */; };
 		569F1744223554FD00820A20 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B82521C8C5590022333F /* CustomSlider.swift */; };
 		569F1745223554FD00820A20 /* QuickTutorSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E465218F3A0C00D03681 /* QuickTutorSort.swift */; };
@@ -365,7 +363,6 @@
 		569F1824223554FD00820A20 /* QuickSearchResultsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB1475E21F3B86F00C49BA5 /* QuickSearchResultsVC.swift */; };
 		569F1825223554FD00820A20 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E46B218F68AA00D03681 /* Review.swift */; };
 		569F1826223554FD00820A20 /* TutorSSNVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F245191FDA1143006447A8 /* TutorSSNVC.swift */; };
-		569F1828223554FD00820A20 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D820F31A460039E054 /* UIViewController+Extension.swift */; };
 		569F1829223554FD00820A20 /* AddressTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841C506F216ED4950035C6C9 /* AddressTextField.swift */; };
 		569F182A223554FD00820A20 /* BaseCustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */; };
 		569F182B223554FD00820A20 /* TutorEditProfileCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F431942070786F00030BD4 /* TutorEditProfileCells.swift */; };
@@ -435,7 +432,6 @@
 		569F1873223554FD00820A20 /* PaymentMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6110209EA5BD009B7B0E /* PaymentMethodCell.swift */; };
 		569F1874223554FD00820A20 /* AccountPaymentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4C7D1204E80E4009C2FC4 /* AccountPaymentsVC.swift */; };
 		569F1875223554FD00820A20 /* PriceInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5896205EE68800ACBD32 /* PriceInputView.swift */; };
-		569F1876223554FD00820A20 /* AACircleCropScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D920F31A470039E054 /* AACircleCropScrollView.swift */; };
 		569F1877223554FD00820A20 /* BankList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843709CD20AA27220070FCDD /* BankList.swift */; };
 		569F1878223554FD00820A20 /* RegistrationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842394121FF4CAC600827C7D /* RegistrationTextField.swift */; };
 		569F1879223554FD00820A20 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E4371FBE630200678531 /* SignInVC.swift */; };
@@ -479,7 +475,6 @@
 		569F18A6223554FD00820A20 /* QTTutorDashboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569ECDB221F9B682005491CB /* QTTutorDashboardTableViewCell.swift */; };
 		569F18A7223554FD00820A20 /* NewMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58B0205EE68800ACBD32 /* NewMessageVC.swift */; };
 		569F18A8223554FD00820A20 /* FeaturedTutorCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E473218F697400D03681 /* FeaturedTutorCount.swift */; };
-		569F18A9223554FD00820A20 /* AACircleCropCutterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D620F31A440039E054 /* AACircleCropCutterView.swift */; };
 		569F18AA223554FD00820A20 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426A16A2055BC3200EAF1A8 /* Constants.swift */; };
 		569F18AB223554FD00820A20 /* TutorSessionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84052F15206BCCD7007B1248 /* TutorSessionDetails.swift */; };
 		569F18AC223554FD00820A20 /* LearnerHarassment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84052F0F206BCC3D007B1248 /* LearnerHarassment.swift */; };
@@ -731,11 +726,6 @@
 		84A6E474218F697400D03681 /* FeaturedTutorCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E473218F697400D03681 /* FeaturedTutorCount.swift */; };
 		84A7E5D01FCE4FDE002EABD5 /* Tutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */; };
 		84B09D41205050E000BC8F80 /* ChangeEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B09D40205050E000BC8F80 /* ChangeEmailVC.swift */; };
-		84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D520F31A430039E054 /* AACircleCropViewController.swift */; };
-		84BC77DB20F31A470039E054 /* AACircleCropCutterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D620F31A440039E054 /* AACircleCropCutterView.swift */; };
-		84BC77DC20F31A470039E054 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D720F31A450039E054 /* UIImage+Extension.swift */; };
-		84BC77DD20F31A470039E054 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D820F31A460039E054 /* UIViewController+Extension.swift */; };
-		84BC77DE20F31A470039E054 /* AACircleCropScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77D920F31A470039E054 /* AACircleCropScrollView.swift */; };
 		84BC77E120F3F0E10039E054 /* RequestSessionCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77E020F3F0E10039E054 /* RequestSessionCellFactory.swift */; };
 		84BC77E320F3F3B20039E054 /* RequestSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC77E220F3F3B20039E054 /* RequestSessionModal.swift */; };
 		84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B620AB1991003E66D5 /* LegalEntity.swift */; };
@@ -1318,11 +1308,6 @@
 		84A7E5CF1FCE4FDE002EABD5 /* Tutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutor.swift; sourceTree = "<group>"; };
 		84B09D40205050E000BC8F80 /* ChangeEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmailVC.swift; sourceTree = "<group>"; };
 		84B2F02720354E4700F921C9 /* LearnerEditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerEditProfileVC.swift; sourceTree = "<group>"; };
-		84BC77D520F31A430039E054 /* AACircleCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACircleCropViewController.swift; sourceTree = "<group>"; };
-		84BC77D620F31A440039E054 /* AACircleCropCutterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACircleCropCutterView.swift; sourceTree = "<group>"; };
-		84BC77D720F31A450039E054 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
-		84BC77D820F31A460039E054 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
-		84BC77D920F31A470039E054 /* AACircleCropScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACircleCropScrollView.swift; sourceTree = "<group>"; };
 		84BC77E020F3F0E10039E054 /* RequestSessionCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSessionCellFactory.swift; sourceTree = "<group>"; };
 		84BC77E220F3F3B20039E054 /* RequestSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSessionModal.swift; sourceTree = "<group>"; };
 		84BDE2B620AB1991003E66D5 /* LegalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalEntity.swift; sourceTree = "<group>"; };
@@ -2380,7 +2365,6 @@
 				CF249975217E926500614AF0 /* Keyboard Utility */,
 				844CB54F213EDE3B00656F06 /* PostSession */,
 				CFD92A4F222F24B200704531 /* LightBox */,
-				84BC77D420F31A320039E054 /* ImageCropper */,
 				8404F43C20EBB3AE00747C01 /* CustomError.swift */,
 				84DAF6FB2044615A005687F6 /* SocialMedia.swift */,
 				84D8C92B2066A965003C3AEA /* Helper.swift */,
@@ -2446,18 +2430,6 @@
 				CFD92A70222F502800704531 /* TutorRegistrationService.swift */,
 			);
 			path = Registration;
-			sourceTree = "<group>";
-		};
-		84BC77D420F31A320039E054 /* ImageCropper */ = {
-			isa = PBXGroup;
-			children = (
-				84BC77D620F31A440039E054 /* AACircleCropCutterView.swift */,
-				84BC77D920F31A470039E054 /* AACircleCropScrollView.swift */,
-				84BC77D520F31A430039E054 /* AACircleCropViewController.swift */,
-				84BC77D720F31A450039E054 /* UIImage+Extension.swift */,
-				84BC77D820F31A460039E054 /* UIViewController+Extension.swift */,
-			);
-			path = ImageCropper;
 			sourceTree = "<group>";
 		};
 		84BC77DF20F3F0BF0039E054 /* RequestSession */ = {
@@ -3469,6 +3441,7 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
@@ -3501,6 +3474,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
@@ -3543,6 +3517,7 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
@@ -3575,6 +3550,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
@@ -3759,7 +3735,6 @@
 				569F171F223554FD00820A20 /* TutorCancelledVC.swift in Sources */,
 				569F1720223554FD00820A20 /* BaseSessionCell.swift in Sources */,
 				569F1721223554FD00820A20 /* TutorExtendedReviewsVC.swift in Sources */,
-				569F1722223554FD00820A20 /* UIImage+Extension.swift in Sources */,
 				569F1723223554FD00820A20 /* RatingCell.swift in Sources */,
 				569F1724223554FD00820A20 /* BecomeTutorVCView.swift in Sources */,
 				569F1725223554FD00820A20 /* Stripe.swift in Sources */,
@@ -3791,7 +3766,6 @@
 				569F173F223554FD00820A20 /* TutorPastSessionCell.swift in Sources */,
 				569F1740223554FD00820A20 /* QuickSearchSubcategoryCell.swift in Sources */,
 				569F1741223554FD00820A20 /* CustomTipModal.swift in Sources */,
-				569F1742223554FD00820A20 /* AACircleCropViewController.swift in Sources */,
 				569F1743223554FD00820A20 /* DateExtensions.swift in Sources */,
 				569F1744223554FD00820A20 /* CustomSlider.swift in Sources */,
 				569F1745223554FD00820A20 /* QuickTutorSort.swift in Sources */,
@@ -4005,7 +3979,6 @@
 				569F1824223554FD00820A20 /* QuickSearchResultsVC.swift in Sources */,
 				569F1825223554FD00820A20 /* Review.swift in Sources */,
 				569F1826223554FD00820A20 /* TutorSSNVC.swift in Sources */,
-				569F1828223554FD00820A20 /* UIViewController+Extension.swift in Sources */,
 				569F1829223554FD00820A20 /* AddressTextField.swift in Sources */,
 				569F182A223554FD00820A20 /* BaseCustomModal.swift in Sources */,
 				569F182B223554FD00820A20 /* TutorEditProfileCells.swift in Sources */,
@@ -4079,7 +4052,6 @@
 				569F1873223554FD00820A20 /* PaymentMethodCell.swift in Sources */,
 				569F1874223554FD00820A20 /* AccountPaymentsVC.swift in Sources */,
 				569F1875223554FD00820A20 /* PriceInputView.swift in Sources */,
-				569F1876223554FD00820A20 /* AACircleCropScrollView.swift in Sources */,
 				569F1877223554FD00820A20 /* BankList.swift in Sources */,
 				569F1878223554FD00820A20 /* RegistrationTextField.swift in Sources */,
 				569F1879223554FD00820A20 /* SignInVC.swift in Sources */,
@@ -4123,7 +4095,6 @@
 				569F18A6223554FD00820A20 /* QTTutorDashboardTableViewCell.swift in Sources */,
 				569F18A7223554FD00820A20 /* NewMessageVC.swift in Sources */,
 				569F18A8223554FD00820A20 /* FeaturedTutorCount.swift in Sources */,
-				569F18A9223554FD00820A20 /* AACircleCropCutterView.swift in Sources */,
 				569F18AA223554FD00820A20 /* Constants.swift in Sources */,
 				569F18AB223554FD00820A20 /* TutorSessionDetails.swift in Sources */,
 				569F18AC223554FD00820A20 /* LearnerHarassment.swift in Sources */,
@@ -4218,7 +4189,6 @@
 				84E91B622057421900D1F613 /* TutorCancelledVC.swift in Sources */,
 				CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */,
 				84812653217820E800B99BED /* TutorExtendedReviewsVC.swift in Sources */,
-				84BC77DC20F31A470039E054 /* UIImage+Extension.swift in Sources */,
 				8451FB54213EF14E00F86DC5 /* RatingCell.swift in Sources */,
 				CFB9B82D21C979970022333F /* BecomeTutorVCView.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
@@ -4250,7 +4220,6 @@
 				CF833B85207C4C4200323242 /* TutorPastSessionCell.swift in Sources */,
 				CFB1475D21F3AA7000C49BA5 /* QuickSearchSubcategoryCell.swift in Sources */,
 				CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */,
-				84BC77DA20F31A470039E054 /* AACircleCropViewController.swift in Sources */,
 				8440539A20F525E0003F0606 /* DateExtensions.swift in Sources */,
 				CFB9B82621C8C5590022333F /* CustomSlider.swift in Sources */,
 				84A6E466218F3A0C00D03681 /* QuickTutorSort.swift in Sources */,
@@ -4465,7 +4434,6 @@
 				CFB1475F21F3B86F00C49BA5 /* QuickSearchResultsVC.swift in Sources */,
 				84A6E46C218F68AA00D03681 /* Review.swift in Sources */,
 				84F2451A1FDA1143006447A8 /* TutorSSNVC.swift in Sources */,
-				84BC77DD20F31A470039E054 /* UIViewController+Extension.swift in Sources */,
 				841C5070216ED4950035C6C9 /* AddressTextField.swift in Sources */,
 				CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */,
 				84F431962070786F00030BD4 /* TutorEditProfileCells.swift in Sources */,
@@ -4538,7 +4506,6 @@
 				CF1C6111209EA5BD009B7B0E /* PaymentMethodCell.swift in Sources */,
 				84E4C7D2204E80E4009C2FC4 /* AccountPaymentsVC.swift in Sources */,
 				CF6F58C8205EE68800ACBD32 /* PriceInputView.swift in Sources */,
-				84BC77DE20F31A470039E054 /* AACircleCropScrollView.swift in Sources */,
 				843709CE20AA27220070FCDD /* BankList.swift in Sources */,
 				842394131FF4CAC600827C7D /* RegistrationTextField.swift in Sources */,
 				84E1E4381FBE630200678531 /* SignInVC.swift in Sources */,
@@ -4582,7 +4549,6 @@
 				569ECDB421F9B682005491CB /* QTTutorDashboardTableViewCell.swift in Sources */,
 				CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */,
 				84A6E474218F697400D03681 /* FeaturedTutorCount.swift in Sources */,
-				84BC77DB20F31A470039E054 /* AACircleCropCutterView.swift in Sources */,
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
 				84052F16206BCCD7007B1248 /* TutorSessionDetails.swift in Sources */,
 				84052F10206BCC3D007B1248 /* LearnerHarassment.swift in Sources */,

@@ -13,6 +13,7 @@ PODS:
   - Charts/Core (3.2.2)
   - Crashlytics (3.12.0):
     - Fabric (~> 1.9.0)
+  - CropViewController (2.4.0)
   - Fabric (1.9.0)
   - FacebookCore (0.5.0):
     - Bolts (~> 1.9)
@@ -180,6 +181,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Charts (~> 3.2.1)
   - Crashlytics
+  - CropViewController
   - Fabric
   - FacebookCore
   - FacebookLogin
@@ -214,6 +216,7 @@ SPEC REPOS:
     - Cache
     - Charts
     - Crashlytics
+    - CropViewController
     - Fabric
     - FacebookCore
     - FacebookLogin
@@ -272,6 +275,7 @@ SPEC CHECKSUMS:
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
+  CropViewController: a090820b15fc3da68e694d7c192a4708c576828b
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
@@ -315,6 +319,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: 4eada3884ab1bbae5e8d2fb9030c242aa23d7f42
   TwilioVideo: 482bbbb23807e424e00500c367fea3656e136d61
 
-PODFILE CHECKSUM: 8055085979aea6edc853907dec60e79d7c93102f
+PODFILE CHECKSUM: 43059e79c6d01c07fce535b35f56526a81fdfb38
 
 COCOAPODS: 1.5.3

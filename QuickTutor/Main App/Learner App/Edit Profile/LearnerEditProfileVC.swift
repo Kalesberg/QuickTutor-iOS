@@ -12,6 +12,8 @@ import FirebaseUI
 import SDWebImage
 import SnapKit
 import SwiftKeychainWrapper
+import CropViewController
+
 
 protocol QTProfileDelegate {
     func didUpdateTutorProfile(tutor: AWTutor)
@@ -21,6 +23,7 @@ protocol QTProfileDelegate {
 class EditPreferencesVC: TutorPreferencesVC {
     override func viewDidLoad() {
         super.viewDidLoad()
+
         navigationItem.title = "Manage Preferences"
         contentView.accessoryView.removeFromSuperview()
         progressView.removeFromSuperview()
@@ -592,47 +595,7 @@ extension LearnerEditProfileVC: UIScrollViewDelegate {
     }
 }
 
-extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AACircleCropViewControllerDelegate {
-    func circleCropDidCropImage(_ image: UIImage) {
-        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileImagesCell
-        let visibleCells = cell.collectionView.visibleCells as? [EditProfileImageCell]
-        var imageViews = [EditProfileImageCell]()
-        visibleCells?.forEach({imageViews.append($0)})
-
-        guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
-            AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
-            return
-        }
-        
-        func getFirstEmptyImageIndex() -> Int? {
-            return imageViews.firstIndex(where: { (cell) -> Bool in
-                return cell.backgrounImageView.image == nil || cell.backgrounImageView.image == UIImage(named: "addPhotoButtonBackground")
-            })
-        }
-
-        let index = imageToChange
-
-        FirebaseData.manager.uploadImage(data: data, number: String(index)) { error, imageUrl in
-            if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-            } else if let imageUrl = imageUrl {
-                self.learner.images["image\(index)"] = imageUrl
-                self.uploadImageUrl(imageUrl: imageUrl, number: String(index))
-            }
-        }
-
-        SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index)), fromDisk: false) {
-            SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index)), toDisk: false) {
-                imageViews[index].backgrounImageView.image = image
-                imageViews[index].foregroundImageView.image = UIImage(named: "deletePhotoIcon")
-            }
-        }
-        
-    }
-
-    func circleCropDidCancel() {
-        print("cancelled")
-    }
+extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func getKeyForCachedImage(number: String) -> String {
         return Storage.storage().reference().child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic" + number).fullPath
@@ -643,10 +606,11 @@ extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationCon
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
         if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
-            let circleCropController = AACircleCropViewController()
-            circleCropController.image = image
-            circleCropController.delegate = self
-            navigationController?.pushViewController(circleCropController, animated: true)
+            let cropViewController = CropViewController(image: image)
+            cropViewController.delegate = self
+            cropViewController.aspectRatioPreset = .presetSquare
+            cropViewController.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(cropViewController, animated: true)
             imagePicker.dismiss(animated: true, completion: nil)
         }
     }
@@ -654,6 +618,47 @@ extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationCon
     func imagePickerControllerDidCancel(_: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
+}
+
+extension LearnerEditProfileVC: CropViewControllerDelegate {
+    
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        navigationController?.popViewController(animated: true)
+        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileImagesCell
+        let visibleCells = cell.collectionView.visibleCells as? [EditProfileImageCell]
+        var imageViews = [EditProfileImageCell]()
+        visibleCells?.forEach({imageViews.append($0)})
+        
+        guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
+            AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
+            return
+        }
+        
+        func getFirstEmptyImageIndex() -> Int? {
+            return imageViews.firstIndex(where: { (cell) -> Bool in
+                return cell.backgrounImageView.image == nil || cell.backgrounImageView.image == UIImage(named: "addPhotoButtonBackground")
+            })
+        }
+        
+        let index = imageToChange
+        
+        FirebaseData.manager.uploadImage(data: data, number: String(index)) { error, imageUrl in
+            if let error = error {
+                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+            } else if let imageUrl = imageUrl {
+                self.learner.images["image\(index)"] = imageUrl
+                self.uploadImageUrl(imageUrl: imageUrl, number: String(index))
+            }
+        }
+        
+        SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index)), fromDisk: false) {
+            SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index)), toDisk: false) {
+                imageViews[index].backgrounImageView.image = image
+                imageViews[index].foregroundImageView.image = UIImage(named: "deletePhotoIcon")
+            }
+        }
+    }
+
 }
 
 // Helper function inserted by Swift 4.2 migrator.
