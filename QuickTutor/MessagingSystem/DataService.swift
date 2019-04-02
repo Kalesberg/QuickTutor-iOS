@@ -392,6 +392,10 @@ class TutorSearchService {
                         return
                     }
                     if tutor.uid != Auth.auth().currentUser?.uid {
+                        tutor.featuredSubject = tutor.subjects?.first(where: { (subject) -> Bool in
+                            let category = CategoryFactory.shared.getCategoryFor(subject: subject)
+                            return category?.name == categoryName
+                        })
                         tutors.append(tutor)
                     }
                     myGroup.leave()

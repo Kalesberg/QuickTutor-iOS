@@ -281,7 +281,7 @@ class FirebaseData {
 		})
 	}
 	
-	private func fetchReviews(uid : String, type: String,_ completion : @escaping ([Review]?) -> Void) {
+    func fetchReviews(uid : String, type: String,_ completion : @escaping ([Review]?) -> Void) {
 		var reviews : [Review] = []
 		self.ref?.child("review").child(uid).child(type).observeSingleEvent(of: .value, with: { (snapshot) in
 			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }

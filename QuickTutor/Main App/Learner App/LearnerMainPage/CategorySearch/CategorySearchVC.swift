@@ -103,25 +103,6 @@ class CategorySearchVC: BaseViewController {
         }
     }
 
-//    private func queryTutorsByCategory(lastKnownKey: String?) {
-////        displayLoadingOverlay()
-////        QueryData.shared.queryAWTutorByCategory(category: category, lastKnownKey: lastKnownKey, limit: itemsPerBatch, { tutors in
-////            if let tutors = tutors {
-////                let startIndex = self.datasource.count
-////                self.datasource.append(contentsOf: tutors)
-////                let endIndex = self.datasource.count
-////
-////                self.contentView.collectionView.performBatchUpdates({
-////                    let insertPaths = Array(startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
-////                    self.contentView.collectionView.insertItems(at: insertPaths)
-////                }, completion: { _ in
-////                    self.didLoadMore = false
-////                    self.dismissOverlay()
-////                })
-////            }
-////        })
-//    }
-
 }
 
 extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
