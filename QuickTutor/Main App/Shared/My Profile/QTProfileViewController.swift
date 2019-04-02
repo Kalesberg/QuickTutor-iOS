@@ -61,7 +61,11 @@ class QTProfileViewController: UIViewController {
     }
     
     // Parameters
-    var user: AWTutor!
+    var user: AWTutor! {
+        didSet {
+            initPolicies()
+        }
+    }
     var profileViewType: QTProfileViewType!
     var subject: String?
     
