@@ -58,7 +58,7 @@ class SessionDetailsVC: BaseViewController {
         return view as! SessionDetailsView
     }
 
-    let options = ["My tutor cancelled", "My tutor was late", "My tutor was unprofessional", "Harrassment", "Other"]
+    let options = ["My tutor canceled", "My tutor was late", "My tutor was unprofessional", "Harrassment", "Other"]
 
     var datasource: UserSession! {
         didSet {

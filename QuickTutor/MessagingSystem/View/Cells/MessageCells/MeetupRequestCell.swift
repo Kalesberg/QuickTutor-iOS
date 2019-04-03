@@ -222,7 +222,7 @@ class SessionRequestCell: UserMessageCell {
     func updateAsCancelled() {
         buttonView.removeAllButtonActions()
 
-        titleLabel.text = "Cancelled"
+        titleLabel.text = "Canceled"
         buttonView.setupAsCancelled()
         dimContent()
         buttonView.setupAsCancelled()
@@ -553,7 +553,7 @@ class SessionRequestCellButtonView: UIView {
             setupAsSingleButton()
             setButtonTitleColors(.white)
             setLeftButtonToSecondaryUI()
-            setButtonTitles("This session was cancelled")
+            setButtonTitles("This session was canceled")
         }
     }
     
