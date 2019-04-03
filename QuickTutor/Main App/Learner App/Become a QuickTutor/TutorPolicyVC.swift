@@ -116,9 +116,7 @@ class TutorPolicyVC: BaseRegistrationController {
                     if success {
                         CurrentUser.shared.learner.isTutor = true
                         AccountService.shared.currentUserType = .tutor
-                        self.navigationController?.pushViewController(QTTutorDashboardViewController.controller, animated: true)
-                        let endIndex = self.navigationController?.viewControllers.endIndex
-                        self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
+                        RootControllerManager.shared.setupTutorTabBar(controller: QTTutorDashboardViewController.controller)
                     } else {
                         AlertController.genericErrorAlert(self, title: "Unable to Create Account", message: "Please verify your information was correct.")
                     }
