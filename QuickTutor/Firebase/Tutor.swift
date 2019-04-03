@@ -81,6 +81,7 @@ class Tutor {
                         "dst" : TutorRegistration.distance,
                         "tbio": TutorRegistration.tutorBio,
                         "subjects": TutorRegistrationService.shared.subjects,
+                        "sbj": TutorRegistrationService.shared.subjects.first!,
                         "rg"  : "\(TutorRegistration.city!) \(TutorRegistration.state!)",
                         "pol" : "0_0_0_0",
                         "prf" : TutorRegistration.sessionPreference,
