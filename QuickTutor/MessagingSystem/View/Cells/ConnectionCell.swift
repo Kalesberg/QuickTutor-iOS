@@ -140,9 +140,9 @@ class ConnectionCell: UICollectionViewCell {
         profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         nameLabel.text = user.formattedName
         if let zfUser = user as? ZFTutor {
-            featuredSubject.text = zfUser.featuredSubject
+            featuredSubject.text = zfUser.featuredSubject ?? zfUser.subjects?.first
         } else if let awUser = user as? AWTutor {
-            featuredSubject.text = awUser.featuredSubject
+            featuredSubject.text = awUser.featuredSubject ?? awUser.subjects?.first
         }
     }
     
