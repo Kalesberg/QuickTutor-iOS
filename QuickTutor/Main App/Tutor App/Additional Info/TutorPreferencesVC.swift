@@ -41,12 +41,14 @@ class TutorPreferencesVC: BaseRegistrationController {
         guard let uid = Auth.auth().currentUser?.uid, !inRegistrationMode else { return }
         FirebaseData.manager.fetchTutorSessionPreferences(uid: uid) { (preferenceData) in
             guard let preferenceData = preferenceData else { return }
-            let price = preferenceData["p"] as? Int
+            let price = preferenceData["price"] as? Int
             self.contentView.hourSliderView.slider.value = Float(price ?? 25)
-            self.contentView.hourSliderView.amountLabel.text = "$\(price)/hr"
-            let distance = preferenceData["dst"] as? Int
+            self.contentView.hourSliderView.amountLabel.text = "$\(price!)/hr"
+            let distance = preferenceData["distance"] as? Int
             self.contentView.distanceSliderView.slider.value = Float(distance ?? 10)
-            self.contentView.distanceSliderView.amountLabel.text = "\(distance) miles"
+            self.contentView.distanceSliderView.amountLabel.text = "\(distance!) miles"
+            let preference = preferenceData["preference"] as? Int ?? 3
+            self.contentView.collectionView.selectItem(at: IndexPath(item: preference, section: 0), animated: false, scrollPosition: .top)
         }
     }
     
