@@ -26,6 +26,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         cv.backgroundColor = Colors.darkBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceHorizontal = true
+        cv.delaysContentTouches = false
         cv.showsHorizontalScrollIndicator = false
         cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         cv.register(QuickSearchSubcategoryCell.self, forCellWithReuseIdentifier: "cellId")
@@ -111,13 +112,19 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     }
     
     func setupObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleSubjectChange(_:)), name: Notifications.tutorSubjectsDidChange.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSubjectAdded(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSubjectRemoved(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
     }
     
-    @objc func handleSubjectChange(_ notification: Notification) {
+    
+    @objc func handleSubjectAdded(_ notification: Notification) {
         selectedSubjectsCV.reloadData()
         let indexPath = IndexPath(item: selectedSubjectsCV.numberOfItems(inSection: 0) - 1, section: 0)
         selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
+    }
+    
+    @objc func handleSubjectRemoved(_ notification: Notification) {
+        selectedSubjectsCV.reloadData()
     }
     
     func showRemovePromptFor(subject: String) {
@@ -156,6 +163,17 @@ extension TutorAddSubjectsVCView: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! QuickSearchSubcategoryCell
+        cell.backgroundColor = Colors.purple.darker(by: 10)
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! QuickSearchSubcategoryCell
+        cell.backgroundColor = Colors.purple
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -36,13 +36,13 @@ class TutorRegistrationService {
             }
         }
         subjects.append(subject)
-        NotificationCenter.default.post(name: Notifications.tutorSubjectsDidChange.name, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notifications.tutorDidAddSubject.name, object: nil, userInfo: nil)
     }
     
     
     func removeSubject(_ subject: String) {
         subjects = subjects.filter({ $0 != subject})
-        NotificationCenter.default.post(name: Notifications.tutorSubjectsDidChange.name, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notifications.tutorDidRemoveSubject.name, object: nil, userInfo: nil)
         if shouldSaveSubjects {
             guard let uid = Auth.auth().currentUser?.uid else { return }
             Database.database().reference().child("subjects").child(subject).child(uid).removeValue()
