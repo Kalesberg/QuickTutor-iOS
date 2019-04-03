@@ -87,9 +87,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.proceedWithCameraAccess()
                 self.proceedWithMicrophoneAccess()
                 self.observeDataEvents()
+                self.showOnboardingIfNeeded()
             }
         }
         return true
+    }
+    
+    func showOnboardingIfNeeded() {
+        if !UserDefaults.standard.bool(forKey: "hasBeenOnboarded") {
+            let vc = WalkthroughVC()
+            RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
+        }
     }
     
     func checkForUnfinishedSessions() {

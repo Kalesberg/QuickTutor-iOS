@@ -103,6 +103,7 @@ class WalkthroughVCView: UIView {
     
     @objc func handleButton(_ sender: UIButton) {
         guard pageControl.currentPage != 3 else {
+            UserDefaults.standard.setValue(true, forKey: "hasBeenOnboarded")
             RootControllerManager.shared.configureRootViewController(controller: SignInVC())
             return
         }
