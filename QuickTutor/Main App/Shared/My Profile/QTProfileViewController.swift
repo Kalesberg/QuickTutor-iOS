@@ -82,7 +82,7 @@ class QTProfileViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupObservers()
         setupDelegates()
         initData()
         
@@ -105,6 +105,11 @@ class QTProfileViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
     }
     
     // MARK: - Actions
@@ -479,6 +484,12 @@ class QTProfileViewController: UIViewController {
              .myLearner:
             connectView.isHidden = true
         }
+    }
+    
+    @objc func reloadSubjects(_ notification: Notification) {
+        guard profileViewType == .myTutor else { return }
+        user.subjects = TutorRegistrationService.shared.subjects
+        subjectsCollectionView.reloadData()
     }
     
     func updateSubjectsHeight() {
