@@ -8,9 +8,12 @@
 
 import UIKit
 
-struct MainPageFeaturedSubject {
-    var subject: String
+struct MainPageFeaturedItem {
+    var subject: String?
     var backgroundImageUrl: URL
+    var title: String
+    var subcategoryTitle: String?
+    var categoryTitle: String?
 }
 
 class LearnerMainPageFeaturedSubjectTableViewCell: UITableViewCell {
@@ -99,7 +102,7 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
         return view
     }()
     
-    let subjectLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .left
@@ -122,7 +125,7 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
     func setupViews() {
         setupBackgroundImageView()
         setupInfoBox()
-        setupSubjectLabel()
+        setupTitleLabel()
         setupTryItButton()
     }
     
@@ -136,9 +139,9 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
         infoBox.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 10, paddingRight: 30, width: 0, height: 50)
     }
     
-    func setupSubjectLabel() {
-        infoBox.contentView.addSubview(subjectLabel)
-        subjectLabel.anchor(top: infoBox.topAnchor, left: infoBox.leftAnchor, bottom: infoBox.bottomAnchor, right: infoBox.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    func setupTitleLabel() {
+        infoBox.contentView.addSubview(titleLabel)
+        titleLabel.anchor(top: infoBox.topAnchor, left: infoBox.leftAnchor, bottom: infoBox.bottomAnchor, right: infoBox.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     func setupTryItButton() {
@@ -147,8 +150,8 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
         addConstraint(NSLayoutConstraint(item: tryItButton, attribute: .centerY, relatedBy: .equal, toItem: infoBox, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
-    func updateUI(_ featuredSubject: MainPageFeaturedSubject) {
-        subjectLabel.text = featuredSubject.subject
+    func updateUI(_ featuredSubject: MainPageFeaturedItem) {
+        titleLabel.text = featuredSubject.title
         backgroundImageView.sd_setImage(with: featuredSubject.backgroundImageUrl, completed: nil)
     }
     

@@ -15,7 +15,7 @@ var categories: [Category] = Category.categories
 class LearnerMainPageVC: UIViewController {
     
     var selectedCellFrame: CGRect?
-    var featuredSubjects = [MainPageFeaturedSubject]()
+    var featuredItems = [MainPageFeaturedItem]()
 
     var contentView: LearnerMainPageVCView {
         return view as! LearnerMainPageVCView
@@ -61,9 +61,9 @@ class LearnerMainPageVC: UIViewController {
     }
 
     func loadFeaturedSubjects() {
-        DataService.shared.featchMainPageFeaturedSubject { (subjects) in
-            guard let subjects = subjects else { return }
-            self.featuredSubjects = subjects
+        DataService.shared.featchMainPageFeaturedSubject { (items) in
+            guard let items = items else { return }
+            self.featuredItems = items
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "com.qt.fetchedSubjects"), object: nil)
         }
     }
@@ -229,7 +229,7 @@ extension LearnerMainPageVC: UINavigationControllerDelegate {
 extension LearnerMainPageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! LearnerMainPageFeaturedSubjectCell
-        cell.updateUI(featuredSubjects[indexPath.item])
+        cell.updateUI(featuredItems[indexPath.item])
         return cell
     }
     
@@ -238,7 +238,7 @@ extension LearnerMainPageVC: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return featuredSubjects.count
+        return featuredItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -251,8 +251,18 @@ extension LearnerMainPageVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = CategorySearchVC()
-        vc.subject = featuredSubjects[indexPath.item].subject
-        vc.navigationItem.title = featuredSubjects[indexPath.item].subject
+        let item = featuredItems[indexPath.item]
+        if let subject = item.subject {
+            vc.subject = subject
+            vc.navigationItem.title = subject.capitalized
+        } else if let subcategoryTitle = item.subcategoryTitle {
+            vc.subcategory = subcategoryTitle
+            vc.navigationItem.title = subcategoryTitle.capitalized
+        } else if let cateogryTitle = item.categoryTitle {
+            vc.category = cateogryTitle
+            vc.navigationItem.title = cateogryTitle
+        }
+        vc.navigationItem.title = featuredItems[indexPath.item].subject
         navigationController?.pushViewController(vc, animated: true)
     }
 }
