@@ -286,18 +286,18 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="ZMk-Cq-jku">
-                                        <rect key="frame" x="185" y="528" width="102.5" height="30"/>
+                                        <rect key="frame" x="177" y="528" width="118.5" height="30"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_circle" highlightedImage="ic_circle_check" translatesAutoresizingMaskIntoConstraints="NO" id="0mT-dN-oaG">
-                                                <rect key="frame" x="0.0" y="8" width="14" height="14"/>
+                                                <rect key="frame" x="0.0" y="7" width="16" height="16"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="14" id="PSD-b5-Gn2"/>
-                                                    <constraint firstAttribute="height" constant="14" id="nR9-M3-VRS"/>
+                                                    <constraint firstAttribute="width" constant="16" id="PSD-b5-Gn2"/>
+                                                    <constraint firstAttribute="height" constant="16" id="nR9-M3-VRS"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="Pay without tip" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwk-y2-dLp">
-                                                <rect key="frame" x="21" y="8" width="81.5" height="14.5"/>
-                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                                                <rect key="frame" x="23" y="6.5" width="95.5" height="17"/>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>

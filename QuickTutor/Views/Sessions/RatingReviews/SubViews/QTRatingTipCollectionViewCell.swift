@@ -105,10 +105,10 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         tipTextField.text = "$\(tip)"
         updateTipAmount(text: tipTextField.text)
         
-        UIView.animate(withDuration: 0.1, animations: {
+        UIView.animate(withDuration: 0.05, animations: {
             self.minusButton.alpha = 0.3
         }) { (completed) in
-            UIView.animate(withDuration: 0.1, animations: {
+            UIView.animate(withDuration: 0.05, animations: {
                 self.minusButton.alpha = 1
             })
         }
@@ -120,10 +120,10 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         tipTextField.text = "$\(tip)"
         updateTipAmount(text: tipTextField.text)
         
-        UIView.animate(withDuration: 0.1, animations: {
+        UIView.animate(withDuration: 0.05, animations: {
             self.plusButton.alpha = 0.3
         }) { (completed) in
-            UIView.animate(withDuration: 0.1, animations: {
+            UIView.animate(withDuration: 0.05, animations: {
                 self.plusButton.alpha = 1
             })
         }
