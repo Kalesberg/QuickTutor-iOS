@@ -115,6 +115,10 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                     cell.textView.text = CurrentUser.shared.learner.bio
                     cell.textView.placeholderLabel.text = nil
                 }
+                if AccountService.shared.currentUserType == .tutor {
+                    cell.textView.text = CurrentUser.shared.tutor.tBio
+                    cell.textView.placeholderLabel.text = nil
+                }
                 return cell
             default:
                 return UITableViewCell()
