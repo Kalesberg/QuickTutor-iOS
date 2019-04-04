@@ -50,6 +50,9 @@ class TutorPreferencesVC: BaseRegistrationController {
             let preference = preferenceData["preference"] as? Int ?? 3
             self.contentView.collectionView.selectItem(at: IndexPath(item: preference, section: 0), animated: false, scrollPosition: .top)
         }
+        if inRegistrationMode {
+             self.contentView.collectionView.selectItem(at: IndexPath(item: 3, section: 0), animated: false, scrollPosition: .top)
+        }
     }
     
     @objc func savePreferences() {
