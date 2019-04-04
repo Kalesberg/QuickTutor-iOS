@@ -328,8 +328,21 @@ class QTProfileViewController: UIViewController {
         case .myTutor:
             moreButtonsView.isHidden = true
             statisticStackView.isHidden = true
-            topSubjectLabel.isHidden = subject?.isEmpty ?? true
-            topSubjectLabel.text = subject
+            if subject?.isEmpty ?? true {
+                if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+                    // Set the featured subject.
+                    subject = user.featuredSubject
+                    self.topSubjectLabel.text = subject
+                } else {
+                    // Set the first subject
+                    subject = user.subjects?.first
+                    self.topSubjectLabel.text = subject
+                    self.topSubjectLabel.isHidden = subject?.isEmpty ?? true
+                }
+            } else {
+                topSubjectLabel.isHidden = subject?.isEmpty ?? true
+                topSubjectLabel.text = subject
+            }
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             addressView.isHidden = false
             addressLabel.text = user.region
@@ -340,7 +353,7 @@ class QTProfileViewController: UIViewController {
             } else {
                 bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen."
             }
-            navigationItem.title = "My Profile"
+            navigationItem.title = user.username
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_pencil"),
                                                                 style: .plain,
                                                                 target: self,
@@ -359,7 +372,7 @@ class QTProfileViewController: UIViewController {
             } else {
                 bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen."
             }
-            navigationItem.title = "My Profile"
+            navigationItem.title = user.formattedName
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_pencil"),
                                                                 style: .plain,
                                                                 target: self,
