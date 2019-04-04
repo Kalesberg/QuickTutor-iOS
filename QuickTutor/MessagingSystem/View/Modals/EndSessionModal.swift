@@ -15,7 +15,11 @@ protocol EndSessionModalDelegate {
 class EndSessionModal: BaseCustomModal {
     let endSessionButton: DimmableButton = {
         let button = DimmableButton()
-        button.setTitle("End Session", for: .normal)
+        if AccountService.shared.currentUserType == .tutor {
+            button.setTitle("End Session?", for: .normal)
+        } else {
+            button.setTitle("End Session", for: .normal)
+        }
         button.backgroundColor = Colors.qtRed
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 4
@@ -39,7 +43,7 @@ class EndSessionModal: BaseCustomModal {
         if AccountService.shared.currentUserType == .tutor {
             label.text = "Please make sure that your learner is ready to end the session."
         } else {
-            label.text = "Are you sure you want to end this session?"
+            label.text = "Are you sure you’d like to end the session early?"
         }
         
         

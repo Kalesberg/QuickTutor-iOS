@@ -27,6 +27,8 @@
                 <outlet property="bottomSheetView" destination="Ifk-ck-soO" id="Haa-Iq-8T1"/>
                 <outlet property="durationCountLabel" destination="rrr-9c-QVe" id="tPt-hO-LzE"/>
                 <outlet property="durationLabel" destination="4vL-6c-tml" id="Efs-2i-Yf4"/>
+                <outlet property="endSessionMessageLabel" destination="IgD-4O-ofX" id="E3q-eV-8qm"/>
+                <outlet property="endSessionTitleLabel" destination="0aw-aq-nx5" id="8MK-ld-bQU"/>
                 <outlet property="finishButton" destination="UtA-Ej-nSt" id="04y-4D-Wi9"/>
                 <outlet property="finishView" destination="zza-aq-Jrv" id="ku8-2w-ov2"/>
                 <outlet property="pauseButton" destination="wEs-c8-u6x" id="3qW-h1-VWZ"/>
@@ -152,7 +154,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please make sure that your learner is ready to end the session earlt" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IgD-4O-ofX">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please make sure that your learner is ready to end the session early" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IgD-4O-ofX">
                                     <rect key="frame" x="50" y="63.5" width="275" height="34"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="275" id="bVN-Ag-JBh"/>
