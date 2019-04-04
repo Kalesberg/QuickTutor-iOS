@@ -20,6 +20,8 @@ class QTInPersonSessionViewController: UIViewController {
     @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var timerView: UIView!
     @IBOutlet weak var finishView: UIView!
+    @IBOutlet weak var endSessionTitleLabel: UILabel!
+    @IBOutlet weak var endSessionMessageLabel: UILabel!
     @IBOutlet weak var durationCountLabel: UILabel!
     @IBOutlet weak var finishButton: UIButton!
     @IBOutlet weak var bottomSheetView: UIView!
@@ -190,6 +192,14 @@ class QTInPersonSessionViewController: UIViewController {
         finishButton.layer.cornerRadius = 3
         finishButton.clipsToBounds = true
         finishButton.setupTargets()
+        
+        if AccountService.shared.currentUserType == .tutor {
+            endSessionTitleLabel.text = "End the session?"
+            endSessionMessageLabel.text = "Please make sure that your learner is ready to end the session."
+        } else {
+            endSessionTitleLabel.text = "End the session"
+            endSessionMessageLabel.text = "Are you sure you’d like to end the session early?"
+        }
         
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in
