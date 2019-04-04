@@ -14,6 +14,7 @@ class BecomeTutorVCView: TutorPolicyVCView {
         super.setupViews()
         updateContentLabel()
         independentTutorButton.removeFromSuperview()
+        bottomView.layer.shadowOpacity = 0
         line.removeFromSuperview()
         checkBox.removeFromSuperview()
         checkBoxLabel.removeFromSuperview()
