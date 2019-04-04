@@ -168,4 +168,16 @@ extension NSMutableAttributedString {
 
         return self
     }
+    
+    @discardableResult func underline(_ text: String, _ size: CGFloat, _ color: UIColor, _ spacing: CGFloat=0, id: String="") -> NSMutableAttributedString {
+        let attrs: [NSAttributedString.Key : Any] = [.font: UIFont(name: "Lato-Regular", size: size)!, .foregroundColor: color, .underlineStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key(rawValue: "id") : id]
+        let string = NSMutableAttributedString(string: text, attributes: attrs)
+        append(string)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = spacing
+        string.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, string.length))
+        
+        return self
+    }
 }

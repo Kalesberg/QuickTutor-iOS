@@ -177,6 +177,9 @@ class SignInVC: UIViewController {
 	func setupTargets() {
 		contentView.facebookButton.addTarget(self, action: #selector(handleFacebookSignIn), for: .touchUpInside)
 		accessoryView.nextButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+		let tap = UITapGestureRecognizer(target: self, action: #selector(textViewTapped(_:)))
+		tap.numberOfTapsRequired = 1
+		contentView.infoTextView.addGestureRecognizer(tap)
 	}
 	
 	@objc func handleFacebookSignIn() {
@@ -293,6 +296,51 @@ class SignInVC: UIViewController {
 			}
 		}
 		dismissOverlay()
+	}
+	
+	@objc func textViewTapped(_ recognizer: UITapGestureRecognizer) {
+		guard let textView = recognizer.view as? UITextView else {
+			return
+		}
+		var location: CGPoint = recognizer.location(in: textView)
+		location.x -= textView.textContainerInset.left
+		location.y -= textView.textContainerInset.top
+		
+		let charIndex = textView.layoutManager.characterIndex(for: location, in: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+		
+		guard charIndex < textView.textStorage.length else {
+			return
+		}
+		
+		var range = NSRange(location: 0, length: 0)
+		
+		if let id = textView.attributedText.attribute(NSAttributedString.Key.init(rawValue: "id"), at: charIndex, effectiveRange: &range) as? String {
+			let vc = WebViewVC()
+			
+			switch id {
+			case "terms-of-service":
+				vc.navigationItem.title = "Terms of Service"
+				vc.url = "https://www.quicktutor.com/legal/terms-of-service"
+				vc.loadAgreementPdf()
+				navigationController?.pushViewController(vc, animated: true)
+			case "privacy-policy":
+				vc.navigationItem.title = "Privacy Policy"
+				vc.url = "https://quicktutor.com/legal/privacy-policy"
+				vc.loadAgreementPdf()
+				navigationController?.pushViewController(vc, animated: true)
+			case "payment-terms-of-service":
+				vc.navigationItem.title = "Payment Terms of Service"
+				vc.url = "https://quicktutor.com/legal/tutor-payment-policy"
+				vc.loadAgreementPdf()
+				navigationController?.pushViewController(vc, animated: true)
+			case "nondiscrimintation-policy":
+				vc.navigationItem.title = "Non-Discrimination Policy"
+				vc.url = "https://www.quicktutor.com/community/support"
+				vc.loadAgreementPdf()
+				navigationController?.pushViewController(vc, animated: true)
+			default: break
+			}
+		}
 	}
 	
 }

@@ -51,13 +51,22 @@ class SignInVCView: UIView {
         return button
     }()
     
-    let infoLabel : UILabel = {
-        let label = UILabel()
-        label.text = "By tapping continue or entering a mobile phone number, I agree to QuickTutor's Service Terms of Use, Privacy Policy, Payments Terms of Service, and Nondiscrimination Policy."
-        label.numberOfLines = 0
-        label.textColor = .white
-        label.font = Fonts.createSize(12)
-        return label
+    let infoTextView: UITextView = {
+        let textView = UITextView()
+        textView.textColor = .white
+        textView.isEditable = false
+        textView.backgroundColor = Colors.darkBackground
+        textView.isUserInteractionEnabled = true
+        textView.font = Fonts.createSize(12)
+        textView.isScrollEnabled = false
+        textView.attributedText = NSMutableAttributedString()
+            .regular("By tapping continue or entering a mobile phone number, I agree to QuickTutor's ", 12, .white)
+            .underline("Service Terms of Use",12, .white, id: "terms-of-service").regular(", ", 12, .white)
+            .underline("Privacy Policy",12, .white, id: "privacy-policy").regular(", ", 12, .white)
+            .underline("Payments Terms of Service",12, .white, id: "payment-terms-of-service").regular(", ", 12, .white)
+            .regular(" and ",12, .white).regular(" ", 12, .white)
+            .underline("Nondiscrimination Policy ", 12, .white, id: "nondiscrimintation-policy").regular(" ", 12, .white)
+        return textView
     }()
     
     let patentLabel: UILabel = {
@@ -76,7 +85,7 @@ class SignInVCView: UIView {
         setupOrLabel()
         setupFacebookButton()
         setupPatentLabel()
-        setupInfoLabel()
+        setupInfoTextView()
     }
     
     func setupMainView() {
@@ -113,9 +122,9 @@ class SignInVCView: UIView {
         patentLabel.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 0, height: 15)
     }
     
-    func setupInfoLabel() {
-        addSubview(infoLabel)
-        infoLabel.anchor(top: nil, left: leftAnchor, bottom: patentLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 0, height: 50)
+    func setupInfoTextView() {
+        addSubview(infoTextView)
+        infoTextView.anchor(top: nil, left: leftAnchor, bottom: patentLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 17, paddingBottom: 15, paddingRight: 16, width: 0, height: 60)
     }
     
     override init(frame: CGRect) {
