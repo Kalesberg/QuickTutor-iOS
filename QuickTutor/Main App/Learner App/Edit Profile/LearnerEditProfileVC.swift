@@ -626,12 +626,21 @@ extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationCon
 
 extension LearnerEditProfileVC: CropViewControllerDelegate {
     
+    func getImageViewCells() -> [EditProfileImageCell] {
+        var imageViewCells = [EditProfileImageCell]()
+        let imagesContainerCell = contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileImagesCell
+        let imageCell1 = imagesContainerCell.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! EditProfileImageCell
+        imageViewCells.append(imageCell1)
+        let imageCell2 = imagesContainerCell.collectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as! EditProfileImageCell
+        imageViewCells.append(imageCell2)
+        let imageCell3 = imagesContainerCell.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as! EditProfileImageCell
+        imageViewCells.append(imageCell3)
+        return imageViewCells
+    }
+    
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         navigationController?.popViewController(animated: true)
-        let cell = contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileImagesCell
-        let visibleCells = cell.collectionView.visibleCells as? [EditProfileImageCell]
-        var imageViews = [EditProfileImageCell]()
-        visibleCells?.forEach({imageViews.append($0)})
+        var imageViews = getImageViewCells()
         
         guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
             AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
@@ -657,8 +666,10 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
         
         SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index)), fromDisk: false) {
             SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index)), toDisk: false) {
-                imageViews[index].backgrounImageView.image = image
-                imageViews[index].foregroundImageView.image = UIImage(named: "deletePhotoIcon")
+                print("Changin image at index", index)
+                imageViews[index - 1].backgrounImageView.image = image
+                let forgroundImage = index != 1 ? UIImage(named: "deletePhotoIcon") : UIImage(named: "uploadImageIcon")
+                imageViews[index - 1].foregroundImageView.image = forgroundImage
             }
         }
     }
