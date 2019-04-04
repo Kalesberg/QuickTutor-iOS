@@ -52,6 +52,22 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         super.viewDidLoad()
         setupViews()
         fetchConnections()
+        setupSearchController()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isTransitioning = false
+        filteredConnections = connections
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    func setupSearchController() {
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
             searchController.definesPresentationContext = true
@@ -59,17 +75,6 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
             searchController.searchBar.tintColor = .white
             searchController.searchResultsUpdater = self
         }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        isTransitioning = false
-        navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     func fetchConnections() {
@@ -129,7 +134,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     }
     
     func inSearchMode() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
+        return !searchBarIsEmpty()
     }
 }
 
