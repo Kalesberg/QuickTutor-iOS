@@ -11,6 +11,9 @@ import UIKit
 
 class ConnectionsBackgroundView: UIView {
     
+    static let emptyStateText = "This is where your tutor connections will appear. Currently, it looks like you don't have any connections. You can find tutors by searching in your home tab or you can add tutors by username by tapping on the icon located in the top right corner of this screen."
+    
+    
     let backgroundViewIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.scaleImage()
@@ -20,11 +23,11 @@ class ConnectionsBackgroundView: UIView {
 
     let title: UILabel = {
         let label = UILabel()
-        label.text = "Looks like you don't have any connections. You can add tutors by username in the top-right!"
+        label.text = emptyStateText
         label.font = Fonts.createSize(14)
         label.textColor = .white
         label.textAlignment = .center
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.adjustsFontSizeToFitWidth = true
         return label
