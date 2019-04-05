@@ -50,12 +50,14 @@ class LearnerMainPageVC: UIViewController {
     }
     
     func setupStripe() {
-        Stripe.retrieveCustomer(cusID: learner.customer) { customer, error in
-            if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-                self.learner.hasPayment = false
-            } else if let customer = customer {
-                self.learner.hasPayment = (customer.sources.count > 0)
+        if !(learner.customer ?? "").isEmpty {
+            Stripe.retrieveCustomer(cusID: learner.customer) { customer, error in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    self.learner.hasPayment = false
+                } else if let customer = customer {
+                    self.learner.hasPayment = (customer.sources.count > 0)
+                }
             }
         }
     }

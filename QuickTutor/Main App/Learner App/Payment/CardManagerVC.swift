@@ -99,11 +99,13 @@ class CardManagerVC: BaseViewController {
     }
     
     func loadStripe() {
-        Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
-            if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error Retrieving Cards", message: error.localizedDescription)
-            } else if let customer = customer {
-                self.customer = customer
+        if let learner = CurrentUser.shared.learner, !learner.customer.isEmpty {
+            Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error Retrieving Cards", message: error.localizedDescription)
+                } else if let customer = customer {
+                    self.customer = customer
+                }
             }
         }
     }
