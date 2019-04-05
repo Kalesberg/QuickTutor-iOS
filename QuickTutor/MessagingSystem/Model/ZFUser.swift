@@ -18,8 +18,11 @@ class User: Decodable {
     var rating: Double?
 
     var formattedName: String {
-        let name = username.split(separator: " ")
-        let formatted = "\(name[0]) \(String(name[1]).prefix(1))."
+        guard let name = username, !name.isEmpty else {
+            return ""
+        }
+        let splitName = name.split(separator: " ")
+        let formatted = "\(splitName[0]) \(String(splitName[1]).prefix(1))."
         return formatted
     }
 

@@ -305,8 +305,10 @@ class LearnerEditProfileVC: UIViewController {
     
     func setupName() {
         let name = learner.name.split(separator: " ")
-        firstName = String(name[0])
-        lastName = String(name[1])
+        if !name.isEmpty {
+            firstName = String(name[0])
+            lastName = String(name[1])
+        }
     }
     
      func displaySavedAlertController() {
@@ -357,8 +359,8 @@ class LearnerEditProfileVC: UIViewController {
         }
     }
 
-    @objc  func saveChanges() {
-        if firstName.count < 1 || lastName.count < 1 {
+    @objc func saveChanges() {
+        if (firstName ?? "").isEmpty || (lastName ?? "").isEmpty {
             AlertController.genericErrorAlert(self, title: "Invalid Name", message: "Your first and last name must contain at least 1 character.")
             return
         }
