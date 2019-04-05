@@ -38,20 +38,22 @@ class TutorPreferencesVC: BaseRegistrationController {
     }
     
     func loadPrefences() {
-        guard let uid = Auth.auth().currentUser?.uid, !inRegistrationMode else { return }
-        FirebaseData.manager.fetchTutorSessionPreferences(uid: uid) { (preferenceData) in
-            guard let preferenceData = preferenceData else { return }
-            let price = preferenceData["price"] as? Int
-            self.contentView.hourSliderView.slider.value = Float(price ?? 25)
-            self.contentView.hourSliderView.amountLabel.text = "$\(price!)/hr"
-            let distance = preferenceData["distance"] as? Int
-            self.contentView.distanceSliderView.slider.value = Float(distance ?? 10)
-            self.contentView.distanceSliderView.amountLabel.text = "\(distance!) miles"
-            let preference = preferenceData["preference"] as? Int ?? 3
-            self.contentView.collectionView.selectItem(at: IndexPath(item: preference, section: 0), animated: false, scrollPosition: .top)
+        if let uid = Auth.auth().currentUser?.uid, !inRegistrationMode {
+            FirebaseData.manager.fetchTutorSessionPreferences(uid: uid) { (preferenceData) in
+                guard let preferenceData = preferenceData else { return }
+                let price = preferenceData["price"] as? Int
+                self.contentView.hourSliderView.slider.value = Float(price ?? 25)
+                self.contentView.hourSliderView.amountLabel.text = "$\(price!)/hr"
+                let distance = preferenceData["distance"] as? Int
+                self.contentView.distanceSliderView.slider.value = Float(distance ?? 10)
+                self.contentView.distanceSliderView.amountLabel.text = "\(distance!) miles"
+                let preference = preferenceData["preference"] as? Int ?? 3
+                self.contentView.collectionView.selectItem(at: IndexPath(item: preference, section: 0), animated: false, scrollPosition: .top)
+            }
         }
+        
         if inRegistrationMode {
-             self.contentView.collectionView.selectItem(at: IndexPath(item: 3, section: 0), animated: false, scrollPosition: .top)
+            self.contentView.collectionView.selectItem(at: IndexPath(item: 2, section: 0), animated: false, scrollPosition: .top)
         }
     }
     
@@ -59,7 +61,11 @@ class TutorPreferencesVC: BaseRegistrationController {
         if inRegistrationMode {
             TutorRegistration.price = Int(contentView.hourSliderView.slider.value)
             TutorRegistration.distance = Int(contentView.distanceSliderView.slider.value)
-            guard let index = contentView.collectionView.indexPathsForSelectedItems?[0].item else {
+            
+            guard let indexPath = contentView.collectionView.indexPathsForSelectedItems, !indexPath.isEmpty else {
+                return
+            }
+            guard let index = indexPath.first?.item else {
                 TutorRegistration.sessionPreference = 0
                 return
             }
@@ -70,6 +76,7 @@ class TutorPreferencesVC: BaseRegistrationController {
             } else {
                 TutorRegistration.sessionPreference = 3
             }
+            
             let next = TutorBioVC()
             navigationController?.pushViewController(next, animated: true)
         } else {
