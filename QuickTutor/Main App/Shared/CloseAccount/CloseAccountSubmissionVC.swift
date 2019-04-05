@@ -245,7 +245,11 @@ class CloseAccountSubmissionVC: BaseViewController {
     }
 
     private func getUserCredentialsAlert() {
-        let phoneNumber = CurrentUser.shared.learner.phone.cleanPhoneNumber()
+        guard let phone = CurrentUser.shared.learner.phone, !phone.isEmpty else {
+            removeUser()
+            return
+        }
+        let phoneNumber = phone.cleanPhoneNumber()
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationId, error in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -268,27 +272,32 @@ class CloseAccountSubmissionVC: BaseViewController {
                 guard let verificationCode = view.verificationTextField.text, !verificationCode.contains("—") else { return }
                 view.verifyAction.isUserInteractionEnabled = false
 
-                reauthenticateUser(code: verificationCode) { error in
+                reauthenticateUser(code: verificationCode) {[weak self] error in
                     if let error = error {
                         view.errorLabel.isHidden = false
                         view.errorLabel.text = error.localizedDescription
                         view.verifyAction.isUserInteractionEnabled = true
                     } else {
                         view.errorLabel.isHidden = true
-                        if CurrentUser.shared.learner.isTutor == false {
-                            self.removeLearner()
-                        } else {
-                            if DeleteAccount.type {
-                                self.removeTutorAccount()
-                            } else {
-                                self.removeBothAccounts()
-                            }
-                        }
+                        self?.removeUser()
                         view.verifyAction.isUserInteractionEnabled = true
-                        self.dismissPhoneAuthenticationAlert()
+                        self?.dismissPhoneAuthenticationAlert()
                     }
                 }
             }
         }
+    }
+    
+    private func removeUser() {
+        if CurrentUser.shared.learner.isTutor == false {
+            self.removeLearner()
+        } else {
+            if DeleteAccount.type {
+                self.removeTutorAccount()
+            } else {
+                self.removeBothAccounts()
+            }
+        }
+        
     }
 }
