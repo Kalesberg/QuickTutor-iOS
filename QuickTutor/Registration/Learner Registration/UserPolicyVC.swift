@@ -127,30 +127,40 @@ class UserPolicyVC: BaseRegistrationController {
         }
     }
     
+    func genericError(title: String = "Error", message: String?) {
+        AlertController.genericErrorAlert(self, title: title, message: message)
+    }
+    
     @objc func accepted() {
         displayLoadingOverlay()
         
-        submitBackgroundTasks { error in
+        submitBackgroundTasks {[weak self] error in
             if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                self?.genericError(message: error.localizedDescription)
             } else {
                 let account: [String: Any] =
-                    ["phn": Registration.phone!, "age": Registration.age, "em": Registration.email, "bd": Registration.dob, "logged": "", "init": (Date().timeIntervalSince1970)]
+                    ["phn": Registration.phone ?? "", "age": Registration.age, "em": Registration.email, "bd": Registration.dob, "logged": "", "init": (Date().timeIntervalSince1970)]
                 
                 let studentInfo: [String: Any] =
                     ["nm": Registration.name, "r": 5.0, "cus": Registration.customerId,
                      "img": ["image1": Registration.studentImageURL, "image2": "", "image3": "", "image4": ""]]
                 
-                let newUser: [String: Any] = ["/account/\(Registration.uid!)/": account, "/student-info/\(Registration.uid!)/": studentInfo]
+                guard let registrationId = Registration.uid else {
+                    self?.genericError(message: "Invalid registration id")
+                    self?.dismissOverlay()
+                    return
+                }
+                
+                let newUser: [String: Any] = ["/account/\(registrationId)/": account, "/student-info/\(registrationId)/": studentInfo]
                 
                 Database.database().reference().root.updateChildValues(newUser) { error, _ in
                     if let error = error {
-                        AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-                        self.dismissOverlay()
+                        self?.genericError(message: error.localizedDescription)
+                        self?.dismissOverlay()
                     } else {
                         Registration.setRegistrationDefaults()
                         AccountService.shared.currentUserType = .learner
-                        self.navigationController?.pushViewController(TheChoiceVC(), animated: true)
+                        self?.navigationController?.pushViewController(TheChoiceVC(), animated: true)
                     }
                 }
             }
