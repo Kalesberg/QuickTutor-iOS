@@ -24,7 +24,7 @@ class EditPreferencesVC: TutorPreferencesVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "Manage Preferences"
+        navigationItem.title = "Hourly Rate & Preferences"
         contentView.accessoryView.removeFromSuperview()
         progressView.removeFromSuperview()
         contentView.hourSliderView.slider.value = Float(CurrentUser.shared.tutor.price!)
@@ -138,7 +138,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                 cell.textField.textField.attributedText = NSAttributedString(string: "Manage Policies", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             case 3:
                 cell.textField.placeholder.text = "Preferences"
-                cell.textField.textField.attributedText = NSAttributedString(string: "Manage Preferences", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.textField.attributedText = NSAttributedString(string: "Hourly Rate & Preferences", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             default:
                 break
             }
