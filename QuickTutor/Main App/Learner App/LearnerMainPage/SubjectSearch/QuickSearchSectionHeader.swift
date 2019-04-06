@@ -14,7 +14,7 @@ class QuickSearchSectionHeader: UICollectionReusableView {
         iv.layer.cornerRadius = 17.5
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFit
-        iv.backgroundColor = .red
+        iv.backgroundColor = .clear
         return iv
     }()
     
