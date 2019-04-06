@@ -82,6 +82,10 @@ class SearchTutorVC: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = "Searching for a tutor"
         contentView.layoutIfNeeded()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         contentView.scrollView.setContentSize()
     }
 

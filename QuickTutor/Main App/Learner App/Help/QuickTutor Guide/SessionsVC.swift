@@ -93,6 +93,10 @@ class SessionsVC: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = "Sessions"
         contentView.layoutIfNeeded()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         contentView.scrollView.setContentSize()
     }
 

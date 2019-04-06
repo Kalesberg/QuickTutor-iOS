@@ -55,6 +55,10 @@ class Connections: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = "Connections"
         contentView.layoutIfNeeded()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         contentView.scrollView.setContentSize()
     }
 

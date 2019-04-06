@@ -143,6 +143,10 @@ class LearnerHandookVC: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = "Learner Handbook"
         contentView.layoutIfNeeded()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         contentView.scrollView.setContentSize()
     }
 

@@ -64,6 +64,10 @@ class PaymentOptionsVC: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = "Help"
         contentView.layoutIfNeeded()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         contentView.scrollView.setContentSize()
     }
 
