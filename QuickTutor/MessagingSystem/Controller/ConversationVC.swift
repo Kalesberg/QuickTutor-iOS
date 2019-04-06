@@ -376,7 +376,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         UIView.setAnimationsEnabled(false)
         
         messagesCollection.performBatchUpdates({
-            typingIndicatorManager?.hideTypingIndicator()
+            typingIndicatorManager?.hideTypingIndicator(force: true)
             conversationManager.messages.append(message)
             let insertionIndexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
             messagesCollection.insertItems(at: [insertionIndexPath])
@@ -474,10 +474,13 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
         if notification.name == UIResponder.keyboardWillHideNotification {
+            messagesCollection.keyboardBottomAdjustment = 0
             messagesCollection.contentInset = UIEdgeInsets.zero
         } else {
             let heightAdjustment: CGFloat = UIScreen.main.bounds.height > 700 ? 86 : 52
-            messagesCollection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - heightAdjustment, right: 0)
+            let bottom = keyboardViewEndFrame.height - heightAdjustment
+            messagesCollection.keyboardBottomAdjustment = bottom
+            messagesCollection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
         }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
         messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)

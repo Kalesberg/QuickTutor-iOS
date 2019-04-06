@@ -14,6 +14,8 @@ class ConversationCollectionView: UICollectionView {
     var chatPartner: User!
     var typingTopAnchor: NSLayoutConstraint?
     var typingHeightAnchor: NSLayoutConstraint?
+    var keyboardBottomAdjustment: CGFloat?
+    var isTypingIndicatorVisible: Bool = false
     
     let typingIndicatorView: TypingIndicatorView = {
         let view = TypingIndicatorView()
@@ -35,6 +37,7 @@ class ConversationCollectionView: UICollectionView {
         contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         showsVerticalScrollIndicator = false
+        keyboardBottomAdjustment = 0
         register(UserMessageCell.self, forCellWithReuseIdentifier: "textMessage")
         register(SystemMessageCell.self, forCellWithReuseIdentifier: "systemMessage")
         register(SessionRequestCell.self, forCellWithReuseIdentifier: "sessionMessage")
@@ -67,21 +70,24 @@ class ConversationCollectionView: UICollectionView {
         
         // Check the content size is greater than the bounds or use the bounds as the position for the y
         let y = contentSize.height > bounds.height ? contentSize.height : bounds.height - 80
-        print(y)
         typingTopAnchor?.constant = y
         
         self.layoutIfNeeded()
-        self.contentInset = UIEdgeInsets(top: self.contentInset.top, left: 0, bottom: self.typingIndicatorView.bounds.height, right: 0)
-        
+        self.contentInset = UIEdgeInsets(top: self.contentInset.top, left: 0,
+                                         bottom: self.typingIndicatorView.bounds.height + (keyboardBottomAdjustment ?? 0), right: 0)
         
         // Only scroll the view if the user is already at the bottom
-        if bottom >= contentSize.height && contentSize.height > bounds.height {
+        if Int(bottom) >= Int(contentSize.height) && Int(contentSize.height) > Int(bounds.height) {
             scrollToBottom(animated: true)
         }
-        
     }
     
     func showTypingIndicator() {
+        if (isTypingIndicatorVisible) {
+            return
+        }
+        
+        isTypingIndicatorVisible = true
         if let profilePicUrl = chatPartner?.profilePicUrl {
             typingIndicatorView.profileImageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         }
@@ -92,6 +98,7 @@ class ConversationCollectionView: UICollectionView {
     func hideTypingIndicator() {
         typingHeightAnchor?.constant = 0
         layoutTypingLabelIfNeeded()
+        isTypingIndicatorVisible = false
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -19,41 +19,51 @@ class TypingIndicatorManager {
     var chatPartner: User!
     var typingTimer: Timer!
     var shouldEmitTypingEvent = true
+    var emitDelay: Double = 5.0
+    var startedTypingTime: CFTimeInterval?
     weak var typingDismissalTimer: Timer?
     
     func connect() {
         socket = manager.defaultSocket
         socket.connect()
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        socket.on(clientEvent: .connect) { _, _ in
-            let joinData = ["roomKey": self.roomKey, "uid": uid]
-            self.socket.emit("joinRoom", joinData)
+        socket.on(clientEvent: .connect) {[weak self] _, _ in
+            let joinData = ["roomKey": self?.roomKey, "uid": uid]
+            self?.socket.emit("joinRoom", joinData)
         }
         
-        socket.on("startedTyping") { (data, ack) in
+        socket.on("startedTyping") {[weak self] (data, ack) in
             guard let dict = data[0] as? [String: Any], let typingUserId = dict["typingUserId"] as? String else { return }
             guard let uid = Auth.auth().currentUser?.uid, typingUserId != uid else { return }
-            self.showTypingIndicator()
+            self?.showTypingIndicator()
         }
         
-        socket.on("stoppedTyping") { (data, ack) in
+        socket.on("stoppedTyping") {[weak self] (data, ack) in
             guard let dict = data[0] as? [String: Any], let typingUserId = dict["typingUserId"] as? String else { return }
             guard let uid = Auth.auth().currentUser?.uid, typingUserId != uid else { return }
-            self.collectionView.typingHeightAnchor?.constant = 0
-            self.collectionView.layoutTypingLabelIfNeeded()
+            self?.hideTypingIndicator()
         }
     }
     
     func disconnect() {
+        emitStopTyping()
+        typingTimer.invalidate()
         socket.disconnect()
     }
     
     func showTypingIndicator() {
+        startedTypingTime = CFAbsoluteTimeGetCurrent()
         collectionView.showTypingIndicator()
     }
     
-    func hideTypingIndicator() {
-        collectionView.hideTypingIndicator()
+    func hideTypingIndicator(force: Bool = false) {
+        let currentTime = CFAbsoluteTimeGetCurrent()
+        let lastTime = startedTypingTime ?? 0
+        
+        if (force || currentTime - lastTime > emitDelay) {
+            collectionView.hideTypingIndicator()
+            startedTypingTime = 0
+        }
     }
     
     func startTypingIndicatorDismissalTimer() {
@@ -72,8 +82,8 @@ class TypingIndicatorManager {
     }
     
     func setupTypingTimer() {
-        typingTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { (timer) in
-            self.shouldEmitTypingEvent = true
+        typingTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: {[weak self] (timer) in
+            self?.shouldEmitTypingEvent = true
         })
         typingTimer.fire()
     }
