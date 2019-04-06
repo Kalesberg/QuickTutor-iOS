@@ -25,6 +25,10 @@ class QTInPersonSessionViewController: UIViewController {
     @IBOutlet weak var durationCountLabel: UILabel!
     @IBOutlet weak var finishButton: UIButton!
     @IBOutlet weak var bottomSheetView: UIView!
+    @IBOutlet weak var pauseView: UIView!
+    @IBOutlet weak var pauseLabel: UILabel!
+    @IBOutlet weak var inProgressLabel: UILabel!
+    @IBOutlet weak var pauseBlurView: UIVisualEffectView!
     
     static var controller: QTInPersonSessionViewController {
         return QTInPersonSessionViewController(nibName: String(describing: QTInPersonSessionViewController.self), bundle: nil)
@@ -40,7 +44,6 @@ class QTInPersonSessionViewController: UIViewController {
     var socket: SocketIOClient!
     var sessionManager: SessionManager?
     
-    var pauseSessionModal: PauseSessionModal?
     var connectionLostModal: PauseSessionModal?
     var sessionOnHoldModal: SessionOnHoldModal?
     var addTimeModal: AddTimeModal?
@@ -108,7 +111,14 @@ class QTInPersonSessionViewController: UIViewController {
     // MARK: - Actions
     @IBAction func onPauseButtonClicked(_ sender: Any) {
         guard let manager = sessionManager else { return }
-        manager.pauseSession()
+        
+        if manager.isPaused {
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            guard manager.pausedBy == uid else { return }
+            manager.unpauseSession()
+        } else {
+            manager.pauseSession()
+        }
     }
     
     @IBAction func onFinishButtonClicked(_ sender: Any) {
@@ -129,20 +139,6 @@ class QTInPersonSessionViewController: UIViewController {
     
     @IBAction func onEndSessionButtonClicked(_ sender: Any) {
         sessionManager?.endSocketSession()
-    }
-    
-    @objc
-    func handleBackgrounded() {
-        guard let manager = sessionManager, !manager.isPaused else { return }
-        sessionManager?.isPausedBySystem = true
-        sessionManager?.pauseSession()
-    }
-    
-    @objc
-    func handleForegrounded() {
-        guard let manager = sessionManager, manager.isPausedBySystem else { return }
-        sessionManager?.isPausedBySystem = false
-        sessionManager?.unpauseSession()
     }
     
     @objc
@@ -231,8 +227,6 @@ class QTInPersonSessionViewController: UIViewController {
     }
     
     func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleBackgrounded), name: Notifications.didEnterBackground.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleForegrounded), name: Notifications.didEnterForeground.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateDuration(notification:)), name: NSNotification.Name("com.qt.updateTime"), object: nil)
     }
     
@@ -285,22 +279,24 @@ class QTInPersonSessionViewController: UIViewController {
     }
     
     func showPauseModal(pausedById: String) {
-        guard pauseSessionModal == nil else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        pauseSessionModal?.delegate = self
         DataService.shared.getUserOfOppositeTypeWithId(sessionManager?.session.partnerId() ?? "test") { user in
             guard let username = user?.formattedName else { return }
-            self.pauseSessionModal = PauseSessionModal(frame: .zero)
+            // Show the pause blur view
+            self.pauseBlurView.isHidden = false
+            
+            // Configure the pause label and the pause button
             if pausedById == uid {
-                self.pauseSessionModal?.pausedByCurrentUser()
+                self.pauseLabel.text = "Paused"
+                self.pauseButton.setImage(UIImage(named: "ic_play"), for: .normal)
+                self.pauseButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 14, bottom: 12, right: 10)
+            } else {
+                self.pauseLabel.text = "\(username) paused"
+                self.pauseButton.isHidden = true
             }
-            self.pauseSessionModal?.partnerUsername = username
-            self.pauseSessionModal?.delegate = self
-            self.pauseSessionModal?.pausedById = pausedById
-            self.pauseSessionModal?.show()
-            if let type = self.sessionManager?.session.type {
-                self.pauseSessionModal?.setupEndSessionButtons(type: type)
-            }
+            
+            // Hide the in progress label
+            self.inProgressLabel.isHidden = true
         }
     }
     
@@ -338,12 +334,24 @@ class QTInPersonSessionViewController: UIViewController {
         acceptAddTimeModal?.show()
     }
     
+    func hidePauseModal() {
+        // Hide the pause blur view
+        self.pauseBlurView.isHidden = true
+        
+        // Reset the pause button
+        self.pauseButton.isHidden = false
+        self.pauseButton.setImage(UIImage(named: "ic_pause"), for: .normal)
+        self.pauseButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        // Show the in progress label
+        inProgressLabel.isHidden = false
+    }
+    
     func dismissAllModals() {
         addTimeModal?.dismiss()
         sessionOnHoldModal?.dismiss()
         acceptAddTimeModal?.dismiss()
-        pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()
+        hidePauseModal()
     }
 }
 
@@ -356,8 +364,9 @@ extension QTInPersonSessionViewController: SessionManagerDelegate {
     
     func sessionManager(_ sessionManager: SessionManager, didUnpause session: Session) {
         sessionManager.startSessionRuntime()
-        pauseSessionModal?.dismiss()
-        pauseSessionModal = nil
+        
+        // Reset pause button
+        hidePauseModal()
     }
     
     func sessionManager(_ sessionManager: SessionManager, didEnd session: Session) {
@@ -371,7 +380,7 @@ extension QTInPersonSessionViewController: SessionManagerDelegate {
     }
     
     func sessionManagerShouldShowEndSessionModal(_ sessionManager: SessionManager) {
-        pauseSessionModal?.dismiss()
+        hidePauseModal()
         self.onFinishButtonClicked(self.finishButton)
     }
     
@@ -384,7 +393,9 @@ extension QTInPersonSessionViewController: SessionManagerDelegate {
     
     func sessionManager(_ sessionManager: SessionManager, userConnectedWith uid: String) {
         sessionManager.startSessionRuntime()
-        pauseSessionModal?.dismiss()
+        
+        hidePauseModal()
+        
         guard let myUid = Auth.auth().currentUser?.uid else { return }
         if uid != myUid {
             connectionLostModal?.dismiss()

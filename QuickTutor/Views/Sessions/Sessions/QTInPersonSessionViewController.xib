@@ -16,6 +16,9 @@
         <array key="Lato-Bold.ttf">
             <string>Lato-Bold</string>
         </array>
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
         <array key="Lato-Semibold.ttf">
             <string>Lato-Semibold</string>
         </array>
@@ -31,7 +34,11 @@
                 <outlet property="endSessionTitleLabel" destination="0aw-aq-nx5" id="8MK-ld-bQU"/>
                 <outlet property="finishButton" destination="UtA-Ej-nSt" id="04y-4D-Wi9"/>
                 <outlet property="finishView" destination="zza-aq-Jrv" id="ku8-2w-ov2"/>
+                <outlet property="inProgressLabel" destination="9yu-mM-ezv" id="s3W-MK-R7i"/>
+                <outlet property="pauseBlurView" destination="H36-UU-aTh" id="Ox7-1I-3Tp"/>
                 <outlet property="pauseButton" destination="wEs-c8-u6x" id="3qW-h1-VWZ"/>
+                <outlet property="pauseLabel" destination="shN-in-dcF" id="QSd-73-bja"/>
+                <outlet property="pauseView" destination="2BV-mU-Y2v" id="6Hh-k2-Lxt"/>
                 <outlet property="smallAvatarImageView" destination="NmH-Dv-vZY" id="g4O-BW-SID"/>
                 <outlet property="timerView" destination="9mZ-Uu-uqd" id="5ec-me-66U"/>
                 <outlet property="usernameLabel" destination="Tvk-6T-sCq" id="h4K-JA-QU6"/>
@@ -47,9 +54,29 @@
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ynn-Xf-uUf" userLabel="maskView">
-                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
+                <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H36-UU-aTh">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="2BV-mU-Y2v">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Paused" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shN-in-dcF">
+                                <rect key="frame" x="159" y="322.5" width="57" height="22"/>
+                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="shN-in-dcF" firstAttribute="centerX" secondItem="2BV-mU-Y2v" secondAttribute="centerX" id="pof-99-Sls"/>
+                            <constraint firstItem="shN-in-dcF" firstAttribute="centerY" secondItem="2BV-mU-Y2v" secondAttribute="centerY" id="xBo-rl-Fgt"/>
+                        </constraints>
+                    </view>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ifk-ck-soO">
                     <rect key="frame" x="0.0" y="431" width="375" height="236"/>
                     <subviews>
@@ -274,22 +301,26 @@
             </subviews>
             <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Ynn-Xf-uUf" firstAttribute="height" secondItem="fnl-2z-Ty3" secondAttribute="height" id="5nY-dT-yLR"/>
                 <constraint firstItem="3mO-MW-nD3" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="6yn-Xn-m9b"/>
                 <constraint firstItem="9yu-mM-ezv" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="AJg-Xs-Ysq"/>
                 <constraint firstItem="4vL-6c-tml" firstAttribute="top" secondItem="Tvk-6T-sCq" secondAttribute="bottom" constant="5" id="BVL-eB-7mU"/>
-                <constraint firstItem="Ynn-Xf-uUf" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="ExU-Ao-4tU"/>
                 <constraint firstItem="3mO-MW-nD3" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" id="HpS-ku-W9n"/>
-                <constraint firstItem="Ynn-Xf-uUf" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" id="Ivo-Gx-Sa4"/>
                 <constraint firstItem="Ifk-ck-soO" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="LrG-cx-GEf"/>
                 <constraint firstItem="Tvk-6T-sCq" firstAttribute="leading" secondItem="NmH-Dv-vZY" secondAttribute="trailing" constant="10" id="MHR-b3-1zk"/>
                 <constraint firstItem="Ifk-ck-soO" firstAttribute="top" secondItem="9yu-mM-ezv" secondAttribute="bottom" id="NFg-u2-g5W"/>
+                <constraint firstItem="Ynn-Xf-uUf" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="NhF-MP-38m"/>
+                <constraint firstItem="H36-UU-aTh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="RNZ-fN-haK"/>
+                <constraint firstItem="H36-UU-aTh" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="VdB-pI-Mom"/>
                 <constraint firstItem="Ifk-ck-soO" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" id="WQl-eg-MCT"/>
+                <constraint firstItem="H36-UU-aTh" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="XEU-R8-dcI"/>
+                <constraint firstItem="H36-UU-aTh" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="XNs-fI-LOG"/>
                 <constraint firstItem="9yu-mM-ezv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Ybr-Zc-tvs"/>
                 <constraint firstItem="3mO-MW-nD3" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="aNk-va-Qpf"/>
+                <constraint firstItem="Ynn-Xf-uUf" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="chE-hu-jmc"/>
+                <constraint firstItem="Ynn-Xf-uUf" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="kkt-tZ-YcC"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Ifk-ck-soO" secondAttribute="bottom" id="n5b-Gn-cIV"/>
-                <constraint firstItem="Ynn-Xf-uUf" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="pNB-Xs-eNu"/>
                 <constraint firstItem="3mO-MW-nD3" firstAttribute="height" secondItem="fnl-2z-Ty3" secondAttribute="height" id="rzv-Jm-2p5"/>
+                <constraint firstItem="Ynn-Xf-uUf" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="sbh-Md-B0Q"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="132" y="138.98050974512745"/>
