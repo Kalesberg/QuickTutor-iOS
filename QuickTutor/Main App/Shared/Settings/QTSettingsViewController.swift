@@ -156,7 +156,7 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     }
     
     @IBAction func handleDidFacebookViewTap(_ sender: Any) {
-        SocialMedia.rateApp(appUrl: "fb://profile/1346980958682540", webUrl: "https://www.facebook.com/QuickTutorApp/", completion: { _ in
+        SocialMedia.rateApp(appUrl: "fb://profile/1346980958682540", webUrl: "https://www.facebook.com/QuickTutor/", completion: { _ in
         })
     }
     
