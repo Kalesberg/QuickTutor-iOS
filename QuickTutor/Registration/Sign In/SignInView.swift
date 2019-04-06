@@ -60,7 +60,7 @@ class SignInVCView: UIView {
         textView.font = Fonts.createSize(12)
         textView.isScrollEnabled = false
         textView.attributedText = NSMutableAttributedString()
-            .regular("By tapping continue or entering a mobile phone number, I agree to QuickTutor's ", 12, .white)
+            .regular("By entering your mobile phone number or tapping the “Login via Facebook” button, you are agreeing to QuickTutor’s ", 12, .white)
             .underline("Service Terms of Use",12, .white, id: "terms-of-service").regular(", ", 12, .white)
             .underline("Privacy Policy",12, .white, id: "privacy-policy").regular(", ", 12, .white)
             .underline("Payments Terms of Service",12, .white, id: "payment-terms-of-service").regular(", ", 12, .white)
@@ -124,7 +124,7 @@ class SignInVCView: UIView {
     
     func setupInfoTextView() {
         addSubview(infoTextView)
-        infoTextView.anchor(top: nil, left: leftAnchor, bottom: patentLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 17, paddingBottom: 15, paddingRight: 16, width: 0, height: 60)
+        infoTextView.anchor(top: nil, left: leftAnchor, bottom: patentLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 17, paddingBottom: 15, paddingRight: 16, width: 0, height: 80)
     }
     
     override init(frame: CGRect) {
