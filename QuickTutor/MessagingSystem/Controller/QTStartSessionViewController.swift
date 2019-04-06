@@ -39,7 +39,6 @@ class QTStartSessionViewController: UIViewController {
     var partnerId: String?
     var partner: User?
     var partnerUsername: String?
-    var addPaymentModal = AddPaymentModal()
     var meetupConfirmed = false
     
     var audioPlayer: AVPlayer?
@@ -224,9 +223,9 @@ class QTStartSessionViewController: UIViewController {
             print("Needs card")
             completion(false)
             self.onCancelButtonClicked(self.cancelButton)
-            self.addPaymentModal = AddPaymentModal()
+            let addPaymentModal = AddPaymentModal()
             addPaymentModal.delegate = self
-            self.addPaymentModal.show()
+            addPaymentModal.show()
             return
         }
         
