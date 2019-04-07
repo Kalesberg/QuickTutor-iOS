@@ -283,6 +283,7 @@ extension CardManagerVC: STPAddCardViewControllerDelegate {
 				return completion(StripeError.updateCardError)
 			}
 			self.addCardVC?.dismiss(animated: true, completion: nil)
+            CurrentUser.shared.learner.hasPayment = true
             self.loadStripe()
 			self.navigationController?.popBackToMain()
 		}
