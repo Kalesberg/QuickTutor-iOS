@@ -105,7 +105,11 @@ class BankManager: UIViewController {
     }
     
     func fetchBanks() {
-        Stripe.retrieveBankList(acctId: CurrentUser.shared.tutor.acctId) { error, list in
+        guard let tutor = CurrentUser.shared.tutor, let accountId = tutor.acctId else {
+            return
+        }
+        
+        Stripe.retrieveBankList(acctId: accountId) { error, list in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let list = list {

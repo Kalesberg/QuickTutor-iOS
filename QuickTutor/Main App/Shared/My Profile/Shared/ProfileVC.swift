@@ -41,6 +41,12 @@ class ProfileVC: UIViewController {
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
+        let userType = AccountService.shared.currentUserType
+        if userType == .tRegistration {
+            AccountService.shared.currentUserType = .learner
+        } else if (userType == .lRegistration ) {
+            AccountService.shared.currentUserType = .tutor
+        }
     }
     
     func setupViews() {

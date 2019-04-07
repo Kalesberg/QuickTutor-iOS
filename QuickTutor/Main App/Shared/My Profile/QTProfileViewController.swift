@@ -429,7 +429,7 @@ class QTProfileViewController: UIViewController {
         case .myLearner:
             policiesView.isHidden = true
         }
-        guard let policy = user.policy else { return }
+        guard let user = user, let policy = user.policy else { return }
         let policies = policy.split(separator: "_")
         sessionTypesLabel.text = user.formattedName + " " + user.preference.preferenceNormalization().lowercased()
         travelDistanceLabel.text = user.formattedName + " " + user.distance.distancePreference(user.preference).lowercased()
