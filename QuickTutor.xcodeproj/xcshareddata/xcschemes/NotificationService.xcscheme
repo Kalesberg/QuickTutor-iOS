@@ -43,13 +43,23 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "93EFEF1F225A9156001E0EF5"
+               BuildableName = "QuickTutorTests.xctest"
+               BlueprintName = "QuickTutorTests"
+               ReferencedContainer = "container:QuickTutor.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CF4CAED02172CC2100B23530"
-            BuildableName = "NotificationService.appex"
-            BlueprintName = "NotificationService"
+            BlueprintIdentifier = "8491C2961FBE62350036FC12"
+            BuildableName = "QuickTutor.app"
+            BlueprintName = "QuickTutor"
             ReferencedContainer = "container:QuickTutor.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

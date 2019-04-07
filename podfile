@@ -52,6 +52,9 @@ abstract_target 'QuickTutorApp' do
     
     
     target 'QuickTutor' do
+        target 'QuickTutorTests' do
+            inherit! :search_paths
+        end
     end
     target 'QuickTutorDev' do
     end
