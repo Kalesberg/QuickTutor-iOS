@@ -127,6 +127,7 @@ class DataService {
     }
     
     func sendTextMessage(text: String, receiverId: String, completion: @escaping () -> Void) {
+        if text.isEmpty { return }
         guard let uid = AccountService.shared.currentUser.uid else { return }
         let timestamp = Date().timeIntervalSince1970
         let userTypeString = AccountService.shared.currentUserType.rawValue
