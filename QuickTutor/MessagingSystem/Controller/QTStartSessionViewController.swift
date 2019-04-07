@@ -273,8 +273,14 @@ class QTStartSessionViewController: UIViewController {
     }
     
     func playRingingSound() {
-        guard let uid = Auth.auth().currentUser?.uid, initiatorId == uid else { return }
-        guard let url = Bundle.main.url(forResource: "phone-ring", withExtension: "mp3") else { return }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        let isInitiator = initiatorId == uid
+        let resource = isInitiator ? "phone-ring" : "qtRingtone"
+        let ext = isInitiator ? "mp3" : "aiff"
+        guard let url = Bundle.main.url(forResource: resource, withExtension: ext) else { return }
         
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.moviePlayback, options: AVAudioSession.CategoryOptions.mixWithOthers)
