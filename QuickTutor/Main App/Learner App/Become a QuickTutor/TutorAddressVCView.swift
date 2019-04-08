@@ -29,7 +29,7 @@ class TutorAddressVCView: BaseRegistrationView {
     let stateTextField: RegistrationTextField = {
         let field = RegistrationTextField()
         field.placeholder.text = "State"
-        field.textField.autocapitalizationType = .words
+        field.textField.autocapitalizationType = .allCharacters
         field.textField.returnKeyType = .next
         return field
     }()
