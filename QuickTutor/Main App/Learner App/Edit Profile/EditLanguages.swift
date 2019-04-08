@@ -64,6 +64,7 @@ class EditLanguageVC: UIViewController {
             contentView.tableView.reloadData()
         }
     }
+    var initialLanguages: [String]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +74,7 @@ class EditLanguageVC: UIViewController {
 
         guard let languages = (AccountService.shared.currentUserType == .learner) ? CurrentUser.shared.learner.languages : CurrentUser.shared.tutor.languages else { return }
 
+        initialLanguages = languages
         selectedCells = languages
     }
     
@@ -91,6 +93,21 @@ class EditLanguageVC: UIViewController {
         navigationItem.title = "Languages I Speak"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveLanguages))
         navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
+    }
+    
+    func displayUnSavedChangesAlertController() {
+        let alertController = UIAlertController(title: "Unsaved changes", message: "Would you like to save your changes?", preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { action in
+            self.navigationController?.popViewController(animated: true)
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: { action in
+            self.saveLanguages()
+        }))
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     private func displaySavedAlertController() {
@@ -104,6 +121,18 @@ class EditLanguageVC: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         }
+    }
+    
+    @objc func backAction() {
+        if isContextDirty() {
+            displayUnSavedChangesAlertController()
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func isContextDirty() -> Bool {
+        return initialLanguages != selectedCells
     }
 
     @objc func saveLanguages() {

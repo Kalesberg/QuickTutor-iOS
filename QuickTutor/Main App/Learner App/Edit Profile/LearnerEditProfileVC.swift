@@ -30,6 +30,7 @@ class EditPreferencesVC: TutorPreferencesVC {
         contentView.hourSliderView.slider.value = Float(CurrentUser.shared.tutor.price!)
         contentView.distanceSliderView.slider.value = Float(CurrentUser.shared.tutor.distance!)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(savePreferences))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
     }
     
 }
@@ -281,7 +282,7 @@ class LearnerEditProfileVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isOpaque = false
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -309,6 +310,20 @@ class LearnerEditProfileVC: UIViewController {
             firstName = String(name[0])
             lastName = String(name[1])
         }
+    }
+    
+    func displayUnSavedChangesAlertController() {
+        let alertController = UIAlertController(title: "Unsaved changes", message: "Would you like to save your changes?", preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { action in
+            self.navigationController?.popViewController(animated: true)
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: { action in
+            self.saveChanges()
+        }))
+        
+        present(alertController, animated: true, completion: nil)
     }
     
      func displaySavedAlertController() {
@@ -356,6 +371,52 @@ class LearnerEditProfileVC: UIViewController {
                     self.learner.images = CurrentUser.shared.learner.images
                 }
             })
+        }
+    }
+    
+    func isContextDirty() -> Bool {
+        var sharedUser = CurrentUser.shared.learner
+        if AccountService.shared.currentUserType == .tutor {
+            sharedUser = CurrentUser.shared.tutor
+        }
+        
+        if let user = sharedUser  {
+            let name = user.name.split(separator: " ")
+            if !name.isEmpty {
+                let fName = String(name[0])
+                let lName = String(name[1])
+                
+                if fName != firstName || lName != lastName {
+                    return true
+                }
+            }
+            
+            if let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? EditProfileBioCell {
+                if let newBio = cell.textView.text {
+                    switch AccountService.shared.currentUserType {
+                    case .learner:
+                        if CurrentUser.shared.learner.bio != newBio {
+                            return true
+                        }
+                    case .tutor:
+                        if CurrentUser.shared.tutor.tBio != newBio {
+                            return true
+                        }
+                    default:
+                        break
+                    }
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    @objc func backAction() {
+        if isContextDirty() {
+            displayUnSavedChangesAlertController()
+        } else {
+            self.navigationController?.popViewController(animated: true)
         }
     }
 

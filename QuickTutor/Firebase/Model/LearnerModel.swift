@@ -34,7 +34,7 @@ class AWLearner: User {
 	override var formattedName: String {
 		get {
             guard let name = name, !name.isEmpty else {
-                return "Name Error"
+                return ""
             }
 			let nameSplit = name.split(separator: " ")
 			let formatted = "\(String(nameSplit[0]).capitalized) \(String(nameSplit[1]).capitalized.prefix(1))."
