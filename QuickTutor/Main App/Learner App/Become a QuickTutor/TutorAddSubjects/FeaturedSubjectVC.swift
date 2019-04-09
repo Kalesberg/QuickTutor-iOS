@@ -42,18 +42,24 @@ class FeaturedSubjectVC: BaseRegistrationController {
         let subject = subjects[index.item]
         Database.database().reference().child("tutor-info").child(uid).child("sbj").setValue(subject)
         navigationController?.popViewController(animated: true)
-    }
-    
-    
+    }    
     
     func loadFeatuedSubject() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("tutor-info").child(uid).child("sbj").observeSingleEvent(of: .value) { (snapshot) in
             guard let subject = snapshot.value as? String else { return }
+            self.insertFeaturedSubjectIfNeeded(subject)
             guard let item = self.subjects.firstIndex(where: { $0 == subject }) else { return }
             self.contentView.subjectsCV.selectItem(at: IndexPath(item: item, section: 0), animated: false, scrollPosition: .top)
         }
         
+    }
+    
+    func insertFeaturedSubjectIfNeeded(_ subject: String) {
+        if subjects.isEmpty {
+            subjects.append(subject)
+            contentView.subjectsCV.reloadData()
+        }
     }
     
 }
