@@ -252,6 +252,7 @@ class LearnerEditProfileVC: UIViewController {
     var automaticScroll = false
     let imagePicker = UIImagePickerController()
     var imageToChange: Int = 0
+    var tempBio: String?
 
     let contentView: LearnerEditProfileVCView = {
         let view = LearnerEditProfileVCView()
@@ -287,16 +288,30 @@ class LearnerEditProfileVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         navigationController?.setNavigationBarHidden(false, animated: true)
-        
         updateLearner()
         setupName()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        saveTempBio()
         delegate?.didUpdateLearnerProfile(learner: CurrentUser.shared.learner)
+    }
+    
+    func saveTempBio() {
+        if let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? EditProfileBioCell {
+            guard let newBio = cell.textView.text else { return }
+            if AccountService.shared.currentUserType == .learner {
+                if newBio != CurrentUser.shared.learner.bio {
+                    tempBio = newBio
+                }
+            } else {
+                if newBio != CurrentUser.shared.tutor.tBio {
+                    tempBio = newBio
+                }
+            }
+        }
     }
     
     func updateLearner() {
@@ -537,6 +552,9 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
                 if CurrentUser.shared.learner.bio != "" {
                     cell.textView.text = CurrentUser.shared.learner.bio
                     cell.textView.placeholderLabel.text = nil
+                    if let tempBio = tempBio {
+                        cell.textView.text = tempBio
+                    }
                 }
                 return cell
             default:
