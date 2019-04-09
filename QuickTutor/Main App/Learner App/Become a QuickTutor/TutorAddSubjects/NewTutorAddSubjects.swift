@@ -10,10 +10,14 @@ import UIKit
 
 class TutorAddSubjectsVC: UIViewController {
     
-    var isViewing = false
+    var isViewing = false {
+        didSet {
+            let bottomPadding: CGFloat = isViewing ? 0 : 90
+            contentView.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomPadding, right: 0)
+        }
+    }
     var sectionHeights = [Int: CGFloat]()
     let child = TutorAddSubjectsResultsVC()
-    
     
     let contentView: TutorAddSubjectsVCView = {
         let view = TutorAddSubjectsVCView()
