@@ -17,6 +17,9 @@ class CancelSessionModal: CustomModal {
     override func setupNoteLabel() {
         background.addSubview(noteLabel)
         noteLabel.anchor(top: titleLabel.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 7, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 55)
+        if AccountService.shared.currentUserType == .tutor {
+            noteLabel.text = "Canceling sessions is not recommended. Please ensure you are not violating your own cancellation policy."
+        }
     }
 
     override func handleConfirmButton() {
