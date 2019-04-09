@@ -57,16 +57,9 @@ class PauseSessionModal: BaseCustomModal {
     func setupUnpauseButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(unpauseButton)
-        unpauseButton.anchor(top: titleBackground.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 244, height: 45)
+        unpauseButton.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 244, height: 45)
         window.addConstraint(NSLayoutConstraint(item: unpauseButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 0))
         unpauseButton.addTarget(self, action: #selector(unpauseSession), for: .touchUpInside)
-    }
-
-    override func setupTitleBackground() {
-        super.setupTitleBackground()
-        if #available(iOS 11.0, *) {
-            titleBackground.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
-        }
     }
 
     override func setupBackgroundBlurView() {

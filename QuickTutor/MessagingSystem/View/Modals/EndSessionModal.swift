@@ -20,19 +20,23 @@ class EndSessionModal: BaseCustomModal {
         } else {
             button.setTitle("End Session", for: .normal)
         }
-        button.backgroundColor = Colors.qtRed
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 4
+        button.setTitleColor(Colors.purple, for: .normal)
         button.titleLabel?.font = Fonts.createSize(16)
         return button
     }()
+    
+    let buttonDivider: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 1
+        view.backgroundColor = Colors.gray
+        return view
+    }()
+
 
     let nevermindButton: DimmableButton = {
         let button = DimmableButton()
         button.setTitle("Never mind", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = Colors.purple
-        button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(16)
         return button
     }()
@@ -47,10 +51,10 @@ class EndSessionModal: BaseCustomModal {
         }
         
         
-        label.textColor = .white
+        label.textColor = Colors.grayText
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.font = Fonts.createSize(14)
+        label.font = Fonts.createSize(16)
         return label
     }()
 
@@ -60,18 +64,19 @@ class EndSessionModal: BaseCustomModal {
         super.setupViews()
         setupMessageLabel()
         setupEndSessionButton()
+        setupButtonDivider()
         setupNevermindButton()
-        setHeightTo(170)
+        setHeightTo(160)
     }
 
     override func setupTitleLabel() {
         super.setupTitleLabel()
-        titleLabel.text = "END SESSION"
+        titleLabel.text = "End Session"
     }
 
     func setupMessageLabel() {
         background.addSubview(messageLabel)
-        messageLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 50)
+        messageLabel.anchor(top: titleLabel.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 50)
     }
 
     override func setupBackground() {
@@ -82,9 +87,17 @@ class EndSessionModal: BaseCustomModal {
     func setupEndSessionButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(endSessionButton)
-        endSessionButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 122, height: 35)
+        endSessionButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 25, paddingRight: 0, width: 122, height: 30)
         window.addConstraint(NSLayoutConstraint(item: endSessionButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 75))
         endSessionButton.addTarget(self, action: #selector(endSession), for: .touchUpInside)
+    }
+    
+    func setupButtonDivider() {
+        guard let window = UIApplication.shared.keyWindow else { return }
+        background.addSubview(buttonDivider)
+        buttonDivider.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 2, height: 12)
+        window.addConstraint(NSLayoutConstraint(item: buttonDivider, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -1))
+        window.addConstraint(NSLayoutConstraint(item: buttonDivider, attribute: .centerY, relatedBy: .equal, toItem: endSessionButton, attribute: .centerY, multiplier: 1, constant: 0))
     }
 
     @objc func endSession() {
@@ -96,7 +109,7 @@ class EndSessionModal: BaseCustomModal {
     func setupNevermindButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
         background.addSubview(nevermindButton)
-        nevermindButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 122, height: 35)
+        nevermindButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 25, paddingRight: 0, width: 122, height: 30)
         window.addConstraint(NSLayoutConstraint(item: nevermindButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))
         nevermindButton.addTarget(self, action: #selector(handleNevermind), for: .touchUpInside)
     }

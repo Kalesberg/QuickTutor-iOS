@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F6A1BEE0AE89046BF76F859 /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6DD84AAAD9C635BFCEFE115 /* Pods_QuickTutorApp_QuickTutor.framework */; };
-		1FE99D33D875B0C43756E347 /* Pods_QuickTutorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15481A63ECC193EB90B1A546 /* Pods_QuickTutorTests.framework */; };
+		08E795BEDC9E9F3941799C27 /* libPods-QuickTutorApp-QuickTutorUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12DD4C12E10B5DF4F2FD22AB /* libPods-QuickTutorApp-QuickTutorUITests.a */; };
 		4D3480FF223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */; };
 		4D348100223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */; };
 		4D348101223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */; };
@@ -584,6 +583,8 @@
 		56DC6DA5220BD7DF00935F47 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D97220BD7DF00935F47 /* Lato-Regular.ttf */; };
 		56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D98220BD7DF00935F47 /* Lato-Semibold.ttf */; };
 		56DC6DA7220BD7DF00935F47 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D99220BD7DF00935F47 /* OFL.txt */; };
+		679E5B70E5E8A63FCB5D8C78 /* Pods_QuickTutorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA7B9B1BDFD0D66AB510A74 /* Pods_QuickTutorTests.framework */; };
+		82CBA54262A15D3E58E75748 /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE4918E83D1940B58632EBB /* Pods_QuickTutorApp_QuickTutor.framework */; };
 		84000D2E21246B5E0023355B /* ProfileImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84000D2D21246B5E0023355B /* ProfileImageViewer.swift */; };
 		8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8404F43A20EAE6EB00747C01 /* badwords.txt */; };
 		8404F43D20EBB3AE00747C01 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8404F43C20EBB3AE00747C01 /* CustomError.swift */; };
@@ -800,9 +801,9 @@
 		84F5FD1120A4DCA900CFDA95 /* TutorServiceFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1020A4DCA900CFDA95 /* TutorServiceFee.swift */; };
 		84F5FD1420A5544200CFDA95 /* CloseAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1320A5544200CFDA95 /* CloseAccountVC.swift */; };
 		84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */; };
+		902007F3CD7542D5D5BFCE9F /* libPods-QuickTutorApp-QuickTutorDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C37BD13DE7D06379A0E56F /* libPods-QuickTutorApp-QuickTutorDev.a */; };
 		935BC8DE225A99E200C7B482 /* QuickTutorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935BC8DD225A99E200C7B482 /* QuickTutorUITests.swift */; };
 		93EFEF23225A9156001E0EF5 /* QuickTutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EFEF22225A9156001E0EF5 /* QuickTutorTests.swift */; };
-		B420A5D4AAEB574152BCB763 /* libPods-QuickTutorApp-QuickTutorDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4231908D263EFDB2154BF2E /* libPods-QuickTutorApp-QuickTutorDev.a */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
@@ -1051,7 +1052,6 @@
 		CFF5017720698F620085B0E9 /* LearnerHelpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C5201E8500006FC580 /* LearnerHelpVC.swift */; };
 		CFF50178206990060085B0E9 /* LearnerEditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2F02720354E4700F921C9 /* LearnerEditProfileVC.swift */; };
 		CFF5017B206990B20085B0E9 /* LearnerExtendedReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA3212055088B000C7054 /* LearnerExtendedReviewsVC.swift */; };
-		DBEA23BDA701E1EADE8C1DC9 /* libPods-QuickTutorApp-QuickTutorUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D77EF66F5BC4C62AA06F857F /* libPods-QuickTutorApp-QuickTutorUITests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1111,15 +1111,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		15481A63ECC193EB90B1A546 /* Pods_QuickTutorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		39F60397D7B8A009169EEB12 /* Pods-QuickTutorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorTests.release.xcconfig"; path = "Target Support Files/Pods-QuickTutorTests/Pods-QuickTutorTests.release.xcconfig"; sourceTree = "<group>"; };
-		4A28F0BA302989B4F4084AA2 /* Pods-QuickTutorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorTests.debug.xcconfig"; path = "Target Support Files/Pods-QuickTutorTests/Pods-QuickTutorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		12DD4C12E10B5DF4F2FD22AB /* libPods-QuickTutorApp-QuickTutorUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickTutorApp-QuickTutorUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		365DFBFF0F3959E34CA3EFF9 /* Pods-QuickTutorApp-QuickTutor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; sourceTree = "<group>"; };
+		43F1AB840B0A36BCFB44A593 /* Pods-QuickTutorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorTests/Pods-QuickTutorTests.release.xcconfig"; sourceTree = "<group>"; };
+		47C37BD13DE7D06379A0E56F /* libPods-QuickTutorApp-QuickTutorDev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickTutorApp-QuickTutorDev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A72C7A6D46444936730844B /* Pods-QuickTutorApp-QuickTutorDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; sourceTree = "<group>"; };
 		4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTReviewTableViewCell.swift; sourceTree = "<group>"; };
 		4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTReviewTableViewCell.xib; sourceTree = "<group>"; };
 		4D348103223A35370004C29A /* QTRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingView.swift; sourceTree = "<group>"; };
 		4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTProfileViewController.swift; sourceTree = "<group>"; };
 		4DE366902239F06C00A94C37 /* QTProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTProfileViewController.xib; sourceTree = "<group>"; };
-		509E81F9CEBD27DF80843AA4 /* Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig"; path = "Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig"; sourceTree = "<group>"; };
 		561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTInPersionSessionViewController.swift; sourceTree = "<group>"; };
 		561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTInPersonSessionViewController.xib; sourceTree = "<group>"; };
 		561003BA2242D23600A4688F /* QTPastSessionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTPastSessionsViewController.swift; sourceTree = "<group>"; };
@@ -1176,6 +1177,9 @@
 		56DC6D97220BD7DF00935F47 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		56DC6D98220BD7DF00935F47 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Semibold.ttf"; sourceTree = "<group>"; };
 		56DC6D99220BD7DF00935F47 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		5B368184DDEC633271EF57C7 /* Pods-QuickTutorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorTests/Pods-QuickTutorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5FA7B9B1BDFD0D66AB510A74 /* Pods_QuickTutorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7032981E3BC3185B40868908 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		84000D2D21246B5E0023355B /* ProfileImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageViewer.swift; sourceTree = "<group>"; };
 		8404F43A20EAE6EB00747C01 /* badwords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badwords.txt; sourceTree = "<group>"; };
 		8404F43C20EBB3AE00747C01 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
@@ -1406,15 +1410,16 @@
 		84F5FD1020A4DCA900CFDA95 /* TutorServiceFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorServiceFee.swift; sourceTree = "<group>"; };
 		84F5FD1320A5544200CFDA95 /* CloseAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountVC.swift; sourceTree = "<group>"; };
 		84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountReasonVC.swift; sourceTree = "<group>"; };
-		8AB09074738C557391029812 /* Pods-QuickTutorApp-QuickTutorDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; path = "Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; sourceTree = "<group>"; };
+		928B9BCD0F6908E1BC924D11 /* Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig"; sourceTree = "<group>"; };
 		935BC8DB225A99E200C7B482 /* QuickTutorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickTutorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		935BC8DD225A99E200C7B482 /* QuickTutorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTutorUITests.swift; sourceTree = "<group>"; };
 		935BC8DF225A99E200C7B482 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93EFEF20225A9156001E0EF5 /* QuickTutorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickTutorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93EFEF22225A9156001E0EF5 /* QuickTutorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTutorTests.swift; sourceTree = "<group>"; };
 		93EFEF24225A9156001E0EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9B1450452D7C9DFAF2A6AFDA /* Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig"; path = "Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig"; sourceTree = "<group>"; };
-		B3364EE37254182CFE9D70BA /* Pods-QuickTutorApp-QuickTutor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; path = "Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; sourceTree = "<group>"; };
+		ABE4918E83D1940B58632EBB /* Pods_QuickTutorApp_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorApp_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9AF7AA0C6E6B1B68366202C /* Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig"; sourceTree = "<group>"; };
+		C1E3F53C35AC060D80A85E18 /* Pods-QuickTutorApp-QuickTutor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutor.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor.release.xcconfig"; sourceTree = "<group>"; };
 		C41F17E0224D2D3A007758FC /* QTCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomButton.swift; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
@@ -1658,11 +1663,6 @@
 		CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageAnimator.swift; sourceTree = "<group>"; };
 		CFEF943E20B3583800413727 /* ImageMessageSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageSender.swift; sourceTree = "<group>"; };
 		CFEF944020B35BA500413727 /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
-		D6DD84AAAD9C635BFCEFE115 /* Pods_QuickTutorApp_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorApp_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D77EF66F5BC4C62AA06F857F /* libPods-QuickTutorApp-QuickTutorUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickTutorApp-QuickTutorUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DF9A355E16D1A42EEEDB9F5D /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		E4DD830E4E65968A5F0DB608 /* Pods-QuickTutorApp-QuickTutor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutor.release.xcconfig"; path = "Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor.release.xcconfig"; sourceTree = "<group>"; };
-		F4231908D263EFDB2154BF2E /* libPods-QuickTutorApp-QuickTutorDev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickTutorApp-QuickTutorDev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1670,7 +1670,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B420A5D4AAEB574152BCB763 /* libPods-QuickTutorApp-QuickTutorDev.a in Frameworks */,
+				902007F3CD7542D5D5BFCE9F /* libPods-QuickTutorApp-QuickTutorDev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1678,7 +1678,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F6A1BEE0AE89046BF76F859 /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */,
+				82CBA54262A15D3E58E75748 /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1686,7 +1686,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBEA23BDA701E1EADE8C1DC9 /* libPods-QuickTutorApp-QuickTutorUITests.a in Frameworks */,
+				08E795BEDC9E9F3941799C27 /* libPods-QuickTutorApp-QuickTutorUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1694,7 +1694,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FE99D33D875B0C43756E347 /* Pods_QuickTutorTests.framework in Frameworks */,
+				679E5B70E5E8A63FCB5D8C78 /* Pods_QuickTutorTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1708,13 +1708,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0DF85EE2624CDED123DFEBB0 /* Frameworks */ = {
+		2DB9DC7319AF515D499433AB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D6DD84AAAD9C635BFCEFE115 /* Pods_QuickTutorApp_QuickTutor.framework */,
-				F4231908D263EFDB2154BF2E /* libPods-QuickTutorApp-QuickTutorDev.a */,
-				D77EF66F5BC4C62AA06F857F /* libPods-QuickTutorApp-QuickTutorUITests.a */,
-				15481A63ECC193EB90B1A546 /* Pods_QuickTutorTests.framework */,
+				ABE4918E83D1940B58632EBB /* Pods_QuickTutorApp_QuickTutor.framework */,
+				47C37BD13DE7D06379A0E56F /* libPods-QuickTutorApp-QuickTutorDev.a */,
+				12DD4C12E10B5DF4F2FD22AB /* libPods-QuickTutorApp-QuickTutorUITests.a */,
+				5FA7B9B1BDFD0D66AB510A74 /* Pods_QuickTutorTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2384,8 +2384,8 @@
 				935BC8DC225A99E200C7B482 /* QuickTutorUITests */,
 				8491C2981FBE62350036FC12 /* Products */,
 				841E635A20046A03009A512A /* Recovered References */,
-				884EFEDC3AFA99E563435698 /* Pods */,
-				0DF85EE2624CDED123DFEBB0 /* Frameworks */,
+				9302809887AC7C8B9BB153CB /* Pods */,
+				2DB9DC7319AF515D499433AB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2734,20 +2734,19 @@
 			path = CloseAccount;
 			sourceTree = "<group>";
 		};
-		884EFEDC3AFA99E563435698 /* Pods */ = {
+		9302809887AC7C8B9BB153CB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B3364EE37254182CFE9D70BA /* Pods-QuickTutorApp-QuickTutor.debug.xcconfig */,
-				E4DD830E4E65968A5F0DB608 /* Pods-QuickTutorApp-QuickTutor.release.xcconfig */,
-				509E81F9CEBD27DF80843AA4 /* Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig */,
-				8AB09074738C557391029812 /* Pods-QuickTutorApp-QuickTutorDev.release.xcconfig */,
-				DF9A355E16D1A42EEEDB9F5D /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */,
-				9B1450452D7C9DFAF2A6AFDA /* Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig */,
-				4A28F0BA302989B4F4084AA2 /* Pods-QuickTutorTests.debug.xcconfig */,
-				39F60397D7B8A009169EEB12 /* Pods-QuickTutorTests.release.xcconfig */,
+				365DFBFF0F3959E34CA3EFF9 /* Pods-QuickTutorApp-QuickTutor.debug.xcconfig */,
+				C1E3F53C35AC060D80A85E18 /* Pods-QuickTutorApp-QuickTutor.release.xcconfig */,
+				B9AF7AA0C6E6B1B68366202C /* Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig */,
+				4A72C7A6D46444936730844B /* Pods-QuickTutorApp-QuickTutorDev.release.xcconfig */,
+				7032981E3BC3185B40868908 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */,
+				928B9BCD0F6908E1BC924D11 /* Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig */,
+				5B368184DDEC633271EF57C7 /* Pods-QuickTutorTests.debug.xcconfig */,
+				43F1AB840B0A36BCFB44A593 /* Pods-QuickTutorTests.release.xcconfig */,
 			);
 			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		935BC8DC225A99E200C7B482 /* QuickTutorUITests */ = {
@@ -3175,7 +3174,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 569F1902223554FD00820A20 /* Build configuration list for PBXNativeTarget "QuickTutorDev" */;
 			buildPhases = (
-				1AAE0D8AD1CB94DBB3101461 /* [CP] Check Pods Manifest.lock */,
+				148DC021C91F441B88EDC749 /* [CP] Check Pods Manifest.lock */,
 				569F16D2223554FD00820A20 /* Sources */,
 				569F18BB223554FD00820A20 /* Frameworks */,
 				569F18BD223554FD00820A20 /* Resources */,
@@ -3196,14 +3195,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8491C2AC1FBE62350036FC12 /* Build configuration list for PBXNativeTarget "QuickTutor" */;
 			buildPhases = (
-				0DB997E161FFCBEC5DA5D4E9 /* [CP] Check Pods Manifest.lock */,
+				FC9B74131A08F710CED08580 /* [CP] Check Pods Manifest.lock */,
 				8491C2931FBE62350036FC12 /* Sources */,
 				8491C2941FBE62350036FC12 /* Frameworks */,
 				8491C2951FBE62350036FC12 /* Resources */,
 				CF5BFB0321541EEF00FB8DD6 /* ShellScript */,
 				CF4CAEDC2172CC2100B23530 /* Embed App Extensions */,
-				97E2AEDA6BB5DB5A71A899B2 /* [CP] Embed Pods Frameworks */,
-				1F605426B10BFB29FCFE7458 /* [CP] Copy Pods Resources */,
+				3BCF3E72145B832C184A7755 /* [CP] Embed Pods Frameworks */,
+				5FD356B05962C84742630176 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3219,7 +3218,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 935BC8E2225A99E200C7B482 /* Build configuration list for PBXNativeTarget "QuickTutorUITests" */;
 			buildPhases = (
-				27B52368D830005478A50078 /* [CP] Check Pods Manifest.lock */,
+				7519B433F1CBFE1E0D06D44C /* [CP] Check Pods Manifest.lock */,
 				935BC8D7225A99E200C7B482 /* Sources */,
 				935BC8D8225A99E200C7B482 /* Frameworks */,
 				935BC8D9225A99E200C7B482 /* Resources */,
@@ -3238,7 +3237,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 93EFEF29225A9156001E0EF5 /* Build configuration list for PBXNativeTarget "QuickTutorTests" */;
 			buildPhases = (
-				48388172412A010C5BEB4834 /* [CP] Check Pods Manifest.lock */,
+				68C0269C9D268EF2C647AD6B /* [CP] Check Pods Manifest.lock */,
 				93EFEF1C225A9156001E0EF5 /* Sources */,
 				93EFEF1D225A9156001E0EF5 /* Frameworks */,
 				93EFEF1E225A9156001E0EF5 /* Resources */,
@@ -3529,29 +3528,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0DB997E161FFCBEC5DA5D4E9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-QuickTutorApp-QuickTutor-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1AAE0D8AD1CB94DBB3101461 /* [CP] Check Pods Manifest.lock */ = {
+		148DC021C91F441B88EDC749 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3573,7 +3550,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1F605426B10BFB29FCFE7458 /* [CP] Copy Pods Resources */ = {
+		3BCF3E72145B832C184A7755 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3581,87 +3558,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh",
-				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccountKitStrings.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		27B52368D830005478A50078 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-QuickTutorApp-QuickTutorUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		48388172412A010C5BEB4834 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-QuickTutorTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		569F18FE223554FD00820A20 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODCTS_DIR)/$(INFOPLIST_PATH)\n",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/upload-symbols\" -gsp \"${PROJECT_DIR}/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n\"${PODS_ROOT}/Fabric/run\"\n";
-		};
-		97E2AEDA6BB5DB5A71A899B2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
@@ -3726,7 +3623,87 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		569F18FE223554FD00820A20 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODCTS_DIR)/$(INFOPLIST_PATH)\n",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/upload-symbols\" -gsp \"${PROJECT_DIR}/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n\"${PODS_ROOT}/Fabric/run\"\n";
+		};
+		5FD356B05962C84742630176 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh",
+				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccountKitStrings.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		68C0269C9D268EF2C647AD6B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QuickTutorTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7519B433F1CBFE1E0D06D44C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QuickTutorApp-QuickTutorUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CF5BFB0321541EEF00FB8DD6 /* ShellScript */ = {
@@ -3742,6 +3719,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/upload-symbols\" -gsp \"${PROJECT_DIR}/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n\"${PODS_ROOT}/Fabric/run\"\nfile=\"unused.rb\"\nif [ -f \"$file\" ]\nthen\necho \"$file found.\"\nruby unused.rb xcode\nelse\necho \"unused.rb doesn't exist\"\nfi\n";
+		};
+		FC9B74131A08F710CED08580 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QuickTutorApp-QuickTutor-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4715,7 +4714,7 @@
 /* Begin XCBuildConfiguration section */
 		569F1903223554FD00820A20 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 509E81F9CEBD27DF80843AA4 /* Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig */;
+			baseConfigurationReference = B9AF7AA0C6E6B1B68366202C /* Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4755,7 +4754,7 @@
 		};
 		569F1904223554FD00820A20 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8AB09074738C557391029812 /* Pods-QuickTutorApp-QuickTutorDev.release.xcconfig */;
+			baseConfigurationReference = 4A72C7A6D46444936730844B /* Pods-QuickTutorApp-QuickTutorDev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4909,7 +4908,7 @@
 		};
 		8491C2AD1FBE62350036FC12 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3364EE37254182CFE9D70BA /* Pods-QuickTutorApp-QuickTutor.debug.xcconfig */;
+			baseConfigurationReference = 365DFBFF0F3959E34CA3EFF9 /* Pods-QuickTutorApp-QuickTutor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4960,7 +4959,7 @@
 		};
 		8491C2AE1FBE62350036FC12 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E4DD830E4E65968A5F0DB608 /* Pods-QuickTutorApp-QuickTutor.release.xcconfig */;
+			baseConfigurationReference = C1E3F53C35AC060D80A85E18 /* Pods-QuickTutorApp-QuickTutor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -5010,7 +5009,7 @@
 		};
 		935BC8E3225A99E200C7B482 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF9A355E16D1A42EEEDB9F5D /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */;
+			baseConfigurationReference = 7032981E3BC3185B40868908 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -5033,7 +5032,7 @@
 		};
 		935BC8E4225A99E200C7B482 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B1450452D7C9DFAF2A6AFDA /* Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig */;
+			baseConfigurationReference = 928B9BCD0F6908E1BC924D11 /* Pods-QuickTutorApp-QuickTutorUITests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -5055,7 +5054,7 @@
 		};
 		93EFEF27225A9156001E0EF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A28F0BA302989B4F4084AA2 /* Pods-QuickTutorTests.debug.xcconfig */;
+			baseConfigurationReference = 5B368184DDEC633271EF57C7 /* Pods-QuickTutorTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -5078,7 +5077,7 @@
 		};
 		93EFEF28225A9156001E0EF5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 39F60397D7B8A009169EEB12 /* Pods-QuickTutorTests.release.xcconfig */;
+			baseConfigurationReference = 43F1AB840B0A36BCFB44A593 /* Pods-QuickTutorTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_OBJC_WEAK = YES;

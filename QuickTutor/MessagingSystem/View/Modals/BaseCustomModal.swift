@@ -25,22 +25,12 @@ class BaseCustomModal: UIView {
         return view
     }()
 
-    let titleBackground: UIView = {
-        let view = UIView()
-        view.backgroundColor = Colors.darkBackground
-        view.layer.cornerRadius = 8
-        if #available(iOS 11.0, *) {
-            view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        }
-        return view
-    }()
-
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "ARE YOU SURE?"
+        label.text = "Are you sure?"
         label.textColor = .white
         label.textAlignment = .center
-        label.font = Fonts.createBoldSize(18)
+        label.font = Fonts.createBoldSize(16)
         label.numberOfLines = 0
         return label
     }()
@@ -51,7 +41,6 @@ class BaseCustomModal: UIView {
     func setupViews() {
         setupBackgroundBlurView()
         setupBackground()
-        setupTitleBackground()
         setupTitleLabel()
     }
 
@@ -60,8 +49,6 @@ class BaseCustomModal: UIView {
         window.addSubview(background)
         background.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 0)
         backgroundCenterYAnchor = background.centerYAnchor.constraint(equalTo: window.centerYAnchor, constant: 500)
-        backgroundHeightAnchor = background.heightAnchor.constraint(equalToConstant: 207)
-        backgroundHeightAnchor?.isActive = true
         backgroundCenterYAnchor?.isActive = true
     }
 
@@ -74,14 +61,9 @@ class BaseCustomModal: UIView {
         window.bringSubviewToFront(backgroundBlurView)
     }
     
-    func setupTitleBackground() {
-        background.addSubview(titleBackground)
-        titleBackground.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
-    }
-    
     func setupTitleLabel() {
         background.addSubview(titleLabel)
-        titleLabel.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
+        titleLabel.anchor(top: background.topAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
     }
     
     func setHeightTo(_ height: CGFloat) {

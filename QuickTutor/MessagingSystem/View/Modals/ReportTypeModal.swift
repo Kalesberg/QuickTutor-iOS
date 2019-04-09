@@ -26,8 +26,8 @@ class ReportTypeModal: BaseCustomModal {
 
     override func setupViews() {
         super.setupViews()
-        backgroundHeightAnchor?.constant = 350
         setupTableView()
+        setHeightTo(350)
     }
 
     override func setupTitleLabel() {
@@ -37,7 +37,7 @@ class ReportTypeModal: BaseCustomModal {
 
     private func setupTableView() {
         background.addSubview(tableView)
-        tableView.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: background.bottomAnchor, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        tableView.anchor(top: titleLabel.bottomAnchor, left: background.leftAnchor, bottom: background.bottomAnchor, right: background.rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         tableView.delegate = self
         tableView.dataSource = self
     }

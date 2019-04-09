@@ -52,7 +52,7 @@ class CustomTipModal: BaseCustomModal {
 
     func setupPriceInput() {
         background.addSubview(priceInput)
-        priceInput.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 60)
+        priceInput.anchor(top: titleLabel.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 60)
     }
 
     func setupInfoLabel() {

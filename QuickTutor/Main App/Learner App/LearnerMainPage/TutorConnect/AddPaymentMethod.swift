@@ -20,12 +20,16 @@ class AddPaymentModal: CustomModal {
         super.setupViews()
         nevermindButton.removeFromSuperview()
         noteLabel.text = "You must have a payment method on file to continue. You won't be charge until you have a session."
-        titleLabel.text = "PAYMENT METHOD"
+        titleLabel.text = "Payment method"
+    }
+    
+    override func setupHeight() {
+        setHeightTo(140)
     }
     
     override func setupNoteLabel() {
         background.addSubview(noteLabel)
-        noteLabel.anchor(top: messageLabel.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 7, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 35)
+        noteLabel.anchor(top: titleLabel.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 7, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 35)
     }
     
     override func setupConfirmButton() {

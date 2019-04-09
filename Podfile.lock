@@ -15,39 +15,39 @@ PODS:
     - Fabric (~> 1.9.0)
   - CropViewController (2.4.0)
   - Fabric (1.9.0)
-  - FacebookCore (0.5.0):
+  - FacebookCore (0.6.0):
     - Bolts (~> 1.9)
-    - FBSDKCoreKit (~> 4.37)
-  - FacebookLogin (0.5.0):
+    - FBSDKCoreKit (~> 4.43)
+  - FacebookLogin (0.6.0):
     - Bolts (~> 1.9)
     - FacebookCore (~> 0.5)
-    - FBSDKCoreKit (~> 4.37)
-    - FBSDKLoginKit (~> 4.37)
-  - FBSDKCoreKit (4.42.0):
+    - FBSDKCoreKit (~> 4.43)
+    - FBSDKLoginKit (~> 4.43)
+  - FBSDKCoreKit (4.44.0):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.42.0):
+  - FBSDKLoginKit (4.44.0):
     - FBSDKCoreKit
-  - Firebase/Auth (5.19.0):
+  - Firebase/Auth (5.20.1):
     - Firebase/CoreOnly
-    - FirebaseAuth (= 5.4.1)
-  - Firebase/Core (5.19.0):
+    - FirebaseAuth (= 5.4.2)
+  - Firebase/Core (5.20.1):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.8.0)
-  - Firebase/CoreOnly (5.19.0):
-    - FirebaseCore (= 5.4.0)
-  - Firebase/Database (5.19.0):
+  - Firebase/CoreOnly (5.20.1):
+    - FirebaseCore (= 5.4.1)
+  - Firebase/Database (5.20.1):
     - Firebase/CoreOnly
     - FirebaseDatabase (= 5.1.1)
-  - Firebase/DynamicLinks (5.19.0):
+  - Firebase/DynamicLinks (5.20.1):
     - Firebase/CoreOnly
-    - FirebaseDynamicLinks (= 3.4.2)
-  - Firebase/Messaging (5.19.0):
+    - FirebaseDynamicLinks (= 3.4.3)
+  - Firebase/Messaging (5.20.1):
     - Firebase/CoreOnly
-    - FirebaseMessaging (= 3.4.0)
-  - Firebase/Performance (5.19.0):
+    - FirebaseMessaging (= 3.5.0)
+  - Firebase/Performance (5.20.1):
     - Firebase/Core
     - FirebasePerformance (= 2.2.4)
-  - Firebase/Storage (5.19.0):
+  - Firebase/Storage (5.20.1):
     - Firebase/CoreOnly
     - FirebaseStorage (= 3.1.1)
   - FirebaseABTesting (2.0.0):
@@ -63,28 +63,28 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
   - FirebaseAnalyticsInterop (1.2.0)
-  - FirebaseAuth (5.4.1):
+  - FirebaseAuth (5.4.2):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.0.0)
-  - FirebaseCore (5.4.0):
+  - FirebaseCore (5.4.1):
     - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Logger (~> 5.2)
   - FirebaseDatabase (5.1.1):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
     - leveldb-library (~> 1.18)
-  - FirebaseDynamicLinks (3.4.2):
+  - FirebaseDynamicLinks (3.4.3):
     - FirebaseAnalytics (~> 5.1)
     - FirebaseAnalyticsInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
-  - FirebaseInstanceID (3.8.0):
+  - FirebaseInstanceID (3.8.1):
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/UserDefaults (~> 5.2)
-  - FirebaseMessaging (3.4.0):
+  - FirebaseMessaging (3.5.0):
     - FirebaseAnalyticsInterop (~> 1.1)
     - FirebaseCore (~> 5.2)
     - FirebaseInstanceID (~> 3.6)
@@ -172,7 +172,7 @@ PODS:
   - Starscream (3.0.6)
   - Stripe (15.0.0)
   - SwiftKeychainWrapper (3.2.0)
-  - SwiftyJSON (4.2.0)
+  - SwiftyJSON (4.3.0)
   - SwipeCellKit (2.5.4)
   - TwilioVideo (2.8.1)
 
@@ -277,21 +277,21 @@ SPEC CHECKSUMS:
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   CropViewController: a090820b15fc3da68e694d7c192a4708c576828b
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
-  FacebookCore: 74288d0add931d361b1596beae787ab72c438249
-  FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
-  FBSDKCoreKit: aa42f1c384775f8b075f53a43080474278e9701d
-  FBSDKLoginKit: 373830c68aa48c9e8f0bfed93a3e32d2ca8963a0
-  Firebase: c60d49e9c2630875a96207d15e2affb8364996d1
+  FacebookCore: 38cd3a4078738d6f648eb9b6b9d35b02d693e9a1
+  FacebookLogin: 658b0569961a081a0890f5f4dbf69ced00657d9e
+  FBSDKCoreKit: 8bcd4503afe43f28823c2175a6142a7f50f1bf28
+  FBSDKLoginKit: 93c5a407ab1a6a17b1b38cff57e89991f714d878
+  Firebase: 2f5235e62f141cb86181c3af0dfe4509706351ac
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: fd72a26bf8dac84cefba2f0864366f718555a5b0
   FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
-  FirebaseAuth: cbb892a66baed025efc179372598941252acf853
+  FirebaseAuth: dd7bbf03a5aee0eafb3a1aee4d2812bd74bac890
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
-  FirebaseCore: 22a79a961c3951ef2f77b67bfbc99e454247b319
+  FirebaseCore: f1a9a8be1aee4bf71a2fc0f4096df6788bdfda61
   FirebaseDatabase: 2c15b0ea6f2c6eb5e57413f9d6340f1e50b81ae3
-  FirebaseDynamicLinks: 29dd0deb458bfb8f845349f8b0b7e90af20758c6
-  FirebaseInstanceID: cf488df2f4b79782f0e430b04a0e17c0aa7979b2
-  FirebaseMessaging: 2d53d08d752fbe63ce0820428d70be5ab87c11fb
+  FirebaseDynamicLinks: f7a8717e2c7ea652923882a2d60b0045d6fd99d5
+  FirebaseInstanceID: a122b0c258720cf250551bb2bedf48c699f80d90
+  FirebaseMessaging: 4235f949ce1c4e827aeb19705ba5c53f9b85aa10
   FirebasePerformance: 25ecee2a260bcf398d7f32d6f4804438df953100
   FirebaseRemoteConfig: 7e11c65f0769c09bff6947997c209515058c5318
   FirebaseStorage: 6162ef4322502b818d9de0ec552f5226d283de43
@@ -315,10 +315,10 @@ SPEC CHECKSUMS:
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   Stripe: 312b22a67af9fa55c246d26148b3f3a9636a0ff2
   SwiftKeychainWrapper: 82c4c02cdc36f9a24f7edfcaab3e336401caa1a1
-  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   SwipeCellKit: 4eada3884ab1bbae5e8d2fb9030c242aa23d7f42
   TwilioVideo: 482bbbb23807e424e00500c367fea3656e136d61
 
-PODFILE CHECKSUM: 2afdb8b77374c5ffd108fa43c03bac6cd2f3bb2a
+PODFILE CHECKSUM: 22a82c4bfeba3f3a77da78cd7763c3be99cc55bf
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.5.3

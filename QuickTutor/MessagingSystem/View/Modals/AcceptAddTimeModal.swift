@@ -84,7 +84,7 @@ class AcceptAddTimeModal: BaseCustomModal {
 
     func setupInfoLabel() {
         background.addSubview(infoLabel)
-        infoLabel.anchor(top: titleBackground.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 50)
+        infoLabel.anchor(top: titleLabel.bottomAnchor, left: background.leftAnchor, bottom: nil, right: background.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 50)
     }
 
     func setupPaymentLabel() {
