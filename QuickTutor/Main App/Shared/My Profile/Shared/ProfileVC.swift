@@ -114,7 +114,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         let height = (collectionView.frame.height - 175) / 7
-        return CGSize(width: collectionView.frame.width, height: height)
+        return CGSize(width: collectionView.frame.width, height: height - 3)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
