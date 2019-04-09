@@ -651,14 +651,15 @@ extension LearnerEditProfileVC: EditProfileImagesCellDelegate {
 }
 
 extension LearnerEditProfileVC: UIScrollViewDelegate {
-    func scrollViewDidScroll(_: UIScrollView) {
-        if !automaticScroll {
-            view.endEditing(true)
-        }
-    }
 
     func scrollViewDidEndScrollingAnimation(_: UIScrollView) {
         automaticScroll = false
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if !automaticScroll {
+            view.endEditing(true)
+        }
     }
 }
 
