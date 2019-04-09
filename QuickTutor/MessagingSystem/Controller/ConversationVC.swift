@@ -473,12 +473,18 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
-        if notification.name == UIResponder.keyboardWillHideNotification {
+        if notification.name == UIResponder.keyboardWillHideNotification || notification.name == UIResponder.keyboardDidHideNotification {
             messagesCollection.keyboardBottomAdjustment = 0
             messagesCollection.contentInset = UIEdgeInsets.zero
         } else {
-            let heightAdjustment: CGFloat = UIScreen.main.bounds.height > 700 ? 86 : 52
-            let bottom = keyboardViewEndFrame.height - heightAdjustment
+            var keyboardHeight = keyboardViewEndFrame.height
+            if #available(iOS 11.0, *) {
+                keyboardHeight -= UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0
+            }
+            
+            let typingIndicatorHeight: CGFloat = 48
+            keyboardHeight -= typingIndicatorHeight
+            let bottom = keyboardHeight > 0 ? keyboardHeight : 0
             messagesCollection.keyboardBottomAdjustment = bottom
             messagesCollection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
         }
