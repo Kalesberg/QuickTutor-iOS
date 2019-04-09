@@ -71,10 +71,11 @@ class ConversationCollectionView: UICollectionView {
         // Check the content size is greater than the bounds or use the bounds as the position for the y
         let y = contentSize.height > bounds.height ? contentSize.height : bounds.height - 80
         typingTopAnchor?.constant = y
-        
+        let seenIndictorPadding: CGFloat = 5
+        let bottomInset = (self.typingHeightAnchor?.constant ?? 0) + (keyboardBottomAdjustment ?? 0) + seenIndictorPadding
         self.layoutIfNeeded()
         self.contentInset = UIEdgeInsets(top: self.contentInset.top, left: 0,
-                                         bottom: self.typingIndicatorView.bounds.height + (keyboardBottomAdjustment ?? 0), right: 0)
+                                         bottom: bottomInset, right: 0)
         
         // Only scroll the view if the user is already at the bottom
         if Int(bottom) >= Int(contentSize.height) && Int(contentSize.height) > Int(bounds.height) {
@@ -96,9 +97,9 @@ class ConversationCollectionView: UICollectionView {
     }
     
     func hideTypingIndicator() {
+        isTypingIndicatorVisible = false
         typingHeightAnchor?.constant = 0
         layoutTypingLabelIfNeeded()
-        isTypingIndicatorVisible = false
     }
     
     required init?(coder aDecoder: NSCoder) {
