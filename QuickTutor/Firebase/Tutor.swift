@@ -63,7 +63,10 @@ class Tutor {
         
         guard let data = CurrentUser.shared.learner else { return }
         let subjectNode = buildSubjectNode()
-        
+        var subjectDictionary = [String: Any]()
+        for subject in TutorRegistrationService.shared.subjects {
+            subjectDictionary[subject] = 1
+        }
         var post : [String : Any] =
             [
                 "/tutor-info/\(CurrentUser.shared.learner.uid!)" :
@@ -80,7 +83,7 @@ class Tutor {
                         "p"   : TutorRegistration.price,
                         "dst" : TutorRegistration.distance,
                         "tbio": TutorRegistration.tutorBio,
-                        "subjects": TutorRegistrationService.shared.subjects,
+                        "subjects": subjectDictionary,
                         "sbj": TutorRegistrationService.shared.subjects.first!,
                         "rg"  : "\(TutorRegistration.city!) \(TutorRegistration.state!)",
                         "pol" : "0_0_0_0",
