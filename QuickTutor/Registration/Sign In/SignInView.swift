@@ -114,7 +114,7 @@ class SignInVCView: UIView {
     
     func setupFacebookButton() {
         addSubview(facebookButton)
-        facebookButton.anchor(top: orLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 40, paddingLeft: 80, paddingBottom: 0, paddingRight: 80, width: 0, height: 45)
+        facebookButton.anchor(top: orLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 37, paddingLeft: 80, paddingBottom: 0, paddingRight: 80, width: 0, height: 45)
     }
     
     func setupPatentLabel() {
