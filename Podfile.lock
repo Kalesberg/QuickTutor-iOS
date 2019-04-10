@@ -15,14 +15,14 @@ PODS:
     - Fabric (~> 1.9.0)
   - CropViewController (2.4.0)
   - Fabric (1.9.0)
-  - FacebookCore (0.6.0):
+  - FacebookCore (0.4.0):
     - Bolts (~> 1.9)
-    - FBSDKCoreKit (~> 4.43)
-  - FacebookLogin (0.6.0):
+    - FBSDKCoreKit (~> 4.36)
+  - FacebookLogin (0.4.0):
     - Bolts (~> 1.9)
-    - FacebookCore (~> 0.5)
-    - FBSDKCoreKit (~> 4.43)
-    - FBSDKLoginKit (~> 4.43)
+    - FacebookCore (~> 0.4)
+    - FBSDKCoreKit (~> 4.36)
+    - FBSDKLoginKit (~> 4.36)
   - FBSDKCoreKit (4.44.0):
     - Bolts (~> 1.9)
   - FBSDKLoginKit (4.44.0):
@@ -172,7 +172,7 @@ PODS:
   - Starscream (3.0.6)
   - Stripe (15.0.0)
   - SwiftKeychainWrapper (3.2.0)
-  - SwiftyJSON (4.3.0)
+  - SwiftyJSON (4.2.0)
   - SwipeCellKit (2.5.4)
   - TwilioVideo (2.8.1)
 
@@ -183,8 +183,8 @@ DEPENDENCIES:
   - Crashlytics
   - CropViewController
   - Fabric
-  - FacebookCore
-  - FacebookLogin
+  - FacebookCore (~> 0.4.0)
+  - FacebookLogin (~> 0.4.0)
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -204,7 +204,7 @@ DEPENDENCIES:
   - Socket.IO-Client-Swift (~> 13.1.0)
   - Stripe
   - SwiftKeychainWrapper
-  - SwiftyJSON
+  - SwiftyJSON (~> 4.2.0)
   - SwipeCellKit
   - TwilioVideo
 
@@ -277,8 +277,8 @@ SPEC CHECKSUMS:
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   CropViewController: a090820b15fc3da68e694d7c192a4708c576828b
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
-  FacebookCore: 38cd3a4078738d6f648eb9b6b9d35b02d693e9a1
-  FacebookLogin: 658b0569961a081a0890f5f4dbf69ced00657d9e
+  FacebookCore: 770e57cfe250a4de4458b682191c0ff062dee247
+  FacebookLogin: eb0f2251aca835a94d70a5f7e580edc46d1e1603
   FBSDKCoreKit: 8bcd4503afe43f28823c2175a6142a7f50f1bf28
   FBSDKLoginKit: 93c5a407ab1a6a17b1b38cff57e89991f714d878
   Firebase: 2f5235e62f141cb86181c3af0dfe4509706351ac
@@ -315,10 +315,10 @@ SPEC CHECKSUMS:
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   Stripe: 312b22a67af9fa55c246d26148b3f3a9636a0ff2
   SwiftKeychainWrapper: 82c4c02cdc36f9a24f7edfcaab3e336401caa1a1
-  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   SwipeCellKit: 4eada3884ab1bbae5e8d2fb9030c242aa23d7f42
   TwilioVideo: 482bbbb23807e424e00500c367fea3656e136d61
 
-PODFILE CHECKSUM: 22a82c4bfeba3f3a77da78cd7763c3be99cc55bf
+PODFILE CHECKSUM: 3b6c9ef90e67fffda127ee4988be405036cde690
 
 COCOAPODS: 1.5.3

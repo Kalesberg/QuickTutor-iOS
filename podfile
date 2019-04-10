@@ -17,7 +17,7 @@ abstract_target 'QuickTutorApp' do
         pod 'GoogleAnalytics'
         pod 'FirebaseUI/Storage'
         pod 'SDWebImage'
-        pod 'SwiftyJSON'
+        pod 'SwiftyJSON', '~> 4.2.0'
 
         # Pods for backend
         pod 'Alamofire', '~>4.5'
@@ -27,8 +27,8 @@ abstract_target 'QuickTutorApp' do
 
         # Pods for Facebook
         pod 'AccountKit'
-        pod 'FacebookCore'
-        pod 'FacebookLogin'
+        pod 'FacebookCore', '~> 0.4.0'
+        pod 'FacebookLogin', '~> 0.4.0'
         pod 'SnapKit', '~> 4.0.1'
         pod 'lottie-ios', '~> 2.5.3'
 
@@ -60,6 +60,9 @@ abstract_target 'QuickTutorApp' do
         end
     end
     target 'QuickTutorDev' do
+        use_frameworks!
+        
+        shared_pods
     end
     target 'QuickTutorUITests' do
     end

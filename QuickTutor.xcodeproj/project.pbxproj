@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		08E795BEDC9E9F3941799C27 /* libPods-QuickTutorApp-QuickTutorUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12DD4C12E10B5DF4F2FD22AB /* libPods-QuickTutorApp-QuickTutorUITests.a */; };
+		436D33B46B61468098CBD1B4 /* Pods_QuickTutorApp_QuickTutorDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3C82C4727A26DE595269E3 /* Pods_QuickTutorApp_QuickTutorDev.framework */; };
 		4D3480FF223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */; };
 		4D348100223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */; };
 		4D348101223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */; };
@@ -801,7 +802,6 @@
 		84F5FD1120A4DCA900CFDA95 /* TutorServiceFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1020A4DCA900CFDA95 /* TutorServiceFee.swift */; };
 		84F5FD1420A5544200CFDA95 /* CloseAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1320A5544200CFDA95 /* CloseAccountVC.swift */; };
 		84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */; };
-		902007F3CD7542D5D5BFCE9F /* libPods-QuickTutorApp-QuickTutorDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C37BD13DE7D06379A0E56F /* libPods-QuickTutorApp-QuickTutorDev.a */; };
 		935BC8DE225A99E200C7B482 /* QuickTutorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935BC8DD225A99E200C7B482 /* QuickTutorUITests.swift */; };
 		93EFEF23225A9156001E0EF5 /* QuickTutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EFEF22225A9156001E0EF5 /* QuickTutorTests.swift */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
@@ -1114,7 +1114,6 @@
 		12DD4C12E10B5DF4F2FD22AB /* libPods-QuickTutorApp-QuickTutorUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickTutorApp-QuickTutorUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		365DFBFF0F3959E34CA3EFF9 /* Pods-QuickTutorApp-QuickTutor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; sourceTree = "<group>"; };
 		43F1AB840B0A36BCFB44A593 /* Pods-QuickTutorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorTests/Pods-QuickTutorTests.release.xcconfig"; sourceTree = "<group>"; };
-		47C37BD13DE7D06379A0E56F /* libPods-QuickTutorApp-QuickTutorDev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickTutorApp-QuickTutorDev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A72C7A6D46444936730844B /* Pods-QuickTutorApp-QuickTutorDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; sourceTree = "<group>"; };
 		4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTReviewTableViewCell.swift; sourceTree = "<group>"; };
 		4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTReviewTableViewCell.xib; sourceTree = "<group>"; };
@@ -1663,6 +1662,7 @@
 		CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageAnimator.swift; sourceTree = "<group>"; };
 		CFEF943E20B3583800413727 /* ImageMessageSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageSender.swift; sourceTree = "<group>"; };
 		CFEF944020B35BA500413727 /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
+		DE3C82C4727A26DE595269E3 /* Pods_QuickTutorApp_QuickTutorDev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorApp_QuickTutorDev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1670,7 +1670,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				902007F3CD7542D5D5BFCE9F /* libPods-QuickTutorApp-QuickTutorDev.a in Frameworks */,
+				436D33B46B61468098CBD1B4 /* Pods_QuickTutorApp_QuickTutorDev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1712,9 +1712,9 @@
 			isa = PBXGroup;
 			children = (
 				ABE4918E83D1940B58632EBB /* Pods_QuickTutorApp_QuickTutor.framework */,
-				47C37BD13DE7D06379A0E56F /* libPods-QuickTutorApp-QuickTutorDev.a */,
 				12DD4C12E10B5DF4F2FD22AB /* libPods-QuickTutorApp-QuickTutorUITests.a */,
 				5FA7B9B1BDFD0D66AB510A74 /* Pods_QuickTutorTests.framework */,
+				DE3C82C4727A26DE595269E3 /* Pods_QuickTutorApp_QuickTutorDev.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3180,6 +3180,8 @@
 				569F18BD223554FD00820A20 /* Resources */,
 				569F18FE223554FD00820A20 /* ShellScript */,
 				569F18FF223554FD00820A20 /* Embed App Extensions */,
+				06761686AFCE0CC9C51825A8 /* [CP] Embed Pods Frameworks */,
+				03B52CDE20D140DB2050FF18 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3528,6 +3530,104 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		03B52CDE20D140DB2050FF18 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh",
+				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccountKitStrings.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		06761686AFCE0CC9C51825A8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
+				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
+				"${BUILT_PRODUCTS_DIR}/PlaceholderTextView/PlaceholderTextView.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
+				"${PODS_ROOT}/TwilioVideo/Build/iOS/TwilioVideo.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlaceholderTextView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwilioVideo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		148DC021C91F441B88EDC749 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -5024,7 +5124,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = QuickTutor;
 			};
@@ -5046,7 +5146,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = QuickTutor;
 			};
@@ -5069,7 +5169,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor.QuickTutorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QuickTutor.app/QuickTutor";
 			};
@@ -5091,7 +5191,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor.QuickTutorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QuickTutor.app/QuickTutor";
 			};
