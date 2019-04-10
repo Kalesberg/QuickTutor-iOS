@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseStorage
 import FirebaseAuth
+import CoreLocation
 
 enum QTProfileViewType {
     case tutor, learner, myTutor, myLearner
@@ -64,6 +65,8 @@ class QTProfileViewController: UIViewController {
     var user: AWTutor!
     var profileViewType: QTProfileViewType!
     var subject: String?
+    let locationManager = CLLocationManager()
+    var currentLocation: CLLocation?
     
     enum QTConnectionStatus {
         case connected, pending, none
@@ -81,6 +84,7 @@ class QTProfileViewController: UIViewController {
         setupObservers()
         setupDelegates()
         initData()
+        setupLocationManager()
         
         navigationController?.setNavigationBarHidden(false, animated: false)
         if #available(iOS 11.0, *) {
@@ -100,12 +104,20 @@ class QTProfileViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        self.locationManager.stopUpdatingLocation()
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
+    }
+    
+    func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+        locationManager.startUpdatingLocation()
     }
     
     // MARK: - Actions
@@ -287,19 +299,12 @@ class QTProfileViewController: UIViewController {
             numberOfSessionsLabel.text = "\(user.tNumSessions ?? 0)"
             numberOfSubjectsLabel.text = "\(user.subjects?.count ?? 0)"
             addressView.isHidden = false
-            distanceView.isHidden = false
+            distanceView.isHidden = true
             // Set address
             addressLabel.text = user.region
-            if let distance = user.distance {
-                distanceLabel.text = distance == 1 ? "\(distance) mile from you" : "\(distance) miles from you"
-            } else {
-                distanceLabel.text = "\(0) miles from you"
-            }
-            if let bio = user.tBio, !bio.isEmpty {
-                bioLabel.text = "\(bio)"
-            } else {
-                bioLabel.text = "\(user.formattedName) has not yet entered a biography."
-            }
+            
+            updateDistanceLabel()
+            
             navigationItem.title = user.username
             
             // If a tutor visits an another tutor's profile, hide message and more icons.
@@ -556,6 +561,46 @@ class QTProfileViewController: UIViewController {
         
         return height + 10
     }
+    
+    func findDistance(location: TutorLocation?) -> Double {
+        guard let tutorLocation = location?.location else {
+            return 0
+        }
+        
+        let currentDistance = currentLocation?.distance(from: tutorLocation) ?? 0
+        return currentDistance * 0.00062137
+    }
+    
+    func formatDistance(_ distance: Double) -> String {
+        if distance > 0 && distance < 2 {
+            return "1 mile from you"
+        }
+        
+        var thousand = ""
+        var dist = distance
+        if distance > 1000 {
+            dist /= 1000
+            thousand = "k"
+        }
+        return String(format: "%.1f\(thousand) miles from you", locale: Locale.current, dist).replacingOccurrences(of: ".0", with: "")
+    }
+    
+    func updateDistanceLabel() {
+        guard let profileViewType = profileViewType else { return }
+        if profileViewType == .tutor {
+            switch CLLocationManager.authorizationStatus() {
+            case .denied, .notDetermined, .restricted:
+                distanceView.isHidden = true
+            case .authorizedAlways, .authorizedWhenInUse:
+                let distance = findDistance(location: user.location)
+                distanceLabel.text = formatDistance(distance)
+                if distance > 0 {
+                    distanceView.isHidden = false
+                }
+            default: break
+            }
+        }
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -693,5 +738,19 @@ extension QTProfileViewController: ConversationManagerDelegate {
     
     func conversationManager(_ conversationManager: ConversationManager, didLoadAll messages: [BaseMessage]) {
         
+    }
+}
+
+extension QTProfileViewController: CLLocationManagerDelegate {
+    func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            self.currentLocation = location
+            self.updateDistanceLabel()
+            self.locationManager.stopUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
     }
 }
