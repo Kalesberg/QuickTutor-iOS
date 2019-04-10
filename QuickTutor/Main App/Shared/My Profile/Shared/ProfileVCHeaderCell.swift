@@ -36,10 +36,19 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     let ratingLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.purple
-        label.text = "5.0 ★"
+        label.text = "5.0"
         label.font = Fonts.createBoldSize(14)
         return label
     }()
+    
+    let starIcon: UIImageView = {
+        let iv = UIImageView(image: UIImage(named: "ic_star_sm_filled"))
+        iv.contentMode = .scaleAspectFit
+        iv.image = iv.image!.withRenderingMode(.alwaysTemplate)
+        iv.tintColor = Colors.purple
+        return iv
+    }()
+    
     
     let actionsButton: UIButton = {
         let button = UIButton()
@@ -58,6 +67,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         setupProfileImageView()
         setupNameLabel()
         setupRatingLabel()
+        setupStarIcon()
         setupActionsButton()
         setupProfileToggleView()
     }
@@ -78,7 +88,13 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     func setupRatingLabel() {
         addSubview(ratingLabel)
-        ratingLabel.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nameLabel.rightAnchor, paddingTop: 1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 17)
+        ratingLabel.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 17)
+    }
+    
+    func setupStarIcon() {
+        addSubview(starIcon)
+        starIcon.anchor(top: nil, left: ratingLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 12, height: 12)
+        addConstraint(NSLayoutConstraint(item: starIcon, attribute: .centerY, relatedBy: .equal, toItem: ratingLabel, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func setupActionsButton() {

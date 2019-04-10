@@ -125,7 +125,7 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </imageView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6i0-qX-rKr">
-                                                                    <rect key="frame" x="0.0" y="31.5" width="115" height="19.5"/>
+                                                                    <rect key="frame" x="0.0" y="31.5" width="125" height="19.5"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="top subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbV-DZ-rL9">
                                                                             <rect key="frame" x="0.0" y="0.0" width="81.5" height="19.5"/>
@@ -134,19 +134,22 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-9W-O72">
-                                                                            <rect key="frame" x="81.5" y="0.0" width="22.5" height="19.5"/>
+                                                                            <rect key="frame" x="86.5" y="0.0" width="22.5" height="19.5"/>
                                                                             <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
                                                                             <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="CMW-hq-mef">
-                                                                            <rect key="frame" x="104" y="4.5" width="11" height="11"/>
+                                                                            <rect key="frame" x="114" y="4.5" width="11" height="11"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="11" id="7am-WB-94W"/>
                                                                                 <constraint firstAttribute="width" constant="11" id="FNb-IV-tbe"/>
                                                                             </constraints>
                                                                         </imageView>
                                                                     </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="CMW-hq-mef" firstAttribute="leading" secondItem="CC5-9W-O72" secondAttribute="trailing" constant="5" id="qXk-gU-78G"/>
+                                                                    </constraints>
                                                                 </stackView>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a0N-aR-lNB">
                                                                     <rect key="frame" x="116.5" y="0.0" width="108.5" height="40"/>
