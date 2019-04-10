@@ -77,7 +77,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     }()
 
     let starIcon: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "yellow-star"))
+        let iv = UIImageView(image: UIImage(named: "ic_star_sm_filled"))
         iv.contentMode = .scaleAspectFit
         iv.image = iv.image!.withRenderingMode(.alwaysTemplate)
         iv.tintColor = Colors.purple
