@@ -147,6 +147,7 @@ extension QuickSearchVC: UIScrollViewDelegate {
 extension QuickSearchVC: QuickSearchCategoryCellDelegate {
     func quickSearchCategoryCell(_ cell: QuickSearchCategoryCell, didSelect subcategory: String, at indexPath: IndexPath) {
         let vc = CategorySearchVC()
+        AnalyticsService.shared.logSubcategoryTapped(subcategory)
         vc.subcategory = subcategory
         vc.navigationItem.title = subcategory.capitalized
         navigationController?.pushViewController(vc, animated: true)

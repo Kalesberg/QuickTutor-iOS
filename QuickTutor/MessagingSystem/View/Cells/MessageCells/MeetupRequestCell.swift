@@ -169,8 +169,8 @@ class SessionRequestCell: UserMessageCell {
     func eventAlreadyExists(session: SessionRequest?) -> Bool {
         guard let session = session else { return false }
         let eventStore = EKEventStore()
-        let startDate = NSDate(timeIntervalSince1970: TimeInterval(session.startTime!))
-        let endDate = NSDate(timeIntervalSince1970: TimeInterval(session.endTime!))
+        let startDate = NSDate(timeIntervalSince1970: TimeInterval(session.startTime))
+        let endDate = NSDate(timeIntervalSince1970: TimeInterval(session.endTime))
         let predicate = eventStore.predicateForEvents(withStart: startDate as Date, end: endDate as Date, calendars: nil)
         let existingEvents = eventStore.events(matching: predicate)
         for singleEvent in existingEvents {

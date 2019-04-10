@@ -219,9 +219,9 @@ class DataService {
     
     func sendSessionRequestToId(sessionRequest: SessionRequest, _ id: String) {
         guard let uid = AccountService.shared.currentUser.uid else { return }
-        
-        guard let endTime = sessionRequest.endTime else { return }
-        let expiration = (endTime - Date().timeIntervalSince1970) / 2
+        SessionAnalyticsService.shared.logSessionRequestSent(sessionRequest)
+        guard sessionRequest.endTime != 0 else { return }
+        let expiration = (sessionRequest.endTime - Date().timeIntervalSince1970) / 2
         let expirationDate = Date().addingTimeInterval(expiration).timeIntervalSince1970
         sessionRequest.expiration = expirationDate
         var values: [String: Any] = ["expiration": expirationDate, "status": "pending"]

@@ -52,6 +52,11 @@ class QuickSearchResultsVC: UIViewController {
 
 extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if currentSubjects.count == 0 {
+            collectionView.setEmptyMessage("No subjects found")
+        } else {
+            collectionView.restoreEmptyState()
+        }
         return currentSubjects.count
     }
     
@@ -70,9 +75,30 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = CategorySearchVC()
-        vc.subject = currentSubjects[indexPath.item].0
-        vc.navigationItem.title = currentSubjects[indexPath.item].0
+        let subject = currentSubjects[indexPath.item].0
+        vc.subject = subject
+        AnalyticsService.shared.logSubjectTapped(subject)
+        vc.navigationItem.title = subject
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension UICollectionView {
+    
+    func setEmptyMessage(_ message: String) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        messageLabel.text = message
+        messageLabel.textColor = Colors.grayText
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center;
+        messageLabel.font = Fonts.createSize(14)
+        messageLabel.sizeToFit()
+        
+        self.backgroundView = messageLabel;
+    }
+    
+    func restoreEmptyState() {
+        self.backgroundView = nil
     }
 }
 

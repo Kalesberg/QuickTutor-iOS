@@ -12,18 +12,18 @@ import Foundation
 var sessionCache = [String: SessionRequest]()
 
 class SessionRequest {
-    var subject: String?
-    var date: Double?
-    var startTime: Double?
-    var endTime: Double?
-    var price: Double?
+    var subject: String
+    var date: Double
+    var startTime: Double
+    var endTime: Double
+    var price: Double
     var choice: String?
     var status: String?
     var expiration: Double?
     var id: String?
     var senderId: String
     var receiverId: String
-    var type: String?
+    var type: String
     var receiverAccountType: String?
 
     var dictionaryRepresentation: [String: Any] {
@@ -44,17 +44,17 @@ class SessionRequest {
     }
 
     init(data: [String: Any]) {
-        subject = data["subject"] as? String
-        date = data["date"] as? Double
-        startTime = data["startTime"] as? Double
-        endTime = data["endTime"] as? Double
-        price = data["price"] as? Double
+        subject = data["subject"] as? String ?? ""
+        date = data["date"] as? Double ?? 0
+        startTime = data["startTime"] as? Double ?? 0
+        endTime = data["endTime"] as? Double ?? 0
+        price = data["price"] as? Double ?? 0
         choice = data["choice"] as? String
         status = data["status"] as? String
         expiration = data["expiration"] as? Double
         senderId = data["senderId"] as? String ?? ""
         receiverId = data["receiverId"] as? String ?? ""
-        type = data["type"] as? String
+        type = data["type"] as? String ?? ""
         receiverAccountType = data["receiverAccountType"] as? String
         if isExpired() {
             status = "expired"
@@ -62,7 +62,7 @@ class SessionRequest {
     }
 
     func formattedDate() -> String? {
-        guard let date = self.date else { return nil }
+        guard self.date != 0 else { return nil }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EE MMM dd"
         let dateFromTimeInterval = Date(timeIntervalSince1970: date)
@@ -70,7 +70,6 @@ class SessionRequest {
     }
 
     func formattedStartTime() -> String? {
-        guard let startTime = self.startTime else { return nil }
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
         let dateFromTimeInterval = Date(timeIntervalSince1970: startTime)
@@ -78,7 +77,6 @@ class SessionRequest {
     }
 
     func formattedEndTime() -> String? {
-        guard let startTime = self.endTime else { return nil }
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
         let dateFromTimeInterval = Date(timeIntervalSince1970: startTime)

@@ -19,9 +19,9 @@ class EventManager {
             if error != nil { return }
             if granted {
                 let event: EKEvent = EKEvent(eventStore: eventStore)
-                event.title = "QuickTutor session: \(session.subject!)"
-                event.startDate = NSDate(timeIntervalSince1970: session.startTime!) as Date
-                event.endDate = NSDate(timeIntervalSince1970: session.endTime!) as Date
+                event.title = "QuickTutor session: \(session.subject)"
+                event.startDate = NSDate(timeIntervalSince1970: session.startTime) as Date
+                event.endDate = NSDate(timeIntervalSince1970: session.endTime) as Date
                 event.calendar = eventStore.defaultCalendarForNewEvents
                 do {
                     try eventStore.save(event, span: .thisEvent)
