@@ -28,14 +28,9 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
     weak var delegate: ImageMessageAnimatorDelegate?
 
     var imageCellImageView: UIImageView?
+    let zoomScrollView = UIScrollView()
     let zoomView = UIImageView()
     let zoomBackground = UIView()
-    
-    let navBarCover: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        return view
-    }()
     
     let inputAccessoryCover: UIView = {
         let view = UIView()
@@ -43,25 +38,32 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
         return view
     }()
     
-    func handleZoomFor(imageView: UIImageView) {
+    func handleZoomFor(imageView: UIImageView, scrollDelegate: UIScrollViewDelegate, zoomableView: ((UIImageView) -> ())?) {
         delegate?.imageAnimatorWillZoomIn(self)
-        guard let window = UIApplication.shared.keyWindow else { return }
-//        parentController.resignFirstResponder()
-        navBarCover.alpha = 0
+        parentController.navigationController?.setNavigationBarHidden(true, animated: true)
+        parentController.tabBarController?.tabBar.isHidden = true
+        
         inputAccessoryCover.alpha = 0
-        window.addSubview(navBarCover)
-
-
         imageCellImageView = imageView
 
         zoomBackground.backgroundColor = .black
         zoomBackground.alpha = 0
-        zoomBackground.frame = parentController.view.frame
         zoomBackground.isUserInteractionEnabled = true
         zoomBackground.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(zoomOut)))
+        zoomBackground.frame = UIScreen.main.bounds
         parentController.view.addSubview(zoomBackground)
-
-        navBarCover.anchor(top: nil, left: window.leftAnchor, bottom: zoomBackground.topAnchor, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 200)
+        
+        zoomScrollView.delegate = scrollDelegate
+        zoomScrollView.frame = UIScreen.main.bounds
+        zoomScrollView.alwaysBounceVertical = false
+        zoomScrollView.alwaysBounceHorizontal = false
+        zoomScrollView.minimumZoomScale = 1.0
+        zoomScrollView.maximumZoomScale = 5.0
+        zoomScrollView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(zoomOut)))
+        zoomScrollView.isUserInteractionEnabled = true
+        zoomScrollView.isPagingEnabled = false
+        parentController.view.addSubview(zoomScrollView)
+        zoomScrollView.flashScrollIndicators()
         
         imageView.alpha = 0
         guard let startingFrame = imageView.superview?.convert(imageView.frame, to: nil) else { return }
@@ -71,18 +73,20 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
         zoomView.backgroundColor = .black
         zoomView.frame = startingFrame
         zoomView.isUserInteractionEnabled = true
-        parentController.view.addSubview(zoomView)
-
         zoomView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(zoomOut)))
+        zoomScrollView.addSubview(zoomView)
+        
+        // Return zoomView to the delegate controller
+        if let zoomableView = zoomableView {
+            zoomableView(zoomView)
+        }
 
         UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             let height = (self.parentController.view.frame.width / startingFrame.width) * startingFrame.height
             let y = self.parentController.view.frame.height / 2 - height / 2
             self.zoomView.frame = CGRect(x: 0, y: y, width: self.parentController.view.frame.width, height: height)
             self.zoomBackground.alpha = 1
-            self.navBarCover.alpha = 1
             self.parentController.inputAccessoryView?.alpha = 0
-//            self.parentController.resignFirstResponder()
             self.delegate?.imageAnimatorDidZoomIn(self)
         }.startAnimation()
     }
@@ -94,15 +98,19 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.zoomView.frame = startingFrame
             self.zoomBackground.alpha = 0
-            self.navBarCover.alpha = 0
             self.parentController.inputAccessoryView?.alpha = 1
         }
 
         animator.addCompletion { _ in
+            // Show the bottom tabbar and navigationbar.
+            self.parentController.navigationController?.setNavigationBarHidden(false, animated: true)
+            self.parentController.tabBarController?.tabBar.isHidden = false
+            
             self.zoomBackground.removeFromSuperview()
             self.zoomView.removeFromSuperview()
+            self.zoomScrollView.removeFromSuperview()
+            
             self.imageCellImageView?.alpha = 1
-            self.navBarCover.removeFromSuperview()
             self.parentController.becomeFirstResponder()
         }
 
