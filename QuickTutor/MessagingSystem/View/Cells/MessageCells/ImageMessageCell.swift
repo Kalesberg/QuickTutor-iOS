@@ -9,12 +9,13 @@
 import UIKit
 
 protocol ImageMessageCellDelegate {
-    func handleZoomFor(imageView: UIImageView)
+    func handleZoomFor(imageView: UIImageView, scrollDelegate: UIScrollViewDelegate, zoomableView: ((UIImageView) -> ())?)
 }
 
 class ImageMessageCell: UserMessageCell {
     var delegate: ImageMessageCellDelegate?
-
+    var zoomableView: UIImageView?
+    
     let imageView: CustomImageView = {
         let iv = CustomImageView()
         iv.contentMode = .scaleAspectFill
@@ -62,6 +63,21 @@ class ImageMessageCell: UserMessageCell {
     }
 
     @objc func handleZoom() {
-        delegate?.handleZoomFor(imageView: imageView)
+        delegate?.handleZoomFor(imageView: imageView, scrollDelegate: self, zoomableView: { (zoomableView) in
+            self.zoomableView = zoomableView
+        })
+    }
+}
+
+extension ImageMessageCell: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return self.zoomableView
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        let offsetX = max((scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5, 0.0)
+        let offsetY = max((scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5, 0.0)
+
+        self.zoomableView?.center = CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX, y: scrollView.contentSize.height * 0.5 + offsetY)
     }
 }
