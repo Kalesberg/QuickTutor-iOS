@@ -14,6 +14,7 @@ enum SessionStatus: String {
     case tipAdded
     case ratingAdded
     case reviewAdded
+    case paymentCharged
     case complete
 }
 
@@ -26,11 +27,12 @@ class PostSessionManager {
 
     func setUnfinishedFlag(sessionId: String, status: SessionStatus) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard status != SessionStatus.reviewAdded else {
+        switch status {
+        case .paymentCharged, .reviewAdded, .complete:
             Database.database().reference().child("unfinishedSessions").child(uid).child(sessionId).removeValue()
-            return
+        default:
+            Database.database().reference().child("unfinishedSessions").child(uid).child(sessionId).setValue(status.rawValue)
         }
-        Database.database().reference().child("unfinishedSessions").child(uid).child(sessionId).setValue(status.rawValue)
     }
 
     func checkForUnfinishedSession(completion: @escaping (String, String) -> Void) {
