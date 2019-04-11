@@ -245,6 +245,9 @@ class QTProfileViewController: UIViewController {
         distanceLabel.layer.cornerRadius = 3
         distanceLabel.clipsToBounds = true
         
+        // Add dim effect on the more button.
+        moreButton.setupTargets()
+        
         guard let user = user, let profileViewType = profileViewType else { return }
         
         // Set the avatar of user profile.
