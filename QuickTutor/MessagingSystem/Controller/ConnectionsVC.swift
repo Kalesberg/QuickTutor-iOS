@@ -65,6 +65,10 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .automatic
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
     }
     
     func setupSearchController() {
