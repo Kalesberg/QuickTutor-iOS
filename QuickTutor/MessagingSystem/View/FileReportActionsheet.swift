@@ -98,9 +98,10 @@ class FileReportActionsheet: UIView {
     }
 
     func setupActionsheetBackground() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = UIApplication.shared.windows.last else { return }
         window.addSubview(actionSheetBackground)
         actionSheetBackground.frame = CGRect(x: 0, y: window.frame.height - bottomLayoutMargin, width: window.frame.width, height: panelHeight)
+        window.bringSubviewToFront(actionSheetBackground)
     }
     
     func setupTitleLabel() {

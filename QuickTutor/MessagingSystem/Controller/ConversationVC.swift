@@ -155,7 +155,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
         let firstName = chatPartner.formattedName.split(separator: " ")[0]
         if #available(iOS 11.0, *) {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String(firstName))
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0, name: String(firstName))
         } else {
             actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(firstName))
         }
