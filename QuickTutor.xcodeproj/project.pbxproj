@@ -850,6 +850,7 @@
 		CF4C7895226080F700478D83 /* LeanerMainPageNavigationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4C7894226080F700478D83 /* LeanerMainPageNavigationHelper.swift */; };
 		CF4C78972260816000478D83 /* LearnerMainPageActiveTutorsSectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4C78962260816000478D83 /* LearnerMainPageActiveTutorsSectionContainerCell.swift */; };
 		CF4C78992260819F00478D83 /* LearnerMainPageActiveTutorsSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4C78982260819F00478D83 /* LearnerMainPageActiveTutorsSectionController.swift */; };
+		CF4C789C2261465700478D83 /* LearnerMainPageCollectionViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AD0225DA48000CF4F0A /* LearnerMainPageCollectionViewHelper.swift */; };
 		CF4CAED42172CC2100B23530 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4CAED32172CC2100B23530 /* NotificationService.swift */; };
 		CF4CAED82172CC2100B23530 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CF4CAED12172CC2100B23530 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF4EA0EC20E4A6B0007010F0 /* phone-ring.mp3 */; };
@@ -2597,7 +2598,6 @@
 				CF671ACF225DA32100CF4F0A /* TopTutors */,
 				CF671AD6225EA0C700CF4F0A /* Suggested */,
 				CF4C789A2260822E00478D83 /* CurrentlyActive */,
-				CF671AD0225DA48000CF4F0A /* LearnerMainPageCollectionViewHelper.swift */,
 				CFB40E67216F1F5300828E72 /* LearnerSettingsVC.swift */,
 				84A090A52186248B00DBD48F /* AddTutor */,
 				84A090A42186229900DBD48F /* CategorySearch */,
@@ -2819,6 +2819,7 @@
 			children = (
 				CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */,
 				846252E620637CF8001DD330 /* LearnerMainPageVC.swift */,
+				CF671AD0225DA48000CF4F0A /* LearnerMainPageCollectionViewHelper.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -4221,6 +4222,7 @@
 				56A8D0B32240A4AB00866AD7 /* QTStartSessionViewController.swift in Sources */,
 				569F180A223554FD00820A20 /* EditPhoneVerificationVC.swift in Sources */,
 				569F180B223554FD00820A20 /* KeyboardAccessory.swift in Sources */,
+				CF4C789C2261465700478D83 /* LearnerMainPageCollectionViewHelper.swift in Sources */,
 				569F180D223554FD00820A20 /* LearnerEditProfileVCView.swift in Sources */,
 				569F180E223554FD00820A20 /* Interactables.swift in Sources */,
 				569F180F223554FD00820A20 /* AddTutorVCView.swift in Sources */,

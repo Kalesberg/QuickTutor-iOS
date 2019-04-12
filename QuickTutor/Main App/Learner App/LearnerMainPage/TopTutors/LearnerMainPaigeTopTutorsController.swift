@@ -76,9 +76,12 @@ class LearnerMainPaigeTopTutorsController: UIViewController, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let uid = datasource[indexPath.item].uid
-        let userInfo: [AnyHashable: Any] = ["uid": uid]
-        NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.topTutorTapped, object: nil, userInfo: userInfo)
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+        cell.growSemiShrink {
+            let uid = self.datasource[indexPath.item].uid
+            let userInfo: [AnyHashable: Any] = ["uid": uid]
+            NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.topTutorTapped, object: nil, userInfo: userInfo)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

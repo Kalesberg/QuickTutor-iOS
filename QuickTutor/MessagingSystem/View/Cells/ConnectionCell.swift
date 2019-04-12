@@ -172,6 +172,7 @@ class ConnectionCell: UICollectionViewCell {
         messageButton.setTitle("Message", for: .normal)
         messageButton.backgroundColor = Colors.purple
         messageButton.layer.cornerRadius = 4
+        separatorLine.isHidden = true
     }
     
     @objc func showConversation() {
