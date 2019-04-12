@@ -308,6 +308,8 @@ class QTProfileViewController: UIViewController {
             
             updateDistanceLabel()
             
+            updateBioLabel(bio: user.tBio)
+            
             navigationItem.title = user.username
             
             // If a tutor visits an another tutor's profile, hide message and more icons.
@@ -322,11 +324,9 @@ class QTProfileViewController: UIViewController {
             addressView.isHidden = false
             addressLabel.text = "United States"
             distanceView.isHidden = true
-            if let bio = user.bio, !bio.isEmpty {
-                bioLabel.text = "\(bio)"
-            } else {
-                bioLabel.text = "\(user.formattedName) has not yet entered a biography."
-            }
+            
+            updateBioLabel(bio: user.bio)
+            
             navigationItem.title = user.formattedName
             
             // If a learner visits an another learner's profile, hide message and more icons.
@@ -360,11 +360,9 @@ class QTProfileViewController: UIViewController {
             addressLabel.text = user.region
             distanceView.isHidden = false
             distanceLabel.text = "1 mile or 0 miles away"
-            if let bio = user.tBio, !bio.isEmpty {
-                bioLabel.text = "\(bio.trimmingCharacters(in: .whitespacesAndNewlines))"
-            } else {
-                bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen."
-            }
+            
+            updateMyBioLabel(bio: user.tBio)
+            
             navigationItem.title = user.username
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_pencil"),
                                                                 style: .plain,
@@ -379,11 +377,9 @@ class QTProfileViewController: UIViewController {
             addressLabel.text = "United States"
             distanceView.isHidden = false
             distanceLabel.text = "1 mile or 0 miles away"
-            if let bio = user.bio, !bio.isEmpty {
-                bioLabel.text = "\(bio)"
-            } else {
-                bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen."
-            }
+            
+            updateMyBioLabel(bio: user.bio)
+            
             navigationItem.title = user.formattedName
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_pencil"),
                                                                 style: .plain,
@@ -602,6 +598,22 @@ class QTProfileViewController: UIViewController {
                 }
             default: break
             }
+        }
+    }
+    
+    func updateBioLabel(bio: String?) {
+        if let bio = bio, !bio.isEmpty {
+            bioLabel.text = "\(bio)"
+        } else {
+            bioLabel.text = "\(user.formattedName) has not yet entered a biography."
+        }
+    }
+    
+    func updateMyBioLabel(bio: String?) {
+        if let bio = bio, !bio.isEmpty {
+            bioLabel.text = "\(bio.trimmingCharacters(in: .whitespacesAndNewlines))"
+        } else {
+            bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen."
         }
     }
 }
