@@ -22,6 +22,18 @@ struct Notifications {
     static let tutorDidRemoveSubject = Notification(name: Notification.Name("com.quickTutor.tutorDidRemoveSubject"))
 }
 
+struct NotificationNames {
+    struct LearnerMainFeed {
+        static let featuredSectionTapped = Notification.Name("com.quickTutor.featuredTapped")
+        static let categoryTapped = Notification.Name("com.quickTutor.CategoryTapped")
+        static let topTutorTapped = Notification.Name("com.quickTutor.topTutorTapped")
+        static let seeAllTopTutorsTapped = Notification.Name("com.quickTutor.seeAllTopTutorsTapped")
+        static let suggestedTutorTapped = Notification.Name("com.quickTutor.suggestedTutorTapped")
+        static let activeTutorCellTapped = Notification.Name("com.quickTutor.activeTutorCellTapped")
+        static let activeTutorMessageButtonTapped = Notification.Name("com.quickTutor.activeTutorMessageButtonTapped")
+    }
+}
+
 struct PushNotification {
     var identifier: String
     var category: NotificationCategory

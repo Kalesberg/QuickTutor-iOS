@@ -109,9 +109,13 @@ extension QuickSearchVC: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         beginEditing()
         child.inSearchMode = true
-        guard let text = textField.text, !text.isEmpty else { return true}
-        child.filteredSubjects = child.subjects.filter({ $0.0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
-        child.contentView.collectionView.reloadData()
+        guard let text = textField.text, !text.isEmpty else { return true }
+        DispatchQueue.global().async {
+            self.child.filteredSubjects = self.child.subjects.filter({ $0.0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
+            DispatchQueue.main.sync {
+                self.child.contentView.collectionView.reloadData()
+            }
+        }
         return true
     }
     

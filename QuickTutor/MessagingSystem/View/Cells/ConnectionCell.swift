@@ -76,6 +76,7 @@ class ConnectionCell: UICollectionViewCell {
     let messageButton: DimmableButton = {
         let button = DimmableButton()
         button.setImage(UIImage(named: "messageIconCircle"), for: .normal)
+        button.titleLabel?.font = Fonts.createBoldSize(12)
         return button
     }()
     
@@ -91,6 +92,9 @@ class ConnectionCell: UICollectionViewCell {
         view.backgroundColor = Colors.backgroundDark
         return view
     }()
+    
+    var messageButtonWidthAnchor: NSLayoutConstraint?
+    var messageButtonHeightAnchor: NSLayoutConstraint?
 
     func setupViews() {
         setupProfileImageView()
@@ -118,7 +122,12 @@ class ConnectionCell: UICollectionViewCell {
     
     func setupMessageButton() {
         addSubview(messageButton)
-        messageButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 35, height: 35)
+        messageButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 35)
+        messageButtonWidthAnchor = messageButton.widthAnchor.constraint(equalToConstant: 35)
+        messageButtonWidthAnchor?.isActive = true
+        messageButtonHeightAnchor = messageButton.heightAnchor.constraint(equalToConstant: 35)
+        messageButtonHeightAnchor?.isActive = true
+        messageButton.layoutIfNeeded()
         addConstraint(NSLayoutConstraint(item: messageButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         messageButton.addTarget(self, action: #selector(showConversation), for: .touchUpInside)
     }
@@ -155,7 +164,19 @@ class ConnectionCell: UICollectionViewCell {
         nameLabel.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 250, height: 0)
     }
     
+    func updateToMainFeedLayout() {
+        messageButton.setImage(nil, for: .normal)
+        messageButtonWidthAnchor?.constant = 75
+        messageButtonHeightAnchor?.constant = 30
+        messageButton.layoutIfNeeded()
+        messageButton.setTitle("Message", for: .normal)
+        messageButton.backgroundColor = Colors.purple
+        messageButton.layer.cornerRadius = 4
+    }
+    
     @objc func showConversation() {
+        let userInfo: [AnyHashable: Any] = ["uid": user.uid]
+        NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.activeTutorMessageButtonTapped, object: nil, userInfo: userInfo)
         delegate?.connectionCell(self, shouldShowConversationWith: user)
     }
     
