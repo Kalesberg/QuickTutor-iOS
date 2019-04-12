@@ -79,9 +79,9 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         setupLeftAccessoryView()
         setupSubmitButton()
         setupMessageTextfield()
-        setupBackgroundView()
         setupSeparator()
         setupTextFieldCover()
+        setupBackgroundView()
     }
 
     func setupMainView() {
