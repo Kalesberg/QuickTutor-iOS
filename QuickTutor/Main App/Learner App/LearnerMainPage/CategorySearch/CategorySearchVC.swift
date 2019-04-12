@@ -80,7 +80,7 @@ class CategorySearchVC: BaseViewController {
         TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors) in
             guard let tutors = tutors else { return }
             self.loadedAllTutors = tutors.count < 60
-            self.datasource.append(contentsOf: tutors)
+            self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.contentView.collectionView.reloadData()
         }
     }
@@ -89,7 +89,7 @@ class CategorySearchVC: BaseViewController {
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors) in
             guard let tutors = tutors else { return }
             self.loadedAllTutors = tutors.count < 60
-            self.datasource.append(contentsOf: tutors)
+            self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.contentView.collectionView.reloadData()
         }
     }
@@ -98,7 +98,7 @@ class CategorySearchVC: BaseViewController {
         TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors) in
             guard let tutors = tutors else { return }
             self.loadedAllTutors = tutors.count < 60
-            self.datasource.append(contentsOf: tutors)
+            self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.contentView.collectionView.reloadData()
         }
     }
