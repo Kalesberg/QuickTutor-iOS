@@ -182,18 +182,8 @@ class SessionRequestCell: UserMessageCell {
     }
 
     func updateAsAccepted() {
-        buttonView.removeAllButtonActions()
-
         titleLabel.text = "Accepted"
         updateButtonViewAsAccepted()
-
-        if eventAlreadyExists(session: sessionRequest) {
-            buttonView.removeAllButtonActions()
-            buttonView.setupAsAccepted(eventAlreadyAdded: true)
-        } else {
-            buttonView.setupAsAccepted(eventAlreadyAdded: false)
-            buttonView.setButtonActions(#selector(SessionRequestCell.addToCalendar), target: self)
-        }
     }
 
     func updateAsDeclined() {
@@ -247,14 +237,15 @@ class SessionRequestCell: UserMessageCell {
 
     func updateButtonViewAsAccepted() {
         buttonView.removeAllButtonActions()
-
-        if eventAlreadyExists(session: sessionRequest) {
-            buttonView.removeAllButtonActions()
-            buttonView.setupAsAccepted(eventAlreadyAdded: true)
-        } else {
-            buttonView.setupAsAccepted(eventAlreadyAdded: false)
-            buttonView.setButtonActions(#selector(SessionRequestCell.addToCalendar), target: self)
-        }
+        buttonView.setupAsAccepted()
+        buttonView.setButtonActions(#selector(startSession(_:)), target: self)
+    }
+    
+    @objc func startSession(_ sender: UIButton) {
+        guard let uid = Auth.auth().currentUser?.uid, let sessionRequest = sessionRequest, let id = sessionRequest.id else { return }
+        let value = ["startedBy": uid, "startType": "manual", "sessionType": sessionRequest.type]
+        Database.database().reference().child("sessionStarts").child(uid).child(id).setValue(value)
+        Database.database().reference().child("sessionStarts").child(sessionRequest.partnerId()).child(id).setValue(value)
     }
 
     func updateAsCompleted() {
@@ -379,7 +370,7 @@ class SessionRequestCell: UserMessageCell {
         guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { print("return"); return }
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("accepted")
         sessionCache.removeValue(forKey: sessionRequestId)
-        buttonView.setupAsAccepted(eventAlreadyAdded: false)
+        buttonView.setupAsAccepted()
         updateAsAccepted()
         markSessionDataStale()
         delegate?.updateAfterCellButtonPress(indexPath: indexPath)
@@ -506,11 +497,11 @@ class SessionRequestCellButtonView: UIView {
         rightButton.removeTarget(nil, action: nil, for: .allEvents)
     }
 
-    func setupAsAccepted(eventAlreadyAdded: Bool) {
+    func setupAsAccepted() {
         setupAsSingleButton()
         setButtonTitleColors(.white)
         setLeftButtonToPrimaryUI()
-        setButtonTitles(eventAlreadyAdded ? "Event Added to Calendar" : "Add to Calendar")
+        setButtonTitles("Start Session")
     }
 
     func setupAsDeclined() {

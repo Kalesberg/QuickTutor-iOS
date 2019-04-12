@@ -48,9 +48,9 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
         case 1:
             height = 200
         case 2:
-            height = 570
+            height = 585
         case 3:
-            height = 270
+            height = 275
         case 4:
             height = 230
         default:
