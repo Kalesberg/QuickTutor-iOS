@@ -18,6 +18,7 @@ class AddPaymentModal: CustomModal {
     
     override func setupViews() {
         super.setupViews()
+        buttonDivider.removeFromSuperview()
         nevermindButton.removeFromSuperview()
         noteLabel.text = "You must have a payment method on file to continue. You won't be charge until you have a session."
         titleLabel.text = "Payment method"
