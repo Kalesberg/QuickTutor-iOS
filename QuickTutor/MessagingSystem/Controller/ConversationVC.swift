@@ -18,6 +18,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var conversationManager = ConversationManager()
     var typingIndicatorManager: TypingIndicatorManager?
     var metaData: ConversationMetaData?
+    var addPaymentModal: AddPaymentModal?
 
     var receiverId: String!
     var chatPartner: User! {
@@ -417,8 +418,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         })
     }
     
-    
-    
     @objc func addMessageStatusLabel() {
         guard let index = conversationManager.getStatusMessageIndex() else { return }
         removeCurrentStatusLabel()
@@ -510,6 +509,21 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    func currentUserHasPayment() -> Bool {
+        guard AccountService.shared.currentUserType == .learner else {
+            return true
+        }
+        
+        guard CurrentUser.shared.learner.hasPayment else {
+            addPaymentModal = AddPaymentModal()
+            addPaymentModal?.delegate = self
+            addPaymentModal?.show()
+            return false
+        }
+        
         return true
     }
 }
@@ -790,6 +804,10 @@ extension ConversationVC: UITextViewDelegate {
 }
 
 extension ConversationVC: SessionRequestCellDelegate {
+    func sessionRequestCellShouldStartSession(cell: SessionRequestCell) -> Bool {
+        return currentUserHasPayment()
+    }
+    
     func sessionRequestCellShouldRequestSession(cell: SessionRequestCell) {
         showSessionRequestView()
     }
@@ -832,6 +850,11 @@ extension ConversationVC: CustomModalDelegate {
         cancelSessionModal?.dismiss()
         guard let index = cancelSessionIndex else { return }
         messagesCollection.reloadItems(at: [index])
+    }
+    
+    func handleConfirm() {
+        let next = CardManagerVC()
+        navigationController?.pushViewController(next, animated: true)
     }
     
     func markDataStale(sessionId: String, partnerId: String) {

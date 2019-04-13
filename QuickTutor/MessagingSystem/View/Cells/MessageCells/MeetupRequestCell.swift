@@ -11,6 +11,7 @@ import Firebase
 import UIKit
 
 protocol SessionRequestCellDelegate {
+    func sessionRequestCellShouldStartSession(cell: SessionRequestCell) -> Bool
     func sessionRequestCellShouldRequestSession(cell: SessionRequestCell)
     func sessionRequestCell(cell: SessionRequestCell, shouldCancel session: SessionRequest)
     func sessionRequestCell(cell: SessionRequestCell, shouldAddToCalendar session: SessionRequest)
@@ -242,7 +243,12 @@ class SessionRequestCell: UserMessageCell {
     }
     
     @objc func startSession(_ sender: UIButton) {
-        guard let uid = Auth.auth().currentUser?.uid, let sessionRequest = sessionRequest, let id = sessionRequest.id else { return }
+        guard let uid = Auth.auth().currentUser?.uid, let sessionRequest = sessionRequest, let id = sessionRequest.id, let delegate = self.delegate else { return }
+        
+        guard delegate.sessionRequestCellShouldStartSession(cell: self) else {
+            return
+        }
+        
         let value = ["startedBy": uid, "startType": "manual", "sessionType": sessionRequest.type]
         Database.database().reference().child("sessionStarts").child(uid).child(id).setValue(value)
         Database.database().reference().child("sessionStarts").child(sessionRequest.partnerId()).child(id).setValue(value)
