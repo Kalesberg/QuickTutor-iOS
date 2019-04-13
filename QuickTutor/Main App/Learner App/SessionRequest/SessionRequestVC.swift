@@ -18,9 +18,8 @@ class SessionRequestVC: UIViewController {
             contentView.tutor = tutor
             contentView.subjectView.collectionView.reloadData()
             contentView.subjectView.updateUI()
-            self.price = Double(tutor.price / 3)
-            contentView.paymentView.paymentInputView.digitsLabel.text = "$\(tutor.price! / 3)"
-            contentView.paymentView.paymentInputView.inputField.text = "\(tutor.price!)"
+            updatePriceLabelText(Double(tutor.price))
+            contentView.paymentView.paymentInputView.inputField.text = "\(tutor.price ?? 0)"
             checkForErrors()
         }
     }
@@ -136,6 +135,21 @@ class SessionRequestVC: UIViewController {
         present(ac, animated: true, completion: nil)
     }
     
+    func updatePriceLabelText(_ price: Double) {
+        if contentView.paymentView.paymentTypeView.secondaryButton.isSelected {
+            guard let priceText = contentView.paymentView.paymentInputView.inputField.text else { return }
+            contentView.paymentView.paymentInputView.digitsLabel.text = "$\(priceText)"
+        } else {
+            let price = calculatePrice(price, duration: duration)
+            self.price = price
+            contentView.paymentView.paymentInputView.digitsLabel.text = "$\(String(format: "%.2f", price))"
+        }
+    }
+    
+    func calculatePrice(_ price: Double, duration: Int) -> Double {
+        let minutesPerHours = 60.0
+        return Double(duration) / minutesPerHours * price
+    }
 }
 
 extension SessionRequestVC: SessionRequestTutorViewDelegate {
@@ -161,7 +175,8 @@ extension SessionRequestVC: SessionRequestDateViewDelegate {
 extension SessionRequestVC: SessionRequestDurationViewDelegate {
     func sessionRequestDurationView(_ durationView: SessionRequestDurationView, didSelect duration: Int) {
         self.duration = duration
-        print(duration)
+        guard let priceText = contentView.paymentView.paymentInputView.inputField.text else { return }
+        updatePriceLabelText(Double(priceText) ?? 0)
         checkForErrors()
     }
 }
@@ -171,18 +186,6 @@ extension SessionRequestVC: SessionRequestPaymentViewDelegate {
         self.price = price
         checkForErrors()
         updatePriceLabelText(price)
-    }
-    
-    func updatePriceLabelText(_ price: Double) {
-        if contentView.paymentView.paymentTypeView.secondaryButton.isSelected {
-            guard let priceText = contentView.paymentView.paymentInputView.inputField.text else { return }
-            contentView.paymentView.paymentInputView.digitsLabel.text = "$\(priceText)"
-        } else {
-            guard let priceText = contentView.paymentView.paymentInputView.inputField.text else { return }
-            let calculatedPrice = Double(duration) / 60.0 * price
-            self.price = calculatedPrice
-            contentView.paymentView.paymentInputView.digitsLabel.text = "$\(String(format: "%.2f", calculatedPrice))"
-        }
     }
 }
 
