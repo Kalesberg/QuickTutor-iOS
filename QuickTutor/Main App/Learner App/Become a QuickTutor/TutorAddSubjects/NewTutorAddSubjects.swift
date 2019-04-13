@@ -31,7 +31,7 @@ class TutorAddSubjectsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
-        contentView.accessoryView.isHidden = isViewing
+        contentView.hideAccessoryView = isViewing
         TutorRegistrationService.shared.shouldSaveSubjects = isViewing
     }
     

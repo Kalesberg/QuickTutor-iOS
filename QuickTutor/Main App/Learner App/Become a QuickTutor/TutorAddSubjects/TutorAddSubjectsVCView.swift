@@ -10,6 +10,8 @@ import UIKit
 
 class TutorAddSubjectsVCView: QuickSearchVCView {
     
+    let accessoryViewHeight: CGFloat = 80
+    
     let noSubjectsLabel: UILabel = {
         let label = UILabel()
         label.font = Fonts.createSize(12)
@@ -41,6 +43,15 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         view.layer.shadowOpacity = 0.5
         return view
     }()
+    
+    var hideAccessoryView = false {
+        didSet {
+            self.accessoryView.isHidden = hideAccessoryView
+            let margin: CGFloat = 10
+            let bottomPadding: CGFloat = hideAccessoryView ? 0 : accessoryViewHeight + margin
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomPadding, right: 0)
+        }
+    }
     
     let accessoryTextLabel: UILabel = {
         let label = UILabel()
@@ -89,7 +100,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     func setupAccessoryView() {
         addSubview(accessoryView)
-        accessoryView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
+        accessoryView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: accessoryViewHeight)
     }
     
     func setupAccessoryTextLabel() {
