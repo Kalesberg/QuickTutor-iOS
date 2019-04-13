@@ -67,6 +67,7 @@ class QuickSearchVC: UIViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         configureDelegates()
+        setupObservers()
 //        contentView.searchBar.becomeFirstResponder()
 
         if let subjects = SubjectStore.loadTotalSubjectList() {
@@ -93,6 +94,10 @@ class QuickSearchVC: UIViewController {
         contentView.collectionView.dataSource = self
         contentView.searchBarContainer.delegate = self
     }
+    
+    func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextField.textDidChangeNotification, object: nil)
+    }
 }
 
 extension QuickSearchVC: UpdatedFiltersCallback {
@@ -117,6 +122,13 @@ extension QuickSearchVC: UITextFieldDelegate {
             }
         }
         return true
+    }
+    
+    @objc func handleTextChange() {
+        let sender = contentView.searchBarContainer.searchBar
+        if sender.text == nil || sender.text == "" {
+            removeChild(popViewController: false)
+        }
     }
     
     func beginEditing() {
@@ -212,13 +224,14 @@ extension QuickSearchVC: CustomSearchBarDelegate {
     }
     
     func customSearchBar(_ searchBar: PaddedTextField, shouldEndEditing: Bool) {
-        removeChild()
+        removeChild(popViewController: true)
     }
     
-    func removeChild() {
+    func removeChild(popViewController: Bool) {
         child.willMove(toParent: nil)
         child.view.removeFromSuperview()
         child.removeFromParent()
+        guard popViewController else { return }
         navigationController?.popViewController(animated: false)
     }
 }
