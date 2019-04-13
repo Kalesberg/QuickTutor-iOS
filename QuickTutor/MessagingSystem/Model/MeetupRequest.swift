@@ -79,7 +79,7 @@ class SessionRequest {
     func formattedEndTime() -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
-        let dateFromTimeInterval = Date(timeIntervalSince1970: startTime)
+        let dateFromTimeInterval = Date(timeIntervalSince1970: endTime)
         return dateFormatter.string(from: dateFromTimeInterval)
     }
 
