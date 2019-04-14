@@ -39,6 +39,7 @@ class QTStartSessionViewController: UIViewController {
     var partnerId: String?
     var partner: User?
     var partnerUsername: String?
+    var addPaymentModal: AddPaymentModal?
     var meetupConfirmed = false
     
     var audioPlayer: AVPlayer?
@@ -220,12 +221,11 @@ class QTStartSessionViewController: UIViewController {
         }
         
         guard CurrentUser.shared.learner.hasPayment else {
-            print("Needs card")
             completion(false)
             self.onCancelButtonClicked(self.cancelButton)
-            let addPaymentModal = AddPaymentModal()
-            addPaymentModal.delegate = self
-            addPaymentModal.show()
+            addPaymentModal = AddPaymentModal()
+            addPaymentModal?.delegate = self
+            addPaymentModal?.show()
             return
         }
         
@@ -300,8 +300,7 @@ class QTStartSessionViewController: UIViewController {
 
 extension QTStartSessionViewController: CustomModalDelegate {
     func handleConfirm() {
-        let next = CardManagerVC()
-        next.popBackTo = AddTutorVC()
-        navigationController?.pushViewController(next, animated: true)
+        let notification = Notification(name: Notification.Name(rawValue: "session.showCardManagerVC"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(notification)
     }
 }

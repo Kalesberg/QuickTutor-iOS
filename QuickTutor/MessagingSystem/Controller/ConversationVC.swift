@@ -276,6 +276,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showCardManager), name: NSNotification.Name(rawValue: "session.showCardManagerVC"), object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -525,6 +527,11 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
         return true
+    }
+    
+    @objc func showCardManager() {
+        let next = CardManagerVC()
+        navigationController?.pushViewController(next, animated: true)
     }
 }
 
@@ -853,8 +860,7 @@ extension ConversationVC: CustomModalDelegate {
     }
     
     func handleConfirm() {
-        let next = CardManagerVC()
-        navigationController?.pushViewController(next, animated: true)
+        showCardManager()
     }
     
     func markDataStale(sessionId: String, partnerId: String) {
