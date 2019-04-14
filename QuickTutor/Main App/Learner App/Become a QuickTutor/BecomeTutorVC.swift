@@ -26,6 +26,13 @@ class BecomeTutorVC: BaseRegistrationController {
         progressView.isHidden = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
+    }
+    
     func setupTargets() {
         contentView.nextButton.addTarget(self, action: #selector(handleNext(_:)), for: .touchUpInside)
     }
@@ -39,4 +46,7 @@ class BecomeTutorVC: BaseRegistrationController {
         navigationController?.pushViewController(TutorAddSubjectsVC(), animated: true)
     }
 
+    @objc func backAction() {
+        navigationController?.popViewController(animated: true)
+    }
 }
