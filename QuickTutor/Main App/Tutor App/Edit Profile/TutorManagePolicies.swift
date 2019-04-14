@@ -114,7 +114,6 @@ class TutorManagePolicies: UIViewController {
     var ref: DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 
     let pickerView = UIPickerView()
-    var tutor: AWTutor!
     var datasource = [String]() {
         didSet {
             pickerView.reloadAllComponents()
@@ -137,7 +136,7 @@ class TutorManagePolicies: UIViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         configureDelegates()
-//        loadTutorPolicy()
+        loadTutorPolicy()
 
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
@@ -171,7 +170,7 @@ class TutorManagePolicies: UIViewController {
     }
 
     func loadTutorPolicy() {
-        guard let tutorPolicy = tutor.policy else {
+        guard let tutor = CurrentUser.shared.tutor, let tutorPolicy = tutor.policy else {
             return
         }
 

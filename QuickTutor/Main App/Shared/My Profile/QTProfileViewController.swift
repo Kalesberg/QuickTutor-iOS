@@ -83,7 +83,6 @@ class QTProfileViewController: UIViewController {
         super.viewDidLoad()
         setupObservers()
         setupDelegates()
-        initData()
         setupLocationManager()
         
         navigationController?.setNavigationBarHidden(false, animated: false)
@@ -94,6 +93,7 @@ class QTProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        initData()
         
         navigationController?.setNavigationBarHidden(false, animated: false)
         
