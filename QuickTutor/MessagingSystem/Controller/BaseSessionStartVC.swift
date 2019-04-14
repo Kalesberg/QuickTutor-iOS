@@ -263,7 +263,6 @@ class BaseSessionStartVC: UIViewController {
         }
         
         guard CurrentUser.shared.learner.hasPayment else {
-            print("Needs card")
             completion(false)
             self.cancelSession()
             self.addPaymentModal.show()

@@ -12,6 +12,7 @@ import Firebase
 import UIKit
 import SocketIO
 import IQKeyboardManager
+import Stripe
 
 class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     var messagingManagerDelegate: ConversationManagerDelegate?
@@ -277,6 +278,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
         
+        CardService.shared.checkForPaymentMethod()
         NotificationCenter.default.addObserver(self, selector: #selector(showCardManager), name: NSNotification.Name(rawValue: "session.showCardManagerVC"), object: nil)
     }
     

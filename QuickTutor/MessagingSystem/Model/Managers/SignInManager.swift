@@ -29,6 +29,7 @@ class SignInManager {
                 return
             }
             AccountService.shared.updateFCMTokenIfNeeded()
+            CardService.shared.checkForPaymentMethod()
             RootControllerManager.shared.configureRootViewController(controller: vc)
             completion()
         }

@@ -8,6 +8,7 @@
 
 import Firebase
 import Foundation
+import Stripe
 
 class AccountService {
     static let shared = AccountService()
@@ -88,6 +89,25 @@ class UserStatusService {
         case .online:
             dbRef.setValue(["status" : status.rawValue])
             break
+        }
+    }
+}
+
+class CardService {
+    static let shared = CardService()
+    
+    func checkForPaymentMethod() {
+        guard let learner = CurrentUser.shared.learner, !learner.customer.isEmpty else {
+            return
+        }
+        
+        Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
+            if error == nil {
+                guard let customer = customer, let cards = customer.sources as? [STPCard] else {
+                    return
+                }
+                learner.hasPayment = !cards.isEmpty
+            }
         }
     }
 }
