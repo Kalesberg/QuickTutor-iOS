@@ -32,7 +32,6 @@ class SavedTutorsVC: UIViewController {
         navigationController?.navigationBar.backgroundColor = Colors.newBackground
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
-            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         }
     }
     
