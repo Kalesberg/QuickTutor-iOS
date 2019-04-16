@@ -64,7 +64,7 @@ class TutorPolicyVCView: BaseRegistrationView {
     
     let checkBoxLabel: UILabel = {
         var label = UILabel()
-        label.font = Fonts.createSize(10)
+        label.font = Fonts.createSize(11)
         label.textColor = Colors.grayText
         label.text = "By checking the box, you confirm that you have reviewed the document above and you agree to its terms."
         label.numberOfLines = 0
@@ -119,7 +119,7 @@ class TutorPolicyVCView: BaseRegistrationView {
     
     func setupCheckBoxLabel() {
         addSubview(checkBoxLabel)
-        checkBoxLabel.anchor(top: nil, left: checkBox.rightAnchor, bottom: bottomView.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 30, width: 0, height: 30)
+        checkBoxLabel.anchor(top: nil, left: checkBox.rightAnchor, bottom: bottomView.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 0, height: 30)
     }
     
     func setupIndependentTutorButton() {
