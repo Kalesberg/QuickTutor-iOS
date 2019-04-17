@@ -20,6 +20,16 @@
 		4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
 		4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
 		4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
+		5602379D2267641B005653D5 /* CategorySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC7225D92FD00CF4F0A /* CategorySectionController.swift */; };
+		5602379E22676458005653D5 /* LearnerMainPageFeaturedSectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC3225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift */; };
+		5602379F22676465005653D5 /* LearnerMainPageTopTutorsSectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671ACD225DA30F00CF4F0A /* LearnerMainPageTopTutorsSectionContainerCell.swift */; };
+		560237A022676480005653D5 /* LearnerMainPageSuggestionsSectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AD2225EA06800CF4F0A /* LearnerMainPageSuggestionsSectionContainerCell.swift */; };
+		560237A122676486005653D5 /* LearnerMainPageActiveTutorsSectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4C78962260816000478D83 /* LearnerMainPageActiveTutorsSectionContainerCell.swift */; };
+		560237A2226764C6005653D5 /* FeaturedSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC1225D8C8B00CF4F0A /* FeaturedSectionController.swift */; };
+		560237A3226764EA005653D5 /* LearnerMainPageFeaturedSubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC5225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift */; };
+		560237A422676505005653D5 /* LearnerMainPageActiveTutorsSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4C78982260819F00478D83 /* LearnerMainPageActiveTutorsSectionController.swift */; };
+		560237A522676516005653D5 /* LearnerMainPageSuggestionSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AD4225EA09F00CF4F0A /* LearnerMainPageSuggestionSectionController.swift */; };
+		560237A62267651F005653D5 /* LearnerMainPaigeTopTutorsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671ACB225DA2D200CF4F0A /* LearnerMainPaigeTopTutorsController.swift */; };
 		56056EA3225301900060C251 /* TutorTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D06E0224B172700270115 /* TutorTabBarController.swift */; };
 		56056EA4225301E50060C251 /* LearnerTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D06DE224B170B00270115 /* LearnerTabBarController.swift */; };
 		561003B62242A9AF00A4688F /* QTInPersionSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */; };
@@ -3941,10 +3951,12 @@
 				569F16D8223554FD00820A20 /* InviteOthersView.swift in Sources */,
 				569F16D9223554FD00820A20 /* UploadImageVCView.swift in Sources */,
 				569F16DB223554FD00820A20 /* TutorFileReport.swift in Sources */,
+				560237A522676516005653D5 /* LearnerMainPageSuggestionSectionController.swift in Sources */,
 				569F16DC223554FD00820A20 /* TutorAgreementWebView.swift in Sources */,
 				569F16DD223554FD00820A20 /* ConnectionsBackgroundView.swift in Sources */,
 				569F16DE223554FD00820A20 /* CategorySearchVC.swift in Sources */,
 				569F16DF223554FD00820A20 /* PageView.swift in Sources */,
+				560237A422676505005653D5 /* LearnerMainPageActiveTutorsSectionController.swift in Sources */,
 				569F16E1223554FD00820A20 /* LearnerExtendedReviewsVC.swift in Sources */,
 				569F16E2223554FD00820A20 /* AddTutorTableViewCell.swift in Sources */,
 				4DE3668D2238BC5F00A94C37 /* TheChoiceVCView.swift in Sources */,
@@ -3983,6 +3995,7 @@
 				569F1708223554FD00820A20 /* SessionRequestSendView.swift in Sources */,
 				569F170B223554FD00820A20 /* MeetupTableCell.swift in Sources */,
 				569F170C223554FD00820A20 /* LightboxTransition.swift in Sources */,
+				5602379D2267641B005653D5 /* CategorySectionController.swift in Sources */,
 				561003C42243163600A4688F /* QTPastSessionTableViewCell.swift in Sources */,
 				569F170E223554FD00820A20 /* TutorUnsafeVC.swift in Sources */,
 				569F170F223554FD00820A20 /* SearchBar.swift in Sources */,
@@ -4046,6 +4059,7 @@
 				569F174D223554FD00820A20 /* TutorAddressVC.swift in Sources */,
 				569F174F223554FD00820A20 /* SystemMessageCell.swift in Sources */,
 				569F1750223554FD00820A20 /* TutorHarassmentVC.swift in Sources */,
+				560237A2226764C6005653D5 /* FeaturedSectionController.swift in Sources */,
 				569F1751223554FD00820A20 /* LearnerMainPageCategorySectionContainerCell.swift in Sources */,
 				569F1752223554FD00820A20 /* CardPaymentCell.swift in Sources */,
 				569F1753223554FD00820A20 /* TutorAccountPayments.swift in Sources */,
@@ -4111,6 +4125,7 @@
 				569F1792223554FD00820A20 /* TutorAddUsernameVCView.swift in Sources */,
 				569F1793223554FD00820A20 /* ArrayExtensions.swift in Sources */,
 				569F1794223554FD00820A20 /* CustomSearchBar.swift in Sources */,
+				560237A62267651F005653D5 /* LearnerMainPaigeTopTutorsController.swift in Sources */,
 				569F1795223554FD00820A20 /* AssetManager.swift in Sources */,
 				569F1796223554FD00820A20 /* TutorSessionsVC.swift in Sources */,
 				569F1797223554FD00820A20 /* DurationCollectionViewCell.swift in Sources */,
@@ -4188,6 +4203,7 @@
 				569F17E4223554FD00820A20 /* BalanceTransaction.swift in Sources */,
 				56A8D0B92240DA9900866AD7 /* QTVideoSessionViewController.swift in Sources */,
 				569F17E5223554FD00820A20 /* AccessoryViews.swift in Sources */,
+				5602379E22676458005653D5 /* LearnerMainPageFeaturedSectionContainerCell.swift in Sources */,
 				569F17E6223554FD00820A20 /* StringExtensions.swift in Sources */,
 				569F17E7223554FD00820A20 /* LightboxImage.swift in Sources */,
 				569F17E8223554FD00820A20 /* TutorCardCollectionViewBackground.swift in Sources */,
@@ -4220,6 +4236,7 @@
 				569F1808223554FD00820A20 /* EndSessionProfileBox.swift in Sources */,
 				569F1809223554FD00820A20 /* ProfileToggleView.swift in Sources */,
 				56A8D0B32240A4AB00866AD7 /* QTStartSessionViewController.swift in Sources */,
+				560237A122676486005653D5 /* LearnerMainPageActiveTutorsSectionContainerCell.swift in Sources */,
 				569F180A223554FD00820A20 /* EditPhoneVerificationVC.swift in Sources */,
 				569F180B223554FD00820A20 /* KeyboardAccessory.swift in Sources */,
 				CF4C789C2261465700478D83 /* LearnerMainPageCollectionViewHelper.swift in Sources */,
@@ -4272,6 +4289,8 @@
 				569F183E223554FD00820A20 /* AlertController.swift in Sources */,
 				569F183F223554FD00820A20 /* ConversationCollectionView.swift in Sources */,
 				569F1840223554FD00820A20 /* SessionDetailsVC.swift in Sources */,
+				560237A3226764EA005653D5 /* LearnerMainPageFeaturedSubjectCell.swift in Sources */,
+				560237A022676480005653D5 /* LearnerMainPageSuggestionsSectionContainerCell.swift in Sources */,
 				569F1841223554FD00820A20 /* QTTutorDashboardDurationView.swift in Sources */,
 				569F1843223554FD00820A20 /* Session.swift in Sources */,
 				569F1844223554FD00820A20 /* LearnerSessionsVC.swift in Sources */,
@@ -4288,6 +4307,7 @@
 				569F1850223554FD00820A20 /* UserSession.swift in Sources */,
 				569F1851223554FD00820A20 /* EmailVC.swift in Sources */,
 				569F1852223554FD00820A20 /* TutorQTGuide.swift in Sources */,
+				5602379F22676465005653D5 /* LearnerMainPageTopTutorsSectionContainerCell.swift in Sources */,
 				569F1853223554FD00820A20 /* UserPolicyVCView.swift in Sources */,
 				569F1854223554FD00820A20 /* BaseUpcomingSessionCell.swift in Sources */,
 				569F1855223554FD00820A20 /* AddTutorVC.swift in Sources */,

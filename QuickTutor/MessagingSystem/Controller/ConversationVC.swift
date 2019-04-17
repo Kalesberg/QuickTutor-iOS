@@ -60,8 +60,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }()
 
 
-    let titleViewFrame = CGRect(x: 0, y: 0, width: 100, height: 50)
-    lazy var titleView = CustomTitleView(frame: titleViewFrame)
+    let titleViewFrame = CGRect(x: 0, y: 0, width: 120, height: 50)
+    lazy var titleView = CustomTitleView(frame: CGRect.zero)
 
     var actionSheet: FileReportActionsheet?
     let studentKeyboardAccessory = StudentKeyboardAccessory()
@@ -244,7 +244,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
 //        titleView.frame = CGRect(x: bannerX, y: bannerY - 20, width: bannerWidth, height: bannerHeight)
         titleView.isUserInteractionEnabled = true
-        titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
+//        titleView.frame = CGRect(x: 0, y: 0, width: 120, height: 80)
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tap.numberOfTapsRequired = 1
         titleView.addGestureRecognizer(tap)
@@ -641,8 +641,6 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        titleView.transform = CGAffineTransform(translationX: 0, y: -20)
-        titleView.arrow.transform = CGAffineTransform(translationX: 0, y: 20)
     }
     
 }

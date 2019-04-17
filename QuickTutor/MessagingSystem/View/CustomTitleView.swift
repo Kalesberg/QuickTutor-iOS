@@ -71,8 +71,8 @@ class CustomTitleView: UIView {
         setupActiveLabel()
         setupArrow()
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(showProfile))
-        addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(showProfile))
+//        addGestureRecognizer(tap)
     }
 
     @objc func showProfile() {
