@@ -21,7 +21,7 @@ class EndSessionModal: BaseCustomModal {
             button.setTitle("End Session", for: .normal)
         }
         button.setTitleColor(Colors.purple, for: .normal)
-        button.titleLabel?.font = Fonts.createSize(16)
+        button.titleLabel?.font = Fonts.createBoldSize(16)
         return button
     }()
     
@@ -37,7 +37,7 @@ class EndSessionModal: BaseCustomModal {
         let button = DimmableButton()
         button.setTitle("Never mind", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = Fonts.createSize(16)
+        button.titleLabel?.font = Fonts.createBoldSize(16)
         return button
     }()
 

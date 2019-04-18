@@ -11,10 +11,11 @@ import UIKit
 class BaseCustomModal: UIView {
     var isShown = false
 
-    let backgroundBlurView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        return view
+    let backgroundBlurView: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: .dark)
+        let visualEffectsView = UIVisualEffectView(effect: blur)
+        visualEffectsView.contentView.backgroundColor = UIColor.black.withAlphaComponent(0.25)
+        return visualEffectsView
     }()
 
     let background: UIView = {

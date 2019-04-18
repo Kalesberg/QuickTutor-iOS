@@ -23,7 +23,7 @@ class ReportSuccessfulModal: BaseCustomModal {
         let button = DimmableButton()
         button.setTitle("Okay", for: .normal)
         button.setTitleColor(Colors.purple, for: .normal)
-        button.titleLabel?.font = Fonts.createSize(16)
+        button.titleLabel?.font = Fonts.createBoldSize(16)
         button.layer.cornerRadius = 4
         return button
     }()
