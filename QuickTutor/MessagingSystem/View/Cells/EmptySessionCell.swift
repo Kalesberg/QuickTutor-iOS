@@ -9,7 +9,7 @@
 import UIKit
 
 class EmptySessionCell: UICollectionViewCell {
-    let descriptions = ["You haven't sent any session requests.", "You have no scheduled sessions.", "Your previous sessions will appear here."]
+    let descriptions = ["You haven't sent any session requests.", "You have no upcoming sessions.", "Your previous sessions will appear here."]
 
     let requestsDescription = "You haven't received any sessions requests. Try adjusting your preferences or policies to increase requests."
 
@@ -19,7 +19,7 @@ class EmptySessionCell: UICollectionViewCell {
         label.textAlignment = .center
         label.textColor = .white
         label.font = Fonts.createSize(13)
-        label.text = "You have no scheduled sessions"
+        label.text = "You have no upcoming sessions"
         return label
     }()
     
