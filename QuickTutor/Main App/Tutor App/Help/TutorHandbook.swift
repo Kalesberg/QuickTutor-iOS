@@ -53,7 +53,7 @@ class TutorHandookView: MainLayoutHeaderScroll {
 
         earnBody.text = "With QuickTutor you can charge whatever you’d like and each session can be any price. For your first fifteen hours of tutoring, we will take 10% of your fare. After that, we’ll just take 7.5% of your fare."
 
-        toolTitle.label.text = "The ultimate biz management tool"
+        toolTitle.label.text = "The ultimate business management tool"
 
         toolBody.text = "Tap and tutor. All you have to do is build up your profile and wait. Learners will send you connection requests, and once you accept them, you can coordinate session details and accept session requests from learners. You can also send photos back and forth in case they have a quick question before a session."
 
