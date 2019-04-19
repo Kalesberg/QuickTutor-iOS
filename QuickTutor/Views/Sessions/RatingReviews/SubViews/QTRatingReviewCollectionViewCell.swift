@@ -45,15 +45,15 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var feedbackTextView: PlaceholderTextView!
     var isTutorProfile = false
     
-    enum Dimension: Float {
-        case superViewTop = 94
-        case stackViewTopConstraint = 57
-        case feedbackTextViewHeight = 66
-        case feedbackTextViewBottomDelta = 5
-        case avatarWidth = 180
-        case avatarHeight = 160
-        case avatarMinHeight = 100
-        case profileInfoHeight = 65
+    struct Dimension {
+        static let superViewTop = 94
+        static let stackViewTopConstraint = 57
+        static let feedbackTextViewHeight = 100
+        static let feedbackTextViewBottomDelta = 5
+        static let avatarWidth = 180
+        static let avatarHeight = 160
+        static let avatarMinHeight = 100
+        static let profileInfoHeight = 65
     }
     
     var ratingStars: [UIImageView]?
@@ -91,6 +91,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         feedbackTextView.font = Fonts.createSize(14)
         feedbackTextView.keyboardAppearance = .dark
         feedbackTextView.delegate = self
+        feedbackTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self,
@@ -121,11 +122,11 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             // Check whether or not the keyboard overlays text view or not
             let window = UIView(frame: CGRect(origin: CGPoint.zero, size: UIScreen.main.bounds.size))
             let newFrame = feedbackTextView.convert(feedbackTextView.bounds, to: window)
-            let bottom = newFrame.origin.y + CGFloat(Dimension.feedbackTextViewHeight.rawValue)
+            let bottom = newFrame.origin.y + CGFloat(Dimension.feedbackTextViewHeight)
             let keyboardTop = UIScreen.main.bounds.height - keyboardSize.size.height - 40
             if keyboardTop < bottom {
                 // overlay
-                delta = bottom - keyboardTop + CGFloat(Dimension.feedbackTextViewBottomDelta.rawValue)
+                delta = bottom - keyboardTop + CGFloat(Dimension.feedbackTextViewBottomDelta)
             }
         }
         ratingCommentLabel.isHidden = true
@@ -133,21 +134,21 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             if delta > 0 {
                 // Decrease the height of "please rate..." (57px)
                 self.ratingStarStackViewTopConstraint.constant = 0
-                if delta - CGFloat(Dimension.stackViewTopConstraint.rawValue) > CGFloat(Dimension.avatarHeight.rawValue) - CGFloat(Dimension.avatarMinHeight.rawValue) {
+                if delta - CGFloat(Dimension.stackViewTopConstraint) > CGFloat(Dimension.avatarHeight) - CGFloat(Dimension.avatarMinHeight) {
                     // Decrease the height of profile info (65px)
                     self.nameView.isHidden = true
                     self.subjectView.isHidden = true
                     self.profileRatingView.isHidden = true
                     // Decrease the avatar size
-                    if delta > CGFloat(Dimension.stackViewTopConstraint.rawValue) + CGFloat(Dimension.profileInfoHeight.rawValue) {
-                        self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarHeight.rawValue) -
-                            (delta - CGFloat(Dimension.stackViewTopConstraint.rawValue) - CGFloat(Dimension.profileInfoHeight.rawValue))
+                    if delta > CGFloat(Dimension.stackViewTopConstraint) + CGFloat(Dimension.profileInfoHeight) {
+                        self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarHeight) -
+                            (delta - CGFloat(Dimension.stackViewTopConstraint) - CGFloat(Dimension.profileInfoHeight))
                     }
-                } else if delta > CGFloat(Dimension.stackViewTopConstraint.rawValue) {
+                } else if delta > CGFloat(Dimension.stackViewTopConstraint) {
                     // Update the avatar height with min height.
-                    self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarMinHeight.rawValue)
+                    self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarMinHeight)
                 }
-                self.avatarWidthConstraint.constant = self.avatarHeightConstraint.constant * CGFloat(Dimension.avatarWidth.rawValue / Dimension.avatarHeight.rawValue)
+                self.avatarWidthConstraint.constant = self.avatarHeightConstraint.constant * CGFloat(Dimension.avatarWidth / Dimension.avatarHeight)
             }
             self.layoutIfNeeded()
         }
@@ -156,9 +157,9 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     @objc
     func handleKeyboardHide(_ notification: Notification) {
         UIView.animate(withDuration: TimeInterval(1.5)) {
-            if self.avatarWidthConstraint.constant < CGFloat(Dimension.avatarWidth.rawValue) {
-                self.avatarWidthConstraint.constant = CGFloat(Dimension.avatarWidth.rawValue)
-                self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarHeight.rawValue)
+            if self.avatarWidthConstraint.constant < CGFloat(Dimension.avatarWidth) {
+                self.avatarWidthConstraint.constant = CGFloat(Dimension.avatarWidth)
+                self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarHeight)
             }
             self.ratingStarStackViewTopConstraint.constant = 57
             self.ratingCommentLabel.isHidden = false
