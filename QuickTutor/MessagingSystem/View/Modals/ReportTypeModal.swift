@@ -11,7 +11,7 @@ import UIKit
 
 class ReportTypeModal: BaseCustomModal {
     
-    let reportTypeStrings = ["Innapropriate Messages", "Innapropriate Photos", "Harassment", "Fake Profile", "Cancel"]
+    let reportTypeStrings = ["Innapropriate Language", "Innapropriate Action", "Harassment/Bullying", "Impersonation", "Cancel"]
     var reportSuccessfulModal: ReportSuccessfulModal?
     var chatPartnerId: String?
 
@@ -70,13 +70,13 @@ extension ReportTypeModal: UITableViewDelegate, UITableViewDataSource {
     func handleReportAtIndex(_ index: Int) {
         switch index {
         case 0:
-            reportForReason(.inappropriateMessages)
+            reportForReason(.inappropriateLanguage)
         case 1:
-            reportForReason(.inappropriatePhotos)
+            reportForReason(.inappropriateAction)
         case 2:
             reportForReason(.harassment)
         case 3:
-            reportForReason(.fakeProfile)
+            reportForReason(.impersonation)
         default:
             dismiss()
         }
@@ -101,8 +101,8 @@ extension ReportTypeModal: SessionTableCellDelegate {
 }
 
 enum ReportType: String {
-    case inappropriateMessages = "innapropriate messages"
-    case inappropriatePhotos = "innapropriate photos"
-    case harassment
-    case fakeProfile = "fake profile"
+    case inappropriateLanguage = "innapropriate language"
+    case inappropriateAction = "innapropriate action"
+    case harassment = "harassment or bullying"
+    case impersonation = "impersonation"
 }
