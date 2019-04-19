@@ -13,14 +13,15 @@ class EditPhoneView: UIView, Keyboardable {
     var phoneTextField = EditPhoneTextField()
     var subtitle = LeftTextLabel()
     var enterButton = EnterButton()
+    var parentViewController: EditPhoneVC?
 
     func configureView() {
         addSubview(phoneTextField)
         phoneTextField.addSubview(subtitle)
-        addSubview(enterButton)
         addKeyboardView()
+        addSubview(enterButton)
 
-        subtitle.label.text = "Phone Number"
+        subtitle.label.text = "Phone number"
         subtitle.label.font = Fonts.createBoldSize(18)
         subtitle.label.numberOfLines = 2
         backgroundColor = Colors.darkBackground
@@ -42,7 +43,9 @@ class EditPhoneView: UIView, Keyboardable {
         }
 
         enterButton.snp.makeConstraints { make in
-            make.bottom.equalTo(keyboardView.snp.top)
+            make.bottom
+                .equalTo(keyboardView.snp.top)
+                .offset(CGFloat(parentViewController?.tabBarController?.tabBar.frame.size.height ?? 0))
             make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.08)
             make.centerX.equalToSuperview()
@@ -64,7 +67,6 @@ class EditPhoneView: UIView, Keyboardable {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
-        applyConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -192,6 +194,8 @@ class EditPhoneVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        contentView.parentViewController = self
+        contentView.applyConstraints()
         contentView.phoneTextField.textField.delegate = self
         navigationItem.title = "Change Number"
         navigationController?.setNavigationBarHidden(false, animated: false)
