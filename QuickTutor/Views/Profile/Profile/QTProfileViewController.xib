@@ -42,7 +42,6 @@
                 <outlet property="lateFeeLabel" destination="IzK-UI-gic" id="Z6O-h7-L9c"/>
                 <outlet property="latePolicyLabel" destination="H6G-6l-Rwh" id="VBx-te-n2s"/>
                 <outlet property="messageButton" destination="OLY-2z-Yv0" id="iLm-gq-Mlz"/>
-                <outlet property="moreButton" destination="ET6-ZD-WwM" id="ZeX-Lc-hpk"/>
                 <outlet property="moreButtonsView" destination="a0N-aR-lNB" id="c4v-im-Yib"/>
                 <outlet property="numberOfLearnersLabel" destination="QN3-3q-aNs" id="dP0-1e-8nT"/>
                 <outlet property="numberOfReviewsLabel" destination="GKh-AL-yOi" id="AHc-IF-rIz"/>
@@ -155,7 +154,7 @@
                                                                     <rect key="frame" x="116.5" y="0.0" width="108.5" height="40"/>
                                                                     <subviews>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OLY-2z-Yv0">
-                                                                            <rect key="frame" x="28.5" y="0.0" width="40" height="40"/>
+                                                                            <rect key="frame" x="68.5" y="0.0" width="40" height="40"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="40" id="KkD-Kv-BdH"/>
                                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="NvD-47-HkM"/>
@@ -168,27 +167,12 @@
                                                                                 <action selector="onMessageButtonClicked:" destination="-1" eventType="touchUpInside" id="QdT-Cg-sMB"/>
                                                                             </connections>
                                                                         </button>
-                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ET6-ZD-WwM">
-                                                                            <rect key="frame" x="68.5" y="0.0" width="40" height="40"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="height" constant="40" id="XUf-Qe-aJs"/>
-                                                                                <constraint firstAttribute="width" constant="40" id="shn-xx-N2v"/>
-                                                                            </constraints>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                            <inset key="imageEdgeInsets" minX="11" minY="0.0" maxX="5" maxY="15"/>
-                                                                            <state key="normal" image="moreIcon"/>
-                                                                            <connections>
-                                                                                <action selector="onMoreButtonClicked:" destination="-1" eventType="touchUpInside" id="P1y-Jk-avs"/>
-                                                                            </connections>
-                                                                        </button>
                                                                     </subviews>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <constraints>
-                                                                        <constraint firstItem="ET6-ZD-WwM" firstAttribute="top" secondItem="a0N-aR-lNB" secondAttribute="top" id="gUP-fh-caM"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="OLY-2z-Yv0" secondAttribute="trailing" id="SJ0-mu-GGu"/>
                                                                         <constraint firstItem="OLY-2z-Yv0" firstAttribute="top" secondItem="a0N-aR-lNB" secondAttribute="top" id="luF-1z-rp1"/>
-                                                                        <constraint firstItem="ET6-ZD-WwM" firstAttribute="leading" secondItem="OLY-2z-Yv0" secondAttribute="trailing" id="pdG-4u-zQU"/>
                                                                         <constraint firstAttribute="height" constant="40" id="sfJ-Lt-3Ai"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="ET6-ZD-WwM" secondAttribute="trailing" id="wHs-aR-seT"/>
                                                                     </constraints>
                                                                 </view>
                                                             </subviews>
@@ -719,6 +703,5 @@
         <image name="ic_earth" width="20" height="20"/>
         <image name="ic_location" width="24" height="24"/>
         <image name="ic_star_filled" width="24" height="24"/>
-        <image name="moreIcon" width="6" height="24"/>
     </resources>
 </document>

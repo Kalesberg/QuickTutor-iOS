@@ -24,7 +24,6 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var moreButtonsView: UIView!
     @IBOutlet weak var statusImageView: QTCustomImageView!
     @IBOutlet weak var messageButton: UIButton!
-    @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var ratingStarImageView: UIImageView!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var topSubjectLabel: UILabel!
@@ -129,18 +128,6 @@ class QTProfileViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func onMoreButtonClicked(_ sender: Any) {
-        if #available(iOS 11.0, *) {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String("Zach"))
-        } else {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String("Zach"))
-        }
-        actionSheet?.partnerId = user?.uid
-        actionSheet?.isConnected = connectionStatus == .connected
-        actionSheet?.parentViewController = self
-        actionSheet?.show()
-    }
-    
     @IBAction func onReadReviewsButtonClicked(_ sender: Any) {
         guard let user = user, let profileViewType = profileViewType else { return }
         
@@ -205,6 +192,19 @@ class QTProfileViewController: UIViewController {
         presentLightBox(images)
     }
     
+    @objc
+    func handleMoreButtonClicked() {
+        if #available(iOS 11.0, *) {
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String("Zach"))
+        } else {
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String("Zach"))
+        }
+        actionSheet?.partnerId = user?.uid
+        actionSheet?.isConnected = connectionStatus == .connected
+        actionSheet?.parentViewController = self
+        actionSheet?.show()
+    }
+    
     // MARK: - Functions
     func setupDelegates() {
         
@@ -244,9 +244,6 @@ class QTProfileViewController: UIViewController {
     func initUserInfo() {
         distanceLabel.layer.cornerRadius = 3
         distanceLabel.clipsToBounds = true
-        
-        // Add dim effect on the more button.
-        moreButton.setupTargets()
         
         guard let user = user, let profileViewType = profileViewType else { return }
         
@@ -315,6 +312,8 @@ class QTProfileViewController: UIViewController {
             // If a tutor visits an another tutor's profile, hide message and more icons.
             if AccountService.shared.currentUserType == UserType.tutor {
                 moreButtonsView.isHidden = true
+            } else {
+                navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
             }
         case .learner:
             moreButtonsView.isHidden = false
@@ -332,6 +331,8 @@ class QTProfileViewController: UIViewController {
             // If a learner visits an another learner's profile, hide message and more icons.
             if AccountService.shared.currentUserType == UserType.learner {
                 moreButtonsView.isHidden = true
+            } else {
+                navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
             }
         case .myTutor:
             moreButtonsView.isHidden = true
