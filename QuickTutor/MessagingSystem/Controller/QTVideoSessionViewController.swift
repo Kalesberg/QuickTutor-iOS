@@ -62,36 +62,35 @@ class QTVideoSessionViewController: UIViewController {
     var bottomMenuStatus: QTBottomMenuStatus = .collapsed {
         didSet {
             menuButton.tintColor = .white
+            menuButton.setImage(UIImage(named: "ic_arrow_down")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
             switch bottomMenuStatus {
             case .expanded:
-                menuButton.setImage(UIImage(named: "ic_arrow_down")?.withRenderingMode(.alwaysTemplate), for: .normal)
-                menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
                 self.bottomSheetView.layoutIfNeeded()
                 let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut, animations: nil)
                 animator.addAnimations {
                     self.bottomSheetViewBottom.constant = 0
+                    self.menuButton.transform = CGAffineTransform(rotationAngle: 0)
                     self.view.layoutIfNeeded()
                 }
                 animator.startAnimation()
                 break
             case .collapsed:
-                menuButton.setImage(UIImage(named: "moreIcon"), for: .normal)
-                menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 16.5, bottom: 12, right: 16.5)
                 self.bottomSheetView.layoutIfNeeded()
                 let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn, animations: nil)
                 animator.addAnimations {
                     self.bottomSheetViewBottom.constant = -120
+                    self.menuButton.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
                     self.view.layoutIfNeeded()
                 }
                 animator.startAnimation()
                 break
             case .hidden:
-                menuButton.setImage(UIImage(named: "moreIcon"), for: .normal)
-                menuButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 16.5, bottom: 12, right: 16.5)
                 self.bottomSheetView.layoutIfNeeded()
                 let animator = UIViewPropertyAnimator(duration: 0.15, curve: .easeIn, animations: nil)
                 animator.addAnimations {
                     self.bottomSheetViewBottom.constant = -200
+                    self.menuButton.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
                     self.view.layoutIfNeeded()
                 }
                 animator.startAnimation()
