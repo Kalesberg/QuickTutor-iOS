@@ -274,16 +274,20 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         }
         
         deleteAction.image = UIImage(named: "deleteCellIcon")
+        deleteAction.highlightedImage = UIImage(named: "deleteCellIcon")?.alpha(0.2)
         deleteAction.font = Fonts.createSize(12)
         deleteAction.backgroundColor = Colors.darkBackground
+        deleteAction.highlightedBackgroundColor = Colors.darkBackground
         
         let requestSessionAction = SwipeAction(style: .default, title: nil) { action, indexPath in
             self.requestSession(index: indexPath.item)
         }
         
         requestSessionAction.image = UIImage(named: "sessionIcon")
+        requestSessionAction.highlightedImage = UIImage(named: "sessionIcon")?.alpha(0.2)
         requestSessionAction.font = Fonts.createSize(12)
         requestSessionAction.backgroundColor = Colors.darkBackground
+        requestSessionAction.highlightedBackgroundColor = Colors.darkBackground
         
         return AccountService.shared.currentUserType == .learner ? [deleteAction, requestSessionAction] : [deleteAction]
     }
