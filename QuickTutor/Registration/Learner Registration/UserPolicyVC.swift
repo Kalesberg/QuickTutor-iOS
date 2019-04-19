@@ -25,7 +25,7 @@ class UserPolicyVC: BaseRegistrationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTargets()
-        removeNavBarButton()
+        removeNavBarBackButton()
         progressView.isHidden = true
     }
     
@@ -35,8 +35,8 @@ class UserPolicyVC: BaseRegistrationController {
         contentView.declineButton.addTarget(self, action: #selector(declined), for: .touchUpInside)
     }
     
-    func removeNavBarButton() {
-        navigationItem.leftBarButtonItem = nil
+    func removeNavBarBackButton() {
+        navigationItem.setHidesBackButton(true, animated:true);
     }
     
     func createCustomer(_ completion: @escaping (Error?, String?) -> Void) {

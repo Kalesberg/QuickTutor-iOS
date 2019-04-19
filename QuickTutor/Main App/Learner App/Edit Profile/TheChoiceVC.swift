@@ -23,10 +23,15 @@ class TheChoiceVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTargets()
+        removeNavBarBackButton()
     }
     
     func setupTargets() {
         contentView.startButton.addTarget(self, action: #selector(handleStartButton), for: .touchUpInside)
+    }
+    
+    func removeNavBarBackButton() {
+        navigationItem.setHidesBackButton(true, animated:true);
     }
     
     @objc func handleStartButton() {
