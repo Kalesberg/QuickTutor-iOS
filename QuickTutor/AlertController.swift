@@ -82,7 +82,7 @@ class AlertController : NSObject {
 		viewController.present(alertController, animated: true, completion: nil)
 	}
 	
-	class func genericErrorAlert(_ viewController: UIViewController, title: String, message: String?) {
+	class func genericErrorAlert(_ viewController: UIViewController, title: String = "Error", message: String?) {
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		
 		let remove = UIAlertAction(title: "Ok", style: .default) { (_) in }
@@ -94,7 +94,7 @@ class AlertController : NSObject {
 		viewController.present(alertController, animated: true, completion: nil)
 	}
 	
-	class func genericErrorActionSheet(_ viewController: UIViewController, title: String, message: String?) {
+	class func genericErrorActionSheet(_ viewController: UIViewController, title: String = "Error", message: String?) {
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
 		
 		let remove = UIAlertAction(title: "Ok", style: .destructive) { (_) in }
@@ -117,8 +117,15 @@ class AlertController : NSObject {
 			}
 		}
 	}
+    
+    class func genericAlertWithoutCancel(_ viewController: UIViewController, title: String, message: String?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let remove = UIAlertAction(title: "Ok", style: .default) { (_) in }
+        alertController.addAction(remove)
+        viewController.present(alertController, animated: true, completion: nil)
+    }
 	
-	class func genericErrorAlertWithoutCancel(_ viewController: UIViewController, title: String, message: String?) {
+	class func genericErrorAlertWithoutCancel(_ viewController: UIViewController, title: String = "Error", message: String?) {
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		let remove = UIAlertAction(title: "Ok", style: .default) { (_) in }		
 		alertController.addAction(remove)

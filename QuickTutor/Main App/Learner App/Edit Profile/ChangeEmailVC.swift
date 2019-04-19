@@ -32,9 +32,9 @@ class ChangeEmailView: UIView, Keyboardable {
         return label
     }()
     
-    let updateEmailButton: DimmableButton = {
+    let verifyEmailButton: DimmableButton = {
         let button = DimmableButton()
-        button.setTitle("Send verification code", for: .normal)
+        button.setTitle("Save Email", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(16)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Colors.purple
@@ -78,12 +78,18 @@ class ChangeEmailView: UIView, Keyboardable {
     }
     
     func setupVerificationButton() {
-        addSubview(updateEmailButton)
-        updateEmailButton.snp.makeConstraints { make in
-            make.bottom.equalTo(keyboardView.snp.top)
+        addSubview(verifyEmailButton)
+        verifyEmailButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(0)
             make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.08)
+            make.height.equalTo(68)
             make.centerX.equalToSuperview()
+        }
+    }
+    
+    func updateVerificationButtonBottomConstraint(inset: Float) {
+        verifyEmailButton.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().inset(inset)
         }
     }
     
@@ -94,43 +100,6 @@ class ChangeEmailView: UIView, Keyboardable {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-fileprivate class ChangeEmailTextField: InteractableView, Interactable {
-    var textField = NoPasteTextField()
-    var line = UIView()
-
-    override func configureView() {
-        addSubview(textField)
-        addSubview(line)
-        super.configureView()
-
-        textField.isEnabled = true
-        textField.font = Fonts.createSize(18)
-        textField.keyboardAppearance = .dark
-        textField.textColor = .white
-        textField.tintColor = .white
-        textField.keyboardType = .emailAddress
-        line.backgroundColor = .white
-
-        applyConstraints()
-    }
-
-    override func applyConstraints() {
-        textField.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(30)
-        }
-
-        line.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
-        }
     }
 }
 
@@ -145,13 +114,12 @@ class ChangeEmailVC: UIViewController {
         view = contentView
     }
 
-    var verificationId: String?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.textField.delegate = self
         setupTargets()
         setupNavBar()
+        setupKeyboardObservers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -173,37 +141,65 @@ class ChangeEmailVC: UIViewController {
         super.viewWillDisappear(animated)
         contentView.textField.resignFirstResponder()
     }
-
-    private func reauthenticateUser(code: String, completion: @escaping (Error?) -> Void) {
-        guard let id = self.verificationId else { return }
-        let credential: PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: id, verificationCode: code)
-        let currentUser = Auth.auth().currentUser
-        currentUser?.reauthenticateAndRetrieveData(with: credential, completion: { _, error in
-            if let error = error {
-                completion(error)
-            } else {
-                completion(nil)
+    
+    func setupKeyboardObservers() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    @objc func adjustForKeyboard(notification: Notification) {
+        guard let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            contentView.updateVerificationButtonBottomConstraint(inset: 0)
+        } else {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            var keyboardHeight = keyboardRectangle.height
+            if #available(iOS 11.0, *) {
+                keyboardHeight -= UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0
             }
-        })
+            
+            let bottom = keyboardHeight > 0 ? keyboardHeight : 0
+            let quickTypeBarHeight: CGFloat = 50.0
+            contentView.updateVerificationButtonBottomConstraint(inset: Float(bottom - quickTypeBarHeight))
+        }
     }
 
-    private func getUserCredentialsAlert() {
-        let phoneNumber = CurrentUser.shared.learner.phone.cleanPhoneNumber()
-
-        PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationId, error in
+    @objc private func updateEmail() {
+        guard let email = contentView.textField.text, email.emailRegex() else {
+            AlertController.genericErrorAlertWithoutCancel(self, title: "Invalid Email", message: "")
+            contentView.textField.becomeFirstResponder()
+            return
+        }
+        
+        self.updateFirebaseEmail(email)
+    }
+    
+    private func updateFirebaseEmail(_ email: String) {
+        FirebaseData.manager.updateValue(node: "account", value: ["em": email], { error in
             if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-            } else if let id = verificationId {
-                self.verificationId = id
-                self.displayPhoneVerificationAlert(message: "Please enter the verifcation code sent to: \(CurrentUser.shared.learner.phone.formatPhoneNumber())")
-            } else {
-                AlertController.genericErrorAlert(self, title: "Error", message: "Something went wrong, please try again.")
+                AlertController.genericErrorAlertWithoutCancel(self, message: error.localizedDescription)
             }
+            self.changeUserSharedEmail(email)
+            self.displaySavedAlertController()
+        })
+    }
+    
+    private func changeUserSharedEmail(_ email: String) {
+        if let tutor = CurrentUser.shared.tutor {
+            tutor.email = email
+        }
+        
+        if let learner = CurrentUser.shared.learner {
+            learner.email = email
         }
     }
 
     private func displaySavedAlertController() {
-        let alertController = UIAlertController(title: "Saved!", message: "Your email update has been saved", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Saved!", message: "Your email has been updated", preferredStyle: .alert)
 
         present(alertController, animated: true, completion: nil)
 
@@ -216,47 +212,8 @@ class ChangeEmailVC: UIViewController {
     }
     
     func setupTargets() {
-        contentView.updateEmailButton.addTarget(self, action: #selector(sendVerificationCode), for: .touchUpInside)
+        contentView.verifyEmailButton.addTarget(self, action: #selector(updateEmail), for: .touchUpInside)
     }
-    
-    @objc func sendVerificationCode() {
-        guard let email = contentView.textField.text, email.emailRegex() else {
-            AlertController.genericErrorAlert(self, title: "Invalid Email", message: "")
-            contentView.textField.becomeFirstResponder()
-            return
-        }
-        getUserCredentialsAlert()
-    }
-
-//    override func handleNavigation() {
-//        if touchStartView is PhoneAuthenicationActionCancel {
-//            dismissPhoneAuthenticationAlert()
-//        } else if touchStartView is PhoneAuthenicationAction {
-//            if let view = self.view.viewWithTag(321) as? PhoneAuthenticationAlertView {
-//                guard let verificationCode = view.verificationTextField.text, !verificationCode.contains("—") else { return }
-//                reauthenticateUser(code: verificationCode) { error in
-//                    if let error = error {
-//                        view.errorLabel.isHidden = false
-//                        view.errorLabel.text = error.localizedDescription
-//                    } else {
-//                        if AccountService.shared.currentUserType == .learner {
-//                            CurrentUser.shared.learner.email = self.contentView.textField.text!
-//                        } else {
-//                            CurrentUser.shared.tutor.email = self.contentView.textField.text!
-//                            CurrentUser.shared.learner.email = self.contentView.textField.text!
-//                        }
-//                        FirebaseData.manager.updateValue(node: "account", value: ["em": self.contentView.textField.text!], { error in
-//                            if let error = error {
-//                                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-//                            }
-//                        })
-//                        self.dismissPhoneAuthenticationAlert()
-//                        self.displaySavedAlertController()
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
 
 extension ChangeEmailVC: UITextFieldDelegate {
