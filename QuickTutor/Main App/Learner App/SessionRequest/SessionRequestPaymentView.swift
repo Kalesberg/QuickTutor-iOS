@@ -38,7 +38,7 @@ class SessionRequestPaymentView: BaseSessionRequestViewSection {
         label.textAlignment = .left
         label.text = "There is a $5.00 minimum to every session"
         label.textColor = UIColor.white.withAlphaComponent(0.5)
-        label.font = Fonts.createBoldSize(10)
+        label.font = Fonts.createBoldSize(12)
         return label
     }()
     
