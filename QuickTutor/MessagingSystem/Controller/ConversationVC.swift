@@ -118,17 +118,12 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func setUpMenuButton(){
-        let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        menuBtn.setImage(UIImage(named:"moreIcon"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(handleRightViewTapped), for: .touchUpInside)
-        
-        let menuBarItem = UIBarButtonItem(customView: menuBtn)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
-        currHeight?.isActive = true
-        self.navigationItem.rightBarButtonItem = menuBarItem
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "ic_dots_horizontal"),
+            style: .plain,
+            target: self,
+            action: #selector(handleRightViewTapped)
+        )
     }
 
     private func setupTitleView() {
