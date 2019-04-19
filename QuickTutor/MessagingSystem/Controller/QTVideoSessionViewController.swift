@@ -194,7 +194,7 @@ class QTVideoSessionViewController: UIViewController {
         manager.flipCamera()
     }
     
-    @IBAction func onClickPauseButtonClicked(_ sender: Any) {
+    @IBAction func onPauseButtonClicked(_ sender: Any) {
         guard let manager = sessionManager else { return }
         if manager.isPaused {
             guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -320,6 +320,24 @@ class QTVideoSessionViewController: UIViewController {
         flipCameraImageView.overlayTintColor(color: UIColor.white)
         pauseImageView.overlayTintColor(color: UIColor.white)
         reportImageView.overlayTintColor(color: UIColor.white)
+        
+        flipCameraImageView.superview?.setupTargets { state in
+            if state == .ended {
+                self.onFlipCamerButtonClicked(self)
+            }
+        }
+        
+        pauseImageView.superview?.setupTargets { state in
+            if state == .ended {
+                self.onPauseButtonClicked(self)
+            }
+        }
+        
+        reportImageView.superview?.setupTargets { state in
+            if state == .ended {
+                self.onReportButtonClicked(self)
+            }
+        }
         
         behavior = VideoSessionPartnerFeedBehavior()
         behavior.view = cameraPreview

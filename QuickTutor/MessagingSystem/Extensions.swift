@@ -276,6 +276,15 @@ extension UIView {
             if subView is UILabel {
                 let label = subView as! UILabel
                 label.textColor = label.textColor.darker(by: 15)
+            } else if subView is UIButton {
+                let button = subView as! UIButton
+                button.handleTouchDownTitleDimming()
+            } else if subView is UIImageView {
+                let imageView = subView as! UIImageView
+                if let tintColor = imageView.tintColor,
+                    let newTintColor = tintColor.darker(by: 15) {
+                    imageView.overlayTintColor(color: newTintColor)
+                }
             }
         }
         
@@ -295,6 +304,15 @@ extension UIView {
             if subView is UILabel {
                 let label = subView as! UILabel
                 label.textColor = label.textColor.lighter(by: 15)
+            } else if subView is UIButton {
+                let button = subView as! UIButton
+                button.handleTouchUpTitleDimming()
+            } else if subView is UIImageView {
+                let imageView = subView as! UIImageView
+                if let tintColor = imageView.tintColor,
+                    let newTintColor = tintColor.lighter(by: 15) {
+                    imageView.overlayTintColor(color: newTintColor)
+                }
             }
         }
     }
