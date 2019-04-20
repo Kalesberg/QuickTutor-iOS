@@ -11,6 +11,7 @@ import Lottie
 
 class ConversationCollectionView: UICollectionView {
     
+    let topInset: CGFloat = 8.0
     var chatPartner: User!
     var typingTopAnchor: NSLayoutConstraint?
     var typingHeightAnchor: NSLayoutConstraint?
@@ -34,7 +35,7 @@ class ConversationCollectionView: UICollectionView {
         backgroundColor = Colors.darkBackground
         alwaysBounceVertical = true
         keyboardDismissMode = .interactive
-        contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: 0, right: 0)
         scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         showsVerticalScrollIndicator = false
         keyboardBottomAdjustment = 0
@@ -46,6 +47,15 @@ class ConversationCollectionView: UICollectionView {
         register(ConversationPaginationHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "paginationHeader")
         register(MessageGapTimestampCell.self, forCellWithReuseIdentifier: "timestampCell")
         addTypingIndicator()
+    }
+    
+    func updateBottomValues(_ bottom: CGFloat) {
+        keyboardBottomAdjustment = bottom
+        updateContentInsetBottom(bottom)
+    }
+    
+    func updateContentInsetBottom(_ bottom: CGFloat) {
+        self.contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottom, right: 0)
     }
 
     func addTypingIndicator() {
@@ -74,8 +84,7 @@ class ConversationCollectionView: UICollectionView {
         let seenIndictorPadding: CGFloat = 5
         let bottomInset = (self.typingHeightAnchor?.constant ?? 0) + (keyboardBottomAdjustment ?? 0) + seenIndictorPadding
         self.layoutIfNeeded()
-        self.contentInset = UIEdgeInsets(top: self.contentInset.top, left: 0,
-                                         bottom: bottomInset, right: 0)
+        updateContentInsetBottom(bottomInset)
         
         // Only scroll the view if the user is already at the bottom
         if Int(bottom) >= Int(contentSize.height) && Int(contentSize.height) > Int(bounds.height) {

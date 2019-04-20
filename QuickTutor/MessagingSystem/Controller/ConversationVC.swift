@@ -470,9 +470,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
-        if notification.name == UIResponder.keyboardWillHideNotification || notification.name == UIResponder.keyboardDidHideNotification {
-            messagesCollection.keyboardBottomAdjustment = 0
-            messagesCollection.contentInset = UIEdgeInsets.zero
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            messagesCollection.updateBottomValues(0)
         } else {
             var keyboardHeight = keyboardViewEndFrame.height
             if #available(iOS 11.0, *) {
@@ -482,8 +481,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             let typingIndicatorHeight: CGFloat = 48
             keyboardHeight -= typingIndicatorHeight
             let bottom = keyboardHeight > 0 ? keyboardHeight : 0
-            messagesCollection.keyboardBottomAdjustment = bottom
-            messagesCollection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
+            messagesCollection.updateBottomValues(bottom)
         }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
         messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
