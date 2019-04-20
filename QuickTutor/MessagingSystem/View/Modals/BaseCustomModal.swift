@@ -44,6 +44,12 @@ class BaseCustomModal: UIView {
         setupBackground()
         setupTitleLabel()
     }
+    
+    func removeViews() {
+        titleLabel.removeFromSuperview()
+        background.removeFromSuperview()
+        backgroundBlurView.removeFromSuperview()
+    }
 
     func setupBackground() {
         guard let window = UIApplication.shared.keyWindow else { return }
@@ -100,6 +106,10 @@ class BaseCustomModal: UIView {
         let contentAnimator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.background.alpha = 0
             self.background.transform = CGAffineTransform(translationX: 0, y: 500)
+        }
+        
+        backgroundAnimator.addCompletion { (position) in
+            self.removeViews()
         }
         
         contentAnimator.startAnimation()

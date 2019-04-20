@@ -78,6 +78,7 @@ class CardManagerVC: BaseViewController {
         }
     }
 
+    var shouldHideNavBarWhenDismissed = false
     var popToMain: Bool = true
     var popBackTo: UIViewController?
 
@@ -95,6 +96,7 @@ class CardManagerVC: BaseViewController {
         contentView.tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
         
         navigationItem.title = "Payment"
+        edgesForExtendedLayout = []
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
@@ -122,6 +124,11 @@ class CardManagerVC: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentView.tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(shouldHideNavBarWhenDismissed, animated: false)
     }
 
     // TODO: Check if they have any pending sessions.

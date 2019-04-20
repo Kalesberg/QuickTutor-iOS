@@ -221,11 +221,11 @@ class QTStartSessionViewController: UIViewController {
         }
         
         guard CurrentUser.shared.learner.hasPayment else {
-            completion(false)
             self.onCancelButtonClicked(self.cancelButton)
             addPaymentModal = AddPaymentModal()
             addPaymentModal?.delegate = self
             addPaymentModal?.show()
+            completion(false)
             return
         }
         
@@ -300,7 +300,6 @@ class QTStartSessionViewController: UIViewController {
 
 extension QTStartSessionViewController: CustomModalDelegate {
     func handleConfirm() {
-        let notification = Notification(name: Notification.Name(rawValue: "session.showCardManagerVC"), object: nil, userInfo: nil)
-        NotificationCenter.default.post(notification)
+        NotificationCenter.default.post(name: Notifications.showSessionCardManager.name, object: nil, userInfo: nil)
     }
 }

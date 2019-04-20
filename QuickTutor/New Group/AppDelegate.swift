@@ -90,6 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 self.proceedWithCameraAccess()
                 self.proceedWithMicrophoneAccess()
                 self.observeDataEvents()
+                self.observeNotificationEvents()
                 self.showOnboardingIfNeeded()
             }
         }
@@ -153,7 +154,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         
     }
     
-
     func observeDataEvents() {
         self.removeDataObserver()
         self.listenForData()
@@ -161,6 +161,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         self.checkForInProgressSessions()
     }
     
+    func observeNotificationEvents() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showCardManager),
+                                               name: Notifications.showSessionCardManager.name, object: nil)
+    }
+    
+    @objc func showCardManager() {
+        if AccountService.shared.currentUserType == .learner {
+            let vc = CardManagerVC()
+            vc.shouldHideNavBarWhenDismissed = true
+            navigationController.pushViewController(vc, animated: false)
+        }
+    }
     
     func animateLaunchScreen(completion: @escaping() -> Void) {
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [], animations: {

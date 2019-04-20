@@ -274,7 +274,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         CardService.shared.checkForPaymentMethod()
-        NotificationCenter.default.addObserver(self, selector: #selector(showCardManager), name: NSNotification.Name(rawValue: "session.showCardManagerVC"), object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

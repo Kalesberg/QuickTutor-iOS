@@ -20,7 +20,7 @@ class AddPaymentModal: CustomModal {
         super.setupViews()
         buttonDivider.removeFromSuperview()
         nevermindButton.removeFromSuperview()
-        noteLabel.text = "You must have a payment method on file to continue. You won't be charge until you have a session."
+        noteLabel.text = "You must have a payment method on file to continue. You won't be charged until you have a session."
         titleLabel.text = "Payment method"
     }
     
