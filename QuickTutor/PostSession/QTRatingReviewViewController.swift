@@ -240,7 +240,7 @@ class QTRatingReviewViewController: UIViewController {
     }
     
     private func createCharge(cost: Int, secondsTaught: Int, completion: @escaping (Error?) -> Void) {
-        let fee = secondsTaught >= 36000 ? Int(Double(cost) * 0.75) + 200 : Int(Double(cost) * 0.10) + 200
+        let fee = secondsTaught >= 36000 ? Int(Double(cost) * 0.075) + 200 : Int(Double(cost) * 0.10) + 200
         self.displayLoadingOverlay()
         Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
             if let error = error {
