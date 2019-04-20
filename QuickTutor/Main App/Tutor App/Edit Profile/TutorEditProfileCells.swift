@@ -845,11 +845,11 @@ class EditProfilePersonCheckboxTableViewCell: BaseTableViewCell {
     }
 }
 
-extension LearnerFiltersVC: UIScrollViewDelegate {
-    func scrollViewWillBeginDragging(_: UIScrollView) {
-        view.endEditing(true)
-    }
-}
+//extension LearnerFiltersVC: UIScrollViewDelegate {
+//    func scrollViewWillBeginDragging(_: UIScrollView) {
+//        view.endEditing(true)
+//    }
+//}
 
 
 class EditProfileCell: UITableViewCell {

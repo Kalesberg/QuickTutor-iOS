@@ -9,32 +9,12 @@
 import CoreLocation
 import UIKit
 
-protocol UpdatedFiltersCallback {
-    func filtersUpdated(filters: Filters)
-}
-
-struct Filters {
-    let distance: Int?
-    let price: Int?
-    let sessionType: Bool
-    let location: CLLocation?
-
-    init(distance: Int?, price: Int?, inPerson: Bool, location: CLLocation?) {
-        self.distance = distance
-        self.price = price
-        sessionType = inPerson
-        self.location = location
-    }
-}
-
 class QuickSearchVC: UIViewController {
     
     var connectedTutor: AWTutor!
     var sectionHeights = [Int: CGFloat]()
 
     var categories: [Category] = [.academics, .business, .lifestyle, .language,  .arts,  .sports, .health, .tech, .outdoors, .auto, .trades,  .remedial]
-
-    var filters: Filters?
 
     var searchTimer = Timer()
     var automaticScroll: Bool = false
@@ -47,6 +27,8 @@ class QuickSearchVC: UIViewController {
     var filteredSubjects = [(String, String)]()
 
     var allSubjects = [(String, String)]()
+    
+    var searchFilter: SearchFilter?
 
     var tableViewIsActive: Bool = false {
         didSet {
@@ -75,13 +57,13 @@ class QuickSearchVC: UIViewController {
             allSubjects.shuffle()
         }
         contentView.searchBarContainer.searchBar.delegate = self
-        navigationController?.setNavigationBarHidden(true, animated: true)
+//        navigationController?.setNavigationBarHidden(true, animated: true)
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -97,12 +79,12 @@ class QuickSearchVC: UIViewController {
     
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextField.textDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFilters(_:)), name: NotificationNames.QuickSearch.updatedFilters, object: nil)
     }
-}
-
-extension QuickSearchVC: UpdatedFiltersCallback {
-    func filtersUpdated(filters: Filters) {
-        self.filters = filters
+    
+    @objc func updateFilters(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let filter = userInfo["filter"] as? SearchFilter else { return }
+        self.searchFilter = filter
     }
 }
 
@@ -165,6 +147,7 @@ extension QuickSearchVC: QuickSearchCategoryCellDelegate {
         let vc = CategorySearchVC()
         AnalyticsService.shared.logSubcategoryTapped(subcategory)
         vc.subcategory = subcategory
+        vc.searchFilter = searchFilter
         vc.navigationItem.title = subcategory.capitalized
         navigationController?.pushViewController(vc, animated: true)
         
@@ -225,6 +208,12 @@ extension QuickSearchVC: CustomSearchBarDelegate {
     
     func customSearchBar(_ searchBar: PaddedTextField, shouldEndEditing: Bool) {
         removeChild(popViewController: true)
+    }
+    
+    func customSearchBarDidTapFiltersButton(_ searchBar: PaddedTextField) {
+        let vc = FiltersVC()
+        vc.searchFilter = searchFilter
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func removeChild(popViewController: Bool) {

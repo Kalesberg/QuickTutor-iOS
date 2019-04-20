@@ -25,6 +25,7 @@ class CategorySearchVC: BaseViewController {
     var category: String!
     var subcategory: String!
     var subject: String!
+    var searchFilter: SearchFilter?
     
     override var contentView: CategorySearchVCView {
         return view as! CategorySearchVCView
@@ -36,15 +37,31 @@ class CategorySearchVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupObservers()
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
         contentView.collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
         contentView.collectionView.register(CategorySearchSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.isHidden = false
+        setUpFiltersButton()
         queryNeededTutors(lastKnownKey: nil)
-
     }
+    
+    func setUpFiltersButton(){
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
+        menuBtn.setImage(UIImage(named:"filterIcon"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(showFilters), for: .touchUpInside)
+        
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 18)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 18)
+        currHeight?.isActive = true
+        self.navigationItem.rightBarButtonItem = menuBarItem
+    }
+
 
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -53,6 +70,9 @@ class CategorySearchVC: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+        guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
+        self.applySearchFilterToDataSource(filter)
+        contentView.collectionView.reloadData()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,6 +83,21 @@ class CategorySearchVC: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         contentView.collectionView.reloadData()
+    }
+    
+    func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFilters(_:)), name: NotificationNames.QuickSearch.updatedFilters, object: nil)
+    }
+    
+    @objc func updateFilters(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let filter = userInfo["filter"] as? SearchFilter else { return }
+        self.searchFilter = filter
+    }
+    
+    @objc func showFilters() {
+        let vc = FiltersVC()
+        vc.searchFilter = searchFilter
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func queryNeededTutors(lastKnownKey: String?) {
@@ -82,6 +117,8 @@ class CategorySearchVC: BaseViewController {
             self.loadedAllTutors = tutors.count < 60
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.contentView.collectionView.reloadData()
+            guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
+            self.applySearchFilterToDataSource(filter)
         }
     }
     
@@ -91,6 +128,8 @@ class CategorySearchVC: BaseViewController {
             self.loadedAllTutors = tutors.count < 60
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.contentView.collectionView.reloadData()
+            guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
+            self.applySearchFilterToDataSource(filter)
         }
     }
     
@@ -100,7 +139,42 @@ class CategorySearchVC: BaseViewController {
             self.loadedAllTutors = tutors.count < 60
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.contentView.collectionView.reloadData()
+            guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
+            self.applySearchFilterToDataSource(filter)
         }
+    }
+    
+    private func applySearchFilterToDataSource(_ filter: SearchFilter) {
+        datasource = datasource.filter({ (tutor) -> Bool in
+            
+            var shouldBeIncluded = true
+            if let minHourlyRate = filter.minHourlyRate {
+                shouldBeIncluded = tutor.price >= minHourlyRate
+            }
+            guard shouldBeIncluded else { return shouldBeIncluded }
+            if let maxHourlyRate = filter.maxHourlyRate {
+                shouldBeIncluded = tutor.price <= maxHourlyRate
+            }
+            guard shouldBeIncluded else { return shouldBeIncluded }
+            if let ratingType = filter.ratingType {
+                if ratingType == 0 {
+                    shouldBeIncluded = tutor.tRating >= 5.0
+                } else if ratingType == 1 {
+                    shouldBeIncluded = tutor.tRating >= 4.0
+                }
+            }
+            guard shouldBeIncluded else { return shouldBeIncluded }
+            guard filter.sessionType == 2 else { return shouldBeIncluded }
+            
+            if let minDistance = filter.minDistance {
+                shouldBeIncluded = tutor.distance >= minDistance
+            }
+            guard shouldBeIncluded else { return shouldBeIncluded }
+            if let maxDistance = filter.maxDistance {
+                shouldBeIncluded = tutor.distance <= maxDistance
+            }
+            return shouldBeIncluded
+        })
     }
 
 }

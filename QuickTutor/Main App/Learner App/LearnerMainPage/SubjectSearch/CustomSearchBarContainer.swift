@@ -13,10 +13,12 @@ protocol CustomSearchBarDelegate: class {
     func customSearchBar(_ searchBar: PaddedTextField, shouldBeginEditing: Bool)
     func customSearchBarDidTapLeftView(_ searchBar: PaddedTextField)
     func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField)
+    func customSearchBarDidTapFiltersButton(_ searchBar: PaddedTextField)
 }
 
 extension CustomSearchBarDelegate {
     func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField) {}
+    func customSearchBarDidTapFiltersButton(_ searchBar: PaddedTextField) {}
 }
 
 class CustomSearchBarContainer: UIView {
@@ -49,6 +51,13 @@ class CustomSearchBarContainer: UIView {
         return button
     }()
     
+    let filtersButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named:"filterIcon"), for: .normal)
+        button.contentMode = .scaleAspectFill
+        return button
+    }()
+    
     let cancelEditingButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.white, for: .normal)
@@ -62,6 +71,7 @@ class CustomSearchBarContainer: UIView {
     func setupViews() {
         setupSearchBar()
         setupMockLeftViewButton()
+        setupFiltersButton()
         setupCancelEditingButton()
         setupLeftView()
     }
@@ -91,6 +101,13 @@ class CustomSearchBarContainer: UIView {
         searchBar.leftView?.addGestureRecognizer(tap)
     }
     
+    func setupFiltersButton() {
+        addSubview(filtersButton)
+        filtersButton.anchor(top: nil, left: nil, bottom: nil, right: searchBar.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 15, height: 15)
+        addConstraint(NSLayoutConstraint(item: filtersButton, attribute: .centerY, relatedBy: .equal, toItem: searchBar, attribute: .centerY, multiplier: 1, constant: 0))
+        filtersButton.addTarget(self, action: #selector(handleFiltersButtonTapped), for: .touchUpInside)
+    }
+    
     @objc func handleLeftViewTap() {
         delegate?.customSearchBarDidTapLeftView(searchBar)
     }
@@ -99,13 +116,18 @@ class CustomSearchBarContainer: UIView {
         delegate?.customSearchBarDidTapMockLeftView(searchBar)
     }
     
+    @objc func handleFiltersButtonTapped() {
+        delegate?.customSearchBarDidTapFiltersButton(searchBar)
+    }
+    
     func shouldBeginEditing() {
         isEditing = true
         guard searchBarRightAnchor?.constant == 0 else { return }
-        searchBarRightAnchor?.constant = -60
         self.layoutIfNeeded()
-        UIView.animate(withDuration: 0.2) {
-        }
+        searchBarRightAnchor?.constant = -60
+        UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: nil)
         delegate?.customSearchBar(searchBar, shouldBeginEditing: true)
     }
     

@@ -25,6 +25,7 @@ class LearnerTabBarController: BaseTabBarController {
 
         for vc in controllers {
             vc.navigationBar.barTintColor = Colors.darkBackground
+            vc.view.backgroundColor = Colors.darkBackground
             vc.navigationBar.isTranslucent = false
             vc.navigationBar.isOpaque = false
         }
