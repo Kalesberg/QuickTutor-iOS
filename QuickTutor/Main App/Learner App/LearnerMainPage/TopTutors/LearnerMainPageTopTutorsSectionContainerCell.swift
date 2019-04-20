@@ -23,7 +23,7 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
     let seeAllBox: MockCollectionViewCell = {
         let cell = MockCollectionViewCell()
-        cell.titleLabel.text = "25 top tutors"
+        cell.titleLabel.text = "See All Top Tutors"
         cell.primaryButton.setTitle("See all", for: .normal)
         return cell
     }()

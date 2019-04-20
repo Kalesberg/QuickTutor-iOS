@@ -12,7 +12,7 @@ class LearnerMainPageSuggestionSectionContainerCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "You may be interested in..."
+        label.text = "For You"
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)
