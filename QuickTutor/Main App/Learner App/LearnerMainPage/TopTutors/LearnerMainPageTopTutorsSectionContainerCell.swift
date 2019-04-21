@@ -12,7 +12,7 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Top Tutors"
+        label.text = "Tutors on the rise"
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)
@@ -23,8 +23,8 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
     let seeAllBox: MockCollectionViewCell = {
         let cell = MockCollectionViewCell()
-        cell.titleLabel.text = "See All Top Tutors"
-        cell.primaryButton.setTitle("See all", for: .normal)
+        cell.titleLabel.text = "View new tutors"
+        cell.primaryButton.setTitle("View", for: .normal)
         return cell
     }()
     
