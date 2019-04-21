@@ -8,6 +8,7 @@
 
 import UIKit
 import Lottie
+import Firebase
 
 extension UIViewController {
 	func hideKeyboardWhenTappedAround() {
@@ -204,6 +205,34 @@ extension UIViewController {
 			}
 		}
 	}
+    
+    func showRatingViewControllerForSession(_ session: Session?, sessionId: String?, cost: Double, partnerId: String, runTime: Int, subject: String) {
+        guard let session = session, let sessionId = sessionId else {
+            return
+        }
+        
+        let vc = QTRatingReviewViewController.controller
+        vc.session = session
+        vc.sessionId = sessionId
+        vc.costOfSession = cost
+        vc.partnerId = partnerId
+        vc.runTime = runTime
+        vc.subject = subject
+        Database.database().reference().child("sessions").child(sessionId).child("cost").setValue(cost)
+        Database.database().reference().child("sessions").child(sessionId).updateChildValues(["endedAt": Date().timeIntervalSince1970])
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func calculateCostOfSession(price: Double, runtime: Int) -> Double {
+        let minimumSessionPrice = 5.0
+        let cost = calculatePricePerSecond(price: price, runtime: runtime)
+        return cost >= minimumSessionPrice ? cost : minimumSessionPrice
+    }
+    
+    func calculatePricePerSecond(price: Double, runtime: Int) -> Double {
+        let p = (price / 60.0) / 60.0 * Double(runtime)
+        return round(p * 1000.0) / 1000.0
+    }
 }
 
 extension UINavigationController {

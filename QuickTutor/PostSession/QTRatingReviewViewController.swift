@@ -115,9 +115,9 @@ class QTRatingReviewViewController: UIViewController {
             if AccountService.shared.currentUserType == .learner {
                 guard hasPaid == false else { return }
                 nextButton.isEnabled = false
-                let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
-                AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: Double(PostSessionReviewData.tipAmount))
-                createCharge(cost: Int(costWithTip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
+                let tip = Double(PostSessionReviewData.tipAmount)
+                AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: tip)
+                createCharge(cost: Int(costOfSession * 100), tip: Int(tip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
                     if let error = error {
                         AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
                         self.hasPaid = false
@@ -239,8 +239,9 @@ class QTRatingReviewViewController: UIViewController {
         }
     }
     
-    private func createCharge(cost: Int, secondsTaught: Int, completion: @escaping (Error?) -> Void) {
+    private func createCharge(cost: Int, tip: Int, secondsTaught: Int, completion: @escaping (Error?) -> Void) {
         let fee = Int(Double(cost) * 0.10) + 200
+        let costWithTip = cost + tip
         self.displayLoadingOverlay()
         Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
             if let error = error {
@@ -251,7 +252,7 @@ class QTRatingReviewViewController: UIViewController {
                     self.dismissOverlay()
                     return completion(StripeError.createChargeError)
                 }
-                Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
+                Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: costWithTip, fee: fee, description: self.session?.subject ?? " ", { (error) in
                     if let error = error {
                         completion(error)
                     } else {

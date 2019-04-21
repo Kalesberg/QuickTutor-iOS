@@ -109,7 +109,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
             DataService.shared.getSessionById(sessionId, completion: { (session) in
                 SessionService.shared.session = session
                 let vc = QTRatingReviewViewController.controller
-                //SessionReview()
                 vc.session = session
                 vc.sessionId = sessionId
                 vc.costOfSession = session.cost

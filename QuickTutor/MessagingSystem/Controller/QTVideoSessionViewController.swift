@@ -374,38 +374,10 @@ class QTVideoSessionViewController: UIViewController {
             else {
                 return
         }
-        let minimumSessionPrice = 5.0 //$5
-        let costOfSession = minimumSessionPrice + ((session.price / 60) / 60) * Double(runTime)
         
+        let costOfSession = calculateCostOfSession(price: session.price, runtime: runTime)
         
-        
-        if AccountService.shared.currentUserType == .learner {
-            let vc = QTRatingReviewViewController.controller //SessionReview()
-            
-            vc.session = session
-            vc.sessionId = sessionId
-            vc.costOfSession = costOfSession
-            vc.partnerId = partnerId
-            vc.runTime = runTime
-            vc.subject = subject
-            
-            Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
-            Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt": Date().timeIntervalSince1970])
-            print("Michael: continueing out of session")
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = QTRatingReviewViewController.controller//SessionReview()
-            vc.session = session
-            vc.sessionId = sessionId
-            vc.costOfSession = costOfSession
-            vc.partnerId = partnerId
-            vc.runTime = runTime
-            vc.subject = subject
-            Database.database().reference().child("sessions").child(sessionId!).child("cost").setValue(costOfSession)
-            Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["endedAt": Date().timeIntervalSince1970])
-            print("Michael: continueing out of session")
-            navigationController?.pushViewController(vc, animated: true)
-        }
+        showRatingViewControllerForSession(session, sessionId: sessionId, cost: costOfSession, partnerId: partnerId, runTime: runTime, subject: subject)
     }
     
     func showEndModal() {
