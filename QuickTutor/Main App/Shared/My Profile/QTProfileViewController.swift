@@ -33,6 +33,11 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var numberOfSubjectsLabel: UILabel!
     @IBOutlet weak var addressView: UIView!
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var languageView: UIView!
+    @IBOutlet weak var languageLabel: UILabel!
+    @IBOutlet weak var schoolView: UIView!
+    @IBOutlet weak var schoolLabel: UILabel!
+    @IBOutlet weak var schoolLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var distanceView: QTCustomView!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var bioLabel: UILabel!
@@ -271,6 +276,10 @@ class QTProfileViewController: UIViewController {
         
         // User name
         usernameLabel.text = user.formattedName
+        
+        showSchool(user: user)
+        showLanguage(user: user)
+        
         switch profileViewType {
         case .tutor:
             moreButtonsView.isHidden = false
@@ -388,6 +397,28 @@ class QTProfileViewController: UIViewController {
                                                                 action: #selector(handleEditProfile))
         }
         bioLabel.superview?.layoutIfNeeded()
+    }
+    
+    func showSchool(user: AWTutor) {
+        if let school = user.school, !school.isEmpty {
+            schoolView?.isHidden = false
+            schoolLabel?.text = school
+            
+            if let lines = schoolLabel?.calculateMaxLines() {
+                schoolLabelHeightConstraint?.constant = CGFloat(22 * lines)
+            }
+        } else {
+            schoolView?.isHidden = true
+        }
+    }
+    
+    func showLanguage(user: AWTutor) {
+        if let languages = user.languages, !languages.isEmpty {
+            languageView?.isHidden = false
+            languageLabel?.text = languages.joined(separator: ", ")
+        } else {
+            languageView?.isHidden = true
+        }
     }
     
     func initSubjects() {

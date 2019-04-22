@@ -83,7 +83,7 @@ class AWTutor: AWLearner {
         self.lNumSessions = learner.lNumSessions
         self.customer = learner.customer
         self.lHours = learner.lHours
-        self.school = learner.name
+        self.school = learner.school
         self.languages = learner.languages
         self.lReviews = learner.lReviews
         self.lRating = learner.lRating

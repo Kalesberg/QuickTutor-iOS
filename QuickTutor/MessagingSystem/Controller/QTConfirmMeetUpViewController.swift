@@ -179,7 +179,7 @@ class QTConfirmMeetUpViewController: UIViewController {
         guard let session = session else { return nil}
         let lengthInSeconds = session.endTime - session.startTime
         let lengthInMinutes = Int(lengthInSeconds / 60)
-        return "\(Int(lengthInMinutes)) \(lengthInMinutes == 1 ? "Min" : "Mins"), $\(Int(session.price))/hr"
+        return "\(Int(lengthInMinutes)) \(lengthInMinutes == 1 ? "Min" : "Mins"), $\(Int(session.price))"
     }
     
     func setupNavBar() {

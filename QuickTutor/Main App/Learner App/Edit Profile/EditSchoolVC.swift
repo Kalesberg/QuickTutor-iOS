@@ -107,7 +107,7 @@ class EditSchoolVC: UIViewController {
         hideKeyboardWhenTappedAround()
         configureDelegates()
         loadListOfSchools()
-        navigationItem.title = "Edit Shool"
+        navigationItem.title = "Edit School"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(displaySavedAlertController))
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
