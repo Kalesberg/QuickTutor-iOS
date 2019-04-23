@@ -717,6 +717,7 @@ extension QTProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: QTReviewTableViewCell.reuseIdentifier, for: indexPath) as! QTReviewTableViewCell
         cell.selectionStyle = .none
+        cell.reviewLabel.numberOfLines = 3
         if let reviews = profileViewType == .tutor || profileViewType == .myTutor ? user.reviews : user.lReviews {
             cell.setData(review: reviews[indexPath.row])
         }
