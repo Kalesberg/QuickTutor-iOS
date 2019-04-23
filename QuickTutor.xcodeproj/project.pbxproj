@@ -58,6 +58,27 @@
 		568B82DF222540CD004DF011 /* QTRatingTipCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82DD222540CD004DF011 /* QTRatingTipCollectionViewCell.xib */; };
 		568B82E2222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82E0222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift */; };
 		568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82E1222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib */; };
+		5697DD15226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */; };
+		5697DD16226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */; };
+		5697DD22226F859300AC9775 /* QTInviteOthersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */; };
+		5697DD23226F859300AC9775 /* QTInviteOthersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */; };
+		5697DD24226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD1A226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift */; };
+		5697DD25226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD1A226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift */; };
+		5697DD26226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD1B226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib */; };
+		5697DD27226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD1B226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib */; };
+		5697DD28226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD1C226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift */; };
+		5697DD29226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD1C226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift */; };
+		5697DD2A226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD1D226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib */; };
+		5697DD2B226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD1D226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib */; };
+		5697DD2C226F859300AC9775 /* QTInviteOthersHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD1E226F859300AC9775 /* QTInviteOthersHeaderView.swift */; };
+		5697DD2D226F859300AC9775 /* QTInviteOthersHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD1E226F859300AC9775 /* QTInviteOthersHeaderView.swift */; };
+		5697DD2E226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD1F226F859300AC9775 /* QTInviteOthersHeaderView.xib */; };
+		5697DD2F226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD1F226F859300AC9775 /* QTInviteOthersHeaderView.xib */; };
+		5697DD30226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD20226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift */; };
+		5697DD31226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD20226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift */; };
+		5697DD32226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD21226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib */; };
+		5697DD33226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD21226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib */; };
+		5697DD34226F865F00AC9775 /* VideoMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF17F22F226EA4C400ABD07D /* VideoMessageCell.swift */; };
 		569ECDA421F9A1E6005491CB /* QTTutorDashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 569ECDA321F9A1E6005491CB /* QTTutorDashboardViewController.xib */; };
 		569ECDA621F9A235005491CB /* QTTutorDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569ECDA521F9A235005491CB /* QTTutorDashboardViewController.swift */; };
 		569ECDA821F9A7FD005491CB /* QTCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569ECDA721F9A7FC005491CB /* QTCustomView.swift */; };
@@ -76,7 +97,6 @@
 		569F16D5223554FD00820A20 /* SessionRequestPaymentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7DC21C18B590022333F /* SessionRequestPaymentInputView.swift */; };
 		569F16D6223554FD00820A20 /* TutorCardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7E921C23E690022333F /* TutorCardHeaderView.swift */; };
 		569F16D7223554FD00820A20 /* SubjectSearchCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B442069E3A500302773 /* SubjectSearchCollectionViewLayout.swift */; };
-		569F16D8223554FD00820A20 /* InviteOthersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEFD542173CF2900FE12F9 /* InviteOthersView.swift */; };
 		569F16D9223554FD00820A20 /* UploadImageVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B80F21C6195D0022333F /* UploadImageVCView.swift */; };
 		569F16DB223554FD00820A20 /* TutorFileReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4E931206B61A6000C7A2F /* TutorFileReport.swift */; };
 		569F16DC223554FD00820A20 /* TutorAgreementWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469512220CA243D00325995 /* TutorAgreementWebView.swift */; };
@@ -115,7 +135,6 @@
 		569F1701223554FD00820A20 /* CategoryCollectViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B3B9F2069E81B009F8E04 /* CategoryCollectViewCell.swift */; };
 		569F1702223554FD00820A20 /* TutorPaymentEarnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5BD206557DB00A70D65 /* TutorPaymentEarnings.swift */; };
 		569F1703223554FD00820A20 /* QTCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569ECDA721F9A7FC005491CB /* QTCustomView.swift */; };
-		569F1705223554FD00820A20 /* InviteOthersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */; };
 		569F1706223554FD00820A20 /* PaymentOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4C7DC204E92AD009C2FC4 /* PaymentOptionsVC.swift */; };
 		569F1708223554FD00820A20 /* SessionRequestSendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7E221C18B970022333F /* SessionRequestSendView.swift */; };
 		569F170B223554FD00820A20 /* MeetupTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5895205EE68800ACBD32 /* MeetupTableCell.swift */; };
@@ -352,7 +371,6 @@
 		569F1813223554FD00820A20 /* LearnerUpcomingSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF833B7B207C4BB300323242 /* LearnerUpcomingSessionCell.swift */; };
 		569F1814223554FD00820A20 /* DimmableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4BB0F20B76F18009BC28D /* DimmableButton.swift */; };
 		569F1816223554FD00820A20 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DAF6FB2044615A005687F6 /* SocialMedia.swift */; };
-		569F1818223554FD00820A20 /* InviteOthersBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEFD562173CF5A00FE12F9 /* InviteOthersBackgroundView.swift */; };
 		569F181A223554FD00820A20 /* EmailVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B80921C5C49B0022333F /* EmailVCView.swift */; };
 		569F181D223554FD00820A20 /* TutorCardConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7F721C23F700022333F /* TutorCardConnectView.swift */; };
 		569F181E223554FD00820A20 /* SubjectSearchTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FECF5210F97CD00C1797B /* SubjectSearchTableViewHeader.swift */; };
@@ -771,9 +789,6 @@
 		84E91B5E205740CC00D1F613 /* SubmissionElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B5D205740CC00D1F613 /* SubmissionElements.swift */; };
 		84E91B622057421900D1F613 /* TutorCancelledVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B612057421900D1F613 /* TutorCancelledVC.swift */; };
 		84E91B64205761A600D1F613 /* TutorLateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E91B63205761A600D1F613 /* TutorLateVC.swift */; };
-		84EA5EA020A7F4C50008292B /* InviteOthersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */; };
-		84EEFD552173CF2900FE12F9 /* InviteOthersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEFD542173CF2900FE12F9 /* InviteOthersView.swift */; };
-		84EEFD572173CF5A00FE12F9 /* InviteOthersBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEFD562173CF5A00FE12F9 /* InviteOthersBackgroundView.swift */; };
 		84F141A1207E490D003D3193 /* TutorPreferencesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A0207E490D003D3193 /* TutorPreferencesVC.swift */; };
 		84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F141A2207F0D7B003D3193 /* IntExtensions.swift */; };
 		84F2450F1FDA0F59006447A8 /* UploadImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2450E1FDA0F59006447A8 /* UploadImageVC.swift */; };
@@ -1164,6 +1179,16 @@
 		568B82DD222540CD004DF011 /* QTRatingTipCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingTipCollectionViewCell.xib; sourceTree = "<group>"; };
 		568B82E0222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReceiptCollectionViewCell.swift; sourceTree = "<group>"; };
 		568B82E1222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingReceiptCollectionViewCell.xib; sourceTree = "<group>"; };
+		5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersViewController.swift; sourceTree = "<group>"; };
+		5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersViewController.xib; sourceTree = "<group>"; };
+		5697DD1A226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersConnectTableViewCell.swift; sourceTree = "<group>"; };
+		5697DD1B226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersConnectTableViewCell.xib; sourceTree = "<group>"; };
+		5697DD1C226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersContactTableViewCell.swift; sourceTree = "<group>"; };
+		5697DD1D226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersContactTableViewCell.xib; sourceTree = "<group>"; };
+		5697DD1E226F859300AC9775 /* QTInviteOthersHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersHeaderView.swift; sourceTree = "<group>"; };
+		5697DD1F226F859300AC9775 /* QTInviteOthersHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersHeaderView.xib; sourceTree = "<group>"; };
+		5697DD20226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersSectionHeaderView.swift; sourceTree = "<group>"; };
+		5697DD21226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersSectionHeaderView.xib; sourceTree = "<group>"; };
 		569ECDA321F9A1E6005491CB /* QTTutorDashboardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDashboardViewController.xib; sourceTree = "<group>"; };
 		569ECDA521F9A235005491CB /* QTTutorDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDashboardViewController.swift; sourceTree = "<group>"; };
 		569ECDA721F9A7FC005491CB /* QTCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomView.swift; sourceTree = "<group>"; };
@@ -1403,9 +1428,6 @@
 		84E91B5D205740CC00D1F613 /* SubmissionElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmissionElements.swift; sourceTree = "<group>"; };
 		84E91B612057421900D1F613 /* TutorCancelledVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorCancelledVC.swift; sourceTree = "<group>"; };
 		84E91B63205761A600D1F613 /* TutorLateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorLateVC.swift; sourceTree = "<group>"; };
-		84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteOthersVC.swift; sourceTree = "<group>"; };
-		84EEFD542173CF2900FE12F9 /* InviteOthersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteOthersView.swift; sourceTree = "<group>"; };
-		84EEFD562173CF5A00FE12F9 /* InviteOthersBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteOthersBackgroundView.swift; sourceTree = "<group>"; };
 		84F12F6120E3008D00EB14E8 /* TutorListings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorListings.swift; sourceTree = "<group>"; };
 		84F141A0207E490D003D3193 /* TutorPreferencesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutorPreferencesVC.swift; path = "../../Tutor App/Additional Info/TutorPreferencesVC.swift"; sourceTree = "<group>"; };
 		84F141A2207F0D7B003D3193 /* IntExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtensions.swift; sourceTree = "<group>"; };
@@ -1814,6 +1836,30 @@
 			path = SubViews;
 			sourceTree = "<group>";
 		};
+		5697DD17226F859300AC9775 /* InviteOthers */ = {
+			isa = PBXGroup;
+			children = (
+				5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */,
+				5697DD19226F859300AC9775 /* SubViews */,
+			);
+			path = InviteOthers;
+			sourceTree = "<group>";
+		};
+		5697DD19226F859300AC9775 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				5697DD1A226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift */,
+				5697DD1B226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib */,
+				5697DD1C226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift */,
+				5697DD1D226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib */,
+				5697DD1E226F859300AC9775 /* QTInviteOthersHeaderView.swift */,
+				5697DD1F226F859300AC9775 /* QTInviteOthersHeaderView.xib */,
+				5697DD20226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift */,
+				5697DD21226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
 		569ECDA121F9A134005491CB /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1859,6 +1905,7 @@
 		56A8D0AC2240A3EB00866AD7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				5697DD17226F859300AC9775 /* InviteOthers */,
 				4DE3668E2239F03C00A94C37 /* Profile */,
 				5647A775222CB06100E8A26F /* Settings */,
 			);
@@ -2656,9 +2703,7 @@
 		84EEFD532173CF0E00FE12F9 /* InviteOthers */ = {
 			isa = PBXGroup;
 			children = (
-				84EA5E9F20A7F4C50008292B /* InviteOthersVC.swift */,
-				84EEFD542173CF2900FE12F9 /* InviteOthersView.swift */,
-				84EEFD562173CF5A00FE12F9 /* InviteOthersBackgroundView.swift */,
+				5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */,
 			);
 			path = InviteOthers;
 			sourceTree = "<group>";
@@ -3478,6 +3523,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5697DD23226F859300AC9775 /* QTInviteOthersViewController.xib in Resources */,
 				569F18BE223554FD00820A20 /* Lato-Light.ttf in Resources */,
 				4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				569F18BF223554FD00820A20 /* loading10.json in Resources */,
@@ -3495,6 +3541,7 @@
 				569F18CA223554FD00820A20 /* QTTutorDashboardDurationView.xib in Resources */,
 				569F18CB223554FD00820A20 /* qtRingtone.aiff in Resources */,
 				569F18CC223554FD00820A20 /* health.json in Resources */,
+				5697DD2F226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */,
 				569F18CD223554FD00820A20 /* OFL.txt in Resources */,
 				569F18CE223554FD00820A20 /* loading4.json in Resources */,
 				569F18CF223554FD00820A20 /* badwords.txt in Resources */,
@@ -3506,10 +3553,13 @@
 				561003B92242BCC100A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				569F18D3223554FD00820A20 /* Lato-BoldItalic.ttf in Resources */,
 				569F18D4223554FD00820A20 /* tech.json in Resources */,
+				5697DD33226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */,
 				569F18D6223554FD00820A20 /* schools.txt in Resources */,
 				569F18D7223554FD00820A20 /* QTLocationsViewController.xib in Resources */,
 				56A8D0B52240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */,
 				569F18D8223554FD00820A20 /* quickTutorNotification.aiff in Resources */,
+				5697DD27226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
+				5697DD2B226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569F18D9223554FD00820A20 /* QTTutorDashboardMarkerView.xib in Resources */,
 				569F18DA223554FD00820A20 /* Lato-Medium.ttf in Resources */,
 				569F18DB223554FD00820A20 /* connecting.json in Resources */,
@@ -3557,6 +3607,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5697DD22226F859300AC9775 /* QTInviteOthersViewController.xib in Resources */,
 				56DC6DA2220BD7DF00935F47 /* Lato-Light.ttf in Resources */,
 				4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				840E4E07213761C10045CD35 /* loading10.json in Resources */,
@@ -3574,6 +3625,7 @@
 				569ECDB721F9C39D005491CB /* QTTutorDashboardDurationView.xib in Resources */,
 				CFB40E49216D1A9F00828E72 /* qtRingtone.aiff in Resources */,
 				8425766E20712E6C00FD295B /* health.json in Resources */,
+				5697DD2E226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */,
 				56DC6DA7220BD7DF00935F47 /* OFL.txt in Resources */,
 				840E4E09213761C10045CD35 /* loading4.json in Resources */,
 				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
@@ -3585,10 +3637,13 @@
 				561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				84257678207132DD00FD295B /* tech.json in Resources */,
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
+				5697DD32226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
 				564B6C1E222D83D5004A9EB7 /* QTLocationsViewController.xib in Resources */,
 				56A8D0B42240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */,
 				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
+				5697DD26226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
+				5697DD2A226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569ECDCB21FB1049005491CB /* QTTutorDashboardMarkerView.xib in Resources */,
 				56DC6DA4220BD7DF00935F47 /* Lato-Medium.ttf in Resources */,
 				CFB40E45216BFE2100828E72 /* connecting.json in Resources */,
@@ -3979,7 +4034,6 @@
 				569F16D5223554FD00820A20 /* SessionRequestPaymentInputView.swift in Sources */,
 				569F16D6223554FD00820A20 /* TutorCardHeaderView.swift in Sources */,
 				569F16D7223554FD00820A20 /* SubjectSearchCollectionViewLayout.swift in Sources */,
-				569F16D8223554FD00820A20 /* InviteOthersView.swift in Sources */,
 				569F16D9223554FD00820A20 /* UploadImageVCView.swift in Sources */,
 				569F16DB223554FD00820A20 /* TutorFileReport.swift in Sources */,
 				560237A522676516005653D5 /* LearnerMainPageSuggestionSectionController.swift in Sources */,
@@ -4022,7 +4076,6 @@
 				569F1701223554FD00820A20 /* CategoryCollectViewCell.swift in Sources */,
 				569F1702223554FD00820A20 /* TutorPaymentEarnings.swift in Sources */,
 				569F1703223554FD00820A20 /* QTCustomView.swift in Sources */,
-				569F1705223554FD00820A20 /* InviteOthersVC.swift in Sources */,
 				569F1706223554FD00820A20 /* PaymentOptionsVC.swift in Sources */,
 				569F1708223554FD00820A20 /* SessionRequestSendView.swift in Sources */,
 				569F170B223554FD00820A20 /* MeetupTableCell.swift in Sources */,
@@ -4061,6 +4114,7 @@
 				569F172C223554FD00820A20 /* SessionRequestPaymentView.swift in Sources */,
 				569F172D223554FD00820A20 /* ChangeEmailVC.swift in Sources */,
 				569F172E223554FD00820A20 /* PaymentDeclinedVC.swift in Sources */,
+				5697DD16226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */,
 				569F172F223554FD00820A20 /* SubmissionElements.swift in Sources */,
 				569F1731223554FD00820A20 /* TutorLateVC.swift in Sources */,
 				569F1732223554FD00820A20 /* TutorCardTutorial.swift in Sources */,
@@ -4187,6 +4241,7 @@
 				569F17B1223554FD00820A20 /* MeetupRequestCell.swift in Sources */,
 				569F17B2223554FD00820A20 /* BasePostSessionCell.swift in Sources */,
 				569F17B3223554FD00820A20 /* TutorHelp.swift in Sources */,
+				5697DD29226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift in Sources */,
 				569F17B4223554FD00820A20 /* VerificationVC.swift in Sources */,
 				569F17B6223554FD00820A20 /* PostSessionManager.swift in Sources */,
 				569F17B7223554FD00820A20 /* BecomeTutorVC.swift in Sources */,
@@ -4217,6 +4272,7 @@
 				569F17D3223554FD00820A20 /* ToggleTableViewCell.swift in Sources */,
 				569F17D4223554FD00820A20 /* CloseAccountReasonVC.swift in Sources */,
 				569F17D5223554FD00820A20 /* UIViewExtensions.swift in Sources */,
+				5697DD31226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift in Sources */,
 				569F17D6223554FD00820A20 /* SubjectSearchSubcategoryCell.swift in Sources */,
 				569F17D7223554FD00820A20 /* QTRatingReceiptCollectionViewCell.swift in Sources */,
 				569F17D8223554FD00820A20 /* KeyboardActionViewCell.swift in Sources */,
@@ -4281,7 +4337,6 @@
 				569F1814223554FD00820A20 /* DimmableButton.swift in Sources */,
 				569F1816223554FD00820A20 /* SocialMedia.swift in Sources */,
 				C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */,
-				569F1818223554FD00820A20 /* InviteOthersBackgroundView.swift in Sources */,
 				569F181A223554FD00820A20 /* EmailVCView.swift in Sources */,
 				569F181D223554FD00820A20 /* TutorCardConnectView.swift in Sources */,
 				569F181E223554FD00820A20 /* SubjectSearchTableViewHeader.swift in Sources */,
@@ -4299,6 +4354,7 @@
 				569F182D223554FD00820A20 /* LaunchScreen.swift in Sources */,
 				56056EA4225301E50060C251 /* LearnerTabBarController.swift in Sources */,
 				569F182E223554FD00820A20 /* ConnectionsVC.swift in Sources */,
+				5697DD2D226F859300AC9775 /* QTInviteOthersHeaderView.swift in Sources */,
 				C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */,
 				569F182F223554FD00820A20 /* CardManagerVC.swift in Sources */,
 				569F1830223554FD00820A20 /* ImageMessageAnimator.swift in Sources */,
@@ -4379,6 +4435,7 @@
 				569F187B223554FD00820A20 /* LearnerRude.swift in Sources */,
 				569F187C223554FD00820A20 /* BaseScrollView.swift in Sources */,
 				569F187D223554FD00820A20 /* NewMessageHeader.swift in Sources */,
+				5697DD34226F865F00AC9775 /* VideoMessageCell.swift in Sources */,
 				569F187E223554FD00820A20 /* Tutor.swift in Sources */,
 				569F187F223554FD00820A20 /* TutorRudeVC.swift in Sources */,
 				569F1880223554FD00820A20 /* NavbarButtons.swift in Sources */,
@@ -4386,6 +4443,7 @@
 				569F1883223554FD00820A20 /* QuickSearchVCView.swift in Sources */,
 				569F1884223554FD00820A20 /* Helper.swift in Sources */,
 				CF17F22E226EA35200ABD07D /* UILabelExtensions.swift in Sources */,
+				5697DD25226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift in Sources */,
 				569F1885223554FD00820A20 /* ProfileVC.swift in Sources */,
 				569F1886223554FD00820A20 /* EditBillingAddressView.swift in Sources */,
 				CFCE90A9226524AF00CBB1AD /* CategorySectionController.swift in Sources */,
@@ -4449,7 +4507,6 @@
 				CFB9B7EA21C23E690022333F /* TutorCardHeaderView.swift in Sources */,
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
 				CF5D06DF224B170B00270115 /* LearnerTabBarController.swift in Sources */,
-				84EEFD552173CF2900FE12F9 /* InviteOthersView.swift in Sources */,
 				CFB9B81021C6195D0022333F /* UploadImageVCView.swift in Sources */,
 				84C4E937206B61A6000C7A2F /* TutorFileReport.swift in Sources */,
 				8469512320CA243D00325995 /* TutorAgreementWebView.swift in Sources */,
@@ -4490,7 +4547,6 @@
 				845B3BA02069E81B009F8E04 /* CategoryCollectViewCell.swift in Sources */,
 				841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */,
 				569ECDA821F9A7FD005491CB /* QTCustomView.swift in Sources */,
-				84EA5EA020A7F4C50008292B /* InviteOthersVC.swift in Sources */,
 				84E4C7DD204E92AD009C2FC4 /* PaymentOptionsVC.swift in Sources */,
 				CFB9B7E321C18B970022333F /* SessionRequestSendView.swift in Sources */,
 				CF6F58C7205EE68800ACBD32 /* MeetupTableCell.swift in Sources */,
@@ -4615,6 +4671,7 @@
 				840E75BA201E7DF6006FC580 /* LearnerPaymentVC.swift in Sources */,
 				842394071FF4C7FF00827C7D /* User.swift in Sources */,
 				8423940D1FF4C9CA00827C7D /* BaseViewController.swift in Sources */,
+				5697DD24226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift in Sources */,
 				8423940F1FF4CA1D00827C7D /* NoPasteTextField.swift in Sources */,
 				CF6F58E7205EE68800ACBD32 /* KeyboardAccessoryViewDelegate.swift in Sources */,
 				568B82DE222540CD004DF011 /* QTRatingTipCollectionViewCell.swift in Sources */,
@@ -4654,6 +4711,7 @@
 				846252F720637FC5001DD330 /* TutorHelp.swift in Sources */,
 				93D694F7226D6D83001207AC /* UILabelExtensions.swift in Sources */,
 				847D77A91FBE6B69009F4D42 /* VerificationVC.swift in Sources */,
+				5697DD30226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift in Sources */,
 				CF0B02B72136760D00B90034 /* PostSessionManager.swift in Sources */,
 				CF671ACC225DA2D200CF4F0A /* LearnerMainPaigeTopTutorsController.swift in Sources */,
 				848E643B2059EE0A000CD921 /* BecomeTutorVC.swift in Sources */,
@@ -4661,6 +4719,7 @@
 				4D3480FF223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */,
 				CFD92A73222F507A00704531 /* TutorAddSubjectsVCView.swift in Sources */,
 				CFD92A75222F50A900704531 /* NewTutorAddSubjects.swift in Sources */,
+				5697DD15226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */,
 				8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */,
 				CFA0096C213898C900F81EE4 /* InProgressSessionManager.swift in Sources */,
 				CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */,
@@ -4747,7 +4806,6 @@
 				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */,
-				84EEFD572173CF5A00FE12F9 /* InviteOthersBackgroundView.swift in Sources */,
 				CFB9B80A21C5C49B0022333F /* EmailVCView.swift in Sources */,
 				CFB9B7F821C23F700022333F /* TutorCardConnectView.swift in Sources */,
 				844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */,
@@ -4819,6 +4877,7 @@
 				CF671AC8225D92FD00CF4F0A /* CategorySectionController.swift in Sources */,
 				8451FB58213EF17000F86DC5 /* ReviewCell.swift in Sources */,
 				CFB9B80421C5B1050022333F /* BaseRegistrationView.swift in Sources */,
+				5697DD2C226F859300AC9775 /* QTInviteOthersHeaderView.swift in Sources */,
 				CF833B81207C4C0100323242 /* BasePastSessionCell.swift in Sources */,
 				CF177BCB208FB8E0006DD50B /* RatingStarView.swift in Sources */,
 				CF6F58C1205EE68800ACBD32 /* ImageMessageCell.swift in Sources */,
@@ -4869,6 +4928,7 @@
 				842394091FF4C94F00827C7D /* BaseViews.swift in Sources */,
 				84A37B78200447C800C19397 /* UserPolicyVC.swift in Sources */,
 				CF671AD5225EA09F00CF4F0A /* LearnerMainPageSuggestionSectionController.swift in Sources */,
+				5697DD28226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift in Sources */,
 				84D6A7E0215B268F000C0010 /* MyProfileBodyView.swift in Sources */,
 				CF6F58DB205EE68800ACBD32 /* MessagesVC.swift in Sources */,
 				CFB9B81421C633260022333F /* TutorSSNVCView.swift in Sources */,

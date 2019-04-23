@@ -137,7 +137,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         case 5:
             showPastSessions()
         default:
-            navigationController?.pushViewController(InviteOthersVC(), animated: true)
+            navigationController?.pushViewController(QTInviteOthersViewController.controller, animated: true)
         }
     }
     
@@ -208,7 +208,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func inviteOthers() {
-        navigationController?.pushViewController(InviteOthersVC(), animated: true)
+        navigationController?.pushViewController(QTInviteOthersViewController.controller, animated: true)
     }
     
 }

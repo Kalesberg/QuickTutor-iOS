@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Black.ttf">
+            <string>Lato-Black</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="QTInviteOthersContactTableViewCell" rowHeight="64" id="KGk-i7-Jjw" customClass="QTInviteOthersContactTableViewCell" customModule="QuickTutor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="354" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_avatar_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="HAF-gb-mJT" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
+                        <rect key="frame" x="20" y="10.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="RBK-Gh-p3M"/>
+                            <constraint firstAttribute="height" constant="40" id="RGp-Xw-2Ph"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="20"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ak-ut-ZP7">
+                        <rect key="frame" x="70" y="30.5" width="216" height="0.0"/>
+                        <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L5j-wo-3xF" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                        <rect key="frame" x="294" y="10.5" width="40" height="40"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_blank_circle" highlightedImage="ic_checked_circle" translatesAutoresizingMaskIntoConstraints="NO" id="uNB-ZD-ZeX" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
+                                <rect key="frame" x="3" y="3" width="34" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="R2s-uT-GtC"/>
+                                    <constraint firstAttribute="width" constant="34" id="xnd-eC-bC6"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="17"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="E5L-6x-Egj"/>
+                            <constraint firstItem="uNB-ZD-ZeX" firstAttribute="centerY" secondItem="L5j-wo-3xF" secondAttribute="centerY" id="Qaw-h8-RE2"/>
+                            <constraint firstItem="uNB-ZD-ZeX" firstAttribute="centerX" secondItem="L5j-wo-3xF" secondAttribute="centerX" id="TBa-o8-sjB"/>
+                            <constraint firstAttribute="height" constant="40" id="sel-52-DKK"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="20"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="L5j-wo-3xF" secondAttribute="trailing" constant="20" id="2wf-g8-Qhw"/>
+                    <constraint firstItem="HAF-gb-mJT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="4ds-Zq-Aqa"/>
+                    <constraint firstItem="3ak-ut-ZP7" firstAttribute="leading" secondItem="HAF-gb-mJT" secondAttribute="trailing" constant="10" id="FLP-uK-Z2z"/>
+                    <constraint firstItem="3ak-ut-ZP7" firstAttribute="centerY" secondItem="HAF-gb-mJT" secondAttribute="centerY" id="Fu0-C1-GlT"/>
+                    <constraint firstItem="L5j-wo-3xF" firstAttribute="leading" secondItem="3ak-ut-ZP7" secondAttribute="trailing" constant="8" id="Fze-YQ-w7v"/>
+                    <constraint firstItem="L5j-wo-3xF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="L55-OH-xTr"/>
+                    <constraint firstItem="L5j-wo-3xF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="SS9-cd-6gl"/>
+                    <constraint firstItem="HAF-gb-mJT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="dPz-ze-2oL"/>
+                    <constraint firstAttribute="bottom" secondItem="HAF-gb-mJT" secondAttribute="bottom" constant="10" id="f66-uf-Fjc"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="avatarImageView" destination="HAF-gb-mJT" id="BWW-dV-O3d"/>
+                <outlet property="checkImageView" destination="uNB-ZD-ZeX" id="Ht2-ba-JRT"/>
+                <outlet property="checkView" destination="L5j-wo-3xF" id="uco-qx-C0j"/>
+                <outlet property="userNameLabel" destination="3ak-ut-ZP7" id="mu5-5g-OQN"/>
+            </connections>
+            <point key="canvasLocation" x="160" y="162.81859070464768"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_avatar_placeholder" width="80" height="80"/>
+        <image name="ic_blank_circle" width="10" height="10"/>
+        <image name="ic_checked_circle" width="10" height="10"/>
+    </resources>
+</document>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+        <array key="Lato-Medium.ttf">
+            <string>Lato-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QTInviteOthersHeaderView" customModule="QuickTutor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="361"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_invite_logo" translatesAutoresizingMaskIntoConstraints="NO" id="MzO-YV-fYk">
+                    <rect key="frame" x="117.5" y="40" width="140" height="140"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="140" id="bjC-kd-L8S"/>
+                        <constraint firstAttribute="height" constant="140" id="x43-Az-xbh"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnW-88-nhK" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                    <rect key="frame" x="20" y="227" width="335" height="113"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="itms-apps://itunes.apple.com/app/id1388092698" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5qH-H3-jRF">
+                            <rect key="frame" x="8" y="27" width="319" height="17"/>
+                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eZ4-CA-Jtj">
+                            <rect key="frame" x="40" y="67" width="255" height="31"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q7l-Jy-opj" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
+                                    <rect key="frame" x="135" y="-1.5" width="120" height="34"/>
+                                    <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="34" id="ZwU-q9-6Gw"/>
+                                        <constraint firstAttribute="width" constant="120" id="bXf-Se-xqf"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
+                                    <state key="normal" title="Share">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="3"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="onShareButtonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="kaN-3J-caS"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U9u-BB-PKc" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="-1.5" width="120" height="34"/>
+                                    <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="120" id="QwE-yI-rgh"/>
+                                        <constraint firstAttribute="height" constant="34" id="RlS-RU-vrz"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
+                                    <state key="normal" title="Copy link">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="3"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="onCopyLinkButtonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="iW1-NJ-Hf3"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="U9u-BB-PKc" firstAttribute="leading" secondItem="eZ4-CA-Jtj" secondAttribute="leading" id="0Rc-yw-QWO"/>
+                                <constraint firstItem="U9u-BB-PKc" firstAttribute="centerY" secondItem="q7l-Jy-opj" secondAttribute="centerY" id="1Z8-K7-xHE"/>
+                                <constraint firstItem="q7l-Jy-opj" firstAttribute="leading" secondItem="U9u-BB-PKc" secondAttribute="trailing" constant="15" id="3FL-ba-aMo"/>
+                                <constraint firstAttribute="trailing" secondItem="q7l-Jy-opj" secondAttribute="trailing" id="fMK-x0-sIt"/>
+                                <constraint firstItem="U9u-BB-PKc" firstAttribute="centerY" secondItem="eZ4-CA-Jtj" secondAttribute="centerY" id="q8N-Ny-f0n"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="5qH-H3-jRF" firstAttribute="centerX" secondItem="cnW-88-nhK" secondAttribute="centerX" id="A7n-cU-aGC"/>
+                        <constraint firstAttribute="bottom" secondItem="eZ4-CA-Jtj" secondAttribute="bottom" constant="15" id="ELp-G5-gfa"/>
+                        <constraint firstAttribute="height" constant="113" id="Q0s-Kj-F9c"/>
+                        <constraint firstItem="eZ4-CA-Jtj" firstAttribute="top" secondItem="5qH-H3-jRF" secondAttribute="bottom" constant="23" id="d4y-U4-ZJK"/>
+                        <constraint firstItem="5qH-H3-jRF" firstAttribute="leading" secondItem="cnW-88-nhK" secondAttribute="leading" constant="8" id="e0x-Ti-0hh"/>
+                        <constraint firstItem="eZ4-CA-Jtj" firstAttribute="centerX" secondItem="cnW-88-nhK" secondAttribute="centerX" id="q9m-8l-bS0"/>
+                        <constraint firstItem="5qH-H3-jRF" firstAttribute="top" secondItem="cnW-88-nhK" secondAttribute="top" constant="27" id="wmz-Dq-fL4"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sOM-k6-Rec" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                    <rect key="frame" x="20" y="360" width="335" height="1"/>
+                    <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="eVa-zh-lmg"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="0.5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="sOM-k6-Rec" secondAttribute="bottom" id="1xm-Qs-Rrg"/>
+                <constraint firstItem="MzO-YV-fYk" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="40" id="701-Xh-54l"/>
+                <constraint firstItem="sOM-k6-Rec" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="FWs-xs-JaI"/>
+                <constraint firstItem="MzO-YV-fYk" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="OO2-dX-TYg"/>
+                <constraint firstItem="cnW-88-nhK" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="g3T-ki-8D6"/>
+                <constraint firstItem="cnW-88-nhK" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="p4b-CT-FXr"/>
+                <constraint firstItem="sOM-k6-Rec" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="pV4-bN-QK4"/>
+                <constraint firstItem="cnW-88-nhK" firstAttribute="top" secondItem="MzO-YV-fYk" secondAttribute="bottom" constant="47" id="sJR-wn-mbX"/>
+                <constraint firstItem="sOM-k6-Rec" firstAttribute="top" secondItem="cnW-88-nhK" secondAttribute="bottom" constant="20" id="xdf-mH-wOd"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="133.59999999999999" y="15.742128935532236"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="img_invite_logo" width="140" height="140"/>
+    </resources>
+</document>
