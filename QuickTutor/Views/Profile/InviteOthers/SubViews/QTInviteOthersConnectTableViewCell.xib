@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Medium.ttf">
+            <string>Lato-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="QTInviteOthersConnectTableViewCell" rowHeight="203" id="KGk-i7-Jjw" customClass="QTInviteOthersConnectTableViewCell" customModule="QuickTutor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="203"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="202.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wch-nT-TLK" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
+                        <rect key="frame" x="70" y="66" width="180" height="44"/>
+                        <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="FG0-Si-Lnm"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
+                        <state key="normal" title="Connect your contacts">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="onConnectButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Lp3-LQ-UNI"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check your iPhone preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lag-Lc-3n0">
+                        <rect key="frame" x="91.5" y="120" width="137" height="22.5"/>
+                        <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="10"/>
+                        <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstItem="Lag-Lc-3n0" firstAttribute="centerX" secondItem="wch-nT-TLK" secondAttribute="centerX" id="3rE-Al-mt2"/>
+                    <constraint firstAttribute="bottom" secondItem="Lag-Lc-3n0" secondAttribute="bottom" constant="60" id="ID0-F2-EIb"/>
+                    <constraint firstItem="wch-nT-TLK" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="T6G-Rq-Apf"/>
+                    <constraint firstItem="Lag-Lc-3n0" firstAttribute="top" secondItem="wch-nT-TLK" secondAttribute="bottom" constant="10" id="fez-cK-arQ"/>
+                    <constraint firstItem="wch-nT-TLK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="66" id="jnk-Pg-ZQN"/>
+                    <constraint firstItem="wch-nT-TLK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="70" id="kCJ-9H-0zK"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <point key="canvasLocation" x="132.80000000000001" y="231.63418290854574"/>
+        </tableViewCell>
+    </objects>
+</document>
