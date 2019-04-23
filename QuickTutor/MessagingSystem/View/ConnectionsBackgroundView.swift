@@ -11,8 +11,22 @@ import UIKit
 
 class ConnectionsBackgroundView: UIView {
     
-    static let emptyStateText = "This is where your tutor connections will appear. Currently, it looks like you don't have any connections. You can find tutors by searching in your home tab or you can add tutors by username by tapping on the icon located in the top right corner of this screen."
+    static var userType: UserType?
+    static let emptyStateLearnerText = "This is where your tutor connections will appear. You can add tutors by tapping on the \"add tutor\" icon in the top right corner of the screen."
     
+    static let emptyStateTutorText = "This is where your learner connections will appear. It looks like you don't have any connections currently."
+    
+    static let emptyStateFallbackText = "This is where your connections will appear."
+    
+    static var emptyStateText: String {
+        get {
+            if let userType = userType {
+                return userType == .learner ? emptyStateLearnerText : emptyStateTutorText
+            } else {
+                return emptyStateFallbackText
+            }
+        }
+    }
     
     let backgroundViewIcon: UIImageView = {
         let imageView = UIImageView()
@@ -66,7 +80,12 @@ class ConnectionsBackgroundView: UIView {
         title.sizeToFit()
     }
     
-    override init(frame _: CGRect) {
+    convenience init(userType: UserType) {
+        ConnectionsBackgroundView.userType = userType
+        self.init()
+    }
+
+    override init(frame: CGRect) {
         super.init(frame: .zero)
         configureView()
     }

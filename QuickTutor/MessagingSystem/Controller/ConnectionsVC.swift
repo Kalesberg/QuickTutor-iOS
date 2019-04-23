@@ -92,14 +92,14 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
                     guard let user = userIn else { return }
                     self.connections.append(user)
                     self.collectionView.reloadData()
-                })                
+                })
             })
             self.connections = self.connections.sorted(by: {$0.formattedName > $1.formattedName})
         }
     }
     
     func shouldShowEmptyBackground(_ result: Bool) {
-        collectionView.backgroundView = result ? nil : ConnectionsBackgroundView()
+        collectionView.backgroundView = result ? nil : ConnectionsBackgroundView(userType: AccountService.shared.currentUserType)
     }
     
     func handleLeftViewTapped() {
