@@ -12,15 +12,6 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     let accessoryViewHeight: CGFloat = 80
     
-    let noSubjectsLabel: UILabel = {
-        let label = UILabel()
-        label.font = Fonts.createSize(12)
-        label.text = "You haven't added any subjects yet"
-        label.textColor = Colors.gray
-        label.textAlignment = .center
-        return label
-    }()
-    
     let selectedSubjectsCV: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -55,7 +46,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     let accessoryTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "Add up to 20 subjects"
+        label.text = "Add up to 20 subjects."
         label.textAlignment = .left
         label.textColor = .white
         label.font = Fonts.createBoldSize(14)
@@ -72,9 +63,11 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         return button
     }()
     
+    var selectedSubjectsHeightAnchor: NSLayoutConstraint?
+    var collectionViewTopAnchor: NSLayoutConstraint?
+    
     override func setupViews() {
         super.setupViews()
-        setupNoSubjectsLabel()
         setupSelectedSubjectsCV()
         setupAccessoryView()
         setupAccessoryTextLabel()
@@ -84,16 +77,18 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         searchBarContainer.cancelEditingButton.setTitle("Done", for: .normal)
         setupObservers()
         searchBarContainer.mockLeftViewButton.isHidden = false
-    }
-    
-    func setupNoSubjectsLabel() {
-        addSubview(noSubjectsLabel)
-        noSubjectsLabel.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+        if TutorRegistrationService.shared.subjects.count > 0 {
+            showSelectedSubjectsCVIfNeeded()
+            selectedSubjectsCV.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+        }
     }
     
     func setupSelectedSubjectsCV() {
         addSubview(selectedSubjectsCV)
-        selectedSubjectsCV.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+        selectedSubjectsCV.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        selectedSubjectsHeightAnchor = selectedSubjectsCV.heightAnchor.constraint(equalToConstant: 0)
+        selectedSubjectsHeightAnchor?.isActive = true
+        layoutIfNeeded()
         selectedSubjectsCV.delegate = self
         selectedSubjectsCV.dataSource = self
     }
@@ -123,7 +118,10 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     override func setupCollectionView() {
         addSubview(collectionView)
-        collectionView.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionViewTopAnchor = collectionView.topAnchor.constraint(equalTo: searchBarContainer.bottomAnchor, constant: 10)
+        collectionViewTopAnchor?.isActive = true
+        layoutIfNeeded()
     }
     
     func setupObservers() {
@@ -133,6 +131,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     
     @objc func handleSubjectAdded(_ notification: Notification) {
+        showSelectedSubjectsCVIfNeeded()
         selectedSubjectsCV.reloadData()
         let indexPath = IndexPath(item: selectedSubjectsCV.numberOfItems(inSection: 0) - 1, section: 0)
         selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
@@ -140,6 +139,13 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     @objc func handleSubjectRemoved(_ notification: Notification) {
         selectedSubjectsCV.reloadData()
+    }
+    
+    func showSelectedSubjectsCVIfNeeded() {
+        guard selectedSubjectsHeightAnchor?.constant != 50 else { return }
+        selectedSubjectsHeightAnchor?.constant = 50
+        collectionViewTopAnchor?.constant = 60
+        layoutIfNeeded()
     }
     
     func showRemovePromptFor(subject: String) {
