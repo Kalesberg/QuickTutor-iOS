@@ -79,6 +79,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         searchBarContainer.mockLeftViewButton.isHidden = false
         if TutorRegistrationService.shared.subjects.count > 0 {
             showSelectedSubjectsCVIfNeeded()
+            updateAccessoryViewTextLabel()
             selectedSubjectsCV.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
         }
     }
@@ -132,12 +133,14 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     @objc func handleSubjectAdded(_ notification: Notification) {
         showSelectedSubjectsCVIfNeeded()
+        updateAccessoryViewTextLabel()
         selectedSubjectsCV.reloadData()
         let indexPath = IndexPath(item: selectedSubjectsCV.numberOfItems(inSection: 0) - 1, section: 0)
         selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
     }
     
     @objc func handleSubjectRemoved(_ notification: Notification) {
+        updateAccessoryViewTextLabel()
         selectedSubjectsCV.reloadData()
     }
     
@@ -146,6 +149,11 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         selectedSubjectsHeightAnchor?.constant = 50
         collectionViewTopAnchor?.constant = 60
         layoutIfNeeded()
+    }
+    
+    func updateAccessoryViewTextLabel() {
+        let remainingSubjectsCount = 20 - TutorRegistrationService.shared.subjects.count
+        accessoryTextLabel.text = "Add up to \(remainingSubjectsCount) more subjects."
     }
     
     func showRemovePromptFor(subject: String) {
