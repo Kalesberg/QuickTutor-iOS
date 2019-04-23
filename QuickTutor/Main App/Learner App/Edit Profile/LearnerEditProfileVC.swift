@@ -314,6 +314,27 @@ class LearnerEditProfileVC: UIViewController {
         }
     }
     
+    func isBioCorrectLength(didTapSave: Bool = false) -> Bool {
+        guard let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? EditProfileBioCell, let bio = cell.textView.text else {
+            return false
+        }
+        
+        if didTapSave && bio.count > 0 && bio.count < 20 {
+            cell.errorLabel.text = "Bio must be at least 20 characters"
+            cell.errorLabel.isHidden = false
+            return false
+        }
+        
+        if bio.count > 500 {
+            cell.errorLabel.text = "Bio can not exceed 500 characters"
+            cell.errorLabel.isHidden = false
+            return false
+        }
+        
+        cell.errorLabel.isHidden = true
+        return true
+    }
+    
     func updateLearner() {
         guard let learner = CurrentUser.shared.learner else { return }
         self.learner = learner
@@ -450,6 +471,12 @@ class LearnerEditProfileVC: UIViewController {
         } else {
             newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName]
         }
+        
+        if !isBioCorrectLength(didTapSave: true) {
+            return
+        }
+        saveBio()
+        
         Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { error in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -458,7 +485,6 @@ class LearnerEditProfileVC: UIViewController {
                 self.displaySavedAlertController()
             }
         }
-        saveBio()
     }
     
     func saveBio() {
@@ -549,6 +575,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileBioCell", for: indexPath) as! EditProfileBioCell
                 cell.placeholder.text = "Biography"
+                cell.textView.delegate = self
                 if CurrentUser.shared.learner.bio != "" {
                     cell.textView.text = CurrentUser.shared.learner.bio
                     cell.textView.placeholderLabel.text = nil
@@ -756,6 +783,12 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
         }
     }
 
+}
+
+extension LearnerEditProfileVC: UITextViewDelegate {
+    func textViewDidChange(_: UITextView) {
+        _ = isBioCorrectLength()
+    }
 }
 
 // Helper function inserted by Swift 4.2 migrator.

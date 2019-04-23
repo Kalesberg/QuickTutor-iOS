@@ -30,16 +30,6 @@ extension UIViewController {
 		alertController.addAction(ok)
 		present(alertController, animated: true, completion: nil)
 	}
-	func customerServiceYesNoAlert(completion: @escaping () -> Void) {
-		let alertController = UIAlertController(title: "We Have Received Your Feeback", message: "Thank you for your feedback. We're sorry for the inconvience", preferredStyle: .alert)
-		
-		let ok = UIAlertAction(title: "Ok thanks!", style: .default) { (alert) in
-			completion()
-		}
-
-		alertController.addAction(ok)
-		present(alertController, animated: true, completion: nil)
-	}
     
     class LoadingScreen : InteractableView {
         
@@ -259,18 +249,6 @@ extension UINavigationController {
 			}
 		}
 	}
-
-	
-    func popBackToMainAnimated() {
-        for controller in self.viewControllers {
-            if controller is MessagesVC {
-                self.popToViewController(controller, animated: true)
-                break
-            } else {
-                print("unable to pop!")
-            }
-        }
-    }
 	
 	func popOrPushSearchSubjects() {
 		for controller in self.viewControllers {
@@ -282,16 +260,6 @@ extension UINavigationController {
 		pushViewController(QuickSearchVC(), animated: true)
 	}
 	
-	func popBackToMainWithAddTutor(){
-		for controller in self.viewControllers {
-			if controller is LearnerMainPageVC {
-				popViewControllerWithHandler {
-					self.pushViewController(MessagesVC(), animated: true)
-				}
-				break
-			}
-		}
-	}
 	func popBackToTutorMain() {
 		for controller in self.viewControllers {
 			if controller is QTTutorDashboardViewController {
@@ -312,14 +280,6 @@ extension UINavigationController {
 		nav.popViewController(animated: true)
 		
 		CATransaction.commit()
-	}
-	func popThenPopThenPopTHenPushSon() {
-		popViewControllerWithHandler {
-			
-		}
-		self.popViewControllerWithHandler {
-			self.pushViewController(MessagesVC(), animated: true)
-		}
 	}
 }
 

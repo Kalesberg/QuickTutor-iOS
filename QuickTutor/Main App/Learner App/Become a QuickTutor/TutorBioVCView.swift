@@ -36,8 +36,8 @@ class TutorBioVCView: BaseRegistrationView {
     override func setupViews() {
         super.setupViews()
         setupTextView()
-        setupInfoLabel()
         setupErrorLabel()
+        setupInfoLabel()
     }
     
     func setupTextView() {
@@ -47,12 +47,12 @@ class TutorBioVCView: BaseRegistrationView {
     
     func setupInfoLabel() {
         addSubview(infoLabel)
-        infoLabel.anchor(top: textView.bottomAnchor, left: titleLabel.leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
+        infoLabel.anchor(top: errorLabel.bottomAnchor, left: titleLabel.leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 62)
     }
     
     func setupErrorLabel() {
         addSubview(errorLabel)
-        errorLabel.anchor(top: nil, left: textView.leftAnchor, bottom: textView.bottomAnchor, right: textView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 15)
+        errorLabel.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: textView.rightAnchor, paddingTop: 4, paddingLeft: 10, paddingBottom: 6, paddingRight: 10, width: 0, height: 15)
     }
     
     override func updateTitleLabel() {

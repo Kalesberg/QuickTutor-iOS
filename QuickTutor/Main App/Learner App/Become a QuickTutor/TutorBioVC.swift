@@ -36,31 +36,38 @@ class TutorBioVC: BaseRegistrationController {
         contentView.textView.resignFirstResponder()
     }
     
-    @objc func handleNext(_ sender: UIButton) {
-        guard let bio = contentView.textView.text, bio.count >= 20, bio.count <= 500 else {
-            contentView.errorLabel.text = (contentView.textView.text.count > 500) ? "Bio can not exceed 500 characters" : "Bio must be at least 20 characters"
-            contentView.errorLabel.isHidden = false
-            return
+    func isBioCorrectLength(didTapNext: Bool = false) -> Bool {
+        guard let bio = contentView.textView.text else {
+            return false
         }
-        TutorRegistration.tutorBio = bio
-        navigationController?.pushViewController(TutorSSNVC(), animated: true)
+        
+        if didTapNext && bio.count < 20 {
+            contentView.errorLabel.text = "Bio must be at least 20 characters"
+            contentView.errorLabel.isHidden = false
+            return false
+        }
+
+        if bio.count > 500 {
+            contentView.errorLabel.text = "Bio can not exceed 500 characters"
+            contentView.errorLabel.isHidden = false
+            return false
+        }
+
+        contentView.errorLabel.isHidden = true
+        return true
+    }
+    
+    @objc func handleNext(_ sender: UIButton) {
+        if isBioCorrectLength(didTapNext: true) {
+            TutorRegistration.tutorBio = contentView.textView.text
+            navigationController?.pushViewController(TutorSSNVC(), animated: true)
+        }
     }
 }
 
 extension TutorBioVC: UITextViewDelegate {
     func textViewDidChange(_: UITextView) {
-        let maxCharacters = 500
-        contentView.errorLabel.isHidden = true
-        let characters = contentView.textView.text.count
-        let charactersFromMax = maxCharacters - characters
-//
-//        if characters <= maxCharacters {
-//            contentView.characterCount.label.textColor = .white
-//            contentView.characterCount.label.text = String(charactersFromMax)
-//        } else {
-//            contentView.characterCount.label.textColor = UIColor.red
-//            contentView.characterCount.label.text = String(charactersFromMax)
-//        }
+        _ = isBioCorrectLength()
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn _: NSRange, replacementText text: String) -> Bool {

@@ -806,6 +806,7 @@
 		939F2F2A2268AADE006F3F62 /* ChangeEmailVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F2F292268AADE006F3F62 /* ChangeEmailVCTests.swift */; };
 		93C57B08226B94E00000E9EC /* BaseSessionVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C57B07226B94E00000E9EC /* BaseSessionVCTests.swift */; };
 		93D694F7226D6D83001207AC /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D694F6226D6D83001207AC /* UILabelExtensions.swift */; };
+		93D694FA226E0FEF001207AC /* TutorBioVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D694F9226E0FEF001207AC /* TutorBioVCTests.swift */; };
 		93EFEF23225A9156001E0EF5 /* QuickTutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EFEF22225A9156001E0EF5 /* QuickTutorTests.swift */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
@@ -1449,6 +1450,7 @@
 		939F2F292268AADE006F3F62 /* ChangeEmailVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailVCTests.swift; sourceTree = "<group>"; };
 		93C57B07226B94E00000E9EC /* BaseSessionVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionVCTests.swift; sourceTree = "<group>"; };
 		93D694F6226D6D83001207AC /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
+		93D694F9226E0FEF001207AC /* TutorBioVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorBioVCTests.swift; sourceTree = "<group>"; };
 		93EFEF20225A9156001E0EF5 /* QuickTutorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickTutorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93EFEF22225A9156001E0EF5 /* QuickTutorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTutorTests.swift; sourceTree = "<group>"; };
 		93EFEF24225A9156001E0EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2841,6 +2843,7 @@
 		939F2F272268AABC006F3F62 /* Learner App */ = {
 			isa = PBXGroup;
 			children = (
+				93D694F8226E0FD1001207AC /* Become a QuickTutor */,
 				939F2F282268AAC2006F3F62 /* Edit Profile */,
 			);
 			path = "Learner App";
@@ -2868,6 +2871,14 @@
 				93C57B07226B94E00000E9EC /* BaseSessionVCTests.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		93D694F8226E0FD1001207AC /* Become a QuickTutor */ = {
+			isa = PBXGroup;
+			children = (
+				93D694F9226E0FEF001207AC /* TutorBioVCTests.swift */,
+			);
+			path = "Become a QuickTutor";
 			sourceTree = "<group>";
 		};
 		93EFEF21225A9156001E0EF5 /* QuickTutorTests */ = {
@@ -4972,6 +4983,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93D694FA226E0FEF001207AC /* TutorBioVCTests.swift in Sources */,
 				93EFEF23225A9156001E0EF5 /* QuickTutorTests.swift in Sources */,
 				939F2F262268AAAE006F3F62 /* QTProfileViewControllerTests.swift in Sources */,
 				93C57B08226B94E00000E9EC /* BaseSessionVCTests.swift in Sources */,
@@ -5232,7 +5244,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = NO;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -5283,7 +5295,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = NO;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",

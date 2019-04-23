@@ -276,6 +276,343 @@ class EditProfileHeaderTableViewCell: BaseTableViewCell {
     }
 }
 
+class BaseSlider: UISlider {
+    override func trackRect(forBounds _: CGRect) -> CGRect {
+        var width: Int
+
+        if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
+            width = 230
+        } else {
+            width = 280
+        }
+
+        let rect: CGRect = CGRect(x: 0, y: 0, width: width, height: 20)
+
+        return rect
+    }
+
+    override func point(inside point: CGPoint, with _: UIEvent?) -> Bool {
+        var bounds: CGRect = self.bounds
+        bounds = bounds.insetBy(dx: -20, dy: -20)
+        return bounds.contains(point)
+    }
+}
+
+class EditProfileSliderTableViewCell: BaseTableViewCell {
+    let header: UILabel = {
+        let label = UILabel()
+
+        label.numberOfLines = 0
+
+        return label
+    }()
+
+    let slider: BaseSlider = {
+        let slider = BaseSlider()
+
+        slider.maximumTrackTintColor = Colors.registrationDark
+        slider.minimumTrackTintColor = Colors.purple
+        slider.isContinuous = true
+
+        return slider
+    }()
+
+    let valueLabel: UILabel = {
+        let label = UILabel()
+
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(16)
+        label.textAlignment = .center
+
+        return label
+    }()
+
+    override func configureView() {
+        contentView.addSubview(header)
+        contentView.addSubview(slider)
+        contentView.addSubview(valueLabel)
+
+        backgroundColor = .clear
+        selectionStyle = .none
+
+        applyConstraints()
+    }
+
+    override func applyConstraints() {
+        var width: Int
+
+        if UIScreen.main.bounds.height == 568 || UIScreen.main.bounds.height == 480 {
+            width = 230
+        } else {
+            width = 290
+        }
+
+        header.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.right.equalToSuperview()
+            make.left.equalToSuperview().inset(3)
+        }
+
+        valueLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(slider).inset(-14)
+            make.left.equalTo(slider.snp.right)
+            make.right.equalToSuperview()
+        }
+
+        slider.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(4)
+            make.top.equalTo(header.snp.bottom).inset(-25)
+            make.width.equalTo(width)
+            make.height.equalTo(40)
+            make.bottom.equalToSuperview()
+        }
+    }
+}
+
+protocol AmountTextFieldDidChange {
+    func amountTextFieldDidChange(amount: Int)
+}
+
+
+class EditProfileHourlyRateTableViewCell: BaseTableViewCell {
+    let header: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
+
+    let textFieldContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.registrationDark
+        view.layer.cornerRadius = 6
+
+        return view
+    }()
+
+    var textField: NoPasteTextField = {
+        let textField = NoPasteTextField()
+
+        textField.font = Fonts.createBoldSize(32)
+        textField.textColor = .white
+        textField.textAlignment = .left
+        textField.keyboardType = .numberPad
+        textField.keyboardAppearance = .dark
+        textField.tintColor = Colors.purple
+
+        return textField
+    }()
+
+    let decreaseButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "decreaseButton"), for: .normal)
+        return button
+    }()
+
+    let increaseButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "increaseButton"), for: .normal)
+        return button
+    }()
+
+    let container = UIView()
+    var increasePriceTimer: Timer?
+    var decreasePriceTimer: Timer?
+
+    var currentPrice = 5
+    var amount: String = "5"
+    var textFieldObserver: AmountTextFieldDidChange?
+
+    override func configureView() {
+        addSubview(header)
+        addSubview(container)
+        container.addSubview(textFieldContainer)
+        textFieldContainer.addSubview(textField)
+        textFieldContainer.addSubview(increaseButton)
+        textFieldContainer.addSubview(decreaseButton)
+
+        backgroundColor = Colors.backgroundDark
+        selectionStyle = .none
+        textField.delegate = self
+
+        decreaseButton.addTarget(self, action: #selector(decreasePrice), for: .touchDown)
+        decreaseButton.addTarget(self, action: #selector(endDecreasePrice), for: [.touchUpInside, .touchUpOutside])
+        increaseButton.addTarget(self, action: #selector(increasePrice), for: .touchDown)
+        increaseButton.addTarget(self, action: #selector(endIncreasePrice), for: [.touchUpInside, .touchUpOutside])
+
+        applyConstraints()
+    }
+
+    override func applyConstraints() {
+        header.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.right.equalToSuperview()
+            make.left.equalToSuperview().inset(10)
+            make.bottom.equalTo(container.snp.top)
+        }
+
+        container.snp.makeConstraints { make in
+            make.top.equalTo(header.snp.bottom)
+            make.height.equalTo(100)
+            make.centerX.width.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        textFieldContainer.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.95)
+            make.height.equalTo(70)
+        }
+
+        textField.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(25)
+            make.width.equalToSuperview().multipliedBy(0.4)
+            make.centerY.height.equalToSuperview()
+        }
+
+        increaseButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(17)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
+
+        decreaseButton.snp.makeConstraints { make in
+            make.right.equalTo(increaseButton.snp.left).inset(-17)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
+    }
+
+    private func updateTextField(_ amount: String) {
+        guard let this = Int(amount), let number = this as NSNumber? else { return }
+        currentPrice = this
+        textField.text = "$\(number)"
+        textFieldObserver?.amountTextFieldDidChange(amount: this)
+    }
+
+    @objc func decreasePrice() {
+        guard currentPrice > 0 else {
+            amount = ""
+            return
+        }
+        decreasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.085, repeats: true) { _ in
+            guard self.currentPrice > 0 else {
+                self.amount = String(self.currentPrice)
+                return
+            }
+            self.currentPrice -= 1
+            self.textField.text = "$\(self.currentPrice)"
+            self.amount = String(self.currentPrice)
+            self.textFieldObserver?.amountTextFieldDidChange(amount: self.currentPrice)
+        }
+        decreasePriceTimer?.fire()
+    }
+
+    @objc func endDecreasePrice() {
+        decreasePriceTimer?.invalidate()
+    }
+
+    @objc func increasePrice() {
+        guard currentPrice < 1000 else {
+            amount = String(currentPrice)
+            return
+        }
+        currentPrice += 1
+        textField.text = "$\(currentPrice)"
+        amount = String(currentPrice)
+        textFieldObserver?.amountTextFieldDidChange(amount: currentPrice)
+        increasePriceTimer = Timer.scheduledTimer(withTimeInterval: 0.085, repeats: true, block: { _ in
+            guard self.currentPrice < 1000 else {
+                self.amount = String(self.currentPrice)
+                return
+            }
+            self.currentPrice += 1
+            self.textField.text = "$\(self.currentPrice)"
+            self.amount = String(self.currentPrice)
+            self.textFieldObserver?.amountTextFieldDidChange(amount: self.currentPrice)
+        })
+    }
+
+    @objc func endIncreasePrice() {
+        increasePriceTimer?.invalidate()
+    }
+}
+
+extension EditProfileHourlyRateTableViewCell: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
+        let aSet = NSCharacterSet(charactersIn: "0123456789").inverted
+        let compSepByCharInSet = string.components(separatedBy: aSet)
+        let numberFiltered = compSepByCharInSet.joined(separator: "")
+
+        if string == "" && amount.count == 1 {
+            textField.text = "$5"
+            amount = ""
+            currentPrice = 0
+            return false
+        }
+        if string == "" && amount.count > 0 {
+            amount.removeLast()
+            updateTextField(amount)
+        }
+
+        if string == numberFiltered {
+            let temp = (amount + string)
+            guard let number = Int(temp), number < 1001 else {
+                // showError
+                return false
+            }
+            amount = temp
+            updateTextField(amount)
+        }
+        return false
+    }
+
+    func textFieldShouldReturn(_: UITextField) -> Bool {
+        return true
+    }
+}
+
+class EditProfileCheckboxTableViewCell: BaseTableViewCell {
+    let label: UILabel = {
+        let label = UILabel()
+
+        label.font = Fonts.createSize(15)
+        label.textColor = .white
+
+        return label
+    }()
+
+    var checkbox = RegistrationCheckbox() {
+        didSet {
+            print("changed")
+        }
+    }
+
+    override func configureView() {
+        addSubview(label)
+        contentView.addSubview(checkbox)
+        super.configureView()
+
+        selectionStyle = .none
+        backgroundColor = .clear
+
+        applyConstraints()
+    }
+
+    override func applyConstraints() {
+        label.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.height.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+
+        checkbox.snp.makeConstraints { make in
+            make.right.equalToSuperview()
+            make.height.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(40)
+        }
+    }
+}
+
 class EditProfileCell: UITableViewCell {
     
     let textField: RegistrationTextField = {
@@ -332,10 +669,20 @@ class EditProfileBioCell: UITableViewCell {
         return field
     }()
     
+    let errorLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .red
+        label.textAlignment = .left
+        label.isHidden = true
+        label.font = Fonts.createSize(14)
+        return label
+    }()
+    
     func setupViews() {
         backgroundColor = Colors.darkBackground
         setupPlaceholder()
         setupTextView()
+        setupErrorLabel()
     }
     
     func setupPlaceholder() {
@@ -346,6 +693,14 @@ class EditProfileBioCell: UITableViewCell {
     func setupTextView() {
         addSubview(textView)
         textView.anchor(top: placeholder.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 96)
+    }
+    
+    func setupErrorLabel() {
+        let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 8))
+        accessoryView.backgroundColor = UIColor.clear
+        textView.inputAccessoryView = accessoryView
+        addSubview(errorLabel)
+        errorLabel.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: textView.rightAnchor, paddingTop: 2, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 15)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
