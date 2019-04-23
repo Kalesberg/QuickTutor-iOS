@@ -157,6 +157,9 @@ class ConversationCell: SwipeCollectionViewCell {
         if message.imageUrl != nil {
             lastMessageLabel.text = "Attachment: 1 image"
         }
+        if message.videoUrl != nil {
+            lastMessageLabel.text = "Attachment: 1 video"
+        }
         if message.sessionRequestId != nil {
             lastMessageLabel.text = "Session Request"
         }

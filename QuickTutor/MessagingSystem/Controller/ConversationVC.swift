@@ -619,7 +619,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         }
         
         if message.connectionRequestId != nil {
-            height += 55
+            height += 35
         }
         return CGSize(width: UIScreen.main.bounds.width + 60, height: height)
     }

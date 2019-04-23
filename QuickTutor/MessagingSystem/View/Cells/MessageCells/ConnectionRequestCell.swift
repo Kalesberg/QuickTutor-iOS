@@ -20,6 +20,8 @@ class ConnectionRequestCell: UserMessageCell {
         view.layer.cornerRadius = 4
         return view
     }()
+    
+    var mockBubbleViewHeightAnchor: NSLayoutConstraint?
 
     let buttonView = SessionRequestCellButtonView()
 
@@ -35,7 +37,8 @@ class ConnectionRequestCell: UserMessageCell {
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         userMessage = message
-
+        let height = message.text?.estimateFrameForFontSize(14).height ?? 40 + 8
+        updateMockBubbleViewHeight(height)
         guard let requestId = message.connectionRequestId else { return }
         connectionRequestId = requestId
         loadFromRequest()
@@ -44,8 +47,16 @@ class ConnectionRequestCell: UserMessageCell {
 
     func setupMockBubbleViewBackground() {
         addSubview(mockBubbleViewBackground)
-        mockBubbleViewBackground.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
+        mockBubbleViewBackground.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        mockBubbleViewHeightAnchor = mockBubbleViewBackground.heightAnchor.constraint(equalToConstant: 40)
+        mockBubbleViewHeightAnchor?.isActive = true
+        layoutIfNeeded()
         bubbleView.layer.borderWidth = 0
+    }
+    
+    func updateMockBubbleViewHeight(_ height: CGFloat) {
+        mockBubbleViewHeightAnchor?.constant = height
+        layoutIfNeeded()
     }
 
     func setupForTeacherView() {
