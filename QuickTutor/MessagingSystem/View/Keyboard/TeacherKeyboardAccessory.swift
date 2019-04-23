@@ -11,7 +11,7 @@ import UIKit
 class TeacherKeyboardAccessory: KeyboardAccessory {
     let sendPictureButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "cameraIcon"), for: .normal)
+        button.setImage(UIImage(named: "mediaIcon"), for: .normal)
         button.contentMode = .scaleAspectFit
         button.tintColor = Colors.lightGrey
         return button
@@ -20,7 +20,7 @@ class TeacherKeyboardAccessory: KeyboardAccessory {
     override func setupLeftAccessoryView() {
         leftAccessoryView = sendPictureButton
         addSubview(sendPictureButton)
-        sendPictureButton.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 12, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
+        sendPictureButton.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 12, paddingBottom: 14, paddingRight: 0, width: 20, height: 20)
         sendPictureButton.addTarget(self, action: #selector(choosePicture), for: .touchUpInside)
     }
 

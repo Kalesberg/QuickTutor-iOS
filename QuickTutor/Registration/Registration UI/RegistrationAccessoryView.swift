@@ -19,6 +19,8 @@ class RegistrationAccessoryView: UIView {
         return button
     }()
     
+    var nextButtonWidthAnchor: NSLayoutConstraint?
+    
     func setupViews() {
         setupMainView()
         setupNextButton()
@@ -30,7 +32,10 @@ class RegistrationAccessoryView: UIView {
     
     func setupNextButton() {
         addSubview(nextButton)
-        nextButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 30, width: 120, height: 0)
+        nextButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 30, width: 0, height: 0)
+        nextButtonWidthAnchor = nextButton.widthAnchor.constraint(equalToConstant: 120)
+        nextButtonWidthAnchor?.isActive = true
+        layoutIfNeeded()
     }
     
     override init(frame: CGRect) {

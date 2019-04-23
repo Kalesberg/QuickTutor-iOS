@@ -43,6 +43,7 @@ class ConversationCollectionView: UICollectionView {
         register(SystemMessageCell.self, forCellWithReuseIdentifier: "systemMessage")
         register(SessionRequestCell.self, forCellWithReuseIdentifier: "sessionMessage")
         register(ImageMessageCell.self, forCellWithReuseIdentifier: "imageMessage")
+        register(VideoMessageCell.self, forCellWithReuseIdentifier: "videoMessage")
         register(ConnectionRequestCell.self, forCellWithReuseIdentifier: "connectionRequest")
         register(ConversationPaginationHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "paginationHeader")
         register(MessageGapTimestampCell.self, forCellWithReuseIdentifier: "timestampCell")

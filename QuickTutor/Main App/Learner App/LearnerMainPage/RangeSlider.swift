@@ -75,7 +75,8 @@ class RangeSlider: UIControl {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        lowerThumbImageView.contentMode = .center
+        upperThumbImageView.contentMode = .center
         trackLayer.rangeSlider = self
         trackLayer.contentsScale = UIScreen.main.scale
         layer.addSublayer(trackLayer)
@@ -96,13 +97,13 @@ class RangeSlider: UIControl {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         
-        trackLayer.frame = bounds.insetBy(dx: 0.0, dy: bounds.height / 3)
+        trackLayer.frame = bounds.insetBy(dx: 0.0, dy: bounds.height / 2.55)
         
         trackLayer.setNeedsDisplay()
         lowerThumbImageView.frame = CGRect(origin: thumbOriginForValue(lowerValue),
-                                           size: thumbImage.size)
+                                           size: CGSize(width: 50, height: 50))
         upperThumbImageView.frame = CGRect(origin: thumbOriginForValue(upperValue),
-                                           size: thumbImage.size)
+                                           size: CGSize(width: 50, height: 50))
         CATransaction.commit()
     }
     
@@ -111,8 +112,8 @@ class RangeSlider: UIControl {
     }
     
     private func thumbOriginForValue(_ value: CGFloat) -> CGPoint {
-        let x = positionForValue(value) - thumbImage.size.width / 2.0
-        return CGPoint(x: x, y: (bounds.height - thumbImage.size.height) / 2.0)
+        let x = positionForValue(value) - 50 / 2.0
+        return CGPoint(x: x, y: (bounds.height - 50) / 2.0)
     }
     
     override var bounds: CGRect {

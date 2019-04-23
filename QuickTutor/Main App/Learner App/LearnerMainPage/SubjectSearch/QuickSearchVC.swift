@@ -16,7 +16,6 @@ class QuickSearchVC: UIViewController {
 
     var categories: [Category] = [.academics, .business, .lifestyle, .language,  .arts,  .sports, .health, .tech, .outdoors, .auto, .trades,  .remedial]
 
-    var searchTimer = Timer()
     var automaticScroll: Bool = false
     var shouldUpdateSearchResults = false
 
@@ -29,6 +28,7 @@ class QuickSearchVC: UIViewController {
     var allSubjects = [(String, String)]()
     
     var searchFilter: SearchFilter?
+    var searchTimer: Timer?
 
     var tableViewIsActive: Bool = false {
         didSet {
@@ -97,13 +97,22 @@ extension QuickSearchVC: UITextFieldDelegate {
         beginEditing()
         child.inSearchMode = true
         guard let text = textField.text, !text.isEmpty else { return true }
-        DispatchQueue.global().async {
-            self.child.filteredSubjects = self.child.subjects.filter({ $0.0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
-            DispatchQueue.main.sync {
-                self.child.contentView.collectionView.reloadData()
-            }
-        }
+        filterSubjects(text)
         return true
+    }
+    
+    private func filterSubjects(_ text: String) {
+        searchTimer?.invalidate()
+        
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
+            , block: { (_) in
+                DispatchQueue.global().async {
+                    self.child.filteredSubjects = self.child.subjects.filter({ $0.0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
+                    DispatchQueue.main.sync {
+                        self.child.contentView.collectionView.reloadData()
+                    }
+                }
+        })
     }
     
     @objc func handleTextChange() {
@@ -212,6 +221,7 @@ extension QuickSearchVC: CustomSearchBarDelegate {
     
     func customSearchBarDidTapFiltersButton(_ searchBar: PaddedTextField) {
         let vc = FiltersVC()
+        vc.hidesBottomBarWhenPushed = true
         vc.searchFilter = searchFilter
         navigationController?.pushViewController(vc, animated: true)
     }

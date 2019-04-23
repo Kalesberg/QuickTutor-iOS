@@ -13,18 +13,30 @@ import UIKit
 class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var parentViewController: UIViewController!
     var receiverId: String!
-    let imagePicker = UIImagePickerController()
+    
+    let imagePicker: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.mediaTypes = ["public.image", "public.movie"]
+        return picker
+    }()
 
     func handleSendingImage() {
+        setupDelegates()
+        showActionSheet()
+    }
+    
+    private func setupDelegates() {
         imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-
+    }
+    
+    private func showActionSheet() {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+        ac.addAction(UIAlertAction(title: "Take Photo/Video", style: .default, handler: { _ in
             self.imagePicker.sourceType = .camera
             self.parentViewController.present(self.imagePicker, animated: true, completion: nil)
         }))
-        ac.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
+        ac.addAction(UIAlertAction(title: "Choose Media", style: .default, handler: { _ in
             self.imagePicker.sourceType = .photoLibrary
             self.parentViewController.present(self.imagePicker, animated: true, completion: nil)
         }))
@@ -34,20 +46,27 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        // Local variable inserted by Swift 4.2 migrator.
-        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
+        if let url = info[.mediaURL] as? URL {
+            uploadVideoToFirebase(url)
+        }
+        
+        guard let imageToUplaod = getImageFromInfoKeys(info) else { return }
+        uploadImageToFirebase(image: imageToUplaod) { (imageUrl) in
+            self.sendMessage(imageToUplaod, imageUrl: imageUrl)
+        }
+    }
+    
+    private func getImageFromInfoKeys(_ info:[UIImagePickerController.InfoKey: Any]) -> UIImage? {
         var image: UIImage?
-        if let editedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage {
+        if let editedImage = info[.editedImage] as? UIImage {
             image = editedImage
-        } else if let originalImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
+        } else if let originalImage = info[.originalImage] as? UIImage {
             image = originalImage
         }
-        guard let imageToUplaod = image else { return }
-        uploadImageToFirebase(image: imageToUplaod)
+        return image
     }
 
-    func uploadImageToFirebase(image: UIImage) {
+    func uploadImageToFirebase(image: UIImage, completion: @escaping(URL) -> Void) {
         parentViewController.dismiss(animated: true, completion: nil)
         guard let data = image.jpegData(compressionQuality: 0.2) else {
             return
@@ -65,11 +84,47 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
                     print(error.debugDescription)
                 }
                 guard let imageUrl = url else { return }
-                DataService.shared.sendImageMessage(imageUrl: imageUrl.absoluteString, imageWidth: image.size.width, imageHeight: image.size.height, receiverId: self.receiverId, completion: {
-
+                completion(imageUrl)
+            })
+        }
+    }
+    
+    func sendMessage(_ image: UIImage, imageUrl: URL, videoUrl: URL? = nil) {
+        DataService.shared.sendImageMessage(imageUrl: imageUrl.absoluteString, imageWidth: image.size.width, imageHeight: image.size.height, receiverId: self.receiverId, completion: {
+            
+        })
+    }
+    
+    
+    func uploadVideoToFirebase(_ url: URL) {
+        let childAutoId = NSUUID().uuidString
+        let reference = Storage.storage().reference().child("videoMessages").child(childAutoId)
+        reference.putFile(from: url, metadata: nil) { (metaData, error) in
+            guard let metaData = metaData else { return }
+            reference.downloadURL(completion: { (downloadUrl, error) in
+                guard let downloadUrl = downloadUrl else { return }
+                guard let image = self.getThumbnailForVideoUrl(url) else { return }
+                self.uploadImageToFirebase(image: image, completion: { (thumbnailUrl) in
+                    DataService.shared.sendVideoMessage(thumbnailUrl: thumbnailUrl, thumbnailWidth: image.size.width, thumbnailHeight: image.size.height, videoUrl: downloadUrl, receiverId: self.receiverId, completion: {
+                        
+                    })
                 })
             })
         }
+        
+    }
+    
+    func getThumbnailForVideoUrl(_ url: URL) -> UIImage? {
+        let asset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        
+        do {
+            let thumbnail = try imageGenerator.copyCGImage(at: CMTime(value: 1, timescale: 60), actualTime: nil)
+            return UIImage(cgImage: thumbnail)
+        } catch {
+            return nil
+        }
+        
     }
 
     func proceedWithCameraAccess() -> Bool {
@@ -92,14 +147,4 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     init(parentViewController: UIViewController) {
         self.parentViewController = parentViewController
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-    return Dictionary(uniqueKeysWithValues: input.map { key, value in (key.rawValue, value) })
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-    return input.rawValue
 }

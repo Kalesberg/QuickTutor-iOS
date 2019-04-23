@@ -13,6 +13,8 @@ import UIKit
 import SocketIO
 import IQKeyboardManager
 import Stripe
+import AVFoundation
+import AVKit
 
 class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     var messagingManagerDelegate: ConversationManagerDelegate?
@@ -548,7 +550,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
 
         }
         
-        if message.imageUrl != nil {
+        if message.imageUrl != nil && message.videoUrl == nil {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageMessage", for: indexPath) as! ImageMessageCell
             cell.bubbleWidthAnchor?.constant = 200
             cell.delegate = imageMessageAnimator
@@ -573,6 +575,14 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "connectionRequest", for: indexPath) as! ConnectionRequestCell
             cell.bubbleWidthAnchor?.constant = 285
             cell.chatPartner = chatPartner
+            cell.updateUI(message: message)
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            return cell
+        }
+        
+        if message.videoUrl != nil {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoMessage", for: indexPath) as! VideoMessageCell
+            cell.bubbleWidthAnchor?.constant = 200
             cell.updateUI(message: message)
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             return cell
@@ -609,7 +619,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         }
         
         if message.connectionRequestId != nil {
-            height += 45
+            height += 55
         }
         return CGSize(width: UIScreen.main.bounds.width + 60, height: height)
     }
@@ -633,6 +643,13 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let userMessage = conversationManager.messages[indexPath.item] as? UserMessage, let videoUrl = userMessage.videoUrl else { return }
+        let player = AVPlayer(url: URL(string: videoUrl)!)
+        let vc = AVPlayerViewController()
+        vc.player = player
+        present(vc, animated: true) {
+            vc.player?.play()
+        }
     }
     
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 struct CategorySelected {
     static var title: String!
@@ -26,6 +27,15 @@ class CategorySearchVC: BaseViewController {
     var subcategory: String!
     var subject: String!
     var searchFilter: SearchFilter?
+    let locationManager = CLLocationManager()
+    var currentLocation: CLLocation? {
+        didSet {
+            if let filter = searchFilter {
+                applySearchFilterToDataSource(filter)
+            }
+        }
+    }
+
     
     override var contentView: CategorySearchVCView {
         return view as! CategorySearchVCView
@@ -38,6 +48,7 @@ class CategorySearchVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupObservers()
+        setupLocationManager()
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
         contentView.collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
@@ -77,12 +88,20 @@ class CategorySearchVC: BaseViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        locationManager.stopUpdatingLocation()
         contentView.searchBar.resignFirstResponder()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         contentView.collectionView.reloadData()
+    }
+    
+    func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+        locationManager.startUpdatingLocation()
     }
     
     func setupObservers() {
@@ -164,14 +183,16 @@ class CategorySearchVC: BaseViewController {
                 }
             }
             guard shouldBeIncluded else { return shouldBeIncluded }
-            guard filter.sessionType == 2 else { return shouldBeIncluded }
+            guard filter.sessionType == 1 else { return shouldBeIncluded }
             
             if let minDistance = filter.minDistance {
-                shouldBeIncluded = tutor.distance >= minDistance
+                let distance = findDistance(location: tutor.location)
+                shouldBeIncluded = distance >= Double(minDistance)
             }
             guard shouldBeIncluded else { return shouldBeIncluded }
             if let maxDistance = filter.maxDistance {
-                shouldBeIncluded = tutor.distance <= maxDistance
+                let distance = findDistance(location: tutor.location)
+                shouldBeIncluded = distance <= Double(maxDistance)
             }
             return shouldBeIncluded
         })
@@ -256,5 +277,28 @@ extension CategorySearchVC: UIScrollViewDelegate {
             }
             
         }
+    }
+}
+
+extension CategorySearchVC: CLLocationManagerDelegate {
+    
+    func findDistance(location: TutorLocation?) -> Double {
+        guard let tutorLocation = location?.location else {
+            return 0
+        }
+        
+        let currentDistance = currentLocation?.distance(from: tutorLocation) ?? 0
+        return currentDistance * 0.00062137
+    }
+    
+    func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            self.currentLocation = location
+            self.locationManager.stopUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
     }
 }

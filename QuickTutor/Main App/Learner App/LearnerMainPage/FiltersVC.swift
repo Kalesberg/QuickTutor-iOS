@@ -28,6 +28,7 @@ class FiltersVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        hidesBottomBarWhenPushed = true
         setupNavigationBar()
         contentView.distanceSliderView.rangeSlider.updateLayerFrames()
         contentView.resetFilters()
@@ -50,9 +51,7 @@ class FiltersVC: UIViewController {
     
     func setupNavigationBar() {
         navigationItem.title = "Filters"
-        let resetButton = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetFilters))
-        resetButton.setTitleTextAttributes([NSAttributedString.Key.font: Fonts.createMediumSize(16)], for: .normal)
-        resetButton.setTitleTextAttributes([NSAttributedString.Key.font: Fonts.createMediumSize(16)], for: .selected)
+        let resetButton = UIBarButtonItem(image: UIImage(named: "resetFiltersIcon"), style: .plain, target: self, action: #selector(resetFilters))
         navigationItem.rightBarButtonItem = resetButton
     }
     

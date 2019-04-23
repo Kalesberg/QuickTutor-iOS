@@ -818,6 +818,8 @@
 		CF17F22A226BC16D00ABD07D /* RangeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF17F223226BC05800ABD07D /* RangeSliderView.swift */; };
 		CF17F22C226BC72000ABD07D /* TutorPreferenceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF17F22B226BC72000ABD07D /* TutorPreferenceData.swift */; };
 		CF17F22D226BC8A800ABD07D /* TutorPreferenceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF17F22B226BC72000ABD07D /* TutorPreferenceData.swift */; };
+		CF17F22E226EA35200ABD07D /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D694F6226D6D83001207AC /* UILabelExtensions.swift */; };
+		CF17F230226EA4C400ABD07D /* VideoMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF17F22F226EA4C400ABD07D /* VideoMessageCell.swift */; };
 		CF1AFDE9208E8FD100884228 /* InPersonProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */; };
 		CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C610C209EA57B009B7B0E /* TipAmountCell.swift */; };
 		CF1C610F209EA593009B7B0E /* CustomTipModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C610E209EA593009B7B0E /* CustomTipModal.swift */; };
@@ -1452,6 +1454,7 @@
 		CF17F223226BC05800ABD07D /* RangeSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSliderView.swift; sourceTree = "<group>"; };
 		CF17F225226BC07000ABD07D /* FiltersVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersVCView.swift; sourceTree = "<group>"; };
 		CF17F22B226BC72000ABD07D /* TutorPreferenceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPreferenceData.swift; sourceTree = "<group>"; };
+		CF17F22F226EA4C400ABD07D /* VideoMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMessageCell.swift; sourceTree = "<group>"; };
 		CF1AFDE8208E8FD100884228 /* InPersonProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonProfileBox.swift; sourceTree = "<group>"; };
 		CF1C610C209EA57B009B7B0E /* TipAmountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipAmountCell.swift; sourceTree = "<group>"; };
 		CF1C610E209EA593009B7B0E /* CustomTipModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTipModal.swift; sourceTree = "<group>"; };
@@ -2998,6 +3001,7 @@
 				CF6F588F205EE68800ACBD32 /* MeetupRequestCell.swift */,
 				CF6F5890205EE68800ACBD32 /* BaseMessageCell.swift */,
 				CF507FA82181386D007FE441 /* MessagetTimebreakCell.swift */,
+				CF17F22F226EA4C400ABD07D /* VideoMessageCell.swift */,
 			);
 			path = MessageCells;
 			sourceTree = "<group>";
@@ -4381,6 +4385,7 @@
 				569F1881223554FD00820A20 /* TutorOtherVC.swift in Sources */,
 				569F1883223554FD00820A20 /* QuickSearchVCView.swift in Sources */,
 				569F1884223554FD00820A20 /* Helper.swift in Sources */,
+				CF17F22E226EA35200ABD07D /* UILabelExtensions.swift in Sources */,
 				569F1885223554FD00820A20 /* ProfileVC.swift in Sources */,
 				569F1886223554FD00820A20 /* EditBillingAddressView.swift in Sources */,
 				CFCE90A9226524AF00CBB1AD /* CategorySectionController.swift in Sources */,
@@ -4799,6 +4804,7 @@
 				8454890220D987D300932D8D /* AddTutorVC.swift in Sources */,
 				84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */,
 				CFEF943B20B32B7C00413727 /* ConnectionCell.swift in Sources */,
+				CF17F230226EA4C400ABD07D /* VideoMessageCell.swift in Sources */,
 				CF6F58D9205EE68800ACBD32 /* StudentKeyboardAccessory.swift in Sources */,
 				4D348104223A35370004C29A /* QTRatingView.swift in Sources */,
 				CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */,

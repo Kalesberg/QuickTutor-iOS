@@ -60,7 +60,7 @@ class RangeSliderView: UIView {
     
     func setupRangeSlider() {
         addSubview(rangeSlider)
-        rangeSlider.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 15)
+        rangeSlider.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 30)
         rangeSlider.layoutSubviews()
         //        rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
     }

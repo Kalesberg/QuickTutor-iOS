@@ -18,6 +18,7 @@ class UserMessage: BaseMessage {
     var imageUrl: String?
     var sessionRequestId: String?
     var connectionRequestId: String?
+    var videoUrl: String?
     var user: User?
 
     init(dictionary: [String: Any]) {
@@ -29,6 +30,7 @@ class UserMessage: BaseMessage {
         imageUrl = dictionary["imageUrl"] as? String
         sessionRequestId = dictionary["sessionRequestId"] as? String
         connectionRequestId = dictionary["connectionRequestId"] as? String
+        videoUrl = dictionary["videoUrl"] as? String
     }
 
     func partnerId() -> String {

@@ -22,9 +22,28 @@ class FiltersVCView: UIView {
         return view
     }()
     
+    let hourlyRateSeparator: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.backgroundDark
+        return view
+    }()
+    
     let distanceSliderView: RangeSliderView = {
         let view = RangeSliderView()
         view.titleLabel.text = "Distance"
+        return view
+    }()
+    
+    let distanceSliderCover: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.isHidden = true
+        return view
+    }()
+    
+    let distanceSeparator: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.backgroundDark
         return view
     }()
     
@@ -42,11 +61,16 @@ class FiltersVCView: UIView {
         return cv
     }()
     
+    let ratingSeparator: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.backgroundDark
+        return view
+    }()
     
     let sessionTypeTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "Type"
+        label.text = "Session Type"
         label.font = Fonts.createBoldSize(16)
         return label
     }()
@@ -66,9 +90,12 @@ class FiltersVCView: UIView {
     func setupViews() {
         backgroundColor = Colors.darkBackground
         setupHourlyRateSliderView()
+        setupHourlyRateSeparator()
         setupDistanceSliderView()
+        setupDistanceSeparator()
         setupRatingTitleLabel()
         setupRatingCollectionView()
+        setupRatingSeparator()
         setupSessionTypeTitleLabel()
         setupSessionTypeCollectionView()
         setupAccessoryView()
@@ -80,15 +107,25 @@ class FiltersVCView: UIView {
         hourlyRateSliderView.rangeSlider.addTarget(self, action: #selector(hourlyRateSliderValueChanged(_:)), for: .valueChanged)
     }
     
+    func setupHourlyRateSeparator() {
+        addSubview(hourlyRateSeparator)
+        hourlyRateSeparator.anchor(top: hourlyRateSliderView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 25, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 1)
+    }
+    
     func setupDistanceSliderView() {
         addSubview(distanceSliderView)
-        distanceSliderView.anchor(top: hourlyRateSliderView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 87)
+        distanceSliderView.anchor(top: hourlyRateSeparator.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 87)
         distanceSliderView.rangeSlider.addTarget(self, action: #selector(distanceSliderValueChanged(_:)), for: .valueChanged)
+    }
+    
+    func setupDistanceSeparator() {
+        addSubview(distanceSeparator)
+        distanceSeparator.anchor(top: distanceSliderView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 25, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 1)
     }
     
     func setupRatingTitleLabel() {
         addSubview(ratingTitleLabel)
-        ratingTitleLabel.anchor(top: distanceSliderView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 17)
+        ratingTitleLabel.anchor(top: distanceSeparator.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 17)
     }
     
     func setupRatingCollectionView() {
@@ -98,9 +135,14 @@ class FiltersVCView: UIView {
         ratingCollectionView.dataSource = self
     }
     
+    func setupRatingSeparator() {
+        addSubview(ratingSeparator)
+        ratingSeparator.anchor(top: ratingCollectionView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 1)
+    }
+    
     func setupSessionTypeTitleLabel() {
         addSubview(sessionTypeTitleLabel)
-        sessionTypeTitleLabel.anchor(top: ratingCollectionView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 17)
+        sessionTypeTitleLabel.anchor(top: ratingSeparator.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 17)
     }
     
     func setupSessionTypeCollectionView() {
@@ -113,6 +155,8 @@ class FiltersVCView: UIView {
     func setupAccessoryView() {
         addSubview(accessoryView)
         accessoryView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 84)
+        accessoryView.nextButtonWidthAnchor?.constant = 168
+        accessoryView.layoutIfNeeded()
     }
     
     @objc func hourlyRateSliderValueChanged(_ sender: RangeSlider) {
