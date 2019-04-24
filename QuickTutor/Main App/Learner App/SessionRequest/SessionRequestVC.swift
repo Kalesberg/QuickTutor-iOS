@@ -153,6 +153,13 @@ class SessionRequestVC: UIViewController {
 
 extension SessionRequestVC: SessionRequestTutorViewDelegate {
     func tutorViewShouldChooseTutor(_ tutorView: SessionRequestTutorView) {
+        if CurrentUser.shared.learner.connectedTutors.count == 0 {
+            let alertController = UIAlertController(title: "", message: "You have no tutor connections", preferredStyle: .alert)
+            let dismiss = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+            alertController.addAction(dismiss)
+            present(alertController, animated: true, completion: nil)
+            return
+        }
         let vc = SessionRequestViewConnectionsVC()
         navigationController?.pushViewController(vc, animated: true)
     }

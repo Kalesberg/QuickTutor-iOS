@@ -16,7 +16,7 @@ protocol SessionRequestTutorViewDelegate {
 class SessionRequestTutorView: BaseSessionRequestViewSection, MockCollectionViewCellDelegate {
     
     var delegate: SessionRequestTutorViewDelegate?
-    
+    var numberOfConnections = 0
     let tutorSelectView: MockCollectionViewCell = {
         let cell = MockCollectionViewCell()
         cell.primaryButton.setTitle("Select", for: .normal)
@@ -43,9 +43,7 @@ class SessionRequestTutorView: BaseSessionRequestViewSection, MockCollectionView
         addSubview(tutorSelectView)
         tutorSelectView.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         tutorSelectView.delegate = self
-        let numberOfConnections = CurrentUser.shared.learner.connectedTutors.count
-        let tutorPhrase = numberOfConnections == 1 ? "tutor" : "tutors"
-        tutorSelectView.titleLabel.text = "\(numberOfConnections) \(tutorPhrase) on list"
+        tutorSelectView.titleLabel.text = "Select a tutor from your connections"
     }
     
     func setupTutorCell() {
