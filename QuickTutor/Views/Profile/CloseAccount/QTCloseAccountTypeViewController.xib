@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+        <array key="Lato-Semibold.ttf">
+            <string>Lato-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTCloseAccountTypeViewController" customModule="QuickTutor" customModuleProvider="target">
+            <connections>
+                <outlet property="bothAccountsButton" destination="8X6-ha-bzZ" id="wBe-dy-lSb"/>
+                <outlet property="tutorAccountButton" destination="4Tb-CF-GlT" id="piE-T5-LXz"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please choose the account(s) you wish to close:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Gq-qY-jMp">
+                    <rect key="frame" x="20" y="40" width="335" height="48"/>
+                    <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="20"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Tb-CF-GlT" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
+                    <rect key="frame" x="20" y="108" width="335" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="NpR-co-wPu"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                    <state key="normal" title="TUTOR ACCOUNT">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="onTutorAccountButtonClicked:" destination="-1" eventType="touchUpInside" id="LRg-iC-BUy"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8X6-ha-bzZ" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
+                    <rect key="frame" x="20" y="172" width="335" height="44"/>
+                    <color key="backgroundColor" red="0.3921568627" green="0.38431372549999998" blue="0.81568627449999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="VLb-4Y-eco"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                    <state key="normal" title="TUTOR AND LEARNER ACCOUNTS">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="onBothAccountsButtonClicked:" destination="-1" eventType="touchUpInside" id="A1K-0t-4gZ"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="4Tb-CF-GlT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="BrA-n8-E2Z"/>
+                <constraint firstItem="8X6-ha-bzZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="GIB-mY-USI"/>
+                <constraint firstItem="4Tb-CF-GlT" firstAttribute="top" secondItem="5Gq-qY-jMp" secondAttribute="bottom" constant="20" id="SnG-Ew-22E"/>
+                <constraint firstItem="8X6-ha-bzZ" firstAttribute="top" secondItem="4Tb-CF-GlT" secondAttribute="bottom" constant="20" id="XgF-Da-fDJ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4Tb-CF-GlT" secondAttribute="trailing" constant="20" id="f7C-D7-nde"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="8X6-ha-bzZ" secondAttribute="trailing" constant="20" id="qsp-l9-j6b"/>
+                <constraint firstItem="5Gq-qY-jMp" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="sI4-OU-akv"/>
+                <constraint firstAttribute="trailing" secondItem="5Gq-qY-jMp" secondAttribute="trailing" constant="20" id="ty9-Ll-j0Z"/>
+                <constraint firstItem="5Gq-qY-jMp" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="uW9-ZA-wlg"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+    </objects>
+</document>

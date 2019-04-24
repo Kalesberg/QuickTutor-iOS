@@ -32,6 +32,8 @@ class QTInviteOthersViewController: UIViewController {
     var checkedStates = [Bool]()
     let appStoreUrl = "itms-apps://itunes.apple.com/app/id1388092698"
     
+    let headerHeight: CGFloat = 361
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +51,14 @@ class QTInviteOthersViewController: UIViewController {
             getContactList()
         }
     }
-
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        tableView.tableHeaderView?.frame.size.height = headerHeight
+        tableView.layoutIfNeeded()
+    }
+    
     // MARK: - Actions
     @objc func sendInvite() {
         if selectedContacts.count < 1 {
@@ -77,6 +86,7 @@ class QTInviteOthersViewController: UIViewController {
         // Register resuable cells and set dimensions for table view.
         tableView.register(QTInviteOthersConnectTableViewCell.nib, forCellReuseIdentifier: QTInviteOthersConnectTableViewCell.reuseIdentifier)
         tableView.register(QTInviteOthersContactTableViewCell.nib, forCellReuseIdentifier: QTInviteOthersContactTableViewCell.reuseIdentifier)
+        
     
         tableView.rowHeight = UITableView.automaticDimension
         tableView.sectionHeaderHeight = UITableView.automaticDimension
@@ -93,6 +103,7 @@ class QTInviteOthersViewController: UIViewController {
             let ac = UIActivityViewController(activityItems: [self.appStoreUrl], applicationActivities: nil)
             self.present(ac, animated: true, completion: nil)
         }
+        headerView.frame.size.height = headerHeight
         tableView.tableHeaderView = headerView
     }
     

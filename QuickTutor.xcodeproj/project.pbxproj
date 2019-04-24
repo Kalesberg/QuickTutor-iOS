@@ -50,6 +50,18 @@
 		564B6C1E222D83D5004A9EB7 /* QTLocationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */; };
 		564B6C22222D8891004A9EB7 /* QTLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */; };
 		564B6C23222D8891004A9EB7 /* QTLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */; };
+		567E1A082270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */; };
+		567E1A092270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */; };
+		567E1A0A2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */; };
+		567E1A0B2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */; };
+		567E1A102270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A0E2270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift */; };
+		567E1A112270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A0E2270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift */; };
+		567E1A122270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A0F2270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib */; };
+		567E1A132270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A0F2270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib */; };
+		567E1A162270C46B0094E371 /* QTCloseAccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A142270C46B0094E371 /* QTCloseAccountInfoViewController.swift */; };
+		567E1A172270C46B0094E371 /* QTCloseAccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A142270C46B0094E371 /* QTCloseAccountInfoViewController.swift */; };
+		567E1A182270C46B0094E371 /* QTCloseAccountInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A152270C46B0094E371 /* QTCloseAccountInfoViewController.xib */; };
+		567E1A192270C46B0094E371 /* QTCloseAccountInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A152270C46B0094E371 /* QTCloseAccountInfoViewController.xib */; };
 		568B82D5222539C2004DF011 /* QTRatingReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */; };
 		568B82D6222539C2004DF011 /* QTRatingReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */; };
 		568B82DA222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82D8222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift */; };
@@ -58,6 +70,14 @@
 		568B82DF222540CD004DF011 /* QTRatingTipCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82DD222540CD004DF011 /* QTRatingTipCollectionViewCell.xib */; };
 		568B82E2222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82E0222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift */; };
 		568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82E1222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib */; };
+		568E57102270CA7700E18BD4 /* QTCloseAccountTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568E570E2270CA7700E18BD4 /* QTCloseAccountTypeViewController.swift */; };
+		568E57112270CA7700E18BD4 /* QTCloseAccountTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568E570E2270CA7700E18BD4 /* QTCloseAccountTypeViewController.swift */; };
+		568E57122270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E570F2270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib */; };
+		568E57132270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E570F2270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib */; };
+		568E57162270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568E57142270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift */; };
+		568E57172270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568E57142270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift */; };
+		568E57182270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */; };
+		568E57192270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */; };
 		5697DD15226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */; };
 		5697DD16226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */; };
 		5697DD22226F859300AC9775 /* QTInviteOthersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */; };
@@ -1172,6 +1192,12 @@
 		564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationsViewController.xib; sourceTree = "<group>"; };
 		564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLocationTableViewCell.swift; sourceTree = "<group>"; };
 		564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationTableViewCell.xib; sourceTree = "<group>"; };
+		567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountReasonViewController.swift; sourceTree = "<group>"; };
+		567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountReasonViewController.xib; sourceTree = "<group>"; };
+		567E1A0E2270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountReasonTableViewCell.swift; sourceTree = "<group>"; };
+		567E1A0F2270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountReasonTableViewCell.xib; sourceTree = "<group>"; };
+		567E1A142270C46B0094E371 /* QTCloseAccountInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountInfoViewController.swift; sourceTree = "<group>"; };
+		567E1A152270C46B0094E371 /* QTCloseAccountInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountInfoViewController.xib; sourceTree = "<group>"; };
 		568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReviewViewController.swift; sourceTree = "<group>"; };
 		568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingReviewViewController.xib; sourceTree = "<group>"; };
 		568B82D8222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReviewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1180,6 +1206,10 @@
 		568B82DD222540CD004DF011 /* QTRatingTipCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingTipCollectionViewCell.xib; sourceTree = "<group>"; };
 		568B82E0222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReceiptCollectionViewCell.swift; sourceTree = "<group>"; };
 		568B82E1222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingReceiptCollectionViewCell.xib; sourceTree = "<group>"; };
+		568E570E2270CA7700E18BD4 /* QTCloseAccountTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountTypeViewController.swift; sourceTree = "<group>"; };
+		568E570F2270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountTypeViewController.xib; sourceTree = "<group>"; };
+		568E57142270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountSubmitViewController.swift; sourceTree = "<group>"; };
+		568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountSubmitViewController.xib; sourceTree = "<group>"; };
 		5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersViewController.swift; sourceTree = "<group>"; };
 		5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersViewController.xib; sourceTree = "<group>"; };
 		5697DD1A226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersConnectTableViewCell.swift; sourceTree = "<group>"; };
@@ -1816,6 +1846,27 @@
 			path = SubViews;
 			sourceTree = "<group>";
 		};
+		567E1A052270BDF90094E371 /* CloseAccount */ = {
+			isa = PBXGroup;
+			children = (
+				567E1A0D2270C0190094E371 /* SubViews */,
+				567E1A152270C46B0094E371 /* QTCloseAccountInfoViewController.xib */,
+				567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */,
+				568E570F2270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib */,
+				568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */,
+			);
+			path = CloseAccount;
+			sourceTree = "<group>";
+		};
+		567E1A0D2270C0190094E371 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				567E1A0E2270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift */,
+				567E1A0F2270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
 		568B82D2222537F3004DF011 /* RatingReviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1907,6 +1958,7 @@
 		56A8D0AC2240A3EB00866AD7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				567E1A052270BDF90094E371 /* CloseAccount */,
 				5697DD17226F859300AC9775 /* InviteOthers */,
 				4DE3668E2239F03C00A94C37 /* Profile */,
 				5647A775222CB06100E8A26F /* Settings */,
@@ -2781,6 +2833,10 @@
 		84F5FD1220A5541900CFDA95 /* CloseAccount */ = {
 			isa = PBXGroup;
 			children = (
+				567E1A142270C46B0094E371 /* QTCloseAccountInfoViewController.swift */,
+				568E570E2270CA7700E18BD4 /* QTCloseAccountTypeViewController.swift */,
+				567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */,
+				568E57142270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift */,
 				84F5FD1320A5544200CFDA95 /* CloseAccountVC.swift */,
 				84C44F5520AE9704009AA5F1 /* CloseAccountChoiceVC.swift */,
 				84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */,
@@ -3539,6 +3595,7 @@
 				4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				569F18BF223554FD00820A20 /* loading10.json in Resources */,
 				569F18C0223554FD00820A20 /* loading3.json in Resources */,
+				567E1A132270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib in Resources */,
 				569F18C1223554FD00820A20 /* Lato-HairlineItalic.ttf in Resources */,
 				569F18C2223554FD00820A20 /* trades.json in Resources */,
 				569F18C3223554FD00820A20 /* QTLocationTableViewCell.xib in Resources */,
@@ -3551,9 +3608,11 @@
 				569F18C9223554FD00820A20 /* loading8.json in Resources */,
 				569F18CA223554FD00820A20 /* QTTutorDashboardDurationView.xib in Resources */,
 				569F18CB223554FD00820A20 /* qtRingtone.aiff in Resources */,
+				568E57192270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */,
 				569F18CC223554FD00820A20 /* health.json in Resources */,
 				5697DD2F226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */,
 				569F18CD223554FD00820A20 /* OFL.txt in Resources */,
+				567E1A0B2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */,
 				569F18CE223554FD00820A20 /* loading4.json in Resources */,
 				569F18CF223554FD00820A20 /* badwords.txt in Resources */,
 				569F18D0223554FD00820A20 /* QTTutorDashboardTableViewCell.xib in Resources */,
@@ -3588,6 +3647,7 @@
 				569F18E5223554FD00820A20 /* QTRatingReviewCollectionViewCell.xib in Resources */,
 				569F18E6223554FD00820A20 /* loading6.json in Resources */,
 				569F18E7223554FD00820A20 /* Lato-Semibold.ttf in Resources */,
+				567E1A192270C46B0094E371 /* QTCloseAccountInfoViewController.xib in Resources */,
 				56A8D0C522421F6100866AD7 /* QTConfirmMeetUpViewController.xib in Resources */,
 				569F18E8223554FD00820A20 /* loading11.json in Resources */,
 				569F18E9223554FD00820A20 /* Lato-Hairline.ttf in Resources */,
@@ -3599,6 +3659,7 @@
 				569F18EE223554FD00820A20 /* loading2.json in Resources */,
 				569F18EF223554FD00820A20 /* background.mp3 in Resources */,
 				569F18F0223554FD00820A20 /* Lato-Italic.ttf in Resources */,
+				568E57132270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
 				569F18F1223554FD00820A20 /* QTRatingReviewViewController.xib in Resources */,
 				569F18F2223554FD00820A20 /* QTSettingsViewController.xib in Resources */,
 				569F18F3223554FD00820A20 /* loading12.json in Resources */,
@@ -3623,6 +3684,7 @@
 				4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				840E4E07213761C10045CD35 /* loading10.json in Resources */,
 				840E4E01213761C10045CD35 /* loading3.json in Resources */,
+				567E1A122270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib in Resources */,
 				56DC6D9F220BD7DF00935F47 /* Lato-HairlineItalic.ttf in Resources */,
 				8425767A2071339500FD295B /* trades.json in Resources */,
 				564B6C23222D8891004A9EB7 /* QTLocationTableViewCell.xib in Resources */,
@@ -3635,9 +3697,11 @@
 				840E4E06213761C10045CD35 /* loading8.json in Resources */,
 				569ECDB721F9C39D005491CB /* QTTutorDashboardDurationView.xib in Resources */,
 				CFB40E49216D1A9F00828E72 /* qtRingtone.aiff in Resources */,
+				568E57182270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */,
 				8425766E20712E6C00FD295B /* health.json in Resources */,
 				5697DD2E226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */,
 				56DC6DA7220BD7DF00935F47 /* OFL.txt in Resources */,
+				567E1A0A2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */,
 				840E4E09213761C10045CD35 /* loading4.json in Resources */,
 				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
 				569ECDB521F9B682005491CB /* QTTutorDashboardTableViewCell.xib in Resources */,
@@ -3672,6 +3736,7 @@
 				568B82DB222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib in Resources */,
 				840E4E04213761C10045CD35 /* loading6.json in Resources */,
 				56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */,
+				567E1A182270C46B0094E371 /* QTCloseAccountInfoViewController.xib in Resources */,
 				56A8D0C422421F6100866AD7 /* QTConfirmMeetUpViewController.xib in Resources */,
 				840E4E08213761C10045CD35 /* loading11.json in Resources */,
 				56DC6D9E220BD7DF00935F47 /* Lato-Hairline.ttf in Resources */,
@@ -3683,6 +3748,7 @@
 				840E4E03213761C10045CD35 /* loading2.json in Resources */,
 				CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */,
 				56DC6DA1220BD7DF00935F47 /* Lato-Italic.ttf in Resources */,
+				568E57122270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
 				568B82D6222539C2004DF011 /* QTRatingReviewViewController.xib in Resources */,
 				5647A779222CB59000E8A26F /* QTSettingsViewController.xib in Resources */,
 				CF3CE5F42141A5A300DE8FF0 /* loading12.json in Resources */,
@@ -4055,6 +4121,7 @@
 				CF17F229226BC16A00ABD07D /* RangeSlider.swift in Sources */,
 				560237A422676505005653D5 /* LearnerMainPageActiveTutorsSectionController.swift in Sources */,
 				569F16E1223554FD00820A20 /* LearnerExtendedReviewsVC.swift in Sources */,
+				568E57172270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift in Sources */,
 				569F16E2223554FD00820A20 /* AddTutorTableViewCell.swift in Sources */,
 				4DE3668D2238BC5F00A94C37 /* TheChoiceVCView.swift in Sources */,
 				569F16E4223554FD00820A20 /* SessionReview.swift in Sources */,
@@ -4089,6 +4156,7 @@
 				569F1703223554FD00820A20 /* QTCustomView.swift in Sources */,
 				569F1706223554FD00820A20 /* PaymentOptionsVC.swift in Sources */,
 				569F1708223554FD00820A20 /* SessionRequestSendView.swift in Sources */,
+				567E1A172270C46B0094E371 /* QTCloseAccountInfoViewController.swift in Sources */,
 				569F170B223554FD00820A20 /* MeetupTableCell.swift in Sources */,
 				569F170C223554FD00820A20 /* LightboxTransition.swift in Sources */,
 				5602379D2267641B005653D5 /* CategorySectionController.swift in Sources */,
@@ -4123,6 +4191,7 @@
 				569F172A223554FD00820A20 /* VerificationVCView.swift in Sources */,
 				569F172B223554FD00820A20 /* TutorPolicyVC.swift in Sources */,
 				569F172C223554FD00820A20 /* SessionRequestPaymentView.swift in Sources */,
+				567E1A092270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */,
 				569F172D223554FD00820A20 /* ChangeEmailVC.swift in Sources */,
 				569F172E223554FD00820A20 /* PaymentDeclinedVC.swift in Sources */,
 				5697DD16226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */,
@@ -4317,6 +4386,7 @@
 				569F17F4223554FD00820A20 /* DurationCollectionViewFlowLayout.swift in Sources */,
 				569F17F6223554FD00820A20 /* KeyboardLayoutGuide.swift in Sources */,
 				569F17F7223554FD00820A20 /* TutorModel.swift in Sources */,
+				567E1A112270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift in Sources */,
 				569F17F8223554FD00820A20 /* EmptySessionCell.swift in Sources */,
 				569F17F9223554FD00820A20 /* TutorLocationFormatter.swift in Sources */,
 				569F17FA223554FD00820A20 /* FeaturedTutor.swift in Sources */,
@@ -4415,6 +4485,7 @@
 				4D348105223A35370004C29A /* QTRatingView.swift in Sources */,
 				569F185A223554FD00820A20 /* EndSessionModal.swift in Sources */,
 				569F185B223554FD00820A20 /* CancelSessionButtonDelegate.swift in Sources */,
+				568E57112270CA7700E18BD4 /* QTCloseAccountTypeViewController.swift in Sources */,
 				569F185C223554FD00820A20 /* ConversationMetaData.swift in Sources */,
 				569F185D223554FD00820A20 /* FooterView.swift in Sources */,
 				561003BD2242D23600A4688F /* QTPastSessionsViewController.swift in Sources */,
@@ -4538,6 +4609,7 @@
 				CFB9B80021C240170022333F /* SubjectsCollectionView.swift in Sources */,
 				CFF5017720698F620085B0E9 /* LearnerHelpVC.swift in Sources */,
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
+				567E1A102270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
 				CFA00970213A000200F81EE4 /* BackgroundSoundManager.swift in Sources */,
 				CFD92A6C222F24B200704531 /* LoadingIndicator.swift in Sources */,
@@ -4603,6 +4675,7 @@
 				84A090A7218624A500DBD48F /* AddTutorLoadingIndicator.swift in Sources */,
 				846252E720637CF8001DD330 /* LearnerMainPageVC.swift in Sources */,
 				CFD92A61222F24B200704531 /* LayoutConfigurable.swift in Sources */,
+				567E1A082270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */,
 				84E4C7DF204E9342009C2FC4 /* ForgotPasswordVC.swift in Sources */,
 				CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */,
 				CF833B7E207C4BCB00323242 /* TutorUpcomingSessionCell.swift in Sources */,
@@ -4633,6 +4706,7 @@
 				CF8E88A220C619A90044344D /* BaseSessionVC.swift in Sources */,
 				CF2E1A6120A0D20C00BCB53A /* ZFNavBar.swift in Sources */,
 				CF1C6113209EA6F4009B7B0E /* AddTimeModal.swift in Sources */,
+				567E1A162270C46B0094E371 /* QTCloseAccountInfoViewController.swift in Sources */,
 				84A6E470218F68C700D03681 /* TutorSubjectSearch.swift in Sources */,
 				CFB9B7D121C18A690022333F /* BaseSessionRequestViewSection.swift in Sources */,
 				CF17F222226BC04200ABD07D /* RangeSlider.swift in Sources */,
@@ -4936,6 +5010,7 @@
 				CF528CE2216489D600D81D03 /* AnalyticsService.swift in Sources */,
 				CFB9B82221C8C5040022333F /* CustomSliderView.swift in Sources */,
 				CF671AC2225D8C8B00CF4F0A /* FeaturedSectionController.swift in Sources */,
+				568E57102270CA7700E18BD4 /* QTCloseAccountTypeViewController.swift in Sources */,
 				842394091FF4C94F00827C7D /* BaseViews.swift in Sources */,
 				84A37B78200447C800C19397 /* UserPolicyVC.swift in Sources */,
 				CF671AD5225EA09F00CF4F0A /* LearnerMainPageSuggestionSectionController.swift in Sources */,
@@ -4943,6 +5018,7 @@
 				84D6A7E0215B268F000C0010 /* MyProfileBodyView.swift in Sources */,
 				CF6F58DB205EE68800ACBD32 /* MessagesVC.swift in Sources */,
 				CFB9B81421C633260022333F /* TutorSSNVCView.swift in Sources */,
+				568E57162270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift in Sources */,
 				CF6F58D0205EE68800ACBD32 /* CustomTextFields.swift in Sources */,
 				CFB1475B21F3AA3E00C49BA5 /* QuickSearchCategoryCell.swift in Sources */,
 				84C9C00D20A2374C000DE1C9 /* ConnectAccount.swift in Sources */,

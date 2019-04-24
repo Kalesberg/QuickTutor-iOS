@@ -255,7 +255,7 @@ class CloseAccountSubmissionVC: BaseViewController {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let id = verificationId {
                 self.verificationId = id
-                self.displayPhoneVerificationAlert(message: "Please enter the verifcation code sent to: \(CurrentUser.shared.learner.phone.formatPhoneNumber())")
+                self.displayPhoneVerificationAlert(message: "Please enter the verifcation code sent to: \(CurrentUser.shared.learner.phone.formatPhoneNumber())", nil)
             } else {
                 AlertController.genericErrorAlert(self, title: "Error", message: "Something went wrong, please try again.")
             }

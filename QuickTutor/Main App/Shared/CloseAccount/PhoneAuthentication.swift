@@ -28,7 +28,6 @@ class PhoneAuthenicationAction: InteractableView, Interactable {
     override func configureView() {
         addSubview(action)
         super.configureView()
-
         applyConstraints()
     }
 
@@ -37,7 +36,21 @@ class PhoneAuthenicationAction: InteractableView, Interactable {
             make.edges.equalToSuperview()
         }
     }
+    
+    func setupTargets() {
+        action.isUserInteractionEnabled = true
+        action.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleVerifyButtonClicked)))
+    }
 
+    @objc
+    func handleVerifyButtonClicked() {
+        if let didVerifyButtonClicked = didVerifyButtonClicked {
+            didVerifyButtonClicked()
+        }
+    }
+    
+    var didVerifyButtonClicked: (() -> ())?
+    
     func touchStart() {
         alpha = 0.7
     }
@@ -79,6 +92,20 @@ class PhoneAuthenicationActionCancel: InteractableView, Interactable {
         }
     }
 
+    var didCancelButtonClicked: (() -> ())?
+    
+    func setupTargets() {
+        cancel.isUserInteractionEnabled = true
+        cancel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCancelButtonClicked)))
+    }
+    
+    @objc
+    func handleCancelButtonClicked() {
+        if let didCancelButtonClicked = didCancelButtonClicked {
+            didCancelButtonClicked()
+        }
+    }
+    
     func touchStart() {
         alpha = 0.7
     }
@@ -228,6 +255,15 @@ class PhoneAuthenticationAlertView: InteractableView {
     }
 
     private func configureDelegates() {
+        cancelAction.didCancelButtonClicked = {
+            self.delegate?.cancelAlertPressed()
+        }
+        cancelAction.setupTargets()
+        
+        verifyAction.didVerifyButtonClicked = {
+            self.delegate?.verifyAlertPressed(code: self.verificationTextField.text ?? "")
+        }
+        verifyAction.setupTargets()
         verificationTextField.delegate = self
     }
 }
@@ -273,7 +309,7 @@ extension PhoneAuthenticationAlertView: UITextFieldDelegate {
 }
 
 extension UIViewController {
-    func displayPhoneVerificationAlert(message: String) {
+    func displayPhoneVerificationAlert(message: String, _ alertAction: AlertAction?) {
         if let _ = self.view.viewWithTag(321) {
             return
         }
@@ -281,6 +317,7 @@ extension UIViewController {
         alert.tag = 321
         alert.frame = view.bounds
         alert.message.text = message
+        alert.delegate = alertAction
 
         alert.growShrink()
         alert.verificationTextField.becomeFirstResponder()

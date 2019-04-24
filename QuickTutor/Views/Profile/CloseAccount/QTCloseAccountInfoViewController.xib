@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTCloseAccountInfoViewController" customModule="QuickTutor" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zrg-iq-NgU" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                    <rect key="frame" x="20" y="40" width="335" height="64"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="If you close your account, we will not be able to restore your data if you change your mind." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s65-SU-R0p">
+                            <rect key="frame" x="15" y="15" width="305" height="34"/>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.72941176470000002" green="0.10980392160000001" blue="0.3411764706" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="s65-SU-R0p" secondAttribute="bottom" constant="15" id="3Rj-J0-7jy"/>
+                        <constraint firstItem="s65-SU-R0p" firstAttribute="leading" secondItem="Zrg-iq-NgU" secondAttribute="leading" constant="15" id="ZTh-G0-chl"/>
+                        <constraint firstAttribute="trailing" secondItem="s65-SU-R0p" secondAttribute="trailing" constant="15" id="feB-2o-bf1"/>
+                        <constraint firstItem="s65-SU-R0p" firstAttribute="top" secondItem="Zrg-iq-NgU" secondAttribute="top" constant="15" id="wVO-Nh-V1p"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" red="0.72941176470000002" green="0.10980392160000001" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Closing your account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58Y-ri-oXE">
+                    <rect key="frame" x="20" y="144" width="335" height="24"/>
+                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="20"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWb-lp-ZSC">
+                    <rect key="frame" x="20" y="188" width="335" height="67.5"/>
+                    <string key="text">If you wish to close your account, you will not be able to recover any data related to your account (such as your connections with other users, and profile information). </string>
+                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                    <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiN-mP-2gx" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
+                    <rect key="frame" x="20" y="603" width="335" height="44"/>
+                    <color key="backgroundColor" red="0.72941176470000002" green="0.10980392160000001" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="erH-Nc-KZR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                    <state key="normal" title="PROCEED TO CLOSING ACCOUNT">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="onProceedButtonClicked:" destination="-1" eventType="touchUpInside" id="kwq-1Z-lhe"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="XiN-mP-2gx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="4h4-pf-Q3P"/>
+                <constraint firstItem="Zrg-iq-NgU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="7WU-Yu-hgC"/>
+                <constraint firstItem="CWb-lp-ZSC" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="9kr-bk-Foz"/>
+                <constraint firstItem="58Y-ri-oXE" firstAttribute="top" secondItem="Zrg-iq-NgU" secondAttribute="bottom" constant="40" id="DnA-C6-mzV"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="XiN-mP-2gx" secondAttribute="trailing" constant="20" id="Dyy-9e-BUJ"/>
+                <constraint firstAttribute="trailing" secondItem="Zrg-iq-NgU" secondAttribute="trailing" constant="20" id="EfG-73-8HC"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="58Y-ri-oXE" secondAttribute="trailing" constant="20" id="St5-1J-SrH"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="XiN-mP-2gx" secondAttribute="bottom" constant="20" id="Tum-YQ-dVS"/>
+                <constraint firstItem="58Y-ri-oXE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="c3U-oB-pbI"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="CWb-lp-ZSC" secondAttribute="trailing" constant="20" id="qmz-p1-iAh"/>
+                <constraint firstItem="CWb-lp-ZSC" firstAttribute="top" secondItem="58Y-ri-oXE" secondAttribute="bottom" constant="20" id="x06-sF-1td"/>
+                <constraint firstItem="Zrg-iq-NgU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="xkE-6Y-MYC"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+    </objects>
+</document>

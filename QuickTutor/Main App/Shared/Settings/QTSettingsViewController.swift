@@ -132,7 +132,8 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     }
     
     @IBAction func deleteAccountButtonClicked(_ sender: Any) {
-        goToCloseAccountVC()
+//        navigationController?.pushViewController(CloseAccountVC(), animated: true)
+        navigationController?.pushViewController(QTCloseAccountInfoViewController.controller, animated: true)
     }
     
     @objc
@@ -228,10 +229,6 @@ protocol QTSettingsNavigation {
 }
 
 extension QTSettingsNavigation {
-    func goToCloseAccountVC() {
-        navigationController.pushViewController(CloseAccountVC(), animated: true)
-    }
-    
     func goToSignInVC() {
         let alertController = UIAlertController(title: "Are You Sure?", message: "You will be logged out.", preferredStyle: .alert)
         
