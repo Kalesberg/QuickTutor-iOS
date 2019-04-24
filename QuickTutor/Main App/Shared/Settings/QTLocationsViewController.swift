@@ -45,6 +45,7 @@ class QTLocationsViewController: UIViewController {
         searchCompleter.filterType = .locationsOnly
         
         searchTextField.addTarget(self, action: #selector(handleSearchTextFieldChange(_:)), for: .editingChanged)
+        searchTextField.attributedPlaceholder = NSAttributedString(string: "Search for an address", attributes: [.foregroundColor : Colors.grayText80])
         searchTextField.text = address
         closeButton.isHidden = address?.isEmpty ?? true
     }
