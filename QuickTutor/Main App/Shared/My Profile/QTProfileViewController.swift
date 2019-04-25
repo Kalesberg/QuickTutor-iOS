@@ -269,9 +269,8 @@ class QTProfileViewController: UIViewController {
         
         // Set the active status of user.
         self.statusImageView.backgroundColor = Colors.gray
-        OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result in
-            guard let result = result else { return }
-            self.statusImageView.backgroundColor = result == "Active now" ? Colors.purple : Colors.gray
+        UserStatusService.shared.getUserStatus(user.uid) { status in
+            self.statusImageView.backgroundColor = status?.status == .online ? Colors.purple : Colors.gray
         }
         
         // User name

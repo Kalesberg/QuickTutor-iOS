@@ -42,26 +42,33 @@ class CustomTitleView: UIView {
     }()
 
     var nameLabelHeightAnchor: NSLayoutConstraint?
+    var timer: Timer?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        setupTimer()
+    }
+    
+    deinit {
+        timer?.invalidate()
     }
 
     func updateUI(user: User) {
         self.user = user
         titleLabel.text = user.formattedName
-        OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result in
+        
+        self.getLastActiveStringFor(uid: user.uid)
+    }
+    
+    func getLastActiveStringFor(uid: String) {
+        OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result, status in
+            self.imageView.onlineStatusIndicator.backgroundColor = status == .online ? Colors.purple : Colors.gray
             guard let result = result else { return }
             self.activeLabel.text = result
-//            self.updateOnlineStatusIndicator()
             if result == "" {
                 self.updateNameLabelAsInactive()
             }
-        }
-        
-        UserStatusService.shared.getUserStatus(user.uid) { status in
-            self.imageView.onlineStatusIndicator.backgroundColor = status?.status == .online ? Colors.purple : Colors.gray
         }
     }
 
@@ -70,9 +77,16 @@ class CustomTitleView: UIView {
         setupTitleView()
         setupActiveLabel()
         setupArrow()
-
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(showProfile))
-//        addGestureRecognizer(tap)
+    }
+    
+    func setupTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true, block: { (timer) in
+            guard let user = self.user else {
+                return
+            }
+            self.updateUI(user: user)
+        })
+        timer?.fire()
     }
 
     @objc func showProfile() {
@@ -114,9 +128,6 @@ class CustomTitleView: UIView {
         addSubview(arrow)
         arrow.anchor(top: nil, left: titleLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 6, paddingBottom: 0, paddingRight: 0, width: 7, height: 10)
         addConstraint(NSLayoutConstraint(item: arrow, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
-    }
-    private func updateOnlineStatusIndicator() {
-        imageView.onlineStatusIndicator.backgroundColor = OnlineStatusService.shared.isActive ? Colors.purple : Colors.gray
     }
     
     func updateNameLabelAsInactive() {

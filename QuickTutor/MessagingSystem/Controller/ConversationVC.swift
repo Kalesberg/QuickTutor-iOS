@@ -62,7 +62,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }()
 
 
-    let titleViewFrame = CGRect(x: 0, y: 0, width: 120, height: 50)
     lazy var titleView = CustomTitleView(frame: CGRect.zero)
 
     var actionSheet: FileReportActionsheet?
@@ -232,16 +231,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func addCustomTitleView() {
-        let navController = navigationController!
-        let bannerWidth = navController.navigationBar.frame.size.width
-        let bannerHeight = navController.navigationBar.frame.size.height
-        
-        let bannerX = bannerWidth / 2 - titleView.frame.size.width / 2
-        let bannerY = bannerHeight / 2 - titleView.frame.size.height / 2
-        
-//        titleView.frame = CGRect(x: bannerX, y: bannerY - 20, width: bannerWidth, height: bannerHeight)
         titleView.isUserInteractionEnabled = true
-//        titleView.frame = CGRect(x: 0, y: 0, width: 120, height: 80)
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tap.numberOfTapsRequired = 1
         titleView.addGestureRecognizer(tap)
@@ -268,7 +258,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 self.navigationController?.pushViewController(controller, animated: true)
             }
         }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -410,12 +399,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         default:
             break
         }
-    }
-    
-    func setupAnimator() {
-        animator = UIViewPropertyAnimator(duration: 0.25, curve: .linear, animations: {
-//            self.collectionView.transform = CGAffineTransform(translationX: delta.x, y: 0)
-        })
     }
     
     @objc func addMessageStatusLabel() {

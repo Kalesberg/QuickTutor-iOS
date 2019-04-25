@@ -821,6 +821,8 @@
 		84F5FD1420A5544200CFDA95 /* CloseAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1320A5544200CFDA95 /* CloseAccountVC.swift */; };
 		84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */; };
 		90282635060D115CD7A891B2 /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 532C0B4B0A3EA6C0CAE14FB0 /* Pods_QuickTutorApp_QuickTutor.framework */; };
+		93205D2A2270B70200A11509 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93205D292270B70200A11509 /* TimeHelper.swift */; };
+		93205D2C2270BDDA00A11509 /* OnlineStatusServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93205D2B2270BDDA00A11509 /* OnlineStatusServiceTests.swift */; };
 		935BC8DE225A99E200C7B482 /* QuickTutorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935BC8DD225A99E200C7B482 /* QuickTutorUITests.swift */; };
 		939F2F262268AAAE006F3F62 /* QTProfileViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F2F252268AAAE006F3F62 /* QTProfileViewControllerTests.swift */; };
 		939F2F2A2268AADE006F3F62 /* ChangeEmailVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F2F292268AADE006F3F62 /* ChangeEmailVCTests.swift */; };
@@ -1473,6 +1475,8 @@
 		84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountReasonVC.swift; sourceTree = "<group>"; };
 		8DA4A4CAD6B5B55ECB050644 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8E7CCA4C2AD89A4E8DCFB359 /* Pods-QuickTutorApp-QuickTutor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; path = "Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; sourceTree = "<group>"; };
+		93205D292270B70200A11509 /* TimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
+		93205D2B2270BDDA00A11509 /* OnlineStatusServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusServiceTests.swift; sourceTree = "<group>"; };
 		935BC8DB225A99E200C7B482 /* QuickTutorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickTutorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		935BC8DD225A99E200C7B482 /* QuickTutorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTutorUITests.swift; sourceTree = "<group>"; };
 		935BC8DF225A99E200C7B482 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2532,6 +2536,7 @@
 				8414BF491FCCD83000834EEE /* QuickTutor-Bridging-Header.h */,
 				CFEDF90220D57FF100457E77 /* OnlineStatusService.swift */,
 				569ECDA121F9A134005491CB /* Views */,
+				93205D292270B70200A11509 /* TimeHelper.swift */,
 			);
 			path = QuickTutor;
 			sourceTree = "<group>";
@@ -2943,6 +2948,7 @@
 				939F2F222268AAAE006F3F62 /* Main App */,
 				93EFEF22225A9156001E0EF5 /* QuickTutorTests.swift */,
 				93EFEF24225A9156001E0EF5 /* Info.plist */,
+				93205D2B2270BDDA00A11509 /* OnlineStatusServiceTests.swift */,
 			);
 			path = QuickTutorTests;
 			sourceTree = "<group>";
@@ -4949,6 +4955,7 @@
 				CFEF943B20B32B7C00413727 /* ConnectionCell.swift in Sources */,
 				CF17F230226EA4C400ABD07D /* VideoMessageCell.swift in Sources */,
 				CF6F58D9205EE68800ACBD32 /* StudentKeyboardAccessory.swift in Sources */,
+				93205D2A2270B70200A11509 /* TimeHelper.swift in Sources */,
 				4D348104223A35370004C29A /* QTRatingView.swift in Sources */,
 				CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */,
 				CF833B8C207C940A00323242 /* CancelSessionButtonDelegate.swift in Sources */,
@@ -5063,6 +5070,7 @@
 				93EFEF23225A9156001E0EF5 /* QuickTutorTests.swift in Sources */,
 				939F2F262268AAAE006F3F62 /* QTProfileViewControllerTests.swift in Sources */,
 				93C57B08226B94E00000E9EC /* BaseSessionVCTests.swift in Sources */,
+				93205D2C2270BDDA00A11509 /* OnlineStatusServiceTests.swift in Sources */,
 				939F2F2A2268AADE006F3F62 /* ChangeEmailVCTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

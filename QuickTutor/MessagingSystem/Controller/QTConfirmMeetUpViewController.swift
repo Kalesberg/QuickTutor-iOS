@@ -152,9 +152,8 @@ class QTConfirmMeetUpViewController: UIViewController {
             self.partnerId = self.session?.partnerId()
             if let partnerId = self.partnerId {
                 // Set the active status of user.
-                OnlineStatusService.shared.getLastActiveStringFor(uid: partnerId) { result in
-                    guard let result = result else { return }
-                    self.statusImageView.backgroundColor = !result.isEmpty ? Colors.purple : Colors.gray
+                UserStatusService.shared.getUserStatus(partnerId) { status in
+                    self.statusImageView.backgroundColor = status?.status == .online ? Colors.purple : Colors.gray
                 }
                 
                 DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in

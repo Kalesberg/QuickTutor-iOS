@@ -42,30 +42,52 @@ class OnlineStatusService {
         UserStatusService.shared.updateUserStatus(uid, status: .online)
     }
     
-    func getLastActiveStringFor(uid: String, completion: @escaping (String?) -> Void) {
-        Database.database().reference().child("account").child(uid).child("online").observeSingleEvent(of: .value) { (snapshot) in
-            guard let value = snapshot.value as? Double else {
-                completion("")
-                return
+    func getLastActiveStringFor(uid: String, completion: @escaping (String?, UserStatusType) -> Void) {
+        UserStatusService.shared.getUserStatus(uid) { status in
+            Database.database().reference().child("account").child(uid).child("online").observeSingleEvent(of: .value) { (snapshot) in
+                guard let value = snapshot.value as? Double else {
+                    completion("", .offline)
+                    return
+                }
+                
+                let differenceInSeconds = Date().timeIntervalSince1970 - value
+                let status = status?.status ?? .offline
+                let result = self.updateActiveStatus(seconds: differenceInSeconds, status: status)
+                completion(result, status)
             }
-            let differenceInSeconds = Date().timeIntervalSince1970 - value
-            print(differenceInSeconds)
-            var result = ""
-            if differenceInSeconds < 240 {
-                result = "Active now"
-                self.isActive = true
-            } else if  differenceInSeconds >= 240 && differenceInSeconds < 3600 {
-                result = "Active \(Int(differenceInSeconds / 60))m ago"
-                self.isActive = false
-            } else if differenceInSeconds >= 3600 && differenceInSeconds < 86400 {
-                result = "Active \(Int(differenceInSeconds / 60 / 60))hr ago"
-                self.isActive = false
-            } else {
-                result = ""
-                self.isActive = false
-            }
-             completion(result)
         }
+    }
+    
+    func updateActiveStatus(seconds: Double, status: UserStatusType) -> String {
+        if status == .online {
+            self.isActive = true
+            return "Active now"
+        }
+        
+        let time = TimeHelper()
+        var result = ""
+        self.isActive = false
+        switch seconds {
+        case 0..<time.oneMinuteInSeconds:
+            result = "Just now"
+        case time.oneMinuteInSeconds..<time.oneHourInSeconds:
+            let duration = time.minutesFrom(seconds: seconds)
+            result = self.activeWithDurationText(duration: duration, type: "min")
+        case time.oneHourInSeconds..<time.oneDayInSeconds:
+            let duration = time.hoursFrom(seconds: seconds)
+            result = self.activeWithDurationText(duration: duration, type: "hour")
+        case time.oneDayInSeconds..<time.mulitplyDaysInSeconds(by: 3):
+            let duration = time.daysFrom(seconds: seconds)
+            result = self.activeWithDurationText(duration: duration, type: "day")
+        default:
+            result = ""
+        }
+        return result
+    }
+    
+    func activeWithDurationText(duration: Int, type: String) -> String {
+        let length = duration == 1 ? type : type + "s"
+        return "Active \(duration) \(length) ago"
     }
     
     private init() {}
