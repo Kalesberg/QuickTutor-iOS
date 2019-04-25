@@ -25,7 +25,17 @@ class QTCloseAccountInfoViewController: UIViewController {
 
     // MARK: - Actions
     @IBAction func onProceedButtonClicked(_ sender: Any) {
-        navigationController?.pushViewController(QTCloseAccountTypeViewController.controller, animated: true)
+        if AccountService.shared.currentUserType == .learner {
+            if CurrentUser.shared.learner.isTutor {
+                navigationController?.pushViewController(QTCloseAccountTypeViewController.controller, animated: true)
+            } else {
+                let controller = QTCloseAccountReasonViewController.controller
+                controller.closeAccountType = .both
+                navigationController?.pushViewController(controller, animated: true)
+            }
+        } else {
+            navigationController?.pushViewController(QTCloseAccountTypeViewController.controller, animated: true)
+        }
     }
     
     // MARK: - Functions
