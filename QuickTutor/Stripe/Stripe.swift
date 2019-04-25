@@ -50,7 +50,9 @@ class Stripe {
 		let legalEntityParams = STPLegalEntityParams()
 		legalEntityParams.businessName = "QuickTutor - Tutor - \(CurrentUser.shared.learner.name!)"
 		legalEntityParams.entityTypeString = "individual"
-		legalEntityParams.phoneNumber = CurrentUser.shared.learner.phone
+        if let phoneNumber = CurrentUser.shared.learner.phone, !phoneNumber.isEmpty {
+            legalEntityParams.phoneNumber = phoneNumber
+        }
 		legalEntityParams.ssnLast4 = String(ssn.suffix(4))
 		legalEntityParams.firstName = String(name[0])
 		legalEntityParams.lastName = String(name[1])
