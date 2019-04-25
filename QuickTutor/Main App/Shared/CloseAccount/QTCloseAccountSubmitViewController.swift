@@ -156,13 +156,12 @@ class QTCloseAccountSubmitViewController: UIViewController {
         if CurrentUser.shared.learner.isTutor == false {
             self.removeLearner()
         } else {
-            if DeleteAccount.type {
+            if closeAccountType == .tutor {
                 self.removeTutorAccount()
             } else {
                 self.removeBothAccounts()
             }
         }
-        
     }
     
     private func removeLearner() {
