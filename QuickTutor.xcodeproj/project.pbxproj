@@ -78,6 +78,7 @@
 		568E57172270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568E57142270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift */; };
 		568E57182270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */; };
 		568E57192270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */; };
+		568E571A22713AD900E18BD4 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93205D292270B70200A11509 /* TimeHelper.swift */; };
 		5697DD15226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */; };
 		5697DD16226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */; };
 		5697DD22226F859300AC9775 /* QTInviteOthersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */; };
@@ -4142,6 +4143,7 @@
 				569F16EF223554FD00820A20 /* TutorManagePolicies.swift in Sources */,
 				569F16F0223554FD00820A20 /* LearnerLate.swift in Sources */,
 				569F16F1223554FD00820A20 /* BackgroundSoundManager.swift in Sources */,
+				568E571A22713AD900E18BD4 /* TimeHelper.swift in Sources */,
 				569F16F2223554FD00820A20 /* LoadingIndicator.swift in Sources */,
 				569F16F3223554FD00820A20 /* BirthdayVCView.swift in Sources */,
 				569F16F4223554FD00820A20 /* LearnerModel.swift in Sources */,
