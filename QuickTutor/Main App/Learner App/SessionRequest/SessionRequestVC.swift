@@ -18,6 +18,7 @@ class SessionRequestVC: UIViewController {
             contentView.tutor = tutor
             contentView.subjectView.collectionView.reloadData()
             contentView.subjectView.updateUI()
+            price = Double(tutor.price)
             updatePriceLabelText(Double(tutor.price))
             contentView.paymentView.paymentInputView.inputField.text = "\(tutor.price ?? 0)"
             checkForErrors()
@@ -69,7 +70,7 @@ class SessionRequestVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let tutor = tutor {
+        if let _ = tutor {
             contentView.subjectView.collectionView.reloadData()
             contentView.subjectView.updateUI()
         }
@@ -140,7 +141,6 @@ class SessionRequestVC: UIViewController {
             contentView.paymentView.paymentInputView.digitsLabel.text = "$\(priceText)"
         } else {
             let price = calculatePrice(price, duration: duration)
-            self.price = price
             contentView.paymentView.paymentInputView.digitsLabel.text = "$\(String(format: "%.2f", price))"
         }
     }

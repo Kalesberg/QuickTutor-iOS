@@ -8,6 +8,7 @@
 
 import UIKit
 import IQKeyboardManager
+import Firebase
 
 class QTRatingReviewViewController: UIViewController {
 
@@ -18,9 +19,9 @@ class QTRatingReviewViewController: UIViewController {
     var session : Session?
     var sessionId : String!
     var costOfSession: Double!
-    var partnerId : String!
-    var runTime : Int!
-    var subject : String!
+    private var partnerId : String!
+    private var runTime : Int!
+    private var subject : String!
     var name : String!
     var sessionsWithPartner : Int = 0
     
@@ -62,6 +63,15 @@ class QTRatingReviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let session = session {
+            partnerId = session.partnerId()
+            runTime = session.runTime
+            subject = session.subject
+        }
+        
+        Database.database().reference().child("sessions").child(sessionId).child("cost").setValue(costOfSession)
+        Database.database().reference().child("sessions").child(sessionId).updateChildValues(["endedAt": Date().timeIntervalSince1970])
 
         displayLoadingOverlay()
         

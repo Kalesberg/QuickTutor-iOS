@@ -722,3 +722,32 @@ class CategoryFactory {
         loadAllCategories()
     }
 }
+
+class PostSessionHelper {
+    static let shared = PostSessionHelper()
+    
+    func ratingViewControllerForSession(_ session: Session?, sessionId: String?) -> QTRatingReviewViewController? {
+        guard let session = session, let sessionId = sessionId else {
+            return nil
+        }
+        
+        let cost = calculateCostOfSession(price: session.price, runtime: session.runTime)
+        
+        let vc = QTRatingReviewViewController.controller
+        vc.session = session
+        vc.sessionId = sessionId
+        vc.costOfSession = cost
+        return vc
+    }
+    
+    func calculateCostOfSession(price: Double, runtime: Int) -> Double {
+        let minimumSessionPrice = 5.0
+        let cost = calculatePricePerSecond(price: price, runtime: runtime)
+        return cost < minimumSessionPrice ? minimumSessionPrice : cost
+    }
+    
+    func calculatePricePerSecond(price: Double, runtime: Int) -> Double {
+        let p = (price / 60.0) / 60.0 * Double(runtime)
+        return round(p * 1000.0) / 1000.0
+    }
+}

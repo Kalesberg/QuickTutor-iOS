@@ -196,17 +196,10 @@ class BaseSessionVC: UIViewController, AddTimeModalDelegate, SessionManagerDeleg
         pauseSessionModal?.dismiss()
         connectionLostModal?.dismiss()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
-        guard let runTime = sessionManager?.sessionRuntime,
-			  let partnerId = sessionManager?.session.partnerId(),
-			  let subject = sessionManager?.session.subject,
-			let session = sessionManager?.session
-		else {
-			return
-		}
-        
-        let costOfSession = calculateCostOfSession(price: session.price, runtime: runTime)
-        
-        showRatingViewControllerForSession(session, sessionId: sessionId, cost: costOfSession, partnerId: partnerId, runTime: runTime, subject: subject)
+        if let session = sessionManager?.session, let runtime = sessionManager?.sessionRuntime {
+            session.runTime = runtime
+            showRatingViewControllerForSession(session, sessionId: sessionId)
+        }
     }
     
     func expireSession() {

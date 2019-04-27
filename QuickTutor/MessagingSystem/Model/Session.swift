@@ -44,13 +44,6 @@ class Session: Codable {
         return lengthInSeconds / 60
     }
 
-    func ratePerSecond() -> Double {
-        let lengthInSeconds = endTime - startTime
-        print("Seconds: \(lengthInSeconds)")
-        print("Price: ", price)
-        return (price / 60 / 60) * lengthInSeconds
-    }
-
     func partnerId() -> String {
         guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
         return receiverId == uid ? senderId : receiverId
@@ -59,9 +52,6 @@ class Session: Codable {
     func getFormattedInfoLabelString() -> String {
         let lengthInSeconds = endTime - startTime
         let lengthInMinutes = Int(lengthInSeconds / 60)
-
-//        let hourlyRate = price / Double(lengthInMinutes) * 60
-//        let formattedHourlyRate = String(format: "%.2f", hourlyRate)
         let finalString = "Length: \(lengthInMinutes) min, $\(Int(price)) / hr"
         return finalString
     }

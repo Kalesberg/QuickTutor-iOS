@@ -110,7 +110,8 @@ extension SessionRequestDurationView: UICollectionViewDelegate, UICollectionView
         let middlePoint = Int(collectionView.contentOffset.x + UIScreen.main.bounds.width / 2)
         if let indexPath = self.collectionView.indexPathForItem(at: CGPoint(x: middlePoint, y: 0)) {
             self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            self.delegate?.sessionRequestDurationView(self, didSelect: timeIncrements[indexPath.item] as! Int)
+            let index = timeIncrements[indexPath.item] as? Int
+            self.delegate?.sessionRequestDurationView(self, didSelect: index ?? 5)
         }
     }
     
