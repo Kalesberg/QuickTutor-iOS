@@ -34,11 +34,15 @@ class TutorAddBank: BaseRegistrationController {
         setupTextFields()
         progressView.setProgress(4/6)
         progressView.isHidden = !isRegistration
+        showInfoModal()
     }
     
     func setupTargets() {
         accessoryView.nextButton.addTarget(self, action: #selector(handleNext(_:)), for: .touchUpInside)
         accessoryView.nextButton.setTitle("NEXT", for: .normal)
+        contentView.infoButton.addTarget(self, action: #selector(handleInfoButton(_:)), for: .touchUpInside)
+        contentView.routingNumberInfoButton.addTarget(self, action: #selector(handleRoutingAndAccountButton(_:)), for: .touchUpInside)
+        contentView.accountNumberInfoButton.addTarget(self, action: #selector(handleRoutingAndAccountButton(_:)), for: .touchUpInside)
     }
     
     func setupTextFields() {
@@ -144,6 +148,29 @@ class TutorAddBank: BaseRegistrationController {
             isRegistration ? createStripeAccount() : addBank()
         }
     }
+    
+    @objc func handleInfoButton(_ sender: UIButton) {
+        showInfoModal()
+    }
+    
+    @objc func handleRoutingAndAccountButton(_ sender: UIButton) {
+        let routingAndAccountModal = RoutingAndAccountModal.view
+        routingAndAccountModal.delegate = self
+        showModalInWindow(modal: routingAndAccountModal)
+    }
+    
+    func showInfoModal() {
+        let bankInfoModal = BankInfoModal.view
+        bankInfoModal.delegate = self
+        showModalInWindow(modal: bankInfoModal)
+    }
+    
+    func showModalInWindow(modal: UIView) {
+        accessoryView.isHidden = true
+        let window = UIApplication.shared.keyWindow!
+        modal.frame = window.bounds
+        window.addSubview(modal)
+    }
 
     func addBank() {
         displayLoadingOverlay()
@@ -206,5 +233,11 @@ extension TutorAddBank: UITextFieldDelegate {
         default:
             return false
         }
+    }
+}
+
+extension TutorAddBank: BaseModalXibViewDelegate {
+    func didDismiss() {
+        accessoryView.isHidden = false
     }
 }

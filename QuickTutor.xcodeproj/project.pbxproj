@@ -831,6 +831,16 @@
 		93D694F7226D6D83001207AC /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D694F6226D6D83001207AC /* UILabelExtensions.swift */; };
 		93D694FA226E0FEF001207AC /* TutorBioVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D694F9226E0FEF001207AC /* TutorBioVCTests.swift */; };
 		93EFEF23225A9156001E0EF5 /* QuickTutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EFEF22225A9156001E0EF5 /* QuickTutorTests.swift */; };
+		93F61E322274FB2600298B77 /* BankInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F61E312274FB2600298B77 /* BankInfoModal.swift */; };
+		93F61E332274FB2600298B77 /* BankInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F61E312274FB2600298B77 /* BankInfoModal.swift */; };
+		93F61E352275250700298B77 /* BankInfoModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93F61E342275250700298B77 /* BankInfoModal.xib */; };
+		93F61E362275250700298B77 /* BankInfoModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93F61E342275250700298B77 /* BankInfoModal.xib */; };
+		93F61E382275471B00298B77 /* RoutingAndAccountModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F61E372275471B00298B77 /* RoutingAndAccountModal.swift */; };
+		93F61E392275471B00298B77 /* RoutingAndAccountModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F61E372275471B00298B77 /* RoutingAndAccountModal.swift */; };
+		93F61E3B2275479C00298B77 /* RoutingAndAccountModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93F61E3A2275479C00298B77 /* RoutingAndAccountModal.xib */; };
+		93F61E3C2275479C00298B77 /* RoutingAndAccountModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93F61E3A2275479C00298B77 /* RoutingAndAccountModal.xib */; };
+		93F61E3E2275749100298B77 /* BaseModalXibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F61E3D2275749100298B77 /* BaseModalXibView.swift */; };
+		93F61E3F2275749100298B77 /* BaseModalXibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F61E3D2275749100298B77 /* BaseModalXibView.swift */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
@@ -1489,6 +1499,11 @@
 		93EFEF20225A9156001E0EF5 /* QuickTutorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickTutorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93EFEF22225A9156001E0EF5 /* QuickTutorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTutorTests.swift; sourceTree = "<group>"; };
 		93EFEF24225A9156001E0EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93F61E312274FB2600298B77 /* BankInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankInfoModal.swift; sourceTree = "<group>"; };
+		93F61E342275250700298B77 /* BankInfoModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BankInfoModal.xib; sourceTree = "<group>"; };
+		93F61E372275471B00298B77 /* RoutingAndAccountModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingAndAccountModal.swift; sourceTree = "<group>"; };
+		93F61E3A2275479C00298B77 /* RoutingAndAccountModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoutingAndAccountModal.xib; sourceTree = "<group>"; };
+		93F61E3D2275749100298B77 /* BaseModalXibView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModalXibView.swift; sourceTree = "<group>"; };
 		A07F5DB6968C1952CFE1B720 /* Pods_QuickTutorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6A749B88FB3B3C4B4CF8D53 /* Pods-QuickTutorApp-QuickTutorDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; path = "Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev.release.xcconfig"; sourceTree = "<group>"; };
 		B42DDFEDB0BDB6878BD03D50 /* Pods-QuickTutorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorTests.release.xcconfig"; path = "Target Support Files/Pods-QuickTutorTests/Pods-QuickTutorTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -3293,6 +3308,11 @@
 				CF1C6112209EA6F4009B7B0E /* AddTimeModal.swift */,
 				CF8E889F20C5A1FA0044344D /* SessionOnHoldModal.swift */,
 				CF8E88A520C72BFD0044344D /* AcceptAddTimeModal.swift */,
+				93F61E312274FB2600298B77 /* BankInfoModal.swift */,
+				93F61E342275250700298B77 /* BankInfoModal.xib */,
+				93F61E372275471B00298B77 /* RoutingAndAccountModal.swift */,
+				93F61E3A2275479C00298B77 /* RoutingAndAccountModal.xib */,
+				93F61E3D2275749100298B77 /* BaseModalXibView.swift */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -3605,6 +3625,7 @@
 				567E1A132270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib in Resources */,
 				569F18C1223554FD00820A20 /* Lato-HairlineItalic.ttf in Resources */,
 				569F18C2223554FD00820A20 /* trades.json in Resources */,
+				93F61E3C2275479C00298B77 /* RoutingAndAccountModal.xib in Resources */,
 				569F18C3223554FD00820A20 /* QTLocationTableViewCell.xib in Resources */,
 				569F18C4223554FD00820A20 /* language.json in Resources */,
 				569F18C5223554FD00820A20 /* Lato-BlackItalic.ttf in Resources */,
@@ -3663,6 +3684,7 @@
 				569F18EB223554FD00820A20 /* Lato-Heavy.ttf in Resources */,
 				569F18EC223554FD00820A20 /* phone-ring.mp3 in Resources */,
 				569F18ED223554FD00820A20 /* Assets.xcassets in Resources */,
+				93F61E362275250700298B77 /* BankInfoModal.xib in Resources */,
 				569F18EE223554FD00820A20 /* loading2.json in Resources */,
 				569F18EF223554FD00820A20 /* background.mp3 in Resources */,
 				569F18F0223554FD00820A20 /* Lato-Italic.ttf in Resources */,
@@ -3694,6 +3716,7 @@
 				567E1A122270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib in Resources */,
 				56DC6D9F220BD7DF00935F47 /* Lato-HairlineItalic.ttf in Resources */,
 				8425767A2071339500FD295B /* trades.json in Resources */,
+				93F61E3B2275479C00298B77 /* RoutingAndAccountModal.xib in Resources */,
 				564B6C23222D8891004A9EB7 /* QTLocationTableViewCell.xib in Resources */,
 				842576702071309000FD295B /* language.json in Resources */,
 				56DC6D9B220BD7DF00935F47 /* Lato-BlackItalic.ttf in Resources */,
@@ -3752,6 +3775,7 @@
 				56DC6DA0220BD7DF00935F47 /* Lato-Heavy.ttf in Resources */,
 				CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */,
 				84D3A8AD201149DF000C2031 /* Assets.xcassets in Resources */,
+				93F61E352275250700298B77 /* BankInfoModal.xib in Resources */,
 				840E4E03213761C10045CD35 /* loading2.json in Resources */,
 				CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */,
 				56DC6DA1220BD7DF00935F47 /* Lato-Italic.ttf in Resources */,
@@ -4231,6 +4255,7 @@
 				CFCE90B3226524E900CBB1AD /* LearnerMainPageActiveTutorsSectionController.swift in Sources */,
 				569F174B223554FD00820A20 /* ConnectionRequestCell.swift in Sources */,
 				569F174C223554FD00820A20 /* TutorServiceFee.swift in Sources */,
+				93F61E3F2275749100298B77 /* BaseModalXibView.swift in Sources */,
 				569F174D223554FD00820A20 /* TutorAddressVC.swift in Sources */,
 				569F174F223554FD00820A20 /* SystemMessageCell.swift in Sources */,
 				569F1750223554FD00820A20 /* TutorHarassmentVC.swift in Sources */,
@@ -4363,6 +4388,7 @@
 				5697DD31226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift in Sources */,
 				569F17D6223554FD00820A20 /* SubjectSearchSubcategoryCell.swift in Sources */,
 				569F17D7223554FD00820A20 /* QTRatingReceiptCollectionViewCell.swift in Sources */,
+				93F61E392275471B00298B77 /* RoutingAndAccountModal.swift in Sources */,
 				569F17D8223554FD00820A20 /* KeyboardActionViewCell.swift in Sources */,
 				569F17D9223554FD00820A20 /* EditBioVC.swift in Sources */,
 				569F17DA223554FD00820A20 /* SignInManager.swift in Sources */,
@@ -4549,6 +4575,7 @@
 				569F1892223554FD00820A20 /* TutorCardPoliciesView.swift in Sources */,
 				569F1893223554FD00820A20 /* MeetupRequest.swift in Sources */,
 				569F1895223554FD00820A20 /* Extensions.swift in Sources */,
+				93F61E332274FB2600298B77 /* BankInfoModal.swift in Sources */,
 				569F1896223554FD00820A20 /* CALayerExtensions.swift in Sources */,
 				569F1897223554FD00820A20 /* QuickSearchVC.swift in Sources */,
 				569F189A223554FD00820A20 /* AnalyticsService.swift in Sources */,
@@ -4648,6 +4675,7 @@
 				CFB40E4B216D4AEB00828E72 /* VideoSessionViewManager.swift in Sources */,
 				844FECF8210F9D9300C1797B /* SubjectSearchCategoryCell.swift in Sources */,
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
+				93F61E382275471B00298B77 /* RoutingAndAccountModal.swift in Sources */,
 				CF6F58DC205EE68800ACBD32 /* CustomNavVC.swift in Sources */,
 				CF6F58D1205EE68800ACBD32 /* UserImageView.swift in Sources */,
 				CF6325EB207FF4480037F8AA /* SessionProfileBox.swift in Sources */,
@@ -4839,6 +4867,7 @@
 				844FECFA210FABD600C1797B /* SubjectSearchSubcategoryCell.swift in Sources */,
 				568B82E2222540DF004DF011 /* QTRatingReceiptCollectionViewCell.swift in Sources */,
 				CF6F58C6205EE68800ACBD32 /* KeyboardActionViewCell.swift in Sources */,
+				93F61E322274FB2600298B77 /* BankInfoModal.swift in Sources */,
 				8482AFE12038C27000F6F805 /* EditBioVC.swift in Sources */,
 				CF43AF962177B82F00783819 /* SignInManager.swift in Sources */,
 				CF6F58D4205EE68800ACBD32 /* QuickChatView.swift in Sources */,
@@ -5013,6 +5042,7 @@
 				CFB9B7F621C23F3E0022333F /* TutorCardPoliciesView.swift in Sources */,
 				CF6F58E8205EE68800ACBD32 /* MeetupRequest.swift in Sources */,
 				CF17F224226BC05800ABD07D /* RangeSliderView.swift in Sources */,
+				93F61E3E2275749100298B77 /* BaseModalXibView.swift in Sources */,
 				CF6F58F3205EE6D100ACBD32 /* Extensions.swift in Sources */,
 				8449DDEA1FFDD40600FC38CB /* CALayerExtensions.swift in Sources */,
 				84D8C9302066E8CC003C3AEA /* QuickSearchVC.swift in Sources */,
