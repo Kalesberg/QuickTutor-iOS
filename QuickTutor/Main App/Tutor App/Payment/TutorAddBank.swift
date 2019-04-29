@@ -154,22 +154,11 @@ class TutorAddBank: BaseRegistrationController {
     }
     
     @objc func handleRoutingAndAccountButton(_ sender: UIButton) {
-        let routingAndAccountModal = RoutingAndAccountModal.view
-        routingAndAccountModal.delegate = self
-        showModalInWindow(modal: routingAndAccountModal)
+        let _ = RoutingAndAccountModal.view
     }
     
     func showInfoModal() {
-        let bankInfoModal = BankInfoModal.view
-        bankInfoModal.delegate = self
-        showModalInWindow(modal: bankInfoModal)
-    }
-    
-    func showModalInWindow(modal: UIView) {
-        accessoryView.isHidden = true
-        let window = UIApplication.shared.keyWindow!
-        modal.frame = window.bounds
-        window.addSubview(modal)
+        let _ = BankInfoModal.view
     }
 
     func addBank() {
@@ -233,11 +222,5 @@ extension TutorAddBank: UITextFieldDelegate {
         default:
             return false
         }
-    }
-}
-
-extension TutorAddBank: BaseModalXibViewDelegate {
-    func didDismiss() {
-        accessoryView.isHidden = false
     }
 }

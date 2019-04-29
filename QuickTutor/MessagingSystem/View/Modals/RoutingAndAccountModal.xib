@@ -155,7 +155,6 @@
                         <constraint firstItem="y89-gt-6X1" firstAttribute="leading" secondItem="Gh5-bA-IQg" secondAttribute="leading" constant="20" id="Z0r-JN-hdC"/>
                         <constraint firstItem="89L-up-pc9" firstAttribute="centerX" secondItem="Gh5-bA-IQg" secondAttribute="centerX" id="Zq9-Mx-x77"/>
                         <constraint firstAttribute="trailing" secondItem="Atc-qu-ImR" secondAttribute="trailing" id="c2E-zC-YrZ"/>
-                        <constraint firstAttribute="width" constant="374" id="dpR-dy-zQh"/>
                         <constraint firstItem="YWI-HE-MaV" firstAttribute="leading" secondItem="Gh5-bA-IQg" secondAttribute="leading" id="exM-Lg-6zy"/>
                         <constraint firstItem="40o-IT-Suq" firstAttribute="top" secondItem="N7s-RQ-4et" secondAttribute="bottom" id="hmc-9s-HUI"/>
                         <constraint firstItem="89L-up-pc9" firstAttribute="top" secondItem="40o-IT-Suq" secondAttribute="bottom" constant="12" id="kQs-U9-uRj"/>
@@ -172,6 +171,8 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Gh5-bA-IQg" secondAttribute="trailing" constant="20" id="1XE-gW-D9x"/>
+                <constraint firstItem="Gh5-bA-IQg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="dRy-fE-DbE"/>
                 <constraint firstItem="Gh5-bA-IQg" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="mjJ-2d-tKO"/>
                 <constraint firstItem="Gh5-bA-IQg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="uLf-Yt-a8f"/>
             </constraints>

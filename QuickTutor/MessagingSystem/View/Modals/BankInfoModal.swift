@@ -20,9 +20,9 @@ class BankInfoModal: BaseModalXibView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        firstLabel?.text = "We’ll need your bank account information in order to \ndirectly deposit your tutoring earnings into your \nbank account."
+        firstLabel?.text = "We’ll need your bank account information in order to directly deposit your tutoring earnings into your \nbank account."
         
-        secondLabel?.text = "QuickTutor is partnered with Stripe, which handles \nbillions of dollars every year for forward-thinking \nbusinesses around the world."
+        secondLabel?.text = "QuickTutor is partnered with Stripe, which handles billions of dollars every year for forward-thinking businesses around the world."
     }
     
     static var view: BankInfoModal {

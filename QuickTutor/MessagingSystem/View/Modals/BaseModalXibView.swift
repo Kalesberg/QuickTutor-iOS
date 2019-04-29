@@ -28,6 +28,13 @@ class BaseModalXibView: UIView {
 
     func commonInit() {
         self.alpha = 0
+        
+        if let window = UIApplication.shared.windows.last {
+            layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
+            frame = window.bounds
+            window.addSubview(self)
+        }
+        
         show()
     }
     
