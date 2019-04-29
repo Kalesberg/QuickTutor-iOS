@@ -23,40 +23,40 @@ PODS:
     - FacebookCore (~> 0.4)
     - FBSDKCoreKit (~> 4.36)
     - FBSDKLoginKit (~> 4.36)
-  - FBSDKCoreKit (4.44.0):
+  - FBSDKCoreKit (4.44.1):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.44.0):
+  - FBSDKLoginKit (4.44.1):
     - FBSDKCoreKit
-  - Firebase/Auth (5.20.1):
+  - Firebase/Auth (5.20.2):
     - Firebase/CoreOnly
     - FirebaseAuth (= 5.4.2)
-  - Firebase/Core (5.20.1):
+  - Firebase/Core (5.20.2):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.8.0)
-  - Firebase/CoreOnly (5.20.1):
+    - FirebaseAnalytics (= 5.8.1)
+  - Firebase/CoreOnly (5.20.2):
     - FirebaseCore (= 5.4.1)
-  - Firebase/Database (5.20.1):
+  - Firebase/Database (5.20.2):
     - Firebase/CoreOnly
     - FirebaseDatabase (= 5.1.1)
-  - Firebase/DynamicLinks (5.20.1):
+  - Firebase/DynamicLinks (5.20.2):
     - Firebase/CoreOnly
     - FirebaseDynamicLinks (= 3.4.3)
-  - Firebase/Messaging (5.20.1):
+  - Firebase/Messaging (5.20.2):
     - Firebase/CoreOnly
     - FirebaseMessaging (= 3.5.0)
-  - Firebase/Performance (5.20.1):
+  - Firebase/Performance (5.20.2):
     - Firebase/Core
     - FirebasePerformance (= 2.2.4)
-  - Firebase/Storage (5.20.1):
+  - Firebase/Storage (5.20.2):
     - Firebase/CoreOnly
     - FirebaseStorage (= 3.1.1)
   - FirebaseABTesting (2.0.0):
     - FirebaseCore (~> 5.0)
     - Protobuf (~> 3.5)
-  - FirebaseAnalytics (5.8.0):
+  - FirebaseAnalytics (5.8.1):
     - FirebaseCore (~> 5.4)
     - FirebaseInstanceID (~> 3.8)
-    - GoogleAppMeasurement (= 5.8.0)
+    - GoogleAppMeasurement (= 5.8.1)
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
@@ -120,7 +120,7 @@ PODS:
   - GeoFire (3.0.0):
     - Firebase/Database (~> 5.0)
   - GoogleAnalytics (3.17.0)
-  - GoogleAppMeasurement (5.8.0):
+  - GoogleAppMeasurement (5.8.1):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
@@ -131,24 +131,24 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.2.0)
   - "GoogleToolboxForMac/NSData+zlib (2.2.0)":
     - GoogleToolboxForMac/Defines (= 2.2.0)
-  - GoogleUtilities/AppDelegateSwizzler (5.5.0):
+  - GoogleUtilities/AppDelegateSwizzler (5.8.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.5.0)
-  - GoogleUtilities/ISASwizzler (5.5.0)
-  - GoogleUtilities/Logger (5.5.0):
+  - GoogleUtilities/Environment (5.8.0)
+  - GoogleUtilities/ISASwizzler (5.8.0)
+  - GoogleUtilities/Logger (5.8.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.5.0):
+  - GoogleUtilities/MethodSwizzler (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.5.0):
+  - GoogleUtilities/Network (5.8.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.5.0)"
-  - GoogleUtilities/Reachability (5.5.0):
+  - "GoogleUtilities/NSData+zlib (5.8.0)"
+  - GoogleUtilities/Reachability (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (5.5.0):
+  - GoogleUtilities/UserDefaults (5.8.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.1)
   - Imaginary (4.2.0):
@@ -170,11 +170,11 @@ PODS:
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.6)
-  - Stripe (15.0.0)
+  - Stripe (15.0.1)
   - SwiftKeychainWrapper (3.2.0)
   - SwiftyJSON (4.2.0)
-  - SwipeCellKit (2.5.4)
-  - TwilioVideo (2.8.1)
+  - SwipeCellKit (2.6.0)
+  - TwilioVideo (2.10.0)
 
 DEPENDENCIES:
   - AccountKit
@@ -279,11 +279,11 @@ SPEC CHECKSUMS:
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   FacebookCore: 770e57cfe250a4de4458b682191c0ff062dee247
   FacebookLogin: eb0f2251aca835a94d70a5f7e580edc46d1e1603
-  FBSDKCoreKit: 8bcd4503afe43f28823c2175a6142a7f50f1bf28
-  FBSDKLoginKit: 93c5a407ab1a6a17b1b38cff57e89991f714d878
-  Firebase: 2f5235e62f141cb86181c3af0dfe4509706351ac
+  FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
+  FBSDKLoginKit: 54ae59987f2a8703021557c90a9aebb9e5c2bef6
+  Firebase: 0c8cf33f266410c61ab3e2265cfa412200351d9c
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
-  FirebaseAnalytics: fd72a26bf8dac84cefba2f0864366f718555a5b0
+  FirebaseAnalytics: ece1aa57a4f43c64d53a648b5a5e05151aae947b
   FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
   FirebaseAuth: dd7bbf03a5aee0eafb3a1aee4d2812bd74bac890
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
@@ -298,9 +298,9 @@ SPEC CHECKSUMS:
   FirebaseUI: c9e227a7d44e2e422a461cb3f4ead8dc5c7326e6
   GeoFire: e3ae6f4be3f2466c3467ef6c1c203db3af935c59
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
-  GoogleAppMeasurement: 1624046ab1bcc5e170061a56ef5679000b079c8e
+  GoogleAppMeasurement: ffe513e90551844a739e7bcbb1d2aca1c28a4338
   GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
-  GoogleUtilities: 6481e6318c5fcabaaa8513ef8120f329055d7c10
+  GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   IQKeyboardManager: 964638372b4a61892cc74fdfa6fd26de8c9464a2
@@ -313,12 +313,12 @@ SPEC CHECKSUMS:
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
-  Stripe: 312b22a67af9fa55c246d26148b3f3a9636a0ff2
+  Stripe: 2c4d0a88817361a102886315ff452d90f65e898b
   SwiftKeychainWrapper: 82c4c02cdc36f9a24f7edfcaab3e336401caa1a1
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
-  SwipeCellKit: 4eada3884ab1bbae5e8d2fb9030c242aa23d7f42
-  TwilioVideo: 482bbbb23807e424e00500c367fea3656e136d61
+  SwipeCellKit: 935ca28c187ec6e1ffb2b578cf8ddca842bfdcbb
+  TwilioVideo: e4bd16d69c395fa093636bc9c09a654570578a32
 
 PODFILE CHECKSUM: 3b6c9ef90e67fffda127ee4988be405036cde690
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.5.3
