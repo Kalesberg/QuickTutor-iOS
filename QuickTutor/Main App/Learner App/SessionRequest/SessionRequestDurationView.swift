@@ -14,7 +14,19 @@ protocol SessionRequestDurationViewDelegate: class {
 
 class SessionRequestDurationView: BaseSessionRequestViewSection {
     
-    let timeIncrements = ["", "", "", 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120] as [Any]
+    var timeIncrements: [Any] {
+        get {
+            var increments:[Any] = ["", "", ""]
+            for i in stride(from: 5, through: 120, by: 5) {
+                increments.append(i)
+            }
+            for i in stride(from: 135, through: 720, by: 15) {
+                increments.append(i)
+            }
+            increments.append(contentsOf: ["", "", ""])
+            return increments
+        }
+    }
     
     weak var delegate: SessionRequestDurationViewDelegate?
     
