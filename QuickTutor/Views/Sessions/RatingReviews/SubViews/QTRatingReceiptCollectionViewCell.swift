@@ -18,6 +18,8 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var hourlyRateLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var sessionLengthLabel: UILabel!
+    @IBOutlet weak var processingFeeTitleLabel: UILabel!
+    @IBOutlet weak var processingFeeLabel: UILabel!
     @IBOutlet weak var billLabel: UILabel!
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
@@ -45,6 +47,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
     public func setProfileInfo(user: Any,
                                subject: String,
                                bill: Double,
+                               fee: Int,
                                tip: Int,
                                sessionDuration: Int,
                                partnerSessionNumber: Int) {
@@ -70,11 +73,13 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
                 hourlyRateLabel.text = "$\(hourlyRate)/hr"
                 hourlyRateLabel.isHidden = false
             }
+            processingFeeTitleLabel.text = "QuickTutor's service fee:"
             partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
         }
         
         subjectLabel.text = subject
         sessionLengthLabel.text = getFormattedTimeString(seconds: sessionDuration)
+        processingFeeLabel.text = Double(fee).currencyFormat(precision: 2)
         billLabel.text = bill.currencyFormat(precision: 2, divider: 1)
         tipLabel.text = "$\(tip)"
         totalLabel.text = (bill + Double(tip)).currencyFormat(precision: 2, divider: 1)

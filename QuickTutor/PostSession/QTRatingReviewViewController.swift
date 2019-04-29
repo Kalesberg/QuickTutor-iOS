@@ -127,7 +127,7 @@ class QTRatingReviewViewController: UIViewController {
                 nextButton.isEnabled = false
                 let tip = Double(PostSessionReviewData.tipAmount)
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: tip)
-                createCharge(cost: Int(costOfSession * 100), tip: Int(tip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
+                createCharge(cost: costInDollars(costOfSession), tip: Int(tip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
                     if let error = error {
                         AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
                         self.hasPaid = false
@@ -249,8 +249,16 @@ class QTRatingReviewViewController: UIViewController {
         }
     }
     
+    func calculateFee(_ cost: Int) -> Int {
+        return Int(Double(cost) * 0.10) + 200
+    }
+    
+    func costInDollars(_ cost: Double) -> Int {
+        return Int(cost * 100)
+    }
+    
     private func createCharge(cost: Int, tip: Int, secondsTaught: Int, completion: @escaping (Error?) -> Void) {
-        let fee = Int(Double(cost) * 0.10) + 200
+        let fee = calculateFee(cost)
         let costWithTip = cost + tip
         self.displayLoadingOverlay()
         Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
@@ -317,8 +325,7 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
             break
         case 1:
             if AccountService.shared.currentUserType == .learner {
-                if let cell: QTRatingTipCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: QTRatingTipCollectionViewCell.reuseIdentifier,
-                                                                                                for: indexPath) as? QTRatingTipCollectionViewCell {
+                if let cell: QTRatingTipCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: QTRatingTipCollectionViewCell.reuseIdentifier, for: indexPath) as? QTRatingTipCollectionViewCell {
                     cell.setProfileInfo(user: tutor, subject: subject, costOfSession: costOfSession)
                     cell.didSelectTip = { tip in
                         PostSessionReviewData.tipAmount = tip
@@ -331,6 +338,7 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
                     cell.setProfileInfo(user: learner,
                                         subject: subject,
                                         bill: costOfSession,
+                                        fee: calculateFee(costInDollars(costOfSession)),
                                         tip: PostSessionReviewData.tipAmount,
                                         sessionDuration: runTime,
                                         partnerSessionNumber: sessionsWithPartner)
@@ -344,6 +352,7 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
                 cell.setProfileInfo(user: tutor,
                                     subject: subject,
                                     bill: costOfSession,
+                                    fee: calculateFee(costInDollars(costOfSession)),
                                     tip: PostSessionReviewData.tipAmount,
                                     sessionDuration: runTime,
                                     partnerSessionNumber: sessionsWithPartner)
