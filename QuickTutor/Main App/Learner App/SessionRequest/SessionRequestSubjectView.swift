@@ -29,7 +29,7 @@ class SessionRequestSubjectView: BaseSessionRequestViewSection {
     override func setupViews() {
         super.setupViews()
         setupCollectionView()
-        titleLabel.text = "Subject"
+        titleLabel.text = "What subject would you like to learn?"
     }
     
     func setupCollectionView() {
