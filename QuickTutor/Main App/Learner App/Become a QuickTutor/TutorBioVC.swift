@@ -60,7 +60,7 @@ class TutorBioVC: BaseRegistrationController {
     @objc func handleNext(_ sender: UIButton) {
         if isBioCorrectLength(didTapNext: true) {
             TutorRegistration.tutorBio = contentView.textView.text
-            navigationController?.pushViewController(TutorSSNVC(), animated: true)
+            navigationController?.pushViewController(TutorSSNViewController(), animated: true)
         }
     }
 }
