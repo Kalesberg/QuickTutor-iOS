@@ -80,8 +80,9 @@ class FirebaseData {
 			return completion(nil)
 		}
 	}
-	func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int,_ completion: @escaping (Error?) -> Void) {
-		let post : [String: Any] = ["p" : price, "dst" : distance, "prf": preference]
+    
+    func updateTutorPreferences(uid: String, price: Int, distance: Int, preference: Int, quickCalls: Int, _ completion: @escaping (Error?) -> Void) {
+        let post : [String: Any] = ["p" : price, "dst" : distance, "prf": preference, "quick_calls": quickCalls]
 		return self.ref.child("tutor-info").child(uid).updateChildValues(post) { (error,_) in
 			if let error = error {
 				return completion(error)
@@ -334,6 +335,7 @@ class FirebaseData {
 			sessionDetails["price"] = value["p"] ?? 20
 			sessionDetails["preference"] = value["prf"] ?? 3
 			sessionDetails["distance"] = value["dst"] ?? 150
+            sessionDetails["quick_calls"] = value["quick_calls"] ?? -1
 			
 			completion(sessionDetails)
 		}

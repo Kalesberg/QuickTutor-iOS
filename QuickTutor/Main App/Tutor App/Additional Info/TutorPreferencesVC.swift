@@ -11,6 +11,11 @@ import Firebase
 
 class TutorPreferencesVC: BaseRegistrationController {
 
+    let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        return view
+    }()
+    
     let contentView: TutorPreferencesView = {
         let view = TutorPreferencesView()
         return view
@@ -25,15 +30,25 @@ class TutorPreferencesVC: BaseRegistrationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
         setupTargets()
         loadPrefences()
         progressView.setProgress(1/6)
     }
 
     override func loadView() {
-        view = contentView
+        view = scrollView
     }
 
+    func setupViews() {
+        scrollView.addSubview(contentView)
+        contentView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        let contentViewHeightAnchor = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        contentViewHeightAnchor.priority = UILayoutPriority(rawValue: 250)
+        contentViewHeightAnchor.isActive = true
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+    }
+    
     func setupTargets() {
         contentView.accessoryView.nextButton.addTarget(self, action: #selector(savePreferences), for: .touchUpInside)
     }
@@ -43,12 +58,19 @@ class TutorPreferencesVC: BaseRegistrationController {
             FirebaseData.manager.fetchTutorSessionPreferences(uid: uid) {[weak self] (preferenceData) in
                 guard let preferenceData = preferenceData else { return }
                 self?.initialPreferenceData = preferenceData
-                let price = preferenceData["price"] as? Int
-                self?.contentView.hourSliderView.slider.value = Float(price ?? 25)
-                self?.contentView.hourSliderView.amountLabel.text = "$\(price!)/hr"
-                let distance = preferenceData["distance"] as? Int
-                self?.contentView.distanceSliderView.slider.value = Float(distance ?? 10)
-                self?.contentView.distanceSliderView.amountLabel.text = "\(distance!) miles"
+                if let price = preferenceData["price"] as? Int {
+                    self?.contentView.hourSliderView.setSliderValue(Float(price))
+                }
+                if let quickCallsPrice = preferenceData["quick_calls"] as? Int {
+                    // If the price of quick calls is -1, the quick call switch will be off.
+                    self?.contentView.quickCallsSwitchView.isOn = quickCallsPrice != -1
+                    self?.contentView.quickCallsSliderView.slider.isEnabled = quickCallsPrice != -1
+                    self?.contentView.quickCallsSliderView.setSliderValue(Float(quickCallsPrice))
+                }
+                if let distance = preferenceData["distance"] as? Int {
+                    self?.contentView.distanceSliderView.setSliderValue(Float(distance))
+                }
+                
                 let preference = preferenceData["preference"] as? Int ?? 3
                 self?.selectIndex(index: preference)
             }
@@ -73,9 +95,11 @@ class TutorPreferencesVC: BaseRegistrationController {
         let preference = data["preference"] as? Int
         let distance = data["distance"] as? Int
         let price = data["price"] as? Int
+        let quickCallsPrice = data["quick_calls"] as? Int
         return preference != index
             || distance != roundedDistance()
             || price != roundedHour()
+            || quickCallsPrice != roundedQuickCallsPrice()
     }
     
     @objc func backAction() {
@@ -90,6 +114,7 @@ class TutorPreferencesVC: BaseRegistrationController {
         if inRegistrationMode {
             TutorRegistration.price = roundedHour()
             TutorRegistration.distance = roundedDistance()
+            TutorRegistration.quickCallsPrice = isEnableQuickCalls() ? roundedQuickCallsPrice() : -1
             
             guard let indexPath = contentView.collectionView.indexPathsForSelectedItems, !indexPath.isEmpty else {
                 return
@@ -109,6 +134,7 @@ class TutorPreferencesVC: BaseRegistrationController {
             preferenceData["prf"] = index
             preferenceData["dst"] = roundedDistance()
             preferenceData["p"] = roundedHour()
+            preferenceData["quick_calls"] = isEnableQuickCalls() ? roundedQuickCallsPrice() : -1
             Database.database().reference().child("tutor-info").child(uid).updateChildValues(preferenceData)
             displaySavedAlertController()
             navigationController?.popViewController(animated: true)
@@ -121,6 +147,14 @@ class TutorPreferencesVC: BaseRegistrationController {
     
     func roundedHour() -> Int {
         return Int(round(contentView.hourSliderView.slider.value))
+    }
+    
+    func roundedQuickCallsPrice() -> Int {
+        return Int(round(contentView.quickCallsSliderView.slider.value))
+    }
+    
+    func isEnableQuickCalls() -> Bool {
+        return contentView.quickCallsSwitchView.isOn
     }
     
     func displayUnSavedChangesAlertController() {

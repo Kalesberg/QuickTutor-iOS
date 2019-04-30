@@ -83,6 +83,7 @@ class Tutor {
                         "p"   : TutorRegistration.price,
                         "dst" : TutorRegistration.distance,
                         "tbio": TutorRegistration.tutorBio,
+                        "quick_calls": TutorRegistration.quickCallsPrice,
                         "subjects": subjectDictionary,
                         "sbj": TutorRegistrationService.shared.subjects.first!,
                         "rg"  : "\(TutorRegistration.city!) \(TutorRegistration.state!)",

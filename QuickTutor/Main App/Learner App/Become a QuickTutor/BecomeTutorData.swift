@@ -16,6 +16,7 @@ struct TutorRegistration {
     static var address: String!
     static var location: CLLocation!
     static var price: Int!
+    static var quickCallsPrice: Int!
     static var distance: Int!
     static var sessionPreference: Int!
     static var username: String!
