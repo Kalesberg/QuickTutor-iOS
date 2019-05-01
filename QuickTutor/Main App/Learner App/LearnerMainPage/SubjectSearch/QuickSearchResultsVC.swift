@@ -116,7 +116,6 @@ class QuickSearchResultsCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .red
         iv.layer.cornerRadius = 17.5
         iv.clipsToBounds = true
         return iv
