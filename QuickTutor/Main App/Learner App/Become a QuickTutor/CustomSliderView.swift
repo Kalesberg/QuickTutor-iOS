@@ -12,6 +12,13 @@ protocol CustomSliderViewDelegate: class {
     func customSlider(_ slider: CustomSlider, didChange value: Float)
 }
 
+class FiltersSliderView: CustomSliderView {
+    override func setupAmountLabel() {
+        addSubview(amountLabel)
+        amountLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 80, height: 17)
+    }
+}
+
 class CustomSliderView: UIView {
     
     weak var delegate: CustomSliderViewDelegate?

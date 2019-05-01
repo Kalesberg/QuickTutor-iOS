@@ -13,6 +13,36 @@ enum MessageCellType {
     case system, text, image, sessionRequest, connectionRequest
 }
 
+class CopyableTextView: UITextView {
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override func copy(_ sender: Any?) {
+        let board = UIPasteboard.general
+        board.string = text
+        let menu = UIMenuController.shared
+        menu.setMenuVisible(false, animated: true)
+    }
+    
+    func sharedInit() {
+        isUserInteractionEnabled = true
+        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(showMenu(sender:))))
+    }
+    
+    @objc func showMenu(sender: AnyObject?) {
+        let menu = UIMenuController.shared
+        if !menu.isMenuVisible {
+            menu.setTargetRect(bounds, in: self)
+            menu.setMenuVisible(true, animated: true)
+        }
+    }
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return action == #selector(copy(_:))
+    }
+}
+
 class UserMessageCell: BaseMessageCell {
     var chatPartner: User?
     var userMessage: UserMessage?
@@ -122,6 +152,7 @@ class UserMessageCell: BaseMessageCell {
         setupBubbleView()
         setupTextView()
         setupTimeLabel()
+        setupGestureRecognizers()
     }
 
     private func setupTextView() {
@@ -133,5 +164,16 @@ class UserMessageCell: BaseMessageCell {
     private func setupTimeLabel() {
         addSubview(timeLabel)
         timeLabel.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 60, height: 0)
+    }
+    
+    func setupGestureRecognizers() {
+//        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(copyText))
+//        addGestureRecognizer(longPress)
+    }
+    
+    @objc func copyText() {
+//        if let text = textView.text {
+//            UIPasteboard.general.string = text
+//        }
     }
 }

@@ -16,9 +16,9 @@ class FiltersVCView: UIView {
     var selectedSessionTypeIndex = 2
     
     
-    let hourlyRateSliderView: CustomSliderView = {
-        let view = CustomSliderView()
-        view.slider.maximumValue = 150
+    let hourlyRateSliderView: FiltersSliderView = {
+        let view = FiltersSliderView()
+        view.slider.maximumValue = 250
         view.titleLabel.text = "Hourly Rate"
         return view
     }()
@@ -29,8 +29,8 @@ class FiltersVCView: UIView {
         return view
     }()
     
-    let distanceSliderView: CustomSliderView = {
-        let view = CustomSliderView()
+    let distanceSliderView: FiltersSliderView = {
+        let view = FiltersSliderView()
         view.slider.maximumValue = 150
         view.titleLabel.text = "Distance"
         return view
@@ -105,7 +105,7 @@ class FiltersVCView: UIView {
     
     func setupHourlyRateSliderView() {
         addSubview(hourlyRateSliderView)
-        hourlyRateSliderView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 87)
+        hourlyRateSliderView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 65)
         hourlyRateSliderView.slider.addTarget(self, action: #selector(hourlyRateSliderValueChanged(_:)), for: .valueChanged)
     }
     
@@ -116,7 +116,7 @@ class FiltersVCView: UIView {
     
     func setupDistanceSliderView() {
         addSubview(distanceSliderView)
-        distanceSliderView.anchor(top: hourlyRateSeparator.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 87)
+        distanceSliderView.anchor(top: hourlyRateSeparator.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 65)
         distanceSliderView.slider.addTarget(self, action: #selector(distanceSliderValueChanged(_:)), for: .valueChanged)
     }
     
