@@ -16,8 +16,8 @@ class FiltersVCView: UIView {
     var selectedSessionTypeIndex = 2
     
     
-    let hourlyRateSliderView: FiltersSliderView = {
-        let view = FiltersSliderView()
+    let hourlyRateSliderView: CustomSliderView = {
+        let view = CustomSliderView()
         view.slider.maximumValue = 150
         view.titleLabel.text = "Hourly Rate"
         return view
@@ -29,8 +29,8 @@ class FiltersVCView: UIView {
         return view
     }()
     
-    let distanceSliderView: FiltersSliderView = {
-        let view = FiltersSliderView()
+    let distanceSliderView: CustomSliderView = {
+        let view = CustomSliderView()
         view.slider.maximumValue = 150
         view.titleLabel.text = "Distance"
         return view
