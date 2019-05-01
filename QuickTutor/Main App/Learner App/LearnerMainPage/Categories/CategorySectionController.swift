@@ -18,7 +18,7 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
         return collectionView
     }()
