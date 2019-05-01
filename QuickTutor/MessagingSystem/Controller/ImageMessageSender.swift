@@ -120,11 +120,27 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         
         do {
             let thumbnail = try imageGenerator.copyCGImage(at: CMTime(value: 1, timescale: 60), actualTime: nil)
-            return UIImage(cgImage: thumbnail)
+            let imageWithCorrectOrientation = fixOrientation(img: UIImage(cgImage: thumbnail))
+            return imageWithCorrectOrientation
         } catch {
             return nil
         }
         
+    }
+    
+    func fixOrientation(img: UIImage) -> UIImage {
+        if (img.imageOrientation == .up) {
+            return img
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(img.size, false, img.scale)
+        let rect = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
+        img.draw(in: rect)
+        
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return normalizedImage
     }
 
     func proceedWithCameraAccess() -> Bool {
