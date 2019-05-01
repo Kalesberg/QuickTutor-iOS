@@ -41,6 +41,7 @@ class TutorTabBarController: BaseTabBarController {
         
         for vc in controllers {
             vc.navigationBar.barTintColor = Colors.purple
+            vc.navigationBar.tintColor = .white
             vc.navigationBar.isTranslucent = false
             vc.navigationBar.isOpaque = false
         }
