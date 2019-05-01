@@ -118,7 +118,10 @@ extension QuickSearchVC: UITextFieldDelegate {
     @objc func handleTextChange() {
         let sender = contentView.searchBarContainer.searchBar
         if sender.text == nil || sender.text == "" {
+            contentView.searchBarContainer.filtersButton.isHidden = false
             removeChild(popViewController: false)
+        } else {
+            contentView.searchBarContainer.filtersButton.isHidden = true
         }
     }
     

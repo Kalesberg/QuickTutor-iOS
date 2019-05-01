@@ -16,8 +16,9 @@ class FiltersVCView: UIView {
     var selectedSessionTypeIndex = 2
     
     
-    let hourlyRateSliderView: RangeSliderView = {
-        let view = RangeSliderView()
+    let hourlyRateSliderView: FiltersSliderView = {
+        let view = FiltersSliderView()
+        view.slider.maximumValue = 150
         view.titleLabel.text = "Hourly Rate"
         return view
     }()
@@ -28,8 +29,9 @@ class FiltersVCView: UIView {
         return view
     }()
     
-    let distanceSliderView: RangeSliderView = {
-        let view = RangeSliderView()
+    let distanceSliderView: FiltersSliderView = {
+        let view = FiltersSliderView()
+        view.slider.maximumValue = 150
         view.titleLabel.text = "Distance"
         return view
     }()
@@ -104,7 +106,7 @@ class FiltersVCView: UIView {
     func setupHourlyRateSliderView() {
         addSubview(hourlyRateSliderView)
         hourlyRateSliderView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 87)
-        hourlyRateSliderView.rangeSlider.addTarget(self, action: #selector(hourlyRateSliderValueChanged(_:)), for: .valueChanged)
+        hourlyRateSliderView.slider.addTarget(self, action: #selector(hourlyRateSliderValueChanged(_:)), for: .valueChanged)
     }
     
     func setupHourlyRateSeparator() {
@@ -115,7 +117,7 @@ class FiltersVCView: UIView {
     func setupDistanceSliderView() {
         addSubview(distanceSliderView)
         distanceSliderView.anchor(top: hourlyRateSeparator.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 87)
-        distanceSliderView.rangeSlider.addTarget(self, action: #selector(distanceSliderValueChanged(_:)), for: .valueChanged)
+        distanceSliderView.slider.addTarget(self, action: #selector(distanceSliderValueChanged(_:)), for: .valueChanged)
     }
     
     func setupDistanceSeparator() {
@@ -159,36 +161,32 @@ class FiltersVCView: UIView {
         accessoryView.layoutIfNeeded()
     }
     
-    @objc func hourlyRateSliderValueChanged(_ sender: RangeSlider) {
-        hourlyRateSliderView.lowerLimitLabel.text = "$\(String(format: "%.0f", sender.lowerValue.rounded()))/hr"
-        hourlyRateSliderView.upperLimitLabel.text = "$\(String(format: "%.0f", sender.upperValue.rounded()))/hr"
+    @objc func hourlyRateSliderValueChanged(_ sender: CustomSlider) {
+        hourlyRateSliderView.amountLabel.text = "$\(String(format: "%.0f", sender.value.rounded()))/hr"
     }
     
-    @objc func distanceSliderValueChanged(_ sender: RangeSlider) {
-        distanceSliderView.lowerLimitLabel.text = "\(String(format: "%.0f", sender.lowerValue.rounded())) mi"
-        distanceSliderView.upperLimitLabel.text = "\(String(format: "%.0f", sender.upperValue.rounded())) mi"
+    @objc func distanceSliderValueChanged(_ sender: CustomSlider) {
+        distanceSliderView.amountLabel.text = "\(String(format: "%.0f", sender.value.rounded())) mi"
     }
     
     func resetFilters() {
-        distanceSliderView.rangeSlider.lowerValue = distanceSliderView.rangeSlider.minimumValue
-        distanceSliderView.rangeSlider.upperValue = distanceSliderView.rangeSlider.maximumValue
-        hourlyRateSliderView.rangeSlider.lowerValue = hourlyRateSliderView.rangeSlider.minimumValue
-        hourlyRateSliderView.rangeSlider.upperValue = hourlyRateSliderView.rangeSlider.maximumValue
+        distanceSliderView.slider.value = distanceSliderView.slider.maximumValue
+        hourlyRateSliderView.slider.value = hourlyRateSliderView.slider.maximumValue
         ratingCollectionView.selectItem(at: IndexPath(item: 2, section: 0), animated: false, scrollPosition: .top)
         sessionTypeCollectionView.selectItem(at: IndexPath(item: 2, section: 0), animated: false, scrollPosition: .top)
-        hourlyRateSliderValueChanged(hourlyRateSliderView.rangeSlider)
-        distanceSliderValueChanged(distanceSliderView.rangeSlider)
+        hourlyRateSliderValueChanged(hourlyRateSliderView.slider)
+        distanceSliderValueChanged(distanceSliderView.slider)
     }
     
     func setFilters(_ filter: SearchFilter) {
-        hourlyRateSliderView.rangeSlider.lowerValue = CGFloat(filter.minHourlyRate ?? 0)
-        hourlyRateSliderView.rangeSlider.upperValue = CGFloat(filter.maxHourlyRate ?? 150)
-        distanceSliderView.rangeSlider.lowerValue = CGFloat(filter.minDistance ?? 0)
-        distanceSliderView.rangeSlider.upperValue = CGFloat(filter.maxDistance ?? 150)
+        hourlyRateSliderView.slider.value = Float(filter.maxHourlyRate ?? 150)
+        distanceSliderView.slider.value = Float(filter.maxDistance ?? 150)
         let ratingIndex = IndexPath(item: filter.ratingType ?? 2, section: 0)
         ratingCollectionView.selectItem(at: ratingIndex, animated: false, scrollPosition: .top)
         let sessionTypeIndex = IndexPath(item: filter.sessionType ?? 2, section: 0)
         sessionTypeCollectionView.selectItem(at: sessionTypeIndex, animated: false, scrollPosition: .top)
+        hourlyRateSliderValueChanged(hourlyRateSliderView.slider)
+        distanceSliderValueChanged(distanceSliderView.slider)
     }
     
     override init(frame: CGRect) {

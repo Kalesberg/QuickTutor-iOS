@@ -30,7 +30,6 @@ class FiltersVC: UIViewController {
         super.viewDidLoad()
         hidesBottomBarWhenPushed = true
         setupNavigationBar()
-        contentView.distanceSliderView.rangeSlider.updateLayerFrames()
         contentView.resetFilters()
         if let filter = searchFilter {
             contentView.setFilters(filter)
@@ -64,13 +63,11 @@ class FiltersVC: UIViewController {
     }
     
     func postFilers() {
-        let minHourlyRate = Int(contentView.hourlyRateSliderView.rangeSlider.lowerValue)
-        let maxHourlyRate = Int(contentView.hourlyRateSliderView.rangeSlider.upperValue)
-        let minDistance = Int(contentView.distanceSliderView.rangeSlider.lowerValue)
-        let maxDistance = Int(contentView.distanceSliderView.rangeSlider.upperValue)
+        let maxHourlyRate = Int(contentView.hourlyRateSliderView.slider.value)
+        let maxDistance = Int(contentView.distanceSliderView.slider.value)
         let sessionType = contentView.selectedSessionTypeIndex
         let ratingType = contentView.selectedRatingIndex
-        let filter = SearchFilter(minHourlyRate: minHourlyRate, maxHourlyRate: maxHourlyRate, minDistance: minDistance, maxDistance: maxDistance, sessionType: sessionType, ratingType: ratingType)
+        let filter = SearchFilter(minHourlyRate: 0, maxHourlyRate: maxHourlyRate, minDistance: 0, maxDistance: maxDistance, sessionType: sessionType, ratingType: ratingType)
         let userInfo: [AnyHashable: Any] = ["filter": filter]
         NotificationCenter.default.post(name: NotificationNames.QuickSearch.updatedFilters, object: nil, userInfo: userInfo)
     }
