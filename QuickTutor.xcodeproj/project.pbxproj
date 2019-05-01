@@ -826,6 +826,10 @@
 		935BC8DE225A99E200C7B482 /* QuickTutorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935BC8DD225A99E200C7B482 /* QuickTutorUITests.swift */; };
 		939F2F262268AAAE006F3F62 /* QTProfileViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F2F252268AAAE006F3F62 /* QTProfileViewControllerTests.swift */; };
 		939F2F2A2268AADE006F3F62 /* ChangeEmailVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F2F292268AADE006F3F62 /* ChangeEmailVCTests.swift */; };
+		93C102822278F772004B9F0D /* RegistrationSSNModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C102812278F772004B9F0D /* RegistrationSSNModal.swift */; };
+		93C102832278F772004B9F0D /* RegistrationSSNModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C102812278F772004B9F0D /* RegistrationSSNModal.swift */; };
+		93C102852278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93C102842278F77D004B9F0D /* RegistrationSSNModal.xib */; };
+		93C102862278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93C102842278F77D004B9F0D /* RegistrationSSNModal.xib */; };
 		93C57B08226B94E00000E9EC /* BaseSessionVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C57B07226B94E00000E9EC /* BaseSessionVCTests.swift */; };
 		93D694F7226D6D83001207AC /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D694F6226D6D83001207AC /* UILabelExtensions.swift */; };
 		93D694FA226E0FEF001207AC /* TutorBioVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D694F9226E0FEF001207AC /* TutorBioVCTests.swift */; };
@@ -1495,6 +1499,8 @@
 		935BC8DF225A99E200C7B482 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		939F2F252268AAAE006F3F62 /* QTProfileViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTProfileViewControllerTests.swift; sourceTree = "<group>"; };
 		939F2F292268AADE006F3F62 /* ChangeEmailVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailVCTests.swift; sourceTree = "<group>"; };
+		93C102812278F772004B9F0D /* RegistrationSSNModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationSSNModal.swift; sourceTree = "<group>"; };
+		93C102842278F77D004B9F0D /* RegistrationSSNModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationSSNModal.xib; sourceTree = "<group>"; };
 		93C57B07226B94E00000E9EC /* BaseSessionVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionVCTests.swift; sourceTree = "<group>"; };
 		93D694F6226D6D83001207AC /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
 		93D694F9226E0FEF001207AC /* TutorBioVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorBioVCTests.swift; sourceTree = "<group>"; };
@@ -3324,6 +3330,8 @@
 				93F61E372275471B00298B77 /* RoutingAndAccountModal.swift */,
 				93F61E3A2275479C00298B77 /* RoutingAndAccountModal.xib */,
 				93F61E3D2275749100298B77 /* BaseModalXibView.swift */,
+				93C102812278F772004B9F0D /* RegistrationSSNModal.swift */,
+				93C102842278F77D004B9F0D /* RegistrationSSNModal.xib */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -3699,6 +3707,7 @@
 				93F61E362275250700298B77 /* BankInfoModal.xib in Resources */,
 				569F18EE223554FD00820A20 /* loading2.json in Resources */,
 				569F18EF223554FD00820A20 /* background.mp3 in Resources */,
+				93C102862278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */,
 				569F18F0223554FD00820A20 /* Lato-Italic.ttf in Resources */,
 				568E57132270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
 				569F18F1223554FD00820A20 /* QTRatingReviewViewController.xib in Resources */,
@@ -3791,6 +3800,7 @@
 				93F61E352275250700298B77 /* BankInfoModal.xib in Resources */,
 				840E4E03213761C10045CD35 /* loading2.json in Resources */,
 				CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */,
+				93C102852278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */,
 				56DC6DA1220BD7DF00935F47 /* Lato-Italic.ttf in Resources */,
 				568E57122270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
 				568B82D6222539C2004DF011 /* QTRatingReviewViewController.xib in Resources */,
@@ -4407,6 +4417,7 @@
 				569F17D9223554FD00820A20 /* EditBioVC.swift in Sources */,
 				569F17DA223554FD00820A20 /* SignInManager.swift in Sources */,
 				569F17DB223554FD00820A20 /* QuickChatView.swift in Sources */,
+				93C102832278F772004B9F0D /* RegistrationSSNModal.swift in Sources */,
 				569F17DC223554FD00820A20 /* MessagingSystemTutorial.swift in Sources */,
 				93F61E492277DA1E00298B77 /* TutorSSNViewController.swift in Sources */,
 				569F17DD223554FD00820A20 /* SocketClient.swift in Sources */,
@@ -4794,6 +4805,7 @@
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
 				841C506C216ED42D0035C6C9 /* EditBillingAddressVC.swift in Sources */,
+				93C102822278F772004B9F0D /* RegistrationSSNModal.swift in Sources */,
 				CF8E88A020C5A1FB0044344D /* SessionOnHoldModal.swift in Sources */,
 				84C44F5620AE9704009AA5F1 /* CloseAccountChoiceVC.swift in Sources */,
 				CFB9B7D321C18AAC0022333F /* SessionRequestSubjectView.swift in Sources */,

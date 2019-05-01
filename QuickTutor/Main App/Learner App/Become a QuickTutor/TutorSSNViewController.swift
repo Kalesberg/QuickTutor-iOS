@@ -20,6 +20,7 @@ class TutorSSNViewController: BaseRegistrationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ssnAccessoryView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
         setupTargets()
         hideKeyboardWhenTappedAround()
         progressView.setProgress(3/6)
@@ -28,6 +29,7 @@ class TutorSSNViewController: BaseRegistrationController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupTextFields()
+        showTrustModal()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -37,12 +39,14 @@ class TutorSSNViewController: BaseRegistrationController {
     
     func setupTargets() {
         nextButton(isEnabled: false)
-        accessoryView.nextButton.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
+        ssnAccessoryView.nextButton.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
+        ssnAccessoryView.infoButton.addTarget(self, action: #selector(showTrustModal), for: .touchUpInside)
+        ssnAccessoryView.infoTextButton.addTarget(self, action: #selector(showTrustModal), for: .touchUpInside)
     }
     
     func nextButton(isEnabled: Bool) {
-        accessoryView.nextButton.isEnabled = isEnabled
-        accessoryView.nextButton.backgroundColor = isEnabled ? Colors.purple : Colors.gray
+        ssnAccessoryView.nextButton.isEnabled = isEnabled
+        ssnAccessoryView.nextButton.backgroundColor = isEnabled ? Colors.purple : Colors.gray
     }
     
     func setupTextFields() {
@@ -50,9 +54,18 @@ class TutorSSNViewController: BaseRegistrationController {
         ssnAreaNumberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         ssnGroupNumberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         ssnSerialNumberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        ssnAreaNumberTextField.inputAccessoryView = accessoryView
-        ssnGroupNumberTextField.inputAccessoryView = accessoryView
-        ssnSerialNumberTextField.inputAccessoryView = accessoryView
+        ssnAreaNumberTextField.inputAccessoryView = ssnAccessoryView
+        ssnGroupNumberTextField.inputAccessoryView = ssnAccessoryView
+        ssnSerialNumberTextField.inputAccessoryView = ssnAccessoryView
+    }
+    
+    let ssnAccessoryView: SSNRegistrationAccessoryView = {
+        let view = SSNRegistrationAccessoryView()
+        return view
+    }()
+    
+    @objc func showTrustModal() {
+        let _ = RegistrationSSNModal.view
     }
     
     @objc func handleNext() {
@@ -159,5 +172,63 @@ class BorderedTextField: NoPasteTextField {
         didSet {
             self.attributedPlaceholder = NSAttributedString(string: self.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor : placeHolderColor ?? UIColor.white])
         }
+    }
+}
+
+class SSNRegistrationAccessoryView: RegistrationAccessoryView {
+    
+    let infoButton: UIButton = {
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "infoIcon")
+        let tintedImage = image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        button.setImage(tintedImage, for: .normal)
+        button.tintColor = Colors.purple
+        return button
+    }()
+    
+    let infoTextButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Colors.darkBackground
+        button.titleLabel?.font = Fonts.createSemiBoldSize(16)
+        button.setTitle("Info", for: .normal)
+        button.setTitleColor(Colors.purple, for: .normal)
+        button.setTitleColor(Colors.selectedPurple, for: .highlighted)
+        return button
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setupViews() {
+        super.setupViews()
+        setupInfoButton()
+        setupInfoTextButton()
+        layoutIfNeeded()
+    }
+    
+    override func setupMainView() {
+        backgroundColor = Colors.registrationDark
+    }
+    
+    override func setupNextButton() {
+        addSubview(nextButton)
+        nextButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 30, width: 0, height: 0)
+        nextButtonWidthAnchor = nextButton.widthAnchor.constraint(equalToConstant: 120)
+        nextButtonWidthAnchor?.isActive = true
+    }
+    
+    func setupInfoButton() {
+        addSubview(infoButton)
+        infoButton.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 18, paddingLeft: 30, paddingBottom: 18, paddingRight: 0, width: 40, height: 40)
+    }
+    
+    func setupInfoTextButton() {
+        addSubview(infoTextButton)
+        infoTextButton.anchor(top: nil, left: infoButton.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 18, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 35, height: 40)
     }
 }

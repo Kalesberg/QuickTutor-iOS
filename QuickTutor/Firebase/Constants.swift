@@ -74,6 +74,10 @@ struct Fonts {
         return UIFont(name: "Lato-Regular", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
+    static func createSemiBoldSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "Lato-Semibold", size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+    
     static func createBoldSize(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Lato-Bold", size: size) ?? UIFont.systemFont(ofSize: size)
     }

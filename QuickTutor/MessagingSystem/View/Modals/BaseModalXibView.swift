@@ -30,8 +30,6 @@ class BaseModalXibView: UIView {
         self.alpha = 0
         
         if let window = UIApplication.shared.windows.last {
-//            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismiss))
-//            self.addGestureRecognizer(tapGesture)
             layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
             frame = window.bounds
             window.addSubview(self)
