@@ -508,7 +508,9 @@ class TutorSearchService {
                         group.leave()
                         return
                     }
-                    tutors.append(tutor)
+                    if tutor.uid != Auth.auth().currentUser?.uid {
+                        tutors.append(tutor)
+                    }
                     group.leave()
                 })
             })
