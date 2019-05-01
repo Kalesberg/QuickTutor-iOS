@@ -84,6 +84,10 @@ class SessionRequestCell: UserMessageCell {
     }()
 
     let buttonView = SessionRequestCellButtonView()
+    
+    override var bubbleWidthAnchor: NSLayoutConstraint? {
+        return bubbleView.widthAnchor.constraint(equalToConstant: 285)
+    }
 
     var priceLabelWidthAnchor: NSLayoutConstraint?
     var sessionTimeLabelWidthAnchor: NSLayoutConstraint?

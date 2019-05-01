@@ -65,10 +65,35 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         let view = UIView()
         return view
     }()
+    
+    let buttonStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.alignment = .center
+        view.spacing = 20
+        return view
+    }()
+    
+    let uploadFileButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "fileIcon"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        button.tintColor = Colors.lightGrey
+        return button
+    }()
+    
+    let expandLeftViewButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "expandActionViewIcon"), for: .normal)
+        button.backgroundColor = Colors.darkBackground
+        button.alpha = 0
+        return button
+    }()
 
     var actionViewBottomAnchor: NSLayoutConstraint?
     var messageFieldTopAnchor: NSLayoutConstraint?
     var leftAccessoryViewWidthAnchor: NSLayoutConstraint?
+    var leftAccessoryViewLeftAnchor: NSLayoutConstraint?
 
     override var intrinsicContentSize: CGSize {
         return .zero
@@ -77,6 +102,8 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     func setupViews() {
         setupMainView()
         setupLeftAccessoryView()
+        setupButtonStackView()
+        setupExpandLeftViewButton()
         setupSubmitButton()
         setupMessageTextfield()
         setupSeparator()
@@ -92,9 +119,28 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
 
     func setupLeftAccessoryView() {
         addSubview(leftAccessoryView)
-        leftAccessoryView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        leftAccessoryView.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 48)
         leftAccessoryViewWidthAnchor = leftAccessoryView.widthAnchor.constraint(equalToConstant: 0)
         leftAccessoryViewWidthAnchor?.isActive = true
+        leftAccessoryViewLeftAnchor = leftAccessoryView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8)
+        leftAccessoryViewLeftAnchor?.isActive = true
+    }
+
+    
+    func setupButtonStackView() {
+        leftAccessoryView.addSubview(buttonStackView)
+        addConstraint(NSLayoutConstraint(item: uploadFileButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 15))
+        addConstraint(NSLayoutConstraint(item: uploadFileButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 15))
+        buttonStackView.anchor(top: leftAccessoryView.topAnchor, left: leftAccessoryView.leftAnchor, bottom: leftAccessoryView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 34)
+        buttonStackView.addArrangedSubview(uploadFileButton)
+        uploadFileButton.addTarget(self, action: #selector(uploadFile), for: .touchUpInside)
+        leftAccessoryViewWidthAnchor?.constant = 60
+    }
+    
+    func setupExpandLeftViewButton() {
+        leftAccessoryView.addSubview(expandLeftViewButton)
+        expandLeftViewButton.anchor(top: leftAccessoryView.topAnchor, left: nil, bottom: leftAccessoryView.bottomAnchor, right: leftAccessoryView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 30, height: 0)
+        expandLeftViewButton.addTarget(self, action: #selector(showLeftView), for: .touchUpInside)
     }
 
     func setupSubmitButton() {
@@ -136,6 +182,10 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         delegate?.handleMessageSend(message: message)
     }
     
+    @objc func uploadFile() {
+        delegate?.handleFileUpload()
+    }
+    
     func hideTextViewCover() {
         textViewCover.isHidden = true
     }
@@ -147,20 +197,61 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         textViewCover.isHidden = false
     }
     
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange(_:)), name: UITextView.textDidChangeNotification, object: nil)
+    }
+    
+    @objc func handleTextChange(_ sender: UITextView) {
+        let textViewIsEmpty = messageTextview.text.isEmpty
+        textViewIsEmpty ? showLeftView() : hideLeftView()
+    }
+    
+    func enterEditingMode() {
+        leftAccessoryViewLeftAnchor?.constant =  -24
+        UIView.animate(withDuration: 0.25) {
+            self.expandLeftViewButton.alpha = 1
+            self.layoutIfNeeded()
+        }
+        guard submitButton.backgroundColor != Colors.purple else { return }
+        changeSendButtonColor(Colors.purple)
+    }
+    
     func changeSendButtonColor(_ color: UIColor) {
         UIView.animate(withDuration: 0.125) {
             self.submitButton.backgroundColor = color
         }
     }
     
+    func hideLeftView() {
+        leftAccessoryViewLeftAnchor?.constant = -24
+        UIView.animate(withDuration: 0.25) {
+            self.expandLeftViewButton.alpha = 1
+            self.buttonStackView.alpha = 0
+            self.layoutIfNeeded()
+        }
+        guard submitButton.backgroundColor != Colors.purple else { return }
+        changeSendButtonColor(Colors.purple)
+    }
+    
+    @objc func showLeftView() {
+        leftAccessoryViewLeftAnchor?.constant = 8
+        UIView.animate(withDuration: 0.25) {
+            self.expandLeftViewButton.alpha = 0
+            self.buttonStackView.alpha = 1
+            self.layoutIfNeeded()
+        }
+        changeSendButtonColor(Colors.gray)
+        changeSendButtonColor(Colors.gray)
+    }
+    
     convenience init(chatPartnerId: String) {
         self.init()
-        
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        setupObservers()
     }
     
     required init?(coder aDecoder: NSCoder) {

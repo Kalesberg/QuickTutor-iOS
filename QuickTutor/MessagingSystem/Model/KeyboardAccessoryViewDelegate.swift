@@ -13,4 +13,5 @@ protocol KeyboardAccessoryViewDelegate {
     func handleSendingImage()
     func shareUsernameForUserId()
     func handleSessionRequest()
+    func handleFileUpload()
 }

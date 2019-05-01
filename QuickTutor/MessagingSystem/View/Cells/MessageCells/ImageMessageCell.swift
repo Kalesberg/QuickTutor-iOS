@@ -24,6 +24,10 @@ class ImageMessageCell: UserMessageCell {
         iv.isUserInteractionEnabled = true
         return iv
     }()
+    
+    override var bubbleWidthAnchor: NSLayoutConstraint? {
+        return bubbleView.widthAnchor.constraint(equalToConstant: 200)
+    }
 
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)

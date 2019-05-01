@@ -15,13 +15,17 @@ import IQKeyboardManager
 import Stripe
 import AVFoundation
 import AVKit
+import MobileCoreServices
+import QuickLook
 
 class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     var messagingManagerDelegate: ConversationManagerDelegate?
     var conversationManager = ConversationManager()
     var typingIndicatorManager: TypingIndicatorManager?
+    var documentUploadManager: DocumentUploadManager?
     var metaData: ConversationMetaData?
     var addPaymentModal: AddPaymentModal?
+    
 
     var receiverId: String!
     var chatPartner: User! {
@@ -37,10 +41,11 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var subject: String?
 
     // MARK: Layout Views -
-    
     let messagesCollection: ConversationCollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         let cv = ConversationCollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         return cv
     }()
@@ -92,12 +97,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     @objc func textFieldDidChangeText(_ sender: UITextView) {
         if studentKeyboardAccessory.messageTextview.text.isEmpty && teacherKeyboardAccessory.messageTextview.text.isEmpty {
             typingIndicatorManager?.emitStopTyping()
-            studentKeyboardAccessory.changeSendButtonColor(Colors.gray)
-            teacherKeyboardAccessory.changeSendButtonColor(Colors.gray)
-        } else {
-            guard studentKeyboardAccessory.submitButton.backgroundColor != Colors.purple else { return }
-            studentKeyboardAccessory.changeSendButtonColor(Colors.purple)
-            teacherKeyboardAccessory.changeSendButtonColor(Colors.purple)
         }
     }
 
@@ -183,7 +182,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
 
     @objc func paginateMessages() {
-        conversationManager.loadPreviousMessagesByTimeStamp(limit: 50, completion: { _ in })
+        conversationManager.loadPreviousMessagesByTimeStamp(limitedTo: 50, completion: { _ in })
     }
 
     // MARK: Lifecycle -
@@ -197,7 +196,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         listenForSessionUpdates()
         loadAWUsers()
         addCustomTitleView()
-
+        setupDocumentUploadManager()
         imageMessageSender.receiverId = receiverId
         DataService.shared.getConversationMetaDataForUid(receiverId) { metaDataIn in
             self.conversationManager.chatPartnerId = self.receiverId
@@ -215,6 +214,10 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
+    }
+    
+    func setupDocumentUploadManager() {
+        documentUploadManager = DocumentUploadManager(receiverId: receiverId)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -437,7 +440,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func setupKeyboardObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(becomeFirstResponder), name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChangeText(_:)), name: UITextView.textDidChangeNotification, object: nil)
@@ -470,14 +472,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
         messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
-    }
-
-    
-    @objc func handleKeyboardDidShow() {
-//        guard conversationManager.messages.count > 0 else { return }
-//        messagesCollection.transform = CGAffineTransform(translationX: 0, y: -200)
-//        let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
-//        messagesCollection.scrollToItem(at: indexPath, at: .bottom, animated: true)
     }
     
     @objc func didDisconnect() {
@@ -512,6 +506,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let next = CardManagerVC()
         navigationController?.pushViewController(next, animated: true)
     }
+
 }
 
 extension ConversationVC: UICollectionViewDelegateFlowLayout {
@@ -530,52 +525,50 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
                 cell.textField.text = conversationRead ? "Seen" : "Delivered"
                 return cell
             }
-
         }
         
-        if message.imageUrl != nil && message.videoUrl == nil {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageMessage", for: indexPath) as! ImageMessageCell
-            cell.bubbleWidthAnchor?.constant = 200
+        let cellId = message.type.rawValue
+        
+        switch message.type {
+        case .image:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ImageMessageCell
             cell.delegate = imageMessageAnimator
             cell.updateUI(message: message)
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             return cell
-        }
-
-        if message.sessionRequestId != nil {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sessionMessage", for: indexPath) as! SessionRequestCell
-
+        case .sessionRequest:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SessionRequestCell
             cell.updateUI(message: message)
-            cell.bubbleWidthAnchor?.constant = 285
             cell.delegate = self
             cell.indexPath = [indexPath]
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-
             return cell
-        }
-
-        if message.connectionRequestId != nil {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "connectionRequest", for: indexPath) as! ConnectionRequestCell
-            cell.bubbleWidthAnchor?.constant = 285
+        case .connectionRequest:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ConnectionRequestCell
             cell.chatPartner = chatPartner
             cell.updateUI(message: message)
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             return cell
-        }
-        
-        if message.videoUrl != nil {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoMessage", for: indexPath) as! VideoMessageCell
-            cell.bubbleWidthAnchor?.constant = 200
+        case .video:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! VideoMessageCell
             cell.updateUI(message: message)
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             return cell
+        case .text:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserMessageCell
+            cell.updateUI(message: message)
+            cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 30
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            return cell
+        case .document:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DocumentMessageCell
+            cell.updateUI(message: message)
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            return cell
+        default:
+            return UICollectionViewCell()
         }
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "textMessage", for: indexPath) as! UserMessageCell
-        cell.updateUI(message: message)
-        cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 30
-        cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        return cell
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -604,15 +597,11 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         if message.connectionRequestId != nil {
             height += 35
         }
+        
+        if message.documenUrl != nil {
+            height = 54
+        }
         return CGSize(width: UIScreen.main.bounds.width + 60, height: height)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -626,12 +615,17 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let userMessage = conversationManager.messages[indexPath.item] as? UserMessage, let videoUrl = userMessage.videoUrl else { return }
-        let player = AVPlayer(url: URL(string: videoUrl)!)
-        let vc = AVPlayerViewController()
-        vc.player = player
-        present(vc, animated: true) {
-            vc.player?.play()
+        guard let userMessage = conversationManager.messages[indexPath.item] as? UserMessage else { return }
+        if let videoUrl = userMessage.videoUrl {
+            let player = AVPlayer(url: URL(string: videoUrl)!)
+            let vc = AVPlayerViewController()
+            vc.player = player
+            present(vc, animated: true) {
+                vc.player?.play()
+            }
+        } else if let fileDownloadUrl = userMessage.documenUrl {
+            guard let url = URL(string: fileDownloadUrl) else { return }
+            documentUploadManager?.displayFileAtUrl(url, fromViewController: self)
         }
     }
     
@@ -733,9 +727,6 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
                 vc.tutor = tutor
                 self.navigationController?.pushViewController(vc, animated: true)
             })
-//            guard let requestData = requestData else { return }
-//            let requestSessionModal = RequestSessionModal(uid: self.receiverId, requestData: requestData, frame: self.view.bounds)
-//            self.view.addSubview(requestSessionModal)
         }
     }
 
@@ -774,6 +765,10 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
         DataService.shared.sendTextMessage(text: text, receiverId: receiverId) {
             self.emptyCellBackground.removeFromSuperview()
         }
+    }
+    
+    func handleFileUpload() {
+        documentUploadManager?.showDocumentBrowser(onViewController: self)
     }
 }
 
@@ -876,7 +871,7 @@ extension ConversationVC: ImageMessageAnimatorDelegate {
 extension ConversationVC {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard scrollView.contentOffset.y == 0 else { return }
-        conversationManager.loadPreviousMessagesByTimeStamp(limit: 50) { messages in
+        conversationManager.loadPreviousMessagesByTimeStamp(limitedTo: 50) { messages in
             let oldOffset = self.messagesCollection.contentSize.height - self.messagesCollection.contentOffset.y
 
             if messages.count < 49 {
@@ -884,7 +879,6 @@ extension ConversationVC {
                 self.messagesCollection.collectionViewLayout.invalidateLayout()
             }
             self.messagesCollection.layoutIfNeeded()
-
             self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - oldOffset)
         }
     }

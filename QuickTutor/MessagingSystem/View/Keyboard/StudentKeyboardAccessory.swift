@@ -20,10 +20,8 @@ class StudentKeyboardAccessory: KeyboardAccessory {
 
     let actionButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Colors.purple
-        button.setImage(#imageLiteral(resourceName: "plusButton"), for: .normal)
+        button.setImage(UIImage(named: "actionButtonIcon"), for: .normal)
         button.applyDefaultShadow()
-        button.layer.cornerRadius = 17
         button.adjustsImageWhenDisabled = true
         return button
     }()
@@ -55,13 +53,14 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         setupQuickChatView()
         toggleQuickChatView()
     }
-
-    override func setupLeftAccessoryView() {
-        leftAccessoryView = actionButton
-        addSubview(actionButton)
-        actionButton.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 34, height: 34)
+    
+    override func setupButtonStackView() {
+        super.setupButtonStackView()
+        buttonStackView.insertArrangedSubview(actionButton, at: 0)
+        addConstraint(NSLayoutConstraint(item: actionButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 15))
+        addConstraint(NSLayoutConstraint(item: actionButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 15))
     }
-
+    
     private func setupActionView() {
         actionButton.addTarget(self, action: #selector(toggleActionView), for: .touchUpInside)
         insertSubview(actionView, at: 0)
@@ -97,7 +96,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         }
         animator.startAnimation()
         UIViewPropertyAnimator(duration: 0.15, curve: .linear, animations: {
-            self.actionButton.transform = self.actionButton.transform.rotated(by: (CGFloat.pi / 4) * 3)
+//            self.actionButton.transform = self.actionButton.transform.rotated(by: (CGFloat.pi / 4) * 3)
             self.layoutIfNeeded()
         }).startAnimation()
         actionViewShown = true
@@ -112,7 +111,7 @@ class StudentKeyboardAccessory: KeyboardAccessory {
             self.layoutIfNeeded()
         }).startAnimation()
         UIViewPropertyAnimator(duration: 0.15, curve: .linear, animations: {
-            self.actionButton.transform = self.actionButton.transform.rotated(by: (CGFloat.pi / 4) * -3)
+//            self.actionButton.transform = self.actionButton.transform.rotated(by: (CGFloat.pi / 4) * -3)
             self.layoutIfNeeded()
         }).startAnimation()
         actionViewShown = false

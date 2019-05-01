@@ -163,6 +163,9 @@ class ConversationCell: SwipeCollectionViewCell {
         if message.sessionRequestId != nil {
             lastMessageLabel.text = "Session Request"
         }
+        if message.documenUrl != nil {
+            lastMessageLabel.text = "Attachment: 1 document"
+        }
     }
     
     func checkConversationReadStatus(partnerId: String) {

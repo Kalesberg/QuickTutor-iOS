@@ -16,15 +16,22 @@ class TeacherKeyboardAccessory: KeyboardAccessory {
         button.tintColor = Colors.lightGrey
         return button
     }()
-
+    
     override func setupLeftAccessoryView() {
-        leftAccessoryView = sendPictureButton
-        addSubview(sendPictureButton)
-        sendPictureButton.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 12, paddingBottom: 14, paddingRight: 0, width: 20, height: 20)
+        super.setupLeftAccessoryView()
+        setupButtonStackView()
         sendPictureButton.addTarget(self, action: #selector(choosePicture), for: .touchUpInside)
+    }
+    
+    override func setupButtonStackView() {
+        super.setupButtonStackView()
+        addConstraint(NSLayoutConstraint(item: sendPictureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 15))
+        addConstraint(NSLayoutConstraint(item: sendPictureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 15))
+        buttonStackView.addArrangedSubview(sendPictureButton)
     }
 
     @objc func choosePicture() {
         delegate?.handleSendingImage()
     }
+    
 }

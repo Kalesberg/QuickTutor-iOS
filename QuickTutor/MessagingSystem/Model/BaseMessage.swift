@@ -15,9 +15,12 @@ import Foundation
 enum MessageType: String {
     case text = "textMessage"
     case image = "imageMessage"
+    case video = "videoMessage"
     case sessionRequest = "sessionRequestMessage"
     case connectionRequest = "connectionRequestMessage"
     case readReceiptLabel = "readReceiptMessage"
+    case systemMessage = "systemMessage"
+    case document = "documentMessage"
 }
 
 //class MessageBuilder {
@@ -41,7 +44,11 @@ class BaseMessage {
     var isRead = false
 
     init() {
-        type = .text
+        type = .systemMessage
+    }
+    
+    init(dictionary: [String: Any]) {
+        type = .systemMessage
     }
 }
 

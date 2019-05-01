@@ -208,6 +208,27 @@ class DataService {
             completion()
         }
     }
+    
+    func sendDocumentMessage(documentUrl: String, receiverId: String, completion: @escaping () -> Void) {
+        guard let uid = AccountService.shared.currentUser.uid else { return }
+        let timestamp = Date().timeIntervalSince1970
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        var messageDictionary: [String: Any] = ["documentUrl": documentUrl, "timestamp": timestamp, "senderId": uid, "receiverId": receiverId]
+        messageDictionary["receiverAccountType"] = otherUserTypeString
+        let message = UserMessage(dictionary: messageDictionary)
+        Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
+            let senderRef = Database.database().reference().child("conversations").child(uid).child(userTypeString).child(receiverId)
+            let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(otherUserTypeString).child(uid)
+            
+            let messageId = ref.key!
+            ref.updateChildValues(["uid": messageId])
+            senderRef.updateChildValues([messageId: 1])
+            receiverRef.updateChildValues([messageId: 1])
+            self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+            completion()
+        }
+    }
 
     
     func sendTextMessage(_ message: UserMessage, metaData: [String: Any]?) {

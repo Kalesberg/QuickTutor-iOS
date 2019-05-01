@@ -25,12 +25,12 @@ class MessageTextView: UITextView {
     
     private func setupMainView() {
         backgroundColor = Colors.darkBackground
-        textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 8)
     }
     
     private func setupPlaceHolder() {
         addSubview(placeholderLabel)
-        placeholderLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 14, paddingBottom: 8, paddingRight: 10, width: 0, height: 0)
+        placeholderLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 6, paddingBottom: 8, paddingRight: 10, width: 0, height: 0)
     }
     
     private func setupObservers() {

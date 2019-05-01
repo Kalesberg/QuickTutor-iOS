@@ -34,6 +34,7 @@ class UserMessageCell: BaseMessageCell {
         tv.isEditable = false
         tv.textColor = .white
         tv.isUserInteractionEnabled = false
+        tv.isEditable = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.font = Fonts.createSize(14)
         tv.backgroundColor = .clear
@@ -57,7 +58,7 @@ class UserMessageCell: BaseMessageCell {
         return label
     }()
 
-    var bubbleWidthAnchor: NSLayoutConstraint?
+    private(set) var bubbleWidthAnchor: NSLayoutConstraint?
     var bubbleViewRightAnchor: NSLayoutConstraint?
     var bubbleViewLeftAnchor: NSLayoutConstraint?
 

@@ -19,9 +19,10 @@ class UserMessage: BaseMessage {
     var sessionRequestId: String?
     var connectionRequestId: String?
     var videoUrl: String?
+    var documenUrl: String?
     var user: User?
 
-    init(dictionary: [String: Any]) {
+    override init(dictionary: [String: Any]) {
         data = dictionary
         text = dictionary["text"] as? String
         timeStamp = dictionary["timestamp"] as! NSNumber
@@ -31,6 +32,28 @@ class UserMessage: BaseMessage {
         sessionRequestId = dictionary["sessionRequestId"] as? String
         connectionRequestId = dictionary["connectionRequestId"] as? String
         videoUrl = dictionary["videoUrl"] as? String
+        documenUrl = dictionary["documentUrl"] as? String
+        super.init(dictionary: dictionary)
+        updateMessageType()
+    }
+    
+    func updateMessageType() {
+        type = .text
+        if let _ = imageUrl {
+            type = .image
+        }
+        if let _ = videoUrl {
+            type = .video
+        }
+        if let _ = connectionRequestId {
+            type = .connectionRequest
+        }
+        if let _ = sessionRequestId {
+            type = .sessionRequest
+        }
+        if let _ = documenUrl {
+            type = .document
+        }
     }
 
     func partnerId() -> String {

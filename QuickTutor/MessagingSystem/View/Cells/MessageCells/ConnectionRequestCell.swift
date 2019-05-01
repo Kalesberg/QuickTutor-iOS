@@ -22,6 +22,10 @@ class ConnectionRequestCell: UserMessageCell {
     }()
     
     var mockBubbleViewHeightAnchor: NSLayoutConstraint?
+    
+    override var bubbleWidthAnchor: NSLayoutConstraint? {
+        return bubbleView.widthAnchor.constraint(equalToConstant: 285)
+    }
 
     let buttonView = SessionRequestCellButtonView()
 

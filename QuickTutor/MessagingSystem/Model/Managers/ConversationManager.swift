@@ -17,10 +17,9 @@ protocol ConversationManagerDelegate: class {
     func conversationManager(_ conversationManager: ConversationManager, didLoadAll messages: [BaseMessage])
 }
 
-
-
 class ConversationManager {
     
+    //MARK: - Properties
     weak var delegate: ConversationManagerDelegate?
     var metaData: ConversationMetaData?
     var memberIds: [String]?
@@ -33,12 +32,12 @@ class ConversationManager {
     var earliestLoadedMessageId: String?
     var isFinishedPaginating = true
     var loadedAllMessages = false
-    var isInitialLoad = true
+    private var isInitialLoad = true
     var lastSendMessageIndex = -1
 
     var readReceiptManager: ReadReceiptManager?
 
-    func loadPreviousMessagesByTimeStamp(limit: Int, completion: @escaping ([BaseMessage]) -> Void) {
+    func loadPreviousMessagesByTimeStamp(limitedTo limit: Int, completion: @escaping ([BaseMessage]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard !loadedAllMessages else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -65,11 +64,10 @@ class ConversationManager {
             if children.count < limit {
                 self.loadedAllMessages = true
             }
+            
             for child in children {
                 DataService.shared.getMessageById(child.key, completion: { message in
-                    
-                    
-                    if let lastMessage = previousMessages.last as? UserMessage, let newMessage = message as? UserMessage,  lastMessage.timeStamp.doubleValue - newMessage.timeStamp.doubleValue < -3600 {
+                                        if let lastMessage = previousMessages.last as? UserMessage, let newMessage = message as? UserMessage,  lastMessage.timeStamp.doubleValue - newMessage.timeStamp.doubleValue < -3600 {
                         print("Messages are an hour apart")
                         let timestampDate = Date(timeIntervalSince1970: newMessage.timeStamp.doubleValue)
                         let text = timestampDate.formatRelativeStringForTimeSeparator()
@@ -166,7 +164,7 @@ class ConversationManager {
     func setup() {
         guard let id = Auth.auth().currentUser?.uid else { fatalError() }
         uid = id
-        loadPreviousMessagesByTimeStamp(limit: 50) { (messages) in
+        loadPreviousMessagesByTimeStamp(limitedTo: 50) { (messages) in
             self.listenForNewMessages()
             self.listenForConnections()
         }
