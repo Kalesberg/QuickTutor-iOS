@@ -43,6 +43,7 @@ class QTStartSessionViewController: UIViewController {
     var meetupConfirmed = false
     
     var audioPlayer: AVPlayer?
+    var vibrationTimer: Timer?
     
     static var controller: QTStartSessionViewController {
         return QTStartSessionViewController(nibName: String(describing: QTStartSessionViewController.self), bundle: nil)
@@ -79,6 +80,10 @@ class QTStartSessionViewController: UIViewController {
                 self.audioPlayer?.seek(to: CMTime.zero)
                 self.audioPlayer?.play()
             }
+        } else {
+            vibrationTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { (timer) in
+                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            })
         }
     }
     
@@ -89,6 +94,8 @@ class QTStartSessionViewController: UIViewController {
         if sessionType == .online {
             audioPlayer?.pause()
             audioPlayer = nil
+        } else {
+            vibrationTimer?.invalidate()
         }
     }
     
@@ -276,22 +283,22 @@ class QTStartSessionViewController: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-        
+
         let isInitiator = initiatorId == uid
-        let resource = isInitiator ? "phone-ring" : "qtRingtone"
+        let resource = isInitiator ? "phone-ring" : "qtRingtone-short"
         let ext = isInitiator ? "mp3" : "aiff"
         guard let url = Bundle.main.url(forResource: resource, withExtension: ext) else { return }
-        
+
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.moviePlayback, options: AVAudioSession.CategoryOptions.mixWithOthers)
             try AVAudioSession.sharedInstance().setActive(true)
-            
+
             /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
             audioPlayer = AVPlayer(url: url)
-            
+
             guard let player = audioPlayer else { return }
             player.play()
-            
+
         } catch let error {
             print(error.localizedDescription)
         }
