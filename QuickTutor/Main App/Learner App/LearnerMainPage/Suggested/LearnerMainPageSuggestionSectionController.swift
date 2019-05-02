@@ -54,7 +54,7 @@ class LearnerMainPageSuggestionController: UIViewController, UICollectionViewDel
     }
     
     func fetchDefaultTutors() {
-        TutorSearchService.shared.getTutorsByCategory("academics", lastKnownKey: nil, completion: { (tutors) in
+        TutorSearchService.shared.getTutorsByCategory("academics", lastKnownKey: nil, completion: { (tutors, _) in
             guard let tutors = tutors else { return }
             self.datasource.append(contentsOf: tutors)
             self.collectionView.reloadData()

@@ -131,9 +131,9 @@ class CategorySearchVC: BaseViewController {
     }
     
     private func queryTutorsByCategory(lastKnownKey: String?) {
-        TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors) in
+        TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             guard let tutors = tutors else { return }
-            self.loadedAllTutors = tutors.count < 60
+            self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.contentView.collectionView.reloadData()
             guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
@@ -142,9 +142,9 @@ class CategorySearchVC: BaseViewController {
     }
     
     private func queryTutorsBySubcategory(lastKnownKey: String?) {
-        TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors) in
+        TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             guard let tutors = tutors else { return }
-            self.loadedAllTutors = tutors.count < 60
+            self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.contentView.collectionView.reloadData()
             guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
@@ -153,9 +153,9 @@ class CategorySearchVC: BaseViewController {
     }
     
     private func queryTutorsBySubject(lastKnownKey: String?) {
-        TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors) in
+        TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             guard let tutors = tutors else { return }
-            self.loadedAllTutors = tutors.count < 60
+            self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.contentView.collectionView.reloadData()
             guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
