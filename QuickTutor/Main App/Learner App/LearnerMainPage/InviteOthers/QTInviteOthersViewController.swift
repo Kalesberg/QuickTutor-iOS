@@ -30,7 +30,7 @@ class QTInviteOthersViewController: UIViewController {
     let contactStore = CNContactStore()
     var dataSource = [CNContact]()
     var checkedStates = [Bool]()
-    let appStoreUrl = "itms-apps://itunes.apple.com/app/id1388092698"
+    let appStoreUrl = "http://bit.ly/DownloadQuickTutor"
     
     let headerHeight: CGFloat = 361
     
@@ -41,7 +41,10 @@ class QTInviteOthersViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         
         navigationItem.title = "Share QuickTutor"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Invite", style: .plain, target: self, action: #selector(sendInvite))
+        let inviteButton = UIBarButtonItem(title: "Invite", style: .plain, target: self, action: #selector(sendInvite))
+        inviteButton.setTitleTextAttributes([.font : Fonts.createSemiBoldSize(14)], for: .normal)
+        inviteButton.setTitleTextAttributes([.font : Fonts.createSemiBoldSize(14)], for: .selected)
+        navigationItem.rightBarButtonItem = inviteButton
         navigationController?.setNavigationBarHidden(false, animated: true)
         
         setupTableView()
