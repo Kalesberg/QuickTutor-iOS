@@ -23,6 +23,7 @@ class CopyableTextView: UITextView {
         board.string = text
         let menu = UIMenuController.shared
         menu.setMenuVisible(false, animated: true)
+        resignFirstResponder()
     }
     
     func sharedInit() {
@@ -59,11 +60,11 @@ class UserMessageCell: BaseMessageCell {
         return view
     }()
 
-    var textView: UITextView = {
-        let tv = UITextView()
+    var textView: CopyableTextView = {
+        let tv = CopyableTextView()
         tv.isEditable = false
         tv.textColor = .white
-        tv.isUserInteractionEnabled = false
+        tv.isUserInteractionEnabled = true
         tv.isEditable = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.font = Fonts.createSize(14)
