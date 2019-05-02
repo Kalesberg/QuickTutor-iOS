@@ -30,9 +30,9 @@ class TutorPreferencesView: BaseRegistrationView {
     
     let quickCallsSliderView: CustomSliderView = {
         let view = CustomSliderView()
-        view.titleLabel.text = "Quick Calls"
+        view.titleLabel.text = "Quick calls"
         view.slider.value = 10
-        view.amountLabel.text = "$10"
+        view.amountLabel.text = "$10/hr"
         return view
     }()
     
@@ -167,12 +167,12 @@ class TutorPreferencesView: BaseRegistrationView {
     
     func setupDistanceInfoLabel() {
         addSubview(distanceInfoLabel)
-        distanceInfoLabel.anchor(top: distanceSliderView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 22)
+        distanceInfoLabel.anchor(top: distanceSliderView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 100, paddingRight: 30, width: 0, height: 0)
     }
     
     func setupAccessoryView() {
         addSubview(accessoryView)
-        accessoryView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
+        accessoryView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
     }
     
     override func updateTitleLabel() {
@@ -207,7 +207,7 @@ extension TutorPreferencesView: CustomSliderViewDelegate {
         } else if slider == distanceSliderView.slider {
             distanceSliderView.amountLabel.text = "\(String(format: "%.0f", slider.value)) miles"
         } else {
-            quickCallsSliderView.amountLabel.text = "$\(String(format: "%.0f", slider.value))"
+            quickCallsSliderView.amountLabel.text = "$\(String(format: "%.0f", slider.value))/hr"
         }
     }
 }

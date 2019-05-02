@@ -35,7 +35,6 @@ class RegistrationAccessoryView: UIView {
         nextButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 30, width: 0, height: 0)
         nextButtonWidthAnchor = nextButton.widthAnchor.constraint(equalToConstant: 120)
         nextButtonWidthAnchor?.isActive = true
-        layoutIfNeeded()
     }
     
     override init(frame: CGRect) {

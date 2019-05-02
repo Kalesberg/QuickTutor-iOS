@@ -11,10 +11,9 @@ import Firebase
 
 class TutorPreferencesVC: BaseRegistrationController {
 
-    let scrollView: UIScrollView = {
-        let view = UIScrollView()
-        return view
-    }()
+    let rootView = UIView()
+    
+    let scrollView = UIScrollView()
     
     let contentView: TutorPreferencesView = {
         let view = TutorPreferencesView()
@@ -36,17 +35,15 @@ class TutorPreferencesVC: BaseRegistrationController {
         progressView.setProgress(1/6)
     }
 
-    override func loadView() {
-        view = scrollView
-    }
-
     func setupViews() {
+        view.addSubview(scrollView)
+        scrollView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: UIScreen.main.bounds.width, height: 0)
         scrollView.addSubview(contentView)
         contentView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        let contentViewHeightAnchor = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        let contentViewHeightAnchor = contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor)
         contentViewHeightAnchor.priority = UILayoutPriority(rawValue: 250)
         contentViewHeightAnchor.isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
     }
     
     func setupTargets() {
