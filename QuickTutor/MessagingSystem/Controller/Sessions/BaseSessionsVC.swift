@@ -94,7 +94,7 @@ class BaseSessionsVC: UIViewController {
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
             DataService.shared.getSessionById(snapshot.key, completion: { session in
-                guard session.status != "cancelled" && session.status != "declined" else {
+                guard session.status != "cancelled" && session.status != "declined" && !session.isExpired() else {
                     self.attemptReloadOfTable()
                     return
                 }

@@ -55,6 +55,12 @@ class Session: Codable {
         let finalString = "Length: \(lengthInMinutes) min, $\(Int(price)) / hr"
         return finalString
     }
+    
+    func isExpired() -> Bool {
+        guard status == "pending" else { return false }
+        let isExpired = startTime + 3600 < Date().timeIntervalSince1970
+        return isExpired
+    }
 
     func cancel() {}
 }

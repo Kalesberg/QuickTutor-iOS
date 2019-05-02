@@ -90,6 +90,7 @@ class SessionRequest {
     
     func isExpired() -> Bool {
         guard let expiration = expiration, status == "pending" else { return false }
-        return expiration + 3600 < Date().timeIntervalSince1970
+        let isExpired = expiration + 3600 < Date().timeIntervalSince1970
+        return isExpired
     }
 }
