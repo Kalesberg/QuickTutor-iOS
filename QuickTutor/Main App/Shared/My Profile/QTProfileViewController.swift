@@ -71,6 +71,7 @@ class QTProfileViewController: UIViewController {
     var subject: String?
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
+    var isPresentedFromSessionScreen = false
     
     enum QTConnectionStatus {
         case connected, pending, none
@@ -91,7 +92,9 @@ class QTProfileViewController: UIViewController {
         
         navigationController?.setNavigationBarHidden(false, animated: false)
         if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .never
+            if !isPresentedFromSessionScreen {
+                navigationItem.largeTitleDisplayMode = .never
+            }
         }
     }
     
@@ -109,7 +112,9 @@ class QTProfileViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.locationManager.stopUpdatingLocation()
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        if !isPresentedFromSessionScreen {
+            navigationController?.setNavigationBarHidden(true, animated: false)
+        }
     }
     
     func setupObservers() {

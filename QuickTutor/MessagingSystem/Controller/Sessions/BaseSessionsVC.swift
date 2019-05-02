@@ -264,6 +264,7 @@ class BaseSessionsVC: UIViewController {
                 let controller = QTProfileViewController.controller
                 controller.user = tutor
                 controller.profileViewType = .tutor
+                controller.isPresentedFromSessionScreen = true
                 self.navigationController?.pushViewController(controller, animated: true)
             })
         } else {
@@ -273,6 +274,7 @@ class BaseSessionsVC: UIViewController {
                 let tutor = AWTutor(dictionary: [:])
                 controller.user = tutor.copy(learner: learner)
                 controller.profileViewType = .learner
+                controller.isPresentedFromSessionScreen = true
                 self.navigationController?.pushViewController(controller, animated: true)
             }
         }
