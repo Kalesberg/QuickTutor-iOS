@@ -52,8 +52,6 @@
 		564B6C1E222D83D5004A9EB7 /* QTLocationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */; };
 		564B6C22222D8891004A9EB7 /* QTLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */; };
 		564B6C23222D8891004A9EB7 /* QTLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */; };
-		5669BCF7227AE47A0085116E /* qtRingtone-short.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 5669BCF6227AE47A0085116E /* qtRingtone-short.aiff */; };
-		5669BCF8227AE47A0085116E /* qtRingtone-short.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 5669BCF6227AE47A0085116E /* qtRingtone-short.aiff */; };
 		567E1A082270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */; };
 		567E1A092270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */; };
 		567E1A0A2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */; };
@@ -1219,7 +1217,6 @@
 		564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationsViewController.xib; sourceTree = "<group>"; };
 		564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLocationTableViewCell.swift; sourceTree = "<group>"; };
 		564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationTableViewCell.xib; sourceTree = "<group>"; };
-		5669BCF6227AE47A0085116E /* qtRingtone-short.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "qtRingtone-short.aiff"; sourceTree = "<group>"; };
 		567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountReasonViewController.swift; sourceTree = "<group>"; };
 		567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountReasonViewController.xib; sourceTree = "<group>"; };
 		567E1A0E2270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountReasonTableViewCell.swift; sourceTree = "<group>"; };
@@ -2215,7 +2212,6 @@
 		8426A1602055B31F00EAF1A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5669BCF6227AE47A0085116E /* qtRingtone-short.aiff */,
 				569F19072235564000820A20 /* Development */,
 				8491C29A1FBE62350036FC12 /* AppDelegate.swift */,
 				840E4DF32136F56E0045CD35 /* Animations */,
@@ -3701,7 +3697,6 @@
 				569F18DC223554FD00820A20 /* LaunchScreen.storyboard in Resources */,
 				569F18DD223554FD00820A20 /* business.json in Resources */,
 				569F18DE223554FD00820A20 /* lifestyle.json in Resources */,
-				5669BCF8227AE47A0085116E /* qtRingtone-short.aiff in Resources */,
 				569F18DF223554FD00820A20 /* qtNotificationPop.aiff in Resources */,
 				569F18E0223554FD00820A20 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
 				569F18E1223554FD00820A20 /* QTRatingTipCollectionViewCell.xib in Resources */,
@@ -3795,7 +3790,6 @@
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
-				5669BCF7227AE47A0085116E /* qtRingtone-short.aiff in Resources */,
 				CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */,
 				568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
 				568B82DF222540CD004DF011 /* QTRatingTipCollectionViewCell.xib in Resources */,

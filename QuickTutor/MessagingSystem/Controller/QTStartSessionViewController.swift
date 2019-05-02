@@ -285,7 +285,7 @@ class QTStartSessionViewController: UIViewController {
         }
 
         let isInitiator = initiatorId == uid
-        let resource = isInitiator ? "phone-ring" : "qtRingtone-short"
+        let resource = isInitiator ? "phone-ring" : "qtRingtone"
         let ext = isInitiator ? "mp3" : "aiff"
         guard let url = Bundle.main.url(forResource: resource, withExtension: ext) else { return }
 
