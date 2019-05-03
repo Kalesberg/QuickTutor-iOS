@@ -21,7 +21,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 4
+        iv.layer.cornerRadius = 3
         iv.clipsToBounds = true
         return iv
     }()
@@ -29,7 +29,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = Fonts.createBoldSize(24)
+        label.font = Fonts.createBlackSize(24)
         return label
     }()
     
@@ -66,8 +66,8 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         setupMainView()
         setupProfileImageView()
         setupNameLabel()
-        setupRatingLabel()
         setupStarIcon()
+        setupRatingLabel()
         setupActionsButton()
         setupProfileToggleView()
     }
@@ -78,7 +78,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     func setupProfileImageView() {
         addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
     }
     
     func setupNameLabel() {
@@ -86,14 +86,14 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         nameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 25, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 30)
     }
     
-    func setupRatingLabel() {
-        addSubview(ratingLabel)
-        ratingLabel.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 17)
-    }
-    
     func setupStarIcon() {
         addSubview(starIcon)
-        starIcon.anchor(top: nil, left: ratingLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 12, height: 12)
+        starIcon.anchor(top: nameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 11, height: 11)
+    }
+    
+    func setupRatingLabel() {
+        addSubview(ratingLabel)
+        ratingLabel.anchor(top: nil, left: starIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         addConstraint(NSLayoutConstraint(item: starIcon, attribute: .centerY, relatedBy: .equal, toItem: ratingLabel, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
