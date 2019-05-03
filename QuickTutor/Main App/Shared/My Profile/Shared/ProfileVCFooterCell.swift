@@ -18,7 +18,7 @@ class ProfileVCFooterCell: UICollectionReusableView {
     
     let inviteButton: DimmableButton = {
         let button = DimmableButton()
-        button.setTitle("Invite others", for: .normal)
+        button.setTitle("Invite friends", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(16)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Colors.purple
