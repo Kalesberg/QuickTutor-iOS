@@ -160,6 +160,22 @@ class UserPolicyVC: BaseRegistrationController {
                     } else {
                         Registration.setRegistrationDefaults()
                         AccountService.shared.currentUserType = .learner
+                        
+                        // create QL follwoers
+                        let params = [
+                            "accountId": registrationId
+                        ]
+                        Alamofire.request("\(Constants.API_BASE_URL)/quicklink/followers", method: .post, parameters: params, encoding: URLEncoding.default)
+                            .validate(statusCode: 200..<300)
+                            .responseString(completionHandler: { response in
+                                switch response.result {
+                                case .success(var value):
+                                    value = String(value.filter { !" \n\t\r".contains($0) })
+                                    print(value)
+                                case .failure(let error):
+                                    print(error.localizedDescription ?? "Unknown Error")
+                                }
+                            })
                         self?.navigationController?.pushViewController(TheChoiceVC(), animated: true)
                     }
                 }

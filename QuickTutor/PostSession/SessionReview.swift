@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import FirebaseUI
 import SDWebImage
+import Alamofire
 
 protocol PostSessionInformationDelegate {
 	func didSelectRating(rating: Int)
@@ -337,7 +338,7 @@ class SessionReview : BaseViewController {
 				contentView.nextButton.isEnabled = false
 				let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: Double(PostSessionReviewData.tipAmount))
-				createCharge(cost: Int(costWithTip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
+                createCharge(tutorId: tutor.acctId, cost: Int(costWithTip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
 					if let error = error {
 						AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
 						self.hasPaid = false
@@ -405,29 +406,75 @@ class SessionReview : BaseViewController {
 		}
 	}
 
-	private func createCharge(cost: Int, secondsTaught: Int, completion: @escaping (Error?) -> Void) {
+    private func createCharge(tutorId: String, cost: Int, secondsTaught: Int, completion: @escaping (Error?) -> Void) {
 		let fee = secondsTaught >= 36000 ? Int(Double(cost) * 0.75) + 200 : Int(Double(cost) * 0.10) + 200
 		self.displayLoadingOverlay()
-		Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
-			if let error = error {
-				self.dismissOverlay()
-				completion(error)
-			} else if let customer = customer {
-				guard let card = customer.defaultSource?.stripeID else {
-					self.dismissOverlay()
-					return completion(StripeError.createChargeError)
-				}
-				Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
-					if let error = error {
-						completion(error)
-					} else {
-						completion(nil)
-					}
-					self.dismissOverlay()
-				})
-			}
-		}
+        
+        checkTutor(tutorId: tutorId) { takeRate, error in
+            Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
+                if let error = error {
+                    self.dismissOverlay()
+                    completion(error)
+                } else if let customer = customer {
+                    guard let card = customer.defaultSource?.stripeID else {
+                        self.dismissOverlay()
+                        return completion(StripeError.createChargeError)
+                    }
+                    Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
+                        if let error = error {
+                            completion(error)
+                        } else if let takeRate = takeRate {
+                            createQLPayment(tutorId: tutorId, fee: fee, takeRate: takeRate, completion: completion)
+                        } else {
+                            completion(nil)
+                        }
+                        self.dismissOverlay()
+                    })
+                }
+            }
+        }
 	}
+    
+    private func checkTutor(tutorId: String, completion: @escaping(_ takeRate: Float?, _ error: Error?) -> Void) {
+        let params = [
+            "tutorId": tutorId
+        ]
+        Alamofire.request("\(Constants.API_BASE_URL)/quicklink/check-tutor", method: .post, parameters: params, encoding: URLEncoding.default)
+            .validate()
+            .responseJSON(completionHandler: { response in
+                switch response.result {
+                case .success(let value as [String: Any]):
+                    if 1 == value["status"],
+                        let strTakeRate = value["take_rate"] as? String,
+                        let takeRate = Float(strTakeRate) {
+                        completion(takeRate / 100.0, nil)
+                    } else {
+                        completion(nil, nil)
+                    }
+                case .failure(let error):
+                    completion(nil, error)
+                }
+            })
+    }
+    
+    private func createQLPayment(tutorId: String, fee: Int, takeRate: Float, completion: @escaping(Error?) -> Void) {
+        let params = [
+            "tutorId": tutorId,
+            "ql_cut": fee * takeRate,
+            "qt_cut": fee * (1 - takeRate)
+        ]
+        
+        Alamofire.request("\(Constants.API_BASE_URL)/quicklink/payments", method: .post, parameters: params, encoding: URLEncoding.default)
+            .validate()
+            .responseJSON(completionHandler: { response in
+                switch response.result {
+                case .success:
+                    completion(nil)
+                case .failure(let error):
+                    completion(error)
+                }
+            })
+    }
 }
 extension SessionReview : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

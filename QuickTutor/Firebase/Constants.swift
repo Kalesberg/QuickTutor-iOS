@@ -15,9 +15,11 @@ public struct Constants {
     #if DEVELOPMENT
     static let DATABASE_URL = "https://quicktutor-dev.firebaseio.com/"
     static let STORAGE_URL = "gs://quicktutor-dev.appspot.com"
+    static let API_BASE_URL = "https://us-central1-quicktutor-dev.cloudfunctions.net/api"
     #else
     static let DATABASE_URL = "https://quicktutor-3c23b.firebaseio.com/"
     static let STORAGE_URL = "gs://quicktutor-3c23b.appspot.com"
+    static let API_BASE_URL = "https://us-central1-quicktutor-3c23b.cloudfunctions.net/api"
     #endif
     
     static var showSwipeTutorial : Bool = false
