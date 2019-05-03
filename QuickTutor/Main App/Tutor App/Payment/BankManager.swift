@@ -9,6 +9,7 @@
 
 import Stripe
 import UIKit.UITableView
+import Lottie
 
 class BankManagerView: UIView {
     let subtitleLabel: UILabel = {
@@ -83,6 +84,12 @@ class BankManager: UIViewController {
         view = contentView
     }
 
+    var loadingIndicator: LOTAnimationView = {
+        let view = LOTAnimationView(name: "loadingNew")
+        view.loopAnimation = true
+        return view
+    }()
+    
     var acctId: String! {
         didSet {
             contentView.tableView.reloadData()
@@ -100,8 +107,24 @@ class BankManager: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Payment"
+        setupLoadingIndicator()
         fetchBanks()
         setupDelegates()
+    }
+    
+    func setupLoadingIndicator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        view.addConstraint(NSLayoutConstraint(item: loadingIndicator, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0))
+        view.addConstraint(NSLayoutConstraint(item: loadingIndicator, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
+        loadingIndicator.play()
+        loadingIndicator.contentMode = .scaleAspectFit
+    }
+    
+    func hideLoadingAnimation() {
+        view.sendSubviewToBack(loadingIndicator)
+        loadingIndicator.stop()
+        loadingIndicator.isHidden = true
     }
     
     func fetchBanks() {
@@ -115,6 +138,7 @@ class BankManager: UIViewController {
             } else if let list = list {
                 self.bankList = list.data
             }
+            self.hideLoadingAnimation()
         }
     }
     

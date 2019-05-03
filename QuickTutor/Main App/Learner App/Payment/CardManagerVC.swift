@@ -10,6 +10,7 @@
 
 import Stripe
 import UIKit
+import Lottie
 
 class CardManagerView: UIView {
     let subtitleLabel: UILabel = {
@@ -77,7 +78,13 @@ class CardManagerVC: BaseViewController {
             setCustomer()
         }
     }
-
+    
+    var loadingIndicator: LOTAnimationView = {
+        let view = LOTAnimationView(name: "loadingNew")
+        view.loopAnimation = true
+        return view
+    }()
+    
     var shouldHideNavBarWhenDismissed = false
     var popToMain: Bool = true
     var popBackTo: UIViewController?
@@ -88,6 +95,9 @@ class CardManagerVC: BaseViewController {
     var addCardVC: STPAddCardViewController?
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupLoadingIndicator()
+        
         loadStripe()
 
         contentView.tableView.delegate = self
@@ -100,6 +110,31 @@ class CardManagerVC: BaseViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        contentView.tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(shouldHideNavBarWhenDismissed, animated: false)
+    }
+    
+    func setupLoadingIndicator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        view.addConstraint(NSLayoutConstraint(item: loadingIndicator, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0))
+        view.addConstraint(NSLayoutConstraint(item: loadingIndicator, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
+        loadingIndicator.play()
+        loadingIndicator.contentMode = .scaleAspectFit
+    }
+    
+    func hideLoadingAnimation() {
+        view.sendSubviewToBack(loadingIndicator)
+        loadingIndicator.stop()
+        loadingIndicator.isHidden = true
+    }
+    
     func loadStripe() {
         if let learner = CurrentUser.shared.learner, !learner.customer.isEmpty {
             Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
@@ -108,6 +143,7 @@ class CardManagerVC: BaseViewController {
                 } else if let customer = customer {
                     self.customer = customer
                 }
+                self.hideLoadingAnimation()
             }
         }
     }
@@ -119,16 +155,6 @@ class CardManagerVC: BaseViewController {
         self.defaultCard = defaultCard
 
         contentView.tableView.reloadData()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        contentView.tableView.reloadData()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(shouldHideNavBarWhenDismissed, animated: false)
     }
 
     // TODO: Check if they have any pending sessions.
