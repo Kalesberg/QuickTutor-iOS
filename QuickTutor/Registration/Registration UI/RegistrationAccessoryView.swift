@@ -27,7 +27,8 @@ class RegistrationAccessoryView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.accessoryBackground
+        addDropShadow()
     }
     
     func setupNextButton() {
@@ -35,6 +36,10 @@ class RegistrationAccessoryView: UIView {
         nextButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 30, width: 0, height: 0)
         nextButtonWidthAnchor = nextButton.widthAnchor.constraint(equalToConstant: 120)
         nextButtonWidthAnchor?.isActive = true
+    }
+    
+    func addDropShadow() {
+        layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: -5), radius: 10)
     }
     
     override init(frame: CGRect) {

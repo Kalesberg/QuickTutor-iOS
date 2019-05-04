@@ -43,6 +43,7 @@ struct Colors {
     static let lightBlue = UIColor(hex: "6882BC")
     static let lightGrey = UIColor(hex: "0D0925").withAlphaComponent(0.2)
     static let darkBackground = UIColor(hex: "1B1B27")
+    static let accessoryBackground = UIColor(hex: "1a1a24")
     static let receivedMessage = UIColor(hex:"4C5E8D")
     static let sentMessage = UIColor(hex: "544177")
     static let border = UIColor(hex: "818186")

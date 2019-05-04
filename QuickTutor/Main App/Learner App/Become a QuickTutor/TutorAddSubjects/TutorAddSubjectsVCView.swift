@@ -28,10 +28,6 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     let accessoryView: RegistrationAccessoryView = {
         let view = RegistrationAccessoryView()
-        view.layer.shadowOffset = CGSize(width: 0, height: -5)
-        view.layer.shadowRadius = 5
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.5
         return view
     }()
     
