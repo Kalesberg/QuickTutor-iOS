@@ -57,3 +57,12 @@ class BaseModalXibView: UIView {
         })
     }
 }
+
+@IBDesignable
+class RoundedView: UIView {
+    @IBInspectable var cornerRadius: CGFloat = 5.0 {
+        didSet {
+            self.layer.cornerRadius = cornerRadius
+        }
+    }
+}

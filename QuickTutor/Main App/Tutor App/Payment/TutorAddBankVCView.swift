@@ -94,7 +94,7 @@ class TutorAddBankView: BaseRegistrationView {
     
     func setupInfoButton() {
         addSubview(infoButton)
-        infoButton.anchor(top: nil, left: nil, bottom: titleLabel.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 20, width: 44, height: 44)
+        infoButton.anchor(top: nil, left: titleLabel.rightAnchor, bottom: titleLabel.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 5, paddingRight: 0, width: 44, height: 44)
     }
     
     func setupNameField() {
