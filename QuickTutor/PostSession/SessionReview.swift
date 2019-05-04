@@ -424,7 +424,7 @@ class SessionReview : BaseViewController {
                         if let error = error {
                             completion(error)
                         } else if let takeRate = takeRate {
-                            createQLPayment(tutorId: tutorId, fee: fee, takeRate: takeRate, completion: completion)
+                            self.createQLPayment(tutorId: tutorId, fee: fee, takeRate: takeRate, completion: completion)
                         } else {
                             completion(nil)
                         }
@@ -444,7 +444,8 @@ class SessionReview : BaseViewController {
             .responseJSON(completionHandler: { response in
                 switch response.result {
                 case .success(let value as [String: Any]):
-                    if 1 == value["status"],
+                    if let status = value["status"] as? Int,
+                        status == 1,
                         let strTakeRate = value["take_rate"] as? String,
                         let takeRate = Float(strTakeRate) {
                         completion(takeRate / 100.0, nil)
@@ -453,15 +454,17 @@ class SessionReview : BaseViewController {
                     }
                 case .failure(let error):
                     completion(nil, error)
+                default:
+                    break
                 }
             })
     }
     
     private func createQLPayment(tutorId: String, fee: Int, takeRate: Float, completion: @escaping(Error?) -> Void) {
-        let params = [
+        let params: [String: Any] = [
             "tutorId": tutorId,
-            "ql_cut": fee * takeRate,
-            "qt_cut": fee * (1 - takeRate)
+            "ql_cut": Float(fee) * takeRate,
+            "qt_cut": Float(fee) * (1 - takeRate)
         ]
         
         Alamofire.request("\(Constants.API_BASE_URL)/quicklink/payments", method: .post, parameters: params, encoding: URLEncoding.default)
