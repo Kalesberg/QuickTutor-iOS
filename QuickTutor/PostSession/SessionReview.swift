@@ -338,7 +338,7 @@ class SessionReview : BaseViewController {
 				contentView.nextButton.isEnabled = false
 				let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: Double(PostSessionReviewData.tipAmount))
-                createCharge(tutorId: tutor.acctId, cost: Int(costWithTip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
+                createCharge(tutorId: tutor.acctId, cost: Int(costWithTip * 100)) { (error) in
 					if let error = error {
 						AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
 						self.hasPaid = false
@@ -406,8 +406,8 @@ class SessionReview : BaseViewController {
 		}
 	}
 
-    private func createCharge(tutorId: String, cost: Int, secondsTaught: Int, completion: @escaping (Error?) -> Void) {
-		let fee = secondsTaught >= 36000 ? Int(Double(cost) * 0.75) + 200 : Int(Double(cost) * 0.10) + 200
+    private func createCharge(tutorId: String, cost: Int, completion: @escaping (Error?) -> Void) {
+		let fee = Int(Double(cost) * 0.1) + 200
 		self.displayLoadingOverlay()
         
         checkTutor(tutorId: tutorId) { takeRate, error in
