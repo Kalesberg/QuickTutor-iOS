@@ -90,41 +90,60 @@ class BaseSessionsVC: UIViewController {
         pendingSessions.removeAll()
         upcomingSessions.removeAll()
         pastSessions.removeAll()
+        displayLoadingOverlay()
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
-        Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
-            DataService.shared.getSessionById(snapshot.key, completion: { session in
-                guard session.status != "cancelled" && session.status != "declined" && !session.isExpired() else {
-                    self.attemptReloadOfTable()
+        
+        Database
+            .database()
+            .reference()
+            .child("userSessions")
+            .child(uid)
+            .child(userTypeString)
+            .queryLimited(toLast: 10).observeSingleEvent(of: .value) { snapshot in
+                guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
+                    self.dismissOverlay()
                     return
                 }
                 
-                if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
-                    if !self.pendingSessions.contains(where: { $0.id == session.id }) {
-                        self.pendingSessions.append(session)
-                    }
-                    self.attemptReloadOfTable()
-                    return
+                Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
+                    self.dismissOverlay()
+                    DataService.shared.getSessionById(snapshot.key, completion: { session in
+                        
+                        guard session.status != "cancelled" && session.status != "declined" && !session.isExpired() else {
+                            self.attemptReloadOfTable()
+                            return
+                        }
+                        
+                        if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
+                            if !self.pendingSessions.contains(where: { $0.id == session.id }) {
+                                self.pendingSessions.append(session)
+                            }
+                            self.attemptReloadOfTable()
+                            return
+                        }
+                        
+                        if session.startTime < Date().timeIntervalSince1970 || session.status == "completed" {
+                            if !self.pastSessions.contains(where: { $0.id == session.id }) {
+                                self.pastSessions.insert(session, at: 0)
+                            }
+                            self.attemptReloadOfTable()
+                            return
+                        }
+                        
+                        if session.status == "accepted" {
+                            if !self.upcomingSessions.contains(where: { $0.id == session.id }) {
+                                self.upcomingSessions.append(session)
+                            }
+                            self.attemptReloadOfTable()
+                            return
+                        }
+                    })
                 }
-                
-                if session.startTime < Date().timeIntervalSince1970 || session.status == "completed" {
-                    if !self.pastSessions.contains(where: { $0.id == session.id }) {
-                        self.pastSessions.insert(session, at: 0)
-                    }
-                    self.attemptReloadOfTable()
-                    return
-                }
-                
-                if session.status == "accepted" {
-                    if !self.upcomingSessions.contains(where: { $0.id == session.id }) {
-                        self.upcomingSessions.append(session)
-                    }
-                    self.attemptReloadOfTable()
-                    return
-                }
-            })
         }
-    }
+        }
+        
     
     fileprivate func attemptReloadOfTable() {
         timer?.invalidate()

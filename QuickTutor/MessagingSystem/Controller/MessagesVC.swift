@@ -38,6 +38,7 @@ class MessagesVC: UIViewController {
     func setupViews() {
         setupMainView()
         setupCollectionView()
+        setupEmptyBackground()
 //        setupRefreshControl()
     }
     
@@ -66,6 +67,7 @@ class MessagesVC: UIViewController {
     }
     
     func setupEmptyBackground() {
+        emptyBackround.isHidden = true
         view.addSubview(emptyBackround)
         emptyBackround.anchor(top: collectionView.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
         emptyBackround.setupForCurrentUserType()
@@ -102,26 +104,57 @@ class MessagesVC: UIViewController {
     
     var metaDataDictionary = [String: ConversationMetaData]()
     @objc func fetchConversations() {
-        postOverlayDisplayNotification()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            self.postOverlayDismissalNotfication()
-        }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
-        setupEmptyBackground()
-        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
-            self.postOverlayDismissalNotfication()
-            let userId = snapshot.key
-            
-            Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
-                guard let metaData = snapshot.value as? [String: Any] else { return }
-                guard let messageId = metaData["lastMessageId"] as? String else { return }
-                self.emptyBackround.removeFromSuperview()
-                self.collectionView.alwaysBounceVertical = true
-                let conversationMetaData = ConversationMetaData(dictionary: metaData)
-                self.metaDataDictionary[userId] = conversationMetaData
-                self.getMessageById(messageId)
-            })
+        displayLoadingOverlay()
+        
+        Database
+            .database()
+            .reference()
+            .child("conversationMetaData")
+            .child(uid)
+            .child(userTypeString)
+            .queryLimited(toLast: 100).observeSingleEvent(of: .value) { (snapshot) in
+                guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
+                    self.dismissOverlay()
+                    self.emptyBackround.isHidden = false
+                    return
+                }
+                
+                var index = -1
+                var hasMessage = false
+                for child in snap {
+                    index += 1;
+                    guard let meta = child.value as? [String: Any] else {
+                        if index == snap.count - 1 {
+                            self.dismissOverlay()
+                            self.emptyBackround.isHidden = false
+                        }
+                        return
+                    }
+                    
+                    if let _ = meta["lastMessageId"] as? String {
+                        hasMessage = true
+                        break
+                    }
+                }
+                
+                self.emptyBackround.isHidden = hasMessage
+                
+                Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
+                    self.dismissOverlay()
+                    let userId = snapshot.key
+                    Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
+                        guard let metaData = snapshot.value as? [String: Any] else { return }
+                        guard let messageId = metaData["lastMessageId"] as? String else {
+                            return
+                        }
+                        self.collectionView.alwaysBounceVertical = true
+                        let conversationMetaData = ConversationMetaData(dictionary: metaData)
+                        self.metaDataDictionary[userId] = conversationMetaData
+                        self.getMessageById(messageId)
+                    })
+                }
         }
     }
     
@@ -153,6 +186,8 @@ class MessagesVC: UIViewController {
     @objc func handleReloadTable() {
         self.messages = Array(self.conversationsDictionary.values)
         self.messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
+        
+        self.emptyBackround.isHidden = self.messages.count != 0
         
         DispatchQueue.main.async(execute: {
             self.collectionView.reloadData()
@@ -222,7 +257,6 @@ extension MessagesVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        emptyBackround.isHidden = !messages.isEmpty
         return messages.count
     }
     
@@ -313,7 +347,9 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         conversationRef.childByAutoId().removeValue()
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(id).removeValue()
         messages.remove(at: indexPath.item)
+        self.emptyBackround.isHidden = self.messages.count != 0
         conversationsDictionary.removeValue(forKey: id)
+        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
             self.collectionView.reloadData()
         }

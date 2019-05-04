@@ -166,12 +166,14 @@ class QTCloseAccountSubmitViewController: UIViewController {
     
     private func removeLearner() {
         guard let currentUser = Auth.auth().currentUser else { return }
-        
+        displayLoadingOverlay()
         FirebaseData.manager.removeLearnerAccount(uid: CurrentUser.shared.learner.uid, reason: reason, { error in
             if let error = error {
+                self.dismissOverlay()
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else {
                 currentUser.delete { error in
+                    self.dismissOverlay()
                     if let error = error {
                         let errorCode = AuthErrorCode(rawValue: error._code)
                         if errorCode == AuthErrorCode.requiresRecentLogin {
@@ -189,11 +191,10 @@ class QTCloseAccountSubmitViewController: UIViewController {
         displayLoadingOverlay()
         getTutorAccount { subcategories in
             FirebaseData.manager.removeTutorAccount(uid: CurrentUser.shared.learner.uid, reason: self.reason, subcategory: subcategories, message: self.commentTextView.text ?? "", { error in
+                self.dismissOverlay()
                 if let error = error {
-                    self.dismissOverlay()
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else {
-                    self.dismissOverlay()
                     CurrentUser.shared.learner.isTutor = false
                     self.navigationController?.pushViewController(LearnerMainPageVC(), animated: true)
                 }
@@ -203,12 +204,15 @@ class QTCloseAccountSubmitViewController: UIViewController {
     
     private func removeBothAccounts() {
         guard let currentUser = Auth.auth().currentUser else { return }
+        displayLoadingOverlay()
         getTutorAccount({ subcategories in
             FirebaseData.manager.removeBothAccounts(uid: CurrentUser.shared.learner.uid, reason: self.reason, subcategory: subcategories, message: self.commentTextView.text ?? "", { error in
                 if let error = error {
+                    self.dismissOverlay()
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else {
                     currentUser.delete { error in
+                        self.dismissOverlay()
                         if let error = error {
                             let errorCode = AuthErrorCode(rawValue: error._code)
                             if errorCode == AuthErrorCode.requiresRecentLogin {
