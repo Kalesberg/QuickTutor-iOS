@@ -365,7 +365,7 @@ extension BaseSessionsVC: CustomModalDelegate {
     
     func handleCancel(id: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("sessions").child(id).child("status").setValue("cancelled")
+        Database.database().reference().child("sessions").child(id).updateChildValues(["status" : "cancelled", "cancelledById": uid])
         DataService.shared.getSessionById(id) { session in
             let chatPartnerId = session.partnerId()
             Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
