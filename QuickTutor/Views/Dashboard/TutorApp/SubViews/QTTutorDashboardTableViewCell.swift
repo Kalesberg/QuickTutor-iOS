@@ -76,7 +76,19 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         lineChartView.doubleTapToZoomEnabled = false
         lineChartView.highlightPerTapEnabled = false
         lineChartView.rightAxis.enabled = false
-        lineChartView.leftAxis.enabled = false
+        
+        lineChartView.leftAxis.enabled = true
+        let limitLine = ChartLimitLine(limit: 0)
+        limitLine.lineWidth = 2
+        limitLine.lineDashLengths = [5, 5]
+        limitLine.lineColor = Colors.backgroundDark
+        
+        let leftAxis = lineChartView.leftAxis
+        leftAxis.addLimitLine(limitLine)
+        leftAxis.drawAxisLineEnabled = false
+        leftAxis.drawGridLinesEnabled = false
+        leftAxis.drawLabelsEnabled = false
+        
         lineChartView.xAxis.enabled = false
         lineChartView.legend.form = .none
         lineChartView.dragXEnabled = true
@@ -86,6 +98,9 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         lineChartView.noDataFont = UIFont.qtRegularFont(size: 12)
         lineChartView.noDataTextColor = UIColor.qtAccentColor
         lineChartView.noDataText = "There is no data available."
+        
+        
+        
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(onLineChartViewPanGestureRecognized(_:)))
         if let panGesture = panGesture {
             panGesture.delegate = self
