@@ -27,7 +27,7 @@ platform :ios do
     get_push_certificate
     build_app(scheme: "QuickTutor")
     upload_to_app_store
-    upload_symbols_to_crashlytics(dsym_path: "./App.dSYM.zip")
+    upload_symbols_to_crashlytics(gsp_path: "QuickTutor/New Group/GoogleService-Info.plist")
   end
 
 end
