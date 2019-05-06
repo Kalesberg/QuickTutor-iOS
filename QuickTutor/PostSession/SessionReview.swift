@@ -423,7 +423,8 @@ class SessionReview : BaseViewController {
                     Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
                         if let error = error {
                             completion(error)
-                        } else if let takeRate = takeRate {
+                        } else if let takeRate = takeRate,
+                            let paypal = paypal {
                             self.createQLPayment(tutorId: tutorId, fee: fee, takeRate: takeRate, paypal: paypal, completion: completion)
                         } else {
                             completion(nil)
