@@ -34,6 +34,16 @@ class TutorPreferencesVC: BaseRegistrationController {
         loadPrefences()
         progressView.setProgress(1/6)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
 
     func setupViews() {
         view.addSubview(scrollView)
