@@ -75,7 +75,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         searchBarContainer.mockLeftViewButton.isHidden = false
         searchBarContainer.filtersButton.isHidden = true
         if TutorRegistrationService.shared.subjects.count > 0 {
-            showSelectedSubjectsCVIfNeeded()
+            showSelectedSubjectsCVIfNeeded(animated: false)
             updateAccessoryViewTextLabel()
             selectedSubjectsCV.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
         }
@@ -129,7 +129,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     
     @objc func handleSubjectAdded(_ notification: Notification) {
-        showSelectedSubjectsCVIfNeeded()
+        showSelectedSubjectsCVIfNeeded(animated: true)
         updateAccessoryViewTextLabel()
         selectedSubjectsCV.reloadData()
         let indexPath = IndexPath(item: selectedSubjectsCV.numberOfItems(inSection: 0) - 1, section: 0)
@@ -141,11 +141,17 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         selectedSubjectsCV.reloadData()
     }
     
-    func showSelectedSubjectsCVIfNeeded() {
+    func showSelectedSubjectsCVIfNeeded(animated: Bool) {
         guard selectedSubjectsHeightAnchor?.constant != 50 else { return }
         selectedSubjectsHeightAnchor?.constant = 50
         collectionViewTopAnchor?.constant = 60
-        layoutIfNeeded()
+        if animated {
+            UIView.animate(withDuration: 0.25) {
+                self.layoutIfNeeded()
+            }
+        } else {
+            layoutIfNeeded()
+        }
     }
     
     func updateAccessoryViewTextLabel() {

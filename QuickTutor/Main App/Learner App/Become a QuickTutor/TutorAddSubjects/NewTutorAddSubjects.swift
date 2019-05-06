@@ -31,6 +31,7 @@ class TutorAddSubjectsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDelegates()
+        setupObservers()
         contentView.hideAccessoryView = isViewing
         TutorRegistrationService.shared.shouldSaveSubjects = isViewing
     }
@@ -47,6 +48,19 @@ class TutorAddSubjectsVC: UIViewController {
         contentView.searchBarContainer.searchBar.delegate = self
         contentView.accessoryView.nextButton.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
     }
+    
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextField.textDidChangeNotification, object: nil)
+    }
+    
+    
+    @objc private func handleTextChange() {
+        let sender = contentView.searchBarContainer.searchBar
+        if sender.text == nil || sender.text == "" {
+            removeChild(resignFirstResponder: false)
+        }
+    }
+    
     
     @objc func handleNext() {
         navigationController?.pushViewController(TutorPreferencesVC(), animated: true)
@@ -100,17 +114,18 @@ extension TutorAddSubjectsVC: CustomSearchBarDelegate {
     }
     
     func customSearchBar(_ searchBar: PaddedTextField, shouldEndEditing: Bool) {
-        removeChild()
+        removeChild(resignFirstResponder: true)
     }
     
     func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField) {
         navigationController?.popViewController(animated: true)
     }
     
-    func removeChild() {
+    func removeChild(resignFirstResponder: Bool) {
         child.willMove(toParent: nil)
         child.view.removeFromSuperview()
         child.removeFromParent()
+        guard resignFirstResponder else { return }
         contentView.searchBarContainer.searchBar.resignFirstResponder()
     }
 }
@@ -134,7 +149,7 @@ extension TutorAddSubjectsVC: UITextFieldDelegate {
         child.isBeingControlled = true
         addChild(child)
         contentView.addSubview(child.view)
-        child.view.anchor(top: contentView.searchBarContainer.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        child.view.anchor(top: contentView.selectedSubjectsCV.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         child.didMove(toParent: self)
     }
 }
