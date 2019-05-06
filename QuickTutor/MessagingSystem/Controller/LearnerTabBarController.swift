@@ -29,6 +29,10 @@ class LearnerTabBarController: BaseTabBarController {
             vc.view.backgroundColor = Colors.darkBackground
             vc.navigationBar.isTranslucent = false
             vc.navigationBar.isOpaque = false
+            vc.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: Fonts.createBoldSize(18)]
+            if #available(iOS 11.0, *) {
+                vc.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: Fonts.createBoldSize(34)]
+            }
         }
         viewControllers = controllers
     }

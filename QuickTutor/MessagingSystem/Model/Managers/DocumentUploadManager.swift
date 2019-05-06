@@ -30,7 +30,7 @@ class DocumentUploadManager: NSObject, QLPreviewControllerDataSource {
                 self.previewItem = fileLocationURL! as NSURL
                 // Display file
                 DispatchQueue.main.async {
-                    let previewController = CustomPreviewController()
+                    let previewController = QLPreviewController()
                     previewController.navigationController?.view.backgroundColor = Colors.darkBackground
                     previewController.dataSource = self
                     viewController.present(previewController, animated: true, completion: nil)
@@ -129,17 +129,5 @@ extension DocumentUploadManager: UIDocumentPickerDelegate {
         } catch let error {
             print("Data error", error)
         }
-    }
-}
-
-class CustomPreviewController: QLPreviewController {
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.font: Fonts.createBoldSize(18)]
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: Fonts.createBoldSize(18)]
     }
 }
