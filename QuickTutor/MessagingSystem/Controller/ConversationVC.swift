@@ -503,7 +503,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @objc func showCardManager() {
-        let next = CardManagerVC()
+        let next = CardManagerViewController()
         navigationController?.pushViewController(next, animated: true)
     }
 

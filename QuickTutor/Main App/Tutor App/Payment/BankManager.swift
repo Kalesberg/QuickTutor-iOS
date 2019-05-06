@@ -29,7 +29,7 @@ class BankManagerView: UIView {
         tableView.separatorStyle = .none
         tableView.backgroundColor = Colors.darkBackground
         tableView.register(BankManagerTableViewCell.self, forCellReuseIdentifier: "bankCell")
-        tableView.register(AddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
+        tableView.register(BankAddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
         return tableView
     }()
 
@@ -210,7 +210,7 @@ extension BankManager: UITableViewDelegate, UITableViewDataSource {
 
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "addCardCell", for: indexPath) as! AddCardTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "addCardCell", for: indexPath) as! BankAddCardTableViewCell
 
             cell.addCard.text = "Add bank account"
             cell.didTapAddCard = {
@@ -241,7 +241,7 @@ extension BankManager: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? {
-        let view = AddCardHeaderView()
+        let view = BankAddCardHeaderView()
         view.addCard.text = "Banks"
         return view
     }

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Black.ttf">
+            <string>Lato-Black</string>
+        </array>
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cardCell" id="KGk-i7-Jjw" customClass="PaymentCardTableViewCell" customModule="QuickTutor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="63.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-Q7-4tF" customClass="BorderedPaymentCardView" customModule="QuickTutor" customModuleProvider="target">
+                        <rect key="frame" x="20" y="10" width="280" height="44"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b0M-zl-j6j">
+                                <rect key="frame" x="15" y="6" width="55" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="55" id="pGx-5I-Foj"/>
+                                    <constraint firstAttribute="height" constant="28" id="uFb-km-bDf"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="•••• 1234" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGS-ag-Pgt">
+                                <rect key="frame" x="80" y="15" width="58" height="14"/>
+                                <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6WA-87-TQl" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
+                                <rect key="frame" x="210" y="11" width="55" height="22"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="55" id="uRs-UA-ADK"/>
+                                    <constraint firstAttribute="height" constant="22" id="wb3-Q8-pLU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="10"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Default">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="defaultButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="xJq-es-XJe"/>
+                                    <action selector="touchCancelOnButton:" destination="KGk-i7-Jjw" eventType="touchCancel" id="rCK-KO-cSP"/>
+                                    <action selector="touchDownOnButton:" destination="KGk-i7-Jjw" eventType="touchDown" id="wyM-nt-hO0"/>
+                                    <action selector="touchDragOutsideButton:" destination="KGk-i7-Jjw" eventType="touchDragOutside" id="fMM-G8-god"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="6WA-87-TQl" firstAttribute="centerY" secondItem="uPU-Q7-4tF" secondAttribute="centerY" id="FvM-oR-ow4"/>
+                            <constraint firstAttribute="trailing" secondItem="6WA-87-TQl" secondAttribute="trailing" constant="15" id="JIo-If-mjF"/>
+                            <constraint firstItem="b0M-zl-j6j" firstAttribute="centerY" secondItem="uPU-Q7-4tF" secondAttribute="centerY" constant="-2" id="Khn-MZ-JM3"/>
+                            <constraint firstAttribute="height" constant="44" id="LHj-wb-dEK"/>
+                            <constraint firstItem="MGS-ag-Pgt" firstAttribute="leading" secondItem="b0M-zl-j6j" secondAttribute="trailing" constant="10" id="k5V-Ds-Diu"/>
+                            <constraint firstItem="b0M-zl-j6j" firstAttribute="leading" secondItem="uPU-Q7-4tF" secondAttribute="leading" constant="15" id="mcw-rx-pzm"/>
+                            <constraint firstItem="MGS-ag-Pgt" firstAttribute="centerY" secondItem="uPU-Q7-4tF" secondAttribute="centerY" id="yaT-Qh-qyy"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="uPU-Q7-4tF" secondAttribute="trailing" constant="20" id="1Pn-IQ-bm4"/>
+                    <constraint firstItem="uPU-Q7-4tF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="21H-ks-J3Z"/>
+                    <constraint firstItem="uPU-Q7-4tF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zeN-xw-7px"/>
+                </constraints>
+                <userDefinedRuntimeAttributes>
+                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                        <color key="value" red="0.17254901960784313" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </userDefinedRuntimeAttribute>
+                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                        <real key="value" value="2"/>
+                    </userDefinedRuntimeAttribute>
+                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                        <real key="value" value="3"/>
+                    </userDefinedRuntimeAttribute>
+                </userDefinedRuntimeAttributes>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="brandImage" destination="b0M-zl-j6j" id="64D-cF-x0g"/>
+                <outlet property="defaultButton" destination="6WA-87-TQl" id="FPd-CH-bLL"/>
+                <outlet property="lastFourLabel" destination="MGS-ag-Pgt" id="brt-IU-X3E"/>
+            </connections>
+            <point key="canvasLocation" x="-330.43478260869568" y="32.8125"/>
+        </tableViewCell>
+    </objects>
+</document>
