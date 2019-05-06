@@ -137,10 +137,18 @@ class Stripe {
         #else
         let requestString = "https://aqueous-taiga-32557.herokuapp.com/charge.php"
         #endif
-		let params : [String : Any] = ["acct" : acctId, "customer" : customerId, "source": sourceId, "fee" : fee, "amount" : amount, "description" : description]
+        
+		let params: [String : Any] = [
+            "acct" : acctId,
+            "customer" : customerId,
+            "source": sourceId,
+            "fee" : fee,
+            "amount" : Int(Float(amount + 30) / 0.971 + 0.5),
+            "description" : description
+        ]
 		
 		Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
-			.validate(statusCode: 200..<300)
+			.validate()
 			.responseString(completionHandler: { (response) in
 				switch response.result {
 				case .success:
