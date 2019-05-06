@@ -27,8 +27,8 @@ class ProfileVC: UIViewController {
         return cv
     }()
     
-    let cellTitles = ["Payment", "Settings", "Legal", "Help", "Leave a review", "Past sessions"]
-    let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "thumbsUpIcon"), UIImage(named: "sessionsTabBarIcon")]
+    let cellTitles = ["Payment", "Settings", "Legal", "Help", "Give us feedback", "Past sessions"]
+    let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "feedbackIcon"), UIImage(named: "sessionsTabBarIcon")]
     
     struct Dimension {
         let header: CGFloat = 190
@@ -153,7 +153,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         case 3:
             showHelp()
         case 4:
-            showRatingView()
+            showFeedback()
         case 5:
             showPastSessions()
         case 6:
@@ -223,7 +223,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["contact@quicktutor.com"])
+            mail.setToRecipients(["userstories@quicktutor.com"])
             mail.setMessageBody("<p>Thanks for reaching out. Please leave your feedback below:\n</p>", isHTML: true)
             present(mail, animated: true)
         }
