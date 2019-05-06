@@ -73,6 +73,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         searchBarContainer.cancelEditingButton.setTitle("Done", for: .normal)
         setupObservers()
         searchBarContainer.mockLeftViewButton.isHidden = false
+        searchBarContainer.filtersButton.isHidden = true
         if TutorRegistrationService.shared.subjects.count > 0 {
             showSelectedSubjectsCVIfNeeded()
             updateAccessoryViewTextLabel()
