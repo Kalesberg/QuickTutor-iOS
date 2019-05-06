@@ -179,7 +179,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func showPayment() {
-        let vc = AccountService.shared.currentUserType == .learner ? CardManagerVC() : BankManager()
+        let vc = AccountService.shared.currentUserType == .learner ? CardManagerViewController() : BankManager()
         navigationItem.hidesBackButton = true
         navigationController?.pushViewController(vc, animated: true)
     }

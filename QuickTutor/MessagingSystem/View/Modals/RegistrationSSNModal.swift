@@ -29,12 +29,4 @@ class RegistrationSSNModal: BaseModalXibView {
         setParagraphStyle(label: trustLabel2)
         setParagraphStyle(label: trustLabel3)
     }
-    
-    func setParagraphStyle(label: UILabel?) {
-        let attributedString = NSMutableAttributedString(string: label?.text ?? "")
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 2
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-        label?.attributedText = attributedString
-    }
 }

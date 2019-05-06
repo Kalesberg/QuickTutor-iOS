@@ -359,7 +359,7 @@ extension BaseSessionsVC: CustomModalDelegate {
     func handleNevermind() {}
     
     func handleConfirm() {
-        let next = CardManagerVC()
+        let next = CardManagerViewController()
         navigationController?.pushViewController(next, animated: true)
     }
     

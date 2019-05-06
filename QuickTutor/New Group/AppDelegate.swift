@@ -162,7 +162,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     @objc func showCardManager() {
         if AccountService.shared.currentUserType == .learner {
-            let vc = CardManagerVC()
+            let vc = CardManagerViewController()
             vc.shouldHideNavBarWhenDismissed = true
             navigationController.pushViewController(vc, animated: false)
         }
