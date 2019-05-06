@@ -3903,7 +3903,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
@@ -3968,7 +3968,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		104A5895F7E571EC186C4022 /* [CP] Copy Pods Resources */ = {
@@ -3979,7 +3979,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh",
 				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -3990,7 +3990,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		1EC0E720E3BEB99E882392F6 /* [CP] Check Pods Manifest.lock */ = {
@@ -4045,7 +4045,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh",
 				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -4056,7 +4056,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		569F18FE223554FD00820A20 /* ShellScript */ = {
@@ -4117,7 +4117,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
@@ -4182,7 +4182,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FB90A4856D39D4C8EFED45F9 /* [CP] Check Pods Manifest.lock */ = {
