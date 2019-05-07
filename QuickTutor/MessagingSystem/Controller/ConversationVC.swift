@@ -191,7 +191,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         super.viewDidLoad()
         setupViews()
         messagesCollection.layoutTypingLabelIfNeeded()
-        setupKeyboardObservers()
         studentKeyboardAccessory.chatView.delegate = self
         listenForSessionUpdates()
         loadAWUsers()
@@ -265,8 +264,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupKeyboardObservers()
         navigationController?.setNavigationBarHidden(false, animated: false)
-        
         CardService.shared.checkForPaymentMethod()
     }
     
