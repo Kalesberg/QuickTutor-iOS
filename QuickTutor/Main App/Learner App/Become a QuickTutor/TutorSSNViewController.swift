@@ -147,10 +147,6 @@ extension TutorSSNViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return false
     }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.becomeFirstResponder()
-    }
 }
 
 @IBDesignable
