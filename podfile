@@ -41,7 +41,8 @@ abstract_target 'QuickTutorApp' do
         pod 'Fabric'
         pod 'Crashlytics'
         pod 'Firebase/Performance'
-
+        pod 'Branch'
+        
         pod 'SwipeCellKit'
         pod 'Imaginary'
         pod 'IQKeyboardManager'
