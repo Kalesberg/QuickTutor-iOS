@@ -20,9 +20,11 @@ class StudentKeyboardAccessory: KeyboardAccessory {
 
     let actionButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "actionButtonIcon"), for: .normal)
+        button.setImage(UIImage(named: "actionButtonIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.applyDefaultShadow()
         button.adjustsImageWhenDisabled = true
+        button.imageView?.contentMode = .center
+        button.imageView?.tintColor = .white
         return button
     }()
 
@@ -57,8 +59,8 @@ class StudentKeyboardAccessory: KeyboardAccessory {
     override func setupButtonStackView() {
         super.setupButtonStackView()
         buttonStackView.insertArrangedSubview(actionButton, at: 0)
-        addConstraint(NSLayoutConstraint(item: actionButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 15))
-        addConstraint(NSLayoutConstraint(item: actionButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 15))
+        addConstraint(NSLayoutConstraint(item: actionButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 25))
+        addConstraint(NSLayoutConstraint(item: actionButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 25))
     }
     
     private func setupActionView() {
@@ -95,8 +97,8 @@ class StudentKeyboardAccessory: KeyboardAccessory {
             self.layoutIfNeeded()
         }
         animator.startAnimation()
+        self.actionButton.imageView?.tintColor = Colors.purple
         UIViewPropertyAnimator(duration: 0.15, curve: .linear, animations: {
-//            self.actionButton.transform = self.actionButton.transform.rotated(by: (CGFloat.pi / 4) * 3)
             self.layoutIfNeeded()
         }).startAnimation()
         actionViewShown = true
@@ -110,8 +112,8 @@ class StudentKeyboardAccessory: KeyboardAccessory {
             self.backgroundBlurView.alpha = 0
             self.layoutIfNeeded()
         }).startAnimation()
+        self.actionButton.imageView?.tintColor = .white
         UIViewPropertyAnimator(duration: 0.15, curve: .linear, animations: {
-//            self.actionButton.transform = self.actionButton.transform.rotated(by: (CGFloat.pi / 4) * -3)
             self.layoutIfNeeded()
         }).startAnimation()
         actionViewShown = false

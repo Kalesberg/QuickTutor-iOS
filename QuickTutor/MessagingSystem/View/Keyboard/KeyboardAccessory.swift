@@ -70,13 +70,13 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         let view = UIStackView()
         view.axis = .horizontal
         view.alignment = .center
-        view.spacing = 20
+        view.spacing = 5
         return view
     }()
     
     let uploadFileButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "fileIcon"), for: .normal)
+        button.setImage(UIImage(named: "fileIcon-1"), for: .normal)
         button.contentMode = .scaleAspectFit
         button.tintColor = Colors.lightGrey
         return button
@@ -129,8 +129,8 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     
     func setupButtonStackView() {
         leftAccessoryView.addSubview(buttonStackView)
-        addConstraint(NSLayoutConstraint(item: uploadFileButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 15))
-        addConstraint(NSLayoutConstraint(item: uploadFileButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 15))
+        addConstraint(NSLayoutConstraint(item: uploadFileButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 25))
+        addConstraint(NSLayoutConstraint(item: uploadFileButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 25))
         buttonStackView.anchor(top: leftAccessoryView.topAnchor, left: leftAccessoryView.leftAnchor, bottom: leftAccessoryView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 34)
         buttonStackView.addArrangedSubview(uploadFileButton)
         uploadFileButton.addTarget(self, action: #selector(uploadFile), for: .touchUpInside)
