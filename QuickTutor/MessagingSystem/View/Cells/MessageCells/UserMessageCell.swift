@@ -66,6 +66,7 @@ class UserMessageCell: BaseMessageCell {
         tv.textColor = .white
         tv.isUserInteractionEnabled = true
         tv.isEditable = false
+        tv.isScrollEnabled = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.font = Fonts.createSize(14)
         tv.backgroundColor = .clear

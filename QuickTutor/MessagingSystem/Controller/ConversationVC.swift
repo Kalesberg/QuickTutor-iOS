@@ -595,7 +595,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         }
         
         if message.connectionRequestId != nil {
-            height += 35
+            height += 55
         }
         
         if message.documenUrl != nil {

@@ -41,7 +41,8 @@ class ConnectionRequestCell: UserMessageCell {
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         userMessage = message
-        let height = message.text?.estimateFrameForFontSize(14).height ?? 40 + 8
+        let textHeight = message.text?.estimateFrameForFontSize(14).height ?? 40
+        let height = textHeight + 20
         updateMockBubbleViewHeight(height)
         guard let requestId = message.connectionRequestId else { return }
         connectionRequestId = requestId
