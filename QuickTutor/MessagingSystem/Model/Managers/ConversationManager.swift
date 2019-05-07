@@ -67,7 +67,7 @@ class ConversationManager {
             
             for child in children {
                 DataService.shared.getMessageById(child.key, completion: { message in
-                                        if let lastMessage = previousMessages.last as? UserMessage, let newMessage = message as? UserMessage,  lastMessage.timeStamp.doubleValue - newMessage.timeStamp.doubleValue < -3600 {
+                    if let lastMessage = previousMessages.last as? UserMessage, let newMessage = message as? UserMessage,  lastMessage.timeStamp.doubleValue - newMessage.timeStamp.doubleValue < -3600 {
                         print("Messages are an hour apart")
                         let timestampDate = Date(timeIntervalSince1970: newMessage.timeStamp.doubleValue)
                         let text = timestampDate.formatRelativeStringForTimeSeparator()

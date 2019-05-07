@@ -669,16 +669,20 @@ class QTProfileViewController: UIViewController {
         guard let connectionRef = connectionRef else { return }
         connectionHandle = connectionRef.observe(.value) { snapshot in
             guard let connected = snapshot.value as? Bool else {
-                // Enable the connect button
-                self.connectButton.isEnabled = true
-                if self.conversationManager.messages.count > 0 {
-                    self.connectionStatus = .pending
-                    self.connectButton.setTitle("REQUEST PENDING", for: .normal)
-                } else {
-                    self.connectionStatus = .none
-                    self.connectButton.setTitle("CONNECT", for: .normal)
-                }
-                
+                self.checkConnectionRequestStatus(userId: uid,
+                                                  userType: currentUserType,
+                                                  partnerId: id,
+                                                  completion: { connectionStatus in
+                                                    // Enable the connect button
+                                                    self.connectButton.isEnabled = true
+                                                    if connectionStatus == "pending" {
+                                                        self.connectionStatus = .pending
+                                                        self.connectButton.setTitle("REQUEST PENDING", for: .normal)
+                                                    } else {
+                                                        self.connectionStatus = .none
+                                                        self.connectButton.setTitle("CONNECT", for: .normal)
+                                                    }
+                })
                 return
             }
             // Enable the connect button
@@ -687,15 +691,71 @@ class QTProfileViewController: UIViewController {
                 self.connectionStatus = .connected
                 self.connectButton.setTitle("REQUEST SESSION", for: .normal)
             } else {
-                guard self.conversationManager.messages.count > 0 else {
-                    self.connectionStatus = .none
-                    self.connectButton.setTitle("CONNECT", for: .normal)
-                    return
-                }
-                self.connectionStatus = .pending
-                self.connectButton.setTitle("REQUEST PENDING", for: .normal)
+                self.checkConnectionRequestStatus(userId: uid,
+                                                  userType: currentUserType,
+                                                  partnerId: id,
+                                                  completion: { connectionStatus in
+                                                    // Enable the connect button
+                                                    self.connectButton.isEnabled = true
+                                                    if connectionStatus == "pending" {
+                                                        self.connectionStatus = .pending
+                                                        self.connectButton.setTitle("REQUEST PENDING", for: .normal)
+                                                    } else {
+                                                        self.connectionStatus = .none
+                                                        self.connectButton.setTitle("CONNECT", for: .normal)
+                                                    }
+                })
             }
         }
+    }
+    
+    func checkConnectionRequestStatus(userId: String, userType: String, partnerId: String, completion: ((String) -> ())?) {
+        
+        Database.database().reference()
+            .child("conversations")
+            .child(userId)
+            .child(userType)
+            .child(partnerId)
+            .queryLimited(toLast: 1)
+            .observeSingleEvent(of: .value, with: { snapshot1 in
+                guard let children = snapshot1.children.allObjects as? [DataSnapshot], let child = children.first else {
+                    if let completion = completion {
+                        completion("")
+                    }
+                    return
+                }
+                
+                DataService.shared.getMessageById(child.key
+                    , completion: { message in
+                        guard let requestId = message.connectionRequestId, message.type == .connectionRequest else {
+                            if let completion = completion {
+                                completion("")
+                            }
+                            return
+                        }
+                        
+                        // Check connection request.
+                        Database.database().reference().child("connectionRequests").child(requestId).observeSingleEvent(of: .value) { snapshot in
+                            guard let value = snapshot.value as? [String: Any] else {
+                                if let completion = completion {
+                                    completion("")
+                                }
+                                return
+                            }
+                            guard let status = value["status"] as? String else {
+                                if let completion = completion {
+                                    completion("")
+                                }
+                                return
+                            }
+                            
+                            if let completion = completion {
+                                completion(status)
+                            }
+                        }
+                })
+                
+            })
     }
 }
 
