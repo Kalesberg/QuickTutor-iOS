@@ -72,10 +72,6 @@ class CardManagerViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    func updateUI() {
-        toggleAddPaymentView(hasPayment: CurrentUser.shared.learner.hasPayment)
-    }
-    
     func toggleAddPaymentView(hasPayment hide: Bool) {
         addPaymentView.isHidden = hide
         feeInfoView.isHidden = hide
@@ -127,7 +123,9 @@ class CardManagerViewController: UIViewController {
                     self.customer = customer
                 }
                 self.hideLoadingAnimation()
-                self.updateUI()
+                if let cards = customer?.sources as? [STPCard] {
+                    self.toggleAddPaymentView(hasPayment: !cards.isEmpty)
+                }
             }
         }
     }
@@ -186,7 +184,7 @@ class CardManagerViewController: UIViewController {
                 CurrentUser.shared.learner.hasPayment = !self.cards.isEmpty
             }
             self.tableView.isUserInteractionEnabled = true
-            self.updateUI()
+            self.toggleAddPaymentView(hasPayment: !self.cards.isEmpty)
             self.hideLoadingAnimation()
         }
     }
