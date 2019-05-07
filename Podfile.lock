@@ -7,6 +7,9 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - Branch (0.27.0):
+    - Branch/Core (= 0.27.0)
+  - Branch/Core (0.27.0)
   - Cache (5.2.0)
   - Charts (3.2.2):
     - Charts/Core (= 3.2.2)
@@ -179,6 +182,7 @@ PODS:
 DEPENDENCIES:
   - AccountKit
   - Alamofire (~> 4.5)
+  - Branch
   - Charts (~> 3.2.1)
   - Crashlytics
   - CropViewController
@@ -213,6 +217,7 @@ SPEC REPOS:
     - AccountKit
     - Alamofire
     - Bolts
+    - Branch
     - Cache
     - Charts
     - Crashlytics
@@ -272,6 +277,7 @@ SPEC CHECKSUMS:
   AccountKit: de43ca1f9d3b8227a9cdc128d4f0b5366075c861
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  Branch: e4f2a9c361ebdc960c823d16014c187bf19b508c
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
@@ -319,6 +325,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: 935ca28c187ec6e1ffb2b578cf8ddca842bfdcbb
   TwilioVideo: e4bd16d69c395fa093636bc9c09a654570578a32
 
-PODFILE CHECKSUM: 3b6c9ef90e67fffda127ee4988be405036cde690
+PODFILE CHECKSUM: 8c31ae9db12824264ea8f95b51e2d38da1e0dd49
 
 COCOAPODS: 1.6.1

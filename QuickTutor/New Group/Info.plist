@@ -23,6 +23,13 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>quicktutor.app.link</string>
+				<string>quicktutor-alternate.app.link</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
@@ -121,5 +128,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>branch_app_domain</key>
+	<string>quicktutor.app.link</string>
+	<key>branch_key</key>
+	<string>key_live_kmGCooWXBX1qKSwBOKNqYhjiFBbYRuT9</string>
 </dict>
 </plist>
