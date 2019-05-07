@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseStorage
 import FirebaseAuth
+import FirebaseDatabase
 import CoreLocation
 
 enum QTProfileViewType {
@@ -82,6 +83,8 @@ class QTProfileViewController: UIViewController {
     var actionSheet: FileReportActionsheet?
     var conversationManager = ConversationManager()
     var reviewsHeight: CGFloat = 0.0
+    var connectionRef: DatabaseReference?
+    var connectionHandle: DatabaseHandle?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -114,6 +117,10 @@ class QTProfileViewController: UIViewController {
         self.locationManager.stopUpdatingLocation()
         if !isPresentedFromSessionScreen {
             navigationController?.setNavigationBarHidden(true, animated: false)
+        }
+        
+        if let connectionRef = connectionRef, let connectionHandle = connectionHandle {
+            connectionRef.removeObserver(withHandle: connectionHandle)
         }
     }
     
@@ -519,23 +526,20 @@ class QTProfileViewController: UIViewController {
             let rating = Int(user.tRating)
             ratingView.setRatingTo(rating)
             
-            // Disable the connect button until app gets the connection status.
-            connectButton.isEnabled = false
-            connectButton.setTitle("CONNECT", for: .normal)
-            // Update the title of connect button based on the connection status.
-            guard let opponentId = user?.uid else { return }
-            DataService.shared.getConversationMetaDataForUid(opponentId) { metaDataIn in
-                self.conversationManager.chatPartnerId = self.user.uid
-                self.conversationManager.delegate = self
-                self.conversationManager.metaData = metaDataIn
-                self.conversationManager.setup()
-            }
             numberOfReviewsLabel.text = "\(user.reviews?.count ?? 0)"
             
             // If a tutor visits an another tutor's profile, hide connect button
             if AccountService.shared.currentUserType == UserType.tutor {
                 connectView.isHidden = true
             }
+            
+            // Disable the connect button until app gets the connection status.
+            connectButton.isEnabled = false
+            connectButton.setTitle("CONNECT", for: .normal)
+            
+            // Update the title of connect button based on the connection status.
+            guard let opponentId = user?.uid else { return }
+            setupConnectionObserver(opponentId)
         case .learner,
              .myTutor,
              .myLearner:
@@ -652,6 +656,47 @@ class QTProfileViewController: UIViewController {
             bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen."
         }
     }
+    
+    func setupConnectionObserver(_ opponentId: String?) {
+        guard let id = opponentId else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let currentUserType = AccountService.shared.currentUserType.rawValue
+        connectionRef = Database.database().reference()
+            .child("connections")
+            .child(uid)
+            .child(currentUserType)
+            .child(id)
+        guard let connectionRef = connectionRef else { return }
+        connectionHandle = connectionRef.observe(.value) { snapshot in
+            guard let connected = snapshot.value as? Bool else {
+                // Enable the connect button
+                self.connectButton.isEnabled = true
+                if self.conversationManager.messages.count > 0 {
+                    self.connectionStatus = .pending
+                    self.connectButton.setTitle("REQUEST PENDING", for: .normal)
+                } else {
+                    self.connectionStatus = .none
+                    self.connectButton.setTitle("CONNECT", for: .normal)
+                }
+                
+                return
+            }
+            // Enable the connect button
+            self.connectButton.isEnabled = true
+            if connected {
+                self.connectionStatus = .connected
+                self.connectButton.setTitle("REQUEST SESSION", for: .normal)
+            } else {
+                guard self.conversationManager.messages.count > 0 else {
+                    self.connectionStatus = .none
+                    self.connectButton.setTitle("CONNECT", for: .normal)
+                    return
+                }
+                self.connectionStatus = .pending
+                self.connectButton.setTitle("REQUEST PENDING", for: .normal)
+            }
+        }
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -750,46 +795,6 @@ extension QTProfileViewController: QTProfileDelegate {
         self.user = tutor
         self.subject = nil
         initUserInfo()
-    }
-}
-
-extension QTProfileViewController: ConversationManagerDelegate {
-    func conversationManager(_ conversationManager: ConversationManager, didReceive message: UserMessage) {
-        // Enable the connect button
-        if message.connectionRequestId != nil && conversationManager.isConnected == false {
-            self.connectButton.isEnabled = true
-            self.connectionStatus = .pending
-            self.connectButton.setTitle("REQUEST PENDING", for: .normal)
-        }
-    }
-    
-    func conversationManager(_ conversationManager: ConversationManager, didLoad messages: [BaseMessage]) {
-        
-    }
-    
-    func conversationManager(_ conversationManager: ConversationManager, didUpdate readByIds: [String]) {
-        
-    }
-    
-    func conversationManager(_ convesationManager: ConversationManager, didUpdateConnection connected: Bool) {
-        // Enable the connect button
-        self.connectButton.isEnabled = true
-        if connected {
-            self.connectionStatus = .connected
-            self.connectButton.setTitle("REQUEST SESSION", for: .normal)
-        } else {
-            guard conversationManager.messages.count > 0 else {
-                self.connectionStatus = .none
-                self.connectButton.setTitle("CONNECT", for: .normal)
-                return
-            }
-            self.connectionStatus = .pending
-            self.connectButton.setTitle("REQUEST PENDING", for: .normal)
-        }
-    }
-    
-    func conversationManager(_ conversationManager: ConversationManager, didLoadAll messages: [BaseMessage]) {
-        
     }
 }
 
