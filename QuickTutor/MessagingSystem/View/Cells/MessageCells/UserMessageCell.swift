@@ -60,13 +60,10 @@ class UserMessageCell: BaseMessageCell {
         return view
     }()
 
-    var textView: CopyableTextView = {
-        let tv = CopyableTextView()
-        tv.isEditable = false
+    var textView: UITextView = {
+        let tv = UITextView()
         tv.textColor = .white
-        tv.isUserInteractionEnabled = true
-        tv.isEditable = false
-        tv.isScrollEnabled = false
+        tv.isUserInteractionEnabled = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.font = Fonts.createSize(14)
         tv.backgroundColor = .clear

@@ -583,7 +583,6 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         
         if let text = message.text {
             height = text.estimateFrameForFontSize(14).height + 30
-            
         }
         
         if let imageWidth = message.data["imageWidth"] as? CGFloat, let imageHeight = message.data["imageHeight"] as? CGFloat {
