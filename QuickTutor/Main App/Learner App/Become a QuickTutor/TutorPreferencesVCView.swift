@@ -167,7 +167,7 @@ class TutorPreferencesView: BaseRegistrationView {
     
     func setupDistanceInfoLabel() {
         addSubview(distanceInfoLabel)
-        distanceInfoLabel.anchor(top: distanceSliderView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 100, paddingRight: 30, width: 0, height: 0)
+        distanceInfoLabel.anchor(top: distanceSliderView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 100, paddingRight: 30, width: 0, height: 0)
     }
     
     func setupAccessoryView() {
