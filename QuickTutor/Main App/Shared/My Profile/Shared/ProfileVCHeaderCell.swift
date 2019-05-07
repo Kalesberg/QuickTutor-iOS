@@ -21,7 +21,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 3
+        iv.layer.cornerRadius = 4
         iv.clipsToBounds = true
         return iv
     }()

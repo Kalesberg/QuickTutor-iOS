@@ -33,7 +33,7 @@ class ProfileVC: UIViewController {
     struct Dimension {
         let header: CGFloat = 190
         let cell: CGFloat = 57
-        let footer: CGFloat = 57
+        let footer: CGFloat = 70
         let separator: CGFloat = 1
     }
     
@@ -74,7 +74,7 @@ class ProfileVC: UIViewController {
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -84,29 +84,19 @@ class ProfileVC: UIViewController {
 extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ProfileCVCell
-        if indexPath.row < 6 {
-            cell.titleLabel.text = cellTitles[indexPath.item]
-            cell.icon.image = cellImages[indexPath.item]
-        } else {
-            cell.titleLabel.text = ""
-            cell.icon.isHidden = true
-        }
-        
+        cell.titleLabel.text = cellTitles[indexPath.item]
+        cell.icon.image = cellImages[indexPath.item]
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.row < 6 {
-            return CGSize(width: collectionView.frame.width, height: dimension.cell)
-        } else {
-            let height = max(collectionView.frame.height - (dimension.header + 6 * dimension.cell + dimension.footer + 6 * dimension.separator), 0)
-            return CGSize(width: collectionView.frame.width, height: height)
-        }
+        let height = (collectionView.frame.height - 190) / 7
+        return CGSize(width: collectionView.frame.width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -121,7 +111,6 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         if kind == UICollectionView.elementKindSectionFooter {
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footerCell", for: indexPath) as! ProfileVCFooterCell
             footer.delegate = self
-            footer.roundCorners([.topLeft, .topRight], radius: 3.0)
             return footer
         } else {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! ProfileVCHeaderCell
@@ -134,7 +123,8 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: dimension.footer)
+        let height = (collectionView.frame.height - 190) / 7
+        return CGSize(width: collectionView.frame.width, height: height - 3)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -156,8 +146,6 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
             showFeedback()
         case 5:
             showPastSessions()
-        case 6:
-            break
         default:
             navigationController?.pushViewController(QTInviteOthersViewController.controller, animated: true)
         }
