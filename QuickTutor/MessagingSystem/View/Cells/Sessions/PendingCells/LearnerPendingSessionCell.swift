@@ -13,8 +13,7 @@ class LearnerPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate, 
         super.setupViews()
         actionView.setupAsTripleButton()
         actionView.actionButton1.setImage(UIImage(named: "cancelSessionButton"), for: .normal)
-        actionView.actionButton2.setImage(UIImage(named: "messageSessionButton")
-, for: .normal)
+        actionView.actionButton2.setImage(UIImage(named: "messageSessionButton"), for: .normal)
         actionView.actionButton3.setImage(UIImage(named: "viewProfileButton"), for: .normal)
     }
 

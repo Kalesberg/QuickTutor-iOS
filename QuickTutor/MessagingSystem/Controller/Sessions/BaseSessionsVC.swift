@@ -174,12 +174,39 @@ class BaseSessionsVC: UIViewController {
                 self.pendingSessions.remove(at: fooOffset)
                 if session.status == "accepted" {
                     self.upcomingSessions.append(session)
+                    self.createSessionLocalNotification(session: session)
+                } else if "cancelled" == session.status {
+                    self.removeSessionLocalNotification(session: session)
                 }
                 self.collectionView.reloadData()
-            } else {
-                // item could not be found
+            } else if let index = self.upcomingSessions.firstIndex(where: { $0.id == id }) {
+                if "cancelled" == session.status {
+                    self.upcomingSessions.remove(at: index)
+                    self.removeSessionLocalNotification(session: session)
+                    self.collectionView.reloadData()
+                }
             }
         }
+    }
+    
+    private func createSessionLocalNotification(session: Session) {
+        let diffTimeInterval = session.startTime - Date().timeIntervalSince1970 - 600
+        
+        if diffTimeInterval < 0 { return }
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Quick Tutor"
+        content.body = "Your session begins in ten minutes, grab a cup of coffee and get ready ☕️"
+        content.sound = .default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: diffTimeInterval, repeats: false)
+        let request = UNNotificationRequest(identifier: session.id, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
+    private func removeSessionLocalNotification(session: Session) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [session.id])
     }
     
     @objc func refreshSessions() {
@@ -369,9 +396,16 @@ extension BaseSessionsVC: CustomModalDelegate {
         DataService.shared.getSessionById(id) { session in
             let chatPartnerId = session.partnerId()
             Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
+            
+            // Cancells session
+            let userTypeString = AccountService.shared.currentUserType.rawValue
+            let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+            Database.database().reference().child("userSessions").child(uid)
+                .child(userTypeString).child(session.id).setValue(-1)
+            Database.database().reference().child("userSessions").child(session.partnerId())
+                .child(otherUserTypeString).child(session.id).setValue(-1)
         }
         cancelSessionModal?.dismiss()
-        fetchSessions()
     }
 }
 
