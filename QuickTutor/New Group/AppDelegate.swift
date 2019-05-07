@@ -283,6 +283,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         FBSDKAppEvents.activateApp()
         OnlineStatusService.shared.makeActive()
         NotificationCenter.default.post(Notifications.didEnterForeground)
+        
+        application.applicationIconBadgeNumber = 0
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
