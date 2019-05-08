@@ -48,7 +48,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
                                subject: String,
                                bill: Double,
                                fee: Int,
-                               tip: Int,
+                               tip: Double,
                                sessionDuration: Int,
                                partnerSessionNumber: Int) {
         
@@ -64,6 +64,11 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
                 hourlyRateLabel.isHidden = false
             }
             partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+            
+            let cost = (bill + 0.3) / 0.971
+            processingFeeLabel.text = Double(cost * 0.029 + 0.3).currencyFormat(precision: 2, divider: 1)
+            billLabel.text = cost.currencyFormat(precision: 2, divider: 1)
+            totalLabel.text = (cost + tip).currencyFormat(precision: 2, divider: 1)
         } else if let learner = user as? AWLearner {
             let nameSplit = learner.name.split(separator: " ")
             nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
@@ -75,15 +80,18 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             }
             processingFeeTitleLabel.text = "QuickTutor's service fee:"
             partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+            
+            processingFeeLabel.text = Double(fee).currencyFormat(precision: 2)
+            billLabel.text = bill.currencyFormat(precision: 2, divider: 1)
+            totalLabel.text = (bill + tip).currencyFormat(precision: 2, divider: 1)
+            
+            // hidden tip
+            tipLabel.superview?.superview?.superview?.isHidden = true
         }
-        
         subjectLabel.text = subject
         sessionLengthLabel.text = getFormattedTimeString(seconds: sessionDuration)
-        processingFeeLabel.text = Double(fee).currencyFormat(precision: 2)
-        billLabel.text = bill.currencyFormat(precision: 2, divider: 1)
-        tipLabel.text = "$\(tip)"
-        totalLabel.text = (bill + Double(tip)).currencyFormat(precision: 2, divider: 1)
         
+        tipLabel.text = tip.currencyFormat(precision: 2, divider: 1)
         totalSessionNumberLabel.text = AccountService.shared.currentUserType == .learner ?
             "\(CurrentUser.shared.learner.lNumSessions + 1)" : "\(CurrentUser.shared.tutor.tNumSessions + 1)"
         partnerSessionNumberLabel.text = "\(partnerSessionNumber + 1)"

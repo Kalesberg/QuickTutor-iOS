@@ -36,9 +36,9 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var tipCheckStackView: UIStackView!
     
     var isPayWithoutTip = false
-    var tip = 0
+    var tip: Double = 0
     var costOfSession: Double = 0.0
-    var didSelectTip: ((Int) ->())?
+    var didSelectTip: ((Double) ->())?
     
     struct Dimension {
         let avatarWidth = 180
@@ -62,7 +62,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         return UINib(nibName: String(describing: QTRatingTipCollectionViewCell.self), bundle: nil)
     }
     
-    let maxTip = 250
+    let maxTip: Double = 250
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -254,12 +254,12 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     private func updateTipAmount(text: String?) {
         if var text = text, text.hasPrefix("$") {
             text = text.replacingOccurrences(of: "$", with: "")
-            tip = Int(text) ?? 0
+            tip = Double(text) ?? 0.0
             if tip > maxTip {
                 tipTextField.text = "$250"
                 tip = maxTip
             }
-            let cost = costOfSession + Double(tip)
+            let cost = costOfSession + tip
             priceLabel.text = cost.currencyFormat(precision: 2, divider: 1)
             
             if let didSelectTip = didSelectTip {

@@ -14,6 +14,8 @@
 		4D348102223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */; };
 		4D348104223A35370004C29A /* QTRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D348103223A35370004C29A /* QTRatingView.swift */; };
 		4D348105223A35370004C29A /* QTRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D348103223A35370004C29A /* QTRatingView.swift */; };
+		4D7DD55122832FCC0027B687 /* UITabBarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */; };
+		4D7DD55222832FCC0027B687 /* UITabBarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */; };
 		4DE3668D2238BC5F00A94C37 /* TheChoiceVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A762231BA9D00704531 /* TheChoiceVCView.swift */; };
 		4DE366912239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
 		4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
@@ -1209,6 +1211,7 @@
 		4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTReviewTableViewCell.swift; sourceTree = "<group>"; };
 		4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTReviewTableViewCell.xib; sourceTree = "<group>"; };
 		4D348103223A35370004C29A /* QTRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingView.swift; sourceTree = "<group>"; };
+		4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarExtensions.swift; sourceTree = "<group>"; };
 		4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTProfileViewController.swift; sourceTree = "<group>"; };
 		4DE366902239F06C00A94C37 /* QTProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTProfileViewController.xib; sourceTree = "<group>"; };
 		561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTInPersionSessionViewController.swift; sourceTree = "<group>"; };
@@ -2695,6 +2698,7 @@
 				569ECDC421FA9476005491CB /* UIFontExtensions.swift */,
 				93D694F6226D6D83001207AC /* UILabelExtensions.swift */,
 				93F4F8CF227F4AD900809432 /* CollectionExtensions.swift */,
+				4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4595,6 +4599,7 @@
 				569F185A223554FD00820A20 /* EndSessionModal.swift in Sources */,
 				569F185B223554FD00820A20 /* CancelSessionButtonDelegate.swift in Sources */,
 				568E57112270CA7700E18BD4 /* QTCloseAccountTypeViewController.swift in Sources */,
+				4D7DD55222832FCC0027B687 /* UITabBarExtensions.swift in Sources */,
 				569F185C223554FD00820A20 /* ConversationMetaData.swift in Sources */,
 				569F185D223554FD00820A20 /* FooterView.swift in Sources */,
 				561003BD2242D23600A4688F /* QTPastSessionsViewController.swift in Sources */,
@@ -5073,6 +5078,7 @@
 				CFD92A69222F24B200704531 /* FooterView.swift in Sources */,
 				561003BC2242D23600A4688F /* QTPastSessionsViewController.swift in Sources */,
 				CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */,
+				4D7DD55122832FCC0027B687 /* UITabBarExtensions.swift in Sources */,
 				84E4C7E8204E9774009C2FC4 /* SearchTutorVC.swift in Sources */,
 				CFB9B7D521C18AE60022333F /* SessionRequestTutorView.swift in Sources */,
 				8448C574204BC87100C3247D /* EditPhoneVC.swift in Sources */,

@@ -38,7 +38,6 @@ class TutorTabBarController: BaseTabBarController {
         profile.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
         let controllers = [home, sessions, messages, profile]
         
-        
         for vc in controllers {
             vc.navigationBar.barTintColor = Colors.purple
             vc.navigationBar.tintColor = .white

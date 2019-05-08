@@ -9,6 +9,7 @@
 import UIKit
 import IQKeyboardManager
 import Firebase
+import Alamofire
 
 class QTRatingReviewViewController: UIViewController {
 
@@ -27,11 +28,7 @@ class QTRatingReviewViewController: UIViewController {
     
     struct PostSessionReviewData {
         static var rating : Int!
-        static var tipAmount : Int = 0 {
-            didSet {
-                print(tipAmount)
-            }
-        }
+        static var tipAmount : Double = 0
         static var review : String? = nil
     }
     
@@ -127,7 +124,7 @@ class QTRatingReviewViewController: UIViewController {
                 nextButton.isEnabled = false
                 let tip = Double(PostSessionReviewData.tipAmount)
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: tip)
-                createCharge(cost: costInDollars(costOfSession), tip: Int(tip * 100), secondsTaught: tutor.secondsTaught + runTime) { (error) in
+                createCharge(tutorId: tutor.acctId, cost: costInDollars(costOfSession), tip: Int(tip * 100)) { (error) in
                     if let error = error {
                         AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
                         self.hasPaid = false
@@ -257,29 +254,80 @@ class QTRatingReviewViewController: UIViewController {
         return Int(cost * 100)
     }
     
-    private func createCharge(cost: Int, tip: Int, secondsTaught: Int, completion: @escaping (Error?) -> Void) {
+    private func createCharge(tutorId: String, cost: Int, tip: Int, completion: @escaping (Error?) -> Void) {
         let fee = calculateFee(cost)
         let costWithTip = cost + tip
         self.displayLoadingOverlay()
-        Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
-            if let error = error {
-                self.dismissOverlay()
-                completion(error)
-            } else if let customer = customer {
-                guard let card = customer.defaultSource?.stripeID else {
+        checkTutor(tutorId: tutorId) { takeRate, paypal, error in
+            Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
+                if let error = error {
                     self.dismissOverlay()
-                    return completion(StripeError.createChargeError)
-                }
-                Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: costWithTip, fee: fee, description: self.session?.subject ?? " ", { (error) in
-                    if let error = error {
-                        completion(error)
-                    } else {
-                        completion(nil)
+                    completion(error)
+                } else if let customer = customer {
+                    guard let card = customer.defaultSource?.stripeID else {
+                        self.dismissOverlay()
+                        return completion(StripeError.createChargeError)
                     }
-                    self.dismissOverlay()
-                })
+                    Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: customer.stripeID, sourceId: card, amount: costWithTip, fee: fee, description: self.session?.subject ?? " ", { (error) in
+                        if let error = error {
+                            completion(error)
+                        } else if let takeRate = takeRate,
+                            let paypal = paypal {
+                            self.createQLPayment(tutorId: tutorId, fee: fee, takeRate: takeRate, paypal: paypal, completion: completion)
+                        } else {
+                            completion(nil)
+                        }
+                        self.dismissOverlay()
+                    })
+                }
             }
         }
+    }
+    
+    private func checkTutor(tutorId: String, completion: @escaping(_ takeRate: Float?, _ paypal: String?,  _ error: Error?) -> Void) {
+        let params = [
+            "tutorId": tutorId
+        ]
+        Alamofire.request("\(Constants.API_BASE_URL)/quicklink/check-tutor", method: .post, parameters: params, encoding: URLEncoding.default)
+            .validate()
+            .responseJSON(completionHandler: { response in
+                switch response.result {
+                case .success(let value as [String: Any]):
+                    if let status = value["status"] as? Int,
+                        status == 1,
+                        let strTakeRate = value["take_rate"] as? String,
+                        let takeRate = Float(strTakeRate),
+                        let paypal = value["stripe_key"] as? String {
+                        completion(takeRate / 100.0, paypal, nil)
+                    } else {
+                        completion(nil, nil, nil)
+                    }
+                case .failure(let error):
+                    completion(nil, nil, error)
+                default:
+                    break
+                }
+            })
+    }
+    
+    private func createQLPayment(tutorId: String, fee: Int, takeRate: Float, paypal: String, completion: @escaping(Error?) -> Void) {
+        let params: [String: Any] = [
+            "tutorId": tutorId,
+            "ql_cut": Float(fee) * takeRate,
+            "qt_cut": Float(fee) * (1 - takeRate),
+            "paypal": paypal
+        ]
+        
+        Alamofire.request("\(Constants.API_BASE_URL)/quicklink/payments", method: .post, parameters: params, encoding: URLEncoding.default)
+            .validate()
+            .responseJSON(completionHandler: { response in
+                switch response.result {
+                case .success:
+                    completion(nil)
+                case .failure(let error):
+                    completion(error)
+                }
+            })
     }
 }
 

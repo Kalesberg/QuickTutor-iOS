@@ -152,6 +152,7 @@ class MessagesVC: UIViewController {
                         self.collectionView.alwaysBounceVertical = true
                         let conversationMetaData = ConversationMetaData(dictionary: metaData)
                         self.metaDataDictionary[userId] = conversationMetaData
+                        self.updateTabBarBadge()
                         self.getMessageById(messageId)
                     })
                 }
@@ -192,6 +193,14 @@ class MessagesVC: UIViewController {
         DispatchQueue.main.async(execute: {
             self.collectionView.reloadData()
         })
+    }
+    
+    private func updateTabBarBadge() {
+        if 0 < metaDataDictionary.values.filter({ false == $0.hasRead }).count {
+            tabBarController?.addDotAtTabBarItemIndex(index: 2, radius: 5, color: .qtAccentColor, xOffset: -2, yOffset: -6)
+        } else {
+            tabBarController?.removeDotAtTabBarItemIndex(index: 2)
+        }
     }
     
     private func getUserStatuses () {

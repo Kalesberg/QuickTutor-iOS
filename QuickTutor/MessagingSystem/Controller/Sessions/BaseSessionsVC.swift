@@ -153,8 +153,17 @@ class BaseSessionsVC: UIViewController {
     var timer: Timer?
     @objc func handleReloadTable() {
         DispatchQueue.main.async(execute: {
+            self.updateTabBarBadge()
             self.collectionView.reloadData()
         })
+    }
+    
+    private func updateTabBarBadge() {
+        if 0 < pendingSessions.count + upcomingSessions.count {
+            tabBarController?.addDotAtTabBarItemIndex(index: 1, radius: 5, color: .qtAccentColor, xOffset: -2, yOffset: -6)
+        } else {
+            tabBarController?.removeDotAtTabBarItemIndex(index: 1)
+        }
     }
     
     func listenForSessionUpdates() {
@@ -178,12 +187,12 @@ class BaseSessionsVC: UIViewController {
                 } else if "cancelled" == session.status {
                     self.removeSessionLocalNotification(session: session)
                 }
-                self.collectionView.reloadData()
+                self.handleReloadTable()
             } else if let index = self.upcomingSessions.firstIndex(where: { $0.id == id }) {
                 if "cancelled" == session.status {
                     self.upcomingSessions.remove(at: index)
                     self.removeSessionLocalNotification(session: session)
-                    self.collectionView.reloadData()
+                    self.handleReloadTable()
                 }
             }
         }
