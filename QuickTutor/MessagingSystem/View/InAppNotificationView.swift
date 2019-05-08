@@ -19,7 +19,7 @@ class InAppNotificationView: UIView {
         }
     }
     
-    var pushNotification: PushNotification!
+    var pushNotification: PushNotification?
     
     let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -70,9 +70,9 @@ class InAppNotificationView: UIView {
         
         pushNotification = PushNotification(userInfo: userInfo)
         
-        let accountType: UserType  = pushNotification.receiverAccountType == "learner" ? .tutor : .learner
+        let accountType: UserType  = pushNotification?.receiverAccountType == "learner" ? .tutor : .learner
         
-        if let partnerId = pushNotification.partnerId() {
+        if let partnerId = pushNotification?.partnerId() {
             DataService.shared.getUserWithId(partnerId, type: accountType) { (user) in
                 guard let user = user else { return }
                 self.profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: nil)
@@ -93,10 +93,10 @@ class InAppNotificationView: UIView {
     
     private func shouldShowNotification() -> Bool {
         guard NotificationManager.shared.notificationsEnabled else { return false }
-        if pushNotification.category == .message {
+        if pushNotification?.category == .message {
             guard NotificationManager.shared.messageNotificationsEnabled else { return false }
         }
-        guard NotificationManager.shared.disabledNotificationForUid != pushNotification.partnerId() else { return false}
+        guard NotificationManager.shared.disabledNotificationForUid != pushNotification?.partnerId() else { return false}
         return true
     }
     
