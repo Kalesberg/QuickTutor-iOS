@@ -159,10 +159,14 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func updateTabBarBadge() {
-        if 0 < pendingSessions.count + upcomingSessions.count {
-            tabBarController?.addDotAtTabBarItemIndex(index: 1, radius: 5, color: .qtAccentColor, xOffset: -2, yOffset: -6)
+        guard let rootVC = tabBarController?.viewControllers?[1] else { return }
+        
+        let badgeCount = pendingSessions.count + upcomingSessions.count
+        if 0 < badgeCount {
+            rootVC.tabBarItem.badgeColor = .qtAccentColor
+            rootVC.tabBarItem.badgeValue = 9 < badgeCount ? "9+" : "\(badgeCount)"
         } else {
-            tabBarController?.removeDotAtTabBarItemIndex(index: 1)
+            rootVC.tabBarItem.badgeValue = nil
         }
     }
     
