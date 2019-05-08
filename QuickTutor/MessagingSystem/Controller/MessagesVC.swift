@@ -196,10 +196,14 @@ class MessagesVC: UIViewController {
     }
     
     private func updateTabBarBadge() {
-        if 0 < metaDataDictionary.values.filter({ false == $0.hasRead }).count {
-            tabBarController?.addDotAtTabBarItemIndex(index: 2, radius: 5, color: .qtAccentColor, xOffset: -2, yOffset: -6)
+        guard let rootVC = tabBarController?.viewControllers?[2] else { return }
+        
+        let badgeCount = metaDataDictionary.values.filter({ false == $0.hasRead }).count
+        if 0 < badgeCount {
+            rootVC.tabBarItem.badgeColor = .qtAccentColor
+            rootVC.tabBarItem.badgeValue = 9 < badgeCount ? "9+" : "\(badgeCount)"
         } else {
-            tabBarController?.removeDotAtTabBarItemIndex(index: 2)
+            rootVC.tabBarItem.badgeValue = nil
         }
     }
     
