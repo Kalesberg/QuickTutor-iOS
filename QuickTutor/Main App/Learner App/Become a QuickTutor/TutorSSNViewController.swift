@@ -71,9 +71,7 @@ class TutorSSNViewController: BaseRegistrationController {
     @objc func handleNext() {
         if checkForValidSSN() {
             TutorRegistration.ssn = ssnText(formatted: false) ?? ""
-            let vc = TutorAddBank()
-            vc.isRegistration = true
-            navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(TutorAddressVC(), animated: true)
         }
     }
     

@@ -177,7 +177,7 @@ class TutorAddBank: BaseRegistrationController {
         Stripe.createBankAccountToken(accountHoldersName: fullName, routingNumber: routingNumber, accountNumber: accountNumber) { token, _ in
             if let token = token {
                 TutorRegistration.bankToken = token
-                self.navigationController?.pushViewController(TutorAddressVC(), animated: true)
+                self.navigationController?.pushViewController(TutorSSNViewController(), animated: true)
             } else {
                 AlertController.genericErrorAlert(self, title: "Bank Account Error", message: "Unable to create bank account. Please verify the information is correct.")
             }
