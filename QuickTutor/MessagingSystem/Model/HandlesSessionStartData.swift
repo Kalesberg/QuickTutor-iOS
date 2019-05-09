@@ -32,8 +32,12 @@ extension HandlesSessionStartData {
                 fatalError("Error with sessionType")
             }
 
+            let sessionId = snapshot.key
+            // remove local notification
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [sessionId])
+            
             let vc = QTStartSessionViewController.controller
-            vc.sessionId = snapshot.key
+            vc.sessionId = sessionId
             if let initiatorId = value["startedBy"] as? String {
                 vc.initiatorId = initiatorId
             }

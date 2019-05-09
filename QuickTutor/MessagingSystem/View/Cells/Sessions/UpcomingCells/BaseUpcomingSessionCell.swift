@@ -41,8 +41,5 @@ class BaseUpcomingSessionCell: BaseSessionCell, MessageButtonDelegate, CancelSes
         let value = ["startedBy": uid, "startType": "manual", "sessionType": session.type]
         Database.database().reference().child("sessionStarts").child(uid).child(session.id).setValue(value)
         Database.database().reference().child("sessionStarts").child(session.partnerId()).child(session.id).setValue(value)
-        
-        // remove local notification
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [session.id])
     }
 }
