@@ -132,7 +132,6 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     }
     
     @IBAction func deleteAccountButtonClicked(_ sender: Any) {
-//        navigationController?.pushViewController(CloseAccountVC(), animated: true)
         navigationController?.pushViewController(QTCloseAccountInfoViewController.controller, animated: true)
     }
     
