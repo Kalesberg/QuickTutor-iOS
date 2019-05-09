@@ -19,9 +19,6 @@ class WalkthroughVC: UIViewController {
         view = contentView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 }
 
 class WalkthroughVCView: UIView {
@@ -39,9 +36,12 @@ class WalkthroughVCView: UIView {
     let collectionView: UICollectionView = {
         let layout = DurationCollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.darkBackground
         cv.showsHorizontalScrollIndicator = false
+        cv.isPagingEnabled = true
         cv.register(WalkthroughCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
@@ -96,7 +96,7 @@ class WalkthroughVCView: UIView {
     
     func setupCollectionView() {
         addSubview(collectionView)
-        collectionView.anchor(top: logoView.bottomAnchor, left: leftAnchor, bottom: pageControl.topAnchor, right: rightAnchor, paddingTop: 60, paddingLeft: 00, paddingBottom: 35, paddingRight: 0, width: 0, height: 1000)
+        collectionView.anchor(top: logoView.bottomAnchor, left: leftAnchor, bottom: pageControl.topAnchor, right: rightAnchor, paddingTop: 40, paddingLeft: 0, paddingBottom: 15, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -136,21 +136,14 @@ extension WalkthroughVCView: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 400)
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        targetContentOffset.pointee = scrollView.contentOffset
-        var indexes = self.collectionView.indexPathsForVisibleItems
-        indexes.sort()
-        var index = indexes.first!
-        let cell = self.collectionView.cellForItem(at: index)!
-        let position = self.collectionView.contentOffset.x - cell.frame.origin.x
-        if position > cell.frame.size.width/2 {
-            index.row = index.row + 1
-        }
-        self.collectionView.scrollToItem(at: index, at: .left, animated: true )
-        self.pageControl.currentPage = index.item
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let x = scrollView.contentOffset.x
+        let w = scrollView.bounds.size.width
+        let currentPage = Int(ceil(x/w))
+        self.pageControl.currentPage = currentPage
     }
     
 }
@@ -190,12 +183,12 @@ class WalkthroughCell: UICollectionViewCell {
     
     func setupImageView() {
         addSubview(imageView)
-        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 54, paddingBottom: 50, paddingRight: 54, width: 0, height: 0)
+        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 54, paddingBottom: 82, paddingRight: 54, width: 0, height: 0)
     }
     
     func setupInfoLabel() {
         addSubview(infoLabel)
-        infoLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 45)
+        infoLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
     }
     
     func setupTitleLabel() {
