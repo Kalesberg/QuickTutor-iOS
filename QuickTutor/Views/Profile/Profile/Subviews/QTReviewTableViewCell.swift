@@ -55,12 +55,20 @@ class QTReviewTableViewCell: UITableViewCell {
         ratingView.setRatingTo(rating)
         
         DataService.shared.getStudentWithId(review.reviewerId) { (student) in
-            guard let student = student else { return }
+            guard let student = student else {
+                self.avatarImageView.image = UIImage(named: "ic_avatar_placeholder")
+                return
+            }
             self.avatarImageView.sd_setImage(with: student.profilePicUrl,
                                              placeholderImage: UIImage(named: "ic_avatar_placeholder"),
                                              options: [],
                                              completed: nil)
             
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.avatarImageView.image = nil
     }
 }
