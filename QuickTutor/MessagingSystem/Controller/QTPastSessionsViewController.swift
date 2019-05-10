@@ -107,11 +107,11 @@ class QTPastSessionsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        navigationItem.title = "Past sessions"
+        navigationItem.title = "Past transactions"
     }
     
     func setupNavBar() {
-        navigationItem.title = "Past sessions"
+        navigationItem.title = "Past transactions"
         navigationController?.setNavigationBarHidden(false, animated: false)
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never

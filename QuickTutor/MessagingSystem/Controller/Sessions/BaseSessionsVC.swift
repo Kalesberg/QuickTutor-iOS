@@ -109,7 +109,12 @@ class BaseSessionsVC: UIViewController {
                 
                 Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
                     self.dismissOverlay()
+                    
                     DataService.shared.getSessionById(snapshot.key, completion: { session in
+                        
+                        if session.type.compare(QTSessionType.quickCalls.rawValue) == .orderedSame {
+                            return
+                        }
                         
                         guard session.status != "cancelled" && session.status != "declined" && !session.isExpired() else {
                             self.attemptReloadOfTable()

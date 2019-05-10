@@ -122,6 +122,8 @@ class QTRequestQuickCallViewController: UIViewController {
         callButton.layer.cornerRadius = 3
         callButton.clipsToBounds = true
         callButton.setupTargets()
+        callButton.isEnabled = false
+        callButton.backgroundColor = Colors.gray
         
 //        bottomView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
 //        bottomView.layer.shadowOpacity = 1
@@ -173,6 +175,8 @@ class QTRequestQuickCallViewController: UIViewController {
 extension QTRequestQuickCallViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         subject = tutor.subjects?[indexPath.row]
+        callButton.isEnabled = true
+        callButton.backgroundColor = Colors.purple
     }
 }
 

@@ -56,7 +56,13 @@ class QTPastSessionTableViewCell: UITableViewCell {
     func getTutor() {
         DataService.shared.getTutorWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
-            self.usernameLabel.text = username
+            if let sessionType = QTSessionType(rawValue: self.session.type), sessionType == .quickCalls {
+                let attributedText = NSMutableAttributedString(string: username + "(Call)")
+                attributedText.addAttribute(.foregroundColor, value: Colors.purple, range: NSRange(location: attributedText.length - 6, length: 6))
+                self.usernameLabel.attributedText = attributedText
+            } else {
+                self.usernameLabel.attributedText = NSMutableAttributedString(string: username)
+            }
             self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: UIImage(named: "ic_avatar_placeholder"))
         }
     }
@@ -64,7 +70,14 @@ class QTPastSessionTableViewCell: UITableViewCell {
     func getLearner() {
         DataService.shared.getStudentWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
-            self.usernameLabel.text = username
+            if let sessionType = QTSessionType(rawValue: self.session.type), sessionType == .quickCalls {
+                let attributedText = NSMutableAttributedString(string: username + "(Call)")
+                attributedText.addAttribute(.foregroundColor, value: Colors.purple, range: NSRange(location: attributedText.length - 6, length: 6))
+                self.usernameLabel.attributedText = attributedText
+            } else {
+                self.usernameLabel.attributedText = NSMutableAttributedString(string: username)
+            }
+            
             self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: UIImage(named: "ic_avatar_placeholder"))
         }
     }
