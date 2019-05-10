@@ -41,6 +41,7 @@ class QTVideoSessionViewController: UIViewController {
     
     // Parameters
     var sessionId: String!
+    var sessionType: QTSessionType!
     
     // Static variables
     static var controller: QTVideoSessionViewController {
@@ -376,6 +377,7 @@ class QTVideoSessionViewController: UIViewController {
     func showEndModal() {
         endSessionModal = EndSessionModal(frame: .zero)
         endSessionModal?.delegate = self
+        endSessionModal?.sessionType = sessionType
         endSessionModal?.show()
     }
     
@@ -413,6 +415,7 @@ class QTVideoSessionViewController: UIViewController {
             self.connectionLostModal?.partnerUsername = username
             self.connectionLostModal?.delegate = self
             self.connectionLostModal?.pausedById = pausedById
+            self.connectionLostModal?.sessionType = self.sessionType
             self.connectionLostModal?.show()
             if let type = self.sessionManager?.session.type {
                 self.connectionLostModal?.setupEndSessionButtons(type: type)
@@ -435,6 +438,7 @@ class QTVideoSessionViewController: UIViewController {
     func showSessionOnHoldModal() {
         sessionOnHoldModal = SessionOnHoldModal(frame: .zero)
         sessionOnHoldModal?.delegate = self
+        sessionOnHoldModal?.sessionType = sessionType
         sessionOnHoldModal?.show()
     }
     

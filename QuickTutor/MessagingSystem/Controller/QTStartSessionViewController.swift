@@ -14,6 +14,7 @@ import AVFoundation
 enum QTSessionType: String {
     case online = "online"
     case inPerson = "in-person"
+    case quickCalls = "quick-calls"
 }
 
 enum QTSessionStartType: String {
@@ -74,7 +75,7 @@ class QTStartSessionViewController: UIViewController {
         #endif
         NotificationManager.shared.disableAllNotifications()
         
-        if sessionType == .online {
+        if sessionType == .online || sessionType == .quickCalls {
             playRingingSound()
             NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: audioPlayer?.currentItem, queue: .main) { _ in
                 self.audioPlayer?.seek(to: CMTime.zero)
@@ -91,7 +92,7 @@ class QTStartSessionViewController: UIViewController {
         socket.disconnect()
         NotificationManager.shared.enableAllNotifcations()
         
-        if sessionType == .online {
+        if sessionType == .online || sessionType == .quickCalls {
             audioPlayer?.pause()
             audioPlayer = nil
         } else {
@@ -118,9 +119,10 @@ class QTStartSessionViewController: UIViewController {
     // MARK: - Functions
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
-            if self.sessionType == .online {
+            if self.sessionType == .online || self.sessionType == .quickCalls {
                 let vc = QTVideoSessionViewController.controller
                 vc.sessionId = self.sessionId
+                vc.sessionType = self.sessionType
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = QTConfirmMeetUpViewController.controller
@@ -163,14 +165,22 @@ class QTStartSessionViewController: UIViewController {
         // Update the status label.
         if AccountService.shared.currentUser.uid == initiatorId {
             // If I've requested to start this session
-            statusLabel.text = sessionType == .online ?
+            statusLabel.text = (sessionType == .online || sessionType == .quickCalls) ?
                 "Calling..." : "Starting session..."
             
             acceptButton.isHidden = true
         } else {
             // If a partner has requested to start this session
-            statusLabel.text = sessionType == .online ?
-                "Wants to start a video session" : "Would like to meet up"
+            if let sessionType = sessionType {
+                switch sessionType {
+                case .online:
+                    statusLabel.text = "Wants to start a video session"
+                case .inPerson:
+                    statusLabel.text = "Would like to meet up"
+                case .quickCalls:
+                    statusLabel.text = "Wants to start a video call"
+                }
+            }
             
             acceptButton.isHidden = false
         }
@@ -251,7 +261,11 @@ class QTStartSessionViewController: UIViewController {
         if AVCaptureDevice.authorizationStatus(for: .video) == .authorized {
             return true
         } else {
-            let alert = UIAlertController(title: "Camera Required", message: "Camera access is required for video sessions.", preferredStyle: .alert)
+            guard let sessionType = sessionType else {
+                return false
+            }
+            let message = sessionType == .online ? "sessions" : "call"
+            let alert = UIAlertController(title: "Camera Required", message: "Camera access is required for video \(message).", preferredStyle: .alert)
             
             // Add "OK" Button to alert, pressing it will bring you to the settings app
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
@@ -267,7 +281,11 @@ class QTStartSessionViewController: UIViewController {
         if AVCaptureDevice.authorizationStatus(for: .audio) == .authorized {
             return true
         } else {
-            let alert = UIAlertController(title: "Microphone Required", message: "Microphone access is required for video sessions", preferredStyle: .alert)
+            guard let sessionType = sessionType else {
+                return false
+            }
+            let message = sessionType == .online ? "sessions" : "call"
+            let alert = UIAlertController(title: "Microphone Required", message: "Microphone access is required for video \(message)", preferredStyle: .alert)
             
             // Add "OK" Button to alert, pressing it will bring you to the settings app
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in

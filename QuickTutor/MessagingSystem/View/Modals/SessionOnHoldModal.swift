@@ -10,7 +10,7 @@ import UIKit
 
 class SessionOnHoldModal: PauseSessionModal {
     var thinkingString = "Collin is thinking about adding time."
-
+    
     let thinkingLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -30,7 +30,11 @@ class SessionOnHoldModal: PauseSessionModal {
 
     override func setupTitleLabel() {
         super.setupTitleLabel()
-        titleLabel.text = "Session on hold"
+        if let sessionType = sessionType, sessionType == .quickCalls {
+            titleLabel.text = "Call on hold"
+        } else {
+            titleLabel.text = "Session on hold"
+        }
     }
 
     func setupThinkingLabel() {

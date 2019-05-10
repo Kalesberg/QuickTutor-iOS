@@ -49,6 +49,10 @@
 		564B6C1E222D83D5004A9EB7 /* QTLocationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */; };
 		564B6C22222D8891004A9EB7 /* QTLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */; };
 		564B6C23222D8891004A9EB7 /* QTLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */; };
+		564DD5BE2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
+		564DD5BF2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
+		564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */; };
+		564DD5C12285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */; };
 		567E1A082270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */; };
 		567E1A092270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */; };
 		567E1A0A2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */; };
@@ -1227,6 +1231,8 @@
 		564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationsViewController.xib; sourceTree = "<group>"; };
 		564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLocationTableViewCell.swift; sourceTree = "<group>"; };
 		564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationTableViewCell.xib; sourceTree = "<group>"; };
+		564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRequestQuickCallViewController.swift; sourceTree = "<group>"; };
+		564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRequestQuickCallViewController.xib; sourceTree = "<group>"; };
 		567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountReasonViewController.swift; sourceTree = "<group>"; };
 		567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountReasonViewController.xib; sourceTree = "<group>"; };
 		567E1A0E2270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountReasonTableViewCell.swift; sourceTree = "<group>"; };
@@ -2059,6 +2065,7 @@
 				56A8D0C122421F6100866AD7 /* QTConfirmMeetUpViewController.xib */,
 				561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */,
 				561003BB2242D23600A4688F /* QTPastSessionsViewController.xib */,
+				564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -3243,6 +3250,7 @@
 				56A8D0C022421F6100866AD7 /* QTConfirmMeetUpViewController.swift */,
 				561003B42242A9AF00A4688F /* QTInPersionSessionViewController.swift */,
 				561003BA2242D23600A4688F /* QTPastSessionsViewController.swift */,
+				564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */,
 				CF7D8AAC2198ACAC00463B0E /* Sessions */,
 				CFDBD8E320C8788800182E1C /* VideoSessionVC */,
 				CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */,
@@ -3737,6 +3745,7 @@
 				569F18DC223554FD00820A20 /* LaunchScreen.storyboard in Resources */,
 				569F18DD223554FD00820A20 /* business.json in Resources */,
 				569F18DE223554FD00820A20 /* lifestyle.json in Resources */,
+				564DD5C12285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
 				569F18DF223554FD00820A20 /* qtNotificationPop.aiff in Resources */,
 				569F18E0223554FD00820A20 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
 				569F18E1223554FD00820A20 /* QTRatingTipCollectionViewCell.xib in Resources */,
@@ -3834,6 +3843,7 @@
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
+				564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
 				CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */,
 				568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
 				568B82DF222540CD004DF011 /* QTRatingTipCollectionViewCell.xib in Resources */,
@@ -4395,6 +4405,7 @@
 				569F1785223554FD00820A20 /* NotificationManager.swift in Sources */,
 				569F1786223554FD00820A20 /* ProfileItemView.swift in Sources */,
 				569F1787223554FD00820A20 /* CategorySearchVCView.swift in Sources */,
+				564DD5BF2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */,
 				569F1788223554FD00820A20 /* ProfileImageViewer.swift in Sources */,
 				569F1789223554FD00820A20 /* BankManager.swift in Sources */,
 				569F178A223554FD00820A20 /* LearnerPaymentVC.swift in Sources */,
@@ -4874,6 +4885,7 @@
 				84000D2E21246B5E0023355B /* ProfileImageViewer.swift in Sources */,
 				846252F320637FA7001DD330 /* BankManager.swift in Sources */,
 				840E75BA201E7DF6006FC580 /* LearnerPaymentVC.swift in Sources */,
+				564DD5BE2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */,
 				842394071FF4C7FF00827C7D /* User.swift in Sources */,
 				8423940D1FF4C9CA00827C7D /* BaseViewController.swift in Sources */,
 				5697DD24226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift in Sources */,

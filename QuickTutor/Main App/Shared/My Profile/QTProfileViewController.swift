@@ -61,6 +61,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var numberOfReviewsLabel: UILabel!
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var rateLabel: UILabel!
+    @IBOutlet weak var quickCallButton: QTCustomButton!
     
     static var controller: QTProfileViewController {
         return QTProfileViewController(nibName: String(describing: QTProfileViewController.self), bundle: nil)
@@ -182,6 +183,23 @@ class QTProfileViewController: UIViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
+    }
+    
+    @IBAction func onQuickCallButtonClicked(_ sender: Any) {
+        
+        if user.quickCallPrice == -1 {
+            let alert = UIAlertController(title: "", message: "Your tutor has not yet activated quickcalls, message them to let them know you want to call them!", preferredStyle: .alert)
+
+            // Add "OK" Button to alert, pressing it will bring you to the settings app
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            // Show the alert with animation
+            present(alert, animated: true)
+            return
+        }
+
+        let controller = QTRequestQuickCallViewController.controller
+        controller.tutor = user
+        navigationController?.present(controller, animated: true, completion: nil)
     }
     
     @objc

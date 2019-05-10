@@ -59,7 +59,34 @@ class EndSessionModal: BaseCustomModal {
     }()
 
     var delegate: EndSessionModalDelegate?
-
+    var sessionType: QTSessionType? {
+        didSet {
+            if let sessionType = sessionType, sessionType == .quickCalls {
+                titleLabel.text = "End Call"
+            } else {
+                titleLabel.text = "End Session"
+            }
+            
+            if AccountService.shared.currentUserType == .tutor {
+                if let sessionType = sessionType, sessionType == .quickCalls {
+                    messageLabel.text = "Please make sure that your learner is ready to end the call."
+                    endSessionButton.setTitle("End Call?", for: .normal)
+                } else {
+                    messageLabel.text = "Please make sure that your learner is ready to end the session."
+                    endSessionButton.setTitle("End Session?", for: .normal)
+                }
+            } else {
+                if let sessionType = sessionType, sessionType == .quickCalls {
+                    messageLabel.text = "Are you sure you’d like to end the call early?"
+                    endSessionButton.setTitle("End Call", for: .normal)
+                } else {
+                    messageLabel.text = "Are you sure you’d like to end the session early?"
+                    endSessionButton.setTitle("End Session", for: .normal)
+                }
+            }
+        }
+    }
+    
     override func setupViews() {
         super.setupViews()
         setupMessageLabel()
@@ -71,7 +98,7 @@ class EndSessionModal: BaseCustomModal {
 
     override func setupTitleLabel() {
         super.setupTitleLabel()
-        titleLabel.text = "End Session"
+        titleLabel.text = "End Call"
     }
 
     func setupMessageLabel() {

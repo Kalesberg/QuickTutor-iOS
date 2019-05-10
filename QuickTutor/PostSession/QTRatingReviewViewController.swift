@@ -13,6 +13,7 @@ import Alamofire
 
 class QTRatingReviewViewController: UIViewController {
 
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
@@ -65,6 +66,12 @@ class QTRatingReviewViewController: UIViewController {
             partnerId = session.partnerId()
             runTime = session.runTime
             subject = session.subject
+            
+            if let sessionType = QTSessionType(rawValue: session.type), sessionType == .quickCalls {
+                titleLabel.text = "Call complete!"
+            } else {
+                titleLabel.text = "Session complete!"
+            }
         }
         
         Database.database().reference().child("sessions").child(sessionId).child("cost").setValue(costOfSession)

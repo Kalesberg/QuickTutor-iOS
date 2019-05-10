@@ -479,6 +479,7 @@
                 <outlet property="processingFeeTitleLabel" destination="gMA-dH-GDE" id="K9i-yU-AGV"/>
                 <outlet property="receiptView" destination="3zO-Qy-6W6" id="BII-bI-nen"/>
                 <outlet property="scrollView" destination="wGa-ad-zEV" id="uO3-Qm-ASL"/>
+                <outlet property="sessionLengthCaptionLabel" destination="9Nf-ov-VRb" id="fd3-Gs-IMm"/>
                 <outlet property="sessionLengthLabel" destination="YA6-xN-E2a" id="pNw-0d-Vit"/>
                 <outlet property="subjectLabel" destination="5U3-S9-MlJ" id="SBK-76-7oE"/>
                 <outlet property="tipLabel" destination="NmU-ug-Vce" id="g8E-no-jsY"/>
