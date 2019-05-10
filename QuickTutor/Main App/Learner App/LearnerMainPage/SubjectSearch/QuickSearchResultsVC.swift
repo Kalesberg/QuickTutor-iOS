@@ -14,6 +14,8 @@ class QuickSearchResultsVC: UIViewController {
     var filteredSubjects = [(String, String)]()
     var inSearchMode = false
     
+    var scrollViewDraggedClosure: (() -> ())?
+    
     var currentSubjects: [(String, String)] {
         get {
             return inSearchMode ? filteredSubjects : subjects
@@ -80,6 +82,12 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
         AnalyticsService.shared.logSubjectTapped(subject)
         vc.navigationItem.title = subject
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if let scrollViewDraggedClosure = scrollViewDraggedClosure {
+            scrollViewDraggedClosure()
+        }
     }
 }
 

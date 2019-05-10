@@ -128,6 +128,9 @@ extension QuickSearchVC: UITextFieldDelegate {
     func beginEditing() {
         guard child.view?.superview == nil else { return }
         addChild(child)
+        child.scrollViewDraggedClosure = {
+            self.contentView.searchBarContainer.searchBar.endEditing(true)
+        }
         contentView.addSubview(child.view)
         child.view.anchor(top: contentView.searchBarContainer.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         child.didMove(toParent: self)
