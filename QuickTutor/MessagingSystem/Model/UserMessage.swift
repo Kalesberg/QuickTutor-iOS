@@ -60,4 +60,22 @@ class UserMessage: BaseMessage {
         guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
         return senderId == uid ? receiverId : senderId
     }
+    
+    func getLinksInText() -> [String] {
+        guard let input = text else { return [] }
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let matches = detector.matches(in: input, options: [], range: NSRange(location: 0, length: input.utf16.count))
+        
+        var urls = [String]()
+        for match in matches {
+            guard let range = Range(match.range, in: input) else { continue }
+            let url = input[range]
+            var urlString = String(url)
+            if !urls.contains("http") {
+                urlString = "http://" + urlString
+            }
+            urls.append(urlString)
+        }
+        return urls
+    }
 }
