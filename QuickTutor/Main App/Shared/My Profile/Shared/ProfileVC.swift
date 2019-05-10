@@ -27,7 +27,7 @@ class ProfileVC: UIViewController {
         return cv
     }()
     
-    let cellTitles = ["Payment", "Settings", "Legal", "Help", "Give us feedback", "Past sessions"]
+    let cellTitles = ["Payment", "Settings", "Legal", "Help", "Give us feedback", "Past transactions"]
     let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "feedbackIcon"), UIImage(named: "sessionsTabBarIcon")]
     
     struct Dimension {
