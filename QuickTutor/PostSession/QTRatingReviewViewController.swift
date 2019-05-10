@@ -390,13 +390,17 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
             } else {
                 if let cell: QTRatingReceiptCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: QTRatingReceiptCollectionViewCell.reuseIdentifier,
                                                                                                     for: indexPath) as? QTRatingReceiptCollectionViewCell {
-                    cell.setProfileInfo(user: learner,
-                                        subject: subject,
-                                        bill: costOfSession,
-                                        fee: calculateFee(costInDollars(costOfSession)),
-                                        tip: PostSessionReviewData.tipAmount,
-                                        sessionDuration: runTime,
-                                        partnerSessionNumber: sessionsWithPartner)
+                    if let type = session?.type {
+                        let sessionType = QTSessionType(rawValue: type) ?? QTSessionType.online
+                        cell.setProfileInfo(user: learner,
+                                            subject: subject,
+                                            bill: costOfSession,
+                                            fee: calculateFee(costInDollars(costOfSession)),
+                                            tip: PostSessionReviewData.tipAmount,
+                                            sessionDuration: runTime,
+                                            partnerSessionNumber: sessionsWithPartner,
+                                            sessionType: sessionType)
+                    }
                     return cell
                 }
             }
@@ -404,13 +408,17 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
         case 2:
             if let cell: QTRatingReceiptCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: QTRatingReceiptCollectionViewCell.reuseIdentifier,
                                                                                                 for: indexPath) as? QTRatingReceiptCollectionViewCell {
-                cell.setProfileInfo(user: tutor,
-                                    subject: subject,
-                                    bill: costOfSession,
-                                    fee: calculateFee(costInDollars(costOfSession)),
-                                    tip: PostSessionReviewData.tipAmount,
-                                    sessionDuration: runTime,
-                                    partnerSessionNumber: sessionsWithPartner)
+                if let type = session?.type {
+                    let sessionType = QTSessionType(rawValue: type) ?? QTSessionType.online
+                    cell.setProfileInfo(user: tutor,
+                                        subject: subject,
+                                        bill: costOfSession,
+                                        fee: calculateFee(costInDollars(costOfSession)),
+                                        tip: PostSessionReviewData.tipAmount,
+                                        sessionDuration: runTime,
+                                        partnerSessionNumber: sessionsWithPartner,
+                                        sessionType: sessionType)
+                }
                 return cell
             }
         default:
