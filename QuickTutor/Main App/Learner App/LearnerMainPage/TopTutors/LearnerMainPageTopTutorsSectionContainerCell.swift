@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
@@ -41,18 +42,44 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
     func setupTitleLabel() {
         addSubview(titleLabel)
-        titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 30)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+            make.height.equalTo(30)
+        }
     }
     
     func setupCollectionViewController() {
         addSubview(topTutorsController.view)
-        topTutorsController.view.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        topTutorsController.view.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(20)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(470)
+        }
     }
     
     func setupSeeAllBox() {
-        addSubview(seeAllBox)
-        seeAllBox.anchor(top: topTutorsController.collectionView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 16, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 50)
-        seeAllBox.primaryButton.addTarget(self, action: #selector(handleSeeAllButton(_:)), for: .touchUpInside)
+        let shadowView = UIView()
+        shadowView.backgroundColor = .clear
+        
+        shadowView.layer.shadowColor = UIColor(white: 0, alpha: 0.06).cgColor
+        shadowView.layer.shadowOpacity = 1
+        shadowView.layer.shadowRadius = 4
+        shadowView.layer.shadowOffset = .zero
+        
+        addSubview(shadowView)
+        shadowView.snp.makeConstraints { make in
+            make.top.equalTo(topTutorsController.view.snp.bottom).offset(16)
+            make.left.equalToSuperview().offset(20)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        
+        shadowView.addSubview(seeAllBox)
+        seeAllBox.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     @objc func handleSeeAllButton(_ sender: UIButton) {

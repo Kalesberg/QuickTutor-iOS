@@ -71,9 +71,9 @@ class MockCollectionViewCell: UIView {
     
     func setupMainView() {
         layer.cornerRadius = 4
-        layer.borderColor = Colors.gray.cgColor
-        layer.borderWidth = 2
-        backgroundColor = Colors.newBackground
+        layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
+        layer.borderWidth = 1
+        backgroundColor = Colors.darkBackground
     }
     
     func setupTitleLabel() {

@@ -58,8 +58,6 @@ class LearnerMainPaigeTopTutorsController: UIViewController, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! TutorCollectionViewCell
         cell.updateUI(datasource[indexPath.item])
-        cell.profileImageViewHeightAnchor?.constant = 160
-        cell.layoutIfNeeded()
         return cell
     }
     
@@ -78,8 +76,8 @@ class LearnerMainPaigeTopTutorsController: UIViewController, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
-            let uid = self.datasource[indexPath.item].uid
-            let userInfo: [AnyHashable: Any] = ["uid": uid]
+            guard let uid = self.datasource[indexPath.item].uid else { return }
+            let userInfo = ["uid": uid]
             NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.topTutorTapped, object: nil, userInfo: userInfo)
         }
     }

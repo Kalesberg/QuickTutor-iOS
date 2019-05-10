@@ -34,7 +34,7 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 150)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 180)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -54,13 +54,13 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
         let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
         cell.growSemiShrink {
             let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.item].subcategory.fileToRead)
-            let userInfo: [AnyHashable: Any] = ["category": category?.name]
+            let userInfo: [AnyHashable: Any] = ["category": category?.name ?? ""]
             NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.categoryTapped, object: nil, userInfo: userInfo)
         }
     }
     
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return CGSize(width: 110, height: 142)
+        return CGSize(width: 130, height: 180)
     }
     
 }

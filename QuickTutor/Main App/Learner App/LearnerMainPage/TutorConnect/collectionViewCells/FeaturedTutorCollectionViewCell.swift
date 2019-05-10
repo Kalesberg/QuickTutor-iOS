@@ -15,12 +15,14 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     var tutor: AWTutor?
     
+    let shadowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     let profileImageView: UIImageView = {
         let iv = UIImageView()
-        iv.layer.cornerRadius = 4
-        if #available(iOS 11.0, *) {
-            iv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        }
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         return iv
@@ -35,13 +37,11 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     let infoContainerView: UIView = {
         let view = UIView()
-        view.layer.borderColor = Colors.gray.cgColor
+        view.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 4
+        view.clipsToBounds = true
         view.backgroundColor = Colors.darkBackground
-        if #available(iOS 11.0, *) {
-            view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        }
         return view
     }()
     
@@ -87,9 +87,10 @@ class TutorCollectionViewCell: UICollectionViewCell {
     var profileImageViewHeightAnchor: NSLayoutConstraint?
     
     func setupViews() {
+        setupShadowView()
+        setupInfoContainerView()
         setupProfileImageView()
 //        setupSaveButton()
-        setupInfoContainerView()
         setupNameLabel()
         setupPriceLabel()
         setupSubjectLabel()
@@ -97,11 +98,30 @@ class TutorCollectionViewCell: UICollectionViewCell {
         setupStarLabel()
     }
     
+    func setupShadowView() {
+        addSubview(shadowView)
+        shadowView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.equalToSuperview().offset(-2)
+            make.width.equalToSuperview().offset(-2)
+        }
+    }
+    
+    func setupInfoContainerView() {
+        shadowView.addSubview(infoContainerView)
+        infoContainerView.snp.makeConstraints { make in
+            make.size.equalToSuperview()
+        }
+    }
+    
     func setupProfileImageView() {
-        addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        profileImageViewHeightAnchor = profileImageView.heightAnchor.constraint(equalToConstant: 115)
-        profileImageViewHeightAnchor?.isActive = true
+        infoContainerView.addSubview(profileImageView)
+        profileImageView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            make.top.equalToSuperview()
+            make.height.equalTo(150)
+        }
     }
     
     func setupSaveButton() {
@@ -110,36 +130,52 @@ class TutorCollectionViewCell: UICollectionViewCell {
         saveButton.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
     }
     
-    func setupInfoContainerView() {
-        insertSubview(infoContainerView, belowSubview: profileImageView)
-        infoContainerView.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: -1, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    }
-    
     func setupNameLabel() {
-        addSubview(nameLabel)
-        nameLabel.anchor(top: infoContainerView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 13)
+        infoContainerView.addSubview(nameLabel)
+        nameLabel.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView.snp.bottom).offset(10)
+            make.left.equalToSuperview().offset(10)
+            make.height.equalTo(13)
+        }
     }
     
     func setupPriceLabel() {
-        addSubview(priceLabel)
-        priceLabel.anchor(top: infoContainerView.topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 40, height: 13)
+        infoContainerView.addSubview(priceLabel)
+        priceLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(nameLabel.snp.centerY)
+            make.right.equalToSuperview().offset(-10)
+            make.height.equalTo(nameLabel.snp.height)
+        }
     }
     
     func setupSubjectLabel() {
-        addSubview(subjectLabel)
-        subjectLabel.anchor(top: nameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 15)
+        infoContainerView.addSubview(subjectLabel)
+        subjectLabel.snp.makeConstraints { make in
+            make.top.equalTo(nameLabel.snp.bottom).offset(5)
+            make.left.equalTo(nameLabel.snp.left)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(15)
+        }
     }
     
     func setupStarView() {
-        addSubview(starView)
-        starView.anchor(top: subjectLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 6, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 50, height: 10)
-        starView.tintStars(color: Colors.purple)
+        infoContainerView.addSubview(starView)
+        starView.snp.makeConstraints { make in
+            make.top.equalTo(subjectLabel.snp.bottom).offset(6)
+            make.left.equalTo(subjectLabel.snp.left)
+            make.width.equalTo(50)
+            make.height.equalTo(10)
+        }
     }
     
     func setupStarLabel() {
-        addSubview(starLabel)
-        starLabel.anchor(top: nil, left: starView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 10, paddingRight: 0, width: 30, height: 20)
-        addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: starView, attribute: .centerY, multiplier: 1, constant: 0))
+        infoContainerView.addSubview(starLabel)
+        starLabel.snp.makeConstraints { make in
+            make.left.equalTo(starView.snp.right).offset(5)
+            make.centerY.equalTo(starView.snp.centerY)
+            make.width.equalTo(30)
+            make.height.equalTo(20)
+        }
     }
     
     func updateUI(_ tutor: AWTutor) {
@@ -180,9 +216,17 @@ class TutorCollectionViewCell: UICollectionViewCell {
         })
     }
     
+    private func addShadow() {
+        shadowView.layer.shadowColor = UIColor(white: 0, alpha: 0.06).cgColor
+        shadowView.layer.shadowOpacity = 1
+        shadowView.layer.shadowRadius = 4
+        shadowView.layer.shadowOffset = .zero
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        addShadow()
     }
     
     required init?(coder aDecoder: NSCoder) {

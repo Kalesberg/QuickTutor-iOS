@@ -46,7 +46,7 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
         case 0:
             height = 250
         case 1:
-            height = 200
+            height = 230
         case 2:
             height = 585
         case 3:
