@@ -119,14 +119,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     func checkForInProgressSessions() {
         InProgressSessionManager.shared.checkForSessions { (sessionId) in
             DataService.shared.getSessionById(sessionId, completion: { (session) in
-                if session.type == "online" {
-                    let vc = QTVideoSessionViewController.controller
-                    vc.sessionId = sessionId
-                    navigationController.pushViewController(vc, animated: true)
-                } else {
-                  let vc = QTInPersonSessionViewController.controller
-                    vc.sessionId = sessionId
-                    navigationController.pushViewController(vc, animated: true)
+                if let sessionType = QTSessionType(rawValue: session.type) {
+                    switch sessionType {
+                    case .online:
+                        let vc = QTVideoSessionViewController.controller
+                        vc.sessionId = sessionId
+                        vc.sessionType = .online
+                        navigationController.pushViewController(vc, animated: true)
+                    case .quickCalls:
+                        let vc = QTVideoSessionViewController.controller
+                        vc.sessionId = sessionId
+                        vc.sessionType = .quickCalls
+                        navigationController.pushViewController(vc, animated: true)
+                    case .inPerson:
+                        let vc = QTInPersonSessionViewController.controller
+                        vc.sessionId = sessionId
+                        navigationController.pushViewController(vc, animated: true)
+                    }
                 }
             })
         }

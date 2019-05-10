@@ -17,6 +17,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var hourlyRateLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var sessionLengthCaptionLabel: UILabel!
     @IBOutlet weak var sessionLengthLabel: UILabel!
     @IBOutlet weak var processingFeeTitleLabel: UILabel!
     @IBOutlet weak var processingFeeLabel: UILabel!
@@ -50,7 +51,8 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
                                fee: Int,
                                tip: Double,
                                sessionDuration: Int,
-                               partnerSessionNumber: Int) {
+                               partnerSessionNumber: Int,
+                               sessionType: QTSessionType) {
         
         scrollView.contentSize.width = UIScreen.main.bounds.width
         
@@ -63,7 +65,15 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
                 hourlyRateLabel.text = "$\(hourlyRate)/hr"
                 hourlyRateLabel.isHidden = false
             }
-            partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+            
+            if sessionType == .quickCalls {
+                partnerSessionLabel.text = "Call completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+                sessionLengthCaptionLabel.text = "Call length:"
+            } else {
+                partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+                sessionLengthCaptionLabel.text = "Session length:"
+            }
+            
             
             let cost = (bill + 0.3) / 0.971
             processingFeeLabel.text = Double(cost * 0.029 + 0.3).currencyFormat(precision: 2, divider: 1)
@@ -79,7 +89,14 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
                 hourlyRateLabel.isHidden = false
             }
             processingFeeTitleLabel.text = "QuickTutor's service fee:"
-            partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+            if sessionType == .quickCalls {
+                partnerSessionLabel.text = "Call completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+                sessionLengthCaptionLabel.text = "Call length:"
+            } else {
+                partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+                sessionLengthCaptionLabel.text = "Session length:"
+            }
+            
             
             processingFeeLabel.text = Double(fee).currencyFormat(precision: 2)
             billLabel.text = bill.currencyFormat(precision: 2, divider: 1)

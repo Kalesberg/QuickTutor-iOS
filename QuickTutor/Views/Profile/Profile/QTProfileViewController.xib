@@ -50,6 +50,7 @@
                 <outlet property="numberOfSessionsLabel" destination="dR9-MN-BaL" id="XkJ-Xw-msu"/>
                 <outlet property="numberOfSubjectsLabel" destination="vOd-9V-RVX" id="0xO-mC-m9P"/>
                 <outlet property="policiesView" destination="Z9V-UR-w87" id="EpJ-qI-rmW"/>
+                <outlet property="quickCallButton" destination="H4F-E2-ZgU" id="exh-CM-bQy"/>
                 <outlet property="rateLabel" destination="32Q-Iw-Nbg" id="K3N-HD-uxi"/>
                 <outlet property="ratingLabel" destination="CC5-9W-O72" id="YnA-6j-O3g"/>
                 <outlet property="ratingStarImageView" destination="CMW-hq-mef" id="Lds-8l-Q46"/>
@@ -763,15 +764,40 @@
                                 <constraint firstAttribute="trailing" secondItem="GKh-AL-yOi" secondAttribute="trailing" id="xWA-Ng-ZYO"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H4F-E2-ZgU" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
+                            <rect key="frame" x="128" y="20" width="44" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="44" id="ZsJ-5s-8m1"/>
+                                <constraint firstAttribute="height" constant="44" id="hJg-eR-fVB"/>
+                            </constraints>
+                            <state key="normal" image="ic_phone"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" red="0.3921568627" green="0.38431372549999998" blue="0.81568627449999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="onQuickCallButtonClicked:" destination="-1" eventType="touchUpInside" id="gpc-t4-Aeb"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="Yjq-S4-ZO1" secondAttribute="bottom" constant="25" id="2bt-gS-xWI"/>
+                        <constraint firstItem="H4F-E2-ZgU" firstAttribute="centerY" secondItem="bch-YN-hK6" secondAttribute="centerY" id="87d-BX-nQ4"/>
+                        <constraint firstItem="H4F-E2-ZgU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="32Q-Iw-Nbg" secondAttribute="trailing" constant="5" id="COT-Sx-Mea"/>
                         <constraint firstAttribute="height" constant="84" id="NDz-iX-AhU"/>
                         <constraint firstItem="Yjq-S4-ZO1" firstAttribute="leading" secondItem="DAs-F9-YuI" secondAttribute="leading" constant="20" id="OC2-Hr-nqa"/>
                         <constraint firstItem="32Q-Iw-Nbg" firstAttribute="top" secondItem="DAs-F9-YuI" secondAttribute="top" constant="22" id="OYI-5B-o71"/>
                         <constraint firstAttribute="trailing" secondItem="bch-YN-hK6" secondAttribute="trailing" constant="20" id="VyG-MF-fTq"/>
                         <constraint firstItem="bch-YN-hK6" firstAttribute="centerY" secondItem="DAs-F9-YuI" secondAttribute="centerY" id="Xzv-Po-P2e"/>
+                        <constraint firstItem="bch-YN-hK6" firstAttribute="leading" secondItem="H4F-E2-ZgU" secondAttribute="trailing" constant="15" id="jx9-V2-Gdl"/>
                         <constraint firstItem="32Q-Iw-Nbg" firstAttribute="leading" secondItem="DAs-F9-YuI" secondAttribute="leading" constant="20" id="rXr-G5-R8P"/>
                         <constraint firstItem="Yjq-S4-ZO1" firstAttribute="top" secondItem="32Q-Iw-Nbg" secondAttribute="bottom" constant="8" id="zVN-Pk-rlb"/>
                     </constraints>
@@ -800,6 +826,7 @@
         <image name="ic_earth" width="20" height="20"/>
         <image name="ic_language" width="13" height="13"/>
         <image name="ic_location" width="24" height="24"/>
+        <image name="ic_phone" width="20" height="20"/>
         <image name="ic_school" width="13" height="13"/>
         <image name="ic_star_filled" width="24" height="24"/>
         <image name="savedTabBarIcon" width="20" height="18"/>
